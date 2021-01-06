@@ -7,8 +7,8 @@ package co.brainz.workflow.document.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
-import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -55,7 +55,7 @@ class WfDocumentService(
     private val wfComponentRepository: WfComponentRepository,
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
-    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
+    private val numberingRuleRepository: NumberingRuleRepository,
     private val aliceMessageSource: AliceMessageSource
 ) {
 
@@ -169,7 +169,7 @@ class WfDocumentService(
             createDt = restTemplateDocumentDto.createDt,
             createUserKey = restTemplateDocumentDto.createUserKey,
             documentStatus = restTemplateDocumentDto.documentStatus,
-            numberingRule = aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
+            numberingRule = numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
                 .get(),
             documentColor = restTemplateDocumentDto.documentColor,
             documentGroup = restTemplateDocumentDto.documentGroup,
@@ -217,7 +217,7 @@ class WfDocumentService(
         wfDocumentEntity.form = form
         wfDocumentEntity.process = process
         wfDocumentEntity.numberingRule =
-            aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
+            numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
         wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
         wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
         wfDocumentEntity.documentIcon = restTemplateDocumentDto.documentIcon

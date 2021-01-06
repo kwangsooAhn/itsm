@@ -31,12 +31,18 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
      */
     fun getNumberingPatternsDetail(patternId: String): NumberingPatternDetailDto {
         val patternDetail = numberingPatternRepository.getOne(patternId)
+        var editable = true
+
+        if (patternDetail.numberingRulePatternMapEntities.size > 0) {
+            editable = false
+        }
 
         return NumberingPatternDetailDto(
             patternDetail.patternId,
             patternDetail.patternName,
             patternDetail.patternType,
-            getPatternValue(patternDetail.patternType, patternDetail.patternValue)
+            getPatternValue(patternDetail.patternType, patternDetail.patternValue),
+            editable
         )
     }
 
@@ -59,9 +65,18 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             }
             NumberingPatternConstants.PatternType.SEQUENCE.code -> {
                 patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.DIGIT.property, patternValue.toInt())
-                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.STARTWITH.property, NumberingPatternConstants.PatternFixedValue.STARTWITH_KEY.key.toInt())
-                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.FULLFILL.property, NumberingPatternConstants.PatternFixedValue.FULLFILL_KEY.key)
-                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.INITIALINTERVAL.property, NumberingPatternConstants.PatternFixedValue.INITIALINTERVAL_KEY.key)
+                patternValueObj.addProperty(
+                    NumberingPatternConstants.ObjProperty.STARTWITH.property,
+                    NumberingPatternConstants.PatternFixedValue.STARTWITH_KEY.key.toInt()
+                )
+                patternValueObj.addProperty(
+                    NumberingPatternConstants.ObjProperty.FULLFILL.property,
+                    NumberingPatternConstants.PatternFixedValue.FULLFILL_KEY.key
+                )
+                patternValueObj.addProperty(
+                    NumberingPatternConstants.ObjProperty.INITIALINTERVAL.property,
+                    NumberingPatternConstants.PatternFixedValue.INITIALINTERVAL_KEY.key
+                )
             }
         }
 
@@ -72,22 +87,38 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             patternValueObj.toString()
         )
 
-        numberingPatternRepository.save(numberingPatternEntity)
-
+        when (numberingPatternEntity.patternId != "" && numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size > 0) {
+            true -> {
+                status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
+            }
+            false -> {
+                numberingPatternRepository.save(numberingPatternEntity)
+            }
+        }
         return status
     }
 
     /**
      * 패턴 정보 삭제
      */
-    @Transactional
     fun deleteNumberingPattern(patternId: String): String {
         var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
-        numberingPatternRepository.deleteById(patternId)
 
+        // 패턴 삭제 가능 여부 확인
+        when (numberingPatternRepository.getOne(patternId).numberingRulePatternMapEntities.size > 0) {
+            true -> {
+                status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
+            }
+            false -> {
+                numberingPatternRepository.deleteById(patternId)
+            }
+        }
         return status
     }
 
+    /**
+     * 패턴 타입에 따른 값 추출
+     */
     fun getPatternValue(patternType: String, originPatternValue: String): String {
         val jsonParser = JsonParser()
         var objProperty = ""
@@ -122,5 +153,24 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             }
         }
         return patternValue
+    }
+
+    /**
+     * 패턴 이름 리스트 출력
+     */
+    fun getPatternNameList(): MutableList<NumberingPatternListDto> {
+        val patternEntities = numberingPatternRepository.findAll()
+        var numberingPatternList = mutableListOf<NumberingPatternListDto>()
+
+        for (data in patternEntities) {
+            val numberingPatternListDto = NumberingPatternListDto(
+                data.patternId,
+                data.patternName,
+                data.patternType,
+                data.patternValue
+            )
+            numberingPatternList.add(numberingPatternListDto)
+        }
+        return numberingPatternList
     }
 }

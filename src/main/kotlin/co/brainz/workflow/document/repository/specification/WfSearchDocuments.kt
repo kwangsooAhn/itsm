@@ -1,7 +1,7 @@
 package co.brainz.workflow.document.repository.specification
 
-import co.brainz.framework.numbering.entity.AliceNumberingRuleEntity
 import co.brainz.framework.specification.AliceSpecification
+import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
@@ -29,7 +29,7 @@ class WfSearchDocuments(private val searchDto: RestTemplateDocumentSearchListDto
         val formName = searchDto.searchFormName ?: ""
         val documentStatus = searchDto.searchDocumentStatus ?: ""
 
-        root.fetch<WfDocumentEntity, AliceNumberingRuleEntity>("numberingRule")
+        root.fetch<WfDocumentEntity, NumberingRuleEntity>("numberingRule")
         val process = root.fetch<WfDocumentEntity, WfProcessEntity>("process") as Join<*, *>
         val form = root.fetch<WfDocumentEntity, WfFormEntity>("form") as Join<*, *>
 

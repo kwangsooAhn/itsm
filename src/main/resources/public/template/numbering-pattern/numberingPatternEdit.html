@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-itsmurity"
-    layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-itsmurity"
+      layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{pattern.label.pattern}"></title>
 </head>
@@ -14,7 +14,8 @@
             <h6 class="description" th:text="#{pattern.msg.editDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100" th:placeholder="#{pattern.msg.searchPlaceholder}"/>
+            <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
+                   th:placeholder="#{pattern.msg.searchPlaceholder}"/>
             <span id="totalCount" class="txt-num"></span>
             <div class="ml-auto">
                 <button type="button" class="default-fill" id="btnSearch" name="btnSearch" onclick="onCreate();"
@@ -41,19 +42,19 @@
                     <div class="flex-row mr-auto">
                         <label class="radio mr-4">
                             <input id="numbering.pattern.text" name="patternType" type="radio"
-                            onclick="changePatternValueInput('numbering.pattern.text')">
+                                   onclick="changePatternValueInput('numbering.pattern.text')">
                             <span></span>
                             <span class="label" th:text="#{pattern.type.text}"></span>
                         </label>
                         <label class="radio mr-4">
                             <input id="numbering.pattern.date" name="patternType" type="radio"
-                            onclick="changePatternValueInput('numbering.pattern.date')">
+                                   onclick="changePatternValueInput('numbering.pattern.date')">
                             <span></span>
                             <span class="label" th:text="#{pattern.type.date}"></span>
                         </label>
                         <label class="radio">
                             <input id="numbering.pattern.sequence" name="patternType" type="radio"
-                            onclick="changePatternValueInput('numbering.pattern.sequence')">
+                                   onclick="changePatternValueInput('numbering.pattern.sequence')">
                             <span></span>
                             <span class="label" th:text="#{pattern.type.sequence}"></span>
                         </label>
@@ -74,12 +75,16 @@
         </div>
         <div class="flex-row justify-content-end">
             <div class="btn-list">
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.create')" id="btnRegist" name="btnRegist"
+                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.create')"
+                        id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.update')" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.update')"
+                        id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.delete')" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.delete')"
+                        id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -92,8 +97,9 @@
         let PATTERN_CREATE = false;
         let PATTERN_UPDATE = false;
         const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_PATTERN_USED = '1';
 
-        window.onload = function() {
+        window.onload = function () {
             getPatternList(true);
 
             if (document.getElementById('btnUpdate') !== null) {
@@ -118,8 +124,8 @@
             }
 
             let patternList = document.querySelectorAll('td[name=patternName]');
-            for(let i = 0; i < patternList.length; i++) {
-                patternList[i].addEventListener('click', function(){
+            for (let i = 0; i < patternList.length; i++) {
+                patternList[i].addEventListener('click', function () {
                     let activeTr = document.querySelector('tr.active');
                     if (activeTr !== null) {
                         activeTr.classList.remove('active');
@@ -136,19 +142,19 @@
             }
 
             document.getElementById('search').focus();
-            document.getElementById('search').addEventListener('keyup', function() {
+            document.getElementById('search').addEventListener('keyup', function () {
                 getPatternList(false);
             });
 
-            OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.numbering-pattern-content-edit'), {className: 'scrollbar'});
         };
 
         /** 패턴 상세 정보 가져오기 **/
         function onGetDetail(patternName) {
             const opt = {
                 method: 'get',
-                url: '/rest/numberingPatterns/' +  encodeURIComponent(patternName),
-                callbackFunc: function(response) {
+                url: '/rest/numberingPatterns/' + encodeURIComponent(patternName),
+                callbackFunc: function (response) {
                     let responseJson = JSON.parse(response.responseText);
                     document.getElementById('txtPatternId').value = responseJson.patternId;
                     document.getElementById('txtPatternName').value = responseJson.patternName;
@@ -157,8 +163,16 @@
                     changePatternValueInput(responseJson.patternType);
                     document.getElementById('txtPatternValue').value = responseJson.patternValue;
 
+                    if (responseJson.editable) {
+                        document.getElementById('btnUpdate').removeAttribute('disabled');
+                        document.getElementById('btnDelete').removeAttribute('disabled');
+                    } else {
+                        document.getElementById('btnUpdate').disabled = true;
+                        document.getElementById('btnDelete').disabled = true;
+                    }
+
                     const selectPatternDateValue = document.getElementById('selectPatternDateValue');
-                    for (let i = 0; i<selectPatternDateValue.length; i++) {
+                    for (let i = 0; i < selectPatternDateValue.length; i++) {
                         if (selectPatternDateValue[i].textContent === responseJson.patternValue) {
                             document.querySelector('.designed-select').textContent = responseJson.patternValue;
                             selectPatternDateValue[i].selected = true;
@@ -167,7 +181,6 @@
                 },
             };
             aliceJs.sendXhr(opt);
-            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
         }
 
         /** 추가 버튼 **/
@@ -194,16 +207,16 @@
             const patternType = getPatternType();
             if (isEmpty('txtPatternName', 'pattern.msg.enterPatternName')) return;
             if (patternType !== 'numbering.pattern.date' && isEmpty('txtPatternValue', 'pattern.msg.enterPatternValue')) return;
-            if (patternType ==='numbering.pattern.sequence' && isExistInScope('txtPatternValue', 1, 4, 'pattern.msg.enterPatternSequenceValue')) return;
+            if (patternType === 'numbering.pattern.sequence' && isExistInScope('txtPatternValue', 1, 4, 'pattern.msg.enterPatternSequenceValue')) return;
 
             let patternNames = [];
             let validList = document.querySelectorAll('td[name=patternName]');
-            for(let i = 0; i < validList.length; i++) {
+            for (let i = 0; i < validList.length; i++) {
                 patternNames.push(validList[i].textContent);
             }
 
             if (flag === 'post') {
-                for(let i = 0; i < patternNames.length; i++) {
+                for (let i = 0; i < patternNames.length; i++) {
                     if (document.getElementById('txtPatternName').value === patternNames[i]) {
                         aliceJs.alertWarning([[#{pattern.msg.duplicatePatternName}]]);
                         return;
@@ -211,7 +224,7 @@
                 }
             } else {
                 if (document.getElementById('txtPatternName').value !== document.getElementById('txtPatternNameOrg').value) {
-                    for(let i = 0; i < patternNames.length; i++) {
+                    for (let i = 0; i < patternNames.length; i++) {
                         if (document.getElementById('txtPatternName').value === patternNames[i]) {
                             aliceJs.alertWarning([[#{pattern.msg.duplicatePatternName}]]);
                             return;
@@ -241,12 +254,18 @@
                 params: JSON.stringify(obj),
                 contentType: 'application/json',
                 callbackFunc: function (response) {
-                    if (response.responseText === STATUS_SUCCESS) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
-                            window.location.href = '/numberingPatterns/edit';
-                        });
-                    } else {
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                window.location.href = '/numberingPatterns/edit';
+                            });
+                            break;
+                        case STATUS_ERROR_PATTERN_USED:
+                            aliceJs.alertWarning(i18n.msg('pattern.msg.usedPattern'));
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
                     }
                 }
             };
@@ -258,13 +277,19 @@
             const opt = {
                 method: 'delete',
                 url: '/rest/numberingPatterns/' + encodeURIComponent(document.getElementById('txtPatternId').value),
-                callbackFunc: function(response) {
-                    if (response.responseText === STATUS_SUCCESS) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
-                            window.location.href = '/numberingPatterns/edit';
-                        });
-                    } else {
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                callbackFunc: function (response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                                window.location.href = '/numberingPatterns/edit';
+                            });
+                            break;
+                        case STATUS_ERROR_PATTERN_USED:
+                            aliceJs.alertWarning(i18n.msg('pattern.msg.usedPattern'));
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
                     }
                 }
             };
@@ -281,14 +306,14 @@
                 method: 'get',
                 url: '/numberingPatterns?' + urlParam,
                 showProgressbar: showProgressbar,
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     document.getElementById('patternList').innerHTML = response.responseText;
                     let patternList = document.querySelectorAll('td[name=patternName]');
                     document.getElementById('totalCount').textContent = i18n.msg("common.label.count", patternList.length);
                     if (response.responseText.indexOf('no-data-found') === -1) {
                         for (let i = 0; i < patternList.length; i++) {
                             patternList[i].style.cursor = 'pointer';
-                            patternList[i].addEventListener('click', function(){
+                            patternList[i].addEventListener('click', function () {
                                 let activeTr = document.querySelector('tr.active');
                                 if (activeTr !== null) {
                                     activeTr.classList.remove('active');
@@ -309,7 +334,7 @@
                         if (patternList.length > 0) {
                             document.querySelector('td[name=patternName]').click();
                         }
-                        OverlayScrollbars(document.querySelector('.list-body'), { className: 'inner-scrollbar' });
+                        OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
                     } else {
                         onCreate();
                     }
@@ -332,7 +357,7 @@
                 document.getElementById('txtPatternValue').addEventListener('keydown', onlyNumber);
                 document.getElementById('txtPatternValue').addEventListener('keyup', removeChar);
             } else {
-                document.querySelector('.designed-select').textContent = 'yyyyMMdd';
+                document.querySelector('.designed-select').textContent = document.querySelector('.designed-options').firstElementChild.textContent;
                 document.getElementById('selectPatternDateValue')[0].selected = true;
                 document.getElementById('type-input-pattern').style.display = 'none';
                 document.getElementById('type-select-pattern').style.display = '';
@@ -348,7 +373,7 @@
             }
         }
 
-        let onlyNumber = function(event) {
+        let onlyNumber = function (event) {
             event = event || window.event;
             const keyID = (event.which) ? event.which : event.keyCode;
             if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
@@ -357,14 +382,13 @@
             }
         }
 
-        let removeChar = function(event) {
+        let removeChar = function (event) {
             event = event || window.event;
             const keyID = (event.which) ? event.which : event.keyCode;
             if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
                 event.target.value = event.target.value.replace(/[^0-9]/g, '');
             }
         }
-
         /*]]>*/
     </script>
 </th:block>

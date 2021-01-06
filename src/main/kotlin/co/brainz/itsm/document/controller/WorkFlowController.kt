@@ -6,10 +6,10 @@
 
 package co.brainz.itsm.document.controller
 
-import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class WorkFlowController(
     private val documentService: DocumentService,
     private val codeService: CodeService,
-    private val numberingService: AliceNumberingService
+    private val numberingRuleService: NumberingRuleService
 ) {
 
     private val workFlowSearchPage: String = "workflow/workFlowSearch"
@@ -67,7 +67,7 @@ class WorkFlowController(
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
-        model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
+        model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
         return workFlowEditPage
@@ -87,7 +87,7 @@ class WorkFlowController(
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
-        model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
+        model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
         return workFlowEditPage
