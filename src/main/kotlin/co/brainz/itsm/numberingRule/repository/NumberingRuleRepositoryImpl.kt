@@ -31,7 +31,7 @@ class NumberingRuleRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntit
                 )
             )
             .where(
-                super.likeIgnoreCase(rule.numberingName, search)
+                super.like(rule.numberingName, search)
             )
             .orderBy(rule.numberingName.desc())
             .fetchResults()

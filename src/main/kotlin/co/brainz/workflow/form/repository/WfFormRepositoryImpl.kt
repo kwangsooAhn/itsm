@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.workflow.form.repository
 
 import co.brainz.itsm.constants.ItsmConstants
@@ -19,7 +25,7 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
             .innerJoin(form.createUser).fetchJoin()
             .leftJoin(form.updateUser).fetchJoin()
         if (search.isNotEmpty()) {
-            query.where(form.formName.containsIgnoreCase(search).or(form.formDesc.containsIgnoreCase(search)))
+            query.where(form.formName.contains(search).or(form.formDesc.contains(search)))
         }
         if (status.isNotEmpty()) {
             query.where(form.formStatus.`in`(status)).orderBy(form.formName.asc())

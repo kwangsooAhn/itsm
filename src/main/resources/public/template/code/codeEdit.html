@@ -117,7 +117,7 @@
 
             function getCodeList() {
                 tree.load({
-                    search: encodeURIComponent(document.querySelector('#search').value.trim()),
+                    search: encodeURIComponent(document.querySelector('#search').value),
                     target: 'treeList',
                     text: 'code',
                     leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
@@ -129,7 +129,6 @@
                 });
             }
             getCodeList();
-
             function onGetDetail(codeId) {
                 document.querySelectorAll('input[type=text]').forEach(function(object){
                     object.value = '';
@@ -169,12 +168,9 @@
                 aliceJs.sendXhr(opt);
             }
             OverlayScrollbars(document.querySelector('.list-tree'), { className: 'scrollbar' });
-            document.getElementById('search').addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    getCodeList();
-                }
-            }, false);
+            document.getElementById('search').addEventListener('keyup', function() {
+                getCodeList();
+            });
             OverlayScrollbars(document.querySelector('.code-content-edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('#txtCodeDesc'), {
                 className: 'scrollbar',

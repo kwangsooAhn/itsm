@@ -55,10 +55,10 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                restSearchSubmit('GET', '/rest/forms?search=' + search.trim() + '&offset=' + offsetCount, isScroll);
+                restSearchSubmit('GET', '/rest/forms?search=' + search + '&offset=' + offsetCount, isScroll);
             } else {
                 offsetCount = 0;
-                restSearchSubmit('GET', '/forms?search=' + search.trim() + '&offset=' + offsetCount, isScroll);
+                restSearchSubmit('GET', '/forms?search=' + search + '&offset=' + offsetCount, isScroll);
             }
         }
 
