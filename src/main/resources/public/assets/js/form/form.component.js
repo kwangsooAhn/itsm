@@ -746,8 +746,11 @@
         let defaultValue = '';
         let defaultCustomData = ''; // 신청서 작성 및 처리할 문서
         if (typeof property.value !== 'undefined') {
-            let customDataValue = property.value.split('|');
-            defaultValue = (customDataValue.length > 1) ? customDataValue[1] : '';
+            if (property.value !== '') {
+                let customDataValue = property.value.split('|');
+                defaultValue = (customDataValue.length > 1) ? customDataValue[1] : '';
+                defaultCustomData = property.value;
+            }
         } else { // 폼 및 신청서는 default값 출력한다.
             switch(defaultValueArr[0]) {
                 case 'session':

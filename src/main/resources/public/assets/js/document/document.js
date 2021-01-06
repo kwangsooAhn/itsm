@@ -300,9 +300,7 @@
 
             // 컴포넌트들이 숨김일 경우 저장하지 않는다.
             const componentDisplayType = componentElements[eIndex].getAttribute('data-displayType');
-            if ((componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' || componentDataType === 'custom-code') &&
-                componentDisplayType === 'hidden') { continue; }
-
+            if ((componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') && componentDisplayType === 'hidden') { continue; }
 
             if (componentDataType === 'inputbox' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textbox' || componentDataType === 'dropdown' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
@@ -389,6 +387,7 @@
                     case 'custom-code':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         componentValue = componentChild.item(0).getAttribute('custom-data');
+                        console.log(componentValue);
                         break;
                     case 'dynamic-row-table':
                         // "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"] 형태로 데이터 전달
