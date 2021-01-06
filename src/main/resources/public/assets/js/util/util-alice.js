@@ -797,7 +797,7 @@ aliceJs.thumbnail = function(options) {
                 body: createContent(files),
                 classes: 'thumbnail-' + options.type,
                 buttons: [{
-                    content: i18n.msg('common.btn.check'),
+                    content: i18n.msg('common.btn.select'),
                     classes: 'default-line thumbnail-save',
                     bindKey: false,
                     callback: function(modal) {
@@ -806,7 +806,7 @@ aliceJs.thumbnail = function(options) {
                         }
                     }
                 },{
-                    content: i18n.msg('common.btn.close'),
+                    content: i18n.msg('common.btn.cancel'),
                     classes: 'default-line',
                     bindKey: false,
                     callback: function(modal) {

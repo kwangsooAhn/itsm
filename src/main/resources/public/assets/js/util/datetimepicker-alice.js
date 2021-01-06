@@ -149,7 +149,7 @@
         let buttonConfirm = document.createElement('button');
         buttonConfirm.type = 'button';
         buttonConfirm.className = 'default-line';
-        buttonConfirm.innerText = i18n.msg('common.btn.check');
+        buttonConfirm.innerText = i18n.msg('common.btn.select');
         buttonConfirm.addEventListener('click', this.changeTarget, false);
         pickerButton.appendChild(buttonConfirm);
 

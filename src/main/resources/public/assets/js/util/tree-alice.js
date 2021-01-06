@@ -581,8 +581,8 @@
     function load(userOptions) {
 
         // 버튼 다국어 처리
-        defaults.buttons[0].content = i18n.msg('common.btn.check');
-        defaults.buttons[1].content = i18n.msg('common.btn.close');
+        defaults.buttons[0].content = i18n.msg('common.btn.select');
+        defaults.buttons[1].content = i18n.msg('common.btn.cancel');
 
         // 옵션 셋팅
         options = Object.assign({}, defaults, userOptions);
@@ -597,7 +597,7 @@
                 classes: 'tree',
                 buttons: [
                     {
-                        content: i18n.msg('common.btn.check'),
+                        content: i18n.msg('common.btn.select'),
                         classes: "default-line",
                         bindKey: false,
                         callback: function(modal) {

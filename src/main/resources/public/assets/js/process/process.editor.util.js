@@ -387,7 +387,7 @@
             classes: 'save-as',
             buttons: [
                 {
-                    content: i18n.msg('common.btn.check'),
+                    content: i18n.msg('common.btn.save'),
                     classes: "default-line",
                     bindKey: false,
                     callback: function(modal) {
