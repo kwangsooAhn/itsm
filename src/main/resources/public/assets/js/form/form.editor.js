@@ -1012,7 +1012,7 @@
         let customCode = (typeof data !== 'undefined') ? data.customCode : e.target.value;
         customCodeDataSelect.innerHTML = '';
         if (typeof data === 'undefined' && typeof e.target !== 'undefined' && e.target.id === 'customCode') {
-            const changePropertiesArr = e.target.parentNode.id.split('-');
+            const changePropertiesArr = e.target.parentNode.parentNode.id.split('-');
             changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
         }
 
