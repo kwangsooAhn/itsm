@@ -79,10 +79,8 @@
         * 이벤트리스너 초기화
         */
         function initEventListener() {
-            document.getElementById('searchValue').addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') {
-                    portalSearch(false);
-                }
+            document.getElementById('searchValue').addEventListener('keyup', function () {
+                portalSearch(false);
             });
         }
 
@@ -138,12 +136,12 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
+                urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value)
                     + '&offset=' + offsetCount;
                 restSubmit('get', '/rest/portals?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
+                urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value)
                     + '&offset=' + offsetCount;
                 restSubmit('get', '/portals?' + urlParam, isScroll);
             }

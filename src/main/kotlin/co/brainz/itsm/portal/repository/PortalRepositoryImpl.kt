@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.portal.repository
 
 import co.brainz.itsm.constants.ItsmConstants
@@ -33,7 +39,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         Expressions.asNumber(0)
                     )
                 )
-                .where(notice.noticeTitle.containsIgnoreCase(searchValue))
+                .where(super.like(notice.noticeTitle, searchValue))
                 .fetch()
 
         val faqList =
@@ -50,7 +56,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         Expressions.asNumber(0)
                     )
                 )
-                .where(faq.faqTitle.containsIgnoreCase(searchValue))
+                .where(super.like(faq.faqTitle, searchValue))
                 .fetch()
 
         val downloadList =
@@ -67,7 +73,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         Expressions.asNumber(0)
                     )
                 )
-                .where(download.downloadTitle.containsIgnoreCase(searchValue))
+                .where(super.like(download.downloadTitle, searchValue))
                 .fetch()
 
         var list = mutableListOf<PortalDto>()

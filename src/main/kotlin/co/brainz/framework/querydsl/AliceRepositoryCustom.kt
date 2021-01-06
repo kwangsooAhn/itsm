@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.framework.querydsl
 
 import com.querydsl.core.types.dsl.BooleanExpression
@@ -6,7 +12,7 @@ import com.querydsl.core.types.dsl.StringPath
 interface AliceRepositoryCustom {
 
     /**
-     * like 쿼리
+     * like 쿼리 대소문자 무시
      */
     fun likeIgnoreCase(entityValue: StringPath, input: String?): BooleanExpression? {
         val filteredInput = this.filtered(input)
@@ -14,6 +20,18 @@ interface AliceRepositoryCustom {
             null
         } else {
             entityValue.likeIgnoreCase("%$filteredInput%", '\\')
+        }
+    }
+
+    /**
+     * like 쿼리
+     */
+    fun like(entityValue: StringPath, input: String?): BooleanExpression? {
+        val filteredInput = this.filtered(input)
+        return if (filteredInput == null) {
+            null
+        } else {
+            entityValue.like("%$filteredInput%", '\\')
         }
     }
 
