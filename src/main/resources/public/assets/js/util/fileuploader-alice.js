@@ -407,6 +407,10 @@ const fileUploader = (function () {
                                 dropZoneUploadedFiles.className = 'dropzone dz-uploaded';
                                 dropZoneUploadedFiles.appendChild(uploadedFileView);
 
+                                // 아이콘 제거
+                                download.remove();
+                                remove.remove();
+
                             } else { // edit 일때
                                 document.querySelector(dropzoneId).appendChild(uploadedFileView);
 
