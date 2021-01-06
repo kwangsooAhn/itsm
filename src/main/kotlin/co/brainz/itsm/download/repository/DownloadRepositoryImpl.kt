@@ -56,8 +56,8 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         query.where(
             super.like(
                 download.downloadTitle, search
-            )?.or(super.likeIgnoreCase(fileLoc.originName, search))
-                ?.or(super.likeIgnoreCase(download.createUser.userName, search)),
+            )?.or(super.like(fileLoc.originName, search))
+                ?.or(super.like(download.createUser.userName, search)),
             download.createDt.goe(fromDt), download.createDt.lt(toDt)
         ).orderBy(download.downloadSeq.desc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
