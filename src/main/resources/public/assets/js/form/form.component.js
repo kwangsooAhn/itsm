@@ -966,7 +966,9 @@
                     `</table>` +
                 `</div>` +
             `</div>` +
-            `<button type="button" class="ghost-line btn-option btn-dr-table-row-add" id="btn-add-${property.componentId}"><span class="icon icon-plus"></span></button>` +
+            `<button type="button" class="ghost-line btn-option btn-dr-table-row-add" id="btn-add-${property.componentId}" style="${isForm ? 'opacity: 0;' : ''}">` +
+                `<span class="icon icon-plus"></span>` +
+            `</button>` +
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -1047,7 +1049,7 @@
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
-        if (parent.getAttribute('data-status') !== 'form') {
+        if (parent.getAttribute('data-display') !== 'form') {
             const accordionStartComp = parent.querySelector('#' + property.componentId);
             accordionStartComp.addEventListener('click', function(e) {
                 const elem =  aliceJs.clickInsideElement(e, 'component');
@@ -1099,7 +1101,7 @@
 
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" ` +
-            `data-startId="${property.display.startId}" style="${parent.getAttribute('data-status') === 'form' ? '' : 'display: none;'}">` +
+            `data-startId="${property.display.startId}" style="${parent.getAttribute('data-display') === 'form' ? '' : 'display: none;'}">` +
             `<div class="move-handler disabled"></div>` +
             `<div class="field-group">` +
                 `<div class="field-content" style="--data-column: 12;">` +

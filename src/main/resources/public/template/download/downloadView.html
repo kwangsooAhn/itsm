@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
@@ -49,8 +48,6 @@
             <div class="horizontal-bar"></div>
             <div class="flex-row justify-content-end view-row">
                 <div class="btn-list">
-                    <button th:text="#{common.btn.modify}" sec:authorize="hasAuthority('download.update')"
-                            class="point-fill" th:onclick="'location.href=\'' + @{/downloads/{id}/edit(id=${download.downloadId})} + '\''"></button>
                     <a class="btn default-line" href="/downloads/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>

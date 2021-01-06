@@ -1,6 +1,6 @@
 package co.brainz.workflow.document.entity
 
-import co.brainz.framework.numbering.entity.AliceNumberingRuleEntity
+import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
@@ -66,7 +66,7 @@ data class WfDocumentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "numbering_id")
-    var numberingRule: AliceNumberingRuleEntity,
+    var numberingRule: NumberingRuleEntity,
 
     @Column(name = "document_icon", length = 100)
     var documentIcon: String? = null

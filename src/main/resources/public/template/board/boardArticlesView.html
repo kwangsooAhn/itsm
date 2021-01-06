@@ -55,12 +55,12 @@
                             th:text="#{board.btn.reply}">
                     </button>
                     <button sec:authorize="hasAuthority('board.update')"
-                            class="point-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
+                            class="point-fill" th:if="${boardInfo?.boardId}"
                             th:onclick ="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
                             th:text="#{common.btn.modify}">
                     </button>
                     <button sec:authorize="hasAuthority('board.delete')"
-                            class="default-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
+                            class="default-fill" th:if="${boardInfo?.boardId}"
                             th:onclick="deleteBoard('delete')"
                             th:text="#{common.btn.delete}">
                     </button>

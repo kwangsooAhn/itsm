@@ -63,6 +63,11 @@
           display: inherit;
         }
       }
+      // 완료(종결)된 문서일 경우 DR 테이블 버튼 숨김
+      &[data-display=complete] {
+        .btn-dr-table-row-add { opacity: 0; }
+        .dr-table-row-delete { opacity: 0; }
+      }
     }
   }
 
