@@ -298,9 +298,11 @@
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
 
-            // 날짜 관련 컴포넌트들이 숨김일 경우 저장하지 않는다.
+            // 컴포넌트들이 숨김일 경우 저장하지 않는다.
             const componentDisplayType = componentElements[eIndex].getAttribute('data-displayType');
-            if ((componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') && componentDisplayType === 'hidden') { continue; }
+            if ((componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' || componentDataType === 'custom-code') &&
+                componentDisplayType === 'hidden') { continue; }
+
 
             if (componentDataType === 'inputbox' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textbox' || componentDataType === 'dropdown' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
