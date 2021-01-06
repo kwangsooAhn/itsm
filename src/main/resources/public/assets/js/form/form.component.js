@@ -34,7 +34,8 @@
     ];
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
-    let isForm = false;     //폼 양식 화면인지 여부
+    let isReadOnly = false;  // 편집 가능한지 여부 : 폼 양식 화면, preview, 완료된 문서일 경우 true 이다.
+    let formType = 'form';   // 폼양식, 신청서, 처리할 문서, 완료된 문서 등 프린트 문서 타입
     let tooltipTemplate = null; // 폼 양식 툴팁 메뉴
 
     /**
@@ -74,7 +75,7 @@
         // 기본값 설정
         const defaultValueArr = property.display['default'].split('|'); // select|userId|아이디
         let defaultValue = (defaultValueArr[0] === 'none') ? defaultValueArr[1] : (defaultValueArr[1] === 'department' ? aliceForm.session['departmentName'] : aliceForm.session[defaultValueArr[1]]);
-        if (isForm && defaultValueArr[0] !== 'none') { // 폼 양식 화면 세션 값 미출력
+        if (formType === 'form' && defaultValueArr[0] !== 'none') { // 폼 양식 화면 세션 값 미출력
             defaultValue = defaultValueArr[2];
         } else {
             if (typeof property.value !== 'undefined') { // 처리할 문서일 경우
@@ -176,7 +177,7 @@
                 },
                 placeholder: property.display.placeholder,
                 theme: 'snow',
-                readOnly: isForm            //폼 양식 편집 화면에서는 editor를 편집할 수 없다.
+                readOnly: isReadOnly            //폼 양식 편집 화면, 완료된 문서 등에서는 editor를 편집할 수 없다.
             };
             const editor = new Quill(editorContainer, editorOptions);
             editor.setContents(defaultValue);
@@ -515,7 +516,7 @@
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // data picker 초기화
-        if (!isForm) {
+        if (!isReadOnly) {
             dateTimePicker.initDatePicker('date-' + property.componentId, function () {
                 aliceDocument.checkValidate(document.getElementById('date-' + property.componentId));
             });
@@ -585,7 +586,7 @@
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // time picker 초기화
-        if (!isForm) {
+        if (!isReadOnly) {
             dateTimePicker.initTimePicker('time-' + property.componentId, function () {
                 aliceDocument.checkValidate(document.getElementById('time-' + property.componentId));
             });
@@ -656,7 +657,7 @@
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // datetime picker 초기화
-        if (!isForm) {
+        if (!isReadOnly) {
             dateTimePicker.initDateTimePicker('datetime-' + property.componentId, function () {
                 aliceDocument.checkValidate(document.getElementById('datetime-' + property.componentId));
             });
@@ -709,7 +710,7 @@
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // 드랍존 초기화
-        if (!isForm) {
+        if (!isReadOnly) {
             document.getElementById('dropZoneUploadedFiles-' + this.id).innerHTML = '';
             let fileOptions = {
                 extra: {
@@ -740,35 +741,33 @@
         this.renderOrder = property.display.order;
 
         // 기본값 설정
-        const defaultValueArr = property.display['default'].split('|');
-        let defaultValue = (isForm && defaultValueArr[0] !== 'none') ? defaultValueArr[2] : ''; // 폼 디자이너, 미리보기용
+        const defaultValueArr = property.display['default'].split('|'); // none| , session|department|부서
+        let defaultValue = '';
         let defaultCustomData = ''; // 신청서 작성 및 처리할 문서
         if (typeof property.value !== 'undefined') {
-            defaultCustomData = property.value;
-            if (!isForm) {
-                let customDataValue = defaultCustomData.split('|');
-                defaultValue = (customDataValue.length > 1) ? customDataValue[1] : '';
-            }
-        } else {
-            if (defaultValueArr[0] !== 'none') {
-                defaultCustomData = defaultValueArr[1] + '|' + defaultValueArr[2];
-                if (!isForm) { // 임시
+            let customDataValue = property.value.split('|');
+            defaultValue = (customDataValue.length > 1) ? customDataValue[1] : '';
+        } else { // 폼 및 신청서는 default값 출력한다.
+            switch(defaultValueArr[0]) {
+                case 'session':
+                    if (defaultValueArr[1] === 'userName') {
+                        defaultCustomData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
+                        defaultValue = aliceForm.session['userName'];
+                    } else if (defaultValueArr[1] === 'department') {
+                        defaultCustomData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
+                        defaultValue = aliceForm.session['departmentName'];
+                    }
+                    if (formType === 'form' || formType === 'preview') {
+                        defaultValue = defaultValueArr[2];
+                    }
+                    break;
+                case 'code':
+                    defaultCustomData = defaultValueArr[1] + '|' + defaultValueArr[2];
                     defaultValue = defaultValueArr[2];
-                }
-                if (defaultValueArr[0] === 'session') {
-                    switch (defaultValueArr[1]) {
-                        case 'userName':
-                            defaultCustomData = aliceForm.session.userKey;
-                            break;
-                        case 'department':
-                            defaultCustomData = aliceForm.session.department;
-                            break;
-                    }
-                    defaultCustomData += '|' + aliceForm.session[defaultValueArr[1]];
-                    if (!isForm) { // 임시
-                        defaultValue = aliceForm.session[defaultValueArr[1]];
-                    }
-                }
+                    break;
+                default: //none
+                    defaultCustomData = defaultValueArr[0] + '|';
+                    break;
             }
         }
 
@@ -798,7 +797,7 @@
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // custom-code 초기화
-        if (!isForm) {
+        if (formType !== 'form' && formType !== 'preview') {
             const searchBtn = parent.querySelector('#codeBtn-' + property.componentId);
             searchBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
@@ -831,7 +830,7 @@
             case 'text':
                 childElem.value = value;
                 // 신청서 및 처리할 문서 유효성 검증 추가
-                if (!isForm && !parent.hasAttribute('data-readonly')) {
+                if (!isReadOnly && !parent.hasAttribute('data-readonly')) {
                     childElem.addEventListener('focusout', function(e) {
                         aliceDocument.checkValidate(e.target);
                     }, false);
@@ -965,7 +964,7 @@
                     `</table>` +
                 `</div>` +
             `</div>` +
-            `<button type="button" class="ghost-line btn-option btn-dr-table-row-add" id="btn-add-${property.componentId}" style="${isForm ? 'opacity: 0;' : ''}">` +
+            `<button type="button" class="ghost-line btn-option btn-dr-table-row-add" id="btn-add-${property.componentId}" style="${isReadOnly ? 'opacity: 0;' : ''}">` +
                 `<span class="icon icon-plus"></span>` +
             `</button>` +
         `</div>`;
@@ -990,7 +989,7 @@
             }
         }
         // 폼 디자이너 편집 화면에서면 수정 가능
-        if (isForm) {
+        if (isReadOnly) {
             // 헤더 속성에 이벤트 추가
             const drTableHeaderCells = drTable.rows[0].cells;
             for (let i = 0, len = drTableHeaderCells.length; i < len; i++) {
@@ -1048,7 +1047,7 @@
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
-        if (parent.getAttribute('data-display') !== 'form') {
+        if (formType !== 'form') {
             const accordionStartComp = parent.querySelector('#' + property.componentId);
             accordionStartComp.addEventListener('click', function(e) {
                 const elem =  aliceJs.clickInsideElement(e, 'component');
@@ -1100,7 +1099,7 @@
 
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" ` +
-            `data-startId="${property.display.startId}" style="${parent.getAttribute('data-display') === 'form' ? '' : 'display: none;'}">` +
+            `data-startId="${property.display.startId}" style="${formType === 'form' ? '' : 'display: none;'}">` +
             `<div class="move-handler disabled"></div>` +
             `<div class="field-group">` +
                 `<div class="field-content" style="--data-column: 12;">` +
@@ -1301,8 +1300,9 @@
      */
     function init(target) {
         parent = target;
-        isForm = target.hasAttribute('data-readonly');
-        if (isForm) {
+        isReadOnly = target.hasAttribute('data-readonly');
+        formType = target.getAttribute('data-display');
+        if (isReadOnly) {
             tooltipTemplate = document.getElementById('tooltip-template');
         }
     }
