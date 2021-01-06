@@ -710,7 +710,7 @@
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // 드랍존 초기화
-        if (!isReadOnly) {
+        if (formType !== 'form' && formType !== 'preview') {
             document.getElementById('dropZoneUploadedFiles-' + this.id).innerHTML = '';
             let fileOptions = {
                 extra: {
@@ -718,8 +718,8 @@
                     ownId: '',
                     dropZoneFilesId: 'dropZoneFiles-' + this.id,
                     dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
-                    editor: (displayType !== 'readonly'),
-                    isView: (displayType === 'readonly')
+                    editor: (displayType !== 'readonly' && !isReadOnly),
+                    isView: (displayType === 'readonly' || isReadOnly)
                 }
             };
             if (typeof property.value !== 'undefined') {

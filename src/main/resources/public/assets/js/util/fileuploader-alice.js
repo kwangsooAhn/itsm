@@ -401,7 +401,7 @@ const fileUploader = (function () {
 
                             if (extraParam.isView) { // view 일때
                                 fileName.style.cursor = 'pointer';
-                                //파일 다운로드
+                                // 파일 다운로드
                                 fileName.addEventListener('click', fileDownloadHandler);
 
                                 dropZoneUploadedFiles.className = 'dropzone dz-uploaded';
