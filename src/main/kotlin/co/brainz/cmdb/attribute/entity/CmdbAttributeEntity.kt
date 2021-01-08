@@ -6,6 +6,7 @@
 
 package co.brainz.cmdb.attribute.entity
 
+import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -20,6 +21,20 @@ data class CmdbAttributeEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "attribute_id")
-    var attributeId: String = ""
+    var attributeId: String = "",
 
-) : Serializable
+    @Column(name = "attribute_name", length = 100)
+    val attributeName: String = "",
+
+    @Column(name = "attribute_desc", length = 500)
+    val attributeDesc: String? = null,
+
+    @Column(name = "attribute_type", length = 100)
+    val attributeType: String? = null,
+
+    @Column(name = "attribute_text", length = 128)
+    val attributeText: String = "",
+
+    @Column(name = "attribute_value")
+    val attributeValue: String = ""
+) : Serializable, AliceMetaEntity()

@@ -215,6 +215,23 @@ board:
     searchDescription: "게시글을 조회 및 관리합니다."
     viewDescription: "게시글에 대한 상세 정보를 조회합니다."
 
+# CMDB
+cmdb:
+  attribute:
+    label:
+      management: "Attribute 관리"
+      searchPlaceholder: "라벨 / 타입 / Attribute 명 / 설명"
+      name: "Attribute 명"
+      label: "라벨"
+      type: "타입"
+      description: "설명"
+      export: "내보내기"
+    msg:
+      searchDescription: "CI Attribute을 조회 및 관리합니다."
+    btn:
+      import: "가져오기"
+      export: "내보내기"
+
 # Code
 code:
   label:
@@ -623,6 +640,9 @@ menu:
     parent: "업무흐름 관리"
     process: "프로세스"
     workflowAdmin: "업무흐름"
+  cmdb:
+    parent: "CMDB"
+    attribute: "Attribute"
 
 # Notice
 notice:
