@@ -9,5 +9,4 @@ package co.brainz.cmdb.ci.repository
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface CiRepositoryCustom : AliceRepositoryCustom {
-
 }

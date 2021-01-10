@@ -16,7 +16,5 @@ import org.springframework.web.bind.annotation.RequestMapping
 class ClassController(private val classService: ClassService) {
 
     @GetMapping("")
-    fun getClassSearch() {
-
-    }
+    fun getClassSearch() {}
 }
