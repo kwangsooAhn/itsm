@@ -38,7 +38,6 @@ class AttributeController(
         return attributeService.getCmdbAttributes(parameters)
     }
 
-
     @PostMapping("")
     fun createCmdbAttribute(@RequestBody cmdbAttributeDto: CmdbAttributeDto): Boolean {
         return true

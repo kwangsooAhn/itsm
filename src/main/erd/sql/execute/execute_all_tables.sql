@@ -704,8 +704,8 @@ COMMENT ON COLUMN awf_numbering_rule.numbering_desc IS '넘버링설명';
 COMMENT ON COLUMN awf_numbering_rule.latest_value IS '최근값';
 COMMENT ON COLUMN awf_numbering_rule.latest_date IS '최근날짜';
 
-insert into awf_numbering_rule values ('60211d93621zd1f126241s053c890122', 'TEST-yyyyMMdd-000', '테스트 문서', 'TEST-20201121-001');
-insert into awf_numbering_rule values ('40125c91714df6c325714e053c890125', 'CSR-yyyyMMdd-000', '신청서 작성시 발생한 문서번호', 'CSR-20201121-001');
+insert into awf_numbering_rule values ('60211d93621zd1f126241s053c890122', 'TEST-yyyyMMdd-000', '테스트 문서', 'TEST-20210104-009');
+insert into awf_numbering_rule values ('40125c91714df6c325714e053c890125', 'CSR-yyyyMMdd-000', '신청서 작성시 발생한 문서번호','CSR-20201121-001');
 
 /**
  * 넘버링패턴정보
@@ -864,6 +864,14 @@ insert into awf_role_auth_map values ('admin', 'form.create');
 insert into awf_role_auth_map values ('admin', 'form.read');
 insert into awf_role_auth_map values ('admin', 'document.admin.delete');
 insert into awf_role_auth_map values ('admin', 'document.admin.update');
+insert into awf_role_auth_map values ('admin', 'numbering.pattern.create');
+insert into awf_role_auth_map values ('admin', 'numbering.pattern.delete');
+insert into awf_role_auth_map values ('admin', 'numbering.pattern.read');
+insert into awf_role_auth_map values ('admin', 'numbering.pattern.update');
+insert into awf_role_auth_map values ('admin', 'numbering.rule.create');
+insert into awf_role_auth_map values ('admin', 'numbering.rule.delete');
+insert into awf_role_auth_map values ('admin', 'numbering.rule.read');
+insert into awf_role_auth_map values ('admin', 'numbering.rule.update');
 insert into awf_role_auth_map values ('auth.all', 'auth.create');
 insert into awf_role_auth_map values ('auth.all', 'auth.delete');
 insert into awf_role_auth_map values ('auth.all', 'auth.update');
@@ -992,10 +1000,11 @@ insert into awf_role_auth_map values ('users.manager', 'role.read');
 insert into awf_role_auth_map values ('users.manager', 'role.create');
 insert into awf_role_auth_map values ('users.manager', 'role.update');
 
+
 /**
  * 문서번호패턴맵핑
  */
-DROP TABLE IF EXISTS awf_rule_pattern_map
+DROP TABLE IF EXISTS awf_rule_pattern_map cascade;
 
 CREATE TABLE awf_rule_pattern_map
 (
@@ -2534,6 +2543,8 @@ insert into cmdb_attribute values ('489a14a0ebdca14b6eb42cf804330145', 'Licenses
 insert into cmdb_attribute values ('addc07e374faec9f0d6d3bbeca565886', 'OS Type', null, 'dropdown', 'OS 종류', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('2bb03c41cd9998e77da9b737d4fcf9ab', 'Bash Version', null, 'inputbox', 'bash 버전', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('42b02142dd9128e47a35b737d4fc21ad', 'Service Name', null, 'table', '서비스명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
+
 /**
  * CMDB 클래스 정보
  */
@@ -2572,6 +2583,7 @@ insert into cmdb_class values ('e6663412f62bd2d3daeeadd7a36a0b0d', 'PostgreSQL',
 insert into cmdb_class values ('40e346d210cd36229d03b403153e54ab', 'Oracle', 'ORACLE Class', '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('39dbe77aa58b778064a0f4a10dd06b05', 'Linux', 'Linux Class', '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('f88ee1c29fdf9d847ba6002abc5bbf1b', 'Window', 'Window Class', '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * CMDB 타입 정보
  */
@@ -2619,6 +2631,7 @@ insert into cmdb_type values ('3c37bbea924b4e300a4863bc1f1d41c8', null, '소프�
 insert into cmdb_type values ('237053b29c09fd365d049949a14df2c5', '3c37bbea924b4e300a4863bc1f1d41c8', 'OS', null, 2, '0e8dd74a27bbbf86201104e91df7ee88', 'os.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('bd746ec53dd7b64a16157d5843360391', '237053b29c09fd365d049949a14df2c5', 'OS_Linux', null, 3, '39dbe77aa58b778064a0f4a10dd06b05', 'os_linux.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('5c6601285d44385fb6dfcf184261aa04', '237053b29c09fd365d049949a14df2c5', 'OS_Window', null, 3, 'f88ee1c29fdf9d847ba6002abc5bbf1b', 'os_window.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * CMDB CI 정보
  */
@@ -2661,6 +2674,7 @@ COMMENT ON COLUMN cmdb_ci.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_ci.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_ci.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_ci.update_dt IS '수정일시';
+
 /**
  * CMDB CI 데이터
  */
@@ -2684,6 +2698,7 @@ COMMENT ON TABLE cmdb_ci_data IS 'CMDB CI 데이터';
 COMMENT ON COLUMN cmdb_ci_data.ci_id IS 'CI아이디';
 COMMENT ON COLUMN cmdb_ci_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN cmdb_ci_data.value IS '속성값';
+
 /**
  * CMDB CI 정보 이력
  */
@@ -2723,6 +2738,7 @@ COMMENT ON COLUMN cmdb_ci_history.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_ci_history.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
+
 /**
  * CMDB CI 속성데이터 이력
  */
@@ -2759,6 +2775,7 @@ COMMENT ON COLUMN cmdb_ci_data_history.attribute_desc IS '속성설명';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_type IS '속성타입';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_text IS '속성라벨';
 COMMENT ON COLUMN cmdb_ci_data_history.value IS '속성값';
+
 /**
  * CMDB CI 연관관계
  */
@@ -2785,6 +2802,7 @@ COMMENT ON COLUMN cmdb_ci_relation.relation_id IS '연관관계아이디';
 COMMENT ON COLUMN cmdb_ci_relation.relation_type IS '연관관계타입';
 COMMENT ON COLUMN cmdb_ci_relation.master_ci_id IS 'CI아이디(Master)';
 COMMENT ON COLUMN cmdb_ci_relation.slave_ci_id IS 'CI아이디(Slave)';
+
 /**
  * CMDB CI 태그정보
  */
@@ -2806,6 +2824,7 @@ COMMENT ON TABLE cmdb_ci_tag IS 'CMDB_CI태그정보';
 COMMENT ON COLUMN cmdb_ci_tag.ci_id IS 'CI아이디';
 COMMENT ON COLUMN cmdb_ci_tag.tag_id IS '태그아이디';
 COMMENT ON COLUMN cmdb_ci_tag.tag_name IS '태그이름';
+
 /**
  * CMDB 클래스 속성 정보
  */
@@ -2873,3 +2892,4 @@ insert into cmdb_class_attribute_map values ('39dbe77aa58b778064a0f4a10dd06b05',
 insert into cmdb_class_attribute_map values ('39dbe77aa58b778064a0f4a10dd06b05', '734ab921484883ad7760032a008baf21', 2);
 insert into cmdb_class_attribute_map values ('39dbe77aa58b778064a0f4a10dd06b05', '2bb03c41cd9998e77da9b737d4fcf9ab', 3);
 insert into cmdb_class_attribute_map values ('f88ee1c29fdf9d847ba6002abc5bbf1b', 'df0e88d216ace73e0164f3dbf7ade131', 1);
+
