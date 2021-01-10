@@ -6,7 +6,7 @@
 
 package co.brainz.cmdb.provider
 
-import co.brainz.cmdb.provider.constants.CmdbConstants
+import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import co.brainz.cmdb.provider.dto.CmdbCiDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
@@ -28,7 +28,7 @@ class CmdbDummyProvider() {
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun getDummyAttributes(searchValue: String): List<CmdbAttributeDto> {
-        val file = this.getDummyFile(CmdbConstants.CmdbObject.ATTRIBUTE.value)
+        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.ATTRIBUTE.value)
         var attributeDataList = mutableListOf<CmdbAttributeDto>()
         if (file != null) {
             attributeDataList = mapper.readValue(
@@ -43,7 +43,7 @@ class CmdbDummyProvider() {
     }
 
     fun getDummyAttribute(attributeId: String): CmdbAttributeDto {
-        val file = this.getDummyFile(CmdbConstants.CmdbObject.ATTRIBUTE.value)
+        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.ATTRIBUTE.value)
         var attributeData = CmdbAttributeDto()
         if (file != null) {
             val attributeDataList: List<CmdbAttributeDto> = mapper.readValue(
@@ -62,7 +62,7 @@ class CmdbDummyProvider() {
     }
 
     fun getDummyTypes(searchValue: String): List<CmdbTypeDto> {
-        val file = this.getDummyFile(CmdbConstants.CmdbObject.TYPE.value)
+        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.TYPE.value)
         var typeDataList = mutableListOf<CmdbTypeDto>()
         if (file != null) {
             typeDataList = mapper.readValue(
@@ -74,7 +74,7 @@ class CmdbDummyProvider() {
     }
 
     fun getDummyType(typeId: String): CmdbTypeDto {
-        val file = this.getDummyFile(CmdbConstants.CmdbObject.TYPE.value)
+        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.TYPE.value)
         var typeData = CmdbTypeDto()
         if (file != null) {
             val typeDataList: List<CmdbTypeDto> = mapper.readValue(
@@ -93,7 +93,7 @@ class CmdbDummyProvider() {
     }
 
     fun getDummyClasses(searchValue: String): List<CmdbClassDto> {
-        val file = this.getDummyFile(CmdbConstants.CmdbObject.CLASS.value)
+        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CLASS.value)
         var classDataList = mutableListOf<CmdbClassDto>()
         if (file != null) {
             classDataList = mapper.readValue(
@@ -105,7 +105,7 @@ class CmdbDummyProvider() {
     }
 
     fun getDummyClass(classId: String): CmdbClassDto {
-        val file = this.getDummyFile(CmdbConstants.CmdbObject.CLASS.value)
+        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CLASS.value)
         var classData = CmdbClassDto()
         if (file != null) {
             val classDataList: List<CmdbClassDto> = mapper.readValue(
@@ -124,7 +124,7 @@ class CmdbDummyProvider() {
     }
 
     fun getDummyCis(searchValue: String): List<CmdbCiDto> {
-        val file = this.getDummyFile(CmdbConstants.CmdbObject.CI.value)
+        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CI.value)
         var ciDataList = mutableListOf<CmdbCiDto>()
         if (file != null) {
             ciDataList = mapper.readValue(
@@ -136,7 +136,7 @@ class CmdbDummyProvider() {
     }
 
     fun getDummyCi(ciId: String): CmdbCiDto {
-        val file = this.getDummyFile(CmdbConstants.CmdbObject.CI.value)
+        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CI.value)
         var ciData = CmdbCiDto()
         if (file != null) {
             val ciDataList: List<CmdbCiDto> = mapper.readValue(

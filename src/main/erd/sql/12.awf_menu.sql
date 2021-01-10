@@ -41,4 +41,5 @@ insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/s
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
 insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/edit', 6, true);
 insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/edit', 7, true);
-
+insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
+insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');

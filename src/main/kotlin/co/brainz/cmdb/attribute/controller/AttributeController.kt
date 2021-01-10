@@ -9,6 +9,7 @@ package co.brainz.cmdb.attribute.controller
 import co.brainz.cmdb.attribute.service.AttributeService
 import co.brainz.cmdb.provider.CmdbDummyProvider
 import co.brainz.cmdb.provider.dto.CmdbAttributeDto
+import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -29,12 +30,14 @@ class AttributeController(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    /**
+     * 프로세스 목록 조회.
+     */
     @GetMapping("")
-    fun getCmdbAttributes(
-        @RequestParam(value = "searchValue", defaultValue = "") searchValue: String
-    ): List<CmdbAttributeDto> {
-        return cmdbDummyProvider.getDummyAttributes(searchValue)
+    fun getCmdbAttributes(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbAttributeListDto> {
+        return attributeService.getCmdbAttributes(parameters)
     }
+
 
     @PostMapping("")
     fun createCmdbAttribute(@RequestBody cmdbAttributeDto: CmdbAttributeDto): Boolean {
