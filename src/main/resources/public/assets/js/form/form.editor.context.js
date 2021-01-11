@@ -355,6 +355,12 @@
             return false;
         }
 
+        // 세부 속성창에 에러가 있을 경우, 동작하지 않는다.
+        const propertiesPanel = document.getElementById('properties-panel');
+        if (propertiesPanel.querySelector('.error-msg.on') !== null) {
+            return false;
+        }
+
         const clickedElem = aliceJs.clickInsideElement(e, 'menu-item');
         if (clickedElem) { // 컨텍스트 메뉴가 오픈된 상태에서 해당 메뉴 선택한 경우
             e.preventDefault();
