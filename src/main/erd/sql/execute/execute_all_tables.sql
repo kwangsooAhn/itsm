@@ -56,6 +56,10 @@ insert into awf_auth values ('cmdb.attribute.read', 'CMDB Attribute 조회', 'CM
 insert into awf_auth values ('cmdb.attribute.create', 'CMDB Attribute 생성', 'CMDB Attribute 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.update', 'CMDB Attribute 변경', 'CMDB Attribute 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.delete', 'CMDB Attribute 삭제', 'CMDB Attribute 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.class.read', 'CMDB Class 조회', 'CMDB Class 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.class.create', 'CMDB Class 생성', 'CMDB Class 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.class.update', 'CMDB Class 변경', 'CMDB Class 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.class.delete', 'CMDB Class 삭제', 'CMDB Class 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('code.create', '코드 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('code.delete', '코드 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('code.read', '코드 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -544,6 +548,7 @@ insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberin
 insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/edit', 7, true);
 insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
+insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -647,6 +652,7 @@ insert into awf_menu_auth_map values ('workflow.process', 'process.update');
 insert into awf_menu_auth_map values ('workflow.process', 'process.read');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.attribute.read');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.attribute.read');
+insert into awf_menu_auth_map values('cmdb.class', 'cmdb.class.read');
 
 /**
  * 알림
@@ -810,6 +816,10 @@ insert into awf_role_auth_map values ('admin', 'cmdb.attribute.read');
 insert into awf_role_auth_map values ('admin', 'cmdb.attribute.create');
 insert into awf_role_auth_map values ('admin', 'cmdb.attribute.update');
 insert into awf_role_auth_map values ('admin', 'cmdb.attribute.delete');
+insert into awf_role_auth_map values ('admin', 'cmdb.class.read');
+insert into awf_role_auth_map values ('admin', 'cmdb.class.create');
+insert into awf_role_auth_map values ('admin', 'cmdb.class.update');
+insert into awf_role_auth_map values ('admin', 'cmdb.class.delete');
 insert into awf_role_auth_map values ('admin', 'custom.code.create');
 insert into awf_role_auth_map values ('admin', 'custom.code.read');
 insert into awf_role_auth_map values ('admin', 'custom.code.update');
