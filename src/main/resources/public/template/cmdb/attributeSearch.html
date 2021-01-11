@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{cmdb.attribute.label.management}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="attribute-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{cmdb.attribute.label.management}"></h1>
+            <h6 class="description" th:text="#{cmdb.attribute.msg.searchDescription}"></h6>
+        </div>
+        <div class="header-search flex-row">
+            <input type="hidden" sec:authorize="hasAuthority('cmdb.attribute.create') || hasAuthority('cmdb.attribute.update')" th:name="isRole"
+                   th:value="true"/>
+            <input type="hidden" sec:authorize="!hasAuthority('cmdb.attribute.create') && !hasAuthority('cmdb.attribute.update')" th:name="isRole"
+                   th:value="false"/>
+            <form id="searchFrm">
+                <input class="search col-5 mr-2" id="search" name="search" type="text" maxlength="100"
+                       th:placeholder="#{cmdb.attribute.label.searchPlaceholder}"/>
+                <span id="spanTotalCount" class="txt-num"></span>
+            </form>
+            <div class="ml-auto">
+                <button type="button" class="default-fill" onclick="location.href='/cmdb/attributes/import'"
+                        sec:authorize="hasAuthority('cmdb.attribute.create')" th:text="#{cmdb.attribute.btn.import}"></button>
+                <button type="button" class="default-fill" onclick="location.href='/cmdb/attributes/new'"
+                        sec:authorize="hasAuthority('cmdb.attribute.create')" th:text="#{common.btn.add}"></button>
+            </div>
+        </div>
+    </div>
+    <div class="attribute-content flex-fill">
+        <div class="list" id="attributeList"></div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        let offsetCount = 0;
+        window.onload = function () {
+            document.getElementById('search').focus();
+            document.getElementById('search').addEventListener('keyup', function() { searchAttributes(false); });
+            searchAttributes(false);
+        }
+
+        /**
+         * Attribute 검색
+         */
+        function searchAttributes(isScroll) {
+            let urlParam = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = aliceJs.searchDataCount;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/cmdb/attributes?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/cmdb/attributes?' + urlParam, isScroll);
+            }
+        }
+
+        // REST API
+        function restSubmit(method, url, isScroll) {
+            const opt = {
+                method: method,
+                url: url,
+                async: false,
+                showProgressbar: false,
+                callbackFunc: function (response) {
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('attributeList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                    }
+
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        searchAttributes(true);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        // Tr 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let div = document.querySelector('.list-body .os-content');
+            let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
+
+            let tdAttrName = document.createElement('td');
+            tdAttrName.style.width = '25%';
+            tdAttrName.className = 'align-left';
+            tdAttrName.innerText = data.attributeName;
+
+            let tdAttrLabel = document.createElement('td');
+            tdAttrLabel.style.width = '25%';
+            tdAttrLabel.className = 'align-left';
+            tdAttrLabel.innerText = data.attributeText;
+
+            let tdAttrType = document.createElement('td');
+            tdAttrType.style.width = '10%';
+            tdAttrType.className = 'align-left';
+            tdAttrType.innerText = data.attributeType;
+
+            let tdAttrDesc = document.createElement('td');
+            tdAttrDesc.style.width = '30%';
+            tdAttrDesc.className = 'align-left';
+            tdAttrDesc.innerText = data.attributeDesc;
+
+            let tdAttrExport = document.createElement('td');
+            tdAttrExport.style.width = '10%';
+            tdAttrExport.className = 'align-center';
+            tdAttrExport.innerText = '';
+
+            if (document.getElementsByName('isRole')[0].value === 'true') {
+                let btnExport = document.createElement('button');
+                let spanExport = document.createElement('span');
+                spanExport.className = 'icon-edit';
+                btnExport.appendChild(spanExport);
+                btnExport.onclick = function() {
+                    exportAttribute(data.attributeId);
+                }
+                tdAttrExport.appendChild(btnExport);
+            }
+
+            tr.appendChild(tdAttrName);
+            tr.appendChild(tdAttrLabel);
+            tr.appendChild(tdAttrType);
+            tr.appendChild(tdAttrDesc);
+            tr.appendChild(tdAttrExport);
+            div.appendChild(tr);
+        }
+
+        // Export
+        function exportAttribute(attributeId) {
+            aliceJs.alertWarning('TODO: Export ' + attributeId)
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

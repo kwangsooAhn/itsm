@@ -212,5 +212,8 @@
     &-token {
       @include maskImage($icon-gnb-token, 1.25rem, 1.25rem, no-repeat, center, null, $blue-gray); // 20xp 20px
     }
+    &-cmdb {
+      @include maskImage($icon-gnb-cmdb, 1.25rem, 1.25rem, no-repeat, center, null, $blue-gray); // 20xp 20px
+    }
   }
 }

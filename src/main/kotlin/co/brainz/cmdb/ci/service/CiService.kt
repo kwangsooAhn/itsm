@@ -14,8 +14,5 @@ import org.springframework.stereotype.Service
 class CiService(
     private val ciRepository: CiRepository
 ) {
-
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-
 }

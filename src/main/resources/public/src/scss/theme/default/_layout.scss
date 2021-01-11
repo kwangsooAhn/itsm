@@ -117,7 +117,8 @@
 .code-header,
 .image-header,
 .numbering-pattern-header,
-.numbering-rule-header {
+.numbering-rule-header,
+.attribute-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
@@ -155,7 +156,8 @@
 .role-content,
 .code-content,
 .numbering-pattern-content,
-.numbering-rule-content {
+.numbering-rule-content,
+.attribute-content {
   padding: 0.9375rem 3.75rem; // 15px 60px
   background-color: $light-gray;
 }

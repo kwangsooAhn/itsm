@@ -14,8 +14,5 @@ import org.springframework.stereotype.Service
 class ClassService(
     private val classRepository: ClassRepository
 ) {
-
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-
 }

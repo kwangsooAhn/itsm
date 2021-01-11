@@ -6,10 +6,8 @@
 
 package co.brainz.cmdb.type.repository
 
-import co.brainz.cmdb.attribute.repository.AttributeRepositoryCustom
 import co.brainz.cmdb.type.entity.CmdbTypeEntity
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
-class TypeRepositoryImpl : QuerydslRepositorySupport(CmdbTypeEntity::class.java), AttributeRepositoryCustom {
-
+class TypeRepositoryImpl : QuerydslRepositorySupport(CmdbTypeEntity::class.java), TypeRepositoryCustom {
 }

@@ -6,9 +6,10 @@
 
 package co.brainz.cmdb.attribute.repository
 
+import co.brainz.cmdb.attribute.entity.CmdbAttributeEntity
+import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-class AttributeRepository {
-
+interface AttributeRepository : JpaRepository<CmdbAttributeEntity, String>, AttributeRepositoryCustom {
 }

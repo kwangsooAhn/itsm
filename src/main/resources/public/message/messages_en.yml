@@ -215,6 +215,23 @@ board:
     searchDescription: "View and manage posts."
     viewDescription: "Inquire detailed information about the post."
 
+# CMDB
+cmdb:
+  attribute:
+    label:
+      management: "Attribute Management"
+      searchPlaceholder: "Label / Type / Attribute Name / Description"
+      name: "Attribute Name"
+      label: "Label"
+      type: "Type"
+      description: "Description"
+      export: "Export"
+    msg:
+      searchDescription: "CI Attribute manage posts."
+    btn:
+      import: "Import"
+      export: "Export"
+
 # Code
 code:
   label:
@@ -627,6 +644,9 @@ menu:
     parent: "Workflow"
     process: "Process"
     workflowAdmin: "Workflow"
+  cmdb:
+    parent: "CMDB"
+    attribute: "Attribute"
 
 # Notice
 notice:
