@@ -1267,7 +1267,16 @@
                                 attributeItemValue = attributeItem.value;
                             }
                         }
-                        refineProperty[group][attributeItem.id] = attributeItemValue;
+                        if (attributeItem.id === 'labelList') { // 라벨링
+                            let labelList = {
+                                'label_target': 'component',
+                                'target_id': data.componentId,
+                                'label': []
+                            };
+                            refineProperty[group][attributeItem.id] = labelList;
+                        } else {
+                            refineProperty[group][attributeItem.id] = attributeItemValue;
+                        }
                     });
                 }
             });
