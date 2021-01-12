@@ -84,6 +84,7 @@
 
             if (jsonData.className === null || jsonData.className.trim() === '') {
                 aliceJs.alertWarning([[#{cmdb.class.msg.enterClassName}]]);
+                return false;
             }
 
             let url = '/rest/cmdb/classes';
