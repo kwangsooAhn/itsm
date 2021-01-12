@@ -11,6 +11,8 @@
 }(this, (function (exports) {
     'use strict';
 
+    const COMPONENT = 'component';
+    // TODO: 상수 대문자 처리
     const defaultType = 'editbox';
     let sessionInfo = {},
         componentProperties = {};
@@ -176,6 +178,7 @@
     exports.initSession = initSession;
     exports.reformatCalendarFormat = reformatCalendarFormat;
 
+    exports.COMPONENT = COMPONENT;
     exports.defaultType = defaultType;
     exports.session = sessionInfo;
     exports.componentProperties = componentProperties;

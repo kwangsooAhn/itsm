@@ -88,9 +88,9 @@
      */
     function validateCheck(eventName, element, validate) {
         if (typeof validate === 'undefined' || validate === '') { return; }
+        // TODO: 정규표현식 다국어 지원
         const numberRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
-        const numberChar = /^[a-zA-Z0-9가-힣]*$/;
-        const labelRegex = /^([a-zA-Z0-9가-힣]{1})([a-zA-Z0-9가-힣-_\.])*([a-zA-Z0-9가-힣]{1})$/i; // 숫자와 문자로 시작, 종료 되어야하고 숫자,문자, 쉼표(.), 언더바(_), 대시(-) 를 포함 할 수 있다.
+        const labelRegex = /^([a-zA-Z0-9가-힣]{0,2})$|^([a-zA-Z0-9가-힣])([a-zA-Z0-9가-힣-_\.])*([a-zA-Z0-9가-힣])$/i; // 숫자와 문자(영문자, 한글)로 시작, 종료 되어야하고 숫자,문자, 쉼표(.), 언더바(_), 대시(-) 를 포함 할 수 있다.
         const validateFunc = {
             number: function(value) {
                 return numberRegex.test(value);
@@ -123,11 +123,7 @@
                 return !aliceJs.isEmpty(value);
             },
             label: function(value) { // 라벨링 전용
-                if (value.length > 2) {
-                    return labelRegex.test(value);
-                } else {
-                    return numberChar.test(value);
-                }
+                return labelRegex.test(value);
             }
 
         };
