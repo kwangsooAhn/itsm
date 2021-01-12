@@ -48,7 +48,7 @@ class ClassService(
     }
 
     /**
-     * CMDB 클래스 리스트 조회
+     * CMDB class 목록 조회
      */
     fun getCmdbClasses(): String {
         return ""

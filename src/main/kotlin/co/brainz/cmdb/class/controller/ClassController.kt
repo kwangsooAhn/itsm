@@ -61,7 +61,7 @@ class ClassController(
     }
 
     /**
-     * CI 클래스 삭제
+     * CMDB Class 삭제
      */
     @DeleteMapping("/{classId}")
     fun deleteCmdbClass(@PathVariable classId: String): Boolean {
