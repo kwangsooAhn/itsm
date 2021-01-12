@@ -239,6 +239,7 @@ cmdb:
   class:
     label:
       attributeList: "속성 목록"
+      classId: "클래스 Id"
       description: "설명"
       management: "Class 관리"
       name: "이름"

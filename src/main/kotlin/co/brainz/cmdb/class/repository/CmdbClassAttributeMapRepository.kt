@@ -6,12 +6,10 @@
 
 package co.brainz.cmdb.`class`.repository
 
-import co.brainz.cmdb.`class`.entity.CmdbClassEntity
+import co.brainz.cmdb.`class`.entity.CmdbClassAttributeMapEntity
+import co.brainz.cmdb.`class`.entity.CmdbClassAttributeMapPk
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ClassRepository : JpaRepository<CmdbClassEntity, String>, ClassRepositoryCustom {
-
-    fun findByClassId(classId: String): CmdbClassEntity?
-}
+interface CmdbClassAttributeMapRepository : JpaRepository<CmdbClassAttributeMapEntity, CmdbClassAttributeMapPk>
