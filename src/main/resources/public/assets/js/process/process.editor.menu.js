@@ -1053,11 +1053,13 @@
     function setMultipleScriptDetail(inputObject, scriptType, valueAttr) {
         inputObject.style.display = 'none';
         inputObject.classList.add('multiple');
-        if (scriptType === 'script.type.document.attachFile') {
-            //script 하단에 붙는 내용
-            let subContainer = document.createElement('div');
-            subContainer.className = 'script-detail-container';
 
+        //script 하단에 붙는 내용
+        let subContainer = document.createElement('div');
+        subContainer.className = 'script-detail-container';
+
+        if (scriptType === 'script.type.document.attachFile') {
+            // 작업대상 매핑ID
             let targetMappingProperties = document.createElement('div');
             targetMappingProperties.className = 'properties';
 
@@ -1073,7 +1075,7 @@
 
             targetMappingProperties.appendChild(targetMappingLabel);
             targetMappingProperties.appendChild(targetMappingInput);
-
+            // 작업조건 매핑ID
             let sourceMappingProperties = document.createElement('div');
             sourceMappingProperties.className = 'properties';
 
@@ -1103,8 +1105,6 @@
             subContainer.appendChild(targetMappingProperties);
             subContainer.appendChild(sourceMappingProperties);
 
-            inputObject.parentNode.parentNode.querySelector('#script-type').parentNode.after(subContainer);
-
             if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
                 if (valueAttr[0] !== '') {
                     let data = valueAttr[0].split('\|');
@@ -1112,6 +1112,46 @@
                     sourceMappingInput.value = data[1];
                 }
             }
+        } else if (scriptType === 'script.type.cmdb') {
+            // 작업대상 매핑ID
+            let targetMappingProperties = document.createElement('div');
+            targetMappingProperties.className = 'properties';
+
+            let targetMappingLabel = document.createElement('label');
+            targetMappingLabel.className = 'properties-title';
+            targetMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'targetMappingId');
+            targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
+
+            let targetMappingInput = document.createElement('input');
+            targetMappingInput.id = 'target-mapping-id';
+            targetMappingInput.name = 'target-mapping-id';
+            targetMappingInput.required = true;
+
+            targetMappingProperties.appendChild(targetMappingLabel);
+            targetMappingProperties.appendChild(targetMappingInput);
+
+            let keyupHandler = function() {
+                inputObject.value = targetMappingInput.value;
+                const evt = document.createEvent('HTMLEvents');
+                evt.initEvent('change', false, true);
+                inputObject.dispatchEvent(evt);
+            };
+
+            targetMappingInput.addEventListener('keyup', keyupHandler);
+
+            subContainer.appendChild(targetMappingProperties);
+
+            if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
+                targetMappingInput.value = (valueAttr[0] !== '') ? valueAttr[0] : '';
+            }
+        }
+        const propertiesPanel = document.querySelector('.process-properties');
+        if (propertiesPanel !== null) {
+            let propertyContainer = propertiesPanel.querySelector('#script-type').parentNode;
+            if (!propertyContainer.classList.contains('properties')) {
+                propertyContainer = propertyContainer.parentNode;
+            }
+            propertyContainer.parentNode.insertBefore(subContainer, propertyContainer.nextSibling);
         }
     }
 
@@ -1292,6 +1332,8 @@
                     }
                 }
             }
+        } else if (scriptType === 'script.type.cmdb') {
+            inputObject.parentNode.classList.remove('last'); // 하단 선 제거
         }
     }
 
