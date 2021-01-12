@@ -42,6 +42,11 @@ class WfScriptTask(
         when (scriptType) {
             WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value ->
                 this.setDocumentAttachFile(createTokenDto, element)
+            WfElementConstants.ScriptType.DOCUMENT_CMDB.value ->
+                // TODO: CMDB 저장
+                // 1. [targetMappingId] 값으로 조건이 되는 CMDB 컴포넌트를 찾고
+                // 2. CMDB를 저장한다.
+                println("CMDB 저장")
         }
 
         return createTokenDto

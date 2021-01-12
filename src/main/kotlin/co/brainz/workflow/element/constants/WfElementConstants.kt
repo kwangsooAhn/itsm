@@ -88,7 +88,8 @@ object WfElementConstants {
      * Script Task - Script Type.
      */
     enum class ScriptType(val value: String) {
-        DOCUMENT_ATTACH_FILE("script.type.document.attachFile")
+        DOCUMENT_ATTACH_FILE("script.type.document.attachFile"),
+        DOCUMENT_CMDB("script.type.cmdb")
     }
 
     /**
