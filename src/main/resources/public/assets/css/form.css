@@ -683,6 +683,10 @@ input, button, select, optgroup, textarea {
   margin-bottom: 0.4375rem;
 }
 
+.form-container .form-properties .property-group .property-field .property-field-table {
+  margin-top: 1.25rem;
+}
+
 .form-container .form-properties .property-group .property-field .property-field-range input[type=range] {
   width: 72%;
 }

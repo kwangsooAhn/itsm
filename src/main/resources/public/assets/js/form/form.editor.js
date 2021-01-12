@@ -88,7 +88,9 @@
      */
     function validateCheck(eventName, element, validate) {
         if (typeof validate === 'undefined' || validate === '') { return; }
+        // TODO: 정규표현식 다국어 지원
         const numberRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
+        const labelRegex = /^([a-zA-Z0-9가-힣]{0,2})$|^([a-zA-Z0-9가-힣])([a-zA-Z0-9가-힣-_\.])*([a-zA-Z0-9가-힣])$/i; // 숫자와 문자(영문자, 한글)로 시작, 종료 되어야하고 숫자,문자, 쉼표(.), 언더바(_), 대시(-) 를 포함 할 수 있다.
         const validateFunc = {
             number: function(value) {
                 return numberRegex.test(value);
@@ -119,12 +121,20 @@
             },
             required: function(value) {
                 return !aliceJs.isEmpty(value);
+            },
+            label: function(value) { // 라벨링 전용
+                return labelRegex.test(value);
             }
+
         };
         // 이벤트 등록
         element.addEventListener(eventName, function(e) {
             const target = e.target;
-            const targetMsg = target.parentNode.querySelector('.error-msg') || target.parentNode.parentNode.querySelector('.error-msg');
+            let targetMsg = target.parentNode.querySelector('.error-msg') || target.parentNode.parentNode.querySelector('.error-msg');
+            if (target.parentNode.tagName === 'TD') { // table 일 경우
+                const tb = aliceJs.clickInsideElement(e, 'property-field-table');
+                targetMsg = tb.parentNode.querySelector('.error-msg');
+            }
             if (target.classList.contains('error')) {
                 target.classList.remove('error');
                 targetMsg.classList.remove('on');
@@ -165,6 +175,11 @@
                         break;
                     case 'required':
                         result = validateFunc.required(target.value);
+                        break;
+                    case 'label':
+                        result = validateFunc.label(target.value);
+                        break;
+                    default:
                         break;
                 }
                 if (!result) {
@@ -932,9 +947,9 @@
      * @param {String} group 변경된 그룹 key
      * @param {String} field 변경된 field key (option일 때만 field가 존재하지 않음)
      * @param {Number} [index] 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
-     * @param {String} subField 세부 속성이 존재할때, 변경된 세부 field key (dynamic row table 컴포넌트)
+     * @param {String} subGroup 세부 속성이 존재할때, 변경된 세부 그룹 key
      */
-    function changePropertiesValue(value, group, field, index, subField) {
+    function changePropertiesValue(value, group, field, index, subGroup) {
         if (typeof group === 'undefined' || group === '') { return false; }
 
         let histories = [];
@@ -953,17 +968,18 @@
                 if (typeof index === 'undefined') {
                     componentData[group][field] = value;
                 } else {
-                    if (typeof subField === 'undefined') {
+                    if (typeof subGroup === 'undefined') {
                         componentData[group][index][field] = value;
                     } else {
-                        componentData[group][index][field][subField] = value;
+                        componentData[group][index][field][subGroup] = value;
                     }
                 }
             }
-            if (typeof subField === 'undefined') {
-                redrawComponent(componentData);
-            } else { // dr table 컴포넌트의 field를 새로 그려준다.
+            // dr table 컴포넌트의 field를 새로 그려준다.
+            if (group === 'field') {
                 redrawDrTableField(index, componentData);
+            } else {
+                redrawComponent(componentData);
             }
             histories.push({0: originComponentData, 1: JSON.parse(JSON.stringify(componentData))});
         }
@@ -1310,6 +1326,95 @@
         }
     }
 
+        /**
+     * 컴포넌트 dataAttribute-label 세부 속성에 옵션 추가(+) button click 이벤트
+     * @param e 이벤트
+     */
+    function addLabelOptionHandler(e) {
+        const elem = aliceJs.clickInsideElement(e, 'btn-option');
+        const tb = elem.parentNode.querySelector('table');
+        const row = document.createElement('tr');
+        const rowCount = tb.rows.length;
+        const firstRow = tb.rows[0];
+        let rowData = {};
+
+        let checkBoxTemplate = `<td>` +
+                `<label class="checkbox" for="checkbox-label-${rowCount}" tabindex="0">` +
+                    `<input type="checkbox" id="checkbox-label-${rowCount}" value="${rowCount}" />` +
+                    `<span></span>` +
+                `</label>` +
+            `</td>`;
+
+        for (let i = 0; i < firstRow.cells.length; i++) {
+            const cell = firstRow.cells[i];
+            if (i === 0) {
+                row.insertAdjacentHTML('beforeend', checkBoxTemplate);
+            } else {
+                let rowTemplate = `<td>` +
+                        `<input type="text" id="${cell.getAttribute('data-role')}" class="property-value" value="${aliceJs.filterXSS(cell.getAttribute('data-default'))}" ` +
+                            `data-validate="${cell.getAttribute('data-validate')}"/>` +
+                    `</td>`;
+                row.insertAdjacentHTML('beforeend', rowTemplate);
+            }
+        }
+        // 이벤트 등록
+        const inputCells = row.querySelectorAll('input[type=text]');
+        for (let i = 0; i < inputCells.length; i++) {
+            inputCells[i].addEventListener('change', function(e) {
+                const changeRow = e.target.parentNode.parentNode;
+                const labelTb = changeRow.parentNode.parentNode; // row > tbody > table
+                const changeCheckbox = changeRow.querySelector('input[type=checkbox]');
+                const labelTbArr = tb.parentNode.id.split('-');
+                const tableIdArr = tb.id.split('-');
+                let changeData = {};
+                changeData[changeRow.cells[1].childNodes[0].value] = changeRow.cells[2].childNodes[0].value;
+
+                changePropertiesValue(changeData, labelTbArr[0], tableIdArr[1], labelTbArr[1], Number(changeCheckbox.value) - 1);
+            }, false);
+            // 유효성 추가
+            validateCheck('keyup',inputCells[i], inputCells[i].getAttribute('data-validate'));
+        }
+        rowData[firstRow.cells[1].getAttribute('data-default')] = firstRow.cells[2].getAttribute('data-default');
+        tb.getElementsByTagName('tbody')[0].appendChild(row);
+
+        const changePropertiesArr = tb.parentNode.id.split('-');
+        const tableIdArr = tb.id.split('-');
+        changePropertiesValue(rowData, changePropertiesArr[0], tableIdArr[1], changePropertiesArr[1], rowCount - 1);
+    }
+
+    /**
+     *  컴포넌트 dataAttribute-label 세부 속성에 옵션 삭제(-) button click 이벤트
+     * @param e
+     */
+    function removeLabelOptionHandler(e) {
+        const elem = aliceJs.clickInsideElement(e, 'btn-option');
+        const tb = elem.parentNode.querySelector('table');
+        const changePropertiesArr = tb.parentNode.id.split('-');
+        const tableIdArr = tb.id.split('-');
+        const compIdx = getComponentIndex(selectedComponentIds[0]);
+        let removeOptionData = JSON.parse(JSON.stringify(editor.data.components[compIdx][changePropertiesArr[0]][changePropertiesArr[1]][tableIdArr[1]]));
+        let minusCnt = 0;
+        let rowCount = tb.rows.length;
+        for (let i = 1; i < rowCount; i++) {
+            let row = tb.rows[i];
+            let chkBox = row.cells[0].childNodes[0].childNodes[0];
+            if (chkBox.checked && rowCount > 2) {
+                tb.deleteRow(i);
+                removeOptionData.splice(i - 1, 1);
+                rowCount--;
+                i--;
+                minusCnt++;
+            } else if (chkBox.value !== i) {
+                chkBox.value = i;
+                chkBox.id = 'checkbox-label-' + i;
+                chkBox.parentNode.setAttribute('for', 'checkbox-label-' + i);
+            }
+        }
+        if (minusCnt > 0) {
+            changePropertiesValue(removeOptionData, changePropertiesArr[0], tableIdArr[1], changePropertiesArr[1]);
+        }
+    }
+
     /**
      *  이벤트 추가
      * @param target 이벤트 등록 대상상
@@ -1327,8 +1432,22 @@
                     let parentElem = elem.parentNode;
                     if (parentElem.classList.contains('picker-wrapper') || parentElem.classList.contains('wdp-hour-el-container')) { return false; } // date picker 제외
                     if (parentElem.tagName === 'TD') { // option
-                        const seqCell = parentElem.parentNode.cells[0].childNodes[0].childNodes[0];
-                        changePropertiesValue(elem.value, 'option', parentElem.id, Number(seqCell.value) - 1);
+                        const row = parentElem.parentNode;
+                        const tb = row.parentNode.parentNode;
+                        const tableIdArr = tb.id.split('-');
+                        const seqCell = row.cells[0].childNodes[0].childNodes[0];
+                        if (tableIdArr[1] === 'option') {
+                            changePropertiesValue(elem.value, tableIdArr[1], parentElem.id, Number(seqCell.value) - 1);
+                        } else if (tableIdArr[1] === 'label') {
+                            const changePropertiesArr = tb.parentNode.id.split('-');
+                            let changeData = {};
+                            if (elem.id === 'key') {
+                                changeData[elem.value] = row.cells[2].childNodes[0].value;
+                            } else {
+                                changeData[row.cells[1].childNodes[0].value] = elem.value;
+                            }
+                            changePropertiesValue(changeData, changePropertiesArr[0], tableIdArr[1], changePropertiesArr[1], Number(seqCell.value) - 1)
+                        }
                     } else {
                         if (parentElem.id === '') {
                             parentElem = parentElem.parentNode;
@@ -1393,7 +1512,7 @@
                             elem.value = aliceJs.hexToRgba(elem.value, opacity);
                             changePropertiesValue( elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                         } else {
-                             let parentElem =  elem.parentNode;
+                            let parentElem =  elem.parentNode;
                             const changePropertiesArr = parentElem.id.split('-');
                             changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                         }
@@ -1524,6 +1643,48 @@
                 if (property.value === '' && customCodeList.length > 0) {
                     changePropertiesValue(customCodeList[0].customCodeId, group, property.id);
                 }
+                break;
+            case 'labeling':
+                // 테이블 Header 추가
+                let tableHeaderOptions = `<th></th>`;
+                tableHeaderOptions += property.option.map(function(opt) {
+                    return `<th data-role="${opt.id}" data-default="${opt.value}" data-validate="${opt.validate}">${i18n.msg('form.attribute.option.' + opt.id)}</th>`;
+                }).join('');
+
+                // 테이블 Row 추가
+                let tableRowOptions = property.value.label.map(function(opt, index) { // {key: value}
+                    let checkBoxTemplate = `<td>` +
+                            `<label class="checkbox" for="checkbox-label-${index + 1}" tabindex="0">` +
+                                `<input type="checkbox" id="checkbox-label-${index + 1}" value="${index + 1}" />` +
+                                `<span></span>` +
+                            `</label>` +
+                        `</td>`;
+                    let labelKey = Object.keys(opt)[0];
+                    return `<tr>` +
+                            `${checkBoxTemplate}` +
+                            `<td><input type="text" id="key" class="property-value" value="${aliceJs.filterXSS(labelKey)}" data-validate="${property.option[0].validate}"/></td>` +
+                            `<td><input type="text" id="value" class="property-value" value="${aliceJs.filterXSS(opt[labelKey])}" data-validate="${property.option[1].validate}"/></td>` +
+                        `</tr>`;
+                }).join('');
+
+                fieldTemplate =
+                    `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
+                    `<button type="button" class="ghost-line btn-option float-right" id="label-option-plus"><span class="icon icon-plus"></span></button>` +
+                    `<button type="button" class="ghost-line btn-option float-right mr-1" id="label-option-minus"><span class="icon icon-minus"></span></button>` +
+                    `<table class="property-field-table" id="table-label">` +
+                        `<colgroup>` +
+                            `<col width="20%">` +
+                            `<col width="40%">` +
+                            `<col width="40%">` +
+                        `</colgroup>` +
+                        `<tbody>` +
+                            `<tr>${tableHeaderOptions}</tr>` +
+                            `${tableRowOptions}` +
+                        `</tbody>` +
+                    `</table>` +
+                    `<label class="error-msg"></label>`;
+
+                elem.insertAdjacentHTML('beforeend', fieldTemplate);
                 break;
             case 'image':
                 fieldTemplate =
@@ -1885,8 +2046,10 @@
                                 const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
                                 for (let i = 0, len = fieldValueElems.length; i < len; i++) {
                                     const fieldValueElem = fieldValueElems[i];
-                                     if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
-                                        fieldValueElem.parentNode.insertAdjacentHTML('afterend', `<label class="error-msg"></label>`);
+                                    if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
+                                        if (fieldValueElem.parentNode.tagName !== 'TD') { // table 구조가 아닐 경우
+                                            fieldValueElem.parentNode.insertAdjacentHTML('afterend', `<label class="error-msg"></label>`);
+                                        }
                                         validateCheck('keyup',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
                                     }
                                 }
@@ -1899,8 +2062,6 @@
                                     return `<th data-default="${opt.value}">${index === 0 ? '': i18n.msg('form.attribute.option.' + opt.id)}</th>`;
                                 }).join('');
                                 let fieldTableTemplate = `<tr>${tableHeaderOptions}</tr>`;
-
-                                ;
 
                                 // 테이블 Row 추가
                                 const tableRowOptions = componentData.option.map(function(opt) {
@@ -1926,6 +2087,10 @@
             }
         });
         propertiesPanel.appendChild(componentElem);
+
+        // 라벨링 이벤트 핸들러 등록
+        propertiesPanel.querySelector('#label-option-minus').addEventListener('click', removeLabelOptionHandler, false);
+        propertiesPanel.querySelector('#label-option-plus').addEventListener('click', addLabelOptionHandler, false);
 
         const propertyGroupList = propertiesPanel.querySelectorAll('.property-group.on');
         const propertyLastGroup = propertyGroupList[propertyGroupList.length - 1];

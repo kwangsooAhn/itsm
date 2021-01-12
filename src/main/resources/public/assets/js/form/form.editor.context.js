@@ -318,7 +318,7 @@
             return false;
         }
 
-        itemInContext = aliceJs.clickInsideElement(e, 'component');
+        itemInContext = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
         if (itemInContext) { //editbox에 컴포넌트명을 입력하면 컨텍스트 메뉴 출력
             const box = itemInContext.querySelector('[contenteditable=true]');
             if (box) {
@@ -355,6 +355,11 @@
             return false;
         }
 
+        // 세부 속성창에 에러가 있을 경우, 동작하지 않는다.
+        if (document.getElementById('properties-panel').querySelector('.error-msg.on') !== null) {
+            return false;
+        }
+
         const clickedElem = aliceJs.clickInsideElement(e, 'menu-item');
         if (clickedElem) { // 컨텍스트 메뉴가 오픈된 상태에서 해당 메뉴 선택한 경우
             e.preventDefault();
@@ -364,7 +369,7 @@
             if (e.target.classList.contains('form-main') || e.target.classList.contains('drawing-board')) {
                 editor.showFormProperties();
             }
-            itemInContext = aliceJs.clickInsideElement(e, 'component');
+            itemInContext = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
             if (itemInContext) {
                 const componentType = itemInContext.getAttribute('data-type');
                 if (isCtrlPressed) {  //배열에 담음
@@ -470,7 +475,7 @@
         if (e.preventDefault) {
             e.preventDefault(); // 필수 이 부분이 없으면 drop 이벤트가 발생하지 않습니다.
         }
-        let targetComponent = aliceJs.clickInsideElement(e, 'component');
+        let targetComponent = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
         if (targetComponent && dragComponent !== targetComponent) {
             let lastCompIndex = component.getLastIndex();
             if (lastCompIndex === Number(dragComponent.getAttribute('data-index')) 
@@ -495,7 +500,7 @@
         if (e.stopPropagation) {
             e.stopPropagation(); 
         }
-        let targetComponent = aliceJs.clickInsideElement(e, 'component');
+        let targetComponent = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
         if (targetComponent && dragComponent !== targetComponent) {
             //같은 위치에 drag 하고자 하는 경우
             let dragIdx = Number(dragComponent.getAttribute('data-index'));
@@ -535,7 +540,7 @@
     }
 
     function onDragLeaveHandler(e) {
-        let targetComponent = aliceJs.clickInsideElement(e, 'component');
+        let targetComponent = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
         if (targetComponent && dragComponent !== targetComponent && targetComponent.classList.contains('over')) {
             targetComponent.classList.remove('over');
         }

@@ -104,6 +104,7 @@ class WfFormService(
             dataAttribute["displayType"] = ""
             dataAttribute["mappingId"] = componentEntity.mappingId
             dataAttribute["isTopic"] = componentEntity.isTopic
+            // TODO: #9891 awf_label 테이블의 라벨링 데이터를 조회한다. 전달받을 데이터 구조는  Alice 기능추가 폴더에 있는 동적 통계,보고서 폴더의 설계문서를 참조한다.
 
             val component = ComponentDetail(
                 componentId = componentEntity.componentId,
@@ -321,6 +322,7 @@ class WfFormService(
             }
             if (componentIds.isNotEmpty()) {
                 wfComponentRepository.deleteComponentEntityByComponentIdIn(componentIds)
+                // TODO: #9891 awf_label 테이블의 label_target_id 기준으로 관련 라벨링 삭제
             }
         }
 
@@ -408,15 +410,16 @@ class WfFormService(
     private fun saveComponent(resultFormEntity: WfFormEntity, component: ComponentDetail): WfComponentEntity {
         var mappingId = ""
         var isTopic = false
-        val common: java.util.LinkedHashMap<*, *>? =
+        val dataAttribute: java.util.LinkedHashMap<*, *>? =
             objMapper.convertValue(component.dataAttribute, LinkedHashMap::class.java)
-        if (common != null) {
-            if (common.containsKey("mappingId")) {
-                mappingId = common["mappingId"].toString().trim()
+        if (dataAttribute != null) {
+            if (dataAttribute.containsKey("mappingId")) {
+                mappingId = dataAttribute["mappingId"].toString().trim()
             }
-            if (common.containsKey("isTopic")) {
-                isTopic = common["isTopic"] as Boolean
+            if (dataAttribute.containsKey("isTopic")) {
+                isTopic = dataAttribute["isTopic"] as Boolean
             }
+            // TODO: #9891 awf_label 테이블에 라벨링 데이터 추가
         }
         val componentEntity = WfComponentEntity(
             componentId = component.componentId,
