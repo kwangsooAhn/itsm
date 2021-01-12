@@ -285,13 +285,13 @@ class WfProcessService(
                             val scriptDetailArray = value.split("|")
                             if (scriptDetailArray.isNotEmpty()) {
                                 scriptJsonData.addProperty(
-                                        WfElementConstants.AttributeId.TARGET_MAPPING_ID.value,
-                                        scriptDetailArray[0]
+                                    WfElementConstants.AttributeId.TARGET_MAPPING_ID.value,
+                                    scriptDetailArray[0]
                                 )
                                 if (scriptDetailArray.size > 1) {
                                     scriptJsonData.addProperty(
-                                            WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value,
-                                            scriptDetailArray[1]
+                                        WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value,
+                                        scriptDetailArray[1]
                                     )
                                 }
                             }
