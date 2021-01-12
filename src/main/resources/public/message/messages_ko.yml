@@ -104,6 +104,11 @@ auth:
     create: "권한 등록"
     update: "권한 변경"
     delete: "권한 삭제"
+  class:
+    read: "CMDB Class 조회"
+    create: "CMDB Class 등록"
+    update: "CMDB Class 변경"
+    delete: "CMDB Class 삭제"
   code:
     read: "코드 조회"
     create: "코드 등록"
@@ -228,6 +233,21 @@ cmdb:
       export: "내보내기"
     msg:
       searchDescription: "CI Attribute을 조회 및 관리합니다."
+    btn:
+      import: "가져오기"
+      export: "내보내기"
+  class:
+    label:
+      attributeList: "속성 목록"
+      description: "설명"
+      management: "Class 관리"
+      name: "이름"
+      pClassId: "부모 Class"
+      searchPlaceholder: "Class 명 / 설명"
+    msg:
+      editDescription: "CI Class를 조회 및 관리합니다."
+      enterClassName: "Class 이름을 입력하세요."
+
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -643,6 +663,7 @@ menu:
   cmdb:
     parent: "CMDB"
     attribute: "Attribute"
+    class: "Class"
 
 # Notice
 notice:

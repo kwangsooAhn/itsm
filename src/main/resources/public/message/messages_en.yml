@@ -104,6 +104,11 @@ auth:
     create: "auth create"
     update: "auth update"
     delete: "auth delete"
+  class:
+    read: "CMDB Class read"
+    create: "CMDB Class create"
+    update: "CMDB Class update"
+    delete: "CMDB Class delete"
   code:
     read: "code read"
     create: "code create"
@@ -228,6 +233,20 @@ cmdb:
       export: "Export"
     msg:
       searchDescription: "CI Attribute manage posts."
+    btn:
+      import: "Import"
+      export: "Export"
+  class:
+    label:
+      attributeList: "Attribute List"
+      description: "Description"
+      management: "Class Management"
+      name: "Name"
+      pClassId: "Parent Class"
+      searchPlaceholder: "Class Name / Description"
+    msg:
+      editDescritpion: "Add, view and manage CMDB Class."
+      enterClassName: "Please enter a class name."
     btn:
       import: "Import"
       export: "Export"
@@ -644,6 +663,7 @@ menu:
   cmdb:
     parent: "CMDB"
     attribute: "Attribute"
+    class: "Class"
 
 # Notice
 notice:
