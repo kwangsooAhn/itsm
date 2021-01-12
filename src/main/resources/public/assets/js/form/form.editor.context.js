@@ -318,7 +318,7 @@
             return false;
         }
 
-        itemInContext = aliceJs.clickInsideElement(e, aliceForm.COMPONENT);
+        itemInContext = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
         if (itemInContext) { //editbox에 컴포넌트명을 입력하면 컨텍스트 메뉴 출력
             const box = itemInContext.querySelector('[contenteditable=true]');
             if (box) {
@@ -369,7 +369,7 @@
             if (e.target.classList.contains('form-main') || e.target.classList.contains('drawing-board')) {
                 editor.showFormProperties();
             }
-            itemInContext = aliceJs.clickInsideElement(e, aliceForm.COMPONENT);
+            itemInContext = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
             if (itemInContext) {
                 const componentType = itemInContext.getAttribute('data-type');
                 if (isCtrlPressed) {  //배열에 담음
@@ -475,7 +475,7 @@
         if (e.preventDefault) {
             e.preventDefault(); // 필수 이 부분이 없으면 drop 이벤트가 발생하지 않습니다.
         }
-        let targetComponent = aliceJs.clickInsideElement(e, aliceForm.COMPONENT);
+        let targetComponent = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
         if (targetComponent && dragComponent !== targetComponent) {
             let lastCompIndex = component.getLastIndex();
             if (lastCompIndex === Number(dragComponent.getAttribute('data-index')) 
@@ -500,7 +500,7 @@
         if (e.stopPropagation) {
             e.stopPropagation(); 
         }
-        let targetComponent = aliceJs.clickInsideElement(e, aliceForm.COMPONENT);
+        let targetComponent = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
         if (targetComponent && dragComponent !== targetComponent) {
             //같은 위치에 drag 하고자 하는 경우
             let dragIdx = Number(dragComponent.getAttribute('data-index'));
@@ -540,7 +540,7 @@
     }
 
     function onDragLeaveHandler(e) {
-        let targetComponent = aliceJs.clickInsideElement(e, aliceForm.COMPONENT);
+        let targetComponent = aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
         if (targetComponent && dragComponent !== targetComponent && targetComponent.classList.contains('over')) {
             targetComponent.classList.remove('over');
         }

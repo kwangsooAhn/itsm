@@ -1055,7 +1055,7 @@
         if (formType !== 'form') {
             const accordionStartComp = parent.querySelector('#' + property.componentId);
             accordionStartComp.addEventListener('click', function(e) {
-                const elem =  aliceJs.clickInsideElement(e, aliceForm.COMPONENT);
+                const elem =  aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
                 const arrowDown = elem.querySelector('.icon-arrow-down');
                 const arrowUp = elem.querySelector('.icon-arrow-up');
                 if (elem.classList.contains('active')) { // 접기
@@ -1270,7 +1270,7 @@
                         }
                         if (attributeItem.id === DATA_ATTRIBUTE_LABEL_LIST) { // 라벨링
                             let labelList = {
-                                'label_target': aliceForm.COMPONENT,
+                                'label_target': aliceForm.FORM_COMPONENT,
                                 'target_id': data.componentId,
                                 'label': []
                             };
