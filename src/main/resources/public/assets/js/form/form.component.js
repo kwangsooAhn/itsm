@@ -1055,7 +1055,7 @@
         if (formType !== 'form') {
             const accordionStartComp = parent.querySelector('#' + property.componentId);
             accordionStartComp.addEventListener('click', function(e) {
-                const elem =  aliceJs.clickInsideElement(e, COMPONENT);
+                const elem =  aliceJs.clickInsideElement(e, aliceForm.COMPONENT);
                 const arrowDown = elem.querySelector('.icon-arrow-down');
                 const arrowUp = elem.querySelector('.icon-arrow-up');
                 if (elem.classList.contains('active')) { // 접기
