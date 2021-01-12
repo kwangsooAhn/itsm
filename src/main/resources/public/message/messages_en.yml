@@ -231,7 +231,17 @@ cmdb:
     btn:
       import: "Import"
       export: "Export"
-
+  type:
+    label:
+      management: "Type Management"
+      searchPlaceholder: "Type"
+      parentType: "Parent Type"
+      name: "Type Name"
+      description: "Description"
+      icon: "Icon"
+      class: "Class"
+    msg:
+      searchDescription: "CI Type manage posts."
 # Code
 code:
   label:
@@ -644,6 +654,7 @@ menu:
   cmdb:
     parent: "CMDB"
     attribute: "Attribute"
+    type: "Type"
 
 # Notice
 notice:

@@ -216,6 +216,7 @@ board:
     viewDescription: "게시글에 대한 상세 정보를 조회합니다."
 
 # CMDB
+# Todo: 메시지 셋 구조 검토
 cmdb:
   attribute:
     label:
@@ -231,6 +232,17 @@ cmdb:
     btn:
       import: "가져오기"
       export: "내보내기"
+  type:
+    label:
+      management: "Type 관리"
+      searchPlaceholder: "Type"
+      parentType: "부모 Type"
+      name: "Type 명"
+      description: "설명"
+      icon: "아이콘"
+      class: "Class"
+    msg:
+      searchDescription: "CI Type을 조회 및 관리합니다."
 
 # Code
 code:
@@ -643,6 +655,7 @@ menu:
   cmdb:
     parent: "CMDB"
     attribute: "Attribute"
+    type: "Type"
 
 # Notice
 notice:

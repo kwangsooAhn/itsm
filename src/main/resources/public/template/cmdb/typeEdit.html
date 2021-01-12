@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{cmdb.type.label.management}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="type-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{cmdb.type.label.management}"></h1>
+            <h6 class="description" th:text="#{cmdb.type.msg.searchDescription}"></h6>
+        </div>
+        <div class="header-search flex-row">
+            <input type="text" class="search col-5 mr-2" id="search" name="search"  maxlength="100"
+                   th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
+            <span id="totalCount" class="txt-num"></span>
+            <div class="ml-auto">
+                <button type="button" class="default-fill" id="btnCreate" name="btnCreate" onclick="onCreate();"
+                        sec:authorize="hasAuthority('cmdb.type.create')" th:text="#{common.btn.add}"></button>
+            </div>
+        </div>
+    </div>
+    <div class="type-content flex-fill">
+        <div class="list-tree">
+            <div id="treeList"></div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="aside">
+    <div class="aside tree">
+        <div class="type-content-edit flex-column">
+            <div class="edit-form">
+                <div class="edit-row flex-column">
+                    <label class="required" th:text="#{cmdb.type.label.parentType}" for="txtParentType"></label>
+                    <input id="txtParentType" name="txtParentType" type="text" value="" maxlength="100" readonly/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label class="required" th:text="#{cmdb.type.label.name}" for="txtTypeName"></label>
+                    <input id="txtTypeName" name="txtTypeName" type="text" value="" maxlength="100"/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{cmdb.type.label.description}" for="txtTypeDesc"></label>
+                    <textarea id="txtTypeDesc" name="txtTypeDesc" th:maxlength="200" th:rows="7"
+                              class="textarea-scroll-wrapper" text=""></textarea>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{cmdb.type.label.icon}" for="txtTypeDesc"></label>
+                    <div class="flex-row input-button">
+                        <input class="col-pct-12" id="typeIcon" name="typeIcon" value="" readonly>
+                        <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
+                    </div>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{cmdb.type.label.class}" for="txtTypeDesc"></label>
+                    <div class="flex-row input-button">
+                        <input class="col-pct-12" id="typeClass" name="typeClass" value="" readonly>
+                        <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-row justify-content-end">
+            <div class="btn-list">
+                <button sec:authorize="hasAuthority('cmdb.type.create')"
+                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                <button sec:authorize="hasAuthority('cmdb.type.update')"
+                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+                <button sec:authorize="hasAuthority('cmdb.type.delete')"
+                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        window.addEventListener('load', function() {
+            document.getElementById('search').focus();
+            onCreate();
+
+            function getTypeList() {
+                tree.load({
+                    search: encodeURIComponent(document.querySelector('#search').value),
+                    source: 'ciType',
+                    target: 'treeList',
+                    text: 'typeName',
+                    totalCount: true,
+                    selectedNode: function(response) {
+                        onGetDetail(response.id)
+                    }
+                });
+            }
+            getTypeList();
+
+            // 상세조회
+            function onGetDetail(typeId) {
+            }
+            OverlayScrollbars(document.querySelector('.list-tree'), { className: 'scrollbar' });
+            document.getElementById('search').addEventListener('keyup', function() {
+                getTypeList();
+            });
+            OverlayScrollbars(document.querySelector('.type-content-edit'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('#txtTypeDesc'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
+        });
+
+        /** create **/
+        function onCreate() {
+            document.querySelector('#btnUpdate').style.display = 'none';
+            document.querySelector('#btnUpdate').setAttribute('disabled', 'true');
+            document.querySelector('#btnDelete').style.display = 'none';
+            document.querySelector('#btnDelete').setAttribute('disabled', 'true');
+            document.querySelector('#btnRegist').removeAttribute('disabled');
+            document.querySelector('#btnRegist').style.display = 'block';
+            document.querySelectorAll('input[type=text]').forEach(function(object){
+                object.value = '';
+            });
+            document.querySelector('textarea').value = '';
+
+            let selectedNode = tree.getTreeSelectNode();
+            if (selectedNode !== null) {
+                document.querySelector('#txtParentType').value = selectedNode.id;
+            }
+        }
+
+        function onEdit() {
+        }
+
+        /** save **/
+        function onSave(method) {
+        }
+
+        /** delete **/
+        function onDelete() {
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

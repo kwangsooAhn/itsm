@@ -19,6 +19,7 @@
     // 기본값 셋팅.
     let defaults = {
         view: '',                               // '': 전체, modal: 모달
+        source: '',                             // 데이터 경로 (code, ci type, ci Class, ...)
         title: '',                              // 제목 (option)
         root: '',                               // 트리 최상위 부모
         rootLevel: 0,                           // 트리 취상위 레벨
@@ -111,18 +112,25 @@
              */
             createNode: function(item, p_expanded, p_depth, p_parentNode) {
                 let v_tree = this;
+                let node_id = '';
+                if (item.code !== '' && item.code !== undefined) {
+                    node_id = item.code;
+                } else {
+                    node_id = item.typeId;
+                }
                 let node = {
-                    id: item.code,
+                    id: node_id,
                     text: item[options.text],
                     parent: p_parentNode,
                     expanded : p_expanded,
                     childNodes : [],
                     elementLi: null,
                     depth: p_depth,
-                    data: { // node 에 원하는 데이터를 추가한다.
+                    data: { // Todo: node에 원하는 데이터를 추가한다.
                         name: item.codeName || '',
                         value: item.codeValue || '',
-                        editable: item.editable || false
+                        editable: item.editable || false,
+                        icon: item.typeIcon || ''
                     },
                     removeNode: function() { v_tree.removeNode(this); },
                     toggleNode: function(p_event) { v_tree.toggleNode(this); },
@@ -195,6 +203,10 @@
                 }
                 if (p_node.childNodes.length === 0 && options.leafIcon !== '') {
                     v_icon_image = options.leafIcon;
+                }
+                // Todo: 추후 CI 아이콘 경로 수정 필요
+                if (options.source === 'ciType' && p_node.data.icon === 'database_postgresql.svg') {
+                    v_icon_image = iconPath + '/' + p_node.data.icon;
                 }
                 v_icon = createImgElement(null, 'icon_tree', v_icon_image);
 
@@ -459,6 +471,9 @@
     function makeTree() {
         const tree = createTree();
         makeNode(tree);
+
+        console.log(tree);
+
         tree.drawTree();
 
         // 기존 값이 존재할 경우 자동 선택.
@@ -477,10 +492,24 @@
      */
     function getRecursiveParentCode(code, pArray) {
         options.data.forEach(function (item) {
-           if (item.code === code) {
-               if (item.pcode !== null) {
-                   pArray.push(item.pcode);
-                   getRecursiveParentCode(item.pcode, pArray);
+            let p_node_id = '';
+            let node_id = '';
+
+            if (item.code !== '' && item.code !== undefined) {
+                p_node_id = item.pcode;
+                node_id = item.code;
+            } else {
+                p_node_id = item.ptypeId;
+                node_id = item.typeId;
+            }
+
+            console.log(p_node_id);
+            console.log(node_id);
+
+           if (node_id === code) {
+               if (p_node_id !== null) {
+                   pArray.push(p_node_id);
+                   getRecursiveParentCode(p_node_id, pArray);
                }
            }
         });
@@ -506,13 +535,15 @@
 
         // Node 생성
         options.data.forEach(function (item) {
-            if (item.level === options.rootLevel) {
+            if (item.level === options.rootLevel || item.typeLevel === options.rootLevel) {
                 let expand = false;
-                if (expandObject.length > 0 && expandObject.indexOf(item.code) > -1) {
+                if (expandObject.length > 0 && expandObject.indexOf(item) > -1) {
                     expand = true;
                 }
                 let firstNode = tree.createNode(item, expand, 1, null);
-                createChildNode(firstNode, item.level, expandObject, 2);
+                let level = item.level !== undefined ? item.level:item.typeLevel;
+
+                createChildNode(firstNode, level, expandObject, 2);
             }
         });
     }
@@ -527,9 +558,15 @@
      */
     function createChildNode(node, level, expandObject, depth) {
         options.data.forEach(function (item) {
-            if (node.id === item.pcode) {
+            let p_node_id = '';
+            if (options.source === '') {
+                p_node_id = item.pcode;
+            } else {
+                p_node_id = item.ptypeId;
+            }
+            if (node.id === p_node_id) {
                 let expand = false;
-                if (expandObject !== null && expandObject.indexOf(item.code) > -1) {
+                if (expandObject !== null && expandObject.indexOf(item) > -1) {
                     expand = true;
                 }
                 let newNode = node.createChildNode(item, expand, depth);
@@ -619,9 +656,18 @@
                 }
             });
         }
+
+        // data source 옵션에 따라 데이터를 load 한다.
+        let dataUrl = '';
+        if (options.source === 'ciType') {
+            dataUrl = '/rest/cmdb/types?search=' + options.search;
+        } else {
+            dataUrl = '/rest/codes?pCode=' + options.root + '&search=' + options.search;
+        }
+
         aliceJs.sendXhr({
             method: 'get',
-            url: '/rest/codes?pCode=' + options.root + '&search=' + options.search,
+            url: dataUrl,
             async: false,
             contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
