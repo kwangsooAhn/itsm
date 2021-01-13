@@ -25,4 +25,18 @@ object RestTemplateConstants {
         PUT_ATTRIBUTE("/rest/cmdb/eg/attriubtes/{attributeId}", "PUT"),
         DELETE_ATTRIBUTE("/rest/cmdb/eg/attriubtes/{attributeId}", "DELETE")
     }
+
+    /**
+     * Class Url.
+     *
+     * @Param url
+     * @Param method
+     */
+    enum class Class(val url: String, val method: String) {
+        GET_CLASSES("/rest/cmdb/eg/classes","GET"),
+        GET_CLASS("/rest/cmdb/eg/classes/{classId}","GET"),
+        POST_CLASS("/rest/cmdb/eg/classes", "POST"),
+        PUT_CLASS("/rest/cmdb/eg/classes/{classId}", "PUT"),
+        DELETE_CLASS("/rest/cmdb/eg/classes/{classId}", "DELETE")
+    }
 }

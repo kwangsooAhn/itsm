@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{cmdb.class.label.management}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="cmdb-class-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{cmdb.class.label.management}"></h1>
+            <h6 class="description" th:text="#{cmdb.class.msg.editDescription}"></h6>
+        </div>
+        <div class="header-search flex-row">
+            <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
+                   th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
+            <div class="ml-auto">
+                <button type="button" class="default-fill" id="btnImport" name="btnImport"
+                        sec:authroize="hasAuthority('cmdb.class.create')" th:text="#{cmdb.class.btn.import}"></button>
+                <button type="button" class="default-fill" id="btnCreate" name="btnCreate" onclick="onCreate();"
+                        sec:authorize="hasAuthority('cmdb.class.create')" th:text="#{common.btn.add}"></button>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="aside">
+    <div class="aside">
+        <div class="cmdb-class-content-edit flex-column">
+            <div class="edit-form">
+                <div class="edit-row flex-column">
+                    <label class="form-title" th:text="#{cmdb.class.label.classId}"></label>
+                    <input type="text" id="classId" name="classId"/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label class="form-title" th:text="#{cmdb.class.label.pClassId}" for="txtPClassId"></label>
+                    <input type="text" id="txtPClassId" name="txtPClassId" maxlength="128"/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label class="required" th:text="#{cmdb.class.label.name}" for="txtClassName"></label>
+                    <input type="text" id="txtClassName" name="txtClassName" maxlength="100"/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label class="form-title" th:text="#{cmdb.class.label.description}" for="txtClassDesc"></label>
+                    <textarea id="txtClassDesc" name="txtClassDesc" th:maxlength="500" th:rows="7"
+                              class="textarea-scroll-wrapper"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="flex-row justify-content-end">
+            <div class="btn-list">
+                <button sec:authorize="hasAuthority('cmdb.class.create')"
+                        class="default-fill" type="button" id="btnExport" name="btnExport"
+                        th:text="#{cmdb.class.btn.export}"></button>
+                <button sec:authorize="hasAuthority('cmdb.class.create')"
+                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                <button sec:authorize="hasAuthority('cmdb.class.update')"
+                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+                <button sec:authorize="hasAuthority('cmdb.class.delete')"
+                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:text="#{common.btn.delete}"></button>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        const STATUS_SUCCESS = '0';
+        const STATUS_SUCCESS_EDIT_CLASS = '1';
+
+        /** CMDB Class 추가 **/
+        function onSave(method) {
+            const jsonData = {
+                pclassId: document.getElementById('txtPClassId').value,
+                className: document.getElementById('txtClassName').value,
+                classDesc: document.getElementById('txtClassDesc').value
+            };
+
+            if (jsonData.className === null || jsonData.className.trim() === '') {
+                aliceJs.alertWarning([[#{cmdb.class.msg.enterClassName}]]);
+                return false;
+            }
+
+            let url = '/rest/cmdb/classes';
+            if (method !== 'post') {
+                url += '/' + document.getElementById('classId').value;
+            }
+
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(jsonData),
+                contentType: 'application/json',
+                callbackFunc: function (response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.register'), function () {
+                                window.location.href = '/cmdb/class/edit';
+                            });
+                            break;
+                        case STATUS_SUCCESS_EDIT_CLASS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.update'), function () {
+                                window.location.href = '/cmdb/class/edit';
+                            });
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /** CMDB Class 삭제 **/
+        function onDelete() {
+            const opt = {
+                method: 'delete',
+                url: '/rest/cmdb/classes/' + document.getElementById('classId').value,
+                callbackFunc: function (response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                                window.location.href = '/cmdb/class/edit';
+                            });
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt)
+        }
+
+        /*]]>*/
+    </script>
+</th:block>
+
+</html>
