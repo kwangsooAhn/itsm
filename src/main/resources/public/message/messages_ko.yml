@@ -243,6 +243,9 @@ cmdb:
       class: "Class"
     msg:
       searchDescription: "CI Type을 조회 및 관리합니다."
+    btn:
+      import: "가져오기"
+      export: "내보내기"
 
 # Code
 code:
