@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="type-header">
+    <div class="cmdb-type-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{cmdb.type.label.management}"></h1>
             <h6 class="description" th:text="#{cmdb.type.msg.searchDescription}"></h6>
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="type-content flex-fill">
+    <div class="cmdb-type-content flex-fill">
         <div class="list-tree">
             <div id="treeList"></div>
         </div>
@@ -33,7 +33,7 @@
 </th:block>
 <th:block layout:fragment="aside">
     <div class="aside tree">
-        <div class="type-content-edit flex-column">
+        <div class="cmdb-type-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.parentType}" for="txtParentType"></label>

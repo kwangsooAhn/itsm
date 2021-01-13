@@ -471,9 +471,6 @@
     function makeTree() {
         const tree = createTree();
         makeNode(tree);
-
-        console.log(tree);
-
         tree.drawTree();
 
         // 기존 값이 존재할 경우 자동 선택.
@@ -492,24 +489,10 @@
      */
     function getRecursiveParentCode(code, pArray) {
         options.data.forEach(function (item) {
-            let p_node_id = '';
-            let node_id = '';
-
-            if (item.code !== '' && item.code !== undefined) {
-                p_node_id = item.pcode;
-                node_id = item.code;
-            } else {
-                p_node_id = item.ptypeId;
-                node_id = item.typeId;
-            }
-
-            console.log(p_node_id);
-            console.log(node_id);
-
-           if (node_id === code) {
-               if (p_node_id !== null) {
-                   pArray.push(p_node_id);
-                   getRecursiveParentCode(p_node_id, pArray);
+           if (item.code === code) {
+               if (item.pcode !== null) {
+                   pArray.push(item.pcode);
+                   getRecursiveParentCode(item.pcode, pArray);
                }
            }
         });
@@ -541,9 +524,7 @@
                     expand = true;
                 }
                 let firstNode = tree.createNode(item, expand, 1, null);
-                let level = item.level !== undefined ? item.level:item.typeLevel;
-
-                createChildNode(firstNode, level, expandObject, 2);
+                createChildNode(firstNode, item.level !== undefined ? item.level : item.typeLevel, expandObject, 2);
             }
         });
     }
@@ -558,12 +539,7 @@
      */
     function createChildNode(node, level, expandObject, depth) {
         options.data.forEach(function (item) {
-            let p_node_id = '';
-            if (options.source === '') {
-                p_node_id = item.pcode;
-            } else {
-                p_node_id = item.ptypeId;
-            }
+            let p_node_id = options.source === '' ? item.pcode : item.ptypeId;
             if (node.id === p_node_id) {
                 let expand = false;
                 if (expandObject !== null && expandObject.indexOf(item) > -1) {
@@ -659,10 +635,13 @@
 
         // data source 옵션에 따라 데이터를 load 한다.
         let dataUrl = '';
-        if (options.source === 'ciType') {
-            dataUrl = '/rest/cmdb/types?search=' + options.search;
-        } else {
-            dataUrl = '/rest/codes?pCode=' + options.root + '&search=' + options.search;
+        switch (options.source) {
+            case 'ciType':
+                dataUrl = '/rest/cmdb/types?search=' + options.search;
+                break;
+            default:
+                dataUrl = '/rest/codes?pCode=' + options.root + '&search=' + options.search;
+                break;
         }
 
         aliceJs.sendXhr({

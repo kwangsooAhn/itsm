@@ -6,8 +6,12 @@
 
 package co.brainz.cmdb.type.entity
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.NotFound
+import org.hibernate.annotations.NotFoundAction
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -30,9 +34,25 @@ data class CmdbTypeEntity(
     @Column(name = "default_class_id", length = 128)
     val defaultClassId: String = "",
 
-    @Column(name = "p_type_id")
-    val ptypeId: String = "",
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "p_type_id")
+    @NotFound(action = NotFoundAction.IGNORE)
+    val ptypeId: CmdbTypeEntity? = null,
 
     @Column(name = "type_icon", length = 200)
-    val typeIcon: String = ""
+    val typeIcon: String = "",
+
+    @Column(name = "create_dt", nullable = false, updatable = false)
+    var createDt: LocalDateTime? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key")
+    var createUser: AliceUserEntity? = null,
+
+    @Column(name = "update_dt", insertable = false)
+    var updateDt: LocalDateTime? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "update_user_key", referencedColumnName = "user_key")
+    var updateUser: AliceUserEntity? = null
 ) : Serializable
