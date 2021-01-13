@@ -39,7 +39,6 @@ class ClassController(private val classService: ClassService) {
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = classService.getCmdbClasses(params)
         model.addAttribute("classList", result)
-        model.addAttribute("classListCount", if(result.isNotEmpty()) result[0].totalCount else 0)
         return classListPage
     }
 }

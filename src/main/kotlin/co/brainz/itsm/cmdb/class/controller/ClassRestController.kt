@@ -26,7 +26,7 @@ class ClassRestController(private val classService: ClassService) {
      * CMDB Class 단일 조회
      */
     @GetMapping("/{classId}")
-    fun getCmdbClass(@PathVariable classId: String): CmdbClassListDto {
+    fun getCmdbClass(@PathVariable classId: String): CmdbClassDto {
         return classService.getCmdbClass(classId)
     }
 

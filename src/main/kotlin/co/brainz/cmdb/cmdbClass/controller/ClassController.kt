@@ -4,10 +4,9 @@
  *
  */
 
-package co.brainz.cmdb.`class`.controller
+package co.brainz.cmdb.cmdbClass.controller
 
-import co.brainz.cmdb.`class`.service.ClassService
-import co.brainz.cmdb.provider.CmdbDummyProvider
+import co.brainz.cmdb.cmdbClass.service.ClassService
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import com.fasterxml.jackson.databind.DeserializationFeature

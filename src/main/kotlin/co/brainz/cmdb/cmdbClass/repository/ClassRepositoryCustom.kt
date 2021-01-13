@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.cmdb.`class`.repository
+package co.brainz.cmdb.cmdbClass.repository
 
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom

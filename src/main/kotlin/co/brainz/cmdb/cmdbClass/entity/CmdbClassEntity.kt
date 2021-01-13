@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.cmdb.`class`.entity
+package co.brainz.cmdb.cmdbClass.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable

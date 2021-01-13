@@ -34,7 +34,7 @@ class ClassService(
     /**
      * CMDB Class 단일 조회
      */
-    fun getCmdbClass(classId: String): CmdbClassListDto {
+    fun getCmdbClass(classId: String): CmdbClassDto {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.GET_CLASS.url.replace(
                 restTemplate.getKeyRegex(),
@@ -44,7 +44,7 @@ class ClassService(
         val responseBody = restTemplate.get(url)
         return mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassDto::class.java)
+            mapper.typeFactory.constructType(CmdbClassDto::class.java)
         )
     }
 

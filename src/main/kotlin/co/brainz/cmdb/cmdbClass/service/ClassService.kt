@@ -4,16 +4,17 @@
  *
  */
 
-package co.brainz.cmdb.`class`.service
+package co.brainz.cmdb.cmdbClass.service
 
-import co.brainz.cmdb.`class`.entity.CmdbClassEntity
-import co.brainz.cmdb.`class`.repository.ClassRepository
+import co.brainz.cmdb.cmdbClass.entity.CmdbClassEntity
+import co.brainz.cmdb.cmdbClass.repository.ClassRepository
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import org.slf4j.LoggerFactory
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -28,13 +29,13 @@ class ClassService(
      * CMDB Class 단일 조회
      */
     fun getCmdbClass(classId: String): CmdbClassDto {
-        var cmdbClassEntity = classRepository.findByClassId(classId)
+        var cmdbClassEntity = classRepository.getOne(classId)
 
         val cmdbClassDto = CmdbClassDto(
-            classId = cmdbClassEntity!!.classId,
-            className = cmdbClassEntity!!.className,
-            classDesc = cmdbClassEntity!!.classDesc,
-            pclassId = cmdbClassEntity!!.pClassId
+            classId = cmdbClassEntity.classId,
+            className = cmdbClassEntity.className,
+            classDesc = cmdbClassEntity.classDesc,
+            pclassId = cmdbClassEntity.pClassId
         )
         return cmdbClassDto
     }
@@ -75,7 +76,7 @@ class ClassService(
      * CMDB Class 수정
      */
     fun updateCmdbClass(classId: String, cmdbClassDto: CmdbClassDto): Boolean {
-        val cmdbClassEntity = classRepository.findByClassId(classId) ?: throw AliceException(
+        val cmdbClassEntity = classRepository.findByIdOrNull(classId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
         )
@@ -95,7 +96,7 @@ class ClassService(
      * CMDB Class 삭제
      */
     fun deleteCmdbClass(classId: String): Boolean {
-        val classEntity = classRepository.findByClassId(classId) ?: throw AliceException(
+        val classEntity = classRepository.findByIdOrNull(classId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
         )

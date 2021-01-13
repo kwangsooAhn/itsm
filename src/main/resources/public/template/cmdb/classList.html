@@ -7,21 +7,19 @@
 <table class="list-table">
     <thead class="list-head">
     <tr class="flex-row align-items-center">
-        <th style="width:25%;" class="align-left" th:text="#{cmdb.class.label.classId}"></th>
-        <th style="width:25%;" class="align-left" th:text="#{cmdb.class.label.className}"></th>
-        <th style="width:25%;" class="align-left" th:text="#{cmdb.class.label.classDesc}"></th>
-        <th style="width:25%;" class="align-left" th:text="#{cmdb.class.label.pClassId}"></th>
+        <th style="width:33%;" class="align-left" th:text="#{cmdb.class.label.name}"></th>
+        <th style="width:33%;" class="align-left" th:text="#{cmdb.class.label.description}"></th>
+        <th style="width:34%;" class="align-left" th:text="#{cmdb.class.label.pClassId}"></th>
     </tr>
     </thead>
     <tbody class="list-body">
     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(classList)}">
-        <td style="width:100%" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
+        <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
     <tr class="flex-row align-items-center" th:each="class : ${classList}">
-        <td style="width:25%;" class="align-left" id="classId" name="classId" th:text="${class.classId}"></td>
-        <td style="width:25%;" class="align-left" id="className" name="className" th:text="${class.className}"></td>
-        <td style="width:25%;" class="align-left" id="classDesc" name="classDesc" th:text="${class.classDesc}"></td>
-        <td style="width:25%;" class="align-left" id="pClassId" name="pClassId" th:text="${class.pClassId}"></td>
+        <td style="width:33%;" class="align-left" th:id="${class.classId}" name="className" th:text="${class.className}"></td>
+        <td style="width:33%;" class="align-left" id="classDesc" name="classDesc" th:text="${class.classDesc}"></td>
+        <td style="width:34%;" class="align-left" id="pClassId" name="pClassId" th:text="${class.pClassId}"></td>
     </tr>
     </tbody>
 </table>

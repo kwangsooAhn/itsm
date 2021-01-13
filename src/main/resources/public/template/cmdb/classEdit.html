@@ -16,6 +16,7 @@
         <div class="header-search flex-row">
             <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
+            <span id="totalCount" class="txt-num"></span>
             <div class="ml-auto">
                 <button type="button" class="default-fill" id="btnImport" name="btnImport"
                         sec:authroize="hasAuthority('cmdb.class.create')" th:text="#{cmdb.class.btn.import}"></button>
@@ -24,15 +25,15 @@
             </div>
         </div>
     </div>
+    <div class="role-content flex-fill">
+        <div class="list" id="cmdbClassList"></div>
+    </div>
 </th:block>
 <th:block layout:fragment="aside">
     <div class="aside">
         <div class="class-content-edit flex-column">
             <div class="edit-form">
-                <div class="edit-row flex-column">
-                    <label class="form-title" th:text="#{cmdb.class.label.classId}"></label>
-                    <input type="text" id="classId" name="classId"/>
-                </div>
+                <input type="hidden" id="txtClassId" name="txtClassId"/>
                 <div class="edit-row flex-column">
                     <label class="form-title" th:text="#{cmdb.class.label.pClassId}" for="txtPClassId"></label>
                     <input type="text" id="txtPClassId" name="txtPClassId" maxlength="128"/>
@@ -71,31 +72,116 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        let CMDB_CLASS_CREATE = false;
+        let CMDB_CLASS_DELETE = false;
+        let CMDB_CLASS_UPDATE = false;
         const STATUS_SUCCESS = '0';
         const STATUS_SUCCESS_EDIT_CLASS = '1';
 
-        /** CMDB Class 추가 **/
-        function onSave(method) {
-            const jsonData = {
-                pclassId: document.getElementById('txtPClassId').value,
-                className: document.getElementById('txtClassName').value,
-                classDesc: document.getElementById('txtClassDesc').value
-            };
+        window.onload = function () {
+            getCmdbClassList(true);
 
-            if (jsonData.className === null || jsonData.className.trim() === '') {
-                aliceJs.alertWarning([[#{cmdb.class.msg.enterClassName}]]);
-                return false;
+            if (document.getElementById('btnUpdate') !== null) {
+                CMDB_CLASS_UPDATE = true;
             }
 
-            let url = '/rest/cmdb/classes';
-            if (method !== 'post') {
-                url += '/' + document.getElementById('classId').value;
+            if (document.getElementById('btnRegist') !== null) {
+                CMDB_CLASS_CREATE = true;
+            }
+
+            if (document.getElementById('btnDelete') !== null) {
+                CMDB_CLASS_DELETE = true;
+            }
+
+            if (document.getElementById('txtClassId').value !== null && document.getElementById('txtClassId').value !== '') {
+                if (CMDB_CLASS_UPDATE) {
+                    document.getElementById('btnUpdate').style.display = 'inline-block';
+                }
+                if (CMDB_CLASS_CREATE) {
+                    document.getElementById('btnRegist').style.display = 'none';
+                }
+            }
+
+            let cmdbClassList = document.querySelectorAll('td[name=className]');
+            for (let i = 0; i < cmdbClassList.length; i++) {
+                cmdbClassList[i].addEventListener('click', function () {
+                    let activeTr = document.querySelector('tr.active');
+                    if (activeTr !== null) {
+                        activeTr.classList.remove('active');
+                    }
+                    this.parentElement.classList.add('active');
+                    if (PATTERN_UPDATE) {
+                        document.getElementById('btnUpdate').style.display = 'inline-block';
+                    }
+                    if (PATTERN_CREATE) {
+                        document.getElementById('btnRegist').style.display = 'none';
+                    }
+                    onGetDetail(this.id);
+                });
+            }
+
+            document.getElementById('search').focus();
+            document.getElementById('search').addEventListener('keyup', function () {
+                getCmdbClassList(false);
+            });
+
+            OverlayScrollbars(document.querySelectorAll('.class-content-edit'), {className: 'scrollbar'})
+        };
+
+        /** CMDB Class 상세 정보 **/
+        function onGetDetail(cmdbClassName) {
+            const opt = {
+                method: 'get',
+                url: '/rest/cmdb/classes/' + encodeURIComponent(cmdbClassName),
+                callbackFunc: function (response) {
+                    let responseJson = JSON.parse(response.responseText);
+                    document.getElementById('txtClassId').value = responseJson.classId;
+                    document.getElementById('txtPClassId').value = responseJson.pclassId;
+                    document.getElementById('txtClassName').value = responseJson.className;
+                    document.getElementById('txtClassDesc').value = responseJson.classDesc;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /** 추가 버튼 **/
+        function onCreate() {
+            document.getElementById('txtClassId').value = '';
+            document.getElementById('txtPClassId').value = '';
+            document.getElementById('txtClassName').value = '';
+            document.getElementById('txtClassDesc').value = '';
+            document.getElementById('btnExport').style.display = 'none';
+
+            if (CMDB_CLASS_UPDATE) {
+                document.getElementById('btnUpdate').style.display = 'none';
+                document.getElementById('btnExport').style.display = 'none';
+            }
+            if (CMDB_CLASS_CREATE) {
+                document.getElementById('btnRegist').style.display = 'inline-block';
+            }
+            if (CMDB_CLASS_DELETE) {
+                document.getElementById('btnDelete').style.display = 'none';
+            }
+        }
+
+        /** CMDB Class 등록, 수정 **/
+        function onSave(flag) {
+            if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
+
+            let obj = {};
+            obj.pclassId = document.getElementById('txtPClassId').value;
+            obj.className = document.getElementById('txtClassName').value;
+            obj.classDesc = document.getElementById('txtClassDesc').value;
+
+            let strUrl = '/rest/cmdb/classes';
+            if (flag !== 'post') {
+                strUrl += '/' + document.getElementById('txtClassId').value;
             }
 
             const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(jsonData),
+                method: flag,
+                url: strUrl,
+                params: JSON.stringify(obj),
                 contentType: 'application/json',
                 callbackFunc: function (response) {
                     switch (response.responseText) {
@@ -122,7 +208,7 @@
         function onDelete() {
             const opt = {
                 method: 'delete',
-                url: '/rest/cmdb/classes/' + document.getElementById('classId').value,
+                url: '/rest/cmdb/classes/' + document.getElementById('txtClassId').value,
                 callbackFunc: function (response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
@@ -138,6 +224,54 @@
             };
             aliceJs.sendXhr(opt)
         }
+
+        /** CMDB Class List 출력 기능 **/
+        function getCmdbClassList(showProgressbar) {
+            const data = {
+                search: encodeURIComponent(document.getElementById('search').value)
+            };
+            const urlParam = 'search=' + data.search;
+            const opt = {
+                method: 'get',
+                url: '/cmdb/class?' + urlParam,
+                showProgressbar: showProgressbar,
+                callbackFunc: function (response) {
+                    document.getElementById('cmdbClassList').innerHTML = response.responseText;
+                    let cmdbClassList = document.querySelectorAll('td[name=className]');
+                    document.getElementById('totalCount').textContent = i18n.msg("common.label.count", cmdbClassList.length);
+                    if (response.responseText.indexOf('no-data-found') === -1) {
+                        for (let i = 0; i < cmdbClassList.length; i++) {
+                            cmdbClassList[i].style.cursor = 'pointer';
+                            cmdbClassList[i].addEventListener('click', function () {
+                                let activeTr = document.querySelector('tr.active');
+                                if (activeTr !== null) {
+                                    activeTr.classList.remove('active');
+                                }
+                                this.parentElement.classList.add('active');
+                                if (CMDB_CLASS_UPDATE) {
+                                    document.getElementById('btnExport').style.display = 'inline-block';
+                                    document.getElementById('btnUpdate').style.display = 'inline-block';
+                                }
+                                if (CMDB_CLASS_CREATE) {
+                                    document.getElementById('btnRegist').style.display = 'none';
+                                }
+                                if (CMDB_CLASS_DELETE) {
+                                    document.getElementById('btnDelete').style.display = 'inline-block';
+                                }
+                                onGetDetail(this.id);
+                            });
+                        }
+                        if (cmdbClassList.length > 0) {
+                            document.querySelector('td[name=className]').click();
+                        }
+                        OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
+                    } else {
+                        onCreate();
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        };
 
         /*]]>*/
     </script>
