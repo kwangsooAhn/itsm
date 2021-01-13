@@ -101,4 +101,5 @@ insert into awf_menu_auth_map values ('workflow.process', 'process.read');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.attribute.read');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.type.read');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.attribute.read');
+insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.class.read');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.read');

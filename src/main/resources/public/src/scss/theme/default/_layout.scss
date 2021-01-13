@@ -59,8 +59,8 @@
     background-color: $white;
     padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
 
-    // 트리 화면은 너비가 다름
-    &.tree { width: 62.5rem; } // 1000px
+    // 코드 화면은 너비가 다름
+    &.code { width: 62.5rem; } // 1000px
   }
 }
 // 슬라이드 효과
@@ -102,6 +102,7 @@
 // 업무흐름 관리 > 이미지 관리
 // 업무흐름 관리 > 패턴
 // 업무흐름 관리 > 문서번호
+// CMDB > Class
 .notice-header,
 .faq-header,
 .download-header,
@@ -119,7 +120,8 @@
 .numbering-pattern-header,
 .numbering-rule-header,
 .attribute-header,
-.type-header {
+.cmdb-class-header,
+.cmdb-type-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
@@ -292,13 +294,14 @@
   background-color: $white;
   border-top: $layout-header-border;
 }
-// 역할, 권한, 코드, 패턴, 문서번호
+// 역할, 권한, 코드, 패턴, 문서번호, CMDB Class, CMDB Type
 .auth-content-edit,
 .role-content-edit,
 .code-content-edit,
-.type-content-edit,
 .numbering-pattern-content-edit,
-.numbering-rule-content-edit {
+.numbering-rule-content-edit,
+.cmdb-class-content-edit,
+.cmdb-type-content-edit {
   height: 41.25rem; // 660px
   margin: 0 0 1.875rem 0; // 30px
   // 스크롤바 

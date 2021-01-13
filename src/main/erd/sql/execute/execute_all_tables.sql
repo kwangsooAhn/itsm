@@ -56,10 +56,10 @@ insert into awf_auth values ('cmdb.attribute.read', 'CMDB Attribute 조회', 'CM
 insert into awf_auth values ('cmdb.attribute.create', 'CMDB Attribute 생성', 'CMDB Attribute 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.update', 'CMDB Attribute 변경', 'CMDB Attribute 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.delete', 'CMDB Attribute 삭제', 'CMDB Attribute 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('cmdb.type.read', 'CMDB Type 조회', 'CMDB Type 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('cmdb.type.create', 'CMDB Type 생성', 'CMDB Type 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('cmdb.type.update', 'CMDB Type 변경', 'CMDB Type 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('cmdb.type.delete', 'CMDB Type 삭제', 'CMDB Type 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.class.read', 'CMDB Class 조회', 'CMDB Class 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.class.create', 'CMDB Class 생성', 'CMDB Class 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.class.update', 'CMDB Class 변경', 'CMDB Class 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.class.delete', 'CMDB Class 삭제', 'CMDB Class 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('code.create', '코드 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('code.delete', '코드 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('code.read', '코드 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -205,6 +205,7 @@ insert into awf_code values ('telephone', 'reception_type', '전화', '전화', 
 insert into awf_code values ('script', 'root', null, null, null, false, 1, 8, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type', 'script', 'Script Type', null, null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type.document.attachFile', 'script.type', '[문서편집] 첨부파일', null, null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script.type.cmdb', 'script.type', '[CMDB] CI 반영', null, null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token', 'root', null, '토큰 관련 코드', null, false, 1, 9, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status', 'token', null, '토큰 상태 코드', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status.cancel', 'token.status', null, '취소', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -548,7 +549,7 @@ insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberin
 insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/edit', 7, true);
 insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
-insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
+insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -651,9 +652,8 @@ insert into awf_menu_auth_map values ('workflow.process', 'process.create');
 insert into awf_menu_auth_map values ('workflow.process', 'process.update');
 insert into awf_menu_auth_map values ('workflow.process', 'process.read');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.attribute.read');
-insert into awf_menu_auth_map values ('cmdb', 'cmdb.type.read');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.attribute.read');
-insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.read');
+insert into awf_menu_auth_map values('cmdb.class', 'cmdb.class.read');
 
 /**
  * 알림
@@ -817,10 +817,10 @@ insert into awf_role_auth_map values ('admin', 'cmdb.attribute.read');
 insert into awf_role_auth_map values ('admin', 'cmdb.attribute.create');
 insert into awf_role_auth_map values ('admin', 'cmdb.attribute.update');
 insert into awf_role_auth_map values ('admin', 'cmdb.attribute.delete');
-insert into awf_role_auth_map values ('admin', 'cmdb.type.read');
-insert into awf_role_auth_map values ('admin', 'cmdb.type.create');
-insert into awf_role_auth_map values ('admin', 'cmdb.type.update');
-insert into awf_role_auth_map values ('admin', 'cmdb.type.delete');
+insert into awf_role_auth_map values ('admin', 'cmdb.class.read');
+insert into awf_role_auth_map values ('admin', 'cmdb.class.create');
+insert into awf_role_auth_map values ('admin', 'cmdb.class.update');
+insert into awf_role_auth_map values ('admin', 'cmdb.class.delete');
 insert into awf_role_auth_map values ('admin', 'custom.code.create');
 insert into awf_role_auth_map values ('admin', 'custom.code.read');
 insert into awf_role_auth_map values ('admin', 'custom.code.update');
@@ -1225,9 +1225,7 @@ insert into awf_url values ('/certification/status', 'get', '메일 인증 상�
 insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'FALSE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
-insert into awf_url values ('/cmdb/types', 'get', 'CMDB Type 관리', 'TRUE');
-insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
-insert into awf_url values ('/rest/cmdb/types', 'get', 'CMDB Type 조회', 'TRUE');
+insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/codes/edit', 'get', '코드 편집 화면', 'TRUE');
 insert into awf_url values ('/custom-codes', 'get', '사용자 정의 코드 리스트 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/new', 'get', '사용자 정의 코드 신규 등록 화면', 'TRUE');
@@ -1307,6 +1305,11 @@ insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '�
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
+insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
+insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/classes/{id}', 'put', 'CMDB Class 수정', 'TRUE');
+insert into awf_url values ('/rest/cmdb/classes/{id}', 'delete', 'CMDB Class 삭제', 'TRUE');
 insert into awf_url values ('/rest/codes', 'post', '코드 등록', 'TRUE');
 insert into awf_url values ('/rest/codes', 'get', '코드 전체 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
@@ -1486,8 +1489,7 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.delete');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
-insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
-insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
+insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.delete');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.update');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.read');
@@ -1612,7 +1614,17 @@ insert into awf_url_auth_map values ('/rest/boards/articles/comments/{id}', 'del
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'board.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
-insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.read');
+insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
+insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
+insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.update');
+insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.delete');
+insert into awf_url_auth_map values ('/rest/cmdb/classes', 'post', 'cmdb.class.create');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.class.read');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.class.create');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.class.update');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.class.delete');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'put', 'cmdb.class.update');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.class.delete');
 insert into awf_url_auth_map values ('/rest/codes', 'get', 'code.read');
 insert into awf_url_auth_map values ('/rest/codes', 'post', 'code.create');
 insert into awf_url_auth_map values ('/rest/codes', 'get', 'code.delete');
@@ -2591,7 +2603,6 @@ COMMENT ON COLUMN cmdb_class.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_class.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_class.update_dt IS '수정일시';
 
-insert into cmdb_class values ('root', '', '', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('df562114ab87c066adeaea79b2e4a8a2', 'Server', '서버 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('0d51e482f1a56e1074f69b5a1bce0138', 'Network', '네트워크 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('85b3c35b31059e63aaa36ce2587ea070', 'Database', '데이터베이스 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -2640,12 +2651,12 @@ COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_type.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_type.update_dt IS '수정일시';
 
-insert into cmdb_type values ('587b4557275bcce81664db9e12485ae2', 'root', '서버', null, 1, 'df562114ab87c066adeaea79b2e4a8a2', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('f18c064040304e493f4dc7385595601f', 'root', '네트워크', null, 1, '0d51e482f1a56e1074f69b5a1bce0138', 'network.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('b2dac0d38b39a4f8da7b98c56e831465', 'root', '데이터베이스', null, 1, '85b3c35b31059e63aaa36ce2587ea070', 'database.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('587b4557275bcce81664db9e12485ae2', null, '서버', null, 1, 'df562114ab87c066adeaea79b2e4a8a2', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('f18c064040304e493f4dc7385595601f', null, '네트워크', null, 1, '0d51e482f1a56e1074f69b5a1bce0138', 'network.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('b2dac0d38b39a4f8da7b98c56e831465', null, '데이터베이스', null, 1, '85b3c35b31059e63aaa36ce2587ea070', 'database.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('b1e60cb705e329ffbb5abf18e11cc32f', 'b2dac0d38b39a4f8da7b98c56e831465', '데이터베이스_PostgresSQL', null, 2, 'e6663412f62bd2d3daeeadd7a36a0b0d', 'database_postgresql.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('4788eff6532d2232d12462c85789f595', 'b2dac0d38b39a4f8da7b98c56e831465', '데이터베이스_Oracle', null, 2, '40e346d210cd36229d03b403153e54ab', 'database_oracle.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('3c37bbea924b4e300a4863bc1f1d41c8', 'root', '소프트웨어', null, 1, '52905fc1ae0183698f726aec3e038148', 'software.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('3c37bbea924b4e300a4863bc1f1d41c8', null, '소프트웨어', null, 1, '52905fc1ae0183698f726aec3e038148', 'software.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('237053b29c09fd365d049949a14df2c5', '3c37bbea924b4e300a4863bc1f1d41c8', 'OS', null, 2, '0e8dd74a27bbbf86201104e91df7ee88', 'os.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('bd746ec53dd7b64a16157d5843360391', '237053b29c09fd365d049949a14df2c5', 'OS_Linux', null, 3, '39dbe77aa58b778064a0f4a10dd06b05', 'os_linux.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('5c6601285d44385fb6dfcf184261aa04', '237053b29c09fd365d049949a14df2c5', 'OS_Window', null, 3, 'f88ee1c29fdf9d847ba6002abc5bbf1b', 'os_window.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);

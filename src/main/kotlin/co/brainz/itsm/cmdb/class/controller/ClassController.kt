@@ -6,17 +6,23 @@
 
 package co.brainz.itsm.cmdb.`class`.controller
 
-import co.brainz.itsm.cmdb.`class`.service.ClassService
+import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/cmdb/classes")
-class ClassController(private val classService: ClassService) {
+@RequestMapping("/cmdb/class")
+class ClassController() {
 
-    @GetMapping("")
-    fun getClassSearch() {
+    private val classEditPage: String = "cmdb/classEdit"
 
+    /**
+     * CI Class 관리 화면 호출
+     */
+    @GetMapping("/edit")
+    fun getCmdbClassList(request: HttpServletRequest, model: Model): String {
+        return classEditPage
     }
 }

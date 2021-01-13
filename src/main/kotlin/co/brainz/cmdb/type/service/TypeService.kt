@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service
 class TypeService(
     private val typeRepository: TypeRepository
 ) {
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun getCmdbTypes(searchValue: String): List<CmdbTypeListDto> {

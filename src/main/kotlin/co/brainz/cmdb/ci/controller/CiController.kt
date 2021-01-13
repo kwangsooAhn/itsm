@@ -55,5 +55,4 @@ class CiController(
     fun deleteCmdbCi(): Boolean {
         return true
     }
-
 }

@@ -104,6 +104,11 @@ auth:
     create: "권한 등록"
     update: "권한 변경"
     delete: "권한 삭제"
+  class:
+    read: "CMDB Class 조회"
+    create: "CMDB Class 등록"
+    update: "CMDB Class 변경"
+    delete: "CMDB Class 삭제"
   code:
     read: "코드 조회"
     create: "코드 등록"
@@ -229,6 +234,22 @@ cmdb:
       export: "내보내기"
     msg:
       searchDescription: "CI Attribute을 조회 및 관리합니다."
+    btn:
+      import: "가져오기"
+      export: "내보내기"
+  class:
+    label:
+      attributeList: "속성 목록"
+      classId: "클래스 Id"
+      description: "설명"
+      management: "Class 관리"
+      name: "이름"
+      pClassId: "부모 Class"
+      searchPlaceholder: "Class 명 / 설명"
+    msg:
+      editDescription: "CI Class를 조회 및 관리합니다."
+      enterClassName: "Class 이름을 입력하세요."
+
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -482,6 +503,7 @@ form:
     failedFormDelete: "문서양식을 삭제할 수 없습니다. 발행된 신청서가 있는 지 확인하세요."
     fileSelect: "파일을 선택하세요."
     information: "공통 편집 가능한 컴포넌트 세부 속성이 존재하지 않습니다."
+    label: "입력 항목은 숫자와 문자로 시작, 종료 되어야하고 숫자,문자, 쉼표(.), 언더바(_), 대시(-) 만 포함 할 수 있습니다."
     max: "{0} 이하로 입력하세요."
     maxLength: "{0}글자 이하로 입력하세요."
     min: "{0} 이상 입력하세요."
@@ -546,6 +568,7 @@ form:
     field: "{0} 열"
     height: "높이"
     isTopic: "미리보기"
+    labelList: "컴포넌트 라벨"
     lengthMax: "최대길이"
     lengthMin: "최소길이"
     mappingId: "매핑 아이디"
@@ -569,6 +592,7 @@ form:
       code: "코드"
       date: "{0}일 후"
       datetime: "{0}일 {0}시간 후"
+      key: "키"
       name: "이름"
       none: "없음"
       now: "현재"
@@ -658,6 +682,7 @@ menu:
   cmdb:
     parent: "CMDB"
     attribute: "Attribute"
+    class: "Class"
     type: "Type"
 
 # Notice

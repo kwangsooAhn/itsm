@@ -11,6 +11,9 @@
 }(this, (function (exports) {
     'use strict';
 
+    // 폼 / 신청서에서 사용하는 컴포넌트
+    const FORM_COMPONENT = 'component';
+    // TODO: 상수 대문자 처리
     const defaultType = 'editbox';
     let sessionInfo = {},
         componentProperties = {};
@@ -176,6 +179,7 @@
     exports.initSession = initSession;
     exports.reformatCalendarFormat = reformatCalendarFormat;
 
+    exports.FORM_COMPONENT = FORM_COMPONENT;
     exports.defaultType = defaultType;
     exports.session = sessionInfo;
     exports.componentProperties = componentProperties;
