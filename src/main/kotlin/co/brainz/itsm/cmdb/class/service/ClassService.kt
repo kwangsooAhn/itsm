@@ -21,6 +21,7 @@ import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
 
 @Service
 @Transactional
@@ -43,15 +44,23 @@ class ClassService(
         val responseBody = restTemplate.get(url)
         return mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassListDto::class.java)
+            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassDto::class.java)
         )
     }
 
     /**
-     * CMDB class 목록 조회
+     * CMDB class 멀티 조회
      */
-    fun getCmdbClasses(): String {
-        return ""
+    fun getCmdbClasses(params: LinkedMultiValueMap<String, String>): List<CmdbClassListDto> {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Class.GET_CLASSES.url,
+            parameters = params
+        )
+        val responseBody = restTemplate.get(url)
+        return mapper.readValue(
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassListDto::class.java)
+        )
     }
 
     /**

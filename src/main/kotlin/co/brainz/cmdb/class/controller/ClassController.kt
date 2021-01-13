@@ -9,6 +9,7 @@ package co.brainz.cmdb.`class`.controller
 import co.brainz.cmdb.`class`.service.ClassService
 import co.brainz.cmdb.provider.CmdbDummyProvider
 import co.brainz.cmdb.provider.dto.CmdbClassDto
+import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -37,6 +39,14 @@ class ClassController(
     @GetMapping("/{classId}")
     fun getCmdbClass(@PathVariable classId: String): CmdbClassDto {
         return classService.getCmdbClass(classId)
+    }
+
+    /**
+     * CMDB Class 멀티 조회
+     */
+    @GetMapping("")
+    fun getCmdbClasses(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbClassListDto> {
+        return classService.getCmdbClasses(parameters)
     }
 
     /**

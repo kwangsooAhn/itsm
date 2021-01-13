@@ -6,7 +6,9 @@
 
 package co.brainz.cmdb.`class`.repository
 
+import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface ClassRepositoryCustom : AliceRepositoryCustom {
+    fun findClassList(search: String, offset: Long?): List<CmdbClassListDto>
 }

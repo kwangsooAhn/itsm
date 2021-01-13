@@ -9,6 +9,7 @@ package co.brainz.cmdb.`class`.service
 import co.brainz.cmdb.`class`.entity.CmdbClassEntity
 import co.brainz.cmdb.`class`.repository.ClassRepository
 import co.brainz.cmdb.provider.dto.CmdbClassDto
+import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -36,6 +37,19 @@ class ClassService(
             pclassId = cmdbClassEntity!!.pClassId
         )
         return cmdbClassDto
+    }
+
+    /**
+     * CMDB Class 멀티 조회
+     */
+    fun getCmdbClasses(parameters: LinkedHashMap<String, Any>): List<CmdbClassListDto> {
+        var search = ""
+        var offset: Long? = null
+        if (parameters["search"] != null) search = parameters["search"].toString()
+        if (parameters["offset"] != null) {
+            offset = parameters["offset"].toString().toLong()
+        }
+        return classRepository.findClassList(search, offset).toList()
     }
 
     /**
