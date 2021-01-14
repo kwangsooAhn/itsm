@@ -32,7 +32,7 @@ data class CmdbClassAttributeMapEntity(
     val cmdbAttribute: CmdbAttributeEntity,
 
     @Column(name = "attribute_order")
-    val attriibuteOrder: Int
+    val attributeOrder: Int
 ) : Serializable
 
 data class CmdbClassAttributeMapPk(

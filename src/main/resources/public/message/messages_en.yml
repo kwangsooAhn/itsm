@@ -245,6 +245,7 @@ cmdb:
       pClassName: "Parent Class"
       searchPlaceholder: "Class Name / Description"
     msg:
+      confirmDeleteAttribute: "Are you sure you want to delete the attribute?"
       editDescritpion: "Add, view and manage CMDB Class."
       enterClassName: "Please enter a class name."
     btn:

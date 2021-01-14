@@ -11,6 +11,7 @@ import co.brainz.cmdb.cmdbClass.repository.ClassRepository
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
+import co.brainz.cmdb.provider.dto.CmdbClassToAttributeDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -34,13 +35,38 @@ class ClassService(
         var pClassName = cmdbClassEntity.pClassId?.let {
             classRepository.getOne(it).className
         }
+        val attributeList = mutableListOf<CmdbClassToAttributeDto>()
+        cmdbClassEntity.cmdbClassAttributeMapEntities.forEach {
+            attributeList.add(
+                CmdbClassToAttributeDto(
+                    it.cmdbAttribute.attributeId,
+                    it.cmdbAttribute.attributeName,
+                    it.attributeOrder
+                )
+            )
+        }
+
+        val extendsAttributeList = mutableListOf<CmdbClassToAttributeDto>()
+        cmdbClassEntity.pClassId?.let {
+            classRepository.getOne(it).cmdbClassAttributeMapEntities.forEach {
+                extendsAttributeList.add(
+                    CmdbClassToAttributeDto(
+                        it.cmdbAttribute.attributeId,
+                        it.cmdbAttribute.attributeName,
+                        it.attributeOrder
+                    )
+                )
+            }
+        }
 
         val cmdbClassDetailDto = CmdbClassDetailDto(
             classId = cmdbClassEntity.classId,
             className = cmdbClassEntity.className,
             classDesc = cmdbClassEntity.classDesc,
             pClassId = cmdbClassEntity.pClassId,
-            pClassName = pClassName
+            pClassName = pClassName,
+            attributes = attributeList,
+            extendsAttributes = extendsAttributeList
         )
         return cmdbClassDetailDto
     }

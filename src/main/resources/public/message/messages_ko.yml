@@ -245,9 +245,9 @@ cmdb:
       pClassName: "부모 Class"
       searchPlaceholder: "Class 명 / 설명"
     msg:
+      confirmDeleteAttribute: "속성을 삭제하시겠습니까?"
       editDescription: "CI Class를 조회 및 관리합니다."
       enterClassName: "Class 이름을 입력하세요."
-
     btn:
       import: "가져오기"
       export: "내보내기"
