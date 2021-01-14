@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.cmdb.cmdbClass.entity
+package co.brainz.cmdb.ciClass.entity
 
 import co.brainz.cmdb.attribute.entity.CmdbAttributeEntity
 import java.io.Serializable

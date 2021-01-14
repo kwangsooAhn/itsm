@@ -4,11 +4,11 @@
  *
  */
 
-package co.brainz.cmdb.cmdbClass.repository
+package co.brainz.cmdb.ciClass.repository
 
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
-interface ClassRepositoryCustom : AliceRepositoryCustom {
+interface CIClassRepositoryCustom : AliceRepositoryCustom {
     fun findClassList(search: String, offset: Long?): List<CmdbClassListDto>
 }

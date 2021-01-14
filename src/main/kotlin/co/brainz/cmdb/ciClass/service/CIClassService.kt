@@ -4,10 +4,10 @@
  *
  */
 
-package co.brainz.cmdb.cmdbClass.service
+package co.brainz.cmdb.ciClass.service
 
-import co.brainz.cmdb.cmdbClass.entity.CmdbClassEntity
-import co.brainz.cmdb.cmdbClass.repository.ClassRepository
+import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
+import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
@@ -20,8 +20,8 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
-class ClassService(
-    private val classRepository: ClassRepository,
+class CIClassService(
+    private val ciClassRepository: CIClassRepository,
     private val aliceUserRepository: AliceUserRepository
 ) {
 
@@ -31,9 +31,9 @@ class ClassService(
      * CMDB Class 단일 조회
      */
     fun getCmdbClass(classId: String): CmdbClassDetailDto {
-        var cmdbClassEntity = classRepository.getOne(classId)
+        var cmdbClassEntity = ciClassRepository.getOne(classId)
         var pClassName = cmdbClassEntity.pClassId?.let {
-            classRepository.getOne(it).className
+            ciClassRepository.getOne(it).className
         }
         val attributeList = mutableListOf<CmdbClassToAttributeDto>()
         cmdbClassEntity.cmdbClassAttributeMapEntities.forEach {
@@ -48,7 +48,7 @@ class ClassService(
 
         val extendsAttributeList = mutableListOf<CmdbClassToAttributeDto>()
         cmdbClassEntity.pClassId?.let {
-            classRepository.getOne(it).cmdbClassAttributeMapEntities.forEach {
+            ciClassRepository.getOne(it).cmdbClassAttributeMapEntities.forEach {
                 extendsAttributeList.add(
                     CmdbClassToAttributeDto(
                         it.cmdbAttribute.attributeId,
@@ -81,7 +81,7 @@ class ClassService(
         if (parameters["offset"] != null) {
             offset = parameters["offset"].toString().toLong()
         }
-        return classRepository.findClassList(search, offset).toList()
+        return ciClassRepository.findClassList(search, offset).toList()
     }
 
     /**
@@ -99,7 +99,7 @@ class ClassService(
         }
         cmdbClassEntity.createDt = cmdbClassDto.createDt
 
-        classRepository.save(cmdbClassEntity)
+        ciClassRepository.save(cmdbClassEntity)
         return true
     }
 
@@ -107,7 +107,7 @@ class ClassService(
      * CMDB Class 수정
      */
     fun updateCmdbClass(classId: String, cmdbClassDto: CmdbClassDto): Boolean {
-        val cmdbClassEntity = classRepository.findByIdOrNull(classId) ?: throw AliceException(
+        val cmdbClassEntity = ciClassRepository.findByIdOrNull(classId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
         )
@@ -119,7 +119,7 @@ class ClassService(
         }
         cmdbClassEntity.updateDt = cmdbClassDto.updateDt
 
-        classRepository.save(cmdbClassEntity)
+        ciClassRepository.save(cmdbClassEntity)
         return true
     }
 
@@ -127,12 +127,12 @@ class ClassService(
      * CMDB Class 삭제
      */
     fun deleteCmdbClass(classId: String): Boolean {
-        val classEntity = classRepository.findByIdOrNull(classId) ?: throw AliceException(
+        val classEntity = ciClassRepository.findByIdOrNull(classId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
         )
 
-        classRepository.deleteById(classEntity.classId)
+        ciClassRepository.deleteById(classEntity.classId)
         return true
     }
 }

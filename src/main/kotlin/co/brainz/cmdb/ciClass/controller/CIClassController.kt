@@ -4,9 +4,9 @@
  *
  */
 
-package co.brainz.cmdb.cmdbClass.controller
+package co.brainz.cmdb.ciClass.controller
 
-import co.brainz.cmdb.cmdbClass.service.ClassService
+import co.brainz.cmdb.ciClass.service.CIClassService
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/cmdb/eg/classes")
-class ClassController(
-    private val classService: ClassService
+class CIClassController(
+    private val ciClassService: CIClassService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -38,7 +38,7 @@ class ClassController(
      */
     @GetMapping("/{classId}")
     fun getCmdbClass(@PathVariable classId: String): CmdbClassDetailDto {
-        return classService.getCmdbClass(classId)
+        return ciClassService.getCmdbClass(classId)
     }
 
     /**
@@ -46,7 +46,7 @@ class ClassController(
      */
     @GetMapping("")
     fun getCmdbClasses(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbClassListDto> {
-        return classService.getCmdbClasses(parameters)
+        return ciClassService.getCmdbClasses(parameters)
     }
 
     /**
@@ -56,7 +56,7 @@ class ClassController(
     fun createCmdbClass(@RequestBody jsonData: Any): Boolean {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        return classService.createCmdbClass(mapper.convertValue(jsonData, CmdbClassDto::class.java))
+        return ciClassService.createCmdbClass(mapper.convertValue(jsonData, CmdbClassDto::class.java))
     }
 
     /**
@@ -67,7 +67,7 @@ class ClassController(
         @PathVariable classId: String,
         @RequestBody cmdbClassDto: CmdbClassDto
     ): Boolean {
-        return classService.updateCmdbClass(classId, cmdbClassDto)
+        return ciClassService.updateCmdbClass(classId, cmdbClassDto)
     }
 
     /**
@@ -75,6 +75,6 @@ class ClassController(
      */
     @DeleteMapping("/{classId}")
     fun deleteCmdbClass(@PathVariable classId: String): Boolean {
-        return classService.deleteCmdbClass(classId)
+        return ciClassService.deleteCmdbClass(classId)
     }
 }

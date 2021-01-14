@@ -4,10 +4,10 @@
  *
  */
 
-package co.brainz.cmdb.cmdbClass.repository
+package co.brainz.cmdb.ciClass.repository
 
-import co.brainz.cmdb.cmdbClass.entity.CmdbClassAttributeMapEntity
-import co.brainz.cmdb.cmdbClass.entity.CmdbClassAttributeMapPk
+import co.brainz.cmdb.ciClass.entity.CmdbClassAttributeMapEntity
+import co.brainz.cmdb.ciClass.entity.CmdbClassAttributeMapPk
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

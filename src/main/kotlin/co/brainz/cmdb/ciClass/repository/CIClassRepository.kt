@@ -4,11 +4,11 @@
  *
  */
 
-package co.brainz.cmdb.cmdbClass.repository
+package co.brainz.cmdb.ciClass.repository
 
-import co.brainz.cmdb.cmdbClass.entity.CmdbClassEntity
+import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ClassRepository : JpaRepository<CmdbClassEntity, String>, ClassRepositoryCustom
+interface CIClassRepository : JpaRepository<CmdbClassEntity, String>, CIClassRepositoryCustom

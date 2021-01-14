@@ -1,13 +1,13 @@
-package co.brainz.cmdb.cmdbClass.repository
+package co.brainz.cmdb.ciClass.repository
 
-import co.brainz.cmdb.cmdbClass.entity.CmdbClassEntity
-import co.brainz.cmdb.cmdbClass.entity.QCmdbClassEntity
+import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
+import co.brainz.cmdb.ciClass.entity.QCmdbClassEntity
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
-class ClassRepositoryImpl : QuerydslRepositorySupport(CmdbClassEntity::class.java), ClassRepositoryCustom {
+class CIClassRepositoryImpl : QuerydslRepositorySupport(CmdbClassEntity::class.java), CIClassRepositoryCustom {
     override fun findClassList(search: String, offset: Long?): List<CmdbClassListDto> {
         val cmdbClass = QCmdbClassEntity.cmdbClassEntity
         val query = from(cmdbClass)
