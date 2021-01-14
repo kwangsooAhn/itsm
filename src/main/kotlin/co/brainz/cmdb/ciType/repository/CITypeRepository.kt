@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CICITypeRepository : JpaRepository<CmdbTypeEntity, String>, CITypeRepositoryCustom {
+interface CITypeRepository : JpaRepository<CmdbTypeEntity, String>, CITypeRepositoryCustom {
 
     fun findTypeEntityByTypeId(typeId: String): Optional<CmdbTypeEntity>
 }

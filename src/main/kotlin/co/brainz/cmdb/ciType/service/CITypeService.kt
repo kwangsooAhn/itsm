@@ -7,7 +7,7 @@
 package co.brainz.cmdb.ciType.service
 
 import co.brainz.cmdb.ciType.entity.CmdbTypeEntity
-import co.brainz.cmdb.ciType.repository.CICITypeRepository
+import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.dto.CmdbTypeDto
 import co.brainz.cmdb.provider.dto.CmdbTypeListDto
 import com.querydsl.core.QueryResults
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CITypeService(
-    private val CITypeRepository: CICITypeRepository
+    private val CITypeRepository: CITypeRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
