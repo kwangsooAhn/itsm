@@ -8,9 +8,6 @@ package co.brainz.cmdb.type.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
-import org.hibernate.annotations.GenericGenerator
-import org.hibernate.annotations.NotFound
-import org.hibernate.annotations.NotFoundAction
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -20,6 +17,9 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.NotFound
+import org.hibernate.annotations.NotFoundAction
 
 @Entity
 @Table(name = "cmdb_type")
@@ -30,7 +30,7 @@ data class CmdbTypeEntity(
     var typeId: String = "",
 
     @Column(name = "type_name", length = 100)
-    val typeName: String? = null,
+    val typeName: String = "",
 
     @Column(name = "type_desc", length = 500)
     val typeDesc: String? = null,

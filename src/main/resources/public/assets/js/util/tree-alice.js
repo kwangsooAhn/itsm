@@ -19,7 +19,7 @@
     // 기본값 셋팅.
     let defaults = {
         view: '',                               // '': 전체, modal: 모달
-        source: '',                             // 데이터 경로 (code, ci type, ci Class, ...)
+        source: 'code',                         // 데이터 경로 (code, ci type, ci Class, ...) / 기본값은 code
         title: '',                              // 제목 (option)
         root: '',                               // 트리 최상위 부모
         rootLevel: 0,                           // 트리 취상위 레벨
@@ -539,7 +539,7 @@
      */
     function createChildNode(node, level, expandObject, depth) {
         options.data.forEach(function (item) {
-            let p_node_id = options.source === '' ? item.pcode : item.ptypeId;
+            let p_node_id = options.source === 'code' ? item.pcode : item.ptypeId;
             if (node.id === p_node_id) {
                 let expand = false;
                 if (expandObject !== null && expandObject.indexOf(item) > -1) {

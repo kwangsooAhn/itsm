@@ -25,10 +25,11 @@ class TypeService (
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
+
     /**
      * CI Type 트리 조회
      */
-    fun getTypes(params: LinkedMultiValueMap<String, String>): List<CmdbTypeListDto> {
+    fun getCmdbTypeList(params: LinkedMultiValueMap<String, String>): List<CmdbTypeListDto> {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Type.GET_TYPES.url,
             parameters = params
@@ -39,5 +40,18 @@ class TypeService (
             mapper.typeFactory.constructCollectionType(List::class.java, CmdbTypeListDto::class.java)
         )
         return result
+    }
+
+    /**
+     * CI Type 상세 조회
+     */
+    fun getCmdbTypes(typeId: String): String {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Type.GET_TYPE.url.replace(
+                restTemplate.getKeyRegex(),
+                typeId
+            )
+        )
+        return restTemplate.get(url)
     }
 }

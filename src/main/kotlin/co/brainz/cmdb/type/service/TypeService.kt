@@ -6,10 +6,10 @@
 
 package co.brainz.cmdb.type.service
 
+import co.brainz.cmdb.provider.dto.CmdbTypeDto
 import co.brainz.cmdb.provider.dto.CmdbTypeListDto
 import co.brainz.cmdb.type.entity.CmdbTypeEntity
 import co.brainz.cmdb.type.repository.TypeRepository
-import co.brainz.itsm.code.entity.CodeEntity
 import com.querydsl.core.QueryResults
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -62,5 +62,21 @@ class TypeService(
             )
         }
         return treeTypeList
+    }
+
+    /**
+     *  CMDB Type 단일 조회.
+     */
+    fun getCmdbType(typeId: String): CmdbTypeDto {
+        val typeEntity = typeRepository.findTypeEntityByTypeId(typeId).get()
+
+        return CmdbTypeDto(
+            typeId = typeEntity.typeId,
+            typeName = typeEntity.typeName,
+            typeDesc = typeEntity.typeDesc,
+            defaultClassId = typeEntity.defaultClassId,
+            ptypeId = typeEntity.ptypeId!!.typeName,
+            typeIcon = typeEntity.typeIcon
+        )
     }
 }

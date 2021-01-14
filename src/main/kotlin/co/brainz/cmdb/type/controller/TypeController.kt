@@ -42,7 +42,7 @@ class TypeController(
 
     @GetMapping("/{typeId}")
     fun getCmdbType(@PathVariable typeId: String): CmdbTypeDto {
-        return cmdbDummyProvider.getDummyType(typeId)
+        return typeService.getCmdbType(typeId)
     }
 
     @PutMapping("/{typeId}")

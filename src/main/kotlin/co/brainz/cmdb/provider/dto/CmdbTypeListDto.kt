@@ -11,7 +11,7 @@ import java.io.Serializable
 data class CmdbTypeListDto(
     val typeId: String? = null,
     val typeName: String? = null,
-    val typeDesc: String? = "",
+    val typeDesc: String? = null,
     val typeLevel: Int? = 1,
     val defaultClassId: String? = null,
     val ptypeId: String? = null,
