@@ -39,4 +39,18 @@ object RestTemplateConstants {
         PUT_CLASS("/rest/cmdb/eg/classes/{classId}", "PUT"),
         DELETE_CLASS("/rest/cmdb/eg/classes/{classId}", "DELETE")
     }
+
+    /**
+     * Type Url.
+     *
+     * @param url
+     * @param method
+     */
+    enum class Type(val url: String, val method: String) {
+        GET_TYPES("/rest/cmdb/eg/types", "GET"),
+        GET_TYPE("/rest/cmdb/eg/types/{typeId}", "GET"),
+        POST_TYPE("/rest/cmdb/eg/types", "POST"),
+        PUT_TYPE("/rest/cmdb/eg/types/{typeId}", "PUT"),
+        DELETE_TYPE("/rest/cmdb/eg/types/{typeId}", "DELETE")
+    }
 }

@@ -8,6 +8,7 @@ package co.brainz.cmdb.type.controller
 
 import co.brainz.cmdb.provider.CmdbDummyProvider
 import co.brainz.cmdb.provider.dto.CmdbTypeDto
+import co.brainz.cmdb.provider.dto.CmdbTypeListDto
 import co.brainz.cmdb.type.service.TypeService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -30,10 +31,8 @@ class TypeController(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @GetMapping("")
-    fun getCmdbTypes(
-        @RequestParam(value = "searchValue", defaultValue = "") searchValue: String
-    ): List<CmdbTypeDto> {
-        return cmdbDummyProvider.getDummyTypes(searchValue)
+    fun getCmdbTypes(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbTypeListDto> {
+        return typeService.getCmdbTypes(parameters["search"].toString())
     }
 
     @PostMapping("")
@@ -43,7 +42,7 @@ class TypeController(
 
     @GetMapping("/{typeId}")
     fun getCmdbType(@PathVariable typeId: String): CmdbTypeDto {
-        return cmdbDummyProvider.getDummyType(typeId)
+        return typeService.getCmdbType(typeId)
     }
 
     @PutMapping("/{typeId}")

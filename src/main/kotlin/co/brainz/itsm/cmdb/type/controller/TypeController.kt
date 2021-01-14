@@ -6,11 +6,26 @@
 
 package co.brainz.itsm.cmdb.type.controller
 
-import co.brainz.itsm.cmdb.type.service.TypeService
+import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/cmdb/types")
-class TypeController(private val typeService: TypeService) {
+class TypeController() {
+
+    private val typeEditPage: String = "cmdb/typeEdit"
+
+    /**
+     * CMDB Type 관리 화면 호출
+     */
+    @GetMapping("/edit")
+    fun getCmdbTypeList(request: HttpServletRequest, model: Model): String {
+        return typeEditPage
+    }
 }
+
+
+
