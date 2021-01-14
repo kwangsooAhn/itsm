@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.itsm.cmdb.`class`.service
+package co.brainz.itsm.cmdb.ciClass.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
@@ -13,7 +13,7 @@ import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.itsm.cmdb.`class`.constants.ClassConstants
+import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -26,7 +26,7 @@ import org.springframework.util.LinkedMultiValueMap
 
 @Service
 @Transactional
-class ClassService(
+class CIClassService(
     private val restTemplate: RestTemplateProvider
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -76,7 +76,7 @@ class ClassService(
         )
         val responseBody = restTemplate.create(url, cmdbClassDto)
         return when (responseBody.body.toString().isNotEmpty()) {
-            true -> ClassConstants.Status.STATUS_SUCCESS.code
+            true -> CIClassConstants.Status.STATUS_SUCCESS.code
             false -> ""
         }
     }
@@ -96,7 +96,7 @@ class ClassService(
         )
         val responseEntity = restTemplate.update(url, cmdbClassDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> ClassConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
+            true -> CIClassConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
             false -> ""
         }
     }
@@ -112,7 +112,7 @@ class ClassService(
             )
         )
         return when (restTemplate.delete(url).toString().isNotEmpty()) {
-            true -> ClassConstants.Status.STATUS_SUCCESS.code
+            true -> CIClassConstants.Status.STATUS_SUCCESS.code
             false -> ""
         }
     }

@@ -4,11 +4,11 @@
  *
  */
 
-package co.brainz.itsm.cmdb.`class`.controller
+package co.brainz.itsm.cmdb.ciClass.controller
 
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
-import co.brainz.itsm.cmdb.`class`.service.ClassService
+import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/cmdb/classes")
-class ClassRestController(private val classService: ClassService) {
+class CIClassRestController(private val ciClassService: CIClassService) {
 
     /**
      * CMDB Class 단일 조회
      */
     @GetMapping("/{classId}")
     fun getCmdbClass(@PathVariable classId: String): CmdbClassDetailDto {
-        return classService.getCmdbClass(classId)
+        return ciClassService.getCmdbClass(classId)
     }
 
     /**
@@ -43,7 +43,7 @@ class ClassRestController(private val classService: ClassService) {
      */
     @PostMapping("")
     fun createCmdbClass(@RequestBody cmdbClassDto: CmdbClassDto): String {
-        return classService.createCmdbClass(cmdbClassDto)
+        return ciClassService.createCmdbClass(cmdbClassDto)
     }
 
     /**
@@ -54,7 +54,7 @@ class ClassRestController(private val classService: ClassService) {
         @RequestBody cmdbClassDto: CmdbClassDto,
         @PathVariable classId: String
     ): String {
-        return classService.updateCmdbClass(classId, cmdbClassDto)
+        return ciClassService.updateCmdbClass(classId, cmdbClassDto)
     }
 
     /**
@@ -62,6 +62,6 @@ class ClassRestController(private val classService: ClassService) {
      */
     @DeleteMapping("/{classId}")
     fun deleteCmdbClass(@PathVariable classId: String): String {
-        return classService.deleteCmdbClass(classId)
+        return ciClassService.deleteCmdbClass(classId)
     }
 }

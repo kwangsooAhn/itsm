@@ -4,9 +4,9 @@
  *
  */
 
-package co.brainz.itsm.cmdb.`class`.controller
+package co.brainz.itsm.cmdb.ciClass.controller
 
-import co.brainz.itsm.cmdb.`class`.service.ClassService
+import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/cmdb/class")
-class ClassController(private val classService: ClassService) {
+class CIClassController(private val ciClassService: CIClassService) {
 
     private val classEditPage: String = "cmdb/classEdit"
     private val classListPage: String = "cmdb/classList"
@@ -37,7 +37,7 @@ class ClassController(private val classService: ClassService) {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         params["offset"] = request.getParameter("offset") ?: "0"
-        val result = classService.getCmdbClasses(params)
+        val result = ciClassService.getCmdbClasses(params)
         model.addAttribute("classList", result)
         return classListPage
     }

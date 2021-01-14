@@ -1,6 +1,6 @@
-package co.brainz.itsm.cmdb.`class`.constants
+package co.brainz.itsm.cmdb.ciClass.constants
 
-object ClassConstants {
+object CIClassConstants {
 
     enum class Status(val code: String) {
         STATUS_SUCCESS("0"),
