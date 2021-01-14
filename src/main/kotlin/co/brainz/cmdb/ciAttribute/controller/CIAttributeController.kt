@@ -7,9 +7,9 @@
 package co.brainz.cmdb.ciAttribute.controller
 
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
-import co.brainz.cmdb.provider.CmdbDummyProvider
 import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,15 +24,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/cmdb/eg/attributes")
 class CIAttributeController(
-    private val ciAttributeService: CIAttributeService,
-    private val cmdbDummyProvider: CmdbDummyProvider
+    private val ciAttributeService: CIAttributeService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    /**
-     * 프로세스 목록 조회.
-     */
     @GetMapping("")
     fun getCmdbAttributes(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbAttributeListDto> {
         return ciAttributeService.getCmdbAttributes(parameters)
@@ -45,7 +41,7 @@ class CIAttributeController(
 
     @GetMapping("/{attributeId}")
     fun getCmdbAttribute(@PathVariable attributeId: String): CmdbAttributeDto {
-        return cmdbDummyProvider.getDummyAttribute(attributeId)
+        return ciAttributeService.getCmdbAttribute(attributeId)
     }
 
     @PutMapping("/{attributeId}")
@@ -53,8 +49,9 @@ class CIAttributeController(
         return true
     }
 
+    @Transactional
     @DeleteMapping("/{attributeId}")
     fun deleteCmdbAttribute(@PathVariable attributeId: String): Boolean {
-        return true
+        return ciAttributeService.deleteCmdbAttribute(attributeId)
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
@@ -39,15 +40,20 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
         return attributeListPage
     }
 
+    @GetMapping("/new")
     fun getAttributeNew(): String {
         return attributeEditPage
     }
 
-    fun getAttributeEdit(): String {
+    @GetMapping("/{attributeId}/edit")
+    fun getAttributeEdit(@PathVariable attributeId: String, model: Model): String {
+        model.addAttribute("attribute", ciAttributeService.getAttribute(attributeId))
         return attributeEditPage
     }
 
-    fun getAttributeView(): String {
+    @GetMapping("/{attributeId}/view")
+    fun getAttributeView(@PathVariable attributeId: String, model: Model): String {
+        model.addAttribute("attribute", ciAttributeService.getAttribute(attributeId))
         return attributeViewPage
     }
 }

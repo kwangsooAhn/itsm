@@ -19,5 +19,7 @@ data class CmdbAttributeDto(
     val createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     val updateUserKey: String? = null,
-    val updateDt: LocalDateTime? = null
+    val updateDt: LocalDateTime? = null,
+    var enabled: Boolean = true,
+    var details: String? = null
 ) : Serializable

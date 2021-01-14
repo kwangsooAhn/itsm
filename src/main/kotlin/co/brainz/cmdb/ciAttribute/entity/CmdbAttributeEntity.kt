@@ -6,12 +6,16 @@
 
 package co.brainz.cmdb.ciAttribute.entity
 
-import co.brainz.framework.auditor.AliceMetaEntity
+import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
@@ -36,5 +40,19 @@ data class CmdbAttributeEntity(
     val attributeText: String = "",
 
     @Column(name = "attribute_value")
-    val attributeValue: String = ""
-) : Serializable, AliceMetaEntity()
+    val attributeValue: String = "",
+
+    @Column(name = "create_dt", nullable = false, updatable = false)
+    var createDt: LocalDateTime? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key")
+    var createUser: AliceUserEntity? = null,
+
+    @Column(name = "update_dt", insertable = false)
+    var updateDt: LocalDateTime? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "update_user_key", referencedColumnName = "user_key")
+    var updateUser: AliceUserEntity? = null
+) : Serializable

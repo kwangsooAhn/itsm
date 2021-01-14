@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="attribute-header">
+    <div class="cmdb-attribute-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{cmdb.attribute.label.management}"></h1>
             <h6 class="description" th:text="#{cmdb.attribute.msg.searchDescription}"></h6>
@@ -24,14 +24,14 @@
                 <span id="spanTotalCount" class="txt-num"></span>
             </form>
             <div class="ml-auto">
-                <button type="button" class="default-fill" onclick="location.href='/cmdb/attributes/import'"
+                <button type="button" class="default-fill" onclick="importAttribute()"
                         sec:authorize="hasAuthority('cmdb.attribute.create')" th:text="#{cmdb.attribute.btn.import}"></button>
                 <button type="button" class="default-fill" onclick="location.href='/cmdb/attributes/new'"
                         sec:authorize="hasAuthority('cmdb.attribute.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
     </div>
-    <div class="attribute-content flex-fill">
+    <div class="cmdb-attribute-content flex-fill">
         <div class="list" id="attributeList"></div>
     </div>
 </th:block>
@@ -117,8 +117,15 @@
 
             let tdAttrName = document.createElement('td');
             tdAttrName.style.width = '25%';
-            tdAttrName.className = 'align-left';
-            tdAttrName.innerText = data.attributeName;
+            tdAttrName.className = 'align-left underline';
+            let aAttrName = document.createElement('a');
+            if (document.getElementsByName('isRole')[0].value === 'true') {
+                aAttrName.href = '/cmdb/attributes/' + data.attributeId + '/edit';
+            } else {
+                aAttrName.href = '/cmdb/attributes/' + data.attributeId + '/view';
+            }
+            aAttrName.innerText = data.attributeName;
+            tdAttrName.appendChild(aAttrName);
 
             let tdAttrLabel = document.createElement('td');
             tdAttrLabel.style.width = '25%';
@@ -162,6 +169,11 @@
         // Export
         function exportAttribute(attributeId) {
             aliceJs.alertWarning('TODO: Export ' + attributeId)
+        }
+
+        // Import
+        function importAttribute() {
+            aliceJs.alertWarning('TODO: Import')
         }
         /*]]>*/
     </script>

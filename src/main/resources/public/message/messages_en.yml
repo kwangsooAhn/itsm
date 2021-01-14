@@ -224,15 +224,21 @@ board:
 cmdb:
   attribute:
     label:
-      management: "Attribute Management"
-      searchPlaceholder: "Label / Type / Attribute Name / Description"
-      name: "Attribute Name"
-      label: "Label"
-      type: "Type"
       description: "Description"
+      details: "Details"
       export: "Export"
+      label: "Label"
+      management: "Attribute Management"
+      name: "Attribute Name"
+      searchPlaceholder: "Label / Type / Attribute Name / Description"
+      type: "Type"
+      view: "Attribute"
     msg:
+      attributeUsed: "The Attribute is being used."
+      enterAttributeName: "Please enter a attribute name."
       searchDescription: "CI Attribute manage posts."
+      selectAttributeType: "Please select the type."
+      viewDescription: "Inquires detailed information about the attribute."
     btn:
       import: "Import"
       export: "Export"
