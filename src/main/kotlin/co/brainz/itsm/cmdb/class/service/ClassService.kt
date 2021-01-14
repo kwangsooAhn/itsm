@@ -8,6 +8,7 @@ package co.brainz.itsm.cmdb.`class`.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
+import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
@@ -34,7 +35,7 @@ class ClassService(
     /**
      * CMDB Class 단일 조회
      */
-    fun getCmdbClass(classId: String): CmdbClassDto {
+    fun getCmdbClass(classId: String): CmdbClassDetailDto {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.GET_CLASS.url.replace(
                 restTemplate.getKeyRegex(),
@@ -44,7 +45,7 @@ class ClassService(
         val responseBody = restTemplate.get(url)
         return mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructType(CmdbClassDto::class.java)
+            mapper.typeFactory.constructType(CmdbClassDetailDto::class.java)
         )
     }
 

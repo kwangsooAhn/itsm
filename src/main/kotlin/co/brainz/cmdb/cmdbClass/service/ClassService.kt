@@ -8,6 +8,7 @@ package co.brainz.cmdb.cmdbClass.service
 
 import co.brainz.cmdb.cmdbClass.entity.CmdbClassEntity
 import co.brainz.cmdb.cmdbClass.repository.ClassRepository
+import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.framework.auth.repository.AliceUserRepository
@@ -28,16 +29,20 @@ class ClassService(
     /**
      * CMDB Class 단일 조회
      */
-    fun getCmdbClass(classId: String): CmdbClassDto {
+    fun getCmdbClass(classId: String): CmdbClassDetailDto {
         var cmdbClassEntity = classRepository.getOne(classId)
+        var pClassName = cmdbClassEntity.pClassId?.let {
+            classRepository.getOne(it).className
+        }
 
-        val cmdbClassDto = CmdbClassDto(
+        val cmdbClassDetailDto = CmdbClassDetailDto(
             classId = cmdbClassEntity.classId,
             className = cmdbClassEntity.className,
             classDesc = cmdbClassEntity.classDesc,
-            pclassId = cmdbClassEntity.pClassId
+            pClassId = cmdbClassEntity.pClassId,
+            pClassName = pClassName
         )
-        return cmdbClassDto
+        return cmdbClassDetailDto
     }
 
     /**
@@ -61,7 +66,7 @@ class ClassService(
             classId = cmdbClassDto.classId,
             className = cmdbClassDto.className,
             classDesc = cmdbClassDto.classDesc,
-            pClassId = cmdbClassDto.pclassId
+            pClassId = cmdbClassDto.pClassId
         )
         cmdbClassEntity.createUser = cmdbClassDto.createUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
@@ -82,7 +87,7 @@ class ClassService(
         )
         cmdbClassEntity.className = cmdbClassDto.className
         cmdbClassEntity.classDesc = cmdbClassDto.classDesc
-        cmdbClassEntity.pClassId = cmdbClassDto.pclassId
+        cmdbClassEntity.pClassId = cmdbClassDto.pClassId
         cmdbClassEntity.updateUser = cmdbClassDto.updateUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
         }

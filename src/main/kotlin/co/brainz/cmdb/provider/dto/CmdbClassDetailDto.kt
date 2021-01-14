@@ -6,17 +6,11 @@
 
 package co.brainz.cmdb.provider.dto
 
-import java.io.Serializable
-import java.time.LocalDateTime
-
-data class CmdbClassDto(
+data class CmdbClassDetailDto(
     var classId: String = "",
     var className: String = "",
     var classDesc: String? = null,
     var pClassId: String? = null,
-    var createUserKey: String? = null,
-    var createDt: LocalDateTime? = null,
-    var updateUserKey: String? = null,
-    var updateDt: LocalDateTime? = null,
+    var pClassName: String? = null,
     var attributes: List<CmdbClassToAttributeDto>? = null
-) : Serializable
+)

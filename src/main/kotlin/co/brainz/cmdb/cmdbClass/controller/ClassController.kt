@@ -7,6 +7,7 @@
 package co.brainz.cmdb.cmdbClass.controller
 
 import co.brainz.cmdb.cmdbClass.service.ClassService
+import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -36,7 +37,7 @@ class ClassController(
      * CMDB Class 단일 조회
      */
     @GetMapping("/{classId}")
-    fun getCmdbClass(@PathVariable classId: String): CmdbClassDto {
+    fun getCmdbClass(@PathVariable classId: String): CmdbClassDetailDto {
         return classService.getCmdbClass(classId)
     }
 

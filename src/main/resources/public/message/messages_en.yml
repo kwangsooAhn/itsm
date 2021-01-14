@@ -242,7 +242,7 @@ cmdb:
       description: "Description"
       management: "Class Management"
       name: "Name"
-      pClassId: "Parent Class"
+      pClassName: "Parent Class"
       searchPlaceholder: "Class Name / Description"
     msg:
       editDescritpion: "Add, view and manage CMDB Class."

@@ -34,9 +34,10 @@
         <div class="class-content-edit flex-column">
             <div class="edit-form">
                 <input type="hidden" id="txtClassId" name="txtClassId"/>
+                <input type="hidden" id="txtPClassId" name="txtPClassId"/>
                 <div class="edit-row flex-column">
-                    <label class="form-title" th:text="#{cmdb.class.label.pClassId}" for="txtPClassId"></label>
-                    <input type="text" id="txtPClassId" name="txtPClassId" maxlength="128"/>
+                    <label class="form-title" th:text="#{cmdb.class.label.pClassName}" for="txtPClassName"></label>
+                    <input type="text" id="txtPClassName" name="txtPClassName" maxlength="128"/>
                 </div>
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.class.label.name}" for="txtClassName"></label>
@@ -46,6 +47,16 @@
                     <label class="form-title" th:text="#{cmdb.class.label.description}" for="txtClassDesc"></label>
                     <textarea id="txtClassDesc" name="txtClassDesc" th:maxlength="500" th:rows="7"
                               class="textarea-scroll-wrapper"></textarea>
+                </div>
+                <div class="edit-row flex-column">
+                    <div class="under-bar">
+                        <label id="attributeList">
+                            <span class="required" th:text="#{cmdb.class.label.attributeList}"></span>
+                            <button type="button" class="default-line plus float-right" onclick="addAttribute()">
+                                <span class="icon-plus"></span>
+                            </button>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,6 +148,7 @@
                     let responseJson = JSON.parse(response.responseText);
                     document.getElementById('txtClassId').value = responseJson.classId;
                     document.getElementById('txtPClassId').value = responseJson.pclassId;
+                    document.getElementById('txtPClassName').value = responseJson.pclassName;
                     document.getElementById('txtClassName').value = responseJson.className;
                     document.getElementById('txtClassDesc').value = responseJson.classDesc;
                 }
@@ -149,6 +161,7 @@
             document.getElementById('txtClassId').value = '';
             document.getElementById('txtPClassId').value = '';
             document.getElementById('txtClassName').value = '';
+            document.getElementById('txtPClassName').value = '';
             document.getElementById('txtClassDesc').value = '';
             document.getElementById('btnExport').style.display = 'none';
 
@@ -166,12 +179,16 @@
 
         /** CMDB Class 등록, 수정 **/
         function onSave(flag) {
+            let pClassId = document.getElementById('txtPClassId').value;
             if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
 
             let obj = {};
-            obj.pclassId = document.getElementById('txtPClassId').value;
             obj.className = document.getElementById('txtClassName').value;
             obj.classDesc = document.getElementById('txtClassDesc').value;
+
+            if (pClassId !== '' || pClassId === null) {
+                obj.pclassId = pClassId;
+            }
 
             let strUrl = '/rest/cmdb/classes';
             if (flag !== 'post') {
@@ -272,6 +289,10 @@
             };
             aliceJs.sendXhr(opt);
         };
+
+        function addAttribute() {
+
+        }
 
         /*]]>*/
     </script>
