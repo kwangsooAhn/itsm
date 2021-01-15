@@ -28,7 +28,7 @@
                th:href="@{/cmdb/attributes/{id}/view(id=${attribute.attributeId})}"></a>
         </td>
         <td style="width: 25%" class="align-left" th:text="${attribute.attributeText}"></td>
-        <td style="width: 10%" class="align-left" th:text="${attribute.attributeType}"></td>
+        <td style="width: 10%" class="align-center" th:text="${attribute.attributeType}"></td>
         <td style="width: 30%" class="align-left" th:text="${attribute.attributeDesc}"></td>
         <td style="width: 10%" class="align-center">
             <button type="button" sec:authorize="hasAuthority('cmdb.attribute.create') || hasAuthority('cmdb.attribute.update')"
