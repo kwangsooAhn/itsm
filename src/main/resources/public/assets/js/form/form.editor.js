@@ -14,6 +14,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    const ATTRIBUTE_FIELD = 'field'; // 컴포넌트 세부 속성 - field
     const history = {
         redo_list: [],
         undo_list: [],
@@ -856,7 +857,7 @@
                         });
                     });
                 } else { // array
-                    if (propertyGroupId === 'field') { // dynamic row table 컴포넌트
+                    if (propertyGroupId === ATTRIBUTE_FIELD) { // dynamic row table 컴포넌트
                         const defaultArrayProperties = JSON.parse(JSON.stringify(initializedProperties[propertyGroupId]));
 
                         Object.keys(componentData[propertyGroupId]).forEach(function(idx) {
@@ -929,7 +930,7 @@
      */
     function redrawDrTableField(index, data) {
         const displayType = data['dataAttribute']['displayType'];
-        const fieldData = data['field'][index];
+        const fieldData = data[ATTRIBUTE_FIELD][index];
 
         const selectedComponent = document.getElementById(data.componentId);
         if (selectedComponent === null) { return; }
@@ -976,7 +977,7 @@
                 }
             }
             // dr table 컴포넌트의 field를 새로 그려준다.
-            if (group === 'field') {
+            if (group === ATTRIBUTE_FIELD && typeof subGroup !== 'undefined') {
                 redrawDrTableField(index, componentData);
             } else {
                 redrawComponent(componentData);
@@ -1961,7 +1962,7 @@
                 }
                 // 열 옵션이 존재할 경우 이벤트 핸들러 등록
                 let prevLevel = '';
-                if (group === 'field') {
+                if (group === ATTRIBUTE_FIELD) {
                     prevLevel = '-1';
                     groupElem.querySelector('#field-delete').addEventListener('click', removeFieldHandler, false);
                     groupElem.querySelector('#field-add').addEventListener('click', addFieldHandler, false);
@@ -2231,7 +2232,7 @@
         componentTitleElem.appendChild(typeName);
 
         // 타입별 세부 속성 값 재할당
-        let fieldData = componentData['field'][index];
+        let fieldData = componentData[ATTRIBUTE_FIELD][index];
         let typeProperties = Object.assign({}, properties[type]);
         Object.keys(fieldData).forEach(function(propertyGroupId) {
             if (typeProperties.hasOwnProperty(propertyGroupId)) {
@@ -2259,7 +2260,7 @@
                         const fieldGroupElem = document.createElement('div');
                         fieldGroupElem.className = 'property-field';
                         fieldGroupElem.setAttribute('data-field-index', index);
-                        fieldGroupElem.setAttribute('data-field-type', 'field');
+                        fieldGroupElem.setAttribute('data-field-type', ATTRIBUTE_FIELD);
                         // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
                         if (fieldProp.type === 'button-group') {
                             if (!buttonGroupExist) {
