@@ -6,7 +6,7 @@
 
 package co.brainz.cmdb.ciClass.entity
 
-import co.brainz.cmdb.attribute.entity.CmdbAttributeEntity
+import co.brainz.cmdb.ciAttribute.entity.CmdbAttributeEntity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity

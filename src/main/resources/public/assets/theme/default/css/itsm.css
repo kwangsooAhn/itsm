@@ -2045,7 +2045,8 @@ button .icon-plus {
 .numbering-pattern-header,
 .numbering-rule-header,
 .attribute-header,
-.cmdb-class-header {
+.cmdb-class-header,
+.cmdb-type-header {
   padding: 2.188rem 3.75rem 0 3.75rem;
   background-color: #F7F8F9;
 }
@@ -2073,7 +2074,8 @@ button .icon-plus {
 .code-content,
 .numbering-pattern-content,
 .numbering-rule-content,
-.attribute-content {
+.attribute-content,
+.cmdb-type-content {
   padding: 0.9375rem 3.75rem;
   background-color: #F7F8F9;
 }
@@ -2200,8 +2202,10 @@ button .icon-plus {
 .auth-content-edit,
 .role-content-edit,
 .code-content-edit,
+
 .numbering-pattern-content-edit,
-.numbering-rule-content-edit {
+.numbering-rule-content-edit,
+.cmdb-type-content-edit {
   height: 41.25rem;
   margin: 0 0 1.875rem 0;
 }
@@ -2209,14 +2213,16 @@ button .icon-plus {
 .role-content-edit .edit-form,
 .code-content-edit .edit-form,
 .numbering-pattern-content-edit .edit-form,
-.numbering-rule-content-edit .edit-form {
+.numbering-rule-content-edit .edit-form,
+.cmdb-type-content-edit .edit-form {
   padding: 0 1.875rem 0 4.0625rem;
 }
 .auth-content-edit .edit-form .edit-row,
 .role-content-edit .edit-form .edit-row,
 .code-content-edit .edit-form .edit-row,
 .numbering-pattern-content-edit .edit-form .edit-row,
-.numbering-rule-content-edit .edit-form .edit-row {
+.numbering-rule-content-edit .edit-form .edit-row,
+.cmdb-type-content-edit .edit-form .edit-row{
   margin-top: 0.625rem;
 }
 

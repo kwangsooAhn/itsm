@@ -283,21 +283,27 @@ class WfProcessService(
                     when (data.key) {
                         WfElementConstants.AttributeId.SCRIPT_DETAIL.value -> {
                             val scriptDetailArray = value.split("|")
-                            scriptJsonData.addProperty(
-                                WfElementConstants.AttributeId.TARGET_MAPPING_ID.value,
-                                scriptDetailArray[0]
-                            )
-                            scriptJsonData.addProperty(
-                                WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value,
-                                scriptDetailArray[1]
-                            )
+                            if (scriptDetailArray.isNotEmpty()) {
+                                scriptJsonData.addProperty(
+                                    WfElementConstants.AttributeId.TARGET_MAPPING_ID.value,
+                                    scriptDetailArray[0]
+                                )
+                                if (scriptDetailArray.size > 1) {
+                                    scriptJsonData.addProperty(
+                                        WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value,
+                                        scriptDetailArray[1]
+                                    )
+                                }
+                            }
                         }
                         WfElementConstants.AttributeId.SCRIPT_ACTION.value -> {
                             val scriptActionArray = value.split("|")
                             val action = JsonObject()
-                            action.addProperty(WfElementConstants.AttributeId.CONDITION.value, scriptActionArray[0])
-                            action.addProperty(WfElementConstants.AttributeId.FILE.value, scriptActionArray[1])
-                            scriptActions.add(action)
+                            if (scriptActionArray.isNotEmpty()) {
+                                action.addProperty(WfElementConstants.AttributeId.CONDITION.value, scriptActionArray[0])
+                                action.addProperty(WfElementConstants.AttributeId.FILE.value, scriptActionArray[1])
+                                scriptActions.add(action)
+                            }
                         }
                     }
                 }
@@ -469,6 +475,9 @@ class WfProcessService(
                 WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value -> {
                     this.getDocumentAttachFileData(element, elementData)
                 }
+                WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
+                    this.getCMDBData(element, elementData)
+                }
             }
         }
     }
@@ -503,6 +512,22 @@ class WfProcessService(
                         )
                     }
                     elementData[WfElementConstants.AttributeId.SCRIPT_ACTION.value] = actionList
+                }
+            }
+        }
+    }
+    /**
+     * ScriptType 이 CMDB인 경우 상세 데이터 조회.
+     */
+    private fun getCMDBData(element: WfElementEntity, elementData: MutableMap<String, Any>) {
+        element.elementScriptDataEntities.forEach { data ->
+            val scriptValue = data.scriptValue ?: ""
+            if (scriptValue.isNotEmpty()) {
+                val valueObject = Gson().fromJson(scriptValue, JsonObject::class.java)
+                if (valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value) != null) {
+                    elementData[WfElementConstants.AttributeId.SCRIPT_DETAIL.value] = mutableListOf(
+                            valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value).asString
+                    )
                 }
             }
         }

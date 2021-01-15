@@ -102,6 +102,8 @@
 // 업무흐름 관리 > 이미지 관리
 // 업무흐름 관리 > 패턴
 // 업무흐름 관리 > 문서번호
+// CMDB > Class
+// CMDB > Type
 .notice-header,
 .faq-header,
 .download-header,
@@ -119,7 +121,8 @@
 .numbering-pattern-header,
 .numbering-rule-header,
 .attribute-header,
-.cmdb-class-header{
+.cmdb-class-header,
+.cmdb-type-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
@@ -292,12 +295,13 @@
   background-color: $white;
   border-top: $layout-header-border;
 }
-// 역할, 권한, 코드, 패턴, 문서번호
+// 역할, 권한, 코드, 패턴, 문서번호, CMDB Type
 .auth-content-edit,
 .role-content-edit,
 .code-content-edit,
 .numbering-pattern-content-edit,
-.numbering-rule-content-edit{
+.numbering-rule-content-edit,
+.cmdb-type-content-edit {
   height: 41.25rem; // 660px
   margin: 0 0 1.875rem 0; // 30px
   // 스크롤바 

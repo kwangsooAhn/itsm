@@ -252,6 +252,17 @@ cmdb:
       import: "Import"
       export: "Export"
 
+  type:
+    label:
+      management: "Type Management"
+      searchPlaceholder: "Type"
+      parentType: "Parent Type"
+      name: "Type Name"
+      description: "Description"
+      icon: "Icon"
+      class: "Class"
+    msg:
+      searchDescription: "CI Type manage posts."
 # Code
 code:
   label:
@@ -488,6 +499,7 @@ form:
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileSelect: "Please select a file."
     information: "There are no common editable component detail attributes."
+    label: "It must start and end with numbers and letters and can contain only numbers, letters, commas (.), underscores (_), and dashes (-)."
     max: "Please enter below {0}."
     maxLength: "Please enter less than {0} characters."
     min: "Please enter at least {0}."
@@ -552,6 +564,7 @@ form:
     field: "{0} Column"
     height: "Height"
     isTopic: "is Topic"
+    labelList: "Component Label"
     lengthMax: "Max Length"
     lengthMin: "Min Length"
     mappingId: "Mapping ID"
@@ -575,6 +588,7 @@ form:
       code: "Custom Code Data"
       date: "{0}days after"
       datetime: "{0}days {0}hour after"
+      key: "Key"
       name: "Name"
       none: "None"
       now: "Now"
@@ -665,6 +679,7 @@ menu:
     parent: "CMDB"
     attribute: "Attribute"
     class: "Class"
+    type: "Type"
 
 # Notice
 notice:

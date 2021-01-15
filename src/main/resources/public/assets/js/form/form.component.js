@@ -14,6 +14,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    const DATA_ATTRIBUTE_LABEL_LIST = 'labelList';
     const componentNameList = [ //컴포넌트 명
             {'type': 'editbox', 'name': 'Edit Box'},
             {'type': 'inputbox', 'name': 'Input Box'},
@@ -1054,7 +1055,7 @@
         if (formType !== 'form') {
             const accordionStartComp = parent.querySelector('#' + property.componentId);
             accordionStartComp.addEventListener('click', function(e) {
-                const elem =  aliceJs.clickInsideElement(e, 'component');
+                const elem =  aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
                 const arrowDown = elem.querySelector('.icon-arrow-down');
                 const arrowUp = elem.querySelector('.icon-arrow-up');
                 if (elem.classList.contains('active')) { // 접기
@@ -1267,7 +1268,16 @@
                                 attributeItemValue = attributeItem.value;
                             }
                         }
-                        refineProperty[group][attributeItem.id] = attributeItemValue;
+                        if (attributeItem.id === DATA_ATTRIBUTE_LABEL_LIST) { // 라벨링
+                            let labelList = {
+                                'label_target': aliceForm.FORM_COMPONENT,
+                                'target_id': data.componentId,
+                                'label': []
+                            };
+                            refineProperty[group][attributeItem.id] = labelList;
+                        } else {
+                            refineProperty[group][attributeItem.id] = attributeItemValue;
+                        }
                     });
                 }
             });

@@ -19,6 +19,7 @@
     // 기본값 셋팅.
     let defaults = {
         view: '',                               // '': 전체, modal: 모달
+        source: 'code',                         // 데이터 경로 (code, ci type, ci Class, ...) / 기본값은 code
         title: '',                              // 제목 (option)
         root: '',                               // 트리 최상위 부모
         rootLevel: 0,                           // 트리 취상위 레벨
@@ -111,18 +112,25 @@
              */
             createNode: function(item, p_expanded, p_depth, p_parentNode) {
                 let v_tree = this;
+                let node_id = '';
+                if (item.code !== '' && item.code !== undefined) {
+                    node_id = item.code;
+                } else {
+                    node_id = item.typeId;
+                }
                 let node = {
-                    id: item.code,
+                    id: node_id,
                     text: item[options.text],
                     parent: p_parentNode,
                     expanded : p_expanded,
                     childNodes : [],
                     elementLi: null,
                     depth: p_depth,
-                    data: { // node 에 원하는 데이터를 추가한다.
+                    data: { // Todo: node에 원하는 데이터를 추가한다.
                         name: item.codeName || '',
                         value: item.codeValue || '',
-                        editable: item.editable || false
+                        editable: item.editable || false,
+                        icon: item.typeIcon || ''
                     },
                     removeNode: function() { v_tree.removeNode(this); },
                     toggleNode: function(p_event) { v_tree.toggleNode(this); },
@@ -195,6 +203,10 @@
                 }
                 if (p_node.childNodes.length === 0 && options.leafIcon !== '') {
                     v_icon_image = options.leafIcon;
+                }
+                // Todo: 추후 CI 아이콘 경로 수정 필요
+                if (options.source === 'ciType' && p_node.data.icon === 'database_postgresql.svg') {
+                    v_icon_image = iconPath + '/' + p_node.data.icon;
                 }
                 v_icon = createImgElement(null, 'icon_tree', v_icon_image);
 
@@ -506,13 +518,13 @@
 
         // Node 생성
         options.data.forEach(function (item) {
-            if (item.level === options.rootLevel) {
+            if (item.level === options.rootLevel || item.typeLevel === options.rootLevel) {
                 let expand = false;
-                if (expandObject.length > 0 && expandObject.indexOf(item.code) > -1) {
+                if (expandObject.length > 0 && expandObject.indexOf(item) > -1) {
                     expand = true;
                 }
                 let firstNode = tree.createNode(item, expand, 1, null);
-                createChildNode(firstNode, item.level, expandObject, 2);
+                createChildNode(firstNode, item.level !== undefined ? item.level : item.typeLevel, expandObject, 2);
             }
         });
     }
@@ -527,9 +539,10 @@
      */
     function createChildNode(node, level, expandObject, depth) {
         options.data.forEach(function (item) {
-            if (node.id === item.pcode) {
+            let p_node_id = options.source === 'code' ? item.pcode : item.ptypeId;
+            if (node.id === p_node_id) {
                 let expand = false;
-                if (expandObject !== null && expandObject.indexOf(item.code) > -1) {
+                if (expandObject !== null && expandObject.indexOf(item) > -1) {
                     expand = true;
                 }
                 let newNode = node.createChildNode(item, expand, depth);
@@ -619,9 +632,21 @@
                 }
             });
         }
+
+        // data source 옵션에 따라 데이터를 load 한다.
+        let dataUrl = '';
+        switch (options.source) {
+            case 'ciType':
+                dataUrl = '/rest/cmdb/types?search=' + options.search;
+                break;
+            default:
+                dataUrl = '/rest/codes?pCode=' + options.root + '&search=' + options.search;
+                break;
+        }
+
         aliceJs.sendXhr({
             method: 'get',
-            url: '/rest/codes?pCode=' + options.root + '&search=' + options.search,
+            url: dataUrl,
             async: false,
             contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
