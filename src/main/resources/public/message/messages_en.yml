@@ -250,7 +250,6 @@ cmdb:
     btn:
       import: "Import"
       export: "Export"
-
   type:
     label:
       management: "Type Management"
@@ -262,6 +261,11 @@ cmdb:
       class: "Class"
     msg:
       searchDescription: "CI Type manage posts."
+      enterPType: "Please choose Parent Type node."
+      enterTypeName: "Please enter a Type Name."
+    btn:
+      import: "Import"
+      export: "Export"
 # Code
 code:
   label:

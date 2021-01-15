@@ -53,14 +53,14 @@
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
                     <div class="flex-row input-button">
-                        <input class="col-pct-12" id="typeIcon" name="typeIcon" type="text" readonly>
+                        <input class="col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
                         <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.class}" for="typeClass"></label>
                     <div class="flex-row input-button">
-                        <input class="col-pct-12" id="typeClass" name="typeClass" type="text" readonly>
+                        <input class="col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
                         <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
@@ -88,6 +88,9 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        const STATUS_SUCCESS = '0';
+        const STATUS_SUCCESS_EDIT_TYPE = '1';
+
         window.addEventListener('load', function() {
             document.getElementById('search').focus();
             onCreate();
@@ -120,14 +123,21 @@
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
 
-                        document.getElementById('parentTypeName').value = responseJson.ptypeId;
+                        document.getElementById('parentTypeName').setAttribute('disabled','');
+                        document.getElementById('parentTypeName').value = responseJson.ptypeName;
+                        document.getElementById('parentTypeId').value = responseJson.ptypeId;
                         document.getElementById('typeName').value = responseJson.typeName;
                         document.getElementById('typeId').value = responseJson.typeId;
-                        document.getElementById('parentTypeName').setAttribute('disabled','');
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
                         document.getElementById('typeClass').value = responseJson.defaultClassId;
-
+                        if (responseJson.ptypeId !== '') {
+                            document.querySelector('#btnUpdate').removeAttribute('disabled');
+                            document.querySelector('#btnDelete').removeAttribute('disabled');
+                        } else {
+                            document.getElementById('btnUpdate').disabled = true;
+                            document.getElementById('btnDelete').disabled = true;
+                        }
                         onEdit();
                     }
                 };
@@ -155,7 +165,7 @@
             document.querySelector('#btnUpdate').style.display = 'none';
             document.querySelector('#btnDelete').style.display = 'none';
             document.querySelector('#btnRegist').style.display = 'block';
-            document.querySelectorAll('input[type=text]:not(#typeClass)').forEach(function(object){
+            document.querySelectorAll('input[type=text]:not(.inherit)').forEach(function(object){
                 object.value = '';
             });
             document.querySelector('textarea').value = '';
