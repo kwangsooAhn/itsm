@@ -17,6 +17,7 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -39,11 +40,28 @@ class CIAttributeRestController(private val ciAttributeService: CIAttributeServi
         return ciAttributeService.getAttributes(params)
     }
 
-    @PutMapping("/{attributeId}")
-    fun updateAttribute(@RequestBody cmdbAttributeDto: CmdbAttributeDto): String {
+    /**
+     * Attribute 등록.
+     */
+    @PostMapping("")
+    fun createAttribute(@RequestBody cmdbAttributeDto: CmdbAttributeDto): String {
         return ciAttributeService.saveAttribute(cmdbAttributeDto)
     }
 
+    /**
+     * Attribute 수정.
+     */
+    @PutMapping("/{attributeId}")
+    fun updateAttribute(
+        @PathVariable attributeId: String,
+        @RequestBody cmdbAttributeDto: CmdbAttributeDto
+    ): String {
+        return ciAttributeService.updateAttribute(attributeId, cmdbAttributeDto)
+    }
+
+    /**
+     * Attribute 삭제.
+     */
     @DeleteMapping("/{attributeId}")
     fun deleteAttribute(@PathVariable attributeId: String): String {
         return ciAttributeService.deleteAttribute(attributeId)

@@ -28,19 +28,19 @@ data class CmdbAttributeEntity(
     var attributeId: String = "",
 
     @Column(name = "attribute_name", length = 100)
-    val attributeName: String = "",
+    var attributeName: String = "",
 
     @Column(name = "attribute_desc", length = 500)
-    val attributeDesc: String? = null,
+    var attributeDesc: String? = null,
 
     @Column(name = "attribute_type", length = 100)
-    val attributeType: String? = null,
+    var attributeType: String? = null,
 
     @Column(name = "attribute_text", length = 128)
-    val attributeText: String = "",
+    var attributeText: String = "",
 
     @Column(name = "attribute_value")
-    val attributeValue: String = "",
+    var attributeValue: String? = "",
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,

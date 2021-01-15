@@ -22,28 +22,28 @@
                     <span class="required"></span>
                 </label>
                 <input type="text" id="attributeName" required="required" maxlength="110"
-                       th:value="${attribute?.attributeName}"/>
+                       th:value="${attribute?.attributeName}" disabled/>
             </div>
             <div class="flex-column edit-row">
                 <label for="attributeDesc">
                     <span th:text="#{cmdb.attribute.label.description}"></span>
                 </label>
                 <textarea id="attributeDesc" name="attributeDesc" maxlength="2048" rows="5"
-                          class="textarea-scroll-wrapper" th:text="${attribute?.attributeDesc}"></textarea>
+                          class="textarea-scroll-wrapper" th:text="${attribute?.attributeDesc}" disabled></textarea>
             </div>
             <div class="flex-column edit-row">
                 <label for="attributeText">
                     <span th:text="#{cmdb.attribute.label.label}"></span>
                 </label>
                 <input type="text" id="attributeText" maxlength="110"
-                       th:value="${attribute?.attributeText}"/>
+                       th:value="${attribute?.attributeText}" disabled/>
             </div>
             <div class="flex-column edit-row">
                 <label for="attributeType">
                     <span th:text="#{cmdb.attribute.label.type}"></span>
                     <span class="required"></span>
                 </label>
-                <select id="attributeType">
+                <select id="attributeType" disabled>
                 </select>
             </div>
             <div class="flex-column edit-row">
@@ -57,12 +57,6 @@
             </div>
             <div class="flex-row justify-content-end edit-row">
                 <div class="btn-list">
-                    <button class="point-fill" th:if="${attribute == null}" sec:authorize="hasAuthority('cmdb.attribute.create')"
-                            onclick="actionAttribute('post')" th:text="#{common.btn.register}"></button>
-                    <button class="point-fill" th:if="${attribute?.attributeId}" sec:authorize="hasAuthority('cmdb.attribute.update')"
-                            onclick="actionAttribute('put')" th:text="#{common.btn.modify}"></button>
-                    <button class="default-fill" th:if="${attribute?.attributeId}" sec:authorize="hasAuthority('cmdb.attribute.delete')"
-                            th:disabled="${!attribute.enabled}" onclick="actionAttribute('delete')" th:text="#{common.btn.delete}"></button>
                     <a class="btn default-line" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
@@ -74,9 +68,6 @@
     <script th:src="@{/assets/js/cmdb/cmdb.attribute.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-        const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION = '1';
-
         window.onload = function () {
             const attributeType = /*[[${attribute?.attributeType}]]*/ null;
             let attributeTypeObject = document.querySelector('#attributeType');
@@ -91,7 +82,6 @@
             }
             aliceJs.initDesignedSelectTag();
 
-
             OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
                 className: 'scrollbar',
@@ -104,66 +94,6 @@
                 }
             });
         };
-
-        function emptyCheck() {
-            if (isEmpty('attributeName', 'cmdb.attribute.msg.enterAttributeName')) { return false; }
-            if (isEmpty('attributeType', 'cmdb.attribute.msg.selectAttributeType')) { return false; }
-            return attribute.checkDetails(document.querySelector('#attributeType').value)
-        }
-
-        function actionAttribute(method) {
-            if (method === 'post' || method === 'put') {
-                if (emptyCheck()) {
-                    let data = {
-                        attributeName: document.querySelector('#attributeName').value,
-                        attributeType: document.querySelector('#attributeType').value,
-                        attributeText: document.querySelector('#attributeText').value,
-                        attributeDesc: document.querySelector('#attributeDesc').value
-                    }
-                    restSubmit(method, '/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'', data);
-                }
-            } else if (method === 'delete') {
-                aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'');
-            }
-        }
-
-        function restSubmit(method, url, data) {
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function(response) {
-                    if (method === 'post' || method === 'put') {
-                        switch (response.responseText) {
-                            case STATUS_SUCCESS:
-                                aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
-                                    location.href = '/cmdb/attributes/search';
-                                });
-                                break;
-                            case STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION:
-                                //aliceJs.alertSuccess(i18n.msg('customCode.msg.customCodeUsed'));
-                                break;
-                            default :
-                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
-                                break;
-                        }
-                    } else if (method === 'delete'){
-                        switch (response.responseText) {
-                            case STATUS_SUCCESS:
-                                aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
-                                    location.href = '/cmdb/attributes/search';
-                                });
-                                break;
-                            default:
-                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
-                                break;
-                        }
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
         /*]]>*/
     </script>
 </th:block>

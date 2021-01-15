@@ -20,6 +20,10 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity::class.java),
     CIAttributeRepositoryCustom {
+
+    /**
+     * Attribute 목록 조회.
+     */
     override fun findAttributeList(search: String, offset: Long?): List<CmdbAttributeListDto> {
         val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
         val query = from(attribute)
@@ -53,6 +57,9 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
         return attributeList.toList()
     }
 
+    /**
+     * Attribute 조회.
+     */
     override fun findAttribute(attributeId: String): CmdbAttributeDto {
         val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
         val classAttributeMap = QCmdbClassAttributeMapEntity.cmdbClassAttributeMapEntity
@@ -80,5 +87,18 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
             )
             .where(attribute.attributeId.eq(attributeId))
             .fetchOne()
+    }
+
+    /**
+     * Attribute 명 중복 체크.
+     */
+    override fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long {
+        val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
+        val query = from(attribute)
+            .where(attribute.attributeName.eq(attributeName))
+        if (attributeId.isNotEmpty()) {
+            query.where(!attribute.attributeId.eq(attributeId))
+        }
+        return query.fetchCount()
     }
 }

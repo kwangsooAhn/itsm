@@ -13,4 +13,5 @@ import co.brainz.framework.querydsl.AliceRepositoryCustom
 interface CIAttributeRepositoryCustom : AliceRepositoryCustom {
     fun findAttributeList(search: String, offset: Long?): List<CmdbAttributeListDto>
     fun findAttribute(attributeId: String): CmdbAttributeDto
+    fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long
 }

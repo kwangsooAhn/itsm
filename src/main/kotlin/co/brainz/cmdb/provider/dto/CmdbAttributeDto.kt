@@ -10,16 +10,16 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class CmdbAttributeDto(
-    val attributeId: String? = null,
-    val attributeName: String? = null,
+    val attributeId: String = "",
+    val attributeName: String = "",
     val attributeDesc: String? = null,
-    val attributeText: String? = null,
+    val attributeText: String = "",
     val attributeType: String? = null,
     val attributeValue: String? = null,
-    val createUserKey: String? = null,
+    var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
-    val updateUserKey: String? = null,
-    val updateDt: LocalDateTime? = null,
+    var updateUserKey: String? = null,
+    var updateDt: LocalDateTime? = null,
     var enabled: Boolean = true,
     var details: String? = null
 ) : Serializable

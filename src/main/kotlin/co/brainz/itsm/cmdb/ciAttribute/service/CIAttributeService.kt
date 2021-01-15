@@ -10,12 +10,16 @@ import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
+import co.brainz.framework.auth.dto.AliceUserDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
@@ -58,11 +62,46 @@ class CIAttributeService(
     }
 
     /**
-     * Attribute 등록 / 수정.
+     * Attribute 등록.
      */
     fun saveAttribute(cmdbAttributeDto: CmdbAttributeDto): String {
-        val a = ""
-        return "0"
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        cmdbAttributeDto.createDt = LocalDateTime.now()
+        cmdbAttributeDto.createUserKey = aliceUserDto.userKey
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Attribute.POST_ATTRIBUTE.url)
+        val responseBody = restTemplate.create(url, cmdbAttributeDto)
+        return when (responseBody.body.toString().isNotEmpty()) {
+            true -> {
+                val restTemplateReturnDto =
+                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
+                restTemplateReturnDto.code
+            }
+            false -> ""
+        }
+    }
+
+    /**
+     * Attribute 수정.
+     */
+    fun updateAttribute(attributeId: String, cmdbAttributeDto: CmdbAttributeDto): String {
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        cmdbAttributeDto.updateDt = LocalDateTime.now()
+        cmdbAttributeDto.updateUserKey = aliceUserDto.userKey
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Attribute.PUT_ATTRIBUTE.url.replace(
+                restTemplate.getKeyRegex(),
+                attributeId
+            )
+        )
+        val responseBody = restTemplate.update(url, cmdbAttributeDto)
+        return when (responseBody.body.toString().isNotEmpty()) {
+            true -> {
+                val restTemplateReturnDto =
+                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
+                restTemplateReturnDto.code
+            }
+            false -> ""
+        }
     }
 
     /**

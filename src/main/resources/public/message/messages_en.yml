@@ -234,7 +234,7 @@ cmdb:
       type: "Type"
       view: "Attribute"
     msg:
-      attributeUsed: "The Attribute is being used."
+      attributeNameUsed: "The Attribute Name is being used."
       enterAttributeName: "Please enter a attribute name."
       searchDescription: "CI Attribute manage posts."
       selectAttributeType: "Please select the type."

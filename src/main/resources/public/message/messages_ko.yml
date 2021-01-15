@@ -235,7 +235,7 @@ cmdb:
       type: "타입"
       view: "Attribute"
     msg:
-      attributeUsed: "사용 중인 Attribute입니다."
+      attributeNameUsed: "사용 중인 Attribute 명입니다."
       enterAttributeName: "Attribute 명을 입력하세요."
       searchDescription: "CI Attribute을 조회 및 관리합니다."
       selectAttributeType: "타입을 선택하세요."
