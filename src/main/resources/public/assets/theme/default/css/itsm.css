@@ -2045,7 +2045,7 @@ button .icon-plus {
 .numbering-pattern-header,
 .numbering-rule-header,
 .attribute-header,
-.class-header {
+.cmdb-class-header {
   padding: 2.188rem 3.75rem 0 3.75rem;
   background-color: #F7F8F9;
 }
@@ -2298,20 +2298,20 @@ button .icon-plus {
   padding: 0;
 }
 
-.class-content-edit {
+.cmdb-class-content-edit {
   height: 41.25rem;
   margin: 0 0 1.875rem 0;
 }
-.class-content-edit .edit-form {
+.cmdb-class-content-edit .edit-form {
   padding: 0 1.875rem 0 4.0625rem;
 }
-.class-content-edit .edit-form .edit-row {
+.cmdb-class-content-edit .edit-form .edit-row {
   margin-top: 0.625rem;
 }
-.class-content-edit .attribute {
+.cmdb-class-content-edit .attribute {
   width: 27.94rem;
 }
-.class-content-edit .btn-minus {
+.cmdb-class-content-edit .btn-minus {
   padding: 0;
 }
 

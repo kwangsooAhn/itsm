@@ -119,7 +119,7 @@
 .numbering-pattern-header,
 .numbering-rule-header,
 .attribute-header,
-.class-header{
+.cmdb-class-header{
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
@@ -388,7 +388,7 @@
   .btn-minus { padding: 0;}
 }
 // CMDB > Class
-.class-content-edit{
+.cmdb-class-content-edit{
   height: 41.25rem; // 660px
   margin: 0 0 1.875rem 0; // 30px
   // 스크롤바
