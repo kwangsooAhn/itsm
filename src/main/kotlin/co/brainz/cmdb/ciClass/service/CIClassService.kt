@@ -4,117 +4,135 @@
  *
  */
 
-package co.brainz.itsm.cmdb.ciClass.service
+package co.brainz.cmdb.ciClass.service
 
-import co.brainz.cmdb.provider.RestTemplateProvider
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
+import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
+import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
-import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
-import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.time.LocalDateTime
-import javax.transaction.Transactional
+import co.brainz.cmdb.provider.dto.CmdbClassToAttributeDto
+import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
 
 @Service
-@Transactional
 class CIClassService(
-    private val restTemplate: RestTemplateProvider
+    private val ciClassRepository: CIClassRepository,
+    private val aliceUserRepository: AliceUserRepository
 ) {
+
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * CMDB Class 단일 조회
      */
     fun getCmdbClass(classId: String): CmdbClassDetailDto {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Class.GET_CLASS.url.replace(
-                restTemplate.getKeyRegex(),
-                classId
-            )
-        )
-        val responseBody = restTemplate.get(url)
-        return mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructType(CmdbClassDetailDto::class.java)
-        )
-    }
-
-    /**
-     * CMDB class 멀티 조회
-     */
-    fun getCmdbClasses(params: LinkedMultiValueMap<String, String>): List<CmdbClassListDto> {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Class.GET_CLASSES.url,
-            parameters = params
-        )
-        val responseBody = restTemplate.get(url)
-        return mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassListDto::class.java)
-        )
-    }
-
-    /**
-     * CMDB Class 등록
-     */
-    fun createCmdbClass(cmdbClassDto: CmdbClassDto): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        cmdbClassDto.createDt = LocalDateTime.now()
-        cmdbClassDto.createUserKey = aliceUserDto.userKey
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Class.POST_CLASS.url
-        )
-        val responseBody = restTemplate.create(url, cmdbClassDto)
-        return when (responseBody.body.toString().isNotEmpty()) {
-            true -> CIClassConstants.Status.STATUS_SUCCESS.code
-            false -> ""
+        var cmdbClassEntity = ciClassRepository.getOne(classId)
+        var pClassName = cmdbClassEntity.pClassId?.let {
+            ciClassRepository.getOne(it).className
         }
+        val attributeList = mutableListOf<CmdbClassToAttributeDto>()
+        cmdbClassEntity.cmdbClassAttributeMapEntities.forEach {
+            attributeList.add(
+                CmdbClassToAttributeDto(
+                    it.cmdbAttribute.attributeId,
+                    it.cmdbAttribute.attributeName,
+                    it.attributeOrder
+                )
+            )
+        }
+
+        val extendsAttributeList = mutableListOf<CmdbClassToAttributeDto>()
+        cmdbClassEntity.pClassId?.let {
+            ciClassRepository.getOne(it).cmdbClassAttributeMapEntities.forEach {
+                extendsAttributeList.add(
+                    CmdbClassToAttributeDto(
+                        it.cmdbAttribute.attributeId,
+                        it.cmdbAttribute.attributeName,
+                        it.attributeOrder
+                    )
+                )
+            }
+        }
+
+        val cmdbClassDetailDto = CmdbClassDetailDto(
+            classId = cmdbClassEntity.classId,
+            className = cmdbClassEntity.className,
+            classDesc = cmdbClassEntity.classDesc,
+            pClassId = cmdbClassEntity.pClassId,
+            pClassName = pClassName,
+            attributes = attributeList,
+            extendsAttributes = extendsAttributeList
+        )
+        return cmdbClassDetailDto
+    }
+
+    /**
+     * CMDB Class 멀티 조회
+     */
+    fun getCmdbClasses(parameters: LinkedHashMap<String, Any>): List<CmdbClassListDto> {
+        var search = ""
+        var offset: Long? = null
+        if (parameters["search"] != null) search = parameters["search"].toString()
+        if (parameters["offset"] != null) {
+            offset = parameters["offset"].toString().toLong()
+        }
+        return ciClassRepository.findClassList(search, offset).toList()
+    }
+
+    /**
+     * CMDB Class 저장
+     */
+    fun createCmdbClass(cmdbClassDto: CmdbClassDto): Boolean {
+        val cmdbClassEntity = CmdbClassEntity(
+            classId = cmdbClassDto.classId,
+            className = cmdbClassDto.className,
+            classDesc = cmdbClassDto.classDesc,
+            pClassId = cmdbClassDto.pClassId
+        )
+        cmdbClassEntity.createUser = cmdbClassDto.createUserKey?.let {
+            aliceUserRepository.findAliceUserEntityByUserKey(it)
+        }
+        cmdbClassEntity.createDt = cmdbClassDto.createDt
+
+        ciClassRepository.save(cmdbClassEntity)
+        return true
     }
 
     /**
      * CMDB Class 수정
      */
-    fun updateCmdbClass(classId: String, cmdbClassDto: CmdbClassDto): String {
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        cmdbClassDto.updateDt = LocalDateTime.now()
-        cmdbClassDto.updateUserKey = userDetails.userKey
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Class.PUT_CLASS.url.replace(
-                restTemplate.getKeyRegex(),
-                classId
-            )
+    fun updateCmdbClass(classId: String, cmdbClassDto: CmdbClassDto): Boolean {
+        val cmdbClassEntity = ciClassRepository.findByIdOrNull(classId) ?: throw AliceException(
+            AliceErrorConstants.ERR_00005,
+            AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
         )
-        val responseEntity = restTemplate.update(url, cmdbClassDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> CIClassConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
-            false -> ""
+        cmdbClassEntity.className = cmdbClassDto.className
+        cmdbClassEntity.classDesc = cmdbClassDto.classDesc
+        cmdbClassEntity.pClassId = cmdbClassDto.pClassId
+        cmdbClassEntity.updateUser = cmdbClassDto.updateUserKey?.let {
+            aliceUserRepository.findAliceUserEntityByUserKey(it)
         }
+        cmdbClassEntity.updateDt = cmdbClassDto.updateDt
+
+        ciClassRepository.save(cmdbClassEntity)
+        return true
     }
 
     /**
      * CMDB Class 삭제
      */
-    fun deleteCmdbClass(classId: String): String {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Class.DELETE_CLASS.url.replace(
-                restTemplate.getKeyRegex(),
-                classId
-            )
+    fun deleteCmdbClass(classId: String): Boolean {
+        val classEntity = ciClassRepository.findByIdOrNull(classId) ?: throw AliceException(
+            AliceErrorConstants.ERR_00005,
+            AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
         )
-        return when (restTemplate.delete(url).toString().isNotEmpty()) {
-            true -> CIClassConstants.Status.STATUS_SUCCESS.code
-            false -> ""
-        }
+
+        ciClassRepository.deleteById(classEntity.classId)
+        return true
     }
 }
-
