@@ -32,11 +32,11 @@ class CITypeService(
 
         val pTypeList = mutableListOf<CmdbTypeEntity>()
         for (type in typeSearchList) {
-            var tempType = type.ptypeId
+            var tempType = type.pType
             do {
                 if (tempType != null) {
                     pTypeList.add(tempType)
-                    tempType = tempType.ptypeId
+                    tempType = tempType.pType
                 }
             } while (tempType != null)
         }
@@ -55,7 +55,8 @@ class CITypeService(
                     typeDesc = typeEntity.typeDesc,
                     typeLevel = typeEntity.typeLevel,
                     defaultClassId = typeEntity.defaultClassId,
-                    ptypeId = typeEntity.ptypeId?.typeId,
+                    ptypeId = typeEntity.pType?.typeId,
+                    ptypeName = typeEntity.pType?.typeName,
                     typeIcon = typeEntity.typeIcon,
                     totalCount = count
                 )
@@ -68,15 +69,6 @@ class CITypeService(
      *  CMDB Type 단일 조회.
      */
     fun getCmdbType(typeId: String): CmdbTypeDto {
-        val typeEntity = CITypeRepository.findTypeEntityByTypeId(typeId).get()
-
-        return CmdbTypeDto(
-            typeId = typeEntity.typeId,
-            typeName = typeEntity.typeName,
-            typeDesc = typeEntity.typeDesc,
-            defaultClassId = typeEntity.defaultClassId,
-            ptypeId = typeEntity.ptypeId!!.typeName,
-            typeIcon = typeEntity.typeIcon
-        )
+        return CITypeRepository.findByTypeId(typeId)
     }
 }

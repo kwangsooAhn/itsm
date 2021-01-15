@@ -7,12 +7,18 @@
 package co.brainz.cmdb.ciType.repository
 
 import co.brainz.cmdb.ciType.entity.CmdbTypeEntity
-import java.util.Optional
+import co.brainz.cmdb.provider.dto.CmdbTypeDto
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
 interface CITypeRepository : JpaRepository<CmdbTypeEntity, String>, CITypeRepositoryCustom {
 
-    fun findTypeEntityByTypeId(typeId: String): Optional<CmdbTypeEntity>
+    @Query(
+        "SELECT NEW co.brainz.cmdb.provider.dto.CmdbTypeDto(t.typeId, t.typeName, t.typeDesc, t.typeLevel, " +
+                "t.defaultClassId, t.pType.typeId, t.pType.typeId, t.typeIcon, t.createUser.userKey, t.createDt, t.updateUser.userKey, t.updateDt) FROM CmdbTypeEntity t " +
+                "WHERE t.typeId = :typeId "
+    )
+    fun findByTypeId(typeId: String): CmdbTypeDto
 }

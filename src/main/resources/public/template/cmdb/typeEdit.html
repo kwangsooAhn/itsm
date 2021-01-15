@@ -14,7 +14,7 @@
             <h6 class="description" th:text="#{cmdb.type.msg.searchDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input type="text" class="search col-5 mr-2" id="search" name="search"  maxlength="100"
+            <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
             <span id="totalCount" class="txt-num"></span>
             <div class="ml-auto">
@@ -36,29 +36,31 @@
         <div class="cmdb-type-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">
-                    <label class="required" th:text="#{cmdb.type.label.parentType}" for="txtParentType"></label>
-                    <input id="txtParentType" name="txtParentType" type="text" value="" maxlength="100" readonly/>
+                    <label class="required" th:text="#{cmdb.type.label.parentType}" for="parentTypeName"></label>
+                    <input id="parentTypeName" name="parentTypeName" type="text" maxlength="100" readonly/>
+                    <input id="parentTypeId" name="parentTypeId" type="hidden"/>
                 </div>
                 <div class="edit-row flex-column">
-                    <label class="required" th:text="#{cmdb.type.label.name}" for="txtTypeName"></label>
-                    <input id="txtTypeName" name="txtTypeName" type="text" value="" maxlength="100"/>
+                    <label class="required" th:text="#{cmdb.type.label.name}" for="typeName"></label>
+                    <input id="typeName" name="typeName" type="text" maxlength="100"/>
+                    <input id="typeId" name="typeId" type="hidden"/>
                 </div>
                 <div class="edit-row flex-column">
-                    <label th:text="#{cmdb.type.label.description}" for="txtTypeDesc"></label>
-                    <textarea id="txtTypeDesc" name="txtTypeDesc" th:maxlength="200" th:rows="7"
+                    <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
+                    <textarea id="typeDesc" name="typeDesc" th:maxlength="200" th:rows="7"
                               class="textarea-scroll-wrapper" text=""></textarea>
                 </div>
                 <div class="edit-row flex-column">
-                    <label th:text="#{cmdb.type.label.icon}" for="txtTypeDesc"></label>
+                    <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
                     <div class="flex-row input-button">
-                        <input class="col-pct-12" id="typeIcon" name="typeIcon" value="" readonly>
+                        <input class="col-pct-12" id="typeIcon" name="typeIcon" type="text" readonly>
                         <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
                 <div class="edit-row flex-column">
-                    <label th:text="#{cmdb.type.label.class}" for="txtTypeDesc"></label>
+                    <label th:text="#{cmdb.type.label.class}" for="typeClass"></label>
                     <div class="flex-row input-button">
-                        <input class="col-pct-12" id="typeClass" name="typeClass" value="" readonly>
+                        <input class="col-pct-12" id="typeClass" name="typeClass" type="text" readonly>
                         <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
@@ -106,13 +108,37 @@
 
             // 상세조회
             function onGetDetail(typeId) {
+                document.querySelectorAll('input[type=text]').forEach(function(object){
+                    object.value = '';
+                });
+                document.querySelector('textarea').value = '';
+
+                const opt = {
+                    method: 'get',
+                    url: '/rest/cmdb/types/' + typeId,
+                    showProgressbar: false,
+                    callbackFunc: function(response) {
+                        let responseJson = JSON.parse(response.responseText);
+
+                        document.getElementById('parentTypeName').value = responseJson.ptypeId;
+                        document.getElementById('typeName').value = responseJson.typeName;
+                        document.getElementById('typeId').value = responseJson.typeId;
+                        document.getElementById('parentTypeName').setAttribute('disabled','');
+                        document.getElementById('typeDesc').value = responseJson.typeDesc;
+                        document.getElementById('typeIcon').value = responseJson.typeIcon;
+                        document.getElementById('typeClass').value = responseJson.defaultClassId;
+
+                        onEdit();
+                    }
+                };
+                aliceJs.sendXhr(opt);
             }
             OverlayScrollbars(document.querySelector('.list-tree'), { className: 'scrollbar' });
             document.getElementById('search').addEventListener('keyup', function() {
                 getTypeList();
             });
             OverlayScrollbars(document.querySelector('.type-content-edit'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelectorAll('#txtTypeDesc'), {
+            OverlayScrollbars(document.querySelectorAll('#typeDesc'), {
                 className: 'scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,
@@ -127,23 +153,23 @@
         /** create **/
         function onCreate() {
             document.querySelector('#btnUpdate').style.display = 'none';
-            document.querySelector('#btnUpdate').setAttribute('disabled', 'true');
             document.querySelector('#btnDelete').style.display = 'none';
-            document.querySelector('#btnDelete').setAttribute('disabled', 'true');
-            document.querySelector('#btnRegist').removeAttribute('disabled');
             document.querySelector('#btnRegist').style.display = 'block';
-            document.querySelectorAll('input[type=text]').forEach(function(object){
+            document.querySelectorAll('input[type=text]:not(#typeClass)').forEach(function(object){
                 object.value = '';
             });
             document.querySelector('textarea').value = '';
 
             let selectedNode = tree.getTreeSelectNode();
             if (selectedNode !== null) {
-                document.querySelector('#txtParentType').value = selectedNode.id;
+                document.querySelector('#parentTypeName').value = selectedNode.dataset.name;
             }
         }
 
         function onEdit() {
+            document.querySelector('#btnUpdate').style.display = 'block';
+            document.querySelector('#btnDelete').style.display = 'block';
+            document.querySelector('#btnRegist').style.display = 'none';
         }
 
         /** save **/
