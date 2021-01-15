@@ -21,21 +21,21 @@
                     <span th:text="#{cmdb.attribute.label.name}"></span>
                     <span class="required"></span>
                 </label>
-                <input type="text" id="attributeName" required="required" maxlength="110"
+                <input type="text" id="attributeName" required="required" maxlength="100"
                        th:value="${attribute?.attributeName}" disabled/>
             </div>
             <div class="flex-column edit-row">
                 <label for="attributeDesc">
                     <span th:text="#{cmdb.attribute.label.description}"></span>
                 </label>
-                <textarea id="attributeDesc" name="attributeDesc" maxlength="2048" rows="5"
+                <textarea id="attributeDesc" name="attributeDesc" maxlength="250" rows="5"
                           class="textarea-scroll-wrapper" th:text="${attribute?.attributeDesc}" disabled></textarea>
             </div>
             <div class="flex-column edit-row">
                 <label for="attributeText">
                     <span th:text="#{cmdb.attribute.label.label}"></span>
                 </label>
-                <input type="text" id="attributeText" maxlength="110"
+                <input type="text" id="attributeText" maxlength="100"
                        th:value="${attribute?.attributeText}" disabled/>
             </div>
             <div class="flex-column edit-row">
