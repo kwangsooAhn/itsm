@@ -2690,6 +2690,7 @@ CREATE TABLE cmdb_ci
 	ci_id character varying(128) NOT NULL,
 	ci_no character varying(128),
 	ci_name character varying(100) NOT NULL,
+	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	class_id character varying(128) NOT NULL,
 	ci_icon character varying(200),
@@ -2713,6 +2714,7 @@ COMMENT ON TABLE cmdb_ci IS 'CMDB CI 정보';
 COMMENT ON COLUMN cmdb_ci.ci_id IS 'CI아이디';
 COMMENT ON COLUMN cmdb_ci.ci_no IS '시퀀스';
 COMMENT ON COLUMN cmdb_ci.ci_name IS 'CI이름';
+COMMENT ON COLUMN cmdb_ci.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_ci.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci.ci_icon IS 'CI아이콘';
@@ -2761,19 +2763,11 @@ CREATE TABLE cmdb_ci_history
 	ci_name character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	class_id character varying(128) NOT NULL,
+	ci_status character varying(100) NOT NULL,
 	ci_icon character varying(200),
 	ci_desc character varying(500),
 	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id, ci_id, seq),
-	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id),
-	CONSTRAINT cmdb_ci_history_fk1 FOREIGN KEY (ci_id)
-      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_history_fk2 FOREIGN KEY (type_id)
-      REFERENCES cmdb_type (type_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_history_fk3 FOREIGN KEY (class_id)
-      REFERENCES cmdb_class (class_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
 );
 
 COMMENT ON TABLE cmdb_ci_history IS 'CMDB CI 정보 이력';
@@ -2784,6 +2778,7 @@ COMMENT ON COLUMN cmdb_ci_history.ci_no IS 'CI번호';
 COMMENT ON COLUMN cmdb_ci_history.ci_name IS 'CI이름';
 COMMENT ON COLUMN cmdb_ci_history.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_ci_history.class_id IS '클래스아이디';
+COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
 
@@ -2794,7 +2789,7 @@ DROP TABLE IF EXISTS cmdb_ci_data_history cascade;
 
 CREATE TABLE cmdb_ci_data_history
 (
-    data_history_id character varying(128) NOT NULL,
+	data_history_id character varying(128) NOT NULL,
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	attribute_id character varying(128) NOT NULL,
@@ -2804,13 +2799,7 @@ CREATE TABLE cmdb_ci_data_history
 	attribute_text character varying(128),
 	value text,
 	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (attribute_id),
-	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id),
-	CONSTRAINT cmdb_ci_data_history_fk1 FOREIGN KEY (attribute_id)
-      REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_data_history_fk2 FOREIGN KEY (ci_id)
-      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id)
 );
 
 COMMENT ON TABLE cmdb_ci_data_history IS 'CMDB CI 속성데이터 이력';

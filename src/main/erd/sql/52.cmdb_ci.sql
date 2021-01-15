@@ -8,6 +8,7 @@ CREATE TABLE cmdb_ci
 	ci_id character varying(128) NOT NULL,
 	ci_no character varying(128),
 	ci_name character varying(100) NOT NULL,
+	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	class_id character varying(128) NOT NULL,
 	ci_icon character varying(200),
@@ -31,6 +32,7 @@ COMMENT ON TABLE cmdb_ci IS 'CMDB CI 정보';
 COMMENT ON COLUMN cmdb_ci.ci_id IS 'CI아이디';
 COMMENT ON COLUMN cmdb_ci.ci_no IS '시퀀스';
 COMMENT ON COLUMN cmdb_ci.ci_name IS 'CI이름';
+COMMENT ON COLUMN cmdb_ci.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_ci.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci.ci_icon IS 'CI아이콘';
