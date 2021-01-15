@@ -122,7 +122,6 @@
                     showProgressbar: false,
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
-
                         document.getElementById('parentTypeName').setAttribute('disabled','');
                         document.getElementById('parentTypeName').value = responseJson.ptypeName;
                         document.getElementById('parentTypeId').value = responseJson.ptypeId;
@@ -131,7 +130,7 @@
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
                         document.getElementById('typeClass').value = responseJson.defaultClassId;
-                        if (responseJson.ptypeId !== '') {
+                        if (responseJson.ptypeId !== null) {
                             document.querySelector('#btnUpdate').removeAttribute('disabled');
                             document.querySelector('#btnDelete').removeAttribute('disabled');
                         } else {
@@ -173,6 +172,7 @@
             let selectedNode = tree.getTreeSelectNode();
             if (selectedNode !== null) {
                 document.querySelector('#parentTypeName').value = selectedNode.dataset.name;
+                document.querySelector('#parentTypeId').value = selectedNode.id;
             }
         }
 
@@ -184,10 +184,72 @@
 
         /** save **/
         function onSave(method) {
+            const jsonData = {
+                typeId: document.getElementById('typeId').value,
+                ptypeId: document.getElementById('parentTypeId').value,
+                typeName: document.getElementById('typeName').value,
+                typeDesc: document.getElementById('typeDesc').value,
+                typeIcon: document.getElementById('typeIcon').value,
+                defaultClassId: document.getElementById('typeClass').value
+            };
+
+            if (jsonData.ptypeId === null || jsonData.ptypeId.trim() === '') {
+                aliceJs.alertWarning([[#{cmdb.type.msg.enterPType}]]);
+                return false;
+            }
+            if (jsonData.typeName === null || jsonData.typeName.trim() === '') {
+                aliceJs.alertWarning([[#{cmdb.type.msg.enterTypeName}]]);
+                return false;
+            }
+            let url = '/rest/cmdb/types';
+            if (method !== 'post') {
+                url += '/' + document.getElementById('typeId').value;
+            }
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(jsonData),
+                contentType: 'application/json',
+                callbackFunc: function (response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.register'), function () {
+                                window.location.href = '/cmdb/types/edit';
+                            });
+                            break;
+                        case STATUS_SUCCESS_EDIT_TYPE:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.update'), function () {
+                                window.location.href = '/cmdb/types/edit';
+                            });
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
         }
 
         /** delete **/
         function onDelete() {
+            const opt = {
+                method: 'delete',
+                url: '/rest/cmdb/types/' + document.getElementById('typeId').value,
+                callbackFunc: function(response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                                window.location.href ='/cmdb/types/edit';
+                            });
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
         }
         /*]]>*/
     </script>

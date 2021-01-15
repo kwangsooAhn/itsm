@@ -18,8 +18,8 @@ data class CmdbTypeDto(
     val ptypeId: String? = "",
     val ptypeName: String? = "",
     val typeIcon: String? = null,
-    val createUserKey: String? = null,
+    var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
-    val updateUserKey: String? = null,
-    val updateDt: LocalDateTime? = null
+    var updateUserKey: String? = null,
+    var updateDt: LocalDateTime? = null
 ) : Serializable

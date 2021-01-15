@@ -10,6 +10,10 @@ import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.provider.CmdbDummyProvider
 import co.brainz.cmdb.provider.dto.CmdbTypeDto
 import co.brainz.cmdb.provider.dto.CmdbTypeListDto
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -30,28 +34,47 @@ class CITypeController(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    /**
+     * CMDB Type 목록 조회
+     */
     @GetMapping("")
     fun getCmdbTypes(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbTypeListDto> {
         return ciTypeService.getCmdbTypes(parameters["search"].toString())
     }
 
-    @PostMapping("")
-    fun createCmdbType(@RequestBody cmdbTypeDto: CmdbTypeDto): Boolean {
-        return true
-    }
-
+    /**
+     * CMDB Type 단일 조회
+     */
     @GetMapping("/{typeId}")
     fun getCmdbType(@PathVariable typeId: String): CmdbTypeDto {
         return ciTypeService.getCmdbType(typeId)
     }
 
-    @PutMapping("/{typeId}")
-    fun updateCmdbType(@RequestBody cmdbTypeDto: CmdbTypeDto): Boolean {
-        return true
+    /**
+     * CMDB Type 등록
+     */
+    @PostMapping("")
+    fun createCmdbType(@RequestBody jsonData: Any): Boolean {
+        val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        return ciTypeService.createCmdbType(mapper.convertValue(jsonData, CmdbTypeDto::class.java))
     }
 
+    /**
+     * CMDB Type 수정
+     */
+    @PutMapping("/{typeId}")
+    fun updateCmdbType(@RequestBody cmdbTypeDto: CmdbTypeDto,
+                       @PathVariable typeId: String
+    ): Boolean {
+        return ciTypeService.updateCmdbType(cmdbTypeDto, typeId)
+    }
+
+    /**
+     * CMDB Type 삭제
+     */
     @DeleteMapping("/{typeId}")
     fun deleteCmdbType(@PathVariable typeId: String): Boolean {
-        return true
+        return ciTypeService.deleteCmdbType(typeId)
     }
 }
