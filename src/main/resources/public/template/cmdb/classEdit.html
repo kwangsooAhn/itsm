@@ -153,19 +153,26 @@
                     document.getElementById('txtPClassName').value = responseJson.pclassName;
                     document.getElementById('txtClassName').value = responseJson.className;
                     document.getElementById('txtClassDesc').value = responseJson.classDesc;
+                    if (responseJson.editable) {
+                        document.getElementById('btnUpdate').removeAttribute('disabled');
+                        document.getElementById('btnDelete').removeAttribute('disabled');
+                    } else {
+                        document.getElementById('btnUpdate').disabled = true;
+                        document.getElementById('btnDelete').disabled = true;
+                    }
                     while (attribute.hasChildNodes()) {
                         attribute.removeChild(attribute.firstChild);
                     }
-                    responseJson.extendsAttributes.forEach(function (data) {
-                        if (data !== null) {
+                    if (responseJson.extendsAttributes !== null) {
+                        responseJson.extendsAttributes.forEach(function (data) {
                             drawAttribute({key: data.attributeId, value: data.attributeName}, false);
-                        }
-                    });
-                    responseJson.attributes.forEach(function (data) {
-                        if (data !== null) {
+                        });
+                    }
+                    if (responseJson.attributes !== null) {
+                        responseJson.attributes.forEach(function (data) {
                             drawAttribute({key: data.attributeId, value: data.attributeName}, true);
-                        }
-                    });
+                        });
+                    }
                 }
             };
             aliceJs.sendXhr(opt);

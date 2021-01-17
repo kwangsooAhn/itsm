@@ -11,6 +11,7 @@ import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
+import co.brainz.cmdb.provider.dto.CmdbClassToAttributeDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -31,16 +32,23 @@ class CIClassService(
      */
     fun getCmdbClass(classId: String): CmdbClassDetailDto {
         val cmdbClassEntity = ciClassRepository.getOne(classId)
+        var editable = true
         val classList = mutableListOf<String>()
         val recursiveClassList = mutableListOf<String>()
+        val attributes = ciClassRepository.findClassToAttributeList(classList)
+        var extendsAtrributes: List<CmdbClassToAttributeDto>? = null
+
         val pClassName = cmdbClassEntity.pClassId?.let {
             ciClassRepository.getOne(it).className
         }
         classList.add(cmdbClassEntity.classId)
-        val recursiveClasses = ciClassRepository.findRecursiveClass(classId).let { recursiveClass ->
-            recursiveClass.forEach {
+
+        if (ciClassRepository.findRecursiveClass(classId).isNotEmpty()) {
+            ciClassRepository.findRecursiveClass(classId).forEach {
                 recursiveClassList.add(it.classId)
             }
+            editable = false
+            extendsAtrributes = ciClassRepository.findClassToAttributeList(recursiveClassList)
         }
 
         return CmdbClassDetailDto(
@@ -49,8 +57,9 @@ class CIClassService(
             classDesc = cmdbClassEntity.classDesc,
             pClassId = cmdbClassEntity.pClassId,
             pClassName = pClassName,
-            attributes = ciClassRepository.findClassToAttributeList(classList),
-            extendsAttributes = recursiveClasses.let { ciClassRepository.findClassToAttributeList(recursiveClassList) }
+            editable = editable,
+            attributes = attributes,
+            extendsAttributes = extendsAtrributes
         )
     }
 

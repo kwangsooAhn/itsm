@@ -12,6 +12,7 @@ data class CmdbClassDetailDto(
     var classDesc: String? = null,
     var pClassId: String? = null,
     var pClassName: String? = null,
+    var editable: Boolean? = true,
     var attributes: List<CmdbClassToAttributeDto>? = null,
     var extendsAttributes: List<CmdbClassToAttributeDto>? = null
 )
