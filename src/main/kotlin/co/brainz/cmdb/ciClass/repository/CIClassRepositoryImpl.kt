@@ -1,8 +1,10 @@
 package co.brainz.cmdb.ciClass.repository
 
 import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
+import co.brainz.cmdb.ciClass.entity.QCmdbClassAttributeMapEntity
 import co.brainz.cmdb.ciClass.entity.QCmdbClassEntity
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
+import co.brainz.cmdb.provider.dto.CmdbClassToAttributeDto
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -21,8 +23,8 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CmdbClassEntity::class.j
                 )
             )
             .where(
-                super.likeIgnoreCase(cmdbClass.className, search)
-                    ?.or(super.likeIgnoreCase(cmdbClass.classDesc, search))
+                super.like(cmdbClass.className, search)
+                    ?.or(super.like(cmdbClass.classDesc, search))
 
             ).orderBy(cmdbClass.className.asc())
         if (offset != null) {
@@ -35,5 +37,27 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CmdbClassEntity::class.j
             cmdbClassList.add(data)
         }
         return cmdbClassList.toList()
+    }
+
+    override fun findClassToAttributeList(classList: MutableList<String>): List<CmdbClassToAttributeDto>? {
+        val cmdbClassAttributeMap = QCmdbClassAttributeMapEntity.cmdbClassAttributeMapEntity
+        val query = from(cmdbClassAttributeMap)
+            .select(
+                Projections.constructor(
+                    CmdbClassToAttributeDto::class.java,
+                    cmdbClassAttributeMap.cmdbAttribute.attributeId,
+                    cmdbClassAttributeMap.cmdbAttribute.attributeName,
+                    cmdbClassAttributeMap.attributeOrder
+                )
+            )
+            .where(
+                cmdbClassAttributeMap.cmdbClass.classId.`in`(classList)
+            ).orderBy(cmdbClassAttributeMap.attributeOrder.asc())
+        val result = query.fetchResults()
+        val cmdbClassToAttributeList = mutableListOf<CmdbClassToAttributeDto>()
+        for (data in result.results) {
+            cmdbClassToAttributeList.add(data)
+        }
+        return cmdbClassToAttributeList.toList()
     }
 }

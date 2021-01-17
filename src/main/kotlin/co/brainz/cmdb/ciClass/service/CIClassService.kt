@@ -11,7 +11,6 @@ import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
-import co.brainz.cmdb.provider.dto.CmdbClassToAttributeDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -31,44 +30,28 @@ class CIClassService(
      * CMDB Class 단일 조회
      */
     fun getCmdbClass(classId: String): CmdbClassDetailDto {
-        var cmdbClassEntity = ciClassRepository.getOne(classId)
-        var pClassName = cmdbClassEntity.pClassId?.let {
+        val cmdbClassEntity = ciClassRepository.getOne(classId)
+        val classList = mutableListOf<String>()
+        val recursiveClassList = mutableListOf<String>()
+        val pClassName = cmdbClassEntity.pClassId?.let {
             ciClassRepository.getOne(it).className
         }
-        val attributeList = mutableListOf<CmdbClassToAttributeDto>()
-        cmdbClassEntity.cmdbClassAttributeMapEntities.forEach {
-            attributeList.add(
-                CmdbClassToAttributeDto(
-                    it.cmdbAttribute.attributeId,
-                    it.cmdbAttribute.attributeName,
-                    it.attributeOrder
-                )
-            )
-        }
-
-        val extendsAttributeList = mutableListOf<CmdbClassToAttributeDto>()
-        cmdbClassEntity.pClassId?.let {
-            ciClassRepository.getOne(it).cmdbClassAttributeMapEntities.forEach {
-                extendsAttributeList.add(
-                    CmdbClassToAttributeDto(
-                        it.cmdbAttribute.attributeId,
-                        it.cmdbAttribute.attributeName,
-                        it.attributeOrder
-                    )
-                )
+        classList.add(cmdbClassEntity.classId)
+        val recursiveClasses = ciClassRepository.findRecursiveClass(classId).let { recursiveClass ->
+            recursiveClass.forEach {
+                recursiveClassList.add(it.classId)
             }
         }
 
-        val cmdbClassDetailDto = CmdbClassDetailDto(
+        return CmdbClassDetailDto(
             classId = cmdbClassEntity.classId,
             className = cmdbClassEntity.className,
             classDesc = cmdbClassEntity.classDesc,
             pClassId = cmdbClassEntity.pClassId,
             pClassName = pClassName,
-            attributes = attributeList,
-            extendsAttributes = extendsAttributeList
+            attributes = ciClassRepository.findClassToAttributeList(classList),
+            extendsAttributes = recursiveClasses.let { ciClassRepository.findClassToAttributeList(recursiveClassList) }
         )
-        return cmdbClassDetailDto
     }
 
     /**
