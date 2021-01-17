@@ -16,7 +16,7 @@ data class CmdbTypeDto(
     val typeLevel: Int? = 1,
     val defaultClassId: String? = null,
     val ptypeId: String? = "",
-    val ptypeName: String? = "",
+    var ptypeName: String? = "",
     val typeIcon: String? = null,
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,

@@ -71,7 +71,12 @@ class CITypeService(
      *  CMDB Type 단일 조회
      */
     fun getCmdbType(typeId: String): CmdbTypeDto {
-        return ciTypeRepository.findByTypeId(typeId)
+        val codeDetailDto = ciTypeRepository.findByTypeId(typeId)
+        val pCodeDetail =ciTypeRepository.findById(codeDetailDto.ptypeId!!)
+        if (!pCodeDetail.isEmpty) {
+            codeDetailDto.ptypeName = pCodeDetail.get().typeName
+        }
+        return codeDetailDto
     }
 
     /**
@@ -119,7 +124,6 @@ class CITypeService(
             aliceUserRepository.findAliceUserEntityByUserKey(it)
         }
         cmdbTypeEntity.updateDt = cmdbTypeDto.updateDt
-
         ciTypeRepository.save(cmdbTypeEntity)
         return true
     }
