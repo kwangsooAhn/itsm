@@ -130,7 +130,7 @@
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
                         document.getElementById('typeClass').value = responseJson.defaultClassId;
-                        if (responseJson.ptypeId !== null) {
+                        if (responseJson.ptypeId !== '') {
                             document.querySelector('#btnUpdate').removeAttribute('disabled');
                             document.querySelector('#btnDelete').removeAttribute('disabled');
                         } else {
