@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CIAttributeRepository : JpaRepository<CmdbAttributeEntity, String>, CIAttributeRepositoryCustom {
+
+    fun findByAttributeId(attributeId: String): CmdbAttributeEntity?
 }

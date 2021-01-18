@@ -225,15 +225,21 @@ board:
 cmdb:
   attribute:
     label:
-      management: "Attribute 관리"
-      searchPlaceholder: "라벨 / 타입 / Attribute 명 / 설명"
-      name: "Attribute 명"
-      label: "라벨"
-      type: "타입"
       description: "설명"
+      details: "세부정보"
       export: "내보내기"
+      label: "라벨"
+      management: "Attribute 관리"
+      name: "Attribute 명"
+      searchPlaceholder: "라벨 / 타입 / Attribute 명 / 설명"
+      type: "타입"
+      view: "Attribute"
     msg:
+      attributeNameUsed: "사용 중인 Attribute 명입니다."
+      enterAttributeName: "Attribute 명을 입력하세요."
       searchDescription: "CI Attribute을 조회 및 관리합니다."
+      selectAttributeType: "타입을 선택하세요."
+      viewDescription: "Attribute에 대한 상세정보를 조회합니다."
     btn:
       import: "가져오기"
       export: "내보내기"

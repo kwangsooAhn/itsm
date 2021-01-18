@@ -21,9 +21,14 @@
         <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
     <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(attributeList)}" th:each="attribute: ${attributeList}">
-        <td style="width: 25%" class="align-left" th:text="${attribute.attributeName}"></td>
+        <td style="width: 25%" class="align-left underline">
+            <a sec:authorize="hasAuthority('cmdb.attribute.create') || hasAuthority('cmdb.attribute.update')" th:text="${attribute.attributeName}"
+               th:href="@{/cmdb/attributes/{id}/edit(id=${attribute.attributeId})}"></a>
+            <a sec:authorize="!hasAuthority('cmdb.attribute.create') && !hasAuthority('cmdb.attribute.update')" th:text="${attribute.attributeName}"
+               th:href="@{/cmdb/attributes/{id}/view(id=${attribute.attributeId})}"></a>
+        </td>
         <td style="width: 25%" class="align-left" th:text="${attribute.attributeText}"></td>
-        <td style="width: 10%" class="align-left" th:text="${attribute.attributeType}"></td>
+        <td style="width: 10%" class="align-center" th:text="${attribute.attributeType}"></td>
         <td style="width: 30%" class="align-left" th:text="${attribute.attributeDesc}"></td>
         <td style="width: 10%" class="align-center">
             <button type="button" sec:authorize="hasAuthority('cmdb.attribute.create') || hasAuthority('cmdb.attribute.update')"

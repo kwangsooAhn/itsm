@@ -8,14 +8,22 @@ package co.brainz.cmdb.ciAttribute.repository
 
 import co.brainz.cmdb.ciAttribute.entity.CmdbAttributeEntity
 import co.brainz.cmdb.ciAttribute.entity.QCmdbAttributeEntity
+import co.brainz.cmdb.ciClass.entity.QCmdbClassAttributeMapEntity
+import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
 import co.brainz.itsm.constants.ItsmConstants
+import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
+import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity::class.java),
     CIAttributeRepositoryCustom {
+
+    /**
+     * Attribute 목록 조회.
+     */
     override fun findAttributeList(search: String, offset: Long?): List<CmdbAttributeListDto> {
         val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
         val query = from(attribute)
@@ -31,10 +39,10 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
                 )
             )
             .where(
-                super.likeIgnoreCase(attribute.attributeName, search)
-                    ?.or(super.likeIgnoreCase(attribute.attributeType, search))
-                    ?.or(super.likeIgnoreCase(attribute.attributeText, search))
-                    ?.or(super.likeIgnoreCase(attribute.attributeDesc, search))
+                super.like(attribute.attributeName, search)
+                    ?.or(super.like(attribute.attributeType, search))
+                    ?.or(super.like(attribute.attributeText, search))
+                    ?.or(super.like(attribute.attributeDesc, search))
             ).orderBy(attribute.attributeName.asc())
         if (offset != null) {
             query.limit(ItsmConstants.SEARCH_DATA_COUNT)
@@ -47,5 +55,50 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
             attributeList.add(data)
         }
         return attributeList.toList()
+    }
+
+    /**
+     * Attribute 조회.
+     */
+    override fun findAttribute(attributeId: String): CmdbAttributeDto {
+        val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
+        val classAttributeMap = QCmdbClassAttributeMapEntity.cmdbClassAttributeMapEntity
+        return from(attribute)
+            .select(
+                Projections.constructor(
+                    CmdbAttributeDto::class.java,
+                    attribute.attributeId,
+                    attribute.attributeName,
+                    attribute.attributeDesc,
+                    attribute.attributeText,
+                    attribute.attributeType,
+                    attribute.attributeValue,
+                    attribute.createUser.userKey,
+                    attribute.createDt,
+                    attribute.updateUser.userKey,
+                    attribute.updateDt,
+                    ExpressionUtils.`as`(
+                        JPAExpressions.select(!classAttributeMap.cmdbAttribute.attributeId.count().gt(0))
+                            .from(classAttributeMap)
+                            .where(classAttributeMap.cmdbAttribute.attributeId.eq(attribute.attributeId)), "enabled"
+                    ),
+                    Expressions.asString("")
+                )
+            )
+            .where(attribute.attributeId.eq(attributeId))
+            .fetchOne()
+    }
+
+    /**
+     * Attribute 명 중복 체크.
+     */
+    override fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long {
+        val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
+        val query = from(attribute)
+            .where(attribute.attributeName.eq(attributeName))
+        if (attributeId.isNotEmpty()) {
+            query.where(!attribute.attributeId.eq(attributeId))
+        }
+        return query.fetchCount()
     }
 }

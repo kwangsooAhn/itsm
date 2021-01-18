@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.cmdb.ciAttribute.controller
 
+import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import javax.servlet.http.HttpServletRequest
@@ -13,7 +14,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -32,5 +38,32 @@ class CIAttributeRestController(private val ciAttributeService: CIAttributeServi
         params["search"] = request.getParameter("search")
         params["offset"] = request.getParameter("offset") ?: "0"
         return ciAttributeService.getAttributes(params)
+    }
+
+    /**
+     * Attribute 등록.
+     */
+    @PostMapping("")
+    fun createAttribute(@RequestBody cmdbAttributeDto: CmdbAttributeDto): String {
+        return ciAttributeService.saveAttribute(cmdbAttributeDto)
+    }
+
+    /**
+     * Attribute 수정.
+     */
+    @PutMapping("/{attributeId}")
+    fun updateAttribute(
+        @PathVariable attributeId: String,
+        @RequestBody cmdbAttributeDto: CmdbAttributeDto
+    ): String {
+        return ciAttributeService.updateAttribute(attributeId, cmdbAttributeDto)
+    }
+
+    /**
+     * Attribute 삭제.
+     */
+    @DeleteMapping("/{attributeId}")
+    fun deleteAttribute(@PathVariable attributeId: String): String {
+        return ciAttributeService.deleteAttribute(attributeId)
     }
 }

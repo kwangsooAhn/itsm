@@ -36,10 +36,10 @@
   .main {
     width: calc(100% - #{$nav-width});
     height: 100vh;
-    
+
     // 상단 영역
     @include headerTemplate();
-    
+
     // 리스트
     @include listTemplate();
 
@@ -102,6 +102,7 @@
 // 업무흐름 관리 > 이미지 관리
 // 업무흐름 관리 > 패턴
 // 업무흐름 관리 > 문서번호
+// CMDB > Attribute
 // CMDB > Class
 // CMDB > Type
 .notice-header,
@@ -120,7 +121,7 @@
 .image-header,
 .numbering-pattern-header,
 .numbering-rule-header,
-.attribute-header,
+.cmdb-attribute-header,
 .cmdb-class-header,
 .cmdb-type-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
@@ -161,7 +162,7 @@
 .code-content,
 .numbering-pattern-content,
 .numbering-rule-content,
-.attribute-content {
+.cmdb-attribute-content {
   padding: 0.9375rem 3.75rem; // 15px 60px
   background-color: $light-gray;
 }
@@ -304,7 +305,7 @@
 .cmdb-type-content-edit {
   height: 41.25rem; // 660px
   margin: 0 0 1.875rem 0; // 30px
-  // 스크롤바 
+  // 스크롤바
   .edit-form {
     padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
 
@@ -341,11 +342,11 @@
     margin: 1.25rem 0 0 0; // 20px 0 0 0
     tr {
       height: 2.5rem; // 40px
-      line-height: 2.5rem; 
+      line-height: 2.5rem;
       th {
         border-bottom: 0.0625rem solid $line-gray; // 1px
       }
-      td { 
+      td {
         padding: 0 0.9375rem; // 0 15px
         border-bottom: 0.0625rem solid $line-gray; // 1px
       }
@@ -367,7 +368,9 @@
   border-top: $layout-header-border;
 }
 // 업무흐름 관리 > 커스텀 코드
-.custom-code-content-edit {
+// CMDB > Attribute
+.custom-code-content-edit,
+.cmdb-attribute-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   background-color: $white;
   border-top: $layout-header-border;
@@ -406,11 +409,12 @@
 }
 
 /////////////////////////////////////////////// VIEW /////////////////////////////////////////////////////
-// 공지사항, FAQ, 자료실
+// 공지사항, FAQ, 자료실, CMDB Attribute
 .notice-content-view,
 .faq-content-view,
 .download-content-view,
-.board-content-view {
+.board-content-view,
+.cmdb-attribute-content-view {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   background-color: $white;
   border-top: $layout-header-border;
