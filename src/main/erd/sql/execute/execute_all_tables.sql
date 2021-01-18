@@ -1235,7 +1235,10 @@ insert into awf_url values ('/certification/signup', 'get', '회원 가입 화�
 insert into awf_url values ('/certification/status', 'get', '메일 인증 상태/재발송 요청 화면', 'FALSE');
 insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'FALSE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
+insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
+insert into awf_url values ('/cmdb/attributes/{id}/edit', 'get', 'CMDB Attribute 수정 화면', 'TRUE');
+insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute 보기 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/types', 'get', 'CMDB Type 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
@@ -1318,6 +1321,9 @@ insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '�
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
+insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
+insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -1502,7 +1508,11 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.read');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.delete');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.create');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
@@ -1630,6 +1640,9 @@ insert into awf_url_auth_map values ('/rest/boards/articles/comments/{id}', 'del
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'board.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.update');

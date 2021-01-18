@@ -64,7 +64,11 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.read');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.delete');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.create');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
@@ -192,6 +196,9 @@ insert into awf_url_auth_map values ('/rest/boards/articles/comments/{id}', 'del
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'board.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.update');
