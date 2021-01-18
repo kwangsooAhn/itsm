@@ -117,10 +117,14 @@
                     node_id = item.code;
                     node_name = item.codeName;
                     node_value = item.codeValue;
-                } else {
+                } else if (item.typeId !== '' && item.typeId !== undefined) {
                     node_id = item.typeId;
                     node_name = item.typeName;
                     node_value = item.typeId;
+                } else {
+                    node_id = item.classId;
+                    node_name = item.className;
+                    node_value = item.classId;
                 }
                 let node = {
                     id: node_id,
@@ -522,13 +526,27 @@
 
         // Node 생성
         options.data.forEach(function (item) {
-            if (item.level === options.rootLevel || item.typeLevel === options.rootLevel) {
+            if (item.level === options.rootLevel || item.typeLevel === options.rootLevel || item.classLevel === options.rootLevel) {
                 let expand = false;
                 if (expandObject.length > 0 && expandObject.indexOf(item) > -1) {
                     expand = true;
                 }
                 let firstNode = tree.createNode(item, expand, 1, null);
-                createChildNode(firstNode, item.level !== undefined ? item.level : item.typeLevel, expandObject, 2);
+                let itemLevel = '';
+
+                if (item.level !== undefined) {
+                    itemLevel = item.level
+                } else if (item.typeLevel !== undefined) {
+                    itemLevel = item.typeLevel
+                } else {
+                    itemLevel = item.classLevel
+                }
+
+                createChildNode(
+                    firstNode,
+                    itemLevel,
+                    expandObject,
+                    2);
             }
         });
     }
@@ -543,7 +561,18 @@
      */
     function createChildNode(node, level, expandObject, depth) {
         options.data.forEach(function (item) {
-            let p_node_id = options.source === 'code' ? item.pcode : item.ptypeId;
+            let p_node_id = '';
+            switch (options.source) {
+                case 'ciType':
+                    p_node_id = item.ptypeId;
+                    break;
+                case 'ciClass':
+                    p_node_id = item.pclassId;
+                    break;
+                default:
+                    p_node_id = item.pcode;
+                    break;
+            }
             if (node.id === p_node_id) {
                 let expand = false;
                 if (expandObject !== null && expandObject.indexOf(item) > -1) {
@@ -642,6 +671,9 @@
         switch (options.source) {
             case 'ciType':
                 dataUrl = '/rest/cmdb/types?search=' + options.search;
+                break;
+            case 'ciClass':
+                dataUrl = '/rest/cmdb/classes?search=' + options.search;
                 break;
             default:
                 dataUrl = '/rest/codes?pCode=' + options.root + '&search=' + options.search;
