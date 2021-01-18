@@ -15,12 +15,12 @@ import org.springframework.stereotype.Repository
 interface CIClassRepository : JpaRepository<CmdbClassEntity, String>, CIClassRepositoryCustom {
 
     @Query(
-        value = "with recursive results as ("
-                + " select * from cmdb_class c1 where c1.class_id = :classId"
-                + " union all"
-                + " select c2.* from cmdb_class c2"
-                + " inner join results r ON r.p_class_id = c2.class_id"
-                + " ) select * from results where class_id NOT IN (:classId)", nativeQuery = true
+        value = "with recursive results as (" +
+                " select * from cmdb_class c1 where c1.class_id = :classId" +
+                " union all" +
+                " select c2.* from cmdb_class c2" +
+                " inner join results r ON r.p_class_id = c2.class_id" +
+                " ) select * from results where class_id NOT IN (:classId)", nativeQuery = true
     )
     fun findRecursiveClass(classId: String): List<CmdbClassEntity>
 }
