@@ -268,19 +268,27 @@
      * @param callbackFunc 메시지 로드 후 실행할 함수
      */
     function addMessages(callbackFunc) {
-        aliceJs.sendXhr({
-            method: 'GET',
-            url: '/i18n/messages',
-            async: false,
-            callbackFunc: function(xhr) {
-                messages = JSON.parse(xhr.responseText);
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
-            },
-            showProgressbar: false,
-            contentType: 'application/json; charset=utf-8'
-        });
+        // 세션스토리지에 로딩된 메시지가 있는지 체크.
+        let sessionStorageKey = 'alice_translation-' + i18n.lang;
+        if (sessionStorage.getItem(sessionStorageKey) !== null) {
+            messages = JSON.parse(sessionStorage.getItem(sessionStorageKey));
+        } else {
+            aliceJs.sendXhr({
+                method: 'GET',
+                url: '/i18n/messages',
+                async: false,
+                callbackFunc: function(xhr) {
+                    messages = JSON.parse(xhr.responseText);
+                    // 새로 로딩된 메시지를 세션 스토리지에 저장.
+                    sessionStorage.setItem(sessionStorageKey, xhr.responseText);
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                },
+                showProgressbar: false,
+                contentType: 'application/json; charset=utf-8'
+            });
+        }
     }
 
     /**
