@@ -12,7 +12,7 @@ import co.brainz.cmdb.provider.dto.CmdbTypeDto
 import co.brainz.cmdb.provider.dto.CmdbTypeListDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
+import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -68,7 +68,7 @@ class CITypeService(
         )
         val responseBody = restTemplate.create(url, cmdbTypeDto)
         return when (responseBody.body.toString().isNotEmpty()) {
-            true -> CIClassConstants.Status.STATUS_SUCCESS.code
+            true -> CITypeConstants.Status.STATUS_SUCCESS.code
             false -> ""
         }
     }
@@ -85,7 +85,7 @@ class CITypeService(
         )
         val responseEntity = restTemplate.update(url, cmdbTypeDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> CIClassConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
+            true -> CITypeConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
             false -> ""
         }
     }
@@ -98,7 +98,7 @@ class CITypeService(
             )
         )
         return when (restTemplate.delete(url).toString().isNotEmpty()) {
-            true -> CIClassConstants.Status.STATUS_SUCCESS.code
+            true -> CITypeConstants.Status.STATUS_SUCCESS.code
             false -> ""
         }
     }
