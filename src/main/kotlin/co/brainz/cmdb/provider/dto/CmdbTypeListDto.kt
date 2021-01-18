@@ -15,6 +15,7 @@ data class CmdbTypeListDto(
     val typeLevel: Int? = 1,
     val defaultClassId: String? = null,
     val ptypeId: String? = null,
+    val ptypeName: String? = null,
     val typeIcon: String? = null,
     var totalCount: Long = 0
 ) : Serializable

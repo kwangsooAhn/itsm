@@ -112,11 +112,15 @@
              */
             createNode: function(item, p_expanded, p_depth, p_parentNode) {
                 let v_tree = this;
-                let node_id = '';
+                let node_id, node_name, node_value = '';
                 if (item.code !== '' && item.code !== undefined) {
                     node_id = item.code;
+                    node_name = item.codeName;
+                    node_value = item.codeValue;
                 } else {
                     node_id = item.typeId;
+                    node_name = item.typeName;
+                    node_value = item.typeId;
                 }
                 let node = {
                     id: node_id,
@@ -127,8 +131,8 @@
                     elementLi: null,
                     depth: p_depth,
                     data: { // Todo: node에 원하는 데이터를 추가한다.
-                        name: item.codeName || '',
-                        value: item.codeValue || '',
+                        name: node_name || '',
+                        value: node_value || '',
                         editable: item.editable || false,
                         icon: item.typeIcon || ''
                     },
@@ -347,7 +351,7 @@
                 this.toggleNode(p_node);
             },
             selectNode: function(p_node) {
-                if (p_node !== null) {
+                if (p_node !== null || p_node !== undefined) {
                     let span = p_node.elementLi.getElementsByTagName('span')[0];
                     span.className = 'node_selected';
                     if (this.selectedNode !== null && this.selectedNode !== p_node)
