@@ -2074,7 +2074,8 @@ button .icon-plus {
 .code-content,
 .numbering-pattern-content,
 .numbering-rule-content,
-.cmdb-attribute-content {
+.cmdb-attribute-content,
+.cmdb-class-content {
   padding: 0.9375rem 3.75rem;
   background-color: #F7F8F9;
 }
