@@ -8,6 +8,7 @@ package co.brainz.itsm.cmdb.ciClass.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
+import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
@@ -21,6 +22,7 @@ import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
 
 @Service
 @Transactional
@@ -33,7 +35,7 @@ class CIClassService(
     /**
      * CMDB Class 단일 조회
      */
-    fun getCmdbClass(classId: String): CmdbClassListDto {
+    fun getCmdbClass(classId: String): CmdbClassDetailDto {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.GET_CLASS.url.replace(
                 restTemplate.getKeyRegex(),
@@ -43,15 +45,23 @@ class CIClassService(
         val responseBody = restTemplate.get(url)
         return mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassListDto::class.java)
+            mapper.typeFactory.constructType(CmdbClassDetailDto::class.java)
         )
     }
 
     /**
-     * CMDB class 목록 조회
+     * CMDB class 멀티 조회
      */
-    fun getCmdbClasses(): String {
-        return ""
+    fun getCmdbClasses(params: LinkedMultiValueMap<String, String>): List<CmdbClassListDto> {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Class.GET_CLASSES.url,
+            parameters = params
+        )
+        val responseBody = restTemplate.get(url)
+        return mapper.readValue(
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassListDto::class.java)
+        )
     }
 
     /**

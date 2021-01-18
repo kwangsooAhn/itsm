@@ -10,10 +10,10 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class CmdbClassDto(
-    val classId: String = "",
-    val className: String = "",
-    val classDesc: String? = null,
-    val pclassId: String? = null,
+    var classId: String = "",
+    var className: String = "",
+    var classDesc: String? = null,
+    var pClassId: String? = null,
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,

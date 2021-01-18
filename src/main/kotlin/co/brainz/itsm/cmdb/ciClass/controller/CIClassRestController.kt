@@ -6,8 +6,8 @@
 
 package co.brainz.itsm.cmdb.ciClass.controller
 
+import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
-import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,7 +26,7 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      * CMDB Class 단일 조회
      */
     @GetMapping("/{classId}")
-    fun getCmdbClass(@PathVariable classId: String): CmdbClassListDto {
+    fun getCmdbClass(@PathVariable classId: String): CmdbClassDetailDto {
         return ciClassService.getCmdbClass(classId)
     }
 
