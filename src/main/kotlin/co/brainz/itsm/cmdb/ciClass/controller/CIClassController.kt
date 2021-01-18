@@ -22,7 +22,7 @@ class CIClassController {
      * CI Class 관리 화면 호출
      */
     @GetMapping("/edit")
-    fun getCmdbEdit(request: HttpServletRequest, model: Model): String {
+    fun getCmdbClassList(request: HttpServletRequest, model: Model): String {
         return classEditPage
     }
 }
