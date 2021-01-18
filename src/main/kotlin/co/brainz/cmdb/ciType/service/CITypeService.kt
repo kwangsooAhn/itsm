@@ -71,12 +71,17 @@ class CITypeService(
      *  CMDB Type 단일 조회
      */
     fun getCmdbType(typeId: String): CmdbTypeDto {
-        val typeDetailDto = ciTypeRepository.findByTypeId(typeId)
-        val pTypeDetail =ciTypeRepository.findById(typeDetailDto.ptypeId!!)
-        if (!pTypeDetail.isEmpty) {
-            typeDetailDto.ptypeName = pTypeDetail.get().typeName
-        }
-        return typeDetailDto
+        val typeDetailEntity = ciTypeRepository.findById(typeId).get()
+        return CmdbTypeDto(
+            typeId = typeDetailEntity.typeId,
+            typeName = typeDetailEntity.typeName,
+            typeDesc = typeDetailEntity.typeDesc,
+            typeLevel = typeDetailEntity.typeLevel,
+            defaultClassId = typeDetailEntity.defaultClassId,
+            ptypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId!! },
+            ptypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
+            typeIcon = typeDetailEntity.typeIcon
+        )
     }
 
     /**
@@ -94,7 +99,7 @@ class CITypeService(
         if (cmdbTypeDto.ptypeId.isNullOrEmpty()) {
             cmdbTypeEntity.typeLevel = 0
         } else {
-            val pTypeEntity = ciTypeRepository.findByTypeId(cmdbTypeDto.ptypeId!!)
+            val pTypeEntity = ciTypeRepository.findById(cmdbTypeDto.ptypeId!!).get()
             cmdbTypeEntity.typeLevel = pTypeEntity.typeLevel!! + 1
         }
         cmdbTypeEntity.createUser = cmdbTypeDto.createUserKey?.let {
