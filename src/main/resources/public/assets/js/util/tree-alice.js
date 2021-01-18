@@ -1,6 +1,6 @@
 /**
  * tree modal library
- * 
+ *
  * @author phc
  * @version 1.0
  */
@@ -11,7 +11,7 @@
             (factory((global.tree = global.tree || {})));
 }(this, (function (exports) {
     'use strict';
-    
+
     const iconPath = '/assets/media/icons/tree';
 
     let options = {};
