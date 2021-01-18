@@ -71,12 +71,12 @@ class CITypeService(
      *  CMDB Type 단일 조회
      */
     fun getCmdbType(typeId: String): CmdbTypeDto {
-        val codeDetailDto = ciTypeRepository.findByTypeId(typeId)
-        val pCodeDetail =ciTypeRepository.findById(codeDetailDto.ptypeId!!)
-        if (!pCodeDetail.isEmpty) {
-            codeDetailDto.ptypeName = pCodeDetail.get().typeName
+        val typeDetailDto = ciTypeRepository.findByTypeId(typeId)
+        val pTypeDetail =ciTypeRepository.findById(typeDetailDto.ptypeId!!)
+        if (!pTypeDetail.isEmpty) {
+            typeDetailDto.ptypeName = pTypeDetail.get().typeName
         }
-        return codeDetailDto
+        return typeDetailDto
     }
 
     /**
