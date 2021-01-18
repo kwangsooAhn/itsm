@@ -11,14 +11,15 @@ import java.time.LocalDateTime
 
 data class CmdbTypeDto(
     val typeId: String = "",
-    val typeName: String = "",
+    val typeName: String? = "",
     val typeDesc: String? = null,
     val typeLevel: Int? = 1,
     val defaultClassId: String? = null,
-    val ptypeId: String? = null,
+    val ptypeId: String? = "",
+    var ptypeName: String? = "",
     val typeIcon: String? = null,
-    val createUserKey: String? = null,
+    var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
-    val updateUserKey: String? = null,
-    val updateDt: LocalDateTime? = null
+    var updateUserKey: String? = null,
+    var updateDt: LocalDateTime? = null
 ) : Serializable

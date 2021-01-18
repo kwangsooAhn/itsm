@@ -30,7 +30,7 @@ data class CmdbTypeEntity(
     var typeId: String = "",
 
     @Column(name = "type_name", length = 100)
-    val typeName: String = "",
+    val typeName: String? = "",
 
     @Column(name = "type_desc", length = 500)
     val typeDesc: String? = null,
@@ -39,15 +39,15 @@ data class CmdbTypeEntity(
     var typeLevel: Int? = null,
 
     @Column(name = "default_class_id", length = 128)
-    val defaultClassId: String = "",
+    val defaultClassId: String? = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "p_type_id")
     @NotFound(action = NotFoundAction.IGNORE)
-    val ptypeId: CmdbTypeEntity? = null,
+    val pType: CmdbTypeEntity? = null,
 
     @Column(name = "type_icon", length = 200)
-    val typeIcon: String = "",
+    val typeIcon: String? = "",
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,

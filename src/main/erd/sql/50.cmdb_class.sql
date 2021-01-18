@@ -27,7 +27,7 @@ COMMENT ON COLUMN cmdb_class.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_class.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_class.update_dt IS '수정일시';
 
-insert into cmdb_class values ('root', '', '', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('', 'ROOT', '', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('df562114ab87c066adeaea79b2e4a8a2', 'Server', '서버 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('0d51e482f1a56e1074f69b5a1bce0138', 'Network', '네트워크 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('85b3c35b31059e63aaa36ce2587ea070', 'Database', '데이터베이스 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
