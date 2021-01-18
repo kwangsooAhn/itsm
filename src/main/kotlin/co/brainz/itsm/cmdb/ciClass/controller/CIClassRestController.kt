@@ -39,9 +39,9 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      */
     @GetMapping("/", "")
     fun getCmdbClasses(request: HttpServletRequest, model: Model): List<CmdbClassListDto> {
-        val params = LinkedMultiValueMap<String, String>()
-        params["search"] = request.getParameter("search")
-        return ciClassService.getCmdbClasses(params)
+        val parameters = LinkedMultiValueMap<String, String>()
+        parameters["search"] = request.getParameter("search")
+        return ciClassService.getCmdbClasses(parameters)
     }
 
     /**
