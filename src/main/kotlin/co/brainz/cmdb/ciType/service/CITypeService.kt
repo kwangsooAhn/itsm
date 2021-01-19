@@ -6,7 +6,6 @@
 
 package co.brainz.cmdb.ciType.service
 
-import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciType.entity.CmdbTypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
