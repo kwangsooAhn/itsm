@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -35,7 +36,6 @@ class AttributeTest {
     private lateinit var mockMvc: MockMvc
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-
 
     @Test
     fun attribute_all_data() {
@@ -93,6 +93,37 @@ class AttributeTest {
         val data = mapper.writeValueAsString(cmdbAttributeDto)
         val result = mockMvc.perform(
             post("/rest/cmdb/eg/attributes")
+                .content(data)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isOk)
+            .andReturn()
+
+        val content = result.response.contentAsString
+        val responseData: RestTemplateReturnDto = mapper.readValue(
+            content,
+            RestTemplateReturnDto::class.java
+        )
+        assertThat(responseData.status).isEqualTo(true)
+        assertThat(responseData.code).isEqualTo("0")
+    }
+
+    @Test
+    fun attributes_update_one() {
+        attribute_insert_one()
+        val attributeId = attributes_search_attribute_id("Test")
+        val cmdbAttributeDto = CmdbAttributeDto(
+            attributeId = attributeId!!,
+            attributeName = "Test",
+            attributeText = "Test111",
+            attributeType = "inputbox",
+            updateDt = LocalDateTime.now(),
+            updateUserKey = "0509e09412534a6e98f04ca79abb6424"
+        )
+
+        val data = mapper.writeValueAsString(cmdbAttributeDto)
+        val result = mockMvc.perform(
+            put("/rest/cmdb/eg/attributes/$attributeId")
                 .content(data)
                 .contentType(MediaType.APPLICATION_JSON)
         )
