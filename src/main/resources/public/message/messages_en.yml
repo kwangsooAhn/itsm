@@ -249,6 +249,7 @@ cmdb:
       management: "Class Management"
       name: "Name"
       pClassName: "Parent Class"
+      searchAttributePlaceholder: "Attribute Name / Description"
       searchPlaceholder: "Class Name / Description"
     msg:
       confirmDeleteAttribute: "Are you sure you want to delete the attribute?"

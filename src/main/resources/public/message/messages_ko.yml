@@ -250,6 +250,7 @@ cmdb:
       management: "Class 관리"
       name: "이름"
       pClassName: "부모 Class"
+      searchAttributePlaceholder : "Attribute 명 / 설명"
       searchPlaceholder: "Class 명 / 설명"
     msg:
       confirmDeleteAttribute: "속성을 삭제하시겠습니까?"
