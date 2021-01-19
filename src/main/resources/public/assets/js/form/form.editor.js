@@ -2090,8 +2090,10 @@
         propertiesPanel.appendChild(componentElem);
 
         // 라벨링 이벤트 핸들러 등록
-        propertiesPanel.querySelector('#label-option-minus').addEventListener('click', removeLabelOptionHandler, false);
-        propertiesPanel.querySelector('#label-option-plus').addEventListener('click', addLabelOptionHandler, false);
+        if (isAccordion) {
+            propertiesPanel.querySelector('#label-option-minus').addEventListener('click', removeLabelOptionHandler, false);
+            propertiesPanel.querySelector('#label-option-plus').addEventListener('click', addLabelOptionHandler, false);
+        }
 
         const propertyGroupList = propertiesPanel.querySelectorAll('.property-group.on');
         const propertyLastGroup = propertyGroupList[propertyGroupList.length - 1];
