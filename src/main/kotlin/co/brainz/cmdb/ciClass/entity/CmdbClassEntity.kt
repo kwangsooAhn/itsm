@@ -20,6 +20,8 @@ import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.NotFound
+import org.hibernate.annotations.NotFoundAction
 
 @Entity
 @Table(name = "cmdb_class")
@@ -35,8 +37,13 @@ data class CmdbClassEntity(
     @Column(name = "class_desc", length = 500)
     var classDesc: String? = null,
 
-    @Column(name = "p_class_id")
-    var pClassId: String? = null,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "p_class_id")
+    @NotFound(action = NotFoundAction.IGNORE)
+    var pClass: CmdbClassEntity? = null,
+
+    @Column(name = "class_level")
+    var classLevel: Int? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,

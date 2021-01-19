@@ -8,7 +8,11 @@ package co.brainz.itsm.cmdb.ciClass.controller
 
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
+import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
+import javax.servlet.http.HttpServletRequest
+import org.springframework.ui.Model
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -33,9 +37,11 @@ class CIClassRestController(private val ciClassService: CIClassService) {
     /**
      * CMDB Class 목록 조회
      */
-    @GetMapping("")
-    fun getCmdbClasses(): String {
-        return ""
+    @GetMapping("/", "")
+    fun getCmdbClasses(request: HttpServletRequest, model: Model): List<CmdbClassListDto> {
+        val parameters = LinkedMultiValueMap<String, String>()
+        parameters["search"] = request.getParameter("search")
+        return ciClassService.getCmdbClasses(parameters)
     }
 
     /**
@@ -50,11 +56,8 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      * CMDB Class 수정
      */
     @PutMapping("/{classId}")
-    fun updateCmdbClass(
-        @RequestBody cmdbClassDto: CmdbClassDto,
-        @PathVariable classId: String
-    ): String {
-        return ciClassService.updateCmdbClass(classId, cmdbClassDto)
+    fun updateCmdbClass(@RequestBody cmdbClassDto: CmdbClassDto): String {
+        return ciClassService.updateCmdbClass(cmdbClassDto)
     }
 
     /**

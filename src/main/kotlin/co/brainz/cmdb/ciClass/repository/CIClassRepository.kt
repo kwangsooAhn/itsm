@@ -23,4 +23,6 @@ interface CIClassRepository : JpaRepository<CmdbClassEntity, String>, CIClassRep
                 " ) select * from results where class_id NOT IN (:classId)", nativeQuery = true
     )
     fun findRecursiveClass(classId: String): List<CmdbClassEntity>
+
+    fun existsByPClass(pClassEntity: CmdbClassEntity): Boolean
 }

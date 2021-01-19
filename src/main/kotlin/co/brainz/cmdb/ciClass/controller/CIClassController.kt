@@ -10,10 +10,6 @@ import co.brainz.cmdb.ciClass.service.CIClassService
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -53,21 +49,16 @@ class CIClassController(
      * CMDB Class 저장
      */
     @PostMapping("")
-    fun createCmdbClass(@RequestBody jsonData: Any): Boolean {
-        val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        return ciClassService.createCmdbClass(mapper.convertValue(jsonData, CmdbClassDto::class.java))
+    fun createCmdbClass(@RequestBody cmdbClassDto: CmdbClassDto): Boolean {
+        return ciClassService.createCmdbClass(cmdbClassDto)
     }
 
     /**
      * CMDB Class 수정
      */
     @PutMapping("/{classId}")
-    fun updateCmdbClass(
-        @PathVariable classId: String,
-        @RequestBody cmdbClassDto: CmdbClassDto
-    ): Boolean {
-        return ciClassService.updateCmdbClass(classId, cmdbClassDto)
+    fun updateCmdbClass(@RequestBody cmdbClassDto: CmdbClassDto): Boolean {
+        return ciClassService.updateCmdbClass(cmdbClassDto)
     }
 
     /**
