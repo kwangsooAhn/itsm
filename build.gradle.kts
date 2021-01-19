@@ -62,7 +62,10 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.2")
     runtimeOnly("org.postgresql:postgresql")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude("junit")
+    }
+    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
     testImplementation("org.springframework.security:spring-security-test")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
@@ -162,4 +165,8 @@ buildScan {
     termsOfServiceAgree = "yes"
 
     publishAlways()
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
