@@ -75,12 +75,15 @@ class WfDocumentRepositoryImpl :
                 ),
                 super.like(document.form.formName, searchDto.searchFormName)
             ).orderBy(document.documentName.asc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
-            .offset(searchDto.offset)
-            .fetchResults()
+
+        if (searchDto.offset != null) {
+            query.limit(ItsmConstants.SEARCH_DATA_COUNT).offset(searchDto.offset!!)
+        }
+
+        val result = query.fetchResults()
 
         val documentList = mutableListOf<RestTemplateDocumentListDto>()
-        for (data in query.results) {
+        for (data in result.results) {
             val documentData = RestTemplateDocumentListDto(
                 documentId = data.documentId,
                 documentType = data.documentType,
@@ -96,7 +99,7 @@ class WfDocumentRepositoryImpl :
                 createDt = data.createDt,
                 updateUserKey = data.updateUserKey,
                 updateDt = data.updateDt,
-                totalCount = query.total,
+                totalCount = result.total,
                 documentIcon = data.documentIcon
             )
             documentList.add(documentData)
