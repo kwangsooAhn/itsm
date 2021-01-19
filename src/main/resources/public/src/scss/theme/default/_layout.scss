@@ -147,6 +147,8 @@
 // 업무흐름 관리 > 코드
 // 업무흐름 관리 > 패턴
 // 업무흐름 관리 > 문서번호
+// CMDB > Attribute
+// CMDB > Class
 .notice-content,
 .faq-content,
 .download-content,
@@ -162,7 +164,8 @@
 .code-content,
 .numbering-pattern-content,
 .numbering-rule-content,
-.cmdb-attribute-content {
+.cmdb-attribute-content,
+.cmdb-class-content {
   padding: 0.9375rem 3.75rem; // 15px 60px
   background-color: $light-gray;
 }

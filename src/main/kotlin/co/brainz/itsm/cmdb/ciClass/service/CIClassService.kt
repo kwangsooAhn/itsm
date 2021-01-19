@@ -14,6 +14,7 @@ import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
+import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -52,12 +53,13 @@ class CIClassService(
     /**
      * CMDB class 멀티 조회
      */
-    fun getCmdbClasses(params: LinkedMultiValueMap<String, String>): List<CmdbClassListDto> {
+    fun getCmdbClasses(parameters: LinkedMultiValueMap<String, String>): List<CmdbClassListDto> {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.GET_CLASSES.url,
-            parameters = params
+            parameters = parameters
         )
         val responseBody = restTemplate.get(url)
+        mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
         return mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassListDto::class.java)
@@ -84,14 +86,14 @@ class CIClassService(
     /**
      * CMDB Class 수정
      */
-    fun updateCmdbClass(classId: String, cmdbClassDto: CmdbClassDto): String {
+    fun updateCmdbClass(cmdbClassDto: CmdbClassDto): String {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         cmdbClassDto.updateDt = LocalDateTime.now()
         cmdbClassDto.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.PUT_CLASS.url.replace(
                 restTemplate.getKeyRegex(),
-                classId
+                cmdbClassDto.classId
             )
         )
         val responseEntity = restTemplate.update(url, cmdbClassDto)
