@@ -138,7 +138,8 @@
                         name: node_name || '',
                         value: node_value || '',
                         editable: item.editable || false,
-                        icon: item.typeIcon || ''
+                        icon: item.typeIcon || '',
+                        count: item.totalAttributes || 0
                     },
                     removeNode: function() { v_tree.removeNode(this); },
                     toggleNode: function(p_event) { v_tree.toggleNode(this); },
@@ -228,6 +229,7 @@
                 v_span.dataset['name'] = p_node.data.name;
                 v_span.dataset['value'] = p_node.data.value;
                 v_span.dataset['editable'] = p_node.data.editable;
+                v_span.dataset['count'] = p_node.data.count;
                 v_span.dataset['depth'] = p_node.depth;
 
                 let v_exp_col = null;
@@ -258,7 +260,11 @@
                     v_span.appendChild(v_icon);
                 }
                 let v_a = createSimpleElement('label', null, null);
-                v_a.innerHTML = p_node.text;
+                if (options.source === 'ciClass' && p_node.data.value !== 'root') {
+                    v_a.innerHTML =  p_node.text + " " + '(' + p_node.data.count + ')';
+                } else {
+                    v_a.innerHTML = p_node.text;
+                }
                 v_span.appendChild(v_a);
                 v_li.appendChild(v_exp_col);
                 v_li.appendChild(v_span);
