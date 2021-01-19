@@ -15,5 +15,6 @@ data class CmdbClassListDto(
     val classLevel: Int? = 1,
     val pClassId: String? = null,
     val pClassName: String? = null,
-    var totalCount : Long = 0
+    var totalCount: Int = 0,
+    var totalAttributes: Int = 0
 ) : Serializable
