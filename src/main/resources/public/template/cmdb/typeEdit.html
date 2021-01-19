@@ -54,14 +54,14 @@
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
                     <div class="flex-row input-button">
                         <input class="col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
-                        <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
+                        <button class="default-line col-1" name="typeIconSelector" type="button" onclick="" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.class}" for="typeClass"></label>
                     <div class="flex-row input-button">
                         <input class="col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
-                        <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
+                        <button class="default-line col-1" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
             </div>
@@ -133,9 +133,14 @@
                         if (responseJson.ptypeId !== null) {
                             document.querySelector('#btnUpdate').removeAttribute('disabled');
                             document.querySelector('#btnDelete').removeAttribute('disabled');
+                            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+                            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
                         } else {
                             document.getElementById('btnUpdate').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
+                            document.getElementById('btnDelete').disabled = true;
+                            document.querySelector('button[name=typeIconSelector]').disabled = true;
+                            document.querySelector('button[name=typeClassSelector]').disabled = true;
                         }
                         onEdit();
                     }
@@ -250,6 +255,34 @@
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        /** Type-Class **/
+
+        function setClass(node) {
+            document.getElementById('typeClass').value = node.textContent;
+            // document.getElementById('typeClassId').value = node.id;
+        }
+
+        function classPopUp() {
+            if (document.getElementById('typeClass').value !== '') {
+                tree.load({
+                    view: 'modal',
+                    title: i18n.msg('cmdb.type.label.class'),
+                    // source: 'ciType',
+
+                    search: '',
+                    root: 'department',
+                    rootLevel: 4,
+                    text: 'codeName',
+
+                    target: 'treeList',
+                    // text: 'typeName',
+                    selectedValue: document.getElementById('typeClass').value
+                });
+            } else {
+                aliceJs.alertWarning([[#{cmdb.type.msg.selectType}]]);
+            }
         }
         /*]]>*/
     </script>
