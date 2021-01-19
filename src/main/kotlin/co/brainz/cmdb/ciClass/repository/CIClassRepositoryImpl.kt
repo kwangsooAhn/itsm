@@ -26,6 +26,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CmdbClassEntity::class.j
             .select(
                 Projections.constructor(
                     CmdbClassToAttributeDto::class.java,
+                    cmdbClassAttributeMap.cmdbClass.classId,
                     cmdbClassAttributeMap.cmdbAttribute.attributeId,
                     cmdbClassAttributeMap.cmdbAttribute.attributeName,
                     cmdbClassAttributeMap.attributeOrder

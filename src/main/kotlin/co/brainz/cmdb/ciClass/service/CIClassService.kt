@@ -81,7 +81,8 @@ class CIClassService(
         val queryResults: QueryResults<CmdbClassEntity> = ciClassRepository.findClassList(search)
         var returnList: List<CmdbClassEntity>
         val pClassList = mutableListOf<CmdbClassEntity>()
-        var count = 0L
+        val classIdList = mutableListOf<String>()
+        var count = 0
         var classSearchList = queryResults.results
 
         for (cmdbClass in classSearchList) {
@@ -97,10 +98,23 @@ class CIClassService(
             classSearchList.addAll(pClassList)
             classSearchList = classSearchList.distinct()
         }
-        count = queryResults.total
+        for (cmdbClass in classSearchList) {
+            classIdList.add(cmdbClass.classId)
+        }
+        var classAttributeMapList = ciClassRepository.findClassToAttributeList(classIdList)
+
+        count = queryResults.total.toInt()
         returnList = classSearchList
 
         for (cmdbClassEntity in returnList) {
+            var attributeCount = 0
+            if (classAttributeMapList != null) {
+                for (classAttributeMap in classAttributeMapList) {
+                    if (classAttributeMap.classId == cmdbClassEntity.classId) {
+                        attributeCount++
+                    }
+                }
+            }
             treeClassList.add(
                 CmdbClassListDto(
                     classId = cmdbClassEntity.classId,
@@ -109,7 +123,8 @@ class CIClassService(
                     classLevel = cmdbClassEntity.classLevel,
                     pClassId = cmdbClassEntity.pClass?.classId,
                     pClassName = cmdbClassEntity.pClass?.className,
-                    totalCount = count
+                    totalCount = count,
+                    totalAttributes = attributeCount
                 )
             )
         }
