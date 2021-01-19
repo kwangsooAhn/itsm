@@ -122,6 +122,8 @@
     }
   }
   // 관련문서 모달
+  // CMDB > Class > AttributeList 모달
+  &.cmdb-class-attribute-modal,
   &.token-list {
     width: $token-list-modal-width;
     height: $token-list-modal-height;
@@ -131,6 +133,8 @@
       padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
 
       // 관련문서 목록
+      // CMDB > Class > AttributeList 목록
+      .cmdb-class-attribute-list,
       .related-instance-list {
         margin-top: 0.9375rem; // 15px
         .table-set {
@@ -149,6 +153,7 @@
               height: 32.8125rem; // 525px
               color: $dark-gray;
               overflow-y: auto;
+              .attribute-list,
               .instance-list {
                 display: table;
                 width: 100%;
