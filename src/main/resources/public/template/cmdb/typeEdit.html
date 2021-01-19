@@ -61,6 +61,7 @@
                     <label th:text="#{cmdb.type.label.class}" for="typeClass"></label>
                     <div class="flex-row input-button">
                         <input class="col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
+                        <input id="typeClassId" name="typeClassId" type="hidden"/>
                         <button class="default-line col-1" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
@@ -129,7 +130,8 @@
                         document.getElementById('typeId').value = responseJson.typeId;
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
-                        document.getElementById('typeClass').value = responseJson.defaultClassId;
+                        document.getElementById('typeClassId').value = responseJson.defaultClassId;
+                        document.getElementById('typeClass').value = responseJson.defaultClassName;
                         if (responseJson.ptypeId !== null) {
                             document.querySelector('#btnUpdate').removeAttribute('disabled');
                             document.querySelector('#btnDelete').removeAttribute('disabled');
@@ -169,6 +171,8 @@
             document.querySelector('#btnUpdate').style.display = 'none';
             document.querySelector('#btnDelete').style.display = 'none';
             document.querySelector('#btnRegist').style.display = 'block';
+            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
             document.querySelectorAll('input[type=text]:not(.inherit)').forEach(function(object){
                 object.value = '';
             });
@@ -195,9 +199,9 @@
                 typeName: document.getElementById('typeName').value,
                 typeDesc: document.getElementById('typeDesc').value,
                 typeIcon: document.getElementById('typeIcon').value,
-                defaultClassId: document.getElementById('typeClass').value
+                defaultClassId: document.getElementById('typeClassId').value,
+                defaultClassName: document.getElementById('typeClass').value
             };
-
             if (jsonData.ptypeId === null || jsonData.ptypeId.trim() === '') {
                 aliceJs.alertWarning([[#{cmdb.type.msg.enterPType}]]);
                 return false;
@@ -258,27 +262,19 @@
         }
 
         /** Type-Class **/
-
-        function setClass(node) {
-            document.getElementById('typeClass').value = node.textContent;
-            // document.getElementById('typeClassId').value = node.id;
-        }
-
         function classPopUp() {
             if (document.getElementById('typeClass').value !== '') {
                 tree.load({
                     view: 'modal',
                     title: i18n.msg('cmdb.type.label.class'),
-                    // source: 'ciType',
-
-                    search: '',
-                    root: 'department',
-                    rootLevel: 4,
-                    text: 'codeName',
-
-                    target: 'treeList',
-                    // text: 'typeName',
-                    selectedValue: document.getElementById('typeClass').value
+                    source: 'ciClass',
+                    target: 'modalTreeList',
+                    text: 'className',
+                    selectedValue: document.getElementById('typeClassId').value,
+                    callbackFunc: function(response) {
+                        document.querySelector('#typeClass').value = response.dataset.name;
+                        document.querySelector('#typeClassId').value = response.id;
+                    }
                 });
             } else {
                 aliceJs.alertWarning([[#{cmdb.type.msg.selectType}]]);

@@ -6,6 +6,8 @@
 
 package co.brainz.cmdb.ciType.service
 
+import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
+import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciType.entity.CmdbTypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.dto.CmdbTypeDto
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service
 @Service
 class CITypeService(
     private val ciTypeRepository: CITypeRepository,
+    private val ciClassRepository: CIClassRepository,
     private val aliceUserRepository: AliceUserRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -56,10 +59,11 @@ class CITypeService(
                     typeName = typeEntity.typeName,
                     typeDesc = typeEntity.typeDesc,
                     typeLevel = typeEntity.typeLevel,
-                    defaultClassId = typeEntity.defaultClassId,
                     ptypeId = typeEntity.pType?.typeId,
                     ptypeName = typeEntity.pType?.typeName,
                     typeIcon = typeEntity.typeIcon,
+                    defaultClassId = typeEntity.defaultClass?.classId,
+                    defaultClassName = typeEntity.defaultClass?.className,
                     totalCount = count
                 )
             )
@@ -77,10 +81,11 @@ class CITypeService(
             typeName = typeDetailEntity.typeName,
             typeDesc = typeDetailEntity.typeDesc,
             typeLevel = typeDetailEntity.typeLevel,
-            defaultClassId = typeDetailEntity.defaultClassId,
             ptypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId!! },
             ptypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
-            typeIcon = typeDetailEntity.typeIcon
+            typeIcon = typeDetailEntity.typeIcon,
+            defaultClassId = typeDetailEntity.defaultClass?.classId,
+            defaultClassName = typeDetailEntity.defaultClass?.className
         )
     }
 
@@ -93,8 +98,8 @@ class CITypeService(
                 .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.ptypeId!!)),
             typeName = cmdbTypeDto.typeName,
             typeDesc = cmdbTypeDto.typeDesc,
-            defaultClassId = cmdbTypeDto.defaultClassId,
-            typeIcon = cmdbTypeDto.typeIcon
+            typeIcon = cmdbTypeDto.typeIcon,
+            defaultClass = cmdbTypeDto.defaultClassId?.let { ciClassRepository.getOne(it) }
         )
         if (cmdbTypeDto.ptypeId.isNullOrEmpty()) {
             cmdbTypeEntity.typeLevel = 0
@@ -122,8 +127,8 @@ class CITypeService(
             typeName = cmdbTypeDto.typeName,
             typeDesc = cmdbTypeDto.typeDesc,
             typeLevel = cmdbTypeDto.typeLevel,
-            defaultClassId = cmdbTypeDto.defaultClassId,
-            typeIcon = cmdbTypeDto.typeIcon
+            typeIcon = cmdbTypeDto.typeIcon,
+            defaultClass = cmdbTypeDto.defaultClassId?.let { ciClassRepository.getOne(it) }
         )
         cmdbTypeEntity.updateUser = cmdbTypeDto.updateUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
