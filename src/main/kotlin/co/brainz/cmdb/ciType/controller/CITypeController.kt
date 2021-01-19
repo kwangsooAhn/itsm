@@ -64,8 +64,9 @@ class CITypeController(
      * CMDB Type 수정
      */
     @PutMapping("/{typeId}")
-    fun updateCmdbType(@RequestBody cmdbTypeDto: CmdbTypeDto,
-                       @PathVariable typeId: String
+    fun updateCmdbType(
+        @RequestBody cmdbTypeDto: CmdbTypeDto,
+        @PathVariable typeId: String
     ): Boolean {
         return ciTypeService.updateCmdbType(cmdbTypeDto, typeId)
     }

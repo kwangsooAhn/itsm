@@ -1322,8 +1322,8 @@ insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 �
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
-insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
+insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -2639,7 +2639,7 @@ insert into cmdb_class values ('root', 'root', 'root', null, 0, '0509e09412534a6
 insert into cmdb_class values ('df562114ab87c066adeaea79b2e4a8a2', 'Server', '서버 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('0d51e482f1a56e1074f69b5a1bce0138', 'Network', '네트워크 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('85b3c35b31059e63aaa36ce2587ea070', 'Database', '데이터베이스 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('52905fc1ae0183698f726aec3e038148', 'Software', '소프트웨어 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('52905fc1ae0183698f726aec3e038148', 'Software', '소프트웨어 Class',  'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('0e8dd74a27bbbf86201104e91df7ee88', 'OS', 'OS Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('e6663412f62bd2d3daeeadd7a36a0b0d', 'PostgreSQL', 'PostgreSQL Class', 2, '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('40e346d210cd36229d03b403153e54ab', 'Oracle', 'ORACLE Class', 2, '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
