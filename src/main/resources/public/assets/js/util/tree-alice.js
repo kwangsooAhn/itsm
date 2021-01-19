@@ -260,7 +260,7 @@
                     v_span.appendChild(v_icon);
                 }
                 let v_a = createSimpleElement('label', null, null);
-                if (options.source === 'ciClass') {
+                if (options.source === 'ciClass' && p_node.data.value !== 'root') {
                     v_a.innerHTML =  p_node.text + " " + '(' + p_node.data.count + ')';
                 } else {
                     v_a.innerHTML = p_node.text;
