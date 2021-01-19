@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{cmdb.attribute.label.view}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="flex-column edit">
+        <div class="cmdb-attribute-header">
+            <div class="header-title flex-row align-items-baseline">
+                <h1 th:text="#{cmdb.attribute.label.view}"></h1>
+                <h6 class="description" th:text="#{cmdb.attribute.msg.viewDescription}"></h6>
+            </div>
+        </div>
+        <div class="cmdb-attribute-content-edit">
+            <div class="flex-column edit-row">
+                <label for="attributeName">
+                    <span th:text="#{cmdb.attribute.label.name}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="attributeName" required="required" maxlength="100"
+                       th:value="${attribute?.attributeName}" disabled/>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="attributeDesc">
+                    <span th:text="#{cmdb.attribute.label.description}"></span>
+                </label>
+                <textarea id="attributeDesc" name="attributeDesc" maxlength="250" rows="5"
+                          class="textarea-scroll-wrapper" th:text="${attribute?.attributeDesc}" disabled></textarea>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="attributeText">
+                    <span th:text="#{cmdb.attribute.label.label}"></span>
+                </label>
+                <input type="text" id="attributeText" maxlength="100"
+                       th:value="${attribute?.attributeText}" disabled/>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="attributeType">
+                    <span th:text="#{cmdb.attribute.label.type}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="attributeType" disabled>
+                </select>
+            </div>
+            <div class="flex-column edit-row">
+                <div class="under-bar">
+                    <label>
+                        <span th:text="#{cmdb.attribute.label.details}"></span>
+                        <span class="required"></span>
+                    </label>
+                </div>
+                <div id="details"></div>
+            </div>
+            <div class="flex-row justify-content-end edit-row">
+                <div class="btn-list">
+                    <a class="btn default-line" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/cmdb/cmdb.attribute.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        window.onload = function () {
+            const attributeType = /*[[${attribute?.attributeType}]]*/ null;
+            let attributeTypeObject = document.querySelector('#attributeType');
+            for (let i = 0; i < attribute.attributeTypeList.length; i++) {
+                const option = document.createElement('option');
+                option.text = attribute.attributeTypeList[i].name
+                option.value = attribute.attributeTypeList[i].type
+                if (attributeType != null && option.value === attributeType) {
+                    option.setAttribute('selected', 'true');
+                }
+                attributeTypeObject.add(option);
+            }
+            aliceJs.initDesignedSelectTag();
+
+            OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
+        };
+        /*]]>*/
+    </script>
+</th:block>
+</html>

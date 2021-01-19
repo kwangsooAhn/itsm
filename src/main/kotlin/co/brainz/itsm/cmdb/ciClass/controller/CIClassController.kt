@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/cmdb/class")
-class CIClassController() {
+class CIClassController {
 
     private val classEditPage: String = "cmdb/classEdit"
 

@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS cmdb_ci_data_history cascade;
 
 CREATE TABLE cmdb_ci_data_history
 (
-    data_history_id character varying(128) NOT NULL,
+	data_history_id character varying(128) NOT NULL,
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	attribute_id character varying(128) NOT NULL,
@@ -15,13 +15,7 @@ CREATE TABLE cmdb_ci_data_history
 	attribute_text character varying(128),
 	value text,
 	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (attribute_id),
-	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id),
-	CONSTRAINT cmdb_ci_data_history_fk1 FOREIGN KEY (attribute_id)
-      REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_data_history_fk2 FOREIGN KEY (ci_id)
-      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id)
 );
 
 COMMENT ON TABLE cmdb_ci_data_history IS 'CMDB CI 속성데이터 이력';

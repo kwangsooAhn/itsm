@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
@@ -23,11 +24,17 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
     private val attributeEditPage: String = "cmdb/attributeEdit"
     private val attributeViewPage: String = "cmdb/attributeView"
 
+    /**
+     * Attribute 관리 검색 화면 호출.
+     */
     @GetMapping("/search")
     fun getAttributeSearch(): String {
         return attributeSearchPage
     }
 
+    /**
+     * Attribute 관리 화면 호출.
+     */
     @GetMapping("")
     fun getAttributes(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
@@ -39,15 +46,29 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
         return attributeListPage
     }
 
+    /**
+     * Attribute 등록 화면 호출.
+     */
+    @GetMapping("/new")
     fun getAttributeNew(): String {
         return attributeEditPage
     }
 
-    fun getAttributeEdit(): String {
+    /**
+     * Attribute 수정 화면 호출.
+     */
+    @GetMapping("/{attributeId}/edit")
+    fun getAttributeEdit(@PathVariable attributeId: String, model: Model): String {
+        model.addAttribute("attribute", ciAttributeService.getAttribute(attributeId))
         return attributeEditPage
     }
 
-    fun getAttributeView(): String {
+    /**
+     * Attribute 보기 화면 호출.
+     */
+    @GetMapping("/{attributeId}/view")
+    fun getAttributeView(@PathVariable attributeId: String, model: Model): String {
+        model.addAttribute("attribute", ciAttributeService.getAttribute(attributeId))
         return attributeViewPage
     }
 }

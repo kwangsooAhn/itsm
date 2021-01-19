@@ -8,11 +8,13 @@ package co.brainz.itsm.cmdb.ciClass.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
+import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
+import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -21,6 +23,7 @@ import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
 
 @Service
 @Transactional
@@ -33,7 +36,7 @@ class CIClassService(
     /**
      * CMDB Class 단일 조회
      */
-    fun getCmdbClass(classId: String): CmdbClassListDto {
+    fun getCmdbClass(classId: String): CmdbClassDetailDto {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.GET_CLASS.url.replace(
                 restTemplate.getKeyRegex(),
@@ -43,15 +46,24 @@ class CIClassService(
         val responseBody = restTemplate.get(url)
         return mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassListDto::class.java)
+            mapper.typeFactory.constructType(CmdbClassDetailDto::class.java)
         )
     }
 
     /**
-     * CMDB class 목록 조회
+     * CMDB class 멀티 조회
      */
-    fun getCmdbClasses(): String {
-        return ""
+    fun getCmdbClasses(parameters: LinkedMultiValueMap<String, String>): List<CmdbClassListDto> {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Class.GET_CLASSES.url,
+            parameters = parameters
+        )
+        val responseBody = restTemplate.get(url)
+        mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
+        return mapper.readValue(
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassListDto::class.java)
+        )
     }
 
     /**
@@ -74,14 +86,14 @@ class CIClassService(
     /**
      * CMDB Class 수정
      */
-    fun updateCmdbClass(classId: String, cmdbClassDto: CmdbClassDto): String {
+    fun updateCmdbClass(cmdbClassDto: CmdbClassDto): String {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         cmdbClassDto.updateDt = LocalDateTime.now()
         cmdbClassDto.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.PUT_CLASS.url.replace(
                 restTemplate.getKeyRegex(),
-                classId
+                cmdbClassDto.classId
             )
         )
         val responseEntity = restTemplate.update(url, cmdbClassDto)

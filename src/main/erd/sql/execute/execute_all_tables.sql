@@ -1235,7 +1235,10 @@ insert into awf_url values ('/certification/signup', 'get', '회원 가입 화�
 insert into awf_url values ('/certification/status', 'get', '메일 인증 상태/재발송 요청 화면', 'FALSE');
 insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'FALSE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
+insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
+insert into awf_url values ('/cmdb/attributes/{id}/edit', 'get', 'CMDB Attribute 수정 화면', 'TRUE');
+insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute 보기 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/types', 'get', 'CMDB Type 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
@@ -1318,6 +1321,9 @@ insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '�
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
+insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
+insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -1502,7 +1508,11 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.read');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.delete');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.create');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
@@ -1630,6 +1640,9 @@ insert into awf_url_auth_map values ('/rest/boards/articles/comments/{id}', 'del
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'board.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.update');
@@ -2602,6 +2615,7 @@ CREATE TABLE cmdb_class
 	class_name character varying(100) NOT NULL,
 	class_desc character varying(500),
 	p_class_id character varying(128),
+	class_level int,
 	create_user_key character varying(128),
 	create_dt timestamp without time zone,
 	update_user_key character varying(128),
@@ -2615,21 +2629,22 @@ COMMENT ON COLUMN cmdb_class.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_class.class_name IS '클래스이름';
 COMMENT ON COLUMN cmdb_class.class_desc IS '클래스설명';
 COMMENT ON COLUMN cmdb_class.p_class_id IS '부모클래스아이디';
+COMMENT ON COLUMN cmdb_class.class_level IS '클래스레벨';
 COMMENT ON COLUMN cmdb_class.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_class.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_class.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_class.update_dt IS '수정일시';
 
-insert into cmdb_class values ('root', '', '', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('df562114ab87c066adeaea79b2e4a8a2', 'Server', '서버 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('0d51e482f1a56e1074f69b5a1bce0138', 'Network', '네트워크 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('85b3c35b31059e63aaa36ce2587ea070', 'Database', '데이터베이스 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('52905fc1ae0183698f726aec3e038148', 'Software', '소프트웨어 Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('0e8dd74a27bbbf86201104e91df7ee88', 'OS', 'OS Class', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('e6663412f62bd2d3daeeadd7a36a0b0d', 'PostgreSQL', 'PostgreSQL Class', '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('40e346d210cd36229d03b403153e54ab', 'Oracle', 'ORACLE Class', '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('39dbe77aa58b778064a0f4a10dd06b05', 'Linux', 'Linux Class', '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('f88ee1c29fdf9d847ba6002abc5bbf1b', 'Window', 'Window Class', '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('root', 'root', 'root', null, 0, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('df562114ab87c066adeaea79b2e4a8a2', 'Server', '서버 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('0d51e482f1a56e1074f69b5a1bce0138', 'Network', '네트워크 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('85b3c35b31059e63aaa36ce2587ea070', 'Database', '데이터베이스 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('52905fc1ae0183698f726aec3e038148', 'Software', '소프트웨어 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('0e8dd74a27bbbf86201104e91df7ee88', 'OS', 'OS Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('e6663412f62bd2d3daeeadd7a36a0b0d', 'PostgreSQL', 'PostgreSQL Class', 2, '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('40e346d210cd36229d03b403153e54ab', 'Oracle', 'ORACLE Class', 2, '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('39dbe77aa58b778064a0f4a10dd06b05', 'Linux', 'Linux Class', 2, '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('f88ee1c29fdf9d847ba6002abc5bbf1b', 'Window', 'Window Class', 2, '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * CMDB 타입 정보
@@ -2669,7 +2684,7 @@ COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_type.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_type.update_dt IS '수정일시';
 
-insert into cmdb_type values ('root', null, '서버', 'ROOT', 0, 'root', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('root', 'root', 'ROOT', null, 0, '', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('587b4557275bcce81664db9e12485ae2', 'root', '서버', null, 1, 'df562114ab87c066adeaea79b2e4a8a2', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('f18c064040304e493f4dc7385595601f', 'root', '네트워크', null, 1, '0d51e482f1a56e1074f69b5a1bce0138', 'network.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('b2dac0d38b39a4f8da7b98c56e831465', 'root', '데이터베이스', null, 1, '85b3c35b31059e63aaa36ce2587ea070', 'database.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -2690,6 +2705,7 @@ CREATE TABLE cmdb_ci
 	ci_id character varying(128) NOT NULL,
 	ci_no character varying(128),
 	ci_name character varying(100) NOT NULL,
+	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	class_id character varying(128) NOT NULL,
 	ci_icon character varying(200),
@@ -2713,6 +2729,7 @@ COMMENT ON TABLE cmdb_ci IS 'CMDB CI 정보';
 COMMENT ON COLUMN cmdb_ci.ci_id IS 'CI아이디';
 COMMENT ON COLUMN cmdb_ci.ci_no IS '시퀀스';
 COMMENT ON COLUMN cmdb_ci.ci_name IS 'CI이름';
+COMMENT ON COLUMN cmdb_ci.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_ci.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci.ci_icon IS 'CI아이콘';
@@ -2761,19 +2778,11 @@ CREATE TABLE cmdb_ci_history
 	ci_name character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	class_id character varying(128) NOT NULL,
+	ci_status character varying(100) NOT NULL,
 	ci_icon character varying(200),
 	ci_desc character varying(500),
 	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id, ci_id, seq),
-	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id),
-	CONSTRAINT cmdb_ci_history_fk1 FOREIGN KEY (ci_id)
-      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_history_fk2 FOREIGN KEY (type_id)
-      REFERENCES cmdb_type (type_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_history_fk3 FOREIGN KEY (class_id)
-      REFERENCES cmdb_class (class_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
 );
 
 COMMENT ON TABLE cmdb_ci_history IS 'CMDB CI 정보 이력';
@@ -2784,6 +2793,7 @@ COMMENT ON COLUMN cmdb_ci_history.ci_no IS 'CI번호';
 COMMENT ON COLUMN cmdb_ci_history.ci_name IS 'CI이름';
 COMMENT ON COLUMN cmdb_ci_history.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_ci_history.class_id IS '클래스아이디';
+COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
 
@@ -2794,7 +2804,7 @@ DROP TABLE IF EXISTS cmdb_ci_data_history cascade;
 
 CREATE TABLE cmdb_ci_data_history
 (
-    data_history_id character varying(128) NOT NULL,
+	data_history_id character varying(128) NOT NULL,
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	attribute_id character varying(128) NOT NULL,
@@ -2804,13 +2814,7 @@ CREATE TABLE cmdb_ci_data_history
 	attribute_text character varying(128),
 	value text,
 	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (attribute_id),
-	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id),
-	CONSTRAINT cmdb_ci_data_history_fk1 FOREIGN KEY (attribute_id)
-      REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_data_history_fk2 FOREIGN KEY (ci_id)
-      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id)
 );
 
 COMMENT ON TABLE cmdb_ci_data_history IS 'CMDB CI 속성데이터 이력';

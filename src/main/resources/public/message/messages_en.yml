@@ -224,15 +224,21 @@ board:
 cmdb:
   attribute:
     label:
-      management: "Attribute Management"
-      searchPlaceholder: "Label / Type / Attribute Name / Description"
-      name: "Attribute Name"
-      label: "Label"
-      type: "Type"
       description: "Description"
+      details: "Details"
       export: "Export"
+      label: "Label"
+      management: "Attribute Management"
+      name: "Attribute Name"
+      searchPlaceholder: "Label / Type / Attribute Name / Description"
+      type: "Type"
+      view: "Attribute"
     msg:
+      attributeNameUsed: "The Attribute Name is being used."
+      enterAttributeName: "Please enter a attribute name."
       searchDescription: "CI Attribute manage posts."
+      selectAttributeType: "Please select the type."
+      viewDescription: "Inquires detailed information about the attribute."
     btn:
       import: "Import"
       export: "Export"
@@ -242,15 +248,15 @@ cmdb:
       description: "Description"
       management: "Class Management"
       name: "Name"
-      pClassId: "Parent Class"
+      pClassName: "Parent Class"
       searchPlaceholder: "Class Name / Description"
     msg:
+      confirmDeleteAttribute: "Are you sure you want to delete the attribute?"
       editDescritpion: "Add, view and manage CMDB Class."
       enterClassName: "Please enter a class name."
     btn:
       import: "Import"
       export: "Export"
-
   type:
     label:
       management: "Type Management"
@@ -262,6 +268,11 @@ cmdb:
       class: "Class"
     msg:
       searchDescription: "CI Type manage posts."
+      enterPType: "Please choose Parent Type node."
+      enterTypeName: "Please enter a Type Name."
+    btn:
+      import: "Import"
+      export: "Export"
 # Code
 code:
   label:

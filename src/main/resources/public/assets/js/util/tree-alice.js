@@ -1,6 +1,6 @@
 /**
  * tree modal library
- * 
+ *
  * @author phc
  * @version 1.0
  */
@@ -11,7 +11,7 @@
             (factory((global.tree = global.tree || {})));
 }(this, (function (exports) {
     'use strict';
-    
+
     const iconPath = '/assets/media/icons/tree';
 
     let options = {};
@@ -112,11 +112,19 @@
              */
             createNode: function(item, p_expanded, p_depth, p_parentNode) {
                 let v_tree = this;
-                let node_id = '';
+                let node_id, node_name, node_value = '';
                 if (item.code !== '' && item.code !== undefined) {
                     node_id = item.code;
-                } else {
+                    node_name = item.codeName;
+                    node_value = item.codeValue;
+                } else if (item.typeId !== '' && item.typeId !== undefined) {
                     node_id = item.typeId;
+                    node_name = item.typeName;
+                    node_value = item.typeId;
+                } else {
+                    node_id = item.classId;
+                    node_name = item.className;
+                    node_value = item.classId;
                 }
                 let node = {
                     id: node_id,
@@ -127,10 +135,11 @@
                     elementLi: null,
                     depth: p_depth,
                     data: { // Todo: node에 원하는 데이터를 추가한다.
-                        name: item.codeName || '',
-                        value: item.codeValue || '',
+                        name: node_name || '',
+                        value: node_value || '',
                         editable: item.editable || false,
-                        icon: item.typeIcon || ''
+                        icon: item.typeIcon || '',
+                        count: item.totalAttributes || 0
                     },
                     removeNode: function() { v_tree.removeNode(this); },
                     toggleNode: function(p_event) { v_tree.toggleNode(this); },
@@ -220,6 +229,7 @@
                 v_span.dataset['name'] = p_node.data.name;
                 v_span.dataset['value'] = p_node.data.value;
                 v_span.dataset['editable'] = p_node.data.editable;
+                v_span.dataset['count'] = p_node.data.count;
                 v_span.dataset['depth'] = p_node.depth;
 
                 let v_exp_col = null;
@@ -250,7 +260,11 @@
                     v_span.appendChild(v_icon);
                 }
                 let v_a = createSimpleElement('label', null, null);
-                v_a.innerHTML = p_node.text;
+                if (options.source === 'ciClass' && p_node.data.value !== 'root') {
+                    v_a.innerHTML =  p_node.text + " " + '(' + p_node.data.count + ')';
+                } else {
+                    v_a.innerHTML = p_node.text;
+                }
                 v_span.appendChild(v_a);
                 v_li.appendChild(v_exp_col);
                 v_li.appendChild(v_span);
@@ -347,7 +361,7 @@
                 this.toggleNode(p_node);
             },
             selectNode: function(p_node) {
-                if (p_node !== null) {
+                if (p_node !== null || p_node !== undefined) {
                     let span = p_node.elementLi.getElementsByTagName('span')[0];
                     span.className = 'node_selected';
                     if (this.selectedNode !== null && this.selectedNode !== p_node)
@@ -518,13 +532,27 @@
 
         // Node 생성
         options.data.forEach(function (item) {
-            if (item.level === options.rootLevel || item.typeLevel === options.rootLevel) {
+            if (item.level === options.rootLevel || item.typeLevel === options.rootLevel || item.classLevel === options.rootLevel) {
                 let expand = false;
                 if (expandObject.length > 0 && expandObject.indexOf(item) > -1) {
                     expand = true;
                 }
                 let firstNode = tree.createNode(item, expand, 1, null);
-                createChildNode(firstNode, item.level !== undefined ? item.level : item.typeLevel, expandObject, 2);
+                let itemLevel = '';
+
+                if (item.level !== undefined) {
+                    itemLevel = item.level
+                } else if (item.typeLevel !== undefined) {
+                    itemLevel = item.typeLevel
+                } else {
+                    itemLevel = item.classLevel
+                }
+
+                createChildNode(
+                    firstNode,
+                    itemLevel,
+                    expandObject,
+                    2);
             }
         });
     }
@@ -539,7 +567,18 @@
      */
     function createChildNode(node, level, expandObject, depth) {
         options.data.forEach(function (item) {
-            let p_node_id = options.source === 'code' ? item.pcode : item.ptypeId;
+            let p_node_id = '';
+            switch (options.source) {
+                case 'ciType':
+                    p_node_id = item.ptypeId;
+                    break;
+                case 'ciClass':
+                    p_node_id = item.pclassId;
+                    break;
+                default:
+                    p_node_id = item.pcode;
+                    break;
+            }
             if (node.id === p_node_id) {
                 let expand = false;
                 if (expandObject !== null && expandObject.indexOf(item) > -1) {
@@ -638,6 +677,9 @@
         switch (options.source) {
             case 'ciType':
                 dataUrl = '/rest/cmdb/types?search=' + options.search;
+                break;
+            case 'ciClass':
+                dataUrl = '/rest/cmdb/classes?search=' + options.search;
                 break;
             default:
                 dataUrl = '/rest/codes?pCode=' + options.root + '&search=' + options.search;

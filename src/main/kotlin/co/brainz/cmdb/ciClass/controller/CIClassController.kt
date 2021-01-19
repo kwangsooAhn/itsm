@@ -7,11 +7,9 @@
 package co.brainz.cmdb.ciClass.controller
 
 import co.brainz.cmdb.ciClass.service.CIClassService
+import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import co.brainz.cmdb.provider.dto.CmdbClassListDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -34,29 +33,32 @@ class CIClassController(
      * CMDB Class 단일 조회
      */
     @GetMapping("/{classId}")
-    fun getCmdbClass(@PathVariable classId: String): CmdbClassDto {
+    fun getCmdbClass(@PathVariable classId: String): CmdbClassDetailDto {
         return ciClassService.getCmdbClass(classId)
+    }
+
+    /**
+     * CMDB Class 멀티 조회
+     */
+    @GetMapping("")
+    fun getCmdbClasses(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbClassListDto> {
+        return ciClassService.getCmdbClasses(parameters)
     }
 
     /**
      * CMDB Class 저장
      */
     @PostMapping("")
-    fun createCmdbClass(@RequestBody jsonData: Any): Boolean {
-        val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        return ciClassService.createCmdbClass(mapper.convertValue(jsonData, CmdbClassDto::class.java))
+    fun createCmdbClass(@RequestBody cmdbClassDto: CmdbClassDto): Boolean {
+        return ciClassService.createCmdbClass(cmdbClassDto)
     }
 
     /**
      * CMDB Class 수정
      */
     @PutMapping("/{classId}")
-    fun updateCmdbClass(
-        @PathVariable classId: String,
-        @RequestBody cmdbClassDto: CmdbClassDto
-    ): Boolean {
-        return ciClassService.updateCmdbClass(classId, cmdbClassDto)
+    fun updateCmdbClass(@RequestBody cmdbClassDto: CmdbClassDto): Boolean {
+        return ciClassService.updateCmdbClass(cmdbClassDto)
     }
 
     /**
