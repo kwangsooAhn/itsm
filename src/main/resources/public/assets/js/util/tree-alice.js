@@ -75,7 +75,7 @@
      */
     function saveSelectedNode() {
         let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
-        const selectedNode = document.querySelector(nodeSelector);
+        const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
 
         if (!selectedNode) {
             aliceJs.alert(i18n.msg('common.msg.dataSelect'));

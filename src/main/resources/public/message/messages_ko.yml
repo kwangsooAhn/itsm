@@ -272,7 +272,7 @@ cmdb:
       enterPType: "부모 Type을 선택하세요."
       enterTypeName: "Type 명을 입력하세요."
       selectType: "Type을 선택하세요."
-      selectAvilableClass: "유효한 Class를 선택하세요.<br/>(root 제외)"
+      selectAvailableClass: "유효한 Class를 선택하세요.<br/>(root 제외)"
     btn:
       import: "가져오기"
       export: "내보내기"
