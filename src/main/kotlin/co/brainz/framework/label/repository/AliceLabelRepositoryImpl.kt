@@ -8,6 +8,7 @@ package co.brainz.framework.label.repository
 import co.brainz.framework.label.entity.AliceLabelEntity
 import co.brainz.framework.label.entity.QAliceLabelEntity
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.BooleanExpression
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -17,13 +18,15 @@ class AliceLabelRepositoryImpl : QuerydslRepositorySupport(AliceLabelEntity::cla
 
     val aliceLabelEntity: QAliceLabelEntity = QAliceLabelEntity.aliceLabelEntity
 
+    /**
+     * Label 조회.
+     */
     override fun findLabels(
         labelTarget: String,
         targetId: String,
-        labelKey: String
+        labelKey: String?
     ): MutableList<AliceLabelEntity> {
-
-        var query = from(aliceLabelEntity)
+        return from(aliceLabelEntity)
             .select(
                 Projections.constructor(
                     AliceLabelEntity::class.java,
@@ -35,8 +38,15 @@ class AliceLabelRepositoryImpl : QuerydslRepositorySupport(AliceLabelEntity::cla
             )
             .where(aliceLabelEntity.labelTarget.eq(labelTarget))
             .where(aliceLabelEntity.labelTargetId.eq(targetId))
-            .where(aliceLabelEntity.labelKey.eq(labelKey))
+            .where(labelKeyEq(labelKey))
+            .fetch()
+    }
 
-        return query.fetch()
+    fun labelKeyEq(labelKey: String?): BooleanExpression? {
+        return labelKey?.let {
+            aliceLabelEntity.labelKey.eq(labelKey)
+        } ?: run {
+            null
+        }
     }
 }

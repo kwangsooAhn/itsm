@@ -10,7 +10,6 @@ import co.brainz.framework.label.entity.AliceLabelEntity
 import co.brainz.framework.label.service.AliceLabelService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,17 +19,15 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/labels")
-class LabelRestController(
-    private val aliceLabelService: AliceLabelService
-) {
+class AliceLabelRestController(private val aliceLabelService: AliceLabelService) {
     /**
      * 라벨 조회.
      */
-    @GetMapping("/")
+    @GetMapping("")
     fun getLabels(
         @RequestParam(value = "label_target") labelTarget: String,
         @RequestParam(value = "label_target_id") labelTargetId: String,
-        @RequestParam(value = "label_key") labelKey: String
+        @RequestParam(value = "label_key") labelKey: String?
     ): MutableList<AliceLabelEntity> {
         return aliceLabelService.getLabels(labelTarget, labelTargetId, labelKey)
     }
@@ -38,15 +35,15 @@ class LabelRestController(
     /**
      * 라벨 추가.
      */
-    @PostMapping("/")
+    @PostMapping("")
     fun addLabels(@RequestBody aliceLabelDto: AliceLabelDto): Boolean {
-        return aliceLabelService.setLabels(aliceLabelDto)
+        return aliceLabelService.addLabels(aliceLabelDto)
     }
 
     /**
      * 라벨 변경.
      */
-    @PutMapping("/")
+    @PutMapping("")
     fun setLabels(@RequestBody aliceLabelDto: AliceLabelDto): Boolean {
         return aliceLabelService.updateLabels(aliceLabelDto)
     }
@@ -54,7 +51,7 @@ class LabelRestController(
     /**
      * 라벨 삭제.
      */
-    @DeleteMapping("/")
+    @DeleteMapping("")
     fun deleteLabels(@RequestBody aliceLabelDto: AliceLabelDto): Boolean {
         return aliceLabelService.deleteLabels(aliceLabelDto)
     }
