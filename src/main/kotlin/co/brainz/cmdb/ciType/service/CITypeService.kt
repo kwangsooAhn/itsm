@@ -58,8 +58,8 @@ class CITypeService(
                     typeName = typeEntity.typeName,
                     typeDesc = typeEntity.typeDesc,
                     typeLevel = typeEntity.typeLevel,
-                    ptypeId = typeEntity.pType?.typeId,
-                    ptypeName = typeEntity.pType?.typeName,
+                    pTypeId = typeEntity.pType?.typeId,
+                    pTypeName = typeEntity.pType?.typeName,
                     typeIcon = typeEntity.typeIcon,
                     defaultClassId = typeEntity.defaultClass?.classId,
                     defaultClassName = typeEntity.defaultClass?.className,
@@ -80,8 +80,8 @@ class CITypeService(
             typeName = typeDetailEntity.typeName,
             typeDesc = typeDetailEntity.typeDesc,
             typeLevel = typeDetailEntity.typeLevel,
-            ptypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId!! },
-            ptypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
+            pTypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId!! },
+            pTypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
             typeIcon = typeDetailEntity.typeIcon,
             defaultClassId = typeDetailEntity.defaultClass?.classId,
             defaultClassName = typeDetailEntity.defaultClass?.className
@@ -93,17 +93,17 @@ class CITypeService(
      */
     fun createCmdbType(cmdbTypeDto: CmdbTypeDto): Boolean {
         val cmdbTypeEntity = CmdbTypeEntity(
-            pType = ciTypeRepository.findById(cmdbTypeDto.ptypeId!!)
-                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.ptypeId)),
+            pType = ciTypeRepository.findById(cmdbTypeDto.pTypeId!!)
+                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.pTypeId!!)),
             typeName = cmdbTypeDto.typeName,
             typeDesc = cmdbTypeDto.typeDesc,
             typeIcon = cmdbTypeDto.typeIcon,
             defaultClass = cmdbTypeDto.defaultClassId?.let { ciClassRepository.getOne(it) }
         )
-        if (cmdbTypeDto.ptypeId.isNullOrEmpty()) {
+        if (cmdbTypeDto.pTypeId.isNullOrEmpty()) {
             cmdbTypeEntity.typeLevel = 0
         } else {
-            val pTypeEntity = ciTypeRepository.findById(cmdbTypeDto.ptypeId!!).get()
+            val pTypeEntity = ciTypeRepository.findById(cmdbTypeDto.pTypeId!!).get()
             cmdbTypeEntity.typeLevel = pTypeEntity.typeLevel!! + 1
         }
         cmdbTypeEntity.createUser = cmdbTypeDto.createUserKey?.let {
@@ -121,8 +121,8 @@ class CITypeService(
     fun updateCmdbType(cmdbTypeDto: CmdbTypeDto, typeId: String): Boolean {
         val cmdbTypeEntity = CmdbTypeEntity(
             typeId = cmdbTypeDto.typeId,
-            pType = ciTypeRepository.findById(cmdbTypeDto.ptypeId!!)
-                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.ptypeId)),
+            pType = ciTypeRepository.findById(cmdbTypeDto.pTypeId!!)
+                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.pTypeId!!)),
             typeName = cmdbTypeDto.typeName,
             typeDesc = cmdbTypeDto.typeDesc,
             typeLevel = cmdbTypeDto.typeLevel,

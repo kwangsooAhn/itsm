@@ -271,6 +271,7 @@ cmdb:
       enterPType: "Please choose Parent Type node."
       enterTypeName: "Please enter a Type Name."
       selectType: "Please select a Type."
+      selectAvilableClass: "Please select a available Class.<br/>(not root)"
     btn:
       import: "Import"
       export: "Export"
