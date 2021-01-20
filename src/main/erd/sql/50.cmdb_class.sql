@@ -35,7 +35,7 @@ insert into cmdb_class values ('0d51e482f1a56e1074f69b5a1bce0138', 'Network', '�
 insert into cmdb_class values ('85b3c35b31059e63aaa36ce2587ea070', 'Database', '데이터베이스 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('52905fc1ae0183698f726aec3e038148', 'Software', '소프트웨어 Class',  'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('0e8dd74a27bbbf86201104e91df7ee88', 'OS', 'OS Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('e6663412f62bd2d3daeeadd7a36a0b0d', 'PostgreSQL', 'PostgreSQL Class', 2, '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('40e346d210cd36229d03b403153e54ab', 'Oracle', 'ORACLE Class', 2, '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('39dbe77aa58b778064a0f4a10dd06b05', 'Linux', 'Linux Class', 2, '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('f88ee1c29fdf9d847ba6002abc5bbf1b', 'Window', 'Window Class', 2, '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('e6663412f62bd2d3daeeadd7a36a0b0d', 'PostgreSQL', 'PostgreSQL Class', '85b3c35b31059e63aaa36ce2587ea070', 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('40e346d210cd36229d03b403153e54ab', 'Oracle', 'ORACLE Class', '85b3c35b31059e63aaa36ce2587ea070', 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('39dbe77aa58b778064a0f4a10dd06b05', 'Linux', 'Linux Class', '0e8dd74a27bbbf86201104e91df7ee88', 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('f88ee1c29fdf9d847ba6002abc5bbf1b', 'Window', 'Window Class', '0e8dd74a27bbbf86201104e91df7ee88', 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
