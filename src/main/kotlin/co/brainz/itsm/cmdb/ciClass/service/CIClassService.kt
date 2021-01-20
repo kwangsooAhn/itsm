@@ -8,9 +8,12 @@ package co.brainz.itsm.cmdb.ciClass.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
+import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+import co.brainz.cmdb.provider.dto.CmdbClassAttributeListDto
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
+import co.brainz.cmdb.provider.dto.CmdbClassToAttributeDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
@@ -117,5 +120,47 @@ class CIClassService(
             true -> CIClassConstants.Status.STATUS_SUCCESS.code
             false -> ""
         }
+    }
+
+    /**
+     * CMDB classAttributeList 조회
+     */
+    fun getClassAttributeList(
+        attributeList: List<CmdbAttributeListDto>,
+        addAttributeList: List<CmdbClassToAttributeDto>?,
+        extendsAttributeList: List<CmdbClassToAttributeDto>?
+    ): MutableList<CmdbClassAttributeListDto> {
+        val cmdbClassAttributeList = mutableListOf<CmdbClassAttributeListDto>()
+
+        for (attributes in attributeList) {
+            var cmdbClassAttribute = CmdbClassAttributeListDto(
+                attributeId = attributes.attributeId,
+                attributeName = attributes.attributeName,
+                attributeText = attributes.attributeText,
+                attributeType = attributes.attributeType,
+                attributeDesc = attributes.attributeDesc,
+                extends = false,
+                checkable = false
+            )
+
+            if (addAttributeList != null) {
+                for (addAttributes in addAttributeList) {
+                    if (attributes.attributeId == addAttributes.attributeId) {
+                        cmdbClassAttribute.checkable = true
+                    }
+                }
+            }
+
+            if (extendsAttributeList != null) {
+                for (extendsAttributes in extendsAttributeList) {
+                    if (attributes.attributeId == extendsAttributes.attributeId) {
+                        cmdbClassAttribute.extends = true
+                    }
+                }
+            }
+            cmdbClassAttributeList.add(cmdbClassAttribute)
+        }
+
+        return cmdbClassAttributeList
     }
 }
