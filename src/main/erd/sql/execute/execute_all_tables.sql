@@ -1322,8 +1322,8 @@ insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 �
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
-insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
+insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -2611,17 +2611,17 @@ DROP TABLE IF EXISTS cmdb_class cascade;
 
 CREATE TABLE cmdb_class
 (
-	class_id character varying(128) NOT NULL,
-	class_name character varying(100) NOT NULL,
-	class_desc character varying(500),
-	p_class_id character varying(128),
-	class_level int,
-	create_user_key character varying(128),
-	create_dt timestamp without time zone,
-	update_user_key character varying(128),
-	update_dt timestamp without time zone,
-	CONSTRAINT cmdb_class_pk PRIMARY KEY (class_id),
-	CONSTRAINT cmdb_class_uk UNIQUE (class_id, class_name)
+    class_id character varying(128) NOT NULL,
+    class_name character varying(100) NOT NULL,
+    class_desc character varying(500),
+    p_class_id character varying(128),
+    class_level int,
+    create_user_key character varying(128),
+    create_dt timestamp without time zone,
+    update_user_key character varying(128),
+    update_dt timestamp without time zone,
+    CONSTRAINT cmdb_class_pk PRIMARY KEY (class_id),
+    CONSTRAINT cmdb_class_uk UNIQUE (class_id, class_name)
 );
 
 COMMENT ON TABLE cmdb_class IS 'CMDB_클래스 정보';
@@ -2641,10 +2641,10 @@ insert into cmdb_class values ('0d51e482f1a56e1074f69b5a1bce0138', 'Network', '�
 insert into cmdb_class values ('85b3c35b31059e63aaa36ce2587ea070', 'Database', '데이터베이스 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('52905fc1ae0183698f726aec3e038148', 'Software', '소프트웨어 Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_class values ('0e8dd74a27bbbf86201104e91df7ee88', 'OS', 'OS Class', 'root', 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('e6663412f62bd2d3daeeadd7a36a0b0d', 'PostgreSQL', 'PostgreSQL Class', 2, '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('40e346d210cd36229d03b403153e54ab', 'Oracle', 'ORACLE Class', 2, '85b3c35b31059e63aaa36ce2587ea070', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('39dbe77aa58b778064a0f4a10dd06b05', 'Linux', 'Linux Class', 2, '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_class values ('f88ee1c29fdf9d847ba6002abc5bbf1b', 'Window', 'Window Class', 2, '0e8dd74a27bbbf86201104e91df7ee88', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('e6663412f62bd2d3daeeadd7a36a0b0d', 'PostgreSQL', 'PostgreSQL Class', '85b3c35b31059e63aaa36ce2587ea070', 2,'0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('40e346d210cd36229d03b403153e54ab', 'Oracle', 'ORACLE Class', '85b3c35b31059e63aaa36ce2587ea070', 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('39dbe77aa58b778064a0f4a10dd06b05', 'Linux', 'Linux Class', '0e8dd74a27bbbf86201104e91df7ee88', 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_class values ('f88ee1c29fdf9d847ba6002abc5bbf1b', 'Window', 'Window Class', '0e8dd74a27bbbf86201104e91df7ee88', 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * CMDB 타입 정보
@@ -2684,7 +2684,7 @@ COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_type.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_type.update_dt IS '수정일시';
 
-insert into cmdb_type values ('root', 'root', 'ROOT', null, 0, '', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('root', null, 'ROOT', null, 0, 'root', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('587b4557275bcce81664db9e12485ae2', 'root', '서버', null, 1, 'df562114ab87c066adeaea79b2e4a8a2', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('f18c064040304e493f4dc7385595601f', 'root', '네트워크', null, 1, '0d51e482f1a56e1074f69b5a1bce0138', 'network.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('b2dac0d38b39a4f8da7b98c56e831465', 'root', '데이터베이스', null, 1, '85b3c35b31059e63aaa36ce2587ea070', 'database.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);

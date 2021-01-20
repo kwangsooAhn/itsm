@@ -1053,7 +1053,7 @@
 
         parent.insertAdjacentHTML('beforeend', this.template);
         if (formType !== 'form') {
-            const accordionStartComp = parent.querySelector('#' + property.componentId);
+            const accordionStartComp = document.getElementById(property.componentId);
             accordionStartComp.addEventListener('click', function(e) {
                 const elem =  aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
                 const arrowDown = elem.querySelector('.icon-arrow-down');
