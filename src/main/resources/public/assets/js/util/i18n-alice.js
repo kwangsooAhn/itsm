@@ -272,6 +272,9 @@
         let sessionStorageKey = 'alice_translation-' + i18n.lang;
         if (sessionStorage.getItem(sessionStorageKey) !== null) {
             messages = JSON.parse(sessionStorage.getItem(sessionStorageKey));
+            if (typeof callbackFunc === 'function') {
+                callbackFunc();
+            }
         } else {
             aliceJs.sendXhr({
                 method: 'GET',
