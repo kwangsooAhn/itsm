@@ -47,8 +47,6 @@ data class CmdbTypeEntity(
     @Column(name = "type_icon", length = 200)
     val typeIcon: String? = "",
 
-//    @Column(name = "default_class_id", length = 128)
-//    val defaultClassId: String? = "",
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "default_class_id", referencedColumnName = "class_id")
     var defaultClass: CmdbClassEntity? = null,

@@ -30,7 +30,7 @@ class CITypeService(
     fun getCmdbTypes(searchValue: String): List<CmdbTypeListDto> {
         val treeTypeList = mutableListOf<CmdbTypeListDto>()
         val queryResults: QueryResults<CmdbTypeEntity> = ciTypeRepository.findByTypeList(searchValue)
-        var returnList: List<CmdbTypeEntity>
+        val returnList: List<CmdbTypeEntity>
         var count = 0L
         var typeSearchList = queryResults.results
 
@@ -94,7 +94,7 @@ class CITypeService(
     fun createCmdbType(cmdbTypeDto: CmdbTypeDto): Boolean {
         val cmdbTypeEntity = CmdbTypeEntity(
             pType = ciTypeRepository.findById(cmdbTypeDto.ptypeId!!)
-                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.ptypeId!!)),
+                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.ptypeId)),
             typeName = cmdbTypeDto.typeName,
             typeDesc = cmdbTypeDto.typeDesc,
             typeIcon = cmdbTypeDto.typeIcon,
@@ -122,7 +122,7 @@ class CITypeService(
         val cmdbTypeEntity = CmdbTypeEntity(
             typeId = cmdbTypeDto.typeId,
             pType = ciTypeRepository.findById(cmdbTypeDto.ptypeId!!)
-                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.ptypeId!!)),
+                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.ptypeId)),
             typeName = cmdbTypeDto.typeName,
             typeDesc = cmdbTypeDto.typeDesc,
             typeLevel = cmdbTypeDto.typeLevel,
