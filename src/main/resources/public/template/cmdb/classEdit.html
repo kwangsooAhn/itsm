@@ -71,7 +71,7 @@
                         class="default-fill" type="button" id="btnExport" name="btnExport"
                         th:text="#{cmdb.class.btn.export}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.create')"
-                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                        class="point-fill" type="button" id="btnRegister" name="btnRegister"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.update')"
                         class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
@@ -191,7 +191,7 @@
 
             document.getElementById('btnUpdate').style.display = 'none';
             document.getElementById('btnDelete').style.display = 'none';
-            document.getElementById('btnRegist').style.display = 'block';
+            document.getElementById('btnRegister').style.display = 'block';
             document.getElementById('txtClassId').value = '';
             document.getElementById('txtPClassId').value = '';
             document.getElementById('txtClassName').value = '';
@@ -208,7 +208,7 @@
         function onEdit() {
             document.getElementById('btnUpdate').style.display = 'block';
             document.getElementById('btnDelete').style.display = 'block';
-            document.getElementById('btnRegist').style.display = 'none';
+            document.getElementById('btnRegister').style.display = 'none';
         }
 
         /** CMDB Class 등록, 수정 **/
@@ -216,7 +216,9 @@
             let pClassId = document.getElementById('txtPClassId').value;
             if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
             let attributeList = [];
-            document.getElementsByName('attribute').forEach(elem => attributeList.push(elem.id));
+            document.getElementsByName('attribute').forEach(function (elem) {
+                attributeList.push(elem.id);
+            });
 
             let obj = {};
             obj.classId = document.getElementById('txtClassId').value;
