@@ -147,8 +147,10 @@
                                 }, 'extendsAttribute', false);
                             });
                         }
+                        classAttributeMap.clear();
                         if (responseJson.attributes !== null) {
                             responseJson.attributes.forEach(function (data) {
+                                classAttributeMap.set(data.attributeId, data.attributeName);
                                 drawAttribute({
                                     key: data.attributeId,
                                     value: data.attributeName
@@ -327,16 +329,12 @@
                         while (attributeList.hasChildNodes()) {
                             attributeList.removeChild(attributeList.firstChild);
                         }
-                        document.querySelectorAll('input[type=checkbox]:checked').forEach(function (data) {
-                            classAttributeMap.set(data.value, data.name);
-                        });
                         classAttributeMap.forEach(function (value, key) {
                             drawAttribute({
                                 key: key,
                                 value: value
                             }, 'attribute', true);
                         });
-                        classAttributeMap.clear();
                         modal.hide();
                     }
                 }, {
@@ -353,9 +351,6 @@
                 onCreate: function (modal) {
                     document.getElementById('attributeSearch').addEventListener('keyup', function () {
                         getAttributeList(this.value, false);
-                        document.querySelectorAll('input[type=checkbox]:checked').forEach(function (data) {
-                            classAttributeMap.set(data.value, data.name)
-                        });
                     });
                     getAttributeList(document.getElementById('attributeSearch').value, true);
                 }
@@ -383,6 +378,20 @@
                     document.getElementById('cmdbClassAttributeList').innerHTML = response.responseText;
                     aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
                     OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
+                    document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
+                        checkbox.addEventListener('change', function (e) {
+                            if (e.target.checked) {
+                                classAttributeMap.set(e.target.value, e.target.name);
+                            } else {
+                                classAttributeMap.delete(e.target.value);
+                            }
+                        });
+                        classAttributeMap.forEach(function (value, key) {
+                            if (checkbox.value === key) {
+                                checkbox.checked = true;
+                            }
+                        });
+                    });
                 }
             };
             aliceJs.sendXhr(opt);

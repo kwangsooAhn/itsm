@@ -21,9 +21,8 @@
     <tr class="attribute-list" th:each="attribute, index : ${attributeList}">
         <td style="width: 5%;" class="align-center">
             <label class="checkbox" th:for="${index.index}" tabindex="0">
-                <input type="checkbox" th:name="${attribute.attributeName}" th:id="${index.index}" th:value="${attribute.attributeId}"
-                       th:checked="${attribute.checkable ==  true}"
-                       th:disabled="${attribute.extends == true}">
+                <input type="checkbox" th:name="${attribute.attributeName}" th:id="${index.index}"
+                       th:value="${attribute.attributeId}" th:disabled="${attribute.extends == true}">
                 <span></span>
             </label>
         </td>

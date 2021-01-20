@@ -8,6 +8,5 @@ data class CmdbClassAttributeListDto(
     val attributeText: String? = "",
     val attributeType: String? = null,
     val attributeDesc: String? = null,
-    var extends: Boolean = false,
-    var checkable: Boolean = false
+    var extends: Boolean = false
 ) : Serializable

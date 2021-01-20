@@ -139,17 +139,8 @@ class CIClassService(
                 attributeText = attributes.attributeText,
                 attributeType = attributes.attributeType,
                 attributeDesc = attributes.attributeDesc,
-                extends = false,
-                checkable = false
+                extends = false
             )
-
-            if (addAttributeList != null) {
-                for (addAttributes in addAttributeList) {
-                    if (attributes.attributeId == addAttributes.attributeId) {
-                        cmdbClassAttribute.checkable = true
-                    }
-                }
-            }
 
             if (extendsAttributeList != null) {
                 for (extendsAttributes in extendsAttributeList) {
