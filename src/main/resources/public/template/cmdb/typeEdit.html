@@ -132,7 +132,7 @@
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
                         document.getElementById('typeClassId').value = responseJson.defaultClassId;
                         document.getElementById('typeClass').value = responseJson.defaultClassName;
-                        if (responseJson.ptypeId !== null) {
+                        if (responseJson.pTypeId !== undefined) {
                             document.querySelector('#btnUpdate').removeAttribute('disabled');
                             document.querySelector('#btnDelete').removeAttribute('disabled');
                             document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
@@ -195,14 +195,14 @@
         function onSave(method) {
             const jsonData = {
                 typeId: document.getElementById('typeId').value,
-                ptypeId: document.getElementById('parentTypeId').value,
+                pTypeId: document.getElementById('parentTypeId').value,
                 typeName: document.getElementById('typeName').value,
                 typeDesc: document.getElementById('typeDesc').value,
                 typeIcon: document.getElementById('typeIcon').value,
                 defaultClassId: document.getElementById('typeClassId').value,
                 defaultClassName: document.getElementById('typeClass').value
             };
-            if (jsonData.ptypeId === null || jsonData.ptypeId.trim() === '') {
+            if (jsonData.pTypeId === null || jsonData.pTypeId.trim() === '') {
                 aliceJs.alertWarning([[#{cmdb.type.msg.enterPType}]]);
                 return false;
             }
@@ -272,8 +272,12 @@
                     text: 'className',
                     selectedValue: document.getElementById('typeClassId').value,
                     callbackFunc: function(response) {
-                        document.querySelector('#typeClass').value = response.dataset.name;
-                        document.querySelector('#typeClassId').value = response.id;
+                        if (response.id !== 'root') {
+                            document.querySelector('#typeClass').value = response.dataset.name;
+                            document.querySelector('#typeClassId').value = response.id;
+                        } else {
+                            aliceJs.alertWarning([[#{cmdb.type.msg.selectAvilableClass}]]);
+                        }
                     }
                 });
             } else {
