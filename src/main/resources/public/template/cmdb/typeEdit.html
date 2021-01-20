@@ -132,7 +132,7 @@
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
                         document.getElementById('typeClassId').value = responseJson.defaultClassId;
                         document.getElementById('typeClass').value = responseJson.defaultClassName;
-                        if (responseJson.pTypeId !== undefined) {
+                        if (responseJson.ptypeId !== null) {
                             document.querySelector('#btnUpdate').removeAttribute('disabled');
                             document.querySelector('#btnDelete').removeAttribute('disabled');
                             document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
