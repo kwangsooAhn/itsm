@@ -36,7 +36,7 @@ COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_type.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_type.update_dt IS '수정일시';
 
-insert into cmdb_type values ('root', 'root', 'ROOT', null, 0, '', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('root', null, 'ROOT', null, 0, 'root', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('587b4557275bcce81664db9e12485ae2', 'root', '서버', null, 1, 'df562114ab87c066adeaea79b2e4a8a2', 'server.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('f18c064040304e493f4dc7385595601f', 'root', '네트워크', null, 1, '0d51e482f1a56e1074f69b5a1bce0138', 'network.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_type values ('b2dac0d38b39a4f8da7b98c56e831465', 'root', '데이터베이스', null, 1, '85b3c35b31059e63aaa36ce2587ea070', 'database.svg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
