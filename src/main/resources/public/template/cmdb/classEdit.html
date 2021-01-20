@@ -92,6 +92,7 @@
         const STATUS_SUCCESS_EDIT_CLASS = '1';
         let extendsAttributeList = document.getElementById('extendsAttributeList');
         let attributeList = document.getElementById('attributeList');
+        let classAttributeMap = new Map();
 
         window.onload = function () {
             document.getElementById('search').focus();
@@ -327,11 +328,15 @@
                             attributeList.removeChild(attributeList.firstChild);
                         }
                         document.querySelectorAll('input[type=checkbox]:checked').forEach(function (data) {
+                            classAttributeMap.set(data.value, data.name);
+                        });
+                        classAttributeMap.forEach(function (value, key) {
                             drawAttribute({
-                                key: data.value,
-                                value: data.name
+                                key: key,
+                                value: value
                             }, 'attribute', true);
                         });
+                        classAttributeMap.clear();
                         modal.hide();
                     }
                 }, {
@@ -348,6 +353,9 @@
                 onCreate: function (modal) {
                     document.getElementById('attributeSearch').addEventListener('keyup', function () {
                         getAttributeList(this.value, false);
+                        document.querySelectorAll('input[type=checkbox]:checked').forEach(function (data) {
+                            classAttributeMap.set(data.value, data.name)
+                        });
                     });
                     getAttributeList(document.getElementById('attributeSearch').value, true);
                 }
