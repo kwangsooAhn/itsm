@@ -303,6 +303,7 @@
             deleteBtn.addEventListener('click', function () {
                 aliceJs.confirmIcon(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
                     const row = deleteBtn.parentNode;
+                    classAttributeMap.delete(inputElem.id);
                     row.remove();
                 }, null);
             });
