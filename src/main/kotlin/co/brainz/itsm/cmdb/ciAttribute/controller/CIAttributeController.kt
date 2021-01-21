@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/cmdb/attributes")
 class CIAttributeController(private val ciAttributeService: CIAttributeService) {
 
-    private val attributeSearchPage: String = "cmdb/attributeSearch"
-    private val attributeListPage: String = "cmdb/attributeList"
-    private val attributeEditPage: String = "cmdb/attributeEdit"
-    private val attributeViewPage: String = "cmdb/attributeView"
+    private val attributeSearchPage: String = "cmdb/attribute/attributeSearch"
+    private val attributeListPage: String = "cmdb/attribute/attributeList"
+    private val attributeEditPage: String = "cmdb/attribute/attributeEdit"
+    private val attributeViewPage: String = "cmdb/attribute/attributeView"
 
     /**
      * Attribute 관리 검색 화면 호출.
