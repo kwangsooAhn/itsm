@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/cmdb/types")
 class CITypeController() {
 
-    private val typeEditPage: String = "cmdb/typeEdit"
+    private val typeEditPage: String = "cmdb/type/typeEdit"
 
     /**
      * CMDB Type 관리 화면 호출
