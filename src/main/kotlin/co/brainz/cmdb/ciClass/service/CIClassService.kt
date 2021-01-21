@@ -6,8 +6,12 @@
 
 package co.brainz.cmdb.ciClass.service
 
+import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
+import co.brainz.cmdb.ciClass.entity.CmdbClassAttributeMapEntity
+import co.brainz.cmdb.ciClass.entity.CmdbClassAttributeMapPk
 import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
+import co.brainz.cmdb.ciClass.repository.CmdbClassAttributeMapRepository
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbClassListDto
@@ -23,7 +27,9 @@ import org.springframework.stereotype.Service
 @Service
 class CIClassService(
     private val ciClassRepository: CIClassRepository,
-    private val aliceUserRepository: AliceUserRepository
+    private val ciAttributeRepository: CIAttributeRepository,
+    private val aliceUserRepository: AliceUserRepository,
+    private val cmdbClassAttributeMapRepository: CmdbClassAttributeMapRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -135,6 +141,7 @@ class CIClassService(
      * CMDB Class 저장
      */
     fun createCmdbClass(cmdbClassDto: CmdbClassDto): Boolean {
+        var order = 1
         val cmdbClassEntity = CmdbClassEntity(
             classId = cmdbClassDto.classId,
             className = cmdbClassDto.className,
@@ -150,12 +157,20 @@ class CIClassService(
             cmdbClassEntity.classLevel = pCmdbClassEntity.classLevel?.plus(1)
         }
 
-        cmdbClassEntity.createUser = cmdbClassDto.createUserKey?.let {
-            aliceUserRepository.findAliceUserEntityByUserKey(it)
-        }
-        cmdbClassEntity.createDt = cmdbClassDto.createDt
+        var savedCmdbClassEntity = ciClassRepository.save(cmdbClassEntity)
 
-        ciClassRepository.save(cmdbClassEntity)
+        cmdbClassDto.attributes?.forEach {
+            val cmdbAttributeEntity = ciAttributeRepository.getOne(it)
+            cmdbClassAttributeMapRepository.save(
+                CmdbClassAttributeMapEntity(
+                    savedCmdbClassEntity,
+                    cmdbAttributeEntity,
+                    order
+                )
+            )
+            order++
+        }
+
         return true
     }
 
@@ -163,6 +178,7 @@ class CIClassService(
      * CMDB Class 수정
      */
     fun updateCmdbClass(cmdbClassDto: CmdbClassDto): Boolean {
+        var order = 1
         val cmdbClassEntity = ciClassRepository.findByIdOrNull(cmdbClassDto.classId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
@@ -177,7 +193,29 @@ class CIClassService(
         }
         cmdbClassEntity.updateDt = cmdbClassDto.updateDt
 
-        ciClassRepository.save(cmdbClassEntity)
+        var updatedCmdbClassEntity = ciClassRepository.save(cmdbClassEntity)
+
+        cmdbClassEntity.cmdbClassAttributeMapEntities.forEach {
+            cmdbClassAttributeMapRepository.deleteById(
+                CmdbClassAttributeMapPk(
+                    cmdbClassEntity.classId,
+                    it.cmdbAttribute.attributeId
+                )
+            )
+        }
+
+        cmdbClassDto.attributes?.forEach {
+            val cmdbAttributeEntity = ciAttributeRepository.getOne(it)
+            cmdbClassAttributeMapRepository.save(
+                CmdbClassAttributeMapEntity(
+                    updatedCmdbClassEntity,
+                    cmdbAttributeEntity,
+                    order
+                )
+            )
+            order++
+        }
+
         return true
     }
 
