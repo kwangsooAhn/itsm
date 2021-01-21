@@ -112,7 +112,8 @@ span.node {
   cursor: pointer;
 }
 // 노드 선택시
-span.node_selected {
+span.node_selected,
+span.modal_node_selected,{
   padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
   background-color: $light-blue;
   label {

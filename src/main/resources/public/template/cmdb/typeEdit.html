@@ -54,14 +54,15 @@
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
                     <div class="flex-row input-button">
                         <input class="col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
-                        <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
+                        <button class="default-line col-1" name="typeIconSelector" type="button" onclick="" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.class}" for="typeClass"></label>
                     <div class="flex-row input-button">
                         <input class="col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
-                        <button type="button" class="default-line col-1" onclick="" th:text="#{common.btn.select}"></button>
+                        <input id="typeClassId" name="typeClassId" type="hidden"/>
+                        <button class="default-line col-1" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
             </div>
@@ -129,13 +130,19 @@
                         document.getElementById('typeId').value = responseJson.typeId;
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
-                        document.getElementById('typeClass').value = responseJson.defaultClassId;
+                        document.getElementById('typeClassId').value = responseJson.defaultClassId;
+                        document.getElementById('typeClass').value = responseJson.defaultClassName;
                         if (responseJson.ptypeId !== null) {
                             document.querySelector('#btnUpdate').removeAttribute('disabled');
                             document.querySelector('#btnDelete').removeAttribute('disabled');
+                            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+                            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
                         } else {
                             document.getElementById('btnUpdate').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
+                            document.getElementById('btnDelete').disabled = true;
+                            document.querySelector('button[name=typeIconSelector]').disabled = true;
+                            document.querySelector('button[name=typeClassSelector]').disabled = true;
                         }
                         onEdit();
                     }
@@ -164,6 +171,8 @@
             document.querySelector('#btnUpdate').style.display = 'none';
             document.querySelector('#btnDelete').style.display = 'none';
             document.querySelector('#btnRegist').style.display = 'block';
+            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
             document.querySelectorAll('input[type=text]:not(.inherit)').forEach(function(object){
                 object.value = '';
             });
@@ -186,14 +195,14 @@
         function onSave(method) {
             const jsonData = {
                 typeId: document.getElementById('typeId').value,
-                ptypeId: document.getElementById('parentTypeId').value,
+                pTypeId: document.getElementById('parentTypeId').value,
                 typeName: document.getElementById('typeName').value,
                 typeDesc: document.getElementById('typeDesc').value,
                 typeIcon: document.getElementById('typeIcon').value,
-                defaultClassId: document.getElementById('typeClass').value
+                defaultClassId: document.getElementById('typeClassId').value,
+                defaultClassName: document.getElementById('typeClass').value
             };
-
-            if (jsonData.ptypeId === null || jsonData.ptypeId.trim() === '') {
+            if (jsonData.pTypeId === null || jsonData.pTypeId.trim() === '') {
                 aliceJs.alertWarning([[#{cmdb.type.msg.enterPType}]]);
                 return false;
             }
@@ -250,6 +259,30 @@
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        /** Type-Class **/
+        function classPopUp() {
+            if (document.getElementById('typeClass').value !== '') {
+                tree.load({
+                    view: 'modal',
+                    title: i18n.msg('cmdb.type.label.class'),
+                    source: 'ciClass',
+                    target: 'modalTreeList',
+                    text: 'className',
+                    selectedValue: document.getElementById('typeClassId').value,
+                    callbackFunc: function(response) {
+                        if (response.id !== 'root') {
+                            document.querySelector('#typeClass').value = response.dataset.name;
+                            document.querySelector('#typeClassId').value = response.id;
+                        } else {
+                            aliceJs.alertWarning([[#{cmdb.type.msg.selectAvailableClass}]]);
+                        }
+                    }
+                });
+            } else {
+                aliceJs.alertWarning([[#{cmdb.type.msg.selectType}]]);
+            }
         }
         /*]]>*/
     </script>

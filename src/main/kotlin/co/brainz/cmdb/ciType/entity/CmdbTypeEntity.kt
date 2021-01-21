@@ -6,6 +6,7 @@
 
 package co.brainz.cmdb.ciType.entity
 
+import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -38,9 +39,6 @@ data class CmdbTypeEntity(
     @Column(name = "type_level")
     var typeLevel: Int? = null,
 
-    @Column(name = "default_class_id", length = 128)
-    val defaultClassId: String? = "",
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "p_type_id")
     @NotFound(action = NotFoundAction.IGNORE)
@@ -48,6 +46,10 @@ data class CmdbTypeEntity(
 
     @Column(name = "type_icon", length = 200)
     val typeIcon: String? = "",
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "default_class_id", referencedColumnName = "class_id")
+    var defaultClass: CmdbClassEntity? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
