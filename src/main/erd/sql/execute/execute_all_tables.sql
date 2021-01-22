@@ -2972,3 +2972,21 @@ COMMENT ON COLUMN awf_label.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_label.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_label.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_label.update_dt IS '수정일시';
+
+/**
+ * CI 컴포넌트 - CI 세부 속성 임시 테이블
+ */
+DROP TABLE IF EXISTS wf_ci_component_temporary_data;
+
+CREATE TABLE wf_ci_component_temporary_data
+(
+    component_id varchar(128) NOT NULL,
+    ci_id character varying(128) NOT NULL,
+    values text,
+    CONSTRAINT wf_ci_component_temporary_data_pk PRIMARY KEY (component_id, ci_id)
+);
+
+COMMENT ON TABLE wf_ci_component_temporary_data IS 'ci 컴포넌트 임시 데이터';
+COMMENT ON COLUMN wf_ci_component_temporary_data.component_id IS '컴포넌트아이디';
+COMMENT ON COLUMN wf_ci_component_temporary_data.ci_id IS 'CI아이디';
+COMMENT ON COLUMN wf_ci_component_temporary_data.values IS '세부속성 데이터';

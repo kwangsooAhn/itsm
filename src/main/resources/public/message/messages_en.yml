@@ -242,6 +242,18 @@ cmdb:
     btn:
       import: "Import"
       export: "Export"
+  ci:
+    label:
+      description: "CI Description"
+      existing: "Existing"
+      name: "CI Name"
+      new: "New"
+      type: "CI Type"
+    btn:
+      delete: "CI Delete"
+      register: "CI Register"
+      select: "CI Select"
+      update: "CI Update"
   class:
     label:
       attributeList: "Attribute List"
@@ -482,6 +494,7 @@ form:
     export: "Export"
     import: "Import"
   label:
+    actionType: "Type"
     addAbove: "Add above"
     addBelow: "Add below"
     copy: "Copy-Just below"
@@ -534,6 +547,7 @@ form:
     radio: "Radio Button"
     textbox: "Text Box"
     time: "Time"
+    ci: "CI"
   help:
     component-placeholder: "Typing '/' for add component."
     custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
@@ -573,6 +587,7 @@ form:
     editorUseYn: "Editor Use"
     field: "{0} Column"
     height: "Height"
+    isEditable: "Editable"
     isTopic: "is Topic"
     labelList: "Component Label"
     lengthMax: "Max Length"
