@@ -95,8 +95,8 @@
                         <span th:text="#{customCode.label.pCode}"></span>
                         <span class="required"></span>
                     </label>
-                    <input  type="text" id="pCode" maxlength="100" th:disabled="${customCode?.pCode != null}"
-                            th:value="${customCode?.pCode}">
+                    <input type="text" id="pCode" maxlength="100" th:disabled="${customCode?.pCode != null}"
+                           th:value="${customCode?.pCode}">
                 </div>
             </div>
             <div class="flex-row justify-content-end edit-row">
@@ -118,7 +118,6 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
-
         /*<![CDATA[*/
         //상태값
         const STATUS_SUCCESS = '0';
