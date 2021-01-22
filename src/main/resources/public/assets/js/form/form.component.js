@@ -1125,17 +1125,17 @@
         // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
         // CI 컴포넌트 편집 가능여부가 false 일때 =  CI 아이콘, CI Type , CI 이름, 세부 정보 조회 아이콘, row 삭제 아이콘  5개
         return [
-            { id: 'actionType', name: 'form.label.actionType', type: (isEditable ? 'inputbox' : 'hidden'), column: '2' },
-            { id: 'ciId', name: '', type: 'hidden', column: '0' },
-            { id: 'ciNo', name: '', type: 'hidden', column: '0' },
-            { id: 'ciIcon', name: '', type: 'image', column: '1' },
-            { id: 'typeId', name: '', type: 'hidden', column: '0' },
-            { id: 'typeName', name: 'cmdb.ci.label.type', type: 'inputbox', column: '2' },
-            { id: 'ciName', name: 'cmdb.ci.label.name', type: 'inputbox', column: '3' },
-            { id: 'ciDesc', name: 'cmdb.ci.label.description', type: (isEditable ? 'inputbox' : 'hidden'), column: '4' },
-            { id: 'classId', name: '', type: 'hidden', column: '0' },
-            { id: 'editIcon', name: '', type: 'image', column: '1' },
-            { id: 'deleteIcon', name: '', type: 'image', column: '1' }
+            { id: 'actionType', name: 'form.label.actionType', type: (isEditable ? 'inputbox' : 'hidden'), column: '2', class: (isEditable ? 'first': '') },
+            { id: 'ciId', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'ciNo', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'ciIcon', name: '', type: 'image', column: '1', class: (isEditable ? '': 'first') },
+            { id: 'typeId', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'typeName', name: 'cmdb.ci.label.type', type: 'inputbox', column: (isEditable ? '2' : '3'), class: '' },
+            { id: 'ciName', name: 'cmdb.ci.label.name', type: 'inputbox', column: (isEditable ? '3' : '4'), class: '' },
+            { id: 'ciDesc', name: 'cmdb.ci.label.description', type: 'inputbox', column: '4', class: '' },
+            { id: 'classId', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'editIcon', name: '', type: 'image', column: '1', class: '' },
+            { id: 'deleteIcon', name: '', type: 'image', column: '1', class: 'last' }
         ];
     }
 
@@ -1157,8 +1157,8 @@
         const ciHeaderProperty = getCIHeaderProperty(property.display.isEditable);
         const tableHeaderOptions = ciHeaderProperty.map(function(opt, idx) {
             const thWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
-            return `<th id="${opt.id}" class="align-${property.header.align}" ` +
-                `style="${opt.type === 'hidden' ? 'display: none;' : ''} width: ${thWidth}%; border-color: ${property.display.border}; ` +
+            return `<th id="${opt.id}" class="align-${property.header.align} ${opt.type === 'hidden' ? '' : 'on'} ${opt.class}" ` +
+                `style="width: ${thWidth}%; border-color: ${property.display.border}; ` +
                 `color: ${property.header.color}; font-size: ${property.header.size}px;` +
                 `${property.header.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                 `${property.header.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -1173,7 +1173,7 @@
             `${ciList.length > 0 ? 
              `` 
              : `<tr class="no-data-found-list">` +
-                    `<td colspan="11" class="align-center" style="border-color: ${property.display.border};">` + i18n.msg('common.msg.noData') + `</td>` +
+                    `<td colspan="11" class="on align-center first last" style="border-color: ${property.display.border};">` + i18n.msg('common.msg.noData') + `</td>` +
                 `</tr>`
              }`;
 

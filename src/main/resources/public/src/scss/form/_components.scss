@@ -206,19 +206,16 @@
         background-color: $ci-table-bg-color;
         margin-top: 0.625rem; // 10px
         tr { 
-            th, td { 
+            th, td {
+              display: none;
               padding: $element-indent;
               border-left: none;
               border-right: none;
 
-              &:first-child {
-                border-left: $element-border-width solid transparent;
-              }
-              &:last-child {
-                border-right: $element-border-width solid transparent;
-              }
+              &.on { display: table-cell; }
+              &.first { border-left: $element-border-width solid transparent; }
+              &.last { border-right: $element-border-width solid transparent; }
             }
-
             input[type=text] { width: 100%; }
         }
       }

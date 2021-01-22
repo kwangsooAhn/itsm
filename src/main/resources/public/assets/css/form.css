@@ -4137,14 +4137,18 @@ body.modal-active {
   margin-top: 0.625rem;
 }
 .component .field-group .field-content .ci-table tr th, .component .field-group .field-content .ci-table tr td {
+  display: none;
   padding: 0.625rem;
   border-left: none;
   border-right: none;
 }
-.component .field-group .field-content .ci-table tr th:first-child, .component .field-group .field-content .ci-table tr td:first-child {
+.component .field-group .field-content .ci-table tr th.on, .component .field-group .field-content .ci-table tr td.on {
+  display: table-cell;
+}
+.component .field-group .field-content .ci-table tr th.first, .component .field-group .field-content .ci-table tr td.first {
   border-left: 0.0625rem solid transparent;
 }
-.component .field-group .field-content .ci-table tr th:last-child, .component .field-group .field-content .ci-table tr td:last-child {
+.component .field-group .field-content .ci-table tr th.last, .component .field-group .field-content .ci-table tr td.last {
   border-right: 0.0625rem solid transparent;
 }
 .component .field-group .field-content .ci-table tr input[type=text] {
