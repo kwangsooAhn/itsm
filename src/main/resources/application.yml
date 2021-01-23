@@ -118,7 +118,12 @@ spring:
 spring:
   profiles: jenkinsTest
   datasource:
-    url: jdbc:log4jdbc:postgresql://itsm.dev.db.develop:32784/itsm
+    hikari.maximum-pool-size: 5
+    platform: postgres
+    url: jdbc:log4jdbc:postgresql://itsm.dev.db.develop:5432/itsm
+    username: ENC(C4bWbxHAbRqyUnYZQNlsjA==) # itsm
+    password: ENC(Nkoufw9FfHXYGOYykZFpqA==) # itsm123
+    driver-class-name: ENC(Arw4J0ZjOrhA7dVeRVgnR7n1SbuwU+e2b1TUmlskxnRbd0/Zf/hRY5wf4PEk43DU) # net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
 ---
 # 7층 오픈용
