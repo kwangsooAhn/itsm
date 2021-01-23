@@ -114,6 +114,14 @@ spring:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32784/itsm
 
 ---
+# 젠킨스 테스트용
+spring:
+  profiles: jenkinsTest
+  datasource:
+    url: jdbc:log4jdbc:postgresql://itsm.dev.db.develop:5432/itsm
+
+---
+# 7층 오픈용
 spring:
   profiles: brainz7
   datasource:
