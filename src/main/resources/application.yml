@@ -118,7 +118,7 @@ spring:
 spring:
   profiles: jenkinsTest
   datasource:
-    url: jdbc:log4jdbc:postgresql://itsm.dev.db.develop:5432/itsm
+    url: jdbc:log4jdbc:postgresql://itsm.dev.db.develop:32784/itsm
 
 ---
 # 7층 오픈용
