@@ -74,7 +74,9 @@
      * 모달에서 선택한 노드 저장
      */
     function saveSelectedNode() {
-        const selectedNode = document.querySelector('.node_selected');
+        let nodeSelector = options.view === 'modal' ? '.modal_node_selected' : '.node_selected';
+        const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
+
         if (!selectedNode) {
             aliceJs.alert(i18n.msg('common.msg.dataSelect'));
             return false;
@@ -260,7 +262,7 @@
                     v_span.appendChild(v_icon);
                 }
                 let v_a = createSimpleElement('label', null, null);
-                if (options.source === 'ciClass' && p_node.data.value !== 'root') {
+                if (options.source === 'ciClass' && options.view !== 'modal' && p_node.data.value !== 'root' ) {
                     v_a.innerHTML =  p_node.text + " " + '(' + p_node.data.count + ')';
                 } else {
                     v_a.innerHTML = p_node.text;
@@ -361,9 +363,9 @@
                 this.toggleNode(p_node);
             },
             selectNode: function(p_node) {
-                if (p_node !== null || p_node !== undefined) {
+                if (p_node !== null && p_node !== undefined) {
                     let span = p_node.elementLi.getElementsByTagName('span')[0];
-                    span.className = 'node_selected';
+                    span.className = (options.view === 'modal') ? 'modal_node_selected' : 'node_selected';
                     if (this.selectedNode !== null && this.selectedNode !== p_node)
                         this.selectedNode.elementLi.getElementsByTagName('span')[0].className = 'node';
                     this.selectedNode = p_node;

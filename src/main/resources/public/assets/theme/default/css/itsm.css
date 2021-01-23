@@ -2075,6 +2075,7 @@ button .icon-plus {
 .numbering-pattern-content,
 .numbering-rule-content,
 .cmdb-attribute-content,
+.cmdb-type-content,
 .cmdb-class-content {
   padding: 0.9375rem 3.75rem;
   background-color: #F7F8F9;
@@ -4231,12 +4232,14 @@ span.node label {
   cursor: pointer;
 }
 
-span.node_selected {
+span.node_selected,
+span.modal_node_selected {
   padding: 0.25rem 0.188rem 0.25rem 0;
   background-color: #87CEFF;
   cursor: pointer;
 }
-span.node_selected label {
+span.node_selected label,
+span.modal_node_selected label {
   padding-left: 0.5rem;
   color: #0060A5;
   cursor: pointer;
@@ -4481,27 +4484,37 @@ body.modal-active {
   vertical-align: bottom;
   padding-bottom: 0.625rem;
 }
-.modal-dialog.token-list {
+.modal-dialog.cmdb-class-attribute-modal, .modal-dialog.token-list {
   width: 62.5rem;
   height: 53.0625rem;
 }
-.modal-dialog.token-list .modal-content {
+.modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.token-list .modal-content {
   height: calc(53.0625rem - 3.375rem - 5rem);
   padding: 0.625rem 1.25rem 2.5rem 1.25rem;
 }
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list,
 .modal-dialog.token-list .modal-content .related-instance-list {
   margin-top: 0.9375rem;
 }
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set,
 .modal-dialog.token-list .modal-content .related-instance-list .table-set {
   margin-top: 2.188rem;
 }
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table,
 .modal-dialog.token-list .modal-content .related-instance-list .table-set table {
   width: 100%;
 }
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .list-head tr,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .list-head tr, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .list-head tr,
 .modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-head tr {
   color: #3F4B56;
   border-bottom: 0.125rem solid #E1E3E6;
 }
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .list-body,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .list-body, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .list-body,
 .modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body {
   display: block;
   width: 60rem;
@@ -4509,12 +4522,24 @@ body.modal-active {
   color: #586872;
   overflow-y: auto;
 }
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .list-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .list-body .instance-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .list-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .list-body .instance-list, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .list-body .attribute-list,
+.modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .list-body .instance-list,
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body .attribute-list,
 .modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body .instance-list {
   display: table;
   width: 100%;
   height: 3.125rem;
   line-height: 3.125rem;
 }
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .list-body .attribute-list > td,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set table .list-body .instance-list > td,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .list-body .attribute-list > td,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .related-instance-list .table-set table .list-body .instance-list > td, .modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .list-body .attribute-list > td,
+.modal-dialog.token-list .modal-content .cmdb-class-attribute-list .table-set table .list-body .instance-list > td,
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body .attribute-list > td,
 .modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body .instance-list > td {
   display: inline-block;
   vertical-align: middle;

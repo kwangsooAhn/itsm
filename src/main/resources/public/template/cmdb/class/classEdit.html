@@ -52,15 +52,17 @@
                 </div>
                 <div class="edit-row flex-column">
                     <div class="under-bar">
-                        <label id="attributeList">
+                        <label>
                             <span class="required" th:text="#{cmdb.class.label.attributeList}"></span>
-                            <button type="button" class="default-line plus float-right" onclick="addAttribute()">
+                            <button type="button" class="default-line plus float-right"
+                                    onclick="openClassAttributeListModal()">
                                 <span class="icon-plus"></span>
                             </button>
                         </label>
                     </div>
                 </div>
-                <div id="attribute"></div>
+                <div id="extendsAttributeList"></div>
+                <div id="attributeList"></div>
             </div>
         </div>
         <div class="flex-row justify-content-end">
@@ -69,7 +71,7 @@
                         class="default-fill" type="button" id="btnExport" name="btnExport"
                         th:text="#{cmdb.class.btn.export}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.create')"
-                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                        class="point-fill" type="button" id="btnRegister" name="btnRegister"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.update')"
                         class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
@@ -88,6 +90,9 @@
         /*<![CDATA[*/
         const STATUS_SUCCESS = '0';
         const STATUS_SUCCESS_EDIT_CLASS = '1';
+        let extendsAttributeList = document.getElementById('extendsAttributeList');
+        let attributeList = document.getElementById('attributeList');
+        let classAttributeMap = new Map();
 
         window.onload = function () {
             document.getElementById('search').focus();
@@ -107,7 +112,7 @@
             }
 
             getCmdbClassList();
-            document.getElementById('root').click()
+            document.getElementById('root').click();
 
             /** CMDB Class 상세 정보 **/
             function onGetDetail(cmdbClassId) {
@@ -116,7 +121,6 @@
                     url: '/rest/cmdb/classes/' + encodeURIComponent(cmdbClassId),
                     callbackFunc: function (response) {
                         let responseJson = JSON.parse(response.responseText);
-                        let attribute = document.getElementById('attribute');
                         document.getElementById('txtClassId').value = responseJson.classId;
                         document.getElementById('txtPClassId').value = responseJson.pclassId;
                         document.getElementById('txtPClassName').value = responseJson.pclassName;
@@ -129,17 +133,28 @@
                             document.getElementById('btnUpdate').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
                         }
-                        while (attribute.hasChildNodes()) {
-                            attribute.removeChild(attribute.firstChild);
+                        while (extendsAttributeList.hasChildNodes()) {
+                            extendsAttributeList.removeChild(extendsAttributeList.firstChild);
+                        }
+                        while (attributeList.hasChildNodes()) {
+                            attributeList.removeChild(attributeList.firstChild);
                         }
                         if (responseJson.extendsAttributes !== null) {
                             responseJson.extendsAttributes.forEach(function (data) {
-                                drawAttribute({key: data.attributeId, value: data.attributeName}, false);
+                                drawAttribute({
+                                    key: data.attributeId,
+                                    value: data.attributeName
+                                }, 'extendsAttribute', false);
                             });
                         }
+                        classAttributeMap.clear();
                         if (responseJson.attributes !== null) {
                             responseJson.attributes.forEach(function (data) {
-                                drawAttribute({key: data.attributeId, value: data.attributeName}, true);
+                                classAttributeMap.set(data.attributeId, data.attributeName);
+                                drawAttribute({
+                                    key: data.attributeId,
+                                    value: data.attributeName
+                                }, 'attribute', true);
                             });
                         }
                         onEdit();
@@ -167,14 +182,16 @@
 
         /** 추가 버튼 **/
         function onCreate() {
-            let attribute = document.getElementById('attribute');
-            while (attribute.hasChildNodes()) {
-                attribute.removeChild(attribute.firstChild);
+            while (extendsAttributeList.hasChildNodes()) {
+                extendsAttributeList.removeChild(extendsAttributeList.firstChild);
+            }
+            while (attributeList.hasChildNodes()) {
+                attributeList.removeChild(attributeList.firstChild);
             }
 
             document.getElementById('btnUpdate').style.display = 'none';
             document.getElementById('btnDelete').style.display = 'none';
-            document.getElementById('btnRegist').style.display = 'block';
+            document.getElementById('btnRegister').style.display = 'block';
             document.getElementById('txtClassId').value = '';
             document.getElementById('txtPClassId').value = '';
             document.getElementById('txtClassName').value = '';
@@ -191,18 +208,23 @@
         function onEdit() {
             document.getElementById('btnUpdate').style.display = 'block';
             document.getElementById('btnDelete').style.display = 'block';
-            document.getElementById('btnRegist').style.display = 'none';
+            document.getElementById('btnRegister').style.display = 'none';
         }
 
         /** CMDB Class 등록, 수정 **/
         function onSave(flag) {
             let pClassId = document.getElementById('txtPClassId').value;
             if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
+            let attributeList = [];
+            document.getElementsByName('attribute').forEach(function (elem) {
+                attributeList.push(elem.id);
+            });
 
             let obj = {};
             obj.classId = document.getElementById('txtClassId').value;
             obj.className = document.getElementById('txtClassName').value;
             obj.classDesc = document.getElementById('txtClassDesc').value;
+            obj.attributes = attributeList;
 
             if (pClassId !== '' || pClassId !== null) {
                 obj.pclassId = pClassId;
@@ -260,7 +282,7 @@
             aliceJs.sendXhr(opt)
         }
 
-        function drawAttribute(param, editable) {
+        function drawAttribute(param, target, editable) {
             const divRow = document.createElement('div');
             divRow.name = 'attributeDiv';
             divRow.classList.add('edit-row', 'flex-row');
@@ -268,7 +290,7 @@
             const inputElem = document.createElement('input');
             inputElem.type = 'text';
             inputElem.id = param.key;
-            inputElem.name = 'attribute';
+            inputElem.name = target;
             inputElem.value = (typeof param !== 'undefined') ? param.value : '';
             inputElem.classList.add('attribute');
             inputElem.readOnly = true;
@@ -281,6 +303,7 @@
             deleteBtn.addEventListener('click', function () {
                 aliceJs.confirmIcon(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
                     const row = deleteBtn.parentNode;
+                    classAttributeMap.delete(inputElem.id);
                     row.remove();
                 }, null);
             });
@@ -289,7 +312,92 @@
                 inputElem.readOnly = false;
                 divRow.appendChild(deleteBtn);
             }
-            document.getElementById('attribute').appendChild(divRow);
+            if (editable) {
+                document.getElementById('attributeList').appendChild(divRow);
+            } else {
+                document.getElementById('extendsAttributeList').appendChild(divRow);
+            }
+        }
+
+        function openClassAttributeListModal() {
+            classAttributeListModal = new modal({
+                title: i18n.msg('cmdb.class.label.attributeList'),
+                body: createModalContent(),
+                classes: 'cmdb-class-attribute-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.select'),
+                    classes: "point-fill",
+                    bindKey: false,
+                    callback: function (modal) {
+                        while (attributeList.hasChildNodes()) {
+                            attributeList.removeChild(attributeList.firstChild);
+                        }
+                        classAttributeMap.forEach(function (value, key) {
+                            drawAttribute({
+                                key: key,
+                                value: value
+                            }, 'attribute', true);
+                        });
+                        modal.hide();
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: "default-line",
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                    document.getElementById('attributeSearch').addEventListener('keyup', function () {
+                        getAttributeList(this.value, false);
+                    });
+                    getAttributeList(document.getElementById('attributeSearch').value, true);
+                }
+            });
+            classAttributeListModal.show();
+        }
+
+        function createModalContent() {
+            return `<div class="cmdb-class-attribute-list">` +
+                `<input class="search col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="txt-num"></span>` +
+                `<div class="table-set" id="cmdbClassAttributeList"></div>` +
+                `</div>`;
+        }
+
+        function getAttributeList(search, showProgressbar) {
+            let classId = document.getElementById('txtClassId').value;
+            let strUrl = '/cmdb/class/view-pop/attributes?search=' + search.trim() + '&classId=' + classId;
+
+            const opt = {
+                method: 'get',
+                url: strUrl,
+                contentType: 'application/json',
+                showProgressbar: showProgressbar,
+                callbackFunc: function (response) {
+                    document.getElementById('cmdbClassAttributeList').innerHTML = response.responseText;
+                    aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+                    OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
+                    document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
+                        checkbox.addEventListener('change', function (e) {
+                            if (e.target.checked) {
+                                classAttributeMap.set(e.target.value, e.target.name);
+                            } else {
+                                classAttributeMap.delete(e.target.value);
+                            }
+                        });
+                        classAttributeMap.forEach(function (value, key) {
+                            if (checkbox.value === key) {
+                                checkbox.checked = true;
+                            }
+                        });
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
         }
 
         /*]]>*/
