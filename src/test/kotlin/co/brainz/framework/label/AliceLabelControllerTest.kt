@@ -118,7 +118,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun a_insertLabelOnlyKey() {
         mvc.perform(
             post("/rest/labels")
@@ -129,7 +128,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun b_insertLabelKeyValue() {
         mvc.perform(
             post("/rest/labels")
@@ -140,7 +138,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun c_insertDuplicateLabel() {
         mvc.perform(
             post("/rest/labels")
@@ -151,7 +148,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun d_insertLabelsForKeyOnly() {
         mvc.perform(
             post("/rest/labels")
@@ -162,7 +158,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun e_insertLabelsForKeyValue() {
         mvc.perform(
             post("/rest/labels")
@@ -173,7 +168,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun f_getLabel() {
         val resultLabel = mvc.perform(
             get("/rest/labels")
@@ -195,7 +189,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun g_getLabels() {
         val resultLabel = mvc.perform(
             get("/rest/labels")
@@ -217,7 +210,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun h_updateLabel() {
         logger.info("before label : $labelDtoForKeyValue")
         labelDtoForKeyValue.labels?.set("KeyOfLabelForKeyValue", "UpdatedValueOfLabelForKeyValue")
@@ -248,7 +240,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun i_updateLabels() {
         logger.info("before labels : $labelsDtoForKeyValue")
         labelsDtoForKeyValue.labels?.set("Key1OfLabelsForKeyValue", "UpdatedValue1OfLabelsForKeyValue")
@@ -281,7 +272,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun j_updateNoExistLabel() {
         mvc.perform(
             put("/rest/labels")
@@ -294,7 +284,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun k_deleteLabel() {
         mvc.perform(
             delete("/rest/labels")
@@ -312,7 +301,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun l_deleteLabels() {
         mvc.perform(
             delete("/rest/labels")
@@ -330,7 +318,6 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
     fun m_deleteNoExistLabel() {
         mvc.perform(
             delete("/rest/labels")
