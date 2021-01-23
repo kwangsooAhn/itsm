@@ -245,15 +245,14 @@ cmdb:
       export: "내보내기"
   ci:
     label:
+      delete: "CI 삭제"
       description: "CI 설명"
       existing: "기존"
+      register: "CI 등록"
       name: "CI 이름"
       new: "신규"
-      type: "CI 타입"
-    btn:
-      delete: "CI 삭제"
-      register: "CI 등록"
       select: "CI 선택"
+      type: "CI 타입"
       update: "CI 변경"
   class:
     label:

@@ -1117,6 +1117,56 @@
         parent.insertAdjacentHTML('beforeend', this.template);
     }
 
+
+    /**
+     * 신규 CI 등록 모달
+     */
+    function openCIRegisterModal(e) {
+        const ciComponent = aliceJs.clickInsideElement(e, 'component');
+        // TODO: 등록 모달 출력
+        /*const ciRegisterModal = new modal({
+            title: i18n.msg('cmdb.ci.label.register'),
+            body: createModalContent(),
+            classes: 'cmdb-ci-register-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.register'),
+                classes: "point-fill",
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: "default-line",
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function (modal) {}
+        });
+        ciRegisterModal.show();*/
+    }
+
+    /**
+     * 기존 CI 변경 모달
+     */
+    function openCIUpdateModal(e) {
+        const ciComponent = aliceJs.clickInsideElement(e, 'component');
+        // TODO: 변경 모달 출력
+    }
+
+    /**
+     * 기존 CI 조회 모달
+     */
+    function openCISelectModal(e) {
+        const ciComponent = aliceJs.clickInsideElement(e, 'component');
+        // TODO: 조회 모달 출력
+    }
+
     /**
      * 편집 가능 여부에 따라 표시될 데이터 반환
      * @param isEditable
@@ -1194,11 +1244,17 @@
                     `<div class="field-content" style="--data-column: ${property.display.column};">` +
                         `<div class="btn-list">` +
                         `${property.display.isEditable ?
-                            `<button type="button" class="default-line" id="btn-ci-register">${i18n.msg('cmdb.ci.label.new') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.btn.register')}</button>` +
-                            `<button type="button" class="default-line" id="btn-ci-update">${i18n.msg('cmdb.ci.label.existing') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.btn.update')}</button>` +
-                            `<button type="button" class="default-line" id="btn-ci-delete">${i18n.msg('cmdb.ci.label.existing') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.btn.delete')}</button>`
+                            `<button type="button" class="default-line" id="btn-ci-register-${property.componentId}">` + 
+                                i18n.msg('cmdb.ci.label.new') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.register') +
+                            `</button>` +
+                            `<button type="button" class="default-line" id="btn-ci-update-${property.componentId}">` + 
+                                i18n.msg('cmdb.ci.label.existing') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.update') +
+                            `</button>` +
+                            `<button type="button" class="default-line" id="btn-ci-delete-${property.componentId}">` +
+                                i18n.msg('cmdb.ci.label.existing') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.delete') + 
+                            `</button>`
                         :
-                            `<button type="button" class="default-line" id="btn-ci-select">${i18n.msg('cmdb.ci.btn.select')}</button>`
+                            `<button type="button" class="default-line" id="btn-ci-select-${property.componentId}">${i18n.msg('cmdb.ci.label.select')}</button>`
                         }` +
                         `</div>` +
                         `<table class="ci-table" id="ci-table-${property.componentId}">` +
@@ -1214,6 +1270,21 @@
             `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
+
+        // 폼 디자이너 편집 화면이 아니라면 버튼 동작 추가
+        if (!isReadOnly) {
+            if (property.display.isEditable) {
+                // 등록
+                document.getElementById('btn-ci-register-' + property.componentId).addEventListener('click', openCIRegisterModal);
+                // 수정
+                document.getElementById('btn-ci-update-' + property.componentId).addEventListener('click', openCIUpdateModal);
+                // 삭제
+                document.getElementById('btn-ci-delete-' + property.componentId).addEventListener('click', openCISelectModal);
+            } else {
+                // 조회
+                document.getElementById('btn-ci-select-' + property.componentId).addEventListener('click', openCISelectModal);
+            }
+        }
     }
 
     /**

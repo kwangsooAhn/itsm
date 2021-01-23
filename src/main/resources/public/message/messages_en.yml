@@ -244,15 +244,14 @@ cmdb:
       export: "Export"
   ci:
     label:
+      delete: "CI Delete"
       description: "CI Description"
       existing: "Existing"
+      register: "CI Register"
       name: "CI Name"
       new: "New"
-      type: "CI Type"
-    btn:
-      delete: "CI Delete"
-      register: "CI Register"
       select: "CI Select"
+      type: "CI Type"
       update: "CI Update"
   class:
     label:
