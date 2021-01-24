@@ -242,6 +242,23 @@ cmdb:
     btn:
       import: "Import"
       export: "Export"
+  ci:
+    label:
+      ciNo: "CI No."
+      ciInquery: "CI Inquiry"
+      description: "Description"
+      export: "Export"
+      name: "Name"
+      searchPlaceholder: "CI Name / Description"
+      tag: "Tag"
+      tagPlaceholder: "#Tag"
+      type: "Type"
+    msg:
+      enterCiName: "Please enter a CI Name."
+      searchDescription: "Add, view and manage CMDB CI."
+    btn:
+      import: "Import"
+      export: "Export"
   class:
     label:
       attributeList: "Attribute List"
