@@ -55,7 +55,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@ActiveProfiles("jenkinsTest")
 class AliceLabelControllerTest {
     @Autowired
     private lateinit var mvc: MockMvc
