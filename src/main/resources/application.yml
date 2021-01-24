@@ -106,13 +106,6 @@ spring:
     password: ENC(Nkoufw9FfHXYGOYykZFpqA==) # itsm123
     driver-class-name: ENC(Arw4J0ZjOrhA7dVeRVgnR7n1SbuwU+e2b1TUmlskxnRbd0/Zf/hRY5wf4PEk43DU) # net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 file.upload.dir: /root/files
-  oauth:
-    google:
-      client:
-        redirectUri: https://10.0.10.175:32792/oauth/google/callback
-    kakao:
-      client:
-        redirectUri: https://10.0.10.175:32792/oauth/kakao/callback
 ---
 spring:
   profiles: hcjung
