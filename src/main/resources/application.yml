@@ -114,7 +114,7 @@ spring:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32784/itsm
 
 ---
-# 젠킨스 테스트용
+# For jenkins test
 spring:
   profiles: jenkinsTest
   datasource:
@@ -126,7 +126,7 @@ spring:
     driver-class-name: ENC(Arw4J0ZjOrhA7dVeRVgnR7n1SbuwU+e2b1TUmlskxnRbd0/Zf/hRY5wf4PEk43DU) # net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
 ---
-# 7층 오픈용
+# For brainz open
 spring:
   profiles: brainz7
   datasource:
