@@ -3188,5 +3188,263 @@
                 "unit": ""
             }
         ]
+    },
+    "ci": {
+        "dataAttribute": [
+            {
+                "id": "mappingId",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox",
+                "code": "",
+                "unit": "",
+                "validate": "",
+                "help": "form.help.mapping-id"
+            },
+            {
+                "id": "isTopic",
+                "name": "Topic Use",
+                "value": false,
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": "",
+                "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "editable",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "labelList",
+                "name": "Component Label",
+                "value": "",
+                "type": "labeling",
+                "option": [
+                    {
+                        "id": "key",
+                        "name": "Key",
+                        "value": "option",
+                        "validate": "required|maxLength[128]|label"
+                    },
+                    {
+                        "id": "value",
+                        "name": "Value",
+                        "value": "option",
+                        "validate": "maxLength[512]|label"
+                    }
+                ]
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position",
+                "value": "top",
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "column",
+                "name": "Column",
+                "value": "12",
+                "type": "slider",
+                "code": "",
+                "unit": "",
+                "validate": ""
+            },
+            {
+                "id": "size",
+                "name": "Font Size",
+                "value": "16",
+                "type": "inputbox",
+                "code": "",
+                "unit": "px",
+                "validate": "number|min[10]|max[100]"
+            },
+            {
+                "id": "color",
+                "name": "Font Color",
+                "value": "rgb(63, 75, 86)",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
+                "unit": "",
+                "validate": ""
+            }
+        ],
+        "display": [
+            {
+                "id": "column",
+                "name": "Column",
+                "value": "12",
+                "type": "slider",
+                "code": "",
+                "unit": "",
+                "validate": ""
+            },
+            {
+                "id": "isEditable",
+                "name": "Editable",
+                "value": true,
+                "type": "checkbox-boolean",
+                "option": [
+                    {
+                        "id": "Y",
+                        "name": "Yes"
+                    },
+                    {
+                        "id": "N",
+                        "name": "No"
+                    }
+                ],
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "border",
+                "name": "Border",
+                "value": "rgba(235, 235, 235, 1)",
+                "type": "rgba",
+                "code": "",
+                "unit": ""
+            }
+        ],
+        "header": [
+            {
+                "id": "size",
+                "name": "Font Size",
+                "value": "16",
+                "type": "inputbox",
+                "code": "",
+                "unit": "px",
+                "validate": "number|min[10]|max[100]"
+            },
+            {
+                "id": "color",
+                "name": "Font Color",
+                "value": "rgb(63, 75, 86)",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
+                "code": "",
+                "unit": ""
+            }
+        ]
     }
 }
