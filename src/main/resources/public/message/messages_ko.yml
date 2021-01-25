@@ -246,7 +246,7 @@ cmdb:
   ci:
     label:
       ciNo: "CI No."
-      ciInqury: "CI 조회"
+      ciInquiry: "CI 조회"
       export: "내보내기"
       searchPlaceholder: "CI 명 / 설명"
       tag: "태그"

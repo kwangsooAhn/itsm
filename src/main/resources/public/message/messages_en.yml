@@ -245,7 +245,7 @@ cmdb:
   ci:
     label:
       ciNo: "CI No."
-      ciInquery: "CI Inquiry"
+      ciInquiry: "CI Inquiry"
       export: "Export"
       searchPlaceholder: "CI Name / Description"
       tag: "Tag"
