@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.cmdb.ciAttribute.controller
 
-import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import javax.servlet.http.HttpServletRequest
@@ -44,8 +43,8 @@ class CIAttributeRestController(private val ciAttributeService: CIAttributeServi
      * Attribute 등록.
      */
     @PostMapping("")
-    fun createAttribute(@RequestBody cmdbAttributeDto: CmdbAttributeDto): String {
-        return ciAttributeService.saveAttribute(cmdbAttributeDto)
+    fun createAttribute(@RequestBody attributeData: String): String {
+        return ciAttributeService.saveAttribute(attributeData)
     }
 
     /**
@@ -54,9 +53,9 @@ class CIAttributeRestController(private val ciAttributeService: CIAttributeServi
     @PutMapping("/{attributeId}")
     fun updateAttribute(
         @PathVariable attributeId: String,
-        @RequestBody cmdbAttributeDto: CmdbAttributeDto
+        @RequestBody attributeData: String
     ): String {
-        return ciAttributeService.updateAttribute(attributeId, cmdbAttributeDto)
+        return ciAttributeService.updateAttribute(attributeId, attributeData)
     }
 
     /**

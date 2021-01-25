@@ -2297,6 +2297,10 @@ button .icon-plus {
 .cmdb-attribute-content-edit .btn-minus {
   padding: 0;
 }
+.custom-code-content-edit .attribute,
+.cmdb-attribute-content-edit .attribute {
+  margin-left: 4rem;
+}
 
 .numbering-rule-content-edit .select-pattern-type {
   width: 20rem;

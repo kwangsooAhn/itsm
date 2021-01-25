@@ -43,7 +43,7 @@
                     <span th:text="#{cmdb.attribute.label.type}"></span>
                     <span class="required"></span>
                 </label>
-                <select id="attributeType">
+                <select id="attributeType" onchange="changeType(this)">
                 </select>
             </div>
             <div class="flex-column edit-row">
@@ -53,7 +53,7 @@
                         <span class="required"></span>
                     </label>
                 </div>
-                <div id="details"></div>
+                <div id="details" class="attribute"></div>
             </div>
             <div class="flex-row justify-content-end edit-row">
                 <div class="btn-list">
@@ -76,6 +76,7 @@
         /*<![CDATA[*/
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION = '1';
+        const attributeData = /*[[${attribute?.attributeValue}]]*/ null;
 
         window.onload = function () {
             const attributeType = /*[[${attribute?.attributeType}]]*/ null;
@@ -89,8 +90,12 @@
                 }
                 attributeTypeObject.add(option);
             }
-            aliceJs.initDesignedSelectTag();
 
+            // Attribute Details
+            attribute.init(document.querySelector('#details'));
+            changeType(attributeTypeObject);
+
+            aliceJs.initDesignedSelectTag();
 
             OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
@@ -105,6 +110,10 @@
             });
         };
 
+        function changeType(object) {
+            attribute.makeDetails(object.value, JSON.parse(attributeData));
+        }
+
         function emptyCheck() {
             if (isEmpty('attributeName', 'cmdb.attribute.msg.enterAttributeName')) { return false; }
             if (isEmpty('attributeType', 'cmdb.attribute.msg.selectAttributeType')) { return false; }
@@ -115,6 +124,7 @@
             if (method === 'post' || method === 'put') {
                 if (emptyCheck()) {
                     let data = {
+                        attributeId: '',
                         attributeName: document.querySelector('#attributeName').value,
                         attributeType: document.querySelector('#attributeType').value,
                         attributeText: document.querySelector('#attributeText').value,
@@ -122,11 +132,10 @@
                     }
                     let url = '/rest/cmdb/attributes';
                     if (method === 'put') {
-                        data.attributeId = /*[[${attribute?.attributeId}]]*/'';
                         url += '/' + /*[[${attribute?.attributeId}]]*/'';
+                        data.attributeId = /*[[${attribute?.attributeId}]]*/'';
                     }
-                    // TODO: attributeValue 저장 (attributeType 값에 따른 다른 데이터)
-
+                    data.attributeValue = attribute.setDetails(data.attributeType);
                     restSubmit(method, url, data);
                 }
             } else if (method === 'delete') {

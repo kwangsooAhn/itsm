@@ -20,6 +20,5 @@ data class CmdbAttributeDto(
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
-    var enabled: Boolean = true,
-    var details: String? = null
+    var enabled: Boolean = true
 ) : Serializable

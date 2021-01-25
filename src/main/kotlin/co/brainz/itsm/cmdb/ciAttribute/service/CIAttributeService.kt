@@ -64,8 +64,9 @@ class CIAttributeService(
     /**
      * Attribute 등록.
      */
-    fun saveAttribute(cmdbAttributeDto: CmdbAttributeDto): String {
+    fun saveAttribute(attributeData: String): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val cmdbAttributeDto = makeCmdbAttributeDto(attributeData)
         cmdbAttributeDto.createDt = LocalDateTime.now()
         cmdbAttributeDto.createUserKey = aliceUserDto.userKey
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Attribute.POST_ATTRIBUTE.url)
@@ -83,8 +84,9 @@ class CIAttributeService(
     /**
      * Attribute 수정.
      */
-    fun updateAttribute(attributeId: String, cmdbAttributeDto: CmdbAttributeDto): String {
+    fun updateAttribute(attributeId: String, attributeData: String): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val cmdbAttributeDto = makeCmdbAttributeDto(attributeData)
         cmdbAttributeDto.updateDt = LocalDateTime.now()
         cmdbAttributeDto.updateUserKey = aliceUserDto.userKey
         val url = RestTemplateUrlDto(
@@ -102,6 +104,21 @@ class CIAttributeService(
             }
             false -> ""
         }
+    }
+
+    /**
+     * Attribute 데이터 파싱.
+     */
+    private fun makeCmdbAttributeDto(attributeData: String): CmdbAttributeDto {
+        val map = mapper.readValue(attributeData, LinkedHashMap::class.java)
+        return CmdbAttributeDto(
+            attributeId = map["attributeId"] as String,
+            attributeName = map["attributeName"] as String,
+            attributeType = map["attributeType"] as String,
+            attributeText = map["attributeText"] as String,
+            attributeDesc = map["attributeDesc"] as String,
+            attributeValue = mapper.writeValueAsString(map["attributeValue"])
+        )
     }
 
     /**

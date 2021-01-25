@@ -81,8 +81,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
                         JPAExpressions.select(!classAttributeMap.cmdbAttribute.attributeId.count().gt(0))
                             .from(classAttributeMap)
                             .where(classAttributeMap.cmdbAttribute.attributeId.eq(attribute.attributeId)), "enabled"
-                    ),
-                    Expressions.asString("")
+                    )
                 )
             )
             .where(attribute.attributeId.eq(attributeId))
