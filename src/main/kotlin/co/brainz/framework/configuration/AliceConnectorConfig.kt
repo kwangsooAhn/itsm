@@ -16,6 +16,9 @@ class AliceConnectorConfig {
     @Value("\${server.port}")
     private val serverPort: Int = 443
 
+    @Value("\${server.httpport}")
+    private val serverHttpPort: Int = 80
+
     @Bean
     fun servletContainer(): ServletWebServerFactory? {
         val tomcat: TomcatServletWebServerFactory = object : TomcatServletWebServerFactory() {
@@ -36,7 +39,7 @@ class AliceConnectorConfig {
         val connector = Connector("org.apache.coyote.http11.Http11NioProtocol")
         connector.scheme = "http"
         connector.secure = false
-        connector.port = 80
+        connector.port = serverHttpPort
         connector.redirectPort = serverPort
         return connector
     }

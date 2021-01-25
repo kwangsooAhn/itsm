@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
@@ -118,7 +119,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun a_insertLabelOnlyKey() {
         mvc.perform(
             post("/rest/labels")
@@ -129,7 +130,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun b_insertLabelKeyValue() {
         mvc.perform(
             post("/rest/labels")
@@ -140,7 +141,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun c_insertDuplicateLabel() {
         mvc.perform(
             post("/rest/labels")
@@ -151,7 +152,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun d_insertLabelsForKeyOnly() {
         mvc.perform(
             post("/rest/labels")
@@ -162,7 +163,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun e_insertLabelsForKeyValue() {
         mvc.perform(
             post("/rest/labels")
@@ -173,7 +174,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun f_getLabel() {
         val resultLabel = mvc.perform(
             get("/rest/labels")
@@ -195,7 +196,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun g_getLabels() {
         val resultLabel = mvc.perform(
             get("/rest/labels")
@@ -217,7 +218,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun h_updateLabel() {
         logger.info("before label : $labelDtoForKeyValue")
         labelDtoForKeyValue.labels?.set("KeyOfLabelForKeyValue", "UpdatedValueOfLabelForKeyValue")
@@ -248,7 +249,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun i_updateLabels() {
         logger.info("before labels : $labelsDtoForKeyValue")
         labelsDtoForKeyValue.labels?.set("Key1OfLabelsForKeyValue", "UpdatedValue1OfLabelsForKeyValue")
@@ -281,7 +282,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun j_updateNoExistLabel() {
         mvc.perform(
             put("/rest/labels")
@@ -294,7 +295,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun k_deleteLabel() {
         mvc.perform(
             delete("/rest/labels")
@@ -312,7 +313,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun l_deleteLabels() {
         mvc.perform(
             delete("/rest/labels")
@@ -330,7 +331,7 @@ class AliceLabelControllerTest {
     }
 
     @Test
-    @Ignore("Jenkins Issue")
+    @Ignore("jenkins issue")
     fun m_deleteNoExistLabel() {
         mvc.perform(
             delete("/rest/labels")

@@ -96,7 +96,6 @@ class AliceLabelService(
             aliceLabelEntity?.let {
                 aliceLabelRepository.delete(it)
             }
-
         }
         return true
     }
