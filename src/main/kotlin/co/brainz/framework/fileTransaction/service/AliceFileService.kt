@@ -254,7 +254,7 @@ class AliceFileService(
      */
     fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
         val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirectory).file.absolutePath)
+            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirectory).file.canonicalPath)
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
         val fileList = mutableListOf<Path>()
