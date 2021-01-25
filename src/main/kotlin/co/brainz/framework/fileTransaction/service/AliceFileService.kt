@@ -254,15 +254,12 @@ class AliceFileService(
      */
     fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
         val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirectory).file.canonicalPath)
+            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirectory).uri)
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
-        val test1 = ClassPathResource(this.documentIconRootDirectory).file
-        val test2 = ClassPathResource(this.documentIconRootDirectory).file.toURI()
-        val test3 = ClassPathResource(this.documentIconRootDirectory).file.absolutePath
-        val test4 = ClassPathResource(this.documentIconRootDirectory).file.canonicalPath
-        val test5 = ClassPathResource(this.documentIconRootDirectory).file.absoluteFile.toURI()
-        val test6 = ClassPathResource(this.documentIconRootDirectory).file.canonicalFile.toURI()
+
+        logger.debug(">>>> WORKFLOW IMAGE URI", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
+
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dir)) {
             val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
