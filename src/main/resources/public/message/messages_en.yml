@@ -716,6 +716,7 @@ menu:
   cmdb:
     parent: "CMDB"
     attribute: "Attribute"
+    ci: "CI"
     class: "Class"
     type: "Type"
 
