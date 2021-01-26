@@ -159,7 +159,7 @@
             title: i18n.msg('cmdb.ci.label.select'),
             body: `<form id="searchFrm">` +
                       `<input type="text" class="search col-5 mr-2" name="search" id="search" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
-                      `<input type="text" class="search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceHolder')}"/>` +
+                      `<input type="text" class="search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
                       `<span id="ciListCount" class="txt-num"></span>` +
                   `</form>` +
                   `<div class="table-set" id="ciList"></div>`,
