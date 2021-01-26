@@ -168,7 +168,5 @@ buildScan {
 }
 
 tasks.test {
-    if (project.hasProperty("profile")) {
-        System.setProperty("spring.profiles.active", project.findProperty("profile") as String)
-    }
+    systemProperty("spring.profiles.active", findProperty("profile") ?: "default")
 }
