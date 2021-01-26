@@ -31,7 +31,8 @@
             {'type': 'fileupload', 'name': 'File Upload'},
             {'type': 'custom-code', 'name': 'Custom Code'},
             {'type': 'dynamic-row-table', 'name': 'Dynamic Row Table'},
-            {'type': 'accordion', 'name': 'Accordion'}
+            {'type': 'accordion', 'name': 'Accordion'},
+            {'type': 'ci', 'name': 'CI'}
     ];
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
@@ -939,7 +940,7 @@
         const tableRowOptions = property.field.map(function(opt, idx) {
             const tdWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
             return `<td style="width: ${tdWidth}%; border-color: ${property.display.border}">` +
-                          `${getFieldTemplate(opt.type, opt, displayType)}` +
+                        `${getFieldTemplate(opt.type, opt, displayType)}` +
                     `</td>`;
         }).join('');
 
@@ -1087,7 +1088,7 @@
         }
     }
 
-        /**
+    /**
      * Accordion 컴포넌트 (End) 영역)
      *
      * @param {Object} property 컴포넌트 속성
@@ -1114,6 +1115,176 @@
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
+    }
+
+
+    /**
+     * 신규 CI 등록 모달
+     */
+    function openCIRegisterModal(e) {
+        const ciComponent = aliceJs.clickInsideElement(e, 'component');
+        // TODO: 등록 모달 출력
+        /*const ciRegisterModal = new modal({
+            title: i18n.msg('cmdb.ci.label.register'),
+            body: createModalContent(),
+            classes: 'cmdb-ci-register-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.register'),
+                classes: "point-fill",
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: "default-line",
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function (modal) {}
+        });
+        ciRegisterModal.show();*/
+    }
+
+    /**
+     * 기존 CI 변경 모달
+     */
+    function openCIUpdateModal(e) {
+        const ciComponent = aliceJs.clickInsideElement(e, 'component');
+        // TODO: 변경 모달 출력
+    }
+
+    /**
+     * 기존 CI 조회 모달
+     */
+    function openCISelectModal(e) {
+        const ciComponent = aliceJs.clickInsideElement(e, 'component');
+        // TODO: 조회 모달 출력
+    }
+
+    /**
+     * 편집 가능 여부에 따라 표시될 데이터 반환
+     * @param isEditable
+     */
+    function getCIHeaderProperty(isEditable) {
+        // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
+        // CI 컴포넌트 편집 가능여부가 false 일때 =  CI 아이콘, CI Type , CI 이름, 세부 정보 조회 아이콘, row 삭제 아이콘  5개
+        return [
+            { id: 'actionType', name: 'form.label.actionType', type: (isEditable ? 'inputbox' : 'hidden'), column: '2', class: (isEditable ? 'first': '') },
+            { id: 'ciId', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'ciNo', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'ciIcon', name: '', type: 'image', column: '1', class: (isEditable ? '': 'first') },
+            { id: 'typeId', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'typeName', name: 'cmdb.ci.label.type', type: 'inputbox', column: (isEditable ? '2' : '3'), class: '' },
+            { id: 'ciName', name: 'cmdb.ci.label.name', type: 'inputbox', column: (isEditable ? '3' : '4'), class: '' },
+            { id: 'ciDesc', name: 'cmdb.ci.label.description', type: 'inputbox', column: '4', class: '' },
+            { id: 'classId', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'editIcon', name: '', type: 'image', column: '1', class: '' },
+            { id: 'deleteIcon', name: '', type: 'image', column: '1', class: 'last' }
+        ];
+    }
+
+    /**
+     * CI 컴포넌트
+     *
+     * @param {Object} property 컴포넌트 속성
+     * @constructor
+     */
+    function CI(property) {
+        this.id = property.componentId;
+        this.name = 'CI';
+        this.type = 'ci';
+        this.property = property;
+        this.renderOrder = property.display.order;
+        const displayType = property['dataAttribute']['displayType'];
+
+        // 테이블 Header 추가
+        const ciHeaderProperty = getCIHeaderProperty(property.display.isEditable);
+        const tableHeaderOptions = ciHeaderProperty.map(function(opt, idx) {
+            const thWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
+            return `<th id="${opt.id}" class="align-${property.header.align} ${opt.type === 'hidden' ? '' : 'on'} ${opt.class}" ` +
+                `style="width: ${thWidth}%; border-color: ${property.display.border}; ` +
+                `color: ${property.header.color}; font-size: ${property.header.size}px;` +
+                `${property.header.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                `${property.header.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                `${property.header.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                `${opt.name !== '' ? i18n.msg(opt.name) : ''}` +
+                `</th>`;
+        }).join('');
+
+        // 테이블 Row 추가
+        const ciList = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
+        const tableRowOptions =
+            `${ciList.length > 0 ? 
+             `` 
+             : `<tr class="no-data-found-list">` +
+                    `<td colspan="11" class="on align-center first last" style="border-color: ${property.display.border};">` + i18n.msg('common.msg.noData') + `</td>` +
+                `</tr>`
+             }`;
+
+        this.template =
+            `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+                `<div class="move-handler"></div>` +
+                `<div class="field-group">` +
+                    `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                        `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                            `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                            `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                            `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                            `${aliceJs.filterXSS(property.label.text)}` +
+                        `</label>` +
+                        `<span class="required"></span>` +
+                    `</div>` +
+                    `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                    `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                        `<div class="btn-list">` +
+                        `${property.display.isEditable ?
+                            `<button type="button" class="default-line" id="btn-ci-register-${property.componentId}">` + 
+                                i18n.msg('cmdb.ci.label.new') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.register') +
+                            `</button>` +
+                            `<button type="button" class="default-line" id="btn-ci-update-${property.componentId}">` + 
+                                i18n.msg('cmdb.ci.label.existing') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.update') +
+                            `</button>` +
+                            `<button type="button" class="default-line" id="btn-ci-delete-${property.componentId}">` +
+                                i18n.msg('cmdb.ci.label.existing') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.delete') + 
+                            `</button>`
+                        :
+                            `<button type="button" class="default-line" id="btn-ci-select-${property.componentId}">${i18n.msg('cmdb.ci.label.select')}</button>`
+                        }` +
+                        `</div>` +
+                        `<table class="ci-table" id="ci-table-${property.componentId}">` +
+                            `<thead>` +
+                                `<tr>${tableHeaderOptions}</tr>` +
+                            `</thead>` +
+                            `<tbody>` +
+                                `${tableRowOptions}` +
+                            `</tbody>` +
+                        `</table>` +
+                    `</div>` +
+                `</div>` +
+            `</div>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        // 폼 디자이너 편집 화면이 아니라면 버튼 동작 추가
+        if (!isReadOnly) {
+            if (property.display.isEditable) {
+                // 등록
+                document.getElementById('btn-ci-register-' + property.componentId).addEventListener('click', openCIRegisterModal);
+                // 수정
+                document.getElementById('btn-ci-update-' + property.componentId).addEventListener('click', openCIUpdateModal);
+                // 삭제
+                document.getElementById('btn-ci-delete-' + property.componentId).addEventListener('click', openCISelectModal);
+            } else {
+                // 조회
+                document.getElementById('btn-ci-select-' + property.componentId).addEventListener('click', openCISelectModal);
+            }
+        }
     }
 
     /**
@@ -1188,6 +1359,9 @@
                 break;
             case 'accordion-end':
                 componentObject =  new AccordionEnd(componentProperty);
+                break;
+            case 'ci':
+                componentObject =  new CI(componentProperty);
                 break;
             default:
                 break;

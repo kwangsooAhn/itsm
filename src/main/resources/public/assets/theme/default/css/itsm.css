@@ -747,7 +747,8 @@ select:disabled {
   font-weight: 400;
   line-height: 1.2;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  overflow: hidden;
 }
 .designed-select:after {
   content: "";

@@ -23,8 +23,8 @@ class CIClassController(
     private val ciClassService: CIClassService
 ) {
 
-    private val classEditPage: String = "cmdb/classEdit"
-    private val classAttributeListPage: String = "cmdb/classAttributeList"
+    private val classEditPage: String = "cmdb/class/classEdit"
+    private val classAttributeListPage: String = "cmdb/class/classAttributeList"
 
     /**
      * CI Class 관리 화면 호출

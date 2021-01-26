@@ -200,6 +200,25 @@
           &.icon-arrow-up { @include background($icon-folder-path + 'icon_arrow_up.svg', 0.625rem 0.375rem, no-repeat, center, center, null); } // 10px 6px
         }
       }
+      // CI 컴포넌트
+      .ci-table {
+        width: 100%;
+        background-color: $ci-table-bg-color;
+        margin-top: 0.625rem; // 10px
+        tr { 
+            th, td {
+              display: none;
+              padding: $element-indent;
+              border-left: none;
+              border-right: none;
+
+              &.on { display: table-cell; }
+              &.first { border-left: $element-border-width solid transparent; }
+              &.last { border-right: $element-border-width solid transparent; }
+            }
+            input[type=text] { width: 100%; }
+        }
+      }
     }
   }
 
