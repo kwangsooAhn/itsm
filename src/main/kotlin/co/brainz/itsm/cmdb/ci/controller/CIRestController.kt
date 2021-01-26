@@ -26,12 +26,11 @@ class CIRestController(private val ciService: CIService) {
      * CMDB CI 조회 목록 리스트 조회.
      */
     @GetMapping("")
-    fun getCmdbCis(request: HttpServletRequest, model: Model): List<CmdbCiListDto> {
+    fun getCIs(request: HttpServletRequest, model: Model): List<CmdbCiListDto> {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         params["tagSearch"] = request.getParameter("tagSearch")
-        params["searchGroupName"] = request.getParameter("searchGroupName")
         params["offset"] = request.getParameter("offset") ?: "0"
-        return ciService.getCis(params)
+        return ciService.getCIs(params)
     }
 }

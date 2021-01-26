@@ -249,7 +249,7 @@ cmdb:
       ciNo: "CI No."
       ciInquiry: "CI 조회"
       export: "내보내기"
-      searchPlaceholder: "CI 명 / 설명"
+      searchPlaceholder: "CI No / CI 타입 / CI 이름 / 설명"
       tag: "태그"
       tagPlaceholder: "#태그"
       delete: "CI 삭제"

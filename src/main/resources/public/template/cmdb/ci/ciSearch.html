@@ -19,14 +19,9 @@
             <input type="hidden" sec:authorize="!hasAuthority('cmdb.ci.create') && !hasAuthority('cmdb.ci.update')"
                    th:name="isRole" th:value="false"/>
             <form id="searchFrm">
-                <select id="searchGroupName" name="searchGroupName" class="col-3">
-                    <option value="" th:text="#{cmdb.ci.label.all}" selected></option>
-                    <option th:each="ciType:${ciTypeList}" th:value="${ciType.code}"
-                            th:text="${ciType.codeValue}"></option>
-                </select>
-                <input class="search col-3" id="search" name="search" type="text" maxlength="100"
+                <input class="search col-5" id="search" name="search" type="text" maxlength="100"
                        th:placeholder="#{cmdb.ci.label.searchPlaceholder}"/>
-                <input class="search col-3" id="tagSearch" name="tagSearch" type="text" maxlength="100"
+                <input class="search col-3 mr-2" id="tagSearch" name="tagSearch" type="text" maxlength="100"
                        th:placeholder="#{cmdb.ci.label.tagPlaceholder}"/>
                 <span id="spanTotalCount" class="txt-num"></span>
             </form>
@@ -52,7 +47,6 @@
                     searchCis(false);
                 });
             });
-            document.getElementById('searchGroupName').addEventListener('change', searchCis.bind(null, false), false);
             searchCis(false);
         }
 

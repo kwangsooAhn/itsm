@@ -29,7 +29,7 @@ class CIService(
     /**
      * CMDB Ci 단일 조회
      */
-    fun getCi(ciId: String): CmdbCiDto {
+    fun getCI(ciId: String): CmdbCiDto {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Ci.GET_CI.url.replace(
                 restTemplate.getKeyRegex(),
@@ -43,7 +43,7 @@ class CIService(
     /**
      * CMDB Ci 목록 조회
      */
-    fun getCis(params: LinkedMultiValueMap<String, String>): List<CmdbCiListDto> {
+    fun getCIs(params: LinkedMultiValueMap<String, String>): List<CmdbCiListDto> {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Ci.GET_CIS.url,
             parameters = params

@@ -248,7 +248,7 @@ cmdb:
       ciNo: "CI No."
       ciInquiry: "CI Inquiry"
       export: "Export"
-      searchPlaceholder: "CI Name / Description"
+      searchPlaceholder: "CI No / CI Type / CI Name / Description"
       tag: "Tag"
       tagPlaceholder: "#Tag"
       delete: "CI Delete"
