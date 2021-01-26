@@ -8,7 +8,7 @@ package co.brainz.cmdb.provider.dto
 
 import java.io.Serializable
 
-data class CmdbCiListDto(
+data class CIListDto(
     val ciId: String? = null,
     val ciNo: String? = null,
     val ciName: String? = null,

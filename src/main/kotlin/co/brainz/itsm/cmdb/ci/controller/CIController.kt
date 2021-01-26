@@ -21,7 +21,7 @@ class CIController(private val ciService: CIService) {
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
     private val ciEditPage: String = "cmdb/ci/ciEdit"
-    private val ciListModal: String = "cmdb/ci/ciListModad"
+    private val ciListModal: String = "cmdb/ci/ciListModal"
 
     /**
      * CI 조회 검색 화면 호출
@@ -57,7 +57,7 @@ class CIController(private val ciService: CIService) {
     /**
      * CI 조회 화면 호출.
      */
-    @GetMapping("")
+    @GetMapping("/view-pop")
     fun getCIsModal(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")

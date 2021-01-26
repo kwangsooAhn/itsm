@@ -1497,5 +1497,114 @@ label {
     margin: 30mm 45mm 30mm 45mm;
   }
 }
+/* _modal.scss 
+ *
+ * 파일 경로 : template/_modal.scss
+ * @description 모달 디자인
+ * @author wdj
+ * @version 1.0
+ */
+body.modal-active {
+  overflow: hidden !important;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  overflow: auto;
+  z-index: 1;
+}
+.modal-wrapper.modal-active {
+  display: block;
+}
+.modal-wrapper .modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2001;
+  background-color: rgba(116, 147, 179, 0.5);
+}
+.modal-wrapper .modal-dialog {
+  position: absolute;
+  top: 4em;
+  left: 0;
+  right: 0;
+  width: 34.38rem;
+  margin: 0 auto 2em auto;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border-radius: 0.0625rem;
+  z-index: 2001;
+}
+.modal-wrapper .modal-dialog .modal-header {
+  height: 3.375rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #3F4B56;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  padding: 1.125rem 0 0 1.25rem;
+}
+.modal-wrapper .modal-dialog .modal-content {
+  height: calc(22.5rem - 3.375rem - 5rem);
+  border-bottom: 0.0625rem solid #EBEBEB;
+  overflow: auto;
+}
+.modal-wrapper .modal-dialog .modal-bottom {
+  height: 5rem;
+  padding: 1.25rem 1.25rem 1.25rem 0;
+}
+
+.modal-wrapper.modal-active {
+  display: block;
+  z-index: 20001;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal, .modal-wrapper .modal-dialog.cmdb-ci-update-modal, .modal-wrapper .modal-dialog.cmdb-ci-list-modal {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content {
+  height: calc(53.0625rem - 3.375rem - 5rem);
+  padding: 0.625rem 1.25rem 2.5rem 1.25rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-row {
+  margin-top: 0.625rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .field-label, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .field-label, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .field-label {
+  margin: 0.625rem 0;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set {
+  margin-top: 2.188rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table {
+  width: 100%;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .list-head tr {
+  color: #3F4B56;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .list-body, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .list-body, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .list-body {
+  display: block;
+  width: 60rem;
+  height: 32.8125rem;
+  color: #586872;
+  overflow-y: auto;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .list-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .list-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .list-body .list-row {
+  display: table;
+  width: 100%;
+  height: 3.125rem;
+  line-height: 3.125rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .list-body .list-row > td {
+  display: inline-block;
+  vertical-align: middle;
+}
 
 /*# sourceMappingURL=document.css.map */

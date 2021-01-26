@@ -6,7 +6,7 @@
 
 package co.brainz.itsm.cmdb.ci.controller
 
-import co.brainz.cmdb.provider.dto.CmdbCiListDto
+import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
@@ -26,7 +26,7 @@ class CIRestController(private val ciService: CIService) {
      * CMDB CI 조회 목록 리스트 조회.
      */
     @GetMapping("")
-    fun getCIs(request: HttpServletRequest, model: Model): List<CmdbCiListDto> {
+    fun getCIs(request: HttpServletRequest, model: Model): List<CIListDto> {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         params["tagSearch"] = request.getParameter("tagSearch")

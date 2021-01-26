@@ -8,8 +8,8 @@ package co.brainz.cmdb.ci.controller
 
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.provider.CmdbDummyProvider
-import co.brainz.cmdb.provider.dto.CmdbCiDto
-import co.brainz.cmdb.provider.dto.CmdbCiListDto
+import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.provider.dto.CIListDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -33,22 +33,22 @@ class CIController(
     @GetMapping("")
     fun getCmdbCis(
         @RequestParam(value = "search", defaultValue = "") search: String
-    ): List<CmdbCiListDto> {
+    ): List<CIListDto> {
         return cmdbDummyProvider.getDummyCis(search)
     }
 
     @PostMapping("")
-    fun createCmdbCi(@RequestBody cmdbCiDto: CmdbCiDto): Boolean {
+    fun createCmdbCi(@RequestBody CIDto: CIDto): Boolean {
         return true
     }
 
     @GetMapping("/{ciId}")
-    fun getCmdbCi(@PathVariable ciId: String): CmdbCiDto {
+    fun getCmdbCi(@PathVariable ciId: String): CIDto {
         return cmdbDummyProvider.getDummyCi(ciId)
     }
 
     @PutMapping("/{ciId}")
-    fun updateCmdbCi(@RequestBody cmdbCiDto: CmdbCiDto): Boolean {
+    fun updateCmdbCi(@RequestBody CIDto: CIDto): Boolean {
         return true
     }
 

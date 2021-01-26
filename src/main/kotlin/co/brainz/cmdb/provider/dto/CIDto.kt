@@ -9,7 +9,7 @@ package co.brainz.cmdb.provider.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class CmdbCiDto(
+data class CIDto(
     val ciId: String? = null,
     val ciNo: String? = null,
     val ciName: String? = null,

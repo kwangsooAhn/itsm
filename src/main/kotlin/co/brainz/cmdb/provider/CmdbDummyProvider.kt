@@ -9,8 +9,8 @@ package co.brainz.cmdb.provider
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CmdbAttributeDto
-import co.brainz.cmdb.provider.dto.CmdbCiDto
-import co.brainz.cmdb.provider.dto.CmdbCiListDto
+import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbTypeDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -127,13 +127,13 @@ class CmdbDummyProvider(
         return classData
     }
 
-    fun getDummyCis(searchValue: String): List<CmdbCiListDto> {
+    fun getDummyCis(searchValue: String): List<CIListDto> {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CI.value)
-        var ciDataList = mutableListOf<CmdbCiListDto>()
+        var ciDataList = mutableListOf<CIListDto>()
         if (file != null) {
             ciDataList = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbCiListDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIListDto::class.java)
             )
             if (ciDataList.isNotEmpty()) {
                 for (ciData in ciDataList) {
@@ -148,13 +148,13 @@ class CmdbDummyProvider(
         return ciDataList
     }
 
-    fun getDummyCi(ciId: String): CmdbCiDto {
+    fun getDummyCi(ciId: String): CIDto {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CI.value)
-        var ciData = CmdbCiDto()
+        var ciData = CIDto()
         if (file != null) {
-            val ciDataList: List<CmdbCiDto> = mapper.readValue(
+            val ciDataList: List<CIDto> = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbCiDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIDto::class.java)
             )
             if (ciDataList.isNotEmpty()) {
                 val searchDataList = ciDataList.filter { it.ciId == ciId }
