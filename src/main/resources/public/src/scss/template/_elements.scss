@@ -268,7 +268,8 @@ select {
   font-weight: $element-font-weight;
   line-height: $element-line-height;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  overflow: hidden;
   &:after {
     content:"";
     width: 0;
