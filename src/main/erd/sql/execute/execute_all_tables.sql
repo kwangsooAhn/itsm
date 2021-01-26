@@ -178,6 +178,12 @@ insert into awf_code values ('assignee.type', 'assignee', null, '담당자 타�
 insert into awf_code values ('assignee.type.assignee', 'assignee.type', null, '지정 담당자', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('assignee.type.candidate.groups', 'assignee.type', null, '담당자 후보그룹', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('assignee.type.candidate.users', 'assignee.type', null, '담당자 후보목록', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb', 'root', null, 'CMDB', null, false, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb.type', 'cmdb', null, 'CMDB TYPE', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb.type.server', 'cmdb.type', 'SERVER', 'SERVER', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb.type.software', 'cmdb.type', 'SOFTWARE', 'SOFTWARE', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb.type.network', 'cmdb.type', 'NETWORK', 'NETWORK', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb.type.database', 'cmdb.type', 'DATABASE', 'DATABASE', null, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document', 'root', null, '신청서', null, false, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.group', 'document', null, '신청서 목록', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('servicedesk.incident', 'document.group', '장애문의', '장애문의', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
