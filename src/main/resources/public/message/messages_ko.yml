@@ -245,6 +245,7 @@ cmdb:
       export: "내보내기"
   ci:
     label:
+      all: "전체"
       ciNo: "CI No."
       ciInquiry: "CI 조회"
       export: "내보내기"

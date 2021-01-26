@@ -244,6 +244,7 @@ cmdb:
       export: "Export"
   ci:
     label:
+      all: "All"
       ciNo: "CI No."
       ciInquiry: "CI Inquiry"
       export: "Export"
