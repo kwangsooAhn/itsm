@@ -2513,7 +2513,7 @@
         //load custom-code list.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/custom-codes?viewType=formEditor',
+            url: '/rest/custom-codes?viewType=editor',
             callbackFunc: function(xhr) {
                 customCodeList = JSON.parse(xhr.responseText);
             },
