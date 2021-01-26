@@ -167,7 +167,7 @@ buildScan {
     publishAlways()
 }
 
-tasks.bootRun {
+tasks.test {
     if (project.hasProperty("profile")) {
         System.setProperty("spring.profiles.active", project.findProperty("profile") as String)
     }
