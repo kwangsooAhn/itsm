@@ -65,13 +65,16 @@ object RestTemplateConstants {
     }
 
     /**
-     * CI Url.
+     * Ci Url.
      *
      * @param url
      * @param method
      */
     enum class CI(val url: String, val method: String) {
         GET_CIS("/rest/cmdb/eg/cis", "GET"),
-        GET_CI("/rest/cmdb/eg/cis/{ciId}", "GET")
+        GET_CI("/rest/cmdb/eg/cis/{ciId}", "GET"),
+        POST_CI("/rest/cmdb/eg/cis", "POST"),
+        PUT_CI("/rest/cmdb/eg/cis/{ciId}", "PUT"),
+        DELETE_CI("/rest/cmdb/eg/cis/{ciId}", "DELETE")
     }
 }

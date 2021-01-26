@@ -2047,7 +2047,8 @@ button .icon-plus {
 .numbering-rule-header,
 .cmdb-attribute-header,
 .cmdb-class-header,
-.cmdb-type-header {
+.cmdb-type-header,
+.cmdb-ci-header {
   padding: 2.188rem 3.75rem 0 3.75rem;
   background-color: #F7F8F9;
 }
@@ -2077,7 +2078,8 @@ button .icon-plus {
 .numbering-rule-content,
 .cmdb-attribute-content,
 .cmdb-type-content,
-.cmdb-class-content {
+.cmdb-class-content,
+.cmdb-ci-content {
   padding: 0.9375rem 3.75rem;
   background-color: #F7F8F9;
 }

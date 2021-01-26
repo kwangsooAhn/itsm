@@ -60,6 +60,10 @@ insert into awf_auth values ('cmdb.class.read', 'CMDB Class 조회', 'CMDB Class
 insert into awf_auth values ('cmdb.class.create', 'CMDB Class 생성', 'CMDB Class 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.class.update', 'CMDB Class 변경', 'CMDB Class 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.class.delete', 'CMDB Class 삭제', 'CMDB Class 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.ci.read', 'CMDB CI 조회', 'CMDB CI 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.ci.create', 'CMDB CI 생성', 'CMDB CI 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.ci.update', 'CMDB CI 변경', 'CMDB CI 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('cmdb.ci.delete', 'CMDB CI 삭제', 'CMDB CI 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.type.read', 'CMDB Type 조회', 'CMDB Type 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.type.create', 'CMDB Type 생성', 'CMDB Type 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.type.update', 'CMDB Type 변경', 'CMDB Type 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -555,6 +559,7 @@ insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
+insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -659,6 +664,7 @@ insert into awf_menu_auth_map values ('workflow.process', 'process.read');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.attribute.read');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.type.read');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.attribute.read');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.ci.read');
 insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.class.read');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.read');
 
@@ -824,6 +830,10 @@ insert into awf_role_auth_map values ('admin', 'cmdb.attribute.read');
 insert into awf_role_auth_map values ('admin', 'cmdb.attribute.create');
 insert into awf_role_auth_map values ('admin', 'cmdb.attribute.update');
 insert into awf_role_auth_map values ('admin', 'cmdb.attribute.delete');
+insert into awf_role_auth_map values ('admin', 'cmdb.ci.read');
+insert into awf_role_auth_map values ('admin', 'cmdb.ci.create');
+insert into awf_role_auth_map values ('admin', 'cmdb.ci.update');
+insert into awf_role_auth_map values ('admin', 'cmdb.ci.delete');
 insert into awf_role_auth_map values ('admin', 'cmdb.class.read');
 insert into awf_role_auth_map values ('admin', 'cmdb.class.create');
 insert into awf_role_auth_map values ('admin', 'cmdb.class.update');
@@ -1239,6 +1249,8 @@ insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등�
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/{id}/edit', 'get', 'CMDB Attribute 수정 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute 보기 화면', 'TRUE');
+insert into awf_url values ('/cmdb/cis', 'get', 'CMDB CI 조회 목록', 'TRUE');
+insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
 insert into awf_url values ('/cmdb/types', 'get', 'CMDB Type 관리', 'TRUE');
@@ -1327,6 +1339,7 @@ insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관�
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis', 'get', 'CMDB CI 조회 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
@@ -1516,6 +1529,8 @@ insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.att
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.attribute.read');
+insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
+insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
@@ -1651,6 +1666,7 @@ insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attri
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
+insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.update');
