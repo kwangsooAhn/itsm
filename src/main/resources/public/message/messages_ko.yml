@@ -245,6 +245,13 @@ cmdb:
       export: "내보내기"
   ci:
     label:
+      all: "전체"
+      ciNo: "CI No."
+      ciInquiry: "CI 조회"
+      export: "내보내기"
+      searchPlaceholder: "CI No / CI 타입 / CI 이름 / 설명"
+      tag: "태그"
+      tagPlaceholder: "#태그"
       delete: "CI 삭제"
       description: "CI 설명"
       existing: "기존"
@@ -254,6 +261,12 @@ cmdb:
       select: "CI 선택"
       type: "CI 타입"
       update: "CI 변경"
+    msg:
+      enterCiName: "CI 이름을 입력하세요."
+      searchDescription: "CI를 조회 및 관리합니다."
+    btn:
+      import: "가져오기"
+      export: "내보내기"
   class:
     label:
       attributeList: "속성 목록"
@@ -705,6 +718,7 @@ menu:
   cmdb:
     parent: "CMDB"
     attribute: "Attribute"
+    ci: "CI"
     class: "Class"
     type: "Type"
 

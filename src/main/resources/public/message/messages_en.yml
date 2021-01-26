@@ -244,6 +244,13 @@ cmdb:
       export: "Export"
   ci:
     label:
+      all: "All"
+      ciNo: "CI No."
+      ciInquiry: "CI Inquiry"
+      export: "Export"
+      searchPlaceholder: "CI No / CI Type / CI Name / Description"
+      tag: "Tag"
+      tagPlaceholder: "#Tag"
       delete: "CI Delete"
       description: "CI Description"
       existing: "Existing"
@@ -253,6 +260,12 @@ cmdb:
       select: "CI Select"
       type: "CI Type"
       update: "CI Update"
+    msg:
+      enterCiName: "Please enter a CI Name."
+      searchDescription: "Add, view and manage CMDB CI."
+    btn:
+      import: "Import"
+      export: "Export"
   class:
     label:
       attributeList: "Attribute List"
@@ -704,6 +717,7 @@ menu:
   cmdb:
     parent: "CMDB"
     attribute: "Attribute"
+    ci: "CI"
     class: "Class"
     type: "Type"
 
