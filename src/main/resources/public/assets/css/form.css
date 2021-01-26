@@ -4151,6 +4151,49 @@ body.modal-active {
 .component .field-group .field-content .ci-table tr th.last, .component .field-group .field-content .ci-table tr td.last {
   border-right: 0.0625rem solid transparent;
 }
+.component .field-group .field-content .ci-table tr th button, .component .field-group .field-content .ci-table tr td button {
+  padding: 0;
+}
+.component .field-group .field-content .ci-table tr th button .icon-search, .component .field-group .field-content .ci-table tr td button .icon-search {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_search.svg");
+  mask-image: url("../media/icons/icon_search.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 1.25rem 1.25rem;
+  mask-size: 1.25rem 1.25rem;
+  background: #ACB4BF;
+}
+.component .field-group .field-content .ci-table tr th button .icon-edit, .component .field-group .field-content .ci-table tr td button .icon-edit {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_edit.svg");
+  mask-image: url("../media/icons/icon_edit.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 1.25rem 1.25rem;
+  mask-size: 1.25rem 1.25rem;
+  background: #ACB4BF;
+}
+.component .field-group .field-content .ci-table tr th button .icon-delete, .component .field-group .field-content .ci-table tr td button .icon-delete {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/form/tooltip/icon_delete.svg");
+  mask-image: url("../media/icons/form/tooltip/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ACB4BF;
+}
 .component .field-group .field-content .ci-table tr input[type=text] {
   width: 100%;
 }

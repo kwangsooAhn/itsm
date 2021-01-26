@@ -502,6 +502,19 @@
     }
 
     /**
+     * 컴포넌트 ID를 전달 받아서 린트용 데이터(폼 출력용)에서 일치하는 컴포넌트의 index 반환한다
+     * @param {String} id 조회할 컴포넌트 id
+     * @return {Number} component index 조회한 컴포넌트 index
+     */
+    function getComponentIndex(id) {
+        for (let i = 0, len = aliceDocument.data.form.components.length; i < len; i++) {
+            let comp = dataForPrint.form.components[i];
+            if (comp.componentId === id) { return i; }
+        }
+        return -1;
+    }
+
+    /**
      * 조회된 데이터 draw.
      *
      * @param data 문서 데이터.
@@ -775,11 +788,13 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
+                responseObject.documentId = documentId;
+                aliceDocument.data = responseObject;
+                documentModal = new modal(aliceDocument.data, documentId);
+                documentModal.show();
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
-                dataForPrint.documentId = documentId;
-                documentModal = new modal(dataForPrint, documentId);
-                documentModal.show();
+
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -799,9 +814,10 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
+                aliceDocument.data = responseObject;
+                drawDocument(aliceDocument.data);
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
-                drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -954,6 +970,7 @@
     exports.deleteRelatedDoc = deleteRelatedDoc;
     exports.createTokenInfoTab = createTokenInfoTab;
     exports.print = print;
+    exports.getComponentIndex = getComponentIndex;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

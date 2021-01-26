@@ -9,6 +9,7 @@ package co.brainz.cmdb.ci.controller
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.provider.CmdbDummyProvider
 import co.brainz.cmdb.provider.dto.CmdbCiDto
+import co.brainz.cmdb.provider.dto.CmdbCiListDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -31,9 +32,9 @@ class CIController(
 
     @GetMapping("")
     fun getCmdbCis(
-        @RequestParam(value = "searchValue", defaultValue = "") searchValue: String
-    ): List<CmdbCiDto> {
-        return cmdbDummyProvider.getDummyCis(searchValue)
+        @RequestParam(value = "search", defaultValue = "") search: String
+    ): List<CmdbCiListDto> {
+        return cmdbDummyProvider.getDummyCis(search)
     }
 
     @PostMapping("")

@@ -6,11 +6,9 @@
 
 package co.brainz.cmdb.provider
 
+import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CmdbAttributeDto
-import co.brainz.cmdb.provider.dto.CmdbCiDto
-import co.brainz.cmdb.provider.dto.CmdbClassDto
-import co.brainz.cmdb.provider.dto.CmdbTypeDto
+import co.brainz.cmdb.provider.dto.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -21,7 +19,9 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 
 @Component
-class CmdbDummyProvider() {
+class CmdbDummyProvider(
+        private val ciTypeRepository: CITypeRepository
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -123,14 +123,23 @@ class CmdbDummyProvider() {
         return classData
     }
 
-    fun getDummyCis(searchValue: String): List<CmdbCiDto> {
+    fun getDummyCis(searchValue: String): List<CmdbCiListDto> {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CI.value)
-        var ciDataList = mutableListOf<CmdbCiDto>()
+        var ciDataList = mutableListOf<CmdbCiListDto>()
         if (file != null) {
             ciDataList = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbCiDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CmdbCiListDto::class.java)
             )
+            if (ciDataList.isNotEmpty()) {
+                for (ciData in ciDataList) {
+                    val typeData = ciData.typeId?.let { ciTypeRepository.findById(it) }
+                    if (typeData != null) {
+                        ciData.typeName = typeData.get().typeName
+                    }
+                }
+                // 태그
+            }
         }
         return ciDataList
     }

@@ -243,6 +243,11 @@ cmdb:
       import: "Import"
       export: "Export"
   ci:
+    actionType:
+      delete: "Delete"
+      modify: "Modify"
+      read: "Read"
+      register: "Add"
     label:
       delete: "CI Delete"
       description: "CI Description"
@@ -250,7 +255,11 @@ cmdb:
       register: "CI Register"
       name: "CI Name"
       new: "New"
+      searchPlaceholder: "CI No / CI Type / CI Name / #Tag"
       select: "CI Select"
+      seqNum: "CI No"
+      tag: "Tag"
+      tagPlaceholder: "#Tag"
       type: "CI Type"
       update: "CI Update"
   class:
