@@ -224,12 +224,23 @@ board:
 cmdb:
   attribute:
     label:
+      buttonText: "Button Text"
+      default: "Default"
       description: "Description"
       details: "Details"
       export: "Export"
       label: "Label"
       management: "Attribute Management"
       name: "Attribute Name"
+      option:
+        check: "Check"
+        code: "Code"
+        required: "Required"
+        label: "Label"
+        none: "None"
+        session: "Session"
+        validate: "Validate"
+        value: "Value"
       searchPlaceholder: "Label / Type / Attribute Name / Description"
       type: "Type"
       view: "Attribute"

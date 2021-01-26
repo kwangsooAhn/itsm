@@ -14,6 +14,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    // Attribute 타입 목록
     const attributeTypeList = [
         {'type': 'inputbox', 'name': 'Input Box'},
         {'type': 'dropdown', 'name': 'Dropdown'},
@@ -22,6 +23,7 @@
         {'type': 'custom-code', 'name': 'Custom Code'}
     ];
 
+    // Validation 목록
     let validationList = [
         {'text': 'None', 'value': ''},
         {'text': 'Char', 'value': 'char'},
@@ -31,10 +33,15 @@
     let parent = null;
     let customCodeList = null;
 
+    /**
+     * 초기 데이터 셋팅.
+     * 
+     * @param target
+     */
     function init(target) {
         parent = target;
 
-        //load custom-code list.
+        // load custom-code list.
         aliceJs.sendXhr({
             method: 'GET',
             url: '/rest/custom-codes?viewType=editor',
@@ -46,6 +53,13 @@
         });
     }
 
+    /**
+     * Attribute 타입에 따른 세부 설정 구현.
+     *
+     * @param attributeType
+     * @param data
+     * @return {null|boolean}
+     */
     function makeDetails(attributeType, data) {
         if (typeof parent === 'undefined') { return false; }
         parent.innerHTML = '';
@@ -77,7 +91,7 @@
     }
 
     /**
-     * Validation 목옥에서 원하는 리스트만 추출.
+     * Validation 목록에서 원하는 리스트만 추출.
      *
      * @param list
      * @return {[text, value]}
@@ -112,11 +126,11 @@
         }).join('');
         this.template =
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">필수조건</span><span class="required"></span></label></div>` +
+            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span><span class="required"></span></label></div>` +
             `<div class="flex-column col-9"><select id="${objectId}-required">${booleanOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">유효성</span><span class="required"></span></label></div>` +
+            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.validate')}</span><span class="required"></span></label></div>` +
             `<div class="flex-column col-9"><select id="${objectId}-validation">${validationOptions}</select></div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -141,9 +155,9 @@
             let rowId = workflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-1"><label><span class="mr-1">Label</span><span class="required"></span></label></div>` +
+                `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
                 `<div class="flex-column col-5 mr-4"><input maxlength="50" required></div>` +
-                `<div class="flex-column col-1"><label><span>Value</span></label></div>` +
+                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input maxlength="50"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
@@ -184,9 +198,9 @@
             let rowId = workflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-1"><label><span class="mr-1">Label</span><span class="required"></span></label></div>` +
+                `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
                 `<div class="flex-column col-5 mr-4"><input maxlength="50" required></div>` +
-                `<div class="flex-column col-1"><label><span>Value</span></label></div>` +
+                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input maxlength="50"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
@@ -227,11 +241,11 @@
             let rowId = workflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-1"><label><span class="mr-1">Label</span><span class="required"></span></label></div>` +
+                `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
                 `<div class="flex-column col-4 mr-4"><input maxlength="50" required></div>` +
-                `<div class="flex-column col-1"><label><span>Value</span></label></div>` +
+                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-4 mr-4"><input maxlength="50"></div>` +
-                `<div class="flex-column col-1"><label><span>Check</span></label></div>` +
+                `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label></div>` +
                 `<div class="flex-column col-1"><input type="checkbox"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
@@ -273,31 +287,34 @@
         const buttonText = property.button !== undefined ? property.button : '';
 
         // session
-        const sessionOptions = [{'text': '이름', 'value': 'userName'}, {'text': '부서', 'value': 'department'}].map(function(option) {
+        const sessionOptions = [{'text': i18n.msg('user.label.name'), 'value': 'userName'}, {'text': i18n.msg('user.label.department'), 'value': 'department'}].map(function(option) {
             return `<option value='${option.value}' ${(defaultType === 'session' && defaultValue === option.value) ? "selected='true'" : ""}>${aliceJs.filterXSS(option.text)}</option>`
         }).join('');
 
         this.template =
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span>커스텀 코드</span></label></div>` +
+            `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('customCode.label.customCode')}</span></label></div>` +
             `<div class="flex-column col-9"><select id="${objectId}-select">${customCodeOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span>기본값</span></label></div>` +
-            `<div class="flex-column col-9"><label><input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? "checked='true'" : ""}><span class="label ml-2">없음</span></label></div>` +
+            `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.default')}</span></label></div>` +
+            `<div class="flex-column col-1"><label class="radio"><input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? "checked='true'" : ""}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span></label></div>` +
+            `<div class="flex-column col-8"></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-2 mr-4"><label><input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? "checked='true'" : ""}><span class="label ml-2">세션</span></label></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-session">${sessionOptions}</select></div>` +
+            `<div class="flex-column col-1"><label class="radio"><input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? "checked='true'" : ""}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span></label></div>` +
+            `<div class="flex-column col-1"></div>` +
+            `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '': "disabled='true'"}>${sessionOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-2 mr-4"><label><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? "checked='true'" : ""}><span class="label ml-2">코드</span></label></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-code"></select></div>` +
+            `<div class="flex-column col-1"><label class="radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? "checked='true'" : ""}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
+            `<div class="flex-column col-1"></div>` +
+            `<div class="flex-column col-7"><select id="${objectId}-default-code" ${defaultType === 'code' ? '': "disabled='true'"}></select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
-            `<div class="flex-column col-2 mr-4"><label><span>버튼</span></label></div>` +
+            `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label></div>` +
             `<div class="flex-column col-9"><input id="${objectId}-button" maxlength="100" value="${buttonText}"></div>` +
             `</div>`;
 
@@ -314,7 +331,7 @@
                     let customCodeData = JSON.parse(xhr.responseText);
                     let customCodeDataObject = document.getElementById(objectId + '-default-code');
                     customCodeDataObject.innerHTML = customCodeData.map(function(option) {
-                        return `<option value='${option.value}' ${defaultValue === option.value ? "selected='true'" : ""}>${aliceJs.filterXSS(option.key)}</option>`
+                        return `<option value='${option.key}' ${defaultValue === option.key ? "selected='true'" : ""}>${aliceJs.filterXSS(option.value)}</option>`
                     }).join('');
                     aliceJs.initDesignedSelectTag();
                 },
@@ -327,7 +344,29 @@
         evt.initEvent('change', false, true);
         customCodeObject.dispatchEvent(evt);
 
-        //disabled
+        // disabled
+        const defaultNoneObject = document.getElementById(objectId + '-none');
+        const defaultSessionObject = document.getElementById(objectId + '-session');
+        const defaultCodeObject = document.getElementById(objectId + '-code');
+
+        defaultNoneObject.addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById(objectId + '-default-session').disabled = true;
+            document.getElementById(objectId + '-default-code').disabled = true;
+            aliceJs.initDesignedSelectTag();
+        });
+        defaultSessionObject.addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById(objectId + '-default-session').disabled = false;
+            document.getElementById(objectId + '-default-code').disabled = true;
+            aliceJs.initDesignedSelectTag();
+        });
+        defaultCodeObject.addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById(objectId + '-default-session').disabled = true;
+            document.getElementById(objectId + '-default-code').disabled = false;
+            aliceJs.initDesignedSelectTag();
+        });
     }
 
     /**
@@ -340,6 +379,7 @@
         let isValid = true;
         if (type === 'dropdown' || type === 'radio' || type === 'checkbox') {
             let detailsObject = document.querySelectorAll('#details > .flex-row:not(:first-child)');
+            let labels = [];
             let values = [];
             for (let i = 0, len = detailsObject.length; i < len; i++) {
                 let labelObject = detailsObject[i].querySelectorAll('input')[0];
@@ -351,12 +391,13 @@
                     isValid = false;
                     break;
                 }
-                if (values.indexOf(valueObject.value) > -1) {
+                if (labels.indexOf(labelObject.value.trim()) > -1 || values.indexOf(valueObject.value.trim()) > -1) {
                     aliceJs.alertWarning(i18n.msg('validation.msg.dataNotDuplicate'));
                     isValid = false;
                     break;
                 }
-                values.push(valueObject.value);
+                labels.push(labelObject.value.trim());
+                values.push(valueObject.value.trim());
             }
         }
         return isValid;

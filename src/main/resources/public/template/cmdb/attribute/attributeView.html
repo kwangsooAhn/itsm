@@ -84,6 +84,7 @@
     </script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        const attributeData = /*[[${attribute?.attributeValue}]]*/ null;
         window.onload = function () {
             const attributeType = /*[[${attribute?.attributeType}]]*/ null;
             let attributeTypeObject = document.querySelector('#attributeType');
@@ -102,6 +103,11 @@
             changeType(attributeTypeObject, true);
 
             aliceJs.initDesignedSelectTag();
+
+            const detailObject = document.querySelector('#details');
+            detailObject.querySelectorAll('input').forEach(function(object) { object.disabled = true; });
+            detailObject.querySelectorAll('select').forEach(function(object) { object.disabled = true; });
+            detailObject.querySelectorAll('button').forEach(function(object) { object.disabled = true; });
 
             OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
