@@ -31,7 +31,7 @@ class CIService(
      */
     fun getCI(ciId: String): CmdbCiDto {
         val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Ci.GET_CI.url.replace(
+            callUrl = RestTemplateConstants.CI.GET_CI.url.replace(
                 restTemplate.getKeyRegex(),
                 ciId
             )
@@ -45,7 +45,7 @@ class CIService(
      */
     fun getCIs(params: LinkedMultiValueMap<String, String>): List<CmdbCiListDto> {
         val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Ci.GET_CIS.url,
+            callUrl = RestTemplateConstants.CI.GET_CIS.url,
             parameters = params
         )
         val responseBody = restTemplate.get(url)
