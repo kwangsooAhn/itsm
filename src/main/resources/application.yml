@@ -129,7 +129,6 @@ file.upload.dir: /root/files
 ---
 # For jenkins test
 spring:
-  profiles:
-    active: ci
+  profiles: ci
   datasource:
     url: jdbc:log4jdbc:postgresql://itsm.dev.db.develop:5432/itsm
