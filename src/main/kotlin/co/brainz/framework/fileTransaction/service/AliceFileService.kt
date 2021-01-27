@@ -38,7 +38,6 @@ import org.apache.tika.Tika
 import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
 import org.springframework.core.env.Environment
-import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.data.repository.findByIdOrNull
@@ -258,7 +257,7 @@ class AliceFileService(
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
 
-        logger.debug(">>>> WORKFLOW IMAGE URI", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
+        // logger.debug(">>>> WORKFLOW IMAGE URI", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
 
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dir)) {

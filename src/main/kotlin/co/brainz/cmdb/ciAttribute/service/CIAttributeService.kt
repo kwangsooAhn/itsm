@@ -6,7 +6,7 @@
 
 package co.brainz.cmdb.ciAttribute.service
 
-import co.brainz.cmdb.ciAttribute.entity.CmdbAttributeEntity
+import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIAttributeDto
@@ -57,7 +57,7 @@ class CIAttributeService(
         )
         when (existCount) {
             0L -> {
-                val attributeEntity = CmdbAttributeEntity(
+                val attributeEntity = CIAttributeEntity(
                     attributeId = "",
                     attributeName = ciAttributeDto.attributeName,
                     attributeDesc = ciAttributeDto.attributeDesc,

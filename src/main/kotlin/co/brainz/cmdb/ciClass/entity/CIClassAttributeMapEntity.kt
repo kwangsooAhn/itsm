@@ -6,7 +6,7 @@
 
 package co.brainz.cmdb.ciClass.entity
 
-import co.brainz.cmdb.ciAttribute.entity.CmdbAttributeEntity
+import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -29,7 +29,7 @@ data class CIClassAttributeMapEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attribute_id")
-    val ciAttribute: CmdbAttributeEntity,
+    val ciAttribute: CIAttributeEntity,
 
     @Column(name = "attribute_order")
     val attributeOrder: Int
