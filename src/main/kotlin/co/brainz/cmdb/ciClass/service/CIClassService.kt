@@ -160,11 +160,11 @@ class CIClassService(
         var savedCmdbClassEntity = ciClassRepository.save(cmdbClassEntity)
 
         cmdbClassDto.attributes?.forEach {
-            val cmdbAttributeEntity = ciAttributeRepository.getOne(it)
+            val ciAttributeEntity = ciAttributeRepository.getOne(it)
             cmdbClassAttributeMapRepository.save(
                 CmdbClassAttributeMapEntity(
                     savedCmdbClassEntity,
-                    cmdbAttributeEntity,
+                    ciAttributeEntity,
                     order
                 )
             )
@@ -205,11 +205,11 @@ class CIClassService(
         }
 
         cmdbClassDto.attributes?.forEach {
-            val cmdbAttributeEntity = ciAttributeRepository.getOne(it)
+            val ciAttributeEntity = ciAttributeRepository.getOne(it)
             cmdbClassAttributeMapRepository.save(
                 CmdbClassAttributeMapEntity(
                     updatedCmdbClassEntity,
-                    cmdbAttributeEntity,
+                    ciAttributeEntity,
                     order
                 )
             )
