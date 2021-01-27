@@ -374,6 +374,30 @@ input, button, select, optgroup, textarea {
   margin-right: auto;
 }
 
+.mt-0 {
+  margin-top: 0;
+}
+
+.mt-1 {
+  margin-top: 0.3125rem;
+}
+
+.mt-2 {
+  margin-top: 0.625rem;
+}
+
+.mt-3 {
+  margin-top: 0.9375rem;
+}
+
+.mt-4 {
+  margin-top: 1.25rem;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss

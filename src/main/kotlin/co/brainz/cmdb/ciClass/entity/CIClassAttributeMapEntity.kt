@@ -19,23 +19,23 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "cmdb_class_attribute_map")
-@IdClass(CmdbClassAttributeMapPk::class)
-data class CmdbClassAttributeMapEntity(
+@IdClass(CIClassAttributeMapPk::class)
+data class CIClassAttributeMapEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id")
-    val cmdbClass: CmdbClassEntity,
+    val ciClass: CIClassEntity,
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attribute_id")
-    val cmdbAttribute: CmdbAttributeEntity,
+    val ciAttribute: CmdbAttributeEntity,
 
     @Column(name = "attribute_order")
     val attributeOrder: Int
 ) : Serializable
 
-data class CmdbClassAttributeMapPk(
-    val cmdbClass: String = "",
-    val cmdbAttribute: String = ""
+data class CIClassAttributeMapPk(
+    val ciClass: String = "",
+    val ciAttribute: String = ""
 ) : Serializable

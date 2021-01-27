@@ -31,29 +31,29 @@ class CIController(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @GetMapping("")
-    fun getCmdbCis(
+    fun getCIs(
         @RequestParam(value = "search", defaultValue = "") search: String
     ): List<CIListDto> {
         return cmdbDummyProvider.getDummyCis(search)
     }
 
     @PostMapping("")
-    fun createCmdbCi(@RequestBody CIDto: CIDto): Boolean {
+    fun createCI(@RequestBody CIDto: CIDto): Boolean {
         return true
     }
 
     @GetMapping("/{ciId}")
-    fun getCmdbCi(@PathVariable ciId: String): CIDto {
+    fun getCI(@PathVariable ciId: String): CIDto {
         return cmdbDummyProvider.getDummyCi(ciId)
     }
 
     @PutMapping("/{ciId}")
-    fun updateCmdbCi(@RequestBody CIDto: CIDto): Boolean {
+    fun updateCI(@RequestBody CIDto: CIDto): Boolean {
         return true
     }
 
     @DeleteMapping("/{ciId}")
-    fun deleteCmdbCi(): Boolean {
+    fun deleteCI(): Boolean {
         return true
     }
 }

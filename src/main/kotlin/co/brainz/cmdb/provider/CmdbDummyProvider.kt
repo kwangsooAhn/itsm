@@ -11,7 +11,7 @@ import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIAttributeDto
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIListDto
-import co.brainz.cmdb.provider.dto.CmdbClassDto
+import co.brainz.cmdb.provider.dto.CIClassDto
 import co.brainz.cmdb.provider.dto.CmdbTypeDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -96,25 +96,25 @@ class CmdbDummyProvider(
         return typeData
     }
 
-    fun getDummyClasses(searchValue: String): List<CmdbClassDto> {
+    fun getDummyClasses(searchValue: String): List<CIClassDto> {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CLASS.value)
-        var classDataList = mutableListOf<CmdbClassDto>()
+        var classDataList = mutableListOf<CIClassDto>()
         if (file != null) {
             classDataList = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIClassDto::class.java)
             )
         }
         return classDataList
     }
 
-    fun getDummyClass(classId: String): CmdbClassDto {
+    fun getDummyClass(classId: String): CIClassDto {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CLASS.value)
-        var classData = CmdbClassDto()
+        var classData = CIClassDto()
         if (file != null) {
-            val classDataList: List<CmdbClassDto> = mapper.readValue(
+            val classDataList: List<CIClassDto> = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIClassDto::class.java)
             )
             if (classDataList.isNotEmpty()) {
                 val searchDataList = classDataList.filter { it.classId == classId }
