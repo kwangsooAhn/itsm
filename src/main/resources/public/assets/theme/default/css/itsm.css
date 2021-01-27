@@ -373,6 +373,30 @@ input, button, select, optgroup, textarea {
   margin-right: auto;
 }
 
+.mt-0 {
+  margin-top: 0;
+}
+
+.mt-1 {
+  margin-top: 0.3125rem;
+}
+
+.mt-2 {
+  margin-top: 0.625rem;
+}
+
+.mt-3 {
+  margin-top: 0.9375rem;
+}
+
+.mt-4 {
+  margin-top: 1.25rem;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
@@ -1652,6 +1676,11 @@ button.plus {
   width: 1.625rem;
   height: 1.625rem;
 }
+.btn.btn-delete,
+button.btn-delete {
+  padding: 0;
+  height: 2.5rem;
+}
 .btn .icon-search,
 button .icon-search {
   display: inline-block;
@@ -2299,6 +2328,10 @@ button .icon-plus {
 .custom-code-content-edit .btn-minus,
 .cmdb-attribute-content-edit .btn-minus {
   padding: 0;
+}
+.custom-code-content-edit .attribute,
+.cmdb-attribute-content-edit .attribute {
+  margin-left: 4rem;
 }
 
 .numbering-rule-content-edit .select-pattern-type {

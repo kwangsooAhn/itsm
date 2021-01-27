@@ -8,7 +8,7 @@ package co.brainz.cmdb.provider
 
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CmdbAttributeDto
+import co.brainz.cmdb.provider.dto.CIAttributeDto
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
@@ -31,13 +31,13 @@ class CmdbDummyProvider(
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    fun getDummyAttributes(searchValue: String): List<CmdbAttributeDto> {
+    fun getDummyAttributes(searchValue: String): List<CIAttributeDto> {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.ATTRIBUTE.value)
-        var attributeDataList = mutableListOf<CmdbAttributeDto>()
+        var attributeDataList = mutableListOf<CIAttributeDto>()
         if (file != null) {
             attributeDataList = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbAttributeDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIAttributeDto::class.java)
             )
             for (attribute in attributeDataList) {
                 attribute.createDt = LocalDateTime.now()
@@ -46,13 +46,13 @@ class CmdbDummyProvider(
         return attributeDataList
     }
 
-    fun getDummyAttribute(attributeId: String): CmdbAttributeDto {
+    fun getDummyAttribute(attributeId: String): CIAttributeDto {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.ATTRIBUTE.value)
-        var attributeData = CmdbAttributeDto()
+        var attributeData = CIAttributeDto()
         if (file != null) {
-            val attributeDataList: List<CmdbAttributeDto> = mapper.readValue(
+            val attributeDataList: List<CIAttributeDto> = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbAttributeDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIAttributeDto::class.java)
             )
             if (attributeDataList.isNotEmpty()) {
                 val searchDataList = attributeDataList.filter { it.attributeId == attributeId }

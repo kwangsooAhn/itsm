@@ -8,7 +8,7 @@ package co.brainz.itsm.cmdb.ciClass.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.cmdb.provider.dto.CmdbClassAttributeListDto
 import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
@@ -126,7 +126,7 @@ class CIClassService(
      * CMDB classAttributeList 조회
      */
     fun getClassAttributeList(
-        attributeList: List<CmdbAttributeListDto>,
+        attributeList: List<CIAttributeListDto>,
         addAttributeList: List<CmdbClassToAttributeDto>?,
         extendsAttributeList: List<CmdbClassToAttributeDto>?
     ): MutableList<CmdbClassAttributeListDto> {

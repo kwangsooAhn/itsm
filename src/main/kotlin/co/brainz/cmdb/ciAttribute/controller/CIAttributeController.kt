@@ -7,8 +7,8 @@
 package co.brainz.cmdb.ciAttribute.controller
 
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
-import co.brainz.cmdb.provider.dto.CmdbAttributeDto
-import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+import co.brainz.cmdb.provider.dto.CIAttributeDto
+import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
@@ -31,43 +31,43 @@ class CIAttributeController(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
-     * CMDB Attribute 목록 조회.
+     * CI Attribute 목록 조회.
      */
     @GetMapping("")
-    fun getCmdbAttributes(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbAttributeListDto> {
-        return ciAttributeService.getCmdbAttributes(parameters)
+    fun getCIAttributes(@RequestParam parameters: LinkedHashMap<String, Any>): List<CIAttributeListDto> {
+        return ciAttributeService.getCIAttributes(parameters)
     }
 
     /**
-     * CMDB Attribute 신규 등록.
+     * CI Attribute 신규 등록.
      */
     @PostMapping("")
-    fun createCmdbAttribute(@RequestBody cmdbAttributeDto: CmdbAttributeDto): RestTemplateReturnDto {
-        return ciAttributeService.createCmdbAttribute(cmdbAttributeDto)
+    fun createCIAttribute(@RequestBody ciAttributeDto: CIAttributeDto): RestTemplateReturnDto {
+        return ciAttributeService.createCIAttribute(ciAttributeDto)
     }
 
     /**
-     * CMDB Attribute 단일 조회.
+     * CI Attribute 단일 조회.
      */
     @GetMapping("/{attributeId}")
-    fun getCmdbAttribute(@PathVariable attributeId: String): CmdbAttributeDto {
-        return ciAttributeService.getCmdbAttribute(attributeId)
+    fun getCIAttribute(@PathVariable attributeId: String): CIAttributeDto {
+        return ciAttributeService.getCIAttribute(attributeId)
     }
 
     /**
-     * CMDB Attribute 수정.
+     * CI Attribute 수정.
      */
     @PutMapping("/{attributeId}")
-    fun updateCmdbAttribute(@RequestBody cmdbAttributeDto: CmdbAttributeDto): RestTemplateReturnDto {
-        return ciAttributeService.updateCmdbAttribute(cmdbAttributeDto)
+    fun updateCIAttribute(@RequestBody ciAttributeDto: CIAttributeDto): RestTemplateReturnDto {
+        return ciAttributeService.updateCIAttribute(ciAttributeDto)
     }
 
     /**
-     * CMDB Attribute 삭제.
+     * CI Attribute 삭제.
      */
     @Transactional
     @DeleteMapping("/{attributeId}")
-    fun deleteCmdbAttribute(@PathVariable attributeId: String): Boolean {
-        return ciAttributeService.deleteCmdbAttribute(attributeId)
+    fun deleteCIAttribute(@PathVariable attributeId: String): Boolean {
+        return ciAttributeService.deleteCIAttribute(attributeId)
     }
 }

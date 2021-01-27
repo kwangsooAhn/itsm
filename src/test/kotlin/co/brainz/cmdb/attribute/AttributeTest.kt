@@ -1,7 +1,7 @@
 package co.brainz.cmdb.attribute
 
-/*import co.brainz.cmdb.provider.dto.CmdbAttributeDto
-import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+/*import co.brainz.cmdb.provider.dto.CIAttributeDto
+import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -53,9 +53,9 @@ class AttributeTest {
             .andExpect(status().isOk)
             .andReturn()
         val content = result.response.contentAsString
-        val responseData: List<CmdbAttributeListDto> = mapper.readValue(
+        val responseData: List<CIAttributeListDto> = mapper.readValue(
             content,
-            mapper.typeFactory.constructCollectionType(List::class.java, CmdbAttributeListDto::class.java)
+            mapper.typeFactory.constructCollectionType(List::class.java, CIAttributeListDto::class.java)
         )
         assertThat(responseData.size).isEqualTo(responseData[0].totalCount)
     }
@@ -77,7 +77,7 @@ class AttributeTest {
      *//*
     @Test
     fun attribute_insert_one() {
-        val cmdbAttributeDto = CmdbAttributeDto(
+        val attributeDto = CIAttributeDto(
             attributeId = "",
             attributeName = "Test",
             attributeText = "Test",
@@ -85,12 +85,12 @@ class AttributeTest {
             createDt = LocalDateTime.now(),
             createUserKey = "0509e09412534a6e98f04ca79abb6424"
         )
-        val attributeId = attributes_search_attribute_id(cmdbAttributeDto.attributeName)
+        val attributeId = attributes_search_attribute_id(attributeDto.attributeName)
         if (attributeId != null) {
             mockMvc.perform(delete("/rest/cmdb/eg/attributes/$attributeId"))
                 .andExpect(status().isOk)
         }
-        val data = mapper.writeValueAsString(cmdbAttributeDto)
+        val data = mapper.writeValueAsString(attributeDto)
         val result = mockMvc.perform(
             post("/rest/cmdb/eg/attributes")
                 .content(data)
@@ -112,7 +112,7 @@ class AttributeTest {
     fun attributes_update_one() {
         attribute_insert_one()
         val attributeId = attributes_search_attribute_id("Test")
-        val cmdbAttributeDto = CmdbAttributeDto(
+        val attributeDto = CIAttributeDto(
             attributeId = attributeId!!,
             attributeName = "Test",
             attributeText = "Test111",
@@ -121,7 +121,7 @@ class AttributeTest {
             updateUserKey = "0509e09412534a6e98f04ca79abb6424"
         )
 
-        val data = mapper.writeValueAsString(cmdbAttributeDto)
+        val data = mapper.writeValueAsString(attributeDto)
         val result = mockMvc.perform(
             put("/rest/cmdb/eg/attributes/$attributeId")
                 .content(data)
@@ -161,9 +161,9 @@ class AttributeTest {
         val content = result.response.contentAsString
         var attributeId: String? = null
         if (content.contains("attributeId")) {
-            val responseData: List<CmdbAttributeListDto> = mapper.readValue(
+            val responseData: List<CIAttributeListDto> = mapper.readValue(
                 content,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbAttributeListDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIAttributeListDto::class.java)
             )
             if (responseData.isNotEmpty()) {
                 attributeId = responseData[0].attributeId

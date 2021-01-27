@@ -167,9 +167,6 @@ buildScan {
     publishAlways()
 }
 
-/*
-
 tasks.test {
-    useJUnitPlatform()
+    systemProperty("spring.profiles.active", findProperty("profile") ?: "default")
 }
-*/

@@ -25,50 +25,50 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
     private val attributeViewPage: String = "cmdb/attribute/attributeView"
 
     /**
-     * Attribute 관리 검색 화면 호출.
+     * CI Attribute 관리 검색 화면 호출.
      */
     @GetMapping("/search")
-    fun getAttributeSearch(): String {
+    fun getCIAttributeSearch(): String {
         return attributeSearchPage
     }
 
     /**
-     * Attribute 관리 화면 호출.
+     * CI Attribute 관리 화면 호출.
      */
     @GetMapping("")
-    fun getAttributes(request: HttpServletRequest, model: Model): String {
+    fun getCIAttributes(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         params["offset"] = request.getParameter("offset") ?: "0"
-        val result = ciAttributeService.getAttributes(params)
+        val result = ciAttributeService.getCIAttributes(params)
         model.addAttribute("attributeList", result)
         model.addAttribute("attributeListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return attributeListPage
     }
 
     /**
-     * Attribute 등록 화면 호출.
+     * CI Attribute 등록 화면 호출.
      */
     @GetMapping("/new")
-    fun getAttributeNew(): String {
+    fun getCIAttributeNew(): String {
         return attributeEditPage
     }
 
     /**
-     * Attribute 수정 화면 호출.
+     * CI Attribute 수정 화면 호출.
      */
     @GetMapping("/{attributeId}/edit")
-    fun getAttributeEdit(@PathVariable attributeId: String, model: Model): String {
-        model.addAttribute("attribute", ciAttributeService.getAttribute(attributeId))
+    fun getCIAttributeEdit(@PathVariable attributeId: String, model: Model): String {
+        model.addAttribute("attribute", ciAttributeService.getCIAttribute(attributeId))
         return attributeEditPage
     }
 
     /**
-     * Attribute 보기 화면 호출.
+     * CI Attribute 보기 화면 호출.
      */
     @GetMapping("/{attributeId}/view")
-    fun getAttributeView(@PathVariable attributeId: String, model: Model): String {
-        model.addAttribute("attribute", ciAttributeService.getAttribute(attributeId))
+    fun getCIAttributeView(@PathVariable attributeId: String, model: Model): String {
+        model.addAttribute("attribute", ciAttributeService.getCIAttribute(attributeId))
         return attributeViewPage
     }
 }
