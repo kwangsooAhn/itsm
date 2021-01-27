@@ -105,6 +105,7 @@
 // CMDB > Attribute
 // CMDB > Class
 // CMDB > Type
+// CMDB > Ci
 .notice-header,
 .faq-header,
 .download-header,
@@ -123,7 +124,8 @@
 .numbering-rule-header,
 .cmdb-attribute-header,
 .cmdb-class-header,
-.cmdb-type-header {
+.cmdb-type-header,
+.cmdb-ci-header{
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
@@ -150,6 +152,7 @@
 // CMDB > Attribute
 // CMDB > Type
 // CMDB > Class
+// CMDB > Ci
 .notice-content,
 .faq-content,
 .download-content,
@@ -167,7 +170,8 @@
 .numbering-rule-content,
 .cmdb-attribute-content,
 .cmdb-type-content,
-.cmdb-class-content {
+.cmdb-class-content,
+.cmdb-ci-content{
   padding: 0.9375rem 3.75rem; // 15px 60px
   background-color: $light-gray;
 }
