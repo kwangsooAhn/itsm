@@ -9,8 +9,8 @@ package co.brainz.cmdb.ciAttribute.service
 import co.brainz.cmdb.ciAttribute.entity.CmdbAttributeEntity
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CmdbAttributeDto
-import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+import co.brainz.cmdb.provider.dto.CIAttributeDto
+import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
@@ -27,9 +27,9 @@ class CIAttributeService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
-     * CMDB Attribute 목록 조회.
+     * CI Attribute 목록 조회.
      */
-    fun getCmdbAttributes(parameters: LinkedHashMap<String, Any>): List<CmdbAttributeListDto> {
+    fun getCIAttributes(parameters: LinkedHashMap<String, Any>): List<CIAttributeListDto> {
         var search = ""
         var offset: Long? = null
         if (parameters["search"] != null) search = parameters["search"].toString()
@@ -40,32 +40,32 @@ class CIAttributeService(
     }
 
     /**
-     * CMDB Attribute 단일 조회.
+     * CI Attribute 단일 조회.
      */
-    fun getCmdbAttribute(attributeId: String): CmdbAttributeDto {
+    fun getCIAttribute(attributeId: String): CIAttributeDto {
         return ciAttributeRepository.findAttribute(attributeId)
     }
 
     /**
-     * CMDB Attribute 등록.
+     * CI Attribute 등록.
      */
-    fun createCmdbAttribute(cmdbAttributeDto: CmdbAttributeDto): RestTemplateReturnDto {
+    fun createCIAttribute(ciAttributeDto: CIAttributeDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val existCount = ciAttributeRepository.findDuplicationAttributeName(
-            cmdbAttributeDto.attributeName,
-            cmdbAttributeDto.attributeId
+            ciAttributeDto.attributeName,
+            ciAttributeDto.attributeId
         )
         when (existCount) {
             0L -> {
                 val attributeEntity = CmdbAttributeEntity(
                     attributeId = "",
-                    attributeName = cmdbAttributeDto.attributeName,
-                    attributeDesc = cmdbAttributeDto.attributeDesc,
-                    attributeText = cmdbAttributeDto.attributeText,
-                    attributeType = cmdbAttributeDto.attributeType,
-                    attributeValue = cmdbAttributeDto.attributeValue,
-                    createDt = cmdbAttributeDto.createDt,
-                    createUser = cmdbAttributeDto.createUserKey?.let {
+                    attributeName = ciAttributeDto.attributeName,
+                    attributeDesc = ciAttributeDto.attributeDesc,
+                    attributeText = ciAttributeDto.attributeText,
+                    attributeType = ciAttributeDto.attributeType,
+                    attributeValue = ciAttributeDto.attributeValue,
+                    createDt = ciAttributeDto.createDt,
+                    createUser = ciAttributeDto.createUserKey?.let {
                         aliceUserRepository.findAliceUserEntityByUserKey(it)
                     }
                 )
@@ -80,30 +80,30 @@ class CIAttributeService(
     }
 
     /**
-     * CMDB Attribute 수정.
+     * CI Attribute 수정.
      */
-    fun updateCmdbAttribute(cmdbAttributeDto: CmdbAttributeDto): RestTemplateReturnDto {
+    fun updateCIAttribute(ciAttributeDto: CIAttributeDto): RestTemplateReturnDto {
         val attributeEntity =
-            ciAttributeRepository.findByAttributeId(cmdbAttributeDto.attributeId) ?: throw AliceException(
+            ciAttributeRepository.findByAttributeId(ciAttributeDto.attributeId) ?: throw AliceException(
                 AliceErrorConstants.ERR_00005,
-                AliceErrorConstants.ERR_00005.message + "[CMDB Attribute Entity]"
+                AliceErrorConstants.ERR_00005.message + "[CI Attribute Entity]"
             )
         val restTemplateReturnDto = RestTemplateReturnDto()
         val existCount = ciAttributeRepository.findDuplicationAttributeName(
-            cmdbAttributeDto.attributeName,
-            cmdbAttributeDto.attributeId
+            ciAttributeDto.attributeName,
+            ciAttributeDto.attributeId
         )
         when (existCount) {
             0L -> {
-                attributeEntity.attributeName = cmdbAttributeDto.attributeName
-                attributeEntity.attributeDesc = cmdbAttributeDto.attributeDesc
-                attributeEntity.attributeText = cmdbAttributeDto.attributeText
-                attributeEntity.attributeType = cmdbAttributeDto.attributeType
-                attributeEntity.attributeValue = cmdbAttributeDto.attributeValue
-                attributeEntity.updateUser = cmdbAttributeDto.updateUserKey?.let {
+                attributeEntity.attributeName = ciAttributeDto.attributeName
+                attributeEntity.attributeDesc = ciAttributeDto.attributeDesc
+                attributeEntity.attributeText = ciAttributeDto.attributeText
+                attributeEntity.attributeType = ciAttributeDto.attributeType
+                attributeEntity.attributeValue = ciAttributeDto.attributeValue
+                attributeEntity.updateUser = ciAttributeDto.updateUserKey?.let {
                     aliceUserRepository.findAliceUserEntityByUserKey(it)
                 }
-                attributeEntity.updateDt = cmdbAttributeDto.updateDt
+                attributeEntity.updateDt = ciAttributeDto.updateDt
                 ciAttributeRepository.save(attributeEntity)
             }
             else -> {
@@ -115,14 +115,14 @@ class CIAttributeService(
     }
 
     /**
-     * CMDB Attribute 삭제.
+     * CI Attribute 삭제.
      */
-    fun deleteCmdbAttribute(attributeId: String): Boolean {
-        val cmdbAttributeEntity = ciAttributeRepository.findByAttributeId(attributeId) ?: throw AliceException(
+    fun deleteCIAttribute(attributeId: String): Boolean {
+        val attributeEntity = ciAttributeRepository.findByAttributeId(attributeId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
-            AliceErrorConstants.ERR_00005.message + "[CMDB Attribute Entity]"
+            AliceErrorConstants.ERR_00005.message + "[CI Attribute Entity]"
         )
-        ciAttributeRepository.deleteById(cmdbAttributeEntity.attributeId)
+        ciAttributeRepository.deleteById(attributeEntity.attributeId)
         return true
     }
 }
