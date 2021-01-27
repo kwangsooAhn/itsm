@@ -1676,8 +1676,8 @@ button.plus {
   width: 1.625rem;
   height: 1.625rem;
 }
-.btn.delete,
-button.delete {
+.btn.btn-delete,
+button.btn-delete {
   padding: 0;
   height: 2.5rem;
 }

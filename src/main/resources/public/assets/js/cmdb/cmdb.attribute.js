@@ -159,7 +159,7 @@
                 `<div class="flex-column col-5 mr-4"><input maxlength="50" required></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="delete"><span class="icon-delete-gray"></span></button></div>` +
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -202,7 +202,7 @@
                 `<div class="flex-column col-5 mr-4"><input maxlength="50" required></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="delete"><span class="icon-delete-gray"></span></button></div>` +
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -247,7 +247,7 @@
                 `<div class="flex-column col-4 mr-4"><input maxlength="50"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label></div>` +
                 `<div class="flex-column col-1"><input type="checkbox"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="delete"><span class="icon-delete-gray"></span></button></div>` +
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 

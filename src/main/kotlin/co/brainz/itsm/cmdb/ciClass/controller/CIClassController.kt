@@ -42,7 +42,7 @@ class CIClassController(
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         val classId = request.getParameter("classId")
-        val attributeList = ciAttributeService.getAttributes(params)
+        val attributeList = ciAttributeService.getCIAttributes(params)
         var addAttributeList: List<CmdbClassToAttributeDto>? = null
         var extendsAttributeList: List<CmdbClassToAttributeDto>? = null
 

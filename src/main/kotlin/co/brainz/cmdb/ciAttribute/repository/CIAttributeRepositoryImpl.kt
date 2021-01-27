@@ -9,8 +9,8 @@ package co.brainz.cmdb.ciAttribute.repository
 import co.brainz.cmdb.ciAttribute.entity.CmdbAttributeEntity
 import co.brainz.cmdb.ciAttribute.entity.QCmdbAttributeEntity
 import co.brainz.cmdb.ciClass.entity.QCmdbClassAttributeMapEntity
-import co.brainz.cmdb.provider.dto.CmdbAttributeDto
-import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+import co.brainz.cmdb.provider.dto.CIAttributeDto
+import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
@@ -24,12 +24,12 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
     /**
      * Attribute 목록 조회.
      */
-    override fun findAttributeList(search: String, offset: Long?): List<CmdbAttributeListDto> {
+    override fun findAttributeList(search: String, offset: Long?): List<CIAttributeListDto> {
         val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
         val query = from(attribute)
             .select(
                 Projections.constructor(
-                    CmdbAttributeListDto::class.java,
+                    CIAttributeListDto::class.java,
                     attribute.attributeId,
                     attribute.attributeName,
                     attribute.attributeText,
@@ -49,7 +49,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
                 .offset(offset)
         }
         val result = query.fetchResults()
-        val attributeList = mutableListOf<CmdbAttributeListDto>()
+        val attributeList = mutableListOf<CIAttributeListDto>()
         for (data in result.results) {
             data.totalCount = result.total
             attributeList.add(data)
@@ -60,13 +60,13 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
     /**
      * Attribute 조회.
      */
-    override fun findAttribute(attributeId: String): CmdbAttributeDto {
+    override fun findAttribute(attributeId: String): CIAttributeDto {
         val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
         val classAttributeMap = QCmdbClassAttributeMapEntity.cmdbClassAttributeMapEntity
         return from(attribute)
             .select(
                 Projections.constructor(
-                    CmdbAttributeDto::class.java,
+                    CIAttributeDto::class.java,
                     attribute.attributeId,
                     attribute.attributeName,
                     attribute.attributeDesc,

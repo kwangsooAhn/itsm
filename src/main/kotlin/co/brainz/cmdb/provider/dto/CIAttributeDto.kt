@@ -9,7 +9,7 @@ package co.brainz.cmdb.provider.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class CmdbAttributeDto(
+data class CIAttributeDto(
     val attributeId: String = "",
     val attributeName: String = "",
     val attributeDesc: String? = null,

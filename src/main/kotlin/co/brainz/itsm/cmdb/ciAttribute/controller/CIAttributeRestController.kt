@@ -6,7 +6,7 @@
 
 package co.brainz.itsm.cmdb.ciAttribute.controller
 
-import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
@@ -32,37 +32,37 @@ class CIAttributeRestController(private val ciAttributeService: CIAttributeServi
      * Attribute 리스트 조회 (스크롤).
      */
     @GetMapping("")
-    fun getAttributes(request: HttpServletRequest, model: Model): List<CmdbAttributeListDto> {
+    fun getCIAttributes(request: HttpServletRequest, model: Model): List<CIAttributeListDto> {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         params["offset"] = request.getParameter("offset") ?: "0"
-        return ciAttributeService.getAttributes(params)
+        return ciAttributeService.getCIAttributes(params)
     }
 
     /**
-     * Attribute 등록.
+     * CI Attribute 등록.
      */
     @PostMapping("")
-    fun createAttribute(@RequestBody attributeData: String): String {
-        return ciAttributeService.saveAttribute(attributeData)
+    fun createCIAttribute(@RequestBody attributeData: String): String {
+        return ciAttributeService.saveCIAttribute(attributeData)
     }
 
     /**
-     * Attribute 수정.
+     * CI Attribute 수정.
      */
     @PutMapping("/{attributeId}")
-    fun updateAttribute(
+    fun updateCIAttribute(
         @PathVariable attributeId: String,
         @RequestBody attributeData: String
     ): String {
-        return ciAttributeService.updateAttribute(attributeId, attributeData)
+        return ciAttributeService.updateCIAttribute(attributeId, attributeData)
     }
 
     /**
-     * Attribute 삭제.
+     * CI Attribute 삭제.
      */
     @DeleteMapping("/{attributeId}")
     fun deleteAttribute(@PathVariable attributeId: String): String {
-        return ciAttributeService.deleteAttribute(attributeId)
+        return ciAttributeService.deleteCIAttribute(attributeId)
     }
 }
