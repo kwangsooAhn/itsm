@@ -1117,85 +1117,13 @@
         parent.insertAdjacentHTML('beforeend', this.template);
     }
 
-
-    /**
-     * 신규 CI 등록 모달
-     */
-    function openCIRegisterModal(e) {
-        const ciComponent = aliceJs.clickInsideElement(e, 'component');
-        // TODO: 등록 모달 출력
-        /*const ciRegisterModal = new modal({
-            title: i18n.msg('cmdb.ci.label.register'),
-            body: createModalContent(),
-            classes: 'cmdb-ci-register-modal',
-            buttons: [{
-                content: i18n.msg('common.btn.register'),
-                classes: "point-fill",
-                bindKey: false,
-                callback: function (modal) {
-                    modal.hide();
-                }
-            }, {
-                content: i18n.msg('common.btn.cancel'),
-                classes: "default-line",
-                bindKey: false,
-                callback: function (modal) {
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false,
-            },
-            onCreate: function (modal) {}
-        });
-        ciRegisterModal.show();*/
-    }
-
-    /**
-     * 기존 CI 변경 모달
-     */
-    function openCIUpdateModal(e) {
-        const ciComponent = aliceJs.clickInsideElement(e, 'component');
-        // TODO: 변경 모달 출력
-    }
-
-    /**
-     * 기존 CI 조회 모달
-     */
-    function openCISelectModal(e) {
-        const ciComponent = aliceJs.clickInsideElement(e, 'component');
-        // TODO: 조회 모달 출력
-    }
-
-    /**
-     * 편집 가능 여부에 따라 표시될 데이터 반환
-     * @param isEditable
-     */
-    function getCIHeaderProperty(isEditable) {
-        // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
-        // CI 컴포넌트 편집 가능여부가 false 일때 =  CI 아이콘, CI Type , CI 이름, 세부 정보 조회 아이콘, row 삭제 아이콘  5개
-        return [
-            { id: 'actionType', name: 'form.label.actionType', type: (isEditable ? 'inputbox' : 'hidden'), column: '2', class: (isEditable ? 'first': '') },
-            { id: 'ciId', name: '', type: 'hidden', column: '0', class: '' },
-            { id: 'ciNo', name: '', type: 'hidden', column: '0', class: '' },
-            { id: 'ciIcon', name: '', type: 'image', column: '1', class: (isEditable ? '': 'first') },
-            { id: 'typeId', name: '', type: 'hidden', column: '0', class: '' },
-            { id: 'typeName', name: 'cmdb.ci.label.type', type: 'inputbox', column: (isEditable ? '2' : '3'), class: '' },
-            { id: 'ciName', name: 'cmdb.ci.label.name', type: 'inputbox', column: (isEditable ? '3' : '4'), class: '' },
-            { id: 'ciDesc', name: 'cmdb.ci.label.description', type: 'inputbox', column: '4', class: '' },
-            { id: 'classId', name: '', type: 'hidden', column: '0', class: '' },
-            { id: 'editIcon', name: '', type: 'image', column: '1', class: '' },
-            { id: 'deleteIcon', name: '', type: 'image', column: '1', class: 'last' }
-        ];
-    }
-
     /**
      * CI 컴포넌트
      *
      * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function CI(property) {
+    function ConfigurationItem(property) {
         this.id = property.componentId;
         this.name = 'CI';
         this.type = 'ci';
@@ -1204,7 +1132,7 @@
         const displayType = property['dataAttribute']['displayType'];
 
         // 테이블 Header 추가
-        const ciHeaderProperty = getCIHeaderProperty(property.display.isEditable);
+        const ciHeaderProperty = CI.getProperty(property.display.isEditable);
         const tableHeaderOptions = ciHeaderProperty.map(function(opt, idx) {
             const thWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
             return `<th id="${opt.id}" class="align-${property.header.align} ${opt.type === 'hidden' ? '' : 'on'} ${opt.class}" ` +
@@ -1218,17 +1146,9 @@
         }).join('');
 
         // 테이블 Row 추가
-        const ciList = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
-        const tableRowOptions =
-            `${ciList.length > 0 ? 
-             `` 
-             : `<tr class="no-data-found-list">` +
-                    `<td colspan="11" class="on align-center first last" style="border-color: ${property.display.border};">` + i18n.msg('common.msg.noData') + `</td>` +
-                `</tr>`
-             }`;
-
+        property.value = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         this.template =
-            `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-isEditable="${property.display.isEditable}">` +
                 `<div class="move-handler"></div>` +
                 `<div class="field-group">` +
                     `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -1244,25 +1164,26 @@
                     `<div class="field-content" style="--data-column: ${property.display.column};">` +
                         `<div class="btn-list">` +
                         `${property.display.isEditable ?
-                            `<button type="button" class="default-line" id="btn-ci-register-${property.componentId}">` + 
+                            `<button type="button" class="default-line" id="btn-ci-register-${property.componentId}" data-actionType="register">` + 
                                 i18n.msg('cmdb.ci.label.new') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.register') +
                             `</button>` +
-                            `<button type="button" class="default-line" id="btn-ci-update-${property.componentId}">` + 
+                            `<button type="button" class="default-line" id="btn-ci-update-${property.componentId}" data-actionType="modify">` + 
                                 i18n.msg('cmdb.ci.label.existing') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.update') +
                             `</button>` +
-                            `<button type="button" class="default-line" id="btn-ci-delete-${property.componentId}">` +
+                            `<button type="button" class="default-line" id="btn-ci-delete-${property.componentId}" data-actionType="delete">` +
                                 i18n.msg('cmdb.ci.label.existing') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.delete') + 
                             `</button>`
                         :
-                            `<button type="button" class="default-line" id="btn-ci-select-${property.componentId}">${i18n.msg('cmdb.ci.label.select')}</button>`
+                            `<button type="button" class="default-line" id="btn-ci-select-${property.componentId}" data-actionType="read">` +
+                                `${i18n.msg('cmdb.ci.label.select')}` +
+                            `</button>`
                         }` +
                         `</div>` +
                         `<table class="ci-table" id="ci-table-${property.componentId}">` +
                             `<thead>` +
                                 `<tr>${tableHeaderOptions}</tr>` +
                             `</thead>` +
-                            `<tbody>` +
-                                `${tableRowOptions}` +
+                            `<tbody class="ci-table-body" data-border="${property.display.border};">` +
                             `</tbody>` +
                         `</table>` +
                     `</div>` +
@@ -1275,15 +1196,31 @@
         if (!isReadOnly) {
             if (property.display.isEditable) {
                 // 등록
-                document.getElementById('btn-ci-register-' + property.componentId).addEventListener('click', openCIRegisterModal);
+                document.getElementById('btn-ci-register-' + property.componentId).addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // row 추가
+                    const ciComponent = aliceJs.clickInsideElement(e, 'component');
+                    const newCIData = { // 신규 CI ID를 화면에서 생성하여 전달
+                        'actionType': e.target.getAttribute('data-actionType')
+                    }
+                    //CI.addRow(ciComponent, newCIData);
+                });
                 // 수정
-                document.getElementById('btn-ci-update-' + property.componentId).addEventListener('click', openCIUpdateModal);
+                document.getElementById('btn-ci-update-' + property.componentId).addEventListener('click', CI.openSelectModal);
                 // 삭제
-                document.getElementById('btn-ci-delete-' + property.componentId).addEventListener('click', openCISelectModal);
+                document.getElementById('btn-ci-delete-' + property.componentId).addEventListener('click', CI.openSelectModal);
             } else {
                 // 조회
-                document.getElementById('btn-ci-select-' + property.componentId).addEventListener('click', openCISelectModal);
+                document.getElementById('btn-ci-select-' + property.componentId).addEventListener('click', CI.openSelectModal);
             }
+        }
+        const ciComponent  = document.getElementById(property.componentId);
+        if (property.value.length > 0) {
+            property.value.forEach(function (ci) {
+                CI.addRow(ciComponent, ci);
+            });
+        } else {
+            CI.addRow(ciComponent);
         }
     }
 
@@ -1361,7 +1298,7 @@
                 componentObject =  new AccordionEnd(componentProperty);
                 break;
             case 'ci':
-                componentObject =  new CI(componentProperty);
+                componentObject =  new ConfigurationItem(componentProperty);
                 break;
             default:
                 break;

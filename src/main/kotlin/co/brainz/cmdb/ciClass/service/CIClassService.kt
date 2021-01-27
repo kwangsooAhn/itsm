@@ -7,15 +7,15 @@
 package co.brainz.cmdb.ciClass.service
 
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
-import co.brainz.cmdb.ciClass.entity.CmdbClassAttributeMapEntity
-import co.brainz.cmdb.ciClass.entity.CmdbClassAttributeMapPk
-import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
+import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapEntity
+import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapPk
+import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
-import co.brainz.cmdb.ciClass.repository.CmdbClassAttributeMapRepository
-import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
-import co.brainz.cmdb.provider.dto.CmdbClassDto
-import co.brainz.cmdb.provider.dto.CmdbClassListDto
-import co.brainz.cmdb.provider.dto.CmdbClassToAttributeDto
+import co.brainz.cmdb.ciClass.repository.CIClassAttributeMapRepository
+import co.brainz.cmdb.provider.dto.CIClassDetailDto
+import co.brainz.cmdb.provider.dto.CIClassDto
+import co.brainz.cmdb.provider.dto.CIClassListDto
+import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -29,29 +29,29 @@ class CIClassService(
     private val ciClassRepository: CIClassRepository,
     private val ciAttributeRepository: CIAttributeRepository,
     private val aliceUserRepository: AliceUserRepository,
-    private val cmdbClassAttributeMapRepository: CmdbClassAttributeMapRepository
+    private val ciClassAttributeMapRepository: CIClassAttributeMapRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
-     * CMDB Class 단일 조회
+     * CMDB CI Class 단일 조회
      */
-    fun getCmdbClass(classId: String): CmdbClassDetailDto {
-        val cmdbClassEntity = ciClassRepository.getOne(classId)
+    fun getCIClass(classId: String): CIClassDetailDto {
+        val ciClassEntity = ciClassRepository.getOne(classId)
         var editable = true
         val classList = mutableListOf<String>()
-        classList.add(cmdbClassEntity.classId)
+        classList.add(ciClassEntity.classId)
         val recursiveClassList = mutableListOf<String>()
         val attributes = ciClassRepository.findClassToAttributeList(classList)
-        var extendsAtrributes: List<CmdbClassToAttributeDto>? = null
+        var extendsAtrributes: List<CIClassToAttributeDto>? = null
 
-        val pClassName = cmdbClassEntity.pClass?.let {
+        val pClassName = ciClassEntity.pClass?.let {
             it.className
         }
 
         if (ciClassRepository.existsByPClass(
-                ciClassRepository.findById(classId).orElse(CmdbClassEntity(classId = classId))
+                ciClassRepository.findById(classId).orElse(CIClassEntity(classId = classId))
             )
         ) {
             editable = false
@@ -64,11 +64,11 @@ class CIClassService(
             extendsAtrributes = ciClassRepository.findClassToAttributeList(recursiveClassList)
         }
 
-        return CmdbClassDetailDto(
-            classId = cmdbClassEntity.classId,
-            className = cmdbClassEntity.className,
-            classDesc = cmdbClassEntity.classDesc,
-            pClassId = cmdbClassEntity.pClass?.classId,
+        return CIClassDetailDto(
+            classId = ciClassEntity.classId,
+            className = ciClassEntity.className,
+            classDesc = ciClassEntity.classDesc,
+            pClassId = ciClassEntity.pClass?.classId,
             pClassName = pClassName,
             editable = editable,
             attributes = attributes,
@@ -77,22 +77,22 @@ class CIClassService(
     }
 
     /**
-     * CMDB Class 멀티 조회
+     * CMDB CI Class 멀티 조회
      */
-    fun getCmdbClasses(parameters: LinkedHashMap<String, Any>): List<CmdbClassListDto> {
+    fun getCIClasses(parameters: LinkedHashMap<String, Any>): List<CIClassListDto> {
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
 
-        val treeClassList = mutableListOf<CmdbClassListDto>()
-        val queryResults: QueryResults<CmdbClassEntity> = ciClassRepository.findClassList(search)
-        var returnList: List<CmdbClassEntity>
-        val pClassList = mutableListOf<CmdbClassEntity>()
+        val treeClassList = mutableListOf<CIClassListDto>()
+        val queryResults: QueryResults<CIClassEntity> = ciClassRepository.findClassList(search)
+        val returnList: List<CIClassEntity>
+        val pClassList = mutableListOf<CIClassEntity>()
         val classIdList = mutableListOf<String>()
         var count = 0
         var classSearchList = queryResults.results
 
-        for (cmdbClass in classSearchList) {
-            var tempClass = cmdbClass.pClass
+        for (ciClass in classSearchList) {
+            var tempClass = ciClass.pClass
             do {
                 if (tempClass != null) {
                     pClassList.add(tempClass)
@@ -104,31 +104,31 @@ class CIClassService(
             classSearchList.addAll(pClassList)
             classSearchList = classSearchList.distinct()
         }
-        for (cmdbClass in classSearchList) {
-            classIdList.add(cmdbClass.classId)
+        for (ciClass in classSearchList) {
+            classIdList.add(ciClass.classId)
         }
-        var classAttributeMapList = ciClassRepository.findClassToAttributeList(classIdList)
+        val classAttributeMapList = ciClassRepository.findClassToAttributeList(classIdList)
 
         count = queryResults.total.toInt()
         returnList = classSearchList
 
-        for (cmdbClassEntity in returnList) {
+        for (ciClassEntity in returnList) {
             var attributeCount = 0
             if (classAttributeMapList != null) {
                 for (classAttributeMap in classAttributeMapList) {
-                    if (classAttributeMap.classId == cmdbClassEntity.classId) {
+                    if (classAttributeMap.classId == ciClassEntity.classId) {
                         attributeCount++
                     }
                 }
             }
             treeClassList.add(
-                CmdbClassListDto(
-                    classId = cmdbClassEntity.classId,
-                    className = cmdbClassEntity.className,
-                    classDesc = cmdbClassEntity.classDesc,
-                    classLevel = cmdbClassEntity.classLevel,
-                    pClassId = cmdbClassEntity.pClass?.classId,
-                    pClassName = cmdbClassEntity.pClass?.className,
+                CIClassListDto(
+                    classId = ciClassEntity.classId,
+                    className = ciClassEntity.className,
+                    classDesc = ciClassEntity.classDesc,
+                    classLevel = ciClassEntity.classLevel,
+                    pClassId = ciClassEntity.pClass?.classId,
+                    pClassName = ciClassEntity.pClass?.className,
                     totalCount = count,
                     totalAttributes = attributeCount
                 )
@@ -138,32 +138,32 @@ class CIClassService(
     }
 
     /**
-     * CMDB Class 저장
+     * CMDB CI Class 저장
      */
-    fun createCmdbClass(cmdbClassDto: CmdbClassDto): Boolean {
+    fun createCIClass(CIClassDto: CIClassDto): Boolean {
         var order = 1
-        val cmdbClassEntity = CmdbClassEntity(
-            classId = cmdbClassDto.classId,
-            className = cmdbClassDto.className,
-            classDesc = cmdbClassDto.classDesc,
-            pClass = cmdbClassDto.pClassId?.let {
-                ciClassRepository.findById(it).orElse(CmdbClassEntity(classId = cmdbClassDto.pClassId!!))
+        val ciClassEntity = CIClassEntity(
+            classId = CIClassDto.classId,
+            className = CIClassDto.className,
+            classDesc = CIClassDto.classDesc,
+            pClass = CIClassDto.pClassId?.let {
+                ciClassRepository.findById(it).orElse(CIClassEntity(classId = CIClassDto.pClassId!!))
             }
         )
-        if (cmdbClassDto.pClassId.isNullOrEmpty()) {
-            cmdbClassEntity.classLevel = 0
+        if (CIClassDto.pClassId.isNullOrEmpty()) {
+            ciClassEntity.classLevel = 0
         } else {
-            val pCmdbClassEntity = ciClassRepository.findById(cmdbClassDto.pClassId!!).get()
-            cmdbClassEntity.classLevel = pCmdbClassEntity.classLevel?.plus(1)
+            val pCIClassEntity = ciClassRepository.findById(CIClassDto.pClassId!!).get()
+            ciClassEntity.classLevel = pCIClassEntity.classLevel?.plus(1)
         }
 
-        var savedCmdbClassEntity = ciClassRepository.save(cmdbClassEntity)
+        val savedCiClassEntity = ciClassRepository.save(ciClassEntity)
 
-        cmdbClassDto.attributes?.forEach {
+        CIClassDto.attributes?.forEach {
             val ciAttributeEntity = ciAttributeRepository.getOne(it)
-            cmdbClassAttributeMapRepository.save(
-                CmdbClassAttributeMapEntity(
-                    savedCmdbClassEntity,
+            ciClassAttributeMapRepository.save(
+                CIClassAttributeMapEntity(
+                    savedCiClassEntity,
                     ciAttributeEntity,
                     order
                 )
@@ -175,40 +175,40 @@ class CIClassService(
     }
 
     /**
-     * CMDB Class 수정
+     * CMDB CI Class 수정
      */
-    fun updateCmdbClass(cmdbClassDto: CmdbClassDto): Boolean {
+    fun updateCIClass(CIClassDto: CIClassDto): Boolean {
         var order = 1
-        val cmdbClassEntity = ciClassRepository.findByIdOrNull(cmdbClassDto.classId) ?: throw AliceException(
+        val ciClassEntity = ciClassRepository.findByIdOrNull(CIClassDto.classId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
         )
-        cmdbClassEntity.className = cmdbClassDto.className
-        cmdbClassEntity.classDesc = cmdbClassDto.classDesc
-        cmdbClassEntity.pClass = cmdbClassDto.pClassId?.let {
-            ciClassRepository.findById(it).orElse(CmdbClassEntity(classId = cmdbClassDto.pClassId!!))
+        ciClassEntity.className = CIClassDto.className
+        ciClassEntity.classDesc = CIClassDto.classDesc
+        ciClassEntity.pClass = CIClassDto.pClassId?.let {
+            ciClassRepository.findById(it).orElse(CIClassEntity(classId = CIClassDto.pClassId!!))
         }
-        cmdbClassEntity.updateUser = cmdbClassDto.updateUserKey?.let {
+        ciClassEntity.updateUser = CIClassDto.updateUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
         }
-        cmdbClassEntity.updateDt = cmdbClassDto.updateDt
+        ciClassEntity.updateDt = CIClassDto.updateDt
 
-        var updatedCmdbClassEntity = ciClassRepository.save(cmdbClassEntity)
+        val updatedCiClassEntity = ciClassRepository.save(ciClassEntity)
 
-        cmdbClassEntity.cmdbClassAttributeMapEntities.forEach {
-            cmdbClassAttributeMapRepository.deleteById(
-                CmdbClassAttributeMapPk(
-                    cmdbClassEntity.classId,
-                    it.cmdbAttribute.attributeId
+        ciClassEntity.ciClassAttributeMapEntities.forEach {
+            ciClassAttributeMapRepository.deleteById(
+                CIClassAttributeMapPk(
+                    ciClassEntity.classId,
+                    it.ciAttribute.attributeId
                 )
             )
         }
 
-        cmdbClassDto.attributes?.forEach {
+        CIClassDto.attributes?.forEach {
             val ciAttributeEntity = ciAttributeRepository.getOne(it)
-            cmdbClassAttributeMapRepository.save(
-                CmdbClassAttributeMapEntity(
-                    updatedCmdbClassEntity,
+            ciClassAttributeMapRepository.save(
+                CIClassAttributeMapEntity(
+                    updatedCiClassEntity,
                     ciAttributeEntity,
                     order
                 )
@@ -220,9 +220,9 @@ class CIClassService(
     }
 
     /**
-     * CMDB Class 삭제
+     * CMDB CI Class 삭제
      */
-    fun deleteCmdbClass(classId: String): Boolean {
+    fun deleteCIClass(classId: String): Boolean {
         val classEntity = ciClassRepository.findByIdOrNull(classId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"

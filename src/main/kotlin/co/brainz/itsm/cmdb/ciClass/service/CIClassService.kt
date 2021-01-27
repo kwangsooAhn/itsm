@@ -9,11 +9,11 @@ package co.brainz.itsm.cmdb.ciClass.service
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIAttributeListDto
-import co.brainz.cmdb.provider.dto.CmdbClassAttributeListDto
-import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
-import co.brainz.cmdb.provider.dto.CmdbClassDto
-import co.brainz.cmdb.provider.dto.CmdbClassListDto
-import co.brainz.cmdb.provider.dto.CmdbClassToAttributeDto
+import co.brainz.cmdb.provider.dto.CIClassAttributeListDto
+import co.brainz.cmdb.provider.dto.CIClassDetailDto
+import co.brainz.cmdb.provider.dto.CIClassDto
+import co.brainz.cmdb.provider.dto.CIClassListDto
+import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
@@ -37,9 +37,9 @@ class CIClassService(
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
-     * CMDB Class 단일 조회
+     * CMDB CI Class 단일 조회
      */
-    fun getCmdbClass(classId: String): CmdbClassDetailDto {
+    fun getCIClass(classId: String): CIClassDetailDto {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.GET_CLASS.url.replace(
                 restTemplate.getKeyRegex(),
@@ -49,14 +49,14 @@ class CIClassService(
         val responseBody = restTemplate.get(url)
         return mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructType(CmdbClassDetailDto::class.java)
+            mapper.typeFactory.constructType(CIClassDetailDto::class.java)
         )
     }
 
     /**
-     * CMDB class 멀티 조회
+     * CMDB CI class 멀티 조회
      */
-    fun getCmdbClasses(parameters: LinkedMultiValueMap<String, String>): List<CmdbClassListDto> {
+    fun getCIClasses(parameters: LinkedMultiValueMap<String, String>): List<CIClassListDto> {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.GET_CLASSES.url,
             parameters = parameters
@@ -65,21 +65,21 @@ class CIClassService(
         mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
         return mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassListDto::class.java)
+            mapper.typeFactory.constructCollectionType(List::class.java, CIClassListDto::class.java)
         )
     }
 
     /**
-     * CMDB Class 등록
+     * CMDB CI Class 등록
      */
-    fun createCmdbClass(cmdbClassDto: CmdbClassDto): String {
+    fun createCIClass(CIClassDto: CIClassDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        cmdbClassDto.createDt = LocalDateTime.now()
-        cmdbClassDto.createUserKey = aliceUserDto.userKey
+        CIClassDto.createDt = LocalDateTime.now()
+        CIClassDto.createUserKey = aliceUserDto.userKey
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.POST_CLASS.url
         )
-        val responseBody = restTemplate.create(url, cmdbClassDto)
+        val responseBody = restTemplate.create(url, CIClassDto)
         return when (responseBody.body.toString().isNotEmpty()) {
             true -> CIClassConstants.Status.STATUS_SUCCESS.code
             false -> ""
@@ -87,19 +87,19 @@ class CIClassService(
     }
 
     /**
-     * CMDB Class 수정
+     * CMDB CI Class 수정
      */
-    fun updateCmdbClass(cmdbClassDto: CmdbClassDto): String {
+    fun updateCIClass(CIClassDto: CIClassDto): String {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        cmdbClassDto.updateDt = LocalDateTime.now()
-        cmdbClassDto.updateUserKey = userDetails.userKey
+        CIClassDto.updateDt = LocalDateTime.now()
+        CIClassDto.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.PUT_CLASS.url.replace(
                 restTemplate.getKeyRegex(),
-                cmdbClassDto.classId
+                CIClassDto.classId
             )
         )
-        val responseEntity = restTemplate.update(url, cmdbClassDto)
+        val responseEntity = restTemplate.update(url, CIClassDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
             true -> CIClassConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
             false -> ""
@@ -107,9 +107,9 @@ class CIClassService(
     }
 
     /**
-     * CMDB Class 삭제
+     * CMDB CI Class 삭제
      */
-    fun deleteCmdbClass(classId: String): String {
+    fun deleteCIClass(classId: String): String {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Class.DELETE_CLASS.url.replace(
                 restTemplate.getKeyRegex(),
@@ -123,17 +123,17 @@ class CIClassService(
     }
 
     /**
-     * CMDB classAttributeList 조회
+     * CMDB CI classAttributeList 조회
      */
     fun getClassAttributeList(
         attributeList: List<CIAttributeListDto>,
-        addAttributeList: List<CmdbClassToAttributeDto>?,
-        extendsAttributeList: List<CmdbClassToAttributeDto>?
-    ): MutableList<CmdbClassAttributeListDto> {
-        val cmdbClassAttributeList = mutableListOf<CmdbClassAttributeListDto>()
+        addAttributeList: List<CIClassToAttributeDto>?,
+        extendsAttributeList: List<CIClassToAttributeDto>?
+    ): MutableList<CIClassAttributeListDto> {
+        val ciClassAttributeList = mutableListOf<CIClassAttributeListDto>()
 
         for (attributes in attributeList) {
-            var cmdbClassAttribute = CmdbClassAttributeListDto(
+            var ciClassAttribute = CIClassAttributeListDto(
                 attributeId = attributes.attributeId,
                 attributeName = attributes.attributeName,
                 attributeText = attributes.attributeText,
@@ -145,13 +145,13 @@ class CIClassService(
             if (extendsAttributeList != null) {
                 for (extendsAttributes in extendsAttributeList) {
                     if (attributes.attributeId == extendsAttributes.attributeId) {
-                        cmdbClassAttribute.extends = true
+                        ciClassAttribute.extends = true
                     }
                 }
             }
-            cmdbClassAttributeList.add(cmdbClassAttribute)
+            ciClassAttributeList.add(ciClassAttribute)
         }
 
-        return cmdbClassAttributeList
+        return ciClassAttributeList
     }
 }

@@ -6,10 +6,12 @@
 
 package co.brainz.cmdb.provider
 
+import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIAttributeDto
-import co.brainz.cmdb.provider.dto.CmdbCiDto
-import co.brainz.cmdb.provider.dto.CmdbClassDto
+import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.provider.dto.CIListDto
+import co.brainz.cmdb.provider.dto.CIClassDto
 import co.brainz.cmdb.provider.dto.CmdbTypeDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -21,7 +23,9 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 
 @Component
-class CmdbDummyProvider() {
+class CmdbDummyProvider(
+        private val ciTypeRepository: CITypeRepository
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -92,25 +96,25 @@ class CmdbDummyProvider() {
         return typeData
     }
 
-    fun getDummyClasses(searchValue: String): List<CmdbClassDto> {
+    fun getDummyClasses(searchValue: String): List<CIClassDto> {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CLASS.value)
-        var classDataList = mutableListOf<CmdbClassDto>()
+        var classDataList = mutableListOf<CIClassDto>()
         if (file != null) {
             classDataList = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIClassDto::class.java)
             )
         }
         return classDataList
     }
 
-    fun getDummyClass(classId: String): CmdbClassDto {
+    fun getDummyClass(classId: String): CIClassDto {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CLASS.value)
-        var classData = CmdbClassDto()
+        var classData = CIClassDto()
         if (file != null) {
-            val classDataList: List<CmdbClassDto> = mapper.readValue(
+            val classDataList: List<CIClassDto> = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIClassDto::class.java)
             )
             if (classDataList.isNotEmpty()) {
                 val searchDataList = classDataList.filter { it.classId == classId }
@@ -123,25 +127,34 @@ class CmdbDummyProvider() {
         return classData
     }
 
-    fun getDummyCis(searchValue: String): List<CmdbCiDto> {
+    fun getDummyCis(searchValue: String): List<CIListDto> {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CI.value)
-        var ciDataList = mutableListOf<CmdbCiDto>()
+        var ciDataList = mutableListOf<CIListDto>()
         if (file != null) {
             ciDataList = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbCiDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIListDto::class.java)
             )
+            if (ciDataList.isNotEmpty()) {
+                for (ciData in ciDataList) {
+                    val typeData = ciData.typeId?.let { ciTypeRepository.findById(it) }
+                    if (typeData != null) {
+                        ciData.typeName = typeData.get().typeName
+                    }
+                }
+                // 태그
+            }
         }
         return ciDataList
     }
 
-    fun getDummyCi(ciId: String): CmdbCiDto {
+    fun getDummyCi(ciId: String): CIDto {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CI.value)
-        var ciData = CmdbCiDto()
+        var ciData = CIDto()
         if (file != null) {
-            val ciDataList: List<CmdbCiDto> = mapper.readValue(
+            val ciDataList: List<CIDto> = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbCiDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIDto::class.java)
             )
             if (ciDataList.isNotEmpty()) {
                 val searchDataList = ciDataList.filter { it.ciId == ciId }

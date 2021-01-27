@@ -6,13 +6,13 @@
 
 package co.brainz.cmdb.provider.dto
 
-data class CmdbClassDetailDto(
+data class CIClassDetailDto(
     var classId: String = "",
     var className: String = "",
     var classDesc: String? = null,
     var pClassId: String? = null,
     var pClassName: String? = null,
     var editable: Boolean? = true,
-    var attributes: List<CmdbClassToAttributeDto>? = null,
-    var extendsAttributes: List<CmdbClassToAttributeDto>? = null
+    var attributes: List<CIClassToAttributeDto>? = null,
+    var extendsAttributes: List<CIClassToAttributeDto>? = null
 )

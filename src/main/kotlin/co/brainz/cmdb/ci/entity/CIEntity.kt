@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "cmdb_ci")
-data class CmdbCiEntity(
+data class CIEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "ci_id")

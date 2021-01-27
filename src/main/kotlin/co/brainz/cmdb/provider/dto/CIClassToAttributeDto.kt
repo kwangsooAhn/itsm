@@ -8,7 +8,7 @@ package co.brainz.cmdb.provider.dto
 
 import java.io.Serializable
 
-data class CmdbClassToAttributeDto(
+data class CIClassToAttributeDto(
     val classId: String? = null,
     val attributeId: String? = null,
     val attributeName: String? = null,

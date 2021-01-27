@@ -4385,6 +4385,7 @@ body.modal-active {
 }
 .modal-wrapper.modal-active {
   display: block;
+  z-index: 2001;
 }
 .modal-wrapper .modal-backdrop {
   position: fixed;
@@ -5204,3 +5205,5 @@ body.modal-active {
 .itsm-popup .notice-content-popup.view {
   height: auto;
 }
+
+/*# sourceMappingURL=itsm.css.map */

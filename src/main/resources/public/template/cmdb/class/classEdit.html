@@ -98,7 +98,7 @@
             document.getElementById('search').focus();
             onCreate();
 
-            function getCmdbClassList() {
+            function getCIClassList() {
                 tree.load({
                     search: encodeURIComponent(document.getElementById('search').value),
                     source: 'ciClass',
@@ -111,14 +111,14 @@
                 });
             }
 
-            getCmdbClassList();
+            getCIClassList();
             document.getElementById('root').click();
 
             /** CMDB Class 상세 정보 **/
-            function onGetDetail(cmdbClassId) {
+            function onGetDetail(ciClassId) {
                 const opt = {
                     method: 'get',
-                    url: '/rest/cmdb/classes/' + encodeURIComponent(cmdbClassId),
+                    url: '/rest/cmdb/classes/' + encodeURIComponent(ciClassId),
                     callbackFunc: function (response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('txtClassId').value = responseJson.classId;
@@ -165,7 +165,7 @@
 
             OverlayScrollbars(document.querySelector('.list-tree'), {className: 'scrollbar'});
             document.getElementById('search').addEventListener('keyup', function () {
-                getCmdbClassList();
+                getCIClassList();
             });
             OverlayScrollbars(document.querySelectorAll('.cmdb-class-content-edit'), {className: 'scrollbar'});
             OverlayScrollbars(document.getElementById('txtClassDesc'), {
@@ -364,7 +364,7 @@
         function createModalContent() {
             return `<div class="cmdb-class-attribute-list">` +
                 `<input class="search col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="txt-num"></span>` +
-                `<div class="table-set" id="cmdbClassAttributeList"></div>` +
+                `<div class="table-set" id="ciClassAttributeList"></div>` +
                 `</div>`;
         }
 
@@ -378,7 +378,7 @@
                 contentType: 'application/json',
                 showProgressbar: showProgressbar,
                 callbackFunc: function (response) {
-                    document.getElementById('cmdbClassAttributeList').innerHTML = response.responseText;
+                    document.getElementById('ciClassAttributeList').innerHTML = response.responseText;
                     aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
                     OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
                     document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {

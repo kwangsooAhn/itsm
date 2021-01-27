@@ -8,7 +8,7 @@ package co.brainz.cmdb.ciAttribute.repository
 
 import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
-import co.brainz.cmdb.ciClass.entity.QCmdbClassAttributeMapEntity
+import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
 import co.brainz.cmdb.provider.dto.CIAttributeDto
 import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.itsm.constants.ItsmConstants
@@ -62,7 +62,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
      */
     override fun findAttribute(attributeId: String): CIAttributeDto {
         val attribute = QCIAttributeEntity.cIAttributeEntity
-        val classAttributeMap = QCmdbClassAttributeMapEntity.cmdbClassAttributeMapEntity
+        val classAttributeMap = QCIClassAttributeMapEntity.cIClassAttributeMapEntity
         return from(attribute)
             .select(
                 Projections.constructor(
@@ -78,9 +78,9 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     attribute.updateUser.userKey,
                     attribute.updateDt,
                     ExpressionUtils.`as`(
-                        JPAExpressions.select(!classAttributeMap.cmdbAttribute.attributeId.count().gt(0))
+                        JPAExpressions.select(!classAttributeMap.ciAttribute.attributeId.count().gt(0))
                             .from(classAttributeMap)
-                            .where(classAttributeMap.cmdbAttribute.attributeId.eq(attribute.attributeId)), "enabled"
+                            .where(classAttributeMap.ciAttribute.attributeId.eq(attribute.attributeId)), "enabled"
                     )
                 )
             )

@@ -7,9 +7,9 @@
 package co.brainz.cmdb.ciClass.controller
 
 import co.brainz.cmdb.ciClass.service.CIClassService
-import co.brainz.cmdb.provider.dto.CmdbClassDetailDto
-import co.brainz.cmdb.provider.dto.CmdbClassDto
-import co.brainz.cmdb.provider.dto.CmdbClassListDto
+import co.brainz.cmdb.provider.dto.CIClassDetailDto
+import co.brainz.cmdb.provider.dto.CIClassDto
+import co.brainz.cmdb.provider.dto.CIClassListDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -30,42 +30,42 @@ class CIClassController(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
-     * CMDB Class 단일 조회
+     * CMDB CI Class 단일 조회
      */
     @GetMapping("/{classId}")
-    fun getCmdbClass(@PathVariable classId: String): CmdbClassDetailDto {
-        return ciClassService.getCmdbClass(classId)
+    fun getCIClass(@PathVariable classId: String): CIClassDetailDto {
+        return ciClassService.getCIClass(classId)
     }
 
     /**
-     * CMDB Class 멀티 조회
+     * CMDB CI Class 멀티 조회
      */
     @GetMapping("")
-    fun getCmdbClasses(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbClassListDto> {
-        return ciClassService.getCmdbClasses(parameters)
+    fun getCIClasses(@RequestParam parameters: LinkedHashMap<String, Any>): List<CIClassListDto> {
+        return ciClassService.getCIClasses(parameters)
     }
 
     /**
-     * CMDB Class 저장
+     * CMDB CI Class 저장
      */
     @PostMapping("")
-    fun createCmdbClass(@RequestBody cmdbClassDto: CmdbClassDto): Boolean {
-        return ciClassService.createCmdbClass(cmdbClassDto)
+    fun createCIClass(@RequestBody CIClassDto: CIClassDto): Boolean {
+        return ciClassService.createCIClass(CIClassDto)
     }
 
     /**
-     * CMDB Class 수정
+     * CMDB CI Class 수정
      */
     @PutMapping("/{classId}")
-    fun updateCmdbClass(@RequestBody cmdbClassDto: CmdbClassDto): Boolean {
-        return ciClassService.updateCmdbClass(cmdbClassDto)
+    fun updateCIClass(@RequestBody CIClassDto: CIClassDto): Boolean {
+        return ciClassService.updateCIClass(CIClassDto)
     }
 
     /**
-     * CMDB Class 삭제
+     * CMDB CI Class 삭제
      */
     @DeleteMapping("/{classId}")
-    fun deleteCmdbClass(@PathVariable classId: String): Boolean {
-        return ciClassService.deleteCmdbClass(classId)
+    fun deleteCIClass(@PathVariable classId: String): Boolean {
+        return ciClassService.deleteCIClass(classId)
     }
 }

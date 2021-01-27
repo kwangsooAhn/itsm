@@ -1,12 +1,19 @@
 package co.brainz.cmdb.provider.dto
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 
 import java.io.Serializable
 
-data class CmdbCiListDto(
+data class CIListDto(
     val ciId: String? = null,
     val ciNo: String? = null,
     val ciName: String? = null,
     val typeId: String? = null,
+    var typeName: String? = null,
     val ciIcon: String? = null,
     val ciDesc: String? = null,
     val classId: String? = null,

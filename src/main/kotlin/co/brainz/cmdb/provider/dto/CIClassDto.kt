@@ -9,7 +9,7 @@ package co.brainz.cmdb.provider.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class CmdbClassDto(
+data class CIClassDto(
     var classId: String = "",
     var className: String = "",
     var classDesc: String? = null,

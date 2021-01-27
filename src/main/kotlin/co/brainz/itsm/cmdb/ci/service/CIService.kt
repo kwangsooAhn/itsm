@@ -8,8 +8,8 @@ package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CmdbCiDto
-import co.brainz.cmdb.provider.dto.CmdbCiListDto
+import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -29,7 +29,7 @@ class CIService(
     /**
      * CMDB Ci 단일 조회
      */
-    fun getCI(ciId: String): CmdbCiDto {
+    fun getCI(ciId: String): CIDto {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.CI.GET_CI.url.replace(
                 restTemplate.getKeyRegex(),
@@ -37,13 +37,13 @@ class CIService(
             )
         )
         val responseBody = restTemplate.get(url)
-        return mapper.readValue(responseBody, CmdbCiDto::class.java)
+        return mapper.readValue(responseBody, CIDto::class.java)
     }
 
     /**
      * CMDB Ci 목록 조회
      */
-    fun getCIs(params: LinkedMultiValueMap<String, String>): List<CmdbCiListDto> {
+    fun getCIs(params: LinkedMultiValueMap<String, String>): List<CIListDto> {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.CI.GET_CIS.url,
             parameters = params
@@ -51,7 +51,7 @@ class CIService(
         val responseBody = restTemplate.get(url)
         return mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, CmdbCiListDto::class.java)
+            mapper.typeFactory.constructCollectionType(List::class.java, CIListDto::class.java)
         )
     }
 }

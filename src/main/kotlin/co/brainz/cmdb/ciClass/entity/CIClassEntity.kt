@@ -25,7 +25,7 @@ import org.hibernate.annotations.NotFoundAction
 
 @Entity
 @Table(name = "cmdb_class")
-data class CmdbClassEntity(
+data class CIClassEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "class_id")
@@ -40,7 +40,7 @@ data class CmdbClassEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "p_class_id")
     @NotFound(action = NotFoundAction.IGNORE)
-    var pClass: CmdbClassEntity? = null,
+    var pClass: CIClassEntity? = null,
 
     @Column(name = "class_level")
     var classLevel: Int? = null,
@@ -59,6 +59,6 @@ data class CmdbClassEntity(
     @JoinColumn(name = "update_user_key", referencedColumnName = "user_key")
     var updateUser: AliceUserEntity? = null
 ) : Serializable {
-    @OneToMany(mappedBy = "cmdbClass", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
-    val cmdbClassAttributeMapEntities = mutableListOf<CmdbClassAttributeMapEntity>()
+    @OneToMany(mappedBy = "ciClass", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    val ciClassAttributeMapEntities = mutableListOf<CIClassAttributeMapEntity>()
 }
