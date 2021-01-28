@@ -94,7 +94,7 @@
 }
 
 /////////////////////////////////////////////// 헤더 ////////////////////////////////////////////////////////
-// 공지사항, FAQ, 자료실, 게시판
+// 공지사항, FAQ, 자료실, 게시판, 통계 차트
 // 시스템관리 > 사용자, 게시판
 // 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
 // 업무흐름 관리 > 역할, 권한
@@ -122,6 +122,7 @@
 .image-header,
 .numbering-pattern-header,
 .numbering-rule-header,
+.chart-header,
 .cmdb-attribute-header,
 .cmdb-class-header,
 .cmdb-type-header,
@@ -142,7 +143,7 @@
 }
 
 /////////////////////////////////////////////// 리스트 /////////////////////////////////////////////////////
-// 공지사항, FAQ, 자료실, 게시판
+// 공지사항, FAQ, 자료실, 게시판, 통계 차트
 // 시스템관리 > 사용자, 게시판
 // 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
 // 업무흐름 관리 > 역할, 권한
@@ -168,6 +169,7 @@
 .code-content,
 .numbering-pattern-content,
 .numbering-rule-content,
+.chart-content,
 .cmdb-attribute-content,
 .cmdb-type-content,
 .cmdb-class-content,
