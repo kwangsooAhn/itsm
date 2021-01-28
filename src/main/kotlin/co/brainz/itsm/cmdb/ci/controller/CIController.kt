@@ -55,7 +55,7 @@ class CIController(private val ciService: CIService) {
     }
 
     /**
-     * CI 조회 화면 호출.
+     * CI 컴포넌트 - CI 조회 화면 호출.
      */
     @GetMapping("/view-pop")
     fun getCIsModal(request: HttpServletRequest, model: Model): String {

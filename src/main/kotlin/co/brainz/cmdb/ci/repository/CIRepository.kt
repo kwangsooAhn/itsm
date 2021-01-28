@@ -8,8 +8,13 @@ package co.brainz.cmdb.ci.repository
 
 import co.brainz.cmdb.ci.entity.CIEntity
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
 interface CIRepository : JpaRepository<CIEntity, String>, CIRepositoryCustom {
+    @Query(
+    "SELECT a FROM CIEntity a WHERE a.ciId = :ciId"
+    )
+    fun findByCIId(ciId: String): CIEntity
 }

@@ -6,15 +6,14 @@
 
 package co.brainz.itsm.cmdb.ci.controller
 
+import co.brainz.cmdb.provider.dto.CIComponentDataDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/rest/cmdb/cis")
@@ -32,5 +31,24 @@ class CIRestController(private val ciService: CIService) {
         params["tagSearch"] = request.getParameter("tagSearch")
         params["offset"] = request.getParameter("offset") ?: "0"
         return ciService.getCIs(params)
+    }
+
+    /**
+     * CI 컴포넌트 - CI 세부 정보 등록 / 수정
+     */
+    @PutMapping("/{ciId}/data")
+    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentDataDto: CIComponentDataDto): Boolean {
+        return ciService.saveCIComponentData(ciId, ciComponentDataDto)
+    }
+
+    /**
+     * CI 컴포넌트 - CI 세부 정보 삭제
+     */
+    @DeleteMapping("/data")
+    fun deleteCIComponentData(request: HttpServletRequest): Boolean {
+        val params = LinkedMultiValueMap<String, String>()
+        params["ciId"] = request.getParameter("ciId")
+        params["componentId"] = request.getParameter("componentId")
+        return ciService.deleteCIComponentData(params)
     }
 }

@@ -17,7 +17,7 @@ data class CIListDto(
     val ciIcon: String? = null,
     val ciDesc: String? = null,
     val classId: String? = null,
-    val automatic: String? = null,
+    val automatic: Boolean? = false,
     val createUserKey: String? = null,
     val createDt: String? = null,
     val updateUserKey: String? = null,
