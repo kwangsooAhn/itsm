@@ -2328,6 +2328,22 @@ button.ghost-line:disabled .icon {
   background-position-x: 0.625rem;
   background-position-y: center;
 }
+.login-google:hover {
+  background-color: #E6E6E6;
+  border-color: #EBEBEB;
+}
+.login-google:focus {
+  background-color: #E6E6E6;
+  border-color: #CCCED1;
+}
+.login-google:active {
+  background-color: #EBEBEB;
+  border-color: #CCCED1;
+}
+.login-google:disabled {
+  background-color: #EBEBEB;
+  border-color: #FFFFFF;
+}
 
 .login-kakao {
   width: 100%;
@@ -2341,6 +2357,22 @@ button.ghost-line:disabled .icon {
   background-repeat: no-repeat;
   background-position-x: 0.625rem;
   background-position-y: center;
+}
+.login-kakao:hover {
+  background-color: #FFEA59;
+  border-color: #EBDA6A;
+}
+.login-kakao:focus {
+  background-color: #FFEA59;
+  border-color: #D6BB00;
+}
+.login-kakao:active {
+  background-color: #EBCC00;
+  border-color: #D6BB00;
+}
+.login-kakao:disabled {
+  background-color: #FFDE00;
+  border-color: #EBCC00;
 }
 
 .signup-return {

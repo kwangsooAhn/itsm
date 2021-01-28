@@ -26,6 +26,25 @@
   &.icon-google {
     @include background ($icon-folder-path + 'login/icon_login_google.svg', 1.188rem, no-repeat, 0.625rem, center, null); // 19px 10px
   }
+  $background-colors: (
+          hover: $btn-google-hover-bg-color,
+          focus: $btn-google-focus-bg-color,
+          active: $btn-google-active-bg-color,
+          disabled: $btn-google-disabled-bg-color
+  );
+  $border-colors: (
+          hover: $btn-google-hover-border-color,
+          focus: $btn-google-focus-border-color,
+          active: $btn-google-active-border-color,
+          disabled: $btn-google-disabled-border-color
+  );
+  $event-type: (hover, focus, active, disabled);
+  @each $type in $event-type {
+    &:#{$type} {
+      background-color: map-get($background-colors, #{$type});
+      border-color: map-get($border-colors, #{$type});
+    }
+  }
 }
 
 // 카카오 로그인
@@ -37,6 +56,25 @@
 
   &.icon-kakao {
     @include background ($icon-folder-path + 'login/icon_login_kakao.svg', 1.188rem, no-repeat, 0.625rem, center, null); // 19px 10px
+  }
+  $background-colors: (
+          hover: $btn-kakao-hover-bg-color,
+          focus: $btn-kakao-focus-bg-color,
+          active: $btn-kakao-active-bg-color,
+          disabled: $btn-kakao-disabled-bg-color
+  );
+  $border-colors: (
+          hover: $btn-kakao-hover-border-color,
+          focus: $btn-kakao-focus-border-color,
+          active: $btn-kakao-active-border-color,
+          disabled: $btn-kakao-disabled-border-color
+  );
+  $event-type: (hover, focus, active, disabled);
+  @each $type in $event-type {
+    &:#{$type} {
+      background-color: map-get($background-colors, #{$type});
+      border-color: map-get($border-colors, #{$type});
+    }
   }
 }
 
