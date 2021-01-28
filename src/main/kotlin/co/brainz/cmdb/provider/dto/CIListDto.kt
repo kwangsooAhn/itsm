@@ -1,10 +1,10 @@
-package co.brainz.cmdb.provider.dto
 /*
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  *
  */
 
+package co.brainz.cmdb.provider.dto
 
 import java.io.Serializable
 
