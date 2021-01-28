@@ -10,8 +10,8 @@ import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapEntity
 import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapPk
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
-import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciClass.repository.CIClassAttributeMapRepository
+import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.provider.dto.CIClassDetailDto
 import co.brainz.cmdb.provider.dto.CIClassDto
 import co.brainz.cmdb.provider.dto.CIClassListDto

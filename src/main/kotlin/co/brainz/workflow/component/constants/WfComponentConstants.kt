@@ -21,7 +21,11 @@ object WfComponentConstants {
         TIME("time", false),
         DATETIME("datetime", false),
         FILEUPLOAD("fileupload", false),
-        CUSTOM_CODE("custom-code", false);
+        CUSTOM_CODE("custom-code", false),
+        DR_TABLE("dynamic-row-table", false),
+        ACCORDION_START("accordion-start", false),
+        ACCORDION_END("accordion-end", false),
+        CI("ci", false);
 
         companion object {
             // 목록 화면에 출력 대상이 되는 component type list 를 반환.
