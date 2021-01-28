@@ -1,7 +1,17 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.cmdb.ci.entity
 
 import java.io.Serializable
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.IdClass
+import javax.persistence.Table
 
 @Entity
 @Table(name = "wf_component_ci_data")
@@ -25,6 +35,6 @@ data class CIComponentDataEntity(
 ) : Serializable
 
 data class CIComponentDataPk(
-        val ciId: String = "",
-        val componentId: String = ""
+    val ciId: String = "",
+    val componentId: String = ""
 ) : Serializable

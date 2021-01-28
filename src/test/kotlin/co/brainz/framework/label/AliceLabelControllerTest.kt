@@ -11,11 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.util.UUID
-import kotlin.collections.HashMap
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.BeforeClass
 import org.junit.FixMethodOrder
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
@@ -25,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
@@ -64,11 +61,11 @@ class AliceLabelControllerTest {
 
     companion object {
         private const val labelTarget: String = "component"
-        private val labelForKeyOnly = HashMap<String, String?>()
-        private val labelForKeyValue = HashMap<String, String?>()
-        private val labelsForKeyOnly = HashMap<String, String?>()
-        private val labelsForKeyValue = HashMap<String, String?>()
-        private val noExistLabel = HashMap<String, String?>()
+        private val labelForKeyOnly = LinkedHashMap<String, String?>()
+        private val labelForKeyValue = LinkedHashMap<String, String?>()
+        private val labelsForKeyOnly = LinkedHashMap<String, String?>()
+        private val labelsForKeyValue = LinkedHashMap<String, String?>()
+        private val noExistLabel = LinkedHashMap<String, String?>()
 
         private lateinit var labelDtoForKeyOnly: AliceLabelDto
         private lateinit var labelDtoForKeyValue: AliceLabelDto

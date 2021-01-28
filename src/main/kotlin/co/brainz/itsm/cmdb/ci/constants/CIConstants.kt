@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.cmdb.ci.constants
 
 object CIConstants {
@@ -16,5 +22,4 @@ object CIConstants {
         STATUS_SUCCESS("0"),
         STATUS_SUCCESS_EDIT_CLASS("1")
     }
-
 }

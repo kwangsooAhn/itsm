@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.cmdb.ci.repository
 
 import co.brainz.cmdb.ci.entity.CIComponentDataEntity
@@ -8,7 +14,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CIComponentDataRepository : JpaRepository<CIComponentDataEntity, String> {
     @Query(
-    "SELECT a FROM CIComponentDataEntity a WHERE a.ciId = :ciId AND a.componentId = :componentId"
+        "SELECT a FROM CIComponentDataEntity a WHERE a.ciId = :ciId AND a.componentId = :componentId"
     )
     fun findByCiIdAnAndComponentId(ciId: String, componentId: String): CIComponentDataEntity?
 
