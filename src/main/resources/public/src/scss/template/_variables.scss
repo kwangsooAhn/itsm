@@ -127,6 +127,28 @@ $btn-border-width:                           0.0625rem; // 1px
 $btn-border:                                 $btn-border-width solid $btn-border-color;
 $btn-border-radius:                          0.1875rem; // 3px
 
+//구글, 카카오 로그인 버튼 색상정의
+$btn-google-defualt-border-color:            #EBEBEB;
+$btn-google-default-bg-color:                #FFFFFF;
+$btn-google-hover-border-color:              #EBEBEB;
+$btn-google-hover-bg-color:                  #E6E6E6;
+$btn-google-focus-border-color:              #CCCED1;
+$btn-google-focus-bg-color:                  #E6E6E6;
+$btn-google-active-border-color:             #CCCED1;
+$btn-google-active-bg-color:                 #EBEBEB;
+$btn-google-disabled-border-color:           #FFFFFF;
+$btn-google-disabled-bg-color:               #EBEBEB;
+$btn-kakao-defualt-border-color:             #EBCC00;
+$btn-kakao-default-bg-color:                 #FFDE00;
+$btn-kakao-hover-border-color:               #EBDA6A;
+$btn-kakao-hover-bg-color:                   #FFEA59;
+$btn-kakao-focus-border-color:               #D6BB00;
+$btn-kakao-focus-bg-color:                   #FFEA59;
+$btn-kakao-active-border-color:              #D6BB00;
+$btn-kakao-active-bg-color:                  #EBCC00;
+$btn-kakao-disabled-border-color:            #EBCC00;
+$btn-kakao-disabled-bg-color:                #FFDE00;
+
 // button-group 디자인 요소
 $btn-group-font-size:                        $font-size-base;
 $btn-group-font-color:                       $light-black;
