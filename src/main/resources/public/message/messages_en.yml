@@ -824,8 +824,8 @@ process:
   msg:
     duplicateData: "The same data exists."
     enterProcessName: "Please enter a process name."
-    searchDescription: "View and manage processes."
     noticeImportFile: "Import only possible in XML file"
+    searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
   status:
     destroy: "Destroy"
