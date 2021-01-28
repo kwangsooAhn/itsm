@@ -97,7 +97,8 @@ object AliceConstants {
      */
     enum class FileType(val code: String) {
         IMAGE("image"),
-        ICON("icon")
+        ICON("icon"),
+        ICON_TYPE("cmdb-icon")
     }
 
     /**

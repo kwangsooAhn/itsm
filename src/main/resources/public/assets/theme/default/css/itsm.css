@@ -4733,6 +4733,21 @@ body.modal-active {
   height: 6.25rem;
   margin: 2rem auto;
 }
+.modal-dialog.thumbnail-cmdb-icon {
+  top: 15rem;
+}
+.modal-dialog.thumbnail-cmdb-icon .thumbnail {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.4375rem;
+  box-shadow: 0 0 0 0.0625rem #EBEBEB;
+}
+.modal-dialog.thumbnail-cmdb-icon .thumbnail .thumbnail-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.4375rem;
+  background-repeat: no-repeat;
+}
 .modal-dialog.thumbnail-preview {
   width: 760px;
   height: 645px;

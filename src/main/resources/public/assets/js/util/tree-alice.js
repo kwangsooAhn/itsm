@@ -13,6 +13,7 @@
     'use strict';
 
     const iconPath = '/assets/media/icons/tree';
+    const cmdbIconPath = '/assets/media/images/cmdb';
 
     let options = {};
 
@@ -215,9 +216,8 @@
                 if (p_node.childNodes.length === 0 && options.leafIcon !== '') {
                     v_icon_image = options.leafIcon;
                 }
-                // Todo: 추후 CI 아이콘 경로 수정 필요
-                if (options.source === 'ciType' && p_node.data.icon === 'database_postgresql.svg') {
-                    v_icon_image = iconPath + '/' + p_node.data.icon;
+                if (options.source === 'ciType' && p_node.data.icon !== '') {
+                    v_icon_image = cmdbIconPath + '/' + p_node.data.icon;
                 }
                 v_icon = createImgElement(null, 'icon_tree', v_icon_image);
 

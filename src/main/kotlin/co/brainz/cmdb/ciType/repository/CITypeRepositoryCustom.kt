@@ -6,11 +6,11 @@
 
 package co.brainz.cmdb.ciType.repository
 
-import co.brainz.cmdb.ciType.entity.CmdbTypeEntity
+import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import com.querydsl.core.QueryResults
 
 interface CITypeRepositoryCustom : AliceRepositoryCustom {
 
-    fun findByTypeList(search: String): QueryResults<CmdbTypeEntity>
+    fun findByTypeList(search: String): QueryResults<CITypeEntity>
 }

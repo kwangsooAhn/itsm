@@ -29,6 +29,24 @@
       }
     }
   }
+  // CMDB > Type icon modal
+  &.thumbnail-cmdb-icon {
+    top: $thumbnail-cmdb-icon-modal-top;
+
+    .thumbnail {
+      width: $thumbnail-cmdb-size;
+      height: $thumbnail-cmdb-size;
+      margin: $thumbnail-cmdb-margin;
+      box-shadow: $thumbnail-icon-box-shadow;
+
+      .thumbnail-icon {
+        width: $thumbnail-cmdb-icon-size;
+        height: $thumbnail-cmdb-icon-size;
+        margin: $thumbnail-cmdb-margin;
+        background-repeat: no-repeat;
+      }
+    }
+  }
 
   // 이미지 관리 > 이미지 미리보기 모달
   &.thumbnail-preview {

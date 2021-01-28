@@ -24,7 +24,7 @@ import org.hibernate.annotations.NotFoundAction
 
 @Entity
 @Table(name = "cmdb_type")
-data class CmdbTypeEntity(
+data class CITypeEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "type_id")
@@ -42,7 +42,7 @@ data class CmdbTypeEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "p_type_id")
     @NotFound(action = NotFoundAction.IGNORE)
-    val pType: CmdbTypeEntity? = null,
+    val pType: CITypeEntity? = null,
 
     @Column(name = "type_icon", length = 200)
     val typeIcon: String? = "",
