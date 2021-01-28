@@ -1018,11 +1018,11 @@ user:
     &nbsp;&nbsp;&nbsp;&nbsp;20자 미만의 비밀번호 입력 제한 범위를
     &nbsp;&nbsp;&nbsp;&nbsp;가진다.<br/><br/>
     ※ 사용자의 ID를 포함하지 않는다.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) ID가 zenius인 경우, zenius는 포함 가능,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) ID가 zenius인 경우, zeniu는 포함 가능,<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zenius는 포함 불가.<br/><br/>
     ※ 사용자의 이메일 ID를 포함하지 않는다.<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;예) 이메일ID가 zenius인 경우,<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zenius는 포함 가능, zenius는 포함 불가<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zeniu는 포함 가능, zenius는 포함 불가<br/><br/>
     ※ 공백을 허용하지 않는다.<br/>"
 
 # Validation
