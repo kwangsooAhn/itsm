@@ -10,5 +10,5 @@ import java.io.Serializable
 data class AliceLabelDto(
     var labelTarget: String = "",
     var labelTargetId: String = "",
-    var labels: HashMap<String, String?>? = null
+    var labels: LinkedHashMap<String, String?>? = null
 ) : Serializable

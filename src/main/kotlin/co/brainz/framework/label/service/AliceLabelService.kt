@@ -23,7 +23,7 @@ class AliceLabelService(
     /**
      * Label 조회.
      */
-    fun getLabels(labelTarget: String, labelTargetId: String, labelKey: String?): MutableList<AliceLabelEntity> {
+    fun getLabels(labelTarget: String, labelTargetId: String, labelKey: String? = null): MutableList<AliceLabelEntity> {
         logger.info(
             "select labels : label target : $labelTarget, label target id : $labelTargetId, label key : $labelKey"
         )
