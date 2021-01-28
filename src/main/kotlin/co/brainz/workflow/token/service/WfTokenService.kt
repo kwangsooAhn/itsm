@@ -1,7 +1,10 @@
 package co.brainz.workflow.token.service
 
+import co.brainz.itsm.cmdb.ci.constants.CIConstants
+import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.service.InstanceService
+import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
@@ -14,7 +17,8 @@ import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
-import kotlin.collections.LinkedHashMap
+import com.google.gson.Gson
+import com.google.gson.JsonArray
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -29,7 +33,8 @@ class WfTokenService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService
+    private val wfActionService: WfActionService,
+    private val ciService: CIService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -125,7 +130,27 @@ class WfTokenService(
             val tokenDataEntities = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(tokenId)
             for (tokenDataEntity in tokenDataEntities) {
                 if (tokenDataEntity.component.componentId == componentEntity.componentId) {
-                    componentEntity.value = tokenDataEntity.value
+                    var resultValue = tokenDataEntity.value
+                    // CI 컴포넌트 - 세부 데이터 조회
+                    if (resultValue.isNotEmpty() && componentEntity.type == WfComponentConstants.ComponentType.CI.code) {
+                        val ciJsonArray = Gson().fromJson(resultValue, JsonArray::class.java)
+                        ciJsonArray.forEach {
+                            val ciJsonData = it.asJsonObject
+                            val actionType = ciJsonData.get("actionType").asString
+                            if (actionType == CIConstants.ActionType.DELETE.code || actionType == CIConstants.ActionType.READ.code) {
+                                val ciData = ciService.getCI(ciJsonData.get("ciId").asString)
+                                ciJsonData.addProperty("ciNo", ciData.ciNo)
+                                ciJsonData.addProperty("ciName", ciData.ciName)
+                                ciJsonData.addProperty("typeId", ciData.typeId)
+                                ciJsonData.addProperty("typeName", ciData.typeName)
+                                ciJsonData.addProperty("ciDesc", ciData.ciDesc)
+                                ciJsonData.addProperty("ciIcon", ciData.ciIcon)
+                                ciJsonData.addProperty("classId", ciData.classId)
+                            }
+                        }
+                        resultValue = Gson().toJson(ciJsonArray)
+                    }
+                    componentEntity.value = resultValue
                 }
             }
 

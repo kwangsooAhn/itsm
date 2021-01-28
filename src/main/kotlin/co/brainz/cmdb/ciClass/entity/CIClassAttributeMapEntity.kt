@@ -6,7 +6,7 @@
 
 package co.brainz.cmdb.ciClass.entity
 
-import co.brainz.cmdb.ciAttribute.entity.CmdbAttributeEntity
+import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -19,23 +19,23 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "cmdb_class_attribute_map")
-@IdClass(CmdbClassAttributeMapPk::class)
-data class CmdbClassAttributeMapEntity(
+@IdClass(CIClassAttributeMapPk::class)
+data class CIClassAttributeMapEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id")
-    val cmdbClass: CmdbClassEntity,
+    val ciClass: CIClassEntity,
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attribute_id")
-    val cmdbAttribute: CmdbAttributeEntity,
+    val ciAttribute: CIAttributeEntity,
 
     @Column(name = "attribute_order")
     val attributeOrder: Int
 ) : Serializable
 
-data class CmdbClassAttributeMapPk(
-    val cmdbClass: String = "",
-    val cmdbAttribute: String = ""
+data class CIClassAttributeMapPk(
+    val ciClass: String = "",
+    val ciAttribute: String = ""
 ) : Serializable

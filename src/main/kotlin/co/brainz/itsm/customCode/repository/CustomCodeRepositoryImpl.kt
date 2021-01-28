@@ -41,7 +41,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 super.like(customCode.customCodeName, customCodeSearchDto.search.toString())
             )
             .orderBy(customCode.customCodeName.asc())
-        if (customCodeSearchDto.viewType != "formEditor") {
+        if (customCodeSearchDto.viewType != "editor") {
             query.limit(ItsmConstants.SEARCH_DATA_COUNT).offset(customCodeSearchDto.offset)
         }
 

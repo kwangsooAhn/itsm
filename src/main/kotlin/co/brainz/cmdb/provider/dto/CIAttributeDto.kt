@@ -9,7 +9,7 @@ package co.brainz.cmdb.provider.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class CmdbAttributeDto(
+data class CIAttributeDto(
     val attributeId: String = "",
     val attributeName: String = "",
     val attributeDesc: String? = null,
@@ -20,6 +20,5 @@ data class CmdbAttributeDto(
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
-    var enabled: Boolean = true,
-    var details: String? = null
+    var enabled: Boolean = true
 ) : Serializable

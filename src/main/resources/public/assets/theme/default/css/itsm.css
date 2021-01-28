@@ -373,6 +373,30 @@ input, button, select, optgroup, textarea {
   margin-right: auto;
 }
 
+.mt-0 {
+  margin-top: 0;
+}
+
+.mt-1 {
+  margin-top: 0.3125rem;
+}
+
+.mt-2 {
+  margin-top: 0.625rem;
+}
+
+.mt-3 {
+  margin-top: 0.9375rem;
+}
+
+.mt-4 {
+  margin-top: 1.25rem;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
@@ -723,7 +747,8 @@ select:disabled {
   font-weight: 400;
   line-height: 1.2;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  overflow: hidden;
 }
 .designed-select:after {
   content: "";
@@ -1651,6 +1676,11 @@ button.plus {
   width: 1.625rem;
   height: 1.625rem;
 }
+.btn.btn-delete,
+button.btn-delete {
+  padding: 0;
+  height: 2.5rem;
+}
 .btn .icon-search,
 button .icon-search {
   display: inline-block;
@@ -2046,7 +2076,8 @@ button .icon-plus {
 .numbering-rule-header,
 .cmdb-attribute-header,
 .cmdb-class-header,
-.cmdb-type-header {
+.cmdb-type-header,
+.cmdb-ci-header {
   padding: 2.188rem 3.75rem 0 3.75rem;
   background-color: #F7F8F9;
 }
@@ -2076,7 +2107,8 @@ button .icon-plus {
 .numbering-rule-content,
 .cmdb-attribute-content,
 .cmdb-type-content,
-.cmdb-class-content {
+.cmdb-class-content,
+.cmdb-ci-content {
   padding: 0.9375rem 3.75rem;
   background-color: #F7F8F9;
 }
@@ -2296,6 +2328,10 @@ button .icon-plus {
 .custom-code-content-edit .btn-minus,
 .cmdb-attribute-content-edit .btn-minus {
   padding: 0;
+}
+.custom-code-content-edit .attribute,
+.cmdb-attribute-content-edit .attribute {
+  margin-left: 4rem;
 }
 
 .numbering-rule-content-edit .select-pattern-type {
@@ -4349,6 +4385,7 @@ body.modal-active {
 }
 .modal-wrapper.modal-active {
   display: block;
+  z-index: 2001;
 }
 .modal-wrapper .modal-backdrop {
   position: fixed;
@@ -5168,3 +5205,5 @@ body.modal-active {
 .itsm-popup .notice-content-popup.view {
   height: auto;
 }
+
+/*# sourceMappingURL=itsm.css.map */

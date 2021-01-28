@@ -63,4 +63,20 @@ object RestTemplateConstants {
         PUT_TYPE("/rest/cmdb/eg/types/{typeId}", "PUT"),
         DELETE_TYPE("/rest/cmdb/eg/types/{typeId}", "DELETE")
     }
+
+    /**
+     * Ci Url.
+     *
+     * @param url
+     * @param method
+     */
+    enum class CI(val url: String, val method: String) {
+        GET_CIS("/rest/cmdb/eg/cis", "GET"),
+        GET_CI("/rest/cmdb/eg/cis/{ciId}", "GET"),
+        POST_CI("/rest/cmdb/eg/cis", "POST"),
+        PUT_CI("/rest/cmdb/eg/cis/{ciId}", "PUT"),
+        DELETE_CI("/rest/cmdb/eg/cis/{ciId}", "DELETE"),
+        PUT_CI_COMPONENT("/rest/cmdb/eg/cis/{ciId}/data", "PUT"),
+        DELETE_CI_COMPONENT("/rest/cmdb/eg/cis/data", "DELETE")
+    }
 }

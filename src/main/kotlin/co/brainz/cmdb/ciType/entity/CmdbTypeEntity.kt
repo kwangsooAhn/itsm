@@ -6,7 +6,7 @@
 
 package co.brainz.cmdb.ciType.entity
 
-import co.brainz.cmdb.ciClass.entity.CmdbClassEntity
+import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -49,7 +49,7 @@ data class CmdbTypeEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "default_class_id", referencedColumnName = "class_id")
-    var defaultClass: CmdbClassEntity? = null,
+    var defaultClass: CIClassEntity? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,

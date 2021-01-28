@@ -215,6 +215,25 @@
               &.on { display: table-cell; }
               &.first { border-left: $element-border-width solid transparent; }
               &.last { border-right: $element-border-width solid transparent; }
+
+              button { 
+                padding: 0;
+                // 돋보기 아이콘
+                .icon-search {
+                  display: inline-block;
+                  @include maskImage('#{$icon-folder-path}icon_search.svg', 1.25rem, 1.25rem, no-repeat, center, 1.25rem 1.25rem, $gray); // 20px 20px
+                }
+                // 편집 아이콘
+                .icon-edit {
+                  display: inline-block;
+                  @include maskImage('#{$icon-folder-path}icon_edit.svg', 1.25rem, 1.25rem, no-repeat, center, 1.25rem 1.25rem, $gray); // 20px 20px
+                }
+                // 삭제 아이콘
+                .icon-delete {
+                  display: inline-block;
+                  @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, $gray); // 20px 20px 
+                }
+              }
             }
             input[type=text] { width: 100%; }
         }

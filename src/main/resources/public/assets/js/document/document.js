@@ -238,15 +238,15 @@
                         buttonProcessEle.disabled = true;
                     }
                     buttonProcessEle.addEventListener('click', function () {
-                       if (element.value === 'close') {
-                           if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
-                               window.close();
-                           } else {
-                               documentModal.hide();
-                           }
-                       } else {
-                           aliceDocument.save(element.value);
-                       }
+                        if (element.value === 'close') {
+                            if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
+                                window.close();
+                            } else {
+                                documentModal.hide();
+                            }
+                        } else {
+                            aliceDocument.save(element.value);
+                        }
                     });
                     if (buttonPanel !== null) {
                         buttonPanel.appendChild(buttonProcessEle);
@@ -304,7 +304,7 @@
 
             if (componentDataType === 'inputbox' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textbox' || componentDataType === 'dropdown' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
-                componentDataType === 'fileupload' || componentDataType === 'custom-code' || componentDataType === 'dynamic-row-table') {
+                componentDataType === 'fileupload' || componentDataType === 'custom-code' || componentDataType === 'dynamic-row-table' || componentDataType === 'ci') {
                 let componentId = componentElements[eIndex].getAttribute('id');
                 let componentValue = '';
                 let componentValueArr = [];
@@ -387,7 +387,6 @@
                     case 'custom-code':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         componentValue = componentChild.item(0).getAttribute('custom-data');
-                        console.log(componentValue);
                         break;
                     case 'dynamic-row-table':
                         // "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"] 형태로 데이터 전달
@@ -403,14 +402,35 @@
                                 switch(childElem.type) {
                                     case 'text':
                                         childValue = childElem.value;
-                                    break;
+                                        break;
                                     default:
-                                    break
+                                        break
                                 }
                                 componentValueArr.push(childValue);
                             }
                         }
 
+                        componentValue = JSON.stringify(componentValueArr);
+                        break;
+                    case 'ci':
+                        const componentData = aliceDocument.data.form.components[eIndex];
+                        componentValueArr = [];
+                        // 삭제, 조회일 경우에는 actionType과 ciId만 저장한다.
+                        const allowedKeys = ['actionType', 'ciId'];
+                        const filterActionType = ['delete', 'read'];
+                        componentData.value.forEach(function(v) {
+                            if (filterActionType.includes(v.actionType)) {
+                                const filterValue = Object.keys(v)
+                                    .filter( function (key) { return allowedKeys.includes(key); })
+                                    .reduce(function (obj, key) {
+                                        obj[key] = v[key];
+                                        return obj;
+                                    }, {});
+                                componentValueArr.push(filterValue);
+                            } else {
+                                componentValueArr.push(v);
+                            }
+                        });
                         componentValue = JSON.stringify(componentValueArr);
                         break;
                     default:
@@ -487,8 +507,8 @@
                 if (xhr.responseText === 'true') {
                     aliceJs.alertSuccess(actionMsg, function () {
                         if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
-                             opener.location.reload();
-                             window.close();
+                            opener.location.reload();
+                            window.close();
                         } else {
                             documentModal.hide();
                         }
@@ -499,6 +519,19 @@
             }
         };
         aliceJs.sendXhr(opt);
+    }
+
+    /**
+     * 컴포넌트 ID를 전달 받아서 린트용 데이터(폼 출력용)에서 일치하는 컴포넌트의 index 반환한다
+     * @param {String} id 조회할 컴포넌트 id
+     * @return {Number} component index 조회한 컴포넌트 index
+     */
+    function getComponentIndex(id) {
+        for (let i = 0, len = aliceDocument.data.form.components.length; i < len; i++) {
+            let comp = dataForPrint.form.components[i];
+            if (comp.componentId === id) { return i; }
+        }
+        return -1;
     }
 
     /**
@@ -775,11 +808,13 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
+                responseObject.documentId = documentId;
+                aliceDocument.data = responseObject;
+                documentModal = new modal(aliceDocument.data, documentId);
+                documentModal.show();
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
-                dataForPrint.documentId = documentId;
-                documentModal = new modal(dataForPrint, documentId);
-                documentModal.show();
+
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -799,9 +834,10 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
+                aliceDocument.data = responseObject;
+                drawDocument(aliceDocument.data);
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
-                drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -954,6 +990,7 @@
     exports.deleteRelatedDoc = deleteRelatedDoc;
     exports.createTokenInfoTab = createTokenInfoTab;
     exports.print = print;
+    exports.getComponentIndex = getComponentIndex;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

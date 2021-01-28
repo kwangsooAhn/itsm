@@ -6,12 +6,12 @@
 
 package co.brainz.cmdb.ciAttribute.repository
 
-import co.brainz.cmdb.ciAttribute.entity.CmdbAttributeEntity
+import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CIAttributeRepository : JpaRepository<CmdbAttributeEntity, String>, CIAttributeRepositoryCustom {
+interface CIAttributeRepository : JpaRepository<CIAttributeEntity, String>, CIAttributeRepositoryCustom {
 
-    fun findByAttributeId(attributeId: String): CmdbAttributeEntity?
+    fun findByAttributeId(attributeId: String): CIAttributeEntity?
 }

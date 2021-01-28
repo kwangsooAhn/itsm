@@ -48,6 +48,10 @@ insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
 insert into awf_url values ('/cmdb/types', 'get', 'CMDB Type 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
+insert into awf_url values ('/cmdb/cis', 'get', 'CMDB CI 조회 목록', 'TRUE');
+insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
+insert into awf_url values ('/cmdb/cis/new', 'get', 'CMDB CI 등록 화면', 'FALSE');
+insert into awf_url values ('/cmdb/cis/view-pop', 'get', 'CMDB CI 리스트 조회 팝업 화면', 'FALSE');
 insert into awf_url values ('/codes/edit', 'get', '코드 편집 화면', 'TRUE');
 insert into awf_url values ('/custom-codes', 'get', '사용자 정의 코드 리스트 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/new', 'get', '사용자 정의 코드 신규 등록 화면', 'TRUE');
@@ -130,6 +134,7 @@ insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관�
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis', 'get', 'CMDB CI 조회 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');

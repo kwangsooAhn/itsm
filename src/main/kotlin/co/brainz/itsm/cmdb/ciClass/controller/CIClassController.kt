@@ -6,7 +6,7 @@
 
 package co.brainz.itsm.cmdb.ciClass.controller
 
-import co.brainz.cmdb.provider.dto.CmdbClassToAttributeDto
+import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest
@@ -30,7 +30,7 @@ class CIClassController(
      * CI Class 관리 화면 호출
      */
     @GetMapping("/edit")
-    fun getCmdbClassList(request: HttpServletRequest, model: Model): String {
+    fun getCIClassList(request: HttpServletRequest, model: Model): String {
         return classEditPage
     }
 
@@ -38,17 +38,17 @@ class CIClassController(
      * CI Class 관리 화면 Attribute 리스트 모달
      */
     @GetMapping("/view-pop/attributes")
-    fun getCmdbClassAttributeList(request: HttpServletRequest, model: Model): String {
+    fun getCIClassAttributeList(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         val classId = request.getParameter("classId")
-        val attributeList = ciAttributeService.getAttributes(params)
-        var addAttributeList: List<CmdbClassToAttributeDto>? = null
-        var extendsAttributeList: List<CmdbClassToAttributeDto>? = null
+        val attributeList = ciAttributeService.getCIAttributes(params)
+        var addAttributeList: List<CIClassToAttributeDto>? = null
+        var extendsAttributeList: List<CIClassToAttributeDto>? = null
 
         if (classId != "") {
-            addAttributeList = ciClassService.getCmdbClass(classId).attributes
-            extendsAttributeList = ciClassService.getCmdbClass(classId).extendsAttributes
+            addAttributeList = ciClassService.getCIClass(classId).attributes
+            extendsAttributeList = ciClassService.getCIClass(classId).extendsAttributes
         }
 
         val classAttributeList = ciClassService.getClassAttributeList(

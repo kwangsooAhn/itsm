@@ -224,12 +224,23 @@ board:
 cmdb:
   attribute:
     label:
+      buttonText: "Button Text"
+      default: "Default"
       description: "Description"
       details: "Details"
       export: "Export"
       label: "Label"
       management: "Attribute Management"
       name: "Attribute Name"
+      option:
+        check: "Check"
+        code: "Code"
+        required: "Required"
+        label: "Label"
+        none: "None"
+        session: "Session"
+        validate: "Validate"
+        value: "Value"
       searchPlaceholder: "Label / Type / Attribute Name / Description"
       type: "Type"
       view: "Attribute"
@@ -243,16 +254,35 @@ cmdb:
       import: "Import"
       export: "Export"
   ci:
+    actionType:
+      delete: "Delete"
+      modify: "Modify"
+      read: "Read"
+      register: "Add"
     label:
+      all: "All"
+      ciNo: "CI No."
+      ciInquiry: "CI Inquiry"
       delete: "CI Delete"
       description: "CI Description"
       existing: "Existing"
-      register: "CI Register"
+      export: "Export"
       name: "CI Name"
       new: "New"
+      searchPlaceholder: "CI No / CI Type / CI Name / Description"
       select: "CI Select"
+      seqNum: "CI No"
+      tag: "Tag"
+      tagPlaceholder: "#Tag"
       type: "CI Type"
+      register: "CI Register"
       update: "CI Update"
+    msg:
+      enterCiName: "Please enter a CI Name."
+      searchDescription: "Add, view and manage CMDB CI."
+    btn:
+      import: "Import"
+      export: "Export"
   class:
     label:
       attributeList: "Attribute List"
@@ -704,6 +734,7 @@ menu:
   cmdb:
     parent: "CMDB"
     attribute: "Attribute"
+    ci: "CI"
     class: "Class"
     type: "Type"
 
@@ -793,6 +824,7 @@ process:
   msg:
     duplicateData: "The same data exists."
     enterProcessName: "Please enter a process name."
+    noticeImportFile: "Import only possible in XML file"
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
   status:
@@ -801,7 +833,7 @@ process:
     publish: "Publish"
     use: "Use"
   title:
-    edit: "Zenius ITSM : Process Edit"
+    edit: "Zenius ITSM : Process Update"
     preview: "Zenius ITSM : Process Preview"
     processMap: "Zenius ITMS : Process Map"
   designer:
@@ -984,9 +1016,9 @@ user:
     pwRule: "※ At least two types of characters (upper case, lower case, special characters, numbers),
     &nbsp;&nbsp;&nbsp;&nbsp;More than 8 characters, less than 8 characters, if one kind character used, 10~20 length limit
     ※ Do not include your ID.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) If the ID is zenius, zenius comprises available, zenius is not included.<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) If the ID is zenius, zeniu comprises available, zenius is not included.<br/><br/>
     ※ Do not include your email ID.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zenius comprises available<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zeniu comprises available<br/>
     ※ Do not allow spaces.<br/>"
 
 # Validation

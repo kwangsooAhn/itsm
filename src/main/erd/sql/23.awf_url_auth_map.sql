@@ -71,6 +71,12 @@ insert into awf_url_auth_map values ('/cmdb/attributes/{id}/edit', 'get', 'cmdb.
 insert into awf_url_auth_map values ('/cmdb/attributes/{id}/view', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.class.read');
+insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
+insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.ci.read');
+insert into awf_url_auth_map values ('/cmdb/cis/new', 'get', 'form.read');
+insert into awf_url_auth_map values ('/cmdb/cis/new', 'get', 'form.update');
+insert into awf_url_auth_map values ('/cmdb/cis/view-pop', 'get', 'form.read');
+insert into awf_url_auth_map values ('/cmdb/cis/view-pop', 'get', 'form.update');
 insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.delete');
@@ -200,6 +206,7 @@ insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attri
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
+insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.update');

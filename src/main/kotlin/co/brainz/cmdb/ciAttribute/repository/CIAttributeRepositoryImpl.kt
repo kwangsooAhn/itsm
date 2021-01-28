@@ -6,11 +6,11 @@
 
 package co.brainz.cmdb.ciAttribute.repository
 
-import co.brainz.cmdb.ciAttribute.entity.CmdbAttributeEntity
-import co.brainz.cmdb.ciAttribute.entity.QCmdbAttributeEntity
-import co.brainz.cmdb.ciClass.entity.QCmdbClassAttributeMapEntity
-import co.brainz.cmdb.provider.dto.CmdbAttributeDto
-import co.brainz.cmdb.provider.dto.CmdbAttributeListDto
+import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
+import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
+import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
+import co.brainz.cmdb.provider.dto.CIAttributeDto
+import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
@@ -18,18 +18,18 @@ import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
-class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity::class.java),
+class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::class.java),
     CIAttributeRepositoryCustom {
 
     /**
      * Attribute 목록 조회.
      */
-    override fun findAttributeList(search: String, offset: Long?): List<CmdbAttributeListDto> {
-        val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
+    override fun findAttributeList(search: String, offset: Long?): List<CIAttributeListDto> {
+        val attribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(attribute)
             .select(
                 Projections.constructor(
-                    CmdbAttributeListDto::class.java,
+                    CIAttributeListDto::class.java,
                     attribute.attributeId,
                     attribute.attributeName,
                     attribute.attributeText,
@@ -49,7 +49,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
                 .offset(offset)
         }
         val result = query.fetchResults()
-        val attributeList = mutableListOf<CmdbAttributeListDto>()
+        val attributeList = mutableListOf<CIAttributeListDto>()
         for (data in result.results) {
             data.totalCount = result.total
             attributeList.add(data)
@@ -60,13 +60,13 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
     /**
      * Attribute 조회.
      */
-    override fun findAttribute(attributeId: String): CmdbAttributeDto {
-        val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
-        val classAttributeMap = QCmdbClassAttributeMapEntity.cmdbClassAttributeMapEntity
+    override fun findAttribute(attributeId: String): CIAttributeDto {
+        val attribute = QCIAttributeEntity.cIAttributeEntity
+        val classAttributeMap = QCIClassAttributeMapEntity.cIClassAttributeMapEntity
         return from(attribute)
             .select(
                 Projections.constructor(
-                    CmdbAttributeDto::class.java,
+                    CIAttributeDto::class.java,
                     attribute.attributeId,
                     attribute.attributeName,
                     attribute.attributeDesc,
@@ -78,11 +78,10 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
                     attribute.updateUser.userKey,
                     attribute.updateDt,
                     ExpressionUtils.`as`(
-                        JPAExpressions.select(!classAttributeMap.cmdbAttribute.attributeId.count().gt(0))
+                        JPAExpressions.select(!classAttributeMap.ciAttribute.attributeId.count().gt(0))
                             .from(classAttributeMap)
-                            .where(classAttributeMap.cmdbAttribute.attributeId.eq(attribute.attributeId)), "enabled"
-                    ),
-                    Expressions.asString("")
+                            .where(classAttributeMap.ciAttribute.attributeId.eq(attribute.attributeId)), "enabled"
+                    )
                 )
             )
             .where(attribute.attributeId.eq(attributeId))
@@ -93,7 +92,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CmdbAttributeEntity:
      * Attribute 명 중복 체크.
      */
     override fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long {
-        val attribute = QCmdbAttributeEntity.cmdbAttributeEntity
+        val attribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(attribute)
             .where(attribute.attributeName.eq(attributeName))
         if (attributeId.isNotEmpty()) {
