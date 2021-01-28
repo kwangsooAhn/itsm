@@ -832,7 +832,7 @@ process:
     publish: "Publish"
     use: "Use"
   title:
-    edit: "Zenius ITSM : Process Edit"
+    edit: "Zenius ITSM : Process Update"
     preview: "Zenius ITSM : Process Preview"
     processMap: "Zenius ITMS : Process Map"
   designer:
