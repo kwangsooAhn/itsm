@@ -3050,9 +3050,9 @@ CREATE TABLE awf_chart
     chart_name character varying(256) NOT NULL,
     chart_desc text NOT NULL,
     create_user_key character varying(128),
-    create_dt timestamp without time zone,
+    create_dt timestamp,
     update_user_key character varying(128),
-    update_dt timestamp without time zone
+    update_dt timestamp
 );
 
 COMMENT ON TABLE awf_chart IS '차트설정';
