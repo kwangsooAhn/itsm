@@ -3490,7 +3490,6 @@ COMMENT ON COLUMN wf_component_ci_data.component_id IS '컴포넌트아이디';
 COMMENT ON COLUMN wf_component_ci_data.ci_id IS 'CI아이디';
 COMMENT ON COLUMN wf_component_ci_data.values IS '세부속성 데이터';
 COMMENT ON COLUMN wf_component_ci_data.instance_id IS '인스턴스아이디';
-
 /**
  * 차트설정
  */
@@ -3517,3 +3516,4 @@ COMMENT ON COLUMN awf_chart.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_chart.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_chart.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_chart.update_dt IS '수정일시';
+
