@@ -30,10 +30,10 @@ data class CmdbTypeEntity(
     @Column(name = "type_id")
     var typeId: String = "",
 
-    @Column(name = "type_name", length = 100)
+    @Column(name = "type_name", length = 128)
     val typeName: String? = "",
 
-    @Column(name = "type_desc", length = 500)
+    @Column(name = "type_desc", length = 512)
     val typeDesc: String? = null,
 
     @Column(name = "type_level")

@@ -27,10 +27,10 @@ data class CIAttributeEntity(
     @Column(name = "attribute_id")
     var attributeId: String = "",
 
-    @Column(name = "attribute_name", length = 100)
+    @Column(name = "attribute_name", length = 128)
     var attributeName: String = "",
 
-    @Column(name = "attribute_desc", length = 500)
+    @Column(name = "attribute_desc", length = 512)
     var attributeDesc: String? = null,
 
     @Column(name = "attribute_type", length = 100)

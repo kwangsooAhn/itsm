@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS cmdb_attribute cascade;
 CREATE TABLE cmdb_attribute
 (
 	attribute_id character varying(128) NOT NULL UNIQUE,
-	attribute_name character varying(100),
-	attribute_desc character varying(500),
+	attribute_name character varying(128),
+	attribute_desc character varying(512),
 	attribute_type character varying(100),
 	attribute_text character varying(128),
 	attribute_value text,
