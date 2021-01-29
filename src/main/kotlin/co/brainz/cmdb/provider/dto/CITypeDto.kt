@@ -9,7 +9,7 @@ package co.brainz.cmdb.provider.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class CmdbTypeDto(
+data class CITypeDto(
     val typeId: String = "",
     val typeName: String? = "",
     val typeDesc: String? = null,

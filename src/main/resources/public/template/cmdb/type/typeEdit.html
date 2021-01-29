@@ -54,7 +54,7 @@
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
                     <div class="flex-row input-button">
                         <input class="col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
-                        <button class="default-line col-1" name="typeIconSelector" type="button" onclick="" th:text="#{common.btn.select}"></button>
+                        <button class="default-line col-1" name="typeIconSelector" type="button" onclick="iconPopUp()" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
                 <div class="edit-row flex-column">
@@ -261,9 +261,26 @@
             aliceJs.sendXhr(opt);
         }
 
+        /** CMDB-Icon **/
+        function iconPopUp() {
+            if (document.getElementById('parentTypeId').value !== '') {
+                aliceJs.thumbnail({
+                    title: i18n.msg('cmdb.type.label.icon'),
+                    targetId: 'typeIcon',
+                    type: 'cmdb-icon',
+                    isThumbnailInfo: false,
+                    isFilePrefix: false,
+                    thumbnailDoubleClickUse: true,
+                    selectedPath: document.querySelector('#typeIcon').value,
+                });
+            } else {
+                aliceJs.alertWarning([[#{cmdb.type.msg.selectType}]]);
+            }
+        }
+
         /** Type-Class **/
         function classPopUp() {
-            if (document.getElementById('typeClass').value !== '') {
+            if (document.getElementById('parentTypeId').value !== '') {
                 tree.load({
                     view: 'modal',
                     title: i18n.msg('cmdb.type.label.class'),

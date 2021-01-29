@@ -740,7 +740,7 @@ aliceJs.thumbnail = function(options) {
                 const thumbnailImg = document.createElement('div');
                 if (options.type === 'image') {
                     thumbnailImg.className = 'thumbnail-img';
-                } else if (options.type === 'icon') {
+                } else if (options.type === 'icon' || options.type === 'cmdb-icon') {
                     thumbnailImg.className = 'thumbnail-icon';
                     thumbnailImg.style.backgroundSize = '100%';
                 } else if (options.type === 'file') {

@@ -110,6 +110,14 @@ $thumbnail-size:                              10.31rem; // 165px
 $thumbnail-icon-size:                         6.25rem; // 100px
 $thumbnail-icon-box-shadow:                   0 0 0 0.0625rem $thumbnail-border-color;
 
+// CMDB 아이콘 선택
+$thumbnail-cmdb-icon-modal-top:               15rem; // 240px
+$thumbnail-cmdb-icon-container-padding:       1.375rem; // 22px
+$thumbnail-cmdb-margin:                       0.4375rem; // 7px
+$thumbnail-cmdb-size:                         2.5rem; // 40px
+$thumbnail-cmdb-icon-size:                    1.5rem; // 24px
+$thumbnail-cmdb-icon-box-shadow:              0 0 0 0.0625rem $thumbnail-border-color;
+
 ///////////////////////////// Tooltip //////////////////////////////
 $tooltip-contents-left:                       auto;
 $tooltip-contents-width:                      22.5rem; // 360px

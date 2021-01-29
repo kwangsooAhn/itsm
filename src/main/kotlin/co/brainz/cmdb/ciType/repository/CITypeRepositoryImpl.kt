@@ -1,13 +1,13 @@
 package co.brainz.cmdb.ciType.repository
 
-import co.brainz.cmdb.ciType.entity.CmdbTypeEntity
-import co.brainz.cmdb.ciType.entity.QCmdbTypeEntity
+import co.brainz.cmdb.ciType.entity.CITypeEntity
+import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
-class CITypeRepositoryImpl : QuerydslRepositorySupport(CmdbTypeEntity::class.java), CITypeRepositoryCustom {
-    override fun findByTypeList(search: String): QueryResults<CmdbTypeEntity> {
-        val type = QCmdbTypeEntity.cmdbTypeEntity
+class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java), CITypeRepositoryCustom {
+    override fun findByTypeList(search: String): QueryResults<CITypeEntity> {
+        val type = QCITypeEntity.cITypeEntity
         return from(type)
             .select(type)
             .where(
