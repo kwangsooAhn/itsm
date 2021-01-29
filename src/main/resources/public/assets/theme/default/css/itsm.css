@@ -2775,7 +2775,7 @@ button .icon-plus {
   display: inline-block;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
-  border-radius: 0.0625rem;
+  border-radius: 0.1875rem;
   text-decoration: none;
 }
 .gmodal-icon-success {
@@ -5232,3 +5232,5 @@ body.modal-active {
 .itsm-popup .notice-content-popup.view {
   height: auto;
 }
+
+/*# sourceMappingURL=itsm.css.map */

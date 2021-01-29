@@ -2283,7 +2283,7 @@ button .icon-search {
   display: inline-block;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
-  border-radius: 0.0625rem;
+  border-radius: 0.1875rem;
   text-decoration: none;
 }
 .gmodal-icon-success {
