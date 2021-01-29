@@ -18,6 +18,10 @@ COMMENT ON TABLE awf_role_auth_map IS '역할권한매핑';
 COMMENT ON COLUMN awf_role_auth_map.auth_id IS '권한아이디';
 COMMENT ON COLUMN awf_role_auth_map.role_id IS '역할아이디';
 
+insert into awf_role_auth_map values ('admin', 'chart.read');
+insert into awf_role_auth_map values ('admin', 'chart.create');
+insert into awf_role_auth_map values ('admin', 'chart.update');
+insert into awf_role_auth_map values ('admin', 'chart.delete');
 insert into awf_role_auth_map values ('admin', 'document.admin.create');
 insert into awf_role_auth_map values ('admin', 'code.delete');
 insert into awf_role_auth_map values ('admin', 'code.update');

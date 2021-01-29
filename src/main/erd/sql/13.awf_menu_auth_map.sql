@@ -17,6 +17,7 @@ COMMENT ON TABLE awf_menu_auth_map IS '권한별메뉴매핑';
 COMMENT ON COLUMN awf_menu_auth_map.menu_id IS '메뉴아이디';
 COMMENT ON COLUMN awf_menu_auth_map.auth_id IS '권한아이디';
 
+insert into awf_menu_auth_map values ('chart', 'chart.read');
 insert into awf_menu_auth_map values ('config', 'user.read');
 insert into awf_menu_auth_map values ('config.auth', 'auth.read');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'board.admin.update');

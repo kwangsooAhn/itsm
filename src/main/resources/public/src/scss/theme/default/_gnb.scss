@@ -188,6 +188,9 @@
     &-board {
       @include maskImage($icon-gnb-board, 1.25rem, 1.25rem, no-repeat, center, null, $blue-gray); // 20xp 20px
     }
+    &-chart {
+      @include maskImage($icon-gnb-chart, 1.25rem, 1.25rem, no-repeat, center, null, $blue-gray); // 20xp 20xp
+    }
     &-dashboard {
       @include maskImage($icon-gnb-dashboard, 1.25rem, 1.25rem, no-repeat, center, null, $blue-gray); // 20xp 20px
     }
