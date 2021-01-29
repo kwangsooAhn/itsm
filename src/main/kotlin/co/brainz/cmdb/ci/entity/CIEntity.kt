@@ -74,7 +74,7 @@ data class CIEntity(
 ) : Serializable {
 
     @OneToMany(
-        mappedBy = "CI",
+        mappedBy = "ci",
         fetch = FetchType.LAZY,
         cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
         orphanRemoval = true
@@ -82,7 +82,7 @@ data class CIEntity(
     val ciTagEntity: MutableList<CITagEntity> = mutableListOf()
 
     @OneToMany(
-        mappedBy = "CI",
+        mappedBy = "ci",
         fetch = FetchType.LAZY,
         cascade = [CascadeType.REMOVE],
         orphanRemoval = true
