@@ -95,7 +95,7 @@
     display: inline-block;
     -webkit-border-radius: $alert-border-size;   // 1px
     -moz-border-radius: $alert-border-size;      // 1px
-    border-radius: $alert-border-size;           // 1px
+    border-radius: $btn-border-radius;           // 3px
     text-decoration: none;
   }
 
