@@ -20,7 +20,7 @@ data class CIDataHistoryEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "data_history_id")
-    var dataHistoryId: String = "",
+    val dataHistoryId: String = "",
 
     @Column(name = "ci_id", length = 128)
     var ciId: String = "",

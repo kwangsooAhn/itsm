@@ -29,33 +29,33 @@ data class CIEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "ci_id")
-    var ciId: String = "",
+    val ciId: String = "",
 
     @Column(name = "ci_no", length = 128)
-    val ciNo: String? = "",
+    var ciNo: String? = "",
 
     @Column(name = "ci_name", length = 128)
-    val ciName: String? = "",
+    var ciName: String? = "",
 
     @Column(name = "ci_status", length = 100)
-    val ciStatus: String? = "",
+    var ciStatus: String? = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
-    var ciTypeEntity: CITypeEntity,
+    val ciTypeEntity: CITypeEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id")
-    var ciClassEntity: CIClassEntity,
+    val ciClassEntity: CIClassEntity,
 
     @Column(name = "ci_icon", length = 200)
-    val ciIcon: String? = null,
+    var ciIcon: String? = null,
 
     @Column(name = "ci_desc", length = 512)
-    val ciDesc: String? = null,
+    var ciDesc: String? = null,
 
     @Column(name = "automatic")
-    val automatic: Boolean = false,
+    var automatic: Boolean = false,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,

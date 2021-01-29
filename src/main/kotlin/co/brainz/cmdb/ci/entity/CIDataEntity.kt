@@ -24,7 +24,7 @@ data class CIDataEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ci_id")
-    val CI: CIEntity,
+    val ci: CIEntity,
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,10 +32,10 @@ data class CIDataEntity(
     val ciAttribute: CIAttributeEntity,
 
     @Column(name = "value")
-    val value: String? = null
+    var value: String? = null
 ) : Serializable
 
 data class CIDataPk(
-    val CI: String = "",
+    val ci: String = "",
     val ciAttribute: String = ""
 ) : Serializable

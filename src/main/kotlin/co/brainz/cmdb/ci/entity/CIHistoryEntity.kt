@@ -20,7 +20,7 @@ data class CIHistoryEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "history_id")
-    var historyId: String = "",
+    val historyId: String = "",
 
     @Column(name = "ci_id", length = 128)
     var ciId: String = "",
@@ -29,27 +29,27 @@ data class CIHistoryEntity(
     var seq: Int? = 0,
 
     @Column(name = "ci_no", length = 128)
-    val ciNo: String? = null,
+    var ciNo: String? = null,
 
     @Column(name = "ci_name", length = 128)
-    val ciName: String? = null,
+    var ciName: String? = null,
 
     @Column(name = "ci_status", length = 100)
-    val ciStatus: String? = null,
+    var ciStatus: String? = null,
 
     @Column(name = "type_id", length = 128)
-    val typeId: String? = null,
+    var typeId: String? = null,
 
     @Column(name = "class_id", length = 128)
-    val classId: String? = null,
+    var classId: String? = null,
 
     @Column(name = "ci_icon", length = 200)
-    val ciIcon: String? = null,
+    var ciIcon: String? = null,
 
     @Column(name = "ci_desc", length = 512)
-    val ciDesc: String? = null,
+    var ciDesc: String? = null,
 
     @Column(name = "automatic")
-    val automatic: Boolean = false
+    var automatic: Boolean = false
 
 ) : Serializable

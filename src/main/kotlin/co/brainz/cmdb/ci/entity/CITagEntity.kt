@@ -25,19 +25,19 @@ data class CITagEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ci_id", insertable = false, updatable = false)
-    var CI: CIEntity,
+    val ci: CIEntity,
 
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "tag_id", length = 128)
-    var tagId: String = "",
+    val tagId: String = "",
 
     @Column(name = "tag_name", length = 128)
-    val tagName: String? = null
+    var tagName: String? = null
 
 ) : Serializable
 
 data class CITagPkey(
-    var CI: String = "",
-    var tagId: String = ""
+    val ci: String = "",
+    val tagId: String = ""
 ) : Serializable

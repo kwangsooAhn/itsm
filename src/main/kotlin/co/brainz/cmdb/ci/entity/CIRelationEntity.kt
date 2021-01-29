@@ -20,15 +20,15 @@ data class CIRelationEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "relation_id", length = 128)
-    var relationId: String = "",
+    val relationId: String = "",
 
     @Column(name = "relation_type", length = 100)
-    val relationType: String? = null,
+    var relationType: String? = null,
 
     @Column(name = "master_ci_id", length = 128)
-    val masterCIId: String? = "",
+    var masterCIId: String? = "",
 
     @Column(name = "slave_ci_id", length = 128)
-    val slaveCIId: String? = ""
+    var slaveCIId: String? = ""
 
 ) : Serializable
