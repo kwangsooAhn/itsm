@@ -238,15 +238,15 @@
                         buttonProcessEle.disabled = true;
                     }
                     buttonProcessEle.addEventListener('click', function () {
-                       if (element.value === 'close') {
-                           if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
-                               window.close();
-                           } else {
-                               documentModal.hide();
-                           }
-                       } else {
-                           aliceDocument.save(element.value);
-                       }
+                        if (element.value === 'close') {
+                            if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
+                                window.close();
+                            } else {
+                                documentModal.hide();
+                            }
+                        } else {
+                            aliceDocument.save(element.value);
+                        }
                     });
                     if (buttonPanel !== null) {
                         buttonPanel.appendChild(buttonProcessEle);
@@ -304,7 +304,7 @@
 
             if (componentDataType === 'inputbox' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textbox' || componentDataType === 'dropdown' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
-                componentDataType === 'fileupload' || componentDataType === 'custom-code' || componentDataType === 'dynamic-row-table') {
+                componentDataType === 'fileupload' || componentDataType === 'custom-code' || componentDataType === 'dynamic-row-table' || componentDataType === 'ci') {
                 let componentId = componentElements[eIndex].getAttribute('id');
                 let componentValue = '';
                 let componentValueArr = [];
@@ -387,7 +387,6 @@
                     case 'custom-code':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         componentValue = componentChild.item(0).getAttribute('custom-data');
-                        console.log(componentValue);
                         break;
                     case 'dynamic-row-table':
                         // "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"] 형태로 데이터 전달
@@ -403,14 +402,35 @@
                                 switch(childElem.type) {
                                     case 'text':
                                         childValue = childElem.value;
-                                    break;
+                                        break;
                                     default:
-                                    break
+                                        break
                                 }
                                 componentValueArr.push(childValue);
                             }
                         }
 
+                        componentValue = JSON.stringify(componentValueArr);
+                        break;
+                    case 'ci':
+                        const componentData = aliceDocument.data.form.components[eIndex];
+                        componentValueArr = [];
+                        // 삭제, 조회일 경우에는 actionType과 ciId만 저장한다.
+                        const allowedKeys = ['actionType', 'ciId'];
+                        const filterActionType = ['delete', 'read'];
+                        componentData.value.forEach(function(v) {
+                            if (filterActionType.includes(v.actionType)) {
+                                const filterValue = Object.keys(v)
+                                    .filter( function (key) { return allowedKeys.includes(key); })
+                                    .reduce(function (obj, key) {
+                                        obj[key] = v[key];
+                                        return obj;
+                                    }, {});
+                                componentValueArr.push(filterValue);
+                            } else {
+                                componentValueArr.push(v);
+                            }
+                        });
                         componentValue = JSON.stringify(componentValueArr);
                         break;
                     default:
@@ -487,8 +507,8 @@
                 if (xhr.responseText === 'true') {
                     aliceJs.alertSuccess(actionMsg, function () {
                         if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
-                             opener.location.reload();
-                             window.close();
+                            opener.location.reload();
+                            window.close();
                         } else {
                             documentModal.hide();
                         }

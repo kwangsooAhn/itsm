@@ -55,7 +55,7 @@ class CIController(private val ciService: CIService) {
     }
 
     /**
-     * CI 조회 화면 호출.
+     * CI 컴포넌트 - CI 조회 화면 호출.
      */
     @GetMapping("/view-pop")
     fun getCIsModal(request: HttpServletRequest, model: Model): String {
@@ -66,6 +66,6 @@ class CIController(private val ciService: CIService) {
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)
         model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return ciListModal;
+        return ciListModal
     }
 }

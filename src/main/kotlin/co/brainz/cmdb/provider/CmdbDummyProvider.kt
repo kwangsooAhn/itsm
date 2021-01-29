@@ -9,9 +9,9 @@ package co.brainz.cmdb.provider
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIAttributeDto
+import co.brainz.cmdb.provider.dto.CIClassDto
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIListDto
-import co.brainz.cmdb.provider.dto.CIClassDto
 import co.brainz.cmdb.provider.dto.CITypeDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class CmdbDummyProvider(
-        private val ciTypeRepository: CITypeRepository
+    private val ciTypeRepository: CITypeRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -161,6 +161,10 @@ class CmdbDummyProvider(
                 if (!searchDataList.isNullOrEmpty()) {
                     ciData = searchDataList[0]
                     ciData.createDt = LocalDateTime.now()
+                    val typeData = ciData.typeId?.let { ciTypeRepository.findById(it) }
+                    if (typeData != null) {
+                        ciData.typeName = typeData.get().typeName
+                    }
                 }
             }
         }

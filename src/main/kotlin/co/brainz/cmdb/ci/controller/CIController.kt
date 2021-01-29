@@ -8,6 +8,7 @@ package co.brainz.cmdb.ci.controller
 
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.provider.CmdbDummyProvider
+import co.brainz.cmdb.provider.dto.CIComponentDataDto
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import org.slf4j.LoggerFactory
@@ -55,5 +56,18 @@ class CIController(
     @DeleteMapping("/{ciId}")
     fun deleteCI(): Boolean {
         return true
+    }
+
+    @PutMapping("/{ciId}/data")
+    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentDataDto: CIComponentDataDto): Boolean {
+        return ciService.saveCIComponentData(ciComponentDataDto)
+    }
+
+    @DeleteMapping("/data")
+    fun deleteCIComponentData(
+        @RequestParam(value = "ciId") ciId: String,
+        @RequestParam(value = "componentId") componentId: String
+    ): Boolean {
+        return ciService.deleteCIComponentData(ciId, componentId)
     }
 }

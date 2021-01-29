@@ -220,6 +220,21 @@ board:
     searchDescription: "View and manage posts."
     viewDescription: "Inquire detailed information about the post."
 
+# Chart
+chart:
+  label:
+    all: "All"
+    chartList: "Statistics Chart List"
+    description: "Chart Description"
+    name: "Chart Name"
+    type: "Chart Type"
+  msg:
+    searchDescription: "View and manage various statistical charts."
+  type:
+    basicLine: "Basic Line Chart"
+    pie: "Pie Chart"
+    stackedColumn: "Stacked Column Chart"
+
 # CMDB
 cmdb:
   attribute:
@@ -701,6 +716,8 @@ login:
 menu:
   board:
     parent: "Board"
+  chart:
+    parent: "Statistic chart"
   config:
     auth: "Auth"
     boardAdmin: "Board management"
@@ -824,6 +841,7 @@ process:
   msg:
     duplicateData: "The same data exists."
     enterProcessName: "Please enter a process name."
+    noticeImportFile: "Import only possible in XML file"
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
   status:
@@ -832,7 +850,7 @@ process:
     publish: "Publish"
     use: "Use"
   title:
-    edit: "Zenius ITSM : Process Edit"
+    edit: "Zenius ITSM : Process Update"
     preview: "Zenius ITSM : Process Preview"
     processMap: "Zenius ITMS : Process Map"
   designer:
@@ -1015,9 +1033,9 @@ user:
     pwRule: "※ At least two types of characters (upper case, lower case, special characters, numbers),
     &nbsp;&nbsp;&nbsp;&nbsp;More than 8 characters, less than 8 characters, if one kind character used, 10~20 length limit
     ※ Do not include your ID.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) If the ID is zenius, zenius comprises available, zenius is not included.<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) If the ID is zenius, zeniu comprises available, zenius is not included.<br/><br/>
     ※ Do not include your email ID.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zenius comprises available<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zeniu comprises available<br/>
     ※ Do not allow spaces.<br/>"
 
 # Validation

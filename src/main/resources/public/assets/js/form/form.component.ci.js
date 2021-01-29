@@ -15,7 +15,8 @@
     'use strict';
 
     const ACTION_TYPE_REGISTER = 'register';
-
+    const ACTION_TYPE_DELETE = 'delete';
+    const ACTION_TYPE_MODIFY = 'modify';
     /**
      * 편집 가능 여부에 따라 표시될 데이터 반환
      * @param isEditable
@@ -76,12 +77,13 @@
     }
 
     /**
-     * CI 모달에 표시되는 세부 데이터 호출
+     * 서버 비동기 통신
      */
-    function restSubmit(url, progressbar, callbackFunc) {
+    function restSubmit(url, method, data, progressbar, callbackFunc) {
         aliceJs.sendXhr({
-            method: 'GET',
+            method: method,
             url: url,
+            params: JSON.stringify(data),
             callbackFunc: function (xhr) {
                 if (typeof callbackFunc === 'function') {
                     callbackFunc(xhr.responseText);
@@ -97,7 +99,7 @@
      */
     function openRegisterModal(e) {
         const ciComponent = aliceJs.clickInsideElement(e, 'component');
-        /*restSubmit('/cmdb/cis/new', false, function (content) {
+        /*restSubmit('/cmdb/cis/new', 'GET', {}, false, function (content) {
             const ciRegisterModal = new modal({
                 title: i18n.msg('cmdb.ci.label.register'),
                 body: content,
@@ -197,7 +199,7 @@
                 closable: false,
             },
             onCreate: function (modal) {
-                restSubmit('/cmdb/cis/view-pop', false, function (content) {
+                restSubmit('/cmdb/cis/view-pop', 'GET', {}, false, function (content) {
                     document.getElementById('ciList').innerHTML = content;
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
@@ -208,7 +210,7 @@
                 document.querySelectorAll('#search, #tagSearch').forEach(function (searchElem) {
                     searchElem.addEventListener('keyup', function (e) {
                         let urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
-                        restSubmit('/cmdb/cis/view-pop?' + urlParam, true, function (content) {
+                        restSubmit('/cmdb/cis/view-pop?' + urlParam, 'GET', {}, true, function (content) {
                             document.getElementById('ciList').innerHTML = content;
                             // 스크롤바 추가
                             OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
@@ -263,7 +265,9 @@
                         }
                         break;
                     case 'icon-edit': // CI 등록 / 수정
-                        tdTemplate += `<button type="button"><span class="icon icon-edit"></span></button>`;
+                        if (actionType !== ACTION_TYPE_DELETE) {
+                            tdTemplate += `<button type="button"><span class="icon icon-edit"></span></button>`;
+                        }
                         break;
                     case 'icon-search': // CI 상세 조회
                         tdTemplate += `<button type="button"><span class="icon icon-search"></span></button>`;
@@ -296,8 +300,15 @@
         const componentData = aliceDocument.data.form.components[compIdx];
         const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
         if (ciIdx > -1) {
+            const actionType = componentData.value[ciIdx].actionType;
+            if (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) {
+                // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
+                restSubmit('/rest/cmdb/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
+            }
+            // 화면 데이터 삭제
             componentData.value.splice(ciIdx, 1);
             ciTb.deleteRow(ciIdx + 1);
+
         }
         // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
         if (ciTb.rows.length === 1) {

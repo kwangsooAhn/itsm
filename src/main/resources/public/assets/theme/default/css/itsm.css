@@ -2074,6 +2074,7 @@ button .icon-plus {
 .image-header,
 .numbering-pattern-header,
 .numbering-rule-header,
+.chart-header,
 .cmdb-attribute-header,
 .cmdb-class-header,
 .cmdb-type-header,
@@ -2105,6 +2106,7 @@ button .icon-plus {
 .code-content,
 .numbering-pattern-content,
 .numbering-rule-content,
+.chart-content,
 .cmdb-attribute-content,
 .cmdb-type-content,
 .cmdb-class-content,
@@ -2569,6 +2571,17 @@ button .icon-plus {
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/gnb/icon_gnb_board.svg");
   mask-image: url("../media/icons/gnb/icon_gnb_board.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #929AA6;
+}
+.gnb .icon-gnb-chart {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_chart.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -4385,7 +4398,6 @@ body.modal-active {
 }
 .modal-wrapper.modal-active {
   display: block;
-  z-index: 2001;
 }
 .modal-wrapper .modal-backdrop {
   position: fixed;
@@ -5220,5 +5232,3 @@ body.modal-active {
 .itsm-popup .notice-content-popup.view {
   height: auto;
 }
-
-/*# sourceMappingURL=itsm.css.map */

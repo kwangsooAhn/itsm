@@ -1399,7 +1399,7 @@
         for (let i = 1; i < rowCount; i++) {
             let row = tb.rows[i];
             let chkBox = row.cells[0].childNodes[0].childNodes[0];
-            if (chkBox.checked && rowCount > 2) {
+            if (chkBox.checked) {
                 tb.deleteRow(i);
                 removeOptionData.splice(i - 1, 1);
                 rowCount--;
