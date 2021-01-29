@@ -77,6 +77,7 @@ class WfTokenRestController(
         // 하지만 token쪽에 추가된 dto들은 계속 사용할 것 같음.
         val dummyTokenDto = RestTemplateTokenDto(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
+            instanceId = restTemplateTokenDataUpdateDto.instanceId,
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,

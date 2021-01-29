@@ -13,6 +13,7 @@ import java.io.Serializable
 
 data class RestTemplateTokenDataUpdateDto(
     var documentId: String? = null,
+    var instanceId: String = "",
     var tokenId: String = "",
     var isComplete: Boolean = true,
     var assigneeId: String? = null,
