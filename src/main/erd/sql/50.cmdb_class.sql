@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS cmdb_class cascade;
 CREATE TABLE cmdb_class
 (
     class_id character varying(128) NOT NULL,
-    class_name character varying(100) NOT NULL,
-    class_desc character varying(500),
+    class_name character varying(128) NOT NULL,
+    class_desc character varying(512),
     p_class_id character varying(128),
     class_level int,
     create_user_key character varying(128),

@@ -7,8 +7,8 @@ CREATE TABLE cmdb_type
 (
 	type_id character varying(128) NOT NULL,
 	p_type_id character varying(128),
-	type_name character varying(100),
-	type_desc character varying(500),
+	type_name character varying(128),
+	type_desc character varying(512),
 	type_level int,
 	default_class_id character varying(128) NOT NULL,
 	type_icon character varying(200),

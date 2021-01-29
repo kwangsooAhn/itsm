@@ -3044,8 +3044,8 @@ DROP TABLE IF EXISTS cmdb_attribute cascade;
 CREATE TABLE cmdb_attribute
 (
 	attribute_id character varying(128) NOT NULL UNIQUE,
-	attribute_name character varying(100),
-	attribute_desc character varying(500),
+	attribute_name character varying(128),
+	attribute_desc character varying(512),
 	attribute_type character varying(100),
 	attribute_text character varying(128),
 	attribute_value text,
@@ -3111,8 +3111,8 @@ DROP TABLE IF EXISTS cmdb_class cascade;
 CREATE TABLE cmdb_class
 (
     class_id character varying(128) NOT NULL,
-    class_name character varying(100) NOT NULL,
-    class_desc character varying(500),
+    class_name character varying(128) NOT NULL,
+    class_desc character varying(512),
     p_class_id character varying(128),
     class_level int,
     create_user_key character varying(128),
@@ -3154,8 +3154,8 @@ CREATE TABLE cmdb_type
 (
 	type_id character varying(128) NOT NULL,
 	p_type_id character varying(128),
-	type_name character varying(100),
-	type_desc character varying(500),
+	type_name character varying(128),
+	type_desc character varying(512),
 	type_level int,
 	default_class_id character varying(128) NOT NULL,
 	type_icon character varying(200),
@@ -3203,12 +3203,12 @@ CREATE TABLE cmdb_ci
 (
 	ci_id character varying(128) NOT NULL,
 	ci_no character varying(128),
-	ci_name character varying(100) NOT NULL,
+	ci_name character varying(128) NOT NULL,
 	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	class_id character varying(128) NOT NULL,
 	ci_icon character varying(200),
-	ci_desc character varying(500),
+	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
 	create_user_key character varying(128),
 	create_dt timestamp without time zone,
@@ -3274,12 +3274,12 @@ CREATE TABLE cmdb_ci_history
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	ci_no character varying(128),
-	ci_name character varying(100) NOT NULL,
+	ci_name character varying(128) NOT NULL,
+    ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	class_id character varying(128) NOT NULL,
-	ci_status character varying(100) NOT NULL,
 	ci_icon character varying(200),
-	ci_desc character varying(500),
+	ci_desc character varying(512),
 	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id, ci_id, seq),
 	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
 );
@@ -3307,8 +3307,8 @@ CREATE TABLE cmdb_ci_data_history
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	attribute_id character varying(128) NOT NULL,
-	attribute_name character varying(100),
-	attribute_desc character varying(500),
+	attribute_name character varying(128),
+	attribute_desc character varying(512),
 	attribute_type character varying(100),
 	attribute_text character varying(128),
 	value text,
@@ -3490,7 +3490,6 @@ COMMENT ON COLUMN wf_component_ci_data.component_id IS '컴포넌트아이디';
 COMMENT ON COLUMN wf_component_ci_data.ci_id IS 'CI아이디';
 COMMENT ON COLUMN wf_component_ci_data.values IS '세부속성 데이터';
 COMMENT ON COLUMN wf_component_ci_data.instance_id IS '인스턴스아이디';
-
 /**
  * 차트설정
  */
@@ -3517,3 +3516,4 @@ COMMENT ON COLUMN awf_chart.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_chart.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_chart.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_chart.update_dt IS '수정일시';
+

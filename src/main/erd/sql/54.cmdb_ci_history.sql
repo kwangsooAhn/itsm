@@ -9,12 +9,12 @@ CREATE TABLE cmdb_ci_history
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	ci_no character varying(128),
-	ci_name character varying(100) NOT NULL,
+	ci_name character varying(128) NOT NULL,
+    ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	class_id character varying(128) NOT NULL,
-	ci_status character varying(100) NOT NULL,
 	ci_icon character varying(200),
-	ci_desc character varying(500),
+	ci_desc character varying(512),
 	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id, ci_id, seq),
 	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
 );
