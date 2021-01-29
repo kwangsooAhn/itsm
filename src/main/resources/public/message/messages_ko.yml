@@ -220,6 +220,21 @@ board:
     searchDescription: "게시글을 조회 및 관리합니다."
     viewDescription: "게시글에 대한 상세 정보를 조회합니다."
 
+# Chart
+chart:
+  label:
+    all: "전체"
+    chartList: "통계 차트 목록"
+    description: "차트 설명"
+    name: "차트 이름"
+    type: "차트 종류"
+  msg:
+    searchDescription: "다양한 통계용 차트를 조회하고 관리합니다."
+  type:
+    basicLine: "Basic Line Chart"
+    pie: "Pie Chart"
+    stackedColumn: "Stacked Column Chart"
+
 # CMDB
 cmdb:
   attribute:
@@ -701,6 +716,8 @@ login:
 menu:
   board:
     parent: "게시판"
+  chart:
+    parent: "통계 차트"
   config:
     auth: "권한"
     boardAdmin: "게시판"

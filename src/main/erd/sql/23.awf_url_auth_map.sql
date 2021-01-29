@@ -63,6 +63,8 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.create');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.read');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.delete');
+insert into awf_url_auth_map values ('/charts', 'get', 'chart.read');
+insert into awf_url_auth_map values ('/charts/search', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
@@ -202,6 +204,7 @@ insert into awf_url_auth_map values ('/rest/boards/articles/comments', 'post', '
 insert into awf_url_auth_map values ('/rest/boards/articles/comments/{id}', 'delete', 'board.delete');
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'board.delete');
+insert into awf_url_auth_map values ('/rest/charts', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');

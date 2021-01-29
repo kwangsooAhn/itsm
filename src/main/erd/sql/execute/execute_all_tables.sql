@@ -52,6 +52,10 @@ insert into awf_auth values ('board.create', '게시판 등록', '게시판 등�
 insert into awf_auth values ('board.delete', '게시판 삭제', '게시판 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('board.read', '게시판 조회', '게시판 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('board.update', '게시판 변경', '게시판 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('chart.read', '통계 차트 조회', '통계 차트 조회 권한', now(), null, '0509e09412534a6e98f04ca79abb6424', null);
+insert into awf_auth values ('chart.create', '통계 차트 생성', '통계 차트 생성 권한', now(), null, '0509e09412534a6e98f04ca79abb6424', null);
+insert into awf_auth values ('chart.update', '통계 차트 변경', '통계 차트 변경 권한', now(), null, '0509e09412534a6e98f04ca79abb6424', null);
+insert into awf_auth values ('chart.delete', '통계 차트 삭제', '통계 차트 삭제 권한', now(), null, '0509e09412534a6e98f04ca79abb6424', null);
 insert into awf_auth values ('cmdb.attribute.read', 'CMDB Attribute 조회', 'CMDB Attribute 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.create', 'CMDB Attribute 생성', 'CMDB Attribute 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.update', 'CMDB Attribute 변경', 'CMDB Attribute 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -277,6 +281,11 @@ insert into awf_code values ('customCode', 'root', null, '커스텀코드', null
 insert into awf_code values ('customCode.type', 'customCode', null, '신청서 목록', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.type.table', 'customCode.type', 'table', '테이블', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.type.code', 'customCode.type', 'code', '코드', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart', 'root', null, 'CHART', null, false, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type', 'chart', null, 'CHART TYPE', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.basicLine', 'chart.type', 'Basic Line Chart', 'Basic Line Chart', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.pie', 'chart.type', 'Pie Chart', 'Pie Chart', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.stackedColumn', 'chart.type', 'Stacked Column Chart', 'Stacked Column Chart', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 사용자정의코드
@@ -541,13 +550,14 @@ insert into awf_menu values ('notice', 'menu', '/notices/search', 4,TRUE);
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5,TRUE);
 insert into awf_menu values ('download', 'menu', '/downloads/search', 6,TRUE);
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7,TRUE);
-insert into awf_menu values ('config', 'menu', '', 8,TRUE);
+insert into awf_menu values ('chart', 'menu', '/charts/search', 8,TRUE);
+insert into awf_menu values ('config', 'menu', '', 9,TRUE);
 insert into awf_menu values ('config.user', 'config', '/users/search', 1,TRUE);
 insert into awf_menu values ('config.auth', 'config', '/auths/edit', 2,TRUE);
 insert into awf_menu values ('config.role', 'config', '/roles/edit', 3,TRUE);
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,TRUE);
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
-insert into awf_menu values ('workflow', 'menu', '', 9,TRUE);
+insert into awf_menu values ('workflow', 'menu', '', 10,TRUE);
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);
 insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3,TRUE);
@@ -555,7 +565,7 @@ insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/s
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
 insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/edit', 6, true);
 insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/edit', 7, true);
-insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
+insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
@@ -580,6 +590,7 @@ COMMENT ON TABLE awf_menu_auth_map IS '권한별메뉴매핑';
 COMMENT ON COLUMN awf_menu_auth_map.menu_id IS '메뉴아이디';
 COMMENT ON COLUMN awf_menu_auth_map.auth_id IS '권한아이디';
 
+insert into awf_menu_auth_map values ('chart', 'chart.read');
 insert into awf_menu_auth_map values ('config', 'user.read');
 insert into awf_menu_auth_map values ('config.auth', 'auth.read');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'board.admin.update');
@@ -817,6 +828,10 @@ COMMENT ON TABLE awf_role_auth_map IS '역할권한매핑';
 COMMENT ON COLUMN awf_role_auth_map.auth_id IS '권한아이디';
 COMMENT ON COLUMN awf_role_auth_map.role_id IS '역할아이디';
 
+insert into awf_role_auth_map values ('admin', 'chart.read');
+insert into awf_role_auth_map values ('admin', 'chart.create');
+insert into awf_role_auth_map values ('admin', 'chart.update');
+insert into awf_role_auth_map values ('admin', 'chart.delete');
 insert into awf_role_auth_map values ('admin', 'document.admin.create');
 insert into awf_role_auth_map values ('admin', 'code.delete');
 insert into awf_role_auth_map values ('admin', 'code.update');
@@ -1245,6 +1260,8 @@ insert into awf_url values ('/certification', 'post', '회원 가입 요청(인�
 insert into awf_url values ('/certification/signup', 'get', '회원 가입 화면 호출', 'FALSE');
 insert into awf_url values ('/certification/status', 'get', '메일 인증 상태/재발송 요청 화면', 'FALSE');
 insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'FALSE');
+insert into awf_url values ('/charts', 'get', '통계 차트 목록', 'TRUE');
+insert into awf_url values ('/charts/search', 'get', '통계 차트 목록 조회 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
@@ -1336,6 +1353,7 @@ insert into awf_url values ('/rest/boards/articles/comments', 'post', '게시판
 insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '게시판 댓글 삭제', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
+insert into awf_url values ('/rest/charts', 'get', '통계 차트 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
@@ -1524,6 +1542,8 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.create');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.read');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.delete');
+insert into awf_url_auth_map values ('/charts', 'get', 'chart.read');
+insert into awf_url_auth_map values ('/charts/search', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
@@ -1663,6 +1683,7 @@ insert into awf_url_auth_map values ('/rest/boards/articles/comments', 'post', '
 insert into awf_url_auth_map values ('/rest/boards/articles/comments/{id}', 'delete', 'board.delete');
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'board.delete');
+insert into awf_url_auth_map values ('/rest/charts', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
@@ -3469,3 +3490,30 @@ COMMENT ON COLUMN wf_component_ci_data.component_id IS '컴포넌트아이디';
 COMMENT ON COLUMN wf_component_ci_data.ci_id IS 'CI아이디';
 COMMENT ON COLUMN wf_component_ci_data.values IS '세부속성 데이터';
 COMMENT ON COLUMN wf_component_ci_data.instance_id IS '인스턴스아이디';
+
+/**
+ * 차트설정
+ */
+DROP TABLE IF EXISTS awf_chart cascade;
+
+CREATE TABLE awf_chart
+(
+    chart_id character varying(128) NOT NULL,
+    chart_type character varying(128) NOT NULL,
+    chart_name character varying(256) NOT NULL,
+    chart_desc text NOT NULL,
+    create_user_key character varying(128),
+    create_dt timestamp,
+    update_user_key character varying(128),
+    update_dt timestamp
+);
+
+COMMENT ON TABLE awf_chart IS '차트설정';
+COMMENT ON COLUMN awf_chart.chart_id IS  '차트아이디';
+COMMENT ON COLUMN awf_chart.chart_type IS '차트타입';
+COMMENT ON COLUMN awf_chart.chart_name IS '차트이름';
+COMMENT ON COLUMN awf_chart.chart_desc IS '차트설명';
+COMMENT ON COLUMN awf_chart.create_user_key IS '등록자';
+COMMENT ON COLUMN awf_chart.create_dt IS '등록일시';
+COMMENT ON COLUMN awf_chart.update_user_key IS '수정자';
+COMMENT ON COLUMN awf_chart.update_dt IS '수정일시';
