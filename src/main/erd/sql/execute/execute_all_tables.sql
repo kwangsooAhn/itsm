@@ -3274,13 +3274,14 @@ CREATE TABLE cmdb_ci_history
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	ci_no character varying(128),
-	ci_name character varying(128) NOT NULL,
-    ci_status character varying(100) NOT NULL,
-	type_id character varying(128) NOT NULL,
-	class_id character varying(128) NOT NULL,
+	ci_name character varying(128),
+	ci_status character varying(100),
+	type_id character varying(128),
+	class_id character varying(128),
 	ci_icon character varying(200),
 	ci_desc character varying(512),
-	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id, ci_id, seq),
+	automatic boolean DEFAULT 'false',
+	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
 	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
 );
 
@@ -3295,6 +3296,7 @@ COMMENT ON COLUMN cmdb_ci_history.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
+COMMENT ON COLUMN cmdb_ci_history.automatic IS '자동등록여부';
 
 /**
  * CMDB CI 속성데이터 이력
@@ -3311,8 +3313,9 @@ CREATE TABLE cmdb_ci_data_history
 	attribute_desc character varying(512),
 	attribute_type character varying(100),
 	attribute_text character varying(128),
+	attribute_value text,
 	value text,
-	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (attribute_id),
+	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (data_history_id),
 	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id)
 );
 
@@ -3325,6 +3328,7 @@ COMMENT ON COLUMN cmdb_ci_data_history.attribute_name IS '속성이름';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_desc IS '속성설명';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_type IS '속성타입';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_text IS '속성라벨';
+COMMENT ON COLUMN cmdb_ci_data_history.attribute_value IS '세부속성';
 COMMENT ON COLUMN cmdb_ci_data_history.value IS '속성값';
 
 /**
@@ -3363,7 +3367,7 @@ CREATE TABLE cmdb_ci_tag
 (
 	ci_id character varying(128) NOT NULL,
 	tag_id character varying(128) NOT NULL,
-	tag_name character varying(100),
+	tag_name character varying(128),
 	CONSTRAINT cmdb_ci_tag_pk PRIMARY KEY (ci_id, tag_id),
 	CONSTRAINT cmdb_ci_tag_uk UNIQUE (tag_id),
 	CONSTRAINT cmdb_ci_tag_fk FOREIGN KEY (ci_id)

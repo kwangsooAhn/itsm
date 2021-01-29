@@ -7,7 +7,7 @@ CREATE TABLE cmdb_ci_tag
 (
 	ci_id character varying(128) NOT NULL,
 	tag_id character varying(128) NOT NULL,
-	tag_name character varying(100),
+	tag_name character varying(128),
 	CONSTRAINT cmdb_ci_tag_pk PRIMARY KEY (ci_id, tag_id),
 	CONSTRAINT cmdb_ci_tag_uk UNIQUE (tag_id),
 	CONSTRAINT cmdb_ci_tag_fk FOREIGN KEY (ci_id)
