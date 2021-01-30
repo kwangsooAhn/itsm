@@ -31,10 +31,10 @@ data class CIClassEntity(
     @Column(name = "class_id")
     var classId: String = "",
 
-    @Column(name = "class_name", length = 100)
+    @Column(name = "class_name", length = 128)
     var className: String = "",
 
-    @Column(name = "class_desc", length = 500)
+    @Column(name = "class_desc", length = 512)
     var classDesc: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)

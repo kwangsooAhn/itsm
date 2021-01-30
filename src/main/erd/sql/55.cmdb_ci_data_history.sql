@@ -9,12 +9,13 @@ CREATE TABLE cmdb_ci_data_history
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	attribute_id character varying(128) NOT NULL,
-	attribute_name character varying(100),
-	attribute_desc character varying(500),
+	attribute_name character varying(128),
+	attribute_desc character varying(512),
 	attribute_type character varying(100),
 	attribute_text character varying(128),
+	attribute_value text,
 	value text,
-	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (attribute_id),
+	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (data_history_id),
 	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id)
 );
 
@@ -27,4 +28,5 @@ COMMENT ON COLUMN cmdb_ci_data_history.attribute_name IS '속성이름';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_desc IS '속성설명';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_type IS '속성타입';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_text IS '속성라벨';
+COMMENT ON COLUMN cmdb_ci_data_history.attribute_value IS '세부속성';
 COMMENT ON COLUMN cmdb_ci_data_history.value IS '속성값';

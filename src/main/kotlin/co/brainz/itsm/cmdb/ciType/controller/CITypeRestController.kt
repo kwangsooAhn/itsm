@@ -6,8 +6,8 @@
 
 package co.brainz.itsm.cmdb.ciType.controller
 
-import co.brainz.cmdb.provider.dto.CmdbTypeDto
-import co.brainz.cmdb.provider.dto.CmdbTypeListDto
+import co.brainz.cmdb.provider.dto.CITypeDto
+import co.brainz.cmdb.provider.dto.CITypeListDto
 import co.brainz.itsm.cmdb.ciType.service.CITypeService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.ui.Model
@@ -29,43 +29,43 @@ class CITypeRestController(private val ciTypeService: CITypeService) {
      * CI Type 목록 조회
      */
     @GetMapping("/", "")
-    fun getCmdbTypes(request: HttpServletRequest, model: Model): List<CmdbTypeListDto> {
+    fun getCITypes(request: HttpServletRequest, model: Model): List<CITypeListDto> {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
-        return ciTypeService.getCmdbTypeList(params)
+        return ciTypeService.getCITypeList(params)
     }
 
     /**
      * CI Type 단일 조회
      */
     @GetMapping("/{typeId}")
-    fun getCmdbType(@PathVariable typeId: String): String {
-        return ciTypeService.getCmdbTypes(typeId)
+    fun getCIType(@PathVariable typeId: String): String {
+        return ciTypeService.getCITypes(typeId)
     }
     /**
      * CI Type 등록
      */
     @PostMapping("")
-    fun createCmdbTypes(@RequestBody cmdbTypeDto: CmdbTypeDto): String {
-        return ciTypeService.createCmdbType(cmdbTypeDto)
+    fun createCITypes(@RequestBody ciTypeDto: CITypeDto): String {
+        return ciTypeService.createCIType(ciTypeDto)
     }
 
     /**
      * CI Type 수정
      */
     @PutMapping("/{typeId}")
-    fun updateCmdbType(
-        @RequestBody cmdbTypeDto: CmdbTypeDto,
+    fun updateCIType(
+        @RequestBody ciTypeDto: CITypeDto,
         @PathVariable typeId: String
     ): String {
-        return ciTypeService.updateCmdbType(cmdbTypeDto, typeId)
+        return ciTypeService.updateCIType(ciTypeDto, typeId)
     }
 
     /**
      * CI Type 삭제
      */
     @DeleteMapping("/{typeId}")
-    fun deleteCmdbType(@PathVariable typeId: String): String {
-        return ciTypeService.deleteCmdbType(typeId)
+    fun deleteCIType(@PathVariable typeId: String): String {
+        return ciTypeService.deleteCIType(typeId)
     }
 }

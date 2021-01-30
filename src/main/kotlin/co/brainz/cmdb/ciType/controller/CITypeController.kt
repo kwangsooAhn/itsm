@@ -7,9 +7,8 @@
 package co.brainz.cmdb.ciType.controller
 
 import co.brainz.cmdb.ciType.service.CITypeService
-import co.brainz.cmdb.provider.CmdbDummyProvider
-import co.brainz.cmdb.provider.dto.CmdbTypeDto
-import co.brainz.cmdb.provider.dto.CmdbTypeListDto
+import co.brainz.cmdb.provider.dto.CITypeDto
+import co.brainz.cmdb.provider.dto.CITypeListDto
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -28,8 +27,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/cmdb/eg/types")
 class CITypeController(
-    private val ciTypeService: CITypeService,
-    private val cmdbDummyProvider: CmdbDummyProvider
+    private val ciTypeService: CITypeService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -38,44 +36,44 @@ class CITypeController(
      * CMDB Type 목록 조회
      */
     @GetMapping("")
-    fun getCmdbTypes(@RequestParam parameters: LinkedHashMap<String, Any>): List<CmdbTypeListDto> {
-        return ciTypeService.getCmdbTypes(parameters["search"].toString())
+    fun getCITypes(@RequestParam parameters: LinkedHashMap<String, Any>): List<CITypeListDto> {
+        return ciTypeService.getCITypes(parameters["search"].toString())
     }
 
     /**
      * CMDB Type 단일 조회
      */
     @GetMapping("/{typeId}")
-    fun getCmdbType(@PathVariable typeId: String): CmdbTypeDto {
-        return ciTypeService.getCmdbType(typeId)
+    fun getCIType(@PathVariable typeId: String): CITypeDto {
+        return ciTypeService.getCIType(typeId)
     }
 
     /**
      * CMDB Type 등록
      */
     @PostMapping("")
-    fun createCmdbType(@RequestBody jsonData: Any): Boolean {
+    fun createCIType(@RequestBody jsonData: Any): Boolean {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        return ciTypeService.createCmdbType(mapper.convertValue(jsonData, CmdbTypeDto::class.java))
+        return ciTypeService.createCIType(mapper.convertValue(jsonData, CITypeDto::class.java))
     }
 
     /**
      * CMDB Type 수정
      */
     @PutMapping("/{typeId}")
-    fun updateCmdbType(
-        @RequestBody cmdbTypeDto: CmdbTypeDto,
+    fun updateCIType(
+        @RequestBody ciTypeDto: CITypeDto,
         @PathVariable typeId: String
     ): Boolean {
-        return ciTypeService.updateCmdbType(cmdbTypeDto, typeId)
+        return ciTypeService.updateCIType(ciTypeDto, typeId)
     }
 
     /**
      * CMDB Type 삭제
      */
     @DeleteMapping("/{typeId}")
-    fun deleteCmdbType(@PathVariable typeId: String): Boolean {
-        return ciTypeService.deleteCmdbType(typeId)
+    fun deleteCIType(@PathVariable typeId: String): Boolean {
+        return ciTypeService.deleteCIType(typeId)
     }
 }

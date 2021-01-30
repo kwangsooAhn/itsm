@@ -8,7 +8,11 @@ package co.brainz.cmdb.provider
 
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.*
+import co.brainz.cmdb.provider.dto.CIAttributeDto
+import co.brainz.cmdb.provider.dto.CIClassDto
+import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.provider.dto.CIListDto
+import co.brainz.cmdb.provider.dto.CITypeDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -20,7 +24,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class CmdbDummyProvider(
-        private val ciTypeRepository: CITypeRepository
+    private val ciTypeRepository: CITypeRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -61,25 +65,25 @@ class CmdbDummyProvider(
         return attributeData
     }
 
-    fun getDummyTypes(searchValue: String): List<CmdbTypeDto> {
+    fun getDummyTypes(searchValue: String): List<CITypeDto> {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.TYPE.value)
-        var typeDataList = mutableListOf<CmdbTypeDto>()
+        var typeDataList = mutableListOf<CITypeDto>()
         if (file != null) {
             typeDataList = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbTypeDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CITypeDto::class.java)
             )
         }
         return typeDataList
     }
 
-    fun getDummyType(typeId: String): CmdbTypeDto {
+    fun getDummyType(typeId: String): CITypeDto {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.TYPE.value)
-        var typeData = CmdbTypeDto()
+        var typeData = CITypeDto()
         if (file != null) {
-            val typeDataList: List<CmdbTypeDto> = mapper.readValue(
+            val typeDataList: List<CITypeDto> = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CmdbTypeDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CITypeDto::class.java)
             )
             if (typeDataList.isNotEmpty()) {
                 val searchDataList = typeDataList.filter { it.typeId == typeId }

@@ -66,6 +66,6 @@ class CIController(private val ciService: CIService) {
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)
         model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return ciListModal;
+        return ciListModal
     }
 }

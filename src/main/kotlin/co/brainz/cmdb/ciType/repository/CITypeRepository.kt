@@ -6,10 +6,9 @@
 
 package co.brainz.cmdb.ciType.repository
 
-import co.brainz.cmdb.ciType.entity.CmdbTypeEntity
+import co.brainz.cmdb.ciType.entity.CITypeEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CITypeRepository : JpaRepository<CmdbTypeEntity, String>, CITypeRepositoryCustom {
-}
+interface CITypeRepository : JpaRepository<CITypeEntity, String>, CITypeRepositoryCustom

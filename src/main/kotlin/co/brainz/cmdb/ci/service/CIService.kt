@@ -25,19 +25,20 @@ class CIService(
      * CI 컴포넌트 - CI 세부 정보 등록 / 수정
      */
     fun saveCIComponentData(ciComponentDataDto: CIComponentDataDto): Boolean {
-        val ciComponentDetail = CIComponentDetail (
-                ciAttributes = ciComponentDataDto.values.ciAttributes,
-                ciTags = ciComponentDataDto.values.ciTags
+        val ciComponentDetail = CIComponentDetail(
+            ciAttributes = ciComponentDataDto.values.ciAttributes,
+            ciTags = ciComponentDataDto.values.ciTags
         )
-        val ciComponentEntity = CIComponentDataEntity (
-                ciId = ciComponentDataDto.ciId,
-                componentId = ciComponentDataDto.componentId,
-                values = ciComponentDetail.toString(),
-                instanceId = ciComponentDataDto.instanceId
+        val ciComponentEntity = CIComponentDataEntity(
+            ciId = ciComponentDataDto.ciId,
+            componentId = ciComponentDataDto.componentId,
+            values = ciComponentDetail.toString(),
+            instanceId = ciComponentDataDto.instanceId
         )
         ciComponentDataRepository.save(ciComponentEntity)
         return true
     }
+
     /**
      * CI 컴포넌트 - CI 세부 정보 삭제
      */

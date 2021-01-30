@@ -22,7 +22,7 @@ class CITypeController() {
      * CMDB Type 관리 화면 호출
      */
     @GetMapping("/edit")
-    fun getCmdbTypeList(request: HttpServletRequest, model: Model): String {
+    fun getCITypeList(request: HttpServletRequest, model: Model): String {
         return typeEditPage
     }
 }

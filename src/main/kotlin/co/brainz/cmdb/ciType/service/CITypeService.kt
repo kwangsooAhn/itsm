@@ -7,10 +7,10 @@
 package co.brainz.cmdb.ciType.service
 
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
-import co.brainz.cmdb.ciType.entity.CmdbTypeEntity
+import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
-import co.brainz.cmdb.provider.dto.CmdbTypeDto
-import co.brainz.cmdb.provider.dto.CmdbTypeListDto
+import co.brainz.cmdb.provider.dto.CITypeDto
+import co.brainz.cmdb.provider.dto.CITypeListDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import com.querydsl.core.QueryResults
 import org.slf4j.LoggerFactory
@@ -27,14 +27,14 @@ class CITypeService(
     /**
      *  CMDB Type 트리 조회
      */
-    fun getCmdbTypes(searchValue: String): List<CmdbTypeListDto> {
-        val treeTypeList = mutableListOf<CmdbTypeListDto>()
-        val queryResults: QueryResults<CmdbTypeEntity> = ciTypeRepository.findByTypeList(searchValue)
-        val returnList: List<CmdbTypeEntity>
+    fun getCITypes(searchValue: String): List<CITypeListDto> {
+        val treeTypeList = mutableListOf<CITypeListDto>()
+        val queryResults: QueryResults<CITypeEntity> = ciTypeRepository.findByTypeList(searchValue)
+        val returnList: List<CITypeEntity>
         var count = 0L
         var typeSearchList = queryResults.results
 
-        val pTypeList = mutableListOf<CmdbTypeEntity>()
+        val pTypeList = mutableListOf<CITypeEntity>()
         for (type in typeSearchList) {
             var tempType = type.pType
             do {
@@ -53,7 +53,7 @@ class CITypeService(
 
         for (typeEntity in returnList) {
             treeTypeList.add(
-                CmdbTypeListDto(
+                CITypeListDto(
                     typeId = typeEntity.typeId,
                     typeName = typeEntity.typeName,
                     typeDesc = typeEntity.typeDesc,
@@ -73,14 +73,14 @@ class CITypeService(
     /**
      *  CMDB Type 단일 조회
      */
-    fun getCmdbType(typeId: String): CmdbTypeDto {
+    fun getCIType(typeId: String): CITypeDto {
         val typeDetailEntity = ciTypeRepository.findById(typeId).get()
-        return CmdbTypeDto(
+        return CITypeDto(
             typeId = typeDetailEntity.typeId,
             typeName = typeDetailEntity.typeName,
             typeDesc = typeDetailEntity.typeDesc,
             typeLevel = typeDetailEntity.typeLevel,
-            pTypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId!! },
+            pTypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId },
             pTypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
             typeIcon = typeDetailEntity.typeIcon,
             defaultClassId = typeDetailEntity.defaultClass?.classId,
@@ -91,56 +91,56 @@ class CITypeService(
     /**
      *  CMDB Type 등록
      */
-    fun createCmdbType(cmdbTypeDto: CmdbTypeDto): Boolean {
-        val cmdbTypeEntity = CmdbTypeEntity(
-            pType = ciTypeRepository.findById(cmdbTypeDto.pTypeId!!)
-                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.pTypeId!!)),
-            typeName = cmdbTypeDto.typeName,
-            typeDesc = cmdbTypeDto.typeDesc,
-            typeIcon = cmdbTypeDto.typeIcon,
-            defaultClass = cmdbTypeDto.defaultClassId?.let { ciClassRepository.getOne(it) }
+    fun createCIType(ciTypeDto: CITypeDto): Boolean {
+        val ciTypeEntity = CITypeEntity(
+            pType = ciTypeRepository.findById(ciTypeDto.pTypeId!!)
+                .orElse(CITypeEntity(typeId = ciTypeDto.pTypeId!!)),
+            typeName = ciTypeDto.typeName,
+            typeDesc = ciTypeDto.typeDesc,
+            typeIcon = ciTypeDto.typeIcon,
+            defaultClass = ciTypeDto.defaultClassId?.let { ciClassRepository.getOne(it) }
         )
-        if (cmdbTypeDto.pTypeId.isNullOrEmpty()) {
-            cmdbTypeEntity.typeLevel = 0
+        if (ciTypeDto.pTypeId.isNullOrEmpty()) {
+            ciTypeEntity.typeLevel = 0
         } else {
-            val pTypeEntity = ciTypeRepository.findById(cmdbTypeDto.pTypeId!!).get()
-            cmdbTypeEntity.typeLevel = pTypeEntity.typeLevel!! + 1
+            val pTypeEntity = ciTypeRepository.findById(ciTypeDto.pTypeId!!).get()
+            ciTypeEntity.typeLevel = pTypeEntity.typeLevel!! + 1
         }
-        cmdbTypeEntity.createUser = cmdbTypeDto.createUserKey?.let {
+        ciTypeEntity.createUser = ciTypeDto.createUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
         }
-        cmdbTypeEntity.createDt = cmdbTypeDto.createDt
+        ciTypeEntity.createDt = ciTypeDto.createDt
 
-        ciTypeRepository.save(cmdbTypeEntity)
+        ciTypeRepository.save(ciTypeEntity)
         return true
     }
 
     /**
      *  CMDB Type 수정
      */
-    fun updateCmdbType(cmdbTypeDto: CmdbTypeDto, typeId: String): Boolean {
-        val cmdbTypeEntity = CmdbTypeEntity(
-            typeId = cmdbTypeDto.typeId,
-            pType = ciTypeRepository.findById(cmdbTypeDto.pTypeId!!)
-                .orElse(CmdbTypeEntity(typeId = cmdbTypeDto.pTypeId!!)),
-            typeName = cmdbTypeDto.typeName,
-            typeDesc = cmdbTypeDto.typeDesc,
-            typeLevel = cmdbTypeDto.typeLevel,
-            typeIcon = cmdbTypeDto.typeIcon,
-            defaultClass = cmdbTypeDto.defaultClassId?.let { ciClassRepository.getOne(it) }
+    fun updateCIType(ciTypeDto: CITypeDto, typeId: String): Boolean {
+        val ciTypeEntity = CITypeEntity(
+            typeId = ciTypeDto.typeId,
+            pType = ciTypeRepository.findById(ciTypeDto.pTypeId!!)
+                .orElse(CITypeEntity(typeId = ciTypeDto.pTypeId!!)),
+            typeName = ciTypeDto.typeName,
+            typeDesc = ciTypeDto.typeDesc,
+            typeLevel = ciTypeDto.typeLevel,
+            typeIcon = ciTypeDto.typeIcon,
+            defaultClass = ciTypeDto.defaultClassId?.let { ciClassRepository.getOne(it) }
         )
-        cmdbTypeEntity.updateUser = cmdbTypeDto.updateUserKey?.let {
+        ciTypeEntity.updateUser = ciTypeDto.updateUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
         }
-        cmdbTypeEntity.updateDt = cmdbTypeDto.updateDt
-        ciTypeRepository.save(cmdbTypeEntity)
+        ciTypeEntity.updateDt = ciTypeDto.updateDt
+        ciTypeRepository.save(ciTypeEntity)
         return true
     }
 
     /**
      *  CMDB Type 삭제
      */
-    fun deleteCmdbType(typeId: String): Boolean {
+    fun deleteCIType(typeId: String): Boolean {
         ciTypeRepository.deleteById(typeId)
         return true
     }
