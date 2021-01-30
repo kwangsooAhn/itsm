@@ -17,9 +17,12 @@
 
       .modal-content {
         height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
-        padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+        padding: 1.25rem; // 20px
 
         .cmdb-ci-content-edit {
+          height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
+          .edit-form { padding: 0 2.5rem; } // 40px
+
           .edit-row {  margin-top: 0.625rem; } // 10px
           .field-label { margin: 0.625rem 0; } // 10px 0
         }

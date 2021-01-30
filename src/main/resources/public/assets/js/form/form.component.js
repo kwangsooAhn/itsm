@@ -1135,7 +1135,7 @@
         const ciHeaderProperty = CI.getProperty(property.display.isEditable);
         const tableHeaderOptions = ciHeaderProperty.map(function(opt, idx) {
             const thWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
-            return `<th id="${opt.id}" class="align-${property.header.align} ${opt.type === 'hidden' ? '' : 'on'} ${opt.class}" ` +
+            return `<th class="align-${property.header.align} ${opt.type === 'hidden' ? '' : 'on'} ${opt.class}" ` +
                 `style="width: ${thWidth}%; border-color: ${property.display.border}; ` +
                 `color: ${property.header.color}; font-size: ${property.header.size}px;` +
                 `${property.header.bold === 'Y' ? ' font-weight: bold;' : ''}` +
@@ -1196,15 +1196,7 @@
         if (!isReadOnly) {
             if (property.display.isEditable) {
                 // 등록
-                document.getElementById('btn-ci-register-' + property.componentId).addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    // row 추가
-                    const ciComponent = aliceJs.clickInsideElement(e, 'component');
-                    const newCIData = { // 신규 CI ID를 화면에서 생성하여 전달
-                        'actionType': e.target.getAttribute('data-actionType')
-                    }
-                    //CI.addRow(ciComponent, newCIData);
-                });
+                document.getElementById('btn-ci-register-' + property.componentId).addEventListener('click', CI.openRegisterModal);
                 // 수정
                 document.getElementById('btn-ci-update-' + property.componentId).addEventListener('click', CI.openSelectModal);
                 // 삭제

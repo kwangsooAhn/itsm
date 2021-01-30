@@ -99,7 +99,7 @@
      */
     function openRegisterModal(e) {
         const ciComponent = aliceJs.clickInsideElement(e, 'component');
-        /*restSubmit('/cmdb/cis/new', 'GET', {}, false, function (content) {
+        restSubmit('/cmdb/cis/new', 'GET', {}, false, function (content) {
             const ciRegisterModal = new modal({
                 title: i18n.msg('cmdb.ci.label.register'),
                 body: content,
@@ -125,8 +125,18 @@
                 onCreate: function (modal) {
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
-                    // 태그 추가
-                    new Tagify(document.getElementById('ciTags'), {
+                    OverlayScrollbars(document.querySelectorAll('textarea'), {
+                        className: 'scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                    // TODO: 태그 기능 추가
+                    /*new Tagify(document.getElementById('ciTags'), {
                         pattern: /^.{0,100}$/,
                         editTags: false,
                         callbacks: {
@@ -134,11 +144,11 @@
                             'remove': onRemoveTag
                         },
                         placeholder: i18n.msg('token.msg.tag')
-                    });
+                    });*/
                 }
             });
             ciRegisterModal.show();
-        });*/
+        });
     }
 
     /**
@@ -316,6 +326,71 @@
         }
     }
 
+    /**
+     * CI 타입 선택 모달
+     * @param {String} typeId 타입 ID
+     */
+    function openSelectTypeModal(typeId) {
+        tree.load({
+            view: 'modal',
+            title: i18n.msg('cmdb.ci.label.type'),
+            source: 'ciType',
+            target: 'modalTreeList',
+            text: 'typeName',
+            selectedValue: typeId,
+            callbackFunc: function(response) {
+                if (response.id !== 'root') {
+                    // 아이콘과 클래스가 없을 경우, 타입 변경시 기본 값을 추가해준다.
+                    restSubmit('/rest/cmdb/types/' + response.id, 'GET', {}, false, function (responseData) {
+                        let responseJson = JSON.parse(responseData);
+                        console.log(responseJson);
+                        document.getElementById('classId').value = responseJson.defaultClassId;
+                        document.getElementById('className').value = responseJson.defaultClassName;
+                        document.getElementById('typeIcon').value = responseJson.typeIcon;
+                    });
+                    console.log(response);
+                    console.log(response.dataset.name);
+                    document.getElementById('typeName').value = response.dataset.name;
+                    document.getElementById('typeId').value = response.id;
+                } else {
+                    aliceJs.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableType'));
+                }
+            }
+        });
+    }
+
+    /**
+     * 타입 아이콘 선택 모달
+     * @param {String} typeIcon 아이콘 경로
+     */
+    function openSelectIconModal(typeIcon) {
+        // TODO: 아이콘 선택 모달
+    }
+    
+    /**
+     * 클래스 선택 모달
+     * @param {String} typeIcon 아이콘 경로
+     */
+    function openSelectClassModal(classId) {
+        console.log(classId);
+        tree.load({
+            view: 'modal',
+            title: i18n.msg('cmdb.type.label.class'),
+            source: 'ciClass',
+            target: 'modalTreeList',
+            text: 'className',
+            selectedValue: classId,
+            callbackFunc: function(response) {
+                if (response.id !== 'root') {
+                    document.getElementById('className').value = response.dataset.name;
+                    document.getElementById('classId').value = response.id;
+                } else {
+                    aliceJs.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableClass'));
+                }
+            }
+        });
+    }
+
     exports.getProperty = getProperty;
     exports.addTag = addTag;
     exports.removeTag = removeTag;
@@ -324,6 +399,9 @@
     exports.openSelectModal = openSelectModal;
     exports.addRow = addRow;
     exports.removeRow = removeRow;
+    exports.openSelectTypeModal = openSelectTypeModal;
+    exports.openSelectIconModal = openSelectIconModal;
+    exports.openSelectClassModal = openSelectClassModal;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

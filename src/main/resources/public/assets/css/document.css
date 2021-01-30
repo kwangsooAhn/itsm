@@ -1595,7 +1595,13 @@ body.modal-active {
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content {
   height: calc(53.0625rem - 3.375rem - 5rem);
-  padding: 0.625rem 1.25rem 2.5rem 1.25rem;
+  padding: 1.25rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit {
+  height: calc(53.0625rem - 3.375rem - 5rem - 3.125rem);
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-form {
+  padding: 0 2.5rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-row {
   margin-top: 0.625rem;
