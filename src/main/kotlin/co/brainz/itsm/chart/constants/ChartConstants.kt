@@ -12,4 +12,11 @@ object ChartConstants {
      * chart group p_code.
      */
     const val CHART_TYPE_P_CODE = "chart.type"
+
+    /**
+     * chart status
+     */
+    enum class Status(val code: String) {
+        STATUS_SUCCESS("0")
+    }
 }

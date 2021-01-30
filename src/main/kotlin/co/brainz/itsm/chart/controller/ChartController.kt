@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
@@ -24,6 +25,8 @@ class ChartController(
 
     private val chartSearchPage: String = "chart/chartSearch"
     private val chartListPage: String = "chart/chartList"
+    private val chartEditPage: String = "chart/chartEdit"
+    private val chartViewPage: String = "chart/chartView"
 
     /**
      * 통계 차트 목록 검색 화면 호출
@@ -45,5 +48,31 @@ class ChartController(
         model.addAttribute("chartList", result)
         model.addAttribute("chartListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return chartListPage
+    }
+
+    /**
+     * Chart 등록 화면 호출
+     */
+    @GetMapping("/new")
+    fun getChartsNew(): String {
+        return chartEditPage
+    }
+
+    /**
+     * Chart 수정 화면 호출
+     */
+    @GetMapping("/{chartId}/edit")
+    fun getChartEdit(@PathVariable chartId: String, model: Model): String {
+        model.addAttribute("chart", chartService.getChart(chartId))
+        return chartEditPage
+    }
+
+    /**
+     * chart 보기 화면 호출
+     */
+    @GetMapping("/{chartId}/view")
+    fun getChartView(@PathVariable chartId: String, model: Model): String {
+        model.addAttribute("chart", chartService.getChart(chartId))
+        return chartViewPage
     }
 }
