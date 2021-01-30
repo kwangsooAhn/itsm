@@ -5,6 +5,7 @@
 
 package co.brainz.workflow.engine.manager.impl
 
+import co.brainz.framework.util.AliceUtil
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.manager.WfTokenManager
@@ -32,6 +33,7 @@ class WfSubProcess(
             wfTokenManagerService.makeMappingTokenDto(super.tokenEntity, mutableListOf(documentId))
         makeDocumentTokens.forEach {
             it.assigneeId = createTokenDto.assigneeId
+            it.instanceId = AliceUtil().getUUID()
             WfEngine(wfTokenManagerService).startWorkflow(it)
         }
 

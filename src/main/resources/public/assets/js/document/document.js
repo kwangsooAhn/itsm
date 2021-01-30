@@ -462,6 +462,14 @@
             tokenObject.documentId = '';
         }
 
+        //instanceId 값 추가
+        const instanceElements = document.getElementById('instanceId');
+        if (instanceElements !== null && instanceElements !== undefined) {
+            tokenObject.instanceId = instanceElements.getAttribute('data-id');
+        } else {
+            tokenObject.instanceId = '';
+        }
+
         //tokenObject init (RestTemplateTokenDto)
         const tokenElements = document.getElementById('tokenId');
         if (tokenElements !== null && tokenElements !== undefined) {
@@ -597,9 +605,12 @@
             addIdComponent('documentId', data.documentId);
         }
 
+        if (data.instanceId !== undefined) {
+            addIdComponent('instanceId', data.instanceId);
+        }
+
         if (data.token !== undefined) {
             addIdComponent('tokenId', data.token.tokenId);
-            addIdComponent('instanceId', data.instanceId);
             createTokenInfoTab();
         }
         if (data.actions !== undefined) {

@@ -8,6 +8,7 @@ package co.brainz.workflow.document.service
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
@@ -133,6 +134,7 @@ class WfDocumentService(
 
         return RestTemplateRequestDocumentDto(
             documentId = documentId,
+            instanceId = AliceUtil().getUUID(),
             form = form,
             actions = wfActionService.actionInit(documentEntity.process.processId)
         )
