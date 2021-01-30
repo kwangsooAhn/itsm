@@ -11,4 +11,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CIRepository : JpaRepository<CIEntity, String>, CIRepositoryCustom {}
+interface CIRepository : JpaRepository<CIEntity, String>, CIRepositoryCustom

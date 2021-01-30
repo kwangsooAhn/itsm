@@ -36,7 +36,6 @@ class ChartRestController(private val chartService: ChartService) {
      */
     @PostMapping("")
     fun createChart() {
-
     }
 
     /**
@@ -44,14 +43,12 @@ class ChartRestController(private val chartService: ChartService) {
      */
     @PutMapping("/{chartId}")
     fun updateChart() {
-
     }
 
     /**
      * Chart 삭제
      */
-    @DeleteMapping("/{chartId")
+    @DeleteMapping("/{chartId}")
     fun deleteChart() {
-
     }
 }
