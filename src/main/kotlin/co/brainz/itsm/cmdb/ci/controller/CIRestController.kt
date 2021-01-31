@@ -7,6 +7,7 @@
 package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.cmdb.provider.dto.CIComponentDataDto
+import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
@@ -37,6 +38,11 @@ class CIRestController(private val ciService: CIService) {
         params["tagSearch"] = request.getParameter("tagSearch")
         params["offset"] = request.getParameter("offset") ?: "0"
         return ciService.getCIs(params)
+    }
+
+    @GetMapping("{ciId}")
+    fun getCI(request: HttpServletRequest, model: Model, @PathVariable ciId: String): CIDetailDto {
+        return ciService.getCI(ciId)
     }
 
     /**

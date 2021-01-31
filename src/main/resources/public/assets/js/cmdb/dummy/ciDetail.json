@@ -1,0 +1,57 @@
+[
+  {
+    "ciId":"1111",
+    "ciNo":"CI_20211213_001",
+    "ciName":"brainz_146",
+    "ciIcon":"server.png",
+    "ciDesc":"Test CI Data",
+    "ciStatus":"use",
+    "automatic":"false",
+    "typeId":"b2dac0d38b39a4f8da7b98c56e831465",
+    "typeName":"데이터베이스",
+    "classId":"40288ab77757e7bf01775810a2010002",
+    "className":"데이터베이스",
+    "classes": [
+      {
+        "classId":"0e8dd74a27bbbf86201104e91df7ee88",
+        "className":"OS",
+        "attributes": [
+          {"attributeId":"799afe719cd0bfe38797172bb77ae5d8","attributeName":"Licensing policy","attributeText":"라이센스정책","attributeType":"inputbox","attributeOrder":"1","attributeValue":"","value":"공통"},
+          {"attributeId":"489a14a0ebdca14b6eb42cf804330145","attributeName":"Licenses","attributeText":"라이센스","attributeType":"inputbox","attributeOrder":"2","attributeValue":"","value":"free"},
+          {"attributeId":"a508fbfda5d65a54b9b25dc5925d79bb","attributeName":"Manager","attributeText":"관리자","attributeType":"inputbox","attributeOrder":"3","attributeValue":"","value":"admin"}
+        ]
+      },
+      {
+        "classId":"39dbe77aa58b778064a0f4a10dd06b05",
+        "className":"Linux",
+        "attributes": [
+          {"attributeId":"addc07e374faec9f0d6d3bbeca565886","attributeName":"OS Type","attributeText":"OS 종류","attributeType":"inputbox","attributeOrder":"1","attributeValue":"","value":"CentOs"},
+          {"attributeId":"734ab921484883ad7760032a008baf21","attributeName":"Version_OS_Linux","attributeText":"버전","attributeType":"inputbox","attributeOrder":"2","attributeValue":"","value":"6.1"},
+          {"attributeId":"2bb03c41cd9998e77da9b737d4fcf9ab","attributeName":"Bash Version","attributeText":"bash버전","attributeType":"inputbox","attributeOrder":"3","attributeValue":"","value":"apah"}
+        ]
+      },
+      {
+        "classId":"40288ab77757e7bf01775810a2010002",
+        "className":"CentOs",
+        "attributes": [
+          {"attributeId":"602b2c9216825bffc96ae69eeb73bdbc","attributeName":"introduction date",
+            "attributeText":"도입일","attributeType":"inputbox","attributeOrder":"1","attributeValue":"","value":"2020-12-11"},
+          {"attributeId":"e651113f8a452f55f50ed41956cdfb34","attributeName":"Version","attributeText":"버전","attributeType":"inputbox","attributeOrder":"2","attributeValue":"","value":"6.1"}
+        ]
+      }
+    ],
+    "ciRelations": [
+      {"relationId":"","relationType":"","masterCIId":"","slaveCIId":""},
+      {"relationId":"","relationType":"","masterCIId":"","slaveCIId":""}
+    ],
+    "ciTags": [
+      {"tagId":"88fc78892916dc310b4984858b28120a","tagName":"test111"},
+      {"tagId":"88fc78892916dc310b4984858b28120b","tagName":"안녕222"},
+      {"tagId":"88fc78892916dc310b4984858b28120c","tagName":"ㅋㅋ3333"}
+    ],
+    "createUserKey":"0509e09412534a6e98f04ca79abb6424",
+    "createDt":"",
+    "updateUserKey":"",
+    "updateDt":""
+  }
+]
