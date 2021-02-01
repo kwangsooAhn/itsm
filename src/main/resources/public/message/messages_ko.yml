@@ -547,7 +547,6 @@ form:
     customCodeTarget: "대상 선택"
     description: "설명"
     detail: "문서양식 상세"
-    edit: "문서양식 편집"
     form: "문서양식"
     import: "폼 IMPORT"
     importFile: "IMPORT 파일"
@@ -562,6 +561,7 @@ form:
     templatesList: "템플릿 목록"
     title: "Form Designer"
     undo: "작업 취소"
+    update: "문서양식 변경"
   msg:
     enterFormName: "양식이름을 입력하세요."
     failedAllColumnDelete: "최소 1개 열은 필수입니다."
@@ -845,9 +845,9 @@ process:
     searchDescription: "프로세스를 조회 및 관리합니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
   title:
-    edit: "Zenius ITSM : 프로세스 변경"
     preview: "Zenius ITSM : 프로세스 미리보기"
     processMap: "Zenius ITMS : 프로세스 맵"
+    update: "Zenius ITSM : 프로세스 변경"
   status:
     destroy: "폐기"
     edit: "편집"

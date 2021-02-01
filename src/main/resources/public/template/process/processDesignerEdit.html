@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
-    <title th:text="${isView != null} ? #{process.title.preview} : #{process.title.edit}"></title>
+    <title th:text="${isView != null} ? #{process.title.preview} : #{process.title.update}"></title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta http-equiv="expire" content="-1"/>
