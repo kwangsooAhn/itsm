@@ -10,6 +10,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.configuration.AliceApplicationRunner
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.code.dto.CodeDto
+import java.util.UUID
 import javax.servlet.http.HttpServletRequest
 
 class AliceUtil {
@@ -116,5 +117,12 @@ class AliceUtil {
             }
         }
         return codes
+    }
+
+    /**
+     * UUID 생성.
+     */
+    fun getUUID(): String {
+        return UUID.randomUUID().toString().replace("-", "")
     }
 }

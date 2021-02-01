@@ -9,6 +9,7 @@ package co.brainz.cmdb.ci.controller
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.provider.CmdbDummyProvider
 import co.brainz.cmdb.provider.dto.CIComponentDataDto
+import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import org.slf4j.LoggerFactory
@@ -31,11 +32,12 @@ class CIController(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    /**
+     * CI 목록 조회.
+     */
     @GetMapping("")
-    fun getCIs(
-        @RequestParam(value = "search", defaultValue = "") search: String
-    ): List<CIListDto> {
-        return cmdbDummyProvider.getDummyCis(search)
+    fun getCIs(@RequestParam parameters: LinkedHashMap<String, Any>): List<CIListDto> {
+        return ciService.getCIs(parameters)
     }
 
     @PostMapping("")
@@ -43,8 +45,11 @@ class CIController(
         return true
     }
 
+    /**
+     * CI 상세 조회.
+     */
     @GetMapping("/{ciId}")
-    fun getCI(@PathVariable ciId: String): CIDto {
+    fun getCI(@PathVariable ciId: String): CIDetailDto {
         return cmdbDummyProvider.getDummyCi(ciId)
     }
 

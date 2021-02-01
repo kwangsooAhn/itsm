@@ -18,6 +18,7 @@ object RestTemplateConstants {
     enum class CmdbObject(val value: String) {
         ATTRIBUTE("attribute"),
         CI("ci"),
+        CIDetail("ciDetail"),
         CLASS("class"),
         TYPE("type")
     }

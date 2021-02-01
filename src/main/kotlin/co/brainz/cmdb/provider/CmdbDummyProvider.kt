@@ -10,7 +10,7 @@ import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIAttributeDto
 import co.brainz.cmdb.provider.dto.CIClassDto
-import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.CITypeDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -148,27 +148,23 @@ class CmdbDummyProvider(
         return ciDataList
     }
 
-    fun getDummyCi(ciId: String): CIDto {
-        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CI.value)
-        var ciData = CIDto()
+    fun getDummyCi(ciId: String): CIDetailDto {
+        val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CIDetail.value)
+        var ciDetailDto = CIDetailDto()
         if (file != null) {
-            val ciDataList: List<CIDto> = mapper.readValue(
+            val ciDataList: List<CIDetailDto> = mapper.readValue(
                 file,
-                mapper.typeFactory.constructCollectionType(List::class.java, CIDto::class.java)
+                mapper.typeFactory.constructCollectionType(List::class.java, CIDetailDto::class.java)
             )
             if (ciDataList.isNotEmpty()) {
                 val searchDataList = ciDataList.filter { it.ciId == ciId }
                 if (!searchDataList.isNullOrEmpty()) {
-                    ciData = searchDataList[0]
-                    ciData.createDt = LocalDateTime.now()
-                    val typeData = ciData.typeId?.let { ciTypeRepository.findById(it) }
-                    if (typeData != null) {
-                        ciData.typeName = typeData.get().typeName
-                    }
+                    ciDetailDto = searchDataList[0]
+                    ciDetailDto.createDt = LocalDateTime.now()
                 }
             }
         }
-        return ciData
+        return ciDetailDto
     }
 
     private fun getDummyFile(fileName: String): File? {

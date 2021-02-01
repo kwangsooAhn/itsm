@@ -9,13 +9,14 @@ CREATE TABLE cmdb_ci_history
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	ci_no character varying(128),
-	ci_name character varying(128) NOT NULL,
-    ci_status character varying(100) NOT NULL,
-	type_id character varying(128) NOT NULL,
-	class_id character varying(128) NOT NULL,
+	ci_name character varying(128),
+	ci_status character varying(100),
+	type_id character varying(128),
+	class_id character varying(128),
 	ci_icon character varying(200),
 	ci_desc character varying(512),
-	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id, ci_id, seq),
+	automatic boolean DEFAULT 'false',
+	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
 	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
 );
 
@@ -30,3 +31,4 @@ COMMENT ON COLUMN cmdb_ci_history.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
+COMMENT ON COLUMN cmdb_ci_history.automatic IS '자동등록여부';

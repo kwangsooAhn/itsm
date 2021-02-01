@@ -6,9 +6,9 @@
 
 package co.brainz.cmdb.ci.repository
 
-import co.brainz.cmdb.ci.entity.CIEntity
+import co.brainz.cmdb.ci.entity.CITagEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CIRepository : JpaRepository<CIEntity, String>, CIRepositoryCustom
+interface CITagRepository : JpaRepository<CITagEntity, String>, CITagRepositoryCustom
