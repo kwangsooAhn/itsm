@@ -1146,7 +1146,7 @@
         }).join('');
 
         // 테이블 Row 추가
-        property.value = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
+        property.value = (typeof property.value !== 'undefined' && property.value !== '' && !Array.isArray(property.value)) ? JSON.parse(property.value) : [];
         this.template =
             `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-isEditable="${property.display.isEditable}">` +
                 `<div class="move-handler"></div>` +

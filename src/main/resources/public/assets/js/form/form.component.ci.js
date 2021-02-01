@@ -17,6 +17,16 @@
     const ACTION_TYPE_REGISTER = 'register';
     const ACTION_TYPE_DELETE = 'delete';
     const ACTION_TYPE_MODIFY = 'modify';
+    const CIData = {
+        ciId: '',
+        ciNo: '',
+        ciIcon: '',
+        typeId: '',
+        typeName: '',
+        ciName: '',
+        ciDesc: '',
+        classId: ''
+    };
     /**
      * 편집 가능 여부에 따라 표시될 데이터 반환
      * @param isEditable
@@ -95,6 +105,107 @@
     }
 
     /**
+     * 필수값 체크
+     */
+    function checkRequired() {
+        const requiredElem = document.querySelectorAll('[required]');
+        for (let i = 0, len = requiredElem.length; i < len; i++) {
+            if (requiredElem[i].value.trim() === '') {
+                requiredElem[i].classList.add('error');
+                aliceJs.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
+                    requiredElem[i].focus();
+                });
+                return false;
+            }
+            requiredElem[i].classList.remove('error');
+        }
+        return true;
+    }
+
+    /**
+     * CI 세부 속성 데이터 저장
+     * 
+     * @param {String} actionType 타입
+     * @param {Object} comp 컴포넌트
+     */
+    function saveCIComponentData(actionType, comp) {
+        if (checkRequired()) {
+            const instanceElements = document.getElementById('instanceId');
+            const instanceId = (instanceElements !== null) ? instanceElements.getAttribute('data-id') : '';
+
+            const saveCIData = {};
+            Object.keys(CIData).forEach(function(key) {
+                const elem = document.getElementById((key === 'ciIcon') ? 'typeIcon': key);
+                if (elem !== null) {
+                    saveCIData[key] = elem.value;
+                }
+            });
+
+            const compIdx = aliceDocument.getComponentIndex(comp.id);
+                const componentData = aliceDocument.data.form.components[compIdx];
+            if (actionType === ACTION_TYPE_REGISTER) {
+                saveCIData.ciId = workflowUtil.generateUUID();
+                saveCIData.actionType = ACTION_TYPE_REGISTER;
+                addRow(comp, saveCIData);
+                componentData.value.push(saveCIData);
+            } else {
+                saveCIData.actionType = ACTION_TYPE_MODIFY;
+                // TODO CI 컴포넌트 - 테이블 데이터 수정
+            }
+
+            const saveData = {
+                ciId: saveCIData.ciId,
+                componentId: comp.id,
+                values: { ciAttributes: [], ciTags: [] },
+                instanceId: instanceId
+            };
+            document.querySelectorAll('.attribute').forEach(function(el) {
+                let ciAttribute = {};
+                const attributeType = el.getAttribute('data-attributeType');
+                switch (attributeType) {
+                    case 'inputbox':
+                        const inputElem = el.querySelector('input');
+                        ciAttribute.id = inputElem.id;
+                        ciAttribute.value = inputElem.value;
+                        break;
+                    case 'dropdown':
+                        const selectElem = el.querySelector('select');
+                        ciAttribute.id = selectElem.id;
+                        ciAttribute.value = selectElem.value;
+                        break;
+                    case 'radio':
+                        const radioElem = el.querySelector('input[name="attribute-radio"]:checked');
+                        ciAttribute.id = radioElem.id.split('-')[0];
+                        ciAttribute.value = radioElem.value;
+                        break;
+                    case 'checkbox':
+                        let checkValues = [];
+                        el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function(chkElem, idx) {
+                            if (idx === 0) {
+                                ciAttribute.id = chkElem.id.split('-')[0];
+                            }
+                            if (chkElem.checked) {
+                                checkValues.push(chkElem.value);
+                            }
+                        });
+                        ciAttribute.value = checkValues;
+                        break;
+                    case 'custom-code':
+                        const customElem = el.querySelector('input');
+                        ciAttribute.id = customElem.parentNode.id;
+                        ciAttribute.value = customElem.getAttribute('custom-data');
+                        break;
+                    default:
+                        break;
+                }
+                saveData.values.ciAttributes.push(ciAttribute);
+            });
+            // TODO: wf_ci_component_data 테이블에 저장
+            console.log(saveData);
+        }
+    }
+
+    /**
      * 신규 CI 등록 모달
      */
     function openRegisterModal(e) {
@@ -109,6 +220,8 @@
                     classes: "point-fill",
                     bindKey: false,
                     callback: function (modal) {
+                        // 세부 속성 저장
+                        saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent);
                         modal.hide();
                     }
                 }, {
@@ -259,11 +372,7 @@
                 let tdTemplate = `<td class="align-left ${opt.type === 'hidden' ? '' : 'on'} ${opt.class}" style="border-color: ${rowBorderColor}; width: ${thWidth}%;">`;
                 switch (opt.type) {
                     case 'editable':
-                        if (actionType === ACTION_TYPE_REGISTER) {
-                            tdTemplate += `<input type="text" value="${data[opt.id]}" maxlength="100"/>`;
-                        } else {
-                            tdTemplate += `${data[opt.id]}`;
-                        }
+                        tdTemplate += `${data[opt.id]}`;
                         break;
                     case 'readonly':
                         tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
@@ -343,7 +452,6 @@
                     // 아이콘과 클래스가 없을 경우, 타입 변경시 기본 값을 추가해준다.
                     restSubmit('/rest/cmdb/types/' + response.id, 'GET', {}, false, function (responseData) {
                         let responseJson = JSON.parse(responseData);
-                        console.log(responseJson);
                         document.getElementById('classId').value = responseJson.defaultClassId;
                         document.getElementById('className').value = responseJson.defaultClassName;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
@@ -395,15 +503,19 @@
      */
     function setAttributeDetail(classId) {
         // 가데이터
-        const ciClassesJson = [
+        const CIClasses = [
             {"attributes": [
                 {"attributeId":"799afe719cd0bfe38797172bb77ae5d8","attributeName":"Licensing policy","attributeText":"라이센스 정책","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"FPP","value":"fpp"},{"text":"ESD","value":"esd"},{"text":"OEM","value":"oem"},{"text":"COEM DSP","value":"coem"},{"text":"Volumn","value":"volumn"}]},"value":"oem"},
-                {"attributeId":"489a14a0ebdca14b6eb42cf804330145","attributeName":"Licenses","attributeText":"라이센스","attributeType":"inputbox","attributeOrder":"2","attributeValue":{"validate":"","required":"true"},"value":""}
+                {"attributeId":"489a14a0ebdca14b6eb42cf804330145","attributeName":"Licenses","attributeText":"라이센스","attributeType":"inputbox","attributeOrder":"2","attributeValue":{"validate":"","required":"true"},"value":""},
+                {"attributeId":"2c9180887759cbaf01775c049af50000","attributeName":"Test#1","attributeText":"라디오버튼","attributeType":"radio","attributeOrder":"3","attributeValue":{"option":[{"text":"여자","value":"female"},{"text":"남자","value":"male"}]},"value":"male"},
+                {"attributeId":"072fcb3be4056095a9af82dc6505b1e8","attributeName":"Test#2","attributeText":"커스텀코드","attributeType":"custom-code","attributeOrder":"4","attributeValue":{"customCode":"40288a9170f18a8b0170f1a0be9c0002","default":{"type":"session","value":"department"},"button":"부서선택"},"value":""}
             ]},
             {"attributes": [
                 {"attributeId":"df0e88d216ace73e0164f3dbf7ade131","attributeName":"Version_OS_Windows","attributeText":"버전","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"윈도우  XP","value":"xp"},{"text":"윈도우 7","value":"7"},{"text":"윈도우 8","value":"8"},{"text":"윈도우 9","value":"9"},{"text":"윈도우 10","value":"10"}]},"value":"10"}
             ]}
        ];
+        // TODO: 서버 단 상세 속성 조회
+       attribute.drawDetails(document.getElementById('ciAttributes'), CIClasses);
         //restSubmit('/rest/cmdb/classes/' + classId + '/attributes', 'GET', {}, false, function (responseData) {
             //let responseJson = JSON.parse(responseData);
             //console.log(responseJson); // attributes

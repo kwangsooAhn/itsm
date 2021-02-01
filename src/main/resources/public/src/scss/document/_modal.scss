@@ -25,6 +25,18 @@
 
           .edit-row {  margin-top: 0.625rem; } // 10px
           .field-label { margin: 0.625rem 0; } // 10px 0
+
+          // 세부 속성
+          .attribute-group {
+            background-color: $light-gray;
+            padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
+            border: $cmdb-ci-attribute-border;
+            border-radius:  0.0625rem; // 1px
+            margin-bottom: 0.625rem; // 10px
+            input:read-only {
+              background-color: $white;
+            }
+          }
         }
         .table-set {
           margin-top: 2.188rem; // 35px
