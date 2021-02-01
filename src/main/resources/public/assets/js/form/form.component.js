@@ -721,7 +721,8 @@
                     dropZoneFilesId: 'dropZoneFiles-' + this.id,
                     dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
                     editor: (displayType !== 'readonly' && !isReadOnly),
-                    isView: (displayType === 'readonly' || isReadOnly)
+                    isView: (displayType === 'readonly' || isReadOnly),
+                    isForm: true
                 }
             };
             if (typeof property.value !== 'undefined') {

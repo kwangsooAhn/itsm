@@ -102,6 +102,10 @@ const fileUploader = (function () {
         if (extraParam.isView === undefined) {
             extraParam.isView = false;
         }
+
+        if (extraParam.isForm === undefined) {
+            extraParam.isForm = false;
+        }
         // dropzone 영역이 아래에 나오게 하고싶은 경우
         if (extraParam.isDropzoneUnder === undefined) {
             extraParam.isDropzoneUnder = false;
@@ -335,8 +339,8 @@ const fileUploader = (function () {
                         _this.isFileExist = (files.length > 0);
                         // 파일이 존재하지 않으면
                         if (!_this.isFileExist && extraParam.isView) {
-                            const noFileStr = document.createElement('span');
-                            noFileStr.className = 'text-no-file';
+                            const noFileStr = extraParam.isForm ? document.createElement('div') : document.createElement('span');
+                            noFileStr.className = 'text-no-file text-ellipsis';
                             noFileStr.textContent = i18n.msg('file.msg.noAttachFile');
                             dropZoneUploadedFiles.appendChild(noFileStr);
                         }
