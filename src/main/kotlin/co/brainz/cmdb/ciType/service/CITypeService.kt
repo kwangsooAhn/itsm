@@ -7,6 +7,7 @@
 package co.brainz.cmdb.ciType.service
 
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
+import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.dto.CITypeDto
@@ -92,20 +93,26 @@ class CITypeService(
      *  CMDB Type 등록
      */
     fun createCIType(ciTypeDto: CITypeDto): Boolean {
+        var typeLevel = 0
+        lateinit var parentTypeEntity: CITypeEntity
+
+        if (ciTypeDto.pTypeId.isNullOrEmpty()) {
+            parentTypeEntity = ciTypeRepository.findById(CITypeConstants.CI_TYPE_ROOT_ID).get()
+            typeLevel = 0
+        } else {
+            parentTypeEntity = ciTypeRepository.findById(ciTypeDto.pTypeId!!).get()
+            typeLevel = parentTypeEntity.typeLevel!! + 1
+        }
+
         val ciTypeEntity = CITypeEntity(
-            pType = ciTypeRepository.findById(ciTypeDto.pTypeId!!)
-                .orElse(CITypeEntity(typeId = ciTypeDto.pTypeId!!)),
+            pType = parentTypeEntity,
             typeName = ciTypeDto.typeName,
             typeDesc = ciTypeDto.typeDesc,
             typeIcon = ciTypeDto.typeIcon,
-            defaultClass = ciTypeDto.defaultClassId?.let { ciClassRepository.getOne(it) }
+            defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId),
+            typeLevel = typeLevel
         )
-        if (ciTypeDto.pTypeId.isNullOrEmpty()) {
-            ciTypeEntity.typeLevel = 0
-        } else {
-            val pTypeEntity = ciTypeRepository.findById(ciTypeDto.pTypeId!!).get()
-            ciTypeEntity.typeLevel = pTypeEntity.typeLevel!! + 1
-        }
+
         ciTypeEntity.createUser = ciTypeDto.createUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
         }
@@ -121,13 +128,11 @@ class CITypeService(
     fun updateCIType(ciTypeDto: CITypeDto, typeId: String): Boolean {
         val ciTypeEntity = CITypeEntity(
             typeId = ciTypeDto.typeId,
-            pType = ciTypeRepository.findById(ciTypeDto.pTypeId!!)
-                .orElse(CITypeEntity(typeId = ciTypeDto.pTypeId!!)),
             typeName = ciTypeDto.typeName,
             typeDesc = ciTypeDto.typeDesc,
             typeLevel = ciTypeDto.typeLevel,
             typeIcon = ciTypeDto.typeIcon,
-            defaultClass = ciTypeDto.defaultClassId?.let { ciClassRepository.getOne(it) }
+            defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId)
         )
         ciTypeEntity.updateUser = ciTypeDto.updateUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
