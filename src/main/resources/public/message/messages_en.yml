@@ -547,6 +547,7 @@ form:
     customCodeTarget: "Target Select"
     description: "Description"
     detail: "Detail Form"
+    edit: "Edit Form"
     form: "Form"
     import: "Form IMPORT"
     importFile: "IMPORT File"
