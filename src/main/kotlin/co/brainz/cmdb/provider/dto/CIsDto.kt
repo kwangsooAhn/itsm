@@ -1,4 +1,3 @@
-package co.brainz.cmdb.provider.dto
 /*
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
@@ -10,7 +9,7 @@ package co.brainz.cmdb.provider.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class CIListDto(
+data class CIsDto(
     val ciId: String? = "",
     var ciNo: String? = null,
     var ciName: String? = null,
@@ -26,6 +25,5 @@ data class CIListDto(
     var createDt: LocalDateTime? = null,
     val updateUserKey: String? = null,
     val updateDt: LocalDateTime? = null,
-    var tags: MutableList<CITagDto>? = null,
     var totalCount: Long = 0
 ) : Serializable
