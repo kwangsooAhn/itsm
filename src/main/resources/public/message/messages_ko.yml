@@ -547,6 +547,7 @@ form:
     customCodeTarget: "대상 선택"
     description: "설명"
     detail: "문서양식 상세"
+    edit: "문서양식 편집"
     form: "문서양식"
     import: "폼 IMPORT"
     importFile: "IMPORT 파일"
@@ -560,8 +561,8 @@ form:
     state: "상태"
     templatesList: "템플릿 목록"
     title: "Form Designer"
-    undo: "작업 취소"
     update: "문서양식 변경"
+    undo: "작업 취소"
   msg:
     enterFormName: "양식이름을 입력하세요."
     failedAllColumnDelete: "최소 1개 열은 필수입니다."
