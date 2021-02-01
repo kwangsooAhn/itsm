@@ -347,9 +347,8 @@
                         document.getElementById('classId').value = responseJson.defaultClassId;
                         document.getElementById('className').value = responseJson.defaultClassName;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
+                        setAttributeDetail(responseJson.defaultClassId);
                     });
-                    console.log(response);
-                    console.log(response.dataset.name);
                     document.getElementById('typeName').value = response.dataset.name;
                     document.getElementById('typeId').value = response.id;
                 } else {
@@ -372,7 +371,6 @@
      * @param {String} typeIcon 아이콘 경로
      */
     function openSelectClassModal(classId) {
-        console.log(classId);
         tree.load({
             view: 'modal',
             title: i18n.msg('cmdb.type.label.class'),
@@ -384,11 +382,32 @@
                 if (response.id !== 'root') {
                     document.getElementById('className').value = response.dataset.name;
                     document.getElementById('classId').value = response.id;
+                    setAttributeDetail(response.id);
                 } else {
                     aliceJs.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableClass'));
                 }
             }
         });
+    }
+
+    /**
+     * CLass 상세 속성 속성 표시
+     */
+    function setAttributeDetail(classId) {
+        // 가데이터
+        const ciClassesJson = [
+            {"attributes": [
+                {"attributeId":"799afe719cd0bfe38797172bb77ae5d8","attributeName":"Licensing policy","attributeText":"라이센스 정책","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"FPP","value":"fpp"},{"text":"ESD","value":"esd"},{"text":"OEM","value":"oem"},{"text":"COEM DSP","value":"coem"},{"text":"Volumn","value":"volumn"}]},"value":"oem"},
+                {"attributeId":"489a14a0ebdca14b6eb42cf804330145","attributeName":"Licenses","attributeText":"라이센스","attributeType":"inputbox","attributeOrder":"2","attributeValue":{"validate":"","required":"true"},"value":""}
+            ]},
+            {"attributes": [
+                {"attributeId":"df0e88d216ace73e0164f3dbf7ade131","attributeName":"Version_OS_Windows","attributeText":"버전","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"윈도우  XP","value":"xp"},{"text":"윈도우 7","value":"7"},{"text":"윈도우 8","value":"8"},{"text":"윈도우 9","value":"9"},{"text":"윈도우 10","value":"10"}]},"value":"10"}
+            ]}
+       ];
+        //restSubmit('/rest/cmdb/classes/' + classId + '/attributes', 'GET', {}, false, function (responseData) {
+            //let responseJson = JSON.parse(responseData);
+            //console.log(responseJson); // attributes
+        //});
     }
 
     exports.getProperty = getProperty;
