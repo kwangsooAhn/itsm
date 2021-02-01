@@ -4088,17 +4088,7 @@ body.modal-active {
   min-height: 9.375rem;
 }
 .component .field-group .field-content .text-no-file {
-  height: 2.5rem;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 2.4;
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  padding: 0 0.625rem 0 0.625rem;
-  vertical-align: middle;
-  color: #ACB4BF;
-  background-color: #F7F8F9;
+  width: 100%;
 }
 .component .field-group .field-content.custom-code {
   display: flex;

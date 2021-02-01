@@ -339,9 +339,15 @@ const fileUploader = (function () {
                         _this.isFileExist = (files.length > 0);
                         // 파일이 존재하지 않으면
                         if (!_this.isFileExist && extraParam.isView) {
-                            const noFileStr = extraParam.isForm ? document.createElement('div') : document.createElement('span');
+                            const noFileStr = extraParam.isForm ? document.createElement('input') : document.createElement('span');
                             noFileStr.className = 'text-no-file text-ellipsis';
-                            noFileStr.textContent = i18n.msg('file.msg.noAttachFile');
+                            // form-designer 또는 신청서일 때
+                            if (extraParam.isForm) {
+                                noFileStr.placeholder = i18n.msg('file.msg.noAttachFile');
+                                noFileStr.disabled = true;
+                            } else {
+                                noFileStr.textContent = i18n.msg('file.msg.noAttachFile');
+                            }
                             dropZoneUploadedFiles.appendChild(noFileStr);
                         }
 
