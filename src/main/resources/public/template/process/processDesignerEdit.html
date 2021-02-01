@@ -49,13 +49,7 @@
                 </div>
             </button>
             <th:block th:if="${#strings.isEmpty(isView)}">
-                <button type="button" class="btn-header header-tooltip" id="btnSimulation">
-                    <span class="icon icon-simulation"></span>
-                    <div class="tooltip-contents">
-                        <span th:text="#{process.label.simulation}"></span>
-                    </div>
-                </button>
-                <button type="button" class="btn-header header-tooltip" id="btnUndo">
+               <button type="button" class="btn-header header-tooltip" id="btnUndo">
                     <span class="icon icon-undo"></span>
                     <div class="tooltip-contents">
                         <span th:text="#{process.label.undo}"></span>
@@ -68,6 +62,12 @@
                     </div>
                 </button>
             </th:block>
+            <button type="button" class="btn-header header-tooltip" id="btnSimulation">
+                <span class="icon icon-simulation"></span>
+                <div class="tooltip-contents">
+                    <span th:text="#{process.label.simulation}"></span>
+                </div>
+            </button>
             <button type="button" class="btn-header header-tooltip" id="btnDownload">
                 <span class="icon icon-image-download"></span>
                 <div class="tooltip-contents">
