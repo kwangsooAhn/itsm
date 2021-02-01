@@ -9,7 +9,7 @@ package co.brainz.itsm.cmdb.ci.service
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIComponentDataDto
-import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -30,7 +30,7 @@ class CIService(
     /**
      * CMDB CI 단일 조회
      */
-    fun getCI(ciId: String): CIDto {
+    fun getCI(ciId: String): CIDetailDto {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.CI.GET_CI.url.replace(
                 restTemplate.getKeyRegex(),
@@ -38,7 +38,7 @@ class CIService(
             )
         )
         val responseBody = restTemplate.get(url)
-        return mapper.readValue(responseBody, CIDto::class.java)
+        return mapper.readValue(responseBody, CIDetailDto::class.java)
     }
 
     /**
