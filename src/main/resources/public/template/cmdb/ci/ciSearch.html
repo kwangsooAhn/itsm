@@ -74,9 +74,6 @@
                 callbackFunc: function (response) {
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
-                        console.log("======멍충이========");
-                        console.log(dataList);
-                        console.log("==============");
                         if (dataList.length > 0) {
                             aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;

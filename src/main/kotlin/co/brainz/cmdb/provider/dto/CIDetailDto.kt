@@ -31,7 +31,5 @@ data class CIDetailDto(
 ) : Serializable
 
 class CIClassDetailValueDto(
-    var classId: String = "",
-    var className: String = "",
     var attributes: MutableList<CIAttributeValueDto>? = null
 ) : Serializable
