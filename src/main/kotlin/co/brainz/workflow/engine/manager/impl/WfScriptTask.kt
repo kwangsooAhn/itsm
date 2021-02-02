@@ -87,9 +87,9 @@ class WfScriptTask(
                             // wf_component_ci_data 에서 데이터 조회 후 CIDto 생성
                             val ciId = ci["ciId"] as String
                             val ciComponentData =
-                                wfTokenManagerService.getComponentCIDataList(componentId, ciId, instanceId)
+                                wfTokenManagerService.getComponentCIData(componentId, ciId, instanceId)
                             val ciComponentDataValue: Map<String, Any> =
-                                mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
+                                mapper.readValue(ciComponentData?.values, object : TypeReference<Map<String, Any>>() {})
                             val ciAttributes: List<Map<String, Any>> =
                                 mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
                             val ciTags: List<Map<String, Any>> =

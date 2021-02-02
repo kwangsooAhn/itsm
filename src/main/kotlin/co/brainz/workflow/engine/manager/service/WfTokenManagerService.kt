@@ -216,8 +216,24 @@ class WfTokenManagerService(
     /**
      * CI 임시 테이블 데이터 조회.
      */
-    fun getComponentCIDataList(componentId: String, ciId: String, instanceId: String): CIComponentDataEntity {
+    fun getComponentCIData(componentId: String, ciId: String, instanceId: String): CIComponentDataEntity? {
         return ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
+    }
+
+    /**
+     * CI 임시 테이블 목록 조회.
+     */
+    fun getComponentCiDataList(instanceId: String): List<CIComponentDataEntity>? {
+        return ciComponentDataRepository.findByInstanceId(instanceId)
+    }
+
+    /**
+     * CI 임시 테이블 삭제.
+     */
+    fun deleteCiComponentData(ciComponentDataEntities: List<CIComponentDataEntity>?) {
+        ciComponentDataEntities?.forEach { data ->
+            ciComponentDataRepository.deleteByCiIdAndAndComponentId(data.ciId, data.componentId)
+        }
     }
 
     /**

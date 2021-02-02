@@ -18,6 +18,13 @@ class WfCommonEndEvent(
     override var isAutoComplete: Boolean = true
 ) : WfTokenManager(wfTokenManagerService) {
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
+
+        // CMDB 임시테이블에 등록된 자산 정보가 있을 경우 삭제한다.
+        createTokenDto.instanceId
+        val ciComponentDataList = wfTokenManagerService.getComponentCiDataList(createTokenDto.instanceId)
+        if (!ciComponentDataList.isNullOrEmpty()) {
+            wfTokenManagerService.deleteCiComponentData(ciComponentDataList)
+        }
         return createTokenDto
     }
 
