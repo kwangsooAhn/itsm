@@ -55,9 +55,7 @@ class WfTokenManagerService(
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceFileService: AliceFileService,
     private val aliceFileLocRepository: AliceFileLocRepository,
-    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
-    private val ciClassRepository: CIClassRepository,
-    private val ciTypeRepository: CITypeRepository
+    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository
 ) {
 
     /**
@@ -157,16 +155,16 @@ class WfTokenManagerService(
     /**
      * CI Class 조회.
      */
-    fun getCiClass(classId: String): CIClassEntity {
+    /*fun getCiClass(classId: String): CIClassEntity {
         return ciClassRepository.findCIClassEntityByClassId(classId)
-    }
+    }*/
 
     /**
      * CI Type 조회.
      */
-    fun getCiType(typeId: String): CITypeEntity {
+    /*fun getCiType(typeId: String): CITypeEntity {
         return ciTypeRepository.findCITypeEntityByTypeId(typeId)
-    }
+    }*/
 
     /**
      * 랜덤 파일명 생성.

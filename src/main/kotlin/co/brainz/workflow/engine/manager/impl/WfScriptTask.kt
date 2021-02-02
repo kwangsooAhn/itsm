@@ -6,6 +6,7 @@
 package co.brainz.workflow.engine.manager.impl
 
 import co.brainz.cmdb.ci.entity.CIEntity
+import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -82,26 +83,28 @@ class WfScriptTask(
                         val valueCiList: List<MutableMap<String, Any>> =
                             mapper.convertValue(componentData["value"], listLinkedMapType)
 
-                        val createCiList = mutableListOf<CIEntity>()
-                        val modifyCiList = mutableListOf<CIEntity>()
-                        val deleteCiList = mutableListOf<CIEntity>()
+                        val createCiList = mutableListOf<CIDto>()
+                        val modifyCiList = mutableListOf<CIDto>()
+                        val deleteCiList = mutableListOf<CIDto>()
                         valueCiList.forEach { ci ->
-                            val ciEntity = CIEntity(
+                            val ciDto = CIDto(
                                 ciId = ci["ciId"] as String,
                                 ciNo = ci["ciNo"] as String,
                                 ciName = ci["ciName"] as String,
                                 ciDesc = ci["ciDesc"] as String,
                                 ciIcon = ci["ciIcon"] as String,
-                                ciStatus = "I",
-                                ciTypeEntity = wfTokenManagerService.getCiType(ci["ciType"] as String),
-                                ciClassEntity = wfTokenManagerService.getCiClass(ci["ciClass"] as String)
-                                //createUser 를 어떻게 가져올 것인가...
-                                // 여기 조회도 rest api로 해야되나..?
+                                classId = ci["classId"] as String,
+                                typeId = ci["typeId"] as String
                             )
+                            val a = ci["ciStatus"]
+
                             when (ci["actionType"] as String) {
-                                "register" -> createCiList.add(ciEntity)
-                                "modify" -> modifyCiList.add(ciEntity)
-                                "delete" -> deleteCiList.add(ciEntity)
+                                "register" -> {
+
+                                    createCiList.add(ciDto)
+                                }
+                                "modify" -> modifyCiList.add(ciDto)
+                                "delete" -> deleteCiList.add(ciDto)
                             }
                         }
 
