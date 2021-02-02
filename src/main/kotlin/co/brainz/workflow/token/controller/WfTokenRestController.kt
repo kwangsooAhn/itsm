@@ -1,5 +1,6 @@
 package co.brainz.workflow.token.controller
 
+import co.brainz.cmdb.provider.dto.CIComponentDataDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -11,14 +12,7 @@ import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import co.brainz.workflow.token.service.WfTokenService
 import javax.transaction.Transactional
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/rest/wf/tokens")
@@ -127,5 +121,18 @@ class WfTokenRestController(
             }
         }
         return wfEngine.progressWorkflow(wfEngine.toTokenDto(dummyTokenDto))
+    }
+
+    @PutMapping("/cis/{ciId}/data")
+    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentDataDto: CIComponentDataDto): Boolean {
+        return wfTokenService.saveCIComponentData(ciComponentDataDto)
+    }
+
+    @DeleteMapping("/cis/data")
+    fun deleteCIComponentData(
+            @RequestParam(value = "ciId") ciId: String,
+            @RequestParam(value = "componentId") componentId: String
+    ): Boolean {
+        return wfTokenService.deleteCIComponentData(ciId, componentId)
     }
 }

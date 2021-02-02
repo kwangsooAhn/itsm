@@ -1,5 +1,9 @@
 package co.brainz.workflow.token.service
 
+import co.brainz.cmdb.ci.entity.CIComponentDataEntity
+import co.brainz.cmdb.ci.repository.CIComponentDataRepository
+import co.brainz.cmdb.provider.dto.CIComponentDataDto
+import co.brainz.cmdb.provider.dto.CIComponentDetail
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.instance.constants.InstanceConstants
@@ -32,6 +36,7 @@ class WfTokenService(
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
+    private val ciComponentDataRepository: CIComponentDataRepository,
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
     private val ciService: CIService
@@ -221,5 +226,35 @@ class WfTokenService(
                 }
             }
         return assigneeId
+    }
+
+    /**
+     * CI 컴포넌트 - CI 세부 정보 등록 / 수정
+     */
+    fun saveCIComponentData(ciComponentDataDto: CIComponentDataDto): Boolean {
+        val ciComponentDetail = CIComponentDetail(
+                ciAttributes = ciComponentDataDto.values.ciAttributes,
+                ciTags = ciComponentDataDto.values.ciTags
+        )
+        val ciComponentEntity = CIComponentDataEntity(
+                ciId = ciComponentDataDto.ciId,
+                componentId = ciComponentDataDto.componentId,
+                values = ciComponentDetail.toString(),
+                instanceId = ciComponentDataDto.instanceId
+        )
+        ciComponentDataRepository.save(ciComponentEntity)
+        return true
+    }
+
+    /**
+     * CI 컴포넌트 - CI 세부 정보 삭제
+     */
+    fun deleteCIComponentData(ciId: String, componentId: String): Boolean {
+        val ciComponentEntity = ciComponentDataRepository.findByCiIdAnAndComponentId(ciId, componentId)
+        if (ciComponentEntity != null) {
+            ciComponentDataRepository.deleteByCiIdAndAndComponentId(ciId, componentId)
+            return true
+        }
+        return false
     }
 }

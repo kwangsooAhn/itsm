@@ -8,7 +8,6 @@ package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIComponentDataDto
 import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
@@ -54,27 +53,5 @@ class CIService(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, CIListDto::class.java)
         )
-    }
-
-    /**
-     * CI 컴포넌트 -  CI 세부 데이터 저장.
-     */
-    fun saveCIComponentData(ciId: String, ciComponentDataDto: CIComponentDataDto): Boolean {
-        val url = RestTemplateUrlDto(
-                callUrl = RestTemplateConstants.CI.PUT_CI_COMPONENT.url.replace(restTemplate.getKeyRegex(), ciId)
-        )
-        val responseEntity = restTemplate.update(url, ciComponentDataDto)
-        return responseEntity.body.toString().isNotEmpty()
-    }
-
-    /**
-     * CI 컴포넌트 - CI 세부 데이터 삭제.
-     */
-    fun deleteCIComponentData(params: LinkedMultiValueMap<String, String>): Boolean {
-        val url = RestTemplateUrlDto(
-                callUrl = RestTemplateConstants.CI.DELETE_CI_COMPONENT.url,
-                parameters = params
-        )
-        return restTemplate.delete(url).toString().isNotEmpty()
     }
 }

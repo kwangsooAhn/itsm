@@ -1,5 +1,6 @@
 package co.brainz.itsm.token.service
 
+import co.brainz.cmdb.provider.dto.CIComponentDataDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.workflow.provider.RestTemplateProvider
@@ -98,5 +99,30 @@ class TokenService(
         )
 
         return documentActionService.makeTokenAction(restTemplate.get(url))
+    }
+
+    /**
+     * CI 컴포넌트 -  CI 세부 데이터 저장.
+     */
+    fun saveCIComponentData(ciId: String, ciComponentDataDto: CIComponentDataDto): Boolean {
+        val url = RestTemplateUrlDto(
+                callUrl = RestTemplateConstants.Token.PUT_CI_COMPONENT.url.replace(
+                        restTemplate.getKeyRegex(),
+                        ciId
+                )
+        )
+        val responseEntity = restTemplate.update(url, ciComponentDataDto)
+        return responseEntity.body.toString().isNotEmpty()
+    }
+
+    /**
+     * CI 컴포넌트 - CI 세부 데이터 삭제.
+     */
+    fun deleteCIComponentData(params: LinkedMultiValueMap<String, String>): Boolean {
+        val url = RestTemplateUrlDto(
+                callUrl = RestTemplateConstants.Token.DELETE_CI_COMPONENT.url,
+                parameters = params
+        )
+        return restTemplate.delete(url).toString().isNotEmpty()
     }
 }

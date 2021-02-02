@@ -127,8 +127,9 @@
      * 
      * @param {String} actionType 타입
      * @param {Object} comp 컴포넌트
+     * @param {Function} callbackFunc callback 함수
      */
-    function saveCIComponentData(actionType, comp) {
+    function saveCIComponentData(actionType, comp, callbackFunc) {
         if (checkRequired()) {
             const instanceElements = document.getElementById('instanceId');
             const instanceId = (instanceElements !== null) ? instanceElements.getAttribute('data-id') : '';
@@ -202,6 +203,7 @@
             });
             // TODO: wf_ci_component_data 테이블에 저장
             console.log(saveData);
+            restSubmit('/rest/tokens/cis/' + saveData.ciId, 'PUT', JSON.stringify(saveData), false, callbackFunc);
         }
     }
 
@@ -221,8 +223,9 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent);
-                        modal.hide();
+                        saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent, function() {
+                            modal.hide();
+                        });
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
@@ -422,7 +425,7 @@
             const actionType = componentData.value[ciIdx].actionType;
             if (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) {
                 // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
-                restSubmit('/rest/cmdb/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
+                restSubmit('/rest/tokens/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
             }
             // 화면 데이터 삭제
             componentData.value.splice(ciIdx, 1);
@@ -431,7 +434,7 @@
         }
         // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
         if (ciTb.rows.length === 1) {
-            CI.addRow(ciComponent);
+            addRow(ciComponent);
         }
     }
 
