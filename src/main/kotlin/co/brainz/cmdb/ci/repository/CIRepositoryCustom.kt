@@ -11,4 +11,5 @@ import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface CIRepositoryCustom : AliceRepositoryCustom {
     fun findCIList(search: String, offset: Long?, tags: List<String>): List<CIsDto>
+    fun findDuplicateCiNo(ciNo: String): Long
 }
