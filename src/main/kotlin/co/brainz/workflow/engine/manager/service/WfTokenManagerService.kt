@@ -5,10 +5,10 @@
 
 package co.brainz.workflow.engine.manager.service
 
-import co.brainz.cmdb.ciClass.entity.CIClassEntity
-import co.brainz.cmdb.ciClass.repository.CIClassRepository
-import co.brainz.cmdb.ciType.entity.CITypeEntity
-import co.brainz.cmdb.ciType.repository.CITypeRepository
+import co.brainz.cmdb.ci.entity.CIComponentDataEntity
+import co.brainz.cmdb.ci.repository.CIComponentDataRepository
+import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
@@ -29,11 +29,16 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.workflow.provider.RestTemplateProvider
+import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -55,8 +60,12 @@ class WfTokenManagerService(
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceFileService: AliceFileService,
     private val aliceFileLocRepository: AliceFileLocRepository,
-    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository
+    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
+    private val ciComponentDataRepository: CIComponentDataRepository,
+    private val restTemplate: RestTemplateProvider
 ) {
+
+    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * Get component entity.
@@ -153,18 +162,63 @@ class WfTokenManagerService(
     }
 
     /**
-     * CI Class 조회.
+     * Post Rest Api (CI).
      */
-    /*fun getCiClass(classId: String): CIClassEntity {
-        return ciClassRepository.findCIClassEntityByClassId(classId)
-    }*/
+    fun postRestApiCi(url: RestTemplateUrlDto, ci: CIDto): String {
+        val responseBody = restTemplate.create(url, ci)
+        return when (responseBody.body.toString().isNotEmpty()) {
+            true -> {
+                val restTemplateReturnDto =
+                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
+                restTemplateReturnDto.code
+            }
+            false -> ""
+        }
+    }
 
     /**
-     * CI Type 조회.
+     * Put Rest Api (CI).
      */
-    /*fun getCiType(typeId: String): CITypeEntity {
-        return ciTypeRepository.findCITypeEntityByTypeId(typeId)
-    }*/
+    fun putRestApiCi(url: RestTemplateUrlDto, ci: CIDto): String {
+        val responseBody = restTemplate.update(url, ci)
+        return when (responseBody.body.toString().isNotEmpty()) {
+            true -> {
+                val restTemplateReturnDto =
+                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
+                restTemplateReturnDto.code
+            }
+            false -> ""
+        }
+    }
+
+    /**
+     * Delete Rest Api (CI).
+     */
+    fun deleteRestApiCi(url: RestTemplateUrlDto, ci: CIDto): String {
+        val responseBody = restTemplate.delete(url, ci)
+        return when (responseBody.body.toString().isNotEmpty()) {
+            true -> {
+                val restTemplateReturnDto =
+                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
+                restTemplateReturnDto.code
+            }
+            false -> ""
+        }
+    }
+
+    /**
+     * 문자열 치환 패턴.
+     */
+    fun getKeyRegex(): Regex {
+        return restTemplate.getKeyRegex()
+    }
+
+    /**
+     * CI 임시 테이블 데이터 조회.
+     */
+    fun getComponentCIDataList(componentId: String, ciId: String, instanceId: String): CIComponentDataEntity {
+        return ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
+    }
 
     /**
      * 랜덤 파일명 생성.

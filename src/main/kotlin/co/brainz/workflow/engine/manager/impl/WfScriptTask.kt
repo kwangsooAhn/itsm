@@ -5,16 +5,20 @@
 
 package co.brainz.workflow.engine.manager.impl
 
-import co.brainz.cmdb.ci.entity.CIEntity
+import co.brainz.cmdb.provider.constants.RestTemplateConstants
+import co.brainz.cmdb.provider.dto.CIDataDto
 import co.brainz.cmdb.provider.dto.CIDto
-import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
+import co.brainz.cmdb.provider.dto.CIRelationDto
+import co.brainz.cmdb.provider.dto.CITagDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
+import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
+import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -46,8 +50,7 @@ class WfScriptTask(
             WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value ->
                 this.setDocumentAttachFile(createTokenDto, element)
             WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
-                println("CMDB 저장")
-                // 1. ScripTask MappingId 가져오기
+                // 1. ScripTask MappingId 조회
                 var targetMappingId = ""
                 for (scriptData in element.elementScriptDataEntities) {
                     if (!scriptData.scriptValue.isNullOrEmpty()) {
@@ -63,73 +66,105 @@ class WfScriptTask(
                     createTokenDto.data?.forEach { componentIds.add(it.componentId) }
                     val componentEntity =
                         wfTokenManagerService.getComponentIdInAndMappingId(componentIds, targetMappingId)
-                    // 3. 해당 컴포넌트가 cmdb 컴포넌트가 맞으면 해당 컴포넌트로 임시테이블 데이터 조회
-                    if (componentEntity.componentType == "ci") {
+                    if (componentEntity.componentType == WfComponentConstants.ComponentType.CI.code) {
+                        val createCiList = mutableListOf<CIDto>()
+                        val modifyCiList = mutableListOf<CIDto>()
+                        val deleteCiList = mutableListOf<CIDto>()
+
                         // 3-1. componentId, instanceId, ci_id 찾기
                         val componentId = componentEntity.componentId
                         val instanceId = createTokenDto.instanceId
 
                         val linkedMapType = TypeFactory.defaultInstance()
                             .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
-                        val listLinkedMapType = TypeFactory.defaultInstance().constructCollectionType(List::class.java, linkedMapType)
+                        val listLinkedMapType =
+                            TypeFactory.defaultInstance().constructCollectionType(List::class.java, linkedMapType)
 
                         val tokenData =
                             createTokenDto.data?.filter { it.componentId == componentEntity.componentId }?.get(0)
-                        // componentEntity.componentId, createTokenDto.instanceId, tokenData.value 에서 ci찾기
-                        val tokenDataValue: Map<String, Any> =
-                            mapper.readValue(tokenData?.value, object : TypeReference<Map<String, Any>>() {})
-                        val componentData: MutableMap<String, Any> =
-                            mapper.convertValue(tokenDataValue["componentData"], linkedMapType)
-                        val valueCiList: List<MutableMap<String, Any>> =
-                            mapper.convertValue(componentData["value"], listLinkedMapType)
-
-                        val createCiList = mutableListOf<CIDto>()
-                        val modifyCiList = mutableListOf<CIDto>()
-                        val deleteCiList = mutableListOf<CIDto>()
+                        val valueCiList: List<Map<String, Any>> = mapper.readValue(tokenData?.value, listLinkedMapType)
                         valueCiList.forEach { ci ->
+                            // wf_component_ci_data 에서 데이터 조회 후 CIDto 생성
+                            val ciId = ci["ciId"] as String
+                            val ciComponentData =
+                                wfTokenManagerService.getComponentCIDataList(componentId, ciId, instanceId)
+                            val ciComponentDataValue: Map<String, Any> =
+                                mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
+                            val ciAttributes: List<Map<String, Any>> =
+                                mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
+                            val ciTags: List<Map<String, Any>> =
+                                mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
+                            val ciDataList = mutableListOf<CIDataDto>()
+                            // Attributes
+                            ciAttributes.forEach { attribute ->
+                                ciDataList.add(
+                                    CIDataDto(
+                                        ciId = ciId,
+                                        attributeId = attribute["id"] as String,
+                                        attributeData = attribute["value"] as String
+                                    )
+                                )
+                            }
+                            // Tags
+                            val tagDataList = mutableListOf<CITagDto>()
+                            ciTags.forEach { tag ->
+                                tagDataList.add(
+                                    CITagDto(
+                                        ciId = ciId,
+                                        tagId = tag["id"] as String,
+                                        tagName = tag["value"] as String
+                                    )
+                                )
+                            }
+                            // Relations
+                            val relationList = mutableListOf<CIRelationDto>()
+
                             val ciDto = CIDto(
-                                ciId = ci["ciId"] as String,
+                                ciId = ciId,
                                 ciNo = ci["ciNo"] as String,
                                 ciName = ci["ciName"] as String,
                                 ciDesc = ci["ciDesc"] as String,
                                 ciIcon = ci["ciIcon"] as String,
                                 classId = ci["classId"] as String,
-                                typeId = ci["typeId"] as String
+                                typeId = ci["typeId"] as String,
+                                ciStatus = "",
+                                ciDataList = ciDataList,
+                                ciTags = tagDataList,
+                                ciRelations = relationList
                             )
-                            val a = ci["ciStatus"]
 
                             when (ci["actionType"] as String) {
-                                "register" -> {
-
-                                    createCiList.add(ciDto)
-                                }
+                                "register" -> createCiList.add(ciDto)
                                 "modify" -> modifyCiList.add(ciDto)
                                 "delete" -> deleteCiList.add(ciDto)
                             }
                         }
 
-                        // 신규
-                        createCiList.forEach { newCi ->
-                            //Create Rest API
-                            RestTemplateUrlDto(
-
+                        createCiList.forEach { ci ->
+                            val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.CI.POST_CI.url)
+                            wfTokenManagerService.postRestApiCi(url, ci)
+                        }
+                        modifyCiList.forEach { ci ->
+                            val url = RestTemplateUrlDto(
+                                callUrl = RestTemplateConstants.CI.PUT_CI.url.replace(
+                                    wfTokenManagerService.getKeyRegex(),
+                                    ci.ciId
+                                )
                             )
+                            wfTokenManagerService.putRestApiCi(url, ci)
                         }
-                        modifyCiList.forEach { modifyCi ->
-
+                        deleteCiList.forEach { ci ->
+                            val url = RestTemplateUrlDto(
+                                callUrl = RestTemplateConstants.CI.DELETE_CI.url.replace(
+                                    wfTokenManagerService.getKeyRegex(),
+                                    ci.ciId
+                                )
+                            )
+                            wfTokenManagerService.deleteRestApiCi(url, ci)
                         }
-                        deleteCiList.forEach { deleteCi ->
-                            //Delete Rest API >> 이건 상태값만 변경
-                        }
-
-                        // wf_component_ci_data 에서 조회하여 처리
                     }
-
                 }
-
             }
-
-
         }
 
         return createTokenDto

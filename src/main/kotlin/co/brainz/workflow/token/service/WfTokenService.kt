@@ -17,11 +17,8 @@ import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.type.TypeFactory
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.Gson
+import com.google.gson.JsonArray
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -41,7 +38,6 @@ class WfTokenService(
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * Search Tokens.
@@ -129,10 +125,6 @@ class WfTokenService(
                 tokenEntity.get().element.elementId
             )
 
-        val linkedMapType = TypeFactory.defaultInstance()
-            .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
-        val listLinkedMapType = TypeFactory.defaultInstance().constructCollectionType(List::class.java, linkedMapType)
-
         for (componentEntity in formData.components) {
             // value
             val tokenDataEntities = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(tokenId)
@@ -141,26 +133,22 @@ class WfTokenService(
                     var resultValue = tokenDataEntity.value
                     // CI 컴포넌트 - 세부 데이터 조회
                     if (resultValue.isNotEmpty() && componentEntity.type == WfComponentConstants.ComponentType.CI.code) {
-                        val componentValue: Map<String, Any> =
-                            mapper.readValue(resultValue, object : TypeReference<Map<String, Any>>() {})
-                        val componentData: MutableMap<String, Any> =
-                            mapper.convertValue(componentValue["componentData"], linkedMapType)
-                        val valueCiList: List<MutableMap<String, Any>> =
-                            mapper.convertValue(componentData["value"], listLinkedMapType)
-                        valueCiList.forEach { data ->
-                            val actionType = data["actionType"] as String
+                        val ciJsonArray = Gson().fromJson(resultValue, JsonArray::class.java)
+                        ciJsonArray.forEach {
+                            val ciJsonData = it.asJsonObject
+                            val actionType = ciJsonData.get("actionType").asString
                             if (actionType == CIConstants.ActionType.DELETE.code || actionType == CIConstants.ActionType.READ.code) {
-                                val ciData = ciService.getCI(data["ciId"] as String)
-                                data["ciNo"] = ciData.ciNo as String
-                                data["ciName"] = ciData.ciName as String
-                                data["typeId"] = ciData.typeId as String
-                                data["typeName"] = ciData.typeName as String
-                                data["ciDesc"] = ciData.ciDesc ?: ""
-                                data["ciIcon"] = ciData.ciIcon ?: ""
-                                data["classId"] = ciData.classId as String
+                                val ciData = ciService.getCI(ciJsonData.get("ciId").asString)
+                                ciJsonData.addProperty("ciNo", ciData.ciNo)
+                                ciJsonData.addProperty("ciName", ciData.ciName)
+                                ciJsonData.addProperty("typeId", ciData.typeId)
+                                ciJsonData.addProperty("typeName", ciData.typeName)
+                                ciJsonData.addProperty("ciDesc", ciData.ciDesc)
+                                ciJsonData.addProperty("ciIcon", ciData.ciIcon)
+                                ciJsonData.addProperty("classId", ciData.classId)
                             }
                         }
-                        resultValue = mapper.writeValueAsString(valueCiList)
+                        resultValue = Gson().toJson(ciJsonArray)
                     }
                     componentEntity.value = resultValue
                 }
