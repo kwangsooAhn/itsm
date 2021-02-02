@@ -127,8 +127,9 @@
      * 
      * @param {String} actionType 타입
      * @param {Object} comp 컴포넌트
+     * @param {Function} callbackFunc callback 함수
      */
-    function saveCIComponentData(actionType, comp) {
+    function saveCIComponentData(actionType, comp, callbackFunc) {
         if (checkRequired()) {
             const instanceElements = document.getElementById('instanceId');
             const instanceId = (instanceElements !== null) ? instanceElements.getAttribute('data-id') : '';
@@ -200,8 +201,7 @@
                 }
                 saveData.values.ciAttributes.push(ciAttribute);
             });
-            // TODO: wf_ci_component_data 테이블에 저장
-            console.log(saveData);
+            restSubmit('/rest/tokens/cis/' + saveData.ciId + '/data', 'POST', saveData, false, callbackFunc);
         }
     }
 
@@ -221,8 +221,9 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent);
-                        modal.hide();
+                        saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent, function() {
+                            modal.hide();
+                        });
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
@@ -300,7 +301,7 @@
                             const ci = { actionType: targetBtn.getAttribute('data-actionType') };
                             const ciTbCells = document.getElementById('ci-' + chkElem.value).children;
                             Array.from(ciTbCells).forEach(function(cell) {
-                                if (typeof cell.id !== undefined) {
+                                if (typeof cell.id !== 'undefined') {
                                     ci[cell.id] = (cell.id === 'ciId') ? chkElem.value : cell.textContent;
                                 }
                             });
@@ -422,7 +423,7 @@
             const actionType = componentData.value[ciIdx].actionType;
             if (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) {
                 // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
-                restSubmit('/rest/cmdb/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
+                restSubmit('/rest/tokens/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
             }
             // 화면 데이터 삭제
             componentData.value.splice(ciIdx, 1);
@@ -431,7 +432,7 @@
         }
         // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
         if (ciTb.rows.length === 1) {
-            CI.addRow(ciComponent);
+            addRow(ciComponent);
         }
     }
 
@@ -506,7 +507,7 @@
         const CIClasses = [
             {"attributes": [
                 {"attributeId":"799afe719cd0bfe38797172bb77ae5d8","attributeName":"Licensing policy","attributeText":"라이센스 정책","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"FPP","value":"fpp"},{"text":"ESD","value":"esd"},{"text":"OEM","value":"oem"},{"text":"COEM DSP","value":"coem"},{"text":"Volumn","value":"volumn"}]},"value":"oem"},
-                {"attributeId":"489a14a0ebdca14b6eb42cf804330145","attributeName":"Licenses","attributeText":"라이센스","attributeType":"inputbox","attributeOrder":"2","attributeValue":{"validate":"","required":"true"},"value":""},
+                {"attributeId":"489a14a0ebdca14b6eb42cf804330145","attributeName":"Licenses","attributeText":"라이센스","attributeType":"inputbox","attributeOrder":"2","attributeValue":{"validate":"","required":"false"},"value":""},
                 {"attributeId":"2c9180887759cbaf01775c049af50000","attributeName":"Test#1","attributeText":"라디오버튼","attributeType":"radio","attributeOrder":"3","attributeValue":{"option":[{"text":"여자","value":"female"},{"text":"남자","value":"male"}]},"value":"male"},
                 {"attributeId":"072fcb3be4056095a9af82dc6505b1e8","attributeName":"Test#2","attributeText":"커스텀코드","attributeType":"custom-code","attributeOrder":"4","attributeValue":{"customCode":"40288a9170f18a8b0170f1a0be9c0002","default":{"type":"session","value":"department"},"button":"부서선택"},"value":""}
             ]},

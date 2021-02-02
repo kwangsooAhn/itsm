@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.cmdb.ci.entity
+package co.brainz.workflow.component.entity
 
 import java.io.Serializable
 import javax.persistence.Column
@@ -15,8 +15,8 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "wf_component_ci_data")
-@IdClass(CIComponentDataPk::class)
-data class CIComponentDataEntity(
+@IdClass(WfCIComponentDataPk::class)
+data class WfCIComponentDataEntity(
 
     @Id
     @Column(name = "ci_id", length = 128)
@@ -34,7 +34,7 @@ data class CIComponentDataEntity(
 
 ) : Serializable
 
-data class CIComponentDataPk(
+data class WfCIComponentDataPk(
     val ciId: String = "",
     val componentId: String = ""
 ) : Serializable

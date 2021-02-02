@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.cmdb.ci.controller
 
-import co.brainz.cmdb.provider.dto.CIComponentDataDto
 import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.itsm.cmdb.ci.service.CIService
@@ -14,11 +13,8 @@ import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -43,24 +39,5 @@ class CIRestController(private val ciService: CIService) {
     @GetMapping("{ciId}")
     fun getCI(request: HttpServletRequest, model: Model, @PathVariable ciId: String): CIDetailDto {
         return ciService.getCI(ciId)
-    }
-
-    /**
-     * CI 컴포넌트 - CI 세부 정보 등록 / 수정
-     */
-    @PutMapping("/{ciId}/data")
-    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentDataDto: CIComponentDataDto): Boolean {
-        return ciService.saveCIComponentData(ciId, ciComponentDataDto)
-    }
-
-    /**
-     * CI 컴포넌트 - CI 세부 정보 삭제
-     */
-    @DeleteMapping("/data")
-    fun deleteCIComponentData(request: HttpServletRequest): Boolean {
-        val params = LinkedMultiValueMap<String, String>()
-        params["ciId"] = request.getParameter("ciId")
-        params["componentId"] = request.getParameter("componentId")
-        return ciService.deleteCIComponentData(params)
     }
 }

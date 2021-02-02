@@ -6,12 +6,10 @@
 
 package co.brainz.cmdb.ci.service
 
-import co.brainz.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.entity.CIEntity
 import co.brainz.cmdb.ci.entity.CIRelationEntity
 import co.brainz.cmdb.ci.entity.CITagEntity
-import co.brainz.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.cmdb.ci.repository.CIDataRepository
 import co.brainz.cmdb.ci.repository.CIRelationRepository
 import co.brainz.cmdb.ci.repository.CIRepository
@@ -20,8 +18,6 @@ import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIComponentDataDto
-import co.brainz.cmdb.provider.dto.CIComponentDetail
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.CITagDto
@@ -36,7 +32,6 @@ import org.springframework.util.StringUtils
 class CIService(
     private val ciRepository: CIRepository,
     private val ciTagRepository: CITagRepository,
-    private val ciComponentDataRepository: CIComponentDataRepository,
     private val ciTypeRepository: CITypeRepository,
     private val ciClassRepository: CIClassRepository,
     private val ciAttributeRepository: CIAttributeRepository,
@@ -44,36 +39,6 @@ class CIService(
     private val ciDataRepository: CIDataRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-    /**
-     * CI 컴포넌트 - CI 세부 정보 등록 / 수정
-     */
-    fun saveCIComponentData(ciComponentDataDto: CIComponentDataDto): Boolean {
-        val ciComponentDetail = CIComponentDetail(
-            ciAttributes = ciComponentDataDto.values.ciAttributes,
-            ciTags = ciComponentDataDto.values.ciTags
-        )
-        val ciComponentEntity = CIComponentDataEntity(
-            ciId = ciComponentDataDto.ciId,
-            componentId = ciComponentDataDto.componentId,
-            values = ciComponentDetail.toString(),
-            instanceId = ciComponentDataDto.instanceId
-        )
-        ciComponentDataRepository.save(ciComponentEntity)
-        return true
-    }
-
-    /**
-     * CI 컴포넌트 - CI 세부 정보 삭제
-     */
-    fun deleteCIComponentData(ciId: String, componentId: String): Boolean {
-        val ciComponentEntity = ciComponentDataRepository.findByCiIdAnAndComponentId(ciId, componentId)
-        if (ciComponentEntity != null) {
-            ciComponentDataRepository.deleteByCiIdAndAndComponentId(ciId, componentId)
-            return true
-        }
-        return false
-    }
 
     /**
      * CI 목록 조회.
