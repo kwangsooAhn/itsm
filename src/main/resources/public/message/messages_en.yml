@@ -242,6 +242,7 @@ chart:
     enterChartName: "Please enter a chart name."
     enterTargetLabel: "Please enter a target label."
     enterDurationDigit: "Please enter a Duration."
+    periodUnitOutOfRange: "The duration is greater than the period."
   chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"

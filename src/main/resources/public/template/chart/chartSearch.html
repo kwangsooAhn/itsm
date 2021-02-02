@@ -41,6 +41,10 @@
         /*<![CDATA[*/
         let offsetCount = 0;
         const STATUS_SUCCESS = '0';
+        const CHART_YEAR = 'Y';
+        const CHART_MONTH = 'M';
+        const CHART_DAY = 'D';
+        const CHART_HOUR = 'H';
         window.onload = function () {
             document.getElementById('searchTypeName').addEventListener('change', function () {
                 searchCharts(false);
@@ -326,6 +330,27 @@
                     durationDigit: document.getElementById('durationDigit').value,
                     durationUnit: document.getElementById('durationUnitSelectBox').value,
                     periodUnit: document.getElementById('periodUnitSelectBox').value
+                }
+
+                switch (chartInfo.durationUnit) {
+                    case CHART_MONTH:
+                        if (chartInfo.periodUnit === CHART_YEAR) {
+                            aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                            return false;
+                        }
+                        break;
+                    case CHART_DAY:
+                        if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH) {
+                            aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                            return false;
+                        }
+                        break;
+                    case CHART_HOUR:
+                        if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH || chartInfo.periodUnit === CHART_DAY) {
+                            aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                            return false;
+                        }
+                        break;
                 }
 
                 let url = '/rest/charts';
