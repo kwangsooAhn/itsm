@@ -5,6 +5,10 @@
 
 package co.brainz.workflow.engine.manager.service
 
+import co.brainz.cmdb.ciClass.entity.CIClassEntity
+import co.brainz.cmdb.ciClass.repository.CIClassRepository
+import co.brainz.cmdb.ciType.entity.CITypeEntity
+import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
@@ -51,7 +55,9 @@ class WfTokenManagerService(
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceFileService: AliceFileService,
     private val aliceFileLocRepository: AliceFileLocRepository,
-    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository
+    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
+    private val ciClassRepository: CIClassRepository,
+    private val ciTypeRepository: CITypeRepository
 ) {
 
     /**
@@ -146,6 +152,20 @@ class WfTokenManagerService(
      */
     fun getProcessFilePath(attachFileName: String): Path {
         return Paths.get(aliceFileService.getProcessFilePath().toString() + File.separator + attachFileName)
+    }
+
+    /**
+     * CI Class 조회.
+     */
+    fun getCiClass(classId: String): CIClassEntity {
+        return ciClassRepository.findCIClassEntityByClassId(classId)
+    }
+
+    /**
+     * CI Type 조회.
+     */
+    fun getCiType(typeId: String): CITypeEntity {
+        return ciTypeRepository.findCITypeEntityByTypeId(typeId)
     }
 
     /**

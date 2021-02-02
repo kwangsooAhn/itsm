@@ -5,6 +5,8 @@
 
 package co.brainz.workflow.engine.manager.impl
 
+import co.brainz.cmdb.ci.entity.CIEntity
+import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -42,11 +44,89 @@ class WfScriptTask(
         when (scriptType) {
             WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value ->
                 this.setDocumentAttachFile(createTokenDto, element)
-            WfElementConstants.ScriptType.DOCUMENT_CMDB.value ->
-                // TODO: CMDB 저장
-                // 1. [targetMappingId] 값으로 조건이 되는 CMDB 컴포넌트를 찾고
-                // 2. CMDB를 저장한다.
+            WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
                 println("CMDB 저장")
+                // 1. ScripTask MappingId 가져오기
+                var targetMappingId = ""
+                for (scriptData in element.elementScriptDataEntities) {
+                    if (!scriptData.scriptValue.isNullOrEmpty()) {
+                        val scriptMap: Map<String, Any> =
+                            mapper.readValue(scriptData.scriptValue, object : TypeReference<Map<String, Any>>() {})
+                        targetMappingId = scriptMap[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value].toString()
+                    }
+                }
+
+                // 2. tokenData 에서 mappingId와 동일한 컴포넌트 찾기
+                if (targetMappingId.isNotEmpty()) {
+                    val componentIds: MutableList<String> = mutableListOf()
+                    createTokenDto.data?.forEach { componentIds.add(it.componentId) }
+                    val componentEntity =
+                        wfTokenManagerService.getComponentIdInAndMappingId(componentIds, targetMappingId)
+                    // 3. 해당 컴포넌트가 cmdb 컴포넌트가 맞으면 해당 컴포넌트로 임시테이블 데이터 조회
+                    if (componentEntity.componentType == "ci") {
+                        // 3-1. componentId, instanceId, ci_id 찾기
+                        val componentId = componentEntity.componentId
+                        val instanceId = createTokenDto.instanceId
+
+                        val linkedMapType = TypeFactory.defaultInstance()
+                            .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
+                        val listLinkedMapType = TypeFactory.defaultInstance().constructCollectionType(List::class.java, linkedMapType)
+
+                        val tokenData =
+                            createTokenDto.data?.filter { it.componentId == componentEntity.componentId }?.get(0)
+                        // componentEntity.componentId, createTokenDto.instanceId, tokenData.value 에서 ci찾기
+                        val tokenDataValue: Map<String, Any> =
+                            mapper.readValue(tokenData?.value, object : TypeReference<Map<String, Any>>() {})
+                        val componentData: MutableMap<String, Any> =
+                            mapper.convertValue(tokenDataValue["componentData"], linkedMapType)
+                        val valueCiList: List<MutableMap<String, Any>> =
+                            mapper.convertValue(componentData["value"], listLinkedMapType)
+
+                        val createCiList = mutableListOf<CIEntity>()
+                        val modifyCiList = mutableListOf<CIEntity>()
+                        val deleteCiList = mutableListOf<CIEntity>()
+                        valueCiList.forEach { ci ->
+                            val ciEntity = CIEntity(
+                                ciId = ci["ciId"] as String,
+                                ciNo = ci["ciNo"] as String,
+                                ciName = ci["ciName"] as String,
+                                ciDesc = ci["ciDesc"] as String,
+                                ciIcon = ci["ciIcon"] as String,
+                                ciStatus = "I",
+                                ciTypeEntity = wfTokenManagerService.getCiType(ci["ciType"] as String),
+                                ciClassEntity = wfTokenManagerService.getCiClass(ci["ciClass"] as String)
+                                //createUser 를 어떻게 가져올 것인가...
+                                // 여기 조회도 rest api로 해야되나..?
+                            )
+                            when (ci["actionType"] as String) {
+                                "register" -> createCiList.add(ciEntity)
+                                "modify" -> modifyCiList.add(ciEntity)
+                                "delete" -> deleteCiList.add(ciEntity)
+                            }
+                        }
+
+                        // 신규
+                        createCiList.forEach { newCi ->
+                            //Create Rest API
+                            RestTemplateUrlDto(
+
+                            )
+                        }
+                        modifyCiList.forEach { modifyCi ->
+
+                        }
+                        deleteCiList.forEach { deleteCi ->
+                            //Delete Rest API >> 이건 상태값만 변경
+                        }
+
+                        // wf_component_ci_data 에서 조회하여 처리
+                    }
+
+                }
+
+            }
+
+
         }
 
         return createTokenDto

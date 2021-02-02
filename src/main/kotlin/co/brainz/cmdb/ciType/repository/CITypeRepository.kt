@@ -11,4 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CITypeRepository : JpaRepository<CITypeEntity, String>, CITypeRepositoryCustom
+interface CITypeRepository : JpaRepository<CITypeEntity, String>, CITypeRepositoryCustom {
+
+    fun findCITypeEntityByTypeId(typeId: String): CITypeEntity
+}

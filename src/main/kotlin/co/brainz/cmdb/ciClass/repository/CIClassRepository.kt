@@ -25,4 +25,6 @@ interface CIClassRepository : JpaRepository<CIClassEntity, String>, CIClassRepos
     fun findRecursiveClass(classId: String): List<CIClassEntity>
 
     fun existsByPClass(pClassEntity: CIClassEntity): Boolean
+
+    fun findCIClassEntityByClassId(classId: String): CIClassEntity
 }
