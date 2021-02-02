@@ -222,15 +222,27 @@ board:
 
 # Chart
 chart:
+  btn:
+    preview: "PREVIEW"
   label:
     all: "All"
     chartList: "Statistics Chart List"
+    defaultInfo: "Default Info"
     description: "Chart Description"
+    edit: "Chart Edit"
     name: "Chart Name"
+    querryInfo: "Query Info"
+    targetLabel: "Target Label"
     type: "Chart Type"
+    periodUnit: "PeriodUnit"
+    operation: "Operation"
+    duration: "Duration"
   msg:
     searchDescription: "View and manage various statistical charts."
-  type:
+    enterChartName: "Please enter a chart name."
+    enterTargetLabel: "Please enter a target label."
+    enterDurationDigit: "Please enter a Duration."
+  chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
     stackedColumn: "Stacked Column Chart"
