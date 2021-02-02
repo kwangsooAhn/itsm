@@ -30,6 +30,9 @@
         {'text': 'Number', 'value': 'number'}
     ];
 
+    const numberRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
+    const charRegex = /^[a-zA-Z가-힣]*$/; // 영문자 , 한글
+
     let parent = null;
     let customCodeList = null;
 
@@ -283,7 +286,7 @@
         }).join('');
 
         const defaultType = property.default !== undefined ? property.default.type : 'none';
-        const defaultValue = property.default !== undefined ? property.default.value : '';
+        const defaultValue = property.default !== undefined ? (defaultType === 'code' ? property.default.value.split('|')[0] : property.default.value) : '';
         const buttonText = property.button !== undefined ? property.button : '';
 
         // session
@@ -455,7 +458,8 @@
                         defaultValue = parent.querySelector('#' + attributeTypeList[4].type + '-default-session').value;
                         break;
                     case 'code':
-                        defaultValue = parent.querySelector('#' + attributeTypeList[4].type + '-default-code').value;
+                        const codeSelect = parent.querySelector('#' + attributeTypeList[4].type + '-default-code');
+                        defaultValue = codeSelect.value + '|' + codeSelect.options[codeSelect.selectedIndex].text;
                         break;
                     default:
                         break;
@@ -474,12 +478,218 @@
         return details
     }
 
+    /**
+     * Attribute 세부 정보 데이터를 토대로 화면에 출력
+     * @param target 표시할 대상 element
+     * @param attributeData 세부 데이터
+     */
+    function drawDetails(target, attributeData) {
+        target.innerHTML = '';
+
+        for (let i = 0, iLen = attributeData.length; i < iLen; i++) {
+            const groupAttribute = attributeData[i];
+            const groupAttributeElem = document.createElement('div');
+            groupAttributeElem.className = 'attribute-group';
+            for (let j = 0, jLen = groupAttribute.attributes.length; j < jLen; j++) {
+                const attributes = groupAttribute.attributes[j];
+                const childAttributeElem = document.createElement('div');
+                childAttributeElem.className = 'flex-column edit-row attribute';
+                childAttributeElem.setAttribute('data-attributeType', attributes.attributeType);
+                // 라벨
+                const labelElem = document.createElement('label');
+                const labelTextElem = document.createElement('span');
+                labelTextElem.textContent = attributes.attributeText;
+                labelElem.appendChild(labelTextElem);
+                childAttributeElem.appendChild(labelElem);
+
+                switch (attributes.attributeType) {
+                    case 'inputbox':
+                        const inputElem = document.createElement('input');
+                        inputElem.type = 'text';
+                        inputElem.id = attributes.attributeId;
+                        inputElem.value = attributes.value;
+                        if (typeof attributes.attributeValue !== 'undefined') {
+                            if (attributes.attributeValue.required === "true") {
+                                inputElem.required = true;
+                                labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
+                            }
+                            // TODO: 유효성 검증 추가
+                            /*if (attributes.attributeValue.validate !== '') {
+                                inputElem.addEventListener('keyup', function (e) {
+                                    let validateRtn = true;
+                                    if (attributes.attributeValue.validate === 'char') {
+                                        validateRtn = numberRegex.test(e.target.value);
+                                    } else if (attributes.attributeValue.validate === 'number') {
+                                        validateRtn = charRegex.test(e.target.value);
+                                    }
+
+                                    if (!validateRtn) {
+                                        e.target.classList.add('error');
+                                    } else {
+                                        e.target.classList.remove('error');
+                                    }
+                                });
+                            }*/
+                        }
+                        childAttributeElem.appendChild(inputElem);
+                        break;
+                    case 'dropdown':
+                        const selectElem = document.createElement('select');
+                        selectElem.id = attributes.attributeId;
+                        if (typeof attributes.attributeValue !== 'undefined') {
+                            for (let opt = 0, optLen = attributes.attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributes.attributeValue.option[opt];
+                                const selectOption = document.createElement('option');
+                                selectOption.textContent = attributeOption.text;
+                                selectOption.value = attributeOption.value;
+                                if (selectOption.value === attributes.value) {
+                                    selectOption.selected = true;
+                                }
+                                selectElem.appendChild(selectOption);
+                            }
+                        }
+                        childAttributeElem.appendChild(selectElem);
+                        break;
+                    case 'radio':
+                        if (typeof attributes.attributeValue !== 'undefined') {
+                            for (let opt = 0, optLen = attributes.attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributes.attributeValue.option[opt];
+                                const radioGroup = document.createElement('label');
+                                radioGroup.className = 'radio';
+                                radioGroup.tabindex = 0
+                                radioGroup.htmlFor = attributes.attributeId + '-' + opt;
+
+                                const radio = document.createElement('input');
+                                radio.type = 'radio';
+                                radio.id = attributes.attributeId + '-' + opt;
+                                radio.name = 'attribute-radio';
+                                radio.value = attributeOption.value;
+                                if (attributeOption.value === attributes.value) {
+                                    radio.checked = true;
+                                }
+                                if (attributes.value === '' && opt === 0) {
+                                    radio.checked = true;
+                                }
+                                radioGroup.appendChild(radio);
+
+                                const radioSpan = document.createElement('span');
+                                radioGroup.appendChild(radioSpan);
+
+                                const radioLabel = document.createElement('span');
+                                radioLabel.className = 'label';
+                                radioLabel.textContent = attributeOption.text;
+                                radioGroup.appendChild(radioLabel);
+                                childAttributeElem.appendChild(radioGroup);
+                            }
+                        }
+                        break;
+                    case 'checkbox':
+                        if (typeof attributes.attributeValue !== 'undefined') {
+                            for (let opt = 0, optLen = attributes.attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributes.attributeValue.option[opt];
+                                const chkGroup = document.createElement('label');
+                                chkGroup.className = 'checkbox';
+                                chkGroup.tabindex = 0
+                                chkGroup.htmlFor = attributes.attributeId + '-' + opt;
+
+                                const chk = document.createElement('input');
+                                chk.type = 'checkbox';
+                                chk.id = attributes.attributeId + '-' + opt;
+                                chk.name = 'attribute-checkbox';
+                                chk.value = attributeOption.value;
+                                if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                    chk.checked = true;
+                                }
+                                chkGroup.appendChild(chk);
+
+                                const chkSpan = document.createElement('span');
+                                chkGroup.appendChild(chkSpan);
+
+                                const chkLabel = document.createElement('span');
+                                chkLabel.className = 'label';
+                                chkLabel.textContent = attributeOption.text;
+                                chkGroup.appendChild(chkLabel);
+                                childAttributeElem.appendChild(chkGroup);
+                            }
+                        }
+                        break;
+                    case 'custom-code':
+                        const customValueArr = attributes.value.split('|');
+                        const inputButtonElem = document.createElement('div');
+                        inputButtonElem.id = attributes.attributeId;
+                        inputButtonElem.className = 'flex-row input-button';
+
+                        const customInputElem = document.createElement('input');
+                        customInputElem.type = 'text';
+                        customInputElem.className = 'col-pct-12 inherit';
+                        customInputElem.value = (customValueArr.length > 1) ? customValueArr[1] : '';
+                        customInputElem.readOnly = true;
+                        inputButtonElem.appendChild(customInputElem);
+
+                        const customBtnElem = document.createElement('button');
+                        customBtnElem.type = 'button';
+                        customBtnElem.className = 'default-line';
+                        inputButtonElem.appendChild(customBtnElem);
+
+                        let customData = attributes.value; // 'key|값'
+                        let defaultValue = '';
+                        if (typeof attributes.attributeValue !== 'undefined') {
+                            customBtnElem.textContent = attributes.attributeValue.button;
+                            // 커스텀 코드 기본 값 넣기
+                            if (attributes.value === '') {
+                                switch (attributes.attributeValue.default.type) {
+                                    case 'session':
+                                        if (attributes.attributeValue.default.value === 'userName') {
+                                            customData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
+                                            defaultValue = aliceForm.session['userName'];
+                                        } else if (attributes.attributeValue.default.value === 'department') {
+                                            customData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
+                                            defaultValue = aliceForm.session['departmentName'];
+                                        }
+                                        break;
+                                    case 'code':
+                                        customData = attributes.attributeValue.default.value;
+                                        defaultValue = customData.split('|')[1];
+                                        break;
+                                    default: //none
+                                        customData = attributes.attributeValue.default.type + '|';
+                                        break;
+                                }
+                            }
+                            customInputElem.value = defaultValue;
+                            customInputElem.setAttribute('custom-data', customData);
+
+                            customBtnElem.addEventListener('click', function () {
+                                const customCodeData = {
+                                    componentId: attributes.attributeId,
+                                    componentValue: customInputElem.getAttribute('custom-data')
+                                };
+                                const itemName = 'alice_custom-codes-search-' + attributes.attributeId;
+                                sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
+                                let url = '/custom-codes/' + attributes.attributeValue.customCode+ '/search';
+                                window.open(url, itemName, 'width=500, height=655');
+                            });
+                        }
+                        childAttributeElem.appendChild(inputButtonElem);
+                        break;
+                    default:
+                        break;
+                }
+
+                groupAttributeElem.appendChild(childAttributeElem);
+            }
+            target.appendChild(groupAttributeElem)
+        }
+        aliceJs.initDesignedSelectTag();
+    }
+
     exports.attributeTypeList = attributeTypeList
 
     exports.init = init
     exports.makeDetails = makeDetails
     exports.checkDetails = checkDetails
     exports.setDetails = setDetails
+    exports.drawDetails = drawDetails
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

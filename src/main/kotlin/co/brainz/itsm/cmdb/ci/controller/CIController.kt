@@ -20,7 +20,7 @@ class CIController(private val ciService: CIService) {
 
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
-    private val ciEditPage: String = "cmdb/ci/ciEdit"
+    private val ciEditModal: String = "cmdb/ci/ciEditModal"
     private val ciListModal: String = "cmdb/ci/ciListModal"
 
     /**
@@ -51,7 +51,7 @@ class CIController(private val ciService: CIService) {
      */
     @GetMapping("/new")
     fun getCINew(): String {
-        return ciEditPage
+        return ciEditModal
     }
 
     /**

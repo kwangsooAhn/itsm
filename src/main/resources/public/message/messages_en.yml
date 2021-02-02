@@ -328,6 +328,7 @@ cmdb:
       enterTypeName: "Please enter a Type Name."
       selectType: "Please select a Type."
       selectAvailableClass: "Please select a available Class.<br/>(not root)"
+      selectAvailableType: "Please select a available Type.<br/>(not root)"
     btn:
       import: "Import"
       export: "Export"
