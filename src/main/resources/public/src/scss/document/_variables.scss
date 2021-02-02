@@ -49,3 +49,6 @@ $tag-invalid-bg-color:                       rgba(255, 64, 90, 0.1); // $red , �
 //////////////////////////// CI 모달 /////////////////////////
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
+
+$cmdb-ci-attribute-border:                   0.0625rem solid $line-gray; // 1px
+$cmdb-ci-attribute-bg-color:                 $light-gray;
