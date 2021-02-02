@@ -32,7 +32,7 @@
     <div class="flex-row">
         <div class="flex-column col-6 mr-4">
             <label class="field-label required" th:text="#{chart.label.targetLabel}"/>
-            <input type="text" id="targetLabel" name="targetLabel" th:value="${chart?.targetLabel}"/>
+            <input type="text" id="targetLabel" name="targetLabel" th:value="${chart?.targetLabel}" maxlength="100"/>
         </div>
         <div class="flex-column col-6">
             <label class="field-label" th:text="#{chart.label.operation}"/>
@@ -50,7 +50,8 @@
             <label class="field-label required" th:text="#{chart.label.duration}"/>
             <div>
                 <input type="text" id="durationDigit" name="durationDigit" th:value="${chart?.durationDigit}"
-                       onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" class="col-2"/>
+                       onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"
+                       class="align-right col-2"/>
                 <select id="durationUnitSelectBox" name="durationUnitSelectBox" class="col-2">
                     <option th:each="unit:${unitList}" th:value="${unit.codeValue}"
                             th:text="${unit.codeName}"
