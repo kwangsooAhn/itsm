@@ -52,7 +52,6 @@
         { 'keys': 'ctrl+z', 'command': 'editor.undo();', 'force': false },                    //폼 편집 화면 작업 취소
         { 'keys': 'ctrl+shift+z', 'command': 'editor.redo();', 'force': false },              //폼 편집 화면 작업 재실행
         { 'keys': 'ctrl+e', 'command': 'editor.preview();', 'force': false },                 //폼 양식 미리보기
-        { 'keys': 'ctrl+q', 'command': 'editor.save(true);', 'force': false },                //폼 양식 저장하고 나가기
         { 'keys': 'insert', 'command': 'editor.copyComponent();', 'force': false },           //컴포넌트를 복사하여 바로 아래 추가
         { 'keys': 'ctrl+x,delete', 'command': 'editor.deleteComponent();', 'force': false },  //컴포넌트 삭제
         { 'keys': 'ctrl+pagedown', 'command': 'editor.addEditboxDown();', 'force': false },   //아래 컴포넌트 새로 만들기
