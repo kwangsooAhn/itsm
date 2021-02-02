@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-interface CIRelationRepository: JpaRepository<CIRelationEntity, String> {
+interface CIRelationRepository : JpaRepository<CIRelationEntity, String> {
     // CI Id 에 해당되는 CI_Relation 삭제
     @Transactional
     @Modifying

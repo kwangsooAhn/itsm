@@ -20,4 +20,3 @@ data class RestTemplateCIComponentDataDto(
     val values: String,
     val instanceId: String? = null
 ) : Serializable
-
