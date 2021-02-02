@@ -182,11 +182,13 @@ class CIService(
 
                 // CIRelationEntity 등록
                 ciDto.ciRelations?.forEach {
-                    ciRelationRepository.save(CIRelationEntity(
-                        relationType = it.relationType,
-                        masterCIId = it.masterCIId,
-                        slaveCIId = it.slaveCIId
-                    ))
+                    ciRelationRepository.save(
+                        CIRelationEntity(
+                            relationType = it.relationType,
+                            masterCIId = it.masterCIId,
+                            slaveCIId = it.slaveCIId
+                        )
+                    )
                 }
 
             }
@@ -245,11 +247,13 @@ class CIService(
         // CIRelationEntity Update
         ciRelationRepository.deleteByCiId(ciDto.ciId)
         ciDto.ciRelations?.forEach {
-            ciRelationRepository.save(CIRelationEntity(
-                relationType = it.relationType,
-                masterCIId = it.masterCIId,
-                slaveCIId = it.slaveCIId
-            ))
+            ciRelationRepository.save(
+                CIRelationEntity(
+                    relationType = it.relationType,
+                    masterCIId = it.masterCIId,
+                    slaveCIId = it.slaveCIId
+                )
+            )
         }
 
         return restTemplateReturnDto
