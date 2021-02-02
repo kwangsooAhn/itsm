@@ -140,6 +140,9 @@
       .dropzone {
         min-height: 9.375rem; // 150px
       }
+      .text-no-file {
+        width: 100%
+      }
       //custom-code 컴포넌트
       &.custom-code {
         display: flex;

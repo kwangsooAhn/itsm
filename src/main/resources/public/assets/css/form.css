@@ -4087,6 +4087,9 @@ body.modal-active {
 .component .field-group .field-content .dropzone {
   min-height: 9.375rem;
 }
+.component .field-group .field-content .text-no-file {
+  width: 100%;
+}
 .component .field-group .field-content.custom-code {
   display: flex;
 }

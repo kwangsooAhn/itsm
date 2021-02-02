@@ -562,6 +562,7 @@ form:
     state: "상태"
     templatesList: "템플릿 목록"
     title: "Form Designer"
+    update: "문서양식 변경"
     undo: "작업 취소"
   msg:
     enterFormName: "양식이름을 입력하세요."
@@ -846,9 +847,9 @@ process:
     searchDescription: "프로세스를 조회 및 관리합니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
   title:
-    edit: "Zenius ITSM : 프로세스 변경"
     preview: "Zenius ITSM : 프로세스 미리보기"
     processMap: "Zenius ITMS : 프로세스 맵"
+    update: "Zenius ITSM : 프로세스 변경"
   status:
     destroy: "폐기"
     edit: "편집"
