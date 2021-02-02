@@ -513,7 +513,7 @@
                                 inputElem.required = true;
                                 labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                             }
-                            // TODO: 유효성 검증 추가
+                            // TODO: #10116 [CI 컴포넌트] CI 컴포넌트 등록 / 수정 - 유효성 검증시 구현
                             /*if (attributes.attributeValue.validate !== '') {
                                 inputElem.addEventListener('keyup', function (e) {
                                     let validateRtn = true;

@@ -203,7 +203,7 @@
             });
             // TODO: wf_ci_component_data 테이블에 저장
             console.log(saveData);
-            restSubmit('/rest/tokens/cis/' + saveData.ciId, 'PUT', JSON.stringify(saveData), false, callbackFunc);
+            restSubmit('/rest/tokens/cis/' + saveData.ciId + '/data', 'PUT', JSON.stringify(saveData), false, callbackFunc);
         }
     }
 
