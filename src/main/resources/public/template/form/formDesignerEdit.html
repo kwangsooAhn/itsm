@@ -55,14 +55,6 @@
                         <span th:text="#{form.label.preview}"></span>
                     </div>
                 </button>
-                <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                    <button type="button" id="btnSaveExit" class="btn-header header-tooltip" onclick="editor.save(true);">
-                        <span class="icon-save-out"></span>
-                        <div class="tooltip-contents">
-                            <span th:text="#{form.label.saveExit}"></span>
-                        </div>
-                    </button>
-                </th:block>
                 <span class="ml-auto" id="form-name"></span>
             </div>
             <div class="form-main flex-row justify-content-center">
