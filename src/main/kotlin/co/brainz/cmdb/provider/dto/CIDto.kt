@@ -6,21 +6,26 @@
 
 package co.brainz.cmdb.provider.dto
 
+import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
-import java.time.LocalDateTime
 
 data class CIDto(
-    val ciId: String? = null,
-    val ciNo: String? = null,
-    val ciName: String? = null,
-    val typeId: String? = null,
-    var typeName: String? = null,
-    val classId: String? = null,
-    val ciIcon: String? = null,
-    val ciDesc: String? = null,
-    val automatic: Boolean? = false,
-    val createUserKey: String? = null,
-    var createDt: LocalDateTime? = null,
-    val updateUserKey: String? = null,
-    val updateDt: LocalDateTime? = null
-) : Serializable
+    val ciId: String,
+    var ciNo: String? = null,
+    var ciName: String? = null,
+    var ciStatus: String? = null,
+    val typeId: String,
+    val classId: String?,
+    var ciIcon: String? = null,
+    var ciDesc: String? = null,
+    var automatic: Boolean? = false,
+    var ciDataList: MutableList<CIDataDto>?,
+    var ciRelations: MutableList<CIRelationDto>?,
+    var ciTags: MutableList<CITagDto>?
+) : Serializable, AliceMetaEntity()
+
+data class CIDataDto (
+    var ciId: String,
+    var attributeId: String,
+    var attributeData: String?
+)

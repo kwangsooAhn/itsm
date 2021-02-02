@@ -68,4 +68,14 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         }
         return cis
     }
+
+    /**
+     * CI 번호 중복 체크.
+     */
+    override fun findDuplicateCiNo(ciNo: String): Long {
+        val ciEntity = QCIEntity.cIEntity
+        val query = from(ciEntity)
+            .where(ciEntity.ciNo.eq(ciNo))
+        return query.fetchCount()
+    }
 }

@@ -49,7 +49,7 @@ data class CITypeEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "default_class_id", referencedColumnName = "class_id")
-    var defaultClass: CIClassEntity? = null,
+    var defaultClass: CIClassEntity,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
