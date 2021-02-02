@@ -1,22 +1,17 @@
 package co.brainz.workflow.token.service
 
-import co.brainz.cmdb.ci.entity.CIComponentDataEntity
-import co.brainz.cmdb.ci.repository.CIComponentDataRepository
-import co.brainz.cmdb.provider.dto.CIComponentDataDto
-import co.brainz.cmdb.provider.dto.CIComponentDetail
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.workflow.component.constants.WfComponentConstants
+import co.brainz.workflow.component.entity.WfCIComponentDataEntity
+import co.brainz.workflow.component.repository.WfCIComponentDataRepository
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.form.service.WfFormService
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenStakeholderViewDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
+import co.brainz.workflow.provider.dto.*
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
@@ -32,14 +27,14 @@ import org.springframework.util.LinkedMultiValueMap
 @Service
 @Transactional
 class WfTokenService(
-    private val instanceService: InstanceService,
-    private val wfTokenRepository: WfTokenRepository,
-    private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
-    private val ciComponentDataRepository: CIComponentDataRepository,
-    private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService,
-    private val ciService: CIService
+        private val instanceService: InstanceService,
+        private val wfTokenRepository: WfTokenRepository,
+        private val wfTokenDataRepository: WfTokenDataRepository,
+        private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
+        private val wfCIComponentDataRepository: WfCIComponentDataRepository,
+        private val wfFormService: WfFormService,
+        private val wfActionService: WfActionService,
+        private val ciService: CIService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -229,20 +224,26 @@ class WfTokenService(
     }
 
     /**
-     * CI 컴포넌트 - CI 세부 정보 등록 / 수정
+     * CI 컴포넌트 - CI 세부 정보 등록
      */
-    fun saveCIComponentData(ciComponentDataDto: CIComponentDataDto): Boolean {
-        val ciComponentDetail = CIComponentDetail(
-                ciAttributes = ciComponentDataDto.values.ciAttributes,
-                ciTags = ciComponentDataDto.values.ciTags
+    fun saveCIComponentData(ciComponentDataDto: RestTemplateCIComponentDataDto): Boolean {
+        // 기존 CI 삭제
+        val deleteCIComponentEntity = wfCIComponentDataRepository.findByCiIdAnAndComponentId(
+            ciComponentDataDto.ciId, ciComponentDataDto.componentId
         )
-        val ciComponentEntity = CIComponentDataEntity(
-                ciId = ciComponentDataDto.ciId,
-                componentId = ciComponentDataDto.componentId,
-                values = ciComponentDetail.toString(),
-                instanceId = ciComponentDataDto.instanceId
+        if (deleteCIComponentEntity != null) {
+            wfCIComponentDataRepository.deleteByCiIdAndAndComponentId(
+                ciComponentDataDto.ciId, ciComponentDataDto.componentId
+            )
+        }
+        // CI 추가
+        val ciComponentEntity = WfCIComponentDataEntity(
+            ciId = ciComponentDataDto.ciId,
+            componentId = ciComponentDataDto.componentId,
+            values = ciComponentDataDto.values,
+            instanceId = ciComponentDataDto.instanceId
         )
-        ciComponentDataRepository.save(ciComponentEntity)
+        wfCIComponentDataRepository.save(ciComponentEntity)
         return true
     }
 
@@ -250,9 +251,9 @@ class WfTokenService(
      * CI 컴포넌트 - CI 세부 정보 삭제
      */
     fun deleteCIComponentData(ciId: String, componentId: String): Boolean {
-        val ciComponentEntity = ciComponentDataRepository.findByCiIdAnAndComponentId(ciId, componentId)
+        val ciComponentEntity = wfCIComponentDataRepository.findByCiIdAnAndComponentId(ciId, componentId)
         if (ciComponentEntity != null) {
-            ciComponentDataRepository.deleteByCiIdAndAndComponentId(ciId, componentId)
+            wfCIComponentDataRepository.deleteByCiIdAndAndComponentId(ciId, componentId)
             return true
         }
         return false

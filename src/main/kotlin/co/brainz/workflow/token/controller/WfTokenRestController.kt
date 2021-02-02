@@ -1,15 +1,11 @@
 package co.brainz.workflow.token.controller
 
-import co.brainz.cmdb.provider.dto.CIComponentDataDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
+import co.brainz.workflow.provider.dto.*
 import co.brainz.workflow.token.service.WfTokenService
 import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.*
@@ -123,8 +119,8 @@ class WfTokenRestController(
         return wfEngine.progressWorkflow(wfEngine.toTokenDto(dummyTokenDto))
     }
 
-    @PutMapping("/cis/{ciId}/data")
-    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentDataDto: CIComponentDataDto): Boolean {
+    @PostMapping("/cis/{ciId}/data")
+    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentDataDto: RestTemplateCIComponentDataDto): Boolean {
         return wfTokenService.saveCIComponentData(ciComponentDataDto)
     }
 
