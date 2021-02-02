@@ -21,7 +21,7 @@
             <form id="searchFrm">
                 <select id="searchTypeName" name="searchTypeName" class="col-3 mr-2">
                     <option value="" th:text="#{chart.label.all}" selected></option>
-                    <option th:each="type:${typeList}" th:value="${type.code}" th:text="${type.codeValue}"></option>
+                    <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
                 </select>
                 <span id="spanTotalCount" class="txt-num"></span>
             </form>
@@ -261,6 +261,18 @@
          * Chart view 화면 호출 (Modal)
          */
         function openChartViewModal(chartId) {
+            let chartOptions = {
+                classes: 'chart-edit-modal',
+                buttons: [],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                }
+            };
+
+            const chartViewModal = new modal(chartOptions);
+            chartViewModal.show();
         }
 
         function createModalContent() {
