@@ -24,7 +24,7 @@ interface WfCIComponentDataRepository : JpaRepository<WfCIComponentDataEntity, S
         ciId: String,
         componentId: String,
         instanceId: String
-    ): CIComponentDataEntity?
+    ): WfCIComponentDataEntity?
 
-    fun findByInstanceId(instanceId: String): List<CIComponentDataEntity>?
+    fun findByInstanceId(instanceId: String): List<WfCIComponentDataEntity>?
 }
