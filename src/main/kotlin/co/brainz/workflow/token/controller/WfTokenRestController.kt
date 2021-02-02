@@ -5,12 +5,10 @@ import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
+import co.brainz.workflow.provider.dto.*
 import co.brainz.workflow.token.service.WfTokenService
 import javax.transaction.Transactional
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+
 
 @RestController
 @RequestMapping("/rest/wf/tokens")
@@ -77,6 +76,7 @@ class WfTokenRestController(
         // 하지만 token쪽에 추가된 dto들은 계속 사용할 것 같음.
         val dummyTokenDto = RestTemplateTokenDto(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
+            instanceId = restTemplateTokenDataUpdateDto.instanceId,
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
@@ -126,5 +126,18 @@ class WfTokenRestController(
             }
         }
         return wfEngine.progressWorkflow(wfEngine.toTokenDto(dummyTokenDto))
+    }
+
+    @PostMapping("/cis/{ciId}/data")
+    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentDataDto: RestTemplateCIComponentDataDto): Boolean {
+        return wfTokenService.saveCIComponentData(ciComponentDataDto)
+    }
+
+    @DeleteMapping("/cis/data")
+    fun deleteCIComponentData(
+            @RequestParam(value = "ciId") ciId: String,
+            @RequestParam(value = "componentId") componentId: String
+    ): Boolean {
+        return wfTokenService.deleteCIComponentData(ciId, componentId)
     }
 }

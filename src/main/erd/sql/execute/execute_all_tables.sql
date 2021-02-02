@@ -52,10 +52,10 @@ insert into awf_auth values ('board.create', '게시판 등록', '게시판 등�
 insert into awf_auth values ('board.delete', '게시판 삭제', '게시판 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('board.read', '게시판 조회', '게시판 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('board.update', '게시판 변경', '게시판 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('chart.read', '통계 차트 조회', '통계 차트 조회 권한', now(), null, '0509e09412534a6e98f04ca79abb6424', null);
-insert into awf_auth values ('chart.create', '통계 차트 등록', '통계 차트 등록 권한', now(), null, '0509e09412534a6e98f04ca79abb6424', null);
-insert into awf_auth values ('chart.update', '통계 차트 수정', '통계 차트 수정 권한', now(), null, '0509e09412534a6e98f04ca79abb6424', null);
-insert into awf_auth values ('chart.delete', '통계 차트 삭제', '통계 차트 삭제 권한', now(), null, '0509e09412534a6e98f04ca79abb6424', null);
+insert into awf_auth values ('chart.read', '통계 차트 조회', '통계 차트 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null,  null);
+insert into awf_auth values ('chart.create', '통계 차트 등록', '통계 차트 등록 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('chart.update', '통계 차트 수정', '통계 차트 수정 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('chart.delete', '통계 차트 삭제', '통계 차트 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.read', 'CMDB Attribute 조회', 'CMDB Attribute 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.create', 'CMDB Attribute 생성', 'CMDB Attribute 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.update', 'CMDB Attribute 변경', 'CMDB Attribute 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1084,6 +1084,9 @@ insert into awf_rule_pattern_map values ('60211d93621zd1f126241s053c890122', '8a
 insert into awf_rule_pattern_map values ('40125c91714df6c325714e053c890125', '7a112d61751fs6f325714q053c421411', 0);
 insert into awf_rule_pattern_map values ('40125c91714df6c325714e053c890125', '7a112d61751fs6f325714q053c421412', 1);
 insert into awf_rule_pattern_map values ('40125c91714df6c325714e053c890125', '7a112d61751fs6f325714q053c421413', 2);
+insert into awf_rule_pattern_map values ('40288ab7772dae0301772dbca28a0004', '40288ab7772dae0301772dba75b10003', 0);
+insert into awf_rule_pattern_map values ('40288ab7772dae0301772dbca28a0004', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('40288ab7772dae0301772dbca28a0004', '8a112d61751fs6f325714q053c421413', 2);
 
 /**
  * 스케줄작업정보
@@ -1469,6 +1472,8 @@ insert into awf_url values ('/rest/tokens', 'get', '문서함 목록 조회', 'T
 insert into awf_url values ('/rest/tokens/data', 'post', 'token 신규 등록', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'get', '처리할 문서 상세 데이터', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'put', 'token 수정', 'TRUE');
+insert into awf_url values ('/rest/tokens/cis/{id}/data', 'post', 'CI 컴포넌트 - CI 세부 정보 등록', 'FALSE');
+insert into awf_url values ('/rest/tokens/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
 insert into awf_url values ('/rest/users', 'post', '사용자 등록', 'TRUE');
 insert into awf_url values ('/rest/users', 'get', '사용자 리스트 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/users/all', 'get', '전체 사용자 목록 조회', 'TRUE');
@@ -1853,6 +1858,10 @@ insert into awf_url_auth_map values ('/rest/tokens', 'get', 'token.read');
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
+insert into awf_url_auth_map values ('/rest/tokens/cis/{id}/data', 'post', 'form.read');
+insert into awf_url_auth_map values ('/rest/tokens/cis/{id}/data', 'post', 'form.update');
+insert into awf_url_auth_map values ('/rest/tokens/cis/data', 'delete', 'form.read');
+insert into awf_url_auth_map values ('/rest/tokens/cis/data', 'delete', 'form.update');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/all', 'get', 'user.read');
@@ -3297,13 +3306,14 @@ CREATE TABLE cmdb_ci_history
 	ci_id character varying(128) NOT NULL,
 	seq int NOT NULL,
 	ci_no character varying(128),
-	ci_name character varying(128) NOT NULL,
-    ci_status character varying(100) NOT NULL,
-	type_id character varying(128) NOT NULL,
-	class_id character varying(128) NOT NULL,
+	ci_name character varying(128),
+	ci_status character varying(100),
+	type_id character varying(128),
+	class_id character varying(128),
 	ci_icon character varying(200),
 	ci_desc character varying(512),
-	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id, ci_id, seq),
+	automatic boolean DEFAULT 'false',
+	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
 	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
 );
 
@@ -3318,6 +3328,7 @@ COMMENT ON COLUMN cmdb_ci_history.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
+COMMENT ON COLUMN cmdb_ci_history.automatic IS '자동등록여부';
 
 /**
  * CMDB CI 속성데이터 이력
@@ -3334,8 +3345,9 @@ CREATE TABLE cmdb_ci_data_history
 	attribute_desc character varying(512),
 	attribute_type character varying(100),
 	attribute_text character varying(128),
+	attribute_value text,
 	value text,
-	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (attribute_id),
+	CONSTRAINT cmdb_ci_data_history_pk PRIMARY KEY (data_history_id),
 	CONSTRAINT cmdb_ci_data_history_uk UNIQUE (data_history_id)
 );
 
@@ -3348,6 +3360,7 @@ COMMENT ON COLUMN cmdb_ci_data_history.attribute_name IS '속성이름';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_desc IS '속성설명';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_type IS '속성타입';
 COMMENT ON COLUMN cmdb_ci_data_history.attribute_text IS '속성라벨';
+COMMENT ON COLUMN cmdb_ci_data_history.attribute_value IS '세부속성';
 COMMENT ON COLUMN cmdb_ci_data_history.value IS '속성값';
 
 /**
@@ -3386,7 +3399,7 @@ CREATE TABLE cmdb_ci_tag
 (
 	ci_id character varying(128) NOT NULL,
 	tag_id character varying(128) NOT NULL,
-	tag_name character varying(100),
+	tag_name character varying(128),
 	CONSTRAINT cmdb_ci_tag_pk PRIMARY KEY (ci_id, tag_id),
 	CONSTRAINT cmdb_ci_tag_uk UNIQUE (tag_id),
 	CONSTRAINT cmdb_ci_tag_fk FOREIGN KEY (ci_id)

@@ -39,10 +39,6 @@
     display: inline-block;
     @include maskImage('#{$icon-folder-path}form/topmenu/icon_preview.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
   }
-  .icon-save-out {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}form/topmenu/icon_save_out.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
-  }
 }
 // properties option button
 .btn-option {

@@ -341,6 +341,7 @@ cmdb:
       enterTypeName: "Please enter a Type Name."
       selectType: "Please select a Type."
       selectAvailableClass: "Please select a available Class.<br/>(not root)"
+      selectAvailableType: "Please select a available Type.<br/>(not root)"
     btn:
       import: "Import"
       export: "Export"
@@ -575,6 +576,7 @@ form:
     templatesList: "Templates List"
     title: "Form Designer"
     undo: "Undo"
+    update: "Update Form"
   msg:
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
@@ -863,9 +865,9 @@ process:
     publish: "Publish"
     use: "Use"
   title:
-    edit: "Zenius ITSM : Process Update"
     preview: "Zenius ITSM : Process Preview"
     processMap: "Zenius ITMS : Process Map"
+    update: "Zenius ITSM : Process Update"
   designer:
     element:
       annotation: "Annotation"

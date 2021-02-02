@@ -7,20 +7,24 @@
 package co.brainz.cmdb.provider.dto
 
 import java.io.Serializable
+import java.time.LocalDateTime
 
 data class CIListDto(
-    val ciId: String? = null,
-    val ciNo: String? = null,
-    val ciName: String? = null,
-    val typeId: String? = null,
+    val ciId: String? = "",
+    var ciNo: String? = null,
+    var ciName: String? = null,
+    var ciStatus: String? = null,
+    var typeId: String? = null,
     var typeName: String? = null,
-    val ciIcon: String? = null,
-    val ciDesc: String? = null,
-    val classId: String? = null,
-    val automatic: Boolean? = false,
+    var classId: String? = null,
+    var className: String? = null,
+    var ciIcon: String? = null,
+    var ciDesc: String? = null,
+    var automatic: Boolean? = false,
     val createUserKey: String? = null,
-    val createDt: String? = null,
+    var createDt: LocalDateTime? = null,
     val updateUserKey: String? = null,
-    val updateDt: String? = null,
+    val updateDt: LocalDateTime? = null,
+    var tags: MutableList<CITagDto>? = null,
     var totalCount: Long = 0
 ) : Serializable

@@ -2442,7 +2442,7 @@ button .icon-delete {
   left: 0;
 }
 .gmodal-wrapper.gmodal-active {
-  z-index: 2002;
+  z-index: 20002;
   display: block;
 }
 .gmodal-backdrop {
@@ -2509,7 +2509,7 @@ button .icon-delete {
   display: inline-block;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
-  border-radius: 0.0625rem;
+  border-radius: 0.1875rem;
   text-decoration: none;
 }
 .gmodal-icon-success {

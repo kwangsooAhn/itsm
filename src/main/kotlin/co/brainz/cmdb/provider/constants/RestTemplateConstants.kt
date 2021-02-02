@@ -18,6 +18,7 @@ object RestTemplateConstants {
     enum class CmdbObject(val value: String) {
         ATTRIBUTE("attribute"),
         CI("ci"),
+        CIDetail("ciDetail"),
         CLASS("class"),
         TYPE("type")
     }
@@ -75,8 +76,6 @@ object RestTemplateConstants {
         GET_CI("/rest/cmdb/eg/cis/{ciId}", "GET"),
         POST_CI("/rest/cmdb/eg/cis", "POST"),
         PUT_CI("/rest/cmdb/eg/cis/{ciId}", "PUT"),
-        DELETE_CI("/rest/cmdb/eg/cis/{ciId}", "DELETE"),
-        PUT_CI_COMPONENT("/rest/cmdb/eg/cis/{ciId}/data", "PUT"),
-        DELETE_CI_COMPONENT("/rest/cmdb/eg/cis/data", "DELETE")
+        DELETE_CI("/rest/cmdb/eg/cis/{ciId}", "DELETE")
     }
 }

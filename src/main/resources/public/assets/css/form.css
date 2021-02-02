@@ -1965,18 +1965,6 @@ button.ghost-line:disabled .icon {
   mask-position: center;
   background: #ffffff;
 }
-.btn-header .icon-save-out {
-  display: inline-block;
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/form/topmenu/icon_save_out.svg");
-  mask-image: url("../media/icons/form/topmenu/icon_save_out.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #ffffff;
-}
 
 .btn-option {
   width: 1.5rem;
@@ -2216,7 +2204,7 @@ button .icon-search {
   left: 0;
 }
 .gmodal-wrapper.gmodal-active {
-  z-index: 2002;
+  z-index: 20002;
   display: block;
 }
 .gmodal-backdrop {
@@ -2283,7 +2271,7 @@ button .icon-search {
   display: inline-block;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
-  border-radius: 0.0625rem;
+  border-radius: 0.1875rem;
   text-decoration: none;
 }
 .gmodal-icon-success {
@@ -4086,6 +4074,9 @@ body.modal-active {
 }
 .component .field-group .field-content .dropzone {
   min-height: 9.375rem;
+}
+.component .field-group .field-content .text-no-file {
+  width: 100%;
 }
 .component .field-group .field-content.custom-code {
   display: flex;

@@ -248,7 +248,7 @@ class WfInstanceService(
         val documentNo = numberingRuleService.getNewNumbering(document.numberingRule.numberingId)
         val user = wfTokenDto.assigneeId?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
         val instanceEntity = WfInstanceEntity(
-            instanceId = "",
+            instanceId = wfTokenDto.instanceId,
             documentNo = documentNo,
             instanceStatus = WfInstanceConstants.Status.RUNNING.code,
             instanceStartDt = LocalDateTime.now(ZoneId.of("UTC")),
