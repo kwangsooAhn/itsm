@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.token.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -5,7 +10,11 @@ import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.provider.dto.*
+import co.brainz.workflow.provider.dto.RestTemplateCIComponentDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import co.brainz.workflow.token.service.WfTokenService
 import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -17,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-
 
 @RestController
 @RequestMapping("/rest/wf/tokens")
@@ -129,14 +137,17 @@ class WfTokenRestController(
     }
 
     @PostMapping("/cis/{ciId}/data")
-    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentDataDto: RestTemplateCIComponentDataDto): Boolean {
+    fun saveCIComponentData(
+        @PathVariable ciId: String,
+        @RequestBody ciComponentDataDto: RestTemplateCIComponentDataDto
+    ): Boolean {
         return wfTokenService.saveCIComponentData(ciComponentDataDto)
     }
 
     @DeleteMapping("/cis/data")
     fun deleteCIComponentData(
-            @RequestParam(value = "ciId") ciId: String,
-            @RequestParam(value = "componentId") componentId: String
+        @RequestParam(value = "ciId") ciId: String,
+        @RequestParam(value = "componentId") componentId: String
     ): Boolean {
         return wfTokenService.deleteCIComponentData(ciId, componentId)
     }

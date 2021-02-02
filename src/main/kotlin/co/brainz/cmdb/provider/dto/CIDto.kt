@@ -24,7 +24,7 @@ data class CIDto(
     var ciTags: MutableList<CITagDto>?
 ) : Serializable, AliceMetaEntity()
 
-data class CIDataDto (
+data class CIDataDto(
     var ciId: String,
     var attributeId: String,
     var attributeData: String?
