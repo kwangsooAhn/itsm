@@ -54,7 +54,10 @@ class ChartController(
      * Chart 등록 화면 호출
      */
     @GetMapping("/new")
-    fun getChartsNew(): String {
+    fun getChartNew(model: Model): String {
+        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE))
+        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.CHART_OPERATION_P_CODE))
+        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.CHART_UNIT_P_CODE))
         return chartEditPage
     }
 
@@ -63,6 +66,9 @@ class ChartController(
      */
     @GetMapping("/{chartId}/edit")
     fun getChartEdit(@PathVariable chartId: String, model: Model): String {
+        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE))
+        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.CHART_OPERATION_P_CODE))
+        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.CHART_UNIT_P_CODE))
         model.addAttribute("chart", chartService.getChart(chartId))
         return chartEditPage
     }
@@ -72,7 +78,6 @@ class ChartController(
      */
     @GetMapping("/{chartId}/view")
     fun getChartView(@PathVariable chartId: String, model: Model): String {
-        model.addAttribute("chart", chartService.getChart(chartId))
         return chartViewPage
     }
 }

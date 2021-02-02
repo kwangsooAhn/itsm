@@ -47,7 +47,7 @@ class ChartRestController(private val chartService: ChartService) {
      */
     @PutMapping("/{chartId}")
     fun updateChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): String {
-        return chartService.updateChart(chartId, chartDto)
+        return chartService.saveChart(chartDto)
     }
 
     /**

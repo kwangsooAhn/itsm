@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="flex-column edit-row">
+    <label class="field-label" th:text="#{chart.label.type}"></label>
+    <select id="typeSelectBox" name="typeSelectBox" class="col-3">
+        <option th:each="type:${typeList}" th:value="${type.codeValue}"
+                th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
+    </select>
+</div>
+<div class="flex-column edit-row mt-2">
+    <div id="chart" name="chart"/>
+</div>
+<div class="flex-column edit-row mt-2">
+    <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"/>
+</div>
+<div class="flex-column edit-row">
+    <label class="field-label required" th:text="#{chart.label.name}"/>
+    <input type="text" id="chartName" name="chartName" th:value="${chart?.chartName}" maxlength="100"/>
+</div>
+<div class="flex-column edit-row">
+    <label class="field-label" th:text="#{chart.label.description}"/>
+    <input type="text" id="chartDesc" name="chartDesc" th:value="${chart?.chartDesc}" maxlength="100"/>
+</div>
+<div class="flex-column edit-row mt-2">
+    <h4 class="sub-title under-bar bold" th:text="#{chart.label.queryInfo}"/>
+</div>
+<div class="flex-column edit-row">
+    <div class="flex-row">
+        <div class="flex-column col-6 mr-4">
+            <label class="field-label required" th:text="#{chart.label.targetLabel}"/>
+            <input type="text" id="targetLabel" name="targetLabel" th:value="${chart?.targetLabel}"/>
+        </div>
+        <div class="flex-column col-6">
+            <label class="field-label" th:text="#{chart.label.operation}"/>
+            <select id="operationSelectBox" name="operationSelectBox">
+                <option th:each="operation:${operationList}" th:value="${operation.codeValue}"
+                        th:text="${operation.codeName}"
+                        th:selected="${operation.codeValue} == ${chart?.operation}"></option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="flex-column edit-row">
+    <div class="flex-row">
+        <div class="flex-column col-6 mr-4">
+            <label class="field-label required" th:text="#{chart.label.duration}"/>
+            <div>
+                <input type="text" id="durationDigit" name="durationDigit" th:value="${chart?.durationDigit}"
+                       onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" class="col-2"/>
+                <select id="durationUnitSelectBox" name="durationUnitSelectBox" class="col-2">
+                    <option th:each="unit:${unitList}" th:value="${unit.codeValue}"
+                            th:text="${unit.codeName}"
+                            th:selected="${unit.codeValue} == ${chart?.durationUnit}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="flex-column col-6">
+            <label class="field-label required" th:text="#{chart.label.periodUnit}"/>
+            <select id="periodUnitSelectBox" name="periodUnitSelectBox" class="col-2">
+                <option th:each="unit:${unitList}" th:value="${unit.codeValue}"
+                        th:text="${unit.codeName}" th:selected="${unit.codeValue} == ${chart?.periodUnit}"></option>
+            </select>
+        </div>
+    </div>
+</div>
+</body>
+</html>
