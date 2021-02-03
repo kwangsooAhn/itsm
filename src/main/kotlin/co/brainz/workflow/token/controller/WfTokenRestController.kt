@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.token.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -5,7 +10,11 @@ import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
-import co.brainz.workflow.provider.dto.*
+import co.brainz.workflow.provider.dto.RestTemplateCIComponentDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import co.brainz.workflow.token.service.WfTokenService
 import javax.transaction.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -17,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-
 
 @RestController
 @RequestMapping("/rest/wf/tokens")
@@ -70,11 +78,7 @@ class WfTokenRestController(
     @Transactional
     @PostMapping("")
     fun postTokenGate(@RequestBody restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
-        // 2020-05-29 Jung Hee Chan
-        // 기존 함수들의 영향도를 최소화하기 위해서 임시로 작성.
-        // 이 부분은 현재 진행되고 있는 WF 구조 변경에 따라 사라질 부분이라...
-        // 하지만 token쪽에 추가된 dto들은 계속 사용할 것 같음.
-        val dummyTokenDto = RestTemplateTokenDto(
+        val tokenDto = RestTemplateTokenDto(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
             instanceId = restTemplateTokenDataUpdateDto.instanceId,
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
@@ -94,7 +98,7 @@ class WfTokenRestController(
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
-        return wfEngine.startWorkflow(wfEngine.toTokenDto(dummyTokenDto))
+        return wfEngine.startWorkflow(wfEngine.toTokenDto(tokenDto))
     }
 
     /**
@@ -103,11 +107,7 @@ class WfTokenRestController(
     @Transactional
     @PutMapping("/{tokenId}")
     fun putTokenGate(@RequestBody restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
-        // 2020-05-29 Jung Hee Chan
-        // 기존 함수들의 영향도를 최소화하기 위해서 임시로 작성.
-        // 이 부분은 현재 진행되고 있는 WF 구조 변경에 따라 사라질 부분이라...
-        // 하지만 token쪽에 추가된 dto들은 계속 사용할 것 같음.
-        val dummyTokenDto = RestTemplateTokenDto(
+        val tokenDto = RestTemplateTokenDto(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
@@ -125,18 +125,21 @@ class WfTokenRestController(
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
-        return wfEngine.progressWorkflow(wfEngine.toTokenDto(dummyTokenDto))
+        return wfEngine.progressWorkflow(wfEngine.toTokenDto(tokenDto))
     }
 
     @PostMapping("/cis/{ciId}/data")
-    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentDataDto: RestTemplateCIComponentDataDto): Boolean {
+    fun saveCIComponentData(
+        @PathVariable ciId: String,
+        @RequestBody ciComponentDataDto: RestTemplateCIComponentDataDto
+    ): Boolean {
         return wfTokenService.saveCIComponentData(ciComponentDataDto)
     }
 
     @DeleteMapping("/cis/data")
     fun deleteCIComponentData(
-            @RequestParam(value = "ciId") ciId: String,
-            @RequestParam(value = "componentId") componentId: String
+        @RequestParam(value = "ciId") ciId: String,
+        @RequestParam(value = "componentId") componentId: String
     ): Boolean {
         return wfTokenService.deleteCIComponentData(ciId, componentId)
     }
