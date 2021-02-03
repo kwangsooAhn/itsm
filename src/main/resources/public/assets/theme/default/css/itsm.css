@@ -5136,7 +5136,7 @@ body.modal-active {
   flex: none;
 }
 .reply-list {
-  padding: 0 1.25rem;
+  padding: 0 0;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .reply-list .vertical-bar {
@@ -5167,6 +5167,7 @@ body.modal-active {
 }
 .reply-list .reply-comment input {
   width: 100%;
+  margin: 0 0.3125rem;
 }
 .reply .profile-photo {
   flex: none;
@@ -5232,5 +5233,3 @@ body.modal-active {
 .itsm-popup .notice-content-popup.view {
   height: auto;
 }
-
-/*# sourceMappingURL=itsm.css.map */
