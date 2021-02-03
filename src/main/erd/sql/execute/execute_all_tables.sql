@@ -1368,6 +1368,7 @@ insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'put', 'CMDB Class 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'delete', 'CMDB Class 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'get', 'CMDB Type 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types/{id}', 'get', 'CMDB Type 단일 조회', 'TRUE');
 insert into awf_url values ('/rest/codes', 'post', '코드 등록', 'TRUE');
 insert into awf_url values ('/rest/codes', 'get', '코드 전체 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
@@ -1706,6 +1707,17 @@ insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.cla
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'put', 'cmdb.class.update');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.class.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.read');
+insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.create');
+insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.update');
+insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.delete');
+insert into awf_url_auth_map values ('/rest/cmdb/types', 'post', 'cmdb.type.create');
+insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.read');
+insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.create');
+insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.update');
+insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.delete');
+insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'post', 'cmdb.type.create');
+insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'put', 'cmdb.type.update');
+insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'delete', 'cmdb.type.delete');
 insert into awf_url_auth_map values ('/rest/codes', 'get', 'code.read');
 insert into awf_url_auth_map values ('/rest/codes', 'post', 'code.create');
 insert into awf_url_auth_map values ('/rest/codes', 'get', 'code.delete');

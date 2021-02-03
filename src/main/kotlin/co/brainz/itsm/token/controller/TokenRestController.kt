@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.token.controller
 
 import co.brainz.itsm.token.service.TokenService
@@ -17,7 +22,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-
 
 @RestController
 @RequestMapping("/rest/tokens")
@@ -68,7 +72,7 @@ class TokenRestController(private val tokenService: TokenService) {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val map = mapper.readValue(ciComponentData, LinkedHashMap::class.java)
 
-        return tokenService.saveCIComponentData(ciId, ciComponentData);
+        return tokenService.saveCIComponentData(ciId, ciComponentData)
     }
 
     /**

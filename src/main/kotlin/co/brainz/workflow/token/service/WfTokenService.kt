@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.token.service
 
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
@@ -11,7 +16,11 @@ import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.form.service.WfFormService
-import co.brainz.workflow.provider.dto.*
+import co.brainz.workflow.provider.dto.RestTemplateCIComponentDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenStakeholderViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
@@ -27,14 +36,14 @@ import org.springframework.util.LinkedMultiValueMap
 @Service
 @Transactional
 class WfTokenService(
-        private val instanceService: InstanceService,
-        private val wfTokenRepository: WfTokenRepository,
-        private val wfTokenDataRepository: WfTokenDataRepository,
-        private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
-        private val wfCIComponentDataRepository: WfCIComponentDataRepository,
-        private val wfFormService: WfFormService,
-        private val wfActionService: WfActionService,
-        private val ciService: CIService
+    private val instanceService: InstanceService,
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
+    private val wfCIComponentDataRepository: WfCIComponentDataRepository,
+    private val wfFormService: WfFormService,
+    private val wfActionService: WfActionService,
+    private val ciService: CIService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)

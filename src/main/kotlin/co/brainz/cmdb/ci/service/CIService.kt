@@ -165,7 +165,7 @@ class CIService(
         // CI 번호에 대한 룰은 아직 미정.
         // 추후 규칙에 따라 넣게 되면 CI_ID가 아니라 CI_NO로 중복체크가 필요할 듯.
         // val existCount = ciRepository.findDuplicateCiNo(ciDto.ciNo)
-        val existCount = 0L;
+        val existCount = 0L
 
         when (existCount) {
             0L -> {
@@ -223,7 +223,6 @@ class CIService(
                         )
                     )
                 }
-
             }
             else -> {
                 restTemplateReturnDto.code = RestTemplateConstants.Status.STATUS_ERROR_DUPLICATION.code
