@@ -6,11 +6,13 @@
 
 package co.brainz.cmdb.ciAttribute.repository
 
+import co.brainz.cmdb.ci.entity.QCIDataEntity
 import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
 import co.brainz.cmdb.provider.dto.CIAttributeDto
 import co.brainz.cmdb.provider.dto.CIAttributeListDto
+import co.brainz.cmdb.provider.dto.CIAttributeValueDto
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
@@ -99,5 +101,45 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
             query.where(!attribute.attributeId.eq(attributeId))
         }
         return query.fetchCount()
+    }
+
+    /**
+     * Attribute, Value 리스트 조회
+     */
+    override fun findAttributeValueList(ciId: String, classId: String): List<CIAttributeValueDto> {
+        val ciAttributeEntity = QCIAttributeEntity.cIAttributeEntity
+        val ciDataEntity = QCIDataEntity.cIDataEntity
+        val ciClassAttributeMapEntity = QCIClassAttributeMapEntity.cIClassAttributeMapEntity
+
+        val query = from(ciAttributeEntity)
+            .select(
+                Projections.constructor(
+                    CIAttributeValueDto::class.java,
+                    ciAttributeEntity.attributeId,
+                    ciAttributeEntity.attributeName,
+                    ciAttributeEntity.attributeText,
+                    ciAttributeEntity.attributeType,
+                    ciClassAttributeMapEntity.attributeOrder,
+                    ciAttributeEntity.attributeValue,
+                    ciDataEntity.value
+                )
+            )
+            .innerJoin(ciClassAttributeMapEntity)
+            .on(
+                (ciClassAttributeMapEntity.ciAttribute.attributeId.eq(ciAttributeEntity.attributeId))
+                    .and(ciClassAttributeMapEntity.ciClass.classId.eq(classId))
+            )
+            .leftJoin(ciDataEntity)
+            .on(
+                (ciDataEntity.ciAttribute.attributeId.eq(ciAttributeEntity.attributeId))
+                    .and(ciDataEntity.ci.ciId.eq(ciId))
+            )
+
+        val result = query.fetchResults()
+        val ciAttributeDataList = mutableListOf<CIAttributeValueDto>()
+        for (data in result.results) {
+            ciAttributeDataList.add(data)
+        }
+        return ciAttributeDataList
     }
 }

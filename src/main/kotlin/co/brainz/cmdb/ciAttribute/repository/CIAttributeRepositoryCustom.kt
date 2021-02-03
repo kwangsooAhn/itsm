@@ -8,10 +8,12 @@ package co.brainz.cmdb.ciAttribute.repository
 
 import co.brainz.cmdb.provider.dto.CIAttributeDto
 import co.brainz.cmdb.provider.dto.CIAttributeListDto
+import co.brainz.cmdb.provider.dto.CIAttributeValueDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface CIAttributeRepositoryCustom : AliceRepositoryCustom {
     fun findAttributeList(search: String, offset: Long?): List<CIAttributeListDto>
     fun findAttribute(attributeId: String): CIAttributeDto
     fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long
+    fun findAttributeValueList(ciId: String, classId: String): List<CIAttributeValueDto>
 }

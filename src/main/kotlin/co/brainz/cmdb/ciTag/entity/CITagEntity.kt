@@ -4,8 +4,9 @@
  *
  */
 
-package co.brainz.cmdb.ci.entity
+package co.brainz.cmdb.ciTag.entity
 
+import co.brainz.cmdb.ci.entity.CIEntity
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity

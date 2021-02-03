@@ -7,6 +7,7 @@
 package co.brainz.cmdb.ci.entity
 
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
+import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
@@ -76,7 +77,7 @@ data class CIEntity(
         cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
         orphanRemoval = true
     )
-    val ciTagEntity: MutableList<CITagEntity> = mutableListOf()
+    val ciTagEntities: MutableList<CITagEntity> = mutableListOf()
 
     @OneToMany(
         mappedBy = "ci",

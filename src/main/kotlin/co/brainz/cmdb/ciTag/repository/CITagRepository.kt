@@ -4,9 +4,9 @@
  *
  */
 
-package co.brainz.cmdb.ci.repository
+package co.brainz.cmdb.ciTag.repository
 
-import co.brainz.cmdb.ci.entity.CITagEntity
+import co.brainz.cmdb.ciTag.entity.CITagEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query

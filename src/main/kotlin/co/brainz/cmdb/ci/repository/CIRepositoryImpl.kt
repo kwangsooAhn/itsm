@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepositoryCustom {
     /**
-     * Attribute 목록 조회.
+     * CI 목록 조회.
      */
     override fun findCIList(search: String, offset: Long?, tags: List<String>): MutableList<CIsDto> {
         val ci = QCIEntity.cIEntity

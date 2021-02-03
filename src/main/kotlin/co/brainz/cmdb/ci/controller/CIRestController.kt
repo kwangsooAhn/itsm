@@ -7,7 +7,7 @@
 package co.brainz.cmdb.ci.controller
 
 import co.brainz.cmdb.ci.service.CIService
-import co.brainz.cmdb.provider.CmdbDummyProvider
+import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
@@ -26,8 +26,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/cmdb/eg/cis")
 class CIRestController(
-    private val ciService: CIService,
-    private val cmdbDummyProvider: CmdbDummyProvider
+    private val ciService: CIService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -38,6 +37,14 @@ class CIRestController(
     @GetMapping("")
     fun getCIs(@RequestParam parameters: LinkedHashMap<String, Any>): List<CIListDto> {
         return ciService.getCIs(parameters)
+    }
+
+    /**
+     * CI 상세 조회.
+     */
+    @GetMapping("/{ciId}")
+    fun getCI(@PathVariable ciId: String): CIDetailDto {
+        return ciService.getCI(ciId)
     }
 
     /**

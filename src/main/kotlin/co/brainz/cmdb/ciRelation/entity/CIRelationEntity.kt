@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.cmdb.ci.entity
+package co.brainz.cmdb.ciRelation.entity
 
 import java.io.Serializable
 import javax.persistence.Column

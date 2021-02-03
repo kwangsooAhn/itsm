@@ -4,10 +4,10 @@
  *
  */
 
-package co.brainz.cmdb.ci.repository
+package co.brainz.cmdb.ciTag.repository
 
-import co.brainz.cmdb.ci.entity.CITagEntity
-import co.brainz.cmdb.ci.entity.QCITagEntity
+import co.brainz.cmdb.ciTag.entity.QCITagEntity
+import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.provider.dto.CITagDto
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
