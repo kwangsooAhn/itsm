@@ -1036,11 +1036,10 @@
         const displayType = property['dataAttribute']['displayType'];
 
         this.template =
-        `<div id="${this.id}" class="component active" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.display.endId}">` +
-            `<div class="move-handler disabled"></div>` +
+        `<div id="${this.id}" class="component accordion active" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.display.endId}">` +
             `<div class="field-group">` +
                 `<div class="field-content accordion align-${property.label.align}" style="--data-column: 12; ` +
-                    `border-bottom: ${property.display.thickness}px solid ${property.display.color};">` +
+                    `border: ${property.display.thickness}px solid ${property.display.color};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -1048,7 +1047,7 @@
                             `${aliceJs.filterXSS(property.label.text)}` +
                     `</label>` +
                     `<span class="icon icon-arrow-down on"></span>` +
-                    `<span class="icon icon-arrow-up"></span>` +
+                    `<span class="icon icon-arrow-left"></span>` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -1059,11 +1058,11 @@
             accordionStartComp.addEventListener('click', function(e) {
                 const elem =  aliceJs.clickInsideElement(e, aliceForm.FORM_COMPONENT);
                 const arrowDown = elem.querySelector('.icon-arrow-down');
-                const arrowUp = elem.querySelector('.icon-arrow-up');
+                const arrowLeft = elem.querySelector('.icon-arrow-left');
                 if (elem.classList.contains('active')) { // 접기
                     elem.classList.remove('active');
                     arrowDown.classList.remove('on');
-                    arrowUp.classList.add('on');
+                    arrowLeft.classList.add('on');
 
                     let curComp = elem;
                     while (curComp = curComp.nextSibling) {
@@ -1075,7 +1074,7 @@
                 } else { // 펴기
                     elem.classList.add('active');
                     arrowDown.classList.add('on');
-                    arrowUp.classList.remove('on');
+                    arrowLeft.classList.remove('on');
 
                     let curComp = elem;
                     while (curComp = curComp.nextSibling) {
@@ -1105,9 +1104,8 @@
         const displayType = property['dataAttribute']['displayType'];
 
         this.template =
-        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" ` +
+        `<div id="${this.id}" class="component accordion" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" ` +
             `data-startId="${property.display.startId}" style="${formType === 'form' ? '' : 'display: none;'}">` +
-            `<div class="move-handler disabled"></div>` +
             `<div class="field-group">` +
                 `<div class="field-content" style="--data-column: 12;">` +
                     `<hr style="border-top: ${property.display.thickness}px solid ${property.display.color};">` +

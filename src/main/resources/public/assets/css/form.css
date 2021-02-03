@@ -3946,6 +3946,9 @@ body.modal-active {
   border: 0.0625rem solid transparent;
   padding: 1.25rem 2.125rem 1.25rem 0.8125rem;
 }
+.component.accordion {
+  padding: 1.25rem 1.125rem 1.25rem 0.8125rem;
+}
 .component .move-handler {
   margin: 0 0.5rem 0 0;
   content: "";
@@ -4115,8 +4118,10 @@ body.modal-active {
   box-shadow: 0 0 0 0.125rem #0098FF inset;
 }
 .component .field-group .field-content.accordion {
+  height: 2.5rem;
+  background-color: #F7F8F9;
   position: relative;
-  padding-bottom: 0.625rem;
+  padding: 0.625rem 0 0.625rem 1.125rem;
   cursor: pointer;
 }
 .component .field-group .field-content.accordion label {
@@ -4124,8 +4129,8 @@ body.modal-active {
 }
 .component .field-group .field-content.accordion .icon {
   position: absolute;
-  width: 0.625rem;
-  height: 0.375rem;
+  width: 0.875rem;
+  height: 1.125rem;
   top: 30%;
   right: 0.625rem;
   opacity: 0;
@@ -4140,9 +4145,9 @@ body.modal-active {
   background-position-x: center;
   background-position-y: center;
 }
-.component .field-group .field-content.accordion .icon.icon-arrow-up {
-  background-image: url("../media/icons/icon_arrow_up.svg");
-  background-size: 0.625rem 0.375rem;
+.component .field-group .field-content.accordion .icon.icon-arrow-left {
+  background-image: url("../media/icons/icon_arrow_left.svg");
+  background-size: 0.375rem 0.625rem;
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
