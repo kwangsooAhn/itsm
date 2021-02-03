@@ -22,7 +22,7 @@
   }
 
   &-list {
-    padding: 0 1.25rem; // 0 20px
+    padding: 0 0;
     border-bottom: 0.0625rem solid $line-gray;
     @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid $line-gray, 0.0625rem 0.9375rem 0.0625rem 0, );
     .reply {
@@ -45,7 +45,10 @@
         word-break: break-all;
         margin-top: 0.9375rem; // 5px
         margin-left: 3rem; // 48px
-        input { width: 100%; }
+        input {
+          width: 100%;
+          margin: 0 0.3125rem; // 5px
+        }
       }
     }
   }
