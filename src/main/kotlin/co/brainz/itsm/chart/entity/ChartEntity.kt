@@ -22,14 +22,17 @@ data class ChartEntity(
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "chart_id", length = 128)
-    val chartId: String,
+    var chartId: String = "",
 
     @Column(name = "chart_type", length = 128)
-    val chartType: String,
+    var chartType: String = "",
 
     @Column(name = "chart_name", length = 256)
-    val chartName: String,
+    var chartName: String = "",
 
     @Column(name = "chart_desc")
-    val chartDesc: String
+    var chartDesc: String? = null,
+
+    @Column(name = "chart_config")
+    var chartConfig: String = ""
 ) : Serializable, AliceMetaEntity()

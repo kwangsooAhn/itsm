@@ -39,9 +39,9 @@ insert into awf_auth values ('board.create', '게시판 등록', '게시판 등�
 insert into awf_auth values ('board.delete', '게시판 삭제', '게시판 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('board.read', '게시판 조회', '게시판 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('board.update', '게시판 변경', '게시판 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('chart.read', '통계 차트 조회', '통계 차트 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null,  null);
-insert into awf_auth values ('chart.create', '통계 차트 생성', '통계 차트 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('chart.update', '통계 차트 변경', '통계 차트 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('chart.read', '통계 차트 조회', '통계 차트 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('chart.create', '통계 차트 등록', '통계 차트 등록 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('chart.update', '통계 차트 수정', '통계 차트 수정 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('chart.delete', '통계 차트 삭제', '통계 차트 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.read', 'CMDB Attribute 조회', 'CMDB Attribute 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.create', 'CMDB Attribute 생성', 'CMDB Attribute 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);

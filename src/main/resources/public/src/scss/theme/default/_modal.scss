@@ -123,6 +123,8 @@
   }
   // 관련문서 모달
   // CMDB > Class > AttributeList 모달
+  // 통계 문서 모달
+  &.chart-edit-modal,
   &.cmdb-class-attribute-modal,
   &.token-list {
     width: $token-list-modal-width;

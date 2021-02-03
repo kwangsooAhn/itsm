@@ -53,8 +53,8 @@ insert into awf_auth values ('board.delete', '게시판 삭제', '게시판 삭�
 insert into awf_auth values ('board.read', '게시판 조회', '게시판 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('board.update', '게시판 변경', '게시판 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('chart.read', '통계 차트 조회', '통계 차트 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null,  null);
-insert into awf_auth values ('chart.create', '통계 차트 생성', '통계 차트 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('chart.update', '통계 차트 변경', '통계 차트 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('chart.create', '통계 차트 등록', '통계 차트 등록 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('chart.update', '통계 차트 수정', '통계 차트 수정 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('chart.delete', '통계 차트 삭제', '통계 차트 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.read', 'CMDB Attribute 조회', 'CMDB Attribute 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('cmdb.attribute.create', 'CMDB Attribute 생성', 'CMDB Attribute 생성 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -283,9 +283,18 @@ insert into awf_code values ('customCode.type.table', 'customCode.type', 'table'
 insert into awf_code values ('customCode.type.code', 'customCode.type', 'code', '코드', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart', 'root', null, 'CHART', null, false, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type', 'chart', null, 'CHART TYPE', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart.type.basicLine', 'chart.type', 'Basic Line Chart', 'Basic Line Chart', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart.type.pie', 'chart.type', 'Pie Chart', 'Pie Chart', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart.type.stackedColumn', 'chart.type', 'Stacked Column Chart', 'Stacked Column Chart', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.basicLine', 'chart.type', 'chart.basicLine', 'Basic Line Chart', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.pie', 'chart.type', 'chart.pie', 'Pie Chart', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.stackedColumn', 'chart.type', 'chart.stackedColumn', 'Stacked Column Chart', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.operation', 'chart', null, 'CHART OPERATION', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.operation.count', 'chart.operation', 'count', '카운트', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.operation.average', 'chart.operation', 'average', '평균', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.operation.sum', 'chart.operation', 'sum', '합계', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.unit', 'chart', null, 'CHART UNIT', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.unit.year', 'chart.unit', 'Y', '년', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.unit.month', 'chart.unit', 'M', '월', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.unit.day', 'chart.unit', 'D', '일', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.unit.hour', 'chart.unit', 'H', '시간', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 사용자정의코드
@@ -1265,6 +1274,9 @@ insert into awf_url values ('/certification/status', 'get', '메일 인증 상�
 insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'FALSE');
 insert into awf_url values ('/charts', 'get', '통계 차트 목록', 'TRUE');
 insert into awf_url values ('/charts/search', 'get', '통계 차트 목록 조회 화면', 'TRUE');
+insert into awf_url values ('/charts/new', 'get', '통계 차트 등록 화면', 'TRUE');
+insert into awf_url values ('/charts/{id}/edit', 'get', '통계 차트 수정 화면', 'TRUE');
+insert into awf_url values ('/charts/{id}/view', 'get', '통계 차트 조회 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
@@ -1357,6 +1369,9 @@ insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '�
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
 insert into awf_url values ('/rest/charts', 'get', '통계 차트 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/charts', 'post', '통계 차트 등록', 'TRUE');
+insert into awf_url values ('/rest/charts/{id}', 'put', '통계 차트 수정', 'TRUE');
+insert into awf_url values ('/rest/charts/{id}', 'delete', '통계 차트 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
@@ -1550,6 +1565,11 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.delete');
 insert into awf_url_auth_map values ('/charts', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/charts/search', 'get', 'chart.read');
+insert into awf_url_auth_map values ('/charts/new', 'get', 'chart.create');
+insert into awf_url_auth_map values ('/charts/new', 'get', 'chart.update');
+insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.create');
+insert into awf_url_auth_map values ('/charts/{id}/edit', 'get', 'chart.update');
+insert into awf_url_auth_map values ('/charts/{id}/view', 'get', 'chart.read');
 insert into awf_url_auth_map values ('/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/cmdb/attributes/new', 'get', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/cmdb/attributes/search', 'get', 'cmdb.attribute.read');
@@ -1690,6 +1710,9 @@ insert into awf_url_auth_map values ('/rest/boards/articles/comments/{id}', 'del
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'board.delete');
 insert into awf_url_auth_map values ('/rest/charts', 'get', 'chart.read');
+insert into awf_url_auth_map values ('/rest/charts', 'post', 'chart.create');
+insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'chart.update');
+insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'chart.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
@@ -3525,7 +3548,8 @@ CREATE TABLE awf_chart
     chart_id character varying(128) NOT NULL,
     chart_type character varying(128) NOT NULL,
     chart_name character varying(256) NOT NULL,
-    chart_desc text NOT NULL,
+    chart_desc text,
+    chart_config text NOT NULL,
     create_user_key character varying(128),
     create_dt timestamp,
     update_user_key character varying(128),
@@ -3537,6 +3561,7 @@ COMMENT ON COLUMN awf_chart.chart_id IS  '차트아이디';
 COMMENT ON COLUMN awf_chart.chart_type IS '차트타입';
 COMMENT ON COLUMN awf_chart.chart_name IS '차트이름';
 COMMENT ON COLUMN awf_chart.chart_desc IS '차트설명';
+COMMENT ON COLUMN awf_chart.chart_config IS '차트설정';
 COMMENT ON COLUMN awf_chart.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_chart.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_chart.update_user_key IS '수정자';

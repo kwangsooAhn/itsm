@@ -41,6 +41,9 @@ insert into awf_url values ('/certification/status', 'get', '메일 인증 상�
 insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'FALSE');
 insert into awf_url values ('/charts', 'get', '통계 차트 목록', 'TRUE');
 insert into awf_url values ('/charts/search', 'get', '통계 차트 목록 조회 화면', 'TRUE');
+insert into awf_url values ('/charts/new', 'get', '통계 차트 등록 화면', 'TRUE');
+insert into awf_url values ('/charts/{id}/edit', 'get', '통계 차트 수정 화면', 'TRUE');
+insert into awf_url values ('/charts/{id}/view', 'get', '통계 차트 조회 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/new', 'get', 'CMDB Attribute 등록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/attributes/search', 'get', 'CMDB Attribute 관리 조회 화면', 'TRUE');
@@ -133,6 +136,9 @@ insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '�
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
 insert into awf_url values ('/rest/charts', 'get', '통계 차트 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/charts', 'post', '통계 차트 등록', 'TRUE');
+insert into awf_url values ('/rest/charts/{id}', 'put', '통계 차트 수정', 'TRUE');
+insert into awf_url values ('/rest/charts/{id}', 'delete', '통계 차트 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');

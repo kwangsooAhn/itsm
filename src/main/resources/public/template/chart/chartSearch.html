@@ -21,13 +21,13 @@
             <form id="searchFrm">
                 <select id="searchTypeName" name="searchTypeName" class="col-3 mr-2">
                     <option value="" th:text="#{chart.label.all}" selected></option>
-                    <option th:each="type:${typeList}" th:value="${type.code}" th:text="${type.codeValue}"></option>
+                    <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
                 </select>
                 <span id="spanTotalCount" class="txt-num"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-fill" sec:authorize="hasAuthority('chart.create')"
-                        th:text="#{common.btn.add}"></button>
+                        th:text="#{common.btn.add}" th:onclick="openChartEditModal()"></button>
             </div>
         </div>
     </div>
@@ -40,6 +40,11 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
+        const STATUS_SUCCESS = '0';
+        const CHART_YEAR = 'Y';
+        const CHART_MONTH = 'M';
+        const CHART_DAY = 'D';
+        const CHART_HOUR = 'H';
         window.onload = function () {
             document.getElementById('searchTypeName').addEventListener('change', function () {
                 searchCharts(false);
@@ -57,16 +62,18 @@
                     offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/charts?' + urlParam, isScroll);
+                restSearchSubmit('get', '/rest/charts?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/charts?' + urlParam, isScroll);
+                restSearchSubmit('get', '/charts?' + urlParam, isScroll);
             }
         }
 
-        // REST API
-        function restSubmit(method, url, isScroll) {
+        /**
+         * REST SEARCH API
+         */
+        function restSearchSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
@@ -114,7 +121,26 @@
             aliceJs.sendXhr(opt);
         }
 
-        // Tr 동적 데이터 만들기
+        /**
+         * REST API
+         */
+        function restSubmit(method, url, data, result, isShowProgressbar) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function (response) {
+                    result(response.responseText);
+                },
+                showProgressbar: isShowProgressbar
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /**
+         * Tr 동적 데이터 만들기
+         */
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
@@ -127,8 +153,13 @@
 
             let tdChartName = document.createElement('td');
             tdChartName.style.width = '15%';
-            tdChartName.className = 'align-left';
+            tdChartName.className = 'align-left underline point-fill pointer';
             tdChartName.innerText = data.chartName;
+            if (document.getElementsByName('isRole')[0].value === 'true') {
+                tdChartName.onclick = function () {
+                    openChartViewModal(data.chartId);
+                }
+            }
 
             let tdChartDesc = document.createElement('td');
             tdChartDesc.style.width = '25%';
@@ -146,6 +177,7 @@
                 spanChartEdit.className = 'icon-edit';
                 btnChartEdit.appendChild(spanChartEdit);
                 btnChartEdit.onclick = function () {
+                    openChartEditModal(data.chartId);
                 }
                 tdChartEdit.appendChild(btnChartEdit);
             }
@@ -167,6 +199,221 @@
             tr.appendChild(tdChartCreateUserName);
             tr.appendChild(tdChartCreateDt);
             div.appendChild(tr);
+        }
+
+        /**
+         * Chart edit 화면 호출 (Modal)
+         */
+        function openChartEditModal(chartId) {
+            let chartOptions = {
+                title: i18n.msg('chart.label.edit'),
+                body: createModalContent('edit'),
+                classes: 'chart-edit-modal',
+                buttons: [
+                    // 미리보기
+                    {
+                        content: i18n.msg('chart.btn.preview'),
+                        classes: "default-fill",
+                        bindKey: false,
+                        callback: function (modal) {
+                        }
+                    }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    getChart(chartId);
+                }
+            };
+
+            if (chartId !== undefined) {
+                chartOptions.buttons.push({
+                    content: i18n.msg('common.btn.delete'),
+                    classes: "default-fill",
+                    bindKey: false,
+                    callback: function (modal) {
+                        deleteChart(chartId);
+                    }
+                });
+            }
+
+            chartOptions.buttons.push({
+                content: (chartId !== undefined) ? i18n.msg('common.btn.save') : i18n.msg('common.btn.register'),
+                classes: "point-fill",
+                bindKey: false,
+                callback: function (modal) {
+                    let method = (chartId !== undefined) ? 'put' : 'post'
+                    saveChart(method, chartId)
+                }
+            });
+
+            chartOptions.buttons.push({
+                content: i18n.msg('common.btn.cancel'),
+                classes: "default-line",
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            });
+
+            const chartEditModal = new modal(chartOptions);
+            chartEditModal.show();
+        }
+
+        /**
+         * Chart view 화면 호출 (Modal)
+         */
+        function openChartViewModal(chartId) {
+            let chartOptions = {
+                classes: 'chart-edit-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: "default-line",
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                }
+            };
+
+            const chartViewModal = new modal(chartOptions);
+            chartViewModal.show();
+        }
+
+        function createModalContent() {
+            return `<div class="flex-column" id="getChart"><div>`
+        }
+
+        function getChart(chartId) {
+            let strUrl = ''
+            if (chartId === undefined) {
+                strUrl = '/charts/new';
+            } else {
+                strUrl = '/charts/' + chartId + '/edit';
+            }
+
+            const opt = {
+                method: 'get',
+                url: strUrl,
+                contentType: 'application/json',
+                showProgressbar: false,
+                callbackFunc: function (response) {
+                    document.getElementById('getChart').innerHTML = response.responseText;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        function emptyValidataion() {
+            if (isEmpty('chartName', 'chart.msg.enterChartName')) {
+                return false
+            }
+            if (isEmpty('targetLabel', 'chart.msg.enterTargetLabel')) {
+                return false
+            }
+            if (isEmpty('durationDigit', 'chart.msg.enterDurationDigit')) {
+                return false
+            }
+            return true;
+        }
+
+        /**
+         * chart 저장 / 수정
+         */
+        function saveChart(method, chartId) {
+            if (emptyValidataion()) {
+                let chartInfo = {
+                    chartType: document.getElementById('typeSelectBox').value,
+                    chartName: document.getElementById('chartName').value,
+                    chartDesc: document.getElementById('chartDesc').value,
+                    targetLabel: document.getElementById('targetLabel').value,
+                    operation: document.getElementById('operationSelectBox').value,
+                    durationDigit: document.getElementById('durationDigit').value,
+                    durationUnit: document.getElementById('durationUnitSelectBox').value,
+                    periodUnit: document.getElementById('periodUnitSelectBox').value
+                }
+
+                switch (chartInfo.durationUnit) {
+                    case CHART_MONTH:
+                        if (chartInfo.periodUnit === CHART_YEAR) {
+                            aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                            return false;
+                        }
+                        break;
+                    case CHART_DAY:
+                        if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH) {
+                            aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                            return false;
+                        }
+                        break;
+                    case CHART_HOUR:
+                        if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH || chartInfo.periodUnit === CHART_DAY) {
+                            aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                            return false;
+                        }
+                        break;
+                }
+
+                let url = '/rest/charts';
+                if (method === 'put' && chartId !== undefined) {
+                    chartInfo.chartId = chartId;
+                    url += '/' + chartId;
+                }
+                restSubmit(method, url, chartInfo, function (result) {
+                    switch (result) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                location.reload()
+                            });
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
+                    }
+                })
+            }
+        }
+
+        /**
+         * chart 삭제
+         */
+        function deleteChart(chartId) {
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
+                chartId, {}, function (result) {
+                switch (result) {
+                    case STATUS_SUCCESS:
+                        aliceJs.alertSuccess('[[#{common.msg.delete}]]', function () {
+                            location.reload();
+                        });
+                        break;
+                    default:
+                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            })
+        }
+
+        function onlyNumber(event) {
+            event = event || window.event;
+            const keyID = (event.which) ? event.which : event.keyCode;
+            if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
+                || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
+                return false;
+            }
+        }
+
+        function removeChar(event) {
+            event = event || window.event;
+            const keyID = (event.which) ? event.which : event.keyCode;
+            if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
+                event.target.value = event.target.value.replace(/[^0-9]/g, '');
+            }
         }
 
         /*]]>*/
