@@ -153,7 +153,7 @@
 
             let tdChartName = document.createElement('td');
             tdChartName.style.width = '15%';
-            tdChartName.className = 'align-left underline point-fill';
+            tdChartName.className = 'align-left underline point-fill pointer';
             tdChartName.innerText = data.chartName;
             if (document.getElementsByName('isRole')[0].value === 'true') {
                 tdChartName.onclick = function () {
@@ -217,16 +217,6 @@
                         bindKey: false,
                         callback: function (modal) {
                         }
-                    },
-                    // 저장
-                    {
-                        content: (chartId !== undefined) ? i18n.msg('common.btn.save') : i18n.msg('common.btn.register'),
-                        classes: "point-fill",
-                        bindKey: false,
-                        callback: function (modal) {
-                            let method = (chartId !== undefined) ? 'put' : 'post'
-                            saveChart(method, chartId)
-                        }
                     }],
                 close: {
                     closable: false,
@@ -249,6 +239,16 @@
             }
 
             chartOptions.buttons.push({
+                content: (chartId !== undefined) ? i18n.msg('common.btn.save') : i18n.msg('common.btn.register'),
+                classes: "point-fill",
+                bindKey: false,
+                callback: function (modal) {
+                    let method = (chartId !== undefined) ? 'put' : 'post'
+                    saveChart(method, chartId)
+                }
+            });
+
+            chartOptions.buttons.push({
                 content: i18n.msg('common.btn.cancel'),
                 classes: "default-line",
                 bindKey: false,
@@ -267,7 +267,14 @@
         function openChartViewModal(chartId) {
             let chartOptions = {
                 classes: 'chart-edit-modal',
-                buttons: [],
+                buttons: [{
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: "default-line",
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
                 close: {
                     closable: false,
                 },

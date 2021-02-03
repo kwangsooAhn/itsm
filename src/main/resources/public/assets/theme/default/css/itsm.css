@@ -458,6 +458,10 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.125rem solid #E1E3E6;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 /* _fonts.scss 
  *
  * 파일 경로 : template/_fonts.scss
@@ -5243,5 +5247,3 @@ body.modal-active {
 .itsm-popup .notice-content-popup.view {
   height: auto;
 }
-
-/*# sourceMappingURL=itsm.css.map */
