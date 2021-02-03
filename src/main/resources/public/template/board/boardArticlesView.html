@@ -24,9 +24,9 @@
             </div>
             <div class="flex-column view-row">
                 <div class="view-sub-title flex-row justify-content-end">
-                    <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
-                    <span class="vertical-bar"></span>
                     <span class="user-name" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
+                    <span class="vertical-bar"></span>
+                    <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
                 </div>
             </div>
             <div class="horizontal-bar"></div>
