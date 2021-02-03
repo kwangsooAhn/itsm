@@ -3030,7 +3030,7 @@
             {
                 "id": "color",
                 "name": "Color",
-                "value": "rgba(63, 75, 86, 1)",
+                "value": "rgba(235, 235, 235, 1)",
                 "type": "rgba",
                 "code": "",
                 "unit": ""
@@ -3182,7 +3182,7 @@
             {
                 "id": "color",
                 "name": "Color",
-                "value": "rgba(63, 75, 86, 1)",
+                "value": "rgba(235, 235, 235, 1)",
                 "type": "rgba",
                 "code": "",
                 "unit": ""
