@@ -63,8 +63,11 @@ class CIRestController(
         return ciService.updateCI(ciId, ciDto)
     }
 
+    /**
+     * CI 삭제
+     */
     @DeleteMapping("/{ciId}")
-    fun deleteCI(): Boolean {
-        return true
+    fun deleteCI(@PathVariable ciId: String): RestTemplateReturnDto {
+        return ciService.deleteCI(ciId)
     }
 }

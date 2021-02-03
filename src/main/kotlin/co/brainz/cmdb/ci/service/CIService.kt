@@ -6,9 +6,9 @@
 
 package co.brainz.cmdb.ci.service
 
+import co.brainz.cmdb.ci.constants.CIConstants
 import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.entity.CIEntity
-import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ci.repository.CIDataRepository
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
@@ -17,6 +17,7 @@ import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
 import co.brainz.cmdb.ciRelation.repository.CIRelationRepository
+import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ciTag.repository.CITagRepository
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
@@ -287,6 +288,23 @@ class CIService(
                 )
             )
         }
+
+        return restTemplateReturnDto
+    }
+
+    /**
+     * CI 삭제
+     */
+    fun deleteCI(ciId: String): RestTemplateReturnDto {
+        val restTemplateReturnDto = RestTemplateReturnDto()
+
+        val ciEntity = ciRepository.findByCiId(ciId) ?: throw AliceException(
+            AliceErrorConstants.ERR_00005,
+            AliceErrorConstants.ERR_00005.message + "[CI Entity]"
+        )
+
+        ciEntity.ciStatus = CIConstants.CIStatus.STATUS_DELETE.code
+        ciRepository.save(ciEntity)
 
         return restTemplateReturnDto
     }

@@ -31,6 +31,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 /**
@@ -56,7 +57,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class CIRestControllerTest {
     @Autowired
-    private lateinit var mvc:MockMvc
+    private lateinit var mvc: MockMvc
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -90,38 +91,48 @@ class CIRestControllerTest {
             )
 
             // 신규 등록 Attribute Data
-            newCIDataDtoList.add(CIDataDto(
-                newCIDto.ciId,
-                "e613591ddea0f8c1f2457104f7cf286d", // 장비명
-                "new server"
-            ))
+            newCIDataDtoList.add(
+                CIDataDto(
+                    newCIDto.ciId,
+                    "e613591ddea0f8c1f2457104f7cf286d", // 장비명
+                    "new server"
+                )
+            )
 
-            newCIDataDtoList.add(CIDataDto(
-                newCIDto.ciId,
-                "6e247bdb7b70757e1987ae25a36c3d13", // 호스트명
-                "new host"
-            ))
+            newCIDataDtoList.add(
+                CIDataDto(
+                    newCIDto.ciId,
+                    "6e247bdb7b70757e1987ae25a36c3d13", // 호스트명
+                    "new host"
+                )
+            )
 
             // 신규 등록 Tag Data
-            newCITagList.add(CITagDto(
-                newCIDto.ciId,
-                "",
-                "new tag1"
-            ))
+            newCITagList.add(
+                CITagDto(
+                    newCIDto.ciId,
+                    "",
+                    "new tag1"
+                )
+            )
 
-            newCITagList.add(CITagDto(
-                newCIDto.ciId,
-                "",
-                "new tag2"
-            ))
+            newCITagList.add(
+                CITagDto(
+                    newCIDto.ciId,
+                    "",
+                    "new tag2"
+                )
+            )
 
             // 신규 등록 Relation Data
-            newCIRelationList.add(CIRelationDto(
-                "",
-                "new relation type",
-                newCIDto.ciId,
-                newCIDto.ciId
-            ))
+            newCIRelationList.add(
+                CIRelationDto(
+                    "",
+                    "new relation type",
+                    newCIDto.ciId,
+                    newCIDto.ciId
+                )
+            )
 
             newCIDto.ciDataList = newCIDataDtoList
             newCIDto.ciTags = newCITagList
@@ -131,44 +142,55 @@ class CIRestControllerTest {
             updateCIDto = newCIDto.copy()
 
             updateCIDto.ciName = "update test CI"
-            updateCIDataDtoList.add(CIDataDto(
-                newCIDto.ciId,
-                "e613591ddea0f8c1f2457104f7cf286d", // 장비명
-                "update server"
-            ))
+            updateCIDataDtoList.add(
+                CIDataDto(
+                    newCIDto.ciId,
+                    "e613591ddea0f8c1f2457104f7cf286d", // 장비명
+                    "update server"
+                )
+            )
 
-            updateCIDataDtoList.add(CIDataDto(
-                newCIDto.ciId,
-                "6e247bdb7b70757e1987ae25a36c3d13", // 호스트명
-                "update host"
-            ))
+            updateCIDataDtoList.add(
+                CIDataDto(
+                    newCIDto.ciId,
+                    "6e247bdb7b70757e1987ae25a36c3d13", // 호스트명
+                    "update host"
+                )
+            )
 
             // 변경용 Tag Data
-            updateCITagList.add(CITagDto(
-                updateCIDto.ciId,
-                "",
-                "update tag1"
-            ))
+            updateCITagList.add(
+                CITagDto(
+                    updateCIDto.ciId,
+                    "",
+                    "update tag1"
+                )
+            )
 
-            updateCITagList.add(CITagDto(
-                updateCIDto.ciId,
-                "",
-                "update tag2"
-            ))
+            updateCITagList.add(
+                CITagDto(
+                    updateCIDto.ciId,
+                    "",
+                    "update tag2"
+                )
+            )
 
             // 변경용 Relation Data
-            updateCIRelationList.add(CIRelationDto(
-                "",
-                "update relation type",
-                updateCIDto.ciId,
-                updateCIDto.ciId
-            ))
+            updateCIRelationList.add(
+                CIRelationDto(
+                    "",
+                    "update relation type",
+                    updateCIDto.ciId,
+                    updateCIDto.ciId
+                )
+            )
 
             updateCIDto.ciDataList = updateCIDataDtoList
             updateCIDto.ciTags = updateCITagList
             updateCIDto.ciRelations = updateCIRelationList
         }
     }
+
     /*
      * CI 등록 - tag, ci_data 모두 포함
      */
@@ -239,5 +261,11 @@ class CIRestControllerTest {
             delete("/rest/cmdb/eg/cis/" + updateCIDto.ciId)
         )
             .andExpect(status().isOk)
+
+        val resultCI = mvc.perform(
+            get("/rest/cmdb/eg/cis/" + updateCIDto.ciId)
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.ciStatus").value(CIConstants.CIStatus.STATUS_DELETE.code))
     }
 }
