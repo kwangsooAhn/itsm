@@ -6,18 +6,23 @@
 
 package co.brainz.cmdb.ci.service
 
+import co.brainz.cmdb.ci.constants.CIConstants
 import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.entity.CIEntity
-import co.brainz.cmdb.ci.entity.CIRelationEntity
-import co.brainz.cmdb.ci.entity.CITagEntity
 import co.brainz.cmdb.ci.repository.CIDataRepository
-import co.brainz.cmdb.ci.repository.CIRelationRepository
 import co.brainz.cmdb.ci.repository.CIRepository
-import co.brainz.cmdb.ci.repository.CITagRepository
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
+import co.brainz.cmdb.ciClass.constants.CIClassConstants
+import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
+import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
+import co.brainz.cmdb.ciRelation.repository.CIRelationRepository
+import co.brainz.cmdb.ciTag.entity.CITagEntity
+import co.brainz.cmdb.ciTag.repository.CITagRepository
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
+import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
+import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.CITagDto
@@ -86,6 +91,70 @@ class CIService(
             )
         }
         return ciList
+    }
+
+    /**
+     * CI 단일 조회
+     */
+    fun getCI(ciId: String): CIDetailDto {
+        val ciDetailDto = CIDetailDto()
+        val resultCiEntity = ciRepository.findById(ciId)
+        if (!resultCiEntity.isEmpty) {
+            val ciEntity = resultCiEntity.get()
+            ciDetailDto.ciId = ciEntity.ciId
+            ciDetailDto.ciNo = ciEntity.ciNo
+            ciDetailDto.ciName = ciEntity.ciName
+            ciDetailDto.ciIcon = ciEntity.ciIcon
+            ciDetailDto.ciDesc = ciEntity.ciDesc
+            ciDetailDto.ciStatus = ciEntity.ciStatus
+            ciDetailDto.automatic = ciEntity.automatic
+            ciDetailDto.typeId = ciEntity.ciTypeEntity.typeId
+            ciDetailDto.typeName = ciEntity.ciTypeEntity.typeName
+            ciDetailDto.classId = ciEntity.ciClassEntity.classId
+            ciDetailDto.className = ciEntity.ciClassEntity.className
+            ciDetailDto.createUserKey = ciEntity.createUser?.userKey
+            ciDetailDto.createDt = ciEntity.createDt
+            ciDetailDto.updateUserKey = ciEntity.updateUser?.userKey
+            ciDetailDto.updateDt = ciEntity.updateDt
+            ciDetailDto.ciTags = ciTagRepository.findByCIId(ciEntity.ciId)
+            ciDetailDto.ciRelations = ciRelationRepository.selectByCiId(ciEntity.ciId)
+            ciDetailDto.classes = getAttributeValueAll(ciEntity.ciId, ciEntity.ciClassEntity.classId)
+        }
+        return ciDetailDto
+    }
+
+    /**
+     * CI 상세 조회 시 관련 Class 전체에 대한 속성, 값을 조회
+     */
+    fun getAttributeValueAll(ciId: String, classId: String): MutableList<CIClassDetailValueDto> {
+        val attributeValueAll = mutableListOf<CIClassDetailValueDto>()
+
+        /**
+         * MEMO
+         *   JPA 에서 recursive 쿼리를 지원하지 않는 관계로 Native Query 사용이 종종 발생.
+         *   아래 정도에서는 recursive 쿼리를 안써도 성능에 문제가 없을 듯 하지만
+         *   정책적인 결정이 필요하다.
+         */
+        val classList = mutableListOf<String>()
+        var targetClass: CIClassEntity? = null
+        var targetClassId: String = classId
+
+        while (targetClassId != CIClassConstants.CI_CLASS_ROOT_ID) {
+            var resultCiClass = ciClassRepository.findById(targetClassId)
+            if (!resultCiClass.isEmpty) {
+                targetClass = resultCiClass.get()
+                classList.add(targetClass.classId) // 리스트에 더하기
+                targetClassId = targetClass.pClass?.classId ?: CIClassConstants.CI_CLASS_ROOT_ID
+            }
+        }
+
+        classList.forEach { classId ->
+            val ciClassDetailValueDto = CIClassDetailValueDto(
+                attributes = ciAttributeRepository.findAttributeValueList(ciId, classId).toMutableList()
+            )
+            attributeValueAll.add(ciClassDetailValueDto)
+        }
+        return attributeValueAll
     }
 
     /**
@@ -219,6 +288,23 @@ class CIService(
                 )
             )
         }
+
+        return restTemplateReturnDto
+    }
+
+    /**
+     * CI 삭제
+     */
+    fun deleteCI(ciId: String): RestTemplateReturnDto {
+        val restTemplateReturnDto = RestTemplateReturnDto()
+
+        val ciEntity = ciRepository.findByCiId(ciId) ?: throw AliceException(
+            AliceErrorConstants.ERR_00005,
+            AliceErrorConstants.ERR_00005.message + "[CI Entity]"
+        )
+
+        ciEntity.ciStatus = CIConstants.CIStatus.STATUS_DELETE.code
+        ciRepository.save(ciEntity)
 
         return restTemplateReturnDto
     }

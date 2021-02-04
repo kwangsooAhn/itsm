@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.cmdb.ci.repository
+package co.brainz.cmdb.ciTag.repository
 
 import co.brainz.cmdb.provider.dto.CITagDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
