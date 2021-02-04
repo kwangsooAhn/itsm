@@ -416,7 +416,7 @@
                         const componentData = aliceDocument.data.form.components[eIndex];
                         componentValueArr = [];
                         // 삭제, 조회일 경우에는 actionType과 ciId만 저장한다.
-                        const allowedKeys = ['actionType', 'ciId'];
+                        const allowedKeys = ['actionType', 'ciId', 'ciStatus'];
                         const filterActionType = ['delete', 'read'];
                         componentData.value.forEach(function(v) {
                             if (filterActionType.includes(v.actionType)) {
@@ -725,37 +725,8 @@
      * @param data 문서 데이터
      * @param id 문서 id
      */
-    function modal(data, id) {
-        this.id = id;
-        this.data = data;
-
-        this.show = function() { // 모달 표시
-            if (typeof this.wrapper !== 'undefined') {
-                this.wrapper.classList.add('document-modal-active');
-                document.body.classList.add('document-modal-active');
-            }
-        };
-        this.hide = function() { // 모달 숨김
-            if (typeof this.wrapper !== 'undefined') {
-                this.wrapper.classList.remove('document-modal-active');
-                document.body.classList.remove('document-modal-active');
-                this.destroy();
-            }
-        };
-        this.create = function() {
-            if (typeof this.wrapper !== 'undefined') { return; }
-            let backdrop, dialog;
-
-            this.wrapper = document.createElement('div');
-            this.wrapper.classList.add('document-modal-wrapper');
-            this.wrapper.id = 'document-modal-wrapper-' + this.id;
-
-            backdrop = document.createElement('div');
-            backdrop.className = 'document-modal-backdrop';
-
-            dialog = document.createElement('div');
-            dialog.classList.add('document-modal-dialog', 'document-container');
-
+    function openDocumentModal(data, id) {
+        const getDocumentModalContent = function() {
             const body = document.createElement('div');
             body.className = 'document-main flex-column align-items-center'; // contents
 
@@ -779,7 +750,7 @@
             printButton.type = 'button';
             printButton.className = 'default-line';
             printButton.innerText = i18n.msg('common.btn.print');
-            printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
+            printButton.addEventListener('click', print.bind(null, '/documents/' + id), false);
             buttonPanel.appendChild(printButton);
 
             const documentPanel = document.createElement('div');
@@ -787,21 +758,23 @@
             documentPanel.id = 'document-panel';
             documentPanel.setAttribute('data-display', 'document');
             body.appendChild(documentPanel);
-
-            dialog.appendChild(body);
-            this.wrapper.appendChild(backdrop);
-            this.wrapper.appendChild(dialog);
-            document.body.appendChild(this.wrapper);
-            // 문서 draw
-            drawDocument(this.data);
-        }
-        this.destroy = function() { // 모달 제거
-            if (typeof this.wrapper !== 'undefined') {
-                document.body.removeChild(this.wrapper);
-                this.wrapper = undefined;
-            }
+            return body;
         };
-        this.create();
+
+        documentModal = new modal({
+            title: '',
+            body: getDocumentModalContent(),
+            classes: 'document-modal-dialog document-container',
+            buttons:[],
+            close: {
+                closable: false,
+            },
+            onCreate: function (modal) {
+                // 문서 draw
+                drawDocument(data);
+            }
+        });
+        documentModal.show();
     }
 
     /**
@@ -821,8 +794,7 @@
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
                 responseObject.documentId = documentId;
                 aliceDocument.data = responseObject;
-                documentModal = new modal(aliceDocument.data, documentId);
-                documentModal.show();
+                openDocumentModal(aliceDocument.data, documentId);
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
 
