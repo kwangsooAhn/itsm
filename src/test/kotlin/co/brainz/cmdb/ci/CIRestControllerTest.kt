@@ -5,7 +5,7 @@
 
 package co.brainz.cmdb.ci
 
-import co.brainz.cmdb.ci.constants.CIConstants
+import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIDataDto
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIRelationDto
@@ -83,7 +83,7 @@ class CIRestControllerTest {
                 ciId = UUID.randomUUID().toString(),
                 ciName = "register test CI",
                 typeId = "587b4557275bcce81664db9e12485ae2", // 서버
-                ciStatus = CIConstants.CIStatus.STATUS_USE.code,
+                ciStatus = RestTemplateConstants.CIStatus.STATUS_USE.code,
                 classId = null,
                 ciDataList = null,
                 ciRelations = null,
@@ -239,7 +239,7 @@ class CIRestControllerTest {
     /*
      * CI 조회 - 1건조회
      */
-    @Test
+    /*@Test
     fun d_getCIView() {
         logger.debug(updateCIDto.toString())
         val resultCI = mvc.perform(
@@ -249,7 +249,7 @@ class CIRestControllerTest {
             .andReturn().response.contentAsString
 
         logger.debug(resultCI)
-    }
+    }*/
 
     /*
      * CI 삭제 - 실제로 삭제는 안되고 상태가 변경.

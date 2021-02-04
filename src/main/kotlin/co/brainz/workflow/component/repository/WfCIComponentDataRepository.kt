@@ -19,4 +19,12 @@ interface WfCIComponentDataRepository : JpaRepository<WfCIComponentDataEntity, S
     fun findByCiIdAnAndComponentId(ciId: String, componentId: String): WfCIComponentDataEntity?
 
     fun deleteByCiIdAndAndComponentId(ciId: String, componentId: String)
+
+    fun findByComponentIdAndCiIdAndInstanceId(
+        ciId: String,
+        componentId: String,
+        instanceId: String
+    ): WfCIComponentDataEntity?
+
+    fun findByInstanceId(instanceId: String): List<WfCIComponentDataEntity>?
 }

@@ -78,4 +78,21 @@ object RestTemplateConstants {
         PUT_CI("/rest/cmdb/eg/cis/{ciId}", "PUT"),
         DELETE_CI("/rest/cmdb/eg/cis/{ciId}", "DELETE")
     }
+
+    /**
+     * CI Status.
+     */
+    enum class CIStatus(val code: String) {
+        STATUS_USE("use"),
+        STATUS_DELETE("delete")
+    }
+
+    /**
+     * CI ActionType.
+     */
+    enum class ActionType(val code: String) {
+        REGISTER("register"),
+        MODIFY("modify"),
+        DELETE("delete")
+    }
 }
