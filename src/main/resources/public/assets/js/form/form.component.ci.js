@@ -17,6 +17,11 @@
     const ACTION_TYPE_REGISTER = 'register';
     const ACTION_TYPE_DELETE = 'delete';
     const ACTION_TYPE_MODIFY = 'modify';
+
+    // CI 상태
+    const CI_STATUS_USE = 'use';
+    const CI_STATUS_DELETE = 'delete';
+
     const CIData = {
         ciId: '',
         ciNo: '',
@@ -147,6 +152,7 @@
             if (actionType === ACTION_TYPE_REGISTER) {
                 saveCIData.ciId = workflowUtil.generateUUID();
                 saveCIData.actionType = ACTION_TYPE_REGISTER;
+                saveCIData.ciStatus = CI_STATUS_USE;
                 addRow(comp, saveCIData);
                 componentData.value.push(saveCIData);
             } else {
@@ -199,7 +205,9 @@
                     default:
                         break;
                 }
-                saveData.values.ciAttributes.push(ciAttribute);
+                if (Object.keys(ciAttribute).length !== 0) {
+                    saveData.values.ciAttributes.push(ciAttribute);
+                }
             });
             restSubmit('/rest/tokens/cis/' + saveData.ciId + '/data', 'POST', saveData, false, callbackFunc);
         }
@@ -298,10 +306,11 @@
                     // 체크된 CI 출력
                     document.querySelectorAll('input[type=checkbox]:not([disabled])').forEach(function (chkElem) {
                         if (chkElem.checked) {
-                            const ci = { actionType: targetBtn.getAttribute('data-actionType') };
+                            const actionType = targetBtn.getAttribute('data-actionType');
+                            const ci = { actionType: actionType, ciStatus: (actionType === ACTION_TYPE_DELETE) ? CI_STATUS_DELETE : CI_STATUS_USE };
                             const ciTbCells = document.getElementById('ci-' + chkElem.value).children;
                             Array.from(ciTbCells).forEach(function(cell) {
-                                if (typeof cell.id !== 'undefined') {
+                                if (typeof cell.id !== 'undefined' && cell.id.trim() !== '') {
                                     ci[cell.id] = (cell.id === 'ciId') ? chkElem.value : cell.textContent;
                                 }
                             });
