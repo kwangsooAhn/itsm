@@ -5,6 +5,8 @@
 
 package co.brainz.workflow.engine.manager.service
 
+import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
@@ -13,7 +15,9 @@ import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
+import co.brainz.workflow.component.entity.WfCIComponentDataEntity
 import co.brainz.workflow.component.entity.WfComponentEntity
+import co.brainz.workflow.component.repository.WfCIComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -25,11 +29,16 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.workflow.provider.RestTemplateProvider
+import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -51,8 +60,12 @@ class WfTokenManagerService(
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceFileService: AliceFileService,
     private val aliceFileLocRepository: AliceFileLocRepository,
-    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository
+    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
+    private val wfCiComponentDataRepository: WfCIComponentDataRepository,
+    private val restTemplate: RestTemplateProvider
 ) {
+
+    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * Get component entity.
@@ -146,6 +159,81 @@ class WfTokenManagerService(
      */
     fun getProcessFilePath(attachFileName: String): Path {
         return Paths.get(aliceFileService.getProcessFilePath().toString() + File.separator + attachFileName)
+    }
+
+    /**
+     * Post Rest Api (CI).
+     */
+    fun postRestApiCi(url: RestTemplateUrlDto, ci: CIDto): String {
+        val responseBody = restTemplate.create(url, ci)
+        return when (responseBody.body.toString().isNotEmpty()) {
+            true -> {
+                val restTemplateReturnDto =
+                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
+                restTemplateReturnDto.code
+            }
+            false -> ""
+        }
+    }
+
+    /**
+     * Put Rest Api (CI).
+     */
+    fun putRestApiCi(url: RestTemplateUrlDto, ci: CIDto): String {
+        val responseBody = restTemplate.update(url, ci)
+        return when (responseBody.body.toString().isNotEmpty()) {
+            true -> {
+                val restTemplateReturnDto =
+                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
+                restTemplateReturnDto.code
+            }
+            false -> ""
+        }
+    }
+
+    /**
+     * Delete Rest Api (CI).
+     */
+    fun deleteRestApiCi(url: RestTemplateUrlDto, ci: CIDto): String {
+        val responseBody = restTemplate.delete(url, ci)
+        return when (responseBody.body.toString().isNotEmpty()) {
+            true -> {
+                val restTemplateReturnDto =
+                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
+                restTemplateReturnDto.code
+            }
+            false -> ""
+        }
+    }
+
+    /**
+     * 문자열 치환 패턴.
+     */
+    fun getKeyRegex(): Regex {
+        return restTemplate.getKeyRegex()
+    }
+
+    /**
+     * CI 임시 테이블 데이터 조회.
+     */
+    fun getComponentCIData(componentId: String, ciId: String, instanceId: String): WfCIComponentDataEntity? {
+        return wfCiComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
+    }
+
+    /**
+     * CI 임시 테이블 목록 조회.
+     */
+    fun getComponentCiDataList(instanceId: String): List<WfCIComponentDataEntity>? {
+        return wfCiComponentDataRepository.findByInstanceId(instanceId)
+    }
+
+    /**
+     * CI 임시 테이블 삭제.
+     */
+    fun deleteCiComponentData(ciComponentDataEntities: List<WfCIComponentDataEntity>?) {
+        ciComponentDataEntities?.forEach { data ->
+            wfCiComponentDataRepository.deleteByCiIdAndAndComponentId(data.ciId, data.componentId)
+        }
     }
 
     /**

@@ -1412,6 +1412,8 @@
         }
         if (minusCnt > 0) {
             changePropertiesValue(removeOptionData, changePropertiesArr[0], tableIdArr[1], changePropertiesArr[1]);
+        } else {
+            aliceJs.alertWarning(i18n.msg('common.msg.deleteTartget'));
         }
     }
 
