@@ -12,6 +12,4 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CITypeRepository : JpaRepository<CITypeEntity, String>, CITypeRepositoryCustom {
-
-    fun findCITypeEntityByTypeId(typeId: String): CITypeEntity
 }
