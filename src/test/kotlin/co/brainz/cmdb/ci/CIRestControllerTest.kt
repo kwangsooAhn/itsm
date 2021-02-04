@@ -266,6 +266,6 @@ class CIRestControllerTest {
             get("/rest/cmdb/eg/cis/" + updateCIDto.ciId)
         )
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.ciStatus").value(CIConstants.CIStatus.STATUS_DELETE.code))
+            .andExpect(jsonPath("$.ciStatus").value(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
     }
 }

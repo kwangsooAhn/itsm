@@ -6,7 +6,6 @@
 
 package co.brainz.cmdb.ci.service
 
-import co.brainz.cmdb.ci.constants.CIConstants
 import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.entity.CIEntity
 import co.brainz.cmdb.ci.repository.CIDataRepository
@@ -303,7 +302,7 @@ class CIService(
             AliceErrorConstants.ERR_00005.message + "[CI Entity]"
         )
 
-        ciEntity.ciStatus = CIConstants.CIStatus.STATUS_DELETE.code
+        ciEntity.ciStatus = RestTemplateConstants.CIStatus.STATUS_DELETE.code
         ciRepository.save(ciEntity)
 
         return restTemplateReturnDto
