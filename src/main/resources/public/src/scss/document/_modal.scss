@@ -69,5 +69,30 @@
         }
       }
     }
+    // 신청서
+    &.document-modal-dialog {
+      // 신청서일 경우 우측 properties가 존재하지 않음
+      .document-main { right: 0; }
+    }
+    // 트리 모달
+    &.tree {
+      width: $tree-modal-width;
+      height: $tree-modal-height;
+
+      .modal-content {
+        height: calc(#{$tree-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+        padding: 1.125rem 0 0 1.25rem;
+        div {
+          height: 100%;
+          label { font-weight: $font-weight-regular; }
+          li {
+            &:last-child:before {
+              background-color: $modal-bg-color;
+            }
+          }
+        }
+      }
+    }
   }
 }
+
