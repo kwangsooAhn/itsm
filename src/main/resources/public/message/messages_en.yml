@@ -47,6 +47,7 @@ common:
     confirmDelete: "Are you sure you want to delete?"
     dataSelect: "Please select data."
     delete: "Deleted."
+    deleteTartget: "Please select target."
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
     fail: "Failed."
