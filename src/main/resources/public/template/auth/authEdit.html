@@ -80,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex-row justify-content-end">
+        <div class="flex-row auth-btn-layout">
             <div class="btn-list">
                 <button sec:authorize="hasAuthority('auth.create')"
                         class="point-fill" type="button" id="btnRegist" name="btnRegist"
@@ -419,7 +419,7 @@
                     });
 
                     document.getElementById('txtAuthId').setAttribute('disabled','');
-                    document.getElementById('roleAuthMapCount').value = responseJson.roleAuthMapCount;
+                    document.getElementById('roleAuthMapCount').value = i18n.msg('auth.label.count', responseJson.roleAuthMapCount);
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
                     }
