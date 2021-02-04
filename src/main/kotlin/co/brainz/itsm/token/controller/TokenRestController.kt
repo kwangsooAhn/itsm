@@ -9,9 +9,6 @@ import co.brainz.itsm.token.service.TokenService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import javax.servlet.http.HttpServletRequest
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -69,9 +66,6 @@ class TokenRestController(private val tokenService: TokenService) {
      */
     @PostMapping("/cis/{ciId}/data")
     fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentData: String): Boolean {
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val map = mapper.readValue(ciComponentData, LinkedHashMap::class.java)
-
         return tokenService.saveCIComponentData(ciId, ciComponentData)
     }
 
