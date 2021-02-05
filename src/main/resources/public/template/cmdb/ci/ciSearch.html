@@ -25,10 +25,6 @@
                        th:placeholder="#{cmdb.ci.label.tagPlaceholder}"/>
                 <span id="spanTotalCount" class="txt-num"></span>
             </form>
-            <div class="ml-auto">
-                <button type="button" class="default-fill" sec:authorize="hasAuthority('cmdb.ci.create')"
-                        th:text="#{cmdb.ci.btn.import}"></button>
-            </div>
         </div>
     </div>
     <div class="cmdb-ci-content flex-fill">
