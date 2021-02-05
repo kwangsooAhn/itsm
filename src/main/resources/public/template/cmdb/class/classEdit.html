@@ -18,8 +18,6 @@
                    th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
             <span id="totalCount" class="txt-num"></span>
             <div class="ml-auto">
-                <button type="button" class="default-fill" id="btnImport" name="btnImport"
-                        sec:authroize="hasAuthority('cmdb.class.create')" th:text="#{cmdb.class.btn.import}"></button>
                 <button type="button" class="default-fill" id="btnCreate" name="btnCreate" onclick="onCreate();"
                         sec:authorize="hasAuthority('cmdb.class.create')" th:text="#{common.btn.add}"></button>
             </div>
@@ -67,9 +65,6 @@
         </div>
         <div class="flex-row justify-content-end">
             <div class="btn-list">
-                <button sec:authorize="hasAuthority('cmdb.class.create')"
-                        class="default-fill" type="button" id="btnExport" name="btnExport"
-                        th:text="#{cmdb.class.btn.export}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.create')"
                         class="point-fill" type="button" id="btnRegister" name="btnRegister"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
@@ -196,7 +191,6 @@
             document.getElementById('txtPClassId').value = '';
             document.getElementById('txtClassName').value = '';
             document.getElementById('txtClassDesc').value = '';
-            document.getElementById('btnExport').style.display = 'none';
 
             let selectedNode = tree.getTreeSelectNode();
             if (selectedNode !== null) {
