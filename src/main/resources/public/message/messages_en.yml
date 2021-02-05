@@ -89,7 +89,7 @@ auth:
     authDesc: "Auth Desc"
     authId: "Auth ID"
     authName: "Auth Name"
-    count: "{0} "
+    count: "Total {0}"
     menuList: "Usable Menu List"
     referenceCount: "Role Reference Count"
     urlList: "Usable Url"

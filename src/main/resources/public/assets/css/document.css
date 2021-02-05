@@ -346,6 +346,10 @@ input, button, select, optgroup, textarea {
   margin-left: 1.25rem;
 }
 
+.ml-5 {
+  margin-left: 1.875rem;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -370,6 +374,10 @@ input, button, select, optgroup, textarea {
   margin-right: 1.25rem;
 }
 
+.mr-5 {
+  margin-right: 1.875rem;
+}
+
 .mr-auto {
   margin-right: auto;
 }
@@ -392,6 +400,10 @@ input, button, select, optgroup, textarea {
 
 .mt-4 {
   margin-top: 1.25rem;
+}
+
+.mt-5 {
+  margin-top: 1.875rem;
 }
 
 .mt-auto {
@@ -457,6 +469,10 @@ input, button, select, optgroup, textarea {
 }
 .under-bar .bold {
   border-bottom: 0.125rem solid #E1E3E6;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 /* _fonts.scss 
@@ -1646,5 +1662,3 @@ body.modal-active {
   display: inline-block;
   vertical-align: middle;
 }
-
-/*# sourceMappingURL=document.css.map */
