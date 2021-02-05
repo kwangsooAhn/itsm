@@ -2135,11 +2135,6 @@ button .icon-plus {
   background-color: rgba(135, 206, 255, 0.15);
 }
 
-.auth-btn-layout {
-  justify-content: flex-end;
-  margin-right: 1.875rem;
-}
-
 .document-content {
   padding: 1.875rem 1.875rem 0 3.75rem;
   background-color: #ffffff;
