@@ -10,15 +10,14 @@
     <tr class="flex-row align-items-center">
         <th style="width: 25%" class="align-left" th:text="#{cmdb.attribute.label.name}"></th>
         <th style="width: 25%" class="align-left" th:text="#{cmdb.attribute.label.label}"></th>
-        <th style="width: 10%" class="align-center" th:text="#{cmdb.attribute.label.type}"></th>
+        <th style="width: 20%" class="align-center" th:text="#{cmdb.attribute.label.type}"></th>
         <th style="width: 30%" class="align-left" th:text="#{cmdb.attribute.label.description}"></th>
-        <th style="width: 10%" class="align-center" th:text="#{cmdb.attribute.label.export}"></th>
     </tr>
     </thead>
     <tbody class="list-body">
     <input type="hidden" id="totalCount" th:value="${attributeListCount}"/>
     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(attributeList)}">
-        <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
+        <td style="width:100%" colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
     <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(attributeList)}" th:each="attribute: ${attributeList}">
         <td style="width: 25%" class="align-left underline">
@@ -28,14 +27,8 @@
                th:href="@{/cmdb/attributes/{id}/view(id=${attribute.attributeId})}"></a>
         </td>
         <td style="width: 25%" class="align-left" th:text="${attribute.attributeText}"></td>
-        <td style="width: 10%" class="align-center" th:text="${attribute.attributeType}"></td>
+        <td style="width: 20%" class="align-center" th:text="${attribute.attributeType}"></td>
         <td style="width: 30%" class="align-left" th:text="${attribute.attributeDesc}"></td>
-        <td style="width: 10%" class="align-center">
-            <button type="button" sec:authorize="hasAuthority('cmdb.attribute.create') || hasAuthority('cmdb.attribute.update')"
-                    th:onclick="exportAttribute([[${attribute.attributeId}]])">
-                <span class="icon-edit"></span>
-            </button>
-        </td>
     </tr>
     </tbody>
 </table>

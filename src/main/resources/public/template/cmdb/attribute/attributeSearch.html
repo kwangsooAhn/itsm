@@ -24,8 +24,6 @@
                 <span id="spanTotalCount" class="txt-num"></span>
             </form>
             <div class="ml-auto">
-                <button type="button" class="default-fill" onclick="importAttribute()"
-                        sec:authorize="hasAuthority('cmdb.attribute.create')" th:text="#{cmdb.attribute.btn.import}"></button>
                 <button type="button" class="default-fill" onclick="location.href='/cmdb/attributes/new'"
                         sec:authorize="hasAuthority('cmdb.attribute.create')" th:text="#{common.btn.add}"></button>
             </div>
@@ -133,7 +131,7 @@
             tdAttrLabel.innerText = data.attributeText;
 
             let tdAttrType = document.createElement('td');
-            tdAttrType.style.width = '10%';
+            tdAttrType.style.width = '20%';
             tdAttrType.className = 'align-center';
             tdAttrType.innerText = data.attributeType;
 
@@ -142,39 +140,13 @@
             tdAttrDesc.className = 'align-left';
             tdAttrDesc.innerText = data.attributeDesc;
 
-            let tdAttrExport = document.createElement('td');
-            tdAttrExport.style.width = '10%';
-            tdAttrExport.className = 'align-center';
-            tdAttrExport.innerText = '';
-
-            if (document.getElementsByName('isRole')[0].value === 'true') {
-                let btnExport = document.createElement('button');
-                let spanExport = document.createElement('span');
-                spanExport.className = 'icon-edit';
-                btnExport.appendChild(spanExport);
-                btnExport.onclick = function() {
-                    exportAttribute(data.attributeId);
-                }
-                tdAttrExport.appendChild(btnExport);
-            }
-
             tr.appendChild(tdAttrName);
             tr.appendChild(tdAttrLabel);
             tr.appendChild(tdAttrType);
             tr.appendChild(tdAttrDesc);
-            tr.appendChild(tdAttrExport);
             div.appendChild(tr);
         }
 
-        // Export
-        function exportAttribute(attributeId) {
-            aliceJs.alertWarning('TODO: Export ' + attributeId)
-        }
-
-        // Import
-        function importAttribute() {
-            aliceJs.alertWarning('TODO: Import')
-        }
         /*]]>*/
     </script>
 </th:block>

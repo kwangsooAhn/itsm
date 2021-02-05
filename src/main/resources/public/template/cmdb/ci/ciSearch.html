@@ -143,22 +143,9 @@
             tdCiDesc.innerText = data.ciDesc;
 
             let tdCiTag = document.createElement('td');
-            tdCiTag.style.width = '15%';
+            tdCiTag.style.width = '25%';
             tdCiTag.className = 'align-left';
             tdCiTag.innerText = data.ciTag;
-
-            let tdCiExport = document.createElement('td');
-            tdCiExport.style.width = '10%';
-            tdCiExport.className = 'align-center';
-            tdCiExport.innerText = '';
-
-            if (document.getElementsByName('isRole')[0].value === 'true') {
-                let btnExport = document.createElement('button');
-                let spanExport = document.createElement('span');
-                spanExport.className = 'icon-edit';
-                btnExport.appendChild(spanExport);
-                tdCiExport.appendChild(btnExport);
-            }
 
             tr.appendChild(tdCiIcon);
             tr.appendChild(tdCiTypeName);
@@ -166,7 +153,6 @@
             tr.appendChild(tdCiName);
             tr.appendChild(tdCiDesc);
             tr.appendChild(tdCiTag);
-            tr.appendChild(tdCiExport);
             div.appendChild(tr);
         }
 
