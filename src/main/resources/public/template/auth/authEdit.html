@@ -65,7 +65,8 @@
                         <ul id='menuList'>
                             <li th:each="menu : ${menuList}">
                                 <label class="checkbox" th:for="${menu?.menuId}" tabindex="0">
-                                    <input class="auth-list-check" type="checkbox" name="authMenu" th:id="${menu?.menuId}"
+                                    <input class="auth-list-check" type="checkbox" name="authMenu"
+                                           th:id="${menu?.menuId}"
                                            th:value="${menu?.menuId}">
                                     <span></span>
                                     <span class="label" th:text="#{|menu.${menu?.menuId}|}"></span>
@@ -90,7 +91,8 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button sec:authorize="hasAuthority('auth.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -126,7 +128,7 @@
                 AUTH_DELETE = true;
             }
             if (document.getElementById('txtAuthId').value !== null && document.getElementById('txtAuthId').value !== '') {
-                document.getElementById('txtAuthId').setAttribute('disabled','');
+                document.getElementById('txtAuthId').setAttribute('disabled', '');
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'inline-block';
                 }
@@ -143,9 +145,9 @@
             }
 
             let authList = document.querySelectorAll('td[name=authName]');
-            for(let i = 0; i < authList.length; i++) {
+            for (let i = 0; i < authList.length; i++) {
                 authList[i].style.cursor = 'pointer';
-                authList[i].addEventListener('click', function() {
+                authList[i].addEventListener('click', function () {
                     let activeTr = document.querySelector('tr.active');
                     if (activeTr !== null) {
                         activeTr.classList.remove('active');
@@ -164,7 +166,7 @@
                 });
             }
             document.getElementById('search').focus();
-            document.getElementById('search').addEventListener('keyup', function() {
+            document.getElementById('search').addEventListener('keyup', function () {
                 getAuthList(false);
             });
 
@@ -234,18 +236,18 @@
             let authIds = [];
             let authNames = [];
             let validList = document.querySelectorAll('td[name=authName]');
-            for(let i = 0; i < validList.length; i++) {
+            for (let i = 0; i < validList.length; i++) {
                 authIds.push(validList[i].id);
                 authNames.push(validList[i].textContent);
             }
             if (flag === 'post') {
-                for(let i = 0; i < authIds.length; i++) {
+                for (let i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
                         aliceJs.alertWarning([[#{auth.msg.duplicateAuthId}]]);
                         return;
                     }
                 }
-                for(let i = 0; i < authNames.length; i++) {
+                for (let i = 0; i < authNames.length; i++) {
                     if (document.getElementById('txtAuthName').value === authNames[i]) {
                         aliceJs.alertWarning([[#{auth.msg.duplicateAuthName}]]);
                         return;
@@ -253,7 +255,7 @@
                 }
             } else {
                 if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
-                    for(let i = 0; i < authNames.length; i++) {
+                    for (let i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
                             aliceJs.alertWarning([[#{auth.msg.duplicateAuthName}]]);
                             return;
@@ -266,16 +268,16 @@
             let obj = {};
             obj.authId = document.getElementById('txtAuthId').value;    //권한 아이디
             obj.authName = document.getElementById('txtAuthName').value;//권한명
-            obj.authDesc= document.getElementById('txtAuthDesc').value; //권한 설명
+            obj.authDesc = document.getElementById('txtAuthDesc').value; //권한 설명
 
             let arrMenuId = [];                                         //권한-메뉴
-            Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]:checked'), function(item) {
+            Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]:checked'), function (item) {
                 arrMenuId.push(item.id);
             });
             obj.arrMenuId = arrMenuId;
 
             let arrUrl = [];                                             //권한-Url
-            Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function(item) {
+            Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function (item) {
                 arrUrl.push(item.id);
             });
             obj.arrUrl = arrUrl;
@@ -283,7 +285,7 @@
             if (flag === 'post') {
                 strUrl = '/rest/auths';
             } else {
-                strUrl = '/rest/auths/'+ document.getElementById('txtAuthId').value;
+                strUrl = '/rest/auths/' + document.getElementById('txtAuthId').value;
             }
             let authJson = JSON.stringify(obj);
 
@@ -292,9 +294,9 @@
                 url: strUrl,
                 params: authJson,
                 contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceJs.alertSuccess([[#{common.msg.save}]], function() {
-                        window.location.href ='/auths/edit';
+                callbackFunc: function () {
+                    aliceJs.alertSuccess([[#{common.msg.save}]], function () {
+                        window.location.href = '/auths/edit';
                     });
                 }
             };
@@ -305,13 +307,13 @@
         /* 삭제 버튼  */
         function onDelete() {
             const opt = {
-                    method: 'delete',
-                    url: '/rest/auths/' + document.getElementById('txtAuthId').value,
-                    callbackFunc: function() {
-                        aliceJs.alertSuccess([[#{common.msg.delete}]], function() {
-                            window.location.href ='/auths/edit';
-                        });
-                    }
+                method: 'delete',
+                url: '/rest/auths/' + document.getElementById('txtAuthId').value,
+                callbackFunc: function () {
+                    aliceJs.alertSuccess([[#{common.msg.delete}]], function () {
+                        window.location.href = '/auths/edit';
+                    });
+                }
             };
             aliceJs.sendXhr(opt);
         }
@@ -336,7 +338,7 @@
                 method: 'get',
                 url: '/auths?' + urlParam,
                 showProgressbar: showProgressbar,
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     let result = response.responseText;
                     document.getElementById('authList').innerHTML = result;
                     let authList = document.querySelectorAll('td[name=authName]');
@@ -376,8 +378,8 @@
             const opt = {
                 method: 'get',
                 async: false,
-                url: '/rest/auths/' +  authId,
-                callbackFunc: function(response) {
+                url: '/rest/auths/' + authId,
+                callbackFunc: function (response) {
                     let responseJson = JSON.parse(response.responseText)[0];
                     document.getElementById('txtAuthId').value = responseJson.authId;
                     document.getElementById('txtAuthName').value = responseJson.authName;
@@ -385,7 +387,7 @@
                     document.getElementById('txtAuthDesc').value = responseJson.authDesc;
 
                     let arrMenuList = responseJson.arrMenuList;
-                    Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authMenu) {
+                    Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function (authMenu) {
                         authMenu.checked = false;
                         authMenu.disabled = false;
                         for (let i = 0; i < arrMenuList.length; i++) {
@@ -402,7 +404,7 @@
                     });
 
                     let arrUrlList = responseJson.arrUrlList;
-                    Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function(authUrl) {
+                    Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function (authUrl) {
                         authUrl.checked = false;
                         authUrl.disabled = false;
                         for (let i = 0; i < arrUrlList.length; i++) {
@@ -418,24 +420,26 @@
                         }
                     });
 
-                    document.getElementById('txtAuthId').setAttribute('disabled','');
+                    document.getElementById('txtAuthId').setAttribute('disabled', '');
                     document.getElementById('roleAuthMapCount').value = i18n.msg('auth.label.count', responseJson.roleAuthMapCount);
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
                     }
-                    OverlayScrollbars(document.querySelector('.auth-content-edit'), { className: 'scrollbar' });
-                    OverlayScrollbars(document.querySelectorAll('.checkbox-list'), { className: 'inner-scrollbar',
+                    OverlayScrollbars(document.querySelector('.auth-content-edit'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelectorAll('.checkbox-list'), {
+                        className: 'inner-scrollbar',
                         callbacks: {
-                            onInitialized: function() {
+                            onInitialized: function () {
                                 const verticalScrollTrack = document.querySelectorAll('.checkbox-list> .os-scrollbar-vertical');
-                                for(i=0;i<verticalScrollTrack.length;i++){
-                                    if(verticalScrollTrack.item(i)!==null)
-                                    {verticalScrollTrack.item(i).classList.add('right');
+                                for (let i = 0; i < verticalScrollTrack.length; i++) {
+                                    if (verticalScrollTrack.item(i) !== null) {
+                                        verticalScrollTrack.item(i).classList.add('right');
                                     }
                                 }
                                 const verticalScrollHandle = verticalScrollTrack.firstChild;
                             }
-                        }});
+                        }
+                    });
                 },
             };
             aliceJs.sendXhr(opt);
@@ -463,6 +467,7 @@
                 }
             }
         }
+
         /*]]>*/
     </script>
 </th:block>
