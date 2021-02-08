@@ -12,14 +12,13 @@
         <th style="width: 20%;" class="align-center" th:text="#{cmdb.ci.label.ciNo}"></th>
         <th style="width: 15%;" class="align-left" th:text="#{cmdb.ci.label.name}"></th>
         <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.description}"></th>
-        <th style="width: 15%;" class="align-left" th:text="#{cmdb.ci.label.tag}"></th>
-        <th style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.export}"></th>
+        <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.tag}"></th>
     </tr>
     </thead>
     <tbody class="list-body">
     <input type="hidden" id="totalCount" th:value="${ciListCount}"/>
     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciList)}">
-        <td style="width: 100%;" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
+        <td style="width: 100%;" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
     <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciList)}" th:each="ci: ${ciList}">
         <td style="width: 5%;">
@@ -29,13 +28,8 @@
         <td style="width: 20%;" class="align-center" th:text="${ci.ciNo}"></td>
         <td style="width: 15%;" class="align-left" th:text="${ci.ciName}"></td>
         <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}"></td>
-        <td style="width: 15%;" class="align-left">
+        <td style="width: 25%;" class="align-left">
             <span class="tag align-left text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag.tagName}"></span>
-        </td>
-        <td style="width: 10%;" class="align-center">
-            <button type="button">
-                <span class="icon-edit"></span>
-            </button>
         </td>
     </tr>
     </tbody>

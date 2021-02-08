@@ -25,10 +25,6 @@
                        th:placeholder="#{cmdb.ci.label.tagPlaceholder}"/>
                 <span id="spanTotalCount" class="txt-num"></span>
             </form>
-            <div class="ml-auto">
-                <button type="button" class="default-fill" sec:authorize="hasAuthority('cmdb.ci.create')"
-                        th:text="#{cmdb.ci.btn.import}"></button>
-            </div>
         </div>
     </div>
     <div class="cmdb-ci-content flex-fill">
@@ -143,22 +139,9 @@
             tdCiDesc.innerText = data.ciDesc;
 
             let tdCiTag = document.createElement('td');
-            tdCiTag.style.width = '15%';
+            tdCiTag.style.width = '25%';
             tdCiTag.className = 'align-left';
             tdCiTag.innerText = data.ciTag;
-
-            let tdCiExport = document.createElement('td');
-            tdCiExport.style.width = '10%';
-            tdCiExport.className = 'align-center';
-            tdCiExport.innerText = '';
-
-            if (document.getElementsByName('isRole')[0].value === 'true') {
-                let btnExport = document.createElement('button');
-                let spanExport = document.createElement('span');
-                spanExport.className = 'icon-edit';
-                btnExport.appendChild(spanExport);
-                tdCiExport.appendChild(btnExport);
-            }
 
             tr.appendChild(tdCiIcon);
             tr.appendChild(tdCiTypeName);
@@ -166,7 +149,6 @@
             tr.appendChild(tdCiName);
             tr.appendChild(tdCiDesc);
             tr.appendChild(tdCiTag);
-            tr.appendChild(tdCiExport);
             div.appendChild(tr);
         }
 

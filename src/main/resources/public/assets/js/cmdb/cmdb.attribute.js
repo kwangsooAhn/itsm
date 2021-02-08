@@ -497,6 +497,7 @@
                 childAttributeElem.setAttribute('data-attributeType', attributes.attributeType);
                 // 라벨
                 const labelElem = document.createElement('label');
+                labelElem.className = 'field-label';
                 const labelTextElem = document.createElement('span');
                 labelTextElem.textContent = attributes.attributeText;
                 labelElem.appendChild(labelTextElem);
