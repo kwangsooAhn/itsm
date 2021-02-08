@@ -765,42 +765,6 @@ input, button, select, optgroup, textarea {
   border-radius: 0.1875rem;
 }
 
-.document-modal-active {
-  overflow: hidden !important;
-}
-
-.document-modal-wrapper {
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: auto;
-}
-.document-modal-wrapper.document-modal-active {
-  display: block;
-  z-index: 2001;
-}
-.document-modal-wrapper .document-modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2001;
-}
-.document-modal-wrapper .document-modal-dialog {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2001;
-}
-.document-modal-wrapper .document-modal-dialog .document-main {
-  right: 0;
-}
-
 /* _elements.scss 
  *
  * 파일 경로 : template/_elements.scss
@@ -1649,6 +1613,26 @@ body.modal-active {
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .list-body .list-row > td {
   display: inline-block;
   vertical-align: middle;
+}
+.modal-wrapper .modal-dialog.document-modal-dialog .document-main {
+  right: 0;
+}
+.modal-wrapper .modal-dialog.tree {
+  width: 40rem;
+  height: 44.19rem;
+}
+.modal-wrapper .modal-dialog.tree .modal-content {
+  height: calc(44.19rem - 3.375rem - 5rem);
+  padding: 1.125rem 0 0 1.25rem;
+}
+.modal-wrapper .modal-dialog.tree .modal-content div {
+  height: 100%;
+}
+.modal-wrapper .modal-dialog.tree .modal-content div label {
+  font-weight: 400;
+}
+.modal-wrapper .modal-dialog.tree .modal-content div li:last-child:before {
+  background-color: #ffffff;
 }
 
 /*# sourceMappingURL=document.css.map */

@@ -194,8 +194,8 @@ class WfTokenManagerService(
     /**
      * Delete Rest Api (CI).
      */
-    fun deleteRestApiCi(url: RestTemplateUrlDto, ci: CIDto): String {
-        val responseBody = restTemplate.delete(url, ci)
+    fun deleteRestApiCi(url: RestTemplateUrlDto): String {
+        val responseBody = restTemplate.delete(url)
         return when (responseBody.body.toString().isNotEmpty()) {
             true -> {
                 val restTemplateReturnDto =

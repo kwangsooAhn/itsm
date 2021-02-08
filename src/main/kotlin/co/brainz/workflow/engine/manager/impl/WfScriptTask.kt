@@ -96,13 +96,15 @@ class WfScriptTask(
         val ciAttributes: List<Map<String, Any>> =
             mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
         ciAttributes.forEach { attribute ->
-            ciDataList.add(
-                CIDataDto(
-                    ciId = ciId,
-                    attributeId = attribute["id"] as String,
-                    attributeData = attribute["value"] as String
+            if (attribute["id"] != null && attribute["value"] != null) {
+                ciDataList.add(
+                    CIDataDto(
+                        ciId = ciId,
+                        attributeId = attribute["id"] as String,
+                        attributeData = attribute["value"] as String
+                    )
                 )
-            )
+            }
         }
         return ciDataList
     }
@@ -115,13 +117,15 @@ class WfScriptTask(
         val ciTags: List<Map<String, Any>> =
             mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
         ciTags.forEach { tag ->
-            tagDataList.add(
-                CITagDto(
-                    ciId = ciId,
-                    tagId = tag["id"] as String,
-                    tagName = tag["value"] as String
+            if (tag["id"] != null && tag["value"] != null) {
+                tagDataList.add(
+                    CITagDto(
+                        ciId = ciId,
+                        tagId = tag["id"] as String,
+                        tagName = tag["value"] as String
+                    )
                 )
-            )
+            }
         }
         return tagDataList
     }
@@ -170,7 +174,7 @@ class WfScriptTask(
                         ciIcon = ci["ciIcon"] as String,
                         classId = ci["classId"] as String,
                         typeId = ci["typeId"] as String,
-                        ciStatus = RestTemplateConstants.CIStatus.STATUS_USE.code,
+                        ciStatus = ci["ciStatus"] as String,
                         ciDataList = ciDataList,
                         ciTags = ciTags,
                         ciRelations = ciRelations
@@ -232,7 +236,7 @@ class WfScriptTask(
                         ci.ciId
                     )
                 )
-                wfTokenManagerService.deleteRestApiCi(url, ci)
+                wfTokenManagerService.deleteRestApiCi(url)
             }
         }
     }

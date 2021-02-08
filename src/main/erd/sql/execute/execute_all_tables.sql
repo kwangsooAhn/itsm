@@ -1326,7 +1326,7 @@ insert into awf_url values ('/notices/new', 'get', '공지사항 신규 등록 �
 insert into awf_url values ('/notices/search', 'get', '공지사항 검색 화면 호출 처리', 'TRUE');
 insert into awf_url values ('/notices/{id}/edit', 'get', '공지사항 편집 화면', 'TRUE');
 insert into awf_url values ('/notices/{id}/view', 'get', '공지사항 상세 화면', 'TRUE');
-insert into awf_url values ('/notices/{id}/view-pop', 'get', '공지사항 팝업 화면', 'TRUE');
+insert into awf_url values ('/notices/{id}/view-pop', 'get', '공지사항 팝업 화면', 'FALSE');
 insert into awf_url values ('/notifications', 'get', '알림 리스트 화면', 'FALSE');
 insert into awf_url values ('/numberingPatterns', 'get', '패턴 관리 목록 뷰', 'TRUE');
 insert into awf_url values ('/numberingPatterns/edit', 'get', '패턴 편집 화면', 'TRUE');
