@@ -306,10 +306,10 @@
 
         function validation() {
             if (isEmpty('userId', 'user.msg.enterUserId')) return false;
-            if (!isValidUserId("userId")) return false;
+            if (!isValidUserId("userId", true)) return false;
             if (isEmpty('userName', 'user.msg.enterUserName')) return false;
             if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-            if (!isValidEmail('email')) return false;
+            if (!isValidEmail('email', true)) return false;
             return true;
         }
 

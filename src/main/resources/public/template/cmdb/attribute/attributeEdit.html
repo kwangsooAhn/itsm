@@ -21,7 +21,7 @@
                     <span th:text="#{cmdb.attribute.label.name}"></span>
                     <span class="required"></span>
                 </label>
-                <input type="text" id="attributeName" required="required" maxlength="100"
+                <input type="text" id="attributeName" required="true" maxlength="100" th:attr="data-required-name=#{cmdb.attribute.label.name}"
                        th:value="${attribute?.attributeName}"/>
             </div>
             <div class="flex-column edit-row">
@@ -134,15 +134,9 @@
             attribute.makeDetails(object.value, data);
         }
 
-        function emptyCheck() {
-            if (isEmpty('attributeName', 'cmdb.attribute.msg.enterAttributeName')) { return false; }
-            if (isEmpty('attributeType', 'cmdb.attribute.msg.selectAttributeType')) { return false; }
-            return attribute.checkDetails(document.querySelector('#attributeType').value)
-        }
-
         function actionAttribute(method) {
             if (method === 'post' || method === 'put') {
-                if (emptyCheck()) {
+                if (isValidRequiredAll() && attribute.checkDuplicate(document.querySelector('#attributeType').value)) {
                     let data = {
                         attributeId: '',
                         attributeName: document.querySelector('#attributeName').value,
