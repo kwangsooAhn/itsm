@@ -8,13 +8,7 @@ package co.brainz.itsm.cmdb.ciClass.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIAttributeListDto
-import co.brainz.cmdb.provider.dto.CIClassAttributeListDto
-import co.brainz.cmdb.provider.dto.CIClassDetailDto
-import co.brainz.cmdb.provider.dto.CIClassDto
-import co.brainz.cmdb.provider.dto.CIClassListDto
-import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
-import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
+import co.brainz.cmdb.provider.dto.*
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
 import com.fasterxml.jackson.databind.MapperFeature
@@ -153,5 +147,23 @@ class CIClassService(
         }
 
         return ciClassAttributeList
+    }
+
+
+    /**
+     * CMDB CI 세부 속성 조회
+     */
+    fun getCIClassAttributes(classId: String): MutableList<CIClassDetailValueDto> {
+        val url = RestTemplateUrlDto(
+                callUrl = RestTemplateConstants.Class.GET_CLASS_ATTRIBUTE.url.replace(
+                        restTemplate.getKeyRegex(),
+                        classId
+                )
+        )
+        val responseBody = restTemplate.get(url)
+        return mapper.readValue(
+                responseBody,
+                mapper.typeFactory.constructCollectionType(List::class.java, CIClassDetailValueDto::class.java)
+        )
     }
 }

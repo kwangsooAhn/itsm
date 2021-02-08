@@ -4,19 +4,19 @@
  *
  */
 
-package co.brainz.workflow.component.repository
+package co.brainz.itsm.cmdb.ci.repository
 
-import co.brainz.workflow.component.entity.WfCIComponentDataEntity
+import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface WfCIComponentDataRepository : JpaRepository<WfCIComponentDataEntity, String> {
+interface CIComponentDataRepository : JpaRepository<CIComponentDataEntity, String> {
     @Query(
         "SELECT a FROM WfCIComponentDataEntity a WHERE a.ciId = :ciId AND a.componentId = :componentId"
     )
-    fun findByCiIdAnAndComponentId(ciId: String, componentId: String): WfCIComponentDataEntity?
+    fun findByCiIdAnAndComponentId(ciId: String, componentId: String): CIComponentDataEntity?
 
     fun deleteByCiIdAndAndComponentId(ciId: String, componentId: String)
 
@@ -24,7 +24,7 @@ interface WfCIComponentDataRepository : JpaRepository<WfCIComponentDataEntity, S
         ciId: String,
         componentId: String,
         instanceId: String
-    ): WfCIComponentDataEntity?
+    ): CIComponentDataEntity?
 
-    fun findByInstanceId(instanceId: String): List<WfCIComponentDataEntity>?
+    fun findByInstanceId(instanceId: String): List<CIComponentDataEntity>?
 }

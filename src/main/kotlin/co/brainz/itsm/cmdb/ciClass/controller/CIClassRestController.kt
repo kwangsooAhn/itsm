@@ -7,20 +7,14 @@
 package co.brainz.itsm.cmdb.ciClass.controller
 
 import co.brainz.cmdb.provider.dto.CIClassDetailDto
+import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
 import co.brainz.cmdb.provider.dto.CIClassDto
 import co.brainz.cmdb.provider.dto.CIClassListDto
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/rest/cmdb/classes")
@@ -66,5 +60,12 @@ class CIClassRestController(private val ciClassService: CIClassService) {
     @DeleteMapping("/{classId}")
     fun deleteCIClass(@PathVariable classId: String): String {
         return ciClassService.deleteCIClass(classId)
+    }
+    /**
+     * CMDB CI Class에 따른 세부 속성 조회
+     */
+    @GetMapping("/{classId}/attributes")
+    fun getCIClassAttributes(@PathVariable classId: String): MutableList<CIClassDetailValueDto> {
+        return ciClassService.getCIClassAttributes(classId)
     }
 }

@@ -201,7 +201,7 @@
                 }
                 saveData.values.ciAttributes.push(ciAttribute);
             });
-            restSubmit('/rest/tokens/cis/' + saveData.ciId + '/data', 'POST', saveData, false, callbackFunc);
+            restSubmit('/rest/cmdb/cis/' + saveData.ciId + '/data', 'POST', saveData, false, callbackFunc);
         }
     }
 
@@ -268,9 +268,62 @@
     /**
      * 기존 CI 변경 모달
      */
-    function openUpdateModal(e) {
-        const ciComponent = aliceJs.clickInsideElement(e, 'component');
-        // TODO: 변경 모달 출력
+    function openUpdateModal(componentId, ciId, elem) {
+        const ciComponent = document.getElementById(componentId);
+        console.log(ciComponent);
+        restSubmit('/cmdb/cis/new?ciId=' + ciId + '&componentId=' + componentId, 'GET', {}, false, function (content) {
+            const ciUpdateModal = new modal({
+                title: i18n.msg('cmdb.ci.label.update'),
+                body: content,
+                classes: 'cmdb-ci-update-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.update'),
+                    classes: "point-fill",
+                    bindKey: false,
+                    callback: function (modal) {
+                        // 세부 속성 저장
+                        //saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent, function() {
+                        //    modal.hide();
+                        //});
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: "default-line",
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelectorAll('textarea'), {
+                        className: 'scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                    // TODO: 태그 기능 추가
+                    /*new Tagify(document.getElementById('ciTags'), {
+                        pattern: /^.{0,100}$/,
+                        editTags: false,
+                        callbacks: {
+                            'add': onAddTag,
+                            'remove': onRemoveTag
+                        },
+                        placeholder: i18n.msg('token.msg.tag')
+                    });*/
+                }
+            });
+            ciUpdateModal.show();
+        });
     }
 
     /**
@@ -385,8 +438,10 @@
                         }
                         break;
                     case 'icon-edit': // CI 등록 / 수정
-                        if (actionType !== ACTION_TYPE_DELETE) {
-                            tdTemplate += `<button type="button"><span class="icon icon-edit"></span></button>`;
+                        if (actionType === ACTION_TYPE_DELETE) {
+                            tdTemplate += `<button type="button"><span class="icon icon-search"></span></button>`;
+                        } else {
+                            tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-edit"></span></button>`;
                         }
                         break;
                     case 'icon-search': // CI 상세 조회
@@ -423,7 +478,7 @@
             const actionType = componentData.value[ciIdx].actionType;
             if (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) {
                 // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
-                restSubmit('/rest/tokens/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
+                restSubmit('/rest/cmdb/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
             }
             // 화면 데이터 삭제
             componentData.value.splice(ciIdx, 1);
@@ -503,7 +558,7 @@
      * CLass 상세 속성 속성 표시
      */
     function setAttributeDetail(classId) {
-        // 가데이터
+        /*// 가데이터
         const CIClasses = [
             {"attributes": [
                 {"attributeId":"799afe719cd0bfe38797172bb77ae5d8","attributeName":"Licensing policy","attributeText":"라이센스 정책","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"FPP","value":"fpp"},{"text":"ESD","value":"esd"},{"text":"OEM","value":"oem"},{"text":"COEM DSP","value":"coem"},{"text":"Volumn","value":"volumn"}]},"value":"oem"},
@@ -514,13 +569,13 @@
             {"attributes": [
                 {"attributeId":"df0e88d216ace73e0164f3dbf7ade131","attributeName":"Version_OS_Windows","attributeText":"버전","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"윈도우  XP","value":"xp"},{"text":"윈도우 7","value":"7"},{"text":"윈도우 8","value":"8"},{"text":"윈도우 9","value":"9"},{"text":"윈도우 10","value":"10"}]},"value":"10"}
             ]}
-       ];
+       ];*/
         // TODO: 서버 단 상세 속성 조회
-       attribute.drawDetails(document.getElementById('ciAttributes'), CIClasses);
-        //restSubmit('/rest/cmdb/classes/' + classId + '/attributes', 'GET', {}, false, function (responseData) {
-            //let responseJson = JSON.parse(responseData);
-            //console.log(responseJson); // attributes
-        //});
+        restSubmit('/rest/cmdb/classes/' + classId + '/attributes', 'GET', {}, false, function (responseData) {
+            let responseJson = JSON.parse(responseData);
+            console.log(responseJson);
+            // attribute.drawDetails(document.getElementById('ciAttributes'), CIClasses);
+        });
     }
 
     exports.getProperty = getProperty;

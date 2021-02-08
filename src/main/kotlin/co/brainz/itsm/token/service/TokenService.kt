@@ -9,7 +9,6 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.RestTemplateCIComponentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
@@ -27,6 +26,7 @@ class TokenService(
     private val documentActionService: DocumentActionService
 ) {
 
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
     /**
      * Post Token 처리.
      *
@@ -85,7 +85,6 @@ class TokenService(
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES.url, parameters = params)
         val responseBody = restTemplate.get(url)
 
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         return mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceViewDto::class.java)
@@ -104,38 +103,5 @@ class TokenService(
         )
 
         return documentActionService.makeTokenAction(restTemplate.get(url))
-    }
-
-    /**
-     * CI 컴포넌트 -  CI 세부 데이터 저장.
-     */
-    fun saveCIComponentData(ciId: String, ciComponentData: String): Boolean {
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val map = mapper.readValue(ciComponentData, LinkedHashMap::class.java)
-        val ciComponentDataDto = RestTemplateCIComponentDataDto(
-            ciId = map["ciId"] as String,
-            componentId = map["componentId"] as String,
-            values = mapper.writeValueAsString(map["values"]),
-            instanceId = map["instanceId"] as String
-        )
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Token.PUT_CI_COMPONENT.url.replace(
-                restTemplate.getKeyRegex(),
-                ciId
-            )
-        )
-        val responseEntity = restTemplate.create(url, ciComponentDataDto)
-        return responseEntity.body.toString().isNotEmpty()
-    }
-
-    /**
-     * CI 컴포넌트 - CI 세부 데이터 삭제.
-     */
-    fun deleteCIComponentData(params: LinkedMultiValueMap<String, String>): Boolean {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Token.DELETE_CI_COMPONENT.url,
-            parameters = params
-        )
-        return restTemplate.delete(url).toString().isNotEmpty()
     }
 }

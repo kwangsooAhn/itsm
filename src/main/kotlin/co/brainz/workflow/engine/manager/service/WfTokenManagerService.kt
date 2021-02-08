@@ -15,9 +15,9 @@ import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
-import co.brainz.workflow.component.entity.WfCIComponentDataEntity
+import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
+import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.workflow.component.entity.WfComponentEntity
-import co.brainz.workflow.component.repository.WfCIComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -48,21 +48,21 @@ import org.springframework.stereotype.Service
 
 @Service
 class WfTokenManagerService(
-    private val wfElementService: WfElementService,
-    private val wfInstanceService: WfInstanceService,
-    private val notificationService: NotificationService,
-    private val documentRepository: WfDocumentRepository,
-    private val wfElementRepository: WfElementRepository,
-    private val wfInstanceRepository: WfInstanceRepository,
-    private val wfTokenRepository: WfTokenRepository,
-    private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfComponentRepository: WfComponentRepository,
-    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
-    private val aliceFileService: AliceFileService,
-    private val aliceFileLocRepository: AliceFileLocRepository,
-    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
-    private val wfCiComponentDataRepository: WfCIComponentDataRepository,
-    private val restTemplate: RestTemplateProvider
+        private val wfElementService: WfElementService,
+        private val wfInstanceService: WfInstanceService,
+        private val notificationService: NotificationService,
+        private val documentRepository: WfDocumentRepository,
+        private val wfElementRepository: WfElementRepository,
+        private val wfInstanceRepository: WfInstanceRepository,
+        private val wfTokenRepository: WfTokenRepository,
+        private val wfTokenDataRepository: WfTokenDataRepository,
+        private val wfComponentRepository: WfComponentRepository,
+        private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
+        private val aliceFileService: AliceFileService,
+        private val aliceFileLocRepository: AliceFileLocRepository,
+        private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
+        private val ciComponentDataRepository: CIComponentDataRepository,
+        private val restTemplate: RestTemplateProvider
 ) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -216,23 +216,23 @@ class WfTokenManagerService(
     /**
      * CI 임시 테이블 데이터 조회.
      */
-    fun getComponentCIData(componentId: String, ciId: String, instanceId: String): WfCIComponentDataEntity? {
-        return wfCiComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
+    fun getComponentCIData(componentId: String, ciId: String, instanceId: String): CIComponentDataEntity? {
+        return ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
     }
 
     /**
      * CI 임시 테이블 목록 조회.
      */
-    fun getComponentCiDataList(instanceId: String): List<WfCIComponentDataEntity>? {
-        return wfCiComponentDataRepository.findByInstanceId(instanceId)
+    fun getComponentCiDataList(instanceId: String): List<CIComponentDataEntity>? {
+        return ciComponentDataRepository.findByInstanceId(instanceId)
     }
 
     /**
      * CI 임시 테이블 삭제.
      */
-    fun deleteCiComponentData(ciComponentDataEntities: List<WfCIComponentDataEntity>?) {
+    fun deleteCiComponentData(ciComponentDataEntities: List<CIComponentDataEntity>?) {
         ciComponentDataEntities?.forEach { data ->
-            wfCiComponentDataRepository.deleteByCiIdAndAndComponentId(data.ciId, data.componentId)
+            ciComponentDataRepository.deleteByCiIdAndAndComponentId(data.ciId, data.componentId)
         }
     }
 
