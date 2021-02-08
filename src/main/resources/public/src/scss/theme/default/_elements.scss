@@ -79,7 +79,9 @@ table[id="documentDisplay"] {
     border: $element-border; // 1px
     border-radius: $element-border-radius;
     padding: 0.5rem 0.625rem; // 8px 10px
-
+    .right{
+    right: 0.25rem;
+    }
     li {
       height: 1.5rem; // 24px
       font-weight: $font-weight-regular;

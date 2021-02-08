@@ -1148,6 +1148,9 @@ table[id=documentDisplay] td {
   border-radius: 0.0625rem;
   padding: 0.5rem 0.625rem;
 }
+.checkbox-list .right {
+  right: 0.25rem;
+}
 .checkbox-list li {
   height: 1.5rem;
   font-weight: 400;
@@ -2849,8 +2852,8 @@ button .icon-plus {
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
- * @author wdj
  * @version 1.0
+ * @author wdj
  */
 .scrollbar > .os-scrollbar-horizontal {
   right: 0.625rem;

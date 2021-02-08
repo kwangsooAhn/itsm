@@ -424,7 +424,18 @@
                         disabledButton(responseJson.roleAuthMapCount);
                     }
                     OverlayScrollbars(document.querySelector('.auth-content-edit'), { className: 'scrollbar' });
-                    OverlayScrollbars(document.querySelectorAll('.checkbox-list'), { className: 'inner-scrollbar' });
+                    OverlayScrollbars(document.querySelectorAll('.checkbox-list'), { className: 'inner-scrollbar',
+                        callbacks: {
+                            onInitialized: function() {
+                                const verticalScrollTrack = document.querySelectorAll('.checkbox-list> .os-scrollbar-vertical');
+                                for(i=0;i<verticalScrollTrack.length;i++){
+                                    if(verticalScrollTrack.item(i)!==null)
+                                    {verticalScrollTrack.item(i).classList.add('right');
+                                    }
+                                }
+                                const verticalScrollHandle = verticalScrollTrack.firstChild;
+                            }
+                        }});
                 },
             };
             aliceJs.sendXhr(opt);
