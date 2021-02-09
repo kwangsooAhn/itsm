@@ -329,6 +329,7 @@ cmdb:
       export: "내보내기"
   type:
     label:
+      alias: "식별자"
       management: "Type 관리"
       searchPlaceholder: "Type"
       parentType: "부모 Type"

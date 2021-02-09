@@ -329,6 +329,7 @@ cmdb:
       export: "Export"
   type:
     label:
+      alias: "Alias"
       management: "Type Management"
       searchPlaceholder: "Type"
       parentType: "Parent Type"
