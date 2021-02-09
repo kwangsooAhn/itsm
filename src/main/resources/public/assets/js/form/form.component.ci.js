@@ -95,8 +95,6 @@
      * 서버 비동기 통신
      */
     function restSubmit(url, method, data, progressbar, callbackFunc) {
-        console.log(data);
-        console.log(url);
         aliceJs.sendXhr({
             method: method,
             url: url,
@@ -120,9 +118,6 @@
      */
     function saveCIComponentData(actionType, comp, callbackFunc) {
         if (isValidRequiredAll() && isClassWithError()) {
-            const instanceElements = document.getElementById('instanceId');
-            const instanceId = (instanceElements !== null) ? instanceElements.getAttribute('data-id') : '';
-
             const saveCIData = {};
             Object.keys(CIData).forEach(function(key) {
                 const elem = document.getElementById((key === 'ciIcon') ? 'typeIcon': key);
@@ -142,13 +137,17 @@
             } else {
                 saveCIData.actionType = ACTION_TYPE_MODIFY;
                 // TODO CI 컴포넌트 - 테이블 데이터 수정
+                const ciId = document.getElementById('ciId').value;
+                const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
+                addRow(comp, saveCIData, ciIdx);
+                componentData.value[ciIdx] = saveCIData;
             }
 
             const saveData = {
                 ciId: saveCIData.ciId,
                 componentId: comp.id,
                 values: { ciAttributes: [], ciTags: [] },
-                instanceId: instanceId
+                instanceId: aliceDocument.data.instanceId
             };
             document.querySelectorAll('.attribute').forEach(function(el) {
                 let ciAttribute = {};
@@ -256,35 +255,20 @@
             ciRegisterModal.show();
         });
     }
-
-    /**
-     * 컴포넌트 ID와 CI ID를 전달 받아서 프린트옹 데이터에서 일치하는 CI 정보를 반환한다.
-     * @param componentId 
-     * @param ciId 
-     */
-    function getCIData(componentId, ciId) {
-        const compIdx = aliceDocument.getComponentIndex(componentId);
-        const componentData = aliceDocument.data.form.components[compIdx];
-        for (let i = 0, len = componentData.value.length; i < len; i++) {
-            let data = componentData.value[i];
-            if (data.ciId === ciId) {
-                return data;
-            }
-        }
-        return {};
-    }
-
     /**
      * 기존 CI 변경 모달
      */
     function openUpdateModal(componentId, ciId, elem) {
-        const ciComponent = document.getElementById(componentId);
-        const instanceElements = document.getElementById('instanceId');
-        const instanceId = (instanceElements !== null) ? instanceElements.getAttribute('data-id') : '';
-        console.log(instanceId);
-        console.log('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId);
-        console.log(getCIData(componentId, ciId));
-        restSubmit('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', getCIData(componentId, ciId), false, function (content) {
+        const compIdx = aliceDocument.getComponentIndex(componentId);
+        const componentData = aliceDocument.data.form.components[compIdx];
+        const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
+
+        if (ciIdx === -1) { return false; }
+        const ciData = componentData.value[ciIdx];
+        // 인스턴스 ID
+        const instanceId = aliceDocument.data.instanceId;
+
+        restSubmit('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'POST', ciData, false, function (content) {
             const ciUpdateModal = new modal({
                 title: i18n.msg('cmdb.ci.label.update'),
                 body: content,
@@ -295,7 +279,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent, function() {
+                        saveCIComponentData(ciData.actionType, document.getElementById(componentId), function() {
                             modal.hide();
                         });
                     }
@@ -312,9 +296,11 @@
                 },
                 onCreate: function (modal) {
                     // 수정된 데이터가 존재할 경우 수정 데이터로 변경
-                    const evt = new Event("dataload");
-                    document.getElementById('ciAttributes').dispatchEvent(evt);
-                    //document.getElementById('ciAttributes').change();
+                    document.getElementById('ciAttributes').click();
+
+                    // 타입 변경을 막음
+                    document.getElementById('typeSelectBtn').disabled = true;
+
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelectorAll('textarea'), {
@@ -423,8 +409,9 @@
      * CI 테이블 Row 추가
      * @param {Object} comp 컴포넌트
      * @param {Object} data 데이터
+     * @param {Number} idx 인덱스
      */
-    function addRow(comp, data) {
+    function addRow(comp, data, idx) {
         const ciTb = comp.querySelector('.ci-table-body');
         const row = document.createElement('tr');
         const rowBorderColor = ciTb.getAttribute('data-border');
@@ -479,7 +466,14 @@
             }).join('');
         }
         row.insertAdjacentHTML('beforeend', rowTemplate);
-        ciTb.appendChild(row);
+        // 인덱스가 존재할 경우, 해당 idx의 element 를 대체한다.
+        if (typeof idx !== 'undefined') {
+            const updateRow = ciTb.rows[idx];
+            updateRow.parentNode.insertBefore(row, updateRow);
+            ciTb.deleteRow(idx + 1);
+        } else {
+            ciTb.appendChild(row);
+        }
     }
 
     /**
@@ -549,10 +543,11 @@
     }
     
     /**
-     * 클래스 선택 모달
+     * 클래스 선택 모달 
+     * 2021-02-09 정희찬 팀장님 요청에 따라 타입선택시 클래스가 변경되는 것 외에 클래스 선택 기능은 막음
      * @param {String} typeIcon 아이콘 경로
      */
-    function openSelectClassModal(classId) {
+    /*function openSelectClassModal(classId) {
         tree.load({
             view: 'modal',
             title: i18n.msg('cmdb.type.label.class'),
@@ -570,25 +565,12 @@
                 }
             }
         });
-    }
+    }*/
 
     /**
      * CLass 상세 속성 속성 표시
      */
     function setAttributeDetail(classId) {
-        /*// 가데이터
-        const CIClasses = [
-            {"attributes": [
-                {"attributeId":"799afe719cd0bfe38797172bb77ae5d8","attributeName":"Licensing policy","attributeText":"라이센스 정책","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"FPP","value":"fpp"},{"text":"ESD","value":"esd"},{"text":"OEM","value":"oem"},{"text":"COEM DSP","value":"coem"},{"text":"Volumn","value":"volumn"}]},"value":"oem"},
-                {"attributeId":"489a14a0ebdca14b6eb42cf804330145","attributeName":"Licenses","attributeText":"라이센스","attributeType":"inputbox","attributeOrder":"2","attributeValue":{"validate":"","required":"false", "maxLength":"10","minLength":"0"},"value":""},
-                {"attributeId":"2c9180887759cbaf01775c049af50000","attributeName":"Test#1","attributeText":"라디오버튼","attributeType":"radio","attributeOrder":"3","attributeValue":{"option":[{"text":"여자","value":"female"},{"text":"남자","value":"male"}]},"value":"male"},
-                {"attributeId":"072fcb3be4056095a9af82dc6505b1e8","attributeName":"Test#2","attributeText":"커스텀코드","attributeType":"custom-code","attributeOrder":"4","attributeValue":{"required":"true", "customCode":"40288a9170f18a8b0170f1a0be9c0002","default":{"type":"session","value":"department"},"button":"부서선택"},"value":""}
-            ]},
-            {"attributes": [
-                {"attributeId":"df0e88d216ace73e0164f3dbf7ade131","attributeName":"Version_OS_Windows","attributeText":"버전","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"윈도우  XP","value":"xp"},{"text":"윈도우 7","value":"7"},{"text":"윈도우 8","value":"8"},{"text":"윈도우 9","value":"9"},{"text":"윈도우 10","value":"10"}]},"value":"10"}
-            ]}
-       ];*/
-        // TODO: 서버 단 상세 속성 조회
         restSubmit('/rest/cmdb/classes/' + classId + '/attributes', 'GET', {}, false, function (responseData) {
             let responseJson = JSON.parse(responseData);
             attribute.drawDetails(document.getElementById('ciAttributes'), responseJson);
@@ -605,7 +587,6 @@
     exports.removeRow = removeRow;
     exports.openSelectTypeModal = openSelectTypeModal;
     exports.openSelectIconModal = openSelectIconModal;
-    exports.openSelectClassModal = openSelectClassModal;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

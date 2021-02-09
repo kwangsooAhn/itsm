@@ -497,8 +497,7 @@
      * @param attributeData 세부 데이터
      */
     function drawDetails(target, attributeData) {
-        console.log(target);
-        console.log(attributeData);
+        target.removeAttribute("onclick");
         target.innerHTML = '';
 
         for (let i = 0, iLen = attributeData.length; i < iLen; i++) {
@@ -529,7 +528,7 @@
                             if (attributeValue.required === "true") {
                                 inputElem.required = true;
                                 inputElem.setAttribute('data-required-name', attributes.attributeText);
-                                inputElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
+                                labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                             }
                             // 유효성 검증
                             inputElem.addEventListener('keyup', function (e) {

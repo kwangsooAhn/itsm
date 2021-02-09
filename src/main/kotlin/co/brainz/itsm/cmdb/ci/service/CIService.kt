@@ -9,6 +9,7 @@ package co.brainz.itsm.cmdb.ci.service
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.*
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -19,7 +20,9 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
@@ -81,6 +84,7 @@ class CIService(
         val map = mapper.readValue(modifyCIData, LinkedHashMap::class.java)
         val actionType = map["actionType"] as String
         if (actionType == CIConstants.ActionType.REGISTER.code || actionType == CIConstants.ActionType.MODIFY.code) {
+            // 화면에서 전달된 데이터 세팅
             ciDetailDto.ciId = ciId
             ciDetailDto.ciNo = map["ciNo"] as String
             ciDetailDto.ciName = map["ciName"] as String
@@ -91,19 +95,25 @@ class CIService(
             ciDetailDto.typeId = map["typeId"] as String
             ciDetailDto.typeName = map["typeName"] as String
             ciDetailDto.classId = map["classId"] as String
-            ciDetailDto.className = map["className"] as String
-            ciDetailDto.createUserKey = null
-            ciDetailDto.createDt = null
-            ciDetailDto.updateUserKey = null
-            ciDetailDto.updateDt = null
+
+            var ciClassDetail = ciClassService.getCIClass(map["classId"] as String)
+            ciDetailDto.className = ciClassDetail.className
+
+            val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+            ciDetailDto.createUserKey = aliceUserDto.userKey
+            ciDetailDto.createDt = LocalDateTime.now()
+            ciDetailDto.updateUserKey = aliceUserDto.userKey
+            ciDetailDto.updateDt = LocalDateTime.now()
 
             // 임시 테이블의 CI 세부 데이터가 존재할 경우 합치기
             val ciComponentData = ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(ciId, componentId, instanceId)
+            val tagDataList = mutableListOf<CITagDto>()
+            val relationList = mutableListOf<CIRelationDto>()
+            var ciClasses = ciClassService.getCIClassAttributes(map["classId"] as String)
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
                     mapper.readValue(ciComponentData?.values, object : TypeReference<Map<String, Any>>() {})
                 // 태그
-                val tagDataList = mutableListOf<CITagDto>()
                 val ciTags: List<Map<String, Any>> =
                         mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
                 ciTags.forEach { tag ->
@@ -117,14 +127,10 @@ class CIService(
                         )
                     }
                 }
-                ciDetailDto.ciTags = tagDataList
 
                 // TODO: 연관 관계
-                val relationList = mutableListOf<CIRelationDto>()
-                ciDetailDto.ciRelations = relationList
 
                 // 세부 속성
-                var ciClasses = ciClassService.getCIClassAttributes(map["classId"] as String)
                 val ciAttributes: List<Map<String, Any>> =
                         mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
                 for (ciClass in ciClasses) {
@@ -140,10 +146,11 @@ class CIService(
                     }
 
                 }
-                ciDetailDto.classes = ciClasses
-                println(ciDetailDto)
             }
-        } else { // 삭제, 조회시 CI 데이터 조회
+            ciDetailDto.ciTags = tagDataList
+            ciDetailDto.ciRelations = relationList
+            ciDetailDto.classes = ciClasses
+        } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
             ciDetailDto = getCI(ciId)
         }
 
