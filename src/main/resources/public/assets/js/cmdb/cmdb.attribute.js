@@ -127,6 +127,8 @@
         const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
             return `<option value='${option.value}' ${property.required === option.value ? "selected='true'" : ""}>${aliceJs.filterXSS(option.text)}</option>`
         }).join('');
+        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '0';
+        const minLengthValue = property.minLength !== undefined ? property.minLength : '100';
         this.template =
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span><span class="required"></span></label></div>` +
@@ -135,6 +137,14 @@
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.validate')}</span><span class="required"></span></label></div>` +
             `<div class="flex-column col-9"><select id="${objectId}-validation">${validationOptions}</select></div>` +
+            `</div>` +
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label></div>` +
+            `<div class="flex-column col-9"><input type="text" id="${objectId}-maxLength" maxlength="100" value="${maxLengthValue}"></div>` +
+            `</div>` +
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label></div>` +
+            `<div class="flex-column col-9"><input type="text" id="${objectId}-minLength" maxlength="100" value="${minLengthValue}"></div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
     }
@@ -159,9 +169,9 @@
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input maxlength="50" required></div>` +
+                `<div class="flex-column col-5 mr-4"><input type="text" maxlength="50" required="true" required data-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
-                `<div class="flex-column col-5"><input maxlength="50"></div>` +
+                `<div class="flex-column col-5"><input type="text" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
@@ -202,9 +212,9 @@
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input maxlength="50" required></div>` +
+                `<div class="flex-column col-5 mr-4"><input type="text" maxlength="50" required="true" data-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
-                `<div class="flex-column col-5"><input maxlength="50"></div>` +
+                `<div class="flex-column col-5"><input type="text" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
@@ -245,9 +255,9 @@
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-4 mr-4"><input maxlength="50" required></div>` +
+                `<div class="flex-column col-4 mr-4"><input type="text" maxlength="50" required="true" required data-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
-                `<div class="flex-column col-4 mr-4"><input maxlength="50"></div>` +
+                `<div class="flex-column col-4 mr-4"><input type="text" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label></div>` +
                 `<div class="flex-column col-1"><input type="checkbox"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
@@ -279,7 +289,10 @@
      */
     function CustomCode(property) {
         const objectId = attributeTypeList[4].type; // custom-code
-
+        // required
+        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
+            return `<option value='${option.value}' ${property.required === option.value ? "selected='true'" : ""}>${aliceJs.filterXSS(option.text)}</option>`
+        }).join('');
         // custom-code
         const customCodeOptions = customCodeList.map(function(option) {
             return `<option value='${option.customCodeId}' ${property.customCode === option.customCodeId ? "selected='true'" : ""}>${aliceJs.filterXSS(option.customCodeName)}</option>`
@@ -295,6 +308,10 @@
         }).join('');
 
         this.template =
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span><span class="required"></span></label></div>` +
+            `<div class="flex-column col-9"><select id="${objectId}-required">${booleanOptions}</select></div>` +
+            `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('customCode.label.customCode')}</span></label></div>` +
             `<div class="flex-column col-9"><select id="${objectId}-select">${customCodeOptions}</select></div>` +
@@ -318,7 +335,7 @@
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label></div>` +
-            `<div class="flex-column col-9"><input id="${objectId}-button" maxlength="100" value="${buttonText}"></div>` +
+            `<div class="flex-column col-9"><input type="text" id="${objectId}-button" maxlength="100" value="${buttonText}"></div>` +
             `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -373,12 +390,12 @@
     }
 
     /**
-     * Validation Check.
+     * 중복 유효성 검사.
      *
      * @param type
      * @return {boolean}
      */
-    function checkDetails(type) {
+    function checkDuplicate(type) {
         let isValid = true;
         if (type === 'dropdown' || type === 'radio' || type === 'checkbox') {
             let detailsObject = document.querySelectorAll('#details > .flex-row:not(:first-child)');
@@ -387,13 +404,6 @@
             for (let i = 0, len = detailsObject.length; i < len; i++) {
                 let labelObject = detailsObject[i].querySelectorAll('input')[0];
                 let valueObject = detailsObject[i].querySelectorAll('input')[1];
-                if (labelObject.value.trim() === '') {
-                    aliceJs.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
-                        labelObject.focus();
-                    });
-                    isValid = false;
-                    break;
-                }
                 if (labels.indexOf(labelObject.value.trim()) > -1 || values.indexOf(valueObject.value.trim()) > -1) {
                     aliceJs.alertWarning(i18n.msg('validation.msg.dataNotDuplicate'));
                     isValid = false;
@@ -418,6 +428,8 @@
             case 'inputbox':
                 details.validate = parent.querySelector('#' + attributeTypeList[0].type + '-validation').value;
                 details.required = parent.querySelector('#' + attributeTypeList[0].type + '-required').value;
+                details.maxLength = parent.querySelector('#' + attributeTypeList[0].type + '-maxLength').value;
+                details.minLength = parent.querySelector('#' + attributeTypeList[0].type + '-minLength').value;
                 break;
             case 'dropdown':
                 let dropdownOption = [];
@@ -451,6 +463,7 @@
                 details.option = checkOption;
                 break;
             case 'custom-code':
+                details.required = parent.querySelector('#' + attributeTypeList[4].type + '-required').value;
                 const defaultType = document.querySelector('input[name="custom-code-default"]:checked').value;
                 let defaultValue = '';
                 switch (defaultType) {
@@ -512,25 +525,31 @@
                         if (typeof attributes.attributeValue !== 'undefined') {
                             if (attributes.attributeValue.required === "true") {
                                 inputElem.required = true;
-                                labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
+                                inputElem.setAttribute('data-required-name', attributes.attributeText);
+                                inputElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                             }
-                            // TODO: #10116 [CI 컴포넌트] CI 컴포넌트 등록 / 수정 - 유효성 검증시 구현
-                            /*if (attributes.attributeValue.validate !== '') {
-                                inputElem.addEventListener('keyup', function (e) {
-                                    let validateRtn = true;
+                            // 유효성 검증
+                            inputElem.addEventListener('keyup', function (e) {
+                                e.preventDefault();
+                                let userKeyCode = e.keyCode ? e.keyCode : e.which;
+                                if (userKeyCode === 13) {
+                                    return false;
+                                } else {
+                                    const elem = e.target;
                                     if (attributes.attributeValue.validate === 'char') {
-                                        validateRtn = numberRegex.test(e.target.value);
+                                        isValidNumber(elem.id, true);
                                     } else if (attributes.attributeValue.validate === 'number') {
-                                        validateRtn = charRegex.test(e.target.value);
+                                        isValidChar(elem.id, true);
                                     }
 
-                                    if (!validateRtn) {
-                                        e.target.classList.add('error');
-                                    } else {
-                                        e.target.classList.remove('error');
+                                    if (attributes.attributeValue.maxLength !== '') {
+                                        isValidMaxLength(elem.id, attributes.attributeValue.maxLength, true);
                                     }
-                                });
-                            }*/
+                                    if (attributes.attributeValue.minLength !== '') {
+                                        isValidMinLength(elem.id, attributes.attributeValue.minLength, true);
+                                    }
+                                }
+                            });
                         }
                         childAttributeElem.appendChild(inputElem);
                         break;
@@ -688,7 +707,7 @@
 
     exports.init = init
     exports.makeDetails = makeDetails
-    exports.checkDetails = checkDetails
+    exports.checkDuplicate = checkDuplicate
     exports.setDetails = setDetails
     exports.drawDetails = drawDetails
 

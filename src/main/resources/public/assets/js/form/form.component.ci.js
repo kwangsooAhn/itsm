@@ -110,24 +110,6 @@
     }
 
     /**
-     * 필수값 체크
-     */
-    function checkRequired() {
-        const requiredElem = document.querySelectorAll('[required]');
-        for (let i = 0, len = requiredElem.length; i < len; i++) {
-            if (requiredElem[i].value.trim() === '') {
-                requiredElem[i].classList.add('error');
-                aliceJs.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
-                    requiredElem[i].focus();
-                });
-                return false;
-            }
-            requiredElem[i].classList.remove('error');
-        }
-        return true;
-    }
-
-    /**
      * CI 세부 속성 데이터 저장
      * 
      * @param {String} actionType 타입
@@ -135,7 +117,7 @@
      * @param {Function} callbackFunc callback 함수
      */
     function saveCIComponentData(actionType, comp, callbackFunc) {
-        if (checkRequired()) {
+        if (isValidRequiredAll() && isClassWithError()) {
             const instanceElements = document.getElementById('instanceId');
             const instanceId = (instanceElements !== null) ? instanceElements.getAttribute('data-id') : '';
 
@@ -148,7 +130,7 @@
             });
 
             const compIdx = aliceDocument.getComponentIndex(comp.id);
-                const componentData = aliceDocument.data.form.components[compIdx];
+            const componentData = aliceDocument.data.form.components[compIdx];
             if (actionType === ACTION_TYPE_REGISTER) {
                 saveCIData.ciId = workflowUtil.generateUUID();
                 saveCIData.actionType = ACTION_TYPE_REGISTER;
@@ -516,9 +498,9 @@
         const CIClasses = [
             {"attributes": [
                 {"attributeId":"799afe719cd0bfe38797172bb77ae5d8","attributeName":"Licensing policy","attributeText":"라이센스 정책","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"FPP","value":"fpp"},{"text":"ESD","value":"esd"},{"text":"OEM","value":"oem"},{"text":"COEM DSP","value":"coem"},{"text":"Volumn","value":"volumn"}]},"value":"oem"},
-                {"attributeId":"489a14a0ebdca14b6eb42cf804330145","attributeName":"Licenses","attributeText":"라이센스","attributeType":"inputbox","attributeOrder":"2","attributeValue":{"validate":"","required":"false"},"value":""},
+                {"attributeId":"489a14a0ebdca14b6eb42cf804330145","attributeName":"Licenses","attributeText":"라이센스","attributeType":"inputbox","attributeOrder":"2","attributeValue":{"validate":"","required":"false", "maxLength":"10","minLength":"0"},"value":""},
                 {"attributeId":"2c9180887759cbaf01775c049af50000","attributeName":"Test#1","attributeText":"라디오버튼","attributeType":"radio","attributeOrder":"3","attributeValue":{"option":[{"text":"여자","value":"female"},{"text":"남자","value":"male"}]},"value":"male"},
-                {"attributeId":"072fcb3be4056095a9af82dc6505b1e8","attributeName":"Test#2","attributeText":"커스텀코드","attributeType":"custom-code","attributeOrder":"4","attributeValue":{"customCode":"40288a9170f18a8b0170f1a0be9c0002","default":{"type":"session","value":"department"},"button":"부서선택"},"value":""}
+                {"attributeId":"072fcb3be4056095a9af82dc6505b1e8","attributeName":"Test#2","attributeText":"커스텀코드","attributeType":"custom-code","attributeOrder":"4","attributeValue":{"required":"true", "customCode":"40288a9170f18a8b0170f1a0be9c0002","default":{"type":"session","value":"department"},"button":"부서선택"},"value":""}
             ]},
             {"attributes": [
                 {"attributeId":"df0e88d216ace73e0164f3dbf7ade131","attributeName":"Version_OS_Windows","attributeText":"버전","attributeType":"dropdown","attributeOrder":"1","attributeValue":{"option":[{"text":"윈도우  XP","value":"xp"},{"text":"윈도우 7","value":"7"},{"text":"윈도우 8","value":"8"},{"text":"윈도우 9","value":"9"},{"text":"윈도우 10","value":"10"}]},"value":"10"}
