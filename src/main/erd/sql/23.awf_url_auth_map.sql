@@ -6,11 +6,11 @@ DROP TABLE IF EXISTS awf_url_auth_map cascade;
 
 CREATE TABLE awf_url_auth_map
 (
-	url varchar(512) NOT NULL,
-	method varchar(16) NOT NULL,
-	auth_id varchar(100) NOT NULL,
-	CONSTRAINT awf_url_auth_map_pk PRIMARY KEY (url, method, auth_id),
-	CONSTRAINT awf_url_auth_map_fk1 FOREIGN KEY (url, method) REFERENCES awf_url (url, method),
+    url varchar(512) NOT NULL,
+    method varchar(16) NOT NULL,
+    auth_id varchar(100) NOT NULL,
+    CONSTRAINT awf_url_auth_map_pk PRIMARY KEY (url, method, auth_id),
+    CONSTRAINT awf_url_auth_map_fk1 FOREIGN KEY (url, method) REFERENCES awf_url (url, method),
     CONSTRAINT awf_url_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
 );
 
@@ -238,7 +238,6 @@ insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.delete');
-insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'post', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'put', 'cmdb.type.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'delete', 'cmdb.type.delete');
 insert into awf_url_auth_map values ('/rest/codes', 'get', 'code.read');
@@ -417,4 +416,3 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.read'
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.update');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.update');
-

@@ -1237,11 +1237,11 @@ DROP TABLE IF EXISTS awf_url cascade;
 
 CREATE TABLE awf_url
 (
-	url varchar(512) NOT NULL,
-	method varchar(16) NOT NULL,
-	url_desc varchar(256),
-	is_required_auth boolean DEFAULT 'true',
-	CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
+    url varchar(512) NOT NULL,
+    method varchar(16) NOT NULL,
+    url_desc varchar(256),
+    is_required_auth boolean DEFAULT 'true',
+    CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
 );
 
 COMMENT ON TABLE awf_url IS 'URL별메소드명';
@@ -1382,7 +1382,10 @@ insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'put', 'CMDB Class 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'delete', 'CMDB Class 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'get', 'CMDB Type 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types', 'post', 'CMDB Type 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types/{id}', 'get', 'CMDB Type 단일 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types/{id}', 'put', 'CMDB Type 수정', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types/{id}', 'delete', 'CMDB Type 삭제', 'TRUE');
 insert into awf_url values ('/rest/codes', 'post', '코드 등록', 'TRUE');
 insert into awf_url values ('/rest/codes', 'get', '코드 전체 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
@@ -1505,11 +1508,11 @@ DROP TABLE IF EXISTS awf_url_auth_map cascade;
 
 CREATE TABLE awf_url_auth_map
 (
-	url varchar(512) NOT NULL,
-	method varchar(16) NOT NULL,
-	auth_id varchar(100) NOT NULL,
-	CONSTRAINT awf_url_auth_map_pk PRIMARY KEY (url, method, auth_id),
-	CONSTRAINT awf_url_auth_map_fk1 FOREIGN KEY (url, method) REFERENCES awf_url (url, method),
+    url varchar(512) NOT NULL,
+    method varchar(16) NOT NULL,
+    auth_id varchar(100) NOT NULL,
+    CONSTRAINT awf_url_auth_map_pk PRIMARY KEY (url, method, auth_id),
+    CONSTRAINT awf_url_auth_map_fk1 FOREIGN KEY (url, method) REFERENCES awf_url (url, method),
     CONSTRAINT awf_url_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
 );
 
@@ -1737,7 +1740,6 @@ insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.delete');
-insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'post', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'put', 'cmdb.type.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'delete', 'cmdb.type.delete');
 insert into awf_url_auth_map values ('/rest/codes', 'get', 'code.read');
@@ -1916,8 +1918,6 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.read'
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.update');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.update');
-
-
 /**
  * 사용자정보
  */
