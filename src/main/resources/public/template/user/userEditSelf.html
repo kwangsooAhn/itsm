@@ -311,10 +311,10 @@
             if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
                 if (!isValidPassword('password')) return false;
             }
-            if (!isValidUserId("userId")) return false;
+            if (!isValidUserId("userId", true)) return false;
             if (isEmpty('userName', 'user.msg.enterUserName')) return false;
             if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-            if (!isValidEmail('email')) return false;
+            if (!isValidEmail('email', true)) return false;
             return true;
         }
 

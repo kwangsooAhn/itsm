@@ -4,42 +4,60 @@ h6 {
   padding: 0 0 0 0.625rem; // 10px
 }
 
-.picker-wrapper-date {display: inline;}
+.picker-wrapper-date {
+  display: inline;
+}
 
 input {
   padding: 0 10px;
   vertical-align: middle;
+
   &.search {
     background: url($icon-folder-path + "icon_search.svg") no-repeat 100%-3 50%;
     background-color: $element-bg-color;
     padding-right: 1.875rem; // 30px
   }
+
   &.search-datetime {
     background: url($icon-folder-path + "icon_date_time.svg") no-repeat 100%-5 50%;
     background-color: $element-bg-color;
-    &:disabled { background-color: $light-gray; }
+
+    &:disabled {
+      background-color: $light-gray;
+    }
   }
+
   &.search-date {
     background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
     background-color: $element-bg-color;
-    &:disabled { background-color: $light-gray; }
+
+    &:disabled {
+      background-color: $light-gray;
+    }
   }
+
   &.search-time {
     background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
     background-color: $element-bg-color;
   }
+
   &.date {
     background: url($icon-folder-path + "icon_calendar.svg") no-repeat calc(100% - 10px) 50%;
     background-color: $element-bg-color;
   }
+
   &.px {
     background: url($icon-folder-path + "icon_px.svg") no-repeat calc(100% - 10px) 50%;
     background-color: $element-bg-color;
   }
+
   &.mb {
     background: url($icon-folder-path + "icon_mb.svg") no-repeat calc(100% - 10px) 50%;
     background-color: $element-bg-color;
-    &:disabled { background-color: $light-gray; }
+
+    &:disabled {
+      background-color: $light-gray;
+    }
   }
 }
 
@@ -74,11 +92,16 @@ table[id="documentDisplay"] {
     display: table-cell;
     padding-top: 0.3125rem; // 5px
   }
+
   &-list {
     height: 13.5rem; // 216px
     border: $element-border; // 1px
     border-radius: $element-border-radius;
     padding: 0.5rem 0.625rem; // 8px 10px
+
+    .right {
+      right: 0.25rem; // 4px
+    }
 
     li {
       height: 1.5rem; // 24px
