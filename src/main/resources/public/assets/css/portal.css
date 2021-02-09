@@ -346,6 +346,10 @@ input, button, select, optgroup, textarea {
   margin-left: 1.25rem;
 }
 
+.ml-5 {
+  margin-left: 1.875rem;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -370,6 +374,10 @@ input, button, select, optgroup, textarea {
   margin-right: 1.25rem;
 }
 
+.mr-5 {
+  margin-right: 1.875rem;
+}
+
 .mr-auto {
   margin-right: auto;
 }
@@ -392,6 +400,10 @@ input, button, select, optgroup, textarea {
 
 .mt-4 {
   margin-top: 1.25rem;
+}
+
+.mt-5 {
+  margin-top: 1.875rem;
 }
 
 .mt-auto {
@@ -656,6 +668,10 @@ input, button, select, optgroup, textarea {
   margin-left: 1.25rem;
 }
 
+.ml-5 {
+  margin-left: 1.875rem;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -680,6 +696,10 @@ input, button, select, optgroup, textarea {
   margin-right: 1.25rem;
 }
 
+.mr-5 {
+  margin-right: 1.875rem;
+}
+
 .mr-auto {
   margin-right: auto;
 }
@@ -702,6 +722,10 @@ input, button, select, optgroup, textarea {
 
 .mt-4 {
   margin-top: 1.25rem;
+}
+
+.mt-5 {
+  margin-top: 1.875rem;
 }
 
 .mt-auto {
@@ -2549,8 +2573,8 @@ button.ghost-line:disabled .icon {
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
- * @author wdj
  * @version 1.0
+ * @author wdj
  */
 .scrollbar > .os-scrollbar-horizontal {
   right: 0.625rem;

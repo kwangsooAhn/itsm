@@ -89,6 +89,7 @@ auth:
     authDesc: "권한 설명"
     authId: "권한 아이디"
     authName: "권한 명"
+    count: "{0} 개"
     menuList: "사용 메뉴 목록"
     referenceCount: "역할 참조 개수"
     urlList: "사용 URL"
