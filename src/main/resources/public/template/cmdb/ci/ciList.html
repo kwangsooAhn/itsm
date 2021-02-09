@@ -8,8 +8,8 @@
     <thead class="list-head">
     <tr class="flex-row align-items-center">
         <th style="width: 5%;"></th>
-        <th style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.type}"></th>
         <th style="width: 20%;" class="align-center" th:text="#{cmdb.ci.label.ciNo}"></th>
+        <th style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.type}"></th>
         <th style="width: 15%;" class="align-left" th:text="#{cmdb.ci.label.name}"></th>
         <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.description}"></th>
         <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.tag}"></th>
@@ -24,8 +24,8 @@
         <td style="width: 5%;">
             <img th:src="@{/assets/media/images/cmdb/{ciIcon}(ciIcon=${ci.ciIcon})}"/>
         </td>
+        <td style="width: 20%;" class="align-center" th:text="${ci.ciNo}" th:onclick="openCIDetailModal([[${ci.ciId}]]);"></td>
         <td style="width: 10%;" class="align-center" th:text="${ci.typeName}"></td>
-        <td style="width: 20%;" class="align-center" th:text="${ci.ciNo}"></td>
         <td style="width: 15%;" class="align-left" th:text="${ci.ciName}"></td>
         <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}"></td>
         <td style="width: 25%;" class="align-left">

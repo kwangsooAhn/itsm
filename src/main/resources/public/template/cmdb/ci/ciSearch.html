@@ -46,6 +46,10 @@
             searchCis(false);
         }
 
+        function openCIDetailModal(ciId) {
+            restSubmit('GET', '/cmdb/cis/view?'+ciId, false);
+        }
+
         function searchCis(isScroll) {
             let urlParam = '';
             if (isScroll) {
@@ -81,8 +85,54 @@
                             }
                         }
                     } else {
-                        document.getElementById('ciList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                        console.log("=====================");
+                        console.log(url);
+                        if (url === '/cmdb/cis/view/1111') {
+                            const ciDetailModal = new modal({
+                                title: i18n.msg('cmdb.ci.label.ciInquiry'),
+                                body: content,
+                                classes: 'cmdb-ci-detail-modal',
+                                buttons: [{
+                                    content: i18n.msg('common.btn.cancel'),
+                                    classes: "default-line",
+                                    bindKey: false,
+                                    callback: function (modal) {
+                                        modal.hide();
+                                    }
+                                }],
+                                close: {
+                                    closable: false,
+                                },
+                                onCreate: function (modal) {
+                                    // 스크롤바 추가
+                                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
+                                    OverlayScrollbars(document.querySelectorAll('textarea'), {
+                                        className: 'scrollbar',
+                                        resize: 'vertical',
+                                        sizeAutoCapable: true,
+                                        textarea: {
+                                            dynHeight: false,
+                                            dynWidth: false,
+                                            inheritedAttrs: "class"
+                                        }
+                                    });
+                                    // TODO: 태그 기능 추가
+                                    /*new Tagify(document.getElementById('ciTags'), {
+                                        pattern: /^.{0,100}$/,
+                                        editTags: false,
+                                        callbacks: {
+                                            'add': onAddTag,
+                                            'remove': onRemoveTag
+                                        },
+                                        placeholder: i18n.msg('token.msg.tag')
+                                    });*/
+                                }
+                            });
+                            ciDetailModal.show();
+                        } else {
+                            document.getElementById('ciList').innerHTML = response.responseText;
+                            aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                        }
                     }
 
                     OverlayScrollbars(document.querySelector('.list-body'), {
@@ -144,8 +194,8 @@
             tdCiTag.innerText = data.ciTag;
 
             tr.appendChild(tdCiIcon);
-            tr.appendChild(tdCiTypeName);
             tr.appendChild(tdCiNo);
+            tr.appendChild(tdCiTypeName);
             tr.appendChild(tdCiName);
             tr.appendChild(tdCiDesc);
             tr.appendChild(tdCiTag);

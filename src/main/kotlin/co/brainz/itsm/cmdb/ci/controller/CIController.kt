@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
@@ -22,6 +23,7 @@ class CIController(private val ciService: CIService) {
     private val ciListPage: String = "cmdb/ci/ciList"
     private val ciEditModal: String = "cmdb/ci/ciEditModal"
     private val ciListModal: String = "cmdb/ci/ciListModal"
+    private val ciViewModal: String = "cmdb/ci/ciViewModal"
 
     /**
      * CI 조회 검색 화면 호출
@@ -52,6 +54,16 @@ class CIController(private val ciService: CIService) {
     @GetMapping("/new")
     fun getCINew(): String {
         return ciEditModal
+    }
+
+    /**
+     * CI 상세 화면 호출.
+     */
+    @GetMapping("/view/{ciId}")
+    fun getCI(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
+        val result = ciService.getCI(ciId)
+        model.addAttribute("ci", result)
+        return ciViewModal
     }
 
     /**
