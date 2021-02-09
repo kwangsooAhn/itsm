@@ -5,11 +5,11 @@ DROP TABLE IF EXISTS awf_url cascade;
 
 CREATE TABLE awf_url
 (
-	url varchar(512) NOT NULL,
-	method varchar(16) NOT NULL,
-	url_desc varchar(256),
-	is_required_auth boolean DEFAULT 'true',
-	CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
+    url varchar(512) NOT NULL,
+    method varchar(16) NOT NULL,
+    url_desc varchar(256),
+    is_required_auth boolean DEFAULT 'true',
+    CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
 );
 
 COMMENT ON TABLE awf_url IS 'URL별메소드명';
@@ -150,7 +150,10 @@ insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'put', 'CMDB Class 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'delete', 'CMDB Class 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'get', 'CMDB Type 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types', 'post', 'CMDB Type 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types/{id}', 'get', 'CMDB Type 단일 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types/{id}', 'put', 'CMDB Type 수정', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types/{id}', 'delete', 'CMDB Type 삭제', 'TRUE');
 insert into awf_url values ('/rest/codes', 'post', '코드 등록', 'TRUE');
 insert into awf_url values ('/rest/codes', 'get', '코드 전체 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
