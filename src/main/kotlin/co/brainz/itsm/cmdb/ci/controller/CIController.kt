@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
@@ -51,6 +52,23 @@ class CIController(private val ciService: CIService) {
      */
     @GetMapping("/new")
     fun getCINew(): String {
+        return ciEditModal
+    }
+
+    /**
+     * CI 수정 화면 호출.
+     */
+    @GetMapping("/edit")
+    fun getCIEdit(request: HttpServletRequest, @RequestBody modifyCIData: Any, model: Model): String {
+        println(request.getParameter("ciId"))
+        println(modifyCIData)
+
+        /*model.addAttribute("ciData", ciService.getCIData(
+                request.getParameter("ciId"),
+                request.getParameter("componentId"),
+                request.getParameter("instanceId"),
+                modifyCIData
+        ))*/
         return ciEditModal
     }
 

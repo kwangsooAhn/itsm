@@ -10,15 +10,17 @@ import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
 interface CIComponentDataRepository : JpaRepository<CIComponentDataEntity, String> {
     @Query(
-        "SELECT a FROM WfCIComponentDataEntity a WHERE a.ciId = :ciId AND a.componentId = :componentId"
+        "SELECT a FROM CIComponentDataEntity a WHERE a.ciId = :ciId AND a.componentId = :componentId"
     )
-    fun findByCiIdAnAndComponentId(ciId: String, componentId: String): CIComponentDataEntity?
+    fun findByCiIdAndComponentId(ciId: String, componentId: String): CIComponentDataEntity?
 
-    fun deleteByCiIdAndAndComponentId(ciId: String, componentId: String)
+    @Transactional
+    fun deleteByCiIdAndComponentId(ciId: String, componentId: String): Int
 
     fun findByComponentIdAndCiIdAndInstanceId(
         ciId: String,

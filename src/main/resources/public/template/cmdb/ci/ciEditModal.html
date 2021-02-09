@@ -66,13 +66,13 @@
                 <label class="field-label">
                     <span th:text="#{cmdb.ci.label.tag}"></span>
                 </label>
-                <input type="text" id="ciTags" th:value="${ciData?.tagList}" />
+                <input type="text" id="ciTags" th:value="${ciData?.ciTags}" />
             </div>
             <!-- 세부속성 -->
             <div class="flex-column edit-row">
                 <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
             </div>
-            <div id="ciAttributes">
+            <div id="ciAttributes" th:ondataload="|javascript:attribute.drawDetails(this, ${ciData?.classes})|">
             </div>
         </div>
     </div>

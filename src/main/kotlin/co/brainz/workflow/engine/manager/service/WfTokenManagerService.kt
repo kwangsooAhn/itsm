@@ -232,7 +232,7 @@ class WfTokenManagerService(
      */
     fun deleteCiComponentData(ciComponentDataEntities: List<CIComponentDataEntity>?) {
         ciComponentDataEntities?.forEach { data ->
-            ciComponentDataRepository.deleteByCiIdAndAndComponentId(data.ciId, data.componentId)
+            ciComponentDataRepository.deleteByCiIdAndComponentId(data.ciId, data.componentId)
         }
     }
 

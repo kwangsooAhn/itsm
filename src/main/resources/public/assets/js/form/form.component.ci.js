@@ -95,6 +95,8 @@
      * 서버 비동기 통신
      */
     function restSubmit(url, method, data, progressbar, callbackFunc) {
+        console.log(data);
+        console.log(url);
         aliceJs.sendXhr({
             method: method,
             url: url,
@@ -148,7 +150,7 @@
             });
 
             const compIdx = aliceDocument.getComponentIndex(comp.id);
-                const componentData = aliceDocument.data.form.components[compIdx];
+            const componentData = aliceDocument.data.form.components[compIdx];
             if (actionType === ACTION_TYPE_REGISTER) {
                 saveCIData.ciId = workflowUtil.generateUUID();
                 saveCIData.actionType = ACTION_TYPE_REGISTER;
@@ -274,12 +276,33 @@
     }
 
     /**
+     * 컴포넌트 ID와 CI ID를 전달 받아서 프린트옹 데이터에서 일치하는 CI 정보를 반환한다.
+     * @param componentId 
+     * @param ciId 
+     */
+    function getCIData(componentId, ciId) {
+        const compIdx = aliceDocument.getComponentIndex(componentId);
+        const componentData = aliceDocument.data.form.components[compIdx];
+        for (let i = 0, len = componentData.value.length; i < len; i++) {
+            let data = componentData.value[i];
+            if (data.ciId === ciId) {
+                return data;
+            }
+        }
+        return {};
+    }
+
+    /**
      * 기존 CI 변경 모달
      */
     function openUpdateModal(componentId, ciId, elem) {
         const ciComponent = document.getElementById(componentId);
-        console.log(ciComponent);
-        restSubmit('/cmdb/cis/new?ciId=' + ciId + '&componentId=' + componentId, 'GET', {}, false, function (content) {
+        const instanceElements = document.getElementById('instanceId');
+        const instanceId = (instanceElements !== null) ? instanceElements.getAttribute('data-id') : '';
+        console.log(instanceId);
+        console.log('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId);
+        console.log(getCIData(componentId, ciId));
+        restSubmit('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', getCIData(componentId, ciId), false, function (content) {
             const ciUpdateModal = new modal({
                 title: i18n.msg('cmdb.ci.label.update'),
                 body: content,
@@ -290,9 +313,9 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        //saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent, function() {
-                        //    modal.hide();
-                        //});
+                        saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent, function() {
+                            modal.hide();
+                        });
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
@@ -306,6 +329,10 @@
                     closable: false,
                 },
                 onCreate: function (modal) {
+                    // 수정된 데이터가 존재할 경우 수정 데이터로 변경
+                    const evt = new Event("dataload");
+                    document.getElementById('ciAttributes').dispatchEvent(evt);
+                    //document.getElementById('ciAttributes').change();
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelectorAll('textarea'), {
@@ -582,8 +609,7 @@
         // TODO: 서버 단 상세 속성 조회
         restSubmit('/rest/cmdb/classes/' + classId + '/attributes', 'GET', {}, false, function (responseData) {
             let responseJson = JSON.parse(responseData);
-            console.log(responseJson);
-            // attribute.drawDetails(document.getElementById('ciAttributes'), CIClasses);
+            attribute.drawDetails(document.getElementById('ciAttributes'), responseJson);
         });
     }
 

@@ -1289,6 +1289,7 @@ insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면'
 insert into awf_url values ('/cmdb/cis', 'get', 'CMDB CI 조회 목록', 'TRUE');
 insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
 insert into awf_url values ('/cmdb/cis/new', 'get', 'CMDB CI 등록 화면', 'FALSE');
+insert into awf_url values ('/cmdb/cis/edit', 'get', 'CMDB CI 수정 화면', 'FALSE');
 insert into awf_url values ('/cmdb/cis/view-pop', 'get', 'CMDB CI 리스트 조회 팝업 화면', 'FALSE');
 insert into awf_url values ('/codes/edit', 'get', '코드 편집 화면', 'TRUE');
 insert into awf_url values ('/custom-codes', 'get', '사용자 정의 코드 리스트 화면', 'TRUE');
@@ -1583,6 +1584,8 @@ insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/new', 'get', 'form.read');
 insert into awf_url_auth_map values ('/cmdb/cis/new', 'get', 'form.update');
+insert into awf_url_auth_map values ('/cmdb/cis/edit', 'get', 'form.read');
+insert into awf_url_auth_map values ('/cmdb/cis/edit', 'get', 'form.update');
 insert into awf_url_auth_map values ('/cmdb/cis/view-pop', 'get', 'form.read');
 insert into awf_url_auth_map values ('/cmdb/cis/view-pop', 'get', 'form.update');
 insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
