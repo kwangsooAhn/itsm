@@ -20,7 +20,7 @@
                 </label>
                 <div class="flex-row input-button">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
-                    <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}" readonly required="true" th:attr="data-required-name=#{cmdb.ci.label.type}">
+                    <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}" readonly required="true" th:attr="data-required-name=#{cmdb.ci.label.type}"/>
                     <button class="default-line col-1" type="button" th:onclick="|javascript:CI.openSelectTypeModal(${ciData?.typeId});|" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                 </label>
                 <div class="flex-row input-button">
                     <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
-                    <input type="text" id="className" class="col-pct-12 inherit" th:value="${ciData?.className}" readonly required="true" th:attr="data-required-name=#{cmdb.type.label.class}">
+                    <input type="text" id="className" class="col-pct-12 inherit" th:value="${ciData?.className}" readonly required="true" th:attr="data-required-name=#{cmdb.type.label.class}"/>
                     <button class="default-line col-1" type="button" th:onclick="|javascript:CI.openSelectClassModal(${ciData?.classId})|" th:text="#{common.btn.select}"></button>
                 </div>
             </div>

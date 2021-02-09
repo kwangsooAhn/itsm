@@ -128,7 +128,7 @@
             return `<option value='${option.value}' ${property.required === option.value ? "selected='true'" : ""}>${aliceJs.filterXSS(option.text)}</option>`
         }).join('');
         const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '0';
-                const minLengthValue = property.minLength !== undefined ? property.minLength : '100';
+        const minLengthValue = property.minLength !== undefined ? property.minLength : '100';
         this.template =
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span><span class="required"></span></label></div>` +

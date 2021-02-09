@@ -130,7 +130,7 @@
             });
 
             const compIdx = aliceDocument.getComponentIndex(comp.id);
-                const componentData = aliceDocument.data.form.components[compIdx];
+            const componentData = aliceDocument.data.form.components[compIdx];
             if (actionType === ACTION_TYPE_REGISTER) {
                 saveCIData.ciId = workflowUtil.generateUUID();
                 saveCIData.actionType = ACTION_TYPE_REGISTER;
