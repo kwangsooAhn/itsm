@@ -10,7 +10,7 @@
                 <label class="field-label" for="ciNo">
                     <span th:text="#{cmdb.ci.label.seqNum}"></span>
                 </label>
-                <input type="text" id="ciNo" th:value="${ciData?.ciNo}" maxlength="100" />
+                <input type="text" id="ciNo" th:value="${ciData?.ciNo}" maxlength="100" disabled />
             </div>
             <!-- CI 타입 -->
             <div class="flex-column edit-row">
