@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
@@ -51,6 +53,23 @@ class CIController(private val ciService: CIService) {
      */
     @GetMapping("/new")
     fun getCINew(): String {
+        return ciEditModal
+    }
+
+    /**
+     * CI 수정 화면 호출.
+     * 화면에서 사용자가 수정한 데이터를 모달에 함께 출력한다.
+     */
+    @PostMapping("/edit")
+    fun getCIEdit(request: HttpServletRequest, @RequestBody modifyCIData: String, model: Model): String {
+        model.addAttribute(
+            "ciData", ciService.getCIData(
+                request.getParameter("ciId"),
+                request.getParameter("componentId"),
+                request.getParameter("instanceId"),
+                modifyCIData
+            )
+        )
         return ciEditModal
     }
 
