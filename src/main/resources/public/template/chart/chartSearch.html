@@ -336,7 +336,8 @@
                     operation: document.getElementById('operationSelectBox').value,
                     durationDigit: document.getElementById('durationDigit').value,
                     durationUnit: document.getElementById('durationUnitSelectBox').value,
-                    periodUnit: document.getElementById('periodUnitSelectBox').value
+                    periodUnit: document.getElementById('periodUnitSelectBox').value,
+                    group: document.getElementById('targetGroup').value
                 }
 
                 switch (chartInfo.durationUnit) {
@@ -413,6 +414,22 @@
             const keyID = (event.which) ? event.which : event.keyCode;
             if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
                 event.target.value = event.target.value.replace(/[^0-9]/g, '');
+            }
+        }
+
+        function setDisplay(value) {
+            if (value === 'chart.basicLine' || value === 'chart.stackedColumn') {
+                document.getElementById('periodUnitLabel').style.display = 'block';
+                document.getElementById('periodUnitSelectBox').style.display = 'block';
+                if (value === 'chart.basicLine') {
+                    document.getElementById('groupLabel').style.display = 'block';
+                    document.getElementById('targetGroup').style.display = 'block';
+                }
+            } else {
+                document.getElementById('periodUnitLabel').style.display = 'none';
+                document.getElementById('periodUnitSelectBox').style.display = 'none';
+                document.getElementById('groupLabel').style.display = 'none';
+                document.getElementById('targetGroup').style.display = 'none';
             }
         }
 

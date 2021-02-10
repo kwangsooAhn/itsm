@@ -238,6 +238,7 @@ chart:
     periodUnit: "PeriodUnit"
     operation: "Operation"
     duration: "Duration"
+    group: "Group"
   msg:
     searchDescription: "View and manage various statistical charts."
     enterChartName: "Please enter a chart name."

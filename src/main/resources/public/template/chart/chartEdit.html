@@ -6,7 +6,7 @@
 <body>
 <div class="flex-column edit-row">
     <label class="field-label" th:text="#{chart.label.type}"></label>
-    <select id="typeSelectBox" name="typeSelectBox" class="col-3">
+    <select id="typeSelectBox" name="typeSelectBox" class="col-3" onchange="setDisplay(this.value)">
         <option th:each="type:${typeList}" th:value="${type.codeValue}"
                 th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
     </select>
@@ -60,11 +60,20 @@
             </div>
         </div>
         <div class="flex-column col-6">
-            <label class="field-label required" th:text="#{chart.label.periodUnit}"/>
+            <label id="periodUnitLabel" class="field-label required" th:text="#{chart.label.periodUnit}"/>
             <select id="periodUnitSelectBox" name="periodUnitSelectBox" class="col-2">
                 <option th:each="unit:${unitList}" th:value="${unit.codeValue}"
                         th:text="${unit.codeName}" th:selected="${unit.codeValue} == ${chart?.periodUnit}"></option>
             </select>
+        </div>
+    </div>
+</div>
+<div class="flex-column edit-row">
+    <div class="flex-row">
+        <div class="flex-column col-6">
+            <label id="groupLabel" name="groupLabel" class="field-label required"
+                   th:text="#{chart.label.group}"></label>
+            <input type="text" id="targetGroup" name="targetGroup" maxlength="100"/>
         </div>
     </div>
 </div>
