@@ -59,6 +59,7 @@ class CITypeService(
                     typeName = typeEntity.typeName,
                     typeDesc = typeEntity.typeDesc,
                     typeLevel = typeEntity.typeLevel,
+                    typeAlias = typeEntity.typeAlias,
                     pTypeId = typeEntity.pType?.typeId,
                     pTypeName = typeEntity.pType?.typeName,
                     typeIcon = typeEntity.typeIcon,
@@ -81,11 +82,12 @@ class CITypeService(
             typeName = typeDetailEntity.typeName,
             typeDesc = typeDetailEntity.typeDesc,
             typeLevel = typeDetailEntity.typeLevel,
+            typeAlias = typeDetailEntity.typeAlias,
             pTypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId },
             pTypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
             typeIcon = typeDetailEntity.typeIcon,
-            defaultClassId = typeDetailEntity.defaultClass?.classId,
-            defaultClassName = typeDetailEntity.defaultClass?.className
+            defaultClassId = typeDetailEntity.defaultClass.classId,
+            defaultClassName = typeDetailEntity.defaultClass.className
         )
     }
 
@@ -108,6 +110,7 @@ class CITypeService(
             pType = parentTypeEntity,
             typeName = ciTypeDto.typeName,
             typeDesc = ciTypeDto.typeDesc,
+            typeAlias = ciTypeDto.typeAlias,
             typeIcon = ciTypeDto.typeIcon,
             defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId),
             typeLevel = typeLevel

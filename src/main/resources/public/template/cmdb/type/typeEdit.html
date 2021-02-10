@@ -45,7 +45,7 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
-                    <input id="typeAlias" name="typeAlias" type="text" maxlength="10" />
+                    <input id="typeAlias" name="typeAlias" type="text" maxlength="10" onkeyup="regExp(this)" />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
@@ -128,6 +128,7 @@
                         document.getElementById('typeName').value = responseJson.typeName;
                         document.getElementById('typeId').value = responseJson.typeId;
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
+                        document.getElementById('typeAlias').value = responseJson.typeAlias;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
                         document.getElementById('typeClassId').value = responseJson.defaultClassId;
                         document.getElementById('typeClass').value = responseJson.defaultClassName;
@@ -136,13 +137,13 @@
                             document.querySelector('#btnDelete').removeAttribute('disabled');
                             document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
                             document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+                            document.getElementById('typeAlias').disabled = true;
                         } else {
                             document.getElementById('btnUpdate').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
                             document.querySelector('button[name=typeIconSelector]').disabled = true;
                             document.querySelector('button[name=typeClassSelector]').disabled = true;
-                            document.getElementById('typeAlias').disabled = true;
                         }
                         onEdit();
                     }
@@ -177,6 +178,7 @@
                 object.value = '';
             });
             document.querySelector('textarea').value = '';
+            document.querySelector('input[name=typeAlias]').removeAttribute('disabled');
 
             let selectedNode = tree.getTreeSelectNode();
             if (selectedNode !== null) {
@@ -191,12 +193,20 @@
             document.querySelector('#btnRegist').style.display = 'none';
         }
 
+        function regExp(obj){
+            const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
+            if(reg.test(obj.value)){
+                obj.value = obj.value.replace(reg, '');
+            }
+        }
+
         /** save **/
         function onSave(method) {
             const jsonData = {
                 typeId: document.getElementById('typeId').value,
                 pTypeId: document.getElementById('parentTypeId').value,
                 typeName: document.getElementById('typeName').value,
+                typeAlias: document.getElementById('typeAlias').value,
                 typeDesc: document.getElementById('typeDesc').value,
                 typeIcon: document.getElementById('typeIcon').value,
                 defaultClassId: document.getElementById('typeClassId').value,
@@ -208,6 +218,10 @@
             }
             if (jsonData.typeName === null || jsonData.typeName.trim() === '') {
                 aliceJs.alertWarning([[#{cmdb.type.msg.enterTypeName}]]);
+                return false;
+            }
+            if (jsonData.typeAlias === null || jsonData.typeAlias.trim() === '') {
+                aliceJs.alertWarning([[#{cmdb.type.msg.enterTypeAlias}]]);
                 return false;
             }
             let url = '/rest/cmdb/types';
