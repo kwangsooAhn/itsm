@@ -27,6 +27,7 @@ class TokenService(
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     /**
      * Post Token 처리.
      *
