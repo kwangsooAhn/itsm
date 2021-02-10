@@ -63,10 +63,10 @@ class CIController(private val ciService: CIService) {
     @PostMapping("/edit")
     fun getCIEdit(request: HttpServletRequest, @RequestBody modifyCIData: String, model: Model): String {
         model.addAttribute("ciData", ciService.getCIData(
-                request.getParameter("ciId"),
-                request.getParameter("componentId"),
-                request.getParameter("instanceId"),
-                modifyCIData
+            request.getParameter("ciId"),
+            request.getParameter("componentId"),
+            request.getParameter("instanceId"),
+            modifyCIData
         ))
         return ciEditModal
     }

@@ -33,13 +33,13 @@ import org.springframework.util.LinkedMultiValueMap
 @Service
 @Transactional
 class WfTokenService(
-        private val instanceService: InstanceService,
-        private val wfTokenRepository: WfTokenRepository,
-        private val wfTokenDataRepository: WfTokenDataRepository,
-        private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
-        private val wfFormService: WfFormService,
-        private val wfActionService: WfActionService,
-        private val ciService: CIService
+    private val instanceService: InstanceService,
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
+    private val wfFormService: WfFormService,
+    private val wfActionService: WfActionService,
+    private val ciService: CIService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)

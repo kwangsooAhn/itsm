@@ -48,21 +48,21 @@ import org.springframework.stereotype.Service
 
 @Service
 class WfTokenManagerService(
-        private val wfElementService: WfElementService,
-        private val wfInstanceService: WfInstanceService,
-        private val notificationService: NotificationService,
-        private val documentRepository: WfDocumentRepository,
-        private val wfElementRepository: WfElementRepository,
-        private val wfInstanceRepository: WfInstanceRepository,
-        private val wfTokenRepository: WfTokenRepository,
-        private val wfTokenDataRepository: WfTokenDataRepository,
-        private val wfComponentRepository: WfComponentRepository,
-        private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
-        private val aliceFileService: AliceFileService,
-        private val aliceFileLocRepository: AliceFileLocRepository,
-        private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
-        private val ciComponentDataRepository: CIComponentDataRepository,
-        private val restTemplate: RestTemplateProvider
+    private val wfElementService: WfElementService,
+    private val wfInstanceService: WfInstanceService,
+    private val notificationService: NotificationService,
+    private val documentRepository: WfDocumentRepository,
+    private val wfElementRepository: WfElementRepository,
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfComponentRepository: WfComponentRepository,
+    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
+    private val aliceFileService: AliceFileService,
+    private val aliceFileLocRepository: AliceFileLocRepository,
+    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
+    private val ciComponentDataRepository: CIComponentDataRepository,
+    private val restTemplate: RestTemplateProvider
 ) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())

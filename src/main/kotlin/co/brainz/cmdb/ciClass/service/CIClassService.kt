@@ -229,6 +229,7 @@ class CIClassService(
         ciClassRepository.deleteById(classEntity.classId)
         return true
     }
+
     /**
      * Class에 따른 CI 세부 속성 조회
      */
@@ -249,7 +250,7 @@ class CIClassService(
 
         classList.forEach { classId ->
             val ciClassDetailValueDto = CIClassDetailValueDto(
-                    attributes = ciAttributeRepository.findAttributeValueList("", classId).toMutableList()
+                attributes = ciAttributeRepository.findAttributeValueList("", classId).toMutableList()
             )
             attributeValueAll.add(ciClassDetailValueDto)
         }

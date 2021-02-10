@@ -127,7 +127,7 @@ class CIClassService(
         val ciClassAttributeList = mutableListOf<CIClassAttributeListDto>()
 
         for (attributes in attributeList) {
-            var ciClassAttribute = CIClassAttributeListDto(
+            val ciClassAttribute = CIClassAttributeListDto(
                 attributeId = attributes.attributeId,
                 attributeName = attributes.attributeName,
                 attributeText = attributes.attributeText,
@@ -155,15 +155,15 @@ class CIClassService(
      */
     fun getCIClassAttributes(classId: String): MutableList<CIClassDetailValueDto> {
         val url = RestTemplateUrlDto(
-                callUrl = RestTemplateConstants.Class.GET_CLASS_ATTRIBUTE.url.replace(
-                        restTemplate.getKeyRegex(),
-                        classId
-                )
+            callUrl = RestTemplateConstants.Class.GET_CLASS_ATTRIBUTE.url.replace(
+                restTemplate.getKeyRegex(),
+                classId
+            )
         )
         val responseBody = restTemplate.get(url)
         return mapper.readValue(
-                responseBody,
-                mapper.typeFactory.constructCollectionType(List::class.java, CIClassDetailValueDto::class.java)
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, CIClassDetailValueDto::class.java)
         )
     }
 }

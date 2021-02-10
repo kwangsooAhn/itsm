@@ -28,9 +28,9 @@ import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class CIService(
-        private val restTemplate: RestTemplateProvider,
-        private val ciClassService: CIClassService,
-        private val ciComponentDataRepository: CIComponentDataRepository
+    private val restTemplate: RestTemplateProvider,
+    private val ciClassService: CIClassService,
+    private val ciComponentDataRepository: CIComponentDataRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
