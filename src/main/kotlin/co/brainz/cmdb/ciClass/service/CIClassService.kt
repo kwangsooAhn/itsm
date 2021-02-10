@@ -48,9 +48,7 @@ class CIClassService(
         val attributes = ciClassRepository.findClassToAttributeList(classList)
         var extendsAttributes: List<CIClassToAttributeDto>? = null
 
-        val pClassName = ciClassEntity.pClass?.let {
-            it.className
-        }
+        val pClassName = ciClassEntity.pClass?.className
 
         if (ciClassRepository.existsByPClass(
                 ciClassRepository.findById(classId).orElse(CIClassEntity(classId = classId))
@@ -252,7 +250,7 @@ class CIClassService(
             }
         }
 
-        classList.forEach { it ->
+        classList.forEach {
             val ciClassDetailValueDto = CIClassDetailValueDto(
                 attributes = ciAttributeRepository.findAttributeValueList("", it).toMutableList()
             )
