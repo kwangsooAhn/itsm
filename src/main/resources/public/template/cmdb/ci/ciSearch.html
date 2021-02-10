@@ -47,7 +47,7 @@
         }
 
         function openCIDetailModal(ciId) {
-            restSubmit('GET', '/cmdb/cis/view?'+ciId, false);
+            restSubmit('GET', '/cmdb/cis/view/'+ciId, false);
         }
 
         function searchCis(isScroll) {
@@ -90,7 +90,7 @@
                         if (url === '/cmdb/cis/view/1111') {
                             const ciDetailModal = new modal({
                                 title: i18n.msg('cmdb.ci.label.ciInquiry'),
-                                body: content,
+                                body: response.responseText,
                                 classes: 'cmdb-ci-detail-modal',
                                 buttons: [{
                                     content: i18n.msg('common.btn.cancel'),
