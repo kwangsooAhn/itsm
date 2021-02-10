@@ -46,7 +46,7 @@ class CIClassService(
         classList.add(ciClassEntity.classId)
         val recursiveClassList = mutableListOf<String>()
         val attributes = ciClassRepository.findClassToAttributeList(classList)
-        var extendsAtrributes: List<CIClassToAttributeDto>? = null
+        var extendsAttributes: List<CIClassToAttributeDto>? = null
 
         val pClassName = ciClassEntity.pClass?.let {
             it.className
@@ -63,7 +63,7 @@ class CIClassService(
             ciClassRepository.findRecursiveClass(classId).forEach {
                 recursiveClassList.add(it.classId)
             }
-            extendsAtrributes = ciClassRepository.findClassToAttributeList(recursiveClassList)
+            extendsAttributes = ciClassRepository.findClassToAttributeList(recursiveClassList)
         }
 
         return CIClassDetailDto(
@@ -74,7 +74,7 @@ class CIClassService(
             pClassName = pClassName,
             editable = editable,
             attributes = attributes,
-            extendsAttributes = extendsAtrributes
+            extendsAttributes = extendsAttributes
         )
     }
 
@@ -244,7 +244,7 @@ class CIClassService(
         var targetClassId: String = classId
 
         while (targetClassId != CIClassConstants.CI_CLASS_ROOT_ID) {
-            var resultCiClass = ciClassRepository.findById(targetClassId)
+            val resultCiClass = ciClassRepository.findById(targetClassId)
             if (!resultCiClass.isEmpty) {
                 targetClass = resultCiClass.get()
                 classList.add(targetClass.classId) // 리스트에 더하기
@@ -252,9 +252,9 @@ class CIClassService(
             }
         }
 
-        classList.forEach { classId ->
+        classList.forEach { it ->
             val ciClassDetailValueDto = CIClassDetailValueDto(
-                attributes = ciAttributeRepository.findAttributeValueList("", classId).toMutableList()
+                attributes = ciAttributeRepository.findAttributeValueList("", it).toMutableList()
             )
             attributeValueAll.add(ciClassDetailValueDto)
         }

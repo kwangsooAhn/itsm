@@ -156,7 +156,6 @@ class CIClassService(
         return ciClassAttributeList
     }
 
-
     /**
      * CMDB CI 세부 속성 조회
      */

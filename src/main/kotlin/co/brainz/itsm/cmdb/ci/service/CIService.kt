@@ -100,7 +100,7 @@ class CIService(
             ciDetailDto.typeName = map["typeName"] as String
             ciDetailDto.classId = map["classId"] as String
 
-            var ciClassDetail = ciClassService.getCIClass(map["classId"] as String)
+            val ciClassDetail = ciClassService.getCIClass(map["classId"] as String)
             ciDetailDto.className = ciClassDetail.className
 
             val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
@@ -113,13 +113,13 @@ class CIService(
             val ciComponentData = ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
             val tagDataList = mutableListOf<CITagDto>()
             val relationList = mutableListOf<CIRelationDto>()
-            var ciClasses = ciClassService.getCIClassAttributes(map["classId"] as String)
+            val ciClasses = ciClassService.getCIClassAttributes(map["classId"] as String)
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
-                    mapper.readValue(ciComponentData?.values, object : TypeReference<Map<String, Any>>() {})
+                    mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
                 // 태그
                 val ciTags: List<Map<String, Any>> =
-                        mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
+                    mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
                 ciTags.forEach { tag ->
                     if (tag["id"] != null && tag["value"] != null) {
                         tagDataList.add(
@@ -139,11 +139,13 @@ class CIService(
                         mapper.convertValue(ciComponentDataValue["ciAttributes"], listLinkedMapType)
                 for (ciClass in ciClasses) {
                     ciClass.attributes?.forEach { attributeValue ->
-                        ciAttributes.forEach { attribute ->
-                            if (attribute["id"] != null && attribute["value"] != null &&
-                                attributeValue.attributeId == attribute["id"]) {
-                                attributeValue.value = attribute["value"] as String
-                                return@forEach
+                        run loop@{
+                            ciAttributes.forEach { attribute ->
+                                if (attribute["id"] != null && attribute["value"] != null &&
+                                        attributeValue.attributeId == attribute["id"]) {
+                                    attributeValue.value = attribute["value"] as String
+                                    return@loop
+                                }
                             }
                         }
                     }

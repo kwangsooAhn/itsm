@@ -68,6 +68,7 @@ class CIClassRestController(private val ciClassService: CIClassService) {
     fun deleteCIClass(@PathVariable classId: String): String {
         return ciClassService.deleteCIClass(classId)
     }
+
     /**
      * CMDB CI Class에 따른 세부 속성 조회
      */
