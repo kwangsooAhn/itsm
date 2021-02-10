@@ -190,7 +190,6 @@ body.os-dragging * {
 .os-content > .os-textarea {
     box-sizing: border-box !important;
     direction: inherit !important;
-    background: transparent !important;
     outline: 0px none transparent !important;
     overflow: hidden !important;
     position: absolute !important;

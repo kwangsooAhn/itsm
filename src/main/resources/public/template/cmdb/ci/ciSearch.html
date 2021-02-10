@@ -32,6 +32,7 @@
     </div>
 </th:block>
 </body>
+<script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
@@ -85,9 +86,7 @@
                             }
                         }
                     } else {
-                        console.log("=====================");
-                        console.log(url);
-                        if (url === '/cmdb/cis/view/1111') {
+                        if (url.indexOf("/cmdb/cis/view/") === 0) {
                             const ciDetailModal = new modal({
                                 title: i18n.msg('cmdb.ci.label.ciInquiry'),
                                 body: response.responseText,

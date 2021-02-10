@@ -177,3 +177,10 @@ $vertical-bar-margin:                         0.0625rem 0.9375rem 0.0625rem 0; /
 //////////////////////////// tag //////////////////////////////
 $tag-font-color:                             rgba(0, 152, 255, 0.7); // $point-blue , 불투명도 70
 $tag-bg-color:                               rgba(0, 152, 255, 0.1); // $point-blue , 불투명도 10
+
+//////////////////////////// CI 모달 /////////////////////////
+$cmdb-ci-modal-width:                        62.5rem; // 1000px
+$cmdb-ci-modal-height:                       53.0625rem; // 849px
+
+$cmdb-ci-attribute-border:                   0.0625rem solid $line-gray; // 1px
+$cmdb-ci-attribute-bg-color:                 $light-gray;
