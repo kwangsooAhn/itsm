@@ -10,7 +10,7 @@
                 <label class="field-label" for="ciNo">
                     <span th:text="#{cmdb.ci.label.seqNum}"></span>
                 </label>
-                <input type="text" id="ciNo" th:value="${ciData?.ciNo}" maxlength="100" />
+                <input type="text" id="ciNo" th:value="${ciData?.ciNo}" maxlength="100" disabled />
             </div>
             <!-- CI 타입 -->
             <div class="flex-column edit-row">
@@ -21,7 +21,7 @@
                 <div class="flex-row input-button">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
                     <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}" readonly required="true" th:attr="data-required-name=#{cmdb.ci.label.type}"/>
-                    <button class="default-line col-1" type="button" th:onclick="|javascript:CI.openSelectTypeModal(${ciData?.typeId});|" th:text="#{common.btn.select}"></button>
+                    <button class="default-line col-1" id="typeSelectBtn" type="button" th:onclick="CI.openSelectTypeModal([[${ciData?.typeId}]]);" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
             <!-- 아이콘 -->
@@ -30,8 +30,8 @@
                     <span th:text="#{cmdb.type.label.icon}"></span>
                 </label>
                 <div class="flex-row input-button">
-                    <input type="text" id="typeIcon" class="col-pct-12 inherit" th:value="${ciData?.typeIcon}" readonly>
-                    <button class="default-line col-1" type="button" th:onclick="|javascript:CI.openSelectIconModal(${ciData?.typeIcon});|" th:text="#{common.btn.select}"></button>
+                    <input type="text" id="typeIcon" class="col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
+                    <button class="default-line col-1" type="button" th:onclick="CI.openSelectIconModal([[${ciData?.ciIcon}]]);" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
             <!-- CI 이름 -->
@@ -55,24 +55,27 @@
                     <span th:text="#{cmdb.type.label.class}"></span>
                     <span class="required"></span>
                 </label>
+                <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
+                <input id="className" type="text" maxlength="100" readonly th:value="${ciData?.className}"/>
+                <!-- // 2021-02-09 타입선택시 클래스가 변경되는 것 외에 클래스 선택 기능은 막음
                 <div class="flex-row input-button">
                     <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
                     <input type="text" id="className" class="col-pct-12 inherit" th:value="${ciData?.className}" readonly required="true" th:attr="data-required-name=#{cmdb.type.label.class}"/>
-                    <button class="default-line col-1" type="button" th:onclick="|javascript:CI.openSelectClassModal(${ciData?.classId})|" th:text="#{common.btn.select}"></button>
-                </div>
+                    <button class="default-line col-1" type="button" th:onclick="CI.openSelectClassModal([[${ciData?.classId}]]);" th:text="#{common.btn.select}"></button>
+                </div>-->
             </div>
             <!-- CI 태그 -->
             <div class="flex-column edit-row">
                 <label class="field-label">
                     <span th:text="#{cmdb.ci.label.tag}"></span>
                 </label>
-                <input type="text" id="ciTags" th:value="${ciData?.tagList}" />
+                <input type="text" id="ciTags" />
             </div>
             <!-- 세부속성 -->
             <div class="flex-column edit-row">
                 <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
             </div>
-            <div id="ciAttributes">
+            <div id="ciAttributes" th:onclick="attribute.drawDetails(this, [[${ciData?.classes}]]);">
             </div>
         </div>
     </div>

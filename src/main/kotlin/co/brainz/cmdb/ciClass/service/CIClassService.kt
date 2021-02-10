@@ -7,11 +7,13 @@
 package co.brainz.cmdb.ciClass.service
 
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
+import co.brainz.cmdb.ciClass.constants.CIClassConstants
 import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapEntity
 import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapPk
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassAttributeMapRepository
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
+import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
 import co.brainz.cmdb.provider.dto.CIClassDetailDto
 import co.brainz.cmdb.provider.dto.CIClassDto
 import co.brainz.cmdb.provider.dto.CIClassListDto
@@ -44,11 +46,9 @@ class CIClassService(
         classList.add(ciClassEntity.classId)
         val recursiveClassList = mutableListOf<String>()
         val attributes = ciClassRepository.findClassToAttributeList(classList)
-        var extendsAtrributes: List<CIClassToAttributeDto>? = null
+        var extendsAttributes: List<CIClassToAttributeDto>? = null
 
-        val pClassName = ciClassEntity.pClass?.let {
-            it.className
-        }
+        val pClassName = ciClassEntity.pClass?.className
 
         if (ciClassRepository.existsByPClass(
                 ciClassRepository.findById(classId).orElse(CIClassEntity(classId = classId))
@@ -61,7 +61,7 @@ class CIClassService(
             ciClassRepository.findRecursiveClass(classId).forEach {
                 recursiveClassList.add(it.classId)
             }
-            extendsAtrributes = ciClassRepository.findClassToAttributeList(recursiveClassList)
+            extendsAttributes = ciClassRepository.findClassToAttributeList(recursiveClassList)
         }
 
         return CIClassDetailDto(
@@ -72,7 +72,7 @@ class CIClassService(
             pClassName = pClassName,
             editable = editable,
             attributes = attributes,
-            extendsAttributes = extendsAtrributes
+            extendsAttributes = extendsAttributes
         )
     }
 
@@ -230,5 +230,32 @@ class CIClassService(
 
         ciClassRepository.deleteById(classEntity.classId)
         return true
+    }
+
+    /**
+     * Class에 따른 CI 세부 속성 조회
+     */
+    fun getCIClassAttributes(classId: String): MutableList<CIClassDetailValueDto> {
+        val attributeValueAll = mutableListOf<CIClassDetailValueDto>()
+        val classList = mutableListOf<String>()
+        var targetClass: CIClassEntity? = null
+        var targetClassId: String = classId
+
+        while (targetClassId != CIClassConstants.CI_CLASS_ROOT_ID) {
+            val resultCiClass = ciClassRepository.findById(targetClassId)
+            if (!resultCiClass.isEmpty) {
+                targetClass = resultCiClass.get()
+                classList.add(targetClass.classId) // 리스트에 더하기
+                targetClassId = targetClass.pClass?.classId ?: CIClassConstants.CI_CLASS_ROOT_ID
+            }
+        }
+
+        classList.forEach {
+            val ciClassDetailValueDto = CIClassDetailValueDto(
+                attributes = ciAttributeRepository.findAttributeValueList("", it).toMutableList()
+            )
+            attributeValueAll.add(ciClassDetailValueDto)
+        }
+        return attributeValueAll
     }
 }

@@ -246,6 +246,7 @@ chart:
     periodUnit: "간격"
     operation: "연산"
     duration: "기간"
+    group: "그룹"
   msg:
     searchDescription: "다양한 통계용 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."

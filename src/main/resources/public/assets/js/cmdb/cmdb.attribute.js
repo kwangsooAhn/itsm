@@ -497,6 +497,7 @@
      * @param attributeData 세부 데이터
      */
     function drawDetails(target, attributeData) {
+        target.removeAttribute("onclick");
         target.innerHTML = '';
 
         for (let i = 0, iLen = attributeData.length; i < iLen; i++) {
@@ -516,17 +517,18 @@
                 labelElem.appendChild(labelTextElem);
                 childAttributeElem.appendChild(labelElem);
 
+                const attributeValue = (attributes.attributeValue === null) ? '' : JSON.parse(attributes.attributeValue);
                 switch (attributes.attributeType) {
                     case 'inputbox':
                         const inputElem = document.createElement('input');
                         inputElem.type = 'text';
                         inputElem.id = attributes.attributeId;
                         inputElem.value = attributes.value;
-                        if (typeof attributes.attributeValue !== 'undefined') {
-                            if (attributes.attributeValue.required === "true") {
+                        if (attributeValue !== '') {
+                            if (attributeValue.required === "true") {
                                 inputElem.required = true;
                                 inputElem.setAttribute('data-required-name', attributes.attributeText);
-                                inputElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
+                                labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                             }
                             // 유효성 검증
                             inputElem.addEventListener('keyup', function (e) {
@@ -536,17 +538,17 @@
                                     return false;
                                 } else {
                                     const elem = e.target;
-                                    if (attributes.attributeValue.validate === 'char') {
+                                    if (attributeValue.validate === 'char') {
                                         isValidNumber(elem.id, true);
-                                    } else if (attributes.attributeValue.validate === 'number') {
+                                    } else if (attributeValue.validate === 'number') {
                                         isValidChar(elem.id, true);
                                     }
 
-                                    if (attributes.attributeValue.maxLength !== '') {
-                                        isValidMaxLength(elem.id, attributes.attributeValue.maxLength, true);
+                                    if (attributeValue.maxLength !== '') {
+                                        isValidMaxLength(elem.id, attributeValue.maxLength, true);
                                     }
-                                    if (attributes.attributeValue.minLength !== '') {
-                                        isValidMinLength(elem.id, attributes.attributeValue.minLength, true);
+                                    if (attributeValue.minLength !== '') {
+                                        isValidMinLength(elem.id, attributeValue.minLength, true);
                                     }
                                 }
                             });
@@ -556,9 +558,9 @@
                     case 'dropdown':
                         const selectElem = document.createElement('select');
                         selectElem.id = attributes.attributeId;
-                        if (typeof attributes.attributeValue !== 'undefined') {
-                            for (let opt = 0, optLen = attributes.attributeValue.option.length; opt < optLen; opt++) {
-                                const attributeOption = attributes.attributeValue.option[opt];
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
                                 const selectOption = document.createElement('option');
                                 selectOption.textContent = attributeOption.text;
                                 selectOption.value = attributeOption.value;
@@ -571,9 +573,9 @@
                         childAttributeElem.appendChild(selectElem);
                         break;
                     case 'radio':
-                        if (typeof attributes.attributeValue !== 'undefined') {
-                            for (let opt = 0, optLen = attributes.attributeValue.option.length; opt < optLen; opt++) {
-                                const attributeOption = attributes.attributeValue.option[opt];
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
                                 const radioGroup = document.createElement('label');
                                 radioGroup.className = 'radio';
                                 radioGroup.tabindex = 0
@@ -604,9 +606,9 @@
                         }
                         break;
                     case 'checkbox':
-                        if (typeof attributes.attributeValue !== 'undefined') {
-                            for (let opt = 0, optLen = attributes.attributeValue.option.length; opt < optLen; opt++) {
-                                const attributeOption = attributes.attributeValue.option[opt];
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
                                 const chkGroup = document.createElement('label');
                                 chkGroup.className = 'checkbox';
                                 chkGroup.tabindex = 0
@@ -653,26 +655,26 @@
 
                         let customData = attributes.value; // 'key|값'
                         let defaultValue = '';
-                        if (typeof attributes.attributeValue !== 'undefined') {
-                            customBtnElem.textContent = attributes.attributeValue.button;
+                        if (attributeValue !== '') {
+                            customBtnElem.textContent = attributeValue.button;
                             // 커스텀 코드 기본 값 넣기
                             if (attributes.value === '') {
-                                switch (attributes.attributeValue.default.type) {
+                                switch (attributeValue.default.type) {
                                     case 'session':
-                                        if (attributes.attributeValue.default.value === 'userName') {
+                                        if (attributeValue.default.value === 'userName') {
                                             customData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
                                             defaultValue = aliceForm.session['userName'];
-                                        } else if (attributes.attributeValue.default.value === 'department') {
+                                        } else if (attributeValue.default.value === 'department') {
                                             customData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
                                             defaultValue = aliceForm.session['departmentName'];
                                         }
                                         break;
                                     case 'code':
-                                        customData = attributes.attributeValue.default.value;
+                                        customData = attributeValue.default.value;
                                         defaultValue = customData.split('|')[1];
                                         break;
                                     default: //none
-                                        customData = attributes.attributeValue.default.type + '|';
+                                        customData = attributeValue.default.type + '|';
                                         break;
                                 }
                             }
@@ -686,7 +688,7 @@
                                 };
                                 const itemName = 'alice_custom-codes-search-' + attributes.attributeId;
                                 sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
-                                let url = '/custom-codes/' + attributes.attributeValue.customCode+ '/search';
+                                let url = '/custom-codes/' + attributeValue.customCode+ '/search';
                                 window.open(url, itemName, 'width=500, height=655');
                             });
                         }
