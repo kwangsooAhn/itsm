@@ -9,8 +9,8 @@
  *
  * 파일 경로 : template/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
- * @version 1.0
  * @author wdj
+ * @version 1.0
  */
 *,
 *::before,
@@ -2573,8 +2573,8 @@ button.ghost-line:disabled .icon {
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
- * @author wdj
  * @version 1.0
+ * @author wdj
  */
 .scrollbar > .os-scrollbar-horizontal {
   right: 0.625rem;
