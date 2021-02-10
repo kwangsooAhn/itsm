@@ -1,10 +1,4 @@
-/*
- * Copyright 2020 Brainzcompany Co., Ltd.
- * https://www.brainz.co.kr
- *
- */
-
-package co.brainz.workflow.provider.dto
+package co.brainz.itsm.cmdb.ci.dto
 
 import java.io.Serializable
 
@@ -14,9 +8,9 @@ import java.io.Serializable
  * @author Woo Da jung
  * @since 2021-02-02
  */
-data class RestTemplateCIComponentDataDto(
+data class CIComponentDataDto(
     val ciId: String = "",
     val componentId: String = "",
     val values: String,
     val instanceId: String? = null
-) : Serializable
+): Serializable

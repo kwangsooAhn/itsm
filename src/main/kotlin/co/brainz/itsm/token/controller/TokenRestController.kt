@@ -9,9 +9,6 @@ import co.brainz.itsm.token.service.TokenService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
-import javax.servlet.http.HttpServletRequest
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -59,24 +56,5 @@ class TokenRestController(private val tokenService: TokenService) {
         @PathVariable tokenId: String
     ): Boolean {
         return tokenService.putToken(tokenId, restTemplateTokenDataUpdateDto)
-    }
-
-    /**
-     * CI 컴포넌트 - CI 세부 정보 등록
-     */
-    @PostMapping("/cis/{ciId}/data")
-    fun saveCIComponentData(@PathVariable ciId: String, @RequestBody ciComponentData: String): Boolean {
-        return tokenService.saveCIComponentData(ciId, ciComponentData)
-    }
-
-    /**
-     * CI 컴포넌트 - CI 세부 정보 삭제
-     */
-    @DeleteMapping("/cis/data")
-    fun deleteCIComponentData(request: HttpServletRequest): Boolean {
-        val params = LinkedMultiValueMap<String, String>()
-        params["ciId"] = request.getParameter("ciId")
-        params["componentId"] = request.getParameter("componentId")
-        return tokenService.deleteCIComponentData(params)
     }
 }

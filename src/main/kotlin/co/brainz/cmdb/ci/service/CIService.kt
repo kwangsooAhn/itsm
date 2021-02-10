@@ -148,9 +148,9 @@ class CIService(
             }
         }
 
-        classList.forEach { classId ->
+        classList.forEach { it ->
             val ciClassDetailValueDto = CIClassDetailValueDto(
-                attributes = ciAttributeRepository.findAttributeValueList(ciId, classId).toMutableList()
+                attributes = ciAttributeRepository.findAttributeValueList(ciId, it).toMutableList()
             )
             attributeValueAll.add(ciClassDetailValueDto)
         }

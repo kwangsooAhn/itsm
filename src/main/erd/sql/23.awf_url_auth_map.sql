@@ -6,11 +6,11 @@ DROP TABLE IF EXISTS awf_url_auth_map cascade;
 
 CREATE TABLE awf_url_auth_map
 (
-	url varchar(512) NOT NULL,
-	method varchar(16) NOT NULL,
-	auth_id varchar(100) NOT NULL,
-	CONSTRAINT awf_url_auth_map_pk PRIMARY KEY (url, method, auth_id),
-	CONSTRAINT awf_url_auth_map_fk1 FOREIGN KEY (url, method) REFERENCES awf_url (url, method),
+    url varchar(512) NOT NULL,
+    method varchar(16) NOT NULL,
+    auth_id varchar(100) NOT NULL,
+    CONSTRAINT awf_url_auth_map_pk PRIMARY KEY (url, method, auth_id),
+    CONSTRAINT awf_url_auth_map_fk1 FOREIGN KEY (url, method) REFERENCES awf_url (url, method),
     CONSTRAINT awf_url_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
 );
 
@@ -82,6 +82,8 @@ insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/new', 'get', 'form.read');
 insert into awf_url_auth_map values ('/cmdb/cis/new', 'get', 'form.update');
+insert into awf_url_auth_map values ('/cmdb/cis/edit', 'post', 'form.read');
+insert into awf_url_auth_map values ('/cmdb/cis/edit', 'post', 'form.update');
 insert into awf_url_auth_map values ('/cmdb/cis/view-pop', 'get', 'form.read');
 insert into awf_url_auth_map values ('/cmdb/cis/view-pop', 'get', 'form.update');
 insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
@@ -218,6 +220,10 @@ insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attr
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.ci.read');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/{id}/data', 'post', 'form.read');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/{id}/data', 'post', 'form.update');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/data', 'delete', 'form.read');
+insert into awf_url_auth_map values ('/rest/cmdb/cis/data', 'delete', 'form.update');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.update');
@@ -229,6 +235,8 @@ insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.cla
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.class.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'put', 'cmdb.class.update');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.class.delete');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.read');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.update');
@@ -238,7 +246,6 @@ insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.delete');
-insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'post', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'put', 'cmdb.type.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'delete', 'cmdb.type.delete');
 insert into awf_url_auth_map values ('/rest/codes', 'get', 'code.read');
@@ -370,10 +377,6 @@ insert into awf_url_auth_map values ('/rest/tokens', 'get', 'token.read');
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
-insert into awf_url_auth_map values ('/rest/tokens/cis/{id}/data', 'post', 'form.read');
-insert into awf_url_auth_map values ('/rest/tokens/cis/{id}/data', 'post', 'form.update');
-insert into awf_url_auth_map values ('/rest/tokens/cis/data', 'delete', 'form.read');
-insert into awf_url_auth_map values ('/rest/tokens/cis/data', 'delete', 'form.update');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/all', 'get', 'user.read');
@@ -417,4 +420,3 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.read'
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.update');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.update');
-

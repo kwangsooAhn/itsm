@@ -8,6 +8,7 @@ package co.brainz.cmdb.ciClass.controller
 
 import co.brainz.cmdb.ciClass.service.CIClassService
 import co.brainz.cmdb.provider.dto.CIClassDetailDto
+import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
 import co.brainz.cmdb.provider.dto.CIClassDto
 import co.brainz.cmdb.provider.dto.CIClassListDto
 import org.slf4j.LoggerFactory
@@ -67,5 +68,13 @@ class CIClassController(
     @DeleteMapping("/{classId}")
     fun deleteCIClass(@PathVariable classId: String): Boolean {
         return ciClassService.deleteCIClass(classId)
+    }
+
+    /**
+     * CMDB CI Class에 따른 세부 속성 조회
+     */
+    @GetMapping("/{classId}/attributes")
+    fun getCIClassAttributes(@PathVariable classId: String): MutableList<CIClassDetailValueDto> {
+        return ciClassService.getCIClassAttributes(classId)
     }
 }
