@@ -8,7 +8,11 @@ package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.provider.RestTemplateProvider
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.*
+import co.brainz.cmdb.provider.dto.CIDetailDto
+import co.brainz.cmdb.provider.dto.CIListDto
+import co.brainz.cmdb.provider.dto.CIRelationDto
+import co.brainz.cmdb.provider.dto.CITagDto
+import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
