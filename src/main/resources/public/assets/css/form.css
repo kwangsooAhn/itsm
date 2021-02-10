@@ -2345,8 +2345,8 @@ button .icon-search {
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
- * @version 1.0
  * @author wdj
+ * @version 1.0
  */
 .scrollbar > .os-scrollbar-horizontal {
   right: 0.625rem;
@@ -3679,6 +3679,7 @@ body.modal-active {
 }
 
 .modal-dialog.save-as .modal-content {
+  height: calc(25.63remm - 3.375rem - 5rem);
   padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */

@@ -205,8 +205,7 @@
         if (isView) { return false; }
 
         // 유효성이 통과되지 않으면 저장되지 않는다.
-        const validateElement = document.querySelectorAll('.error');
-        if (validateElement.length !== 0) {  return false; }
+        if (isClassWithError)  {  return false; }
 
         data = JSON.parse(JSON.stringify(editor.data));
 
@@ -2379,7 +2378,7 @@
         formNodes.forEach(function(node) {
             Object.keys(formProperties).some(function(prop) {
                 if (prop === node.id) {
-                    const propElem = node.lastElementChild;
+                    const propElem = node.querySelector('.property-value');
                     switch (node.id) {
                         case 'name':
                             propElem.setAttribute('value', formProperties[prop]);
