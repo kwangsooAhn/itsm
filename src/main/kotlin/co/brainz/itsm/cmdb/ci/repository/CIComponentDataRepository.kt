@@ -23,8 +23,8 @@ interface CIComponentDataRepository : JpaRepository<CIComponentDataEntity, Strin
     fun deleteByCiIdAndComponentId(ciId: String, componentId: String): Int
 
     fun findByComponentIdAndCiIdAndInstanceId(
-        ciId: String,
         componentId: String,
+        ciId: String,
         instanceId: String
     ): CIComponentDataEntity?
 

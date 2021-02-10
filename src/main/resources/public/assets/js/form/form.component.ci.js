@@ -125,18 +125,17 @@
                     saveCIData[key] = elem.value;
                 }
             });
+            saveCIData.ciStatus = CI_STATUS_USE;
 
             const compIdx = aliceDocument.getComponentIndex(comp.id);
             const componentData = aliceDocument.data.form.components[compIdx];
-            if (actionType === ACTION_TYPE_REGISTER) {
+            if (actionType === ACTION_TYPE_REGISTER) { // 신규 추가
                 saveCIData.ciId = workflowUtil.generateUUID();
                 saveCIData.actionType = ACTION_TYPE_REGISTER;
-                saveCIData.ciStatus = CI_STATUS_USE;
                 addRow(comp, saveCIData);
                 componentData.value.push(saveCIData);
-            } else {
+            } else { // 수정
                 saveCIData.actionType = ACTION_TYPE_MODIFY;
-                // TODO CI 컴포넌트 - 테이블 데이터 수정
                 const ciId = document.getElementById('ciId').value;
                 const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
                 addRow(comp, saveCIData, ciIdx);
@@ -212,7 +211,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(e.target.getAttribute('data-actionType'), ciComponent, function() {
+                        saveCIComponentData(ACTION_TYPE_REGISTER, ciComponent, function() {
                             modal.hide();
                         });
                     }
@@ -274,12 +273,12 @@
                 body: content,
                 classes: 'cmdb-ci-update-modal',
                 buttons: [{
-                    content: i18n.msg('common.btn.update'),
+                    content: i18n.msg('common.btn.modify'),
                     classes: "point-fill",
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(ciData.actionType, document.getElementById(componentId), function() {
+                        saveCIComponentData(ACTION_TYPE_MODIFY, document.getElementById(componentId), function() {
                             modal.hide();
                         });
                     }
@@ -299,7 +298,9 @@
                     document.getElementById('ciAttributes').click();
 
                     // 타입 변경을 막음
-                    document.getElementById('typeSelectBtn').disabled = true;
+                    if (ciData.actionType === ACTION_TYPE_MODIFY) {
+                        document.getElementById('typeSelectBtn').disabled = true;
+                    }
 
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});

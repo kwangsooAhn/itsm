@@ -106,7 +106,7 @@ class CIService(
             ciDetailDto.updateDt = LocalDateTime.now()
 
             // 임시 테이블의 CI 세부 데이터가 존재할 경우 합치기
-            val ciComponentData = ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(ciId, componentId, instanceId)
+            val ciComponentData = ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
             val tagDataList = mutableListOf<CITagDto>()
             val relationList = mutableListOf<CIRelationDto>()
             var ciClasses = ciClassService.getCIClassAttributes(map["classId"] as String)
@@ -136,15 +136,13 @@ class CIService(
                 for (ciClass in ciClasses) {
                     ciClass.attributes?.forEach { attributeValue ->
                         ciAttributes.forEach { attribute ->
-
                             if (attribute["id"] != null && attribute["value"] != null &&
                                 attributeValue.attributeId == attribute["id"]) {
-                                attributeValue.attributeValue = attribute["value"] as String
+                                attributeValue.value = attribute["value"] as String
                                 return@forEach
                             }
                         }
                     }
-
                 }
             }
             ciDetailDto.ciTags = tagDataList

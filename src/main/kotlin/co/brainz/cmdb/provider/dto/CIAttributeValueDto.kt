@@ -14,6 +14,6 @@ data class CIAttributeValueDto(
         val attributeText: String = "",
         val attributeType: String? = null,
         val attributeOrder: Int? = 0,
-        var attributeValue: String? = null,
-        val value: String? = null
+        val attributeValue: String? = null,
+        var value: String? = null
 ) : Serializable
