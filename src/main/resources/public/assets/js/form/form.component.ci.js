@@ -32,6 +32,8 @@
         ciDesc: '',
         classId: ''
     };
+
+    let CITag;
     /**
      * 편집 가능 여부에 따라 표시될 데이터 반환
      * @param isEditable
@@ -52,22 +54,6 @@
             { id: 'editIcon', name: '', type: (isEditable ? 'icon-edit' : 'icon-search'), column: '1', class: '' },
             { id: 'deleteIcon', name: '', type: 'icon-delete', column: '1', class: 'last' }
         ];
-    }
-
-    /**
-     * 태그 추가
-     * @param tag 태그 정보
-     */
-    function addTag(tag) {
-        // TODO: 태그 기능 추가
-    }
-
-    /**
-     * 태그 삭제
-     * @param tag 태그 정보
-     */
-    function removeTag(tag) {
-        // TODO: 태그 기능 추가
     }
 
     /**
@@ -107,6 +93,20 @@
             contentType: 'application/json; charset=utf-8',
             showProgressbar: progressbar
         });
+    }
+
+    /**
+     * 태그 추가
+     * @param target 표시할 대상 element
+     * @param tagData 태그 데이터
+     */
+    function addTags(target, tagData) {
+        target.removeAttribute("onclick");
+        // 기존 데이터가 존재하면 추가
+        const ciTags = tagData.map(function (tag) {
+            return tag.tagName;
+        });
+        CITag.addTags(ciTags);
     }
 
     /**
@@ -191,6 +191,12 @@
                     saveData.values.ciAttributes.push(ciAttribute);
                 }
             });
+
+            // 태그 추가
+            const tagElems = CITag.getTagElms();
+            tagElems.forEach(function (tag) {
+                saveData.values.ciTags.push({'id': workflowUtil.generateUUID(), 'value': tag.getAttribute('value')})
+            });
             restSubmit('/rest/cmdb/cis/' + saveData.ciId + '/data', 'POST', saveData, false, callbackFunc);
         }
     }
@@ -239,16 +245,13 @@
                             inheritedAttrs: "class"
                         }
                     });
-                    // TODO: 태그 기능 추가
-                    /*new Tagify(document.getElementById('ciTags'), {
+
+                    // 태그
+                    CITag = new Tagify(document.getElementById('ciTags'), {
                         pattern: /^.{0,100}$/,
                         editTags: false,
-                        callbacks: {
-                            'add': onAddTag,
-                            'remove': onRemoveTag
-                        },
-                        placeholder: i18n.msg('token.msg.tag')
-                    });*/
+                        placeholder: i18n.msg('cmdb.ci.msg.tag')
+                    });
                 }
             });
             ciRegisterModal.show();
@@ -266,10 +269,10 @@
         const ciData = componentData.value[ciIdx];
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
-
+        const ciModalTitle = (ciData.actionType === ACTION_TYPE_MODIFY) ? 'cmdb.ci.label.update' : 'cmdb.ci.label.register';
         restSubmit('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'POST', ciData, false, function (content) {
             const ciUpdateModal = new modal({
-                title: i18n.msg('cmdb.ci.label.update'),
+                title: i18n.msg(ciModalTitle),
                 body: content,
                 classes: 'cmdb-ci-update-modal',
                 buttons: [{
@@ -314,16 +317,14 @@
                             inheritedAttrs: "class"
                         }
                     });
-                    // TODO: 태그 기능 추가
-                    /*new Tagify(document.getElementById('ciTags'), {
+
+                    // 태그
+                    CITag = new Tagify(document.getElementById('ciTags'), {
                         pattern: /^.{0,100}$/,
                         editTags: false,
-                        callbacks: {
-                            'add': onAddTag,
-                            'remove': onRemoveTag
-                        },
-                        placeholder: i18n.msg('token.msg.tag')
-                    });*/
+                        placeholder: i18n.msg('cmdb.ci.msg.tag')
+                    });
+                    document.getElementById('ciTags').click();
                 }
             });
             ciUpdateModal.show();
@@ -579,8 +580,7 @@
     }
 
     exports.getProperty = getProperty;
-    exports.addTag = addTag;
-    exports.removeTag = removeTag;
+    exports.addTags = addTags;
     exports.openRegisterModal = openRegisterModal;
     exports.openUpdateModal = openUpdateModal;
     exports.openSelectModal = openSelectModal;
