@@ -82,6 +82,13 @@ $element-disabled-bg-color:                   $light-gray;
 $element-disabled-border-color:               $line-gray;
 $element-disabled-border-width:               0.0625rem; // 1px
 
+// element readonly시 사용하는 디자인 변수
+$element-readonly-font-color:                 $dark-gray;
+$element-readonly-bg-color:                   $light-gray;
+$element-readonly-border-color:               $line-gray;
+$element-readonly-border-width:               0.0625rem; // 1px
+$element-readonly-border:               $element-readonly-border-width solid $element-readonly-border-color;
+
 // 체크박스, 라디오 버튼, 스위치 등 선택되었을때 (ON) 디자인 변수
 $element-checked-bg-color:                    $point-blue;
 
