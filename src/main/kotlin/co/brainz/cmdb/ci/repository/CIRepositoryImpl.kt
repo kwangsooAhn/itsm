@@ -78,4 +78,17 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             .where(ciEntity.ciNo.eq(ciNo))
         return query.fetchCount()
     }
+
+    /**
+     * 동일 CI_NO에서 마지막 번호 조회.
+     */
+    override fun getLastCiByCiNo(ciNoPrefix: String): CIEntity? {
+        val ciEntity = QCIEntity.cIEntity
+        return from(ciEntity)
+            .where(
+                ciEntity.ciNo.like("$ciNoPrefix%")
+            )
+            .orderBy(ciEntity.ciNo.desc())
+            .fetchFirst()
+    }
 }

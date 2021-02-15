@@ -555,7 +555,7 @@ input, button, select, optgroup, textarea {
   color: #ffffff;
   background-color: #0098FF;
   padding: 0 1.25rem;
-  z-index: 999;
+  z-index: 100;
 }
 .form-container .form-header .name {
   font-size: 1.125rem;
@@ -722,7 +722,7 @@ input, button, select, optgroup, textarea {
   width: 100%;
 }
 .form-container .form-properties .property-group .property-field .property-field-image input[type=text]:focus, .form-container .form-properties .property-group .property-field .property-field-image input[type=text]:hover {
-  z-index: 1;
+  z-index: 25;
 }
 .form-container .form-properties .property-group .property-field .property-field-image button {
   flex: 1 1 auto;
@@ -733,7 +733,7 @@ input, button, select, optgroup, textarea {
   border-bottom-left-radius: 0;
 }
 .form-container .form-properties .property-group .property-field .property-field-image button:focus, .form-container .form-properties .property-group .property-field .property-field-image button:hover, .form-container .form-properties .property-group .property-field .property-field-image button:active {
-  z-index: 1;
+  z-index: 25;
 }
 .form-container .form-properties .property-group .property-field.vertical .property-value {
   width: 2.813rem !important;
@@ -1127,7 +1127,7 @@ select:disabled {
   top: calc(100% + 0.3125rem);
   right: 0;
   left: 0;
-  z-index: 999;
+  z-index: 5000;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1371,7 +1371,7 @@ label {
   border-bottom-right-radius: 0;
 }
 .input-button input[type=text]:focus, .input-button input[type=text]:hover {
-  z-index: 1;
+  z-index: 25;
 }
 .input-button button {
   margin-left: -0.0625rem;
@@ -1379,7 +1379,7 @@ label {
   border-bottom-left-radius: 0;
 }
 .input-button button:focus, .input-button button:hover, .input-button button:active {
-  z-index: 1;
+  z-index: 25;
 }
 
 textarea {
@@ -1757,7 +1757,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
-  z-index: 1;
+  z-index: 25;
 }
 .btn-group .btn:not(:disabled):active .icon, .btn-group .btn:not(:disabled).active .icon,
 .btn-group button:not(:disabled):active .icon,
@@ -1848,7 +1848,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
-  z-index: 1;
+  z-index: 25;
 }
 .btn-group-toggle .btn:not(:disabled):active .icon, .btn-group-toggle .btn:not(:disabled).active .icon,
 .btn-group-toggle button:not(:disabled):active .icon,
@@ -2220,11 +2220,11 @@ button .icon-search {
   left: 0;
 }
 .gmodal-wrapper.gmodal-active {
-  z-index: 20002;
+  z-index: 999999;
   display: block;
 }
 .gmodal-backdrop {
-  z-index: 999999998;
+  z-index: 999999;
   position: fixed;
   top: 0;
   right: 0;
@@ -2233,7 +2233,7 @@ button .icon-search {
   background: rgba(116, 147, 179, 0.5);
 }
 .gmodal-dialog {
-  z-index: 999999999;
+  z-index: 999999;
   border: solid 0.0625rem #EBEBEB;
   border-radius: 0.0625rem;
   position: absolute;
@@ -2767,7 +2767,7 @@ button .icon-search {
   vertical-align: top;
 }
 .file-uploader-edit .dropzone .dz-preview:hover {
-  z-index: 1000;
+  z-index: 25;
 }
 .file-uploader-edit .dropzone .dz-preview:hover .dz-details {
   opacity: 1;
@@ -2811,7 +2811,7 @@ button .icon-search {
   text-align: center;
   color: rgba(0, 0, 0, 0.9);
   opacity: 0;
-  z-index: 20;
+  z-index: 10;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-file-type {
   grid-column: 1;
@@ -2915,7 +2915,7 @@ button .icon-search {
   -ms-transition: opacity 0.3s ease;
   -o-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
-  z-index: 1000;
+  z-index: 500;
   pointer-events: none;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-error-message:after {
@@ -2981,7 +2981,7 @@ button .icon-search {
   -webkit-transform: scale(1);
   transform: scale(1);
   opacity: 1;
-  z-index: 1000;
+  z-index: 750;
   overflow: hidden;
   pointer-events: none;
 }
@@ -3084,11 +3084,11 @@ button .icon-search {
   border-radius: 0.0625rem;
   box-shadow: 0 0 0.3125rem 0 #ebebeb;
   text-align: center;
-  z-index: 999;
+  z-index: 1000;
 }
 .picker-modal.active {
   display: block;
-  z-index: 999;
+  z-index: 1000;
 }
 .picker-modal-title {
   font-size: 1.125rem;
@@ -3633,7 +3633,7 @@ body.modal-active {
   left: 0;
   display: none;
   overflow: auto;
-  z-index: 1;
+  z-index: 1000;
 }
 .modal-wrapper.modal-active {
   display: block;
@@ -3644,7 +3644,7 @@ body.modal-active {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 2001;
+  z-index: 5000;
   background-color: rgba(116, 147, 179, 0.5);
 }
 .modal-wrapper .modal-dialog {
@@ -3658,7 +3658,7 @@ body.modal-active {
   border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   border-radius: 0.0625rem;
-  z-index: 2001;
+  z-index: 5000;
 }
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.375rem;
@@ -3902,7 +3902,7 @@ body.modal-active {
   margin: 0.25rem 0 0 0;
   position: absolute;
   left: -1.25rem;
-  z-index: 1;
+  z-index: 500;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
 }
 .help-tooltip .tooltip-contents span {
@@ -3933,7 +3933,7 @@ body.modal-active {
   padding: 0.6875rem 0.875rem;
   margin: 1.3125rem 0 0 0;
   position: absolute;
-  z-index: 1;
+  z-index: 500;
 }
 .header-tooltip .tooltip-contents span {
   color: #ffffff;
@@ -4105,7 +4105,7 @@ body.modal-active {
   border-bottom-right-radius: 0;
 }
 .component .field-group .field-content.custom-code > input[type=text]:focus, .component .field-group .field-content.custom-code > input[type=text]:hover {
-  z-index: 1;
+  z-index: 25;
 }
 .component .field-group .field-content.custom-code > button {
   height: 2.5rem;
@@ -4118,7 +4118,7 @@ body.modal-active {
   border-bottom-left-radius: 0;
 }
 .component .field-group .field-content.custom-code > button:focus, .component .field-group .field-content.custom-code > button:hover, .component .field-group .field-content.custom-code > button:active {
-  z-index: 1;
+  z-index: 25;
 }
 .component .field-group .field-content .dr-table {
   width: 100%;

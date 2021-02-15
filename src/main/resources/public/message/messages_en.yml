@@ -340,6 +340,7 @@ cmdb:
       export: "Export"
   type:
     label:
+      alias: "Alias"
       management: "Type Management"
       searchPlaceholder: "Type"
       parentType: "Parent Type"
@@ -350,6 +351,7 @@ cmdb:
     msg:
       searchDescription: "CI Type manage posts."
       enterPType: "Please choose Parent Type node."
+      enterTypeAlias: "Please enter a Type Alias."
       enterTypeName: "Please enter a Type Name."
       selectType: "Please select a Type."
       selectAvailableClass: "Please select a available Class.<br/>(not root)"

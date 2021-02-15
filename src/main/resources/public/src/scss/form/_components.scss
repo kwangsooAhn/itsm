@@ -156,7 +156,7 @@
           border-bottom-right-radius: 0;
           &:focus,
           &:hover {
-            z-index: 1;
+            z-index: $z-index-event;
           }
         }
         > button {
@@ -171,7 +171,7 @@
           &:focus,
           &:hover,
           &:active {
-            z-index: 1;
+            z-index: $z-index-event;
           }
         }
       }

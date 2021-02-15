@@ -27,7 +27,7 @@
     border-radius: $clipboard-tooltip-border-radius;
     text-align: center;
     padding: 0.313rem; // 5px
-    z-index: 1;
+    z-index: $z-index-tooltip;
     bottom: 120%;
     left: 50%;
     margin-left: -8.125rem; // -130px
