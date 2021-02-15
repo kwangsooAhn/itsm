@@ -13,4 +13,5 @@ import com.querydsl.core.QueryResults
 interface CITypeRepositoryCustom : AliceRepositoryCustom {
 
     fun findByTypeList(search: String): QueryResults<CITypeEntity>
+    fun findByCITypeAll(): List<CITypeEntity>?
 }
