@@ -80,7 +80,7 @@
         <div class="flex-column view-row">
             <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
         </div>
-        <div id="ciAttributes" th:onclick="attribute.drawViewDetails(this, [[${ciData?.classes}]]);">
+        <div id="ciAttributes" th:onclick="attribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
         </div>
     </div>
 </div>

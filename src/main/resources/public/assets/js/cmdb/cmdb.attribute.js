@@ -724,7 +724,7 @@
      * @param target 표시할 대상 element
      * @param attributeData 세부 데이터
      */
-    function drawViewDetails(target, attributeData) {
+    function drawViewDetails(target, attributeData, userInfo) {
         target.removeAttribute("onclick");
         target.innerHTML = '';
         // TODO: UX팀 디자인 작업 후 변경 예정
@@ -886,15 +886,15 @@
                         if (attributeValue !== '') {
                             customBtnElem.textContent = attributeValue.button;
                             // 커스텀 코드 기본 값 넣기
-                            if (attributes.value === '') {
+                            if (attributes.value === '' || attributes.value === null) {
                                 switch (attributeValue.default.type) {
                                     case 'session':
                                         if (attributeValue.default.value === 'userName') {
-                                            customData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
-                                            defaultValue = aliceForm.session['userName'];
+                                            customData = userInfo.userKey + '|' + userInfo.userName;
+                                            defaultValue = userInfo.userName;
                                         } else if (attributeValue.default.value === 'department') {
-                                            customData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
-                                            defaultValue = aliceForm.session['departmentName'];
+                                            customData = userInfo.department + '|' + userInfo.departmentName;
+                                            defaultValue = userInfo.departmentName;
                                         }
                                         break;
                                     case 'code':
@@ -905,6 +905,7 @@
                                         customData = attributeValue.default.type + '|';
                                         break;
                                 }
+                                customInputElem.value = defaultValue;
                             }
                             customInputElem.setAttribute('value', defaultValue);
                             customInputElem.setAttribute('custom-data', customData);

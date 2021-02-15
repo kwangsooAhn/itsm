@@ -157,13 +157,13 @@
             let imgCiIcon = document.createElement('img');
             imgCiIcon.style.width = '27';
             imgCiIcon.style.height = '27';
-            imgCiIcon.src = '';
+            imgCiIcon.src = '/assets/media/images/cmdb/' + data.ciIcon;
             tdCiIcon.appendChild(imgCiIcon);
 
             let tdCiTypeName = document.createElement('td');
             tdCiTypeName.style.width = '10%';
             tdCiTypeName.className = 'align-center';
-            tdCiTypeName.innerText = data.ciTypeName;
+            tdCiTypeName.innerText = data.typeName;
 
             let tdCiNo = document.createElement('td');
             tdCiNo.style.width = '20%';

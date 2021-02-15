@@ -6,10 +6,12 @@
 
 package co.brainz.itsm.cmdb.ci.controller
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ci.service.CIService
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import javax.servlet.http.HttpServletRequest
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
@@ -103,6 +105,7 @@ class CIController(private val ciService: CIService) {
     @GetMapping("/{ciId}/view")
     fun getCIView(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
         val ciData = ciService.getCI(ciId)
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val tags = JsonArray()
         if (ciData.ciTags != null) {
             ciData.ciTags!!.forEach {
@@ -114,6 +117,7 @@ class CIController(private val ciService: CIService) {
         }
         model.addAttribute("ciData", ciData)
         model.addAttribute("tags", tags)
+        model.addAttribute("userInfo", userDetails)
         return ciViewModal
     }
 
