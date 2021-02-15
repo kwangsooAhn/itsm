@@ -3371,6 +3371,9 @@ button .icon-plus {
   background: #CCCED1;
   cursor: pointer;
 }
+.file-uploader-edit .dropzone .dz-preview .dz-download .icon-download:hover {
+  background: #586872;
+}
 .file-uploader-edit .dropzone .dz-preview .dz-remove {
   display: block;
   height: 100%;
@@ -3394,6 +3397,9 @@ button .icon-plus {
   mask-size: 1.125rem 1.25rem;
   background: #CCCED1;
   cursor: pointer;
+}
+.file-uploader-edit .dropzone .dz-preview .dz-remove .icon-delete:hover {
+  background: #586872;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
   display: block;
