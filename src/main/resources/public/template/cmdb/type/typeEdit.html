@@ -42,6 +42,7 @@
                     <label class="required" th:text="#{cmdb.type.label.name}" for="typeName"></label>
                     <input id="typeName" name="typeName" type="text" maxlength="100"/>
                     <input id="typeId" name="typeId" type="hidden"/>
+                    <input id="typeLevel" name="typeLevel" type="hidden"/>
                 </div>
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
@@ -103,7 +104,8 @@
                     text: 'typeName',
                     totalCount: true,
                     selectedNode: function(response) {
-                        onGetDetail(response.id)
+                        onGetDetail(response.id);
+                        document.getElementById('typeLevel').value = response.getAttribute('data-depth');
                     }
                 });
             }
@@ -211,7 +213,8 @@
                 typeDesc: document.getElementById('typeDesc').value,
                 typeIcon: document.getElementById('typeIcon').value,
                 defaultClassId: document.getElementById('typeClassId').value,
-                defaultClassName: document.getElementById('typeClass').value
+                defaultClassName: document.getElementById('typeClass').value,
+                typeLevel: document.getElementById('typeLevel').value
             };
             if (jsonData.pTypeId === null || jsonData.pTypeId.trim() === '') {
                 aliceJs.alertWarning([[#{cmdb.type.msg.enterPType}]]);
