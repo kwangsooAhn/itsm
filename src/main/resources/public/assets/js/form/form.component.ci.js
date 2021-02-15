@@ -169,6 +169,7 @@
                         break;
                     case 'checkbox':
                         let checkValues = [];
+                        let strValues = "";
                         el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function(chkElem, idx) {
                             if (idx === 0) {
                                 ciAttribute.id = chkElem.id.split('-')[0];
@@ -177,7 +178,16 @@
                                 checkValues.push(chkElem.value);
                             }
                         });
-                        ciAttribute.value = checkValues;
+                        if (checkValues.length > 0) {
+                            for (let i = 0; i < checkValues.length; i++) {
+                                if (strValues === "") {
+                                    strValues = checkValues[i];
+                                } else {
+                                    strValues = strValues + "," + checkValues[i];
+                                }
+                            }
+                        }
+                        ciAttribute.value = strValues;
                         break;
                     case 'custom-code':
                         const customElem = el.querySelector('input');
