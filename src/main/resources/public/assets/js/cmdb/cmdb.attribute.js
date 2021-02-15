@@ -643,10 +643,12 @@
                         break;
                     case 'custom-code':
                         let customValueArr = "";
-                        if (attributes.value != null) {
+                        if (attributes.value !== null) {
                             customValueArr = attributes.value.split('|');
                         } else {
-                            customValueArr = attributeValue.default.value.split('|');
+                            if (attributeValue !== "") {
+                                customValueArr = attributeValue.default.value.split('|');
+                            }
                         }
 
                         const inputButtonElem = document.createElement('div');
@@ -690,7 +692,7 @@
                                         break;
                                 }
                             }
-                            customInputElem.value = defaultValue;
+                            customInputElem.setAttribute('value', defaultValue);
                             customInputElem.setAttribute('custom-data', customData);
 
                             customBtnElem.addEventListener('click', function () {
