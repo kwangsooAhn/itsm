@@ -2345,8 +2345,8 @@ button .icon-search {
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
- * @author wdj
  * @version 1.0
+ * @author wdj
  */
 .scrollbar > .os-scrollbar-horizontal {
   right: 0.625rem;
