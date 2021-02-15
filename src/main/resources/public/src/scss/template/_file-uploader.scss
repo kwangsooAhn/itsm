@@ -186,8 +186,8 @@
             display: inline-block;
             @include maskImage('#{$icon-folder-path}icon_download.svg', 1.25rem, 3rem, no-repeat, center, 1.25rem, $pressed-gray); // 20px 48px, 아이콘 크기 20px
             cursor: pointer;
-            &:hover{
-              background-color: $dark-gray;
+            &:hover {
+              background: $dark-gray;
             }
           }
         }
@@ -205,8 +205,8 @@
             display: inline-block;
             @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $pressed-gray); // 18px 48px, 아이콘 크기 19px 20px
             cursor: pointer;
-            &:hover{
-              background-color: $dark-gray;
+            &:hover {
+              background: $dark-gray;
             }
           }
         }
