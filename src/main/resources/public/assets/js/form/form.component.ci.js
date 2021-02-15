@@ -254,6 +254,7 @@
             ciRegisterModal.show();
         });
     }
+
     /**
      * 기존 CI 변경 모달
      */
@@ -327,6 +328,61 @@
                 }
             });
             ciUpdateModal.show();
+        });
+    }
+
+    /**
+     * 기존 CI 상세 조회 모달
+     */
+    function openViewModal(componentId, ciId, elem) {
+        // 인스턴스 ID
+        const instanceId = aliceDocument.data.instanceId;
+
+        restSubmit('/cmdb/cis/view?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', {}, false, function (content) {
+            const ciViewModal = new modal({
+                title: i18n.msg('cmdb.ci.label.view'),
+                body: content,
+                classes: 'cmdb-ci-view-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: "default-line",
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                    // 세부 데이터가 존재할 경우
+                    document.getElementById('ciAttributes').click();
+
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelectorAll('textarea'), {
+                        className: 'scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                    // TODO: 태그 기능 추가
+                    /*new Tagify(document.getElementById('ciTags'), {
+                        pattern: /^.{0,100}$/,
+                        editTags: false,
+                        callbacks: {
+                            'add': onAddTag,
+                            'remove': onRemoveTag
+                        },
+                        placeholder: i18n.msg('token.msg.tag')
+                    });*/
+                }
+            });
+            ciViewModal.show();
         });
     }
 
@@ -445,13 +501,13 @@
                         break;
                     case 'icon-edit': // CI 등록 / 수정
                         if (actionType === ACTION_TYPE_DELETE) {
-                            tdTemplate += `<button type="button"><span class="icon icon-search"></span></button>`;
+                            tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
                         } else {
                             tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-edit"></span></button>`;
                         }
                         break;
                     case 'icon-search': // CI 상세 조회
-                        tdTemplate += `<button type="button"><span class="icon icon-search"></span></button>`;
+                        tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
                         break;
                     case 'icon-delete': // Row 삭제
                         tdTemplate += `<button type="button" onclick="javascript:CI.removeRow('${comp.id}', '${data.ciId}', this);">`+
@@ -574,7 +630,7 @@
     function setAttributeDetail(classId) {
         restSubmit('/rest/cmdb/classes/' + classId + '/attributes', 'GET', {}, false, function (responseData) {
             let responseJson = JSON.parse(responseData);
-            attribute.drawDetails(document.getElementById('ciAttributes'), responseJson);
+            attribute.drawEditDetails(document.getElementById('ciAttributes'), responseJson);
         });
     }
 
@@ -584,6 +640,7 @@
     exports.openRegisterModal = openRegisterModal;
     exports.openUpdateModal = openUpdateModal;
     exports.openSelectModal = openSelectModal;
+    exports.openViewModal = openViewModal;
     exports.addRow = addRow;
     exports.removeRow = removeRow;
     exports.openSelectTypeModal = openSelectTypeModal;

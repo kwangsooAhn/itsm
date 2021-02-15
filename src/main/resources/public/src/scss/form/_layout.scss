@@ -53,19 +53,23 @@
       }
 
       &[data-readonly=true] {
-        // 폼 양식 화면에서 수정을 막음
-        .dropzone,
-        .ql-toolbar,
-        textarea,
-        button,
-        input[type=text],
-        label.radio,
-        label.checkbox,
-        select {
-          pointer-events: none;
-        }
-        .component .move-handler {
-          display: inherit;
+        // 폼 양식 화면에서 컴포넌트 수정을 막음
+        .component {
+          .dropzone,
+          .ql-toolbar,
+          textarea,
+          button,
+          input[type=text],
+          label.radio,
+          label.checkbox,
+          select,
+          .select {
+            pointer-events: none;
+          }
+
+          .move-handler {
+            display: inherit;
+          }
         }
       }
     }
