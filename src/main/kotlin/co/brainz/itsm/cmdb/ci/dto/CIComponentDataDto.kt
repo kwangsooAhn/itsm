@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.cmdb.ci.dto
 
 import java.io.Serializable
@@ -13,4 +19,4 @@ data class CIComponentDataDto(
     val componentId: String = "",
     val values: String,
     val instanceId: String? = null
-): Serializable
+) : Serializable

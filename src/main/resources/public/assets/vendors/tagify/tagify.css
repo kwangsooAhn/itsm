@@ -74,7 +74,8 @@
 }
 
 .tagify[readonly] .tagify__tag>div {
-  --tag-text-color: #ACB4BF;
+  --tag-text-color: #586872;
+  --tags-hover-border-color: #3595f6;
   pointer-events: none;
   padding: .5em .5em;
   padding: var(--tag-pad)
@@ -82,6 +83,7 @@
 
 .tagify[readonly] .tagify__tag>div::before {
   --tag-hover: #F7F8F9;
+  --tags-hover-border-color: #3595f6;
   background-color: #F7F8F9;
   pointer-events: none;
   box-shadow: none

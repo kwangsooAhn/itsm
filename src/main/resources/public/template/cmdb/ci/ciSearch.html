@@ -34,6 +34,7 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
+    <script th:src="@{/assets/js/cmdb/cmdb.attribute.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
@@ -48,7 +49,7 @@
         }
 
         function openCIDetailModal(ciId) {
-            restSubmit('GET', '/cmdb/cis/view/'+ciId, false);
+            restSubmit('GET', '/cmdb/cis/'+ciId+'/view', false);
         }
 
         function searchCis(isScroll) {
@@ -86,12 +87,11 @@
                             }
                         }
                     } else {
-                        if (url.indexOf("/cmdb/cis/view/") === 0) {
-                            //console.log(response.responseText);
+                        if (url.indexOf("/view") > 0) {
                             const ciDetailModal = new modal({
-                                title: i18n.msg('cmdb.ci.label.ciInquiry'),
+                                title: i18n.msg('cmdb.ci.label.view'),
                                 body: response.responseText,
-                                classes: 'cmdb-ci-detail-modal',
+                                classes: 'cmdb-ci-view-modal',
                                 buttons: [{
                                     content: i18n.msg('common.btn.cancel'),
                                     classes: "default-line",
@@ -104,8 +104,9 @@
                                     closable: false,
                                 },
                                 onCreate: function (modal) {
+                                    document.getElementById('ciAttributes').click();
                                     // 스크롤바 추가
-                                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-edit'), {className: 'scrollbar'});
+                                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
                                     OverlayScrollbars(document.querySelectorAll('textarea'), {
                                         className: 'scrollbar',
                                         resize: 'vertical',

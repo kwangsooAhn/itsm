@@ -200,7 +200,7 @@
      */
     function openRegisterModal(e) {
         const ciComponent = aliceJs.clickInsideElement(e, 'component');
-        restSubmit('/cmdb/cis/new', 'GET', {}, false, function (content) {
+        restSubmit('/cmdb/cis/component-new', 'GET', {}, false, function (content) {
             const ciRegisterModal = new modal({
                 title: i18n.msg('cmdb.ci.label.register'),
                 body: content,
@@ -268,7 +268,7 @@
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
 
-        restSubmit('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'POST', ciData, false, function (content) {
+        restSubmit('/cmdb/cis/component-edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'POST', ciData, false, function (content) {
             const ciUpdateModal = new modal({
                 title: i18n.msg('cmdb.ci.label.update'),
                 body: content,
@@ -338,7 +338,7 @@
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
 
-        restSubmit('/cmdb/cis/view?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', {}, false, function (content) {
+        restSubmit('/cmdb/cis/component-view?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', {}, false, function (content) {
             const ciViewModal = new modal({
                 title: i18n.msg('cmdb.ci.label.view'),
                 body: content,
