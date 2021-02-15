@@ -38,7 +38,7 @@
     margin: 0.25rem 0 0 0;
     position: absolute;
     left: $tooltip-contents-left;
-    z-index: 2;
+    z-index: $z-index-tooltip;
     box-shadow: $tooltip-contents-box-shadow;
     span {
       color: $point-blue;
@@ -70,7 +70,7 @@
     padding: $tooltip-header-contents-padding;
     margin: $tooltip-header-contents-margin;
     position: absolute;
-    z-index: 1;
+    z-index: $z-index-tooltip;
     span {
       color: $white;
       font-weight: $font-weight-medium;

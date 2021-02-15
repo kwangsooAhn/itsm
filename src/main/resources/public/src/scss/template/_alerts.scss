@@ -20,13 +20,13 @@
     left: 0;
 
     &.gmodal-active {
-      z-index: 20002;
+      z-index: $z-index-alert;
       display: block;
     }
   }
 
   &-backdrop {
-    z-index: 999999998;
+    z-index: $z-index-alert;
     position: fixed;
     top: 0;
     right: 0;
@@ -36,7 +36,7 @@
   }
 
   &-dialog {
-    z-index: 999999999;
+    z-index: $z-index-alert;
     border: $alert-border;
     border-radius: $alert-border-size;
     position: absolute;
