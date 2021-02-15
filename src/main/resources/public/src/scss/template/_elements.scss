@@ -171,6 +171,12 @@ textarea {
     cursor: default;
   }
 
+  &:read-only {
+    background-color: $element-readonly-bg-color;
+    border-color: $element-readonly-border-color;
+    cursor: default;
+  }
+
   &.error {
     color: $element-error-font-color;
     border: $element-error-border;
