@@ -45,7 +45,7 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
-                    <input id="typeAlias" name="typeAlias" type="text" maxlength="10" onkeyup="regExp(this)" />
+                    <input id="typeAlias" name="typeAlias" type="text" maxlength="16" onkeyup="specialCharCheckRegExp(this)" />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
@@ -193,9 +193,10 @@
             document.querySelector('#btnRegist').style.display = 'none';
         }
 
-        function regExp(obj){
+        /** 특수문자 제외 정규식 **/
+        function specialCharCheckRegExp(obj) {
             const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
-            if(reg.test(obj.value)){
+            if (reg.test(obj.value)) {
                 obj.value = obj.value.replace(reg, '');
             }
         }
