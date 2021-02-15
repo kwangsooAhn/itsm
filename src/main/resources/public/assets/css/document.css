@@ -1073,7 +1073,7 @@ select:disabled {
   top: calc(100% + 0.3125rem);
   right: 0;
   left: 0;
-  z-index: 999;
+  z-index: 5000;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1320,7 +1320,7 @@ label {
   border-bottom-right-radius: 0;
 }
 .input-button input[type=text]:focus, .input-button input[type=text]:hover {
-  z-index: 1;
+  z-index: 25;
 }
 .input-button button {
   margin-left: -0.0625rem;
@@ -1328,7 +1328,7 @@ label {
   border-bottom-left-radius: 0;
 }
 .input-button button:focus, .input-button button:hover, .input-button button:active {
-  z-index: 1;
+  z-index: 25;
 }
 
 .select {
@@ -1524,7 +1524,7 @@ body.modal-active {
   left: 0;
   display: none;
   overflow: auto;
-  z-index: 1;
+  z-index: 1000;
 }
 .modal-wrapper.modal-active {
   display: block;
@@ -1535,7 +1535,7 @@ body.modal-active {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 2001;
+  z-index: 5000;
   background-color: rgba(116, 147, 179, 0.5);
 }
 .modal-wrapper .modal-dialog {
@@ -1549,7 +1549,7 @@ body.modal-active {
   border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   border-radius: 0.0625rem;
-  z-index: 2001;
+  z-index: 5000;
 }
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.375rem;
@@ -1571,7 +1571,7 @@ body.modal-active {
 
 .modal-wrapper.modal-active {
   display: block;
-  z-index: 20001;
+  z-index: 1000;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal, .modal-wrapper .modal-dialog.cmdb-ci-update-modal, .modal-wrapper .modal-dialog.cmdb-ci-view-modal, .modal-wrapper .modal-dialog.cmdb-ci-list-modal {
   width: 62.5rem;

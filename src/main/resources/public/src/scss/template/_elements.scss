@@ -171,12 +171,6 @@ textarea {
     cursor: default;
   }
 
-  &:read-only {
-    background-color: $element-readonly-bg-color;
-    border-color: $element-readonly-border-color;
-    cursor: default;
-  }
-
   &.error {
     color: $element-error-font-color;
     border: $element-error-border;
@@ -323,7 +317,7 @@ select {
     top: calc(100% + 0.3125rem); // 5px
     right: 0;
     left: 0;
-    z-index: 999;
+    z-index: $z-index-between-alert-modal;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -670,7 +664,7 @@ label {
 
     &:focus,
     &:hover {
-      z-index: 1;
+      z-index: $z-index-event;
     }
   }
   button { 
@@ -681,7 +675,7 @@ label {
     &:focus,
     &:hover,
     &:active {
-      z-index: 1;
+      z-index: $z-index-event ;
     }
   }
 }

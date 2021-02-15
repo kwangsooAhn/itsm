@@ -1489,7 +1489,7 @@ select:disabled {
   top: calc(100% + 0.3125rem);
   right: 0;
   left: 0;
-  z-index: 999;
+  z-index: 5000;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1736,7 +1736,7 @@ label {
   border-bottom-right-radius: 0;
 }
 .input-button input[type=text]:focus, .input-button input[type=text]:hover {
-  z-index: 1;
+  z-index: 25;
 }
 .input-button button {
   margin-left: -0.0625rem;
@@ -1744,7 +1744,7 @@ label {
   border-bottom-left-radius: 0;
 }
 .input-button button:focus, .input-button button:hover, .input-button button:active {
-  z-index: 1;
+  z-index: 25;
 }
 
 select {
@@ -2180,7 +2180,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
-  z-index: 1;
+  z-index: 25;
 }
 .btn-group .btn:not(:disabled):active .icon, .btn-group .btn:not(:disabled).active .icon,
 .btn-group button:not(:disabled):active .icon,
@@ -2271,7 +2271,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
-  z-index: 1;
+  z-index: 25;
 }
 .btn-group-toggle .btn:not(:disabled):active .icon, .btn-group-toggle .btn:not(:disabled).active .icon,
 .btn-group-toggle button:not(:disabled):active .icon,
@@ -2452,11 +2452,11 @@ button.ghost-line:disabled .icon {
   left: 0;
 }
 .gmodal-wrapper.gmodal-active {
-  z-index: 20002;
+  z-index: 999999;
   display: block;
 }
 .gmodal-backdrop {
-  z-index: 999999998;
+  z-index: 999999;
   position: fixed;
   top: 0;
   right: 0;
@@ -2465,7 +2465,7 @@ button.ghost-line:disabled .icon {
   background: rgba(116, 147, 179, 0.5);
 }
 .gmodal-dialog {
-  z-index: 999999999;
+  z-index: 999999;
   border: solid 0.0625rem #EBEBEB;
   border-radius: 0.0625rem;
   position: absolute;
@@ -2999,7 +2999,7 @@ button.ghost-line:disabled .icon {
   vertical-align: top;
 }
 .file-uploader-edit .dropzone .dz-preview:hover {
-  z-index: 1000;
+  z-index: 25;
 }
 .file-uploader-edit .dropzone .dz-preview:hover .dz-details {
   opacity: 1;
@@ -3043,7 +3043,7 @@ button.ghost-line:disabled .icon {
   text-align: center;
   color: rgba(0, 0, 0, 0.9);
   opacity: 0;
-  z-index: 20;
+  z-index: 10;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-file-type {
   grid-column: 1;
@@ -3147,7 +3147,7 @@ button.ghost-line:disabled .icon {
   -ms-transition: opacity 0.3s ease;
   -o-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
-  z-index: 1000;
+  z-index: 500;
   pointer-events: none;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-error-message:after {
@@ -3213,7 +3213,7 @@ button.ghost-line:disabled .icon {
   -webkit-transform: scale(1);
   transform: scale(1);
   opacity: 1;
-  z-index: 1000;
+  z-index: 750;
   overflow: hidden;
   pointer-events: none;
 }
@@ -3368,7 +3368,7 @@ button.ghost-line:disabled .icon {
   display: none;
 }
 .avatar-edit .avatar .dz-preview:hover {
-  z-index: 1000;
+  z-index: 25;
 }
 .avatar-edit .avatar .dz-preview:hover .dz-details {
   opacity: 1;
@@ -3395,7 +3395,7 @@ button.ghost-line:disabled .icon {
   text-align: center;
   color: rgba(0, 0, 0, 0.9);
   opacity: 0;
-  z-index: 20;
+  z-index: 10;
 }
 .avatar-edit .avatar .dz-preview .dz-details .dz-file-type,
 .avatar-edit .avatar .dz-preview .dz-details .dz-filename,
@@ -3495,11 +3495,11 @@ button.ghost-line:disabled .icon {
   border-radius: 0.0625rem;
   box-shadow: 0 0 0.3125rem 0 #ebebeb;
   text-align: center;
-  z-index: 999;
+  z-index: 1000;
 }
 .picker-modal.active {
   display: block;
-  z-index: 999;
+  z-index: 1000;
 }
 .picker-modal-title {
   font-size: 1.125rem;
@@ -3780,7 +3780,7 @@ button.ghost-line:disabled .icon {
   margin: 0.25rem 0 0 0;
   position: absolute;
   left: 0;
-  z-index: 1;
+  z-index: 500;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
 }
 .help-tooltip .tooltip-contents span {
@@ -3811,7 +3811,7 @@ button.ghost-line:disabled .icon {
   padding: 0.6875rem 0.875rem;
   margin: 1.3125rem 0 0 0;
   position: absolute;
-  z-index: 1;
+  z-index: 500;
 }
 .header-tooltip .tooltip-contents span {
   color: #ffffff;

@@ -4,7 +4,7 @@
 
   &.modal-active { 
     display:block;
-    z-index: 20001;
+    z-index: $z-index-modal;
   }
 
   .modal-dialog {

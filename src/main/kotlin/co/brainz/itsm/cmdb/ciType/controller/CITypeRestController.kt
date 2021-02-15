@@ -42,6 +42,7 @@ class CITypeRestController(private val ciTypeService: CITypeService) {
     fun getCIType(@PathVariable typeId: String): String {
         return ciTypeService.getCITypes(typeId)
     }
+
     /**
      * CI Type 등록
      */

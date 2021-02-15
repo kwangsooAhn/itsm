@@ -556,7 +556,7 @@ input, button, select, optgroup, textarea {
   color: #ffffff;
   background-color: #0098FF;
   padding: 0 1.25rem;
-  z-index: 999;
+  z-index: 100;
 }
 .process-header .name {
   font-size: 1.125rem;
@@ -1125,7 +1125,7 @@ select:disabled {
   top: calc(100% + 0.3125rem);
   right: 0;
   left: 0;
-  z-index: 999;
+  z-index: 5000;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1372,7 +1372,7 @@ label {
   border-bottom-right-radius: 0;
 }
 .input-button input[type=text]:focus, .input-button input[type=text]:hover {
-  z-index: 1;
+  z-index: 25;
 }
 .input-button button {
   margin-left: -0.0625rem;
@@ -1380,7 +1380,7 @@ label {
   border-bottom-left-radius: 0;
 }
 .input-button button:focus, .input-button button:hover, .input-button button:active {
-  z-index: 1;
+  z-index: 25;
 }
 
 input:read-only {
@@ -1931,7 +1931,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
-  z-index: 1;
+  z-index: 25;
 }
 .btn-group .btn:not(:disabled):active .icon, .btn-group .btn:not(:disabled).active .icon,
 .btn-group button:not(:disabled):active .icon,
@@ -2022,7 +2022,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
-  z-index: 1;
+  z-index: 25;
 }
 .btn-group-toggle .btn:not(:disabled):active .icon, .btn-group-toggle .btn:not(:disabled).active .icon,
 .btn-group-toggle button:not(:disabled):active .icon,
@@ -2462,11 +2462,11 @@ button .icon-delete {
   left: 0;
 }
 .gmodal-wrapper.gmodal-active {
-  z-index: 20002;
+  z-index: 999999;
   display: block;
 }
 .gmodal-backdrop {
-  z-index: 999999998;
+  z-index: 999999;
   position: fixed;
   top: 0;
   right: 0;
@@ -2475,7 +2475,7 @@ button .icon-delete {
   background: rgba(116, 147, 179, 0.5);
 }
 .gmodal-dialog {
-  z-index: 999999999;
+  z-index: 999999;
   border: solid 0.0625rem #EBEBEB;
   border-radius: 0.0625rem;
   position: absolute;
@@ -3045,7 +3045,7 @@ button .icon-delete {
   margin: 0.25rem 0 0 0;
   position: absolute;
   left: 0;
-  z-index: 1;
+  z-index: 500;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
 }
 .help-tooltip .tooltip-contents span {
@@ -3076,7 +3076,7 @@ button .icon-delete {
   padding: 0.6875rem 0.875rem;
   margin: 1.3125rem 0 0 0;
   position: absolute;
-  z-index: 1;
+  z-index: 500;
 }
 .header-tooltip .tooltip-contents span {
   color: #ffffff;
@@ -3113,7 +3113,7 @@ button .icon-delete {
   border-radius: 0.0625rem;
   text-align: center;
   padding: 0.313rem;
-  z-index: 1;
+  z-index: 500;
   bottom: 120%;
   left: 50%;
   margin-left: -8.125rem;
@@ -3147,7 +3147,7 @@ body.modal-active {
   left: 0;
   display: none;
   overflow: auto;
-  z-index: 1;
+  z-index: 1000;
 }
 .modal-wrapper.modal-active {
   display: block;
@@ -3158,7 +3158,7 @@ body.modal-active {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 2001;
+  z-index: 5000;
   background-color: rgba(116, 147, 179, 0.5);
 }
 .modal-wrapper .modal-dialog {
@@ -3172,7 +3172,7 @@ body.modal-active {
   border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   border-radius: 0.0625rem;
-  z-index: 2001;
+  z-index: 5000;
 }
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.375rem;

@@ -36,6 +36,9 @@ data class CITypeEntity(
     @Column(name = "type_desc", length = 512)
     val typeDesc: String? = null,
 
+    @Column(name = "type_alias", length = 128)
+    val typeAlias: String? = "",
+
     @Column(name = "type_level")
     var typeLevel: Int? = null,
 

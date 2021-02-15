@@ -449,3 +449,16 @@ $select-bg-color: rgba(0, 152, 255, 0.08);
 $vertical-bar-width:                         1.875rem; // 30px
 $vertical-bar-height:                        1.875rem; // 30px
 $vertical-bar-margin:                        0 1.875rem 0 0; // 0 30px 0 0
+
+//////////////////////////////////// z-index ///////////////////////////////////
+$z-index-alert:                              999999;
+$z-index-between-alert-modal:                5000;
+$z-index-modal:                              1000;
+$z-index-between-modal-gnb:                  750;
+$z-index-tooltip:   			             500;
+$z-index-between-tooltip-gnb:		         250;
+$z-index-gnb:                                100;
+$z-index-between-gnb-event:			         50;
+$z-index-event:				                 25;
+$z-index-between-event-and-default:	         10;
+$z-index-auto:                               auto;

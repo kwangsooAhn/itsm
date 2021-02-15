@@ -341,6 +341,7 @@ cmdb:
       export: "내보내기"
   type:
     label:
+      alias: "식별자"
       management: "Type 관리"
       searchPlaceholder: "Type"
       parentType: "부모 Type"
@@ -351,6 +352,7 @@ cmdb:
     msg:
       searchDescription: "CI Type을 조회 및 관리합니다."
       enterPType: "부모 Type을 선택하세요."
+      enterTypeAlias: "식별자를 입력하세요."
       enterTypeName: "Type 명을 입력하세요."
       selectType: "Type을 선택하세요."
       selectAvailableClass: "유효한 Class를 선택하세요.<br/>(root 제외)"
