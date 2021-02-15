@@ -24,11 +24,11 @@
   border-radius: $datepicker-border-radius;
   box-shadow: $datepicker-border-box-shadow;
   text-align: center;
-  z-index: 999;
+  z-index: $z-index-modal;
   // modal open
   &.active { 
     display: block; 
-    z-index: 999;
+    z-index: $z-index-modal;
   }
   // modal title
   &-title {
