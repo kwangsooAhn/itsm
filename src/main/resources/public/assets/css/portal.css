@@ -977,13 +977,14 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .portal-container .faq-header .header-title {
+  height: 10.625rem;
   padding: 3.75rem 0;
 }
 .portal-container .faq-header .header-title .description {
   margin-left: 0.625rem;
 }
 .portal-container .faq-header .faq-search {
-  padding-bottom: 2.313rem;
+  padding-bottom: 1.875rem;
 }
 .portal-container .faq-content {
   margin: 3.375rem 13.75rem 0 13.75rem;
@@ -1087,13 +1088,14 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .portal-container .download-header .header-title {
+  height: 10.625rem;
   padding: 3.75rem 0;
 }
 .portal-container .download-header .header-title .description {
   margin-left: 0.625rem;
 }
 .portal-container .download-header .download-search {
-  padding-bottom: 2.313rem;
+  padding-bottom: 1.875rem;
 }
 .portal-container .download-content {
   margin: 3.375rem 13.75rem 0 13.75rem;
@@ -1134,13 +1136,14 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .portal-container .notice-header .header-title {
+  height: 10.625rem;
   padding: 3.75rem 0;
 }
 .portal-container .notice-header .header-title .description {
   margin-left: 0.625rem;
 }
 .portal-container .notice-header .notice-search {
-  padding-bottom: 2.313rem;
+  padding-bottom: 1.875rem;
 }
 .portal-container .notice-content {
   margin: 3.375rem 13.75rem 0 13.75rem;
