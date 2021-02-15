@@ -18,4 +18,11 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
             .orderBy(type.typeLevel.asc(), type.typeName.asc())
             .fetchResults()
     }
+
+    override fun findByCITypeAll(): List<CITypeEntity>? {
+        val type = QCITypeEntity.cITypeEntity
+        return from(type)
+            .orderBy(type.typeLevel.asc())
+            .fetch()
+    }
 }

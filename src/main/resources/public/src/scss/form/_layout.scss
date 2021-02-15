@@ -18,7 +18,7 @@
     color: $layout-header-font-color;
     background-color: $layout-header-bg-color;
     padding: 0 1.25rem; // 0 20px
-    z-index: 999;
+    z-index: $z-index-gnb;
     // form designer 문구
     .name {
       font-size: 1.125rem; // 18px
@@ -53,19 +53,23 @@
       }
 
       &[data-readonly=true] {
-        // 폼 양식 화면에서 수정을 막음
-        .dropzone,
-        .ql-toolbar,
-        textarea,
-        button,
-        input[type=text],
-        label.radio,
-        label.checkbox,
-        select {
-          pointer-events: none;
-        }
-        .component .move-handler {
-          display: inherit;
+        // 폼 양식 화면에서 컴포넌트 수정을 막음
+        .component {
+          .dropzone,
+          .ql-toolbar,
+          textarea,
+          button,
+          input[type=text],
+          label.radio,
+          label.checkbox,
+          select,
+          .select {
+            pointer-events: none;
+          }
+
+          .move-handler {
+            display: inherit;
+          }
         }
       }
     }
@@ -195,7 +199,7 @@
           input[type=text] {
             &:focus,
             &:hover {
-              z-index: 1;
+              z-index: $z-index-event;
             }
           }
           button {
@@ -209,7 +213,7 @@
             &:focus,
             &:hover,
             &:active {
-              z-index: 1;
+              z-index: $z-index-event;
             }
           }
         }

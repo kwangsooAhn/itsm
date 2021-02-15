@@ -7,14 +7,11 @@
 package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.itsm.cmdb.ci.service.CIService
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -26,8 +23,8 @@ class CIController(private val ciService: CIService) {
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
     private val ciEditModal: String = "cmdb/ci/ciEditModal"
-    private val ciListModal: String = "cmdb/ci/ciListModal"
     private val ciViewModal: String = "cmdb/ci/ciViewModal"
+    private val ciListModal: String = "cmdb/ci/ciListModal"
 
     /**
      * CI 조회 검색 화면 호출
@@ -78,22 +75,15 @@ class CIController(private val ciService: CIService) {
     }
 
     /**
-     * CI 상세 화면 호출.
+     * CI 보기 화면 호출.
      */
-    @GetMapping("/view/{ciId}")
-    fun getCI(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
-        val result = ciService.getCI(ciId)
-        val tagBasicList = JsonArray()
-        if (result.ciTags != null) {
-            result.ciTags!!.forEach {
-                val tagData = JsonObject()
-                tagData.addProperty("id", it.tagId.toString())
-                tagData.addProperty("value", it.tagName)
-                tagBasicList.add(tagData)
-            }
-        }
-        model.addAttribute("ci", result)
-        model.addAttribute("tags", tagBasicList)
+    @GetMapping("/view")
+    fun getCIView(request: HttpServletRequest, model: Model): String {
+        model.addAttribute(
+                "ciData", ciService.getCI(
+                request.getParameter("ciId")
+            )
+        )
         return ciViewModal
     }
 
@@ -105,7 +95,6 @@ class CIController(private val ciService: CIService) {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         params["tagSearch"] = request.getParameter("tagSearch")
-        params["offset"] = request.getParameter("offset") ?: "0"
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)
         model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)

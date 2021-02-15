@@ -492,11 +492,11 @@
     }
 
     /**
-     * Attribute 세부 정보 데이터를 토대로 화면에 출력
+     * Attribute 세부 정보 데이터를 토대로 화면에 출력 (Edit / Register)
      * @param target 표시할 대상 element
      * @param attributeData 세부 데이터
      */
-    function drawDetails(target, attributeData) {
+    function drawEditDetails(target, attributeData) {
         target.removeAttribute("onclick");
         target.innerHTML = '';
 
@@ -705,13 +705,200 @@
         aliceJs.initDesignedSelectTag();
     }
 
+    /**
+     * Attribute 세부 정보 데이터를 토대로 화면에 출력 (View)
+     * @param target 표시할 대상 element
+     * @param attributeData 세부 데이터
+     */
+    function drawViewDetails(target, attributeData) {
+        target.removeAttribute("onclick");
+        target.innerHTML = '';
+        // TODO: UX팀 디자인 작업 후 변경 예정
+        for (let i = 0, iLen = attributeData.length; i < iLen; i++) {
+            const groupAttribute = attributeData[i];
+            const groupAttributeElem = document.createElement('div');
+            groupAttributeElem.className = 'attribute-group';
+            for (let j = 0, jLen = groupAttribute.attributes.length; j < jLen; j++) {
+                const attributes = groupAttribute.attributes[j];
+                const childAttributeElem = document.createElement('div');
+                childAttributeElem.className = 'flex-column edit-row attribute';
+                childAttributeElem.setAttribute('data-attributeType', attributes.attributeType);
+                // 라벨
+                const labelElem = document.createElement('label');
+                labelElem.className = 'field-label';
+                const labelTextElem = document.createElement('span');
+                labelTextElem.textContent = attributes.attributeText;
+                labelElem.appendChild(labelTextElem);
+                childAttributeElem.appendChild(labelElem);
+
+                const attributeValue = (attributes.attributeValue === null) ? '' : JSON.parse(attributes.attributeValue);
+                switch (attributes.attributeType) {
+                    case 'inputbox':
+                        const inputElem = document.createElement('input');
+                        inputElem.type = 'text';
+                        inputElem.id = attributes.attributeId;
+                        inputElem.value = attributes.value;
+                        inputElem.readOnly = true;
+                        if (attributeValue !== '') {
+                            if (attributeValue.required === "true") {
+                                inputElem.required = true;
+                                inputElem.setAttribute('data-required-name', attributes.attributeText);
+                                labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
+                            }
+                        }
+                        childAttributeElem.appendChild(inputElem);
+                        break;
+                    case 'dropdown':
+                        const selectElem = document.createElement('select');
+                        selectElem.id = attributes.attributeId;
+                        selectElem.className = 'readonly';
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
+                                const selectOption = document.createElement('option');
+                                selectOption.textContent = attributeOption.text;
+                                selectOption.value = attributeOption.value;
+                                if (selectOption.value === attributes.value) {
+                                    selectOption.selected = true;
+                                }
+                                selectElem.appendChild(selectOption);
+                            }
+                        }
+                        childAttributeElem.appendChild(selectElem);
+                        break;
+                    case 'radio':
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
+                                const radioGroup = document.createElement('label');
+                                radioGroup.className = 'radio';
+                                radioGroup.tabindex = 0
+                                radioGroup.htmlFor = attributes.attributeId + '-' + opt;
+
+                                const radio = document.createElement('input');
+                                radio.type = 'radio';
+                                radio.id = attributes.attributeId + '-' + opt;
+                                radio.name = 'attribute-radio';
+                                radio.value = attributeOption.value;
+                                radio.readOnly = true;
+                                if (attributeOption.value === attributes.value) {
+                                    radio.checked = true;
+                                }
+                                if (attributes.value === '' && opt === 0) {
+                                    radio.checked = true;
+                                }
+                                radioGroup.appendChild(radio);
+
+                                const radioSpan = document.createElement('span');
+                                radioGroup.appendChild(radioSpan);
+
+                                const radioLabel = document.createElement('span');
+                                radioLabel.className = 'label';
+                                radioLabel.textContent = attributeOption.text;
+                                radioGroup.appendChild(radioLabel);
+                                childAttributeElem.appendChild(radioGroup);
+                            }
+                        }
+                        break;
+                    case 'checkbox':
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
+                                const chkGroup = document.createElement('label');
+                                chkGroup.className = 'checkbox';
+                                chkGroup.tabindex = 0
+                                chkGroup.htmlFor = attributes.attributeId + '-' + opt;
+
+                                const chk = document.createElement('input');
+                                chk.type = 'checkbox';
+                                chk.id = attributes.attributeId + '-' + opt;
+                                chk.name = 'attribute-checkbox';
+                                chk.value = attributeOption.value;
+                                chk.readOnly = true;
+                                if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                    chk.checked = true;
+                                }
+                                chkGroup.appendChild(chk);
+
+                                const chkSpan = document.createElement('span');
+                                chkGroup.appendChild(chkSpan);
+
+                                const chkLabel = document.createElement('span');
+                                chkLabel.className = 'label';
+                                chkLabel.textContent = attributeOption.text;
+                                chkGroup.appendChild(chkLabel);
+                                childAttributeElem.appendChild(chkGroup);
+                            }
+                        }
+                        break;
+                    case 'custom-code':
+                        const customValueArr = attributes.value.split('|');
+                        const inputButtonElem = document.createElement('div');
+                        inputButtonElem.id = attributes.attributeId;
+                        inputButtonElem.className = 'flex-row input-button';
+
+                        const customInputElem = document.createElement('input');
+                        customInputElem.type = 'text';
+                        customInputElem.className = 'col-pct-12 inherit';
+                        customInputElem.value = (customValueArr.length > 1) ? customValueArr[1] : '';
+                        customInputElem.readOnly = true;
+                        inputButtonElem.appendChild(customInputElem);
+
+                        const customBtnElem = document.createElement('button');
+                        customBtnElem.type = 'button';
+                        customBtnElem.className = 'default-line';
+                        customBtnElem.disabled = true;
+                        inputButtonElem.appendChild(customBtnElem);
+
+                        let customData = attributes.value; // 'key|값'
+                        let defaultValue = '';
+                        if (attributeValue !== '') {
+                            customBtnElem.textContent = attributeValue.button;
+                            // 커스텀 코드 기본 값 넣기
+                            if (attributes.value === '') {
+                                switch (attributeValue.default.type) {
+                                    case 'session':
+                                        if (attributeValue.default.value === 'userName') {
+                                            customData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
+                                            defaultValue = aliceForm.session['userName'];
+                                        } else if (attributeValue.default.value === 'department') {
+                                            customData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
+                                            defaultValue = aliceForm.session['departmentName'];
+                                        }
+                                        break;
+                                    case 'code':
+                                        customData = attributeValue.default.value;
+                                        defaultValue = customData.split('|')[1];
+                                        break;
+                                    default: //none
+                                        customData = attributeValue.default.type + '|';
+                                        break;
+                                }
+                            }
+                            customInputElem.value = defaultValue;
+                            customInputElem.setAttribute('custom-data', customData);
+                        }
+                        childAttributeElem.appendChild(inputButtonElem);
+                        break;
+                    default:
+                        break;
+                }
+
+                groupAttributeElem.appendChild(childAttributeElem);
+            }
+            target.appendChild(groupAttributeElem)
+        }
+        aliceJs.initDesignedSelectTag();
+    }
+
     exports.attributeTypeList = attributeTypeList
 
     exports.init = init
     exports.makeDetails = makeDetails
     exports.checkDuplicate = checkDuplicate
     exports.setDetails = setDetails
-    exports.drawDetails = drawDetails
+    exports.drawEditDetails = drawEditDetails
+    exports.drawViewDetails = drawViewDetails
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
