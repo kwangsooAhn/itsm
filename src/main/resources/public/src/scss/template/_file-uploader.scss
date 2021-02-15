@@ -186,6 +186,10 @@
             display: inline-block;
             @include maskImage('#{$icon-folder-path}icon_download.svg', 1.25rem, 3rem, no-repeat, center, 1.25rem, $pressed-gray); // 20px 48px, 아이콘 크기 20px
             cursor: pointer;
+            &:hover{
+              background-color: $dark-gray;
+
+            }
           }
         }
         // 파일 삭제 아이콘
@@ -202,6 +206,9 @@
             display: inline-block;
             @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $pressed-gray); // 18px 48px, 아이콘 크기 19px 20px
             cursor: pointer;
+            &:hover{
+              background-color: $dark-gray;
+            }
           }
         }
         // 이미지 디자인상 보이지 않음
@@ -262,8 +269,8 @@
           .dz-remove {
             .icon-delete {
               @include maskImage('#{$icon-folder-path}icon_close.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $red); // 18px 48px, 아이콘 크기 19px 20px
-            }
-          }
+             }
+           }
         }
         // progress
         &.dz-processing .dz-progress {

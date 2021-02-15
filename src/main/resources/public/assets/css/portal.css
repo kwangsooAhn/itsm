@@ -3088,6 +3088,9 @@ button.ghost-line:disabled .icon {
   background: #CCCED1;
   cursor: pointer;
 }
+.file-uploader-edit .dropzone .dz-preview .dz-download .icon-download:hover {
+  background-color: #586872;
+}
 .file-uploader-edit .dropzone .dz-preview .dz-remove {
   display: block;
   height: 100%;
@@ -3111,6 +3114,9 @@ button.ghost-line:disabled .icon {
   mask-size: 1.125rem 1.25rem;
   background: #CCCED1;
   cursor: pointer;
+}
+.file-uploader-edit .dropzone .dz-preview .dz-remove .icon-delete:hover {
+  background-color: #586872;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
   display: block;
