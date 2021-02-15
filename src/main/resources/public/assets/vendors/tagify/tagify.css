@@ -74,14 +74,17 @@
 }
 
 .tagify[readonly] .tagify__tag>div {
-  padding: .3em .5em;
+  --tag-text-color: #ACB4BF;
+  pointer-events: none;
+  padding: .5em .5em;
   padding: var(--tag-pad)
 }
 
 .tagify[readonly] .tagify__tag>div::before {
-  background: linear-gradient(45deg, var(--tag-bg) 25%, transparent 25%, transparent 50%, var(--tag-bg) 50%, var(--tag-bg) 75%, transparent 75%, transparent) 0/5px 5px;
-  box-shadow: none;
-  filter: brightness(.95)
+  --tag-hover: #F7F8F9;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  box-shadow: none
 }
 
 .tagify--loading .tagify__input::before {

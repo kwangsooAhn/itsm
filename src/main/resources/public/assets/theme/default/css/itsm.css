@@ -675,6 +675,12 @@ textarea:disabled {
   pointer-events: none;
   cursor: default;
 }
+textarea:read-only {
+  background-color: #F7F8F9;
+  border-color: #EBEBEB;
+  pointer-events: none;
+  cursor: default;
+}
 textarea.error {
   color: #FF405A !important;
   border: 0.0625rem solid #FF405A !important;
@@ -4623,6 +4629,63 @@ body.modal-active {
   display: inline-block;
   vertical-align: middle;
 }
+.modal-dialog.cmdb-ci-detail-modal {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content {
+  height: calc(53.0625rem - 3.375rem - 5rem);
+  padding: 1.25rem;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .cmdb-ci-content-edit {
+  height: calc(53.0625rem - 3.375rem - 5rem - 3.125rem);
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .cmdb-ci-content-edit .edit-form {
+  padding: 0 2.5rem;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .cmdb-ci-content-edit .edit-row {
+  margin-top: 0.625rem;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .cmdb-ci-content-edit .field-label {
+  margin: 0.625rem 0;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .cmdb-ci-content-edit .attribute-group {
+  background-color: #F7F8F9;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  margin-bottom: 0.625rem;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .cmdb-ci-content-edit .attribute-group input:read-only {
+  background-color: #ffffff;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .table-set {
+  margin-top: 2.188rem;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .table-set table {
+  width: 100%;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .table-set table .list-head tr {
+  color: #3F4B56;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .table-set table .list-body {
+  display: block;
+  width: 60rem;
+  height: 32.8125rem;
+  color: #586872;
+  overflow-y: auto;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .table-set table .list-body .list-row {
+  display: table;
+  width: 100%;
+  height: 3.125rem;
+  line-height: 3.125rem;
+}
+.modal-dialog.cmdb-ci-detail-modal .modal-content .table-set table .list-body .list-row > td {
+  display: inline-block;
+  vertical-align: middle;
+}
 
 /* _thumbnail.scss 
  *
@@ -5263,3 +5326,5 @@ body.modal-active {
 .itsm-popup .notice-content-popup.view {
   height: auto;
 }
+
+/*# sourceMappingURL=itsm.css.map */

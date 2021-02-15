@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="css">
+    <link th:href="@{/assets/vendors/tagify/tagify.css}" rel="stylesheet"/>
+</th:block>
 <body>
     <!-- CI 상세 모달  -->
     <div class="cmdb-ci-content-view flex-column">
@@ -11,7 +14,7 @@
                     <span th:text="#{cmdb.ci.label.seqNum}"></span>
                 </label>
                 <div class="flex-row input-button">
-                   <input type="text" id="ciNo" class="col-pct-12 inherit" th:value="${ci?.ciNo}" maxlength="100" readonly/>
+                   <input type="text" id="ciNo" class="col-pct-12 inherit" th:value="${ci?.ciNo}" maxlength="100" disabled/>
                 </div>
             </div>
             <!-- CI 타입 -->
@@ -22,8 +25,9 @@
                 </label>
                 <div class="flex-row input-button">
                     <input type="hidden" id="typeId" th:value="${ci?.typeId}" />
-                    <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ci?.typeName}" readonly required="true" th:attr="data-required-name=#{cmdb.ci.label.type}"/>
-                    <button class="default-line col-1" type="button" th:text="#{common.btn.select}"></button>
+                    <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ci?.typeName}" required="true"
+                           th:attr="data-required-name=#{cmdb.ci.label.type}" disabled/>
+                    <button class="default-line col-1" type="button" th:text="#{common.btn.select}" disabled></button>
                 </div>
             </div>
             <!-- 아이콘 -->
@@ -32,8 +36,8 @@
                     <span th:text="#{cmdb.type.label.icon}"></span>
                 </label>
                 <div class="flex-row input-button">
-                    <input type="text" id="typeIcon" class="col-pct-12 inherit" th:value="${ci?.ciIcon}" readonly>
-                    <button class="default-line col-1" type="button" th:text="#{common.btn.select}"></button>
+                    <input type="text" id="typeIcon" class="col-pct-12 inherit" th:value="${ci?.ciIcon}" disabled>
+                    <button class="default-line col-1" type="button" th:text="#{common.btn.select}" disabled></button>
                 </div>
             </div>
             <!-- CI 이름 -->
@@ -43,8 +47,8 @@
                     <span class="required"></span>
                 </label>
                 <div class="flex-row input-button">
-                    <input id="ciName" type="text" class="col-pct-12 inherit" readonly maxlength="100" required="true"
-                           th:value="${ci?.ciName}" th:attr="data-required-name=#{cmdb.ci.label.name}"/>
+                    <input id="ciName" type="text" class="col-pct-12 inherit" maxlength="100" required="true"
+                           th:value="${ci?.ciName}" th:attr="data-required-name=#{cmdb.ci.label.name}" disabled/>
                 </div>
             </div>
             <!--CI 설명 -->
@@ -52,8 +56,8 @@
                 <label class="field-label" for="ciDesc">
                     <span th:text="#{cmdb.ci.label.description}"></span>
                 </label>
-                <textarea id="ciDesc"class="textarea-scroll-wrapper" readonly rows="7" maxlength="128"
-                          th:text="${ci?.ciDesc}"></textarea>
+                <textarea id="ciDesc" name="ciDesc" maxlength="128" rows="7"
+                          class="textarea-scroll-wrapper" th:text="${ci?.ciDesc}" disabled></textarea>
             </div>
             <!--클래스 -->
             <div class="flex-column edit-row">
@@ -63,18 +67,16 @@
                 </label>
                 <div class="flex-row input-button">
                     <input type="hidden" id="classId" th:value="${ci?.classId}"/>
-                    <input type="text" id="className" class="col-pct-12 inherit" th:value="${ci?.className}" readonly required="true" th:attr="data-required-name=#{cmdb.type.label.class}"/>
-                    <button class="default-line col-1" type="button" th:text="#{common.btn.select}"></button>
+                    <input type="text" id="className" class="col-pct-12 inherit" th:value="${ci?.className}" required="true"
+                           th:attr="data-required-name=#{cmdb.type.label.class}" disabled/>
+                    <button class="default-line col-1" type="button" th:text="#{common.btn.select}" disabled></button>
                 </div>
             </div>
-            <!-- CI 태그 -->
             <div class="flex-column edit-row">
                 <label class="field-label">
                     <span th:text="#{cmdb.ci.label.tag}"></span>
                 </label>
-                <!--<span class="tag align-center text-ellipsis" th:each="tag: ${token.tags}" th:text="${tag}"></span>-->
-                <!--<input type="text" id="ciTags" readonly th:value="${ci?.ciTags}" />-->
-                <input name="tags" th:value="|${ci?.ciTags}|"/>
+                <input name="tags" id="tags" class="col-pct-12 inherit" th:value="|${tags}|" readonly/>
             </div>
             <!-- 세부속성 -->
             <div class="flex-column edit-row">

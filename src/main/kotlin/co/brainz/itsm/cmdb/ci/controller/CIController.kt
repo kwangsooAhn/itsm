@@ -7,11 +7,14 @@
 package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.itsm.cmdb.ci.service.CIService
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -80,7 +83,17 @@ class CIController(private val ciService: CIService) {
     @GetMapping("/view/{ciId}")
     fun getCI(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
         val result = ciService.getCI(ciId)
+        val tagBasicList = JsonArray()
+        if (result.ciTags != null) {
+            result.ciTags!!.forEach {
+                val tagData = JsonObject()
+                tagData.addProperty("id", it.tagId.toString())
+                tagData.addProperty("value", it.tagName)
+                tagBasicList.add(tagData)
+            }
+        }
         model.addAttribute("ci", result)
+        model.addAttribute("tags", tagBasicList)
         return ciViewModal
     }
 
