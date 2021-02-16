@@ -69,7 +69,7 @@
                 <label class="field-label">
                     <span th:text="#{cmdb.ci.label.tag}"></span>
                 </label>
-                <input type="text" id="ciTags" />
+                <input type="text" id="ciTags" th:onclick="CI.addTags(this, [[${ciData?.ciTags}]]);"/>
             </div>
             <!-- 세부속성 -->
             <div class="flex-column edit-row">

@@ -124,11 +124,11 @@ class CIController(private val ciService: CIService) {
     /**
      * CI 컴포넌트 - CI 조회 화면 호출.
      */
-    @GetMapping("/view-pop")
+    @GetMapping("/component/list")
     fun getCIsModal(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
-        params["tagSearch"] = request.getParameter("tagSearch")
+        params["tags"] = request.getParameter("tagSearch")
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)
         model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)

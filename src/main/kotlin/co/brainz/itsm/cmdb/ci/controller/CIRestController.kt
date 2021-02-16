@@ -34,7 +34,7 @@ class CIRestController(private val ciService: CIService) {
     fun getCIs(request: HttpServletRequest, model: Model): List<CIListDto> {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
-        params["tagSearch"] = request.getParameter("tagSearch")
+        params["tags"] = request.getParameter("tagSearch")
         params["offset"] = request.getParameter("offset") ?: "0"
         return ciService.getCIs(params)
     }

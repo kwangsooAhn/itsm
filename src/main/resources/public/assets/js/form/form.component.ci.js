@@ -32,6 +32,8 @@
         ciDesc: '',
         classId: ''
     };
+
+    let CITag;
     /**
      * 편집 가능 여부에 따라 표시될 데이터 반환
      * @param isEditable
@@ -52,22 +54,6 @@
             { id: 'editIcon', name: '', type: (isEditable ? 'icon-edit' : 'icon-search'), column: '1', class: '' },
             { id: 'deleteIcon', name: '', type: 'icon-delete', column: '1', class: 'last' }
         ];
-    }
-
-    /**
-     * 태그 추가
-     * @param tag 태그 정보
-     */
-    function addTag(tag) {
-        // TODO: 태그 기능 추가
-    }
-
-    /**
-     * 태그 삭제
-     * @param tag 태그 정보
-     */
-    function removeTag(tag) {
-        // TODO: 태그 기능 추가
     }
 
     /**
@@ -107,6 +93,20 @@
             contentType: 'application/json; charset=utf-8',
             showProgressbar: progressbar
         });
+    }
+
+    /**
+     * 태그 추가
+     * @param target 표시할 대상 element
+     * @param tagData 태그 데이터
+     */
+    function addTags(target, tagData) {
+        target.removeAttribute("onclick");
+        // 기존 데이터가 존재하면 추가
+        const ciTags = tagData.map(function (tag) {
+            return tag.tagName;
+        });
+        CITag.addTags(ciTags);
     }
 
     /**
@@ -169,7 +169,6 @@
                         break;
                     case 'checkbox':
                         let checkValues = [];
-                        let strValues = "";
                         el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function(chkElem, idx) {
                             if (idx === 0) {
                                 ciAttribute.id = chkElem.id.split('-')[0];
@@ -178,16 +177,7 @@
                                 checkValues.push(chkElem.value);
                             }
                         });
-                        if (checkValues.length > 0) {
-                            for (let i = 0; i < checkValues.length; i++) {
-                                if (strValues === "") {
-                                    strValues = checkValues[i];
-                                } else {
-                                    strValues = strValues + "," + checkValues[i];
-                                }
-                            }
-                        }
-                        ciAttribute.value = strValues;
+                        ciAttribute.value = checkValues;
                         break;
                     case 'custom-code':
                         const customElem = el.querySelector('input');
@@ -201,6 +191,12 @@
                     saveData.values.ciAttributes.push(ciAttribute);
                 }
             });
+
+            // 태그 추가
+            const tagElems = CITag.getTagElms();
+            tagElems.forEach(function (tag) {
+                saveData.values.ciTags.push({'id': workflowUtil.generateUUID(), 'value': tag.getAttribute('value')})
+            });
             restSubmit('/rest/cmdb/cis/' + saveData.ciId + '/data', 'POST', saveData, false, callbackFunc);
         }
     }
@@ -210,7 +206,7 @@
      */
     function openRegisterModal(e) {
         const ciComponent = aliceJs.clickInsideElement(e, 'component');
-        restSubmit('/cmdb/cis/component/new', 'GET', {}, false, function (content) {
+        restSubmit('/cmdb/cis/new', 'GET', {}, false, function (content) {
             const ciRegisterModal = new modal({
                 title: i18n.msg('cmdb.ci.label.register'),
                 body: content,
@@ -249,16 +245,13 @@
                             inheritedAttrs: "class"
                         }
                     });
-                    // TODO: 태그 기능 추가
-                    /*new Tagify(document.getElementById('ciTags'), {
+
+                    // 태그
+                    CITag = new Tagify(document.getElementById('ciTags'), {
                         pattern: /^.{0,100}$/,
                         editTags: false,
-                        callbacks: {
-                            'add': onAddTag,
-                            'remove': onRemoveTag
-                        },
-                        placeholder: i18n.msg('token.msg.tag')
-                    });*/
+                        placeholder: i18n.msg('cmdb.ci.msg.tag')
+                    });
                 }
             });
             ciRegisterModal.show();
@@ -277,10 +270,10 @@
         const ciData = componentData.value[ciIdx];
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
-
-        restSubmit('/cmdb/cis/component/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'POST', ciData, false, function (content) {
+        const ciModalTitle = (ciData.actionType === ACTION_TYPE_MODIFY) ? 'cmdb.ci.label.update' : 'cmdb.ci.label.register';
+        restSubmit('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'POST', ciData, false, function (content) {
             const ciUpdateModal = new modal({
-                title: i18n.msg('cmdb.ci.label.update'),
+                title: i18n.msg(ciModalTitle),
                 body: content,
                 classes: 'cmdb-ci-update-modal',
                 buttons: [{
@@ -325,16 +318,14 @@
                             inheritedAttrs: "class"
                         }
                     });
-                    // TODO: 태그 기능 추가
-                    /*new Tagify(document.getElementById('ciTags'), {
+
+                    // 태그
+                    CITag = new Tagify(document.getElementById('ciTags'), {
                         pattern: /^.{0,100}$/,
                         editTags: false,
-                        callbacks: {
-                            'add': onAddTag,
-                            'remove': onRemoveTag
-                        },
-                        placeholder: i18n.msg('token.msg.tag')
-                    });*/
+                        placeholder: i18n.msg('cmdb.ci.msg.tag')
+                    });
+                    document.getElementById('ciTags').click();
                 }
             });
             ciUpdateModal.show();
@@ -348,7 +339,7 @@
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
 
-        restSubmit('/cmdb/cis/component/view?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', {}, false, function (content) {
+        restSubmit('/cmdb/cis/view?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', {}, false, function (content) {
             const ciViewModal = new modal({
                 title: i18n.msg('cmdb.ci.label.view'),
                 body: content,
@@ -380,16 +371,12 @@
                             inheritedAttrs: "class"
                         }
                     });
-                    // TODO: 태그 기능 추가
-                    /*new Tagify(document.getElementById('ciTags'), {
+                    // 태그 추가
+                    CITag = new Tagify(document.getElementById('ciTags'), {
                         pattern: /^.{0,100}$/,
-                        editTags: false,
-                        callbacks: {
-                            'add': onAddTag,
-                            'remove': onRemoveTag
-                        },
-                        placeholder: i18n.msg('token.msg.tag')
-                    });*/
+                        editTags: false
+                    });
+                    document.getElementById('ciTags').click();
                 }
             });
             ciViewModal.show();
@@ -447,7 +434,7 @@
                 closable: false,
             },
             onCreate: function (modal) {
-                restSubmit('/cmdb/cis/view-pop', 'GET', {}, false, function (content) {
+                restSubmit('/cmdb/cis/component/list', 'GET', {}, false, function (content) {
                     document.getElementById('ciList').innerHTML = content;
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
@@ -457,8 +444,8 @@
                 // 검색 이벤트 추가
                 document.querySelectorAll('#search, #tagSearch').forEach(function (searchElem) {
                     searchElem.addEventListener('keyup', function (e) {
-                        let urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
-                        restSubmit('/cmdb/cis/view-pop?' + urlParam, 'GET', {}, true, function (content) {
+                        let urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
+                        restSubmit('/cmdb/cis/component/list?' + urlParam, 'GET', {}, false, function (content) {
                             document.getElementById('ciList').innerHTML = content;
                             // 스크롤바 추가
                             OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
@@ -645,8 +632,7 @@
     }
 
     exports.getProperty = getProperty;
-    exports.addTag = addTag;
-    exports.removeTag = removeTag;
+    exports.addTags = addTags;
     exports.openRegisterModal = openRegisterModal;
     exports.openUpdateModal = openUpdateModal;
     exports.openSelectModal = openSelectModal;

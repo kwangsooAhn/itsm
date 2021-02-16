@@ -1,85 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<!-- CI 보기 모달 -->
-<div class="cmdb-ci-content-view flex-column">
-    <div class="view-form">
-        <input type="hidden" id="ciId" th:value="${ciData?.ciId}"/>
-        <!-- CI No -->
-        <div class="flex-column view-row">
-            <label class="field-label" for="ciNo">
-                <span th:text="#{cmdb.ci.label.seqNum}"></span>
-            </label>
-            <input type="text" id="ciNo" name="ciNo" th:value="${ciData?.ciNo}" maxlength="100" readonly />
-        </div>
-        <!-- CI 타입 -->
-        <div class="flex-column view-row">
-            <label class="field-label" for="typeName">
-                <span th:text="#{cmdb.ci.label.type}"></span>
-                <span class="required"></span>
-            </label>
-            <div class="flex-row input-button">
-                <input type="hidden" id="typeId" name="typeId" th:value="${ciData?.typeId}"/>
-                <input type="text" id="typeName" name="typeName" class="col-pct-12 inherit"
-                       th:value="${ciData?.typeName}" required="true"
-                       th:attr="data-required-name=#{cmdb.ci.label.type}" readonly/>
-                <button type="button" id="typeSelectBtn" name="typeSelectBtn" class="default-line col-1"
-                        th:onclick="CI.openSelectTypeModal([[${ciData?.typeId}]]);" th:text="#{common.btn.select}" disabled></button>
+    <!-- CI 보기 모달 -->
+    <div class="cmdb-ci-content-view flex-column">
+        <div class="view-form">
+            <input type="hidden" id="ciId" th:value="${ciData?.ciId}"/>
+            <!-- CI No -->
+            <div class="flex-column view-row">
+                <label class="field-label" for="ciNo">
+                    <span th:text="#{cmdb.ci.label.seqNum}"></span>
+                </label>
+                <input type="text" id="ciNo" th:value="${ciData?.ciNo}" maxlength="100" readonly />
             </div>
-        </div>
-        <!-- 아이콘 -->
-        <div class="flex-column view-row">
-            <label class="field-label" for="typeIcon">
-                <span th:text="#{cmdb.type.label.icon}"></span>
-            </label>
-            <div class="flex-row input-button">
-                <input type="text" id="typeIcon" name="typeIcon" class="col-pct-12 inherit" th:value="${ciData?.ciIcon}"
-                       readonly>
-                <button type="button" class="default-line col-1" th:onclick="CI.openSelectIconModal([[${ciData?.ciIcon}]]);"
-                        th:text="#{common.btn.select}" disabled></button>
+            <!-- CI 타입 -->
+            <div class="flex-column view-row">
+                <label class="field-label" for="typeName">
+                    <span th:text="#{cmdb.ci.label.type}"></span>
+                    <span class="required"></span>
+                </label>
+                <div class="flex-row input-button">
+                    <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
+                    <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}" readonly required="true" th:attr="data-required-name=#{cmdb.ci.label.type}"/>
+                    <button class="default-line col-1" id="typeSelectBtn" type="button" disabled th:onclick="CI.openSelectTypeModal([[${ciData?.typeId}]]);" th:text="#{common.btn.select}"></button>
+                </div>
             </div>
-        </div>
-        <!-- CI 이름 -->
-        <div class="flex-column view-row">
-            <label class="field-label" for="ciName">
-                <span th:text="#{cmdb.ci.label.name}"></span>
-                <span class="required"></span>
-            </label>
-            <input type="text" id="ciName" name="ciName" maxlength="100" th:value="${ciData?.ciName}"
-                   required="true" th:attr="data-required-name=#{cmdb.ci.label.name}" readonly/>
-        </div>
-        <!--CI 설명 -->
-        <div class="flex-column view-row">
-            <label class="field-label" for="ciDesc">
-                <span th:text="#{cmdb.ci.label.description}"></span>
-            </label>
-            <textarea id="ciDesc" name="ciDesc" class="textarea-scroll-wrapper" rows="7" maxlength="128"
-                      th:text="${ciData?.ciDesc}" readonly></textarea>
-        </div>
-        <!--클래스 -->
-        <div class="flex-column view-row">
-            <label class="field-label" for="className">
-                <span th:text="#{cmdb.type.label.class}"></span>
-                <span class="required"></span>
-            </label>
-            <input type="hidden" id="classId" name="classId" th:value="${ciData?.classId}"/>
-            <input type="text" id="className" name="className" maxlength="100" th:value="${ciData?.className}"
-                   required="true" th:attr="data-required-name=#{cmdb.type.label.class}" readonly/>
-        </div>
-        <!-- CI 태그 -->
-        <div class="flex-column view-row">
-            <label class="field-label">
-                <span th:text="#{cmdb.ci.label.tag}"></span>
-            </label>
-            <input type="text" id="tags" name="tags" class="col-pct-12 inherit" th:value="|${tags}|" readonly/>
-        </div>
-        <!-- 세부속성 -->
-        <div class="flex-column view-row">
-            <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
-        </div>
-        <div id="ciAttributes" th:onclick="attribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
+            <!-- 아이콘 -->
+            <div class="flex-column view-row">
+                <label class="field-label" for="typeIcon">
+                    <span th:text="#{cmdb.type.label.icon}"></span>
+                </label>
+                <div class="flex-row input-button">
+                    <input type="text" id="typeIcon" class="col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
+                    <button class="default-line col-1" type="button" disabled th:onclick="CI.openSelectIconModal([[${ciData?.ciIcon}]]);" th:text="#{common.btn.select}"></button>
+                </div>
+            </div>
+            <!-- CI 이름 -->
+            <div class="flex-column view-row">
+                <label class="field-label" for="ciName">
+                    <span th:text="#{cmdb.ci.label.name}"></span>
+                    <span class="required"></span>
+                </label>
+                <input id="ciName" type="text" maxlength="100" th:value="${ciData?.ciName}" readonly required="true" th:attr="data-required-name=#{cmdb.ci.label.name}"/>
+            </div>
+            <!--CI 설명 -->
+            <div class="flex-column view-row">
+                <label class="field-label" for="ciDesc">
+                    <span th:text="#{cmdb.ci.label.description}"></span>
+                </label>
+                <textarea id="ciDesc" class="textarea-scroll-wrapper" rows="7" maxlength="128" th:text="${ciData?.ciDesc}" readonly></textarea>
+            </div>
+            <!--클래스 -->
+            <div class="flex-column view-row">
+                <label class="field-label" for="className">
+                    <span th:text="#{cmdb.type.label.class}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
+                <input id="className" type="text" maxlength="100" th:value="${ciData?.className}" readonly required="true" th:attr="data-required-name=#{cmdb.type.label.class}"/>
+            </div>
+            <!-- CI 태그 -->
+            <div class="flex-column view-row">
+                <label class="field-label">
+                    <span th:text="#{cmdb.ci.label.tag}"></span>
+                </label>
+                <input type="text" id="ciTags" readonly th:onclick="CI.addTags(this, [[${ciData?.ciTags}]]);"/>
+            </div>
+            <!-- 세부속성 -->
+            <div class="flex-column view-row">
+                <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
+            </div>
+            <div id="ciAttributes" th:onclick="attribute.drawViewDetails(this, [[${ciData?.classes}]]);">
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

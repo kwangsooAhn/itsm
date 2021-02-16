@@ -415,7 +415,7 @@ $thumbnail-border:                           $thumbnail-border-width solid $thum
 $thumbnail-bg-color:                         $white;
 $thumbnail-box-shadow:                       0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
 
-$thumbnail-selected-border-width:            0.125rem; // 2px
+$thumbnail-selected-border-width:            0.0625rem; // 1px
 $thumbnail-selected-border-color:            $point-blue;
 $thumbnail-selected-border:                  $thumbnail-selected-border-width solid $thumbnail-selected-border-color;
 $thumbnail-selected-bg-color:                rgba(0, 152, 255, 0.05);
