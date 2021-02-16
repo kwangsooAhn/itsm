@@ -57,7 +57,7 @@ class CIController(private val ciService: CIService) {
     /**
      * CI 신규 등록 화면 호출.
      */
-    @GetMapping("/component-new")
+    @GetMapping("/component/new")
     fun getCINew(): String {
         return ciEditModal
     }
@@ -66,7 +66,7 @@ class CIController(private val ciService: CIService) {
      * CI 수정 화면 호출.
      * 화면에서 사용자가 수정한 데이터를 모달에 함께 출력한다.
      */
-    @PostMapping("/component-edit")
+    @PostMapping("/component/edit")
     fun getCIEdit(request: HttpServletRequest, @RequestBody modifyCIData: String, model: Model): String {
         model.addAttribute(
             "ciData", ciService.getCIData(
@@ -82,8 +82,8 @@ class CIController(private val ciService: CIService) {
     /**
      * CI Component 보기 화면 호출.
      */
-    @GetMapping("/component-view")
-    fun getCICompoentView(request: HttpServletRequest, model: Model): String {
+    @GetMapping("/component/view")
+    fun getCIComponentView(request: HttpServletRequest, model: Model): String {
         val ciData = ciService.getCI(request.getParameter("ciId"))
         val tags = JsonArray()
         if (ciData.ciTags != null) {

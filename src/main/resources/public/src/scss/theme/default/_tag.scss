@@ -1,9 +1,16 @@
+/* 태그 기능 디자인
+ * /default/_tag.scss
+ * 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
+ */
 :root {
   --tagify-dd-color-primary: rgb(53, 149, 246);
   --tagify-dd-bg-color: white
 }
 
 .tagify {
+  min-height: 3.375rem; // 54px
+  padding-left: 0.3125rem; // 5px
+
   --tags-border-color: #DDD;
   --tags-hover-border-color: #CCC;
   --tags-focus-border-color: #3595f6;
@@ -11,8 +18,8 @@
   --tag-hover: #D3E2E2;
   --tag-text-color: black;
   --tag-text-color--edit: black;
-  --tag-pad: 0.3em 0.5em;
-  --tag-inset-shadow-size: 1.1em;
+  --tag-pad: 0.25rem 0.5rem; // 4px, 8px
+  --tag-inset-shadow-size: 1.063rem; // 17px
   --tag-invalid-color: #D39494;
   --tag-invalid-bg: rgba(211, 148, 148, 0.5);
   --tag-remove-bg: rgba(211, 148, 148, 0.3);
@@ -22,7 +29,7 @@
   --tag--max-width: auto;
   --tag-hide-transition: .3s;
   --placeholder-color: black;
-  --loader-size: .8em;
+  --loader-size: 0.75rem; // 12px
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
@@ -60,28 +67,33 @@
 }
 
 .tagify[readonly] {
-   cursor: default
- }
+  cursor: default
+}
 
-.tagify[readonly]>.tagify__input {
+.tagify[readonly] > .tagify__input {
   visibility: hidden;
   width: 0;
-  margin: 5px 0
+  margin: 0.3125rem 0 // 5px 0px
 }
 
 .tagify[readonly] .tagify__tag__removeBtn {
   display: none
 }
 
-.tagify[readonly] .tagify__tag>div {
-  padding: .3em .5em;
+.tagify[readonly] .tagify__tag > div {
+  --tag-text-color: #586872;
+  --tags-hover-border-color: #3595f6;
+  pointer-events: none;
+  padding: .5rem .5rem; //8px 8px
   padding: var(--tag-pad)
 }
 
-.tagify[readonly] .tagify__tag>div::before {
-  background: linear-gradient(45deg, var(--tag-bg) 25%, transparent 25%, transparent 50%, var(--tag-bg) 50%, var(--tag-bg) 75%, transparent 75%, transparent) 0/5px 5px;
-  box-shadow: none;
-  filter: brightness(.95)
+.tagify[readonly] .tagify__tag > div::before {
+  --tag-hover: #F7F8F9;
+  --tags-hover-border-color: #3595f6;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  box-shadow: none
 }
 
 .tagify--loading .tagify__input::before {
@@ -92,30 +104,30 @@
   content: '';
   vertical-align: middle;
   opacity: 1;
-  width: .7em;
-  height: .7em;
+  width: 0.687rem; // 11px
+  height: 0.687rem; // 11px
   width: var(--loader-size);
   height: var(--loader-size);
-  border: 3px solid;
+  border: 0.187rem solid; // 3px
   border-color: #eee #bbb #888 transparent;
   border-radius: 50%;
   animation: rotateLoader .4s infinite linear;
-  margin: -2px 0 -2px .5em
+  margin: -0.125rem 0 -0.125rem .5rem // -2px, 0, -2px, 8px
 }
 
 .tagify--loading .tagify__input:empty::after {
   margin-left: 0
 }
 
-.tagify+input,
-.tagify+textarea {
+.tagify + input,
+.tagify + textarea {
   display: none !important
 }
 
 .tagify__tag {
   display: inline-flex;
   align-items: center;
-  margin: 5px 0 5px 5px;
+  margin: 0.3125rem 0 0.3125rem 0.3125rem; //5px 0 5px 5px
   position: relative;
   z-index: 1;
   outline: 0;
@@ -123,22 +135,22 @@
   transition: .13s ease-out
 }
 
-.tagify__tag>div {
+.tagify__tag > div {
   vertical-align: top;
   box-sizing: border-box;
   max-width: 100%;
-  padding: .3em .5em;
+  padding: .25rem .5rem; // 4px 8px
   padding: var(--tag-pad);
   color: #000;
   color: var(--tag-text-color);
   line-height: inherit;
-  border-radius: 3px;
+  border-radius: 0.188rem; // 3px
   -webkit-user-select: none;
   user-select: none;
   transition: .13s ease-out
 }
 
-.tagify__tag>div>* {
+.tagify__tag > div > * {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -149,17 +161,17 @@
   transition: .8s ease, .1s color
 }
 
-.tagify__tag>div>[contenteditable] {
+.tagify__tag > div > [contenteditable] {
   outline: 0;
   -webkit-user-select: text;
   user-select: text;
   cursor: text;
-  margin: -2px;
-  padding: 2px;
-  max-width: 350px
+  margin: -0.125rem; // -2px
+  padding: 0.125rem; // 2px
+  max-width: 21.88rem // 350px
 }
 
-.tagify__tag>div::before {
+.tagify__tag > div::before {
   content: '';
   position: absolute;
   border-radius: inherit;
@@ -176,10 +188,10 @@
 }
 
 .tagify__tag:hover:not([readonly]) div::before {
-  top: -2px;
-  right: -2px;
-  bottom: -2px;
-  left: -2px;
+  top: -0.125rem; // -2px
+  right: -0.125rem; // -2px
+  bottom: -0.125rem; // -2px
+  left: -0.125rem; // -2px
   box-shadow: 0 0 0 1.1em #d3e2e2 inset;
   box-shadow: 0 0 0 var(--tag-inset-shadow-size) var(--tag-hover) inset
 }
@@ -197,18 +209,18 @@
   content: '';
   vertical-align: middle;
   opacity: 1;
-  width: .7em;
-  height: .7em;
+  width: .688rem; // 11px
+  height: .688rem; // 11px
   width: var(--loader-size);
   height: var(--loader-size);
   border: 3px solid;
   border-color: #eee #bbb #888 transparent;
   border-radius: 50%;
   animation: rotateLoader .4s infinite linear;
-  margin: 0 .5em 0 -.1em
+  margin: 0 .5rem 0 -.063rem // 8px, -1px
 }
 
-.tagify__tag.tagify--noAnim>div::before {
+.tagify__tag.tagify--noAnim > div::before {
   animation: none
 }
 
@@ -229,7 +241,7 @@
   animation: none
 }
 
-.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div>span {
+.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div > span {
   opacity: .5
 }
 
@@ -243,23 +255,23 @@
   display: none
 }
 
-.tagify__tag[readonly]>div::before {
+.tagify__tag[readonly] > div::before {
   background: linear-gradient(45deg, var(--tag-bg) 25%, transparent 25%, transparent 50%, var(--tag-bg) 50%, var(--tag-bg) 75%, transparent 75%, transparent) 0/5px 5px;
   box-shadow: none;
   filter: brightness(.95)
 }
 
-.tagify__tag--editable>div {
+.tagify__tag--editable > div {
   color: #000;
   color: var(--tag-text-color--edit)
 }
 
-.tagify__tag--editable>div::before {
+.tagify__tag--editable > div::before {
   box-shadow: 0 0 0 2px #d3e2e2 inset !important;
   box-shadow: 0 0 0 2px var(--tag-hover) inset !important
 }
 
-.tagify__tag--editable.tagify--invalid>div::before {
+.tagify__tag--editable.tagify--invalid > div::before {
   box-shadow: 0 0 0 2px #d39494 inset !important;
   box-shadow: 0 0 0 2px var(--tag-invalid-color) inset !important
 }
@@ -269,17 +281,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50px;
+  border-radius: 3.125rem; // 50px
   cursor: pointer;
-  font: 14px Serif;
+  font: 0.875rem Serif; // 14px
   background: 0 0;
   background: var(--tag-remove-btn-bg);
   color: #000;
   color: var(--tag-text-color);
-  width: 14px;
-  height: 14px;
-  margin-right: 4.66667px;
-  margin-left: -4.66667px;
+  width: 0.875rem; // 14px
+  height: 0.875rem; // 14px
+  margin-right: 0.25rem; // 4.66667px
+  margin-left: -0.25rem; // 4.66667px
   transition: .2s ease-out
 }
 
@@ -293,11 +305,11 @@
   background: var(--tag-remove-btn-bg--hover)
 }
 
-.tagify__tag__removeBtn:hover+div>span {
+.tagify__tag__removeBtn:hover + div > span {
   opacity: .5
 }
 
-.tagify__tag__removeBtn:hover+div::before {
+.tagify__tag__removeBtn:hover + div::before {
   box-shadow: 0 0 0 1.1em rgba(211, 148, 148, .3) inset !important;
   box-shadow: 0 0 0 var(--tag-inset-shadow-size) var(--tag-remove-bg) inset !important;
   transition: .2s
@@ -315,8 +327,8 @@
 .tagify__input {
   flex: 1;
   display: block;
-  min-width: 110px;
-  margin: 5px;
+  min-width: 6.875rem; // 110px
+  margin: 0.312rem; // 5px
   padding: .3em .5em;
   padding: var(--tag-pad, .3em .5em);
   line-height: inherit;
@@ -358,8 +370,8 @@
   }
 }
 
-@media all and (-ms-high-contrast:none),
-(-ms-high-contrast:active) {
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
   .tagify__input:focus::before {
     display: none
   }
@@ -418,7 +430,7 @@
   margin: 0
 }
 
-.tagify__input .tagify__tag>div {
+.tagify__input .tagify__tag > div {
   padding-top: 0;
   padding-bottom: 0
 }

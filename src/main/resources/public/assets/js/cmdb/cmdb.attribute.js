@@ -624,7 +624,7 @@
                                         chk.checked = true;
                                     }
                                 } else {
-                                    if(attributeOption.checked) {
+                                    if (attributeOption.checked) {
                                         chk.checked = true;
                                     }
                                 }
@@ -658,7 +658,7 @@
                         const customInputElem = document.createElement('input');
                         customInputElem.type = 'text';
                         customInputElem.className = 'col-pct-12 inherit';
-                        customInputElem.value = (customValueArr.length > 1) ? customValueArr[1] : '';
+                        customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                         customInputElem.readOnly = true;
                         inputButtonElem.appendChild(customInputElem);
 
@@ -841,7 +841,7 @@
                                         chk.checked = true;
                                     }
                                 } else {
-                                    if(attributeOption.checked) {
+                                    if (attributeOption.checked) {
                                         chk.checked = true;
                                     }
                                 }
