@@ -134,7 +134,7 @@ class WfFormService(
                 option = null,
                 validate = null,
                 header = null,
-                field = null
+                drTableColumns = null
             )
             val componentDataEntityList = wfComponentDataRepository.findByComponentId(componentEntity.componentId)
 
@@ -165,7 +165,7 @@ class WfFormService(
                         )
                     )
                     "header" -> component.header = objMapper.convertValue(attributeValue["value"], linkedMapType)
-                    "field" -> component.field = objMapper.convertValue(
+                    "drTableColumns" -> component.drTableColumns = objMapper.convertValue(
                         attributeValue["value"],
                         TypeFactory.defaultInstance().constructCollectionType(
                             MutableList::class.java,
@@ -256,11 +256,11 @@ class WfFormService(
             }
         }
 
-        component.field?.let {
+        component.drTableColumns?.let {
             if (it.size > 0) {
                 componentDataEntity = WfComponentDataEntity(
                     componentId = resultComponentEntity.componentId,
-                    attributeId = "field",
+                    attributeId = "drTableColumns",
                     attributeValue = objMapper.writeValueAsString(it),
                     attributes = resultComponentEntity
                 )

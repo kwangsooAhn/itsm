@@ -675,10 +675,10 @@ input, button, select, optgroup, textarea {
 .form-container .form-properties .property-group[id=option] .property-group-option {
   float: right;
 }
-.form-container .form-properties .property-group[id=field] {
+.form-container .form-properties .property-group[id=drTableColumns] {
   position: relative;
 }
-.form-container .form-properties .property-group[id=field] .property-group-field {
+.form-container .form-properties .property-group[id=drTableColumns] .property-group-drTableColumns {
   float: right;
 }
 .form-container .form-properties .property-group .property-field {
