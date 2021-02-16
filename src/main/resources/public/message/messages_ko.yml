@@ -317,9 +317,11 @@ cmdb:
       type: "CI 타입"
       register: "CI 등록"
       update: "CI 변경"
+      view: "CI 상세 조회"
     msg:
       enterCiName: "CI 이름을 입력하세요."
       searchDescription: "CI를 조회 및 관리합니다."
+      tag: "태그를 입력하세요."
     btn:
       import: "가져오기"
       export: "내보내기"

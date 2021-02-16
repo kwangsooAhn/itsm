@@ -32,6 +32,8 @@
         ciDesc: '',
         classId: ''
     };
+
+    let CITag;
     /**
      * 편집 가능 여부에 따라 표시될 데이터 반환
      * @param isEditable
@@ -52,22 +54,6 @@
             { id: 'editIcon', name: '', type: (isEditable ? 'icon-edit' : 'icon-search'), column: '1', class: '' },
             { id: 'deleteIcon', name: '', type: 'icon-delete', column: '1', class: 'last' }
         ];
-    }
-
-    /**
-     * 태그 추가
-     * @param tag 태그 정보
-     */
-    function addTag(tag) {
-        // TODO: 태그 기능 추가
-    }
-
-    /**
-     * 태그 삭제
-     * @param tag 태그 정보
-     */
-    function removeTag(tag) {
-        // TODO: 태그 기능 추가
     }
 
     /**
@@ -107,6 +93,20 @@
             contentType: 'application/json; charset=utf-8',
             showProgressbar: progressbar
         });
+    }
+
+    /**
+     * 태그 추가
+     * @param target 표시할 대상 element
+     * @param tagData 태그 데이터
+     */
+    function addTags(target, tagData) {
+        target.removeAttribute("onclick");
+        // 기존 데이터가 존재하면 추가
+        const ciTags = tagData.map(function (tag) {
+            return tag.tagName;
+        });
+        CITag.addTags(ciTags);
     }
 
     /**
@@ -191,6 +191,12 @@
                     saveData.values.ciAttributes.push(ciAttribute);
                 }
             });
+
+            // 태그 추가
+            const tagElems = CITag.getTagElms();
+            tagElems.forEach(function (tag) {
+                saveData.values.ciTags.push({'id': workflowUtil.generateUUID(), 'value': tag.getAttribute('value')})
+            });
             restSubmit('/rest/cmdb/cis/' + saveData.ciId + '/data', 'POST', saveData, false, callbackFunc);
         }
     }
@@ -239,21 +245,19 @@
                             inheritedAttrs: "class"
                         }
                     });
-                    // TODO: 태그 기능 추가
-                    /*new Tagify(document.getElementById('ciTags'), {
+
+                    // 태그
+                    CITag = new Tagify(document.getElementById('ciTags'), {
                         pattern: /^.{0,100}$/,
                         editTags: false,
-                        callbacks: {
-                            'add': onAddTag,
-                            'remove': onRemoveTag
-                        },
-                        placeholder: i18n.msg('token.msg.tag')
-                    });*/
+                        placeholder: i18n.msg('cmdb.ci.msg.tag')
+                    });
                 }
             });
             ciRegisterModal.show();
         });
     }
+
     /**
      * 기존 CI 변경 모달
      */
@@ -266,10 +270,10 @@
         const ciData = componentData.value[ciIdx];
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
-
+        const ciModalTitle = (ciData.actionType === ACTION_TYPE_MODIFY) ? 'cmdb.ci.label.update' : 'cmdb.ci.label.register';
         restSubmit('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'POST', ciData, false, function (content) {
             const ciUpdateModal = new modal({
-                title: i18n.msg('cmdb.ci.label.update'),
+                title: i18n.msg(ciModalTitle),
                 body: content,
                 classes: 'cmdb-ci-update-modal',
                 buttons: [{
@@ -314,19 +318,68 @@
                             inheritedAttrs: "class"
                         }
                     });
-                    // TODO: 태그 기능 추가
-                    /*new Tagify(document.getElementById('ciTags'), {
+
+                    // 태그
+                    CITag = new Tagify(document.getElementById('ciTags'), {
                         pattern: /^.{0,100}$/,
                         editTags: false,
-                        callbacks: {
-                            'add': onAddTag,
-                            'remove': onRemoveTag
-                        },
-                        placeholder: i18n.msg('token.msg.tag')
-                    });*/
+                        placeholder: i18n.msg('cmdb.ci.msg.tag')
+                    });
+                    document.getElementById('ciTags').click();
                 }
             });
             ciUpdateModal.show();
+        });
+    }
+
+    /**
+     * 기존 CI 상세 조회 모달
+     */
+    function openViewModal(componentId, ciId, elem) {
+        // 인스턴스 ID
+        const instanceId = aliceDocument.data.instanceId;
+
+        restSubmit('/cmdb/cis/view?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', {}, false, function (content) {
+            const ciViewModal = new modal({
+                title: i18n.msg('cmdb.ci.label.view'),
+                body: content,
+                classes: 'cmdb-ci-view-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: "default-line",
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function (modal) {
+                    // 세부 데이터가 존재할 경우
+                    document.getElementById('ciAttributes').click();
+
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelectorAll('textarea'), {
+                        className: 'scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                    // 태그 추가
+                    CITag = new Tagify(document.getElementById('ciTags'), {
+                        pattern: /^.{0,100}$/,
+                        editTags: false
+                    });
+                    document.getElementById('ciTags').click();
+                }
+            });
+            ciViewModal.show();
         });
     }
 
@@ -381,7 +434,7 @@
                 closable: false,
             },
             onCreate: function (modal) {
-                restSubmit('/cmdb/cis/view-pop', 'GET', {}, false, function (content) {
+                restSubmit('/cmdb/cis/component/list', 'GET', {}, false, function (content) {
                     document.getElementById('ciList').innerHTML = content;
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
@@ -391,8 +444,8 @@
                 // 검색 이벤트 추가
                 document.querySelectorAll('#search, #tagSearch').forEach(function (searchElem) {
                     searchElem.addEventListener('keyup', function (e) {
-                        let urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
-                        restSubmit('/cmdb/cis/view-pop?' + urlParam, 'GET', {}, true, function (content) {
+                        let urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
+                        restSubmit('/cmdb/cis/component/list?' + urlParam, 'GET', {}, false, function (content) {
                             document.getElementById('ciList').innerHTML = content;
                             // 스크롤바 추가
                             OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
@@ -445,13 +498,13 @@
                         break;
                     case 'icon-edit': // CI 등록 / 수정
                         if (actionType === ACTION_TYPE_DELETE) {
-                            tdTemplate += `<button type="button"><span class="icon icon-search"></span></button>`;
+                            tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
                         } else {
                             tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-edit"></span></button>`;
                         }
                         break;
                     case 'icon-search': // CI 상세 조회
-                        tdTemplate += `<button type="button"><span class="icon icon-search"></span></button>`;
+                        tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
                         break;
                     case 'icon-delete': // Row 삭제
                         tdTemplate += `<button type="button" onclick="javascript:CI.removeRow('${comp.id}', '${data.ciId}', this);">`+
@@ -574,16 +627,16 @@
     function setAttributeDetail(classId) {
         restSubmit('/rest/cmdb/classes/' + classId + '/attributes', 'GET', {}, false, function (responseData) {
             let responseJson = JSON.parse(responseData);
-            attribute.drawDetails(document.getElementById('ciAttributes'), responseJson);
+            attribute.drawEditDetails(document.getElementById('ciAttributes'), responseJson);
         });
     }
 
     exports.getProperty = getProperty;
-    exports.addTag = addTag;
-    exports.removeTag = removeTag;
+    exports.addTags = addTags;
     exports.openRegisterModal = openRegisterModal;
     exports.openUpdateModal = openUpdateModal;
     exports.openSelectModal = openSelectModal;
+    exports.openViewModal = openViewModal;
     exports.addRow = addRow;
     exports.removeRow = removeRow;
     exports.openSelectTypeModal = openSelectTypeModal;

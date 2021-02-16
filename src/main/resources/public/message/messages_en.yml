@@ -317,9 +317,11 @@ cmdb:
       type: "CI Type"
       register: "CI Register"
       update: "CI Update"
+      view: "CI View"
     msg:
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
+      tag: "Please enter a tag."
     btn:
       import: "Import"
       export: "Export"

@@ -23,6 +23,7 @@ class CIController(private val ciService: CIService) {
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
     private val ciEditModal: String = "cmdb/ci/ciEditModal"
+    private val ciViewModal: String = "cmdb/ci/ciViewModal"
     private val ciListModal: String = "cmdb/ci/ciListModal"
 
     /**
@@ -74,14 +75,26 @@ class CIController(private val ciService: CIService) {
     }
 
     /**
+     * CI 보기 화면 호출.
+     */
+    @GetMapping("/view")
+    fun getCIView(request: HttpServletRequest, model: Model): String {
+        model.addAttribute(
+                "ciData", ciService.getCI(
+                request.getParameter("ciId")
+            )
+        )
+        return ciViewModal
+    }
+
+    /**
      * CI 컴포넌트 - CI 조회 화면 호출.
      */
-    @GetMapping("/view-pop")
+    @GetMapping("/component/list")
     fun getCIsModal(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
-        params["tagSearch"] = request.getParameter("tagSearch")
-        params["offset"] = request.getParameter("offset") ?: "0"
+        params["tags"] = request.getParameter("tagSearch")
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)
         model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
