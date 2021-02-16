@@ -36,7 +36,9 @@
             <td style="width: 25%;" class="align-left" id="ciDesc" th:text="${ci.ciDesc}"></td>
             <td style="width: 0%; display: none;" id="classId" th:text="${ci.classId}"></td>
             <td style="width: 25%;" class="align-left">
-                <!--<span class="tag align-center text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag}"></span>-->
+                <div class="tag-group align-middle">
+                    <span class="tag align-center text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag.tagName}"></span>
+                </div>
             </td>
         </tr>
     </th:block>

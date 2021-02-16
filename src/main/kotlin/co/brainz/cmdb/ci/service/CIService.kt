@@ -52,7 +52,7 @@ class CIService(
 
         var tagList = emptyList<String>()
         if (parameters["tags"].toString().isNotEmpty()) {
-            tagList = StringUtils.trimAllWhitespace(parameters["tags"].toString())
+            tagList = parameters["tags"].toString()
                 .replace("#", "")
                 .split(",")
         }
@@ -235,7 +235,7 @@ class CIService(
     fun updateCI(ciId: String, ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
-        var ciEntity = findCIEntity.get()
+        val ciEntity = findCIEntity.get()
 
         if (findCIEntity.isEmpty) {
             throw AliceException(
