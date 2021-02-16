@@ -1166,7 +1166,8 @@ aliceJs.initDesignedSelectTag = function () {
             ulElement.appendChild(options);
 
             // 화면의 select box (실제로는 styledSelect)를 클릭할때 이벤트
-            if (!originSelectTag.disabled) {
+            if (!originSelectTag.disabled && !originSelectTag.classList.contains('disabled') &&
+                !originSelectTag.classList.contains('readonly')) {
                 designedSelectBox.addEventListener('click', (function (e) {
                     e.stopPropagation();
                     let clickedSelect = e.target;

@@ -82,6 +82,13 @@ $element-disabled-bg-color:                   $light-gray;
 $element-disabled-border-color:               $line-gray;
 $element-disabled-border-width:               0.0625rem; // 1px
 
+// element readonly시 사용하는 디자인 변수
+$element-readonly-font-color:                 $dark-gray;
+$element-readonly-bg-color:                   $light-gray;
+$element-readonly-border-color:               $line-gray;
+$element-readonly-border-width:               0.0625rem; // 1px
+$element-readonly-border:               $element-readonly-border-width solid $element-readonly-border-color;
+
 // 체크박스, 라디오 버튼, 스위치 등 선택되었을때 (ON) 디자인 변수
 $element-checked-bg-color:                    $point-blue;
 
@@ -442,3 +449,16 @@ $select-bg-color: rgba(0, 152, 255, 0.08);
 $vertical-bar-width:                         1.875rem; // 30px
 $vertical-bar-height:                        1.875rem; // 30px
 $vertical-bar-margin:                        0 1.875rem 0 0; // 0 30px 0 0
+
+//////////////////////////////////// z-index ///////////////////////////////////
+$z-index-alert:                              999999;
+$z-index-between-alert-modal:                5000;
+$z-index-modal:                              1000;
+$z-index-between-modal-gnb:                  750;
+$z-index-tooltip:   			             500;
+$z-index-between-tooltip-gnb:		         250;
+$z-index-gnb:                                100;
+$z-index-between-gnb-event:			         50;
+$z-index-event:				                 25;
+$z-index-between-event-and-default:	         10;
+$z-index-auto:                               auto;

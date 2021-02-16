@@ -175,7 +175,7 @@
   .faq {
     &-header {
       @include mainHeader;
-      .faq-search { padding-bottom: 2.313rem; } // 37px
+      .faq-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
@@ -260,7 +260,7 @@
   .download {
     &-header {
       @include mainHeader;
-      .download-search { padding-bottom: 2.313rem; } // 37px
+      .download-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
@@ -273,7 +273,7 @@
   .notice {
     &-header {
       @include mainHeader;
-      .notice-search { padding-bottom: 2.313rem; } // 37px
+      .notice-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px

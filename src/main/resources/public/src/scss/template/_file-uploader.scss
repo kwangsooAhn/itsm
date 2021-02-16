@@ -93,7 +93,7 @@
         vertical-align: top;
         // 마우스 오버시 효과
         &:hover {
-          z-index: 1000;
+          z-index: $z-index-event;
           .dz-details {
             opacity: 1;
           }
@@ -143,7 +143,7 @@
           text-align: center;
           color: rgba(0, 0, 0, 0.9);
           opacity: 0;
-          z-index: 20;
+          z-index: $z-index-between-event-and-default;
           // 파일 아이콘
           .dz-file-type {
             grid-column: 1;
@@ -186,6 +186,9 @@
             display: inline-block;
             @include maskImage('#{$icon-folder-path}icon_download.svg', 1.25rem, 3rem, no-repeat, center, 1.25rem, $pressed-gray); // 20px 48px, 아이콘 크기 20px
             cursor: pointer;
+            &:hover {
+              background: $dark-gray;
+            }
           }
         }
         // 파일 삭제 아이콘
@@ -202,6 +205,9 @@
             display: inline-block;
             @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $pressed-gray); // 18px 48px, 아이콘 크기 19px 20px
             cursor: pointer;
+            &:hover {
+              background: $dark-gray;
+            }
           }
         }
         // 이미지 디자인상 보이지 않음
@@ -209,7 +215,7 @@
           display: block;
           position: relative;
           overflow: hidden;
-          z-index: 10;
+          z-index: $z-index-between-event-and-default;
           img {
             display: block;
           }
@@ -238,7 +244,7 @@
             -ms-transition: opacity 0.3s ease;
             -o-transition: opacity 0.3s ease;
             transition: opacity 0.3s ease;
-            z-index: 1000;
+            z-index: $z-index-tooltip;
             pointer-events: none;
 
             &:after {
@@ -300,7 +306,7 @@
           -webkit-transform: scale(1);
           transform: scale(1);
           opacity: 1;
-          z-index: 1000;
+          z-index: $z-index-between-modal-gnb;
           overflow: hidden;
           pointer-events: none;
 

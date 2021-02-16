@@ -977,13 +977,14 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .portal-container .faq-header .header-title {
+  height: 10.625rem;
   padding: 3.75rem 0;
 }
 .portal-container .faq-header .header-title .description {
   margin-left: 0.625rem;
 }
 .portal-container .faq-header .faq-search {
-  padding-bottom: 2.313rem;
+  padding-bottom: 1.875rem;
 }
 .portal-container .faq-content {
   margin: 3.375rem 13.75rem 0 13.75rem;
@@ -1087,13 +1088,14 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .portal-container .download-header .header-title {
+  height: 10.625rem;
   padding: 3.75rem 0;
 }
 .portal-container .download-header .header-title .description {
   margin-left: 0.625rem;
 }
 .portal-container .download-header .download-search {
-  padding-bottom: 2.313rem;
+  padding-bottom: 1.875rem;
 }
 .portal-container .download-content {
   margin: 3.375rem 13.75rem 0 13.75rem;
@@ -1134,13 +1136,14 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .portal-container .notice-header .header-title {
+  height: 10.625rem;
   padding: 3.75rem 0;
 }
 .portal-container .notice-header .header-title .description {
   margin-left: 0.625rem;
 }
 .portal-container .notice-header .notice-search {
-  padding-bottom: 2.313rem;
+  padding-bottom: 1.875rem;
 }
 .portal-container .notice-content {
   margin: 3.375rem 13.75rem 0 13.75rem;
@@ -1285,7 +1288,6 @@ input:disabled {
 input:read-only {
   background-color: #F7F8F9;
   border-color: #EBEBEB;
-  pointer-events: none;
   cursor: default;
 }
 input.icon {
@@ -1351,6 +1353,11 @@ textarea:disabled {
   pointer-events: none;
   cursor: default;
 }
+textarea:read-only {
+  background-color: #F7F8F9;
+  border-color: #EBEBEB;
+  cursor: default;
+}
 textarea.error {
   color: #FF405A !important;
   border: 0.0625rem solid #FF405A !important;
@@ -1410,11 +1417,6 @@ select:disabled {
   cursor: default;
 }
 
-.select-hidden {
-  visibility: hidden;
-  padding-right: 0.625rem;
-}
-
 .select {
   cursor: pointer;
   display: inline-block;
@@ -1422,8 +1424,11 @@ select:disabled {
   font-size: 1rem;
   height: 2.5rem;
 }
-
-.designed-select {
+.select .select-hidden {
+  visibility: hidden;
+  padding-right: 0.625rem;
+}
+.select .designed-select {
   position: absolute;
   top: 0;
   right: 0;
@@ -1442,7 +1447,7 @@ select:disabled {
   align-items: flex-start;
   overflow: hidden;
 }
-.designed-select:after {
+.select .designed-select:after {
   content: "";
   width: 0;
   height: 0;
@@ -1451,44 +1456,43 @@ select:disabled {
   position: absolute;
   right: 0.625rem;
 }
-.designed-select:hover {
+.select .designed-select:hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
-.designed-select:active {
+.select .designed-select:active {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
-.designed-select:active:after {
+.select .designed-select:active:after {
   top: 0.5625rem;
   background: url("../media/icons/icon_arrow_up.svg") no-repeat center left;
 }
-.designed-select.active {
+.select .designed-select.active {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
-.designed-select.active:after {
+.select .designed-select.active:after {
   top: 0.5625rem;
   background: url("../media/icons/icon_arrow_up.svg") no-repeat center left;
 }
-.designed-select.active + .designed-options {
+.select .designed-select.active + .designed-options {
   display: block;
 }
-.designed-select.disabled-select {
+.select .designed-select.disabled-select {
   color: #ACB4BF;
   background-color: #F7F8F9;
   pointer-events: none;
   cursor: default;
 }
-
-.designed-options {
+.select .designed-options {
   display: none;
   position: absolute;
   top: calc(100% + 0.3125rem);
   right: 0;
   left: 0;
-  z-index: 999;
+  z-index: 5000;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1501,18 +1505,21 @@ select:disabled {
   border-radius: 0.0625rem;
   box-shadow: 0 0 0.3125rem 0 #ebebeb;
 }
-.designed-options li {
+.select .designed-options li {
   margin: 0;
   padding: 0.75rem 0;
   text-indent: 0.625rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.designed-options li:hover {
+.select .designed-options li:hover {
   background: rgba(0, 152, 255, 0.08);
 }
-.designed-options li[rel=hide] {
+.select .designed-options li[rel=hide] {
   display: none;
+}
+.select.readonly .designed-select {
+  background-color: #F7F8F9;
 }
 
 option:hover {
@@ -1732,7 +1739,7 @@ label {
   border-bottom-right-radius: 0;
 }
 .input-button input[type=text]:focus, .input-button input[type=text]:hover {
-  z-index: 1;
+  z-index: 25;
 }
 .input-button button {
   margin-left: -0.0625rem;
@@ -1740,7 +1747,7 @@ label {
   border-bottom-left-radius: 0;
 }
 .input-button button:focus, .input-button button:hover, .input-button button:active {
-  z-index: 1;
+  z-index: 25;
 }
 
 select {
@@ -2176,7 +2183,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
-  z-index: 1;
+  z-index: 25;
 }
 .btn-group .btn:not(:disabled):active .icon, .btn-group .btn:not(:disabled).active .icon,
 .btn-group button:not(:disabled):active .icon,
@@ -2267,7 +2274,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
-  z-index: 1;
+  z-index: 25;
 }
 .btn-group-toggle .btn:not(:disabled):active .icon, .btn-group-toggle .btn:not(:disabled).active .icon,
 .btn-group-toggle button:not(:disabled):active .icon,
@@ -2448,11 +2455,11 @@ button.ghost-line:disabled .icon {
   left: 0;
 }
 .gmodal-wrapper.gmodal-active {
-  z-index: 20002;
+  z-index: 999999;
   display: block;
 }
 .gmodal-backdrop {
-  z-index: 999999998;
+  z-index: 999999;
   position: fixed;
   top: 0;
   right: 0;
@@ -2461,7 +2468,7 @@ button.ghost-line:disabled .icon {
   background: rgba(116, 147, 179, 0.5);
 }
 .gmodal-dialog {
-  z-index: 999999999;
+  z-index: 999999;
   border: solid 0.0625rem #EBEBEB;
   border-radius: 0.0625rem;
   position: absolute;
@@ -2573,8 +2580,8 @@ button.ghost-line:disabled .icon {
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
- * @version 1.0
  * @author wdj
+ * @version 1.0
  */
 .scrollbar > .os-scrollbar-horizontal {
   right: 0.625rem;
@@ -2995,7 +3002,7 @@ button.ghost-line:disabled .icon {
   vertical-align: top;
 }
 .file-uploader-edit .dropzone .dz-preview:hover {
-  z-index: 1000;
+  z-index: 25;
 }
 .file-uploader-edit .dropzone .dz-preview:hover .dz-details {
   opacity: 1;
@@ -3039,7 +3046,7 @@ button.ghost-line:disabled .icon {
   text-align: center;
   color: rgba(0, 0, 0, 0.9);
   opacity: 0;
-  z-index: 20;
+  z-index: 10;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-file-type {
   grid-column: 1;
@@ -3088,6 +3095,9 @@ button.ghost-line:disabled .icon {
   background: #CCCED1;
   cursor: pointer;
 }
+.file-uploader-edit .dropzone .dz-preview .dz-download .icon-download:hover {
+  background: #586872;
+}
 .file-uploader-edit .dropzone .dz-preview .dz-remove {
   display: block;
   height: 100%;
@@ -3111,6 +3121,9 @@ button.ghost-line:disabled .icon {
   mask-size: 1.125rem 1.25rem;
   background: #CCCED1;
   cursor: pointer;
+}
+.file-uploader-edit .dropzone .dz-preview .dz-remove .icon-delete:hover {
+  background: #586872;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
   display: block;
@@ -3143,7 +3156,7 @@ button.ghost-line:disabled .icon {
   -ms-transition: opacity 0.3s ease;
   -o-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
-  z-index: 1000;
+  z-index: 500;
   pointer-events: none;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-error-message:after {
@@ -3209,7 +3222,7 @@ button.ghost-line:disabled .icon {
   -webkit-transform: scale(1);
   transform: scale(1);
   opacity: 1;
-  z-index: 1000;
+  z-index: 750;
   overflow: hidden;
   pointer-events: none;
 }
@@ -3364,7 +3377,7 @@ button.ghost-line:disabled .icon {
   display: none;
 }
 .avatar-edit .avatar .dz-preview:hover {
-  z-index: 1000;
+  z-index: 25;
 }
 .avatar-edit .avatar .dz-preview:hover .dz-details {
   opacity: 1;
@@ -3391,7 +3404,7 @@ button.ghost-line:disabled .icon {
   text-align: center;
   color: rgba(0, 0, 0, 0.9);
   opacity: 0;
-  z-index: 20;
+  z-index: 10;
 }
 .avatar-edit .avatar .dz-preview .dz-details .dz-file-type,
 .avatar-edit .avatar .dz-preview .dz-details .dz-filename,
@@ -3491,11 +3504,11 @@ button.ghost-line:disabled .icon {
   border-radius: 0.0625rem;
   box-shadow: 0 0 0.3125rem 0 #ebebeb;
   text-align: center;
-  z-index: 999;
+  z-index: 1000;
 }
 .picker-modal.active {
   display: block;
-  z-index: 999;
+  z-index: 1000;
 }
 .picker-modal-title {
   font-size: 1.125rem;
@@ -3776,7 +3789,7 @@ button.ghost-line:disabled .icon {
   margin: 0.25rem 0 0 0;
   position: absolute;
   left: 0;
-  z-index: 1;
+  z-index: 500;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
 }
 .help-tooltip .tooltip-contents span {
@@ -3807,7 +3820,7 @@ button.ghost-line:disabled .icon {
   padding: 0.6875rem 0.875rem;
   margin: 1.3125rem 0 0 0;
   position: absolute;
-  z-index: 1;
+  z-index: 500;
 }
 .header-tooltip .tooltip-contents span {
   color: #ffffff;

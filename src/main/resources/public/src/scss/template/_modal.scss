@@ -23,13 +23,13 @@ body.modal-active {
   @include setPosition();
   display:none;
   overflow:auto;
-  z-index: 1;
+  z-index: $z-index-modal;
 
   &.modal-active { display:block; }
 
   .modal-backdrop {
     @include setPosition();
-    z-index: 2001;
+    z-index: $z-index-between-alert-modal;
     background-color: $modal-backdrop-bg-color;
   }
 
@@ -44,7 +44,7 @@ body.modal-active {
     border: $modal-border;
     box-shadow: $modal-box-shadow;
     border-radius: 0.0625rem;
-    z-index: 2001;
+    z-index: $z-index-between-alert-modal;
 
     .modal-header {
       height: $modal-header-height;
