@@ -371,16 +371,12 @@
                             inheritedAttrs: "class"
                         }
                     });
-                    // TODO: 태그 기능 추가
-                    /*new Tagify(document.getElementById('ciTags'), {
+                    // 태그 추가
+                    CITag = new Tagify(document.getElementById('ciTags'), {
                         pattern: /^.{0,100}$/,
-                        editTags: false,
-                        callbacks: {
-                            'add': onAddTag,
-                            'remove': onRemoveTag
-                        },
-                        placeholder: i18n.msg('token.msg.tag')
-                    });*/
+                        editTags: false
+                    });
+                    document.getElementById('ciTags').click();
                 }
             });
             ciViewModal.show();
@@ -438,7 +434,7 @@
                 closable: false,
             },
             onCreate: function (modal) {
-                restSubmit('/cmdb/cis/view-pop', 'GET', {}, false, function (content) {
+                restSubmit('/cmdb/cis/component/list', 'GET', {}, false, function (content) {
                     document.getElementById('ciList').innerHTML = content;
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
@@ -448,8 +444,8 @@
                 // 검색 이벤트 추가
                 document.querySelectorAll('#search, #tagSearch').forEach(function (searchElem) {
                     searchElem.addEventListener('keyup', function (e) {
-                        let urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
-                        restSubmit('/cmdb/cis/view-pop?' + urlParam, 'GET', {}, true, function (content) {
+                        let urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
+                        restSubmit('/cmdb/cis/component/list?' + urlParam, 'GET', {}, false, function (content) {
                             document.getElementById('ciList').innerHTML = content;
                             // 스크롤바 추가
                             OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});

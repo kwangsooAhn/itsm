@@ -9,11 +9,13 @@ package co.brainz.cmdb.ci.repository
 import co.brainz.cmdb.ci.entity.CIEntity
 import co.brainz.cmdb.ci.entity.QCIEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
+import co.brainz.cmdb.ciTag.entity.QCITagEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.provider.dto.CIsDto
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
+import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepositoryCustom {
@@ -24,7 +26,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
-        // val cmdbTag = QCITagEntity.cITagEntity
+        val cmdbTag = QCITagEntity.cITagEntity
         val query = from(ci)
             .select(
                 Projections.constructor(
@@ -57,6 +59,17 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                     ?.or(super.like(ci.ciClassEntity.className, search))
                     ?.or(super.like(ci.ciDesc, search))
             ).orderBy(ci.ciName.asc())
+        if (tags.isNotEmpty()) {
+            query.where(
+                ci.ciId.`in`(
+                    JPAExpressions
+                        .select(cmdbTag.ci.ciId)
+                        .from(cmdbTag)
+                        .where(cmdbTag.tagName.`in`(tags)
+                    )
+                )
+            )
+        }
         if (offset != null) {
             query.limit(ItsmConstants.SEARCH_DATA_COUNT).offset(offset)
         }
