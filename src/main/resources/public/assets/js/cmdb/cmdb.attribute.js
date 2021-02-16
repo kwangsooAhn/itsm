@@ -127,8 +127,8 @@
         const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function(option) {
             return `<option value='${option.value}' ${property.required === option.value ? "selected='true'" : ""}>${aliceJs.filterXSS(option.text)}</option>`
         }).join('');
-        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '0';
-        const minLengthValue = property.minLength !== undefined ? property.minLength : '100';
+        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : '100';
+        const minLengthValue = property.minLength !== undefined ? property.minLength : '0';
         this.template =
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span><span class="required"></span></label></div>` +
@@ -619,8 +619,14 @@
                                 chk.id = attributes.attributeId + '-' + opt;
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
-                                if (attributes.value.indexOf(attributeOption.value ) > -1) {
-                                    chk.checked = true;
+                                if (attributes.value != null) {
+                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                        chk.checked = true;
+                                    }
+                                } else {
+                                    if (attributeOption.checked) {
+                                        chk.checked = true;
+                                    }
                                 }
                                 chkGroup.appendChild(chk);
 
@@ -636,7 +642,15 @@
                         }
                         break;
                     case 'custom-code':
-                        const customValueArr = attributes.value.split('|');
+                        let customValueArr = "";
+                        if (attributes.value !== null) {
+                            customValueArr = attributes.value.split('|');
+                        } else {
+                            if (attributeValue !== "") {
+                                customValueArr = attributeValue.default.value.split('|');
+                            }
+                        }
+
                         const inputButtonElem = document.createElement('div');
                         inputButtonElem.id = attributes.attributeId;
                         inputButtonElem.className = 'flex-row input-button';
@@ -644,7 +658,7 @@
                         const customInputElem = document.createElement('input');
                         customInputElem.type = 'text';
                         customInputElem.className = 'col-pct-12 inherit';
-                        customInputElem.value = (customValueArr.length > 1) ? customValueArr[1] : '';
+                        customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                         customInputElem.readOnly = true;
                         inputButtonElem.appendChild(customInputElem);
 
@@ -678,7 +692,7 @@
                                         break;
                                 }
                             }
-                            customInputElem.value = defaultValue;
+                            customInputElem.setAttribute('value', defaultValue);
                             customInputElem.setAttribute('custom-data', customData);
 
                             customBtnElem.addEventListener('click', function () {
@@ -710,7 +724,7 @@
      * @param target 표시할 대상 element
      * @param attributeData 세부 데이터
      */
-    function drawViewDetails(target, attributeData) {
+    function drawViewDetails(target, attributeData, userInfo) {
         target.removeAttribute("onclick");
         target.innerHTML = '';
         // TODO: UX팀 디자인 작업 후 변경 예정
@@ -752,6 +766,7 @@
                         const selectElem = document.createElement('select');
                         selectElem.id = attributes.attributeId;
                         selectElem.className = 'readonly';
+
                         if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
@@ -781,6 +796,9 @@
                                 radio.name = 'attribute-radio';
                                 radio.value = attributeOption.value;
                                 radio.readOnly = true;
+                                radio.onclick = function() {
+                                    return false;
+                                }
                                 if (attributeOption.value === attributes.value) {
                                     radio.checked = true;
                                 }
@@ -815,8 +833,17 @@
                                 chk.name = 'attribute-checkbox';
                                 chk.value = attributeOption.value;
                                 chk.readOnly = true;
-                                if (attributes.value.indexOf(attributeOption.value ) > -1) {
-                                    chk.checked = true;
+                                chk.onclick = function() {
+                                    return false;
+                                }
+                                if (attributes.value != null) {
+                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                        chk.checked = true;
+                                    }
+                                } else {
+                                    if (attributeOption.checked) {
+                                        chk.checked = true;
+                                    }
                                 }
                                 chkGroup.appendChild(chk);
 
@@ -832,7 +859,12 @@
                         }
                         break;
                     case 'custom-code':
-                        const customValueArr = attributes.value.split('|');
+                        let customValueArr = "";
+                        if (attributes.value !== null) {
+                            customValueArr = attributes.value.split('|');
+                        } else {
+                            customValueArr = attributeValue.default.value.split('|');
+                        }
                         const inputButtonElem = document.createElement('div');
                         inputButtonElem.id = attributes.attributeId;
                         inputButtonElem.className = 'flex-row input-button';
@@ -840,10 +872,9 @@
                         const customInputElem = document.createElement('input');
                         customInputElem.type = 'text';
                         customInputElem.className = 'col-pct-12 inherit';
-                        customInputElem.value = (customValueArr.length > 1) ? customValueArr[1] : '';
+                        customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                         customInputElem.readOnly = true;
                         inputButtonElem.appendChild(customInputElem);
-
                         const customBtnElem = document.createElement('button');
                         customBtnElem.type = 'button';
                         customBtnElem.className = 'default-line';
@@ -855,15 +886,15 @@
                         if (attributeValue !== '') {
                             customBtnElem.textContent = attributeValue.button;
                             // 커스텀 코드 기본 값 넣기
-                            if (attributes.value === '') {
+                            if (attributes.value === '' || attributes.value === null) {
                                 switch (attributeValue.default.type) {
                                     case 'session':
                                         if (attributeValue.default.value === 'userName') {
-                                            customData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
-                                            defaultValue = aliceForm.session['userName'];
+                                            customData = userInfo.userKey + '|' + userInfo.userName;
+                                            defaultValue = userInfo.userName;
                                         } else if (attributeValue.default.value === 'department') {
-                                            customData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
-                                            defaultValue = aliceForm.session['departmentName'];
+                                            customData = userInfo.department + '|' + userInfo.departmentName;
+                                            defaultValue = userInfo.departmentName;
                                         }
                                         break;
                                     case 'code':
@@ -874,8 +905,9 @@
                                         customData = attributeValue.default.type + '|';
                                         break;
                                 }
+                                customInputElem.value = defaultValue;
                             }
-                            customInputElem.value = defaultValue;
+                            customInputElem.setAttribute('value', defaultValue);
                             customInputElem.setAttribute('custom-data', customData);
                         }
                         childAttributeElem.appendChild(inputButtonElem);
@@ -883,7 +915,6 @@
                     default:
                         break;
                 }
-
                 groupAttributeElem.appendChild(childAttributeElem);
             }
             target.appendChild(groupAttributeElem)

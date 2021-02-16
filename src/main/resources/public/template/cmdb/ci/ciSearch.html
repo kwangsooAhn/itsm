@@ -33,6 +33,8 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
+    <script th:src="@{/assets/js/cmdb/cmdb.attribute.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
@@ -44,6 +46,10 @@
                 });
             });
             searchCis(false);
+        }
+
+        function openCIDetailModal(ciId) {
+            restSubmit('GET', '/cmdb/cis/'+ciId+'/view', false);
         }
 
         function searchCis(isScroll) {
@@ -81,8 +87,44 @@
                             }
                         }
                     } else {
-                        document.getElementById('ciList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                        if (url.indexOf("/view") > 0) {
+                            const ciDetailModal = new modal({
+                                title: i18n.msg('cmdb.ci.label.view'),
+                                body: response.responseText,
+                                classes: 'cmdb-ci-view-modal',
+                                buttons: [{
+                                    content: i18n.msg('common.btn.cancel'),
+                                    classes: "default-line",
+                                    bindKey: false,
+                                    callback: function (modal) {
+                                        modal.hide();
+                                    }
+                                }],
+                                close: {
+                                    closable: false,
+                                },
+                                onCreate: function (modal) {
+                                    document.getElementById('ciAttributes').click();
+                                    // 스크롤바 추가
+                                    OverlayScrollbars(document.querySelector('.cmdb-ci-content-view'), {className: 'scrollbar'});
+                                    OverlayScrollbars(document.querySelectorAll('textarea'), {
+                                        className: 'scrollbar',
+                                        resize: 'vertical',
+                                        sizeAutoCapable: true,
+                                        textarea: {
+                                            dynHeight: false,
+                                            dynWidth: false,
+                                            inheritedAttrs: "class"
+                                        }
+                                    });
+                                    new Tagify(document.querySelector('input[name=tags]'));
+                                }
+                            });
+                            ciDetailModal.show();
+                        } else {
+                            document.getElementById('ciList').innerHTML = response.responseText;
+                            aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                        }
                     }
 
                     OverlayScrollbars(document.querySelector('.list-body'), {
@@ -115,13 +157,13 @@
             let imgCiIcon = document.createElement('img');
             imgCiIcon.style.width = '27';
             imgCiIcon.style.height = '27';
-            imgCiIcon.src = '';
+            imgCiIcon.src = '/assets/media/images/cmdb/' + data.ciIcon;
             tdCiIcon.appendChild(imgCiIcon);
 
             let tdCiTypeName = document.createElement('td');
             tdCiTypeName.style.width = '10%';
             tdCiTypeName.className = 'align-center';
-            tdCiTypeName.innerText = data.ciTypeName;
+            tdCiTypeName.innerText = data.typeName;
 
             let tdCiNo = document.createElement('td');
             tdCiNo.style.width = '20%';
@@ -144,8 +186,8 @@
             tdCiTag.innerText = data.ciTag;
 
             tr.appendChild(tdCiIcon);
-            tr.appendChild(tdCiTypeName);
             tr.appendChild(tdCiNo);
+            tr.appendChild(tdCiTypeName);
             tr.appendChild(tdCiName);
             tr.appendChild(tdCiDesc);
             tr.appendChild(tdCiTag);

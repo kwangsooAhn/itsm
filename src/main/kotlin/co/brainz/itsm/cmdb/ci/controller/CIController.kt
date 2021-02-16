@@ -6,12 +6,17 @@
 
 package co.brainz.itsm.cmdb.ci.controller
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ci.service.CIService
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import javax.servlet.http.HttpServletRequest
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -52,7 +57,7 @@ class CIController(private val ciService: CIService) {
     /**
      * CI 신규 등록 화면 호출.
      */
-    @GetMapping("/new")
+    @GetMapping("/component/new")
     fun getCINew(): String {
         return ciEditModal
     }
@@ -61,7 +66,7 @@ class CIController(private val ciService: CIService) {
      * CI 수정 화면 호출.
      * 화면에서 사용자가 수정한 데이터를 모달에 함께 출력한다.
      */
-    @PostMapping("/edit")
+    @PostMapping("/component/edit")
     fun getCIEdit(request: HttpServletRequest, @RequestBody modifyCIData: String, model: Model): String {
         model.addAttribute(
             "ciData", ciService.getCIData(
@@ -75,15 +80,44 @@ class CIController(private val ciService: CIService) {
     }
 
     /**
-     * CI 보기 화면 호출.
+     * CI Component 보기 화면 호출.
      */
-    @GetMapping("/view")
-    fun getCIView(request: HttpServletRequest, model: Model): String {
-        model.addAttribute(
-                "ciData", ciService.getCI(
-                request.getParameter("ciId")
-            )
-        )
+    @GetMapping("/component/view")
+    fun getCIComponentView(request: HttpServletRequest, model: Model): String {
+        val ciData = ciService.getCI(request.getParameter("ciId"))
+        val tags = JsonArray()
+        if (ciData.ciTags != null) {
+            ciData.ciTags!!.forEach {
+                val tagData = JsonObject()
+                tagData.addProperty("id", it.tagId.toString())
+                tagData.addProperty("value", it.tagName)
+                tags.add(tagData)
+            }
+        }
+        model.addAttribute("ciData", ciData)
+        model.addAttribute("tags", tags)
+        return ciViewModal
+    }
+
+    /**
+     * CI ITSM 보기 화면 호출.
+     */
+    @GetMapping("/{ciId}/view")
+    fun getCIView(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
+        val ciData = ciService.getCI(ciId)
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val tags = JsonArray()
+        if (ciData.ciTags != null) {
+            ciData.ciTags!!.forEach {
+                val tagData = JsonObject()
+                tagData.addProperty("id", it.tagId.toString())
+                tagData.addProperty("value", it.tagName)
+                tags.add(tagData)
+            }
+        }
+        model.addAttribute("ciData", ciData)
+        model.addAttribute("tags", tags)
+        model.addAttribute("userInfo", userDetails)
         return ciViewModal
     }
 

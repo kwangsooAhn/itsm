@@ -169,6 +169,7 @@
                         break;
                     case 'checkbox':
                         let checkValues = [];
+                        let strValues = "";
                         el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function(chkElem, idx) {
                             if (idx === 0) {
                                 ciAttribute.id = chkElem.id.split('-')[0];
@@ -177,7 +178,16 @@
                                 checkValues.push(chkElem.value);
                             }
                         });
-                        ciAttribute.value = checkValues;
+                        if (checkValues.length > 0) {
+                            for (let i = 0; i < checkValues.length; i++) {
+                                if (strValues === "") {
+                                    strValues = checkValues[i];
+                                } else {
+                                    strValues = strValues + "," + checkValues[i];
+                                }
+                            }
+                        }
+                        ciAttribute.value = strValues;
                         break;
                     case 'custom-code':
                         const customElem = el.querySelector('input');
@@ -206,7 +216,7 @@
      */
     function openRegisterModal(e) {
         const ciComponent = aliceJs.clickInsideElement(e, 'component');
-        restSubmit('/cmdb/cis/new', 'GET', {}, false, function (content) {
+        restSubmit('/cmdb/cis/component/new', 'GET', {}, false, function (content) {
             const ciRegisterModal = new modal({
                 title: i18n.msg('cmdb.ci.label.register'),
                 body: content,
@@ -271,7 +281,7 @@
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
         const ciModalTitle = (ciData.actionType === ACTION_TYPE_MODIFY) ? 'cmdb.ci.label.update' : 'cmdb.ci.label.register';
-        restSubmit('/cmdb/cis/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'POST', ciData, false, function (content) {
+        restSubmit('/cmdb/cis/component/edit?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'POST', ciData, false, function (content) {
             const ciUpdateModal = new modal({
                 title: i18n.msg(ciModalTitle),
                 body: content,
@@ -339,7 +349,7 @@
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
 
-        restSubmit('/cmdb/cis/view?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', {}, false, function (content) {
+        restSubmit('/cmdb/cis/component/view?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', {}, false, function (content) {
             const ciViewModal = new modal({
                 title: i18n.msg('cmdb.ci.label.view'),
                 body: content,
