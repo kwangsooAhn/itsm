@@ -23,7 +23,8 @@
         source: 'code',                         // 데이터 경로 (code, ci type, ci Class, ...) / 기본값은 code
         title: '',                              // 제목 (option)
         root: '',                               // 트리 최상위 부모
-        rootLevel: 0,                           // 트리 취상위 레벨
+        rootLevel: 0,                           // 트리 최상위 레벨
+        rootAvailable: true,                    // root 선택가능 여부
         search: '',                             // 검색어
         text: 'code',                           // 노드 텍스트 값 (code, codeName, codeValue, ...)
         data: null,                             // 코드 데이터
@@ -255,7 +256,9 @@
                 };
 
                 v_span.onclick = function() {
-                    v_tree.selectNode(p_node);
+                    if (options.rootAvailable || p_node.parent.id !== undefined) {
+                        v_tree.selectNode(p_node);
+                    }
                 };
 
                 if (v_icon !== undefined) {
