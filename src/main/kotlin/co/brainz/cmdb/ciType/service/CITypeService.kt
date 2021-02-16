@@ -63,8 +63,8 @@ class CITypeService(
                     pTypeId = typeEntity.pType?.typeId,
                     pTypeName = typeEntity.pType?.typeName,
                     typeIcon = typeEntity.typeIcon,
-                    defaultClassId = typeEntity.defaultClass?.classId,
-                    defaultClassName = typeEntity.defaultClass?.className,
+                    defaultClassId = typeEntity.defaultClass.classId,
+                    defaultClassName = typeEntity.defaultClass.className,
                     totalCount = count
                 )
             )
@@ -129,11 +129,15 @@ class CITypeService(
      *  CMDB Type 수정
      */
     fun updateCIType(ciTypeDto: CITypeDto, typeId: String): Boolean {
+        val parentTypeEntity: CITypeEntity = ciTypeRepository.findById(ciTypeDto.pTypeId!!).get()
+
         val ciTypeEntity = CITypeEntity(
             typeId = ciTypeDto.typeId,
             typeName = ciTypeDto.typeName,
             typeDesc = ciTypeDto.typeDesc,
+            typeAlias = ciTypeDto.typeAlias,
             typeLevel = ciTypeDto.typeLevel,
+            pType = parentTypeEntity,
             typeIcon = ciTypeDto.typeIcon,
             defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId)
         )
