@@ -4659,7 +4659,7 @@ body.modal-active {
   overflow: hidden;
 }
 .thumbnail-main .thumbnail.selected, .thumbnail-main .thumbnail:hover {
-  border: 0.125rem solid #0098FF;
+  border: 0.0625rem solid #0098FF;
   background-color: rgba(0, 152, 255, 0.05);
 }
 .thumbnail-main .thumbnail .thumbnail-img, .thumbnail-main .thumbnail .thumbnail-file {
@@ -4738,7 +4738,7 @@ body.modal-active {
   overflow: hidden;
 }
 .thumbnail-main .thumbnail-upload:hover {
-  border: 0.125rem solid #0098FF;
+  border: 0.0625rem solid #0098FF;
   background-color: rgba(0, 152, 255, 0.05);
 }
 .thumbnail-main .thumbnail-upload .fileInput {

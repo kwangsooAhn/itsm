@@ -75,7 +75,7 @@ open class AliceFileUtil(
             i -= 10
         }
         value *= java.lang.Long.signum(bytes)
-        return java.lang.String.format("%.1f %cByte", value / 1024.0, ci.current())
+        return java.lang.String.format("%.1f %cB", value / 1024.0, ci.current())
     }
 
     /**
