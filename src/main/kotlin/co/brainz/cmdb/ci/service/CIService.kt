@@ -31,7 +31,6 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import org.springframework.util.StringUtils
 
 @Service
 class CIService(
@@ -51,7 +50,7 @@ class CIService(
     fun getCIs(parameters: LinkedHashMap<String, Any>): List<CIListDto> {
 
         var tagList = emptyList<String>()
-        if (parameters["tags"].toString().isNotEmpty()) {
+        if (parameters["tags"] != null && parameters["tags"].toString() != "") {
             tagList = parameters["tags"].toString()
                 .replace("#", "")
                 .split(",")
