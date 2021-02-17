@@ -447,23 +447,25 @@ class WfFormService(
             if (dataAttribute.containsKey("labelList")) {
                 val labels = LinkedHashMap<String, String?>()
                 labelList = dataAttribute["labelList"] as LinkedHashMap<String, Any>
-                val labelsArrayList = labelList["label"] as ArrayList<LinkedHashMap<String, String?>>
+                labelList["label"]?.let {
+                    val labelsArrayList = labelList["label"] as ArrayList<LinkedHashMap<String, String?>>
 
-                // 화면에서 전달된 라벨리스트가 size 가 1개인 map 의 Array 형태로 구성되었음.
-                // 아래는 forEach 가 이중으로 작성되었으나 내부의 forEach 는 1번씩만 동작.
-                // 하나씩 꺼내서 저장용 맵을 구성.
+                    // 화면에서 전달된 라벨리스트가 size 가 1개인 map 의 Array 형태로 구성되었음.
+                    // 아래는 forEach 가 이중으로 작성되었으나 내부의 forEach 는 1번씩만 동작.
+                    // 하나씩 꺼내서 저장용 맵을 구성.
 
-                labelsArrayList.forEach { label ->
-                    label.keys.forEach {
-                        labels[it] = label[it]
+                    labelsArrayList.forEach { label ->
+                        label.keys.forEach {
+                            labels[it] = label[it]
+                        }
                     }
-                }
 
-                aliceLabelService.addLabels(AliceLabelDto(
-                    labelTarget = labelList["label_target"] as String,
-                    labelTargetId = labelList["target_id"] as String,
-                    labels = labels
-                ))
+                    aliceLabelService.addLabels(AliceLabelDto(
+                        labelTarget = labelList["label_target"] as String,
+                        labelTargetId = labelList["target_id"] as String,
+                        labels = labels
+                    ))
+                }
             }
         }
         val componentEntity = WfComponentEntity(

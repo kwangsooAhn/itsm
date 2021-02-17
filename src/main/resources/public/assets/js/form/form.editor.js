@@ -1554,7 +1554,9 @@
                                     changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
                                 } else {
                                     const changePropertiesArr = parentElem.id.split('-');
-                                    if (changePropertiesArr.length > 2) {
+                                    // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
+                                    // 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음.
+                                    if (changePropertiesArr.length > 2 && parentElem.getAttribute('data-field-type') !== ATTRIBUTE_TABLE_COLUMN) {
                                         changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
                                     } else {
                                         if (parentElem.getAttribute('data-field-type')) {
@@ -2241,7 +2243,7 @@
         let columnData = componentData[ATTRIBUTE_TABLE_COLUMN][columnIndex]; // 현재 컬럼의 속성 데이터
 
         // 컬럼 공통 속성
-        let columnCommonProperties = new Object();
+        let columnCommonProperties = {};
         columnCommonProperties[ATTRIBUTE_TABLE_COLUMN] = Object.assign({}, properties[ATTRIBUTE_TABLE_COLUMN])[columnIndex]; // 현재 컬럼의 공통 속성
 
         Object.keys(columnData).forEach(function(propertyGroupId) {

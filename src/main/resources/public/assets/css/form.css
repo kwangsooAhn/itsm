@@ -808,7 +808,6 @@ input, button, select, optgroup, textarea {
   padding: 0.625rem;
   background-color: #F7F8F9;
   border: 0.0625rem solid #EBEBEB;
-  border-bottom: none;
 }
 .form-container .form-properties .property-group .property-field-block-content {
   padding: 0 0.625rem;
