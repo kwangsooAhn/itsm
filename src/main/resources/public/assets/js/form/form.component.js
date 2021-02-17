@@ -826,7 +826,7 @@
     }
 
     /**
-     * Daynamic Row(DR) Table Cell 값 변경 및 유효성 검증 추가
+     * Dynamic Row(DR) Table Cell 값 변경 및 유효성 검증 추가
      * @param {Object} elem 테이블의 cell
      * @param {String} value 값
      */
@@ -849,7 +849,7 @@
     }
 
     /**
-     * Daynamic Row(DR) Table Row 추가
+     * Dynamic Row(DR) Table Row 추가
      * @param {Object} elem 테이블
      * @param {Object} data 배열 데이터
      */
@@ -889,13 +889,13 @@
     }
 
     /**
-     * Daynamic Row(DR) Table 컴포넌트 타입에 따라 field 별 세부 html 반환
+     * Dynamic Row(DR) Table 컴포넌트 타입에 따라 field 별 세부 html 반환
      * @param {String} type 타입
      * @param {Object} property 타입별 속성
      * @param {String} displayType 신청서 양식 타입
      * @return Template Literal 템플릿 리터럴
      */
-    function getFieldTemplate(type, property, displayType) {
+    function getDRTableColumnsTemplate(type, property, displayType) {
         // inputbox, select, radio, checkbox 등 추후 구현 예정
         switch(type) {
             case 'inputbox':
@@ -911,11 +911,11 @@
     }
 
     /**
-     * Daynamic Row(DR) Table 컴포넌트 속성
+     * Dynamic Row(DR) Table 컴포넌트 속성
      * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function DaynamicRowTable(property) {
+    function DynamicRowTable(property) {
         this.id = property.componentId;
         this.name = 'Dynamic Row Table';
         this.type = 'dynamic-row-table';
@@ -925,23 +925,23 @@
         const displayType = property['dataAttribute']['displayType'];
 
         // 테이블 Header 추가
-        const tableHeaderOptions = property.field.map(function(opt, idx) {
-            const thWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
-            return `<th data-field-type="${opt.type}" data-field-index="${idx}" class="align-${property.header.align}" ` +
+        const tableHeaderOptions = property['drTableColumns'].map(function(column, idx) {
+            const thWidth = (Number(column.width) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
+            return `<th data-field-type="${column.type}" data-field-index="${idx}" class="align-${property.header.align}" ` +
                         `style="width: ${thWidth}%; border-color: ${property.display.border}; ` +
                         `color: ${property.header.color}; font-size: ${property.header.size}px;` +
                         `${property.header.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.header.italic === 'Y' ? ' font-style: italic;' : ''}` +
                         `${property.header.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
-                        `${aliceJs.filterXSS(opt.text)}` +
+                        `${aliceJs.filterXSS(column.text)}` +
                     `</th>`;
         }).join('');
 
         // 테이블 Row 추가
-        const tableRowOptions = property.field.map(function(opt, idx) {
+        const tableRowOptions = property['drTableColumns'].map(function(opt, idx) {
             const tdWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
             return `<td style="width: ${tdWidth}%; border-color: ${property.display.border}">` +
-                        `${getFieldTemplate(opt.type, opt, displayType)}` +
+                        `${getDRTableColumnsTemplate(opt.type, opt, displayType)}` +
                     `</td>`;
         }).join('');
 
@@ -1004,7 +1004,7 @@
                     // 상위로 이벤트가 전파되지 않도록 중단한다.
                     e.stopPropagation();
 
-                    editor.showDRTableTypeProperties(property.componentId, e.target.getAttribute('data-field-index'), e.target.getAttribute('data-field-type'));
+                    editor.showDRTableColumnProperties(property.componentId, e.target.getAttribute('data-field-index'), e.target.getAttribute('data-field-type'));
                 }, false);
             }
         } else { // 신청서, 처리할 문서에서 버튼 동작
@@ -1280,7 +1280,7 @@
                 componentObject =  new CustomCode(componentProperty);
                 break;
             case 'dynamic-row-table':
-                componentObject =  new DaynamicRowTable(componentProperty);
+                componentObject =  new DynamicRowTable(componentProperty);
                 break;
             case 'accordion-start':
                 componentObject =  new AccordionStart(componentProperty);
@@ -1337,23 +1337,23 @@
                         options.push(option);
                     }
                     refineProperty[group] = options;
-                } else if (group === 'field') { // dynamic row table
-                    let field = {};
+                } else if (group === 'drTableColumns') { // dynamic row table
+                    let drTableColumns = {};
                     Object.keys(defaultProperty[group]).forEach(function(child) {
-                        const fieldItem = defaultProperty[group][child];
-                        field[fieldItem.id] = fieldItem.value;
-                        if (fieldItem.id === 'type') {
-                            Object.keys(defaultProperty[fieldItem.value]).forEach(function(subGroup) {
-                                field[subGroup] = {};
-                                const subGroupItem = defaultProperty[fieldItem.value][subGroup];
+                        const drTableColumnsItem = defaultProperty[group][child];
+                        drTableColumns[drTableColumnsItem.id] = drTableColumnsItem.value;
+                        if (drTableColumnsItem.id === 'type') {
+                            Object.keys(defaultProperty[drTableColumnsItem.value]).forEach(function(subGroup) {
+                                drTableColumns[subGroup] = {};
+                                const subGroupItem = defaultProperty[drTableColumnsItem.value][subGroup];
                                 Object.keys(subGroupItem).forEach(function(subChild) {
                                     const attributeItem = subGroupItem[subChild];
-                                    field[subGroup][attributeItem.id] = attributeItem.value;
+                                    drTableColumns[subGroup][attributeItem.id] = attributeItem.value;
                                 });
                             });
                         }
                     });
-                    refineProperty[group] = [field];
+                    refineProperty[group] = [drTableColumns];
                 } else {
                     refineProperty[group] = {};
                     Object.keys(defaultProperty[group]).forEach(function(child) {
@@ -1428,7 +1428,7 @@
     exports.getLastIndex = getLastIndex;
     exports.setLastIndex = setLastIndex;
     exports.getProperty = getPropertiesWithType;
-    exports.getFieldTemplate = getFieldTemplate;
+    exports.getDRTableColumnsTemplate = getDRTableColumnsTemplate;
     exports.getName = getName;
 
     Object.defineProperty(exports, '__esModule', { value: true });

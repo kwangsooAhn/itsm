@@ -2754,7 +2754,7 @@
                 "unit": ""
             }
         ],
-        "field": [
+        "drTableColumns": [
             {
                 "id": "type",
                 "name": "Type",
@@ -2768,8 +2768,8 @@
                 ]
             },
             {
-                "id": "column",
-                "name": "Column",
+                "id": "width",
+                "name": "Column Width",
                 "value": "12",
                 "type": "slider",
                 "code": "",

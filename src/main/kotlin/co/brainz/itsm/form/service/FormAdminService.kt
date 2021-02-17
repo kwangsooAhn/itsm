@@ -181,7 +181,7 @@ class FormAdminService(private val restTemplate: RestTemplateProvider) {
                     validate = validate,
                     option = option,
                     header = header,
-                    field = field
+                    drTableColumns = field
                 )
             )
         }

@@ -118,9 +118,9 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 header = mapper.convertValue(component["header"], linkedMapType)
             }
 
-            var field: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-            component["field"]?.let {
-                field = mapper.convertValue(
+            var drTableColumns: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+            component["drTableColumns"]?.let {
+                drTableColumns = mapper.convertValue(
                     it, TypeFactory.defaultInstance()
                         .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
                 )
@@ -137,7 +137,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                     validate = validate,
                     option = option,
                     header = header,
-                    field = field
+                    drTableColumns = drTableColumns
                 )
             )
         }
