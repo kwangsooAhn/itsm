@@ -1253,22 +1253,8 @@
                        `<span class="label">${i18n.msg('form.attribute.drTableColumns', (columnBlockLen + 1))}</span>` +
                    `</label>` +
                `</div>` +
-/*               `<div class="property-field-block-content"></div>` +*/
            `</div>`;
         groupElem.insertAdjacentHTML('beforeend', columnGroupTemplate);
-        // 세부 속성 추가
-/*        let defaultProperty = JSON.parse(JSON.stringify(aliceForm.componentProperties['dynamic-row-table']));
-        let newGroupElem = groupElem.querySelector('#column-' + columnBlockLen + ' .property-field-block-content');
-        Object.keys(defaultProperty[groupElem.id]).forEach(function(idx) {
-            defaultProperty[groupElem.id][idx].level = columnBlockLen;
-            const columnGroupElem = document.createElement('div');
-            columnGroupElem.classList.add('property-field');
-            newGroupElem.appendChild(columnGroupElem);
-
-            drawProperties(columnGroupElem, selectedComponentIds[0], groupElem.id, defaultProperty[groupElem.id][idx]);
-        });
-        // 이벤트 등록
-        addChangePropertiesEvent(newGroupElem);*/
 
         // component 데이터 추가
         let drTableColumnDefaultData = component.getProperty('dynamic-row-table', {})['drTableColumns'][0];
@@ -1276,7 +1262,6 @@
         let drTableColumnData = JSON.parse(JSON.stringify(editor.data.components[compIdx][groupElem.id]));
         drTableColumnData.push(drTableColumnDefaultData);
         changePropertiesValue(drTableColumnData, groupElem.id);
-        console.log(editor.data.components);
     }
 
     /**
@@ -1330,10 +1315,9 @@
                 changePropertiesValue(fieldData, groupElem.id);
             }
         }
-        console.log(editor.data.components);
     }
 
-        /**
+    /**
      * 컴포넌트 dataAttribute-label 세부 속성에 옵션 추가(+) button click 이벤트
      * @param e 이벤트
      */
@@ -1464,7 +1448,9 @@
                         const changePropertiesArr = parentElem.id.split('-');
                         let changeValue = elem.value;
                         if (elem.classList.contains('session')) { changeValue = elem.id + '|' + elem.value; }
-                        if (changePropertiesArr.length > 2) {
+                        // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
+                        // 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음.
+                        if (changePropertiesArr.length > 2 && parentElem.getAttribute('data-field-type') !== ATTRIBUTE_TABLE_COLUMN) {
                             changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
                         } else {
                             if (parentElem.getAttribute('data-field-type')) {
