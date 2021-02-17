@@ -48,6 +48,7 @@ class CIController(private val ciService: CIService) {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         params["tagSearch"] = request.getParameter("tagSearch")
+        params["flag"] = request.getParameter("flag")
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)

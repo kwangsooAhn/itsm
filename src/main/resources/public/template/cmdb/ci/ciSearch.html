@@ -58,11 +58,13 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&flag=itsm' + '&offset=' +
+                    offsetCount;
                 restSubmit('get', '/rest/cmdb/cis?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&flag=itsm' + '&offset=' +
+                    offsetCount;
                 restSubmit('get', '/cmdb/cis?' + urlParam, isScroll);
             }
         }
@@ -93,7 +95,7 @@
                                 body: response.responseText,
                                 classes: 'cmdb-ci-view-modal',
                                 buttons: [{
-                                    content: i18n.msg('common.btn.cancel'),
+                                    content: i18n.msg('common.btn.close'),
                                     classes: "default-line",
                                     bindKey: false,
                                     callback: function (modal) {

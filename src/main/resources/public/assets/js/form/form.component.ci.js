@@ -441,7 +441,7 @@
                 closable: false,
             },
             onCreate: function (modal) {
-                restSubmit('/cmdb/cis/component/list', 'GET', {}, false, function (content) {
+                restSubmit('/cmdb/cis/component/list?flag=component', 'GET', {}, false, function (content) {
                     document.getElementById('ciList').innerHTML = content;
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
@@ -452,7 +452,7 @@
                 document.querySelectorAll('#search, #tagSearch').forEach(function (searchElem) {
                     searchElem.addEventListener('keyup', function (e) {
                         let urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
-                        restSubmit('/cmdb/cis/component/list?' + urlParam, 'GET', {}, false, function (content) {
+                        restSubmit('/cmdb/cis/component/list?flag=component' + urlParam, 'GET', {}, false, function (content) {
                             document.getElementById('ciList').innerHTML = content;
                             // 스크롤바 추가
                             OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});

@@ -22,7 +22,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     /**
      * CI 목록 조회.
      */
-    override fun findCIList(search: String, offset: Long?, tags: List<String>): MutableList<CIsDto> {
+    override fun findCIList(search: String, offset: Long?, tags: List<String>, flag: String): MutableList<CIsDto> {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
@@ -65,8 +65,9 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                     JPAExpressions
                         .select(cmdbTag.ci.ciId)
                         .from(cmdbTag)
-                        .where(cmdbTag.tagName.`in`(tags)
-                    )
+                        .where(
+                            cmdbTag.tagName.`in`(tags)
+                        )
                 )
             )
         }
