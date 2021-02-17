@@ -321,6 +321,7 @@ cmdb:
     msg:
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
+      selectCI: "Please select a CI."
       tag: "Please enter a tag."
     btn:
       import: "Import"
