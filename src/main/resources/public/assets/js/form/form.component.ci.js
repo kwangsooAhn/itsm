@@ -413,12 +413,17 @@
                 bindKey: false,
                 callback: function (modal) {
                     // 체크된 CI 출력
+                    let isChecked = false;
                     document.querySelectorAll('input[type=checkbox]:not([disabled])').forEach(function (chkElem) {
                         if (chkElem.checked) {
+                            isChecked = true;
                             const actionType = targetBtn.getAttribute('data-actionType');
-                            const ci = { actionType: actionType, ciStatus: (actionType === ACTION_TYPE_DELETE) ? CI_STATUS_DELETE : CI_STATUS_USE };
+                            const ci = {
+                                actionType: actionType,
+                                ciStatus: (actionType === ACTION_TYPE_DELETE) ? CI_STATUS_DELETE : CI_STATUS_USE
+                            };
                             const ciTbCells = document.getElementById('ci-' + chkElem.value).children;
-                            Array.from(ciTbCells).forEach(function(cell) {
+                            Array.from(ciTbCells).forEach(function (cell) {
                                 if (typeof cell.id !== 'undefined' && cell.id.trim() !== '') {
                                     ci[cell.id] = (cell.id === 'ciId') ? chkElem.value : cell.textContent;
                                 }
@@ -427,7 +432,11 @@
                             componentData.value.push(ci);
                         }
                     });
-                    modal.hide();
+                    if (isChecked) {
+                        modal.hide();
+                    } else {
+                        aliceJs.alertWarning(i18n.msg('cmdb.ci.msg.selectCI'));
+                    }
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
