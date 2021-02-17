@@ -11,6 +11,7 @@ import co.brainz.cmdb.ci.entity.QCIEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
 import co.brainz.cmdb.ciTag.entity.QCITagEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
+import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIsDto
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.Projections
@@ -69,6 +70,11 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                             cmdbTag.tagName.`in`(tags)
                         )
                 )
+            )
+        }
+        if (flag == "component") {
+            query.where(
+                ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_USE.toString())
             )
         }
         if (offset != null) {
