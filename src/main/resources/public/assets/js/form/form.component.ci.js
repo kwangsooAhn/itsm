@@ -346,10 +346,7 @@
      * 기존 CI 상세 조회 모달
      */
     function openViewModal(componentId, ciId, elem) {
-        // 인스턴스 ID
-        const instanceId = aliceDocument.data.instanceId;
-
-        restSubmit('/cmdb/cis/component/view?ciId=' + ciId + '&componentId=' + componentId + '&instanceId=' + instanceId, 'GET', {}, false, function (content) {
+        restSubmit('/cmdb/cis/component/view?ciId=' + ciId, 'GET', {}, false, function (content) {
             const ciViewModal = new modal({
                 title: i18n.msg('cmdb.ci.label.view'),
                 body: content,
@@ -579,6 +576,7 @@
             target: 'modalTreeList',
             text: 'typeName',
             selectedValue: typeId,
+            rootAvailable: false,
             callbackFunc: function(response) {
                 if (response.id !== 'root') {
                     // 아이콘과 클래스가 없을 경우, 타입 변경시 기본 값을 추가해준다.
@@ -604,6 +602,7 @@
      */
     function openSelectIconModal(typeIcon) {
         // TODO: 아이콘 선택 모달
+
     }
     
     /**
@@ -619,6 +618,7 @@
             target: 'modalTreeList',
             text: 'className',
             selectedValue: classId,
+            rootAvailable: false,
             callbackFunc: function(response) {
                 if (response.id !== 'root') {
                     document.getElementById('className').value = response.dataset.name;
