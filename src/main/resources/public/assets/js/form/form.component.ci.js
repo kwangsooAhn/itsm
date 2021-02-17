@@ -42,12 +42,12 @@
         // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
         // CI 컴포넌트 편집 가능여부가 false 일때 =  CI 아이콘, CI Type , CI 이름, 세부 정보 조회 아이콘, row 삭제 아이콘  5개
         return [
-            { id: 'actionType', name: 'form.label.actionType', type: (isEditable ? 'readonly' : 'hidden'), column: '2', class: (isEditable ? 'first': '') },
+            { id: 'actionType', name: 'form.label.actionType', type: (isEditable ? 'readonly' : 'hidden'), column: '1', class: (isEditable ? 'first': '') },
             { id: 'ciId', name: '', type: 'hidden', column: '0', class: '' },
             { id: 'ciNo', name: '', type: 'hidden', column: '0', class: '' },
             { id: 'ciIcon', name: '', type: 'image', column: '1', class: (isEditable ? '': 'first') },
             { id: 'typeId', name: '', type: 'hidden', column: '0', class: '' },
-            { id: 'typeName', name: 'cmdb.ci.label.type', type: 'editable', column: (isEditable ? '2' : '3'), class: '' },
+            { id: 'typeName', name: 'cmdb.ci.label.type', type: 'editable', column: (isEditable ? '3' : '4'), class: '' },
             { id: 'ciName', name: 'cmdb.ci.label.name', type: 'editable', column: (isEditable ? '3' : '4'), class: '' },
             { id: 'ciDesc', name: 'cmdb.ci.label.description', type: 'editable', column: '4', class: '' },
             { id: 'classId', name: '', type: 'hidden', column: '0', class: '' },
@@ -498,10 +498,7 @@
                         tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
                         break;
                     case 'image':
-                        if (data[opt.id] !== '') {
-                            // TODO: 아이콘 넣기
-                            //tdTemplate += `<img src="/assets/media/icons/cmdb/${data[opt.id]}" width="32" height="32"/>`;
-                        }
+                        tdTemplate += `<img src="/assets/media/images/cmdb/${data[opt.id]}" width="20" height="20"/>`;
                         break;
                     case 'icon-edit': // CI 등록 / 수정
                         if (actionType === ACTION_TYPE_DELETE) {
@@ -601,7 +598,15 @@
      * @param {String} typeIcon 아이콘 경로
      */
     function openSelectIconModal(typeIcon) {
-        // TODO: 아이콘 선택 모달
+        aliceJs.thumbnail({
+            title: i18n.msg('cmdb.type.label.icon'),
+            targetId: 'typeIcon',
+            type: 'cmdb-icon',
+            isThumbnailInfo: false,
+            isFilePrefix: false,
+            thumbnailDoubleClickUse: true,
+            selectedPath: document.querySelector('#typeIcon').value
+        });
 
     }
     
