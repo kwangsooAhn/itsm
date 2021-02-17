@@ -23,7 +23,7 @@
     // thead
     &-head {
       tr {
-        height: 2.375rem; // 38px
+        height: 2.125rem; // 34px
         border-bottom: 0.125rem solid $default-gray; // 2px
 
         th {
@@ -40,8 +40,9 @@
     &-body {
       position: absolute;
       width: 100%;
-      height: 32.69rem; // 523px
+      height: 33.75rem; // 540px
       tr {
+        height: 3.375rem; //54px
         // 마우스 오버시 배경 색상
         &:hover { background-color: $list-hover-bg-color; }
         // 선택된 경우
