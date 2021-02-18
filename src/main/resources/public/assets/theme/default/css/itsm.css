@@ -2112,7 +2112,8 @@ button .icon-plus {
 .cmdb-attribute-header,
 .cmdb-class-header,
 .cmdb-type-header,
-.cmdb-ci-header {
+.cmdb-ci-header,
+.schedule-header {
   padding: 2.188rem 3.75rem 0 3.75rem;
   background-color: #F7F8F9;
 }
@@ -2348,25 +2349,30 @@ button .icon-plus {
 }
 
 .custom-code-content-edit,
-.cmdb-attribute-content-edit {
+.cmdb-attribute-content-edit,
+.schedule-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
   background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
 }
 .custom-code-content-edit .under-bar,
-.cmdb-attribute-content-edit .under-bar {
+.cmdb-attribute-content-edit .under-bar,
+.schedule-content-edit .under-bar {
   margin-top: 0.625rem;
 }
 .custom-code-content-edit .condition,
-.cmdb-attribute-content-edit .condition {
+.cmdb-attribute-content-edit .condition,
+.schedule-content-edit .condition {
   width: 28.31rem;
 }
 .custom-code-content-edit .btn-minus,
-.cmdb-attribute-content-edit .btn-minus {
+.cmdb-attribute-content-edit .btn-minus,
+.schedule-content-edit .btn-minus {
   padding: 0;
 }
 .custom-code-content-edit .attribute,
-.cmdb-attribute-content-edit .attribute {
+.cmdb-attribute-content-edit .attribute,
+.schedule-content-edit .attribute {
   margin-left: 4rem;
 }
 

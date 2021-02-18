@@ -69,6 +69,16 @@ object AliceConstants {
     }
 
     /**
+     * 작업 스케줄러 작업 유형 코드.
+     */
+    const val SCHEDULE_TASK_TYPE = "scheduler.taskType"
+
+    /**
+     * 작업 스케줄러 실행 사이클 타입 코드.
+     */
+    const val SCHEDULE_EXECUTE_CYCLE_TYPE = "scheduler.executeCycleType"
+
+    /**
      * 작업 스케줄러 실행 사이클 타입.
      */
     enum class ScheduleExecuteCycleType(val code: String) {

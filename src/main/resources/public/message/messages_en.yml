@@ -760,6 +760,7 @@ menu:
     code: "Code management"
     parent: "System config"
     role: "Role"
+    scheduler: "Scheduler"
     user: "User"
   dashboard:
     parent: "Dashboard"
@@ -975,6 +976,39 @@ role:
     enterRoleName: "Please enter a role name."
     searchPlaceholder: "Role Name / Role Desc."
     selectAuth: "Please select a auth."
+
+# Scheduler
+scheduler:
+  btn:
+    immediatelyExecute: "Immediately Execute"
+    history: "History"
+  label:
+    args: "Arguments"
+    class: "Class"
+    cronExpression: "Cron Expression"
+    description: "Description"
+    edit: "Schedule Modify"
+    executeCycleType: "Execute Cycle Type"
+    executeCyclePeriod: "Execute Cycle Period"
+    immediatelyExecution: "immediately Execution"
+    lastExecuteTime: "Last Execute Time"
+    name: "Scheduler Name"
+    query: "Query"
+    register: "Schedule Register"
+    result: "Result"
+    schedule: "Schedule"
+    scheduler: "Scheduler"
+    searchPlaceholder: "Schedule Name / Execution Type / Class / Task Type"
+    status: "Status"
+    taskType: "Task Type"
+  msg:
+    duplicateTaskName: "Duplicate task name exists."
+    scheduleDescription: "Check the schedule details and history."
+    searchDescription: "Register and manage repetitive tasks."
+    useSchedule: "Schedule in use."
+  status:
+    true: "Use"
+    false: "UnUsed"
 
 # Token
 token:

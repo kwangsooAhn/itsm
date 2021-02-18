@@ -126,7 +126,8 @@
 .cmdb-attribute-header,
 .cmdb-class-header,
 .cmdb-type-header,
-.cmdb-ci-header{
+.cmdb-ci-header,
+.schedule-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
@@ -381,7 +382,8 @@
 // 업무흐름 관리 > 커스텀 코드
 // CMDB > Attribute
 .custom-code-content-edit,
-.cmdb-attribute-content-edit {
+.cmdb-attribute-content-edit,
+.schedule-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   background-color: $white;
   border-top: $layout-header-border;

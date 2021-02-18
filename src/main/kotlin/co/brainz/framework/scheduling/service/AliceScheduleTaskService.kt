@@ -6,6 +6,7 @@ import co.brainz.framework.scheduling.repository.AliceScheduleTaskRepository
 import java.util.TimeZone
 import java.util.concurrent.ScheduledFuture
 import javax.annotation.PostConstruct
+import kotlin.collections.HashMap
 import org.slf4j.LoggerFactory
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
@@ -22,7 +23,7 @@ class AliceScheduleTaskService(
 ) {
     private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
 
-    val taskMap: HashMap<Long, ScheduledFuture<*>?> = hashMapOf()
+    val taskMap: HashMap<String, ScheduledFuture<*>?> = hashMapOf()
 
     @PostConstruct
     fun init() {
@@ -36,17 +37,21 @@ class AliceScheduleTaskService(
      * @param task TASK
      * @param taskInfo TASK 정보
      */
-    fun addTaskToScheduler(id: Long, task: Runnable, taskInfo: AliceScheduleTaskEntity) {
+    fun addTaskToScheduler(id: String, task: Runnable, taskInfo: AliceScheduleTaskEntity) {
         var scheduledTask: ScheduledFuture<*>? = null
         when (taskInfo.executeCycleType) {
-            AliceConstants.ScheduleExecuteCycleType.FIXED_DELAY.code -> scheduledTask =
-                scheduler.scheduleWithFixedDelay(task, taskInfo.executeCyclePeriod)
-            AliceConstants.ScheduleExecuteCycleType.FIXED_RATE.code -> scheduledTask =
-                scheduler.scheduleAtFixedRate(task, taskInfo.executeCyclePeriod)
-            AliceConstants.ScheduleExecuteCycleType.CRON.code -> scheduledTask = scheduler.schedule(
-                task,
-                CronTrigger(taskInfo.cronExpression, TimeZone.getTimeZone(TimeZone.getDefault().id))
-            )
+            AliceConstants.ScheduleExecuteCycleType.FIXED_DELAY.code -> {
+                scheduledTask = scheduler.scheduleWithFixedDelay(task, taskInfo.executeCyclePeriod!!)
+            }
+            AliceConstants.ScheduleExecuteCycleType.FIXED_RATE.code -> {
+                scheduledTask = scheduler.scheduleAtFixedRate(task, taskInfo.executeCyclePeriod!!)
+            }
+            AliceConstants.ScheduleExecuteCycleType.CRON.code -> {
+                scheduledTask = scheduler.schedule(
+                    task,
+                    CronTrigger(taskInfo.cronExpression!!, TimeZone.getTimeZone(TimeZone.getDefault().id))
+                )
+            }
         }
         if (scheduledTask != null) {
             logger.info("The schedule task has been add. {}", taskInfo.toString())
@@ -61,18 +66,44 @@ class AliceScheduleTaskService(
      * @param taskInfo TASK 정보
      */
     fun addTaskToScheduler(taskInfo: AliceScheduleTaskEntity) {
-        if ("query" == taskInfo.taskType) {
-            addTaskToScheduler(taskInfo.taskId, Runnable { executeQuery(taskInfo.executeQuery) }, taskInfo)
-        } else if ("class" == taskInfo.taskType) {
-            try {
-                val taskClass = Class.forName(taskInfo.executeClass)
-                    .asSubclass<Runnable>(Runnable::class.java)
-                addTaskToScheduler(taskInfo.taskId, taskClass.getDeclaredConstructor().newInstance(), taskInfo)
-            } catch (e: Exception) {
-                logger.error("Failed to load class. [{}]", taskInfo.executeClass)
-                e.printStackTrace()
+        when (taskInfo.taskType) {
+            "query" -> {
+                addTaskToScheduler(
+                    taskInfo.taskId,
+                    Runnable { taskInfo.executeQuery?.let { executeQuery(it) } },
+                    taskInfo
+                )
+            }
+            "class" -> {
+                try {
+                    val taskClass = Class.forName(taskInfo.executeClass)
+                        .asSubclass(Runnable::class.java)
+                    val args = getArgs(taskInfo.args)
+                    val runnable: Runnable
+                    runnable = if (args.isEmpty()) {
+                        taskClass.getDeclaredConstructor().newInstance()
+                    } else {
+                        taskClass.getDeclaredConstructor(Any::class.java).newInstance(args)
+                    }
+                    addTaskToScheduler(
+                        taskInfo.taskId,
+                        runnable,
+                        taskInfo
+                    )
+                } catch (e: Exception) {
+                    logger.error("Failed to load class. [{}]", taskInfo.executeClass)
+                    e.printStackTrace()
+                }
             }
         }
+    }
+
+    private fun getArgs(args: String?): MutableList<Any> {
+        val argsList = mutableListOf<Any>()
+        if (args != null) {
+            argsList.addAll(args.split(","))
+        }
+        return argsList
     }
 
     /**
@@ -80,7 +111,7 @@ class AliceScheduleTaskService(
      *
      * @param id TASK ID
      */
-    fun removeTaskFromScheduler(id: Long) {
+    fun removeTaskFromScheduler(id: String) {
         val scheduledTask: ScheduledFuture<*>? = taskMap[id]
         if (scheduledTask != null) {
             scheduledTask.cancel(true)
@@ -91,7 +122,7 @@ class AliceScheduleTaskService(
 
     @EventListener(ContextRefreshedEvent::class)
     fun contextRefreshedEvent() {
-        val scheduleTask: MutableList<AliceScheduleTaskEntity> = aliceScheduleTaskRepository.findAll()
+        val scheduleTask: MutableList<AliceScheduleTaskEntity> = aliceScheduleTaskRepository.findByScheduleListByUse()
         scheduleTask.forEach { list -> addTaskToScheduler(list) }
     }
 
