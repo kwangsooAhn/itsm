@@ -183,7 +183,10 @@ class WfScriptTask(
                     )
                 } else { // 임시데이터가 존재하지 않을 경우 실 데이터를 조회한다.
                     ciDtoList.add(
-                        wfTokenManagerService.getCI(ciId)
+                        CIDto(
+                            ciId = ciId,
+                            typeId = ""
+                        )
                     )
                 }
             }

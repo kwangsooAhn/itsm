@@ -19,9 +19,9 @@ data class CIDto(
     var ciIcon: String? = null,
     var ciDesc: String? = null,
     var automatic: Boolean? = false,
-    var ciDataList: MutableList<CIDataDto>?,
-    var ciRelations: MutableList<CIRelationDto>?,
-    var ciTags: MutableList<CITagDto>?
+    var ciDataList: MutableList<CIDataDto>? = null,
+    var ciRelations: MutableList<CIRelationDto>? = null,
+    var ciTags: MutableList<CITagDto>? = null
 ) : Serializable, AliceMetaEntity()
 
 data class CIDataDto(

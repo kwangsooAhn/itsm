@@ -17,7 +17,6 @@ import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
-import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -63,7 +62,6 @@ class WfTokenManagerService(
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
-    private val ciService: CIService,
     private val restTemplate: RestTemplateProvider
 ) {
 
@@ -213,27 +211,6 @@ class WfTokenManagerService(
      */
     fun getKeyRegex(): Regex {
         return restTemplate.getKeyRegex()
-    }
-
-    /**
-     * CI 단일 데이터 조회.
-     */
-    fun getCI(ciId: String): CIDto {
-        val ciDetailDto = ciService.getCI(ciId)
-        val ciTypeId = ciDetailDto.typeId?.let { ciDetailDto.typeId = "" }.toString()
-        return CIDto(
-            ciId = ciId,
-            ciNo = ciDetailDto.ciNo,
-            ciName = ciDetailDto.ciName,
-            ciDesc = ciDetailDto.ciDesc,
-            ciIcon = ciDetailDto.ciIcon,
-            classId = ciDetailDto.classId,
-            typeId = ciTypeId,
-            ciStatus = ciDetailDto.ciStatus,
-            ciDataList = mutableListOf(),
-            ciTags = ciDetailDto.ciTags,
-            ciRelations = ciDetailDto.ciRelations
-        )
     }
 
     /**
