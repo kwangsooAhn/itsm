@@ -849,42 +849,63 @@
     }
 
     /**
-     * Dynamic Row(DR) Table Row 추가
+     * DR Table (Dynamic Row Table) 데이터 없이 행만 추가.
      * @param {Object} elem 테이블
+     * @param {Object} property 대상 테이블 속성
+     *
+     * elem 값이 없으면 편집용 화면으로 판단하고 삭제 버튼은 안 붙인다.
+     */
+    function addDRTableRow(elem, property) {
+        const row = document.createElement('tr');
+        row.innerHTML = property['drTableColumns'].map(function(opt) {
+            const tdWidth = (Number(opt.column) / 12) * 100;
+            return `<td style="width: ${tdWidth}%; border-color: ${property.display.border}">` +
+                `${getDRTableColumnsTemplate(opt.type, opt, property['dataAttribute']['displayType'])}` +
+                `</td>`;
+        }).join('');
+
+        // elem 값이 없으면 편집용 화면으로 판단하고 삭제 버튼은 안 붙인다.
+        if (elem !== '' && typeof elem !== 'undefined') {
+            // row 삭제 버튼 추가
+            let rowDeleteDiv = document.createElement('div');
+            rowDeleteDiv.className = 'dr-table-row-delete';
+
+            let rowDeleteBtn = document.createElement('button');
+            rowDeleteBtn.type = 'button';
+            rowDeleteBtn.className = 'btn-delete';
+
+            let spanRowDelete = document.createElement('span');
+            spanRowDelete.className = 'icon-delete-gray';
+            rowDeleteBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+
+                const deleteButton = aliceJs.clickInsideElement(e, 'btn-delete');
+                const deleteRow = deleteButton.parentNode.parentNode;
+                const tbodyElem = deleteRow.parentNode;
+
+                tbodyElem.removeChild(deleteRow);
+                if (tbodyElem.childElementCount === 0) {
+                    addDRTableRow(elem, property);
+                }
+            });
+            rowDeleteBtn.appendChild(spanRowDelete);
+            rowDeleteDiv.appendChild(rowDeleteBtn);
+            row.appendChild(rowDeleteDiv);
+        }
+
+        elem.getElementsByTagName('tbody')[0].appendChild(row);
+    }
+
+    /**
+     * DR Table (Dynamic Row Table) Row 데이터 추가.
+     * @param {Object} elem 테이블
+     * @param {Object} rowIndex 추가할 대상 Row index
      * @param {Object} data 배열 데이터
      */
-    function addDRTableRow(elem, data) {
-        const row = document.createElement('tr');
-        row.innerHTML = elem.rows[1].innerHTML; // 첫번째 열을 그대로 복사
-        elem.getElementsByTagName('tbody')[0].appendChild(row);
-
-        // 값 초기화
+    function insertDRTableRowData(elem, rowIndex,  data) {
+        const row = elem.rows[rowIndex-1];
         for (let cellIndex = 0, cellLen= row.cells.length; cellIndex < cellLen; cellIndex++) {
-            const cell = row.cells[cellIndex];
-            setDRTableCellData(cell, (typeof data !== 'undefined' ? data[cellIndex] : ''));
-
-            if (cellIndex === (cellLen - 1)) {
-                // row 삭제 버튼 추가
-                let rowDeleteDiv = document.createElement('div');
-                rowDeleteDiv.className = 'dr-table-row-delete';
-
-                let rowDeleteBtn = document.createElement('button');
-                rowDeleteBtn.type = 'button';
-                rowDeleteBtn.className = 'btn-option btn-dr-table-row-delete';
-
-                let spanRowDelete = document.createElement('span');
-                spanRowDelete.className = 'icon-fail';
-                rowDeleteBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-
-                    const elem = aliceJs.clickInsideElement(e, 'btn-option');
-                    const deleteRow = elem.parentNode.parentNode.parentNode;
-                    deleteRow.parentNode.removeChild(deleteRow);
-                });
-                rowDeleteBtn.appendChild(spanRowDelete);
-                rowDeleteDiv.appendChild(rowDeleteBtn);
-                cell.appendChild(rowDeleteDiv);
-            }
+            setDRTableCellData(row.cells[cellIndex], (typeof data !== 'undefined' ? data[cellIndex] : ''));
         }
     }
 
@@ -937,14 +958,6 @@
                     `</th>`;
         }).join('');
 
-        // 테이블 Row 추가
-        const tableRowOptions = property['drTableColumns'].map(function(opt, idx) {
-            const tdWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
-            return `<td style="width: ${tdWidth}%; border-color: ${property.display.border}">` +
-                        `${getDRTableColumnsTemplate(opt.type, opt, displayType)}` +
-                    `</td>`;
-        }).join('');
-
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -966,7 +979,6 @@
                             `<tr>${tableHeaderOptions}</tr>` +
                         `</thead>` +
                         `<tbody>` +
-                            `<tr>${tableRowOptions}</tr>` +
                         `</tbody>` +
                     `</table>` +
                 `</div>` +
@@ -981,20 +993,28 @@
         // 데이터 매핑 : "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"] 형태로 전달됨
         const valueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         const drTable =  parent.querySelector('#dr-table-' + property.componentId);
-        const drTableFirstRow = drTable.rows[1]; // 헤더 제외
-        const drTableFirstCellLen = drTableFirstRow.cells.length;
-        for (let i = 0, len = valueArr.length; i < len; i += drTableFirstCellLen) {
-            let row = drTable.rows[i + 1];
-            if (i === 0) {
-                const firstRow = drTable.rows[1];
-                for (let j = 0; j < firstRow.cells.length; j++) {
-                    const cell = firstRow.cells[j];
-                    setDRTableCellData(cell, valueArr.splice(0, 1));
-                }
-            } else {
-                addDRTableRow(drTable, valueArr.splice(0, drTableFirstCellLen));
+        const drTableFirstCellLen = drTable.rows[0].cells.length;
+
+        // valueArr을 잘라서 쓰기 때문에 원본 보관
+        const valueArrOrigin = valueArr.slice();
+        if (valueArr.length > 0) {
+            for (let i = 0, len = valueArr.length; i < len; i +=  drTableFirstCellLen) {
+                addDRTableRow(drTable, property);
+                insertDRTableRowData(drTable, drTable.rows.length, valueArr.splice(0, drTableFirstCellLen));
             }
+
+            // 1개 행만 있으면서 데이터가 없을 경우
+            // 이때 데이터가 있으면 빈 줄이라도 사용자가 의도적으로 넣은 것이라 판단하고 빈줄도 출력한다.
+            // 1행엔 빈줄, 2행은 입력, 3행은 빈줄이라도 출력.
+            // 2행 이상이면서 모두 빈줄인 경우도 출력.
+            if (drTable.rows.length === 2 && valueArrOrigin.filter(data => data !== '').length === 0 && isReadOnly) {
+                drTable.rows[1].className = 'no-data-found-list';
+                drTable.rows[1].innerHTML = `<td colspan="${drTableFirstCellLen}" class="align-center first last"  style="border-color: ${property.display.border};">` + i18n.msg('common.msg.noData') + `</td>`;
+            }
+        } else {
+            addDRTableRow(drTable, property); // 첫 행 추가.
         }
+
         // 폼 디자이너 편집 화면에서면 수정 가능
         if (isReadOnly) {
             // 헤더 속성에 이벤트 추가
@@ -1007,15 +1027,19 @@
                     editor.showDRTableColumnProperties(property.componentId, e.target.getAttribute('data-field-index'), e.target.getAttribute('data-field-type'));
                 }, false);
             }
+
+            // row 삭제 버튼 없애기.
+            const deleteBtnList = drTable.querySelectorAll('.dr-table-row-delete');
+            for (let i = 0, len = deleteBtnList.length; i < len; i++) {
+                deleteBtnList[i].parentNode.removeChild(deleteBtnList[i]);
+            }
         } else { // 신청서, 처리할 문서에서 버튼 동작
             const addBtn = parent.querySelector('#btn-add-' + property.componentId);
             addBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
 
                 // row 추가
-                const elem = aliceJs.clickInsideElement(e, 'btn-option');
-                const tb = elem.parentNode.querySelector('.dr-table');
-                addDRTableRow(drTable);
+                addDRTableRow(drTable, property);
             });
         }
     }
