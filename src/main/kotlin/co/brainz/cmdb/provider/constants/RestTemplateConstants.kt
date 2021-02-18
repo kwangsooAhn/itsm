@@ -48,7 +48,8 @@ object RestTemplateConstants {
         GET_CLASS("/rest/cmdb/eg/classes/{classId}", "GET"),
         POST_CLASS("/rest/cmdb/eg/classes", "POST"),
         PUT_CLASS("/rest/cmdb/eg/classes/{classId}", "PUT"),
-        DELETE_CLASS("/rest/cmdb/eg/classes/{classId}", "DELETE")
+        DELETE_CLASS("/rest/cmdb/eg/classes/{classId}", "DELETE"),
+        GET_CLASS_ATTRIBUTE("/rest/cmdb/eg/classes/{classId}/attributes", "GET")
     }
 
     /**
@@ -76,6 +77,7 @@ object RestTemplateConstants {
         GET_CI("/rest/cmdb/eg/cis/{ciId}", "GET"),
         POST_CI("/rest/cmdb/eg/cis", "POST"),
         PUT_CI("/rest/cmdb/eg/cis/{ciId}", "PUT"),
+        PUT_CI_COMPONENT("/rest/cmdb/eg/cis/{ciId}", "PUT"),
         DELETE_CI("/rest/cmdb/eg/cis/{ciId}", "DELETE")
     }
 

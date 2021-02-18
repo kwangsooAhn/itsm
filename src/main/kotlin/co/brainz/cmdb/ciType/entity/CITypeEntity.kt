@@ -36,6 +36,9 @@ data class CITypeEntity(
     @Column(name = "type_desc", length = 512)
     val typeDesc: String? = null,
 
+    @Column(name = "type_alias", length = 128)
+    val typeAlias: String? = "",
+
     @Column(name = "type_level")
     var typeLevel: Int? = null,
 
@@ -55,7 +58,7 @@ data class CITypeEntity(
     var createDt: LocalDateTime? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key")
+    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key", nullable = false, updatable = false)
     var createUser: AliceUserEntity? = null,
 
     @Column(name = "update_dt", insertable = false)

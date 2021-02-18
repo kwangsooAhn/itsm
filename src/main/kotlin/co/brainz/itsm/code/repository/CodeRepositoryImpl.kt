@@ -20,7 +20,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
     override fun findByCodeAll(): QueryResults<CodeEntity> {
         val code = QCodeEntity.codeEntity
         return from(code)
-            .orderBy(code.level.asc(), code.code.asc())
+            .orderBy(code.level.asc(), code.seqNum.asc())
             .fetchResults()
     }
 

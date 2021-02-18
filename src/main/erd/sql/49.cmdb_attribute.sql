@@ -33,7 +33,7 @@ COMMENT ON COLUMN cmdb_attribute.update_dt IS '수정일시';
 
 insert into cmdb_attribute values ('ac4f3785cdbcc149a0b92dbf00af80ef', 'Classification', null, 'inputbox', '분류', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('c1f97be1aea3fdee785ca73b751f79d8', 'Quantity', null, 'inputbox', '수량', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_attribute values ('602b2c9216825bffc96ae69eeb73bdbc', 'introduction date', null, 'date', '도입일', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_attribute values ('602b2c9216825bffc96ae69eeb73bdbc', 'introduction date', null, 'inputbox', '도입일', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('adaeef4046bfcd78e345ad48cbbeefa5', 'Model', null, 'inputbox', '모델명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('247aa7187b335f9c4d78db5e18a2704c', 'Brand', null, 'inputbox', '브랜드', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('58e0cd57479bbb9d8a6b2bb6012206c2', 'Installation location', null, 'inputbox', '설치장소', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -43,7 +43,7 @@ insert into cmdb_attribute values ('b5f16c33ca0531087ed1b46805a9c682', 'Integrit
 insert into cmdb_attribute values ('072fcb3be4056095a9af82dc6505b1e8', 'Availability', null, 'dropdown', '가용성', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('77b6112b3013a6808aeb04f80dd75360', 'Confidentiality', null, 'dropdown', '기밀성', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('a508fbfda5d65a54b9b25dc5925d79bb', 'Manager', null, 'inputbox', '관리자', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_attribute values ('189319790e6349c7248b9f50456ed47b', 'Remarks', null, 'textbox', '비고', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_attribute values ('189319790e6349c7248b9f50456ed47b', 'Remarks', null, 'inputbox', '비고', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('1d1338bb6316ab81f7c6adbc77199409', 'Manufacturer', null, 'inputbox', '제조사', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('e613591ddea0f8c1f2457104f7cf286d', 'Equipment', null, 'inputbox', '장비명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('6e247bdb7b70757e1987ae25a36c3d13', 'Host', null, 'inputbox', '호스트명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -57,10 +57,10 @@ insert into cmdb_attribute values ('27caaeba596663101d55a09ec873a375', 'Status',
 insert into cmdb_attribute values ('e651113f8a452f55f50ed41956cdfb34', 'Version', null, 'inputbox', '버전', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('734ab921484883ad7760032a008baf21', 'Version_OS_Linux', null, 'dropdown', '버전', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('df0e88d216ace73e0164f3dbf7ade131', 'Version_OS_Windows', null, 'dropdown', '버전', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_attribute values ('bde6f4eac279ac3528c9cca16d12779a', 'Database', null, 'table', '데이터베이스', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_attribute values ('bde6f4eac279ac3528c9cca16d12779a', 'Database', null, 'custom-code', '데이터베이스', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('799afe719cd0bfe38797172bb77ae5d8', 'Licensing policy', null, 'dropdown', '라이선스 정책', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('489a14a0ebdca14b6eb42cf804330145', 'Licenses', null, 'inputbox', '라이선스', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('addc07e374faec9f0d6d3bbeca565886', 'OS Type', null, 'dropdown', 'OS 종류', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('2bb03c41cd9998e77da9b737d4fcf9ab', 'Bash Version', null, 'inputbox', 'bash 버전', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_attribute values ('42b02142dd9128e47a35b737d4fc21ad', 'Service Name', null, 'table', '서비스명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_attribute values ('42b02142dd9128e47a35b737d4fc21ad', 'Service Name', null, 'custom-code', '서비스명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 

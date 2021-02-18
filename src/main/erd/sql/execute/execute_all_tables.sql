@@ -52,7 +52,7 @@ insert into awf_auth values ('board.create', '게시판 등록', '게시판 등�
 insert into awf_auth values ('board.delete', '게시판 삭제', '게시판 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('board.read', '게시판 조회', '게시판 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('board.update', '게시판 변경', '게시판 변경 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('chart.read', '통계 차트 조회', '통계 차트 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null,  null);
+insert into awf_auth values ('chart.read', '통계 차트 조회', '통계 차트 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('chart.create', '통계 차트 등록', '통계 차트 등록 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('chart.update', '통계 차트 수정', '통계 차트 수정 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('chart.delete', '통계 차트 삭제', '통계 차트 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -215,9 +215,9 @@ insert into awf_code values ('email', 'reception_type', '이메일', '이메일'
 insert into awf_code values ('post', 'reception_type', '우편', '우편', null, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('telephone', 'reception_type', '전화', '전화', null, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script', 'root', null, null, null, false, 1, 8, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('script.type', 'script', 'Script Type', null, null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('script.type.document.attachFile', 'script.type', '[문서편집] 첨부파일', null, null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('script.type.cmdb', 'script.type', '[CMDB] CI 반영', null, null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script.type', 'script', 'script.type', 'Script Type', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script.type.cmdb', 'script.type', 'script.type.cmdb', '[CMDB] CI 반영', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script.type.document.attachFile', 'script.type', 'script.type.document.attachFile', '[문서편집] 첨부파일', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token', 'root', null, '토큰 관련 코드', null, false, 1, 9, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status', 'token', null, '토큰 상태 코드', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status.cancel', 'token.status', null, '취소', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -227,61 +227,60 @@ insert into awf_code values ('token.status.running', 'token.status', null, '진�
 insert into awf_code values ('token.status.terminate', 'token.status', null, '종료', null, false, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status.waiting', 'token.status', null, '대기 중', null, false, 3, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status.withdraw', 'token.status', null, '회수', null, false, 3, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('top', 'root', null, null, null, false, 1, 10, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user', 'top', null, '사용자', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('department', 'user', null, '부서 관리', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('department.group', 'department', null, '부서 명', null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('department.group.design', 'department.group', 'DESIGN', 'DESIGN', null, false, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('department.group.itsm', 'department.group', 'ITSM', 'ITSM', null, false, 5, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('department.group.tc', 'department.group', 'TC', 'TC', null, false, 5, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.date', 'user', null, '사용자 날짜 포맷', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.date.yyyymmdd', 'user.date', 'yyyy-MM-dd', null, null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.date.ddmmyyyy', 'user.date', 'dd-MM-yyyy', null, null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.date.mmddyyyy', 'user.date', 'MM-dd-yyyy', null, null, false, 4, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.date.yyyyddmm', 'user.date', 'yyyy-dd-MM', null, null, false, 4, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.default', 'user', null, '기본 값', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.default.menu', 'user.default', null, '기본 메뉴', null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.default.menu.dashboard', 'user.default.menu', 'dashboard', '개인 현황판 메뉴 아이디', null, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.default.role', 'user.default', null, '기본 역할', null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.default.role.users.general', 'user.default.role', 'users.general', '역할 - 사용자 일반', null, false, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.default.url', 'user.default', null, '기본 URL', null, false, 4, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.default.url.dashboard', 'user.default.url', '/dashboard/view', '개인 현황판 URL', null, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.department', 'user', null, '부서', null, false, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.extensionNumber', 'user', null, '내선번호', null, false, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.id', 'user', null, '아이디', null, false, 3, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.lang', 'user', null, '언어', null, false, 3, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.lang.ko', 'user.lang', 'ko', '한국어', null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.lang.en', 'user.lang', 'en', '영어', null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.name', 'user', null, '이름', null, false, 3, 8, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.platform', 'user', null, '플랫폼', null, false, 3, 9, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.platform.alice', 'user.platform', null, 'Alice', null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.platform.google', 'user.platform', null, 'Google', null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.platform.kakao', 'user.platform', null, 'Kakao', null, false, 4, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.position', 'user', null, '직책', null, false, 3, 10, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.search', 'user', null, '검색 목록', null, false, 3, 11, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.search.department', 'user.search', null, '부서', null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.search.extensionNumber', 'user.search', null, '내선번호', null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.search.id', 'user.search', null, '아이디', null, false, 4, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.search.mobileNumber', 'user.search', null, '핸드폰 번호', null, false, 4, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.search.name', 'user.search', null, '이름', null, false, 4, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.search.officeNumber', 'user.search', null, '사무실 번호', null, false, 4, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.search.position', 'user.search', null, '직책', null, false, 4, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.status', 'user', null, '계정 상태', null, false, 3, 12, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.status.certified', 'user.status', null, '인증 완료', null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.status.signup', 'user.status', null, '가입', null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.theme', 'user', null, '테마', null, false, 3, 13, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.theme.default', 'user.theme', 'default', '기본 테마', null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.theme.dark', 'user.theme', 'dark', '어두운 테마', null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('user.time', 'user', null, '사용자 시간 포맷', null, false, 3, 14, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('24', 'user.time', 'HH:mm', null, null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('12', 'user.time', 'hh:mm a', null, null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('version', 'root', null, null, null, false, 1, 11, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('user', 'root', null, '사용자', null, false,1,10, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.id', 'user', null, '아이디', null, false,2,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.name', 'user', null, '이름', null, false,2,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.department', 'user', null, '부서', null, false,2,3, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.position', 'user', null, '직책', null, false,2,4, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.extensionNumber', 'user', null, '내선번호', null, false,2,5, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.date', 'user', null, '사용자 날짜 포맷', null, false,2,6, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.date.yyyymmdd', 'user.date', 'yyyy-MM-dd', null, null, false,3,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.date.ddmmyyyy', 'user.date', 'dd-MM-yyyy', null, null, false,3,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.date.mmddyyyy', 'user.date', 'MM-dd-yyyy', null, null, false,3,3, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.date.yyyyddmm', 'user.date', 'yyyy-dd-MM', null, null, false,3,4, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.default', 'user', null, '기본 값', null, false,2,7, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.default.menu', 'user.default', null, '기본 메뉴', null, false,3,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.default.menu.dashboard', 'user.default.menu', 'dashboard', '개인 현황판 메뉴 아이디', null, true,4,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.default.role', 'user.default', null, '기본 역할', null, false,3,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.default.role.users.general', 'user.default.role', 'users.general', '역할 - 사용자 일반', null, false,4,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.default.url', 'user.default', null, '기본 URL', null, false,3,3, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.default.url.dashboard', 'user.default.url', '/dashboard/view', '개인 현황판 URL', null, true,4,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.lang', 'user', null, '언어', null, false,2,8, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.lang.ko', 'user.lang', 'ko', '한국어', null, false,3,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.lang.en', 'user.lang', 'en', '영어', null, false,3,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.platform', 'user', null, '플랫폼', null, false,2,9, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.platform.alice', 'user.platform', null, 'Alice', null, false,3,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.platform.google', 'user.platform', null, 'Google', null, false,3,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.platform.kakao', 'user.platform', null, 'Kakao', null, false,3,3, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.search', 'user', null, '검색 목록', null, false,2,10, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.search.department', 'user.search', null, '부서', null, false,3,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.search.extensionNumber', 'user.search', null, '내선번호', null, false,3,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.search.id', 'user.search', null, '아이디', null, false,3,3, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.search.mobileNumber', 'user.search', null, '핸드폰 번호', null, false,3,4, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.search.name', 'user.search', null, '이름', null, false,3,5, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.search.officeNumber', 'user.search', null, '사무실 번호', null, false,3,6, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.search.position', 'user.search', null, '직책', null, false,3,7, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.status', 'user', null, '계정 상태', null, false,2,11, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.status.certified', 'user.status', null, '인증 완료', null, false,3,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.status.signup', 'user.status', null, '가입', null, false,3,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.theme', 'user', null, '테마', null, false,2,12, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.theme.default', 'user.theme', 'default', '기본 테마', null, false,3,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.theme.dark', 'user.theme', 'dark', '어두운 테마', null, false,3,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.time', 'user', null, '사용자 시간 포맷', null, false,2,13, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('24', 'user.time', 'HH:mm', null, null, false,3,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('12', 'user.time', 'hh:mm a', null, null, false,3,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('department', 'root', null, '부서 관리', null, false,1,11, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('department.group', 'department', null, '부서 명', null, false,2,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('department.group.design', 'department.group', 'DESIGN', 'DESIGN', null, false,3,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('department.group.itsm', 'department.group', 'ITSM', 'ITSM', null, false,3,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('department.group.tc', 'department.group', 'TC', 'TC', null, false,3,3, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('version', 'root', null, null, null, false, 1, 12, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('version.workflow', 'version', '20200515', null, null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('customCode', 'root', null, '커스텀코드', null, false, 1, 12, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode', 'root', null, '커스텀코드', null, false, 1, 13, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.type', 'customCode', null, '신청서 목록', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.type.table', 'customCode.type', 'table', '테이블', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.type.code', 'customCode.type', 'code', '코드', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('chart', 'root', null, 'CHART', null, false, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart', 'root', null, 'CHART', null, false, 1, 14, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type', 'chart', null, 'CHART TYPE', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.basicLine', 'chart.type', 'chart.basicLine', 'Basic Line Chart', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.pie', 'chart.type', 'chart.pie', 'Pie Chart', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1238,11 +1237,11 @@ DROP TABLE IF EXISTS awf_url cascade;
 
 CREATE TABLE awf_url
 (
-	url varchar(512) NOT NULL,
-	method varchar(16) NOT NULL,
-	url_desc varchar(256),
-	is_required_auth boolean DEFAULT 'true',
-	CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
+    url varchar(512) NOT NULL,
+    method varchar(16) NOT NULL,
+    url_desc varchar(256),
+    is_required_auth boolean DEFAULT 'true',
+    CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
 );
 
 COMMENT ON TABLE awf_url IS 'URL별메소드명';
@@ -1288,8 +1287,11 @@ insert into awf_url values ('/cmdb/types', 'get', 'CMDB Type 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
 insert into awf_url values ('/cmdb/cis', 'get', 'CMDB CI 조회 목록', 'TRUE');
 insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
-insert into awf_url values ('/cmdb/cis/new', 'get', 'CMDB CI 등록 화면', 'FALSE');
-insert into awf_url values ('/cmdb/cis/view-pop', 'get', 'CMDB CI 리스트 조회 팝업 화면', 'FALSE');
+insert into awf_url values ('/cmdb/cis/component/new', 'get', 'CMDB CI 등록 화면', 'FALSE');
+insert into awf_url values ('/cmdb/cis/component/edit', 'post', 'CMDB CI 수정 화면', 'FALSE');
+insert into awf_url values ('/cmdb/cis/component/view', 'get', 'CMDB CI 보기 화면', 'FALSE');
+insert into awf_url values ('/cmdb/cis/{id}/view', 'get', 'CMDB CI 보기 화면', 'TRUE');
+insert into awf_url values ('/cmdb/cis/component/list', 'get', 'CMDB CI 리스트 조회 팝업 화면', 'FALSE');
 insert into awf_url values ('/codes/edit', 'get', '코드 편집 화면', 'TRUE');
 insert into awf_url values ('/custom-codes', 'get', '사용자 정의 코드 리스트 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/new', 'get', '사용자 정의 코드 신규 등록 화면', 'TRUE');
@@ -1377,13 +1379,19 @@ insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/cis', 'get', 'CMDB CI 조회 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'post', 'CI 컴포넌트 - CI 세부 정보 등록', 'FALSE');
+insert into awf_url values ('/rest/cmdb/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
 insert into awf_url values ('/rest/cmdb/classes', 'get', 'CMDB Class 리스트', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes', 'post', 'CMDB Class 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'put', 'CMDB Class 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'delete', 'CMDB Class 삭제', 'TRUE');
+insert into awf_url values ('/rest/cmdb/classes/{id}/attributes', 'get', 'CI 컴포넌트 - CI CLASS에 따른 세부 속성 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/types', 'get', 'CMDB Type 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types', 'post', 'CMDB Type 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types/{id}', 'get', 'CMDB Type 단일 조회', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types/{id}', 'put', 'CMDB Type 수정', 'TRUE');
+insert into awf_url values ('/rest/cmdb/types/{id}', 'delete', 'CMDB Type 삭제', 'TRUE');
 insert into awf_url values ('/rest/codes', 'post', '코드 등록', 'TRUE');
 insert into awf_url values ('/rest/codes', 'get', '코드 전체 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
@@ -1473,8 +1481,6 @@ insert into awf_url values ('/rest/tokens', 'get', '문서함 목록 조회', 'T
 insert into awf_url values ('/rest/tokens/data', 'post', 'token 신규 등록', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'get', '처리할 문서 상세 데이터', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'put', 'token 수정', 'TRUE');
-insert into awf_url values ('/rest/tokens/cis/{id}/data', 'post', 'CI 컴포넌트 - CI 세부 정보 등록', 'FALSE');
-insert into awf_url values ('/rest/tokens/cis/data', 'delete', 'CI 컴포넌트 - CI 세부 정보 삭제', 'FALSE');
 insert into awf_url values ('/rest/users', 'post', '사용자 등록', 'TRUE');
 insert into awf_url values ('/rest/users', 'get', '사용자 리스트 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/users/all', 'get', '전체 사용자 목록 조회', 'TRUE');
@@ -1506,11 +1512,11 @@ DROP TABLE IF EXISTS awf_url_auth_map cascade;
 
 CREATE TABLE awf_url_auth_map
 (
-	url varchar(512) NOT NULL,
-	method varchar(16) NOT NULL,
-	auth_id varchar(100) NOT NULL,
-	CONSTRAINT awf_url_auth_map_pk PRIMARY KEY (url, method, auth_id),
-	CONSTRAINT awf_url_auth_map_fk1 FOREIGN KEY (url, method) REFERENCES awf_url (url, method),
+    url varchar(512) NOT NULL,
+    method varchar(16) NOT NULL,
+    auth_id varchar(100) NOT NULL,
+    CONSTRAINT awf_url_auth_map_pk PRIMARY KEY (url, method, auth_id),
+    CONSTRAINT awf_url_auth_map_fk1 FOREIGN KEY (url, method) REFERENCES awf_url (url, method),
     CONSTRAINT awf_url_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
 );
 
@@ -1580,10 +1586,7 @@ insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.class.read
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.ci.read');
-insert into awf_url_auth_map values ('/cmdb/cis/new', 'get', 'form.read');
-insert into awf_url_auth_map values ('/cmdb/cis/new', 'get', 'form.update');
-insert into awf_url_auth_map values ('/cmdb/cis/view-pop', 'get', 'form.read');
-insert into awf_url_auth_map values ('/cmdb/cis/view-pop', 'get', 'form.update');
+insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'form.read');
 insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.delete');
@@ -1729,6 +1732,8 @@ insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.cla
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.class.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'put', 'cmdb.class.update');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.class.delete');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.read');
+insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}/attributes', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.type.update');
@@ -1738,7 +1743,6 @@ insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'get', 'cmdb.type.delete');
-insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'post', 'cmdb.type.create');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'put', 'cmdb.type.update');
 insert into awf_url_auth_map values ('/rest/cmdb/types/{id}', 'delete', 'cmdb.type.delete');
 insert into awf_url_auth_map values ('/rest/codes', 'get', 'code.read');
@@ -1870,10 +1874,6 @@ insert into awf_url_auth_map values ('/rest/tokens', 'get', 'token.read');
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
-insert into awf_url_auth_map values ('/rest/tokens/cis/{id}/data', 'post', 'form.read');
-insert into awf_url_auth_map values ('/rest/tokens/cis/{id}/data', 'post', 'form.update');
-insert into awf_url_auth_map values ('/rest/tokens/cis/data', 'delete', 'form.read');
-insert into awf_url_auth_map values ('/rest/tokens/cis/data', 'delete', 'form.update');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/all', 'get', 'user.read');
@@ -1917,8 +1917,6 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.read'
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.update');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.update');
-
-
 /**
  * 사용자정보
  */
@@ -3115,7 +3113,7 @@ COMMENT ON COLUMN cmdb_attribute.update_dt IS '수정일시';
 
 insert into cmdb_attribute values ('ac4f3785cdbcc149a0b92dbf00af80ef', 'Classification', null, 'inputbox', '분류', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('c1f97be1aea3fdee785ca73b751f79d8', 'Quantity', null, 'inputbox', '수량', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_attribute values ('602b2c9216825bffc96ae69eeb73bdbc', 'introduction date', null, 'date', '도입일', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_attribute values ('602b2c9216825bffc96ae69eeb73bdbc', 'introduction date', null, 'inputbox', '도입일', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('adaeef4046bfcd78e345ad48cbbeefa5', 'Model', null, 'inputbox', '모델명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('247aa7187b335f9c4d78db5e18a2704c', 'Brand', null, 'inputbox', '브랜드', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('58e0cd57479bbb9d8a6b2bb6012206c2', 'Installation location', null, 'inputbox', '설치장소', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -3125,7 +3123,7 @@ insert into cmdb_attribute values ('b5f16c33ca0531087ed1b46805a9c682', 'Integrit
 insert into cmdb_attribute values ('072fcb3be4056095a9af82dc6505b1e8', 'Availability', null, 'dropdown', '가용성', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('77b6112b3013a6808aeb04f80dd75360', 'Confidentiality', null, 'dropdown', '기밀성', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('a508fbfda5d65a54b9b25dc5925d79bb', 'Manager', null, 'inputbox', '관리자', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_attribute values ('189319790e6349c7248b9f50456ed47b', 'Remarks', null, 'textbox', '비고', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_attribute values ('189319790e6349c7248b9f50456ed47b', 'Remarks', null, 'inputbox', '비고', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('1d1338bb6316ab81f7c6adbc77199409', 'Manufacturer', null, 'inputbox', '제조사', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('e613591ddea0f8c1f2457104f7cf286d', 'Equipment', null, 'inputbox', '장비명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('6e247bdb7b70757e1987ae25a36c3d13', 'Host', null, 'inputbox', '호스트명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -3139,12 +3137,12 @@ insert into cmdb_attribute values ('27caaeba596663101d55a09ec873a375', 'Status',
 insert into cmdb_attribute values ('e651113f8a452f55f50ed41956cdfb34', 'Version', null, 'inputbox', '버전', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('734ab921484883ad7760032a008baf21', 'Version_OS_Linux', null, 'dropdown', '버전', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('df0e88d216ace73e0164f3dbf7ade131', 'Version_OS_Windows', null, 'dropdown', '버전', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_attribute values ('bde6f4eac279ac3528c9cca16d12779a', 'Database', null, 'table', '데이터베이스', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_attribute values ('bde6f4eac279ac3528c9cca16d12779a', 'Database', null, 'custom-code', '데이터베이스', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('799afe719cd0bfe38797172bb77ae5d8', 'Licensing policy', null, 'dropdown', '라이선스 정책', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('489a14a0ebdca14b6eb42cf804330145', 'Licenses', null, 'inputbox', '라이선스', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('addc07e374faec9f0d6d3bbeca565886', 'OS Type', null, 'dropdown', 'OS 종류', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into cmdb_attribute values ('2bb03c41cd9998e77da9b737d4fcf9ab', 'Bash Version', null, 'inputbox', 'bash 버전', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_attribute values ('42b02142dd9128e47a35b737d4fc21ad', 'Service Name', null, 'table', '서비스명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_attribute values ('42b02142dd9128e47a35b737d4fc21ad', 'Service Name', null, 'custom-code', '서비스명', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 
 /**
@@ -3200,6 +3198,7 @@ CREATE TABLE cmdb_type
 	p_type_id character varying(128),
 	type_name character varying(128),
 	type_desc character varying(512),
+	type_alias character varying(128),
 	type_level int,
 	default_class_id character varying(128) NOT NULL,
 	type_icon character varying(200),
@@ -3219,6 +3218,7 @@ COMMENT ON COLUMN cmdb_type.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_type.p_type_id IS '부모타입아이디';
 COMMENT ON COLUMN cmdb_type.type_name IS '타입이름';
 COMMENT ON COLUMN cmdb_type.type_desc IS '타입설명';
+COMMENT ON COLUMN cmdb_type.type_alias IS '타입식별자';
 COMMENT ON COLUMN cmdb_type.type_level IS '타입레벨';
 COMMENT ON COLUMN cmdb_type.default_class_id IS '기본클래스아이디';
 COMMENT ON COLUMN cmdb_type.type_icon IS '타입아이콘';
@@ -3227,16 +3227,16 @@ COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_type.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_type.update_dt IS '수정일시';
 
-insert into cmdb_type values ('root', null, 'ROOT', null, 0, 'root', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('587b4557275bcce81664db9e12485ae2', 'root', '서버', null, 1, 'df562114ab87c066adeaea79b2e4a8a2', 'image_server.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('f18c064040304e493f4dc7385595601f', 'root', '네트워크', null, 1, '0d51e482f1a56e1074f69b5a1bce0138', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('b2dac0d38b39a4f8da7b98c56e831465', 'root', '데이터베이스', null, 1, '85b3c35b31059e63aaa36ce2587ea070', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('b1e60cb705e329ffbb5abf18e11cc32f', 'b2dac0d38b39a4f8da7b98c56e831465', '데이터베이스_PostgresSQL', null, 2, 'e6663412f62bd2d3daeeadd7a36a0b0d', 'image_postresql.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('4788eff6532d2232d12462c85789f595', 'b2dac0d38b39a4f8da7b98c56e831465', '데이터베이스_Oracle', null, 2, '40e346d210cd36229d03b403153e54ab', 'image_oracle.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('3c37bbea924b4e300a4863bc1f1d41c8', 'root', '소프트웨어', null, 1, '52905fc1ae0183698f726aec3e038148', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('237053b29c09fd365d049949a14df2c5', '3c37bbea924b4e300a4863bc1f1d41c8', 'OS', null, 2, '0e8dd74a27bbbf86201104e91df7ee88', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('bd746ec53dd7b64a16157d5843360391', '237053b29c09fd365d049949a14df2c5', 'OS_Linux', null, 3, '39dbe77aa58b778064a0f4a10dd06b05', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into cmdb_type values ('5c6601285d44385fb6dfcf184261aa04', '237053b29c09fd365d049949a14df2c5', 'OS_Window', null, 3, 'f88ee1c29fdf9d847ba6002abc5bbf1b', 'image_winnt.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('root', null, 'ROOT', null, 'CI', 0, 'root', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('587b4557275bcce81664db9e12485ae2', 'root', '서버', null, 'SERVER', 1, 'df562114ab87c066adeaea79b2e4a8a2', 'image_server.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('f18c064040304e493f4dc7385595601f', 'root', '네트워크', null, 'NETWORK', 1, '0d51e482f1a56e1074f69b5a1bce0138', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('b2dac0d38b39a4f8da7b98c56e831465', 'root', '데이터베이스', null, 'DATABASE', 1, '85b3c35b31059e63aaa36ce2587ea070', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('b1e60cb705e329ffbb5abf18e11cc32f', 'b2dac0d38b39a4f8da7b98c56e831465', '데이터베이스_PostgresSQL', null, 'POSTGRESQL', 2, 'e6663412f62bd2d3daeeadd7a36a0b0d', 'image_postresql.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('4788eff6532d2232d12462c85789f595', 'b2dac0d38b39a4f8da7b98c56e831465', '데이터베이스_Oracle', null, 'ORACLE', 2, '40e346d210cd36229d03b403153e54ab', 'image_oracle.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('3c37bbea924b4e300a4863bc1f1d41c8', 'root', '소프트웨어', null, 'SOFTWARE', 1, '52905fc1ae0183698f726aec3e038148', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('237053b29c09fd365d049949a14df2c5', '3c37bbea924b4e300a4863bc1f1d41c8', 'OS', null, 'OS', 2, '0e8dd74a27bbbf86201104e91df7ee88', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('bd746ec53dd7b64a16157d5843360391', '237053b29c09fd365d049949a14df2c5', 'OS_Linux', null, 'LINUX', 3, '39dbe77aa58b778064a0f4a10dd06b05', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into cmdb_type values ('5c6601285d44385fb6dfcf184261aa04', '237053b29c09fd365d049949a14df2c5', 'OS_Window', null, 'WINDOW', 3, 'f88ee1c29fdf9d847ba6002abc5bbf1b', 'image_winnt.png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * CMDB CI 정보

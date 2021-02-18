@@ -68,14 +68,14 @@
       height: $main-banner-height;
       background-color: $main-search-bg-color;
       
-      .title { padding: 3.625rem 0 0.625rem 0; } // 58px 0px 10px 0px 
+      .title { padding: 3.75rem 0 1.875rem 0; } // 60px 0px 30px 0px
     }
 
     &-search {
       height: $main-search-height;
       background-color: $main-search-bg-color;
       border-bottom: $main-header-border;
-      padding: 3rem 0; // 48px 0
+      padding: 1.875rem 0; // 30px 0
 
       // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
       &.slide-up {
@@ -92,7 +92,7 @@
     
     &-content {
       .card-group {
-        padding: 3.4375rem 12.75rem 0 12.75rem; // 55px 220px 0 220px
+        padding: 3.4375rem 13.75rem 0 13.75rem; // 55px 220px 0 220px
         .card {
           width: 30rem; // 480px
           border: $card-border;
@@ -175,7 +175,7 @@
   .faq {
     &-header {
       @include mainHeader;
-      .faq-search { padding-bottom: 2.313rem; } // 37px
+      .faq-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
@@ -260,7 +260,7 @@
   .download {
     &-header {
       @include mainHeader;
-      .download-search { padding-bottom: 2.313rem; } // 37px
+      .download-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
@@ -273,7 +273,7 @@
   .notice {
     &-header {
       @include mainHeader;
-      .notice-search { padding-bottom: 2.313rem; } // 37px
+      .notice-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px

@@ -41,5 +41,5 @@ class ComponentDetail(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var header: LinkedHashMap<String, Any>? = null,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    var field: MutableList<LinkedHashMap<String, Any>>? = null
+    var drTableColumns: MutableList<LinkedHashMap<String, Any>>? = null
 ) : Serializable

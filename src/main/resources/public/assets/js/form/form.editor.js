@@ -14,7 +14,7 @@
 }(this, (function (exports) {
     'use strict';
 
-    const ATTRIBUTE_FIELD = 'field'; // 컴포넌트 세부 속성 - field
+    let ATTRIBUTE_TABLE_COLUMN = 'drTableColumns'; // 컴포넌트 세부 속성 - drTableColumns
     const history = {
         redo_list: [],
         undo_list: [],
@@ -855,20 +855,18 @@
                         });
                     });
                 } else { // array
-                    if (propertyGroupId === ATTRIBUTE_FIELD) { // dynamic row table 컴포넌트
+                    if (propertyGroupId === ATTRIBUTE_TABLE_COLUMN) { // dynamic row table 컴포넌트
                         const defaultArrayProperties = JSON.parse(JSON.stringify(initializedProperties[propertyGroupId]));
 
+                        let tempArrayProperties;
+                        initializedProperties[propertyGroupId] = [];
                         Object.keys(componentData[propertyGroupId]).forEach(function(idx) {
-                            if (idx > 0) {
-                                Array.prototype.push.apply(initializedProperties[propertyGroupId], defaultArrayProperties);
-                            }
-                            Object.keys(initializedProperties[propertyGroupId]).forEach(function(subIdx) {
-                                if (subIdx >= (defaultArrayProperties.length * idx) &&
-                                    componentData[propertyGroupId][idx].hasOwnProperty(initializedProperties[propertyGroupId][subIdx].id)) {
-                                    initializedProperties[propertyGroupId][subIdx] = Object.assign({}, initializedProperties[propertyGroupId][subIdx], { level: idx });
-                                    initializedProperties[propertyGroupId][subIdx].value = componentData[propertyGroupId][idx][initializedProperties[propertyGroupId][subIdx].id];
-                                }
+                            tempArrayProperties = defaultArrayProperties;
+                            Object.keys(defaultArrayProperties).forEach(function(subIdx) {
+                                tempArrayProperties[subIdx] = Object.assign({}, defaultArrayProperties[subIdx]);
+                                tempArrayProperties[subIdx].value = componentData[propertyGroupId][idx][defaultArrayProperties[subIdx].id];
                             });
+                            initializedProperties[propertyGroupId][idx] = tempArrayProperties;
                         });
                     }
                 }
@@ -922,21 +920,29 @@
     }
 
     /**
-     * DR Table 컴포넌트의 Field를 다시 그린다.
+     * DR Table 컴포넌트의 Column 을 다시 그린다.
      *  @param {Number} index 열
      *  @param {Object} data 변경된 속성
      */
-    function redrawDrTableField(index, data) {
+    function redrawDRTableColumns(index, data) {
         const displayType = data['dataAttribute']['displayType'];
-        const fieldData = data[ATTRIBUTE_FIELD][index];
+        const columnData = data[ATTRIBUTE_TABLE_COLUMN][index];
 
         const selectedComponent = document.getElementById(data.componentId);
         if (selectedComponent === null) { return; }
 
         const drTable =  selectedComponent.querySelector('.dr-table');
+
+        // 너비 변경
+        drTable.rows[0].cells[index].style.width = '' + ((Number(columnData['width']) / 12) * 100) + '%';
+
+        // 컬럼명 변경
+        drTable.rows[0].cells[index].innerHTML = columnData['text'];
+
+        // 컬럼 데이터 타입에 따른 다시 그리기
         for (let i = 1, rowLen = drTable.rows.length; i < rowLen; i ++) {
             const row = drTable.rows[i];
-            row.cells[index].innerHTML = component.getFieldTemplate(fieldData.type, fieldData, displayType);
+            row.cells[index].innerHTML = component.getDRTableColumnsTemplate(columnData.type, columnData, displayType);
         }
     }
 
@@ -974,9 +980,9 @@
                     }
                 }
             }
-            // dr table 컴포넌트의 field를 새로 그려준다.
-            if (group === ATTRIBUTE_FIELD && typeof subGroup !== 'undefined') {
-                redrawDrTableField(index, componentData);
+            // dr table 컴포넌트의 column 을 새로 그려준다.
+            if (group === ATTRIBUTE_TABLE_COLUMN && index !== undefined) {
+                redrawDRTableColumns(index, componentData);
             } else {
                 redrawComponent(componentData);
             }
@@ -1231,52 +1237,37 @@
      *  dynamic Row table 컴포넌트의 열 옵션 추가(+) button click 이벤트
      * @param e
      */
-    function addFieldHandler(e) {
+    function addDRTableColumnsHandler(e) {
         const elem = aliceJs.clickInsideElement(e, 'btn-option');
         const groupElem = elem.parentNode.parentNode.parentNode;
-        // field 추가
-        const fieldBlocks = groupElem.querySelectorAll('.property-field-block');
-        const fieldBlockLen = fieldBlocks.length;
-        const fieldGroupTemplate =
-            `<div class="property-field-block" id="column-${fieldBlockLen}">` +
+        // column 추가
+        const columnBlocks = groupElem.querySelectorAll('.property-field-block');
+        const columnBlockLen = columnBlocks.length;
+        const columnGroupTemplate =
+            `<div class="property-field-block" id="column-${columnBlockLen}">` +
                `<div class="property-field-block-header">` +
-                   `<label class="checkbox" for="chk-${fieldBlockLen}" tabindex="0">` +
-                       `<input type="checkbox" id="chk-${fieldBlockLen}" value="${fieldBlockLen}"/>` +
+                   `<label class="checkbox" for="chk-${columnBlockLen}" tabindex="0">` +
+                       `<input type="checkbox" id="chk-${columnBlockLen}" value="${columnBlockLen}"/>` +
                        `<span></span>` +
-                       `<span class="label">${i18n.msg('form.attribute.field', (fieldBlockLen + 1))}</span>` +
+                       `<span class="label">${i18n.msg('form.attribute.drTableColumns', (columnBlockLen + 1))}</span>` +
                    `</label>` +
                `</div>` +
-               `<div class="property-field-block-content"></div>` +
            `</div>`;
-        groupElem.insertAdjacentHTML('beforeend', fieldGroupTemplate);
-        // 세부 속성 추가
-        let defaultProperty = JSON.parse(JSON.stringify(aliceForm.componentProperties['dynamic-row-table']));
-        let newGroupElem = groupElem.querySelector('#column-' + fieldBlockLen + ' .property-field-block-content');
-        Object.keys(defaultProperty[groupElem.id]).forEach(function(idx) {
-            defaultProperty[groupElem.id][idx].level = fieldBlockLen;
-            const fieldGroupElem = document.createElement('div');
-            fieldGroupElem.classList.add('property-field');
-            newGroupElem.appendChild(fieldGroupElem);
-
-            drawProperties(fieldGroupElem, selectedComponentIds[0], groupElem.id, defaultProperty[groupElem.id][idx]);
-        });
-        // 이벤트 등록
-        addChangePropertiesEvent(newGroupElem);
+        groupElem.insertAdjacentHTML('beforeend', columnGroupTemplate);
 
         // component 데이터 추가
-        let defaultFieldData = component.getProperty('dynamic-row-table', {}).field[0];
+        let drTableColumnDefaultData = component.getProperty('dynamic-row-table', {})['drTableColumns'][0];
         const compIdx = getComponentIndex(selectedComponentIds[0]);
-        let fieldData = JSON.parse(JSON.stringify(editor.data.components[compIdx][groupElem.id]));
-        fieldData.push(defaultFieldData);
-        
-        changePropertiesValue(fieldData, groupElem.id);
+        let drTableColumnData = JSON.parse(JSON.stringify(editor.data.components[compIdx][groupElem.id]));
+        drTableColumnData.push(drTableColumnDefaultData);
+        changePropertiesValue(drTableColumnData, groupElem.id);
     }
 
     /**
      *  dynamic Row table 컴포넌트의 열 옵션 삭제(-) button click 이벤트
      * @param e
      */
-    function removeFieldHandler(e) {
+    function removeDRTableColumnsHandler(e) {
         const elem = aliceJs.clickInsideElement(e, 'btn-option');
         const groupElem = elem.parentNode.parentNode.parentNode;
 
@@ -1308,7 +1299,7 @@
                         chkElem.value = i - 1;
                         chkElem.id = 'chk-' + (i - 1);
                         chkElem.parentNode.htmlFor = 'chk-'  + (i - 1);
-                        chkElem.parentNode.querySelector('.label').textContent = i18n.msg('form.attribute.field', i);
+                        chkElem.parentNode.querySelector('.label').textContent = i18n.msg('form.attribute.drTableColumns', i);
                         // id 재할당
                         const fields = fieldBlock.querySelectorAll('.property-field');
                         for (let j = 0; j < fields.length; j++) {
@@ -1325,7 +1316,7 @@
         }
     }
 
-        /**
+    /**
      * 컴포넌트 dataAttribute-label 세부 속성에 옵션 추가(+) button click 이벤트
      * @param e 이벤트
      */
@@ -1456,7 +1447,9 @@
                         const changePropertiesArr = parentElem.id.split('-');
                         let changeValue = elem.value;
                         if (elem.classList.contains('session')) { changeValue = elem.id + '|' + elem.value; }
-                        if (changePropertiesArr.length > 2) {
+                        // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
+                        // 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음.
+                        if (changePropertiesArr.length > 2 && parentElem.getAttribute('data-field-type') !== ATTRIBUTE_TABLE_COLUMN) {
                             changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
                         } else {
                             if (parentElem.getAttribute('data-field-type')) {
@@ -1560,7 +1553,9 @@
                                     changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
                                 } else {
                                     const changePropertiesArr = parentElem.id.split('-');
-                                    if (changePropertiesArr.length > 2) {
+                                    // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
+                                    // 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음.
+                                    if (changePropertiesArr.length > 2 && parentElem.getAttribute('data-field-type') !== ATTRIBUTE_TABLE_COLUMN) {
                                         changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
                                     } else {
                                         if (parentElem.getAttribute('data-field-type')) {
@@ -1961,126 +1956,125 @@
                     groupElem.querySelector('#option-plus').addEventListener('click', addOptionHandler, false);
                 }
                 // 열 옵션이 존재할 경우 이벤트 핸들러 등록
-                let prevLevel = '';
-                if (group === ATTRIBUTE_FIELD) {
-                    prevLevel = '-1';
-                    groupElem.querySelector('#field-delete').addEventListener('click', removeFieldHandler, false);
-                    groupElem.querySelector('#field-add').addEventListener('click', addFieldHandler, false);
+                if (group === ATTRIBUTE_TABLE_COLUMN) {
+                    groupElem.querySelector('#drTableColumns-delete').addEventListener('click', removeDRTableColumnsHandler, false);
+                    groupElem.querySelector('#drTableColumns-add').addEventListener('click', addDRTableColumnsHandler, false);
                 }
                 // 세부 속성 추가
                 if (Array.isArray(properties[group])) {
-                    Object.keys(properties[group]).forEach(function(field) {
+                    Object.keys(properties[group]).forEach(function(field, idx) {
                         const fieldProp = properties[group][field];
                         // dynamic row table 일 경우
-                        if (typeof fieldProp.level !== 'undefined' && prevLevel !== fieldProp.level) {
+                        if (group === ATTRIBUTE_TABLE_COLUMN) {
                             groupElem = componentElem.querySelector('#' + group);
                             const fieldGroupTemplate =
-                                `<div class="property-field-block" id="column-${fieldProp.level}">` +
+                                `<div class="property-field-block" id="column-${idx}">` +
                                    `<div class="property-field-block-header">` +
-                                       `<label class="checkbox" for="chk-${fieldProp.level}" tabindex="0">` +
-                                           `<input type="checkbox" id="chk-${fieldProp.level}" value="${fieldProp.level}"/>` +
+                                       `<label class="checkbox" for="chk-${idx}" tabindex="0">` +
+                                           `<input type="checkbox" id="chk-${idx}" value="${idx}"/>` +
                                            `<span></span>` +
-                                           `<span class="label">${i18n.msg('form.attribute.field', (Number(fieldProp.level) + 1))}</span>` +
+                                           `<span class="label">${i18n.msg('form.attribute.drTableColumns', (Number(idx) + 1))}</span>` +
                                        `</label>` +
                                    `</div>` +
-                                   `<div class="property-field-block-content"></div>` +
+/*                                   `<div class="property-field-block-content"></div>` +*/
                                `</div>`;
                             groupElem.insertAdjacentHTML('beforeend', fieldGroupTemplate);
 
-                            groupElem = groupElem.querySelector('#column-' + fieldProp.level + ' .property-field-block-content');
-                            prevLevel = fieldProp.level;
+                            groupElem = groupElem.querySelector('#column-' + idx + ' .property-field-block-content');
                         }
 
-                        if (typeof fieldProp.id !== 'undefined' && fieldProp.type !== 'hidden') {
-                            const fieldGroupElem = document.createElement('div');
-                            fieldGroupElem.classList.add('property-field');
+                        if (group !== ATTRIBUTE_TABLE_COLUMN) {
+                            if (typeof fieldProp.id !== 'undefined' && fieldProp.type !== 'hidden') {
+                                const fieldGroupElem = document.createElement('div');
+                                fieldGroupElem.classList.add('property-field');
 
-                            if (fieldProp.type === 'button-group') { // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
-                                if (!buttonGroupExist) {
-                                    buttonGroupElem = document.createElement('div');
-                                    buttonGroupElem.classList.add('btn-group', 'property-field-button');
-                                    fieldGroupElem.appendChild(buttonGroupElem);
-                                    groupElem.appendChild(fieldGroupElem);
+                                if (fieldProp.type === 'button-group') { // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
+                                    if (!buttonGroupExist) {
+                                        buttonGroupElem = document.createElement('div');
+                                        buttonGroupElem.classList.add('btn-group', 'property-field-button');
+                                        fieldGroupElem.appendChild(buttonGroupElem);
+                                        groupElem.appendChild(fieldGroupElem);
 
-                                    buttonGroupExist = true;
-                                }
-                                if (typeof fieldProp.option !== 'undefined') { //align
-                                    const fieldButtonOptions = fieldProp.option.map(function (opt) {
-                                        return `<button type='button' id='${opt.id}' class='btn-field${fieldProp.value === opt.id ? " active" : ""}'>` +
-                                                   `<span class="icon icon-align-${opt.id}"></span> ` +
-                                               `</button>`
-                                    }).join('');
-                                    buttonGroupElem.insertAdjacentHTML('beforeend', `<div class="btn-group-toggle" id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
-
-                                    const buttonElemList = buttonGroupElem.querySelector('#' + fieldProp.id).children;
-                                    for (let i = 0, len = buttonElemList.length; i < len; i++) {
-                                        buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
+                                        buttonGroupExist = true;
                                     }
-                                } else { //bold, italic, underline
-                                    const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn-field${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
-                                            `<span class="icon icon-${fieldProp.id}"></span>` +
-                                        `</button>`;
-                                    buttonGroupElem.insertAdjacentHTML('beforeend', buttonTemplate);
-                                    buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
-                                }
-                            } else {
-                                groupElem.appendChild(fieldGroupElem);
-                                // 세부 속성 추가
-                                drawProperties(fieldGroupElem, componentData.componentId, group, fieldProp);
+                                    if (typeof fieldProp.option !== 'undefined') { //align
+                                        const fieldButtonOptions = fieldProp.option.map(function (opt) {
+                                            return `<button type='button' id='${opt.id}' class='btn-field${fieldProp.value === opt.id ? " active" : ""}'>` +
+                                                `<span class="icon icon-align-${opt.id}"></span> ` +
+                                                `</button>`
+                                        }).join('');
+                                        buttonGroupElem.insertAdjacentHTML('beforeend', `<div class="btn-group-toggle" id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
 
-                                if ( fieldProp.type === 'radio-custom') {
-                                    //custom-code 초기화
-                                    const customCodeDataSelect = fieldGroupElem.querySelector('input[id=code]').parentNode.parentNode.querySelector('select');
-                                    changeCustomCodeHandler(customCodeDataSelect, componentData[group]);
-                                }
-                            }
-
-                            // 유효성 검증 추가
-                            if (typeof fieldProp.validate !== 'undefined' && fieldProp.validate !== '') {
-                                const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
-                                for (let i = 0, len = fieldValueElems.length; i < len; i++) {
-                                    fieldValueElems[i].parentNode.insertAdjacentHTML('beforeend', `<label class="error-msg"></label>`);
-                                    validateCheck('keyup', fieldValueElems[i], fieldProp.validate);
-                                }
-                            }
-                            if (typeof fieldProp.option !== 'undefined') {
-                                const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
-                                for (let i = 0, len = fieldValueElems.length; i < len; i++) {
-                                    const fieldValueElem = fieldValueElems[i];
-                                    if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
-                                        if (fieldValueElem.parentNode.tagName !== 'TD') { // table 구조가 아닐 경우
-                                            fieldValueElem.parentNode.insertAdjacentHTML('afterend', `<label class="error-msg"></label>`);
+                                        const buttonElemList = buttonGroupElem.querySelector('#' + fieldProp.id).children;
+                                        for (let i = 0, len = buttonElemList.length; i < len; i++) {
+                                            buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                         }
-                                        validateCheck('keyup',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
+                                    } else { //bold, italic, underline
+                                        const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn-field${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
+                                            `<span class="icon icon-${fieldProp.id}"></span>` +
+                                            `</button>`;
+                                        buttonGroupElem.insertAdjacentHTML('beforeend', buttonTemplate);
+                                        buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
+                                    }
+                                } else {
+                                    groupElem.appendChild(fieldGroupElem);
+                                    // 세부 속성 추가
+                                    drawProperties(fieldGroupElem, componentData.componentId, group, fieldProp);
+
+                                    if ( fieldProp.type === 'radio-custom') {
+                                        //custom-code 초기화
+                                        const customCodeDataSelect = fieldGroupElem.querySelector('input[id=code]').parentNode.parentNode.querySelector('select');
+                                        changeCustomCodeHandler(customCodeDataSelect, componentData[group]);
                                     }
                                 }
-                            }
-                        } else { // type === table
-                            const tableElem = groupElem.querySelector('table');
-                            if (tableElem !== null) {
-                                // 테이블 Header 추가
-                                const tableHeaderOptions = fieldProp.items.map(function(opt, index) {
-                                    return `<th data-default="${opt.value}">${index === 0 ? '': i18n.msg('form.attribute.option.' + opt.id)}</th>`;
-                                }).join('');
-                                let fieldTableTemplate = `<tr>${tableHeaderOptions}</tr>`;
 
-                                // 테이블 Row 추가
-                                const tableRowOptions = componentData.option.map(function(opt) {
-                                    return `<tr>${fieldProp.items.map(function(item, index) {
-                                        return `<td id="${item.id}">` +
-                                        `${index === 0 ? 
-                                        `<label class="checkbox" for="checkbox-${opt[item.id]}" tabindex="0">` +
-                                            `<input type="checkbox" id="checkbox-${opt[item.id]}" value="${opt[item.id]}" />` +
-                                            `<span></span>` +
-                                        `</label>` : 
-                                        `<input type="text" value="${aliceJs.filterXSS(opt[item.id])}" maxlength="100"/>`}` +
-                                        `</td>`;
-                                    }).join('')}</tr>`;
-                                }).join('');
+                                // 유효성 검증 추가
+                                if (typeof fieldProp.validate !== 'undefined' && fieldProp.validate !== '') {
+                                    const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
+                                    for (let i = 0, len = fieldValueElems.length; i < len; i++) {
+                                        fieldValueElems[i].parentNode.insertAdjacentHTML('beforeend', `<label class="error-msg"></label>`);
+                                        validateCheck('keyup', fieldValueElems[i], fieldProp.validate);
+                                    }
+                                }
+                                if (typeof fieldProp.option !== 'undefined') {
+                                    const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
+                                    for (let i = 0, len = fieldValueElems.length; i < len; i++) {
+                                        const fieldValueElem = fieldValueElems[i];
+                                        if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
+                                            if (fieldValueElem.parentNode.tagName !== 'TD') { // table 구조가 아닐 경우
+                                                fieldValueElem.parentNode.insertAdjacentHTML('afterend', `<label class="error-msg"></label>`);
+                                            }
+                                            validateCheck('keyup',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
+                                        }
+                                    }
+                                }
+                            } else { // type === table
+                                const tableElem = groupElem.querySelector('table');
+                                if (tableElem !== null) {
+                                    // 테이블 Header 추가
+                                    const tableHeaderOptions = fieldProp.items.map(function(opt, index) {
+                                        return `<th data-default="${opt.value}">${index === 0 ? '': i18n.msg('form.attribute.option.' + opt.id)}</th>`;
+                                    }).join('');
+                                    let fieldTableTemplate = `<tr>${tableHeaderOptions}</tr>`;
 
-                                fieldTableTemplate += tableRowOptions;
+                                    // 테이블 Row 추가
+                                    const tableRowOptions = componentData.option.map(function(opt) {
+                                        return `<tr>${fieldProp.items.map(function(item, index) {
+                                            return `<td id="${item.id}">` +
+                                                `${index === 0 ?
+                                                    `<label class="checkbox" for="checkbox-${opt[item.id]}" tabindex="0">` +
+                                                    `<input type="checkbox" id="checkbox-${opt[item.id]}" value="${opt[item.id]}" />` +
+                                                    `<span></span>` +
+                                                    `</label>` :
+                                                    `<input type="text" value="${aliceJs.filterXSS(opt[item.id])}" maxlength="100"/>`}` +
+                                                `</td>`;
+                                        }).join('')}</tr>`;
+                                    }).join('');
 
-                                tableElem.insertAdjacentHTML('beforeend', fieldTableTemplate);
+                                    fieldTableTemplate += tableRowOptions;
+
+                                    tableElem.insertAdjacentHTML('beforeend', fieldTableTemplate);
+                                }
                             }
                         }
                     });
@@ -2094,7 +2088,6 @@
             propertiesPanel.querySelector('#label-option-minus').addEventListener('click', removeLabelOptionHandler, false);
             propertiesPanel.querySelector('#label-option-plus').addEventListener('click', addLabelOptionHandler, false);
         }
-
 
         const propertyGroupList = propertiesPanel.querySelectorAll('.property-group.on');
         const propertyLastGroup = propertyGroupList[propertyGroupList.length - 1];
@@ -2178,78 +2171,105 @@
     }
 
     /**
-     * 우측 properties panel 에 타입별 세부 속성을 출력 (DR Table 컴포넌트)
+     * DR Table Component 전용.
+     * DR Table 헤더를 클릭하는 경우 속성창에 해당 컬럼의 상세 속성을 출력.
+     * 상세 속성은
+     *   1) 컬럼 타입, 너비, 테이블 컬럼 명등과 같은 공통 속성과
+     *   2) 컬럼 타입에 따른 속성으로 나뉜다.
      *
-     * @param {String} id 컴포넌트 Id
-     * @param {String} index 필드(field) 인덱스
-     * @param {String} type 필드(field) 타입
+     *  ** 현재는 input box 컬럼 타입만 제공.
+     *
+     * @param {String} componentId 컴포넌트 Id
+     * @param {String} columnIndex DR Table 컬럼 인덱스
+     * @param {String} columnType DR Table 컬럼 타입
      */
-    function showDRTableTypeProperties(id, index, type) {
+    function showDRTableColumnProperties(componentId, columnIndex, columnType) {
         hideComponentProperties();
 
         selectedComponentIds.length = 0;
         previousComponentIds.length = 0;
-        selectedComponentIds.push(id);
+        selectedComponentIds.push(componentId);
 
-        const selectedComponent = document.getElementById(id);
+        const selectedComponent = document.getElementById(componentId);
         if (selectedComponent === null) { return; }
 
-        const drTable = selectedComponent.querySelector('.dr-table');
-        const drTableHeaderRow = drTable.rows[0];
-        for (let i = 0, len = drTableHeaderRow.cells.length; i < len; i++) {
-            if (i === Number(index)) { // 현재 선택된 필드 색상 추가
-                drTableHeaderRow.cells[i].classList.add('on');
-            } else { // 기존 선택된 필드가 있으면 색상 초기화
-                drTableHeaderRow.cells[i].classList.remove('on');
+        const drTableHeader = selectedComponent.querySelector('.dr-table').rows[0];
+        // 선택된 컬럼에 테두리 표시. 다른 컬럼에서 테두리 삭제
+        for (let i = 0, len = drTableHeader.cells.length; i < len; i++) {
+            if (i === Number(columnIndex)) {
+                drTableHeader.cells[i].classList.add('on');
+            } else {
+                drTableHeader.cells[i].classList.remove('on');
             }
         }
+
         // 컴포넌트 데이터 가져오기
-        let compIdx = getComponentIndex(id);
-        let componentData = editor.data.components[compIdx];
+        let componentData = editor.data.components[getComponentIndex(componentId)];
         let properties = initProperties(componentData);
 
+        // 컴포넌트 템플릿을 이용해서 DOM 생성
         const componentTemplate = document.getElementById('component-template');
         const componentElem = componentTemplate.content.cloneNode(true);
+
+        // 컴포넌트 이름 영역 출력.
+        // 컬럼 선택 시 컴포넌트 이름 부분에는 어떤 컬럼을 선택했는지 표시한다.
+        // 1) 컴포넌트 이름
         const componentTitleElem = document.getElementById('properties-name');
         componentTitleElem.innerHTML = '';
-        // 컴포넌트 이름
         const componentName = document.createElement('span');
         componentName.textContent = i18n.msg('form.component.' + componentData.type);
         componentTitleElem.appendChild(componentName);
-        // 컴포넌트 이름 선택시, 컴포넌트 세부 속성 창을 펼친다.
-        componentName.addEventListener('click', function(e) {
-            e.stopPropagation();
-
-            selectedComponentIds.length = 0;
-            selectedComponentIds.push(id);
-            showComponentProperties();
-        });
-        // 구분자
+        // 2) 구분자
         const separator = document.createElement('span');
         separator.className = 'ml-4 mr-4';
         separator.textContent = '>';
         componentTitleElem.appendChild(separator);
-        // 열
+        // 3) 열 표시
         const typeName = document.createElement('span');
-        typeName.textContent = i18n.msg('form.attribute.field', (Number(index) + 1));
+        typeName.textContent = i18n.msg('form.attribute.drTableColumns', (Number(columnIndex) + 1));
         componentTitleElem.appendChild(typeName);
 
-        // 타입별 세부 속성 값 재할당
-        let fieldData = componentData[ATTRIBUTE_FIELD][index];
-        let typeProperties = Object.assign({}, properties[type]);
-        Object.keys(fieldData).forEach(function(propertyGroupId) {
+        // 컴포넌트 이름 선택시, 컴포넌트 속성 창으로 다시 이동
+        // "DR Table > 2 열" 과 같이 표시된 부분에서 "DR Table" 부분
+        componentName.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            selectedComponentIds.length = 0;
+            selectedComponentIds.push(componentId);
+            showComponentProperties();
+        });
+
+        let columnData = componentData[ATTRIBUTE_TABLE_COLUMN][columnIndex]; // 현재 컬럼의 속성 데이터
+
+        // 컬럼 공통 속성
+        let columnCommonProperties = {};
+        columnCommonProperties[ATTRIBUTE_TABLE_COLUMN] = Object.assign({}, properties[ATTRIBUTE_TABLE_COLUMN])[columnIndex]; // 현재 컬럼의 공통 속성
+
+        Object.keys(columnData).forEach(function(propertyGroupId) {
+            Object.keys(columnCommonProperties[ATTRIBUTE_TABLE_COLUMN]).forEach(function(initProperty) {
+                if (propertyGroupId === columnCommonProperties[ATTRIBUTE_TABLE_COLUMN][initProperty].id) {
+                    columnCommonProperties[ATTRIBUTE_TABLE_COLUMN][initProperty].value = columnData[propertyGroupId];
+                }
+            });
+        });
+
+        // 컬럼 타입별로 세부 속성 값 재할당
+        let typeProperties = Object.assign({}, properties[columnType]);
+        Object.keys(columnData).forEach(function(propertyGroupId) {
             if (typeProperties.hasOwnProperty(propertyGroupId)) {
-                Object.keys(fieldData[propertyGroupId]).forEach(function(propertyId) {
+                Object.keys(columnData[propertyGroupId]).forEach(function(propertyId) {
                     Object.keys(typeProperties[propertyGroupId]).forEach(function(initProperty) {
                         if (propertyId === typeProperties[propertyGroupId][initProperty].id) {
-                            typeProperties[propertyGroupId][initProperty].value = fieldData[propertyGroupId][propertyId];
+                            typeProperties[propertyGroupId][initProperty].value = columnData[propertyGroupId][propertyId];
                         }
                     });
                 });
             }
         });
 
-        // 타입별 세부 속성 출력
+        typeProperties = Object.assign(columnCommonProperties, typeProperties);
+
+        // 공통/타입별 세부 속성 출력
         Object.keys(typeProperties).forEach(function(group) {
             let buttonGroupExist = false;
             let buttonGroupElem = null;
@@ -2262,8 +2282,9 @@
                         const fieldProp = typeProperties[group][field];
                         const fieldGroupElem = document.createElement('div');
                         fieldGroupElem.className = 'property-field';
-                        fieldGroupElem.setAttribute('data-field-index', index);
-                        fieldGroupElem.setAttribute('data-field-type', ATTRIBUTE_FIELD);
+                        fieldGroupElem.setAttribute('data-field-index', columnIndex);
+                        fieldGroupElem.setAttribute('data-field-type', ATTRIBUTE_TABLE_COLUMN);
+                        fieldProp.level = columnIndex;
                         // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
                         if (fieldProp.type === 'button-group') {
                             if (!buttonGroupExist) {
@@ -2350,6 +2371,12 @@
         // for designed select
         // 속성창을 새로 그린 후 designed select 초기화
         aliceJs.initDesignedSelectTag();
+
+        // 컬럼 추가/삭제 버튼 숨기기
+        const buttonDiv = propertiesPanel.querySelectorAll('.property-group-drTableColumns')
+        for (i = 0, len = buttonDiv.length; i < len; i ++) {
+            buttonDiv[i].style.display = 'none';
+        }
     }
     /**
      * 우측 properties panel에 폼 세부 속성 출력한다.
@@ -2559,7 +2586,7 @@
     exports.getSelectComponentIndex = getSelectComponentIndex;
     exports.history = history;
     exports.selectedComponentIds = selectedComponentIds;
-    exports.showDRTableTypeProperties = showDRTableTypeProperties;
+    exports.showDRTableColumnProperties = showDRTableColumnProperties;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

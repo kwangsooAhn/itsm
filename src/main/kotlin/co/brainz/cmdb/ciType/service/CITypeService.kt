@@ -59,11 +59,12 @@ class CITypeService(
                     typeName = typeEntity.typeName,
                     typeDesc = typeEntity.typeDesc,
                     typeLevel = typeEntity.typeLevel,
+                    typeAlias = typeEntity.typeAlias,
                     pTypeId = typeEntity.pType?.typeId,
                     pTypeName = typeEntity.pType?.typeName,
                     typeIcon = typeEntity.typeIcon,
-                    defaultClassId = typeEntity.defaultClass?.classId,
-                    defaultClassName = typeEntity.defaultClass?.className,
+                    defaultClassId = typeEntity.defaultClass.classId,
+                    defaultClassName = typeEntity.defaultClass.className,
                     totalCount = count
                 )
             )
@@ -81,11 +82,12 @@ class CITypeService(
             typeName = typeDetailEntity.typeName,
             typeDesc = typeDetailEntity.typeDesc,
             typeLevel = typeDetailEntity.typeLevel,
+            typeAlias = typeDetailEntity.typeAlias,
             pTypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId },
             pTypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
             typeIcon = typeDetailEntity.typeIcon,
-            defaultClassId = typeDetailEntity.defaultClass?.classId,
-            defaultClassName = typeDetailEntity.defaultClass?.className
+            defaultClassId = typeDetailEntity.defaultClass.classId,
+            defaultClassName = typeDetailEntity.defaultClass.className
         )
     }
 
@@ -108,6 +110,7 @@ class CITypeService(
             pType = parentTypeEntity,
             typeName = ciTypeDto.typeName,
             typeDesc = ciTypeDto.typeDesc,
+            typeAlias = ciTypeDto.typeAlias,
             typeIcon = ciTypeDto.typeIcon,
             defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId),
             typeLevel = typeLevel
@@ -126,11 +129,15 @@ class CITypeService(
      *  CMDB Type 수정
      */
     fun updateCIType(ciTypeDto: CITypeDto, typeId: String): Boolean {
+        val parentTypeEntity: CITypeEntity = ciTypeRepository.findById(ciTypeDto.pTypeId!!).get()
+
         val ciTypeEntity = CITypeEntity(
             typeId = ciTypeDto.typeId,
             typeName = ciTypeDto.typeName,
             typeDesc = ciTypeDto.typeDesc,
+            typeAlias = ciTypeDto.typeAlias,
             typeLevel = ciTypeDto.typeLevel,
+            pType = parentTypeEntity,
             typeIcon = ciTypeDto.typeIcon,
             defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId)
         )

@@ -246,6 +246,7 @@ chart:
     periodUnit: "간격"
     operation: "연산"
     duration: "기간"
+    group: "그룹"
   msg:
     searchDescription: "다양한 통계용 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."
@@ -316,9 +317,12 @@ cmdb:
       type: "CI 타입"
       register: "CI 등록"
       update: "CI 변경"
+      view: "CI 상세 조회"
     msg:
       enterCiName: "CI 이름을 입력하세요."
       searchDescription: "CI를 조회 및 관리합니다."
+      selectCI: "CI를 선택하세요."
+      tag: "태그를 입력하세요."
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -339,6 +343,7 @@ cmdb:
       export: "내보내기"
   type:
     label:
+      alias: "식별자"
       management: "Type 관리"
       searchPlaceholder: "Type"
       parentType: "부모 Type"
@@ -349,10 +354,11 @@ cmdb:
     msg:
       searchDescription: "CI Type을 조회 및 관리합니다."
       enterPType: "부모 Type을 선택하세요."
+      enterTypeAlias: "식별자를 입력하세요."
       enterTypeName: "Type 명을 입력하세요."
       selectType: "Type을 선택하세요."
-      selectAvailableClass: "유효한 Class를 선택하세요.<br/>(root 제외)"
-      selectAvailableType: "유효한 Type를 선택하세요.<br/>(root 제외)"
+      selectAvailableClass: "유효한 Class를 선택하세요."
+      selectAvailableType: "유효한 Type를 선택하세요."
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -635,7 +641,7 @@ form:
     dataAttribute: "컴포넌트 속성"
     desc: "설명"
     display: "출력속성"
-    field: "열 옵션"
+    drTableColumns: "테이블 컬럼"
     header: "헤더"
     id: "아이디"
     label: "라벨"
@@ -657,7 +663,7 @@ form:
     datetimeMin: "최소 일시"
     default: "기본값"
     editorUseYn: "에디터 사용여부"
-    field: "{0} 열"
+    drTableColumns: "{0} 열"
     height: "높이"
     isEditable: "편집가능 여부"
     isTopic: "미리보기"

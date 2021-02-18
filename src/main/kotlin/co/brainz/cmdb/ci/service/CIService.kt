@@ -18,6 +18,7 @@ import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
 import co.brainz.cmdb.ciRelation.repository.CIRelationRepository
 import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ciTag.repository.CITagRepository
+import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
@@ -30,7 +31,6 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import org.springframework.util.StringUtils
 
 @Service
 class CIService(
@@ -50,8 +50,8 @@ class CIService(
     fun getCIs(parameters: LinkedHashMap<String, Any>): List<CIListDto> {
 
         var tagList = emptyList<String>()
-        if (parameters["tags"].toString().isNotEmpty()) {
-            tagList = StringUtils.trimAllWhitespace(parameters["tags"].toString())
+        if (parameters["tags"] != null && parameters["tags"].toString() != "") {
+            tagList = parameters["tags"].toString()
                 .replace("#", "")
                 .split(",")
         }
@@ -147,9 +147,9 @@ class CIService(
             }
         }
 
-        classList.forEach { classId ->
+        classList.forEach { it ->
             val ciClassDetailValueDto = CIClassDetailValueDto(
-                attributes = ciAttributeRepository.findAttributeValueList(ciId, classId).toMutableList()
+                attributes = ciAttributeRepository.findAttributeValueList(ciId, it).toMutableList()
             )
             attributeValueAll.add(ciClassDetailValueDto)
         }
@@ -161,11 +161,9 @@ class CIService(
      */
     fun createCI(ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
-
-        // CI 번호에 대한 룰은 아직 미정.
-        // 추후 규칙에 따라 넣게 되면 CI_ID가 아니라 CI_NO로 중복체크가 필요할 듯.
-        // val existCount = ciRepository.findDuplicateCiNo(ciDto.ciNo)
         val existCount = 0L
+        val ciTypeEntity = ciTypeRepository.getOne(ciDto.typeId)
+        val ciNo = this.getCINo(ciTypeEntity)
 
         when (existCount) {
             0L -> {
@@ -180,7 +178,7 @@ class CIService(
                 // CIEntity 등록
                 val ciEntity = CIEntity(
                     ciId = ciDto.ciId,
-                    ciNo = ciDto.ciNo,
+                    ciNo = ciNo,
                     ciName = ciDto.ciName,
                     ciStatus = ciDto.ciStatus,
                     ciTypeEntity = ciTypeRepository.getOne(ciDto.typeId),
@@ -236,7 +234,7 @@ class CIService(
     fun updateCI(ciId: String, ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
-        var ciEntity = findCIEntity.get()
+        val ciEntity = findCIEntity.get()
 
         if (findCIEntity.isEmpty) {
             throw AliceException(
@@ -306,5 +304,47 @@ class CIService(
         ciRepository.save(ciEntity)
 
         return restTemplateReturnDto
+    }
+
+    /**
+     * CINo 가져오기 (생성).
+     */
+    private fun getCINo(ciTypeEntity: CITypeEntity): String {
+        // 1. alias 로 연결된 최상위 부모까지 조회하여 prefix 생성
+        val ciTypes = ciTypeRepository.findByCITypeAll()
+        val typeAliasList = mutableListOf<String>()
+        typeAliasList.add(ciTypeEntity.typeAlias.toString())
+        getPType(ciTypes, ciTypeEntity, typeAliasList)
+
+        var ciNoPrefix = ""
+        typeAliasList.reverse()
+        typeAliasList.forEach { alias ->
+            if (ciNoPrefix.isNotEmpty()) {
+                ciNoPrefix += "_"
+            }
+            ciNoPrefix += alias
+        }
+
+        // 2. 순번 생성 (신규 or 이어서 생성)
+        val lastCiEntity = ciRepository.getLastCiByCiNo(ciNoPrefix)
+        var newSequence = 1
+        if (lastCiEntity != null) {
+            val length = lastCiEntity.ciNo?.length
+            val sequenceStr = length?.let { lastCiEntity.ciNo?.substring(length.minus(6), it) }
+            if (sequenceStr != null) {
+                newSequence = sequenceStr.toInt() + 1
+            }
+        }
+        return ciNoPrefix + "_" + String.format("%06d", newSequence)
+    }
+
+    /**
+     * CINo 재귀함수.
+     */
+    private fun getPType(ciTypes: List<CITypeEntity>?, ciPType: CITypeEntity, typeAliasList: MutableList<String>) {
+        if (ciPType.pType != null) {
+            ciPType.pType.typeAlias?.let { typeAliasList.add(it) }
+            getPType(ciTypes, ciPType.pType, typeAliasList)
+        }
     }
 }
