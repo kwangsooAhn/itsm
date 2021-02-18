@@ -40,19 +40,19 @@ body.os-dragging * {
     overflow: visible !important;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
     -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
+    flex-wrap: nowrap;
     -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
     -ms-flex-line-pack: start;
-        align-content: flex-start;
+    align-content: flex-start;
     -webkit-box-align: start;
-        -ms-flex-align: start;
-                -ms-grid-row-align: flex-start;
-            align-items: flex-start;
+    -ms-flex-align: start;
+    -ms-grid-row-align: flex-start;
+    align-items: flex-start;
 }
 .os-host-flexbox {
     overflow: hidden !important;
@@ -65,22 +65,22 @@ body.os-dragging * {
 }
 .os-host-flexbox > .os-content-glue {
     -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
     -ms-flex-negative: 0;
-        flex-shrink: 0;
+    flex-shrink: 0;
 }
 .os-host-flexbox > .os-size-auto-observer,
 .os-host-flexbox > .os-content-glue {
     min-height: 0;
     min-width: 0;
     -webkit-box-flex: 0;
-        -ms-flex-positive: 0;
-            flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
     -ms-flex-negative: 1;
-        flex-shrink: 1;
+    flex-shrink: 1;
     -ms-flex-preferred-size: auto;
-        flex-basis: auto;
+    flex-basis: auto;
 }
 #os-dummy-scrollbar-size {
     position: fixed;
@@ -93,7 +93,7 @@ body.os-dragging * {
 }
 #os-dummy-scrollbar-size > div {
     width: 200%;
-    height: 200%; 
+    height: 200%;
     margin: 10px 0;
 }
 /* fix restricted measuring */
@@ -201,16 +201,16 @@ body.os-dragging * {
     /*border-radius: 0px !important;*/
     float: none !important;
     -webkit-filter: none !important;
-            filter: none !important;
+    filter: none !important;
     border: none !important;
     resize: none !important;
     -webkit-transform: none !important;
-            transform: none !important;
+    transform: none !important;
     max-width: none !important;
     max-height: none !important;
     box-shadow: none !important;
     -webkit-perspective: none !important;
-            perspective: none !important;
+    perspective: none !important;
     opacity: 1 !important;
     z-index: 1 !important;
     clip: auto !important;
@@ -304,12 +304,12 @@ body.os-dragging * {
     margin: 0;
     pointer-events: none;
     -webkit-box-flex: inherit;
-        -ms-flex-positive: inherit;
-            flex-grow: inherit;
+    -ms-flex-positive: inherit;
+    flex-grow: inherit;
     -ms-flex-negative: 0;
-        flex-shrink: 0;
+    flex-shrink: 0;
     -ms-flex-preferred-size: 0;
-        flex-basis: 0;
+    flex-basis: 0;
 }
 .os-size-auto-observer > .os-resize-observer {
     width: 1000%;
@@ -494,9 +494,9 @@ html.os-html > .os-host > .os-scrollbar {
     overflow: hidden !important;
 }
 .os-host-overflow-x {
-} 
+}
 .os-host-overflow-y {
-} 
+}
 
 /*
 THEMES:

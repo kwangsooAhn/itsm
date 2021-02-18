@@ -110,7 +110,11 @@ table[id="documentDisplay"] {
     }
   }
 }
-
+// CI 조회 > 태그
+.tag-group {
+  display: initial;
+  line-height: 1.2;
+}
 // 문서함 > 태그
 .tag {
   display: inline-block;

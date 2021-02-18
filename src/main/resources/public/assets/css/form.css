@@ -676,10 +676,10 @@ input, button, select, optgroup, textarea {
 .form-container .form-properties .property-group[id=option] .property-group-option {
   float: right;
 }
-.form-container .form-properties .property-group[id=field] {
+.form-container .form-properties .property-group[id=drTableColumns] {
   position: relative;
 }
-.form-container .form-properties .property-group[id=field] .property-group-field {
+.form-container .form-properties .property-group[id=drTableColumns] .property-group-drTableColumns {
   float: right;
 }
 .form-container .form-properties .property-group .property-field {
@@ -808,7 +808,6 @@ input, button, select, optgroup, textarea {
   padding: 0.625rem;
   background-color: #F7F8F9;
   border: 0.0625rem solid #EBEBEB;
-  border-bottom: none;
 }
 .form-container .form-properties .property-group .property-field-block-content {
   padding: 0 0.625rem;
@@ -1157,7 +1156,6 @@ select:disabled {
 }
 .select.readonly .designed-select {
   background-color: #F7F8F9;
-  border: 0.0625rem solid #EBEBEB;
 }
 
 option:hover {
@@ -3734,7 +3732,7 @@ body.modal-active {
   overflow: hidden;
 }
 .thumbnail-main .thumbnail.selected, .thumbnail-main .thumbnail:hover {
-  border: 0.125rem solid #0098FF;
+  border: 0.0625rem solid #0098FF;
   background-color: rgba(0, 152, 255, 0.05);
 }
 .thumbnail-main .thumbnail .thumbnail-img, .thumbnail-main .thumbnail .thumbnail-file {
@@ -3813,7 +3811,7 @@ body.modal-active {
   overflow: hidden;
 }
 .thumbnail-main .thumbnail-upload:hover {
-  border: 0.125rem solid #0098FF;
+  border: 0.0625rem solid #0098FF;
   background-color: rgba(0, 152, 255, 0.05);
 }
 .thumbnail-main .thumbnail-upload .fileInput {

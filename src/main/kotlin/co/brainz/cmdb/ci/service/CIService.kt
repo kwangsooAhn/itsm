@@ -31,7 +31,6 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import org.springframework.util.StringUtils
 
 @Service
 class CIService(
@@ -51,19 +50,19 @@ class CIService(
     fun getCIs(parameters: LinkedHashMap<String, Any>): List<CIListDto> {
 
         var tagList = emptyList<String>()
-        if (parameters["tags"].toString().isNotEmpty()) {
-            tagList = StringUtils.trimAllWhitespace(parameters["tags"].toString())
+        if (parameters["tags"] != null && parameters["tags"].toString() != "") {
+            tagList = parameters["tags"].toString()
                 .replace("#", "")
                 .split(",")
         }
-
+        val flag = parameters["flag"].toString()
         var search = ""
         var offset: Long? = null
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["offset"] != null) {
             offset = parameters["offset"].toString().toLong()
         }
-        val cis = ciRepository.findCIList(search, offset, tagList)
+        val cis = ciRepository.findCIList(search, offset, tagList, flag)
         var tags = mutableListOf<CITagDto>()
         val ciList = mutableListOf<CIListDto>()
         for (ci in cis) {
@@ -97,11 +96,12 @@ class CIService(
      * CI 단일 조회
      */
     fun getCI(ciId: String): CIDetailDto {
-        val ciDetailDto = CIDetailDto()
+        val ciDetailDto = CIDetailDto(
+            ciId = ciId
+        )
         val resultCiEntity = ciRepository.findById(ciId)
         if (!resultCiEntity.isEmpty) {
             val ciEntity = resultCiEntity.get()
-            ciDetailDto.ciId = ciEntity.ciId
             ciDetailDto.ciNo = ciEntity.ciNo
             ciDetailDto.ciName = ciEntity.ciName
             ciDetailDto.ciIcon = ciEntity.ciIcon
@@ -235,7 +235,7 @@ class CIService(
     fun updateCI(ciId: String, ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
-        var ciEntity = findCIEntity.get()
+        val ciEntity = findCIEntity.get()
 
         if (findCIEntity.isEmpty) {
             throw AliceException(

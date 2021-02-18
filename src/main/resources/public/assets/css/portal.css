@@ -877,17 +877,17 @@ input, button, select, optgroup, textarea {
   margin: 0 auto;
 }
 .portal-container .main-banner {
-  height: 6.5rem;
+  height: 8.75rem;
   background-color: #F7F8F9;
 }
 .portal-container .main-banner .title {
-  padding: 3.625rem 0 0.625rem 0;
+  padding: 3.75rem 0 1.875rem 0;
 }
 .portal-container .main-search {
-  height: 8.5rem;
+  height: 6.25rem;
   background-color: #F7F8F9;
   border-bottom: 0.0625rem solid #EBEBEB;
-  padding: 3rem 0;
+  padding: 1.875rem 0;
 }
 .portal-container .main-search.slide-up + .portal-search-result .list {
   height: calc(6.5rem + 647px);
@@ -896,7 +896,7 @@ input, button, select, optgroup, textarea {
   height: 647px;
 }
 .portal-container .main-content .card-group {
-  padding: 3.4375rem 12.75rem 0 12.75rem;
+  padding: 3.4375rem 13.75rem 0 13.75rem;
 }
 .portal-container .main-content .card-group .card {
   width: 30rem;

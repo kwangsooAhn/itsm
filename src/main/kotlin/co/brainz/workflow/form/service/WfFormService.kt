@@ -111,8 +111,7 @@ class WfFormService(
 
             // 해당 컴포넌트에 연결된 라벨 찾기
             val labelsArray = ArrayList<LinkedHashMap<String, String?>>()
-            val labelEntities =
-                aliceLabelService.getLabels(AliceLabelConstants.LABEL_TARGET_COMPONENT, componentEntity.componentId)
+            val labelEntities = aliceLabelService.getLabels(AliceLabelConstants.LABEL_TARGET_COMPONENT, componentEntity.componentId)
 
             // 저장과 마찬가지로 폼 디자이너 화면에서 사용하기 위해서 Array 형태로 변환이 필요.
             for (labelEntity in labelEntities) {
@@ -135,7 +134,7 @@ class WfFormService(
                 option = null,
                 validate = null,
                 header = null,
-                field = null
+                drTableColumns = null
             )
             val componentDataEntityList = wfComponentDataRepository.findByComponentId(componentEntity.componentId)
 
@@ -166,7 +165,7 @@ class WfFormService(
                         )
                     )
                     "header" -> component.header = objMapper.convertValue(attributeValue["value"], linkedMapType)
-                    "field" -> component.field = objMapper.convertValue(
+                    "drTableColumns" -> component.drTableColumns = objMapper.convertValue(
                         attributeValue["value"],
                         TypeFactory.defaultInstance().constructCollectionType(
                             MutableList::class.java,
@@ -257,11 +256,11 @@ class WfFormService(
             }
         }
 
-        component.field?.let {
+        component.drTableColumns?.let {
             if (it.size > 0) {
                 componentDataEntity = WfComponentDataEntity(
                     componentId = resultComponentEntity.componentId,
-                    attributeId = "field",
+                    attributeId = "drTableColumns",
                     attributeValue = objMapper.writeValueAsString(it),
                     attributes = resultComponentEntity
                 )
@@ -343,12 +342,10 @@ class WfFormService(
             if (componentIds.isNotEmpty()) {
                 wfComponentRepository.deleteComponentEntityByComponentIdIn(componentIds)
                 for (componentId in componentIds) {
-                    aliceLabelService.deleteLabels(
-                        AliceLabelDto(
-                            labelTarget = AliceLabelConstants.LABEL_TARGET_COMPONENT,
-                            labelTargetId = componentId
-                        )
-                    )
+                    aliceLabelService.deleteLabels(AliceLabelDto(
+                        labelTarget = AliceLabelConstants.LABEL_TARGET_COMPONENT,
+                        labelTargetId = componentId
+                    ))
                 }
             }
         }
@@ -450,25 +447,25 @@ class WfFormService(
             if (dataAttribute.containsKey("labelList")) {
                 val labels = LinkedHashMap<String, String?>()
                 labelList = dataAttribute["labelList"] as LinkedHashMap<String, Any>
-                val labelsArrayList = labelList["label"] as ArrayList<LinkedHashMap<String, String?>>
+                labelList["label"]?.let {
+                    val labelsArrayList = labelList["label"] as ArrayList<LinkedHashMap<String, String?>>
 
-                // 화면에서 전달된 라벨리스트가 size 가 1개인 map 의 Array 형태로 구성되었음.
-                // 아래는 forEach 가 이중으로 작성되었으나 내부의 forEach 는 1번씩만 동작.
-                // 하나씩 꺼내서 저장용 맵을 구성.
+                    // 화면에서 전달된 라벨리스트가 size 가 1개인 map 의 Array 형태로 구성되었음.
+                    // 아래는 forEach 가 이중으로 작성되었으나 내부의 forEach 는 1번씩만 동작.
+                    // 하나씩 꺼내서 저장용 맵을 구성.
 
-                labelsArrayList.forEach { label ->
-                    label.keys.forEach {
-                        labels[it] = label[it]
+                    labelsArrayList.forEach { label ->
+                        label.keys.forEach {
+                            labels[it] = label[it]
+                        }
                     }
-                }
 
-                aliceLabelService.addLabels(
-                    AliceLabelDto(
+                    aliceLabelService.addLabels(AliceLabelDto(
                         labelTarget = labelList["label_target"] as String,
-                        labelTargetId = component.componentId,
+                        labelTargetId = labelList["target_id"] as String,
                         labels = labels
-                    )
-                )
+                    ))
+                }
             }
         }
         val componentEntity = WfComponentEntity(

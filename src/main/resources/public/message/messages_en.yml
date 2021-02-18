@@ -321,6 +321,8 @@ cmdb:
     msg:
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
+      selectCI: "Please select a CI."
+      tag: "Please enter a tag."
     btn:
       import: "Import"
       export: "Export"
@@ -355,8 +357,8 @@ cmdb:
       enterTypeAlias: "Please enter a Type Alias."
       enterTypeName: "Please enter a Type Name."
       selectType: "Please select a Type."
-      selectAvailableClass: "Please select a available Class.<br/>(not root)"
-      selectAvailableType: "Please select a available Type.<br/>(not root)"
+      selectAvailableClass: "Please select a available Class."
+      selectAvailableType: "Please select a available Type."
     btn:
       import: "Import"
       export: "Export"
@@ -639,7 +641,7 @@ form:
     dataAttribute: "Data Attribute"
     desc: "Description"
     display: "Display"
-    field: "Column Option"
+    drTableColumns: "Table Column"
     header: "Header"
     id: "ID"
     label: "Label"
@@ -661,7 +663,7 @@ form:
     datetimeMin: "Min Datetime"
     default: "Default"
     editorUseYn: "Editor Use"
-    field: "{0} Column"
+    drTableColumns: "{0} Column"
     height: "Height"
     isEditable: "Editable"
     isTopic: "is Topic"

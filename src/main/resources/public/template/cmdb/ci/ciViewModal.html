@@ -63,13 +63,13 @@
                 <label class="field-label">
                     <span th:text="#{cmdb.ci.label.tag}"></span>
                 </label>
-                <input type="text" id="ciTags" readonly/>
+                <input type="text" id="ciTags" class="col-pct-12 inherit"  th:onclick="CI.addTags(this, [[${ciData?.ciTags}]]);" readonly/>
             </div>
             <!-- 세부속성 -->
             <div class="flex-column view-row">
                 <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
             </div>
-            <div id="ciAttributes" th:onclick="attribute.drawViewDetails(this, [[${ciData?.classes}]]);">
+            <div id="ciAttributes" th:onclick="attribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
             </div>
         </div>
     </div>

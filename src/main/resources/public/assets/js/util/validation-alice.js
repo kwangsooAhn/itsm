@@ -183,7 +183,7 @@ function isValidPassword(elementId, callbackFunc) {
      * 1가지의 문자 구성인 경우 10자 이상, 20자 미만의 비밀번호를 설정한다.
      * 문자 구성 : 대문자, 소문자, 특수문자 , 숫자
      */
-    if (lowerCaseReg.test(password) || upperCaseReg.test(password) || specialCharReg.test(password) || untegerReg.test(password)) {
+    if (lowerCaseReg.test(password) || upperCaseReg.test(password) || specialCharReg.test(password) || integerReg.test(password)) {
         if (password.length < 10 || password.length > 20) {
             aliceJs.alertWarning(i18n.msg('validation.msg.pwOneBetween10And20'), callbackFunc);
             return false;

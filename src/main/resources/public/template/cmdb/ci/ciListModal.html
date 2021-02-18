@@ -16,7 +16,7 @@
     </tr>
     </thead>
     <tbody class="list-body">
-    <input type="hidden" id="totalCount" th:value="${ciListCount}"/>
+    <input type="hidden" id="ciCount" name="ciCount" th:value="${ciListCount}"/>
     <tr class="no-data-found-list flex-row align-items-center" th:if="${#arrays.isEmpty(ciList)}">
         <td style="width: 100%;" colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
@@ -36,7 +36,9 @@
             <td style="width: 25%;" class="align-left" id="ciDesc" th:text="${ci.ciDesc}"></td>
             <td style="width: 0%; display: none;" id="classId" th:text="${ci.classId}"></td>
             <td style="width: 25%;" class="align-left">
-                <!--<span class="tag align-center text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag}"></span>-->
+                <div class="tag-group align-middle">
+                    <span class="tag align-center text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag.tagName}"></span>
+                </div>
             </td>
         </tr>
     </th:block>
