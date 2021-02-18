@@ -10,7 +10,7 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class CIDetailDto(
-    var ciId: String? = null,
+    var ciId: String,
     var ciNo: String? = null,
     var ciName: String? = null,
     var ciIcon: String? = null,
