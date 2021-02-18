@@ -247,7 +247,7 @@
         if (isView) { return false; }
 
         // 유효성이 통과되지 않으면 저장되지 않는다.
-        if (hasErrorClass)  {  return false; }
+        if (!hasErrorClass)  {  return false; }
 
         data = JSON.parse(JSON.stringify(editor.data));
 

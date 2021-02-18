@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/cmdb/eg/attributes")
-class CIAttributeController(
+class CIAttributeRestController(
     private val ciAttributeService: CIAttributeService
 ) {
 
