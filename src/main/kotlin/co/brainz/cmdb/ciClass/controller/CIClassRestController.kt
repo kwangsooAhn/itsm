@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/cmdb/eg/classes")
-class CIClassController(
+class CIClassRestController(
     private val ciClassService: CIClassService
 ) {
 
