@@ -616,7 +616,7 @@ function isValidRequiredAll() {
  * 데이터 저장전, 에러를 가진 엘리먼트가 존재하는치 체크한다. 에러를 가진 엘리먼트가 존재할 경우 포커싱한다.
  * @returns {boolean}
  */
-function isClassWithError() {
+function hasErrorClass() {
     const errorElem = document.querySelector('.error');
     if (errorElem !== null) {
         errorElem.focus();

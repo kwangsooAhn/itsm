@@ -595,7 +595,6 @@ form:
     undo: "Undo"
     update: "Update Form"
   msg:
-    duplicate: "Duplicate data cannot be included."
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
@@ -610,6 +609,7 @@ form:
     required: "Please enter the required item."
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
+    unique: "Duplicate data cannot be included."
   component:
     accordion-start: "Accordion"
     checkbox: "Checkbox"

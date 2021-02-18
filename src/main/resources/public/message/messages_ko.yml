@@ -595,7 +595,6 @@ form:
     update: "문서양식 변경"
     undo: "작업 취소"
   msg:
-    duplicate: "중복된 데이터는 포함할 수 없습니다."
     enterFormName: "양식이름을 입력하세요."
     failedAllColumnDelete: "최소 1개 열은 필수입니다."
     failedFormDelete: "문서양식을 삭제할 수 없습니다. 발행된 신청서가 있는 지 확인하세요."
@@ -610,7 +609,7 @@ form:
     required: "필수 항목을 입력하세요."
     searchDescription: "문서양식를 조회 및 관리합니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
-
+    unique: "중복된 데이터는 포함할 수 없습니다."
   component:
     accordion-start: "Accordion"
     checkbox: "Checkbox"

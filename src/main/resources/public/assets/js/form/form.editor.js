@@ -178,17 +178,18 @@
                     case 'label':
                         result = validateFunc.label(target.value);
                         break;
-                    case 'duplicate': // table 중복 체크
+                    case 'unique': // table 중복 체크
                         result = true;
                         if (target.parentNode.tagName === 'TD') { // table 일 경우
                             const tb = aliceJs.clickInsideElement(e, 'property-field-table');
-                            const matchCellIdx = target.parentNode.cellIndex;
-                            const matchRowIdx = target.parentNode.parentNode.rowIndex;
-                            for (let i = 1, len = matchRowIdx; i < len; i++) {
+                            const targetCellIdx = target.parentNode.cellIndex;
+                            const targetRowIdx = target.parentNode.parentNode.rowIndex;
+                            for (let i = 1; i < targetRowIdx; i++) {
                                 const tbRow = tb.rows[i];
-                                const inputCell = tbRow.cells[matchCellIdx].querySelector('input');
+                                const inputCell = tbRow.cells[targetCellIdx].querySelector('input');
                                 if (target.value.trim() === inputCell.value.trim()) {
                                     result = false;
+                                    break;
                                 }
                             }
                         }
@@ -209,6 +210,34 @@
     }
 
     /**
+     * 중복 validate check
+     */
+    function uniqueCheck() {
+        // TODO: 공통 유효성 체크로 변경 필요. (validation-alice.js)
+        // custom tag로 data-validate를 사용하는 것은 현재 폼 디자이너만 사용하니 추후 공통으로 적용하는 방향이 좋을 것 같음.
+        const tbs = propertiesPanel.querySelectorAll('table');
+        for (let i = 0, tbLen = tbs.length; i < tbLen; i++) {
+            const tb = tbs[i];
+            const tbValidate = tb.getAttribute('date-validate');
+            if (tbValidate && tbValidate === 'unique') {
+                const errorMsg = tb.parentNode.querySelector('.error-msg');
+                let keys = [];
+                for (let j = 1, rowLen = tb.rows.length; j < rowLen; j++) {
+                    const tbRow = tb.rows[j];
+                    const inputCell = tbRow.cells[1].querySelector('input');
+                    if (keys.indexOf(inputCell.value.trim()) > -1) {
+                        inputCell.classList.add('error');
+                        errorMsg.innerHTML = i18n.msg('form.msg.duplicate');
+                        errorMsg.classList.add('on');
+                        return false;
+                    }
+                    keys.push(inputCell.value.trim());
+                }
+            }
+        }
+    }
+
+    /**
      * 폼 저장
      *
      * @param {String} flag 저장후  닫을지 여부
@@ -218,7 +247,7 @@
         if (isView) { return false; }
 
         // 유효성이 통과되지 않으면 저장되지 않는다.
-        if (isClassWithError)  {  return false; }
+        if (hasErrorClass)  {  return false; }
 
         data = JSON.parse(JSON.stringify(editor.data));
 
@@ -1680,7 +1709,7 @@
                     `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
                     `<button type="button" class="ghost-line btn-option float-right" id="label-option-plus"><span class="icon icon-plus"></span></button>` +
                     `<button type="button" class="ghost-line btn-option float-right mr-1" id="label-option-minus"><span class="icon icon-minus"></span></button>` +
-                    `<table class="property-field-table" id="table-label">` +
+                    `<table class="property-field-table" id="table-label" date-validate="unique">` +
                         `<colgroup>` +
                             `<col width="20%">` +
                             `<col width="40%">` +
@@ -2600,6 +2629,7 @@
     exports.history = history;
     exports.selectedComponentIds = selectedComponentIds;
     exports.showDRTableColumnProperties = showDRTableColumnProperties;
+    exports.uniqueCheck = uniqueCheck;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

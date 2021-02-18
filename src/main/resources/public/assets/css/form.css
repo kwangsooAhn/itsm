@@ -3689,7 +3689,7 @@ body.modal-active {
 }
 
 .modal-dialog.save-as .modal-content {
-  height: calc(25.63remm - 3.375rem - 5rem);
+  height: calc(25.63rem - 3.375rem - 5rem);
   padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
