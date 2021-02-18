@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="${schedule != null} ? #{scheduler.label.edit} : #{scheduler.label.register}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="flex-column edit">
+        <div class="schedule-header">
+            <div class="header-title flex-row align-items-baseline">
+                <h1 th:text="#{scheduler.label.schedule}"></h1>
+                <h6 class="description" th:text="#{scheduler.msg.scheduleDescription}"></h6>
+            </div>
+        </div>
+        <div class="schedule-content-edit">
+            <div class="flex-column edit-row">
+                <label for="taskName">
+                    <span th:text="#{scheduler.label.name}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="taskName" required="required" maxlength="110"
+                       th:value="${schedule?.taskName}">
+            </div>
+            <div class="flex-column edit-row">
+                <label for="taskDesc">
+                    <span th:text="#{scheduler.label.description}"></span>
+                </label>
+                <textarea id="taskDesc" name="taskDesc" maxlength="250" rows="5"
+                          class="textarea-scroll-wrapper" th:text="${schedule?.taskDesc}"></textarea>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="taskStatus">
+                    <span th:text="#{scheduler.label.status}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="taskStatus" required="required">
+                    <option value="true" th:text="#{scheduler.status.true}" th:selected="true == ${schedule?.useYn}"></option>
+                    <option value="false" th:text="#{scheduler.status.false}" th:selected="false == ${schedule?.useYn}"></option>
+                </select>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="taskType">
+                    <span th:text="#{scheduler.label.taskType}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="taskType" required="required" onchange="changeContainer(this.value)">
+                    <option th:each="taskType: ${taskTypeList}" th:value="${taskType.codeValue}"
+                            th:text="${taskType.codeName}"
+                            th:selected="${taskType.codeValue} == ${schedule?.taskType}">
+                    </option>
+                </select>
+            </div>
+            <div id="details"></div>
+            <!-- 타입: class-->
+            <div id="type-class-container"
+                 th:style="${schedule?.taskType == null || schedule?.taskType == 'class' ? '' : 'display: none'}">
+                <div class="flex-column edit-row">
+                    <label>
+                        <span th:text="#{scheduler.label.class}"></span>
+                        <span class="required"></span>
+                    </label>
+                    <input type="text" id="executeClass" required="required" maxlength="110"
+                           th:value="${schedule?.executeClass}">
+                </div>
+                <div class="flex-column edit-row">
+                    <label>
+                        <span th:text="#{scheduler.label.args}"></span>
+                    </label>
+                    <input type="text" id="args" maxlength="100" th:value="${schedule?.args}">
+                </div>
+            </div>
+            <!-- 타입: query -->
+            <div id="type-query-container" th:style="${schedule?.taskType == 'query' ? '' : 'display: none'}">
+                <div class="flex-column edit-row">
+                    <label for="executeQuery">
+                        <span th:text="#{scheduler.label.query}"></span>
+                        <span class="required"></span>
+                    </label>
+                    <textarea id="executeQuery" name="executeQuery" maxlength="500" rows="10" required="required"
+                              class="textarea-scroll-wrapper" th:text="${schedule?.executeQuery}"></textarea>
+                </div>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="executeCycleType">
+                    <span th:text="#{scheduler.label.executeCycleType}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="executeCycleType" required="required" onchange="changeContainer(this.value)">
+                    <option th:each="executeCycleType: ${executeCycleTypeList}" th:value="${executeCycleType.codeValue}"
+                            th:text="${executeCycleType.codeName}"
+                            th:selected="${executeCycleType.codeValue} == ${schedule?.executeCycleType}">
+                    </option>
+                </select>
+            </div>
+            <!-- executeCycleType: fixed_delay, fixed_rate -->
+            <div id="executeCycleType-cron-container" class="flex-column edit-row" th:style="${schedule?.executeCycleType == 'cron' ? '' : 'display: none'}">
+                <label for="cronExpression">
+                    <span th:text="#{scheduler.label.cronExpression}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="cronExpression" required="required" maxlength="110"
+                       th:value="${schedule?.cronExpression}">
+            </div>
+            <div id="executeCycleType-fixed-container" class="flex-column edit-row" th:style="${schedule?.executeCycleType != 'cron' ? '' : 'display: none'}">
+                <label for="executeCyclePeriod">
+                    <span th:text="#{scheduler.label.executeCyclePeriod}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="executeCyclePeriod" required="required" maxlength="6"
+                       th:value="${schedule?.executeCyclePeriod}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
+            </div>
+            <div class="flex-row justify-content-end edit-row">
+                <div class="btn-list">
+                    <button class="point-fill" th:if="${schedule == null}" sec:authorize="hasAuthority('scheduler.create')"
+                            onclick="actionScheduler('post')" th:text="#{common.btn.register}"></button>
+                    <button class="point-fill" th:if="${schedule != null}" sec:authorize="hasAuthority('scheduler.update')"
+                            th:disabled="${!schedule.editable}" onclick="actionScheduler('put')" th:text="#{common.btn.modify}">
+                    </button>
+                    <button class="default-fill" th:if="${schedule != null}" sec:authorize="hasAuthority('scheduler.delete')"
+                            th:disabled="${!schedule.editable}" onclick="actionScheduler('delete')" th:text="#{common.btn.delete}">
+                    </button>
+                    <button class="point-fill" th:if="${schedule != null}" sec:authorize="hasAuthority('scheduler.execute')"
+                            onclick="executeScheduler()" th:text="#{scheduler.btn.immediatelyExecute}"></button>
+                    <button class="default-fill" th:if="${schedule != null}" sec:authorize="hasAuthority('scheduler.read')"
+                            onclick="historyScheduler()" th:text="#{scheduler.btn.history}"></button>
+                    <a class="btn default-line" href="/schedulers/search" th:text="#{common.btn.list}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_SCHEDULE_USED = '1';
+        const STATUS_ERROR_SCHEDULE_NAME_DUPLICATION = '2';
+
+        window.onload = function() {
+            document.getElementById('taskName').focus();
+            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
+        };
+
+        /** 작업 유형, 실행 유형에 따른 입력 화면 출력 **/
+        function changeContainer(type) {
+            if (type === 'class') {
+                document.getElementById('type-class-container').style.display = '';
+                document.getElementById('type-query-container').style.display = 'none';
+            } else if (type === 'query') {
+                document.getElementById('type-class-container').style.display = 'none';
+                document.getElementById('type-query-container').style.display = '';
+            } else if (type === 'cron') {
+                document.getElementById('executeCycleType-cron-container').style.display = '';
+                document.getElementById('executeCycleType-fixed-container').style.display = 'none';
+            } else if (type === 'fixedDelay' || type === 'fixedRate') {
+                document.getElementById('executeCycleType-fixed-container').style.display = '';
+                document.getElementById('executeCycleType-cron-container').style.display = 'none';
+            }
+        }
+
+        /** 즉시 실행 **/
+        function executeScheduler() {
+            console.log(111);
+        }
+
+        /** 이력 모달 **/
+        function historyScheduler() {
+            console.log(222);
+        }
+
+        /** method 에 따른 데이터 셋팅 **/
+        function actionScheduler(method) {
+            if (method === 'post' || method === 'put') {
+                const taskType = document.getElementById('taskType').value;
+                const executeCycleType = document.getElementById('executeCycleType').value;
+                if (isValidRequired()) {
+                    let data = {
+                        taskName: document.getElementById('taskName').value,
+                        taskType: taskType,
+                        taskDesc: document.getElementById('taskDesc').value,
+                        useYn: document.getElementById('taskStatus').value,
+                        executeCycleType: document.getElementById('executeCycleType').value
+                    };
+                    if (taskType === 'class') {
+                        data.executeClass = document.getElementById('executeClass').value;
+                        data.args = document.getElementById('args').value;
+                    } else {
+                        data.executeQuery = document.getElementById('executeQuery').value;
+                    }
+                    if (executeCycleType === 'cron') {
+                        data.cronExpression = document.getElementById('cronExpression').value;
+                    } else {
+                        data.executeCyclePeriod = document.getElementById('executeCyclePeriod').value;
+                    }
+                    let url = '/rest/schedulers';
+                    if (method === 'put') {
+                        url += '/' + /*[[${schedule?.taskId}]]*/'';
+                        data.taskId = /*[[${schedule?.taskId}]]*/'';
+                    }
+                    restSubmit(method, url, data);
+                }
+            } else if (method === 'delete') {
+                aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/schedulers/' + /*[[${schedule?.taskId}]]*/'');
+            }
+        }
+
+        /** 조건에 따른 필수값 체크 **/
+        function isValidRequired() {
+            if (isEmpty('taskName', 'common.msg.requiredEnter')) { return false; }
+            if (isEmpty('taskStatus', 'common.msg.requiredEnter')) { return false; }
+            if (isEmpty('taskType', 'common.msg.requiredEnter')) { return false; }
+            const taskType = document.getElementById('taskType').value;
+            if (taskType === 'class') {
+                if (isEmpty('executeClass', 'common.msg.requiredEnter')) { return false; }
+            } else { // query
+                if (isEmpty('executeQuery', 'common.msg.requiredEnter')) { return false; }
+            }
+            const executeCycleType = document.getElementById('executeCycleType').value;
+            if (executeCycleType === 'cron') {
+                if (isEmpty('cronExpression', 'common.msg.requiredEnter')) { return false; }
+            } else { // fixedDelay, fixedRate
+                if (isEmpty('executeCyclePeriod', 'common.msg.requiredEnter')) { return false; }
+            }
+            return true;
+        }
+
+        /** 숫자만 허용 **/
+        function onlyNumber(event) {
+            event = event || window.event;
+            const keyID = (event.which) ? event.which : event.keyCode;
+            if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
+                || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
+                return false;
+            }
+        }
+
+        /** 숫자가 아닌 경우 자동 삭제 **/
+        function removeChar(event) {
+            event = event || window.event;
+            const keyID = (event.which) ? event.which : event.keyCode;
+            if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
+                event.target.value = event.target.value.replace(/[^0-9]/g, '');
+            }
+        }
+
+        /** Rest API 호출 **/
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    if (method === 'post' || method === 'put') {
+                        switch (response.responseText) {
+                            case STATUS_SUCCESS:
+                                aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                    location.href = '/schedulers/search';
+                                });
+                                break;
+                            case STATUS_ERROR_SCHEDULE_USED:
+                                aliceJs.alertWarning(i18n.msg('scheduler.msg.useSchedule'));
+                                break;
+                            case STATUS_ERROR_SCHEDULE_NAME_DUPLICATION:
+                                aliceJs.alertWarning(i18n.msg('scheduler.msg.duplicateTaskName'));
+                                break;
+                            default :
+                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                                break;
+                        }
+                    } else if (method === 'delete'){
+                        switch (response.responseText) {
+                            case STATUS_SUCCESS:
+                                aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                                    location.href = '/schedulers/search';
+                                });
+                                break;
+                            case STATUS_ERROR_SCHEDULE_USED:
+                                aliceJs.alertWarning(i18n.msg('scheduler.msg.useSchedule'));
+                                break;
+                            default:
+                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                                break;
+                        }
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</html>

@@ -756,6 +756,7 @@ menu:
     code: "코드"
     parent: "시스템 관리"
     role: "역할"
+    scheduler: "스케줄러"
     user: "사용자"
   dashboard:
     parent: "개인 현황판"
@@ -970,6 +971,39 @@ role:
     enterRoleName: "역할 명을 입력하세요."
     searchPlaceholder: "역할 명 / 역할 설명"
     selectAuth: "권한을 선택하세요."
+
+# Scheduler
+scheduler:
+  btn:
+    immediatelyExecute: "즉시 실행"
+    history: "이력"
+  label:
+    args: "Arguments"
+    class: "클래스"
+    cronExpression: "크론표현식"
+    description: "설명"
+    edit: "스케줄 수정"
+    executeCycleType: "실행 유형"
+    executeCyclePeriod: "실행 주기"
+    immediatelyExecution: "즉시 실행"
+    lastExecuteTime: "마지막 실행 시간"
+    name: "스케줄 명"
+    query: "쿼리"
+    register: "스케줄 등록"
+    result: "결과"
+    schedule: "스케줄"
+    scheduler: "스케줄러"
+    searchPlaceholder: "스케줄 명 / 작업 유형 / 클래스 / 실행 유형"
+    status: "상태"
+    taskType: "작업 유형"
+  msg:
+    duplicateTaskName: "중복된 작업명이 존재합니다."
+    scheduleDescription: "스케줄 세부 정보와 이력을 확인할 수 있습니다."
+    searchDescription: "반복적인 작업을 등록하여 관리합니다."
+    useSchedule: "사용중인 스케줄입니다."
+  status:
+    true: "사용"
+    false: "미사용"
 
 # Token
 token:
