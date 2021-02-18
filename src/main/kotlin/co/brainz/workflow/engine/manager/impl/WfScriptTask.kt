@@ -156,30 +156,36 @@ class WfScriptTask(
                 val ciId = ci["ciId"] as String
                 val ciComponentData =
                     wfTokenManagerService.getComponentCIData(componentId, ciId, instanceId)
-                val ciComponentDataValue: Map<String, Any> =
-                    mapper.readValue(ciComponentData?.values, object : TypeReference<Map<String, Any>>() {})
+                if (ciComponentData !== null) {
+                    val ciComponentDataValue: Map<String, Any> =
+                        mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
 
-                // CI에 속한 세부 정보 추출
-                val ciDataList = this.getCiDataList(ciId, ciComponentDataValue)
-                val ciTags = this.getCiTags(ciId, ciComponentDataValue)
-                val ciRelations = this.getCiRelations(ciId, ciComponentDataValue)
+                    // CI에 속한 세부 정보 추출
+                    val ciDataList = this.getCiDataList(ciId, ciComponentDataValue)
+                    val ciTags = this.getCiTags(ciId, ciComponentDataValue)
+                    val ciRelations = this.getCiRelations(ciId, ciComponentDataValue)
 
-                // Dto 생성후 List에 담기
-                ciDtoList.add(
-                    CIDto(
-                        ciId = ciId,
-                        ciNo = ci["ciNo"] as String,
-                        ciName = ci["ciName"] as String,
-                        ciDesc = ci["ciDesc"] as String,
-                        ciIcon = ci["ciIcon"] as String,
-                        classId = ci["classId"] as String,
-                        typeId = ci["typeId"] as String,
-                        ciStatus = ci["ciStatus"] as String,
-                        ciDataList = ciDataList,
-                        ciTags = ciTags,
-                        ciRelations = ciRelations
+                    // Dto 생성후 List에 담기
+                    ciDtoList.add(
+                        CIDto(
+                            ciId = ciId,
+                            ciNo = ci["ciNo"] as String,
+                            ciName = ci["ciName"] as String,
+                            ciDesc = ci["ciDesc"] as String,
+                            ciIcon = ci["ciIcon"] as String,
+                            classId = ci["classId"] as String,
+                            typeId = ci["typeId"] as String,
+                            ciStatus = ci["ciStatus"] as String,
+                            ciDataList = ciDataList,
+                            ciTags = ciTags,
+                            ciRelations = ciRelations
+                        )
                     )
-                )
+                } else { // 임시데이터가 존재하지 않을 경우 실 데이터를 조회한다.
+                    ciDtoList.add(
+                        wfTokenManagerService.getCI(ciId)
+                    )
+                }
             }
         }
         return ciDtoList

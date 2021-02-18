@@ -96,11 +96,12 @@ class CIService(
      * CI 단일 조회
      */
     fun getCI(ciId: String): CIDetailDto {
-        val ciDetailDto = CIDetailDto()
+        val ciDetailDto = CIDetailDto(
+            ciId = ciId
+        )
         val resultCiEntity = ciRepository.findById(ciId)
         if (!resultCiEntity.isEmpty) {
             val ciEntity = resultCiEntity.get()
-            ciDetailDto.ciId = ciEntity.ciId
             ciDetailDto.ciNo = ciEntity.ciNo
             ciDetailDto.ciName = ciEntity.ciName
             ciDetailDto.ciIcon = ciEntity.ciIcon

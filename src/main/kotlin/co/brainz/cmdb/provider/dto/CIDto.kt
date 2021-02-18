@@ -15,7 +15,7 @@ data class CIDto(
     var ciName: String? = null,
     var ciStatus: String? = null,
     val typeId: String,
-    val classId: String?,
+    val classId: String? = null,
     var ciIcon: String? = null,
     var ciDesc: String? = null,
     var automatic: Boolean? = false,
