@@ -13,15 +13,21 @@ import co.brainz.framework.scheduling.service.AliceScheduleTaskService
 import co.brainz.itsm.scheduler.dto.SchedulerDto
 import co.brainz.itsm.scheduler.dto.SchedulerListDto
 import co.brainz.itsm.scheduler.dto.SchedulerSearchDto
+import java.time.Instant
 import javax.transaction.Transactional
+import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.scheduling.TaskScheduler
 import org.springframework.stereotype.Service
 
 @Service
 class SchedulerService(
     private val aliceScheduleTaskRepository: AliceScheduleTaskRepository,
-    private val aliceScheduleTaskService: AliceScheduleTaskService
+    private val aliceScheduleTaskService: AliceScheduleTaskService,
+    private val scheduler: TaskScheduler
 ) {
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
      * 스케줄 목록 조회.
@@ -117,5 +123,36 @@ class SchedulerService(
         aliceScheduleTaskService.removeTaskFromScheduler(taskId)
         aliceScheduleTaskRepository.deleteById(taskId)
         return "0"
+    }
+
+    /**
+     * 스케줄 즉시 실행.
+     */
+    fun executeScheduler(schedulerDto: SchedulerDto): String {
+        var returnValue = "0"
+        when (schedulerDto.taskType) {
+            "query" -> {
+                schedulerDto.executeQuery?.let { aliceScheduleTaskService.executeQuery(it) }
+            }
+            "class" -> {
+                try {
+                    val taskClass = Class.forName(schedulerDto.executeClass)
+                        .asSubclass(Runnable::class.java)
+                    val args = aliceScheduleTaskService.getArgs(schedulerDto.args)
+                    val runnable: Runnable
+                    runnable = if (args.isEmpty()) {
+                        taskClass.getDeclaredConstructor().newInstance()
+                    } else {
+                        taskClass.getDeclaredConstructor(Any::class.java).newInstance(args)
+                    }
+                    scheduler.schedule(runnable, Instant.now())
+                } catch (e: Exception) {
+                    logger.error("Failed to load class. [{}]", schedulerDto.executeClass)
+                    e.printStackTrace()
+                    returnValue = "3"
+                }
+            }
+        }
+        return returnValue
     }
 }

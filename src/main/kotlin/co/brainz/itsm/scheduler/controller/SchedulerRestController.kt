@@ -59,4 +59,12 @@ class SchedulerRestController(
     fun deleteScheduler(@PathVariable taskId: String): String {
         return schedulerService.deleteScheduler(taskId)
     }
+
+    /**
+     * Scheduler 즉시 실행.
+     */
+    @PostMapping("/{taskId}/execute")
+    fun executeScheduler(@RequestBody schedulerDto: SchedulerDto): String {
+        return schedulerService.executeScheduler(schedulerDto)
+    }
 }

@@ -71,6 +71,7 @@ common:
     selectBeforeDate: "{0} 날짜 이전으로 선택하세요."
     selectBeforeDateTime: "{0} 날짜 시간 이전으로 선택하세요."
     selectBeforeTime: "{0} 시간 이전으로 선택하세요."
+    success: "성공하였습니다."
     update: "변경되었습니다."
   code:
     token:

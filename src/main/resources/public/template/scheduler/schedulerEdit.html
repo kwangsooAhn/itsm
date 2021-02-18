@@ -123,7 +123,7 @@
                             th:disabled="${!schedule.editable}" onclick="actionScheduler('delete')" th:text="#{common.btn.delete}">
                     </button>
                     <button class="point-fill" th:if="${schedule != null}" sec:authorize="hasAuthority('scheduler.execute')"
-                            onclick="executeScheduler()" th:text="#{scheduler.btn.immediatelyExecute}"></button>
+                            onclick="actionScheduler('execute')" th:text="#{scheduler.btn.immediatelyExecute}"></button>
                     <button class="default-fill" th:if="${schedule != null}" sec:authorize="hasAuthority('scheduler.read')"
                             onclick="historyScheduler()" th:text="#{scheduler.btn.history}"></button>
                     <a class="btn default-line" href="/schedulers/search" th:text="#{common.btn.list}"></a>
@@ -139,6 +139,7 @@
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_SCHEDULE_USED = '1';
         const STATUS_ERROR_SCHEDULE_NAME_DUPLICATION = '2';
+        const STATUS_ERROR_SCHEDULER_EXECUTE = '3';
 
         window.onload = function() {
             document.getElementById('taskName').focus();
@@ -162,11 +163,6 @@
             }
         }
 
-        /** 즉시 실행 **/
-        function executeScheduler() {
-            console.log(111);
-        }
-
         /** 이력 모달 **/
         function historyScheduler() {
             console.log(222);
@@ -174,7 +170,7 @@
 
         /** method 에 따른 데이터 셋팅 **/
         function actionScheduler(method) {
-            if (method === 'post' || method === 'put') {
+            if (method === 'post' || method === 'put' || method === 'execute') {
                 const taskType = document.getElementById('taskType').value;
                 const executeCycleType = document.getElementById('executeCycleType').value;
                 if (isValidRequired()) {
@@ -197,9 +193,12 @@
                         data.executeCyclePeriod = document.getElementById('executeCyclePeriod').value;
                     }
                     let url = '/rest/schedulers';
-                    if (method === 'put') {
+                    if (method === 'put' || method === 'execute') {
                         url += '/' + /*[[${schedule?.taskId}]]*/'';
                         data.taskId = /*[[${schedule?.taskId}]]*/'';
+                    }
+                    if (method === 'execute') {
+                        url += '/execute';
                     }
                     restSubmit(method, url, data);
                 }
@@ -250,7 +249,7 @@
         /** Rest API 호출 **/
         function restSubmit(method, url, data) {
             const opt = {
-                method: method,
+                method: method === "execute" ? "post" : method,
                 url: url,
                 params: JSON.stringify(data),
                 contentType: 'application/json',
@@ -269,6 +268,18 @@
                                 aliceJs.alertWarning(i18n.msg('scheduler.msg.duplicateTaskName'));
                                 break;
                             default :
+                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                                break;
+                        }
+                    } else if (method === 'execute') {
+                        switch (response.responseText) {
+                            case STATUS_SUCCESS:
+                                aliceJs.alertSuccess(i18n.msg('common.msg.success'));
+                                break;
+                            case STATUS_ERROR_SCHEDULER_EXECUTE:
+                                aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                                break;
+                            default:
                                 aliceJs.alertDanger(i18n.msg('common.msg.fail'));
                                 break;
                         }
