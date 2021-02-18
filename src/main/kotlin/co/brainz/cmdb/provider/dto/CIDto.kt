@@ -15,13 +15,13 @@ data class CIDto(
     var ciName: String? = null,
     var ciStatus: String? = null,
     val typeId: String,
-    val classId: String?,
+    val classId: String? = null,
     var ciIcon: String? = null,
     var ciDesc: String? = null,
     var automatic: Boolean? = false,
-    var ciDataList: MutableList<CIDataDto>?,
-    var ciRelations: MutableList<CIRelationDto>?,
-    var ciTags: MutableList<CITagDto>?
+    var ciDataList: MutableList<CIDataDto>? = null,
+    var ciRelations: MutableList<CIRelationDto>? = null,
+    var ciTags: MutableList<CITagDto>? = null
 ) : Serializable, AliceMetaEntity()
 
 data class CIDataDto(

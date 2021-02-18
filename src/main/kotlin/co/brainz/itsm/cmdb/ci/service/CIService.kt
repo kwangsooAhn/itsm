@@ -83,13 +83,14 @@ class CIService(
      */
     fun getCIData(ciId: String, componentId: String, instanceId: String, modifyCIData: String): CIDetailDto {
 
-        var ciDetailDto = CIDetailDto()
+        var ciDetailDto = CIDetailDto(
+            ciId = ciId
+        )
         // 전달된 데이터로 변경
         val map = mapper.readValue(modifyCIData, LinkedHashMap::class.java)
         val actionType = map["actionType"] as String
         if (actionType == CIConstants.ActionType.REGISTER.code || actionType == CIConstants.ActionType.MODIFY.code) {
             // 화면에서 전달된 데이터 세팅
-            ciDetailDto.ciId = ciId
             ciDetailDto.ciNo = map["ciNo"] as String
             ciDetailDto.ciName = map["ciName"] as String
             ciDetailDto.ciIcon = map["ciIcon"] as String
