@@ -63,7 +63,7 @@
     function setSelectedCI(componentData) {
         const ciChkElems = document.querySelectorAll('input[type=checkbox]');
         // 총 갯수 표시
-        aliceJs.showTotalCount(ciChkElems.length, 'ciListCount');
+        aliceJs.showTotalCount(document.getElementById('ciCount').value, 'ciListCount');
         // 이미 선택된 CI 들은 선택 불가능
         if (componentData.value.length > 0) {
             ciChkElems.forEach(function (chkElem) {
@@ -403,6 +403,7 @@
             body: `<form id="searchFrm">` +
                       `<input type="text" class="search col-5 mr-2" name="search" id="search" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
                       `<input type="text" class="search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
+                      `<input type="hidden" name="flag" id="flag" value="component"/>` +
                       `<span id="ciListCount" class="txt-num"></span>` +
                   `</form>` +
                   `<div class="table-set" id="ciList"></div>`,
@@ -450,29 +451,34 @@
                 closable: false,
             },
             onCreate: function (modal) {
-                restSubmit('/cmdb/cis/component/list?flag=component', 'GET', {}, false, function (content) {
-                    document.getElementById('ciList').innerHTML = content;
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
-
-                    setSelectedCI(componentData);
-                });
-                // 검색 이벤트 추가
-                document.querySelectorAll('#search, #tagSearch').forEach(function (searchElem) {
-                    searchElem.addEventListener('keyup', function (e) {
-                        let urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
-                        restSubmit('/cmdb/cis/component/list?flag=component' + urlParam, 'GET', {}, false, function (content) {
-                            document.getElementById('ciList').innerHTML = content;
-                            // 스크롤바 추가
-                            OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
-
-                            setSelectedCI(componentData);
-                        });
-                    });
-                });
+                searchCis(componentData);
+                document.getElementById('search').onkeyup = function(e) {
+                    searchCis(componentData);
+                }
+                // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
+                document.getElementById('tagSearch').onkeyup = function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        searchCis(componentData);
+                    }
+                };
             }
         });
         ciRegisterModal.show();
+    }
+
+    /**
+     * CI 조회 - [CI 상태가 사용중이고, 문서에 CI가 진행중이지 않는 CI 조회]
+     * @param {Object} 선택된 CI
+     */
+    function searchCis(componentData) {
+        let urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
+        restSubmit('/cmdb/cis/component/list?' + urlParam, 'GET', {}, false, function (content) {
+            document.getElementById('ciList').innerHTML = content;
+            // 스크롤바 추가
+            OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
+            setSelectedCI(componentData);
+        });
     }
 
     /**

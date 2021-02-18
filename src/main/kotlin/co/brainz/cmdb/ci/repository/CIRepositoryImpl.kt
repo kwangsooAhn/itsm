@@ -13,7 +13,9 @@ import co.brainz.cmdb.ciTag.entity.QCITagEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIsDto
+import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.constants.ItsmConstants
+import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
@@ -28,6 +30,9 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
         val cmdbTag = QCITagEntity.cITagEntity
+        val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
+        val wfInstance = QWfInstanceEntity.wfInstanceEntity
+
         val query = from(ci)
             .select(
                 Projections.constructor(
@@ -52,7 +57,6 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
             .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciClassEntity.classId))
-            // .leftJoin(cmdbTag).on(cmdbTag.ci.ciId.eq(ci.ciId))
             .where(
                 super.like(ci.ciName, search)
                     ?.or(super.like(ci.ciNo, search))
@@ -74,7 +78,15 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         }
         if (flag == "component") {
             query.where(
-                ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_USE.toString())
+                ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_USE.code)
+                    .and(
+                        ci.ciId.notIn(
+                            JPAExpressions
+                                .select(wfComponentCIData.ciId)
+                                .from(wfComponentCIData)
+                                .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
+                        )
+                    )
             )
         }
         if (offset != null) {
