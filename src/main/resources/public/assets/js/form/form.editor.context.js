@@ -355,6 +355,24 @@
             return false;
         }
 
+        // 라벨링 키 중복 체크
+        const labelingTb =  document.getElementById('table-label');
+        if (labelingTb !== null) {
+            const errorMsg = labelingTb.parentNode.querySelector('.error-msg')
+            let labelingKeys = [];
+            for (let i = 1, len = labelingTb.rows.length; i < len; i++) {
+                const labelingTbRow = labelingTb.rows[i];
+                const inputCell = labelingTbRow.cells[1].querySelector('input');
+                if (labelingKeys.indexOf(inputCell.value.trim()) > -1) {
+                    inputCell.classList.add('error');
+                    errorMsg.innerHTML = i18n.msg('form.msg.duplicate');
+                    errorMsg.classList.add('on');
+                    return false;
+                }
+                labelingKeys.push(inputCell.value.trim());
+            }
+        }
+
         // 세부 속성창에 에러가 있을 경우, 동작하지 않는다.
         if (document.getElementById('properties-panel').querySelector('.error-msg.on') !== null) {
             return false;

@@ -39,7 +39,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -327,7 +327,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -550,7 +550,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -740,7 +740,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -966,7 +966,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -1192,7 +1192,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -1317,7 +1317,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -1419,7 +1419,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -1511,7 +1511,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -1724,7 +1724,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -1937,7 +1937,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -2150,7 +2150,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -2317,7 +2317,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -2536,7 +2536,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -2924,7 +2924,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -3076,7 +3076,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",
@@ -3228,7 +3228,7 @@
                         "id": "key",
                         "name": "Key",
                         "value": "option",
-                        "validate": "required|maxLength[128]|label"
+                        "validate": "required|maxLength[128]|label|duplicate"
                     },
                     {
                         "id": "value",

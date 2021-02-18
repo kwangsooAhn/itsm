@@ -125,7 +125,6 @@
             label: function(value) { // 라벨링 전용
                 return labelRegex.test(value);
             }
-
         };
         // 이벤트 등록
         element.addEventListener(eventName, function(e) {
@@ -179,6 +178,20 @@
                     case 'label':
                         result = validateFunc.label(target.value);
                         break;
+                    case 'duplicate': // table 중복 체크
+                        result = true;
+                        if (target.parentNode.tagName === 'TD') { // table 일 경우
+                            const tb = aliceJs.clickInsideElement(e, 'property-field-table');
+                            const matchCellIdx = target.parentNode.cellIndex;
+                            const matchRowIdx = target.parentNode.parentNode.rowIndex;
+                            for (let i = 1, len = matchRowIdx; i < len; i++) {
+                                const tbRow = tb.rows[i];
+                                const inputCell = tbRow.cells[matchCellIdx].querySelector('input');
+                                if (target.value.trim() === inputCell.value.trim()) {
+                                    result = false;
+                                }
+                            }
+                        }
                     default:
                         break;
                 }
