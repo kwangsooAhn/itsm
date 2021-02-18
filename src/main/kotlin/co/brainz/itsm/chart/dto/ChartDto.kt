@@ -18,6 +18,7 @@ data class ChartDto(
     val operation: String = "",
     var durationDigit: Int = 0,
     val durationUnit: String = "",
-    val periodUnit: String? = null,
-    val group: String? = null
+    var periodUnit: String? = null,
+    var group: String? = null,
+    val query: String? = null
 ) : Serializable

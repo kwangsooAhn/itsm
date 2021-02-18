@@ -49,4 +49,20 @@ class AliceLabelRepositoryImpl : QuerydslRepositorySupport(AliceLabelEntity::cla
             null
         }
     }
+
+    /**
+     * Label Key 조회
+     */
+    override fun findLabelKeys(labelKey: String): MutableList<AliceLabelEntity> {
+        return from(aliceLabelEntity)
+            .select(
+                Projections.constructor(
+                    AliceLabelEntity::class.java,
+                    aliceLabelEntity.labelTarget,
+                    aliceLabelEntity.labelTargetId,
+                    aliceLabelEntity.labelKey,
+                    aliceLabelEntity.labelValue
+                )
+            ).where(labelKeyEq(labelKey)).fetch()
+    }
 }

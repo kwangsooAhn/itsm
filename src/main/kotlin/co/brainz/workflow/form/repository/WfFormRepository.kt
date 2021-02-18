@@ -9,4 +9,5 @@ interface WfFormRepository : JpaRepository<WfFormEntity, String>,
 
     fun findWfFormEntityByFormId(formId: String): Optional<WfFormEntity>
     fun removeWfFormEntityByFormId(formId: String)
+    fun findByFormIdIn(formIds: List<String>): List<WfFormEntity>
 }

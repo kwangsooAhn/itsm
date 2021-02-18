@@ -111,7 +111,8 @@ class WfFormService(
 
             // 해당 컴포넌트에 연결된 라벨 찾기
             val labelsArray = ArrayList<LinkedHashMap<String, String?>>()
-            val labelEntities = aliceLabelService.getLabels(AliceLabelConstants.LABEL_TARGET_COMPONENT, componentEntity.componentId)
+            val labelEntities =
+                aliceLabelService.getLabels(AliceLabelConstants.LABEL_TARGET_COMPONENT, componentEntity.componentId)
 
             // 저장과 마찬가지로 폼 디자이너 화면에서 사용하기 위해서 Array 형태로 변환이 필요.
             for (labelEntity in labelEntities) {
@@ -342,10 +343,12 @@ class WfFormService(
             if (componentIds.isNotEmpty()) {
                 wfComponentRepository.deleteComponentEntityByComponentIdIn(componentIds)
                 for (componentId in componentIds) {
-                    aliceLabelService.deleteLabels(AliceLabelDto(
-                        labelTarget = AliceLabelConstants.LABEL_TARGET_COMPONENT,
-                        labelTargetId = componentId
-                    ))
+                    aliceLabelService.deleteLabels(
+                        AliceLabelDto(
+                            labelTarget = AliceLabelConstants.LABEL_TARGET_COMPONENT,
+                            labelTargetId = componentId
+                        )
+                    )
                 }
             }
         }
@@ -459,11 +462,13 @@ class WfFormService(
                     }
                 }
 
-                aliceLabelService.addLabels(AliceLabelDto(
-                    labelTarget = labelList["label_target"] as String,
-                    labelTargetId = labelList["target_id"] as String,
-                    labels = labels
-                ))
+                aliceLabelService.addLabels(
+                    AliceLabelDto(
+                        labelTarget = labelList["label_target"] as String,
+                        labelTargetId = component.componentId,
+                        labels = labels
+                    )
+                )
             }
         }
         val componentEntity = WfComponentEntity(

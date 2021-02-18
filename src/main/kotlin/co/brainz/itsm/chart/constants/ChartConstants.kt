@@ -43,4 +43,13 @@ object ChartConstants {
         PERIODUNIT("periodUnit"),
         GROUP("group")
     }
+
+    /**
+     * chart Type
+     */
+    enum class Type(val code: String) {
+        STACKEDCOLUMN("chart.stackedColumn"),
+        BASICLINE("chart.basicLine"),
+        PIE("chart.pie")
+    }
 }
