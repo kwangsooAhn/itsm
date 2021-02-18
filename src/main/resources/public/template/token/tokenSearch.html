@@ -61,13 +61,9 @@
                 element.addEventListener('change', () => tokenSearch(false), false);
             });
 
-            document.getElementById('searchValue').addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    tokenSearch(false);
-                }
-            }, false);
+            document.getElementById('searchValue').addEventListener('keyup', (e) => {tokenSearch(false);}, false);
 
+            // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
             document.getElementById('searchTags').addEventListener('keyup', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();

@@ -35,6 +35,7 @@ class CIRestController(private val ciService: CIService) {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         params["tags"] = request.getParameter("tagSearch")
+        params["flag"] = request.getParameter("flag")
         params["offset"] = request.getParameter("offset") ?: "0"
         return ciService.getCIs(params)
     }

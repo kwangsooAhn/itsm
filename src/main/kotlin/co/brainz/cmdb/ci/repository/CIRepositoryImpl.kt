@@ -11,8 +11,11 @@ import co.brainz.cmdb.ci.entity.QCIEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
 import co.brainz.cmdb.ciTag.entity.QCITagEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
+import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIsDto
+import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.constants.ItsmConstants
+import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
@@ -22,11 +25,14 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     /**
      * CI 목록 조회.
      */
-    override fun findCIList(search: String, offset: Long?, tags: List<String>): MutableList<CIsDto> {
+    override fun findCIList(search: String, offset: Long?, tags: List<String>, flag: String): MutableList<CIsDto> {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
         val cmdbTag = QCITagEntity.cITagEntity
+        val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
+        val wfInstance = QWfInstanceEntity.wfInstanceEntity
+
         val query = from(ci)
             .select(
                 Projections.constructor(
@@ -51,7 +57,6 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
             .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciClassEntity.classId))
-            // .leftJoin(cmdbTag).on(cmdbTag.ci.ciId.eq(ci.ciId))
             .where(
                 super.like(ci.ciName, search)
                     ?.or(super.like(ci.ciNo, search))
@@ -65,9 +70,23 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                     JPAExpressions
                         .select(cmdbTag.ci.ciId)
                         .from(cmdbTag)
-                        .where(cmdbTag.tagName.`in`(tags)
-                    )
+                        .where(
+                            cmdbTag.tagName.`in`(tags)
+                        )
                 )
+            )
+        }
+        if (flag == "component") {
+            query.where(
+                ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_USE.code)
+                    .and(
+                        ci.ciId.notIn(
+                            JPAExpressions
+                                .select(wfComponentCIData.ciId)
+                                .from(wfComponentCIData)
+                                .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
+                        )
+                    )
             )
         }
         if (offset != null) {
