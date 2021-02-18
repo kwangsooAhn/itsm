@@ -1155,6 +1155,9 @@ table[id=documentDisplay] td {
 .checkbox-list .right {
   right: 0.25rem;
 }
+.checkbox-list .padding {
+  padding: 0.1875rem 0 0.1875rem 0;
+}
 .checkbox-list li {
   height: 1.5rem;
   font-weight: 400;
@@ -4259,6 +4262,7 @@ ul.tree ul:before {
   position: absolute;
   top: 0;
   bottom: 0;
+  left: -0.0625rem;
   border-left: 0.0625rem solid #E1E3E6;
 }
 ul.tree ul li {
@@ -4277,7 +4281,6 @@ ul.tree ul li:last-child:before {
   background-color: #F7F8F9;
   height: auto;
   top: 0.9375rem;
-  left: -0.0625rem;
   bottom: 0;
 }
 img.exp_col {

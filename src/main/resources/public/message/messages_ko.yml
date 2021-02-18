@@ -958,6 +958,7 @@ role:
     selectAll: "전체 선택"
   label:
     auth: "권한"
+    count: "{0} 개"
     desc: "역할 설명"
     id: "역할 아이디"
     name: "역할 명"
