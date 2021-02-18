@@ -957,6 +957,7 @@ role:
     selectAll: "SELECT ALL"
   label:
     auth: "Role Auth"
+    count: "total {0}"
     desc: "Role Desc"
     id: "Role Id"
     name: "Role Name"

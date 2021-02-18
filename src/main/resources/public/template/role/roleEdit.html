@@ -90,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex-row justify-content-end">
+        <div class="flex-row justify-content-end mr-5">
             <div class="btn-list">
                 <button type="button" class="point-fill" sec:authorize="hasAuthority('role.create')" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
@@ -196,7 +196,7 @@
                     document.getElementById('spanUpdateUserKey').value = responseJson.updateUserName;
                     document.getElementById('spanUpdateDt').value = i18n.userDateTime(responseJson.updateDt);
                     document.getElementById('txtRoleId').setAttribute('disabled','');
-                    document.getElementById('userRoleMapCount').value = responseJson.userRoleMapCount;
+                    document.getElementById('userRoleMapCount').value = i18n.msg('role.label.count', responseJson.userRoleMapCount);
                     if (ROLE_DELETE) {
                         disabledButton(responseJson.userRoleMapCount);
                     }
@@ -206,7 +206,14 @@
             document.getElementById('selectAll').checked = false;
             OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
             Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
-                OverlayScrollbars(target, { className: 'inner-scrollbar' });
+                OverlayScrollbars(target, { className: 'inner-scrollbar',
+                    callbacks: {
+                        onInitialized: function () {
+                            const verticalScrollTrack = document.querySelector('.checkbox-list> .os-scrollbar-vertical');
+                            verticalScrollTrack.classList.add('right','padding');
+                        }
+                    }
+                });
             });
             OverlayScrollbars(document.querySelector('#txtRoleDesc'), {
                 className: 'scrollbar',

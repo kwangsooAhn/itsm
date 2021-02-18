@@ -432,9 +432,7 @@
                             onInitialized: function () {
                                 const verticalScrollTrack = document.querySelectorAll('.checkbox-list> .os-scrollbar-vertical');
                                 for (let i = 0; i < verticalScrollTrack.length; i++) {
-                                    if (verticalScrollTrack.item(i) !== null) {
-                                        verticalScrollTrack.item(i).classList.add('right');
-                                    }
+                                    verticalScrollTrack.item(i).classList.add('right','padding');
                                 }
                             }
                         }
