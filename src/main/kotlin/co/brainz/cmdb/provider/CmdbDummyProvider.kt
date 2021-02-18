@@ -150,7 +150,9 @@ class CmdbDummyProvider(
 
     fun getDummyCi(ciId: String): CIDetailDto {
         val file = this.getDummyFile(RestTemplateConstants.CmdbObject.CIDetail.value)
-        var ciDetailDto = CIDetailDto()
+        var ciDetailDto = CIDetailDto(
+            ciId = ciId
+        )
         if (file != null) {
             val ciDataList: List<CIDetailDto> = mapper.readValue(
                 file,
