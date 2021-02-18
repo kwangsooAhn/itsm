@@ -70,7 +70,10 @@ class AliceScheduleTaskService(
             "query" -> {
                 addTaskToScheduler(
                     taskInfo.taskId,
-                    Runnable { taskInfo.executeQuery?.let { executeQuery(it) } },
+                    Runnable {
+                        //여기에서 시작 시작시간, 종료시간을 넣어서 던지면.. 실제 실행시 처리되지 않나?
+                        taskInfo.executeQuery?.let { executeQuery(it) }
+                    },
                     taskInfo
                 )
             }
@@ -98,10 +101,12 @@ class AliceScheduleTaskService(
         }
     }
 
-    private fun getArgs(args: String?): MutableList<Any> {
+    fun getArgs(args: String?): MutableList<Any> {
         val argsList = mutableListOf<Any>()
-        if (args != null) {
-            argsList.addAll(args.split(","))
+        if (args != null && args.isNotEmpty()) {
+            args.split(",").forEach {
+                argsList.add(it.trim())
+            }
         }
         return argsList
     }

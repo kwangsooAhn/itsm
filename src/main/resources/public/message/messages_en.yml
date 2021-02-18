@@ -71,6 +71,7 @@ common:
     selectBeforeDate: "Please select before {0} date."
     selectBeforeDateTime: "Please select before {0} datetime."
     selectBeforeTime: "Please select before {0} time."
+    success: "Successful."
     update: "Changed."
   code:
     token:
