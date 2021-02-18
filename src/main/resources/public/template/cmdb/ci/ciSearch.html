@@ -168,11 +168,13 @@
 
             let tdCiNo = document.createElement('td');
             tdCiNo.style.width = '21%';
-            tdCiNo.className = 'align-left underline pointer';
-            tdCiNo.onclick = function() {
-                openCIDetailModal(data.ciNo);
-            };
-            tdCiNo.innerText = data.ciNo;
+            if (data.ciNo !== null) {
+                tdCiNo.className = 'align-left underline pointer';
+                tdCiNo.onclick = function () {
+                    openCIDetailModal(data.ciNo);
+                };
+                tdCiNo.innerText = data.ciNo;
+            }
 
             let tdCiTypeName = document.createElement('td');
             tdCiTypeName.style.width = '10%';
