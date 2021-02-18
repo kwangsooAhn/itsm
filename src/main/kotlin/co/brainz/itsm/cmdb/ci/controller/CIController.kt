@@ -47,7 +47,8 @@ class CIController(private val ciService: CIService) {
     fun getCIList(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
-        params["tagSearch"] = request.getParameter("tagSearch")
+        params["tags"] = request.getParameter("tagSearch")
+        params["flag"] = request.getParameter("flag")
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)
@@ -107,7 +108,8 @@ class CIController(private val ciService: CIService) {
      */
     @GetMapping("/component/view")
     fun getCIComponentView(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("ciData", ciService.getCI(
+        model.addAttribute(
+            "ciData", ciService.getCI(
                 request.getParameter("ciId")
             )
         )
@@ -122,6 +124,7 @@ class CIController(private val ciService: CIService) {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
         params["tags"] = request.getParameter("tagSearch")
+        params["flag"] = request.getParameter("flag")
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)
         model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
