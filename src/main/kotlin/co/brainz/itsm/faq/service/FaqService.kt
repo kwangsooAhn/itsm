@@ -79,13 +79,11 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
     @Transactional
     fun updateFaq(faqId: String, faqDto: FaqDto): Int {
         val faqEntity = faqRepository.getOne(faqId)
-        faqEntity.faqGroup = faqDto.faqGroup
-        faqEntity.faqTitle = faqDto.faqTitle
-        faqEntity.faqContent = faqDto.faqContent
-
-        val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup)
-
-        if(count === 0){
+        val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqDto.faqTitle, faqDto.faqGroup)
+        if (count === 0) {
+            faqEntity.faqGroup = faqDto.faqGroup
+            faqEntity.faqTitle = faqDto.faqTitle
+            faqEntity.faqContent = faqDto.faqContent
             faqRepository.save(faqEntity)
         }
 
