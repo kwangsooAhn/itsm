@@ -1,8 +1,11 @@
 package co.brainz.framework.scheduling.service
 
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
+import co.brainz.framework.scheduling.repository.AliceScheduleHistoryRepository
 import co.brainz.framework.scheduling.repository.AliceScheduleTaskRepository
+import java.time.LocalDateTime
 import java.util.TimeZone
 import java.util.concurrent.ScheduledFuture
 import javax.annotation.PostConstruct
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service
 class AliceScheduleTaskService(
     private val scheduler: TaskScheduler,
     private val aliceScheduleTaskRepository: AliceScheduleTaskRepository,
+    private val aliceScheduleHistoryRepository: AliceScheduleHistoryRepository,
     private val jdbcTemplate: JdbcTemplate
 ) {
     private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
@@ -56,6 +60,17 @@ class AliceScheduleTaskService(
         if (scheduledTask != null) {
             logger.info("The schedule task has been add. {}", taskInfo.toString())
             taskMap[id] = scheduledTask
+
+            if (scheduledTask.isDone) {
+                aliceScheduleHistoryRepository.save(
+                    AliceScheduleHistoryEntity(
+                        historySeq = 0L,
+                        taskId = taskInfo.taskId,
+                        executeTime = LocalDateTime.now(),
+                        result = true
+                    )
+                )
+            }
         }
     }
 
@@ -67,17 +82,16 @@ class AliceScheduleTaskService(
      */
     fun addTaskToScheduler(taskInfo: AliceScheduleTaskEntity) {
         when (taskInfo.taskType) {
-            "query" -> {
+            AliceConstants.ScheduleTaskType.QUERY.code -> {
                 addTaskToScheduler(
                     taskInfo.taskId,
                     Runnable {
-                        //여기에서 시작 시작시간, 종료시간을 넣어서 던지면.. 실제 실행시 처리되지 않나?
                         taskInfo.executeQuery?.let { executeQuery(it) }
                     },
                     taskInfo
                 )
             }
-            "class" -> {
+            AliceConstants.ScheduleTaskType.CLASS.code -> {
                 try {
                     val taskClass = Class.forName(taskInfo.executeClass)
                         .asSubclass(Runnable::class.java)

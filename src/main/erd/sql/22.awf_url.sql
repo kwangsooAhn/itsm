@@ -247,6 +247,7 @@ insert into awf_url values ('/rest/schedulers', 'get', '스케줄러 목록 조�
 insert into awf_url values ('/rest/schedulers', 'post', '스케줄러 등록', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}', 'delete', '스케줄러 삭제', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}', 'put', '스케줄러 수정', 'TRUE');
+insert into awf_url values ('/rest/schedulers/{id}/execute', 'post', '스케줄러 실행', 'TRUE');
 insert into awf_url values ('/rest/tags', 'post', 'Tag 저장', 'FALSE');
 insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
 insert into awf_url values ('/rest/tokens', 'get', '문서함 목록 조회', 'TRUE');
@@ -265,6 +266,7 @@ insert into awf_url values ('/schedulers', 'get', '스케줄러 리스트 화면
 insert into awf_url values ('/schedulers/new', 'get', '스케줄러 신규 등록 화면', 'TRUE');
 insert into awf_url values ('/schedulers/search', 'get', '스케줄러 리스트 화면 호출', 'TRUE');
 insert into awf_url values ('/schedulers/{id}/edit', 'get', '스케줄러 상세 수정 화면', 'TRUE');
+insert into awf_url values ('/schedulers/{id}/history', 'get', '스케줄러 이력 리스트 모달 화면', 'TRUE');
 insert into awf_url values ('/schedulers/{id}/view', 'get', '스케줄러 상세 조회 화면', 'TRUE');
 insert into awf_url values ('/tokens', 'get', '처리할 문서 리스트 조회', 'FALSE');
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');

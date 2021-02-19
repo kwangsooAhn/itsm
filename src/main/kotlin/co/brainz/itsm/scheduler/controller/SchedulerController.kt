@@ -29,6 +29,7 @@ class SchedulerController(
     private val schedulerEditPage: String = "scheduler/schedulerEdit"
     private val schedulerListPage: String = "scheduler/schedulerList"
     private val schedulerViewPage: String = "scheduler/schedulerView"
+    private val schedulerHistoryListModal: String = "scheduler/schedulerHistoryListModal"
 
     /**
      * 스케줄러 관리 검색 화면.
@@ -72,6 +73,7 @@ class SchedulerController(
             "executeCycleTypeList",
             codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE)
         )
+        model.addAttribute("schedule", schedulerService.getScheduler(taskId))
         return schedulerViewPage
     }
 
@@ -87,5 +89,14 @@ class SchedulerController(
         )
         model.addAttribute("schedule", schedulerService.getScheduler(taskId))
         return schedulerEditPage
+    }
+
+    /**
+     * 스케줄러 이력 조회 호출.
+     */
+    @GetMapping("/{taskId}/history")
+    fun getSchedulerHistoryListModal(@PathVariable taskId: String, model: Model): String {
+        model.addAttribute("schedulerHistoryList", schedulerService.getSchedulerHistory(taskId))
+        return schedulerHistoryListModal
     }
 }

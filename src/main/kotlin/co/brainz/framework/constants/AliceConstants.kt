@@ -88,6 +88,14 @@ object AliceConstants {
     }
 
     /**
+     * 작서 스케줄러 작업 유형.
+     */
+    enum class ScheduleTaskType(val code: String) {
+        CLASS("class"),
+        QUERY("query")
+    }
+
+    /**
      * 세션 만료시 로그인 페이지 자동 이동 시간.
      */
     const val SESSION_INVALID_AUTO_REDIRECT_TIME = 3

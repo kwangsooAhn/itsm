@@ -85,7 +85,10 @@
                     } else {
                         document.getElementById('schedulerList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        // TODO : 마지막 실행 시간 계산
+                        let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
+                        for (let i = 0; i < executeTimeEle.length; i++) {
+                            executeTimeEle[i].textContent = i18n.userDateTime(executeTimeEle[i].textContent);
+                        }
                     }
 
                     OverlayScrollbars(document.querySelector('.list-body'), {
@@ -134,12 +137,12 @@
             let tdTaskType = document.createElement('td');
             tdTaskType.className = 'align-center';
             tdTaskType.innerText = data.taskType;
-            tdTaskType.style.width = '10%';
+            tdTaskType.style.width = '8%';
 
             let tdExecuteClass= document.createElement('td');
             tdExecuteClass.className = 'align-left';
             tdExecuteClass.innerText = data.executeClass;
-            tdExecuteClass.style.width = '25%';
+            tdExecuteClass.style.width = '27%';
 
             let tdExecuteCycleType = document.createElement('td');
             tdExecuteCycleType.className = 'align-center';
@@ -157,13 +160,13 @@
 
             let tdLastExecuteTime = document.createElement('td');
             tdLastExecuteTime.className = 'align-left';
-            tdLastExecuteTime.innerText = '-';
-            tdLastExecuteTime.style.width = '15%';
+            tdLastExecuteTime.innerText = i18n.userDateTime(data.executeTime);
+            tdLastExecuteTime.style.width = '12%';
 
             let tdResult = document.createElement('td');
             tdResult.className = 'align-center';
-            tdResult.innerText = '-';
-            tdResult.style.width = '5%';
+            tdResult.innerText = i18n.msg('scheduler.result.' + data.result);
+            tdResult.style.width = '8%';
 
             tr.appendChild(tdTaskName);
             tr.appendChild(tdStatus);
