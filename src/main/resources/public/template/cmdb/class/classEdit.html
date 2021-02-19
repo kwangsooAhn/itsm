@@ -94,9 +94,10 @@
             onCreate();
 
             function getCIClassList() {
+                const search = encodeURIComponent(document.getElementById('search').value);
                 tree.load({
-                    search: encodeURIComponent(document.getElementById('search').value),
                     source: 'ciClass',
+                    dataUrl: '/rest/cmdb/classes?search=' + search,
                     target: 'treeList',
                     text: 'className',
                     totalCount: true,
