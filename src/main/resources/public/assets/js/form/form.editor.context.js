@@ -355,6 +355,9 @@
             return false;
         }
 
+        // 키 중복 체크
+        editor.uniqueCheck();
+
         // 세부 속성창에 에러가 있을 경우, 동작하지 않는다.
         if (document.getElementById('properties-panel').querySelector('.error-msg.on') !== null) {
             return false;

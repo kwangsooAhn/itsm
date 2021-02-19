@@ -609,6 +609,7 @@ form:
     required: "Please enter the required item."
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
+    unique: "Duplicate data cannot be included."
   component:
     accordion-start: "Accordion"
     checkbox: "Checkbox"
@@ -957,6 +958,7 @@ role:
     selectAll: "SELECT ALL"
   label:
     auth: "Role Auth"
+    count: "total {0}"
     desc: "Role Desc"
     id: "Role Id"
     name: "Role Name"

@@ -609,6 +609,7 @@ form:
     required: "필수 항목을 입력하세요."
     searchDescription: "문서양식를 조회 및 관리합니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
+    unique: "중복된 데이터는 포함할 수 없습니다."
   component:
     accordion-start: "Accordion"
     checkbox: "Checkbox"
@@ -957,6 +958,7 @@ role:
     selectAll: "전체 선택"
   label:
     auth: "권한"
+    count: "{0} 개"
     desc: "역할 설명"
     id: "역할 아이디"
     name: "역할 명"

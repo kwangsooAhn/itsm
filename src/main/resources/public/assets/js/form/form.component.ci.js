@@ -117,7 +117,7 @@
      * @param {Function} callbackFunc callback 함수
      */
     function saveCIComponentData(actionType, comp, callbackFunc) {
-        if (isValidRequiredAll() && isClassWithError()) {
+        if (isValidRequiredAll() && hasErrorClass()) {
             const saveCIData = {};
             Object.keys(CIData).forEach(function(key) {
                 const elem = document.getElementById((key === 'ciIcon') ? 'typeIcon': key);
