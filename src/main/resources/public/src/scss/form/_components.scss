@@ -186,6 +186,12 @@
         .on {
           box-shadow: 0 0 0 0.125rem $point-blue inset; // 2px
         }
+
+        .no-data-found-list {
+          background-color: $light-gray;
+          pointer-events: none;
+          color: $gray;
+        }
       }
       // 아코디언 컴포넌트
       &.accordion {
@@ -251,23 +257,35 @@
     }
   }
 
-// Dynamic Row Table 컴포넌트 - Row 추가 버튼
-.btn-dr-table-row-add {
-  position: absolute;
-  top: 1.25rem; // 20px
-  right: 0.3125rem; // 5px
-  padding: 0;
-}
-// Dynamic Row Table 컴포넌트 - Row 삭제 버튼
-.dr-table-row-delete {
-  display: inline-block;
-  position: absolute;
-  height: 2.5rem; // 40px
-  line-height: 2rem; // 32px
-  right: 0.3125rem; // 5px
+  &.dr-table {
+    flex-wrap : wrap;
+    .add-btn-area {
+      display: flex;
+      margin-top: 1.25rem;
+      span {
+        margin-left: 0.25rem;
+        margin-bottom: 0.125rem;
+      }
+    }
+    // Dynamic Row Table 컴포넌트 - Row 추가 버튼
+    .btn-dr-table-row-add {
+      padding: 0;
+      .btn-dr-table-row-add-text {
+        margin-left: 0.625rem;
+      }
+    }
+    // Dynamic Row Table 컴포넌트 - Row 삭제 버튼
+    .dr-table-row-delete {
+      display: inline-block;
+      position: absolute;
+      height: 2.5rem; // 40px
+      line-height: 2rem; // 32px
+      right: 0.3125rem; // 5px
+      padding-top: 0.625rem;
+      .btn-dr-table-row-delete { padding: 0; }
+    }
+  }
 
-  .btn-dr-table-row-delete { padding: 0; }
-}
 
   // editbox 컴포넌트
   &[data-type="editbox"] {

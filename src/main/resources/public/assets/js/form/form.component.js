@@ -959,7 +959,7 @@
         }).join('');
 
         this.template =
-        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component dr-table" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -983,9 +983,11 @@
                     `</table>` +
                 `</div>` +
             `</div>` +
-            `<button type="button" class="ghost-line btn-option btn-dr-table-row-add" id="btn-add-${property.componentId}" style="${isReadOnly ? 'opacity: 0;' : ''}">` +
-                `<span class="icon icon-plus"></span>` +
-            `</button>` +
+            `<div class="add-btn-area">` +
+                `<button type="button" class="ghost-line btn-option btn-dr-table-row-add" id="btn-add-${property.componentId}" style="${isReadOnly ? 'opacity: 0;' : ''}">` +
+                    `<span class="icon icon-plus"></span><span class="btn-dr-table-row-add-text">행 추가</span>` +
+                `</button>` +
+            `</div>` +
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
