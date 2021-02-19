@@ -553,7 +553,7 @@ faq:
     title: "제목"
     view: "FAQ 조회"
   msg:
-    duplicateTitleInCategory: "해당 카테고리내 동일한 제목이 있습니다. 카테고리 또는 제목을 변경해 주세요."
+    duplicateTitleInCategory: "해당 카테고리내 동일한 제목이 있습니다.<br>카테고리 또는 제목을 변경해 주세요."
     editDescription: "FAQ를 등록하거나 수정, 삭제합니다."
     portalDescription: "FAQ를 조회합니다."
     searchDescription: "FAQ를 조회 및 관리합니다."

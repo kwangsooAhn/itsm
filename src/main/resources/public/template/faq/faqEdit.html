@@ -80,7 +80,7 @@
                 contentType: 'application/json',
                 callbackFunc: function (response){
                     let result = response.responseText
-                    let resultMsg =[[#{faq.msg.duplicateTitleInCategory}]];
+                    let resultMsg = [[#{faq.msg.duplicateTitleInCategory}]];
                     if(result >0){
                         aliceJs.alertWarning(resultMsg);
                     }
