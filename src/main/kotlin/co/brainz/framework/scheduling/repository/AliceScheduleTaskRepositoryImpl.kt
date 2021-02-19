@@ -10,33 +10,17 @@ import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.scheduling.entity.QAliceScheduleTaskEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.scheduler.dto.SchedulerDto
-import co.brainz.itsm.scheduler.dto.SchedulerListDto
 import co.brainz.itsm.scheduler.dto.SchedulerSearchDto
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleTaskEntity::class.java),
     AliceScheduleTaskRepositoryCustom {
 
-    override fun findByScheduleList(schedulerSearchDto: SchedulerSearchDto): List<SchedulerListDto> {
+    override fun findByScheduleList(schedulerSearchDto: SchedulerSearchDto): QueryResults<AliceScheduleTaskEntity>? {
         val schedule = QAliceScheduleTaskEntity.aliceScheduleTaskEntity
-        val query = from(schedule)
-            .select(
-                Projections.constructor(
-                    SchedulerListDto::class.java,
-                    schedule.taskId,
-                    schedule.taskName,
-                    schedule.taskType,
-                    schedule.useYn,
-                    schedule.executeClass,
-                    schedule.executeQuery,
-                    schedule.executeCycleType,
-                    schedule.executeCyclePeriod,
-                    schedule.cronExpression,
-                    Expressions.numberPath(Long::class.java, "0")
-                )
-            )
+        return from(schedule)
             .where(
                 super.like(schedule.taskName, schedulerSearchDto.search)
                     ?.or(super.like(schedule.taskType, schedulerSearchDto.search))
@@ -45,16 +29,7 @@ class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleT
             )
             .orderBy(schedule.taskName.asc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT).offset(schedulerSearchDto.offset)
-
-        val result = query.fetchResults()
-        val scheduleList = mutableListOf<SchedulerListDto>()
-        for (data in result.results) {
-            data.totalCount = result.total
-            scheduleList.addAll(
-                listOf(data)
-            )
-        }
-        return scheduleList
+            .fetchResults()
     }
 
     override fun findByScheduleListByUse(): MutableList<AliceScheduleTaskEntity> {

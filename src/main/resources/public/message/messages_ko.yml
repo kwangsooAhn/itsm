@@ -989,9 +989,13 @@ scheduler:
     cronExpression: "크론표현식"
     description: "설명"
     edit: "스케줄 수정"
+    errorMessage: "에러 메시지"
     executeCycleType: "실행 유형"
     executeCyclePeriod: "실행 주기"
-    immediatelyExecution: "즉시 실행"
+    executeTime: "실행 시각"
+    history: "스케줄 이력"
+    historyNo: "No"
+    immediatelyExecute: "즉시 실행"
     lastExecuteTime: "마지막 실행 시간"
     name: "스케줄 명"
     query: "쿼리"
@@ -1010,6 +1014,9 @@ scheduler:
   status:
     true: "사용"
     false: "미사용"
+  result:
+    true: "처리완료"
+    false: "실패"
 
 # Token
 token:

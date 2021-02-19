@@ -368,6 +368,7 @@ insert into awf_url_auth_map values ('/rest/schedulers', 'get', 'scheduler.read'
 insert into awf_url_auth_map values ('/rest/schedulers', 'post', 'scheduler.create');
 insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'delete', 'scheduler.delete');
 insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'put', 'scheduler.update');
+insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 'scheduler.execute');
 insert into awf_url_auth_map values ('/rest/tokens', 'get', 'token.read');
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
@@ -397,6 +398,7 @@ insert into awf_url_auth_map values ('/schedulers/search', 'get', 'scheduler.rea
 insert into awf_url_auth_map values ('/schedulers/search', 'get', 'scheduler.update');
 insert into awf_url_auth_map values ('/schedulers/{id}/edit', 'get', 'scheduler.delete');
 insert into awf_url_auth_map values ('/schedulers/{id}/edit', 'get', 'scheduler.update');
+insert into awf_url_auth_map values ('/schedulers/{id}/history', 'get', 'scheduler.read');
 insert into awf_url_auth_map values ('/schedulers/{id}/view', 'get', 'scheduler.read');
 insert into awf_url_auth_map values ('/tokens', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens', 'get', 'token.read');

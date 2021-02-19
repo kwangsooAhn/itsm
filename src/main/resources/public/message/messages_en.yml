@@ -989,9 +989,13 @@ scheduler:
     cronExpression: "Cron Expression"
     description: "Description"
     edit: "Schedule Modify"
+    errorMessage: "Error Message"
     executeCycleType: "Execute Cycle Type"
     executeCyclePeriod: "Execute Cycle Period"
-    immediatelyExecution: "immediately Execution"
+    executeTime: "Execute Time"
+    history: "Schedule History"
+    historyNo: "No"
+    immediatelyExecute: "immediately Execute"
     lastExecuteTime: "Last Execute Time"
     name: "Scheduler Name"
     query: "Query"
@@ -1010,6 +1014,9 @@ scheduler:
   status:
     true: "Use"
     false: "UnUsed"
+  result:
+    true: "Success"
+    false: "Failed"
 
 # Token
 token:

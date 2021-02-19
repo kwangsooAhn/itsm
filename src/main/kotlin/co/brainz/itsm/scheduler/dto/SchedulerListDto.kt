@@ -6,6 +6,7 @@
 package co.brainz.itsm.scheduler.dto
 
 import java.io.Serializable
+import java.time.LocalDateTime
 
 data class SchedulerListDto(
     var taskId: String,
@@ -17,5 +18,7 @@ data class SchedulerListDto(
     var executeCycleType: String,
     var executeCyclePeriod: Long? = null,
     var cronExpression: String? = null,
+    var executeTime: LocalDateTime? = null,
+    var result: Boolean? = null,
     var totalCount: Long = 0
 ) : Serializable

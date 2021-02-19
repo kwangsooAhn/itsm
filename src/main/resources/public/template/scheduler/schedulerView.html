@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="${schedule != null} ? #{scheduler.label.edit} : #{scheduler.label.register}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="flex-column edit">
+        <div class="scheduler-header">
+            <div class="header-title flex-row align-items-baseline">
+                <h1 th:text="#{scheduler.label.schedule}"></h1>
+                <h6 class="description" th:text="#{scheduler.msg.scheduleDescription}"></h6>
+            </div>
+        </div>
+        <div class="scheduler-content-edit">
+            <div class="flex-column edit-row">
+                <label for="taskName">
+                    <span th:text="#{scheduler.label.name}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="taskName" required="required" maxlength="100"
+                       th:value="${schedule?.taskName}" disabled>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="taskDesc">
+                    <span th:text="#{scheduler.label.description}"></span>
+                </label>
+                <textarea id="taskDesc" name="taskDesc" maxlength="250" rows="5"
+                          class="textarea-scroll-wrapper" th:text="${schedule?.taskDesc}" disabled></textarea>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="taskStatus">
+                    <span th:text="#{scheduler.label.status}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="taskStatus" required="required" disabled>
+                    <option value="true" th:text="#{scheduler.status.true}" th:selected="true == ${schedule?.useYn}"></option>
+                    <option value="false" th:text="#{scheduler.status.false}" th:selected="false == ${schedule?.useYn}"></option>
+                </select>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="taskType">
+                    <span th:text="#{scheduler.label.taskType}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="taskType" required="required" disabled>
+                    <option th:each="taskType: ${taskTypeList}" th:value="${taskType.codeValue}"
+                            th:text="${taskType.codeName}"
+                            th:selected="${taskType.codeValue} == ${schedule?.taskType}">
+                    </option>
+                </select>
+            </div>
+            <div id="details"></div>
+            <!-- 타입: class-->
+            <div id="type-class-container"
+                 th:style="${schedule?.taskType == null || schedule?.taskType == 'class' ? '' : 'display: none'}">
+                <div class="flex-column edit-row">
+                    <label>
+                        <span th:text="#{scheduler.label.class}"></span>
+                        <span class="required"></span>
+                    </label>
+                    <input type="text" id="executeClass" required="required" maxlength="100"
+                           th:value="${schedule?.executeClass}" disabled>
+                </div>
+                <div class="flex-column edit-row">
+                    <label>
+                        <span th:text="#{scheduler.label.args}"></span>
+                    </label>
+                    <input type="text" id="args" maxlength="100" th:value="${schedule?.args}" disabled>
+                </div>
+            </div>
+            <!-- 타입: query -->
+            <div id="type-query-container" th:style="${schedule?.taskType == 'query' ? '' : 'display: none'}">
+                <div class="flex-column edit-row">
+                    <label for="executeQuery">
+                        <span th:text="#{scheduler.label.query}"></span>
+                        <span class="required"></span>
+                    </label>
+                    <textarea id="executeQuery" name="executeQuery" maxlength="500" rows="10" required="required"
+                              class="textarea-scroll-wrapper" th:text="${schedule?.executeQuery}" disabled></textarea>
+                </div>
+            </div>
+            <div class="flex-column edit-row">
+                <label for="executeCycleType">
+                    <span th:text="#{scheduler.label.executeCycleType}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="executeCycleType" required="required" disabled>
+                    <option th:each="executeCycleType: ${executeCycleTypeList}" th:value="${executeCycleType.codeValue}"
+                            th:text="${executeCycleType.codeName}"
+                            th:selected="${executeCycleType.codeValue} == ${schedule?.executeCycleType}">
+                    </option>
+                </select>
+            </div>
+            <!-- executeCycleType: fixed_delay, fixed_rate -->
+            <div id="executeCycleType-cron-container" class="flex-column edit-row" th:style="${schedule?.executeCycleType == 'cron' ? '' : 'display: none'}">
+                <label for="cronExpression">
+                    <span th:text="#{scheduler.label.cronExpression}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="cronExpression" required="required" maxlength="100"
+                       th:value="${schedule?.cronExpression}" disabled>
+            </div>
+            <div id="executeCycleType-fixed-container" class="flex-column edit-row" th:style="${schedule?.executeCycleType != 'cron' ? '' : 'display: none'}">
+                <label for="executeCyclePeriod">
+                    <span th:text="#{scheduler.label.executeCyclePeriod}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="executeCyclePeriod" required="required" maxlength="6"
+                       th:value="${schedule?.executeCyclePeriod}" disabled>
+            </div>
+            <div class="flex-row justify-content-end edit-row">
+                <div class="btn-list">
+                    <button class="default-fill" th:if="${schedule != null}" sec:authorize="hasAuthority('scheduler.read')"
+                            onclick="openHistoryViewModal()" th:text="#{scheduler.btn.history}"></button>
+                    <a class="btn default-line" href="/schedulers/search" th:text="#{common.btn.list}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            document.getElementById('taskName').focus();
+            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
+        };
+
+        /** 이력 모달 **/
+        function openHistoryViewModal() {
+            let historyOptions = {
+                title: i18n.msg('scheduler.label.history'),
+                classes: 'scheduler-list-modal',
+                body: `<div class="table-set" id="historyList"></div>`,
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'default-line',
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false
+                },
+                onCreate: function (modal) {
+                    const taskId = /*[[${schedule?.taskId}]]*/''
+                    restModalSubmit('/schedulers/' + taskId + '/history', 'GET', {}, false, function (content) {
+                        document.getElementById('historyList').innerHTML = content;
+                        let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
+                        for (let i = 0; i < executeTimeEle.length; i++) {
+                            executeTimeEle[i].textContent = i18n.userDateTime(executeTimeEle[i].textContent);
+                        }
+                        OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
+                    });
+                }
+            };
+            const historyViewModal = new modal(historyOptions);
+            historyViewModal.show();
+        }
+
+        function restModalSubmit(url, method, data, progressbar, callbackFunc) {
+            aliceJs.sendXhr({
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                callbackFunc: function (xhr) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc(xhr.responseText);
+                    }
+                },
+                contentType: 'application/json; charset=utf-8',
+                showProgressbar: progressbar
+            });
+        }
+        /*]]>*/
+    </script>
+</html>
