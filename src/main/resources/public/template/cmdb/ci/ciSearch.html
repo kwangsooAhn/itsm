@@ -191,12 +191,14 @@
             tdCiDesc.className = 'align-left';
             tdCiDesc.innerText = data.ciDesc;
 
-            console.log(data.ciTag);
             let tdCiTag = document.createElement('td');
             tdCiTag.style.width = '25%';
-            if (data.ciTag !== undefined) {
-                tdCiTag.className = 'tag align-left text-ellipsis';
-                tdCiTag.innerText = data.ciTag;
+            tdCiTag.className = 'align-left';
+            for (let i = 0; i < data.tags.length; i++) {
+                let spanTag = document.createElement('span');
+                spanTag.className = 'tag align-center text-ellipsis';
+                spanTag.innerText = data.tags[i].tagName;
+                tdCiTag.appendChild(spanTag);
             }
 
             tr.appendChild(tdCiIcon);
