@@ -52,4 +52,14 @@ object ChartConstants {
         BASICLINE("chart.basicLine"),
         PIE("chart.pie")
     }
+
+    /**
+     * chart Unit
+     */
+    enum class Unit(val code: String) {
+        YEAR("Y"),
+        MONTH("M"),
+        DATE("D"),
+        HOUR("H")
+    }
 }
