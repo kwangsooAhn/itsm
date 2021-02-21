@@ -890,7 +890,7 @@ input, button, select, optgroup, textarea {
   padding: 1.875rem 0;
 }
 .portal-container .main-search.slide-up + .portal-search-result .list {
-  height: calc(6.5rem + 647px);
+  height: calc(8.75rem + 647px);
 }
 .portal-container .main-search.slide-down + .portal-search-result .list {
   height: 647px;

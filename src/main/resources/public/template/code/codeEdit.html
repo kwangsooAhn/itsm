@@ -116,8 +116,9 @@
             onCreate();
 
             function getCodeList() {
+                const search = encodeURIComponent(document.querySelector('#search').value);
                 tree.load({
-                    search: encodeURIComponent(document.querySelector('#search').value),
+                    dataUrl: '/rest/codes?search=' + search,
                     target: 'treeList',
                     text: 'code',
                     leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',

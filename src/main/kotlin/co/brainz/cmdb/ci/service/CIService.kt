@@ -55,14 +55,14 @@ class CIService(
                 .replace("#", "")
                 .split(",")
         }
-
+        val flag = parameters["flag"].toString()
         var search = ""
         var offset: Long? = null
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["offset"] != null) {
             offset = parameters["offset"].toString().toLong()
         }
-        val cis = ciRepository.findCIList(search, offset, tagList)
+        val cis = ciRepository.findCIList(search, offset, tagList, flag)
         var tags = mutableListOf<CITagDto>()
         val ciList = mutableListOf<CIListDto>()
         for (ci in cis) {

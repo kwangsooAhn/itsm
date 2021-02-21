@@ -1155,6 +1155,9 @@ table[id=documentDisplay] td {
 .checkbox-list .right {
   right: 0.25rem;
 }
+.checkbox-list .padding {
+  padding: 0.1875rem 0 0.1875rem 0;
+}
 .checkbox-list li {
   height: 1.5rem;
   font-weight: 400;
