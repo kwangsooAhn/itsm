@@ -630,6 +630,7 @@
 
             let commentBoxTextarea = document.createElement('textarea');
             commentBoxTextarea.setAttribute('placeholder',i18n.msg('comment.msg.enterComments'));
+            commentBoxTextarea.className = 'textarea-scroll-wrapper';
             let commentButton = document.createElement('button');
             commentButton.type = 'button';
             commentButton.innerText = i18n.msg('common.btn.register');
@@ -640,6 +641,17 @@
 
             commentContainer.appendChild(commentBoxTextarea);
             commentContainer.appendChild(commentButton);
+
+            OverlayScrollbars(commentContainer.querySelector("textarea"), {
+                className: 'inner-scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
         }
     }
 
