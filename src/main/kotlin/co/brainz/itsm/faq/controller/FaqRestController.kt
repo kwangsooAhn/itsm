@@ -50,7 +50,7 @@ class FaqRestController(private val faqService: FaqService) {
      * 신규 FAQ 등록 처리
      */
     @PostMapping("/", "")
-    fun insertFaq(@RequestBody faqDto: FaqDto): Int {
+    fun insertFaq(@RequestBody faqDto: FaqDto): Boolean {
         return faqService.createFaq(faqDto)
     }
 
@@ -58,7 +58,7 @@ class FaqRestController(private val faqService: FaqService) {
      * FAQ 수정 처리
      */
     @PutMapping("/{faqId}")
-    fun updateFaq(@PathVariable faqId: String, @RequestBody faqDto: FaqDto): Int {
+    fun updateFaq(@PathVariable faqId: String, @RequestBody faqDto: FaqDto): Boolean {
         return faqService.updateFaq(faqId, faqDto)
     }
 
@@ -66,7 +66,8 @@ class FaqRestController(private val faqService: FaqService) {
      * FAQ 삭제 처리
      */
     @DeleteMapping("/{faqId}")
-    fun deleteFaq(@PathVariable faqId: String) {
+    fun deleteFaq(@PathVariable faqId: String): Boolean {
         faqService.deleteFaq(faqId)
+        return true
     }
 }

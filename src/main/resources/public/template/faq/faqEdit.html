@@ -47,11 +47,14 @@
                 </div>
                 <div class="flex-row justify-content-end edit-row">
                     <div class="btn-list">
-                        <button type="button" class="point-fill" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
+                        <button type="button" class="point-fill" id="btnRegist"
+                                sec:authorize="hasAuthority('faq.create')"
                                 th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
-                        <button type="button" class="point-fill" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"
+                        <button type="button" class="point-fill" id="btnUpdate"
+                                sec:authorize="hasAuthority('faq.update')"
                                 th:if="${faq?.faqId}" th:text="#{common.btn.modify}"></button>
-                        <button type="button" class="default-fill" id="btnDelete" sec:authorize="hasAuthority('faq.delete')"
+                        <button type="button" class="default-fill" id="btnDelete"
+                                sec:authorize="hasAuthority('faq.delete')"
                                 th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
                         <a class="btn default-line" href="/faqs/search" th:text="#{common.btn.list}"></a>
                     </div>
@@ -78,13 +81,10 @@
                 url: url,
                 params: JSON.stringify(formObj),
                 contentType: 'application/json',
-                callbackFunc: function (response){
-                    let result = response.responseText
+                callbackFunc: function (response) {
+                    let result = response.responseText == "true" ? true : false;
                     let resultMsg = [[#{faq.msg.duplicateTitleInCategory}]];
-                    if(result >0){
-                        aliceJs.alertWarning(resultMsg);
-                    }
-                    else {
+                    if (result) {
                         resultMsg = [[#{common.msg.save}]];
                         if (method.toLowerCase() === 'delete') {
                             resultMsg = [[#{common.msg.delete}]];
@@ -92,6 +92,8 @@
                         aliceJs.alertSuccess(resultMsg, function () {
                             window.location.href = '/faqs/search';
                         });
+                    } else {
+                        aliceJs.alertWarning(resultMsg);
                     }
                 }
             };
