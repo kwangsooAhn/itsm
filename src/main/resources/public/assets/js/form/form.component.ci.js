@@ -236,7 +236,9 @@
                     classes: "default-line",
                     bindKey: false,
                     callback: function (modal) {
-                        modal.hide();
+                        aliceJs.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                            modal.hide();
+                        });
                     }
                 }],
                 close: {
@@ -301,7 +303,9 @@
                     classes: "default-line",
                     bindKey: false,
                     callback: function (modal) {
-                        modal.hide();
+                        aliceJs.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                            modal.hide();
+                        });
                     }
                 }],
                 close: {
@@ -559,8 +563,11 @@
         const compIdx = aliceDocument.getComponentIndex(componentId);
         const componentData = aliceDocument.data.form.components[compIdx];
         const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
-        if (ciIdx > -1) {
-            const actionType = componentData.value[ciIdx].actionType;
+        if (ciIdx === -1) { return false; }
+
+        const actionType = componentData.value[ciIdx].actionType;
+        const alertMsg = (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) ? 'cmdb.ci.msg.deleteEditableCI' : 'cmdb.ci.msg.deleteReadableCI';
+        aliceJs.confirmIcon(i18n.msg(alertMsg), function () {
             if (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) {
                 // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
                 restSubmit('/rest/cmdb/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
@@ -569,11 +576,11 @@
             componentData.value.splice(ciIdx, 1);
             ciTb.deleteRow(ciIdx + 1);
 
-        }
-        // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
-        if (ciTb.rows.length === 1) {
-            addRow(ciComponent);
-        }
+            // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
+            if (ciTb.rows.length === 1) {
+                addRow(ciComponent);
+            }
+        });
     }
 
     /**
