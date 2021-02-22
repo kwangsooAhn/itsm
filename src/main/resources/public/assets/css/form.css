@@ -4266,6 +4266,7 @@ body.modal-active {
 }
 .component.dr-table .btn-dr-table-row-add .btn-dr-table-row-add-text {
   margin-left: 0.625rem;
+  color: #3F4B56;
 }
 .component.dr-table .dr-table-row-delete {
   display: inline-block;
