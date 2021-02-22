@@ -993,7 +993,7 @@ scheduler:
     history: "스케줄 이력"
     historyNo: "No"
     immediatelyExecute: "즉시 실행"
-    lastExecuteTime: "마지막 실행 시간"
+    lastExecuteTime: "마지막 실행 시각"
     name: "스케줄 명"
     query: "쿼리"
     register: "스케줄 등록"
