@@ -17,7 +17,6 @@ import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
-import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -85,18 +84,11 @@ class WfTokenManagerService(
     /**
      * Get component value(split[0]).
      */
-    fun getComponentValue(tokenId: String, mappingId: String, componentValueType: String): String {
-        return if (componentValueType == WfComponentConstants.ComponentValueType.JSON.code) {
-            wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(
-                tokenId,
-                mappingId
-            ).value.split("|")[0]
-        } else {
-            wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(
-                tokenId,
-                mappingId
-            ).value
-        }
+    fun getComponentValue(tokenId: String, mappingId: String): String {
+        return wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(
+            tokenId,
+            mappingId
+        ).value.split("|")[0]
     }
 
     /**
