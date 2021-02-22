@@ -319,6 +319,9 @@ cmdb:
       update: "CI Update"
       view: "CI View"
     msg:
+      deleteEditableCI: "Do you want to delete the entered asset information from the list?"
+      deleteReadableCI: "Do you want to delete asset information from the list?"
+      deleteInformation: "All asset information being created will be deleted."
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
