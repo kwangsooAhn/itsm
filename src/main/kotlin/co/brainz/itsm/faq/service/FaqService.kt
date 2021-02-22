@@ -59,9 +59,9 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
     @Transactional
     fun createFaq(faqDto: FaqDto): Boolean {
         val faqEntity = FaqEntity(
-                faqGroup = faqDto.faqGroup,
-                faqTitle = faqDto.faqTitle,
-                faqContent = faqDto.faqContent
+             faqGroup = faqDto.faqGroup,
+             faqTitle = faqDto.faqTitle,
+             faqContent = faqDto.faqContent
         )
 
         val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup)
