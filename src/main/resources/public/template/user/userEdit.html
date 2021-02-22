@@ -323,7 +323,7 @@
             tree.load({
                 view: 'modal',
                 title: i18n.msg('department.label.deptList'),
-                search: '',
+                dataUrl: '/rest/codes?pCode=' + rootCode,
                 root: rootCode,
                 rootLevel: 5,
                 target: 'treeList',

@@ -97,9 +97,10 @@
             onCreate();
 
             function getTypeList() {
+                const search = encodeURIComponent(document.querySelector('#search').value);
                 tree.load({
-                    search: encodeURIComponent(document.querySelector('#search').value),
                     source: 'ciType',
+                    dataUrl: '/rest/cmdb/types?search=' + search,
                     target: 'treeList',
                     text: 'typeName',
                     totalCount: true,
@@ -303,6 +304,7 @@
                     view: 'modal',
                     title: i18n.msg('cmdb.type.label.class'),
                     source: 'ciClass',
+                    dataUrl: '/rest/cmdb/classes',
                     rootAvailable: false,
                     target: 'modalTreeList',
                     text: 'className',
