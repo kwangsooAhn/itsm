@@ -1358,6 +1358,7 @@ label {
 }
 .tagify tag > div span {
   height: 1.25rem;
+  max-width: 28.875rem;
 }
 .tagify tag > div:hover::before {
   color: #0098FF;
