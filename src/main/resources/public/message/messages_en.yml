@@ -556,6 +556,7 @@ faq:
     title: "Title"
     view: "FAQ View"
   msg:
+    duplicateTitleInCategory: "Already Same Title In Category.<br>Change Category Or Title."
     editDescription: "Register, edit or delete FAQ."
     portalDescription: "Search the FAQ."
     searchDescription: "View and manage FAQs."
