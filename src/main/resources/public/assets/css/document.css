@@ -776,6 +776,11 @@ input, button, select, optgroup, textarea {
   margin-right: 0.3125rem;
   border-radius: 0.1875rem;
 }
+.document-container .token-properties .token-info-contents .token-comment .comment-input .textarea-scroll-wrapper {
+  width: 24.6875rem;
+  height: 4.0625rem;
+  margin-right: 0.3125rem;
+}
 
 /* _elements.scss 
  *
