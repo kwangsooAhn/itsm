@@ -188,6 +188,7 @@ class ChartService(
 
         val parsingDocObject = selectDurationDoc(chart, documentList)
         jsonObject.addProperty("title", chart.chartName)
+        jsonObject.add("operation", calculateOperation(chart, parsingDocObject))
         jsonObjectArray.add(jsonObject)
         jsonObjectArray.add(parsingDocObject)
 
@@ -195,21 +196,34 @@ class ChartService(
     }
 
     fun calculateOperation(chart: ChartDto, parsingDocObject: JsonObject): JsonObject {
-        var targetSize = parsingDocObject.size()
-        var jsonObject = JsonObject()
-
-        when (chart.operation) {
-            ChartConstants.Operation.AVERAGE.code -> {
-                ""
+        var operationListObject = JsonObject()
+        var totalCount = 0
+        when (chart.chartType) {
+            ChartConstants.Type.STACKEDCOLUMN.code, ChartConstants.Type.BASICLINE.code -> {
+                var keyList = parsingDocObject.getAsJsonObject("documentList")
+                keyList.entrySet().forEach {
+                    totalCount += it.value.asJsonArray.size()
+                }
+                keyList.entrySet().forEach {
+                    var operationObject = JsonObject()
+                    operationObject.addProperty("count", it.value.asJsonArray.size())
+                    operationObject.addProperty(
+                        "percent",
+                        if (totalCount != 0) {
+                            (((it.value.asJsonArray.size() / totalCount) * 100).toString() + "%")
+                        } else {
+                            "0%"
+                        }
+                    )
+                    operationListObject.add(it.key, operationObject)
+                }
             }
-            ChartConstants.Operation.COUNT.code -> {
-                ""
-            }
-            ChartConstants.Operation.SUM.code -> {
-                ""
+            ChartConstants.Type.PIE.code -> {
+                var keyList = parsingDocObject.getAsJsonArray("documentList")
+                operationListObject.addProperty("count", keyList.size())
             }
         }
-        return jsonObject
+        return operationListObject
     }
 
     /**
