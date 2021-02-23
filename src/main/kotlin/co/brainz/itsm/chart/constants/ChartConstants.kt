@@ -62,4 +62,13 @@ object ChartConstants {
         DATE("D"),
         HOUR("H")
     }
+
+    /**
+     * chart Operation
+     */
+    enum class Operation(val code: String) {
+        AVERAGE("average"),
+        COUNT("count"),
+        SUM("sum")
+    }
 }

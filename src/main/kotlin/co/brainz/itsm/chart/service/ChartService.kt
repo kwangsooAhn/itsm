@@ -186,11 +186,30 @@ class ChartService(
             }
         }
 
+        val parsingDocObject = selectDurationDoc(chart, documentList)
         jsonObject.addProperty("title", chart.chartName)
         jsonObjectArray.add(jsonObject)
-        jsonObjectArray.add(selectDurationDoc(chart, documentList))
+        jsonObjectArray.add(parsingDocObject)
 
         return jsonObjectArray
+    }
+
+    fun calculateOperation(chart: ChartDto, parsingDocObject: JsonObject): JsonObject {
+        var targetSize = parsingDocObject.size()
+        var jsonObject = JsonObject()
+
+        when (chart.operation) {
+            ChartConstants.Operation.AVERAGE.code -> {
+                ""
+            }
+            ChartConstants.Operation.COUNT.code -> {
+                ""
+            }
+            ChartConstants.Operation.SUM.code -> {
+                ""
+            }
+        }
+        return jsonObject
     }
 
     /**
@@ -204,6 +223,7 @@ class ChartService(
         val selectDocList = mutableListOf<WfDocumentEntity>()
         val endDateTime: LocalDateTime? = chart.createDt
         var jsonObject = JsonObject()
+        var jsonDocListObject = JsonObject()
         var dateFormatList = mutableListOf<String>()
 
         when (chart.durationUnit) {
@@ -251,6 +271,7 @@ class ChartService(
                             }
                             jsonObject.add(year.toString(), jsonArray)
                         }
+                        jsonDocListObject.add("documentList", jsonObject)
                     }
                     ChartConstants.Unit.MONTH.code -> {
                         for (index in 0 until period + 1) {
@@ -278,12 +299,14 @@ class ChartService(
                                         var jsonDocObject = JsonObject()
                                         jsonDocObject.addProperty("documentId", document.documentId)
                                         jsonDocObject.addProperty("documentName", document.documentName)
+                                        jsonDocObject.addProperty("createDt", document.createDt.toString())
                                         jsonArray.add(jsonDocObject)
                                     }
                                 }
                             }
                             jsonObject.add(dateFormat, jsonArray)
                         }
+                        jsonDocListObject.add("documentList", jsonObject)
                     }
                     ChartConstants.Unit.DATE.code -> {
                         for (index in 0 until period + 1) {
@@ -328,12 +351,14 @@ class ChartService(
                                         var jsonDocObject = JsonObject()
                                         jsonDocObject.addProperty("documentId", document.documentId)
                                         jsonDocObject.addProperty("documentName", document.documentName)
+                                        jsonDocObject.addProperty("createDt", document.createDt.toString())
                                         jsonArray.add(jsonDocObject)
                                     }
                                 }
                             }
                             jsonObject.add(dateFormat, jsonArray)
                         }
+                        jsonDocListObject.add("documentList", jsonObject)
                     }
                     ChartConstants.Unit.HOUR.code -> {
                         for (index in 0 until period + 1) {
@@ -384,12 +409,14 @@ class ChartService(
                                         var jsonDocObject = JsonObject()
                                         jsonDocObject.addProperty("documentId", document.documentId)
                                         jsonDocObject.addProperty("documentName", document.documentName)
+                                        jsonDocObject.addProperty("createDt", document.createDt.toString())
                                         jsonArray.add(jsonDocObject)
                                     }
                                 }
                             }
                             jsonObject.add(dateFormat, jsonArray)
                         }
+                        jsonDocListObject.add("documentList", jsonObject)
                     }
                 }
             }
@@ -402,9 +429,9 @@ class ChartService(
                     jsonDocObject.addProperty("createDt", document.createDt.toString())
                     jsonArray.add(jsonDocObject)
                 }
-                jsonObject.add("documentList", jsonArray)
+                jsonDocListObject.add("documentList", jsonArray)
             }
         }
-        return jsonObject
+        return jsonDocListObject
     }
 }
