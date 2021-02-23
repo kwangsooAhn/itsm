@@ -423,7 +423,6 @@ class ChartService(
                                         docMonth
                                     ) + docDays + String.format("%02d", docHours)
 
-
                                 when (docDateFormat) {
                                     dateFormat -> {
                                         var jsonDocObject = JsonObject()
