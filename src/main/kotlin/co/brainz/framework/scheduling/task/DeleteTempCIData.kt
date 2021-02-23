@@ -59,9 +59,6 @@ class DeleteTempCIData : Runnable {
                     conn =
                         DriverManager.getConnection(url, props.getProperty("username"), props.getProperty("password"))
                 }
-                "oracle" -> {
-
-                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
