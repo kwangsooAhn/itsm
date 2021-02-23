@@ -319,6 +319,9 @@ cmdb:
       update: "CI Update"
       view: "CI View"
     msg:
+      deleteEditableCI: "Do you want to delete the entered asset information from the list?"
+      deleteReadableCI: "Do you want to delete asset information from the list?"
+      deleteInformation: "All asset information being created will be deleted."
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
@@ -553,6 +556,7 @@ faq:
     title: "Title"
     view: "FAQ View"
   msg:
+    duplicateTitleInCategory: "Already Same Title In Category.<br>Change Category Or Title."
     editDescription: "Register, edit or delete FAQ."
     portalDescription: "Search the FAQ."
     searchDescription: "View and manage FAQs."

@@ -21,6 +21,7 @@
     let defaults = {
         view: '',                               // '': 전체, modal: 모달
         source: 'code',                         // 데이터 경로 (code, ci type, ci Class, ...) / 기본값은 code
+        dataUrl: '/rest/codes',                 // 데이터 URL 경로 / 기본값은 '/rest/codes'
         title: '',                              // 제목 (option)
         root: '',                               // 트리 최상위 부모
         rootLevel: 0,                           // 트리 최상위 레벨
@@ -62,14 +63,12 @@
                 modal.hide();
             }
         },
-        onShow: function(modal) {},
         onHide: function(modal) {
             modal.destroy();
         },
         onCreate: function(modal) {
             OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
         },
-        onDestroy: function(modal) {}
     };
 
     /**
@@ -184,11 +183,11 @@
                     }
                 }
 
-                if (p_parentNode === null) {
+                if (p_parentNode !== null) {
+                    p_parentNode.childNodes.push(node);
+                } else {
                     this.childNodes.push(node);
                     node.parent = this;
-                } else {
-                    p_parentNode.childNodes.push(node);
                 }
 
                 return node;
@@ -307,16 +306,16 @@
                 }
             },
             collapseTree: function() {
-                for (let i=0; i<this.childNodes.length; i++) {
-                    if (this.childNodes[i].childNodes.length>0) {
+                for (let i = 0; i < this.childNodes.length; i++) {
+                    if (this.childNodes[i].childNodes.length > 0) {
                         this.collapseSubtree(this.childNodes[i]);
                     }
                 }
             },
             collapseSubtree: function(p_node) {
                 this.collapseNode(p_node);
-                for (let i=0; i<p_node.childNodes.length; i++) {
-                    if (p_node.childNodes[i].childNodes.length>0) {
+                for (let i = 0; i < p_node.childNodes.length; i++) {
+                    if (p_node.childNodes[i].childNodes.length > 0) {
                         this.collapseSubtree(p_node.childNodes[i]);
                     }
                 }
@@ -354,7 +353,7 @@
                 }
             },
             toggleNode: function(p_node) {
-                if (p_node.childNodes.length>0) {
+                if (p_node.childNodes.length > 0) {
                     if (p_node.expanded) {
                         p_node.collapseNode();
                     } else {
@@ -404,8 +403,8 @@
                 if (tree.childNodes.length>0) {
                     lists = [ tree ];
                     if (p_recursive) {
-                        for (var i = 0; i < tree.getElementsByTagName('ul').length; i++) {
-                            var check_ul = tree.getElementsByTagName('ul')[i];
+                        for (let i = 0; i < tree.getElementsByTagName('ul').length; i++) {
+                            let check_ul = tree.getElementsByTagName('ul')[i];
                             if ( check_ul.childNodes.length !== 0) {
                                 lists[lists.length] = check_ul;
                             }
@@ -436,27 +435,17 @@
     //Create a HTML element specified by parameter 'p_type'
     function createSimpleElement(p_type, p_id, p_class) {
         let element = document.createElement(p_type);
-        if (p_id !== undefined) {
-            element.id = p_id;
-        }
-        if (p_class !== undefined) {
-            element.className = p_class;
-        }
+        element.id = (p_id !== undefined) ? p_id : '';
+        element.className = (p_class !== undefined) ? p_class : '';
         return element;
     }
 
     //Create img element
     function createImgElement(p_id, p_class, p_src) {
         let element = document.createElement('img');
-        if (p_id !== undefined) {
-            element.id = p_id;
-        }
-        if (p_class !== undefined) {
-            element.className = p_class;
-        }
-        if (p_src !== undefined) {
-            element.src = p_src;
-        }
+        element.id = (p_id !== undefined) ? p_id : '';
+        element.className = (p_class !== undefined) ? p_class : '';
+        element.src = (p_src !== undefined) ? p_src : '';
         return element;
     }
 
@@ -491,7 +480,6 @@
         const tree = createTree();
         makeNode(tree);
         tree.drawTree();
-
         // 기존 값이 존재할 경우 자동 선택.
         if (options.selectedValue !== null && options.selectedValue !== '') {
             tree.selectNode(getSelectNode(tree, null));
@@ -508,11 +496,9 @@
      */
     function getRecursiveParentCode(code, pArray) {
         options.data.forEach(function (item) {
-           if (item.code === code) {
-               if (item.pcode !== null) {
-                   pArray.push(item.pcode);
-                   getRecursiveParentCode(item.pcode, pArray);
-               }
+           if (item.code === code && item.pcode !== null) {
+               pArray.push(item.pcode);
+               getRecursiveParentCode(item.pcode, pArray);
            }
         });
         return pArray;
@@ -544,7 +530,6 @@
                 }
                 let firstNode = tree.createNode(item, expand, 1, null);
                 let itemLevel = '';
-
                 if (item.level !== undefined) {
                     itemLevel = item.level
                 } else if (item.typeLevel !== undefined) {
@@ -552,12 +537,7 @@
                 } else {
                     itemLevel = item.classLevel
                 }
-
-                createChildNode(
-                    firstNode,
-                    itemLevel,
-                    expandObject,
-                    2);
+                createChildNode(firstNode, itemLevel, expandObject, 2);
             }
         });
     }
@@ -626,8 +606,8 @@
      */
     const createDialogContent = function() {
         return `
-                <div id = "${options.target}"></div>
-                `
+            <div id = "${options.target}"></div>
+        `
     };
 
     /**
@@ -678,22 +658,9 @@
         }
 
         // data source 옵션에 따라 데이터를 load 한다.
-        let dataUrl = '';
-        switch (options.source) {
-            case 'ciType':
-                dataUrl = '/rest/cmdb/types?search=' + options.search;
-                break;
-            case 'ciClass':
-                dataUrl = '/rest/cmdb/classes?search=' + options.search;
-                break;
-            default:
-                dataUrl = '/rest/codes?pCode=' + options.root + '&search=' + options.search;
-                break;
-        }
-
         aliceJs.sendXhr({
             method: 'get',
-            url: dataUrl,
+            url: options.dataUrl,
             async: false,
             contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
