@@ -7,8 +7,12 @@
 package co.brainz.cmdb.ci.service
 
 import co.brainz.cmdb.ci.entity.CIDataEntity
+import co.brainz.cmdb.ci.entity.CIDataHistoryEntity
 import co.brainz.cmdb.ci.entity.CIEntity
+import co.brainz.cmdb.ci.entity.CIHistoryEntity
+import co.brainz.cmdb.ci.repository.CIDataHistoryRepository
 import co.brainz.cmdb.ci.repository.CIDataRepository
+import co.brainz.cmdb.ci.repository.CIHistoryRepository
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.ciClass.constants.CIClassConstants
@@ -40,7 +44,9 @@ class CIService(
     private val ciClassRepository: CIClassRepository,
     private val ciAttributeRepository: CIAttributeRepository,
     private val ciRelationRepository: CIRelationRepository,
-    private val ciDataRepository: CIDataRepository
+    private val ciDataRepository: CIDataRepository,
+    private val ciHistoryRepository: CIHistoryRepository,
+    private val ciDataHistoryRepository: CIDataHistoryRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -177,7 +183,7 @@ class CIService(
                 }
 
                 // CIEntity 등록
-                val ciEntity = CIEntity(
+                var ciEntity = CIEntity(
                     ciId = ciDto.ciId,
                     ciNo = ciNo,
                     ciName = ciDto.ciName,
@@ -189,7 +195,7 @@ class CIService(
                     automatic = ciDto.automatic
                 )
 
-                ciRepository.save(ciEntity)
+                ciEntity = ciRepository.save(ciEntity)
 
                 // CIDataEntity 등록
                 ciDto.ciDataList?.forEach {
@@ -222,10 +228,46 @@ class CIService(
                         )
                     )
                 }
+
+                // history
+                val ciHistoryEntity = CIHistoryEntity(
+                    historyId = "",
+                    seq = 0,
+                    ciId = ciEntity.ciId,
+                    ciNo = ciEntity.ciNo,
+                    ciName = ciEntity.ciName,
+                    ciDesc = ciEntity.ciDesc,
+                    typeId = ciEntity.ciTypeEntity.typeId,
+                    ciIcon = ciEntity.ciIcon,
+                    ciStatus = ciEntity.ciStatus,
+                    classId = ciEntity.ciClassEntity.classId,
+                    automatic = ciEntity.automatic
+                )
+                ciHistoryRepository.save(ciHistoryEntity)
+
+                // history data
+                ciDto.ciDataList?.forEach { data ->
+                    val attribute = ciAttributeRepository.getOne(data.attributeId)
+                    CIDataHistoryEntity(
+                        dataHistoryId = "",
+                        ciId = ciHistoryEntity.ciId,
+                        attributeId = data.attributeId,
+                        attributeValue = data.attributeData,
+                        attributeName = attribute.attributeName,
+                        attributeDesc = attribute.attributeDesc,
+                        attributeText = attribute.attributeText,
+                        attributeType = attribute.attributeType,
+                        value = "",
+                        seq = 0
+                    )
+                }
+
             }
             else -> {
                 restTemplateReturnDto.code = RestTemplateConstants.Status.STATUS_ERROR_DUPLICATION.code
                 restTemplateReturnDto.status = false
+
+                // history
             }
         }
 
