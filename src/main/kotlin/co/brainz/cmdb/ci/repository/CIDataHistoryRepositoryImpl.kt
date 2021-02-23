@@ -9,5 +9,4 @@ import co.brainz.cmdb.ci.entity.CIDataHistoryEntity
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIDataHistoryRepositoryImpl : QuerydslRepositorySupport(CIDataHistoryEntity::class.java),
-    CIDataHistoryRepositoryCustom {
-}
+    CIDataHistoryRepositoryCustom

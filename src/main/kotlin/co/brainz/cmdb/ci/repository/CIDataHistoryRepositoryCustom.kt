@@ -7,5 +7,4 @@ package co.brainz.cmdb.ci.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
-interface CIDataHistoryRepositoryCustom : AliceRepositoryCustom {
-}
+interface CIDataHistoryRepositoryCustom : AliceRepositoryCustom

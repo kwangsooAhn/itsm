@@ -228,52 +228,19 @@ class CIService(
                         )
                     )
                 }
-
-                // history
-                val ciHistoryEntity = CIHistoryEntity(
-                    historyId = "",
-                    seq = 0,
-                    ciId = ciEntity.ciId,
-                    ciNo = ciEntity.ciNo,
-                    ciName = ciEntity.ciName,
-                    ciDesc = ciEntity.ciDesc,
-                    typeId = ciEntity.ciTypeEntity.typeId,
-                    ciIcon = ciEntity.ciIcon,
-                    ciStatus = ciEntity.ciStatus,
-                    classId = ciEntity.ciClassEntity.classId,
-                    automatic = ciEntity.automatic
-                )
-                ciHistoryRepository.save(ciHistoryEntity)
-
-                // history data
-                ciDto.ciDataList?.forEach { data ->
-                    val attribute = ciAttributeRepository.getOne(data.attributeId)
-                    CIDataHistoryEntity(
-                        dataHistoryId = "",
-                        ciId = ciHistoryEntity.ciId,
-                        attributeId = data.attributeId,
-                        attributeValue = data.attributeData,
-                        attributeName = attribute.attributeName,
-                        attributeDesc = attribute.attributeDesc,
-                        attributeText = attribute.attributeText,
-                        attributeType = attribute.attributeType,
-                        value = "",
-                        seq = 0
-                    )
-                }
-
             }
             else -> {
                 restTemplateReturnDto.code = RestTemplateConstants.Status.STATUS_ERROR_DUPLICATION.code
                 restTemplateReturnDto.status = false
-
-                // history
             }
         }
 
         return restTemplateReturnDto
     }
 
+    /**
+     * CI 업데이트.
+     */
     fun updateCI(ciId: String, ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
@@ -285,6 +252,9 @@ class CIService(
                 AliceErrorConstants.ERR_00005.message + "[CI Entity]"
             )
         } else {
+            // 변경전 데이터를 이력에 저장
+            this.saveCIHistory(ciEntity)
+
             ciEntity.ciNo = ciDto.ciNo
             ciEntity.ciName = ciDto.ciName
             ciEntity.ciStatus = ciDto.ciStatus
@@ -295,7 +265,9 @@ class CIService(
         ciRepository.save(ciEntity)
 
         // CIDataEntity Update
-        ciDataRepository.deleteByCiId(ciDto.ciId)
+        ciEntity.ciDataEntities.clear()
+        ciDataRepository.flush()
+
         ciDto.ciDataList?.forEach {
             ciDataRepository.save(
                 CIDataEntity(
@@ -343,10 +315,62 @@ class CIService(
             AliceErrorConstants.ERR_00005.message + "[CI Entity]"
         )
 
+        // 삭제전 마지막 값을 이력에 저장
+        this.saveCIHistory(ciEntity)
+
         ciEntity.ciStatus = RestTemplateConstants.CIStatus.STATUS_DELETE.code
         ciRepository.save(ciEntity)
 
         return restTemplateReturnDto
+    }
+
+    /**
+     * CI 이력 저장.
+     */
+    fun saveCIHistory(ciEntity: CIEntity) {
+        var historySeq = 0
+        val latelyHistory = ciHistoryRepository.findByLatelyHistory(ciEntity.ciId)
+        if (latelyHistory != null) {
+            historySeq = latelyHistory.seq?.plus(1) ?: 0
+        }
+
+        // CI History
+        val ciHistoryEntity = CIHistoryEntity(
+            historyId = "",
+            seq = historySeq,
+            ciId = ciEntity.ciId,
+            ciNo = ciEntity.ciNo,
+            ciName = ciEntity.ciName,
+            ciDesc = ciEntity.ciDesc,
+            typeId = ciEntity.ciTypeEntity.typeId,
+            ciIcon = ciEntity.ciIcon,
+            ciStatus = ciEntity.ciStatus,
+            classId = ciEntity.ciClassEntity.classId,
+            automatic = ciEntity.automatic
+        )
+        ciHistoryRepository.save(ciHistoryEntity)
+
+        // CI Data History
+        val ciDataHistoryList = mutableListOf<CIDataHistoryEntity>()
+        ciEntity.ciDataEntities.forEach { data ->
+            ciDataHistoryList.add(
+                CIDataHistoryEntity(
+                    dataHistoryId = "",
+                    seq = historySeq,
+                    ciId = ciEntity.ciId,
+                    attributeId = data.ciAttribute.attributeId,
+                    attributeName = data.ciAttribute.attributeName,
+                    attributeDesc = data.ciAttribute.attributeDesc,
+                    attributeText = data.ciAttribute.attributeText,
+                    attributeType = data.ciAttribute.attributeType,
+                    attributeValue = data.ciAttribute.attributeValue,
+                    value = data.value
+                )
+            )
+        }
+        if (ciDataHistoryList.isNotEmpty()) {
+            ciDataHistoryRepository.saveAll(ciDataHistoryList)
+        }
     }
 
     /**
