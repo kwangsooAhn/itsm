@@ -1490,9 +1490,14 @@
                         let changeValue = elem.value;
                         if (elem.classList.contains('session')) { changeValue = elem.id + '|' + elem.value; }
                         // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
-                        // 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음.
-                        if (changePropertiesArr.length > 2 && parentElem.getAttribute('data-field-type') !== ATTRIBUTE_TABLE_COLUMN) {
-                            changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
+                        //  - 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음. 최악의 방향으로... ㅠㅠ
+                        //  - DOM id를 이용한 방법은 리펙토링에서 빼는 것이 좋을 것 같다.
+                        if (changePropertiesArr.length > 2) {
+                            if (changePropertiesArr[0] !== ATTRIBUTE_TABLE_COLUMN && parentElem.getAttribute('data-field-type') === ATTRIBUTE_TABLE_COLUMN) {
+                                changePropertiesValue(changeValue, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
+                            } else {
+                                changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
+                            }
                         } else {
                             if (parentElem.getAttribute('data-field-type')) {
                                 changePropertiesValue(changeValue, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
@@ -1596,9 +1601,14 @@
                                 } else {
                                     const changePropertiesArr = parentElem.id.split('-');
                                     // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
-                                    // 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음.
-                                    if (changePropertiesArr.length > 2 && parentElem.getAttribute('data-field-type') !== ATTRIBUTE_TABLE_COLUMN) {
-                                        changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
+                                    //  - 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음. 최악의 방향으로... ㅠㅠ
+                                    //  - DOM id를 이용한 방법은 리펙토링에서 빼는 것이 좋을 것 같다.
+                                    if (changePropertiesArr.length > 2) {
+                                        if (changePropertiesArr[0] !== ATTRIBUTE_TABLE_COLUMN && parentElem.getAttribute('data-field-type') === ATTRIBUTE_TABLE_COLUMN) {
+                                            changePropertiesValue(elem.value, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
+                                        } else {
+                                            changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
+                                        }
                                     } else {
                                         if (parentElem.getAttribute('data-field-type')) {
                                             changePropertiesValue(elem.value, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
@@ -2185,10 +2195,10 @@
                             menuItems[j].classList.remove('hidden');
                         }
                     }
-                    if (previousSelectedElem.previousSibling !== null &&
-                        previousComponentIds.indexOf(previousSelectedElem.previousSibling.id) !== -1 &&
-                        previousSelectedElem.previousSibling.classList.contains('adjoin')) {
-                        previousSelectedElem.previousSibling.classList.remove('adjoin');
+                    if (previousSelectedElem !== null &&
+                        previousComponentIds.indexOf(previousSelectedElem.id) !== -1 &&
+                        previousSelectedElem.classList.contains('adjoin')) {
+                        previousSelectedElem.classList.remove('adjoin');
                     }
                 }
                 // 기존 선택된 컴포넌트 css 삭제
