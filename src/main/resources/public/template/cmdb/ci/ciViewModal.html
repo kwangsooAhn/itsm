@@ -21,7 +21,7 @@
                 <div class="flex-row input-button">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
                     <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}" readonly required="true" th:attr="data-required-name=#{cmdb.ci.label.type}"/>
-                    <button class="default-line col-1" id="typeSelectBtn" type="button" disabled th:onclick="CI.openSelectTypeModal([[${ciData?.typeId}]]);" th:text="#{common.btn.select}"></button>
+                    <button class="default-line" id="typeSelectBtn" type="button" disabled th:onclick="CI.openSelectTypeModal([[${ciData?.typeId}]]);" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
             <!-- 아이콘 -->
@@ -31,7 +31,7 @@
                 </label>
                 <div class="flex-row input-button">
                     <input type="text" id="typeIcon" class="col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
-                    <button class="default-line col-1" type="button" disabled th:onclick="CI.openSelectIconModal([[${ciData?.ciIcon}]]);" th:text="#{common.btn.select}"></button>
+                    <button class="default-line" type="button" disabled th:onclick="CI.openSelectIconModal([[${ciData?.ciIcon}]]);" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
             <!-- CI 이름 -->

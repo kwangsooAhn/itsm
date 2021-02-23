@@ -57,32 +57,45 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
      * FAQ 등록
      */
     @Transactional
-    fun createFaq(faqDto: FaqDto) {
+    fun createFaq(faqDto: FaqDto): Boolean {
         val faqEntity = FaqEntity(
             faqGroup = faqDto.faqGroup,
             faqTitle = faqDto.faqTitle,
             faqContent = faqDto.faqContent
         )
-        faqRepository.save(faqEntity)
+
+        val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup)
+
+        if (count == 0) {
+            faqRepository.save(faqEntity)
+            return true
+        }
+        return false
     }
 
     /**
      * FAQ 변경
      */
     @Transactional
-    fun updateFaq(faqId: String, faqDto: FaqDto) {
+    fun updateFaq(faqId: String, faqDto: FaqDto): Boolean {
         val faqEntity = faqRepository.getOne(faqId)
-        faqEntity.faqGroup = faqDto.faqGroup
-        faqEntity.faqTitle = faqDto.faqTitle
-        faqEntity.faqContent = faqDto.faqContent
-        faqRepository.save(faqEntity)
+        val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqDto.faqTitle, faqDto.faqGroup)
+        if (count == 0 || faqDto.faqTitle.equals(faqEntity.faqTitle)) {
+            faqEntity.faqGroup = faqDto.faqGroup
+            faqEntity.faqTitle = faqDto.faqTitle
+            faqEntity.faqContent = faqDto.faqContent
+            faqRepository.save(faqEntity)
+            return true
+        }
+        return false
     }
 
     /**
      * FAQ 삭제
      */
     @Transactional
-    fun deleteFaq(faqId: String) {
+    fun deleteFaq(faqId: String): Boolean {
         faqRepository.deleteById(faqId)
+        return true
     }
 }

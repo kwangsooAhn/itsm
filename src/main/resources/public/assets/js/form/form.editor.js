@@ -125,7 +125,6 @@
             label: function(value) { // 라벨링 전용
                 return labelRegex.test(value);
             }
-
         };
         // 이벤트 등록
         element.addEventListener(eventName, function(e) {
@@ -179,6 +178,21 @@
                     case 'label':
                         result = validateFunc.label(target.value);
                         break;
+                    case 'unique': // table 중복 체크
+                        result = true;
+                        if (target.parentNode.tagName === 'TD') { // table 일 경우
+                            const tb = aliceJs.clickInsideElement(e, 'property-field-table');
+                            const targetCellIdx = target.parentNode.cellIndex;
+                            const targetRowIdx = target.parentNode.parentNode.rowIndex;
+                            for (let i = 1; i < targetRowIdx; i++) {
+                                const tbRow = tb.rows[i];
+                                const inputCell = tbRow.cells[targetCellIdx].querySelector('input');
+                                if (target.value.trim() === inputCell.value.trim()) {
+                                    result = false;
+                                    break;
+                                }
+                            }
+                        }
                     default:
                         break;
                 }
@@ -196,6 +210,34 @@
     }
 
     /**
+     * 중복 validate check
+     */
+    function uniqueCheck() {
+        // TODO: 공통 유효성 체크로 변경 필요. (validation-alice.js)
+        // custom tag로 data-validate를 사용하는 것은 현재 폼 디자이너만 사용하니 추후 공통으로 적용하는 방향이 좋을 것 같음.
+        const tbs = propertiesPanel.querySelectorAll('table');
+        for (let i = 0, tbLen = tbs.length; i < tbLen; i++) {
+            const tb = tbs[i];
+            const tbValidate = tb.getAttribute('date-validate');
+            if (tbValidate && tbValidate === 'unique') {
+                const errorMsg = tb.parentNode.querySelector('.error-msg');
+                let keys = [];
+                for (let j = 1, rowLen = tb.rows.length; j < rowLen; j++) {
+                    const tbRow = tb.rows[j];
+                    const inputCell = tbRow.cells[1].querySelector('input');
+                    if (keys.indexOf(inputCell.value.trim()) > -1) {
+                        inputCell.classList.add('error');
+                        errorMsg.innerHTML = i18n.msg('form.msg.duplicate');
+                        errorMsg.classList.add('on');
+                        return false;
+                    }
+                    keys.push(inputCell.value.trim());
+                }
+            }
+        }
+    }
+
+    /**
      * 폼 저장
      *
      * @param {String} flag 저장후  닫을지 여부
@@ -205,8 +247,7 @@
         if (isView) { return false; }
 
         // 유효성이 통과되지 않으면 저장되지 않는다.
-        const validateElement = document.querySelectorAll('.error');
-        if (validateElement.length !== 0) {  return false; }
+        if (!hasErrorClass)  {  return false; }
 
         data = JSON.parse(JSON.stringify(editor.data));
 
@@ -1449,9 +1490,14 @@
                         let changeValue = elem.value;
                         if (elem.classList.contains('session')) { changeValue = elem.id + '|' + elem.value; }
                         // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
-                        // 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음.
-                        if (changePropertiesArr.length > 2 && parentElem.getAttribute('data-field-type') !== ATTRIBUTE_TABLE_COLUMN) {
-                            changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
+                        //  - 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음. 최악의 방향으로... ㅠㅠ
+                        //  - DOM id를 이용한 방법은 리펙토링에서 빼는 것이 좋을 것 같다.
+                        if (changePropertiesArr.length > 2) {
+                            if (changePropertiesArr[0] !== ATTRIBUTE_TABLE_COLUMN && parentElem.getAttribute('data-field-type') === ATTRIBUTE_TABLE_COLUMN) {
+                                changePropertiesValue(changeValue, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
+                            } else {
+                                changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
+                            }
                         } else {
                             if (parentElem.getAttribute('data-field-type')) {
                                 changePropertiesValue(changeValue, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
@@ -1555,9 +1601,14 @@
                                 } else {
                                     const changePropertiesArr = parentElem.id.split('-');
                                     // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
-                                    // 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음.
-                                    if (changePropertiesArr.length > 2 && parentElem.getAttribute('data-field-type') !== ATTRIBUTE_TABLE_COLUMN) {
-                                        changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
+                                    //  - 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음. 최악의 방향으로... ㅠㅠ
+                                    //  - DOM id를 이용한 방법은 리펙토링에서 빼는 것이 좋을 것 같다.
+                                    if (changePropertiesArr.length > 2) {
+                                        if (changePropertiesArr[0] !== ATTRIBUTE_TABLE_COLUMN && parentElem.getAttribute('data-field-type') === ATTRIBUTE_TABLE_COLUMN) {
+                                            changePropertiesValue(elem.value, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
+                                        } else {
+                                            changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
+                                        }
                                     } else {
                                         if (parentElem.getAttribute('data-field-type')) {
                                             changePropertiesValue(elem.value, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
@@ -1668,7 +1719,7 @@
                     `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
                     `<button type="button" class="ghost-line btn-option float-right" id="label-option-plus"><span class="icon icon-plus"></span></button>` +
                     `<button type="button" class="ghost-line btn-option float-right mr-1" id="label-option-minus"><span class="icon icon-minus"></span></button>` +
-                    `<table class="property-field-table" id="table-label">` +
+                    `<table class="property-field-table" id="table-label" date-validate="unique">` +
                         `<colgroup>` +
                             `<col width="20%">` +
                             `<col width="40%">` +
@@ -2144,10 +2195,10 @@
                             menuItems[j].classList.remove('hidden');
                         }
                     }
-                    if (previousSelectedElem.previousSibling !== null &&
-                        previousComponentIds.indexOf(previousSelectedElem.previousSibling.id) !== -1 &&
-                        previousSelectedElem.previousSibling.classList.contains('adjoin')) {
-                        previousSelectedElem.previousSibling.classList.remove('adjoin');
+                    if (previousSelectedElem !== null &&
+                        previousComponentIds.indexOf(previousSelectedElem.id) !== -1 &&
+                        previousSelectedElem.classList.contains('adjoin')) {
+                        previousSelectedElem.classList.remove('adjoin');
                     }
                 }
                 // 기존 선택된 컴포넌트 css 삭제
@@ -2406,7 +2457,7 @@
         formNodes.forEach(function(node) {
             Object.keys(formProperties).some(function(prop) {
                 if (prop === node.id) {
-                    const propElem = node.lastElementChild;
+                    const propElem = node.querySelector('.property-value');
                     switch (node.id) {
                         case 'name':
                             propElem.setAttribute('value', formProperties[prop]);
@@ -2588,6 +2639,7 @@
     exports.history = history;
     exports.selectedComponentIds = selectedComponentIds;
     exports.showDRTableColumnProperties = showDRTableColumnProperties;
+    exports.uniqueCheck = uniqueCheck;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

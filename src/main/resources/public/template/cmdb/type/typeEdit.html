@@ -57,7 +57,7 @@
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
                     <div class="flex-row input-button">
                         <input class="col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
-                        <button class="default-line col-1" name="typeIconSelector" type="button" onclick="iconPopUp()" th:text="#{common.btn.select}"></button>
+                        <button class="default-line" name="typeIconSelector" type="button" onclick="iconPopUp()" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
                 <div class="edit-row flex-column">
@@ -65,7 +65,7 @@
                     <div class="flex-row input-button">
                         <input class="col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
                         <input id="typeClassId" name="typeClassId" type="hidden"/>
-                        <button class="default-line col-1" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
+                        <button class="default-line" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
             </div>
@@ -97,9 +97,10 @@
             onCreate();
 
             function getTypeList() {
+                const search = encodeURIComponent(document.querySelector('#search').value);
                 tree.load({
-                    search: encodeURIComponent(document.querySelector('#search').value),
                     source: 'ciType',
+                    dataUrl: '/rest/cmdb/types?search=' + search,
                     target: 'treeList',
                     text: 'typeName',
                     totalCount: true,
@@ -303,6 +304,7 @@
                     view: 'modal',
                     title: i18n.msg('cmdb.type.label.class'),
                     source: 'ciClass',
+                    dataUrl: '/rest/cmdb/classes',
                     rootAvailable: false,
                     target: 'modalTreeList',
                     text: 'className',

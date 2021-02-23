@@ -3689,6 +3689,7 @@ body.modal-active {
 }
 
 .modal-dialog.save-as .modal-content {
+  height: calc(25.63rem - 3.375rem - 5rem);
   padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -4143,6 +4144,11 @@ body.modal-active {
 .component .field-group .field-content .dr-table .on {
   box-shadow: 0 0 0 0.125rem #0098FF inset;
 }
+.component .field-group .field-content .dr-table .no-data-found-list {
+  background-color: #F7F8F9;
+  pointer-events: none;
+  color: #ACB4BF;
+}
 .component .field-group .field-content.accordion {
   height: 2.5rem;
   background-color: #F7F8F9;
@@ -4244,20 +4250,33 @@ body.modal-active {
 .component .field-group .field-content .ci-table tr input[type=text] {
   width: 100%;
 }
-.component .btn-dr-table-row-add {
-  position: absolute;
-  top: 1.25rem;
-  right: 0.3125rem;
+.component.dr-table {
+  flex-wrap: wrap;
+}
+.component.dr-table .add-btn-area {
+  display: flex;
+  margin-top: 1.25rem;
+}
+.component.dr-table .add-btn-area span {
+  margin-left: 0.25rem;
+  margin-bottom: 0.125rem;
+}
+.component.dr-table .btn-dr-table-row-add {
   padding: 0;
 }
-.component .dr-table-row-delete {
+.component.dr-table .btn-dr-table-row-add .btn-dr-table-row-add-text {
+  margin-left: 0.625rem;
+  color: #3F4B56;
+}
+.component.dr-table .dr-table-row-delete {
   display: inline-block;
   position: absolute;
   height: 2.5rem;
   line-height: 2rem;
   right: 0.3125rem;
+  padding-top: 0.625rem;
 }
-.component .dr-table-row-delete .btn-dr-table-row-delete {
+.component.dr-table .dr-table-row-delete .btn-dr-table-row-delete {
   padding: 0;
 }
 .component[data-type=editbox] {

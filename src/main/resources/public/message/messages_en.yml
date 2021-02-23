@@ -319,6 +319,9 @@ cmdb:
       update: "CI Update"
       view: "CI View"
     msg:
+      deleteEditableCI: "Do you want to delete the entered asset information from the list?"
+      deleteReadableCI: "Do you want to delete asset information from the list?"
+      deleteInformation: "All asset information being created will be deleted."
       enterCiName: "Please enter a CI Name."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
@@ -553,6 +556,7 @@ faq:
     title: "Title"
     view: "FAQ View"
   msg:
+    duplicateTitleInCategory: "Already Same Title In Category.<br>Change Category Or Title."
     editDescription: "Register, edit or delete FAQ."
     portalDescription: "Search the FAQ."
     searchDescription: "View and manage FAQs."
@@ -609,6 +613,7 @@ form:
     required: "Please enter the required item."
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
+    unique: "Duplicate data cannot be included."
   component:
     accordion-start: "Accordion"
     checkbox: "Checkbox"
@@ -957,6 +962,7 @@ role:
     selectAll: "SELECT ALL"
   label:
     auth: "Role Auth"
+    count: "total {0}"
     desc: "Role Desc"
     id: "Role Id"
     name: "Role Name"
