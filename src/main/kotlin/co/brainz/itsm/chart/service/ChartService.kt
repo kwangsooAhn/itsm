@@ -80,8 +80,10 @@ class ChartService(
                 var periodUnit = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.PERIODUNIT.property).asString
                 chartDto.periodUnit = periodUnit
                 if (chart.chartType == ChartConstants.Type.BASICLINE.code) {
-                    var group = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property).asString
-                    chartDto.group = group
+                    if (chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property) != null) {
+                        var group = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property).asString
+                        chartDto.group = group
+                    }
                 }
             }
         }
