@@ -4,6 +4,7 @@ DROP SEQUENCE IF EXISTS awf_download_seq cascade;
 DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
 DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
 DROP SEQUENCE IF EXISTS portal_board_seq cascade;
+DROP SEQUENCE IF EXISTS schedule_history_seq cascade;
 
 
 /* Create Sequences */
@@ -11,6 +12,8 @@ CREATE SEQUENCE awf_download_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE awf_file_loc_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE hibernate_sequence INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
+CREATE SEQUENCE schedule_history_seq INCREMENT 1 MINVALUE 1 START 1;
+
 /**
  * 권한
  */
@@ -3630,4 +3633,28 @@ COMMENT ON COLUMN awf_chart.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_chart.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_chart.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_chart.update_dt IS '수정일시';
+
+/**
+ * 차트설정
+ */
+DROP TABLE IF EXISTS awf_scheduled_history cascade;
+
+CREATE TABLE awf_scheduled_history
+(
+    history_seq bigint NOT NULL,
+    task_id varchar(128) NOT NULL,
+    immediately_execute boolean default false,
+    execute_time timestamp,
+    result boolean,
+    error_message text,
+    CONSTRAINT awf_scheduled_history_pk PRIMARY KEY (history_seq)
+);
+
+COMMENT ON TABLE awf_scheduled_history IS '스케줄이력정보';
+COMMENT ON COLUMN awf_scheduled_history.history_seq IS '이력시퀀스';
+COMMENT ON COLUMN awf_scheduled_history.task_id IS '작업아이디';
+COMMENT ON COLUMN awf_scheduled_history.immediately_execute IS '즉시실행여부';
+COMMENT ON COLUMN awf_scheduled_history.execute_time IS '실행시각';
+COMMENT ON COLUMN awf_scheduled_history.result IS '결과';
+COMMENT ON COLUMN awf_scheduled_history.error_message IS '에러메시지';
 
