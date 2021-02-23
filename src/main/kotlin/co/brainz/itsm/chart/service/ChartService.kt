@@ -197,6 +197,9 @@ class ChartService(
         return jsonObjectArray
     }
 
+    /**
+     * selectDurationDoc 함수를 통해 가져온 JsonObject 데이터에 대하여, operation에 대한 계산을 진행
+     */
     fun calculateOperation(chart: ChartDto, parsingDocObject: JsonObject): JsonObject {
         var operationListObject = JsonObject()
         var totalCount = 0
@@ -229,7 +232,8 @@ class ChartService(
     }
 
     /**
-     * 수집한 신청서에 대하여 duration과 Unit과 duration digit, periodUnit 에 따라 데이터를 분리하여 JsonObject의 형태로 구현.
+     * 수집한 신청서에 대하여 1차로 duration의 digit와 Unit에 대하여 분리
+     * Stacked Column, Basic Line 차트의 경우 2차로 periodUnit 에 따라 데이터를 분리하여 JsonObject의 형태로 구현.
      */
     fun selectDurationDoc(
         chart: ChartDto,
