@@ -590,6 +590,7 @@
     function openSelectTypeModal(typeId) {
         tree.load({
             view: 'modal',
+            dataUrl: '/rest/cmdb/types',
             title: i18n.msg('cmdb.ci.label.type'),
             source: 'ciType',
             target: 'modalTreeList',
