@@ -86,7 +86,7 @@ class WfTokenManagerService(
      * Get component value(split[0]).
      */
     fun getComponentValue(tokenId: String, mappingId: String, componentValueType: String): String {
-        return if (componentValueType == WfComponentConstants.ComponentValueType.JSON.code) {
+        return if (componentValueType == WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code) {
             wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenIdAndComponentComponentId(
                 tokenId,
                 mappingId

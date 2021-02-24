@@ -196,7 +196,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         if (componentMappingId.isNotEmpty()) {
             val componentValueType =
                 if (componentMappingType == WfComponentConstants.ComponentTypeCode.CUSTOM_CODE.code) {
-                    WfComponentConstants.ComponentValueType.JSON.code
+                    WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
                 } else {
                     WfComponentConstants.ComponentValueType.STRING.code
                 }

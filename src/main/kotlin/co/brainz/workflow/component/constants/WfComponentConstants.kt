@@ -31,7 +31,7 @@ object WfComponentConstants {
 
     // component Value Type 구분
     enum class ComponentValueType(val code: String) {
-        JSON("json"),
+        STRING_SEPARATOR("separator"),
         STRING("string");
     }
 

@@ -323,7 +323,7 @@ class WfScriptTask(
         val componentValue = wfTokenManagerService.getComponentValue(
             createTokenDto.tokenId,
             sourceComponentId,
-            WfComponentConstants.ComponentValueType.JSON.code
+            WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
         )
         val attachFileNames: MutableList<String> = mutableListOf()
         scriptActionList.forEach { action ->
