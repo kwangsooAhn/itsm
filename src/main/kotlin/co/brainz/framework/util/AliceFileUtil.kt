@@ -109,7 +109,7 @@ open class AliceFileUtil(
                 if (image.width < scaledWidth) {
                     scaledWidth = image.width
                 }
-                scaledHeight = image.height / (image.width / scaledWidth)
+                scaledHeight = image.height * scaledWidth / image.width
             }
         }
 

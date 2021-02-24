@@ -4791,7 +4791,7 @@ body.modal-active {
   display: inline-block;
   width: 100%;
   height: 9.063rem;
-  background-size: cover;
+  background-size: auto;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -4936,7 +4936,7 @@ body.modal-active {
 .modal-dialog.thumbnail-preview .modal-content .thumbnail-preview-img {
   width: 100%;
   height: 100%;
-  background-size: contain;
+  background-size: auto;
   background-repeat: no-repeat;
   background-position: center center;
 }

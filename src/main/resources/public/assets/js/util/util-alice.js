@@ -745,8 +745,7 @@ aliceJs.thumbnail = function(options) {
                     thumbnailImg.style.backgroundSize = '100%';
                 } else if (options.type === 'file') {
                   thumbnailImg.className = 'thumbnail-file';
-                  thumbnailImg.style.backgroundSize = '100%';
-              }
+                }
                 thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
                 thumbnail.appendChild(thumbnailImg);
 
