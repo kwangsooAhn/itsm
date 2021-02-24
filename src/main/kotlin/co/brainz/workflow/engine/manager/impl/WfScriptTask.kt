@@ -320,7 +320,11 @@ class WfScriptTask(
         createTokenDto.data?.forEach { componentIds.add(it.componentId) }
         val sourceComponentId =
             wfTokenManagerService.getComponentIdInAndMappingId(componentIds, sourceMappingId).componentId
-        val componentValue = wfTokenManagerService.getComponentValue(createTokenDto.tokenId, sourceComponentId)
+        val componentValue = wfTokenManagerService.getComponentValue(
+            createTokenDto.tokenId,
+            sourceComponentId,
+            WfComponentConstants.ComponentValueType.STRING_SEPARATOR.code
+        )
         val attachFileNames: MutableList<String> = mutableListOf()
         scriptActionList.forEach { action ->
             when (action["operator"]) {
