@@ -34,6 +34,7 @@ insert into awf_menu values ('config.auth', 'config', '/auths/edit', 2,TRUE);
 insert into awf_menu values ('config.role', 'config', '/roles/edit', 3,TRUE);
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,TRUE);
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
+insert into awf_menu values ('config.scheduler', 'config', '/scheduler/search', 6,TRUE);
 insert into awf_menu values ('workflow', 'menu', '', 10,TRUE);
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);

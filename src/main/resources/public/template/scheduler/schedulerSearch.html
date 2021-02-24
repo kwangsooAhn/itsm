@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{scheduler.label.scheduler}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="board-admin-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{scheduler.label.scheduler}"></h1>
+            <h6 class="description" th:text="#{scheduler.msg.searchDescription}"></h6>
+        </div>
+        <div class="header-search flex-row">
+            <input type="hidden" sec:authorize="hasAuthority('scheduler.create') || hasAuthority('scheduler.update')"
+                   th:name="isRole" th:value="true"/>
+            <input type="hidden" sec:authorize="!hasAuthority('scheduler.create') && !hasAuthority('scheduler.update')"
+                   th:name="isRole" th:value="false"/>
+            <form id="searchFrm">
+                <input type="text" id="search" name="search" class="search col-5 mr-2" maxlength="100"
+                       th:placeholder="#{scheduler.label.searchPlaceholder}"/>
+                <span id="spanTotalCount" class="txt-num"></span>
+            </form>
+            <div class="ml-auto">
+                <button type="button" class="default-fill" onclick="openSchedulerAdd()"
+                        sec:authorize="hasAuthority('scheduler.create')" th:text="#{common.btn.add}"></button>
+            </div>
+        </div>
+    </div>
+    <div class="board-admin-content flex-fill">
+        <div class="list" id="schedulerList"></div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let offsetCount = 0;
+        window.onload = function() {
+            document.getElementById('search').focus();
+            document.getElementById('search').addEventListener('keyup', function() { getSchedulerList(false); });
+            getSchedulerList(false);
+        };
+
+        function getSchedulerList(isScroll) {
+            let urlParam = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = aliceJs.searchDataCount;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/schedulers?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/schedulers?' + urlParam, isScroll);
+            }
+        }
+
+        function openSchedulerAdd() {
+            location.href = '/schedulers/new';
+        }
+
+        // REST API
+        function restSubmit(method, url, isScroll) {
+            const opt = {
+                method: method,
+                url: url,
+                async: false,
+                callbackFunc: function(response) {
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('schedulerList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                        let executeTimeEle = document.querySelectorAll('td[name=executeTime]');
+                        for (let i = 0; i < executeTimeEle.length; i++) {
+                            executeTimeEle[i].textContent = i18n.userDateTime(executeTimeEle[i].textContent);
+                        }
+                    }
+
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        getSchedulerList(true);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                showProgressbar: false
+            };
+            aliceJs.sendXhr(opt);
+        }
+        // Tr 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let div = document.querySelector('.list-body .os-content');
+            let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
+
+            let tdTaskName = document.createElement('td');
+            tdTaskName.style.width = '20%';
+            tdTaskName.className = 'align-left underline';
+            let aTaskName = document.createElement('a');
+            if (document.getElementsByName('isRole')[0].value === 'true') {
+                aTaskName.href = '/schedulers/'+ data.taskId +'/edit';
+            } else {
+                aTaskName.href = '/boards/'+ data.taskId +'/view';
+            }
+            aTaskName.innerText = data.taskName;
+            tdTaskName.appendChild(aTaskName);
+
+            let tdStatus = document.createElement('td');
+            tdStatus.className = 'align-center';
+            tdStatus.innerText = i18n.msg('scheduler.status.' + data.useYn);
+            tdStatus.style.width = '5%';
+
+            let tdTaskType = document.createElement('td');
+            tdTaskType.className = 'align-center';
+            tdTaskType.innerText = data.taskType;
+            tdTaskType.style.width = '8%';
+
+            let tdExecuteClass= document.createElement('td');
+            tdExecuteClass.className = 'align-left';
+            tdExecuteClass.innerText = data.executeClass;
+            tdExecuteClass.style.width = '27%';
+
+            let tdExecuteCycleType = document.createElement('td');
+            tdExecuteCycleType.className = 'align-center';
+            tdExecuteCycleType.innerText = data.executeCycleType;
+            tdExecuteCycleType.style.width = '10%';
+
+            let tdExecuteDetail = document.createElement('td');
+            tdExecuteDetail.className = 'align-left';
+            tdExecuteDetail.style.width = '10%';
+            if (data.executeCycleType === 'cron') {
+                tdExecuteDetail.innerHTML = data.cronExpression;
+            } else {
+                tdExecuteDetail.innerHTML = data.executeCyclePeriod;
+            }
+
+            let tdLastExecuteTime = document.createElement('td');
+            tdLastExecuteTime.className = 'align-left';
+            tdLastExecuteTime.innerText = i18n.userDateTime(data.executeTime);
+            tdLastExecuteTime.style.width = '12%';
+
+            let tdResult = document.createElement('td');
+            tdResult.className = 'align-center';
+            tdResult.innerText = i18n.msg('scheduler.result.' + data.result);
+            tdResult.style.width = '8%';
+
+            tr.appendChild(tdTaskName);
+            tr.appendChild(tdStatus);
+            tr.appendChild(tdTaskType);
+            tr.appendChild(tdExecuteClass);
+            tr.appendChild(tdExecuteCycleType);
+            tr.appendChild(tdExecuteDetail);
+            tr.appendChild(tdLastExecuteTime);
+            tr.appendChild(tdResult);
+            div.appendChild(tr);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

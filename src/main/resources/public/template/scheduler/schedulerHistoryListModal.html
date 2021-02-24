@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<table>
+    <thead class="list-head">
+    <tr>
+        <th style="width: 15%;" class="align-center" th:text="#{scheduler.label.historyNo}"></th>
+        <th style="width: 10%;" class="align-center" th:text="#{scheduler.label.immediatelyExecute}"></th>
+        <th style="width: 25%;" class="align-center" th:text="#{scheduler.label.executeTime}"></th>
+        <th style="width: 10%;" class="align-center" th:text="#{scheduler.label.result}"></th>
+        <th style="width: 40%;" class="align-center" th:text="#{scheduler.label.errorMessage}"></th>
+    </tr>
+    </thead>
+    <tbody class="list-body">
+    <tr class="no-data-found-list flex-row align-items-center" th:if="${#arrays.isEmpty(schedulerHistoryList)}">
+        <td style="width: 100%;" colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
+    </tr>
+    <th:block th:each="schedulerHistory, index : ${schedulerHistoryList}">
+        <tr class="list-row">
+            <td style="width: 15%;" class="align-center" th:text="${schedulerHistory.historySeq}"></td>
+            <td style="width: 10%;" class="align-center" th:if="${schedulerHistory.immediatelyExecute == true }" th:text="O"></td>
+            <td style="width: 10%;" class="align-center" th:if="${schedulerHistory.immediatelyExecute == false }" th:text="X"></td>
+            <td style="width: 25%;" class="align-center" th:name="executeTime" th:text="${schedulerHistory.executeTime}"></td>
+            <td style="width: 10%;" class="align-center" th:text="#{'scheduler.result.' + ${schedulerHistory.result}}"></td>
+            <td style="width: 40%;" class="align-left" th:text="${schedulerHistory.errorMessage}"></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>

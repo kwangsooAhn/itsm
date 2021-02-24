@@ -71,6 +71,7 @@ common:
     selectBeforeDate: "Please select before {0} date."
     selectBeforeDateTime: "Please select before {0} datetime."
     selectBeforeTime: "Please select before {0} time."
+    success: "Successful."
     update: "Changed."
   code:
     token:
@@ -761,6 +762,7 @@ menu:
     code: "Code management"
     parent: "System config"
     role: "Role"
+    scheduler: "Scheduler"
     user: "User"
   dashboard:
     parent: "Dashboard"
@@ -976,6 +978,46 @@ role:
     enterRoleName: "Please enter a role name."
     searchPlaceholder: "Role Name / Role Desc."
     selectAuth: "Please select a auth."
+
+# Scheduler
+scheduler:
+  btn:
+    immediatelyExecute: "Immediately Execute"
+    history: "History"
+  label:
+    args: "Arguments"
+    class: "Class"
+    cronExpression: "Cron Expression"
+    description: "Description"
+    edit: "Schedule Modify"
+    errorMessage: "Error Message"
+    executeCycleType: "Execute Cycle Type"
+    executeCyclePeriod: "Execute Cycle Period"
+    executeTime: "Execute Time"
+    history: "Schedule History"
+    historyNo: "No"
+    immediatelyExecute: "immediately Execute"
+    lastExecuteTime: "Last Execute Time"
+    name: "Scheduler Name"
+    query: "Query"
+    register: "Schedule Register"
+    result: "Result"
+    schedule: "Schedule"
+    scheduler: "Scheduler"
+    searchPlaceholder: "Schedule Name / Execution Type / Class / Task Type"
+    status: "Status"
+    taskType: "Task Type"
+  msg:
+    duplicateTaskName: "Duplicate task name exists."
+    scheduleDescription: "Check the schedule details and history."
+    searchDescription: "Register and manage repetitive tasks."
+    useSchedule: "Schedule in use."
+  status:
+    true: "Use"
+    false: "UnUsed"
+  result:
+    true: "Success"
+    false: "Failed"
 
 # Token
 token:
