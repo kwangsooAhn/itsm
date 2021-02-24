@@ -125,4 +125,24 @@ class AliceUtil {
     fun getUUID(): String {
         return UUID.randomUUID().toString().replace("-", "")
     }
+
+    /**
+     * 에러를 문자열로 변환.
+     */
+    fun printStackTraceToString(throwable: Throwable): String? {
+        val sb = StringBuffer()
+        try {
+            sb.append(throwable.toString())
+            sb.append("\n")
+            val element = throwable.stackTrace
+            for (idx in element.indices) {
+                sb.append("\tat ")
+                sb.append(element[idx].toString())
+                sb.append("\n")
+            }
+        } catch (ex: java.lang.Exception) {
+            return throwable.toString()
+        }
+        return sb.toString()
+    }
 }

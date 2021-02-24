@@ -112,7 +112,11 @@ spring:
   datasource:
     #url: jdbc:log4jdbc:postgresql://10.0.10.175:32783/itsm
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32784/itsm
-
+---
+spring:
+  profiles: lizeelf
+  datasource:
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32787/itsm
 ---
 # For brainz open
 spring:
