@@ -189,6 +189,10 @@
                         "name": "자동",
                         "items": [
                             {
+                                "id": "userKey",
+                                "name": "사용자 키"
+                            },
+                            {
                                 "id": "userId",
                                 "name": "아이디"
                             },

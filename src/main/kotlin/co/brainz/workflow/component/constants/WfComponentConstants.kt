@@ -7,6 +7,34 @@
 package co.brainz.workflow.component.constants
 
 object WfComponentConstants {
+
+    // component type code 값.
+    enum class ComponentTypeCode(val code: String) {
+        TEXT("inputbox"),
+        TEXT_AREA("textbox"),
+        SELECT("dropdown"),
+        RADIO("radio"),
+        CHECKBOX("checkbox"),
+        LABEL("label"),
+        IMAGE("image"),
+        DIVIDER("divider"),
+        DATE("date"),
+        TIME("time"),
+        DATETIME("datetime"),
+        FILEUPLOAD("fileupload"),
+        CUSTOM_CODE("custom-code"),
+        DR_TABLE("dynamic-row-table"),
+        ACCORDION_START("accordion-start"),
+        ACCORDION_END("accordion-end"),
+        CI("ci");
+    }
+
+    // component Value Type 구분
+    enum class ComponentValueType(val code: String) {
+        STRING_SEPARATOR("separator"),
+        STRING("string");
+    }
+
     // topicDisplay 가 true 이면 목록 화면에 출력하는 대상 component type.
     enum class ComponentType(val code: String, val topicDisplay: Boolean) {
         TEXT("inputbox", true),

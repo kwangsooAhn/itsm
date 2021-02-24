@@ -4,6 +4,7 @@ DROP SEQUENCE IF EXISTS awf_download_seq cascade;
 DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
 DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
 DROP SEQUENCE IF EXISTS portal_board_seq cascade;
+DROP SEQUENCE IF EXISTS schedule_history_seq cascade;
 
 
 /* Create Sequences */
@@ -11,6 +12,8 @@ CREATE SEQUENCE awf_download_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE awf_file_loc_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE hibernate_sequence INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
+CREATE SEQUENCE schedule_history_seq INCREMENT 1 MINVALUE 1 START 1;
+
 /**
  * 권한
  */
@@ -126,6 +129,11 @@ insert into awf_auth values ('role.create', '역할 등록', '', '0509e09412534a
 insert into awf_auth values ('role.delete', '역할 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('role.read', '역할 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('role.update', '역할 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('scheduler.create', '스케줄러 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('scheduler.delete', '스케줄러 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('scheduler.execute', '스케줄러 실행', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('scheduler.read', '스케줄러 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('scheduler.update', '스케줄러 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('token.create', '처리할 문서 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('token.read', '처리할 문서 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('user.create', '사용자 추가', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -214,6 +222,14 @@ insert into awf_code values ('reception_type', 'root', '접수유형', null, nul
 insert into awf_code values ('email', 'reception_type', '이메일', '이메일', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('post', 'reception_type', '우편', '우편', null, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('telephone', 'reception_type', '전화', '전화', null, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler', 'root', null, '스케줄러', null, false, 1, 13, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler.taskType', 'scheduler', null, '작업 유형', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler.taskType.class', 'scheduler.taskType', 'class', 'CLASS', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler.taskType.query', 'scheduler.taskType', 'query', 'QUERY', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler.executeCycleType', 'scheduler', null, '실행 유형', null, false, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler.executeCycleType.fixedDelay', 'scheduler.executeCycleType', 'fixedDelay', 'FIXED_DELAY', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler.executeCycleType.fixedRate', 'scheduler.executeCycleType', 'fixedRate', 'FIXED_RATE', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler.executeCycleType.cron', 'scheduler.executeCycleType', 'cron', 'CRON', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script', 'root', null, null, null, false, 1, 8, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type', 'script', 'script.type', 'Script Type', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('script.type.cmdb', 'script.type', 'script.type.cmdb', '[CMDB] CI 반영', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -565,6 +581,7 @@ insert into awf_menu values ('config.auth', 'config', '/auths/edit', 2,TRUE);
 insert into awf_menu values ('config.role', 'config', '/roles/edit', 3,TRUE);
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,TRUE);
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
+insert into awf_menu values ('config.scheduler', 'config', '/scheduler/search', 6,TRUE);
 insert into awf_menu values ('workflow', 'menu', '', 10,TRUE);
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);
@@ -611,6 +628,10 @@ insert into awf_menu_auth_map values ('config.code', 'code.create');
 insert into awf_menu_auth_map values ('config.code', 'code.read');
 insert into awf_menu_auth_map values ('config.role', 'role.read');
 insert into awf_menu_auth_map values ('config.user', 'user.read');
+insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.create');
+insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.delete');
+insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.read');
+insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.update');
 insert into awf_menu_auth_map values ('dashboard', 'document.read');
 insert into awf_menu_auth_map values ('document', 'document.read');
 insert into awf_menu_auth_map values ('document', 'document.create');
@@ -928,6 +949,11 @@ insert into awf_role_auth_map values ('admin', 'numbering.rule.create');
 insert into awf_role_auth_map values ('admin', 'numbering.rule.delete');
 insert into awf_role_auth_map values ('admin', 'numbering.rule.read');
 insert into awf_role_auth_map values ('admin', 'numbering.rule.update');
+insert into awf_role_auth_map values ('admin', 'scheduler.create');
+insert into awf_role_auth_map values ('admin', 'scheduler.delete');
+insert into awf_role_auth_map values ('admin', 'scheduler.execute');
+insert into awf_role_auth_map values ('admin', 'scheduler.read');
+insert into awf_role_auth_map values ('admin', 'scheduler.update');
 insert into awf_role_auth_map values ('auth.all', 'auth.create');
 insert into awf_role_auth_map values ('auth.all', 'auth.delete');
 insert into awf_role_auth_map values ('auth.all', 'auth.update');
@@ -1094,13 +1120,18 @@ DROP TABLE IF EXISTS awf_scheduled_task_mst cascade;
 
 CREATE TABLE awf_scheduled_task_mst
 (
-	task_id bigint NOT NULL,
+	task_id varchar(128) NOT NULL,
+	task_name varchar(128),
 	task_type varchar(100),
+	task_desc varchar(512),
+	use_yn boolean default true,
+	editable boolean default true,
 	execute_class varchar(512),
 	execute_query varchar(1024),
 	execute_cycle_type varchar(100),
 	execute_cycle_period bigint,
 	cron_expression varchar(128),
+    args varchar(128),
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -1110,18 +1141,24 @@ CREATE TABLE awf_scheduled_task_mst
 
 COMMENT ON TABLE awf_scheduled_task_mst IS '스케줄작업정보';
 COMMENT ON COLUMN awf_scheduled_task_mst.task_id IS '작업아이디';
+COMMENT ON COLUMN awf_scheduled_task_mst.task_name IS '작업명';
 COMMENT ON COLUMN awf_scheduled_task_mst.task_type IS '작업유형';
+COMMENT ON COLUMN awf_scheduled_task_mst.task_desc IS '작업설명';
+COMMENT ON COLUMN awf_scheduled_task_mst.use_yn IS '사용여부';
+COMMENT ON COLUMN awf_scheduled_task_mst.editable IS '수정가능여부';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_class IS '실행클래스';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_query IS '실행쿼리';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_cycle_type IS '실행주기유형';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_cycle_period IS '실행주기간격';
 COMMENT ON COLUMN awf_scheduled_task_mst.cron_expression IS '크론표현식';
+COMMENT ON COLUMN awf_scheduled_task_mst.args IS 'arguments';
 COMMENT ON COLUMN awf_scheduled_task_mst.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_scheduled_task_mst.create_dt IS '등록일';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_dt IS '수정일';
 
-insert into awf_scheduled_task_mst values ('0', '0 0 12 * * *', 'co.brainz.framework.scheduling.task.DeleteTempFile', null, 'cron', 0, 'class', now(), null, '0509e09412534a6e98f04ca79abb6424', null);
+insert into awf_scheduled_task_mst values ('4021c26175cd53df0175bb545fb30000', '임시 첨부 파일 삭제', 'class', null, 'TRUE', 'FALSE', 'co.brainz.framework.scheduling.task.DeleteTempFile', null, 'cron', 0, '0 0 12 * * *', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_scheduled_task_mst values ('4142d16273df21de0175be515fc20000', 'CMDB CI 임시데이터 삭제', 'class', null, 'TRUE', 'FALSE', 'co.brainz.framework.scheduling.task.DeleteTempCIData', null, 'cron', 0, '0 0 12 * * *', 'postgresql, 10.0.10.175, 32784, itsm, itsm, itsm123', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 타임존정보
@@ -1475,6 +1512,11 @@ insert into awf_url values ('/rest/roles', 'get', '역할 전체 목록 조회',
 insert into awf_url values ('/rest/roles/{id}', 'get', '역할 상제 정보 조회', 'TRUE');
 insert into awf_url values ('/rest/roles/{id}', 'put', '역할 수정', 'TRUE');
 insert into awf_url values ('/rest/roles/{id}', 'delete', '역할 삭제', 'TRUE');
+insert into awf_url values ('/rest/schedulers', 'get', '스케줄러 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/schedulers', 'post', '스케줄러 등록', 'TRUE');
+insert into awf_url values ('/rest/schedulers/{id}', 'delete', '스케줄러 삭제', 'TRUE');
+insert into awf_url values ('/rest/schedulers/{id}', 'put', '스케줄러 수정', 'TRUE');
+insert into awf_url values ('/rest/schedulers/{id}/execute', 'post', '스케줄러 실행', 'TRUE');
 insert into awf_url values ('/rest/tags', 'post', 'Tag 저장', 'FALSE');
 insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
 insert into awf_url values ('/rest/tokens', 'get', '문서함 목록 조회', 'TRUE');
@@ -1489,6 +1531,12 @@ insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 �
 insert into awf_url values ('/rest/users/{userkey}/resetpassword', 'put', '사용자 비밀번호 초기화', 'TRUE');
 insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
 insert into awf_url values ('/roles', 'get', '역할 관리 목록 뷰 호출', 'TRUE');
+insert into awf_url values ('/schedulers', 'get', '스케줄러 리스트 화면', 'TRUE');
+insert into awf_url values ('/schedulers/new', 'get', '스케줄러 신규 등록 화면', 'TRUE');
+insert into awf_url values ('/schedulers/search', 'get', '스케줄러 리스트 화면 호출', 'TRUE');
+insert into awf_url values ('/schedulers/{id}/edit', 'get', '스케줄러 상세 수정 화면', 'TRUE');
+insert into awf_url values ('/schedulers/{id}/history', 'get', '스케줄러 이력 리스트 모달 화면', 'TRUE');
+insert into awf_url values ('/schedulers/{id}/view', 'get', '스케줄러 상세 조회 화면', 'TRUE');
 insert into awf_url values ('/tokens', 'get', '처리할 문서 리스트 조회', 'FALSE');
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/documents', 'get', '관련문서 리스트', 'TRUE');
@@ -1870,6 +1918,11 @@ insert into awf_url_auth_map values ('/rest/roles/{id}', 'get', 'role.create');
 insert into awf_url_auth_map values ('/rest/roles/{id}', 'get', 'role.update');
 insert into awf_url_auth_map values ('/rest/roles/{id}', 'get', 'role.delete');
 insert into awf_url_auth_map values ('/rest/roles/{id}', 'put', 'role.update');
+insert into awf_url_auth_map values ('/rest/schedulers', 'get', 'scheduler.read');
+insert into awf_url_auth_map values ('/rest/schedulers', 'post', 'scheduler.create');
+insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'delete', 'scheduler.delete');
+insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'put', 'scheduler.update');
+insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 'scheduler.execute');
 insert into awf_url_auth_map values ('/rest/tokens', 'get', 'token.read');
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
@@ -1888,6 +1941,19 @@ insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.read');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.create');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.delete');
 insert into awf_url_auth_map values ('/roles', 'get', 'role.read');
+insert into awf_url_auth_map values ('/schedulers', 'get', 'scheduler.create');
+insert into awf_url_auth_map values ('/schedulers', 'get', 'scheduler.delete');
+insert into awf_url_auth_map values ('/schedulers', 'get', 'scheduler.read');
+insert into awf_url_auth_map values ('/schedulers', 'get', 'scheduler.update');
+insert into awf_url_auth_map values ('/schedulers/new', 'get', 'scheduler.create');
+insert into awf_url_auth_map values ('/schedulers/search', 'get', 'scheduler.create');
+insert into awf_url_auth_map values ('/schedulers/search', 'get', 'scheduler.delete');
+insert into awf_url_auth_map values ('/schedulers/search', 'get', 'scheduler.read');
+insert into awf_url_auth_map values ('/schedulers/search', 'get', 'scheduler.update');
+insert into awf_url_auth_map values ('/schedulers/{id}/edit', 'get', 'scheduler.delete');
+insert into awf_url_auth_map values ('/schedulers/{id}/edit', 'get', 'scheduler.update');
+insert into awf_url_auth_map values ('/schedulers/{id}/history', 'get', 'scheduler.read');
+insert into awf_url_auth_map values ('/schedulers/{id}/view', 'get', 'scheduler.read');
 insert into awf_url_auth_map values ('/tokens', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/search', 'get', 'token.read');
@@ -1917,6 +1983,7 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.read'
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.update');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editself', 'get', 'user.update');
+
 /**
  * 사용자정보
  */
@@ -3566,4 +3633,28 @@ COMMENT ON COLUMN awf_chart.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_chart.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_chart.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_chart.update_dt IS '수정일시';
+
+/**
+ * 차트설정
+ */
+DROP TABLE IF EXISTS awf_scheduled_history cascade;
+
+CREATE TABLE awf_scheduled_history
+(
+    history_seq bigint NOT NULL,
+    task_id varchar(128) NOT NULL,
+    immediately_execute boolean default false,
+    execute_time timestamp,
+    result boolean,
+    error_message text,
+    CONSTRAINT awf_scheduled_history_pk PRIMARY KEY (history_seq)
+);
+
+COMMENT ON TABLE awf_scheduled_history IS '스케줄이력정보';
+COMMENT ON COLUMN awf_scheduled_history.history_seq IS '이력시퀀스';
+COMMENT ON COLUMN awf_scheduled_history.task_id IS '작업아이디';
+COMMENT ON COLUMN awf_scheduled_history.immediately_execute IS '즉시실행여부';
+COMMENT ON COLUMN awf_scheduled_history.execute_time IS '실행시각';
+COMMENT ON COLUMN awf_scheduled_history.result IS '결과';
+COMMENT ON COLUMN awf_scheduled_history.error_message IS '에러메시지';
 
