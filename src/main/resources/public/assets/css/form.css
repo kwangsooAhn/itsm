@@ -3740,7 +3740,7 @@ body.modal-active {
   display: inline-block;
   width: 100%;
   height: 9.063rem;
-  background-size: cover;
+  background-size: auto;
   background-repeat: no-repeat;
   background-position: center center;
 }
