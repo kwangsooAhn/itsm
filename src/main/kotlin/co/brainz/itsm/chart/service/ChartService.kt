@@ -87,7 +87,7 @@ class ChartService(
                 }
             }
         }
-        chartDto.query = makeChartQuery(chartDto)
+        chartDto.chartObj = getChartJsonObj(chartDto)
 
         return chartDto
     }
@@ -144,9 +144,9 @@ class ChartService(
     }
 
     /**
-     * 차트 쿼리 생성
+     * 차트 생성 관련 JsonArray 생성
      */
-    fun makeChartQuery(chart: ChartDto): JsonArray {
+    fun getChartJsonObj(chart: ChartDto): JsonArray {
         val labelList = aliceLabelRepository.findLabelKeys(chart.targetLabel)
         val labelTargetIds = mutableListOf<String>()
         val formIds = mutableListOf<String>()
@@ -188,7 +188,7 @@ class ChartService(
             }
         }
 
-        val parsingDocObject = selectDurationDoc(chart, documentList)
+        val parsingDocObject = getDurationDoc(chart, documentList)
         jsonObject.addProperty("title", chart.chartName)
         jsonObject.add("operation", calculateOperation(chart, parsingDocObject))
         jsonObjectArray.add(jsonObject)
@@ -198,7 +198,7 @@ class ChartService(
     }
 
     /**
-     * selectDurationDoc 함수를 통해 가져온 JsonObject 데이터에 대하여, operation에 대한 계산을 진행
+     * getDurationDoc 함수를 통해 가져온 JsonObject 데이터에 대하여, operation에 대한 계산을 진행
      */
     fun calculateOperation(chart: ChartDto, parsingDocObject: JsonObject): JsonObject {
         var operationListObject = JsonObject()
@@ -211,9 +211,9 @@ class ChartService(
                 }
                 keyList.entrySet().forEach {
                     var operationObject = JsonObject()
-                    operationObject.addProperty("count", it.value.asJsonArray.size())
+                    operationObject.addProperty(ChartConstants.Operation.COUNT.code, it.value.asJsonArray.size())
                     operationObject.addProperty(
-                        "percent",
+                        ChartConstants.Operation.PERCENT.code,
                         if (totalCount != 0) {
                             (((it.value.asJsonArray.size() / totalCount) * 100).toString() + "%")
                         } else {
@@ -225,7 +225,7 @@ class ChartService(
             }
             ChartConstants.Type.PIE.code -> {
                 var keyList = parsingDocObject.getAsJsonArray("documentList")
-                operationListObject.addProperty("count", keyList.size())
+                operationListObject.addProperty(ChartConstants.Operation.COUNT.code, keyList.size())
             }
         }
         return operationListObject
@@ -235,7 +235,7 @@ class ChartService(
      * 수집한 신청서에 대하여 1차로 duration의 digit와 Unit에 대하여 분리
      * Stacked Column, Basic Line 차트의 경우 2차로 periodUnit 에 따라 데이터를 분리하여 JsonObject의 형태로 구현.
      */
-    fun selectDurationDoc(
+    fun getDurationDoc(
         chart: ChartDto,
         documentList: MutableList<WfDocumentEntity>
     ): JsonObject {

@@ -23,5 +23,5 @@ data class ChartDto(
     val durationUnit: String = "",
     var periodUnit: String? = null,
     var group: String? = null,
-    var query: JsonArray? = null
+    var chartObj: JsonArray? = null
 ) : Serializable
