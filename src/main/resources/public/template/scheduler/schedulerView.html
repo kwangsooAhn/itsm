@@ -22,7 +22,7 @@
                     <span class="required"></span>
                 </label>
                 <input type="text" id="taskName" required="required" maxlength="100"
-                       th:value="${schedule?.taskName}" disabled>
+                       th:value="${schedule?.taskName}" disabled/>
             </div>
             <div class="flex-column edit-row">
                 <label for="taskDesc">
@@ -63,13 +63,13 @@
                         <span class="required"></span>
                     </label>
                     <input type="text" id="executeClass" required="required" maxlength="100"
-                           th:value="${schedule?.executeClass}" disabled>
+                           th:value="${schedule?.executeClass}" disabled/>
                 </div>
                 <div class="flex-column edit-row">
                     <label>
                         <span th:text="#{scheduler.label.args}"></span>
                     </label>
-                    <input type="text" id="args" maxlength="100" th:value="${schedule?.args}" disabled>
+                    <input type="text" id="args" maxlength="100" th:value="${schedule?.args}" disabled/>
                 </div>
             </div>
             <!-- 타입: query -->
@@ -102,7 +102,7 @@
                     <span class="required"></span>
                 </label>
                 <input type="text" id="cronExpression" required="required" maxlength="100"
-                       th:value="${schedule?.cronExpression}" disabled>
+                       th:value="${schedule?.cronExpression}" disabled/>
             </div>
             <div id="executeCycleType-fixed-container" class="flex-column edit-row" th:style="${schedule?.executeCycleType != 'cron' ? '' : 'display: none'}">
                 <label for="executeCyclePeriod">
@@ -110,7 +110,7 @@
                     <span class="required"></span>
                 </label>
                 <input type="text" id="executeCyclePeriod" required="required" maxlength="6"
-                       th:value="${schedule?.executeCyclePeriod}" disabled>
+                       th:value="${schedule?.executeCyclePeriod}" disabled/>
             </div>
             <div class="flex-row justify-content-end edit-row">
                 <div class="btn-list">
@@ -180,4 +180,5 @@
         }
         /*]]>*/
     </script>
+</th:block>
 </html>

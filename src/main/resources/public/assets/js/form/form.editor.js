@@ -2195,10 +2195,10 @@
                             menuItems[j].classList.remove('hidden');
                         }
                     }
-                    if (previousSelectedElem.previousSibling !== null &&
-                        previousComponentIds.indexOf(previousSelectedElem.previousSibling.id) !== -1 &&
-                        previousSelectedElem.previousSibling.classList.contains('adjoin')) {
-                        previousSelectedElem.previousSibling.classList.remove('adjoin');
+                    if (previousSelectedElem !== null &&
+                        previousComponentIds.indexOf(previousSelectedElem.id) !== -1 &&
+                        previousSelectedElem.classList.contains('adjoin')) {
+                        previousSelectedElem.classList.remove('adjoin');
                     }
                 }
                 // 기존 선택된 컴포넌트 css 삭제

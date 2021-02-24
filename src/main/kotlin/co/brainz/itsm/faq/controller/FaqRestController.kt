@@ -50,23 +50,24 @@ class FaqRestController(private val faqService: FaqService) {
      * 신규 FAQ 등록 처리
      */
     @PostMapping("/", "")
-    fun insertFaq(@RequestBody faqDto: FaqDto) {
-        faqService.createFaq(faqDto)
+    fun insertFaq(@RequestBody faqDto: FaqDto): Boolean {
+        return faqService.createFaq(faqDto)
     }
 
     /**
      * FAQ 수정 처리
      */
     @PutMapping("/{faqId}")
-    fun updateFaq(@PathVariable faqId: String, @RequestBody faqDto: FaqDto) {
-        faqService.updateFaq(faqId, faqDto)
+    fun updateFaq(@PathVariable faqId: String, @RequestBody faqDto: FaqDto): Boolean {
+        return faqService.updateFaq(faqId, faqDto)
     }
 
     /**
      * FAQ 삭제 처리
      */
     @DeleteMapping("/{faqId}")
-    fun deleteFaq(@PathVariable faqId: String) {
+    fun deleteFaq(@PathVariable faqId: String): Boolean {
         faqService.deleteFaq(faqId)
+        return true
     }
 }

@@ -21,4 +21,7 @@ interface FaqRepository : JpaRepository<FaqEntity, String>, FaqRepositoryCustom 
 
     @Query("select distinct(f.faqGroup) as faqGroup from FaqEntity f where f.faqGroup = :faqGroup")
     fun getFaqGroupList(faqGroup: String): List<String>
+
+    @Query("select count(1) as count from FaqEntity f where f.faqTitle = :faqTitle and  f.faqGroup = :faqGroup")
+    fun getCountDuplicateFaqTitleAndCategory(faqTitle: String, faqGroup: String): Int
 }
