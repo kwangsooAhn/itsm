@@ -5,6 +5,7 @@
 
 package co.brainz.workflow.engine.manager
 
+import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -119,10 +120,10 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             WfTokenConstants.AssigneeType.ASSIGNEE.code -> {
                 this.setAssignee(token)
             }
-            /*WfTokenConstants.AssigneeType.USERS.code,
-            WfTokenConstants.AssigneeType.GROUPS.code -> {
-
-            }*/
+            /*
+            WfTokenConstants.AssigneeType.USERS.code,
+            WfTokenConstants.AssigneeType.GROUPS.code -> {}
+            */
             else -> {
                 token.assigneeId = this.assigneeId
                 wfTokenManagerService.saveToken(token)
@@ -183,14 +184,27 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         val assigneeMappingId =
             this.getAttributeValue(element.elementDataEntities, WfElementConstants.AttributeId.ASSIGNEE.value)
         var componentMappingId = ""
+        var componentMappingType = ""
         token.instance.document.form.components?.forEach { component ->
             if (component.mappingId.isNotEmpty() && component.mappingId == assigneeMappingId) {
+                componentMappingType = component.componentType
                 componentMappingId = component.componentId
             }
         }
+
         var assignee = ""
         if (componentMappingId.isNotEmpty()) {
-            assignee = wfTokenManagerService.getComponentValue(token.tokenId, componentMappingId)
+            val componentValueType =
+                if (componentMappingType == WfComponentConstants.ComponentTypeCode.CUSTOM_CODE.code) {
+                    WfComponentConstants.ComponentValueType.JSON.code
+                } else {
+                    WfComponentConstants.ComponentValueType.STRING.code
+                }
+            assignee = wfTokenManagerService.getComponentValue(
+                token.tokenId,
+                componentMappingId,
+                componentValueType
+            )
         }
         return assignee
     }
