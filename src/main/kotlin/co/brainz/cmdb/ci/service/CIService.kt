@@ -256,11 +256,11 @@ class CIService(
             this.saveCIHistory(ciEntity)
 
             ciEntity.ciNo = ciDto.ciNo
-            ciEntity.ciName = ciDto.ciName
-            ciEntity.ciStatus = ciDto.ciStatus
-            ciEntity.ciIcon = ciDto.ciIcon
-            ciEntity.ciDesc = ciDto.ciDesc
-            ciEntity.automatic = ciDto.automatic
+            ciDto.ciName?.let { ciEntity.ciName = ciDto.ciName }
+            ciDto.ciStatus?.let { ciEntity.ciStatus = ciDto.ciStatus }
+            ciDto.ciIcon?.let { ciEntity.ciIcon = ciDto.ciIcon }
+            ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
+            ciDto.automatic?.let { ciEntity.automatic = ciDto.automatic }
         }
         ciRepository.save(ciEntity)
 
