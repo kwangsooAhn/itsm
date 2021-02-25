@@ -7,8 +7,12 @@
 package co.brainz.cmdb.ci.service
 
 import co.brainz.cmdb.ci.entity.CIDataEntity
+import co.brainz.cmdb.ci.entity.CIDataHistoryEntity
 import co.brainz.cmdb.ci.entity.CIEntity
+import co.brainz.cmdb.ci.entity.CIHistoryEntity
+import co.brainz.cmdb.ci.repository.CIDataHistoryRepository
 import co.brainz.cmdb.ci.repository.CIDataRepository
+import co.brainz.cmdb.ci.repository.CIHistoryRepository
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.ciClass.constants.CIClassConstants
@@ -40,7 +44,9 @@ class CIService(
     private val ciClassRepository: CIClassRepository,
     private val ciAttributeRepository: CIAttributeRepository,
     private val ciRelationRepository: CIRelationRepository,
-    private val ciDataRepository: CIDataRepository
+    private val ciDataRepository: CIDataRepository,
+    private val ciHistoryRepository: CIHistoryRepository,
+    private val ciDataHistoryRepository: CIDataHistoryRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -177,7 +183,7 @@ class CIService(
                 }
 
                 // CIEntity 등록
-                val ciEntity = CIEntity(
+                var ciEntity = CIEntity(
                     ciId = ciDto.ciId,
                     ciNo = ciNo,
                     ciName = ciDto.ciName,
@@ -189,7 +195,7 @@ class CIService(
                     automatic = ciDto.automatic
                 )
 
-                ciRepository.save(ciEntity)
+                ciEntity = ciRepository.save(ciEntity)
 
                 // CIDataEntity 등록
                 ciDto.ciDataList?.forEach {
@@ -232,6 +238,9 @@ class CIService(
         return restTemplateReturnDto
     }
 
+    /**
+     * CI 업데이트.
+     */
     fun updateCI(ciId: String, ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
@@ -243,17 +252,22 @@ class CIService(
                 AliceErrorConstants.ERR_00005.message + "[CI Entity]"
             )
         } else {
+            // 변경전 데이터를 이력에 저장
+            this.saveCIHistory(ciEntity)
+
             ciEntity.ciNo = ciDto.ciNo
-            ciEntity.ciName = ciDto.ciName
-            ciEntity.ciStatus = ciDto.ciStatus
-            ciEntity.ciIcon = ciDto.ciIcon
-            ciEntity.ciDesc = ciDto.ciDesc
-            ciEntity.automatic = ciDto.automatic
+            ciDto.ciName?.let { ciEntity.ciName = ciDto.ciName }
+            ciDto.ciStatus?.let { ciEntity.ciStatus = ciDto.ciStatus }
+            ciDto.ciIcon?.let { ciEntity.ciIcon = ciDto.ciIcon }
+            ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
+            ciDto.automatic?.let { ciEntity.automatic = ciDto.automatic }
         }
         ciRepository.save(ciEntity)
 
         // CIDataEntity Update
-        ciDataRepository.deleteByCiId(ciDto.ciId)
+        ciEntity.ciDataEntities.clear()
+        ciDataRepository.flush()
+
         ciDto.ciDataList?.forEach {
             ciDataRepository.save(
                 CIDataEntity(
@@ -301,10 +315,62 @@ class CIService(
             AliceErrorConstants.ERR_00005.message + "[CI Entity]"
         )
 
+        // 삭제전 마지막 값을 이력에 저장
+        this.saveCIHistory(ciEntity)
+
         ciEntity.ciStatus = RestTemplateConstants.CIStatus.STATUS_DELETE.code
         ciRepository.save(ciEntity)
 
         return restTemplateReturnDto
+    }
+
+    /**
+     * CI 이력 저장.
+     */
+    fun saveCIHistory(ciEntity: CIEntity) {
+        var historySeq = 0
+        val latelyHistory = ciHistoryRepository.findByLatelyHistory(ciEntity.ciId)
+        if (latelyHistory != null) {
+            historySeq = latelyHistory.seq?.plus(1) ?: 0
+        }
+
+        // CI History
+        val ciHistoryEntity = CIHistoryEntity(
+            historyId = "",
+            seq = historySeq,
+            ciId = ciEntity.ciId,
+            ciNo = ciEntity.ciNo,
+            ciName = ciEntity.ciName,
+            ciDesc = ciEntity.ciDesc,
+            typeId = ciEntity.ciTypeEntity.typeId,
+            ciIcon = ciEntity.ciIcon,
+            ciStatus = ciEntity.ciStatus,
+            classId = ciEntity.ciClassEntity.classId,
+            automatic = ciEntity.automatic
+        )
+        ciHistoryRepository.save(ciHistoryEntity)
+
+        // CI Data History
+        val ciDataHistoryList = mutableListOf<CIDataHistoryEntity>()
+        ciEntity.ciDataEntities.forEach { data ->
+            ciDataHistoryList.add(
+                CIDataHistoryEntity(
+                    dataHistoryId = "",
+                    seq = historySeq,
+                    ciId = ciEntity.ciId,
+                    attributeId = data.ciAttribute.attributeId,
+                    attributeName = data.ciAttribute.attributeName,
+                    attributeDesc = data.ciAttribute.attributeDesc,
+                    attributeText = data.ciAttribute.attributeText,
+                    attributeType = data.ciAttribute.attributeType,
+                    attributeValue = data.ciAttribute.attributeValue,
+                    value = data.value
+                )
+            )
+        }
+        if (ciDataHistoryList.isNotEmpty()) {
+            ciDataHistoryRepository.saveAll(ciDataHistoryList)
+        }
     }
 
     /**

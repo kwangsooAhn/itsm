@@ -50,6 +50,6 @@ data class CIHistoryEntity(
     var ciDesc: String? = null,
 
     @Column(name = "automatic")
-    var automatic: Boolean = false
+    var automatic: Boolean? = false
 
 ) : Serializable
