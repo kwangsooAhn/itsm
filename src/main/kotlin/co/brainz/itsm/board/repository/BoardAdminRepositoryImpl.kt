@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.board.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.board.dto.BoardListDto
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardAdminEntity
@@ -27,6 +28,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
         offset: Long
     ): List<BoardListDto> {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
+        val user = QAliceUserEntity.aliceUserEntity
         val board = QPortalBoardEntity("board")
         val query = from(boardAdmin)
             .select(
@@ -45,7 +47,9 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     boardAdmin.createDt,
                     boardAdmin.createUser.userName
                 )
-            ).where(
+            )
+            .innerJoin(boardAdmin.createUser, user)
+            .where(
                 super.like(
                     boardAdmin.boardAdminTitle, search
                 )?.or(super.like(boardAdmin.createUser.userName, search))
@@ -72,6 +76,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
 
     override fun findPortalBoardAdmin(): List<BoardListDto> {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
+        val user = QAliceUserEntity.aliceUserEntity
         return from(boardAdmin)
             .select(
                 Projections.constructor(
@@ -85,6 +90,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     boardAdmin.createUser.userName
                 )
             )
+            .innerJoin(boardAdmin.createUser, user)
             .where(boardAdmin.boardUseYn.eq(true))
             .orderBy(boardAdmin.boardAdminSort.asc())
             .fetch()

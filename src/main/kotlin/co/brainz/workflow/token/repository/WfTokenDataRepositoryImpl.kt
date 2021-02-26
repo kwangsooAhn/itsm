@@ -1,5 +1,6 @@
 package co.brainz.workflow.token.repository
 
+import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.instance.dto.WfInstanceListComponentDto
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
@@ -13,6 +14,7 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
     WfTokenDataRepositoryCustom {
     override fun findTokenDataByTokenIds(tokenIds: Set<String>): List<WfInstanceListTokenDataDto> {
         val tokenData = QWfTokenDataEntity.wfTokenDataEntity
+        val component = QWfComponentEntity.wfComponentEntity
         return from(tokenData)
             .select(
                 Projections.constructor(
@@ -28,6 +30,7 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
                     tokenData.value
                 )
             )
+            .innerJoin(tokenData.component, component)
             .where(tokenData.token.tokenId.`in`(tokenIds))
             .fetch()
     }

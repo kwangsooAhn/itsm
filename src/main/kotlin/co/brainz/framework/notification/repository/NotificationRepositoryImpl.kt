@@ -1,5 +1,6 @@
 package co.brainz.framework.notification.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.entity.NotificationEntity
@@ -12,6 +13,7 @@ class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity:
 
     override fun findNotificationList(receivedUser: String): List<NotificationDto> {
         val notification = QNotificationEntity.notificationEntity
+        val user = QAliceUserEntity.aliceUserEntity
         return from(notification)
             .select(
                 Projections.constructor(
@@ -26,6 +28,7 @@ class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity:
                     notification.createDt
                 )
             )
+            .innerJoin(notification.receivedUser, user)
             .where(notification.receivedUser.userId.eq(receivedUser))
             .orderBy(notification.confirmYn.asc(), notification.createDt.desc())
             .limit(AliceConstants.NOTIFICATION_SIZE)

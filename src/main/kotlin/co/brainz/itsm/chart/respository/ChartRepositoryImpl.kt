@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.chart.respository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.chart.dto.ChartListDto
 import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.entity.QChartEntity
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Repository
 class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), ChartRepositoryCustom {
     override fun findChartList(searchGroupName: String, offset: Long?): List<ChartListDto> {
         val chart = QChartEntity.chartEntity
+        val user = QAliceUserEntity.aliceUserEntity
         val query = from(chart)
             .select(
                 Projections.constructor(
@@ -32,6 +34,7 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
                     Expressions.numberPath(Long::class.java, "0")
                 )
             )
+            .innerJoin(chart.createUser, user)
             .where(
                 super.like(chart.chartType, searchGroupName)
             ).orderBy(chart.chartName.asc())
