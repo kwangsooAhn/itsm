@@ -1,6 +1,7 @@
 package co.brainz.workflow.folder.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.folder.entity.QWfFolderEntity
 import co.brainz.workflow.folder.entity.WfFolderEntity
 import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
@@ -18,6 +19,7 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
         val folder = QWfFolderEntity.wfFolderEntity
         val user = QAliceUserEntity.aliceUserEntity
         val token = QWfTokenEntity.wfTokenEntity
+        val document = QWfDocumentEntity.wfDocumentEntity
         val queryTokenId = JPAExpressions.select(folder.folderId)
             .from(folder, token)
             .where(
@@ -54,6 +56,7 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
                     user.avatarValue
                 )
             )
+            .innerJoin(folder.instance.document, document)
             .leftJoin(user).on(folder.instance.instanceCreateUser.userKey.eq(user.userKey))
             .where(
                 folder.folderId.eq(queryTokenId)

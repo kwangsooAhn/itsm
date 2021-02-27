@@ -1,5 +1,6 @@
 package co.brainz.cmdb.ciClass.repository
 
+import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
@@ -22,6 +23,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
 
     override fun findClassToAttributeList(classList: MutableList<String>): List<CIClassToAttributeDto>? {
         val ciClassAttributeMap = QCIClassAttributeMapEntity.cIClassAttributeMapEntity
+        val attribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(ciClassAttributeMap)
             .select(
                 Projections.constructor(
@@ -32,6 +34,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
                     ciClassAttributeMap.attributeOrder
                 )
             )
+            .innerJoin(ciClassAttributeMap.ciAttribute, attribute)
             .where(
                 ciClassAttributeMap.ciClass.classId.`in`(classList)
             ).orderBy(ciClassAttributeMap.attributeOrder.asc())

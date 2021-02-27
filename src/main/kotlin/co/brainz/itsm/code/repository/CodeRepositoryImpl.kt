@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.code.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
@@ -61,6 +62,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
 
     override fun findCodeByPCodeIn(pCodes: Set<String>): List<CodeDto> {
         val code = QCodeEntity.codeEntity
+        val user = QAliceUserEntity.aliceUserEntity
 
         return from(code)
             .select(
@@ -79,6 +81,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                     Expressions.numberPath(Long::class.java, "0")
                 )
             )
+            .innerJoin(code.createUser, user)
             .where(code.pCode.code.`in`(pCodes))
             .orderBy(code.seqNum.asc(), code.code.asc())
             .fetch()
