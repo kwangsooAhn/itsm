@@ -31,7 +31,9 @@
                            th:attr="onclick=|openProcessEdit('${process.id}', false)|"></a>
                     </th:block>
                     <div th:unless="${process.enabled == true}">
-                        <span th:text="${process.name}"></span>
+                        <a th:if="${process.status == 'process.status.use'}" th:text="${process.name}"
+                           th:attr="onclick=|openProcessEdit('${process.id}', true)|"></a>
+                        <span th:unless="${process.status == 'process.status.use'}" th:text="${process.name}"></span>
                     </div>
                 </td>
                 <td style="width: 10%" class="align-center">
