@@ -3,33 +3,6 @@ package co.brainz.workflow.provider.constants
 object RestTemplateConstants {
 
     /**
-     * Form Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Form(val url: String, val method: String) {
-        GET_FORMS("/rest/wf/forms", "GET"),
-        GET_FORM("/rest/wf/forms/{formId}", "GET"),
-        GET_FORM_DATA("/rest/wf/forms/{formId}/data", "GET"),
-        POST_FORM("/rest/wf/forms", "POST"),
-        POST_FORM_SAVE_AS("/rest/wf/forms?saveType=saveas", "POST"),
-        PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
-        PUT_FORM_DATA("/rest/wf/forms/{formId}/data", "PUT"),
-        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
-    }
-
-    /**
-     *  컴포넌트를 조회하기 위한 [url]과 [method] 호출 목록
-     *
-     */
-    enum class Component(val url: String, val method: String) {
-        GET_COMPONENT("/rest/wf/components", "GET"),
-        GET_COMPONENT_DATA("/rest/wf/components/data", "GET"),
-        GET_COMPONENT_CUSTOM_CODE_IDS("/rest/wf/components/custom-code-ids/data", "GET")
-    }
-
-    /**
      * Form SaveType.
      *
      * @param code
@@ -77,15 +50,6 @@ object RestTemplateConstants {
      * @param method
      */
     enum class Workflow(val url: String, val method: String) {
-        GET_DOCUMENTS("/rest/wf/documents", "GET"),
-        GET_DOCUMENTS_ALL("/rest/wf/documents/all", "GET"),
-        GET_DOCUMENT("/rest/wf/documents/{documentId}", "GET"),
-        GET_DOCUMENT_DATA("/rest/wf/documents/{documentId}/data", "GET"),
-        POST_DOCUMENT("/rest/wf/documents", "POST"),
-        PUT_DOCUMENT("/rest/wf/documents/{documentId}", "PUT"),
-        DELETE_DOCUMENT("/rest/wf/documents/{documentId}", "DELETE"),
-        GET_DOCUMENTS_DISPLAY("/rest/wf/documents/{documentId}/display", "GET"),
-        PUT_DOCUMENTS_DISPLAY("/rest/wf/documents/{documentId}/display", "PUT"),
         GET_INSTANCE("/rest/wf/instances/{instanceId}", "GET"),
         GET_INSTANCES("/rest/wf/instances", "GET"),
         GET_INSTANCES_COUNT("/rest/wf/instances/count", "GET"),

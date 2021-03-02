@@ -5,6 +5,8 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.workflow.element.constants.WfElementConstants
+import co.brainz.workflow.provider.dto.RestTemplateActionDto
+import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -23,28 +25,22 @@ class DocumentActionService(
     /**
      * [documentData]을 받아서 필요 버튼을 정리 한 후[String]으로 반환 한다.
      */
-    fun makeDocumentAction(documentData: String): String {
-        val documentJsonData: JsonObject = JsonParser().parse(documentData).asJsonObject
-        val documentActions = documentJsonData.get("actions").asJsonArray
-        val actionsResult = JsonArray()
-
-        documentActions.forEach { actions ->
-            val actionsValue = actions.asJsonObject.get("value").asString
-            if (actionsValue != WfElementConstants.Action.REJECT.value &&
-                actionsValue != WfElementConstants.Action.WITHDRAW.value &&
-                actionsValue != WfElementConstants.Action.CANCEL.value &&
-                actionsValue != WfElementConstants.Action.TERMINATE.value
+    fun makeDocumentAction(documentData: RestTemplateRequestDocumentDto): RestTemplateRequestDocumentDto {
+        val actionsResult = mutableListOf<RestTemplateActionDto>()
+        documentData.actions?.forEach { action ->
+            val actionValue = action.value
+            if (actionValue != WfElementConstants.Action.REJECT.value &&
+                actionValue != WfElementConstants.Action.WITHDRAW.value &&
+                actionValue != WfElementConstants.Action.CANCEL.value &&
+                actionValue != WfElementConstants.Action.TERMINATE.value
             ) {
-                actionsResult.add(actions)
+                actionsResult.add(action)
             }
         }
-
-        if (actionsResult.size() > 0) {
-            documentJsonData.remove("actions")
-            documentJsonData.add("actions", actionsResult)
+        if (actionsResult.isNotEmpty()) {
+            documentData.actions = actionsResult
         }
-
-        return Gson().toJson(documentJsonData)
+        return documentData
     }
 
     /**

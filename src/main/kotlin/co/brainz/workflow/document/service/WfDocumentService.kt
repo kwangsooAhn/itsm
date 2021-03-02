@@ -284,7 +284,7 @@ class WfDocumentService(
      *
      * @param documentEntity
      */
-    fun createDocumentDisplay(documentEntity: WfDocumentEntity) {
+    private fun createDocumentDisplay(documentEntity: WfDocumentEntity) {
         val wfDocumentDisplayEntities: MutableList<WfDocumentDisplayEntity> = mutableListOf()
         val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
         val elementEntities = wfElementRepository.findUserTaskByProcessId(documentEntity.process.processId)
@@ -307,7 +307,7 @@ class WfDocumentService(
     /**
      * [processId]로 조회한 processEntity 의 elementEntity 중 userTask 를 정렬하여 [List]로 반환
      */
-    fun makeSortedUserTasks(processId: String): List<Map<String, Any>> {
+    private fun makeSortedUserTasks(processId: String): List<Map<String, Any>> {
         // userTask 를 저장할 변수
         val sortedUserTasks: MutableList<Map<String, Any>> = mutableListOf()
         // 게이트웨이가 가지는 컨넥터(화살표)를 저장할 큐

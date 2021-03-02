@@ -331,7 +331,7 @@ class WfInstanceService(
     /**
      * Get Instance Comments.
      */
-    fun getInstanceComments(instanceId: String): MutableList<RestTemplateCommentDto> {
+    fun getInstanceComments(instanceId: String): List<RestTemplateCommentDto> {
         return wfCommentService.getInstanceComments(instanceId)
     }
 

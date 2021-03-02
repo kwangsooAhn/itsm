@@ -9,22 +9,18 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.form.service.FormAdminService
 import co.brainz.itsm.process.service.ProcessAdminService
-import co.brainz.workflow.provider.RestTemplateProvider
+import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
-import co.brainz.workflow.provider.dto.RestTemplateUrlDto
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
-import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
@@ -32,13 +28,12 @@ import org.springframework.util.MultiValueMap
 
 @Service
 class DocumentService(
-    private val restTemplate: RestTemplateProvider,
     private val formAdminService: FormAdminService,
-    private val processAdminService: ProcessAdminService
+    private val processAdminService: ProcessAdminService,
+    private val wfDocumentService: WfDocumentService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val objMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 신청서 리스트 조회.
@@ -57,23 +52,7 @@ class DocumentService(
                 }
             }
         }
-
-        // 여기에서 권한 확인
-        multiVal.setAll(
-            objMapper.convertValue<Map<String, String>>(
-                restTemplateDocumentSearchListDto,
-                object : TypeReference<Map<String, String>>() {}
-            )
-        )
-
-        val url =
-            RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url, parameters = multiVal)
-        val responseBody = restTemplate.get(url) // providerDocument.getDocuments()
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val documentList: List<RestTemplateDocumentListDto> = mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentListDto::class.java)
-        )
+        val documentList = wfDocumentService.documents(restTemplateDocumentSearchListDto)
         for (document in documentList) {
             if (document.documentIcon.isNullOrEmpty()) {
                 document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
@@ -88,24 +67,7 @@ class DocumentService(
      * @return List<DocumentDto>
      */
     fun getDocumentAll(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
-        val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
-        multiVal.setAll(
-            objMapper.convertValue<Map<String, String>>(
-                restTemplateDocumentSearchListDto,
-                object : TypeReference<Map<String, String>>() {}
-            )
-        )
-
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_ALL.url,
-            parameters = multiVal
-        )
-        val responseBody = restTemplate.get(url)
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val documentList: List<RestTemplateDocumentDto> = mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentDto::class.java)
-        )
+        val documentList = wfDocumentService.allDocuments(restTemplateDocumentSearchListDto)
         for (document in documentList) {
             if (document.documentIcon.isNullOrEmpty()) {
                 document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
@@ -117,30 +79,15 @@ class DocumentService(
     /**
      * 신청서 조회.
      */
-    fun getDocument(documentId: String): String {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(
-                restTemplate.getKeyRegex(),
-                documentId
-            )
-        )
-        return restTemplate.get(url)
+    fun getDocument(documentId: String): RestTemplateDocumentDto {
+        return wfDocumentService.getDocument(documentId)
     }
 
     /**
      * 업무흐름 조회.
      */
     fun getDocumentAdmin(documentId: String): RestTemplateDocumentDto {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(
-                restTemplate.getKeyRegex(),
-                documentId
-            )
-        )
-        return objMapper.readValue(
-            restTemplate.get(url),
-            objMapper.typeFactory.constructType(RestTemplateDocumentDto::class.java)
-        )
+        return wfDocumentService.getDocument(documentId)
     }
 
     /**
@@ -148,14 +95,8 @@ class DocumentService(
      *
      * @return String
      */
-    fun getDocumentData(documentId: String): String {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT_DATA.url.replace(
-                restTemplate.getKeyRegex(),
-                documentId
-            )
-        )
-        return restTemplate.get(url)
+    fun getDocumentData(documentId: String): RestTemplateRequestDocumentDto {
+        return wfDocumentService.getInitDocument(documentId)
     }
 
     /**
@@ -168,16 +109,8 @@ class DocumentService(
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.createDt = LocalDateTime.now()
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
-        val responseBody = restTemplate.create(url, restTemplateDocumentDto)
-        return when (responseBody.body.toString().isNotEmpty()) {
-            true -> {
-                val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-                val dataDto = mapper.readValue(responseBody.body.toString(), restTemplateDocumentDto::class.java)
-                dataDto.documentId
-            }
-            false -> ""
-        }
+        val dataDto = wfDocumentService.createDocument(restTemplateDocumentDto)
+        return dataDto.documentId
     }
 
     /**
@@ -188,26 +121,14 @@ class DocumentService(
      */
     fun updateDocument(
         restTemplateDocumentDto: RestTemplateDocumentDto,
-        params: LinkedMultiValueMap<String, String>
+        params: LinkedHashMap<String, Any>
     ): String? {
         val documentId = restTemplateDocumentDto.documentId
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.updateDt = LocalDateTime.now()
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(
-                restTemplate.getKeyRegex(),
-                documentId
-            ),
-            parameters = params
-        )
-        val responseEntity = restTemplate.update(url, restTemplateDocumentDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                documentId
-            }
-            false -> ""
-        }
+        wfDocumentService.updateDocument(restTemplateDocumentDto, params)
+        return documentId
     }
 
     /**
@@ -216,14 +137,8 @@ class DocumentService(
      * @param documentId
      * @return Boolean
      */
-    fun deleteDocument(documentId: String): ResponseEntity<String> {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Workflow.DELETE_DOCUMENT.url.replace(
-                restTemplate.getKeyRegex(),
-                documentId
-            )
-        )
-        return restTemplate.delete(url)
+    fun deleteDocument(documentId: String): Boolean {
+        return wfDocumentService.deleteDocument(documentId)
     }
 
     /**
@@ -232,7 +147,7 @@ class DocumentService(
      * @return List<RestTemplateFormDto>
      */
     fun getFormList(): List<RestTemplateFormDto> {
-        val formParams = LinkedMultiValueMap<String, String>()
+        val formParams = LinkedHashMap<String, Any>()
         val formStatus = ArrayList<String>()
         formStatus.add(RestTemplateConstants.FormStatus.PUBLISH.value)
         formStatus.add(RestTemplateConstants.FormStatus.USE.value)
@@ -260,14 +175,8 @@ class DocumentService(
      * @param documentId
      * @return List<DocumentDto>
      */
-    fun getDocumentDisplay(documentId: String): String {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_DISPLAY.url.replace(
-                restTemplate.getKeyRegex(),
-                documentId
-            )
-        )
-        return restTemplate.get(url)
+    fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
+        return wfDocumentService.getDocumentDisplay(documentId)
     }
 
     /**
@@ -276,14 +185,7 @@ class DocumentService(
      * @param documentDisplay
      * @return Boolean
      */
-    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDisplayDto): Boolean {
-        val urlDto = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENTS_DISPLAY.url.replace(
-                restTemplate.getKeyRegex(),
-                documentDisplay.documentId.toString()
-            )
-        )
-        val responseEntity = restTemplate.update(urlDto, documentDisplay)
-        return responseEntity.body.toString().isNotEmpty()
+    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDisplaySaveDto): Boolean {
+        return wfDocumentService.updateDocumentDisplay(documentDisplay)
     }
 }

@@ -120,8 +120,8 @@ class WfFolderService(
         return relatedInstanceViewList
     }
 
-    fun createFolderData(restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
-        restTemplateFolderDto.forEach {
+    fun createFolderData(restTemplateFolderDtoList: List<RestTemplateFolderDto>): Boolean {
+        restTemplateFolderDtoList.forEach {
             val wfFolderEntity = WfFolderEntity(
                 folderId = it.folderId!!,
                 instance = wfInstanceRepository.findByInstanceId(it.instanceId)!!,

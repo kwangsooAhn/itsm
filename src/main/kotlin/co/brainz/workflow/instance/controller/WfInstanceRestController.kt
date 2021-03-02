@@ -73,7 +73,7 @@ class WfInstanceRestController(
     }
 
     @GetMapping("/{instanceId}/comments")
-    fun getInstanceComments(@PathVariable instanceId: String): MutableList<RestTemplateCommentDto> {
+    fun getInstanceComments(@PathVariable instanceId: String): List<RestTemplateCommentDto> {
         return wfInstanceService.getInstanceComments(instanceId)
     }
 

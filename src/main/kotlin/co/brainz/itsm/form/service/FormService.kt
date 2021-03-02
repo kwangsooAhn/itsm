@@ -6,48 +6,35 @@
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.workflow.provider.RestTemplateProvider
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
-import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
-import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
-class FormService(private val restTemplate: RestTemplateProvider) {
+class FormService(
+    private val wfFormService: WfFormService
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    fun getFormData(formId: String): String {
-        val urlDto = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Form.GET_FORM_DATA.url.replace(
-                restTemplate.getKeyRegex(),
-                formId
-            )
-        )
-        return restTemplate.get(urlDto)
+    fun getFormData(formId: String): RestTemplateFormComponentListDto {
+        return wfFormService.getFormComponentList(formId)
     }
 
     /**
      * [formId], 를 받아서 문서양식을 삭제한다.
      */
-    fun deleteForm(formId: String): ResponseEntity<String> {
-        val urlDto = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Form.DELETE_FORM.url.replace(
-                restTemplate.getKeyRegex(),
-                formId
-            )
-        )
-        return restTemplate.delete(urlDto)
+    fun deleteForm(formId: String): Boolean {
+        return wfFormService.deleteForm(formId)
     }
 
     /**
@@ -58,17 +45,13 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         formComponentListDto.updateDt = LocalDateTime.now()
         formComponentListDto.updateUserKey = aliceUserDto.userKey
-        val urlDto = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId)
-        )
-        val responseEntity = restTemplate.update(urlDto, formComponentListDto)
-        return responseEntity.body.toString().isNotEmpty()
+        return wfFormService.saveFormData(formComponentListDto)
     }
 
     /**
      * [formData]를 받아서 문서양식을 반환한다.
      */
-    fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
+    private fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
         val components: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
             map["components"],

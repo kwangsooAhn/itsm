@@ -15,7 +15,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import javax.servlet.http.HttpServletRequest
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -51,7 +50,7 @@ class FormsRestController(private val formAdminService: FormAdminService) {
      */
     @GetMapping("")
     fun getFormList(request: HttpServletRequest, model: Model): List<RestTemplateFormDto> {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search") ?: ""
         params["offset"] = request.getParameter("offset") ?: "0"
         return formAdminService.findForms(params)
