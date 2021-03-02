@@ -31,7 +31,7 @@
       }
       // headings
       .ql-header {
-        width: 6.25rem; // 100px
+        width: 7.5rem; // 120px
         height: 2.5rem; // 40px
 
         .ql-picker-label,
@@ -66,11 +66,18 @@
             border-color: transparent;
             color: $text-editor-toolbar-hover-font-color;
             background-color:  $text-editor-toolbar-hover-bg-color;
+
+            // 화살표 회전
+            svg {
+              @include rotate(180);
+              @include transformOrigin(50% 50%);
+            }
           }
 
           .ql-picker-options {
             margin-left: -0.0625rem; // -1px
             border-color:  $text-editor-border-color;
+
             // 선택된 item
             .ql-picker-item {
               &.ql-selected {
@@ -135,10 +142,26 @@
       }
       // align
       .ql-icon-picker {
-        width: 2.813rem; // 45px
+        width: 3.75rem; // 60px
         height: 2.5rem; // 40px
 
-        .ql-picker-label,
+        .ql-picker-label {
+          width: 3.75rem; // 60px
+          height: 2.5rem; // 40px
+          padding: 0.5625rem 0.6875rem; // 9px 11px
+
+          .ql-icon-arrow {
+            fill-opacity: 1;
+            @include translate(178px, -341px);
+          }
+
+          &:hover,
+          &:focus {
+            color: $text-editor-toolbar-hover-font-color;
+            background-color: $text-editor-toolbar-hover-bg-color;
+          }
+        }
+
         .ql-picker-item {
           width: 2.813rem; // 45px
           height: 2.5rem; // 40px
@@ -152,8 +175,12 @@
         }
 
         .ql-picker-options {
+          min-width: 2.813rem; // 45px
           box-shadow: $text-editor-toolbar-box-shadow;
           padding: 0;
+          .ql-icon-arrow {
+            fill-opacity: 0;
+          }
         }
 
         &.ql-expanded {
@@ -161,6 +188,12 @@
             border-color: transparent;
             color: $text-editor-toolbar-hover-font-color;
             background-color: $text-editor-toolbar-hover-bg-color;
+
+            // 화살표 회전
+            .ql-icon-arrow {
+              fill-opacity: 1;
+              @include transform(translate(568px, 439px) rotate(180deg));
+            }
           }
           .ql-picker-options {
             margin-left: -0.0625rem; // -1px
@@ -168,6 +201,9 @@
             .ql-picker-item {
               &.ql-selected svg {
                 fill: $text-editor-toolbar-selected-font-color;
+              }
+              .ql-icon-arrow {
+                fill-opacity: 0;
               }
             }
           }
