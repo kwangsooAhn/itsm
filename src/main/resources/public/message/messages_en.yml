@@ -602,6 +602,7 @@ form:
   msg:
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
+    failedDestroy: "Related documents exist for this form.<br/>This can't be destroyed."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileSelect: "Please select a file."
     information: "There are no common editable component detail attributes."
@@ -880,6 +881,7 @@ process:
   msg:
     duplicateData: "The same data exists."
     enterProcessName: "Please enter a process name."
+    failedDestroy: "Related documents exist for this process.<br/>This can't be destroyed."
     noticeImportFile: "Import only possible in XML file"
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
