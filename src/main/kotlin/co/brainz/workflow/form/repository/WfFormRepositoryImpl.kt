@@ -46,4 +46,13 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
 
         return query.fetchResults()
     }
+
+    override fun findFormDocumentExist(formId: String): Boolean {
+        val form = QWfFormEntity.wfFormEntity
+        val query = from(form)
+            .innerJoin(form.document).fetchJoin()
+            .where(form.formId.eq(formId))
+        val result = query.fetchResults()
+        return result.total > 0
+    }
 }

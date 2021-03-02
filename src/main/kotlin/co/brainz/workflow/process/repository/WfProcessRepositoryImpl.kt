@@ -45,4 +45,13 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
         }
         return query.fetchResults()
     }
+
+    override fun findProcessDocumentExist(processId: String): Boolean {
+        val process = QWfProcessEntity.wfProcessEntity
+        val query = from(process)
+            .innerJoin(process.document).fetchJoin()
+            .where(process.processId.eq(processId))
+        val result = query.fetchResults()
+        return result.total > 0
+    }
 }

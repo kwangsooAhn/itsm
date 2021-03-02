@@ -6,4 +6,6 @@ import com.querydsl.core.QueryResults
 interface WfFormRepositoryCustom {
 
     fun findFormEntityList(search: String, status: List<String>, offset: Long?): QueryResults<WfFormEntity>
+
+    fun findFormDocumentExist(formId: String): Boolean
 }

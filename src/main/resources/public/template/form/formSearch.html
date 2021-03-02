@@ -39,6 +39,10 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        // form status
+        const STATUS_USE = 'form.status.use';
+        const STATUS_DESTROY = 'form.status.destroy';
+
         let offsetCount = 0;
         window.onload = function() {
             document.getElementById('search').focus();
@@ -78,7 +82,7 @@
         }
 
         // 폼 수정
-        function saveForm(formId) {
+        function saveForm(formId, isDestroy, isEditable) {
             if (checkValidation()) {
                 const formInfo = {
                     name: document.getElementById('form_name').value,
@@ -88,8 +92,10 @@
                     restSubmit('POST', '/rest/forms', formInfo);
                 } else { // 수정
                     formInfo.id = formId;
-                    formInfo.status = document.getElementById('form_status').value;
-                    restSubmit('PUT', '/rest/forms/' + formId, formInfo);
+                    formInfo.status = isDestroy ? STATUS_DESTROY : document.getElementById('form_status').value;
+                    isEditable ? restSubmit('PUT', '/rest/forms/' + formId, formInfo)
+                        : aliceJs.alertWarning(i18n.msg('form.msg.failedDestroy'));
+
                 }
             }
         }
@@ -153,6 +159,7 @@
                         };
 
                         // 버튼 설정
+                        console.log(responseObject.status);
                         if (responseObject.editable && !isView) {
                             // 내보내기 버튼
                             options.buttons.push({
@@ -169,7 +176,7 @@
                                 classes: "point-fill",
                                 bindKey: false,
                                 callback: function(modal) {
-                                    saveForm(responseObject.id);
+                                    saveForm(responseObject.id, false);
                                 }
                             });
                             // 삭제
@@ -179,6 +186,16 @@
                                 bindKey: false,
                                 callback: function(modal) {
                                     deleteForm(responseObject.id);
+                                }
+                            });
+                        } else if (responseObject.status === STATUS_USE) {
+                            // 폐기
+                            options.buttons.push({
+                                content: i18n.msg('form.status.destroy'),
+                                classes: "point-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    saveForm(responseObject.id, true, responseObject.editable);
                                 }
                             });
                         }
@@ -457,7 +474,14 @@
                     }
                 }
             } else {
-                formNameObject = document.createElement('span');
+                if (data.status == STATUS_USE) {
+                    formNameObject = document.createElement('a');
+                    formNameObject.onclick = function() {
+                        openFormEdit(data.id, true);
+                    }
+                } else {
+                    formNameObject = document.createElement('span');
+                }
             }
             formNameObject.innerText = data.name;
             tdFormName.appendChild(formNameObject);

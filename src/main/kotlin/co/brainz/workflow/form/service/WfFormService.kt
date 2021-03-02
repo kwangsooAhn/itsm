@@ -88,6 +88,9 @@ class WfFormService(
         when (restTemplateFormDto.status) {
             WfFormConstants.FormStatus.EDIT.value,
             WfFormConstants.FormStatus.PUBLISH.value -> restTemplateFormDto.editable = true
+            WfFormConstants.FormStatus.USE.value -> {
+                restTemplateFormDto.editable = !wfFormRepository.findFormDocumentExist(formId)
+            }
         }
         return restTemplateFormDto
     }
