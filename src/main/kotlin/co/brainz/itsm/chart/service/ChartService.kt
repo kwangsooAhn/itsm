@@ -53,16 +53,15 @@ class ChartService(
     fun getChart(chartId: String): ChartDto {
         val chart = chartRepository.getOne(chartId)
 
-        var chartConfig = JsonParser().parse(chart.chartConfig)
+        val chartConfig = JsonParser().parse(chart.chartConfig)
         val targetLabel = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.FROM.property).asString
         val operation = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.OPERATION.property).asString
-        val duration = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.DURATION.property)
         val durationDigit =
-            duration.asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
+            chartConfig.asJsonObject.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
         val durationUnit =
-            duration.asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
+            chartConfig.asJsonObject.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
 
-        var chartDto = ChartDto(
+        val chartDto = ChartDto(
             chartId = chart.chartId,
             chartType = chart.chartType,
             chartName = chart.chartName,
@@ -76,18 +75,18 @@ class ChartService(
         )
 
         when (chart.chartType) {
-            ChartConstants.Type.STACKEDCOLUMN.code, ChartConstants.Type.BASICLINE.code -> {
-                var periodUnit = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.PERIODUNIT.property).asString
+            ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
+                val periodUnit = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.PERIOD_UNIT.property).asString
                 chartDto.periodUnit = periodUnit
-                if (chart.chartType == ChartConstants.Type.BASICLINE.code) {
+                if (chart.chartType == ChartConstants.Type.BASIC_LINE.code) {
                     if (chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property) != null) {
-                        var group = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property).asString
+                        val group = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property).asString
                         chartDto.group = group
                     }
                 }
             }
         }
-        chartDto.chartObj = getChartJsonObj(chartDto)
+        chartDto.propertyJson = getChartProperty(chartDto)
 
         return chartDto
     }
@@ -96,10 +95,10 @@ class ChartService(
      * 통계 차트 등록 / 수정
      */
     fun saveChart(chartDto: ChartDto): String {
-        var status = ChartConstants.Status.STATUS_SUCCESS.code
-        var chartConfigObj = JsonObject()
-        var durationObj = JsonObject()
-        var chartFromList = JsonArray()
+        val status = ChartConstants.Status.STATUS_SUCCESS.code
+        val chartConfigObj = JsonObject()
+        val durationObj = JsonObject()
+        val chartFromList = JsonArray()
         chartFromList.add(chartDto.targetLabel)
         // type
         chartConfigObj.addProperty(ChartConstants.ObjProperty.TYPE.property, chartDto.chartType)
@@ -113,10 +112,12 @@ class ChartService(
         chartConfigObj.add(ChartConstants.ObjProperty.DURATION.property, durationObj)
         // periodUnit, group
         when (chartDto.chartType) {
-            ChartConstants.Type.STACKEDCOLUMN.code, ChartConstants.Type.BASICLINE.code -> {
-                chartConfigObj.addProperty(ChartConstants.ObjProperty.PERIODUNIT.property, chartDto.periodUnit)
-                if (chartDto.chartType == ChartConstants.Type.BASICLINE.code) {
-                    chartConfigObj.addProperty(ChartConstants.ObjProperty.PERIODUNIT.property, chartDto.periodUnit)
+            ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
+                chartConfigObj.addProperty(ChartConstants.ObjProperty.PERIOD_UNIT.property, chartDto.periodUnit)
+                if (chartDto.chartType == ChartConstants.Type.BASIC_LINE.code) {
+                    chartConfigObj.addProperty(
+                        ChartConstants.ObjProperty.GROUP.property, chartDto.group
+                    )
                 }
             }
         }
@@ -137,7 +138,7 @@ class ChartService(
      * 통계 차트 삭제
      */
     fun deleteChart(chartId: String): String {
-        var status = ChartConstants.Status.STATUS_SUCCESS.code
+        val status = ChartConstants.Status.STATUS_SUCCESS.code
 
         chartRepository.deleteById(chartId)
         return status
@@ -146,13 +147,13 @@ class ChartService(
     /**
      * 차트 생성 관련 JsonArray 생성
      */
-    fun getChartJsonObj(chart: ChartDto): JsonArray {
-        val labelList = aliceLabelRepository.findLabelKeys(chart.targetLabel)
+    fun getChartProperty(chart: ChartDto): JsonArray {
+        val labelList = aliceLabelRepository.findLabelByKey(chart.targetLabel)
         val labelTargetIds = mutableListOf<String>()
         val formIds = mutableListOf<String>()
         val documentList = mutableListOf<WfDocumentEntity>()
-        var jsonObject = JsonObject()
-        var jsonObjectArray = JsonArray()
+        val jsonObject = JsonObject()
+        val jsonObjectArray = JsonArray()
 
         labelList.forEach { label ->
             labelTargetIds.add(
@@ -201,16 +202,16 @@ class ChartService(
      * getDurationDoc 함수를 통해 가져온 JsonObject 데이터에 대하여, operation에 대한 계산을 진행
      */
     fun calculateOperation(chart: ChartDto, parsingDocObject: JsonObject): JsonObject {
-        var operationListObject = JsonObject()
+        val operationListObject = JsonObject()
         var totalCount = 0
         when (chart.chartType) {
-            ChartConstants.Type.STACKEDCOLUMN.code, ChartConstants.Type.BASICLINE.code -> {
-                var keyList = parsingDocObject.getAsJsonObject("documentList")
+            ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
+                val keyList = parsingDocObject.getAsJsonObject("documentList")
                 keyList.entrySet().forEach {
                     totalCount += it.value.asJsonArray.size()
                 }
                 keyList.entrySet().forEach {
-                    var operationObject = JsonObject()
+                    val operationObject = JsonObject()
                     operationObject.addProperty(ChartConstants.Operation.COUNT.code, it.value.asJsonArray.size())
                     operationObject.addProperty(
                         ChartConstants.Operation.PERCENT.code,
@@ -224,7 +225,7 @@ class ChartService(
                 }
             }
             ChartConstants.Type.PIE.code -> {
-                var keyList = parsingDocObject.getAsJsonArray("documentList")
+                val keyList = parsingDocObject.getAsJsonArray("documentList")
                 operationListObject.addProperty(ChartConstants.Operation.COUNT.code, keyList.size())
             }
         }
@@ -242,9 +243,9 @@ class ChartService(
         lateinit var startDateTime: LocalDateTime
         val selectDocList = mutableListOf<WfDocumentEntity>()
         val endDateTime: LocalDateTime? = chart.createDt
-        var jsonObject = JsonObject()
-        var jsonDocListObject = JsonObject()
-        var dateFormatList = mutableListOf<String>()
+        val jsonObject = JsonObject()
+        val jsonDocListObject = JsonObject()
+        val dateFormatList = mutableListOf<String>()
 
         when (chart.durationUnit) {
             ChartConstants.Unit.YEAR.code -> {
@@ -273,15 +274,15 @@ class ChartService(
         }
 
         when (chart.chartType) {
-            ChartConstants.Type.STACKEDCOLUMN.code, ChartConstants.Type.BASICLINE.code -> {
+            ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
                 when (chart.periodUnit) {
                     ChartConstants.Unit.YEAR.code -> {
                         for (year in startDateTime.year until endDateTime!!.year + 1) {
-                            var jsonArray = JsonArray()
+                            val jsonArray = JsonArray()
                             documentList.forEach { document ->
                                 when (document.createDt!!.year) {
                                     year -> {
-                                        var jsonDocObject = JsonObject()
+                                        val jsonDocObject = JsonObject()
                                         jsonDocObject.addProperty("documentId", document.documentId)
                                         jsonDocObject.addProperty("documentName", document.documentName)
                                         jsonDocObject.addProperty("createDt", document.createDt.toString())
@@ -308,15 +309,15 @@ class ChartService(
                         }
 
                         for (dateFormat in dateFormatList) {
-                            var jsonArray = JsonArray()
+                            val jsonArray = JsonArray()
                             documentList.forEach { document ->
-                                var docYear = document.createDt!!.year
-                                var docMonth = document.createDt!!.monthValue
-                                var docDateFormat = docYear.toString() + String.format("%02d", docMonth)
+                                val docYear = document.createDt!!.year
+                                val docMonth = document.createDt!!.monthValue
+                                val docDateFormat = docYear.toString() + String.format("%02d", docMonth)
 
                                 when (docDateFormat) {
                                     dateFormat -> {
-                                        var jsonDocObject = JsonObject()
+                                        val jsonDocObject = JsonObject()
                                         jsonDocObject.addProperty("documentId", document.documentId)
                                         jsonDocObject.addProperty("documentName", document.documentName)
                                         jsonDocObject.addProperty("createDt", document.createDt.toString())
@@ -330,7 +331,7 @@ class ChartService(
                     }
                     ChartConstants.Unit.DATE.code -> {
                         for (index in 0 until period + 1) {
-                            var dateFormat = startYear.toString() + String.format("%02d", startMonth)
+                            val dateFormat = startYear.toString() + String.format("%02d", startMonth)
                             val lengthOfMonth = YearMonth.from(startDateTime.plusMonths(index.toLong())).lengthOfMonth()
 
                             for (day in startDays until lengthOfMonth + 1) {
@@ -354,12 +355,12 @@ class ChartService(
                         }
 
                         for (dateFormat in dateFormatList) {
-                            var jsonArray = JsonArray()
+                            val jsonArray = JsonArray()
                             documentList.forEach { document ->
-                                var docYear = document.createDt!!.year
-                                var docMonth = document.createDt!!.monthValue
-                                var docDays = document.createDt!!.dayOfMonth
-                                var docDateFormat =
+                                val docYear = document.createDt!!.year
+                                val docMonth = document.createDt!!.monthValue
+                                val docDays = document.createDt!!.dayOfMonth
+                                val docDateFormat =
                                     docYear.toString() + String.format("%02d", docMonth) + String.format(
                                         "%02d",
                                         docDays
@@ -368,7 +369,7 @@ class ChartService(
 
                                 when (docDateFormat) {
                                     dateFormat -> {
-                                        var jsonDocObject = JsonObject()
+                                        val jsonDocObject = JsonObject()
                                         jsonDocObject.addProperty("documentId", document.documentId)
                                         jsonDocObject.addProperty("documentName", document.documentName)
                                         jsonDocObject.addProperty("createDt", document.createDt.toString())
@@ -382,7 +383,7 @@ class ChartService(
                     }
                     ChartConstants.Unit.HOUR.code -> {
                         for (index in 0 until period + 1) {
-                            var dateFormat = startYear.toString() + String.format("%02d", startMonth)
+                            val dateFormat = startYear.toString() + String.format("%02d", startMonth)
                             val lengthOfMonth = YearMonth.from(startDateTime.plusMonths(index.toLong())).lengthOfMonth()
 
                             for (day in startDays until lengthOfMonth + 1) {
@@ -411,13 +412,13 @@ class ChartService(
                         }
 
                         for (dateFormat in dateFormatList) {
-                            var jsonArray = JsonArray()
+                            val jsonArray = JsonArray()
                             documentList.forEach { document ->
-                                var docYear = document.createDt!!.year
-                                var docMonth = document.createDt!!.monthValue
-                                var docDays = document.createDt!!.dayOfMonth
-                                var docHours = document.createDt!!.hour
-                                var docDateFormat =
+                                val docYear = document.createDt!!.year
+                                val docMonth = document.createDt!!.monthValue
+                                val docDays = document.createDt!!.dayOfMonth
+                                val docHours = document.createDt!!.hour
+                                val docDateFormat =
                                     docYear.toString() + String.format(
                                         "%02d",
                                         docMonth
@@ -425,7 +426,7 @@ class ChartService(
 
                                 when (docDateFormat) {
                                     dateFormat -> {
-                                        var jsonDocObject = JsonObject()
+                                        val jsonDocObject = JsonObject()
                                         jsonDocObject.addProperty("documentId", document.documentId)
                                         jsonDocObject.addProperty("documentName", document.documentName)
                                         jsonDocObject.addProperty("createDt", document.createDt.toString())
@@ -440,9 +441,9 @@ class ChartService(
                 }
             }
             ChartConstants.Type.PIE.code -> {
-                var jsonArray = JsonArray()
+                val jsonArray = JsonArray()
                 documentList.forEach { document ->
-                    var jsonDocObject = JsonObject()
+                    val jsonDocObject = JsonObject()
                     jsonDocObject.addProperty("documentId", document.documentId)
                     jsonDocObject.addProperty("documentName", document.documentName)
                     jsonDocObject.addProperty("createDt", document.createDt.toString())

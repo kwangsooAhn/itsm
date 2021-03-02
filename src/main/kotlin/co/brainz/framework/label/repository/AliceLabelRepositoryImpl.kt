@@ -53,7 +53,7 @@ class AliceLabelRepositoryImpl : QuerydslRepositorySupport(AliceLabelEntity::cla
     /**
      * Label Key 조회
      */
-    override fun findLabelKeys(labelKey: String): MutableList<AliceLabelEntity> {
+    override fun findLabelByKey(labelKey: String): MutableList<AliceLabelEntity> {
         return from(aliceLabelEntity)
             .select(
                 Projections.constructor(

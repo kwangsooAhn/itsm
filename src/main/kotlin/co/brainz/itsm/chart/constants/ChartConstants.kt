@@ -40,7 +40,7 @@ object ChartConstants {
         DIGIT("digit"),
         UNIT("unit"),
         DURATION("duration"),
-        PERIODUNIT("periodUnit"),
+        PERIOD_UNIT("periodUnit"),
         GROUP("group")
     }
 
@@ -48,8 +48,8 @@ object ChartConstants {
      * chart Type
      */
     enum class Type(val code: String) {
-        STACKEDCOLUMN("chart.stackedColumn"),
-        BASICLINE("chart.basicLine"),
+        STACKED_COLUMN("chart.stackedColumn"),
+        BASIC_LINE("chart.basicLine"),
         PIE("chart.pie")
     }
 
