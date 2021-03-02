@@ -188,6 +188,15 @@
                                 }
                             });
                         } else if (responseObject.status === STATUS_USE) {
+                            // 내보내기 버튼
+                            options.buttons.push({
+                                content: i18n.msg('form.btn.export'),
+                                classes: "point-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    workflowUtil.export(responseObject.id, 'form');
+                                }
+                            });
                             // 폐기
                             options.buttons.push({
                                 content: i18n.msg('form.status.destroy'),
