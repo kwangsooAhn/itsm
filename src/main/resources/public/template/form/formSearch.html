@@ -159,7 +159,6 @@
                         };
 
                         // 버튼 설정
-                        console.log(responseObject.status);
                         if (responseObject.editable && !isView) {
                             // 내보내기 버튼
                             options.buttons.push({
@@ -176,7 +175,7 @@
                                 classes: "point-fill",
                                 bindKey: false,
                                 callback: function(modal) {
-                                    saveForm(responseObject.id, false);
+                                    saveForm(responseObject.id, false, true);
                                 }
                             });
                             // 삭제
