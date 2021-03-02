@@ -71,40 +71,6 @@ object RestTemplateConstants {
     }
 
     /**
-     * Comment Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Comment(val url: String, val method: String) {
-        POST_COMMENT("/rest/wf/comments", "POST"),
-        DELETE_COMMENT("/rest/wf/comments/{commentId}", "DELETE")
-    }
-
-    /**
-     * Tag Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Tag(val url: String, val method: String) {
-        POST_TAG("/rest/wf/tags", "POST"),
-        DELETE_TAG("/rest/wf/tags/{tagId}", "DELETE")
-    }
-
-    /**
-     * Folder Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Folder(val url: String, val method: String) {
-        POST_FOLDER("/rest/wf/folders", "POST"),
-        DELETE_FOLDER("/rest/wf/folders/{folderId}", "DELETE"),
-        GET_FOLDER("/rest/wf/folders/{folderId}", "GET")
-    }
-
-    /**
      * Workflow Url.
      *
      * @param url
