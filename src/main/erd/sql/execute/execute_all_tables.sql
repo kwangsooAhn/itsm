@@ -3159,9 +3159,9 @@ CREATE TABLE cmdb_attribute
 	attribute_text character varying(128),
 	attribute_value text,
 	create_user_key character varying(128),
-	create_dt timestamp without time zone,
+	create_dt timestamp,
 	update_user_key character varying(128),
-	update_dt timestamp without time zone,
+	update_dt timestamp,
 	CONSTRAINT cmdb_attribute_pk PRIMARY KEY (attribute_id),
 	CONSTRAINT cmdb_attribute_uk UNIQUE (attribute_id)
 );
@@ -3225,9 +3225,9 @@ CREATE TABLE cmdb_class
     p_class_id character varying(128),
     class_level int,
     create_user_key character varying(128),
-    create_dt timestamp without time zone,
+    create_dt timestamp,
     update_user_key character varying(128),
-    update_dt timestamp without time zone,
+    update_dt timestamp,
     CONSTRAINT cmdb_class_pk PRIMARY KEY (class_id),
     CONSTRAINT cmdb_class_uk UNIQUE (class_id, class_name)
 );
@@ -3270,9 +3270,9 @@ CREATE TABLE cmdb_type
 	default_class_id character varying(128) NOT NULL,
 	type_icon character varying(200),
 	create_user_key character varying(128),
-	create_dt timestamp without time zone,
+	create_dt timestamp,
 	update_user_key character varying(128),
-	update_dt timestamp without time zone,
+	update_dt timestamp,
 	CONSTRAINT cmdb_type_pk PRIMARY KEY (type_id),
 	CONSTRAINT cmdb_type_uk UNIQUE (type_id),
 	CONSTRAINT cmdb_type_fk FOREIGN KEY (default_class_id)
@@ -3322,9 +3322,9 @@ CREATE TABLE cmdb_ci
 	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
 	create_user_key character varying(128),
-	create_dt timestamp without time zone,
+	create_dt timestamp,
 	update_user_key character varying(128),
-	update_dt timestamp without time zone,
+	update_dt timestamp,
 	CONSTRAINT cmdb_ci_pk PRIMARY KEY (ci_id),
 	CONSTRAINT cmdb_ci_uk UNIQUE (ci_id),
 	CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)
@@ -3571,9 +3571,9 @@ CREATE TABLE awf_label
     label_key character varying(128),
     label_value character varying(512),
     create_user_key character varying(128),
-    create_dt timestamp without time zone,
+    create_dt timestamp,
     update_user_key character varying(128),
-    update_dt timestamp without time zone,
+    update_dt timestamp,
     CONSTRAINT awf_label_pk UNIQUE (label_target, label_target_id, label_key)
 );
 
