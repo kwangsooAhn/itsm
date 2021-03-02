@@ -52,7 +52,7 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
         val process = QWfProcessEntity.wfProcessEntity
         val document = QWfDocumentEntity.wfDocumentEntity
         val query = from(process)
-            .leftJoin(document).on(document.process.processId.eq(process.processId))
+            .innerJoin(document).on(document.process.processId.eq(process.processId)).fetchJoin()
             .where(
                 process.processId.eq(processId)
                     .and(

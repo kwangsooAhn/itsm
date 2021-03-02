@@ -53,7 +53,7 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
         val form = QWfFormEntity.wfFormEntity
         val document = QWfDocumentEntity.wfDocumentEntity
         val query = from(form)
-            .leftJoin(document).on(document.form.formId.eq(form.formId))
+            .innerJoin(document).on(document.form.formId.eq(form.formId)).fetchJoin()
             .where(
                 form.formId.eq(formId)
                     .and(
