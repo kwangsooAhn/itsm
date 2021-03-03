@@ -185,7 +185,6 @@ insert into awf_url values ('/rest/downloads', 'get', '자료실리스트 조회
 insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
 insert into awf_url values ('/rest/downloads/{id}', 'delete', '자료실 삭제', 'TRUE');
-insert into awf_url values ('/rest/faqs', 'get', 'FAQ 리스트 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/faqs', 'post', 'FAQ 등록 처리', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'put', 'FAQ 수정 처리', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'get', 'FAQ 상세 조회', 'TRUE');

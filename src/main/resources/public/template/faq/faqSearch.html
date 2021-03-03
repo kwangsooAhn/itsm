@@ -49,13 +49,11 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/faqs?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/faqs?' + urlParam, isScroll);
             }
+            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+            restSubmit('get', '/faqs?' + urlParam, isScroll);
         }
 
         // REST API
@@ -67,16 +65,20 @@
                 showProgressbar: false,
                 callbackFunc: function (response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function(data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                        }
+                        // OverlayScrollbar 가 테이블 내부를 div로 처리하기 때문에 innerHTML(), insertAdjacentHTML()를 사용하여 직접 템플릿을 넣어줄경우 tr, td가 없어져버린다.
+                        // 따라서 임시테이블을 생성하고 가져온 템플릿을 넣어준 후 기존 테이블에 추가해야한다.
+                        const faqTbody = document.querySelector('.list-body .os-content');
+                        const tempTb = document.createElement('table');
+                        tempTb.innerHTML = response.responseText;
+                        for (let i = 0; i < tempTb.rows.length; i++) {
+                            const tempRow = tempTb.rows[i];
+                            const row = document.createElement('tr');
+                            row.className = tempRow.className;
+                            row.innerHTML = tempRow.innerHTML;
+                            faqTbody.appendChild(row);
                         }
                     } else {
                         document.getElementById('faqList').innerHTML = response.responseText;
@@ -102,34 +104,6 @@
                 }
             };
             aliceJs.sendXhr(opt);
-        }
-
-        // Tr 동적 데이터 만들기
-        function getDataTemplate(data) {
-            let div = document.querySelector('.list-body .os-content');
-            let tr = document.createElement('tr');
-            tr.className = 'flex-row align-items-center';
-
-            let tdFaqId = document.createElement('td');
-            tdFaqId.style.width = '20%';
-            tdFaqId.className = 'align-left';
-            tdFaqId.innerText = i18n.msg('common.code.'+data.faqGroup);
-
-            let tdFaqTitle = document.createElement('td');
-            tdFaqTitle.className = 'align-left underline';
-            tdFaqTitle.style.width = '80%';
-            let aFaqTitle = document.createElement('a');
-            if (document.getElementsByName('isRole').value === 'true') {
-                aFaqTitle.href = '/faqs/'+ data.faqId +'/view';
-            } else {
-                aFaqTitle.href = '/faqs/'+ data.faqId +'/edit';
-            }
-            aFaqTitle.innerText = data.faqTitle;
-            tdFaqTitle.appendChild(aFaqTitle);
-
-            tr.appendChild(tdFaqId);
-            tr.appendChild(tdFaqTitle);
-            div.appendChild(tr);
         }
         /*]]>*/
     </script>
