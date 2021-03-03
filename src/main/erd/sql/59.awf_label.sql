@@ -10,9 +10,9 @@ CREATE TABLE awf_label
     label_key character varying(128),
     label_value character varying(512),
     create_user_key character varying(128),
-    create_dt timestamp without time zone,
+    create_dt timestamp,
     update_user_key character varying(128),
-    update_dt timestamp without time zone,
+    update_dt timestamp,
     CONSTRAINT awf_label_pk UNIQUE (label_target, label_target_id, label_key)
 );
 

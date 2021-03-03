@@ -88,6 +88,9 @@ class WfProcessService(
 
         when (wfProcessDto.status) {
             WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> wfProcessDto.enabled = true
+            WfProcessConstants.Status.USE.code -> {
+                wfProcessDto.enabled = !wfProcessRepository.findProcessDocumentExist(processId)
+            }
         }
         return wfProcessDto
     }

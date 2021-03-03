@@ -45,6 +45,9 @@
         const CHART_MONTH = 'M';
         const CHART_DAY = 'D';
         const CHART_HOUR = 'H';
+        const STACKED_COLUMN_CHART = 'chart.stackedColumn';
+        const BASIC_LINE_CHART = 'chart.basicLine';
+
         window.onload = function () {
             document.getElementById('searchTypeName').addEventListener('change', function () {
                 searchCharts(false);
@@ -305,6 +308,7 @@
                 showProgressbar: false,
                 callbackFunc: function (response) {
                     document.getElementById('getChart').innerHTML = response.responseText;
+                    setDisplay(document.getElementById('typeSelectBox').value);
                 }
             };
             aliceJs.sendXhr(opt);
@@ -335,30 +339,36 @@
                     targetLabel: document.getElementById('targetLabel').value,
                     operation: document.getElementById('operationSelectBox').value,
                     durationDigit: document.getElementById('durationDigit').value,
-                    durationUnit: document.getElementById('durationUnitSelectBox').value,
-                    periodUnit: document.getElementById('periodUnitSelectBox').value,
-                    group: document.getElementById('targetGroup').value
+                    durationUnit: document.getElementById('durationUnitSelectBox').value
                 }
 
-                switch (chartInfo.durationUnit) {
-                    case CHART_MONTH:
-                        if (chartInfo.periodUnit === CHART_YEAR) {
-                            aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                            return false;
-                        }
-                        break;
-                    case CHART_DAY:
-                        if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH) {
-                            aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                            return false;
-                        }
-                        break;
-                    case CHART_HOUR:
-                        if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH || chartInfo.periodUnit === CHART_DAY) {
-                            aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                            return false;
-                        }
-                        break;
+                if (chartInfo.chartType === STACKED_COLUMN_CHART || chartInfo.chartType === BASIC_LINE_CHART) {
+                    chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
+
+                    switch (chartInfo.durationUnit) {
+                        case CHART_MONTH:
+                            if (chartInfo.periodUnit === CHART_YEAR) {
+                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                                return false;
+                            }
+                            break;
+                        case CHART_DAY:
+                            if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH) {
+                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                                return false;
+                            }
+                            break;
+                        case CHART_HOUR:
+                            if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH || chartInfo.periodUnit === CHART_DAY) {
+                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                                return false;
+                            }
+                            break;
+                    }
+
+                    if (chartInfo.chartType === BASIC_LINE_CHART) {
+                        chartInfo.group = document.getElementById('targetGroup').value;
+                    }
                 }
 
                 let url = '/rest/charts';

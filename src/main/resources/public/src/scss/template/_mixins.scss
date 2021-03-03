@@ -25,6 +25,33 @@
   animation-timing-function: $timing;
   animation-iteration-count: $count;
 }
+//  transform
+@mixin transform($transforms) {
+  -moz-transform: $transforms;
+  -o-transform: $transforms;
+  -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+  transform: $transforms;
+}
+// Rotate
+@mixin rotate($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+// Scale
+@mixin scale($scale) {
+  @include transform(scale($scale));
+}
+// Translate
+@mixin translate($x, $y) {
+  @include transform(translate($x, $y));
+}
+// Transform Origin
+@mixin transformOrigin ($origin) {
+  -webkit-transform-origin: $origin;
+  -moz-transform-origin: $origin;
+  -ms-transform-origin: $origin;
+  transform-origin: $origin;
+}
 // 배경 이미지
 @mixin background($path, $size, $repeat, $posX, $posY, $color) {
   background-image: url($path);

@@ -11,5 +11,6 @@ import java.io.Serializable
 data class FaqSearchRequestDto(
     var search: String? = null,
     var groupCodes: MutableList<String>? = null,
-    var offset: Long = 0
+    var offset: Long = 0,
+    var isScroll: Boolean = false
 ) : Serializable

@@ -31,7 +31,9 @@
                            th:attr="onclick=|openFormEdit('${form.id}', false)|"></a>
                     </th:block>
                     <div th:unless="${form.editable == true}">
-                        <span th:text="${form.name}"></span>
+                        <a th:if="${form.status == 'form.status.use'}" th:text="${form.name}"
+                           th:attr="onclick=|openFormEdit('${form.id}', true)|"></a>
+                        <span th:unless="${form.status == 'form.status.use'}" th:text="${form.name}"></span>
                     </div>
                 </td>
                 <td width="10%" class="align-center">

@@ -47,3 +47,18 @@ insert into wf_element values ('ae863e288a164f48aaa56b124a8d5113','40288ab7772ea
 insert into wf_element values ('e38faeee0db140cebd714d290a3b3a7b','40288ab7772ea2e301772eabb9280004','arrowConnector','','',FALSE,'','{}');
 insert into wf_element values ('e84bc306a19241cf98691491676df0ec','40288ab7772ea2e301772eabb9280004','commonStart','','',FALSE,'','{"width":40,"height":40,"position-x":70,"position-y":200}');
 insert into wf_element values ('f0abc7d89fd049cbb9d31c7499118741','40288ab7772ea2e301772eabb9280004','arrowConnector','','',FALSE,'','{}');
+insert into wf_element values ('01430d9b3cfe427b89f9203185e35530','40288ab777f04ed90177f057ca410000','arrowConnector','','',FALSE,'','{}');
+insert into wf_element values ('1318f304ca2a420e9c6756438daa4e3a','40288ab777f04ed90177f057ca410000','arrowConnector','','',FALSE,'','{}');
+insert into wf_element values ('2a8341aa1dcb4ab7ab89271020c748c8','40288ab777f04ed90177f057ca410000','arrowConnector','','',FALSE,'','{}');
+insert into wf_element values ('4f296c1468f3422b8c59c97151e2c476','40288ab777f04ed90177f057ca410000','userTask','신청서 작성','',FALSE,'','{"width":160,"height":40,"position-x":210,"position-y":200}');
+insert into wf_element values ('70e8f5da83584cba81bd9ff597963c4a','40288ab777f04ed90177f057ca410000','arrowConnector','','',FALSE,'','{}');
+insert into wf_element values ('957ac0be921c4337999fcbca2f22a92d','40288ab777f04ed90177f057ca410000','arrowConnector','','',FALSE,'','{}');
+insert into wf_element values ('a34268ba767d48e7ab7db9e7297e7300','40288ab777f04ed90177f057ca410000','userTask','구성변경 처리','',FALSE,'','{"width":160,"height":40,"position-x":850,"position-y":200}');
+insert into wf_element values ('a4aa971e1f952df93f07e932ab25fbf6','40288ab777f04ed90177f057ca410000','scriptTask','CMDB 적용','',FALSE,'','{"width":160,"height":40,"position-x":1060,"position-y":280}');
+insert into wf_element values ('a4bd7d4950b4226ea3dfc20bf15193ff','40288ab777f04ed90177f057ca410000','arrowConnector','','',FALSE,'','{}');
+insert into wf_element values ('a508191382c644b289c01cf32bed8722','40288ab777f04ed90177f057ca410000','userTask','변경결과 승인','',TRUE,'','{"width":160,"height":40,"position-x":850,"position-y":280}');
+insert into wf_element values ('a9a0c170a6ff5ae938f128a726fc2a60','40288ab777f04ed90177f057ca410000','commonEnd','종료','',FALSE,'','{"width":40,"height":40,"position-x":1210,"position-y":280}');
+insert into wf_element values ('ad56214bb68e7b749f7d336e14172321','40288ab777f04ed90177f057ca410000','arrowConnector','','',FALSE,'','{}');
+insert into wf_element values ('b0dd93b1c9864edc8f048713c0d07e12','40288ab777f04ed90177f057ca410000','manualTask','접수','',FALSE,'','{"width":160,"height":40,"position-x":630,"position-y":200}');
+insert into wf_element values ('bff880e180164c4f9cedfab4ba282f28','40288ab777f04ed90177f057ca410000','userTask','신청서검토','',TRUE,'','{"width":160,"height":40,"position-x":420,"position-y":200}');
+insert into wf_element values ('d099b9ac855a4e7f9a641906549dbcb0','40288ab777f04ed90177f057ca410000','commonStart','','',FALSE,'','{"width":40,"height":40,"position-x":70,"position-y":200}');

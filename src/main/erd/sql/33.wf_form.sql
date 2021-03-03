@@ -28,3 +28,4 @@ COMMENT ON COLUMN wf_form.update_dt IS '수정일시';
 
 insert into wf_form values('40288ab7772ea2e301772ea633090001','만족도 - 단순문의','만족도 단순문의 문서양식입니다.','form.status.use','0509e09412534a6e98f04ca79abb6424',now());
 insert into wf_form values('40288ab7772ea2e301772ea450bb0000','서비스데스크 - 단순문의','단순문의 문서양식입니다.','form.status.use','0509e09412534a6e98f04ca79abb6424',now());
+insert into wf_form values('4028b25d77ed7e6f0177ed8daba10001','구성관리','구성관리 문서 양식 입니다.','form.status.use','0509e09412534a6e98f04ca79abb6424', now());

@@ -1,6 +1,8 @@
 package co.brainz.workflow.process.repository
 
 import co.brainz.itsm.constants.ItsmConstants
+import co.brainz.workflow.document.constants.WfDocumentConstants
+import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.process.entity.QWfProcessEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -44,5 +46,23 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
                 .offset(offset)
         }
         return query.fetchResults()
+    }
+
+    override fun findProcessDocumentExist(processId: String): Boolean {
+        val process = QWfProcessEntity.wfProcessEntity
+        val document = QWfDocumentEntity.wfDocumentEntity
+        val query = from(process)
+            .innerJoin(document).on(document.process.processId.eq(process.processId)).fetchJoin()
+            .where(
+                process.processId.eq(processId)
+                    .and(
+                        document.documentStatus.`in`(
+                            WfDocumentConstants.Status.USE.code,
+                            WfDocumentConstants.Status.TEMPORARY.code
+                        )
+                    )
+            )
+        val result = query.fetchResults()
+        return result.total > 0
     }
 }
