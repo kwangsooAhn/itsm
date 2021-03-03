@@ -12,9 +12,9 @@ CREATE TABLE cmdb_attribute
 	attribute_text character varying(128),
 	attribute_value text,
 	create_user_key character varying(128),
-	create_dt timestamp without time zone,
+	create_dt timestamp,
 	update_user_key character varying(128),
-	update_dt timestamp without time zone,
+	update_dt timestamp,
 	CONSTRAINT cmdb_attribute_pk PRIMARY KEY (attribute_id),
 	CONSTRAINT cmdb_attribute_uk UNIQUE (attribute_id)
 );
