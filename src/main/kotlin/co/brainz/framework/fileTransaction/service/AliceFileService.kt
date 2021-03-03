@@ -266,7 +266,7 @@ class AliceFileService(
         logger.info("DIR = {}", dir)
         logger.info(">>>> Available DIR? = {}", Files.isDirectory(dir))
 
-        logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
+//        logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
 
         // 경로에 존재하는 이미지 목록을 구성
         val fileList = mutableListOf<Path>()
