@@ -262,13 +262,13 @@ class AliceFileService(
     fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
         // 내부 경로 이미지 ( icon )은 jar에서도 경로를 읽어올 수 있게 처리해야한다.
         val dir = when (type) {
-            // 신청서 아이콘은 ClassPathResource
             AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(docIconRootDirectory).uri)
-            // Type 아이콘은 classloader
             AliceConstants.FileType.ICON_TYPE.code -> Paths.get(ClassPathResource(cmdbIconRootDirectory).uri)
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
 
+        logger.info("test1", docIconRootDirectory)
+        logger.info("test2", this.documentIconRootDirectory)
         logger.info("DIR = {}", dir)
         logger.info(">>>> Available DIR? = {}", Files.isDirectory(dir))
 
