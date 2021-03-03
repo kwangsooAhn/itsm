@@ -257,20 +257,17 @@ class AliceFileService(
     fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
         // 내부 경로 이미지 ( icon )은 jar에서도 경로를 읽어올 수 있게 처리해야한다.
         val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> Paths.get((javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI()))
-            AliceConstants.FileType.ICON_TYPE.code -> Paths.get((javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI()))
+            AliceConstants.FileType.ICON.code -> Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
+            AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
             else -> {
                 super.getWorkflowDir(this.imagesRootDirectory)
             }
         }
 
-        val testResource = ClassPathResource(this.documentIconRootDirectory)
-
-        if (testResource.exists() === false) {
-            logger.error("Invalid filePath : {}", this.documentIconRootDirectory)
-            throw IllegalArgumentException()
-        }
-        logger.info("file path exists = {}", testResource.exists())
+        logger.info("URI = {}", javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
+        logger.info("DIR = {}", dir)
+        logger.info("file path exists = {}", ClassPathResource(this.documentIconRootDirectory).exists())
+        logger.info(">>>> Available PATH? = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
         logger.info(">>>> Available DIR? = {}", Files.isDirectory(dir))
 
         logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
