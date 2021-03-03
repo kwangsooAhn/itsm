@@ -37,6 +37,7 @@ import javax.imageio.ImageIO
 import org.apache.tika.Tika
 import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
@@ -70,6 +71,11 @@ class AliceFileService(
     private val processAttachFileRootDirectory = this.imagesRootDirectory
     private val documentIconRootDirectory = "public/assets/media/images/document"
     private val typeIconRootDirectory = "public/assets/media/images/cmdb"
+
+    @Value("\${document.icon.dir}")
+    private val docIconRootDirectory: String = ""
+    @Value("\${cmdb.icon.dir}")
+    private val cmdbIconRootDirectory: String = ""
 
     /**
      * 파일 허용 확장자 목록 가져오기
@@ -257,9 +263,9 @@ class AliceFileService(
         // 내부 경로 이미지 ( icon )은 jar에서도 경로를 읽어올 수 있게 처리해야한다.
         val dir = when (type) {
             // 신청서 아이콘은 ClassPathResource
-            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirectory).uri)
+            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(docIconRootDirectory).uri)
             // Type 아이콘은 classloader
-            AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
+            AliceConstants.FileType.ICON_TYPE.code -> Paths.get(ClassPathResource(cmdbIconRootDirectory).uri)
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
 
