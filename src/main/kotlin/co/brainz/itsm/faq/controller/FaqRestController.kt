@@ -2,7 +2,6 @@ package co.brainz.itsm.faq.controller
 
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
-import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.service.FaqService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
@@ -29,14 +28,6 @@ import org.springframework.web.bind.annotation.RestController
 class FaqRestController(private val faqService: FaqService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-
-    /**
-     * FAQ 리스트 데이터 조회
-     */
-    @GetMapping("/", "")
-    fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
-        return faqService.getFaqs(faqSearchRequestDto)
-    }
 
     /**
      * FAQ 1건 상세 조회

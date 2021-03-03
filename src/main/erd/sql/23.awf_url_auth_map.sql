@@ -291,8 +291,6 @@ insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.delete
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.create');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'download.delete');
 insert into awf_url_auth_map values ('/rest/downloads/{id}', 'delete', 'download.delete');
-insert into awf_url_auth_map values ('/rest/faqs', 'get', 'faq.create');
-insert into awf_url_auth_map values ('/rest/faqs', 'get', 'faq.read');
 insert into awf_url_auth_map values ('/rest/faqs', 'post', 'faq.create');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'put', 'faq.update');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'faq.read');

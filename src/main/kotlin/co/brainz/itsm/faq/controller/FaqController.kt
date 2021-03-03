@@ -36,6 +36,7 @@ class FaqController(private val faqService: FaqService, private val codeService:
     private val faqSearchPage: String = "faq/faqSearch"
     private val faqEditPage: String = "faq/faqEdit"
     private val faqListPage: String = "faq/faqList"
+    private val faqListFragment: String = "faq/faqList :: list"
     private val faqViewPage: String = "faq/faqView"
 
     /**
@@ -64,7 +65,7 @@ class FaqController(private val faqService: FaqService, private val codeService:
         val result = faqService.getFaqs(faqSearchRequestDto)
         model.addAttribute("faqs", result)
         model.addAttribute("faqCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return faqListPage
+        return if (faqSearchRequestDto.isScroll) faqListFragment else faqListPage
     }
 
     /**
