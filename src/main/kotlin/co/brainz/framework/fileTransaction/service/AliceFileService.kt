@@ -37,7 +37,9 @@ import javax.imageio.ImageIO
 import org.apache.tika.Tika
 import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
+import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.data.repository.findByIdOrNull
@@ -253,20 +255,35 @@ class AliceFileService(
      * 워크플로우 이미지 파일 로드.
      */
     fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
+        // 내부 경로 이미지 ( icon )은 jar에서도 경로를 읽어올 수 있게 처리해야한다.
         val dir = when (type) {
             AliceConstants.FileType.ICON.code -> Paths.get((javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI()))
             AliceConstants.FileType.ICON_TYPE.code -> Paths.get((javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI()))
-            else -> super.getWorkflowDir(this.imagesRootDirectory)
+            else -> {
+                super.getWorkflowDir(this.imagesRootDirectory)
+            }
         }
 
-        // logger.debug(">>>> WORKFLOW IMAGE URI", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
+        val testResource = ClassPathResource(this.documentIconRootDirectory)
 
+        if (testResource.exists() === false) {
+            logger.error("Invalid filePath : {}", this.documentIconRootDirectory)
+            throw IllegalArgumentException()
+        }
+        logger.info("file path exists = {}", testResource.exists())
+        logger.info(">>>> Available DIR? = {}", Files.isDirectory(dir))
+
+        logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
+
+        // 경로에 존재하는 이미지 목록을 구성
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dir)) {
             val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
             fileDirMap[false]?.forEach { filePath ->
                 val file = filePath.toFile()
+                // 허용 확장자인지 체크
                 if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
+                    // 검색결과에 해당하는 파일 정보를 추가
                     when (searchValue) {
                         "" -> fileList.add(filePath)
                         else -> {
