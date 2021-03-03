@@ -40,7 +40,34 @@ object ChartConstants {
         DIGIT("digit"),
         UNIT("unit"),
         DURATION("duration"),
-        PERIODUNIT("periodUnit"),
+        PERIOD_UNIT("periodUnit"),
         GROUP("group")
+    }
+
+    /**
+     * chart Type
+     */
+    enum class Type(val code: String) {
+        STACKED_COLUMN("chart.stackedColumn"),
+        BASIC_LINE("chart.basicLine"),
+        PIE("chart.pie")
+    }
+
+    /**
+     * chart Unit
+     */
+    enum class Unit(val code: String) {
+        YEAR("Y"),
+        MONTH("M"),
+        DATE("D"),
+        HOUR("H")
+    }
+
+    /**
+     * chart Operation
+     */
+    enum class Operation(val code: String) {
+        PERCENT("percent"),
+        COUNT("count")
     }
 }

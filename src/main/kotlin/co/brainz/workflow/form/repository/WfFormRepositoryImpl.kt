@@ -7,6 +7,8 @@
 package co.brainz.workflow.form.repository
 
 import co.brainz.itsm.constants.ItsmConstants
+import co.brainz.workflow.document.constants.WfDocumentConstants
+import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.form.entity.QWfFormEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -45,5 +47,23 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
         }
 
         return query.fetchResults()
+    }
+
+    override fun findFormDocumentExist(formId: String): Boolean {
+        val form = QWfFormEntity.wfFormEntity
+        val document = QWfDocumentEntity.wfDocumentEntity
+        val query = from(form)
+            .innerJoin(document).on(document.form.formId.eq(form.formId)).fetchJoin()
+            .where(
+                form.formId.eq(formId)
+                    .and(
+                        document.documentStatus.`in`(
+                            WfDocumentConstants.Status.USE.code,
+                            WfDocumentConstants.Status.TEMPORARY.code
+                        )
+                    )
+            )
+        val result = query.fetchResults()
+        return result.total > 0
     }
 }

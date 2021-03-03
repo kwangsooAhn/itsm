@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.download.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileOwnMapEntity
 import co.brainz.itsm.constants.ItsmConstants
@@ -32,6 +33,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
+        val user = QAliceUserEntity.aliceUserEntity
 
         val query = from(download).distinct()
             .leftJoin(fileMap).on(download.downloadId.eq(fileMap.ownId))
@@ -49,6 +51,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
                     download.createUser.userName
                 )
             )
+            .innerJoin(download.createUser, user)
         if (category.isNotEmpty()) {
             query.where(download.downloadCategory.eq(category))
         }

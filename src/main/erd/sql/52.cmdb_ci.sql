@@ -15,9 +15,9 @@ CREATE TABLE cmdb_ci
 	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
 	create_user_key character varying(128),
-	create_dt timestamp without time zone,
+	create_dt timestamp,
 	update_user_key character varying(128),
-	update_dt timestamp without time zone,
+	update_dt timestamp,
 	CONSTRAINT cmdb_ci_pk PRIMARY KEY (ci_id),
 	CONSTRAINT cmdb_ci_uk UNIQUE (ci_id),
 	CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)

@@ -37,6 +37,10 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+        // process status
+        const STATUS_USE = 'process.status.use';
+        const STATUS_DESTROY = 'process.status.destroy';
+
         let offsetCount = 0;
         window.onload = function() {
             document.getElementById('search').focus();
@@ -75,7 +79,7 @@
         }
 
          // 프로세스 등록/수정
-        function saveProcess(processId) {
+        function saveProcess(processId, isDestroy, isEnabled) {
             // 빈 값 체크
             if (checkValidation()) {
                 const processInfo = {
@@ -88,8 +92,9 @@
                 } else {
                     // 수정
                     processInfo.processId = processId;
-                    processInfo.processStatus = document.getElementById('process_status').value;
-                    restSubmit('PUT', '/rest/processes/' + processId, processInfo);
+                    processInfo.processStatus = isDestroy ? STATUS_DESTROY : document.getElementById('process_status').value;
+                    isEnabled ? restSubmit('PUT', '/rest/processes/' + processId, processInfo)
+                        : aliceJs.alertWarning(i18n.msg('process.msg.failedDestroy'));
                 }
             }
         }
@@ -164,7 +169,7 @@
                                 classes: "point-fill",
                                 bindKey: false,
                                 callback: function(modal) {
-                                    saveProcess(responseObject.id);
+                                    saveProcess(responseObject.id, false, true);
                                 }
                             });
                             // 삭제
@@ -174,6 +179,25 @@
                                 bindKey: false,
                                 callback: function(modal) {
                                     deleteProcess(responseObject.id);
+                                }
+                            });
+                        } else if (responseObject.status === STATUS_USE) {
+                            // 내보내기 버튼
+                            options.buttons.push({
+                                content: i18n.msg('process.btn.export'),
+                                classes: "point-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    workflowUtil.export(responseObject.id, 'process');
+                                }
+                            });
+                            // 폐기
+                            options.buttons.push({
+                                content: i18n.msg('process.status.destroy'),
+                                classes: "point-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    saveProcess(responseObject.id, true, responseObject.enabled);
                                 }
                             });
                         }
@@ -248,7 +272,7 @@
                 callbackFunc: function(response) {
                     if (method === 'POST') {
                         const _width = 1800,
-                              _height = 920;
+                            _height = 920;
                         // 중앙 배치
                         const _left = Math.ceil((window.screen.width - _width) / 2);
                         const _top = Math.ceil((window.screen.height - _height) / 4);
@@ -454,11 +478,18 @@
                     if (document.getElementById('updatable').value === 'true') {
                         openProcessEdit(data.id, false);
                     } else {
-                        openProcessView(data.id, true);
+                        openProcessEdit(data.id, true);
                     }
                 }
             } else {
-                processNameObject = document.createElement('span');
+                if (data.status == STATUS_USE) {
+                    processNameObject = document.createElement('a');
+                    processNameObject.onclick = function() {
+                        openProcessEdit(data.id, true);
+                    }
+                } else {
+                    processNameObject = document.createElement('span');
+                }
             }
             processNameObject.innerText = data.name;
             tdProcessName.appendChild(processNameObject);

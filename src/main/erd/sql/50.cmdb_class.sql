@@ -11,9 +11,9 @@ CREATE TABLE cmdb_class
     p_class_id character varying(128),
     class_level int,
     create_user_key character varying(128),
-    create_dt timestamp without time zone,
+    create_dt timestamp,
     update_user_key character varying(128),
-    update_dt timestamp without time zone,
+    update_dt timestamp,
     CONSTRAINT cmdb_class_pk PRIMARY KEY (class_id),
     CONSTRAINT cmdb_class_uk UNIQUE (class_id, class_name)
 );

@@ -15,6 +15,7 @@ import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.QWfElementDataEntity
+import co.brainz.workflow.element.entity.QWfElementEntity
 import co.brainz.workflow.folder.entity.QWfFolderEntity
 import co.brainz.workflow.instance.dto.WfInstanceListDocumentDto
 import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
@@ -52,6 +53,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val searchDataCount: Long = WfTokenConstants.searchDataCount
+    val element: QWfElementEntity = QWfElementEntity.wfElementEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -77,6 +79,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     JPAExpressions
                         .select(elementDataSub.element)
                         .from(elementDataSub)
+                        .innerJoin(elementDataSub.element, element)
                         .where(
                             token.element.eq(elementDataSub.element),
                             elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),
@@ -95,6 +98,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     JPAExpressions
                         .select(elementDataSub.element)
                         .from(elementDataSub)
+                        .innerJoin(elementDataSub.element, element)
                         .where(
                             token.element.eq(elementDataSub.element),
                             elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),

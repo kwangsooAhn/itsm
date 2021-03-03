@@ -11132,35 +11132,76 @@ exports.default = Syntax;
 /* 76 = left */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <line class=ql-stroke x1=3 x2=15 y1=9 y2=9></line> <line class=ql-stroke x1=3 x2=13 y1=14 y2=14></line> <line class=ql-stroke x1=3 x2=9 y1=4 y2=4></line> </svg>";
-module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-5171 -194)\"><rect width=\"20\" height=\"20\" transform=\"translate(5171 194)\" fill=\"none\" opacity=\"0.1\"/><path d=\"M1628,220a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/><path d=\"M1628,228a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/><path d=\"M1628,236a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/><path  d=\"M1622,224a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/><path d=\"M1622,232a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/></g></svg>";
+module.exports = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20">
+        <g transform="translate(-338 -39)">
+            <path class="ql-icon-arrow" d="M199.707,387.293a1,1,0,0,0-1.414,0L195,390.586l-3.293-3.293a1,1,0,0,0-1.414,1.414l4,4h0a1,1,0,0,0,1.414,0h0l4-4A1,1,0,0,0,199.707,387.293Z" />
+            <g transform="translate(-4833 -155)">
+                <rect width="20" height="20" transform="translate(5171 194)" fill="none" opacity="0.1" />
+                <path d="M1628,220a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1628,228a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1628,236a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1622,224a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1622,232a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+            </g>
+        </g>
+    </svg>`;
 
 /***/ }),
 /* 77 = center */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <line class=ql-stroke x1=15 x2=3 y1=9 y2=9></line> <line class=ql-stroke x1=14 x2=4 y1=14 y2=14></line> <line class=ql-stroke x1=12 x2=6 y1=4 y2=4></line> </svg>";
-module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-1638 -218)\"><rect width=\"20\" height=\"20\" transform=\"translate(1638 218)\" fill=\"none\" opacity=\"0.1\"/><path d=\"M1658,220a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\"/><path d=\"M1658,228a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\"/><path d=\"M1658,236a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\"/><path d=\"M1655,224a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z\"/><path d=\"M1655,232a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z\"/></g></svg>";
+module.exports = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20">
+        <g transform="translate(-338 -39)">
+            <path class="ql-icon-arrow" d="M199.707,387.293a1,1,0,0,0-1.414,0L195,390.586l-3.293-3.293a1,1,0,0,0-1.414,1.414l4,4h0a1,1,0,0,0,1.414,0h0l4-4A1,1,0,0,0,199.707,387.293Z" />
+            <g transform="translate(-4833 -155)">
+                <rect width="20" height="20" transform="translate(5171 194)" fill="none" opacity="0.1" />
+                <path d="M1628,220a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1628,228a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1628,236a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1622,224a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z" transform="translate(3566 -24)" />
+                <path d="M1622,232a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z" transform="translate(3566 -24)" />
+            </g>
+        </g>
+    </svg>`;
 
 /***/ }),
 /* 78 = right */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <line class=ql-stroke x1=15 x2=3 y1=9 y2=9></line> <line class=ql-stroke x1=15 x2=5 y1=14 y2=14></line> <line class=ql-stroke x1=15 x2=9 y1=4 y2=4></line> </svg>";
-module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(5191 214) rotate(180)\"><rect width=\"20\" height=\"20\" transform=\"translate(5171 194)\" fill=\"none\" opacity=\"0.1\"/><path d=\"M1628,220a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/><path d=\"M1628,228a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/><path d=\"M1628,236a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/><path d=\"M1622,224a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/><path d=\"M1622,232a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z\" transform=\"translate(3563 -24)\"/></g></svg>";
-
+module.exports = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20">
+        <g transform="translate(-338 -39)">
+            <path class="ql-icon-arrow" d="M199.707,387.293a1,1,0,0,0-1.414,0L195,390.586l-3.293-3.293a1,1,0,0,0-1.414,1.414l4,4h0a1,1,0,0,0,1.414,0h0l4-4A1,1,0,0,0,199.707,387.293Z" />
+            <g transform="translate(-4833 -155)">
+                <rect width="20" height="20" transform="translate(5171 194)" fill="none" opacity="0.1" />
+                <path d="M1628,220a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1628,228a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1628,236a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                <path d="M1622,224a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z" transform="translate(3569 -24)" />
+                <path d="M1622,232a1,1,0,0,1-1,1h-12a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h12a1,1,0,0,1,1,1Z" transform="translate(3569 -24)" />
+            </g>
+        </g>
+    </svg>`;
 /***/ }),
 /* 79 = justify */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <line class=ql-stroke x1=15 x2=3 y1=9 y2=9></line> <line class=ql-stroke x1=15 x2=3 y1=14 y2=14></line> <line class=ql-stroke x1=15 x2=3 y1=4 y2=4></line> </svg>";
-module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-1638 -193)\"><rect width=\"20\" height=\"20\" transform=\"translate(1638 193)\" fill=\"none\" opacity=\"0.1\"/><path d=\"M1658,195a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\"/><path d=\"M1658,203a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\"/><path d=\"M1658,211a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\"/><path d=\"M1658,199a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\"/><path d=\"M1658,207a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\"/></g></svg>";
-
+module.exports = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20">
+          <g transform="translate(-338 -39)">
+              <path class="ql-icon-arrow" d="M199.707,387.293a1,1,0,0,0-1.414,0L195,390.586l-3.293-3.293a1,1,0,0,0-1.414,1.414l4,4h0a1,1,0,0,0,1.414,0h0l4-4A1,1,0,0,0,199.707,387.293Z" />
+              <g transform="translate(-4833 -155)">
+                  <rect width="20" height="20" transform="translate(5171 194)" fill="none" opacity="0.1" />
+                  <path d="M1628,220a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                  <path d="M1628,228a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                  <path d="M1628,236a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z" transform="translate(3563 -24)" />
+                  <path d="M1628,224c0,.552-.638,1-1.428,1h-17.143c-.79,0-1.429-.448-1.429-1h0c0-.552.639-1,1.429-1h17.143c.79,0,1.428.448,1.428,1Z" transform="translate(3563 -24)" />
+                  <path d="M1628,232c0,.552-.638,1-1.428,1h-17.143c-.79,0-1.429-.448-1.429-1h0c0-.552.639-1,1.429-1h17.143c.79,0,1.428.448,1.428,1Z" transform="translate(3563 -24)" />
+              </g>
+          </g>
+      </svg>`;
 /***/ }),
 /* 80 = background */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <g class=\"ql-fill ql-color-label\"> <polygon points=\"6 6.868 6 6 5 6 5 7 5.942 7 6 6.868\"></polygon> <rect height=1 width=1 x=4 y=4></rect> <polygon points=\"6.817 5 6 5 6 6 6.38 6 6.817 5\"></polygon> <rect height=1 width=1 x=2 y=6></rect> <rect height=1 width=1 x=3 y=5></rect> <rect height=1 width=1 x=4 y=7></rect> <polygon points=\"4 11.439 4 11 3 11 3 12 3.755 12 4 11.439\"></polygon> <rect height=1 width=1 x=2 y=12></rect> <rect height=1 width=1 x=2 y=9></rect> <rect height=1 width=1 x=2 y=15></rect> <polygon points=\"4.63 10 4 10 4 11 4.192 11 4.63 10\"></polygon> <rect height=1 width=1 x=3 y=8></rect> <path d=M10.832,4.2L11,4.582V4H10.708A1.948,1.948,0,0,1,10.832,4.2Z></path> <path d=M7,4.582L7.168,4.2A1.929,1.929,0,0,1,7.292,4H7V4.582Z></path> <path d=M8,13H7.683l-0.351.8a1.933,1.933,0,0,1-.124.2H8V13Z></path> <rect height=1 width=1 x=12 y=2></rect> <rect height=1 width=1 x=11 y=3></rect> <path d=M9,3H8V3.282A1.985,1.985,0,0,1,9,3Z></path> <rect height=1 width=1 x=2 y=3></rect> <rect height=1 width=1 x=6 y=2></rect> <rect height=1 width=1 x=3 y=2></rect> <rect height=1 width=1 x=5 y=3></rect> <rect height=1 width=1 x=9 y=2></rect> <rect height=1 width=1 x=15 y=14></rect> <polygon points=\"13.447 10.174 13.469 10.225 13.472 10.232 13.808 11 14 11 14 10 13.37 10 13.447 10.174\"></polygon> <rect height=1 width=1 x=13 y=7></rect> <rect height=1 width=1 x=15 y=5></rect> <rect height=1 width=1 x=14 y=6></rect> <rect height=1 width=1 x=15 y=8></rect> <rect height=1 width=1 x=14 y=9></rect> <path d=M3.775,14H3v1H4V14.314A1.97,1.97,0,0,1,3.775,14Z></path> <rect height=1 width=1 x=14 y=3></rect> <polygon points=\"12 6.868 12 6 11.62 6 12 6.868\"></polygon> <rect height=1 width=1 x=15 y=2></rect> <rect height=1 width=1 x=12 y=5></rect> <rect height=1 width=1 x=13 y=4></rect> <polygon points=\"12.933 9 13 9 13 8 12.495 8 12.933 9\"></polygon> <rect height=1 width=1 x=9 y=14></rect> <rect height=1 width=1 x=8 y=15></rect> <path d=M6,14.926V15H7V14.316A1.993,1.993,0,0,1,6,14.926Z></path> <rect height=1 width=1 x=5 y=15></rect> <path d=M10.668,13.8L10.317,13H10v1h0.792A1.947,1.947,0,0,1,10.668,13.8Z></path> <rect height=1 width=1 x=11 y=15></rect> <path d=M14.332,12.2a1.99,1.99,0,0,1,.166.8H15V12H14.245Z></path> <rect height=1 width=1 x=14 y=15></rect> <rect height=1 width=1 x=15 y=11></rect> </g> <polyline class=ql-stroke points=\"5.5 13 9 5 12.5 13\"></polyline> <line class=ql-stroke x1=11.63 x2=6.38 y1=11 y2=11></line> </svg>";
 module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-1788 -148)\"><rect class=\"bg ql-color-label\" width=\"20\" height=\"20\" transform=\"translate(1788 148)\"/><g><path class=\"ql-label\" d=\"M1792.577,163.906a1,1,0,0,0,1.329-.484l1.711-3.422h4.766l1.711,3.422a1,1,0,1,0,1.812-.845l-5-10a.7.7,0,0,0-.08-.108.924.924,0,0,0-.125-.171.9.9,0,0,0-.167-.123.816.816,0,0,0-.111-.082c-.014-.007-.028,0-.042-.011a1.022,1.022,0,0,0-.2-.049.567.567,0,0,0-.352,0,1.022,1.022,0,0,0-.2.049c-.014.006-.028,0-.042.011a.816.816,0,0,0-.111.082.9.9,0,0,0-.167.123,1.014,1.014,0,0,0-.126.171.83.83,0,0,0-.079.108l-5,10A1,1,0,0,0,1792.577,163.906Zm4.04-5.906,1.383-2.765,1.383,2.765Z\"/><path class=\"bg-line ql-color-label\" d=\"M1807.5,148h-19a.5.5,0,0,0-.5.5v19a.5.5,0,0,0,.5.5h19a.5.5,0,0,0,.5-.5v-19A.5.5,0,0,0,1807.5,148Zm-1.5,18h-16V150h16Z\"/></g></g></svg>";
 
 /***/ }),
@@ -11173,7 +11214,6 @@ module.exports = "<svg viewbox=\"0 0 18 18\"> <rect class=\"ql-fill ql-stroke\" 
 /* 82 = bold */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <path class=ql-stroke d=M5,4H9.5A2.5,2.5,0,0,1,12,6.5v0A2.5,2.5,0,0,1,9.5,9H5A0,0,0,0,1,5,9V4A0,0,0,0,1,5,4Z></path> <path class=ql-stroke d=M5,9h5.5A2.5,2.5,0,0,1,13,11.5v0A2.5,2.5,0,0,1,10.5,14H5a0,0,0,0,1,0,0V9A0,0,0,0,1,5,9Z></path> </svg>";
 module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-4927 -194)\"><rect width=\"20\" height=\"20\" transform=\"translate(4927 194)\" fill=\"none\" opacity=\"0.1\"/><path d=\"M1686,154a6,6,0,0,0-5.8-5.99,1.275,1.275,0,0,0-.2-.01h-7a2,2,0,0,0-2,2v16a2,2,0,0,0,2,2h7a1.275,1.275,0,0,0,.2-.01A6,6,0,0,0,1686,162a5.93,5.93,0,0,0-1.54-4A5.93,5.93,0,0,0,1686,154Zm-6-2a2,2,0,0,1,0,4h-5v-4h5Zm0,12h-5v-4h5a2,2,0,0,1,0,4Z\" transform=\"translate(3259 46)\"/></g></svg>";
 
 
@@ -11187,7 +11227,6 @@ module.exports = "<svg class=\"\" viewbox=\"0 0 18 18\"> <line class=ql-stroke x
 /* 84 = color*/
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <line class=\"ql-color-label ql-stroke ql-transparent\" x1=3 x2=15 y1=15 y2=15></line> <polyline class=ql-stroke points=\"5.5 11 9 3 12.5 11\"></polyline> <line class=ql-stroke x1=11.63 x2=6.38 y1=9 y2=9></line> </svg>";
 module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-5069 -194)\"><rect width=\"20\" height=\"20\" transform=\"translate(5069 194)\" fill=\"none\" opacity=\"0.1\"/><path d=\"M1760.578,162.906a1,1,0,0,0,1.329-.484l2.381-4.422h7.424l2.381,4.422a1,1,0,1,0,1.812-.845l-7-13a.969.969,0,0,0-.084-.115.946.946,0,0,0-.12-.162.892.892,0,0,0-.173-.128.827.827,0,0,0-.107-.079c-.014-.006-.027,0-.041-.01a1.026,1.026,0,0,0-.207-.05.554.554,0,0,0-.348,0,1.026,1.026,0,0,0-.207.05c-.014.006-.027,0-.041.01a.827.827,0,0,0-.107.079.936.936,0,0,0-.173.128,25.4,25.4,0,0,0-.2.277l-7,13A1,1,0,0,0,1760.578,162.906Zm4.787-6.906,2.635-4.9,2.635,4.9Z\" transform=\"translate(3311 46)\"/><rect class=\"ql-color-label ql-transparent\" width=\"20\" height=\"3\" rx=\"0.5\" transform=\"translate(5069 211)\"/></g></svg>";
 
 /***/ }),
@@ -11248,14 +11287,12 @@ module.exports = "<svg viewBox=\"0 0 18 18\"> <path class=ql-fill d=M16.73975,13
 /* 94 = italic */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <line class=ql-stroke x1=7 x2=13 y1=4 y2=4></line> <line class=ql-stroke x1=5 x2=11 y1=14 y2=14></line> <line class=ql-stroke x1=8 x2=10 y1=14 y2=4></line> </svg>";
 module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-4976 -194)\"><rect width=\"20\" height=\"20\" transform=\"translate(4976 194)\" fill=\"none\" opacity=\"0.1\"/><path d=\"M1717,149h-14a1,1,0,0,0,0,2h6.619l-5.333,14H1699a1,1,0,0,0,0,2h14a1,1,0,0,0,0-2h-6.619l5.333-14H1717a1,1,0,0,0,0-2Z\" transform=\"translate(3278 46)\"/></g></svg>";
 
 /***/ }),
 /* 95 = image */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <rect class=ql-stroke height=10 width=12 x=3 y=4></rect> <circle class=ql-fill cx=6 cy=7 r=1></circle> <polyline class=\"ql-even ql-fill\" points=\"5 12 5 11 7 9 8 10 11 7 13 9 13 12 5 12\"></polyline> </svg>";
 module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-5242 -194)\"><rect width=\"20\" height=\"20\" transform=\"translate(5242 194)\" fill=\"none\" opacity=\"0.1\"/><g transform=\"translate(3574 -204)\"><path d=\"M1687.5,398h-19a.5.5,0,0,0-.5.5v19a.5.5,0,0,0,.5.5h19a.5.5,0,0,0,.5-.5v-19A.5.5,0,0,0,1687.5,398Zm-1.5,18h-14.586l4.586-4.586,1.293,1.293a1,1,0,0,0,1.414,0l4.293-4.293,3,3Zm0-7.415-2.292-2.292a1,1,0,0,0-1.416,0L1678,410.585l-1.292-1.292a1,1,0,0,0-1.416,0L1670,414.585V400h16Z\"/><path d=\"M1675,408a3,3,0,1,0-3-3A3,3,0,0,0,1675,408Zm0-4a1,1,0,1,1-1,1A1,1,0,0,1,1675,404Z\"/></g></g></svg>";
 
 /***/ }),
@@ -11286,7 +11323,6 @@ module.exports = "<svg viewbox=\"0 0 18 18\"> <line class=ql-stroke x1=7 x2=15 y
 /* 100 = list - bullet */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <line class=ql-stroke x1=6 x2=15 y1=4 y2=4></line> <line class=ql-stroke x1=6 x2=15 y1=9 y2=9></line> <line class=ql-stroke x1=6 x2=15 y1=14 y2=14></line> <line class=ql-stroke x1=3 x2=3 y1=4 y2=4></line> <line class=ql-stroke x1=3 x2=3 y1=9 y2=9></line> <line class=ql-stroke x1=3 x2=3 y1=14 y2=14></line> </svg>";
 module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-1100 -2210)\"><rect width=\"20\" height=\"20\" transform=\"translate(1100 2210)\" fill=\"none\" opacity=\"0.1\"/><g transform=\"translate(-568 1842)\"><path d=\"M1673.5,368h-5a.5.5,0,0,0-.5.5v5a.5.5,0,0,0,.5.5h5a.5.5,0,0,0,.5-.5v-5A.5.5,0,0,0,1673.5,368Zm-1.5,4h-2v-2h2Z\"/><path d=\"M1673.5,375h-5a.5.5,0,0,0-.5.5v5a.5.5,0,0,0,.5.5h5a.5.5,0,0,0,.5-.5v-5A.5.5,0,0,0,1673.5,375Zm-1.5,4h-2v-2h2Z\"/><path d=\"M1673.5,382h-5a.5.5,0,0,0-.5.5v5a.5.5,0,0,0,.5.5h5a.5.5,0,0,0,.5-.5v-5A.5.5,0,0,0,1673.5,382Zm-1.5,4h-2v-2h2Z\"/><path d=\"M1677,372h10a1,1,0,0,0,0-2h-10a1,1,0,0,0,0,2Z\"/><path d=\"M1687,377h-10a1,1,0,0,0,0,2h10a1,1,0,0,0,0-2Z\"/><path d=\"M1687,384h-10a1,1,0,0,0,0,2h10a1,1,0,0,0,0-2Z\"/></g></g></svg>";
 
 /***/ }),
@@ -11317,7 +11353,6 @@ module.exports = "<svg viewbox=\"0 0 18 18\"> <line class=\"ql-stroke ql-thin\" 
 /* 105 = underline*/
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <path class=ql-stroke d=M5,3V9a4.012,4.012,0,0,0,4,4H9a4.012,4.012,0,0,0,4-4V3></path> <rect class=ql-fill height=1 rx=0.5 ry=0.5 width=12 x=3 y=15></rect> </svg>";
 module.exports = "<svg width=\"20\" height=\"20\" viewbox=\"0 0 20 20\"><g transform=\"translate(-5021 -194)\"><path d=\"M1748,167a1,1,0,0,1-1,1h-18a1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h18a1,1,0,0,1,1,1Z\" transform=\"translate(3293 46)\"/><path d=\"M1744,148a1,1,0,0,0-1,1v8a5,5,0,0,1-10,0v-8a1,1,0,0,0-2,0v8a7,7,0,0,0,14,0v-8A1,1,0,0,0,1744,148Z\" transform=\"translate(3293 46)\"/></g></svg>";
 
 /***/ }),
@@ -11330,7 +11365,6 @@ module.exports = "<svg viewbox=\"0 0 18 18\"> <rect class=ql-stroke height=12 wi
 /* 107 = arrow */
 /***/ (function(module, exports) {
 
-//module.exports = "<svg viewbox=\"0 0 18 18\"> <polygon class=ql-stroke points=\"7 11 9 13 11 11 7 11\"></polygon> <polygon class=ql-stroke points=\"7 7 9 5 11 7 7 7\"></polygon> </svg>";
 module.exports = "<svg width=\"10\" height=\"6\" viewbox=\"0 0 10 6\"><path class=ql-arrow d=\"M199.707,387.293a1,1,0,0,0-1.414,0L195,390.586l-3.293-3.293a1,1,0,0,0-1.414,1.414l4,4h0a1,1,0,0,0,1.414,0h0l4-4A1,1,0,0,0,199.707,387.293Z\" transform=\"translate(-190 -387)\"/></svg>";
 
 /***/ }),

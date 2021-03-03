@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.customCode.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
@@ -22,6 +23,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
 
     override fun findByCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): List<CustomCodeListDto> {
         val customCode = QCustomCodeEntity.customCodeEntity
+        val user = QAliceUserEntity.aliceUserEntity
         val query = from(customCode)
             .select(
                 Projections.constructor(
@@ -34,6 +36,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     customCode.createUser.userName
                 )
             )
+            .innerJoin(customCode.createUser, user)
             .where(
                 super.like(customCode.type, customCodeSearchDto.searchType)
             )

@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.faq.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.faq.constants.FaqConstants
@@ -29,6 +30,7 @@ class FaqRepositoryImpl(
      */
     override fun findFaqs(searchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
         val faq = QFaqEntity.faqEntity
+        val user = QAliceUserEntity.aliceUserEntity
         if (searchRequestDto.search?.isBlank() == false) {
             searchRequestDto.groupCodes =
                 messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, searchRequestDto.search!!)
@@ -47,6 +49,7 @@ class FaqRepositoryImpl(
                     faq.createUser.userName
                 )
             )
+            .innerJoin(faq.createUser, user)
             .where(
                 super.like(faq.faqTitle, searchRequestDto.search)
                     ?.or(super.inner(faq.faqGroup, searchRequestDto.groupCodes))
@@ -84,6 +87,7 @@ class FaqRepositoryImpl(
 
     override fun findFaq(faqId: String): FaqListDto {
         val faq = QFaqEntity.faqEntity
+        val user = QAliceUserEntity.aliceUserEntity
         return from(faq)
             .select(
                 Projections.constructor(
@@ -97,6 +101,7 @@ class FaqRepositoryImpl(
                     faq.createUser.userName
                 )
             )
+            .innerJoin(faq.createUser, user)
             .where(faq.faqId.eq(faqId))
             .fetchOne()
     }
