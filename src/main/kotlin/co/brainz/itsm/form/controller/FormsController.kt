@@ -28,6 +28,7 @@ class FormsController(private val formAdminService: FormAdminService) {
 
     private val formSearchPage: String = "form/formSearch"
     private val formListPage: String = "form/formList"
+    private val formListFragment: String = "form/formList :: list"
 
     /**
      * 폼 리스트 검색 호출 화면.
@@ -48,6 +49,6 @@ class FormsController(private val formAdminService: FormAdminService) {
         val result = formAdminService.findForms(params)
         model.addAttribute("formList", result)
         model.addAttribute("formListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return formListPage
+        return if (request.getParameter("isScroll").toBoolean()) formListFragment else formListPage
     }
 }

@@ -12,5 +12,6 @@ data class CustomCodeSearchDto(
     var offset: Long = 0,
     var viewType: String?,
     var search: String? = "",
-    var searchType: String? = ""
+    var searchType: String? = "",
+    var isScroll: Boolean = false
 ) : Serializable

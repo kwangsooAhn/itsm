@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<table class="list-table">
+    <input type="hidden" id="totalCount" th:value="${boardCount}"/>
+    <table class="list-table">
         <thead class="list-head">
             <tr class="flex-row align-items-center">
                 <th style="width:10%;" class="align-left" th:text="#{board.label.number}"></th>
@@ -18,21 +19,22 @@
             </tr>
         </thead>
         <tbody class="list-body">
-            <input type="hidden" id="totalCount" th:value="${boardCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(boardList)}">
                 <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr class="flex-row align-items-center" th:each="board : ${boardList}">
-                <td style="width:10%;" class="align-left" th:text="${board.boardSeq}"></td>
-                <td style="width:15%;" class="align-left" th:text="${board.boardCategoryName}"></td>
-                <td style="width:30%;" class="align-left underline">
-                    <a th:href="@{/boards/articles/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
-                </td>
-                <td style="width:10%;" class="align-left" th:text="${board.replyCount}"></td>
-                <td style="width:10%;" class="align-left" th:text="${board.readCount}"></td>
-                <td style="width:10%;" class="align-left" th:text="${board.createUserName}"></td>
-                <td style="width:15%;" class="align-left" th:text="${board.createDt}" th:name="boardDt"></td>
-            </tr>
+            <th:block th:fragment="list">
+                <tr class="flex-row align-items-center" th:each="board : ${boardList}">
+                    <td style="width:10%;" class="align-left" th:text="${board.boardSeq}"></td>
+                    <td style="width:15%;" class="align-left" th:text="${board.boardCategoryName}"></td>
+                    <td style="width:30%;" class="align-left underline">
+                        <a th:href="@{/boards/articles/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
+                    </td>
+                    <td style="width:10%;" class="align-left" th:text="${board.replyCount}"></td>
+                    <td style="width:10%;" class="align-left" th:text="${board.readCount}"></td>
+                    <td style="width:10%;" class="align-left" th:text="${board.createUserName}"></td>
+                    <td style="width:15%;" class="align-left date-time" th:text="${board.createDt}"></td>
+                </tr>
+            </th:block>
         </tbody>
     </table>
 </body>

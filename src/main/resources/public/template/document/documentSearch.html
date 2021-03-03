@@ -57,13 +57,11 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/documents?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/documents?' + urlParam, isScroll);
             }
+            urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
+            restSubmit('get', '/documents?' + urlParam, isScroll);
         }
 
         function openDocument(documentId) {
@@ -78,17 +76,10 @@
                 showProgressbar: false,
                 callbackFunc: function (response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function(data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
                         }
+                        document.querySelector('.document-content .card-list').insertAdjacentHTML('beforeend', response.responseText);
                     } else {
                         document.getElementById('documentList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
@@ -121,43 +112,6 @@
             };
             aliceJs.sendXhr(opt);
         }
-
-        // Div 동적 데이터 만들기
-        function getDataTemplate(data) {
-            let divCardArea = document.querySelector('.document-content .card-list');
-            let div = document.createElement('div');
-            div.className = 'card';
-
-            let divColumn = document.createElement('div');
-            divColumn.className = 'document-column';
-
-            if (document.getElementsByName('isRole')[0].value) {
-                divColumn.onclick = function () {
-                    openDocument(data.documentId);
-                }
-            }
-            let h3Card = document.createElement('h3');
-            h3Card.className = 'text-ellipsis';
-            h3Card.innerText = data.documentName;
-
-            let labelDesc = document.createElement('label');
-            labelDesc.className = 'document-description text-ellipsis';
-            labelDesc.innerText = data.documentDesc;
-
-            let divDocumentIcon = document.createElement('div');
-            divDocumentIcon.className = 'document-icon';
-
-            let imgDocumentIcon = document.createElement('img');
-            imgDocumentIcon.src = '/assets/media/images/document/' + data.documentIcon;
-            divDocumentIcon.appendChild(imgDocumentIcon);
-
-            divColumn.appendChild(h3Card);
-            divColumn.appendChild(labelDesc);
-            divColumn.appendChild(divDocumentIcon);
-            div.appendChild(divColumn);
-            divCardArea.appendChild(div);
-        }
-
         /*]]>*/
     </script>
 </th:block>

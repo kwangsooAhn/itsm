@@ -19,6 +19,7 @@ class NoticeController(private val noticeService: NoticeService) {
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeSearchPage: String = "notice/noticeSearch"
     private val noticeListPage: String = "notice/noticeList"
+    private val noticeListFragment: String = "notice/noticeList :: list"
     private val noticeEditPage: String = "notice/noticeEdit"
     private val noticeViewPage: String = "notice/noticeView"
     private val noticePopUpPage: String = "notice/noticePopUp"
@@ -44,7 +45,7 @@ class NoticeController(private val noticeService: NoticeService) {
         model.addAttribute("noticeList", result)
         model.addAttribute("noticeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt))
-        return noticeListPage
+        return if (noticeSearchDto.isScroll) noticeListFragment else noticeListPage
     }
 
     /**
