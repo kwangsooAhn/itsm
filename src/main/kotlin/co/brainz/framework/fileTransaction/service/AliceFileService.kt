@@ -260,8 +260,8 @@ class AliceFileService(
      * 워크플로우 이미지 파일 로드.
      */
     fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
-        logger.info("test1", docIconRootDirectory)
-        logger.info("test2", this.documentIconRootDirectory)
+        logger.info("dir test1 = {}", docIconRootDirectory)
+        logger.info("dir test2 = {}", this.documentIconRootDirectory)
         // 내부 경로 이미지 ( icon )은 jar에서도 경로를 읽어올 수 있게 처리해야한다.
         val dir = when (type) {
             AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(docIconRootDirectory).uri)
