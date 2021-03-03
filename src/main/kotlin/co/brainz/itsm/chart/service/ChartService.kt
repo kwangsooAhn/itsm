@@ -53,13 +53,13 @@ class ChartService(
     fun getChart(chartId: String): ChartDto {
         val chart = chartRepository.getOne(chartId)
 
-        val chartConfig = JsonParser().parse(chart.chartConfig)
-        val targetLabel = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.FROM.property).asString
-        val operation = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.OPERATION.property).asString
+        val chartConfigJson = JsonParser().parse(chart.chartConfig).asJsonObject
+        val targetLabel = chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asString
+        val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
         val durationDigit =
-            chartConfig.asJsonObject.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
         val durationUnit =
-            chartConfig.asJsonObject.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
 
         val chartDto = ChartDto(
             chartId = chart.chartId,
@@ -77,9 +77,9 @@ class ChartService(
         when (chart.chartType) {
             ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
                 chartDto.periodUnit =
-                    chartConfig.asJsonObject.get(ChartConstants.ObjProperty.PERIOD_UNIT.property).asString
+                    chartConfigJson.get(ChartConstants.ObjProperty.PERIOD_UNIT.property).asString
                 if (chart.chartType == ChartConstants.Type.BASIC_LINE.code) {
-                    chartDto.group = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property)?.asString
+                    chartDto.group = chartConfigJson.get(ChartConstants.ObjProperty.GROUP.property)?.asString
                 }
             }
         }
