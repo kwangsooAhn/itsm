@@ -51,7 +51,7 @@ class AliceLabelRepositoryImpl : QuerydslRepositorySupport(AliceLabelEntity::cla
     }
 
     /**
-     * Label Key 조회
+     * Label Key를 통해 관련 라벨 데이터 조회
      */
     override fun findLabelByKey(labelKey: String): MutableList<AliceLabelEntity> {
         return from(aliceLabelEntity)

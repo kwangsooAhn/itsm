@@ -76,13 +76,10 @@ class ChartService(
 
         when (chart.chartType) {
             ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
-                val periodUnit = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.PERIOD_UNIT.property).asString
-                chartDto.periodUnit = periodUnit
+                chartDto.periodUnit =
+                    chartConfig.asJsonObject.get(ChartConstants.ObjProperty.PERIOD_UNIT.property).asString
                 if (chart.chartType == ChartConstants.Type.BASIC_LINE.code) {
-                    if (chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property) != null) {
-                        val group = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property).asString
-                        chartDto.group = group
-                    }
+                    chartDto.group = chartConfig.asJsonObject.get(ChartConstants.ObjProperty.GROUP.property)?.asString
                 }
             }
         }
