@@ -37,7 +37,6 @@ import javax.imageio.ImageIO
 import org.apache.tika.Tika
 import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
@@ -257,17 +256,14 @@ class AliceFileService(
     fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
         // 내부 경로 이미지 ( icon )은 jar에서도 경로를 읽어올 수 있게 처리해야한다.
         val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
+            // 신청서 아이콘은 ClassPathResource
+            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirectory).uri)
+            // Type 아이콘은 classloader
             AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
-            else -> {
-                super.getWorkflowDir(this.imagesRootDirectory)
-            }
+            else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
 
-        logger.info("URI = {}", javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
         logger.info("DIR = {}", dir)
-        logger.info("file path exists = {}", ClassPathResource(this.documentIconRootDirectory).exists())
-        logger.info(">>>> Available PATH? = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
         logger.info(">>>> Available DIR? = {}", Files.isDirectory(dir))
 
         logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
