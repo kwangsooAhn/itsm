@@ -8,12 +8,13 @@ package co.brainz.workflow.token.service
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.instance.constants.InstanceConstants
-import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.form.service.WfFormService
+import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenStakeholderViewDto
@@ -33,13 +34,13 @@ import org.springframework.util.LinkedMultiValueMap
 @Service
 @Transactional
 class WfTokenService(
-    private val instanceService: InstanceService,
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
-    private val ciService: CIService
+    private val ciService: CIService,
+    private val wfInstanceService: WfInstanceService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -216,7 +217,7 @@ class WfTokenService(
     private fun getRevokeAssignee(tokenId: String): String {
         var assigneeId = ""
         var isBreak = true
-        instanceService.getInstanceHistory(tokenId)?.sortedBy { it.tokenEndDt }?.reversed()
+        this.getInstanceHistory(tokenId)?.sortedBy { it.tokenEndDt }?.reversed()
             ?.forEach { element ->
                 if (element.tokenEndDt != null &&
                     element.elementType == InstanceConstants.ElementListForHistoryViewing.USER_TASK.value &&
@@ -227,5 +228,12 @@ class WfTokenService(
                 }
             }
         return assigneeId
+    }
+
+    /**
+     * 이력 조회
+     */
+    private fun getInstanceHistory(tokenId: String): List<RestTemplateInstanceHistoryDto>? {
+        return wfInstanceService.getInstancesHistory(this.getToken(tokenId).instanceId)
     }
 }

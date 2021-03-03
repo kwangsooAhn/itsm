@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.provider.constants
 
 object RestTemplateConstants {
@@ -9,64 +14,6 @@ object RestTemplateConstants {
      */
     enum class FormSaveType(val code: String) {
         SAVE_AS("saveas")
-    }
-
-    /**
-     * Process Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Process(val url: String, val method: String) {
-        GET_PROCESSES("/rest/wf/processes", "GET"),
-        GET_PROCESS("/rest/wf/processes/{processId}", "GET"),
-        GET_PROCESS_DATA("/rest/wf/processes/{processId}/data", "GET"),
-        GET_PROCESS_SIMULATION("/rest/wf/processes/{processId}/simulation", "GET"),
-        POST_PROCESS("/rest/wf/processes", "POST"),
-        POST_PROCESS_SAVE_AS("/rest/wf/processes?saveType=saveas", "POST"),
-        PUT_PROCESS("/rest/wf/processes/{processId}", "PUT"),
-        PUT_PROCESS_DATA("/rest/wf/processes/{processId}/data", "PUT"),
-        DELETE_PROCESS("/rest/wf/processes/{processId}", "DELETE")
-    }
-
-    /**
-     * Token Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Token(val url: String, val method: String) {
-        POST_TOKEN("/rest/wf/tokens", "POST"),
-        PUT_TOKEN("/rest/wf/tokens/{tokenId}", "PUT"),
-        GET_TOKEN("/rest/wf/tokens/{tokenId}", "GET"),
-        GET_TOKENS("/rest/wf/tokens", "GET"),
-        GET_TOKEN_DATA("/rest/wf/tokens/{tokenId}/data", "GET")
-    }
-
-    /**
-     * Workflow Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Workflow(val url: String, val method: String) {
-        GET_INSTANCE("/rest/wf/instances/{instanceId}", "GET"),
-        GET_INSTANCES("/rest/wf/instances", "GET"),
-        GET_INSTANCES_COUNT("/rest/wf/instances/count", "GET"),
-        TASK_COMPLETE("/rest/wf/tasks/{instanceId}/complete", "PUT"),
-        TASK_GATEWAY("/rest/wf/tasks/{instanceId}/gateway", "PUT")
-    }
-
-    /**
-     * Instance Url.
-     */
-    enum class Instance(val url: String, val method: String) {
-        GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
-        GET_RELATED_INSTANCE("/rest/wf/folders", "GET"),
-        GET_INSTANCE_COMMENTS("/rest/wf/instances/{instanceId}/comments", "GET"),
-        GET_INSTANCE_TAGS("/rest/wf/instances/{instanceId}/tags", "GET"),
-        GET_INSTANCE_LATEST("/rest/wf/instances/{instanceId}/latest", "GET"),
-        GET_INSTANCE_SEARCH("/rest/wf/instances/search", "GET")
     }
 
     /**

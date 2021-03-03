@@ -161,7 +161,7 @@ class DocumentService(
      * @return List<RestTemplateProcessViewDto>
      */
     fun getProcessList(): List<RestTemplateProcessViewDto> {
-        val processParams = LinkedMultiValueMap<String, String>()
+        val processParams = LinkedHashMap<String, Any>()
         val processStatus = ArrayList<String>()
         processStatus.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
         processStatus.add(RestTemplateConstants.ProcessStatus.USE.value)

@@ -302,7 +302,7 @@ class WfInstanceService(
     /**
      * Instance history
      */
-    fun getInstancesHistory(instanceId: String): List<RestTemplateInstanceHistoryDto> {
+    fun getInstancesHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto> {
         return wfInstanceRepository.findInstanceHistory(instanceId)
     }
 

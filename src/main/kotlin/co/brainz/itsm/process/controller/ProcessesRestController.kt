@@ -17,7 +17,6 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -62,7 +61,7 @@ class ProcessesRestController(
      */
     @GetMapping("")
     fun getProcessList(request: HttpServletRequest, model: Model): List<RestTemplateProcessViewDto> {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
         params["offset"] = request.getParameter("offset") ?: "0"
         return processAdminService.getProcesses(params)
@@ -97,7 +96,7 @@ class ProcessesRestController(
             defaultValue = ""
         ) status: String
     ): List<RestTemplateProcessViewDto> {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["status"] = status
         return processAdminService.getProcesses(params)
     }
