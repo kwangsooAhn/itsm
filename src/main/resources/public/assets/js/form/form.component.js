@@ -820,7 +820,7 @@
                 const itemName = 'alice_custom-codes-search-' + property.componentId;
                 sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
                 let url = '/custom-codes/' + property.display.customCode + '/search';
-                window.open(url, itemName, 'width=500, height=655');
+                window.open(url, itemName, 'width=640, height=866');
             });
         }
     }
