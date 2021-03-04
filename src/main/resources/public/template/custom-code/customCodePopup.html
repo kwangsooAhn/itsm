@@ -13,17 +13,17 @@
 <th:block layout:fragment="content">
     <div class="custom-code-content-popup view">
         <div class="flex-column view-row">
-            <div class="view-title text-ellipsis" th:text="#{form.label.customCodeTarget}"></div>
+            <h2 class="popup-title text-ellipsis" th:text="#{form.label.customCodeTarget}"></h2>
         </div>
         <div class="flex-column view-row">
-            <div class="view-sub-title flex-row justify-content-end">
-                <input type="text" id="search" th:placeholder="#{customCode.msg.enterSearchTerm}">
+            <div class="flex-row justify-content-start">
+                <input class="search col-5" type="text" id="search" th:placeholder="#{customCode.msg.enterSearchTerm}">
             </div>
         </div>
         <div class="flex-column view-row">
             <div class="radio-list">
                 <ul>
-                    <li th:unless="${#arrays.isEmpty(customCodeDataList)}" th:each="customCode: ${customCodeDataList}">
+                    <li class="mt-3" th:unless="${#arrays.isEmpty(customCodeDataList)}" th:each="customCode: ${customCodeDataList}">
                         <label class="radio" th:for="${customCode.key}" tabindex="0">
                             <input type="radio" name="customCode" th:id="${customCode.key}" th:value="${customCode.value}"/>
                             <span></span>
@@ -36,9 +36,9 @@
                 </ul>
             </div>
         </div>
-        <div class="view-btn-content flex-row view-row justify-content-end">
-            <div class="btn-list">
-                <button class="point-fill" type="button" th:text="#{common.btn.save}" onclick="customCodeDataSave();"></button>
+        <div class="itsm-popup-btn-content flex-row view-row justify-content-end">
+            <div class="itsm-popup-btn-list">
+                <button class="point-fill" type="button" th:text="#{common.btn.add}"  onclick="customCodeDataSave();"></button>
                 <button class="default-line" type="button" th:text="#{common.btn.cancel}" onclick="window.close();"></button>
             </div>
         </div>
@@ -84,7 +84,7 @@
                     document.getElementById('no-data').style.display = 'none';
                 }
             });
-            OverlayScrollbars(document.querySelectorAll('.radio-list'), { className: 'inner-scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.radio-list'), {className: 'scrollbar'});
         };
         /*]]>*/
     </script>
