@@ -266,9 +266,6 @@ class AliceFileService(
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
 
-        logger.info("dir test1 = {}", javaClass.classLoader.getResource(this.documentIconRootDirectory))
-        logger.info("dir test2 = {}", javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
-        logger.info("dir test3 = {}", Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI()))
         logger.info("DIR = {}", dir)
         logger.info(">>>> Available DIR? = {}", Files.isDirectory(dir))
 
