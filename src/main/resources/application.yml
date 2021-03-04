@@ -84,11 +84,11 @@ user.default.profile: /public/assets/media/images/avatar/img_avatar_01.png
 # email certificate image path
 mail.certificate.image: /public/assets/media/images/email/img_email_certificate.png
 
-# email certificate image path
-document.icon.dir: /public/assets/media/images/document
+# document icon image path
+document.icon.image: /public/assets/media/images/document/img_document_01.png
 
-# email certificate image path
-cmdb.icon.dir: /public/assets/media/images/cmdb
+# cmdb icon image path
+cmdb.icon.image: /public/assets/media/images/cmdb/image_icmp.png
 
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\files

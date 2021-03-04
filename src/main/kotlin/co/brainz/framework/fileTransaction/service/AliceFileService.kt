@@ -39,6 +39,7 @@ import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
+import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.data.repository.findByIdOrNull
@@ -71,9 +72,9 @@ class AliceFileService(
     private val documentIconRootDirectory = "public/assets/media/images/document"
     private val typeIconRootDirectory = "public/assets/media/images/cmdb"
 
-    @Value("\${document.icon.dir}")
+    @Value("\${document.icon.image}")
     private val docIconRootDirectory: String = ""
-    @Value("\${cmdb.icon.dir}")
+    @Value("\${cmdb.icon.image}")
     private val cmdbIconRootDirectory: String = ""
 
     /**
@@ -261,7 +262,11 @@ class AliceFileService(
     fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
         // todo: 내부 경로 이미지 icon을 jar에서도 경로를 읽어올 수 있게 처리
         val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
+            AliceConstants.FileType.ICON.code -> {
+                logger.info("URI = {}", ClassPathResource(this.documentIconRootDirectory).uri)
+                logger.info("PATH = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
+                Paths.get(ClassPathResource(this.documentIconRootDirectory).uri)
+            }
             AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
@@ -270,6 +275,7 @@ class AliceFileService(
         logger.info(">>>> Available DIR? = {}", Files.isDirectory(dir))
 
 //        logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
+
 
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dir)) {
@@ -294,6 +300,8 @@ class AliceFileService(
             val file = it.toFile()
             val bufferedImage = ImageIO.read(file)
             val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
+
+
             images.add(
                 AliceImageFileDto(
                     name = file.name,
