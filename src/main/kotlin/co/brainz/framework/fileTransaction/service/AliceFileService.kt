@@ -37,9 +37,7 @@ import javax.imageio.ImageIO
 import org.apache.tika.Tika
 import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
-import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.data.repository.findByIdOrNull
@@ -71,11 +69,6 @@ class AliceFileService(
     private val processAttachFileRootDirectory = this.imagesRootDirectory
     private val documentIconRootDirectory = "public/assets/media/images/document"
     private val typeIconRootDirectory = "public/assets/media/images/cmdb"
-
-    @Value("\${document.icon.image}")
-    private val docIconRootDirectory: String = ""
-    @Value("\${cmdb.icon.image}")
-    private val cmdbIconRootDirectory: String = ""
 
     /**
      * 파일 허용 확장자 목록 가져오기
