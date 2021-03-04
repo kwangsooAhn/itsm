@@ -263,9 +263,9 @@ class AliceFileService(
         // todo: 내부 경로 이미지 icon을 jar에서도 경로를 읽어올 수 있게 처리
         val dir = when (type) {
             AliceConstants.FileType.ICON.code -> {
-                logger.info("URI = {}", ClassPathResource(this.documentIconRootDirectory).uri)
-                logger.info("PATH = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
-                Paths.get(ClassPathResource(this.documentIconRootDirectory).uri)
+                logger.info("URI = {}", Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI()))
+                logger.info("PATH = {}", javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
+                Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
             }
             AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
             else -> super.getWorkflowDir(this.imagesRootDirectory)
