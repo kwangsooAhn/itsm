@@ -560,7 +560,7 @@ class AliceFileService(
         val fileList = mutableListOf<Path>()
         val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
         val images = mutableListOf<AliceImageFileDto>()
-        var searchDataCount= ItsmConstants.SEARCH_DATA_COUNT
+        var searchDataCount = ItsmConstants.SEARCH_DATA_COUNT
 
         fileDirMap[false]?.forEach { filePath ->
             val file = filePath.toFile()
@@ -583,20 +583,20 @@ class AliceFileService(
             val bufferedImage = ImageIO.read(file)
             val resizedBufferedImage = resizeBufferedImage(bufferedImage, "")
             images.add(
-                    AliceImageFileDto(
-                            name = file.name,
-                            extension = file.extension,
-                            fullpath = file.absolutePath,
-                            size = super.humanReadableByteCount(file.length()),
-                            data = super.encodeToString(resizedBufferedImage, file.extension),
-                            width = bufferedImage.width,
-                            height = bufferedImage.height,
-                            totalCount = fileList.size.toLong(),
-                            updateDt = LocalDateTime.ofInstant(
-                                    Instant.ofEpochMilli(file.lastModified()),
-                                    ZoneId.systemDefault()
-                            )
+                AliceImageFileDto(
+                    name = file.name,
+                    extension = file.extension,
+                    fullpath = file.absolutePath,
+                    size = super.humanReadableByteCount(file.length()),
+                    data = super.encodeToString(resizedBufferedImage, file.extension),
+                    width = bufferedImage.width,
+                    height = bufferedImage.height,
+                    totalCount = fileList.size.toLong(),
+                    updateDt = LocalDateTime.ofInstant(
+                        Instant.ofEpochMilli(file.lastModified()),
+                        ZoneId.systemDefault()
                     )
+                )
             )
         }
         return images

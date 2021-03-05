@@ -66,7 +66,6 @@
                     offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam += '&offset=' + offsetCount;
-
             } else {
                 offsetCount = 0;
                 urlParam += '&offset=' + offsetCount;
@@ -82,9 +81,6 @@
                 async: false,
                 callbackFunc: function (response) {
                     let imageList = JSON.parse(response.responseText);
-                    let count = imageList.toString() === '' ? 0 : JSON.stringify(imageList[0].totalCount)
-                    aliceJs.showTotalCount(count, 'totalCount');
-                    document.getElementById('totalCount').value = count;
                     addThumbnailUpload();
                     if (isScroll) {
                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
@@ -94,6 +90,9 @@
                             });
                         }
                     } else {
+                        let count = imageList.toString() === '' ? 0 : JSON.stringify(imageList[0].totalCount)
+                        aliceJs.showTotalCount(count, 'totalCount');
+                        document.getElementById('totalCount').value = count;
                         imageList.forEach(function (image) {
                             addThumbnail(image);
                         });
@@ -116,6 +115,7 @@
                 }
             });
         }
+
         function addThumbnail(image) {
             const thumbnailContainer = document.querySelector('.thumbnail-main');
             const thumbnailUpload = thumbnailContainer.querySelector('.thumbnail-upload');
@@ -135,7 +135,7 @@
                     </div>
                 </div>
             `;
-                thumbnailContainer.insertAdjacentHTML('beforeend', thumbnailTemplate);
+            thumbnailContainer.insertAdjacentHTML('beforeend', thumbnailTemplate);
 
         }
 
@@ -162,8 +162,9 @@
                     callbackFunc: xhr => {
                         if (xhr.responseText === 'true') {
                             document.querySelector('.thumbnail-main').removeChild(imgObj.parentNode.parentNode);
-                            aliceJs.showTotalCount(Number(document.getElementById("totalCount").value) - 1, 'totalCount');
-                            document.getElementById('totalCount').value =Number(document.getElementById("totalCount").value) - 1
+                            let deleteAfterCount = Number(document.getElementById("totalCount").value) - 1;
+                            document.getElementById('totalCount').value = deleteAfterCount;
+                            aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
                         }
                     }
                 });
@@ -225,7 +226,7 @@
                     }
                 }
 
-                const uploadImage = function() {
+                const uploadImage = function () {
                     let xhr = new XMLHttpRequest(),
                         formData = new FormData();
                     for (let i = 0, len = fileList.length; i < len; i++) {
@@ -237,8 +238,6 @@
                             for (let i = 0, len = list.length; i < len; i++) {
                                 addThumbnail(list[i]);
                             }
-                            aliceJs.showTotalCount(Number(document.getElementById("totalCount").value) + 1, 'totalCount');
-                            document.getElementById('totalCount').value = Number(document.getElementById("totalCount").value)  + 1
                         }
                     }
                     xhr.open('POST', '/rest/images', true);
@@ -254,6 +253,9 @@
                     );
                 } else {
                     uploadImage();
+                    aliceJs.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function () {
+                        location.reload();
+                    });
                 }
             }
         }
