@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
+    <input type="hidden" id="totalCount" name="totalCount" th:value="${downloadCount}"/>
     <table class="list-table">
         <thead class="list-head">
             <tr class="flex-row align-items-center">
@@ -17,24 +18,25 @@
             </tr>
         </thead>
         <tbody class="list-body">
-            <input type="hidden" id="totalCount" name="totalCount" th:value="${downloadCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(downloadList)}">
                 <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr class="flex-row align-items-center" th:each="download : ${downloadList}">
-                <td style="width:5%;" class="align-left" th:text="|${download.downloadSeq}|"></td>
-                <td style="width:10%;" class="align-left" th:text="#{${download.downloadCategory}}"></td>
-                <td style="width:45%;" class="align-left underline">
-                    <a sec:authorize="!hasAuthority('download.update')" th:text="${download.downloadTitle}"
-                       th:href="@{/downloads/{id}/view(id=${download.downloadId})}">
-                    </a>
-                    <a sec:authorize="hasAuthority('download.update')" th:text="${download.downloadTitle}"
-                       th:href="@{/downloads/{id}/edit(id=${download.downloadId})}"></a>
-                </td>
-                <td style="width:10%;" class="align-left" th:text="${download.createUserName}"></td>
-                <td style="width:20%;" class="align-left" th:name="createDt" th:text="${download.createDt}"></td>
-                <td style="width:10%;" class="align-left" th:text="${download.views}"></td>
-            </tr>
+            <th:block th:fragment="list">
+                <tr class="flex-row align-items-center" th:each="download : ${downloadList}">
+                    <td style="width:5%;" class="align-left" th:text="|${download.downloadSeq}|"></td>
+                    <td style="width:10%;" class="align-left" th:text="#{${download.downloadCategory}}"></td>
+                    <td style="width:45%;" class="align-left underline">
+                        <a sec:authorize="!hasAuthority('download.update')" th:text="${download.downloadTitle}"
+                           th:href="@{/downloads/{id}/view(id=${download.downloadId})}">
+                        </a>
+                        <a sec:authorize="hasAuthority('download.update')" th:text="${download.downloadTitle}"
+                           th:href="@{/downloads/{id}/edit(id=${download.downloadId})}"></a>
+                    </td>
+                    <td style="width:10%;" class="align-left" th:text="${download.createUserName}"></td>
+                    <td style="width:20%;" class="align-left date-time" name="createDt" th:text="${download.createDt}"></td>
+                    <td style="width:10%;" class="align-left" th:text="${download.views}"></td>
+                </tr>
+            </th:block>
         </tbody>
     </table>
 </body>

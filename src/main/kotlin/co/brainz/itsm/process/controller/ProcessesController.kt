@@ -17,6 +17,7 @@ class ProcessesController(private val processAdminService: ProcessAdminService) 
 
     private val processSearchPage: String = "process/processSearch"
     private val processListPage: String = "process/processList"
+    private val processListFragment: String = "process/processList :: list"
 
     /**
      * 프로세스 리스트 검색 호출 화면.
@@ -37,6 +38,6 @@ class ProcessesController(private val processAdminService: ProcessAdminService) 
         val result = processAdminService.getProcesses(params)
         model.addAttribute("processList", result)
         model.addAttribute("processListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return processListPage
+        return if (request.getParameter("isScroll").toBoolean()) processListFragment else processListPage
     }
 }

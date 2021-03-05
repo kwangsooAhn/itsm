@@ -23,10 +23,12 @@ class BoardController(private val boardService: BoardService) {
 
     private val boardSearchPage: String = "board/boardSearch"
     private val boardListPage: String = "board/boardList"
+    private val boardListFragment: String = "board/boardList :: list"
     private val boardEditPage: String = "board/boardEdit"
     private val boardViewPage: String = "board/boardView"
     private val boardArticlesSearchPage: String = "board/boardArticlesSearch"
     private val boardArticlesListPage: String = "board/boardArticlesList"
+    private val boardArticlesListFragment: String = "board/boardArticlesList :: list"
     private val boardArticlesEditPage: String = "board/boardArticlesEdit"
     private val boardArticlesViewPage: String = "board/boardArticlesView"
     private val boardArticlesCommentListPage: String = "board/boardArticlesCommentList"
@@ -51,7 +53,7 @@ class BoardController(private val boardService: BoardService) {
         val result = boardService.getBoardList(boardSearchDto)
         model.addAttribute("boardAdminList", result)
         model.addAttribute("boardAdminCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return boardListPage
+        return if (boardSearchDto.isScroll) boardListFragment else boardListPage
     }
 
     /**
@@ -128,7 +130,7 @@ class BoardController(private val boardService: BoardService) {
         val result = boardService.getBoardArticleList(boardArticleSearchDto)
         model.addAttribute("boardList", result)
         model.addAttribute("boardCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return boardArticlesListPage
+        return if (boardArticleSearchDto.isScroll) boardArticlesListFragment else boardArticlesListPage
     }
 
     /**

@@ -82,13 +82,11 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/portals/notices?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/portals/notices?' + urlParam, isScroll);
             }
+            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
+            restSubmit('get', '/portals/notices?' + urlParam, isScroll);
         }
 
         //REST API
@@ -100,24 +98,21 @@
                 showProgressbar: false,
                 callbackFunc: function (response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function(data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                        }
+                        const noticeTbody = document.querySelector('.list-body .os-content');
+                        const tempTb = document.createElement('table');
+                        tempTb.innerHTML = response.responseText;
+                        setDateTimeFormat(tempTb);
+                        for (let i = 0; i < tempTb.rows.length; i++) {
+                            noticeTbody.appendChild(tempTb.rows[i]);
                         }
                     } else {
                         document.getElementById('noticeList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        let createDtList = document.querySelectorAll('td[name=createDt]');
-                        for (let i = 0; i < createDtList.length; i++) {
-                            createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
-                        }
+                        setDateTimeFormat(document.getElementById('noticeList'));
+
                         OverlayScrollbars(document.querySelector('.list-body'), {
                             className: 'scrollbar',
                             callbacks: {
@@ -139,33 +134,14 @@
             };
             aliceJs.sendXhr(opt);
         }
-        // Tr 동적 데이터 만들기
-        function getDataTemplate(data) {
-            let div = document.querySelector('.list-body .os-content');
-            let tr = document.createElement('tr');
 
-            let tdNoticeTitle = document.createElement('td');
-            tdNoticeTitle.style.width = '75%';
-            tdNoticeTitle.className = 'align-left underline';
-            let aNoticeTitle = document.createElement('a');
-            aNoticeTitle.href = '/portals/notices/'+ data.noticeNo +'/view';
-            aNoticeTitle.innerText = data.noticeTitle;
-            tdNoticeTitle.appendChild(aNoticeTitle);
-
-            let tdUserName = document.createElement('td');
-            tdUserName.className = 'align-center';
-            tdUserName.innerText = data.createUserName;
-            tdUserName.style.width = '10%';
-
-            let tdCreateDt = document.createElement('td');
-            tdCreateDt.className = 'align-center';
-            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
-            tdCreateDt.style.width = '15%';
-
-            tr.appendChild(tdNoticeTitle);
-            tr.appendChild(tdUserName);
-            tr.appendChild(tdCreateDt);
-            div.appendChild(tr);
+        /**
+         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+         */
+        function setDateTimeFormat(elem) {
+            elem.querySelectorAll('.date-time').forEach(dt => {
+                dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            });
         }
         /* ]]> */
     </script>

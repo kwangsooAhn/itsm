@@ -9,8 +9,6 @@ import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,15 +33,6 @@ class WorkFlowRestController(
     @PostMapping("")
     fun workFlowDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         return documentService.createDocument(restTemplateDocumentDto)
-    }
-
-    /**
-     * 업무흐름 조회 (스크롤).
-     */
-    @GetMapping("")
-    fun getWorkFlowList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
-            List<RestTemplateDocumentListDto> {
-        return documentService.getDocumentList(restTemplateDocumentSearchListDto)
     }
 
     /**

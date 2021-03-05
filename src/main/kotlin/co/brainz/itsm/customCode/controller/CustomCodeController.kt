@@ -26,6 +26,7 @@ class CustomCodeController(
 
     private val customCodeSearchPage: String = "custom-code/customCodeSearch"
     private val customCodeListPage: String = "custom-code/customCodeList"
+    private val customCodeListFragment: String = "custom-code/customCodeList :: list"
     private val customCodeEditPage: String = "custom-code/customCodeEdit"
     private val customCodeViewPage: String = "custom-code/customCodeView"
     private val documentCustomCodePage: String = "custom-code/customCodePopup"
@@ -51,7 +52,7 @@ class CustomCodeController(
         model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE))
         model.addAttribute("customCodeList", result)
         model.addAttribute("customCodeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return customCodeListPage
+        return if (customCodeSearchDto.isScroll) customCodeListFragment else customCodeListPage
     }
 
     /**
