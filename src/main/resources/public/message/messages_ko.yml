@@ -724,7 +724,6 @@ image:
     registrationSuccess: "이미지 등록에 성공하였습니다"
     searchDescription: "문서양식에서 사용할 이미지를 추가하거나 조회 및 관리합니다."
 
-
 # Login
 login:
   btn:
