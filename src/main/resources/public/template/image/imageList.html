@@ -66,12 +66,12 @@
                     offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam += '&offset=' + offsetCount;
-                restSubmit('get', '/rest/images?' + urlParam, isScroll);
+
             } else {
                 offsetCount = 0;
                 urlParam += '&offset=' + offsetCount;
-                restSubmit('get', '/rest/images?' + urlParam, isScroll);
             }
+            restSubmit('get', '/rest/images?' + urlParam, isScroll);
         }
 
         function restSubmit(method, url, isScroll) {
@@ -97,23 +97,22 @@
                         imageList.forEach(function (image) {
                             addThumbnail(image);
                         });
-                    }
-
-                    OverlayScrollbars(document.querySelector('.image-content-edit'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function (e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (Math.floor(scrollHeight - scrollTop) === Math.ceil(clientHeight)) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        getImages(true);
+                        OverlayScrollbars(document.querySelector('.image-content-edit'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function (e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    if (Math.floor(scrollHeight - scrollTop) === Math.ceil(clientHeight)) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            getImages(true);
+                                        }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             });
         }
@@ -163,8 +162,8 @@
                     callbackFunc: xhr => {
                         if (xhr.responseText === 'true') {
                             document.querySelector('.thumbnail-main').removeChild(imgObj.parentNode.parentNode);
-                            aliceJs.showTotalCount(document.getElementById("totalCount").value -1, 'totalCount');
-                            document.getElementById('totalCount').value = document.getElementById('totalCount').value  -1
+                            aliceJs.showTotalCount(Number(document.getElementById("totalCount").value) - 1, 'totalCount');
+                            document.getElementById('totalCount').value =Number(document.getElementById("totalCount").value) - 1
                         }
                     }
                 });
@@ -238,7 +237,8 @@
                             for (let i = 0, len = list.length; i < len; i++) {
                                 addThumbnail(list[i]);
                             }
-                            aliceJs.showTotalCount(document.querySelectorAll('.thumbnail').length, 'totalCount');
+                            aliceJs.showTotalCount(Number(document.getElementById("totalCount").value) + 1, 'totalCount');
+                            document.getElementById('totalCount').value = Number(document.getElementById("totalCount").value)  + 1
                         }
                     }
                     xhr.open('POST', '/rest/images', true);
@@ -255,7 +255,6 @@
                 } else {
                     uploadImage();
                 }
-
             }
         }
         // 이미지 미리보기
