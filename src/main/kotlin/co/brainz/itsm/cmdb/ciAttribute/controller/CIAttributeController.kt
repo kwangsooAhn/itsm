@@ -21,6 +21,7 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
 
     private val attributeSearchPage: String = "cmdb/attribute/attributeSearch"
     private val attributeListPage: String = "cmdb/attribute/attributeList"
+    private val attributeListFragment: String = "cmdb/attribute/attributeList :: list"
     private val attributeEditPage: String = "cmdb/attribute/attributeEdit"
     private val attributeViewPage: String = "cmdb/attribute/attributeView"
 
@@ -43,7 +44,7 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
         val result = ciAttributeService.getCIAttributes(params)
         model.addAttribute("attributeList", result)
         model.addAttribute("attributeListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return attributeListPage
+        return if (request.getParameter("isScroll").toBoolean()) attributeListFragment else attributeListPage
     }
 
     /**

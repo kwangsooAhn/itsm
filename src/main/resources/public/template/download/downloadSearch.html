@@ -119,6 +119,7 @@
                         document.getElementById('downloadList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
                         setDateTimeFormat(document.getElementById('downloadList'));
+
                         OverlayScrollbars(document.querySelector('.list-body'), {
                             className: 'scrollbar',
                             callbacks: {
