@@ -10,5 +10,6 @@ import java.io.Serializable
 
 data class BoardSearchDto(
     var search: String = "",
-    var offset: Long = 0
+    var offset: Long = 0,
+    var isScroll: Boolean = false
 ) : Serializable

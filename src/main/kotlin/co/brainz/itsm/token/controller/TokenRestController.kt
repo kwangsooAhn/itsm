@@ -22,16 +22,6 @@ import org.springframework.web.bind.annotation.RestController
 class TokenRestController(private val tokenService: TokenService) {
 
     /**
-     * 문서함 목록 조회.
-     * */
-    @GetMapping("")
-    fun getTokenList(
-        restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto
-    ): List<RestTemplateInstanceViewDto> {
-        return tokenService.getTokenList(restTemplateTokenSearchListDto)
-    }
-
-    /**
      * 처리할 문서 데이터 조회.
      * */
     @GetMapping("/{tokenId}/data")

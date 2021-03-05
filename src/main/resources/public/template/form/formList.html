@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
+    <input type="hidden" id="totalCount" th:value="${formListCount}"/>
     <table class="list-table">
         <thead class="list-head">
             <tr class="flex-row align-items-center">
@@ -18,42 +19,43 @@
             </tr>
         </thead>
         <tbody class="list-body">
-            <input type="hidden" id="totalCount" th:value="${formListCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(formList)}">
                 <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
-                <td width="20%" class="align-left underline">
-                    <th:block th:if="${form.editable == true}">
-                        <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
-                           th:attr="onclick=|openFormEdit('${form.id}', true)|"></a>
-                        <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
-                           th:attr="onclick=|openFormEdit('${form.id}', false)|"></a>
-                    </th:block>
-                    <div th:unless="${form.editable == true}">
-                        <a th:if="${form.status == 'form.status.use'}" th:text="${form.name}"
-                           th:attr="onclick=|openFormEdit('${form.id}', true)|"></a>
-                        <span th:unless="${form.status == 'form.status.use'}" th:text="${form.name}"></span>
-                    </div>
-                </td>
-                <td width="10%" class="align-center">
-                    <button type="button" class="default-fill btn-popup" th:onclick="openFormDesignerView([[${form.id}]])">
-                        <span class="icon-search"></span>
-                    </button>
-                </td>
-                <td width="10%" class="align-center">
-                    <th:block th:if="${form.editable == true}">
-                        <button type="button" sec:authorize="hasAuthority('form.update')"
-                                th:onclick="openFormDesignerEdit([[${form.id}]])">
-                            <span class="icon-edit"></span>
+            <th:block th:fragment="list">
+                <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
+                    <td width="20%" class="align-left underline">
+                        <th:block th:if="${form.editable == true}">
+                            <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
+                               th:attr="onclick=|openFormEdit('${form.id}', true)|"></a>
+                            <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
+                               th:attr="onclick=|openFormEdit('${form.id}', false)|"></a>
+                        </th:block>
+                        <div th:unless="${form.editable == true}">
+                            <a th:if="${form.status == 'form.status.use'}" th:text="${form.name}"
+                               th:attr="onclick=|openFormEdit('${form.id}', true)|"></a>
+                            <span th:unless="${form.status == 'form.status.use'}" th:text="${form.name}"></span>
+                        </div>
+                    </td>
+                    <td width="10%" class="align-center">
+                        <button type="button" class="default-fill btn-popup" th:onclick="openFormDesignerView([[${form.id}]])">
+                            <span class="icon-search"></span>
                         </button>
-                    </th:block>
-                </td>
-                <td width="10%" class="align-center" th:text="#{${form.status}}"></td>
-                <td width="28%" class="align-left" th:text="${form.desc}"></td>
-                <td width="10%" class="align-left" th:text="${form.createUserName}"></td>
-                <td width="12%" class="align-left" th:name="createDt" th:text="${form.createDt}"></td>
-            </tr>
+                    </td>
+                    <td width="10%" class="align-center">
+                        <th:block th:if="${form.editable == true}">
+                            <button type="button" sec:authorize="hasAuthority('form.update')"
+                                    th:onclick="openFormDesignerEdit([[${form.id}]])">
+                                <span class="icon-edit"></span>
+                            </button>
+                        </th:block>
+                    </td>
+                    <td width="10%" class="align-center" th:text="#{${form.status}}"></td>
+                    <td width="28%" class="align-left" th:text="${form.desc}"></td>
+                    <td width="10%" class="align-left" th:text="${form.createUserName}"></td>
+                    <td width="12%" class="align-left date-time" th:text="${form.createDt}"></td>
+                </tr>
+            </th:block>
         </tbody>
     </table>
 </body>

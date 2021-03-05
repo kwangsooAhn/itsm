@@ -41,11 +41,13 @@ class PortalController(
     private val portalBrowserGuidePage: String = "portal/portalBrowserGuide"
     private val portalNoticeSearchPage: String = "portal/notice/noticeSearch"
     private val portalNoticeListPage: String = "portal/notice/noticeList"
+    private val portalNoticeListFragment: String = "portal/notice/noticeList :: list"
     private val portalNoticeViewPage: String = "portal/notice/noticeView"
     private val portalFaqPage: String = "portal/faq/portalFaq"
     private val portalFaqListPage: String = "portal/faq/portalFaqList"
     private val portalDownloadSearchPage: String = "portal/download/downloadSearch"
     private val portalDownloadListPage: String = "portal/download/downloadList"
+    private val portalDownloadListFragment: String = "portal/download/downloadList :: list"
     private val portalDownloadViewPage: String = "portal/download/downloadView"
 
     /**
@@ -94,7 +96,7 @@ class PortalController(
         model.addAttribute("noticeList", result)
         model.addAttribute("noticeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt))
-        return portalNoticeListPage
+        return if (noticeSearchDto.isScroll) portalNoticeListFragment else portalNoticeListPage
     }
 
     /**
@@ -142,7 +144,7 @@ class PortalController(
         val result = downloadService.getDownloadList(downloadSearchDto)
         model.addAttribute("downloadList", result)
         model.addAttribute("downloadCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return portalDownloadListPage
+        return if (downloadSearchDto.isScroll) portalDownloadListFragment else portalDownloadListPage
     }
 
     /**

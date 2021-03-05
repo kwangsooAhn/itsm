@@ -84,13 +84,11 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/tokens?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount;
-                restSubmit('get', '/tokens?' + urlParam, isScroll);
             }
+            urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+            restSubmit('get', '/tokens?' + urlParam, isScroll);
         }
 
         function restSubmit(method, url, isScroll) {
@@ -101,24 +99,17 @@
                 showProgressbar: false,
                 callbackFunc: function (response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function (data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
                         }
+                        let tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = response.responseText;
+                        setDateTimeFormat(tempDiv);
+                        document.querySelector('.token-content .card-list').insertAdjacentHTML('beforeend', tempDiv.innerHTML);
                     } else {
                         document.getElementById('tokenList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
-                            tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
-                            tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
-                        });
+                        setDateTimeFormat(document.getElementById('tokenList'));
                         OverlayScrollbars(document.querySelector('.token-content'), {
                             className: 'scrollbar',
                             callbacks: {
@@ -149,115 +140,14 @@
             aliceJs.sendXhr(opt);
         }
 
-        function getDataTemplate(data) {
-            let divList = document.querySelector('.token-content .card-list');
-
-            let divCard = document.createElement('div');
-            divCard.className = 'card flex-row';
-            divCard.addEventListener('click', function (e) {
-                if (document.getElementsByName('isRole')[0].value) {
-                    openTokenEdit(data.tokenId);
-                }
-            }, false);
-
-            let divDocumentColor = document.createElement('div');
-            divDocumentColor.className = 'document-color';
-            divDocumentColor.style.backgroundColor = data.documentColor;
-
-            let divDocumentRow = document.createElement('div');
-            divDocumentRow.className = 'document-row flex-fill flex-row justify-content-between';
-
-            let divDocumentRowContent = document.createElement('div');
-            divDocumentRowContent.className = 'document-row-content';
-
-            let divDocumentTitle = document.createElement('div');
-            divDocumentTitle.className = 'document-title flex-row align-items-center';
-
-            let h3DocumentName = document.createElement('h3');
-            h3DocumentName.className = 'mr-2 text-ellipsis';
-            h3DocumentName.innerText = data.documentName;
-
-            let spanDocumentNo = document.createElement('span');
-            spanDocumentNo.className = 'document-numbering text-ellipsis';
-            spanDocumentNo.innerText = data.documentNo;
-
-            let divDocumentTopic = document.createElement('div');
-            divDocumentTopic.className = 'document-topic';
-
-            for (let i = 0; i < data.topics.length; i++) {
-                let labelTopic = document.createElement('label');
-                labelTopic.innerText = data.topics[i];
-                divDocumentTopic.appendChild(labelTopic);
-            }
-
-            let divDocumentRowInfo = document.createElement('div');
-            divDocumentRowInfo.className = 'document-row-info';
-
-            let divDocumentDetail = document.createElement('div');
-            divDocumentDetail.className = 'document-detail flex-row align-items-center float-right';
-
-            let divDocumentUser = document.createElement('div');
-            divDocumentUser.className = 'document-user inline-flex align-items-center justify-content-center';
-
-            let imgProfilePhoto = document.createElement('img');
-            imgProfilePhoto.className = 'profile-photo mr-2';
-            imgProfilePhoto.style.width = '32px';
-            imgProfilePhoto.style.height = '32px';
-            imgProfilePhoto.alt = 'profile pic';
-            imgProfilePhoto.src = data.avatarPath;
-
-            let spanCreateUserName = document.createElement('span');
-            spanCreateUserName.className = 'user-name';
-            spanCreateUserName.innerText = data.createUserName;
-
-            let spanUserVerticalBar = document.createElement('span');
-            spanUserVerticalBar.className = 'vertical-bar';
-
-            let spanNameVerticalBar = document.createElement('span');
-            spanNameVerticalBar.className = 'vertical-bar';
-
-            let spanCreateDt = document.createElement('span');
-            spanCreateDt.className = 'create-dt';
-            spanCreateDt.title = i18n.userDateTime(data.createDt);
-            spanCreateDt.innerText = dateFormatFromNow(data.createDt);
-
-            let spanElementName = document.createElement('span');
-            spanElementName.className = 'element-name';
-            spanElementName.innerText = data.elementName;
-
-            let documentTag = document.createElement('div');
-            documentTag.className = 'document-tag';
-            for (let i = 0; i < data.tags.length; i++) {
-                let spanTag = document.createElement('span');
-                spanTag.className = 'tag align-center text-ellipsis';
-                spanTag.innerText = data.tags[i];
-                documentTag.appendChild(spanTag);
-            }
-
-            divDocumentTitle.appendChild(h3DocumentName);
-            divDocumentTitle.appendChild(spanDocumentNo);
-            divDocumentRowContent.appendChild(divDocumentTitle);
-            divDocumentRowContent.appendChild(divDocumentTopic);
-
-            divDocumentUser.appendChild(imgProfilePhoto);
-            divDocumentUser.appendChild(spanCreateUserName);
-
-            divDocumentDetail.appendChild(divDocumentUser);
-            divDocumentDetail.appendChild(spanUserVerticalBar);
-            divDocumentDetail.appendChild(spanCreateDt);
-            divDocumentDetail.appendChild(spanNameVerticalBar);
-            divDocumentDetail.appendChild(spanElementName);
-
-            divDocumentRowInfo.appendChild(divDocumentDetail);
-            divDocumentRowInfo.appendChild(documentTag);
-
-            divDocumentRow.appendChild(divDocumentRowContent);
-            divDocumentRow.appendChild(divDocumentRowInfo);
-
-            divCard.appendChild(divDocumentColor);
-            divCard.appendChild(divDocumentRow);
-
-            divList.appendChild(divCard);
+        /**
+         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+         */
+        function setDateTimeFormat(elem) {
+            elem.querySelectorAll('.date-time').forEach(tokenCreateDt => {
+                tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
+                tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
+            });
         }
 
         /**

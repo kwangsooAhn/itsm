@@ -25,6 +25,7 @@ class DocumentController(
 
     private val documentSearchPage: String = "document/documentSearch"
     private val documentListPage: String = "document/documentList"
+    private val documentListFragment: String = "document/documentList :: list"
     private val documentPrintPage: String = "document/documentPrint"
 
     /**
@@ -48,7 +49,7 @@ class DocumentController(
         val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
         model.addAttribute("documentList", result)
         model.addAttribute("totalCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return documentListPage
+        return if (restTemplateDocumentSearchListDto.isScroll) documentListFragment else documentListPage
     }
 
     /**

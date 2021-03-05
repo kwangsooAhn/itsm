@@ -39,6 +39,7 @@ class TokenController(
     private val statusPage: String = "redirect:/certification/status"
     private val tokenSearchPage: String = "token/tokenSearch"
     private val tokenListPage: String = "token/tokenList"
+    private val tokenListFragment: String = "token/tokenList :: list"
     private val tokenEditPage: String = "token/tokenEdit"
     private val tokenViewPage: String = "token/tokenView"
     private val tokenPrintPage: String = "token/tokenPrint"
@@ -79,7 +80,7 @@ class TokenController(
         val result = tokenService.getTokenList(restTemplateTokenSearchListDto)
         model.addAttribute("tokenCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         model.addAttribute("tokenList", result)
-        return tokenListPage
+        return if (restTemplateTokenSearchListDto.isScroll) tokenListFragment else tokenListPage
     }
 
     /**

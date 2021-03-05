@@ -14,9 +14,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
-import org.springframework.ui.Model
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -55,17 +53,6 @@ class ProcessesRestController(
             )
             else -> processService.createProcess(mapper.convertValue(jsonData, RestTemplateProcessDto::class.java))
         }
-    }
-
-    /**
-     * 프로세스 리스트 조회 (스크롤).
-     */
-    @GetMapping("")
-    fun getProcessList(request: HttpServletRequest, model: Model): List<RestTemplateProcessViewDto> {
-        val params = LinkedMultiValueMap<String, String>()
-        params["search"] = request.getParameter("search")
-        params["offset"] = request.getParameter("offset") ?: "0"
-        return processAdminService.getProcesses(params)
     }
 
     /**

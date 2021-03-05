@@ -27,6 +27,7 @@ class WorkFlowController(
 
     private val workFlowSearchPage: String = "workflow/workFlowSearch"
     private val workFlowListPage: String = "workflow/workFlowList"
+    private val workFlowListFragment: String = "workflow/workFlowList :: list"
     private val workFlowEditPage: String = "workflow/workFlowEdit"
 
     /**
@@ -53,7 +54,7 @@ class WorkFlowController(
         val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
         model.addAttribute("documentList", result)
         model.addAttribute("documentCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return workFlowListPage
+        return if (restTemplateDocumentSearchListDto.isScroll) workFlowListFragment else workFlowListPage
     }
 
     /**

@@ -11,16 +11,18 @@
         <img class="no-data-icon" />
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
-    <div class="card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
-         sec:authorize="hasAuthority('document.create')" th:onclick="openDocument([[${document.documentId}]])">
-        <div class="document-column">
-            <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
-            <label th:text="${document.documentDesc}" class="document-description text-ellipsis"></label>
-            <div class="document-icon">
-                <img th:src="@{/assets/media/images/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
+    <th:block th:fragment="list">
+        <div class="card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
+             sec:authorize="hasAuthority('document.create')" th:onclick="openDocument([[${document.documentId}]])">
+            <div class="document-column">
+                <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
+                <label th:text="${document.documentDesc}" class="document-description text-ellipsis"></label>
+                <div class="document-icon">
+                    <img th:src="@{/assets/media/images/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
+                </div>
             </div>
         </div>
-    </div>
+    </th:block>
 </div>
 </body>
 </html>

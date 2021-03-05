@@ -9,5 +9,7 @@ import java.io.Serializable
 
 data class SchedulerSearchDto(
     var offset: Long = 0,
-    var search: String? = ""
+    var search: String? = "",
+    var isScroll: Boolean = false
+
 ) : Serializable

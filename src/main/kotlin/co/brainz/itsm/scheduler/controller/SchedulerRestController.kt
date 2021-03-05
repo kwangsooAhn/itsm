@@ -6,13 +6,9 @@
 package co.brainz.itsm.scheduler.controller
 
 import co.brainz.itsm.scheduler.dto.SchedulerDto
-import co.brainz.itsm.scheduler.dto.SchedulerListDto
-import co.brainz.itsm.scheduler.dto.SchedulerSearchDto
 import co.brainz.itsm.scheduler.service.SchedulerService
 import org.slf4j.LoggerFactory
-import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -27,14 +23,6 @@ class SchedulerRestController(
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-    /**
-     * Scheduler 목록 조회.
-     */
-    @GetMapping("")
-    fun getSchedulerList(schedulerSearchDto: SchedulerSearchDto, model: Model): List<SchedulerListDto> {
-        return schedulerService.getSchedulers(schedulerSearchDto)
-    }
 
     /**
      * Scheduler 등록.
