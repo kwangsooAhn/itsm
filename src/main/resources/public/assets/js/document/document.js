@@ -298,10 +298,6 @@
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
 
-            // 컴포넌트들이 숨김일 경우 저장하지 않는다.
-            const componentDisplayType = componentElements[eIndex].getAttribute('data-displayType');
-            if ((componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime') && componentDisplayType === 'hidden') { continue; }
-
             if (componentDataType === 'inputbox' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textbox' || componentDataType === 'dropdown' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
                 componentDataType === 'fileupload' || componentDataType === 'custom-code' || componentDataType === 'dynamic-row-table' || componentDataType === 'ci') {
@@ -491,7 +487,7 @@
             actionMsg = i18n.msg('document.msg.process');
         }
 
-        const componentArrayList = getComponentData();
+        const componentArrayList = getComponentData(); // 모든 컴포넌트 데이터 가져오기
         if (componentArrayList.length > 0) {
             tokenObject.componentData = componentArrayList;
         }
