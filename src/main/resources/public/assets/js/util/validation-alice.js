@@ -48,10 +48,17 @@ function isNull(elementId, messageId, callbackFunc) {
  */
 function isEmpty(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
+    const defaultCallbackFunc = function () {
+        document.getElementById(elementId).focus();
+    };
     if (elem !== null) {
         if (elem.value.trim() === '') {
             if (messageId !== undefined) {
-                aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
+                if (callbackFunc === null || callbackFunc === undefined || callbackFunc === "") {
+                    aliceJs.alertWarning(i18n.msg(messageId), defaultCallbackFunc);
+                } else {
+                    aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
+                }
             }
             return true;
         }
