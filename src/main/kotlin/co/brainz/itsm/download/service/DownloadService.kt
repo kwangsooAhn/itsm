@@ -18,6 +18,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.transaction.Transactional
 import org.mapstruct.factory.Mappers
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
@@ -73,7 +74,7 @@ class DownloadService(
     @Transactional
     fun getDownload(downloadId: String, type: String): DownloadDto {
         var downloadEntity = downloadRepository.findById(downloadId).orElse(DownloadEntity())
-        if (type === "view") {
+        if (type == "view" && (downloadEntity.createUser?.userId != SecurityContextHolder.getContext().authentication.principal as String)) {
             downloadEntity.views += 1
             downloadEntity = downloadRepository.save(downloadEntity)
         }
