@@ -560,7 +560,7 @@ class AliceFileService(
         val fileList = mutableListOf<Path>()
         val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
         val images = mutableListOf<AliceImageFileDto>()
-        var searchDataCount = ItsmConstants.SEARCH_DATA_COUNT
+        var searchDataCount = ItsmConstants.IMAGE_SEARCH_DATA_COUNT
 
         fileDirMap[false]?.forEach { filePath ->
             val file = filePath.toFile()
