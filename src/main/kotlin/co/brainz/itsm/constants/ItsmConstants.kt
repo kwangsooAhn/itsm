@@ -12,4 +12,9 @@ object ItsmConstants {
      * 리스트에서 조회 시 Limit 기본값
      */
     const val SEARCH_DATA_COUNT = 15L
+    /**
+     * 이미지관리에서 이미지 조회 시 Limit 기본값
+     */
+    const val IMAGE_SEARCH_DATA_COUNT = 17L
+
 }

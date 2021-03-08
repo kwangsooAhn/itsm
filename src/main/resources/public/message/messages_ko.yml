@@ -722,6 +722,7 @@ image:
     existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
     failedRename: "파일명 변경이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
     fileSelect: "파일을 선택하세요."
+    registrationSuccess: "이미지 등록에 성공하였습니다"
     searchDescription: "문서양식에서 사용할 이미지를 추가하거나 조회 및 관리합니다."
 
 # Login
