@@ -65,7 +65,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") /*{
         exclude("junit")
     }*/
-    /*testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")*/
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.5.2")
     testImplementation("org.springframework.security:spring-security-test")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
@@ -75,6 +76,10 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.3.0.Final")
     kapt("org.mapstruct:mapstruct-processor:1.3.0.Final")
     kaptTest("org.mapstruct:mapstruct-processor:1.3.0.Final")
+}
+
+tasks.withType<Test>().configureEach{
+    useJUnitPlatform()
 }
 
 // KTLINT
