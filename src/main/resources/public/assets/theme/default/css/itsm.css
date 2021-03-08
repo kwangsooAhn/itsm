@@ -4724,6 +4724,10 @@ body.modal-active {
   display: inline-block;
   vertical-align: middle;
 }
+.modal-dialog.chart-view-modal {
+  width: 62.5rem;
+  height: 31.25rem;
+}
 .modal-dialog.cmdb-ci-view-modal {
   width: 62.5rem;
   height: 53.0625rem;

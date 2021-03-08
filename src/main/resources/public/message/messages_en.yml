@@ -245,7 +245,7 @@ chart:
     targetLabel: "Target Label"
     type: "Chart Type"
     periodUnit: "PeriodUnit"
-    previewTitle: "Count by type of failure"
+    viewTitle: "Count by type of failure"
     operation: "Operation"
     duration: "Duration"
     group: "Group"
