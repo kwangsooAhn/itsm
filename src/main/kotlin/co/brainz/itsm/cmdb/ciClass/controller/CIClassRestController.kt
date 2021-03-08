@@ -13,7 +13,6 @@ import co.brainz.cmdb.provider.dto.CIClassListDto
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -40,9 +39,9 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      */
     @GetMapping("/", "")
     fun getCIClasses(request: HttpServletRequest, model: Model): List<CIClassListDto> {
-        val parameters = LinkedMultiValueMap<String, String>()
-        parameters["search"] = request.getParameter("search")
-        return ciClassService.getCIClasses(parameters)
+        val params = LinkedHashMap<String, Any>()
+        params["search"] = request.getParameter("search")
+        return ciClassService.getCIClasses(params)
     }
 
     /**

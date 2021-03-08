@@ -28,9 +28,11 @@ class CITypeService(
     /**
      *  CMDB Type 트리 조회
      */
-    fun getCITypes(searchValue: String): List<CITypeListDto> {
+    fun getCITypes(parameters: LinkedHashMap<String, Any>): List<CITypeListDto> {
+        var search = ""
+        if (parameters["search"] != null) search = parameters["search"].toString()
         val treeTypeList = mutableListOf<CITypeListDto>()
-        val queryResults: QueryResults<CITypeEntity> = ciTypeRepository.findByTypeList(searchValue)
+        val queryResults: QueryResults<CITypeEntity> = ciTypeRepository.findByTypeList(search)
         val returnList: List<CITypeEntity>
         var count = 0L
         var typeSearchList = queryResults.results
