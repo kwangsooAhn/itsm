@@ -37,6 +37,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
@@ -309,6 +310,15 @@
                 callbackFunc: function (response) {
                     document.getElementById('getChart').innerHTML = response.responseText;
                     setDisplay(document.getElementById('typeSelectBox').value);
+                    let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
+                    Highcharts.chart('container', {
+                        chart: data.chart,
+                        title: data.title,
+                        tooltip: data.tooltip,
+                        accessibility: data.accessibility,
+                        plotOptions: data.plotOptions,
+                        series: data.series
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
@@ -444,6 +454,104 @@
                 document.getElementById('groupLabel').style.display = 'none';
                 document.getElementById('targetGroup').style.display = 'none';
             }
+        }
+
+        /** chartConfig 파싱 진행 **/
+        function parsedPropertyJson(chartConfig, property) {
+            let chartConfigJson = JSON.parse(chartConfig);
+            let propertyJson = JSON.parse(property);
+            let jsonObject = new Object();
+
+            // get chartConfigJson Data
+            let type = chartConfigJson.type;
+            let operation = chartConfigJson.operation;
+            let durationDigit = chartConfigJson.duration.digit;
+            let durationUnit = chartConfigJson.duration.unit;
+
+            // get propertyJson Data
+            let countArray = new Array;
+            let percentArray = new Array;
+            for (key in propertyJson[0].operation) {
+                // 문서에 대한 카운트 개수
+                countArray.push(propertyJson[0].operation[key].count);
+                // 문서에 대한 각 퍼센트
+                percentArray.push(propertyJson[0].operation[key].percent);
+            }
+
+            let docKeyList = new Array;
+            let docValueList = new Array;
+            for (key in propertyJson[1].documentList) {
+                // 문서의 각 나눈 연도의 개수
+                docKeyList.push(key);
+                // 문서가 가진 정보 값 documentId, documentName, createDt
+                docValueList.push(propertyJson[1].documentList[key]);
+            }
+
+            // chart
+            let chartProperty = new Object();
+            chartProperty.type = chartConfigJson.type.substring(6, chartConfigJson.type.length);
+            chartProperty.plotBackgroundColor = null;
+            chartProperty.plotBorderWidth = null;
+            chartProperty.plotShadow = false;
+            jsonObject.chart = chartProperty;
+
+            // title
+            let titleProperty = new Object;
+            titleProperty.text = propertyJson[0].title;
+            jsonObject.title = titleProperty;
+
+            // tooltip
+            let tooltipProperty = new Object;
+            if (chartConfigJson.operation === 'percent') {
+                tooltipProperty.pointFormat = '문서 차지 비율: <b>{point.percentage:.1f} %</b>';
+            } else {
+                tooltipProperty.pointFormat = '문서 건 수: <b>{point.y:.f} 건</b>';
+            }
+            jsonObject.tooltip = tooltipProperty;
+
+            // accessibility
+            let accessibilityProperty = new Object;
+            let pointProperty = new Object;
+            pointProperty.valueSuffix = '%';
+            accessibilityProperty.point = pointProperty
+            jsonObject.accessibility = accessibilityProperty;
+
+            // plotOptions
+            let plotOptionsProperty = new Object;
+            let pieProperty = new Object;
+            let dataLabelsProperty = new Object;
+            pieProperty.allowPoinSelect = true;
+            pieProperty.cursor = 'pointer';
+            dataLabelsProperty.enabled = true;
+            if (chartConfigJson.operation === 'percent') {
+                dataLabelsProperty.format = '<b>{point.name}</b>: {point.percentage:.1f} %';
+            } else {
+                dataLabelsProperty.format = '<b>{point.name}</b>: {y:.f} 건';
+            }
+            pieProperty.dataLabels = dataLabelsProperty;
+            plotOptionsProperty.pie = pieProperty;
+            jsonObject.plotOptions = plotOptionsProperty;
+
+            // series
+            let seriesArray = new Array;
+            let seriesObject = new Object;
+            let seriesDataArray = new Array;
+            seriesObject.colorByPoint = true;
+
+            for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
+                let seriesDataObject = new Object;
+                seriesDataObject.name = docKeyList[i];
+                seriesDataObject.y = countArray[i];
+                seriesDataObject.sliced = true;
+                seriesDataObject.selected = true;
+                seriesDataArray.push(seriesDataObject);
+            }
+            seriesObject.data = seriesDataArray;
+            seriesArray.push(seriesObject);
+            jsonObject.series = seriesArray;
+
+            console.log(jsonObject);
+            return jsonObject;
         }
 
         /*]]>*/
