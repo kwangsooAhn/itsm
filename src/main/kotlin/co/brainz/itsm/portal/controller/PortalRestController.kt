@@ -10,8 +10,6 @@ import co.brainz.framework.fileTransaction.dto.AliceFileNameExtensionDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
 import co.brainz.framework.fileTransaction.service.AliceFileService
-import co.brainz.itsm.download.service.DownloadService
-import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.dto.PortalTopDto
