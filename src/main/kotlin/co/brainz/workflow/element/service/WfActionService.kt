@@ -149,6 +149,12 @@ class WfActionService(
             WfElementConstants.ElementType.SIGNAL_SEND.value -> {
                 typeActions.addAll(makeAction(arrow.elementDataEntities))
             }
+            WfElementConstants.ElementType.MANUAL_TASK.value -> {
+                typeActions.addAll(makeAction(arrow.elementDataEntities))
+            }
+            WfElementConstants.ElementType.SCRIPT_TASK.value -> {
+                typeActions.addAll(makeAction(arrow.elementDataEntities))
+            }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                 // condition-item 값에 따라 action인지 condition인지 확인하여 arrowConnector 정보를 리턴한다.
                 val arrows =
