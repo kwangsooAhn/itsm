@@ -66,6 +66,7 @@ dependencies {
         exclude("junit")
     }*/
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.5.2")
     testImplementation("org.springframework.security:spring-security-test")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
