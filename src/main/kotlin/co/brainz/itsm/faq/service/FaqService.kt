@@ -80,7 +80,7 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
     fun updateFaq(faqId: String, faqDto: FaqDto): Boolean {
         val faqEntity = faqRepository.getOne(faqId)
         val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqDto.faqTitle, faqDto.faqGroup)
-        if (count == 0 || faqDto.faqTitle.equals(faqEntity.faqTitle) && faqDto.faqGroup.equals(faqEntity.faqGroup)) {
+        if (count == 0 || (faqDto.faqTitle.equals(faqEntity.faqTitle) && faqDto.faqGroup.equals(faqEntity.faqGroup))) {
             faqEntity.faqGroup = faqDto.faqGroup
             faqEntity.faqTitle = faqDto.faqTitle
             faqEntity.faqContent = faqDto.faqContent
