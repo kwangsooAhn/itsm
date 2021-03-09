@@ -8,7 +8,6 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="edit flex-column">
         <div class="image-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{image.label.list}"></h1>
@@ -20,17 +19,16 @@
                 <span id="totalCount" class="txt-num"></span>
             </div>
         </div>
-        <div class="image-content-edit">
+        <div class="image-content-edit flex-fill">
             <div class="thumbnail-main"></div>
         </div>
-    </div>
 </th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         let previewModal;
-        window.onload = () => {
-            getImages();
-            OverlayScrollbars(document.querySelector('.edit'), { className: 'scrollbar' });
+        let offsetCount = 0;
+        window.onload = function () {
+            getImages(false);
             // 미리보기 모달 생성
             previewModal = new modal({
                 title: i18n.msg('image.label.name'),
@@ -46,41 +44,74 @@
                 }],
                 close: { closable: false },
                 onHide: function(modal) {
-                    // 기존 선택된 클래스를 제거
+                    // 기존 선택된  클래스를 제거
                     const selectedThumbnails = document.querySelectorAll('.thumbnail.selected');
                     for (let i = 0, len = selectedThumbnails.length; i < len; i++) {
                         selectedThumbnails[i].classList.remove('selected');
                     }
                 }
             });
-
             // 썸네일 표시
             document.getElementById('searchValue').focus();
             document.getElementById('searchValue').addEventListener('keyup', function () {
-                getImages();
+                document.querySelector('.thumbnail-main').innerHTML = '';
+                 getImages(false);
             });
-
         }
 
-        function getImages() {
+        function getImages(isScroll) {
             let urlParam = 'searchValue=' + document.getElementById('searchValue').value;
-            restSubmit('get', '/rest/images?' + urlParam);
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = aliceJs.searchDataCount;
+                }
+                urlParam += '&offset=' + offsetCount;
+            } else {
+                offsetCount = 0;
+                urlParam += '&offset=' + offsetCount;
+            }
+            restSubmit('get', '/rest/images?' + urlParam, isScroll);
         }
 
-        function restSubmit(method, url) {
+        function restSubmit(method, url, isScroll) {
             aliceJs.sendXhr({
                 url: url,
                 method: method,
                 contentType: 'application/json',
                 async: false,
-                callbackFunc: xhr => {
-                    let imageList = JSON.parse(xhr.responseText);
-                    document.querySelector('.thumbnail-main').innerHTML = '';
-                    imageList.forEach(function(image) {
-                        addThumbnail(image);
-                    });
+                callbackFunc: function (response) {
+                    let imageList = JSON.parse(response.responseText);
                     addThumbnailUpload();
-                    aliceJs.showTotalCount(document.querySelectorAll('.thumbnail').length, 'totalCount');
+                    if (isScroll) {
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                            imageList.forEach(function (image) {
+                                addThumbnail(image);
+                            });
+                        }
+                    } else {
+                        let count = imageList.toString() === '' ? 0 : JSON.stringify(imageList[0].totalCount)
+                        aliceJs.showTotalCount(count, 'totalCount');
+                        document.getElementById('totalCount').value = count;
+                        imageList.forEach(function (image) {
+                            addThumbnail(image);
+                        });
+                        OverlayScrollbars(document.querySelector('.image-content-edit'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function (e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    if (Math.floor(scrollHeight - scrollTop) === Math.ceil(clientHeight)) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            getImages(true);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 }
             });
         }
@@ -104,11 +135,7 @@
                     </div>
                 </div>
             `;
-            if (thumbnailUpload) {
-                thumbnailUpload.insertAdjacentHTML('beforebegin', thumbnailTemplate);
-            } else {
-                thumbnailContainer.insertAdjacentHTML('beforeend', thumbnailTemplate);
-            }
+            thumbnailContainer.insertAdjacentHTML('beforeend', thumbnailTemplate);
         }
 
         function addThumbnailUpload() {
@@ -134,8 +161,10 @@
                     callbackFunc: xhr => {
                         if (xhr.responseText === 'true') {
                             document.querySelector('.thumbnail-main').removeChild(imgObj.parentNode.parentNode);
+                            let deleteAfterCount = Number(document.getElementById("totalCount").value) - 1;
+                            document.getElementById('totalCount').value = deleteAfterCount;
+                            aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
                         }
-                        aliceJs.showTotalCount(document.querySelectorAll('.thumbnail').length, 'totalCount');
                     }
                 });
             });
@@ -196,7 +225,7 @@
                     }
                 }
 
-                const uploadImage = function() {
+                const uploadImage = function () {
                     let xhr = new XMLHttpRequest(),
                         formData = new FormData();
                     for (let i = 0, len = fileList.length; i < len; i++) {
@@ -208,7 +237,6 @@
                             for (let i = 0, len = list.length; i < len; i++) {
                                 addThumbnail(list[i]);
                             }
-                            aliceJs.showTotalCount(document.querySelectorAll('.thumbnail').length, 'totalCount');
                         }
                     }
                     xhr.open('POST', '/rest/images', true);
@@ -224,8 +252,10 @@
                     );
                 } else {
                     uploadImage();
+                    aliceJs.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function () {
+                        location.reload();
+                    });
                 }
-
             }
         }
         // 이미지 미리보기

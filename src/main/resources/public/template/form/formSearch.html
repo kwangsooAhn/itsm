@@ -59,11 +59,10 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                restSearchSubmit('GET', '/rest/forms?search=' + search + '&offset=' + offsetCount, isScroll);
             } else {
                 offsetCount = 0;
-                restSearchSubmit('GET', '/forms?search=' + search + '&offset=' + offsetCount, isScroll);
             }
+            restSearchSubmit('GET', '/forms?search=' + search + '&offset=' + offsetCount + '&isScroll=' + isScroll, isScroll);
         }
 
         // 유효성 검증
@@ -423,136 +422,48 @@
                 showProgressbar: false,
                 callbackFunc: function(response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function (data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                        }
+                        const formTbody = document.querySelector('.list-body .os-content');
+                        const tempTb = document.createElement('table');
+                        tempTb.innerHTML = response.responseText;
+                        setDateTimeFormat(tempTb);
+                        for (let i = 0; i < tempTb.rows.length; i++) {
+                            formTbody.appendChild(tempTb.rows[i]);
                         }
                     } else {
                         document.getElementById('formList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        let formDtEle = document.querySelectorAll('td[name=createDt]');
-                        for (let i = 0; i < formDtEle.length; i++) {
-                            formDtEle[i].textContent = i18n.userDateTime(formDtEle[i].textContent);
-                        }
-                    }
-
-                    OverlayScrollbars(document.querySelector('.list-body'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (scrollHeight - scrollTop === clientHeight) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        getFormList(document.getElementById('search').value, true);
+                        setDateTimeFormat(document.getElementById('formList'));
+                        OverlayScrollbars(document.querySelector('.list-body'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function(e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    if (scrollHeight - scrollTop === clientHeight) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            getFormList(document.getElementById('search').value, true);
+                                        }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             };
             aliceJs.sendXhr(opt);
         }
 
-        function getDataTemplate(data) {
-            let div = document.querySelector('.list-body .os-content');
-            let tr = document.createElement('tr');
-            tr.className = 'flex-row align-items-center';
-
-            let tdFormName = document.createElement('td');
-            tdFormName.style.width = '20%';
-            tdFormName.className = 'align-left underline';
-            let formNameObject;
-            if (data.editable == true) {
-                formNameObject = document.createElement('a');
-                formNameObject.onclick = function() {
-                    if (document.getElementById('updatable').value === 'true') {
-                        openFormEdit(data.id, false);
-                    } else {
-                        openFormEdit(data.id, true);
-                    }
-                }
-            } else {
-                if (data.status == STATUS_USE) {
-                    formNameObject = document.createElement('a');
-                    formNameObject.onclick = function() {
-                        openFormEdit(data.id, true);
-                    }
-                } else {
-                    formNameObject = document.createElement('span');
-                }
-            }
-            formNameObject.innerText = data.name;
-            tdFormName.appendChild(formNameObject);
-
-            // 미리보기
-            let tdFormPreview = document.createElement('td');
-            tdFormPreview.style.width = '10%';
-            tdFormPreview.className = 'align-center';
-
-            let formPreviewBtn = document.createElement('button');
-            let spanFormPreview = document.createElement('span');
-            formPreviewBtn.className = 'default-fill btn-popup';
-            spanFormPreview.className = 'icon-search';
-            formPreviewBtn.onclick = function() {
-                openFormDesignerView(data.id);
-            }
-            formPreviewBtn.appendChild(spanFormPreview);
-            tdFormPreview.appendChild(formPreviewBtn);
-
-            // 변경
-            let tdFormUpdate = document.createElement('td');
-            tdFormUpdate.style.width = '10%';
-            tdFormUpdate.className = 'align-center';
-
-            if (document.getElementById('updatable').value === 'true' && data.editable == true) {
-                let formUpdateBtn = document.createElement('button');
-                let spanFormUpdate = document.createElement('span');
-                spanFormUpdate.className = 'icon-edit';
-                formUpdateBtn.onclick = function() {
-                    openFormDesignerEdit(data.id);
-                }
-                formUpdateBtn.appendChild(spanFormUpdate);
-                tdFormUpdate.appendChild(formUpdateBtn);
-            }
-
-            let tdState = document.createElement('td');
-            tdState.style.width = '10%';
-            tdState.className = 'align-center';
-            tdState.innerText = i18n.msg(data.status);
-
-            let tdDescription = document.createElement('td');
-            tdDescription.style.width = '28%';
-            tdDescription.className = 'align-left';
-            tdDescription.innerText = data.desc;
-
-            let tdWriter = document.createElement('td');
-            tdWriter.style.width = '10%';
-            tdWriter.className = 'align-left';
-            tdWriter.innerText = data.createUserName;
-
-            let tdWriteDate = document.createElement('td');
-            tdWriteDate.style.width = '12%';
-            tdWriteDate.className = 'align-left';
-            tdWriteDate.innerText = i18n.userDateTime(data.createDt);
-
-            tr.appendChild(tdFormName);
-            tr.appendChild(tdFormPreview);
-            tr.appendChild(tdFormUpdate);
-            tr.appendChild(tdState);
-            tr.appendChild(tdDescription);
-            tr.appendChild(tdWriter);
-            tr.appendChild(tdWriteDate);
-            div.appendChild(tr);
+        /**
+         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+         */
+        function setDateTimeFormat(elem) {
+            elem.querySelectorAll('.date-time').forEach(dt => {
+                dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            });
         }
         /*]]>*/
     </script>

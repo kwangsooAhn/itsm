@@ -7,13 +7,9 @@
 package co.brainz.itsm.board.controller
 
 import co.brainz.itsm.board.dto.BoardArticleCommentDto
-import co.brainz.itsm.board.dto.BoardArticleListDto
 import co.brainz.itsm.board.dto.BoardArticleSaveDto
-import co.brainz.itsm.board.dto.BoardArticleSearchDto
 import co.brainz.itsm.board.dto.BoardDetailDto
 import co.brainz.itsm.board.dto.BoardDto
-import co.brainz.itsm.board.dto.BoardListDto
-import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.service.BoardService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,15 +23,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/boards")
 class BoardRestController(private val boardService: BoardService) {
-
-    /**
-     * [BoardSearchDto]를 받아서 게시판 관리 리스트에 [List<BoardAdminListDto>]로 반환한다.
-     *
-     */
-    @GetMapping("")
-    fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardListDto> {
-        return boardService.getBoardList(boardSearchDto)
-    }
 
     /**
      * [boardAdminId]를 받아서 게시판 관리 정보를 [BoardDetailDto]로 반환한다.
@@ -68,8 +55,8 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardDto
      */
     @PostMapping("")
-    fun createBoard(@RequestBody boardDto: BoardDto) {
-        boardService.saveBoard(boardDto)
+    fun createBoard(@RequestBody boardDto: BoardDto): Boolean {
+        return boardService.saveBoard(boardDto)
     }
 
     /**
@@ -78,8 +65,8 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardDto
      */
     @PutMapping("")
-    fun updateBoard(@RequestBody boardDto: BoardDto) {
-        boardService.saveBoard(boardDto)
+    fun updateBoard(@RequestBody boardDto: BoardDto): Boolean {
+        return boardService.saveBoard(boardDto)
     }
 
     /**
@@ -90,14 +77,6 @@ class BoardRestController(private val boardService: BoardService) {
     @DeleteMapping("/{boardAdminId}")
     fun deleteBoard(@PathVariable boardAdminId: String) {
         boardService.deleteBoard(boardAdminId)
-    }
-
-    /**
-     * [BoardArticleSearchDto]를 받아서 게시판 추가할 데이터를 데이터 반환 [List<BoardRestDto>]
-     */
-    @GetMapping("/articles")
-    fun getBoardArticleList(boardArticleSearchDto: BoardArticleSearchDto): List<BoardArticleListDto> {
-        return boardService.getBoardArticleList(boardArticleSearchDto)
     }
 
     /**

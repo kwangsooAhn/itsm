@@ -5399,6 +5399,17 @@ body.modal-active {
   background-color: #ffffff;
   padding: 1.875rem 2.5rem 1.25rem 2.5rem;
 }
+.itsm-popup .popup-title {
+  color: #586872;
+  margin-bottom: 1.75rem;
+}
+.itsm-popup-btn-content {
+  margin-top: 2rem;
+  border-top: 0.0625rem solid #E1E3E6;
+}
+.itsm-popup-btn-list {
+  margin-top: 1.25rem;
+}
 .itsm-popup .view {
   height: 100vh;
 }
@@ -5435,8 +5446,8 @@ body.modal-active {
   height: auto;
 }
 .itsm-popup .custom-code-content-popup .radio-list {
-  height: 25rem;
-  margin-top: 1.25rem;
+  height: 34.375rem;
+  margin: 1.25rem 0 2.5rem 0;
 }
 .itsm-popup .notice-content-popup.view {
   height: auto;

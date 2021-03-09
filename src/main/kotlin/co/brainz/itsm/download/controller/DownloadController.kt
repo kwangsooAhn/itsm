@@ -25,6 +25,7 @@ class DownloadController(
 
     private val downloadSearchPage: String = "download/downloadSearch"
     private val downloadListPage: String = "download/downloadList"
+    private val downloadListFragment: String = "download/downloadList :: list"
     private val downloadEditPage: String = "download/downloadEdit"
     private val downloadViewPage: String = "download/downloadView"
 
@@ -50,7 +51,7 @@ class DownloadController(
         val result = downloadService.getDownloadList(downloadSearchDto)
         model.addAttribute("downloadList", result)
         model.addAttribute("downloadCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return downloadListPage
+        return if (downloadSearchDto.isScroll) downloadListFragment else downloadListPage
     }
 
     /**

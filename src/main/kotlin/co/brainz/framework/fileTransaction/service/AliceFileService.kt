@@ -22,6 +22,7 @@ import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.util.AliceFileUtil
+import co.brainz.itsm.constants.ItsmConstants
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
@@ -254,12 +255,12 @@ class AliceFileService(
      */
     fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
         val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> Paths.get((javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI()))
-            AliceConstants.FileType.ICON_TYPE.code -> Paths.get((javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI()))
+            AliceConstants.FileType.ICON.code -> Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
+            AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
 
-        // logger.debug(">>>> WORKFLOW IMAGE URI", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
+//        logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
 
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dir)) {
@@ -284,6 +285,7 @@ class AliceFileService(
             val file = it.toFile()
             val bufferedImage = ImageIO.read(file)
             val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
+
             images.add(
                 AliceImageFileDto(
                     name = file.name,
@@ -550,5 +552,54 @@ class AliceFileService(
                 userRepository.save(userEntity)
             }
         }
+    }
+    /**
+     *  이미지관리 화면내 이미지 조회목록을 리턴한다.
+     */
+    fun getImageList(searchValue: String, offset: Long): List<AliceImageFileDto> {
+        val dir = super.getWorkflowDir(this.imagesRootDirectory)
+        val fileList = mutableListOf<Path>()
+        val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
+        val images = mutableListOf<AliceImageFileDto>()
+        var searchDataCount = ItsmConstants.IMAGE_SEARCH_DATA_COUNT
+
+        fileDirMap[false]?.forEach { filePath ->
+            val file = filePath.toFile()
+            if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
+                when (searchValue) {
+                    "" -> fileList.add(filePath)
+                    else -> {
+                        if (file.name.matches(".*$searchValue.*".toRegex())) {
+                            fileList.add(filePath)
+                        }
+                    }
+                }
+            }
+        }
+        if (fileList.size < offset + searchDataCount) {
+            searchDataCount = fileList.size.toLong() - offset
+        }
+        for (i in offset until offset + searchDataCount) {
+            val file = fileList[i.toInt()].toFile()
+            val bufferedImage = ImageIO.read(file)
+            val resizedBufferedImage = resizeBufferedImage(bufferedImage, "")
+            images.add(
+                AliceImageFileDto(
+                    name = file.name,
+                    extension = file.extension,
+                    fullpath = file.absolutePath,
+                    size = super.humanReadableByteCount(file.length()),
+                    data = super.encodeToString(resizedBufferedImage, file.extension),
+                    width = bufferedImage.width,
+                    height = bufferedImage.height,
+                    totalCount = fileList.size.toLong(),
+                    updateDt = LocalDateTime.ofInstant(
+                        Instant.ofEpochMilli(file.lastModified()),
+                        ZoneId.systemDefault()
+                    )
+                )
+            )
+        }
+        return images
     }
 }

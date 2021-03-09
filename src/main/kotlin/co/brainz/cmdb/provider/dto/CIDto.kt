@@ -12,8 +12,8 @@ import java.io.Serializable
 data class CIDto(
     val ciId: String,
     var ciNo: String? = null,
-    var ciName: String? = null,
-    var ciStatus: String? = null,
+    var ciName: String = "",
+    var ciStatus: String = "",
     val typeId: String,
     val classId: String? = null,
     var ciIcon: String? = null,

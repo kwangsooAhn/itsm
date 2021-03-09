@@ -53,13 +53,11 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/custom-codes?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/custom-codes?' + urlParam, isScroll);
             }
+            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+            restSubmit('get', '/custom-codes?' + urlParam, isScroll);
         }
 
         // REST API
@@ -70,85 +68,50 @@
                 async: false,
                 callbackFunc: function(response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function(data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                        }
+                        const customTbody = document.querySelector('.list-body .os-content');
+                        const tempTb = document.createElement('table');
+                        tempTb.innerHTML = response.responseText;
+                        setDateTimeFormat(tempTb);
+                        for (let i = 0; i < tempTb.rows.length; i++) {
+                            customTbody.appendChild(tempTb.rows[i]);
                         }
                     } else {
                         document.getElementById('customCodeList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        let customCodeDtEle = document.querySelectorAll('td[name=createDt]');
-                        for (let i = 0; i < customCodeDtEle.length; i++) {
-                            customCodeDtEle[i].textContent = i18n.userDateTime(customCodeDtEle[i].textContent);
-                        }
-                    }
-
-                    OverlayScrollbars(document.querySelector('.list-body'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                // 스크롤이 맨 마지막에 있을 경우
-                                if (scrollHeight - scrollTop === clientHeight) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        getCustomCodeList(true);
+                        setDateTimeFormat(document.getElementById('customCodeList'));
+                        OverlayScrollbars(document.querySelector('.list-body'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function(e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    // 스크롤이 맨 마지막에 있을 경우
+                                    if (scrollHeight - scrollTop === clientHeight) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            getCustomCodeList(true);
+                                        }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 },
                 showProgressbar: false
             };
             aliceJs.sendXhr(opt);
         }
-        // Tr 동적 데이터 만들기
-        function getDataTemplate(data) {
-            let div = document.querySelector('.list-body .os-content');
-            let tr = document.createElement('tr');
-            tr.className = 'flex-row align-items-center';
 
-            let tdCustomCodeName = document.createElement('td');
-            tdCustomCodeName.style.width = '50%';
-            tdCustomCodeName.className = 'align-left underline';
-            let aCustomCodeName = document.createElement('a');
-            if (document.getElementsByName('isRole')[0].value === 'true') {
-                aCustomCodeName.href = '/custom-codes/'+ data.customCodeId +'/edit';
-            } else {
-                aCustomCodeName.href = '/custom-codes/'+ data.customCodeId +'/view';
-            }
-            aCustomCodeName.innerText = data.customCodeName;
-            tdCustomCodeName.appendChild(aCustomCodeName);
-
-            let tdType = document.createElement('td');
-            tdType.className = 'align-left';
-            tdType.innerText = i18n.msg('customCode.label.' + data.type);
-            tdType.style.width = '20%';
-
-            let tdCreateUserName = document.createElement('td');
-            tdCreateUserName.className = 'align-left';
-            tdCreateUserName.innerText = data.createUserName;
-            tdCreateUserName.style.width = '15%';
-
-            let tdCreateDt = document.createElement('td');
-            tdCreateDt.className = 'align-left';
-            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
-            tdCreateDt.style.width = '15%';
-
-            tr.appendChild(tdCustomCodeName);
-            tr.appendChild(tdType);
-            tr.appendChild(tdCreateUserName);
-            tr.appendChild(tdCreateDt);
-            div.appendChild(tr);
+        /**
+         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+         */
+        function setDateTimeFormat(elem) {
+            elem.querySelectorAll('.date-time').forEach(dt => {
+                dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            });
         }
     </script>
 </th:block>

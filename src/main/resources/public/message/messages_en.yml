@@ -49,6 +49,7 @@ common:
     dataSelect: "Please select data."
     delete: "Deleted."
     deleteTartget: "Please select target."
+    emptyValue: "There is an empty value"
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
     fail: "Failed."
@@ -221,6 +222,7 @@ board:
     adminSearchDescription: "View and manage the boards."
     adminViewDescription: "Inquire detailed information on the board."
     createDescription: "Add board's information."
+    duplicateBoardAdminTitle: "Already exist same board title,<br>Please check board title"
     editDescription: "Register, edit, or delete posts."
     enterAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
     enterBoardTitle: "Please enter the board name."
@@ -723,6 +725,7 @@ image:
     existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
     failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
     fileSelect: "Please select a file."
+    registrationSuccess: "Image Registration Success."
     searchDescription: "Add, view and manage images to be used in forms."
 
 # Login

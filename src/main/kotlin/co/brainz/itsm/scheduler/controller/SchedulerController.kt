@@ -28,6 +28,7 @@ class SchedulerController(
     private val schedulerSearchPage: String = "scheduler/schedulerSearch"
     private val schedulerEditPage: String = "scheduler/schedulerEdit"
     private val schedulerListPage: String = "scheduler/schedulerList"
+    private val schedulerListFragment: String = "scheduler/schedulerList :: list"
     private val schedulerViewPage: String = "scheduler/schedulerView"
     private val schedulerHistoryListModal: String = "scheduler/schedulerHistoryListModal"
 
@@ -47,7 +48,7 @@ class SchedulerController(
         val result = schedulerService.getSchedulers(schedulerSearchDto)
         model.addAttribute("schedulerList", result)
         model.addAttribute("schedulerListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return schedulerListPage
+        return if (schedulerSearchDto.isScroll) schedulerListFragment else schedulerListPage
     }
 
     /**

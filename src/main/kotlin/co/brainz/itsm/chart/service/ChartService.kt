@@ -332,17 +332,17 @@ class ChartService(
                         dateFormatList.add(dateFormat + String.format("%02d", day))
 
                         if (day == endDateTime!!.dayOfMonth && startMonth == endDateTime!!.monthValue) {
-                            break;
+                            break
                         }
                     }
 
                     when (startMonth) {
                         12 -> {
                             startYear++
-                            startMonth = 1;
+                            startMonth = 1
                         }
                         else -> {
-                            startMonth++;
+                            startMonth++
                         }
                     }
                     startDays = 1
@@ -384,11 +384,11 @@ class ChartService(
                         for (hours in startHours until 25) {
                             dateFormatList.add(dateFormat + day + String.format("%02d", hours))
                             if (hours == endDateTime!!.hour && day == endDateTime!!.dayOfMonth && startMonth == endDateTime!!.monthValue) {
-                                break;
+                                break
                             }
                         }
                         if (day == endDateTime!!.dayOfMonth && startMonth == endDateTime!!.monthValue) {
-                            break;
+                            break
                         }
                         startHours = 1
                     }
@@ -396,10 +396,10 @@ class ChartService(
                     when (startMonth) {
                         12 -> {
                             startYear++
-                            startMonth = 1;
+                            startMonth = 1
                         }
                         else -> {
-                            startMonth++;
+                            startMonth++
                         }
                     }
                     startDays = 1

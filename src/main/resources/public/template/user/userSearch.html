@@ -51,13 +51,11 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam += '&offset=' + offsetCount;
-                restSearchSubmit('get', '/rest/users?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam += '&offset=' + offsetCount;
-                restSearchSubmit('get', '/users?' + urlParam, isScroll);
             }
+            urlParam += '&offset=' + offsetCount + '&isScroll=' + isScroll;
+            restSearchSubmit('get', '/users?' + urlParam, isScroll);
         }
 
         function restSearchSubmit(method, url, isScroll) {
@@ -67,116 +65,48 @@
                 showProgressbar: false,
                 callbackFunc: function(response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function (data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                        }
+                        const userTbody = document.querySelector('.list-body .os-content');
+                        const tempTb = document.createElement('table');
+                        tempTb.innerHTML = response.responseText;
+                        setDateTimeFormat(tempTb);
+                        for (let i = 0; i < tempTb.rows.length; i++) {
+                            userTbody.appendChild(tempTb.rows[i]);
                         }
                     } else {
                         document.getElementById('userList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        let createDtList = document.querySelectorAll('td[name=createDt]');
-                        for (let i = 0; i < createDtList.length; i++) {
-                            createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
-                        }
-                    }
-
-                    OverlayScrollbars(document.querySelector('.list-body'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (scrollHeight - scrollTop === clientHeight) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        getUserList(true);
+                        setDateTimeFormat(document.getElementById('userList'));
+                        OverlayScrollbars(document.querySelector('.list-body'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function(e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    if (scrollHeight - scrollTop === clientHeight) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            getUserList(true);
+                                        }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             };
             aliceJs.sendXhr(opt);
         }
 
-        function getDataTemplate(data) {
-            let div = document.querySelector('.list-body .os-content');
-            let tr = document.createElement('tr');
-            tr.className = 'flex-row align-items-center';
-
-            let tdAvatar = document.createElement('td');
-            tdAvatar.className = 'align-right p-0';
-            tdAvatar.style.width = '3.2%';
-            let avatarImage = document.createElement('img');
-            avatarImage.className = 'profile-photo';
-            avatarImage.src = data.avatarPath;
-            avatarImage.style.width = '27px';
-            avatarImage.style.height = '27px';
-            avatarImage.alt = 'profile pic';
-            tdAvatar.appendChild(avatarImage);
-
-            let tdName = document.createElement('td');
-            tdName.className = 'align-left underline';
-            tdName.style.width = '9.8%';
-            let aName = document.createElement('a');
-            aName.href = '/users/' + data.userKey + '/edit';
-            aName.innerText = data.userName;
-            tdName.appendChild(aName);
-
-            let tdId = document.createElement('td');
-            tdId.className = 'align-left';
-            tdId.style.width = '10%';
-            tdId.innerText = data.userName;
-
-            let tdEmail = document.createElement('td');
-            tdEmail.className = 'align-left';
-            tdEmail.style.width = '16%';
-            tdEmail.innerText = data.email;
-
-            let tdDepartment = document.createElement('td');
-            tdDepartment.className = 'align-left';
-            tdDepartment.style.width = '16%';
-            tdDepartment.innerText = data.department;
-
-            let tdPosition = document.createElement('td');
-            tdPosition.className = 'align-left';
-            tdPosition.style.width = '10%';
-            tdPosition.innerText = data.position;
-
-            let tdOfficeNumber = document.createElement('td');
-            tdOfficeNumber.className = 'align-left';
-            tdOfficeNumber.style.width = '10%';
-            tdOfficeNumber.innerText = data.officeNumber;
-
-            let tdMobileNumber = document.createElement('td');
-            tdMobileNumber.className = 'align-left';
-            tdMobileNumber.style.width = '10%';
-            tdMobileNumber.innerText = data.mobileNumber;
-
-            let tdSignUpDate = document.createElement('td');
-            tdSignUpDate.className = 'align-left';
-            tdSignUpDate.style.width = '15%';
-            tdSignUpDate.innerText = i18n.userDateTime(data.createDt);
-
-            tr.appendChild(tdAvatar);
-            tr.appendChild(tdName);
-            tr.appendChild(tdId);
-            tr.appendChild(tdEmail);
-            tr.appendChild(tdDepartment);
-            tr.appendChild(tdPosition);
-            tr.appendChild(tdOfficeNumber);
-            tr.appendChild(tdMobileNumber);
-            tr.appendChild(tdSignUpDate);
-
-            div.appendChild(tr);
+        /**
+         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+         */
+        function setDateTimeFormat(elem) {
+            elem.querySelectorAll('.date-time').forEach(dt => {
+                dt.textContent = i18n.userDateTime(dt.textContent.trim());
+            });
         }
         /*]]>*/
     </script>

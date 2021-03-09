@@ -25,6 +25,7 @@ class ChartController(
 
     private val chartSearchPage: String = "chart/chartSearch"
     private val chartListPage: String = "chart/chartList"
+    private val chartListFragment: String = "chart/chartList :: list"
     private val chartEditPage: String = "chart/chartEdit"
     private val chartViewPage: String = "chart/chartView"
 
@@ -47,7 +48,7 @@ class ChartController(
         val result = chartService.getCharts(searchTypeName, offset)
         model.addAttribute("chartList", result)
         model.addAttribute("chartListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return chartListPage
+        return if (request.getParameter("isScroll").toBoolean()) chartListFragment else chartListPage
     }
 
     /**
