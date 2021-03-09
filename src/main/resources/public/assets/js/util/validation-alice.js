@@ -48,11 +48,13 @@ function isNull(elementId, messageId, callbackFunc) {
  */
 function isEmpty(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
+    const message = i18n.msg(messageId || "common.msg.emptyValue");
+    const callback = (typeof callbackFunc === "function") ? callbackFunc : function () {
+        elem.focus();
+    }
     if (elem !== null) {
         if (elem.value.trim() === '') {
-            if (messageId !== undefined) {
-                aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
-            }
+            aliceJs.alertWarning(message, callback);
             return true;
         }
         return false;

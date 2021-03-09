@@ -49,6 +49,7 @@ common:
     dataSelect: "데이터를 선택하세요."
     delete: "삭제되었습니다."
     deleteTartget: "삭제 대상을 선택하세요."
+    emptyValue: "빈 값이 있습니다."
     enterContents: "내용을 입력하세요."
     enterTitle: "제목을 입력하세요."
     fail: "실패하였습니다."
