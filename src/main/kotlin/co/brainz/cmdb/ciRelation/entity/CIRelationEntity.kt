@@ -26,9 +26,9 @@ data class CIRelationEntity(
     var relationType: String? = null,
 
     @Column(name = "master_ci_id", length = 128)
-    var masterCIId: String? = "",
+    var masterCIId: String = "",
 
     @Column(name = "slave_ci_id", length = 128)
-    var slaveCIId: String? = ""
+    var slaveCIId: String = ""
 
 ) : Serializable
