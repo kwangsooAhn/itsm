@@ -28,7 +28,7 @@ data class CIAttributeEntity(
     var attributeId: String = "",
 
     @Column(name = "attribute_name", length = 128)
-    var attributeName: String = "",
+    var attributeName: String? = "",
 
     @Column(name = "attribute_desc", length = 512)
     var attributeDesc: String? = null,
@@ -37,7 +37,7 @@ data class CIAttributeEntity(
     var attributeType: String? = null,
 
     @Column(name = "attribute_text", length = 128)
-    var attributeText: String = "",
+    var attributeText: String? = "",
 
     @Column(name = "attribute_value")
     var attributeValue: String? = "",
