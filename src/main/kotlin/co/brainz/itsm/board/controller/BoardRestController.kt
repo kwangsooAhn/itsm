@@ -55,8 +55,8 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardDto
      */
     @PostMapping("")
-    fun createBoard(@RequestBody boardDto: BoardDto) {
-        boardService.saveBoard(boardDto)
+    fun createBoard(@RequestBody boardDto: BoardDto): Boolean {
+        return boardService.saveBoard(boardDto)
     }
 
     /**
@@ -65,8 +65,8 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardDto
      */
     @PutMapping("")
-    fun updateBoard(@RequestBody boardDto: BoardDto) {
-        boardService.saveBoard(boardDto)
+    fun updateBoard(@RequestBody boardDto: BoardDto): Boolean {
+        return boardService.saveBoard(boardDto)
     }
 
     /**

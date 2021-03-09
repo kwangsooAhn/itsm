@@ -248,10 +248,16 @@
                 url: url,
                 params: JSON.stringify(data),
                 contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceJs.alertSuccess(resultMsg, function () {
-                        location.href = '/boards/search';
-                    });
+                callbackFunc: function (response) {
+                    let result = response.responseText === "true" ? true : false;
+                    if (result) {
+                        aliceJs.alertSuccess(resultMsg, function () {
+                            location.href = '/boards/search';
+                        });
+                    } else {
+                        resultMsg = i18n.msg('board.msg.duplicateBoardAdminTitle');
+                        aliceJs.alertWarning(resultMsg);
+                    }
                 },
                 showProgressbar: false
             };

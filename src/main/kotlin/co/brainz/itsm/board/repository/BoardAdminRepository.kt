@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface BoardAdminRepository : JpaRepository<PortalBoardAdminEntity, String>, BoardAdminRepositoryCustom {
     fun findAllByBoardUseYnTrueOrderByBoardAdminSortAsc(): MutableList<PortalBoardAdminEntity>
+    fun countByBoardAdminTitle(BoardAdminTitle: String): Long
+    fun findByBoardAdminId(BoardAdminId: String): PortalBoardAdminEntity?
 }

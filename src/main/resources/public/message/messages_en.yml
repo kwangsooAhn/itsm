@@ -222,6 +222,7 @@ board:
     adminSearchDescription: "View and manage the boards."
     adminViewDescription: "Inquire detailed information on the board."
     createDescription: "Add board's information."
+    duplicateBoardAdminTitle: "Already exist same board title,<br>Please check board title"
     editDescription: "Register, edit, or delete posts."
     enterAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
     enterBoardTitle: "Please enter the board name."
