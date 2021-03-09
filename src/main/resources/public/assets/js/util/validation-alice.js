@@ -50,7 +50,7 @@ function isEmpty(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
     const message = i18n.msg(messageId || "common.msg.emptyValue");
     const callback = (typeof callbackFunc === "function") ? callbackFunc : function () {
-        document.getElementById(elementId).focus();
+        elem.focus();
     }
     if (elem !== null) {
         if (elem.value.trim() === '') {
