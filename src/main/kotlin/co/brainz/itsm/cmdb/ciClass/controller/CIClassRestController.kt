@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -38,9 +39,13 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      * CMDB CI Class 목록 조회
      */
     @GetMapping("/", "")
-    fun getCIClasses(request: HttpServletRequest, model: Model): List<CIClassListDto> {
+    fun getCIClasses(
+        request: HttpServletRequest,
+        @RequestParam(value = "search", required = false, defaultValue = "") search: String,
+        model: Model
+    ): List<CIClassListDto> {
         val params = LinkedHashMap<String, Any>()
-        params["search"] = request.getParameter("search")
+        params["search"] = search
         return ciClassService.getCIClasses(params)
     }
 
@@ -48,16 +53,16 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      * CMDB CI Class 등록
      */
     @PostMapping("")
-    fun createCIClass(@RequestBody CIClassDto: CIClassDto): String {
-        return ciClassService.createCIClass(CIClassDto)
+    fun createCIClass(@RequestBody ciClassDto: CIClassDto): String {
+        return ciClassService.createCIClass(ciClassDto)
     }
 
     /**
      * CMDB CI Class 수정
      */
     @PutMapping("/{classId}")
-    fun updateCIClass(@RequestBody CIClassDto: CIClassDto): String {
-        return ciClassService.updateCIClass(CIClassDto)
+    fun updateCIClass(@RequestBody ciClassDto: CIClassDto): String {
+        return ciClassService.updateCIClass(ciClassDto)
     }
 
     /**

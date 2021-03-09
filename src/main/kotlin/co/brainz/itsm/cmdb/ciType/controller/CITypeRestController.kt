@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -28,9 +29,13 @@ class CITypeRestController(private val ciTypeService: CITypeService) {
      * CI Type 목록 조회
      */
     @GetMapping("/", "")
-    fun getCITypes(request: HttpServletRequest, model: Model): List<CITypeListDto> {
+    fun getCITypes(
+        request: HttpServletRequest,
+        @RequestParam(value = "search", required = false, defaultValue = "") search: String,
+        model: Model
+    ): List<CITypeListDto> {
         val params = LinkedHashMap<String, Any>()
-        params["search"] = request.getParameter("search")
+        params["search"] = search
         return ciTypeService.getCITypeList(params)
     }
 
