@@ -75,7 +75,7 @@ class BoardService(
                 attachYn = boardDto.attachYn,
                 attachFileSize = boardDto.attachFileSize
         )
-        var preBoardEntity: PortalBoardAdminEntity? = boardAdminRepository.findByBoardAdminId(portalBoardAdminEntity.boardAdminId)
+        val preBoardEntity: PortalBoardAdminEntity? = boardAdminRepository.findByBoardAdminId(portalBoardAdminEntity.boardAdminId)
                 ?: null
         val duplicateCount = boardAdminRepository.countByBoardAdminTitle(boardDto.boardAdminTitle!!)
         if (duplicateCount > 0 && !boardDto.boardAdminTitle.equals(preBoardEntity?.boardAdminTitle)) {
