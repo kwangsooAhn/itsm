@@ -77,8 +77,8 @@ class BoardService(
         )
         var preBoardEntity: PortalBoardAdminEntity? = boardAdminRepository.findByBoardAdminId(portalBoardAdminEntity.boardAdminId)
                 ?: null
-        val duplicateData = boardAdminRepository.countByBoardAdminTitle(boardDto.boardAdminTitle!!)
-        if (duplicateData > 0 && !boardDto.boardAdminTitle.equals(preBoardEntity?.boardAdminTitle)) {
+        val duplicateCount = boardAdminRepository.countByBoardAdminTitle(boardDto.boardAdminTitle!!)
+        if (duplicateCount > 0 && !boardDto.boardAdminTitle.equals(preBoardEntity?.boardAdminTitle)) {
             return false
         }
         val boardAdmin = boardAdminRepository.save(portalBoardAdminEntity)
