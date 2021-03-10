@@ -56,7 +56,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class CIRestControllerTest {
-    @Autowired
+    /*@Autowired
     private lateinit var mvc: MockMvc
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -191,9 +191,9 @@ class CIRestControllerTest {
         }
     }
 
-    /*
+    *//*
      * CI 등록 - tag, ci_data 모두 포함
-     */
+     *//*
     @Test
     fun a_registerNewCI() {
         mvc.perform(
@@ -205,9 +205,9 @@ class CIRestControllerTest {
         logger.debug(newCIDto.toString())
     }
 
-    /*
+    *//*
      * CI 변경 - tag, ci_data 모두 포함
-     */
+     *//*
     @Test
     fun b_modifyCI() {
         logger.debug(updateCIDto.toString())
@@ -219,9 +219,9 @@ class CIRestControllerTest {
             .andExpect(status().isOk)
     }
 
-    /*
+    *//*
      * CI 조회 - 리스트 조회
-     */
+     *//*
     @Test
     fun c_getCIList() {
         val searchValue = hashMapOf<String, Any>()
@@ -236,10 +236,10 @@ class CIRestControllerTest {
         logger.debug(resultCIList)
     }
 
-    /*
+    *//*
      * CI 조회 - 1건조회
-     */
-    /*@Test
+     *//*
+    *//*@Test
     fun d_getCIView() {
         logger.debug(updateCIDto.toString())
         val resultCI = mvc.perform(
@@ -249,11 +249,11 @@ class CIRestControllerTest {
             .andReturn().response.contentAsString
 
         logger.debug(resultCI)
-    }*/
+    }*//*
 
-    /*
+    *//*
      * CI 삭제 - 실제로 삭제는 안되고 상태가 변경.
-     */
+     *//*
     @Test
     fun e_deleteCI() {
         logger.debug(updateCIDto.toString())
@@ -267,5 +267,5 @@ class CIRestControllerTest {
         )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.ciStatus").value(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
-    }
+    }*/
 }
