@@ -62,11 +62,26 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.2")
     runtimeOnly("org.postgresql:postgresql")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test") /*{
-        exclude("junit")
-    }*/
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+    // Junit 5 설정
+    // 2021-03-10 Jung Hee Chan
+    // Junit 4와 병행으로 사용되는 상황. => vintage 적용
+    // 추후 Spring Boot 및 Kotlin 버전 업그레이드 검토 시 같이 검토 필요.
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude("junit") // SpringBoot에 기본 적용된 Junit 4는 제외.
+    }
+
+    // 그냥 적용하면 "WARNING: TestEngine with ID 'junit-jupiter' failed to discover tests"와 같은 에러 발생.
+    // dependency가 있는 2가지의 버전을 변경.
+
+    // junit-platform-commons 버전 변경
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2") { exclude("junit-platform-commons") }
+    testImplementation("org.junit.platform:junit-platform-commons:1.5.1")
+    // junit-jupiter-engine 버전 변경
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.5.2") { exclude("junit-platform-engine") }
+    testImplementation("org.junit.platform:junit-platform-engine:1.5.1")
+
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.5.2")
+
     testImplementation("org.springframework.security:spring-security-test")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
