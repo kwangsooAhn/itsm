@@ -24,7 +24,8 @@
             </div>
             <div class="flex-column view-row">
                 <div class="view-sub-title flex-row justify-content-end">
-                    <span class="user-name" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
+                    <span class="user-name"
+                          th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
                     <span class="vertical-bar"></span>
                     <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
                 </div>
@@ -51,28 +52,34 @@
                 <div class="btn-list">
                     <button sec:authorize="hasAuthority('board.create')"
                             class="point-fill" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
-                            th:onclick ="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
+                            th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
                             th:text="#{board.btn.reply}">
                     </button>
-                    <button sec:authorize="hasAuthority('board.update')"
-                            class="point-fill" th:if="${boardInfo?.boardId}"
-                            th:onclick ="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
+                    <button class="point-fill"
+                            th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.update'')')})
+                                   or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
+                            th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
                             th:text="#{common.btn.modify}">
                     </button>
-                    <button sec:authorize="hasAuthority('board.delete')"
-                            class="default-fill" th:if="${boardInfo?.boardId}"
+                    <button class="default-fill"
+                            th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.delete'')')})
+                                   or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
                             th:onclick="deleteBoard('delete')"
                             th:text="#{common.btn.delete}">
                     </button>
                     <a class="btn default-line"
-                       th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
+                       th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}"
+                       th:text="#{common.btn.list}"></a>
                 </div>
             </div>
             <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
                 <div class="flex-row align-items-center reply-input-row">
-                    <img class="profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}" width="32" height="32"/>
-                    <input type="text" class="reply-input" id="boardComments" name="boardComments" maxlength="500" th:placeholder="#{comment.msg.enterComments}"/>
-                    <button class="default-line reply-button" onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button>
+                    <img class="profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}"
+                         width="32" height="32"/>
+                    <input type="text" class="reply-input" id="boardComments" name="boardComments" maxlength="500"
+                           th:placeholder="#{comment.msg.enterComments}"/>
+                    <button class="default-line reply-button" onclick="saveBoardComment('post')"
+                            th:text="#{common.btn.save}"></button>
                 </div>
                 <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
             </div>
@@ -85,12 +92,12 @@
         /*<![CDATA[*/
         const boardId = [[${boardInfo?.boardId}]];
         const boardAdminId = [[${boardAdminInfo?.boardAdminId}]];
-        const attachYn  = [[${boardAdminInfo?.attachYn}]];
+        const attachYn = [[${boardAdminInfo?.attachYn}]];
         const categoryYn = [[${boardAdminInfo?.categoryYn}]];
         const commentYn = [[${boardAdminInfo?.commentYn}]];
         const boardCreateDt = document.getElementById('spanCreateDt');
 
-        window.onload = function() {
+        window.onload = function () {
             boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
             if (attachYn) {
                 fileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false, isView: true}});
@@ -99,7 +106,7 @@
                 getBoardCommentList();
             }
             initTextEditor(true);
-            OverlayScrollbars(document.querySelector('.view'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.view'), {className: 'scrollbar'});
         };
 
         //웹에디터 초기화
@@ -150,8 +157,8 @@
                 });
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
-                document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' id='editComments' name='editComments' value='"+context+"'/>" +
-                    "<button class='default-line' onclick=\"saveBoardEditComment('put','"+boardCommentId+"')\">"+i18n.msg('common.btn.save')+"</button>";
+                document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' id='editComments' name='editComments' value='" + context + "'/>" +
+                    "<button class='default-line' onclick=\"saveBoardEditComment('put','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
             }
         }
 
@@ -179,7 +186,7 @@
                 url: url,
                 params: JSON.stringify(data),
                 contentType: 'application/json',
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     if (method === 'put' || method === 'post' || method === 'delete') {
                         aliceJs.alertSuccess(resultMsg, function () {
                             if (url.indexOf('/rest/boards/articles/comments') !== -1) {
@@ -191,7 +198,7 @@
                         });
                     } else if (method === 'get') {
                         document.getElementById('boardCommentList').innerHTML = response.responseText;
-                        document.getElementsByName('commentDt').forEach(function(element) {
+                        document.getElementsByName('commentDt').forEach(function (element) {
                             element.textContent = i18n.userDateTime(element.textContent)
                         });
                     }
@@ -200,6 +207,7 @@
             };
             aliceJs.sendXhr(opt);
         }
+
         /*]]>*/
     </script>
 </th:block>

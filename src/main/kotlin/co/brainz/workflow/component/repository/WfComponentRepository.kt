@@ -18,6 +18,8 @@ interface WfComponentRepository : JpaRepository<WfComponentEntity, String> {
 
     fun findByComponentIdInAndMappingId(componentIds: List<String>, mappingId: String): WfComponentEntity
 
+    fun findByComponentIdIn(componentIds: List<String>): List<WfComponentEntity>
+
     @Query(
         "SELECT c FROM WfComponentEntity c WHERE c.form.formId = :formId AND c.isTopic = :isTopic " +
                 "AND c.componentType IN :componentTypes"

@@ -71,13 +71,11 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
-                restSearchSubmit('get', '/rest/workflows?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
-                restSearchSubmit('get', '/workflows?' + urlParam, isScroll);
             }
+            urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+            restSearchSubmit('get', '/workflows?' + urlParam, isScroll);
         }
 
         // 빈 값 체크
@@ -456,129 +454,38 @@
                 async: false,
                 callbackFunc: function(response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function (data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                        }
+                        const workflowTbody = document.querySelector('.list-body .os-content');
+                        const tempTb = document.createElement('table');
+                        tempTb.innerHTML = response.responseText;
+                        for (let i = 0; i < tempTb.rows.length; i++) {
+                            workflowTbody.appendChild(tempTb.rows[i]);
                         }
                     } else {
                         document.getElementById('documentList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                    }
-
-                    OverlayScrollbars(document.querySelector('.list-body'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (scrollHeight - scrollTop === clientHeight) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        documentSearches(true);
+                        OverlayScrollbars(document.querySelector('.list-body'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function(e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    if (scrollHeight - scrollTop === clientHeight) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            documentSearches(true);
+                                        }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 },
                 showProgressbar: false
             };
             aliceJs.sendXhr(opt);
-        }
-
-        //Tr 동적 데이터 만들기
-        function getDataTemplate(data) {
-            let div = document.querySelector('.list-body .os-content');
-            let tr = document.createElement('tr');
-            tr.className = 'flex-row align-items-center';
-
-            let tdDocumentName = document.createElement('td');
-            tdDocumentName.style.width = '25%';
-            tdDocumentName.className = 'align-left';
-
-            let divDocumentColor = document.createElement('div');
-            divDocumentColor.className = 'document-color-circle';
-            divDocumentColor.style.backgroundColor = data.documentColor;
-            let spanDocumentName = document.createElement('span');
-            spanDocumentName.innerText = data.documentName;
-            tdDocumentName.appendChild(divDocumentColor);
-            tdDocumentName.appendChild(spanDocumentName);
-
-            let tdDocumentType = document.createElement('td');
-            tdDocumentType.style.width = '10%';
-            tdDocumentType.className = 'align-left';
-            if (data.documentType === 'application-form') {
-                tdDocumentType.innerText = '[[#{document.type.applicationForm}]]';
-            } else {
-                tdDocumentType.innerText = '[[#{document.type.workflow}]]';
-            }
-
-            let tdDocumentGroup = document.createElement('td');
-            tdDocumentGroup.style.width = '15%';
-            tdDocumentGroup.className = 'align-left';
-            if (data.documentGroup != null && data.documentGroup !== '') {
-                let groupObject = document.getElementById('searchGroupName');
-                for (let i = 0; i < groupObject.length; i++) {
-                    if (groupObject[i].value === data.documentGroup) {
-                        tdDocumentGroup.innerText = groupObject[i].textContent;
-                    }
-                }
-            }
-
-            let tdDocumentDesc = document.createElement('td');
-            tdDocumentDesc.style.width = '20%';
-            tdDocumentDesc.className = 'align-left';
-            tdDocumentDesc.innerText = data.documentDesc;
-
-            let tdDocumentStatus = document.createElement('td');
-            tdDocumentStatus.style.width = '10%';
-            tdDocumentStatus.className = 'align-center';
-            tdDocumentStatus.innerText = i18n.msg(data.documentStatus);
-
-            let tdDocumentEdit = document.createElement('td');
-            tdDocumentEdit.style.width = '10%';
-            tdDocumentEdit.className = 'align-center';
-
-            if (document.getElementById('updatable').value === 'true') {
-                let documentEditBtn = document.createElement('button');
-                let spanDocumentEdit = document.createElement('span');
-                spanDocumentEdit.className = 'icon-edit';
-                documentEditBtn.onclick = function() {
-                    openDocumentEdit(data.documentId);
-                }
-                documentEditBtn.appendChild(spanDocumentEdit);
-                tdDocumentEdit.appendChild(documentEditBtn);
-            }
-
-            let tdDocumentDelete = document.createElement('td');
-            tdDocumentDelete.style.width = '10%';
-            tdDocumentDelete.className = 'align-center';
-            if (document.getElementById('deletable').value === 'true') {
-                let documentDeleteBtn = document.createElement('button');
-                let spanDocumentDelete = document.createElement('span');
-                spanDocumentDelete.className = 'icon-delete';
-                documentDeleteBtn.onclick = function() {
-                    deleteDocument(data.documentId);
-                }
-                documentDeleteBtn.appendChild(spanDocumentDelete);
-                tdDocumentDelete.appendChild(documentDeleteBtn);
-            }
-
-            tr.appendChild(tdDocumentName);
-            tr.appendChild(tdDocumentType);
-            tr.appendChild(tdDocumentGroup);
-            tr.appendChild(tdDocumentDesc);
-            tr.appendChild(tdDocumentStatus);
-            tr.appendChild(tdDocumentEdit);
-            tr.appendChild(tdDocumentDelete);
-            div.appendChild(tr);
         }
         /*]]>*/
     </script>

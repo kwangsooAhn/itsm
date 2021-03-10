@@ -41,6 +41,7 @@ class UserController(
 
     private val userSearchPage: String = "user/userSearch"
     private val userListPage: String = "user/userList"
+    private val userListFragment: String = "user/userList :: list"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
 
@@ -63,12 +64,13 @@ class UserController(
     fun getUserList(
         @RequestParam(value = "search", defaultValue = "") search: String,
         @RequestParam(value = "offset", defaultValue = "0") offset: String,
+        @RequestParam(value = "isScroll", defaultValue = "false") isScroll: Boolean,
         model: Model
     ): String {
         val userList = userService.selectUserList(search, offset.toLong())
         model.addAttribute("userList", userList)
         model.addAttribute("userListCount", if (userList.isNotEmpty()) userList[0].totalCount else 0)
-        return userListPage
+        return if (isScroll) userListFragment else userListPage
     }
 
     /**

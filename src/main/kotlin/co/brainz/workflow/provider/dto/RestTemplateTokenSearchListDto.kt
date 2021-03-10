@@ -12,5 +12,6 @@ data class RestTemplateTokenSearchListDto(
     var searchFromDt: String,
     var searchToDt: String,
     var offset: String,
-    var searchTags: String
+    var searchTags: String,
+    var isScroll: Boolean = false
 ) : Serializable

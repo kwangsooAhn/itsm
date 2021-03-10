@@ -14,9 +14,9 @@ CREATE TABLE cmdb_type
 	default_class_id character varying(128) NOT NULL,
 	type_icon character varying(200),
 	create_user_key character varying(128),
-	create_dt timestamp without time zone,
+	create_dt timestamp,
 	update_user_key character varying(128),
-	update_dt timestamp without time zone,
+	update_dt timestamp,
 	CONSTRAINT cmdb_type_pk PRIMARY KEY (type_id),
 	CONSTRAINT cmdb_type_uk UNIQUE (type_id),
 	CONSTRAINT cmdb_type_fk FOREIGN KEY (default_class_id)

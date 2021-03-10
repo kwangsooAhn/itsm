@@ -13,5 +13,6 @@ data class DownloadSearchDto(
     var search: String = "",
     var fromDt: String = "",
     var toDt: String = "",
-    var offset: Long = 0
+    var offset: Long = 0,
+    var isScroll: Boolean = false
 ) : Serializable

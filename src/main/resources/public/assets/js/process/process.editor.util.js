@@ -7,6 +7,7 @@
 
     let savedData = {};
     let isEdited = false;
+    
     window.addEventListener('beforeunload', function (event) {
         if (isEdited) {
             event.returnValue = '';
@@ -315,7 +316,7 @@
                 <label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>
                 <textarea rows="3" class="textarea-scroll-wrapper" id="process_description"></textarea>
             </div>
-            `
+            `;
     }
 
     /**
@@ -388,16 +389,16 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: "default-line",
+                    classes: 'default-line',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
                             modal.hide();
                         }
                     }
-                },{
+                }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'default-line',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -415,7 +416,7 @@
                     textarea: {
                         dynHeight: false,
                         dynWidth: false,
-                        inheritedAttrs: "class"
+                        inheritedAttrs: 'class'
                     }
                 });
             }
@@ -474,7 +475,7 @@
                     count.textContent = order;
                     const result = document.createElement('span');
                     result.className = 'details-result';
-                    result.textContent = successOrFailure
+                    result.textContent = successOrFailure;
                     const elementInfo = document.createElement('span');
                     elementInfo.className = 'details-element-info';
                     elementInfo.textContent = elementDescription;
@@ -842,7 +843,7 @@
 
         const minimapIcon = document.createElement('span');
         minimapIcon.classList.add('icon', 'icon-minimap');
-        minimapButton.appendChild(minimapIcon)
+        minimapButton.appendChild(minimapIcon);
         drawingBoard.appendChild(minimapButton);
 
         setProcessMinimap();
@@ -893,7 +894,7 @@
 
         const simulationIcon = document.createElement('span');
         simulationIcon.classList.add('icon', 'icon-simulation-report');
-        simulationButton.appendChild(simulationIcon)
+        simulationButton.appendChild(simulationIcon);
         drawingBoard.appendChild(simulationButton);
 
         // 시뮬레이션 레포트 화면 drag 설정
@@ -911,8 +912,8 @@
                     this.style.transform = 'translate(' + x + ',' + y + ')';
                 })
                 .on('end', function () {
-                    simulationReportX = (d3.event.x - simulationReportX)
-                    simulationReportY = (d3.event.y - simulationReportY)
+                    simulationReportX = (d3.event.x - simulationReportX);
+                    simulationReportY = (d3.event.y - simulationReportY);
                 })
         );
     }

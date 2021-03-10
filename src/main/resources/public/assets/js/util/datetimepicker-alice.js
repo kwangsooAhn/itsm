@@ -18,8 +18,8 @@
     'use strict';
 
     const defaultOptions = {
-            type: 'DATE', // DATE(default), DATEHOUR, HOUR
-            title: 'datepicker.label.date'
+        type: 'DATE', // DATE(default), DATEHOUR, HOUR
+        title: 'datepicker.label.date'
     };
     const util = {
         /**
@@ -34,15 +34,15 @@
                 rtn = luxon.DateTime.local().setZone(i18n.timezone);
             } else {
                 switch (options.type) {
-                    case 'DATE':
-                        rtn = luxon.DateTime.fromFormat(options.value, i18n.dateFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
-                        break;
-                    case 'DATEHOUR':
-                        rtn = luxon.DateTime.fromFormat(options.value, i18n.dateTimeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
-                        break;
-                    case 'HOUR':
-                        rtn = luxon.DateTime.fromFormat(options.value, i18n.timeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
-                        break;
+                case 'DATE':
+                    rtn = luxon.DateTime.fromFormat(options.value, i18n.dateFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
+                    break;
+                case 'DATEHOUR':
+                    rtn = luxon.DateTime.fromFormat(options.value, i18n.dateTimeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
+                    break;
+                case 'HOUR':
+                    rtn = luxon.DateTime.fromFormat(options.value, i18n.timeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
+                    break;
                 }
             }
             return rtn;
@@ -131,9 +131,9 @@
         pickerContent.appendChild(pickerContentDate);
         this.drawDate();
 
-         // create content > time
+        // create content > time
         if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
-           let pickerContentTime = document.createElement('div');
+            let pickerContentTime = document.createElement('div');
             pickerContentTime.className = 'picker-modal-content-time';
             pickerContentTime.classList.add('active');
             pickerContent.appendChild(pickerContentTime);
@@ -160,7 +160,7 @@
         buttonCancel.innerText = i18n.msg('common.btn.cancel');
         buttonCancel.addEventListener('click', this.close, false);
         pickerButton.appendChild(buttonCancel);
-     }
+    }
 
     Object.assign(Picker.prototype, {
         // Picker open.
@@ -242,7 +242,7 @@
             const currentText = document.createElement('span');
             currentText.className = 'date-text';
             currentText.setAttribute('data-value', _this.selectLuxon.toFormat('yyyyMMdd'));
-            currentText.textContent = _this.selectLuxon.toFormat("yyyy-MM"); //  2020-06
+            currentText.textContent = _this.selectLuxon.toFormat('yyyy-MM'); //  2020-06
             monthPanel.appendChild(currentText);
 
             // next month
@@ -385,7 +385,7 @@
                 hourType.className = 'btn-group-toggle btn-vertical';
                 pickerTime.appendChild(hourType);
 
-                 // create button > am
+                // create button > am
                 let buttonAM = document.createElement('button');
                 if (curHourType === 'AM') {
                     buttonAM.classList.add('active');
@@ -470,15 +470,15 @@
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function() {
             switch (this.type) {
-                case 'DATE':
-                    this.target.value = this.selectLuxon.toFormat(i18n.dateFormat);
-                    break;
-                case 'DATEHOUR':
-                    this.target.value = this.selectLuxon.toFormat(i18n.dateTimeFormat);
-                    break;
-                case 'HOUR':
-                    this.target.value = this.selectLuxon.toFormat(i18n.timeFormat);
-                    break;
+            case 'DATE':
+                this.target.value = this.selectLuxon.toFormat(i18n.dateFormat);
+                break;
+            case 'DATEHOUR':
+                this.target.value = this.selectLuxon.toFormat(i18n.dateTimeFormat);
+                break;
+            case 'HOUR':
+                this.target.value = this.selectLuxon.toFormat(i18n.timeFormat);
+                break;
             }
             this.close();
 
@@ -555,24 +555,24 @@
         },
         // Time picker 에서 input box (Minute) 변경시 처리.
         setMinute: function() {
-             let rtn = false;
-             const minuteInput = this.el.querySelector('#' + this.id + '-time-minute');
-             const inputValue = minuteInput.value;
-             // 0 ~ 59 까지 입력가능
-             if (numberRegex.test(inputValue)) {
-                 if (Number(inputValue) >= 0 && Number(inputValue) <= 59) {
-                     rtn = true;
-                 }
-             }
-             if (rtn) {
-                 if (inputValue.length === 1) {
-                     minuteInput.value = '0' + Number(inputValue) ;
-                 }
-                 this.selectLuxon = this.selectLuxon.set({ minute: minuteInput.value });
-                 this.changeDisplay();
-             } else {
-                 minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
-             }
+            let rtn = false;
+            const minuteInput = this.el.querySelector('#' + this.id + '-time-minute');
+            const inputValue = minuteInput.value;
+            // 0 ~ 59 까지 입력가능
+            if (numberRegex.test(inputValue)) {
+                if (Number(inputValue) >= 0 && Number(inputValue) <= 59) {
+                    rtn = true;
+                }
+            }
+            if (rtn) {
+                if (inputValue.length === 1) {
+                    minuteInput.value = '0' + Number(inputValue) ;
+                }
+                this.selectLuxon = this.selectLuxon.set({ minute: minuteInput.value });
+                this.changeDisplay();
+            } else {
+                minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
+            }
         },
         // Picker 가 오픈된 상태로 Picker 외부를 선택할 경우 닫음.
         clickWindow: function(e) {
@@ -591,9 +591,9 @@
     function initPicker(targetId, options) {
         let targetElement = document.getElementById(targetId);
         // 이벤트 동작 막음
-        targetElement.setAttribute('oncontextmenu','return false;');
-        targetElement.setAttribute('onkeypress','return false;');
-        targetElement.setAttribute('onkeydown','return false;');
+        targetElement.setAttribute('oncontextmenu', 'return false;');
+        targetElement.setAttribute('onkeypress', 'return false;');
+        targetElement.setAttribute('onkeydown', 'return false;');
 
         options.value = (targetElement.value !== '' ? targetElement.value : 'now');
         options.inputEl = targetElement;

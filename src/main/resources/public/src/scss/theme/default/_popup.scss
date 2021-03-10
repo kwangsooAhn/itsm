@@ -9,17 +9,36 @@
   background-color: $white;
   padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
 
+  .popup-title {
+    color: $view-sub-title-font-color;
+    margin-bottom: 1.75rem; //26px
+  }
+
+  &-btn-content {
+    margin-top: 2rem; //32px
+    border-top: 0.0625rem solid $default-gray; //1px
+  }
+
+  &-btn-list {
+    margin-top: 1.25rem; //20px
+  }
+
   @include viewTemplate();
   // custom-code 대상 선택 팝업
   .custom-code-content-popup {
-    &.view { height: auto; }
-    .radio-list { 
-      height: 25rem; // 400px
-      margin-top: 1.25rem; // 20px
+    &.view {
+      height: auto;
+    }
+
+    .radio-list {
+      height: 34.375rem; // 550px
+      margin: 1.25rem 0 2.5rem 0; // 20px 0 40px 0
     }
   }
   // 공지사항 팝업
   .notice-content-popup {
-    &.view { height: auto; }
+    &.view {
+      height: auto;
+    }
   }
 }

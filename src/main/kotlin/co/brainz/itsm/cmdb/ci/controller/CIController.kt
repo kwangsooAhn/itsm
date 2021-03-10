@@ -27,6 +27,7 @@ class CIController(private val ciService: CIService) {
 
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
+    private val ciListFragment: String = "cmdb/ci/ciList :: list"
     private val ciViewPage: String = "cmdb/ci/ciView"
     private val ciEditModal: String = "cmdb/ci/ciEditModal"
     private val ciViewModal: String = "cmdb/ci/ciViewModal"
@@ -53,7 +54,7 @@ class CIController(private val ciService: CIService) {
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)
         model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return ciListPage
+        return if (request.getParameter("isScroll").toBoolean()) ciListFragment else ciListPage
     }
 
     /**

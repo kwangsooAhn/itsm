@@ -26,7 +26,7 @@ data class CIDataHistoryEntity(
     var ciId: String = "",
 
     @Column(name = "seq")
-    var seq: Int? = 0,
+    var seq: Int = 0,
 
     @Column(name = "attribute_id", length = 128)
     var attributeId: String = "",

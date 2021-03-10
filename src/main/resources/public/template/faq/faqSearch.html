@@ -49,13 +49,11 @@
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/faqs?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/faqs?' + urlParam, isScroll);
             }
+            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
+            restSubmit('get', '/faqs?' + urlParam, isScroll);
         }
 
         // REST API
@@ -67,69 +65,38 @@
                 showProgressbar: false,
                 callbackFunc: function (response) {
                     if (isScroll) {
-                        let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function(data) {
-                                    getDataTemplate(data);
-                                });
-                            }
+                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                        }
+                        const faqTbody = document.querySelector('.list-body .os-content');
+                        const tempTb = document.createElement('table');
+                        tempTb.innerHTML = response.responseText;
+                        for (let i = 0; i < tempTb.rows.length; i++) {
+                            faqTbody.appendChild(tempTb.rows[i]);
                         }
                     } else {
                         document.getElementById('faqList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                    }
-
-                    OverlayScrollbars(document.querySelector('.list-body'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                // 스크롤이 맨 마지막에 있을 경우
-                                if (scrollHeight - scrollTop === clientHeight) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        searchFaqs(true);
+                        OverlayScrollbars(document.querySelector('.list-body'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function(e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    // 스크롤이 맨 마지막에 있을 경우
+                                    if (scrollHeight - scrollTop === clientHeight) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            searchFaqs(true);
+                                        }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             };
             aliceJs.sendXhr(opt);
-        }
-
-        // Tr 동적 데이터 만들기
-        function getDataTemplate(data) {
-            let div = document.querySelector('.list-body .os-content');
-            let tr = document.createElement('tr');
-            tr.className = 'flex-row align-items-center';
-
-            let tdFaqId = document.createElement('td');
-            tdFaqId.style.width = '20%';
-            tdFaqId.className = 'align-left';
-            tdFaqId.innerText = i18n.msg('common.code.'+data.faqGroup);
-
-            let tdFaqTitle = document.createElement('td');
-            tdFaqTitle.className = 'align-left underline';
-            tdFaqTitle.style.width = '80%';
-            let aFaqTitle = document.createElement('a');
-            if (document.getElementsByName('isRole').value === 'true') {
-                aFaqTitle.href = '/faqs/'+ data.faqId +'/view';
-            } else {
-                aFaqTitle.href = '/faqs/'+ data.faqId +'/edit';
-            }
-            aFaqTitle.innerText = data.faqTitle;
-            tdFaqTitle.appendChild(aFaqTitle);
-
-            tr.appendChild(tdFaqId);
-            tr.appendChild(tdFaqTitle);
-            div.appendChild(tr);
         }
         /*]]>*/
     </script>

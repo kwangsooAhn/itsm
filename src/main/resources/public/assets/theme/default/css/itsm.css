@@ -4061,7 +4061,7 @@ button .icon-plus {
   color: #3F4B56;
 }
 .ql-toolbar.ql-snow .ql-formats .ql-header {
-  width: 6.25rem;
+  width: 7.5rem;
   height: 2.5rem;
 }
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-label,
@@ -4100,6 +4100,17 @@ button .icon-plus {
   border-color: transparent;
   color: #3F4B56;
   background-color: #EBEBEB;
+}
+.ql-toolbar.ql-snow .ql-formats .ql-header.ql-expanded .ql-picker-label svg {
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
 }
 .ql-toolbar.ql-snow .ql-formats .ql-header.ql-expanded .ql-picker-options {
   margin-left: -0.0625rem;
@@ -4151,29 +4162,55 @@ button .icon-plus {
   border-color: #0098FF;
 }
 .ql-toolbar.ql-snow .ql-formats .ql-icon-picker {
-  width: 2.813rem;
+  width: 3.75rem;
   height: 2.5rem;
 }
-.ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-label,
+.ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-label {
+  width: 3.75rem;
+  height: 2.5rem;
+  padding: 0.5625rem 0.6875rem;
+}
+.ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-label .ql-icon-arrow {
+  fill-opacity: 1;
+  -moz-transform: translate(178px, -341px);
+  -o-transform: translate(178px, -341px);
+  -ms-transform: translate(178px, -341px);
+  -webkit-transform: translate(178px, -341px);
+  transform: translate(178px, -341px);
+}
+.ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-label:hover, .ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-label:focus {
+  color: #3F4B56;
+  background-color: #EBEBEB;
+}
 .ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-item {
   width: 2.813rem;
   height: 2.5rem;
   padding: 0.5625rem 0.6875rem;
 }
-.ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-label:hover, .ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-label:focus,
-.ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-item:hover,
-.ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-item:focus {
+.ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-item:hover, .ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-item:focus {
   color: #3F4B56;
   background-color: #EBEBEB;
 }
 .ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-options {
+  min-width: 2.813rem;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   padding: 0;
+}
+.ql-toolbar.ql-snow .ql-formats .ql-icon-picker .ql-picker-options .ql-icon-arrow {
+  fill-opacity: 0;
 }
 .ql-toolbar.ql-snow .ql-formats .ql-icon-picker.ql-expanded .ql-picker-label {
   border-color: transparent;
   color: #3F4B56;
   background-color: #EBEBEB;
+}
+.ql-toolbar.ql-snow .ql-formats .ql-icon-picker.ql-expanded .ql-picker-label .ql-icon-arrow {
+  fill-opacity: 1;
+  -moz-transform: translate(568px, 439px) rotate(180deg);
+  -o-transform: translate(568px, 439px) rotate(180deg);
+  -ms-transform: translate(568px, 439px) rotate(180deg);
+  -webkit-transform: translate(568px, 439px) rotate(180deg);
+  transform: translate(568px, 439px) rotate(180deg);
 }
 .ql-toolbar.ql-snow .ql-formats .ql-icon-picker.ql-expanded .ql-picker-options {
   margin-left: -0.0625rem;
@@ -4181,6 +4218,9 @@ button .icon-plus {
 }
 .ql-toolbar.ql-snow .ql-formats .ql-icon-picker.ql-expanded .ql-picker-options .ql-picker-item.ql-selected svg {
   fill: #0098FF;
+}
+.ql-toolbar.ql-snow .ql-formats .ql-icon-picker.ql-expanded .ql-picker-options .ql-picker-item .ql-icon-arrow {
+  fill-opacity: 0;
 }
 .ql-toolbar.ql-snow .ql-formats button {
   width: 2.813rem;
@@ -4268,7 +4308,6 @@ ul.tree ul:before {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -0.0625rem;
   border-left: 0.0625rem solid #E1E3E6;
 }
 ul.tree ul li {
@@ -5356,6 +5395,17 @@ body.modal-active {
   background-color: #ffffff;
   padding: 1.875rem 2.5rem 1.25rem 2.5rem;
 }
+.itsm-popup .popup-title {
+  color: #586872;
+  margin-bottom: 1.75rem;
+}
+.itsm-popup-btn-content {
+  margin-top: 2rem;
+  border-top: 0.0625rem solid #E1E3E6;
+}
+.itsm-popup-btn-list {
+  margin-top: 1.25rem;
+}
 .itsm-popup .view {
   height: 100vh;
 }
@@ -5392,8 +5442,8 @@ body.modal-active {
   height: auto;
 }
 .itsm-popup .custom-code-content-popup .radio-list {
-  height: 25rem;
-  margin-top: 1.25rem;
+  height: 34.375rem;
+  margin: 1.25rem 0 2.5rem 0;
 }
 .itsm-popup .notice-content-popup.view {
   height: auto;

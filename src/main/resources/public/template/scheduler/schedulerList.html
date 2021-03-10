@@ -5,40 +5,42 @@
     <meta charset="UTF-8">
 </head>
 <body>
+<input type="hidden" id="totalCount" th:value="${schedulerListCount}"/>
 <table class="list-table">
     <thead class="list-head">
-    <tr class="flex-row align-items-center">
-        <th style="width: 20%" class="align-left" th:text="#{scheduler.label.name}"></th>
-        <th style="width: 5%" class="align-center" th:text="#{scheduler.label.status}"></th>
-        <th style="width: 8%" class="align-center" th:text="#{scheduler.label.taskType}"></th>
-        <th style="width: 27%" class="align-center" th:text="#{scheduler.label.class}"></th>
-        <th style="width: 10%" class="align-center" th:text="#{scheduler.label.executeCycleType}"></th>
-        <th style="width: 10%" class="align-center" th:text="#{scheduler.label.executeCyclePeriod}"></th>
-        <th style="width: 12%" class="align-center" th:text="#{scheduler.label.lastExecuteTime}"></th>
-        <th style="width: 8%" class="align-center" th:text="#{scheduler.label.result}"></th>
-    </tr>
+        <tr class="flex-row align-items-center">
+            <th style="width: 20%" class="align-left" th:text="#{scheduler.label.name}"></th>
+            <th style="width: 5%" class="align-center" th:text="#{scheduler.label.status}"></th>
+            <th style="width: 8%" class="align-center" th:text="#{scheduler.label.taskType}"></th>
+            <th style="width: 27%" class="align-center" th:text="#{scheduler.label.class}"></th>
+            <th style="width: 10%" class="align-center" th:text="#{scheduler.label.executeCycleType}"></th>
+            <th style="width: 10%" class="align-center" th:text="#{scheduler.label.executeCyclePeriod}"></th>
+            <th style="width: 12%" class="align-center" th:text="#{scheduler.label.lastExecuteTime}"></th>
+            <th style="width: 8%" class="align-center" th:text="#{scheduler.label.result}"></th>
+        </tr>
     </thead>
     <tbody class="list-body">
-    <input type="hidden" id="totalCount" th:value="${schedulerListCount}"/>
-    <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(schedulerList)}">
-        <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
-    </tr>
-    <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(schedulerList)}" th:each="scheduler: ${schedulerList}">
-        <td style="width: 20%" class="align-left underline">
-            <a sec:authorize="!hasAuthority('scheduler.update')" th:text="${scheduler.taskName}"
-               th:href="@{/schedulers/{id}/view(id=${scheduler.taskId})}"></a>
-            <a sec:authorize="hasAuthority('scheduler.update')" th:text="${scheduler.taskName}"
-               th:href="@{/schedulers/{id}/edit(id=${scheduler.taskId})}"></a>
-        </td>
-        <td style="width: 5%" class="align-center" th:text="#{'scheduler.status.' + ${scheduler.useYn}}"></td>
-        <td style="width: 8%" class="align-center" th:text="${scheduler.taskType}"></td>
-        <td style="width: 27%" class="align-left" th:text="${scheduler.executeClass}"></td>
-        <td style="width: 10%" class="align-center" th:text="${scheduler.executeCycleType}"></td>
-        <td style="width: 10%" class="align-left" th:if="${scheduler.executeCycleType == 'cron' }" th:text="${scheduler.cronExpression}"></td>
-        <td style="width: 10%" class="align-left" th:if="${scheduler.executeCycleType != 'cron' }" th:text="${scheduler.executeCyclePeriod}"></td>
-        <td style="width: 12%" class="align-left" th:name="executeTime" th:text="${scheduler.executeTime}"></td>
-        <td style="width: 8%" class="align-center" th:if="${scheduler.result != null}" th:text="#{'scheduler.result.' + ${scheduler.result}}"></td>
-    </tr>
+        <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(schedulerList)}">
+            <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <th:block th:fragment="list">
+            <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(schedulerList)}" th:each="scheduler: ${schedulerList}">
+                <td style="width: 20%" class="align-left underline">
+                    <a sec:authorize="!hasAuthority('scheduler.update')" th:text="${scheduler.taskName}"
+                       th:href="@{/schedulers/{id}/view(id=${scheduler.taskId})}"></a>
+                    <a sec:authorize="hasAuthority('scheduler.update')" th:text="${scheduler.taskName}"
+                       th:href="@{/schedulers/{id}/edit(id=${scheduler.taskId})}"></a>
+                </td>
+                <td style="width: 5%" class="align-center" th:text="#{'scheduler.status.' + ${scheduler.useYn}}"></td>
+                <td style="width: 8%" class="align-center" th:text="${scheduler.taskType}"></td>
+                <td style="width: 27%" class="align-left" th:text="${scheduler.executeClass}"></td>
+                <td style="width: 10%" class="align-center" th:text="${scheduler.executeCycleType}"></td>
+                <td style="width: 10%" class="align-left" th:if="${scheduler.executeCycleType == 'cron' }" th:text="${scheduler.cronExpression}"></td>
+                <td style="width: 10%" class="align-left" th:if="${scheduler.executeCycleType != 'cron' }" th:text="${scheduler.executeCyclePeriod}"></td>
+                <td style="width: 12%" class="align-left date-time" th:text="${scheduler.executeTime}"></td>
+                <td style="width: 8%" class="align-center" th:if="${scheduler.result != null}" th:text="#{'scheduler.result.' + ${scheduler.result}}"></td>
+            </tr>
+        </th:block>
     </tbody>
 </table>
 </body>

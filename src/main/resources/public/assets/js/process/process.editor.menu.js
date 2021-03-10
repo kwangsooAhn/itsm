@@ -16,7 +16,6 @@
     };
 
     let documents = [];
-
     let processProperties = {},
         elementsProperties = {},
         elementsKeys = [];
@@ -80,7 +79,7 @@
             type: 'commonStart', parent: 'event',
             url: iconDirectory + '/tooltip/icon_tooltip_start.svg',
             action: function(el) {
-                editElementType(el,'commonStart');
+                editElementType(el, 'commonStart');
             }
         }, {
             type: 'timerStart', parent: 'event',
@@ -88,7 +87,7 @@
             element_url: iconDirectory + '/element-type/icon_element_event_start_timer.svg',
             element_selected_url: iconDirectory + '/element-type/icon_element_event_start_timer_selected.svg',
             action: function(el) {
-                editElementType(el,'timerStart');
+                editElementType(el, 'timerStart');
             }
         }, {
             type: 'signalSend', parent: 'event',
@@ -96,13 +95,13 @@
             element_url: iconDirectory + '/element-type/icon_element_event_signal.svg',
             element_selected_url: iconDirectory + '/element-type/icon_element_event_signal_selected.svg',
             action: function(el) {
-                editElementType(el,'signalSend');
+                editElementType(el, 'signalSend');
             }
         }, {
             type: 'commonEnd', parent: 'event',
             url: iconDirectory + '/tooltip/icon_tooltip_end.svg',
             action: function(el) {
-                editElementType(el,'commonEnd');
+                editElementType(el, 'commonEnd');
             }
         }, {
             type: 'userTask', parent: 'task',
@@ -110,7 +109,7 @@
             element_url: iconDirectory + '/element-type/icon_element_user_task.svg',
             element_selected_url: iconDirectory + '/element-type/icon_element_user_task_selected.svg',
             action: function(el) {
-                editElementType(el,'userTask');
+                editElementType(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'task',
@@ -118,7 +117,7 @@
             element_url: iconDirectory + '/element-type/icon_element_manual_task.svg',
             element_selected_url: iconDirectory + '/element-type/icon_element_manual_task_selected.svg',
             action: function(el) {
-                editElementType(el,'manualTask');
+                editElementType(el, 'manualTask');
             }
         }, {
             type: 'scriptTask', parent: 'task',
@@ -126,7 +125,7 @@
             element_url: iconDirectory + '/element-type/icon_element_script_task.svg',
             element_selected_url: iconDirectory + '/element-type/icon_element_script_task_selected.svg',
             action: function(el) {
-                editElementType(el,'scriptTask');
+                editElementType(el, 'scriptTask');
             }
         }, {
             type: 'subprocess', parent: 'subprocess',
@@ -140,7 +139,7 @@
             element_url: iconDirectory + '/element-type/icon_element_exclusive_gateway.svg',
             element_selected_url: iconDirectory + '/element-type/icon_element_exclusive_gateway_selected.svg',
             action: function(el) {
-                editElementType(el,'exclusiveGateway');
+                editElementType(el, 'exclusiveGateway');
             }
         }, {
             type: 'parallelGateway', parent: 'gateway',
@@ -148,7 +147,7 @@
             element_url: iconDirectory + '/element-type/icon_element_parallel_gateway.svg',
             element_selected_url: iconDirectory + '/element-type/icon_element_parallel_gateway_selected.svg',
             action: function(el) {
-                editElementType(el,'parallelGateway');
+                editElementType(el, 'parallelGateway');
             }
         }, {
             type: 'inclusiveGateway', parent: 'gateway',
@@ -156,7 +155,7 @@
             element_url: iconDirectory + '/element-type/icon_element_inclusive_gateway.svg',
             element_selected_url: iconDirectory + '/element-type/icon_element_inclusive_gateway_selected.svg',
             action: function(el) {
-                editElementType(el,'inclusiveGateway');
+                editElementType(el, 'inclusiveGateway');
             }
         }
     ];
@@ -208,7 +207,7 @@
      */
     function editElementType(element, type) {
         const elementId = element.node().id,
-              elements = aliceProcessEditor.data.elements;
+            elements = aliceProcessEditor.data.elements;
         const elementData = elements.filter(function(elem) { return elem.id === elementId; });
         if (elementData.length) {
             if (elementData[0].type === type) {
@@ -270,10 +269,10 @@
      */
     function setElementData(elementData, attributeData) {
         const elementDataKeys = [
-                {key: 'name', default: ''},
-                {key: 'notification', default: 'N'},
-                {key: 'description', default: ''}
-            ];
+            {key: 'name', default: ''},
+            {key: 'notification', default: 'N'},
+            {key: 'description', default: ''}
+        ];
         elementDataKeys.forEach(function(e) {
             elementData[e.key] = e.default;
             if (typeof attributeData[e.key] !== 'undefined') {
@@ -294,7 +293,7 @@
         }
 
         const elementId = elem.node().id,
-              elements = aliceProcessEditor.data.elements;
+            elements = aliceProcessEditor.data.elements;
         let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
             return;
@@ -324,7 +323,7 @@
             const data = elem.data()[0];
             elemData.type = 'arrowConnector';
 
-            let attributeData = getAttributeData('connector', 'arrowConnector')
+            let attributeData = getAttributeData('connector', 'arrowConnector');
             setElementData(elemData, attributeData);
             elemData.data = attributeData;
             elemData.data['start-id'] = data.sourceId;
@@ -452,7 +451,7 @@
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
-              containerHeight = itemSize + (itemMargin * 2);
+            containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
@@ -490,7 +489,7 @@
             });
 
         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+            gTransform = d3.zoomTransform(d3.select('g.element-container').node());
 
         let targetX = (bbox.x + bbox.width + gTransform.x) - containerWidth,
             targetY = bbox.y + gTransform.y - containerHeight - itemMargin;
@@ -587,7 +586,7 @@
      */
     function getElementData(elem) {
         const elementId = elem.node().id,
-              elements = aliceProcessEditor.data.elements;
+            elements = aliceProcessEditor.data.elements;
         return elements.filter(function(e) { return e.id === elementId; })[0];
     }
 
@@ -645,7 +644,7 @@
         const histories = [];
         d3.select('g.alice-tooltip').remove();
         const elementId = elem.node().id,
-              elements = aliceProcessEditor.data.elements;
+            elements = aliceProcessEditor.data.elements;
 
 
         elements.forEach(function(e, i) {
@@ -732,22 +731,22 @@
             addElemWidth = 0,
             addElemHeight = 0;
         switch (type) {
-            case 'userTask':
-            case 'manualTask':
-                addElemWidth = 160;
-                addElemHeight = 40;
-                break;
-            case 'exclusiveGateway':
-                let gatewaySize = Math.sqrt(
-                    Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2) + Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2)
-                );
-                addElemWidth = gatewaySize;
-                addElemHeight = gatewaySize;
-                break;
-            case 'commonEnd':
-                addElemWidth = 40;
-                addElemHeight = 40;
-                break;
+        case 'userTask':
+        case 'manualTask':
+            addElemWidth = 160;
+            addElemHeight = 40;
+            break;
+        case 'exclusiveGateway':
+            let gatewaySize = Math.sqrt(
+                Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2) + Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2)
+            );
+            addElemWidth = gatewaySize;
+            addElemHeight = gatewaySize;
+            break;
+        case 'commonEnd':
+            addElemWidth = 40;
+            addElemHeight = 40;
+            break;
         }
 
         elemData.display = {
@@ -806,13 +805,13 @@
         }
 
         const tooltipItemContainer = d3.select('g.alice-tooltip'),
-              actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
-              containerWidth = itemSize + (itemMargin * 2),
-              containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
+            actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
+            containerWidth = itemSize + (itemMargin * 2),
+            containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
-              x = bbox.x + bbox.width + itemMargin,
-              y = bbox.y;
+            x = bbox.x + bbox.width + itemMargin,
+            y = bbox.y;
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container element-tooltip')
@@ -887,7 +886,7 @@
         let elementData = aliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
         if (elementData.length) {
             const originElementData = JSON.parse(JSON.stringify(elementData[0])),
-                  nodeElement = d3.select(document.getElementById(id));
+                nodeElement = d3.select(document.getElementById(id));
             if (nodeElement.classed('connector')) {
                 const linkData = nodeElement.data()[0];
                 elementData[0].data['start-id'] = linkData.sourceId;
@@ -932,7 +931,7 @@
      */
     function changePropertiesDataValue(id) {
         const container = document.querySelector('.process-properties'),
-              propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
+            propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
         if (id === aliceProcessEditor.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
             for (let i = 0, len = propertyObjects.length; i < len; i++) {
@@ -1291,7 +1290,7 @@
                 dataBody.appendChild(row);
 
                 saveData();
-            }
+            };
 
             let selectDev = document.createElement('div');
             selectDev.appendChild(fileInput);
@@ -1543,7 +1542,7 @@
                     if (elemData[property.id] && property.type !== 'checkbox') {
                         if (property.type === 'rgb') {
                             if (aliceJs.isHexCode(elemData[property.id])) {
-                                elementObject.value = aliceJs.hexToRgba(elemData[property.id], 0.5)
+                                elementObject.value = aliceJs.hexToRgba(elemData[property.id], 0.5);
                             } else {
                                 elementObject.value = aliceJs.rgbaToHex(elemData[property.id]);
                             }
@@ -1580,40 +1579,40 @@
 
                     // 그 외 이벤트 설정
                     switch (property.id) {
-                        case 'name':
-                            let keyupHandler = function() {
-                                aliceProcessEditor.changeTextToElement(id, this.value);
-                            };
-                            if (id === aliceProcessEditor.data.process.id) {
-                                keyupHandler = changeEventHandler;
-                            }
-                            elementObject.addEventListener('keyup', keyupHandler);
-                            break;
-                        case 'reject-id':
-                            const addRejectClass = function(e) {
-                                e.stopPropagation();
-                                const elementData = aliceProcessEditor.data.elements.filter(function(elem) { return elem.id === e.target.value; });
-                                if (elementData.length) {
-                                    d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
-                                } else {
-                                    d3.selectAll('.node').classed('reject-element', false);
-                                }
-                            };
-                            elementObject.addEventListener('keyup', addRejectClass);
-                            elementObject.addEventListener('focus', addRejectClass);
-                            elementObject.addEventListener('focusout', function() {
+                    case 'name':
+                        let keyupHandler = function() {
+                            aliceProcessEditor.changeTextToElement(id, this.value);
+                        };
+                        if (id === aliceProcessEditor.data.process.id) {
+                            keyupHandler = changeEventHandler;
+                        }
+                        elementObject.addEventListener('keyup', keyupHandler);
+                        break;
+                    case 'reject-id':
+                        const addRejectClass = function(e) {
+                            e.stopPropagation();
+                            const elementData = aliceProcessEditor.data.elements.filter(function(elem) { return elem.id === e.target.value; });
+                            if (elementData.length) {
+                                d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
+                            } else {
                                 d3.selectAll('.node').classed('reject-element', false);
-                            });
-                            break;
-                        case 'target-document-list':
-                            setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
-                            break;
-                        case 'script-detail' :
-                            setMultipleScriptDetail(elementObject, elemData['script-type'], elemData[property.id]);
-                            break;
-                        case 'script-action' :
-                            setMultipleScriptAction(elementObject, elemData['script-type'], elemData[property.id]);
-                            break;
+                            }
+                        };
+                        elementObject.addEventListener('keyup', addRejectClass);
+                        elementObject.addEventListener('focus', addRejectClass);
+                        elementObject.addEventListener('focusout', function() {
+                            d3.selectAll('.node').classed('reject-element', false);
+                        });
+                        break;
+                    case 'target-document-list':
+                        setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
+                        break;
+                    case 'script-detail' :
+                        setMultipleScriptDetail(elementObject, elemData['script-type'], elemData[property.id]);
+                        break;
+                    case 'script-action' :
+                        setMultipleScriptAction(elementObject, elemData['script-type'], elemData[property.id]);
+                        break;
                     }
                 }
             }
@@ -1702,7 +1701,7 @@
         // label
         const radioGroup = document.createElement('label');
         radioGroup.className = 'radio';
-        radioGroup.tabindex = 0
+        radioGroup.tabindex = 0;
         radioGroup.htmlFor = 'fieldset_' + property.id;
         // radio
         let radio = document.createElement('input');
@@ -1740,179 +1739,179 @@
     function addPropertyObject(id, property, properties, elemData, propertyContainer) {
         let elementObject;
         switch (property.type) {
-            case 'inputbox':
-                elementObject = document.createElement('input');
-                propertyContainer.appendChild(elementObject);
-                break;
-            case 'inputbox-readonly':
-                elementObject = document.createElement('input');
-                elementObject.type = 'text';
-                elementObject.readOnly = true;
-                propertyContainer.appendChild(elementObject);
-                break;
-            case 'inputbox-copy':
-                elementObject = document.createElement('input');
-                elementObject.type = 'text';
-                elementObject.className = 'copy';
-                elementObject.readOnly = true;
-                propertyContainer.appendChild(elementObject);
+        case 'inputbox':
+            elementObject = document.createElement('input');
+            propertyContainer.appendChild(elementObject);
+            break;
+        case 'inputbox-readonly':
+            elementObject = document.createElement('input');
+            elementObject.type = 'text';
+            elementObject.readOnly = true;
+            propertyContainer.appendChild(elementObject);
+            break;
+        case 'inputbox-copy':
+            elementObject = document.createElement('input');
+            elementObject.type = 'text';
+            elementObject.className = 'copy';
+            elementObject.readOnly = true;
+            propertyContainer.appendChild(elementObject);
 
-                let copyBtnContainer = document.createElement('div');
-                copyBtnContainer.className = 'clipboard-tooltip';
+            let copyBtnContainer = document.createElement('div');
+            copyBtnContainer.className = 'clipboard-tooltip';
 
-                let copyBtn = document.createElement('button');
-                copyBtn.className = 'ghost-line btn-clipboard-tooltip';
-                copyBtn.insertAdjacentHTML('beforeend', `<span class="icon icon-clipboard"></span>`);
-                copyBtn.addEventListener('click', function() {
-                    elementObject.select();
-                    elementObject.setSelectionRange(0, 99999);
-                    document.execCommand('copy');
+            let copyBtn = document.createElement('button');
+            copyBtn.className = 'ghost-line btn-clipboard-tooltip';
+            copyBtn.insertAdjacentHTML('beforeend', `<span class="icon icon-clipboard"></span>`);
+            copyBtn.addEventListener('click', function() {
+                elementObject.select();
+                elementObject.setSelectionRange(0, 99999);
+                document.execCommand('copy');
 
-                    let tooltip = document.getElementById('clipboard-tooltip-text');
-                    tooltip.textContent = 'Copy Success';
-                });
-                copyBtn.addEventListener('mouseout', function() {
-                    let tooltip = document.getElementById('clipboard-tooltip-text');
-                    tooltip.textContent = 'Copy to clipboard';
-                });
-                let tooltip = document.createElement('span');
-                tooltip.id = 'clipboard-tooltip-text';
-                tooltip.className = 'clipboard-tooltip-text';
+                let tooltip = document.getElementById('clipboard-tooltip-text');
+                tooltip.textContent = 'Copy Success';
+            });
+            copyBtn.addEventListener('mouseout', function() {
+                let tooltip = document.getElementById('clipboard-tooltip-text');
                 tooltip.textContent = 'Copy to clipboard';
-                copyBtn.appendChild(tooltip);
-                copyBtnContainer.appendChild(copyBtn);
+            });
+            let tooltip = document.createElement('span');
+            tooltip.id = 'clipboard-tooltip-text';
+            tooltip.className = 'clipboard-tooltip-text';
+            tooltip.textContent = 'Copy to clipboard';
+            copyBtn.appendChild(tooltip);
+            copyBtnContainer.appendChild(copyBtn);
 
-                propertyContainer.appendChild(copyBtnContainer);
-                break;
-            case 'textarea':
-                elementObject = document.createElement('textarea');
-                elementObject.style.resize = 'none';
-                propertyContainer.appendChild(elementObject);
+            propertyContainer.appendChild(copyBtnContainer);
+            break;
+        case 'textarea':
+            elementObject = document.createElement('textarea');
+            elementObject.style.resize = 'none';
+            propertyContainer.appendChild(elementObject);
 
-                // textarea 에 스크롤 적용
-                propertyContainer.querySelectorAll('textarea').forEach(element => {
-                   element.classList.add('textarea-scroll-wrapper');
-                   OverlayScrollbars(element, { className: 'inner-scrollbar' });
+            // textarea 에 스크롤 적용
+            propertyContainer.querySelectorAll('textarea').forEach(element => {
+                element.classList.add('textarea-scroll-wrapper');
+                OverlayScrollbars(element, { className: 'inner-scrollbar' });
+            });
+            break;
+        case 'checkbox':
+            const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
+            const labelText = labelElem.textContent;
+            labelElem.textContent = '';
+            elementObject = document.createElement('input');
+            elementObject.type = 'checkbox';
+            if (elemData[property.id] && elemData[property.id] === 'Y') {
+                elementObject.checked = true;
+            }
+            labelElem.appendChild(elementObject);
+            labelElem.appendChild(document.createElement('span'));
+
+            const spanElem = document.createElement('span');
+            spanElem.className = 'label';
+            spanElem.textContent = labelText;
+            labelElem.appendChild(spanElem);
+            break;
+        case 'select':
+            elementObject = document.createElement('select');
+            let optionList = JSON.parse(JSON.stringify(property['sub-list']));
+            if (property.id === 'sub-document-id') {
+                documents.forEach(function(d) {
+                    optionList.push({id: d.documentId, name: d.documentName});
                 });
-                break;
-            case 'checkbox':
-                const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
-                const labelText = labelElem.textContent;
-                labelElem.textContent = '';
-                elementObject = document.createElement('input');
-                elementObject.type = 'checkbox';
-                if (elemData[property.id] && elemData[property.id] === 'Y') {
-                    elementObject.checked = true;
-                }
-                labelElem.appendChild(elementObject);
-                labelElem.appendChild(document.createElement('span'));
-
-                const spanElem = document.createElement('span');
-                spanElem.className = 'label';
-                spanElem.textContent = labelText;
-                labelElem.appendChild(spanElem);
-                break;
-            case 'select':
-                elementObject = document.createElement('select');
-                let optionList = JSON.parse(JSON.stringify(property['sub-list']));
-                if (property.id === 'sub-document-id') {
-                    documents.forEach(function(d) {
-                        optionList.push({id: d.documentId, name: d.documentName});
-                    });
-                }
-                for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
-                    let option = document.createElement('option');
-                    option.value = optionList[j].id;
-                    option.text = optionList[j].name;
-                    elementObject.appendChild(option);
-                }
-                if (property.id === 'assignee-type') {
-                    elementObject.addEventListener('change', function() {
-                        changePropertyAssigneeType(this);
-                    });
-                }
-                if (property.id === 'script-type') {
-                    elementObject.addEventListener('change', function() {
-                        changePropertyScriptType(this);
-                    });
-                }
-                propertyContainer.appendChild(elementObject);
-                break;
-            case 'rgb':
-                let colorPicker = document.createElement('div');
-                colorPicker.className = 'color-picker';
-                let colorInput = document.createElement('div');
-                colorInput.className = 'color-input';
-                let selectedColorBox = document.createElement('span');
-                let selectedColor = document.createElement('span');
-                selectedColorBox.className = 'selected-color-box'
-                selectedColor.className = 'selected-color';
-                if (property.id === 'line-color') {
-                    selectedColor.style.backgroundColor = '';
-                    selectedColor.style.borderColor = elemData[property.id];
-                }
-                if (property.id === 'background-color') {
-                    selectedColor.style.backgroundColor = elemData[property.id];
-                    selectedColor.style.border = 'transparent';
-                }
-                selectedColorBox.appendChild(selectedColor);
-                colorInput.appendChild(selectedColorBox);
-                colorPicker.appendChild(colorInput);
-                propertyContainer.appendChild(colorPicker);
-
-                elementObject = document.createElement('input');
-                elementObject.className = 'color';
-                elementObject.readOnly = true;
+            }
+            for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
+                let option = document.createElement('option');
+                option.value = optionList[j].id;
+                option.text = optionList[j].name;
+                elementObject.appendChild(option);
+            }
+            if (property.id === 'assignee-type') {
                 elementObject.addEventListener('change', function() {
-                    let opacity = 0;
-                    if (this.dataset['opacity'] !== '') {
-                        opacity = Number(this.dataset['opacity']) / 100;
-                    }
-                    if (!aliceJs.isHexCode(this.value)) {
-                        this.value = aliceJs.rgbaToHex(this.value); // opacity 값 갱신하기 위해 Hex로 변환
-                    }
-                    this.value = aliceJs.hexToRgba(this.value, opacity);
-                    if (properties.type === 'groupArtifact') {
-                        const groupElement = d3.select(document.getElementById(id));
-                        const selectedElement = elementObject.parentNode.querySelector('span.selected-color');
-                        if (this.id === 'line-color') {
-                            selectedElement.style.borderColor = this.value;
-                            selectedElement.style.backgroundColor = 'transparent';
-                            groupElement.style('stroke', this.value);
-                        }
-                        if (this.id === 'background-color') {
-                            selectedElement.style.backgroundColor = this.value;
-                            selectedElement.style.border = 'transparent';
-                            if (this.value.trim() === '') {
-                                groupElement.style('fill-opacity', 0);
-                            } else {
-                                groupElement.style('fill', this.value).style('fill-opacity', opacity);
-                            }
-                        }
-                    }
+                    changePropertyAssigneeType(this);
                 });
-                colorInput.appendChild(elementObject);
+            }
+            if (property.id === 'script-type') {
+                elementObject.addEventListener('change', function() {
+                    changePropertyScriptType(this);
+                });
+            }
+            propertyContainer.appendChild(elementObject);
+            break;
+        case 'rgb':
+            let colorPicker = document.createElement('div');
+            colorPicker.className = 'color-picker';
+            let colorInput = document.createElement('div');
+            colorInput.className = 'color-input';
+            let selectedColorBox = document.createElement('span');
+            let selectedColor = document.createElement('span');
+            selectedColorBox.className = 'selected-color-box';
+            selectedColor.className = 'selected-color';
+            if (property.id === 'line-color') {
+                selectedColor.style.backgroundColor = '';
+                selectedColor.style.borderColor = elemData[property.id];
+            }
+            if (property.id === 'background-color') {
+                selectedColor.style.backgroundColor = elemData[property.id];
+                selectedColor.style.border = 'transparent';
+            }
+            selectedColorBox.appendChild(selectedColor);
+            colorInput.appendChild(selectedColorBox);
+            colorPicker.appendChild(colorInput);
+            propertyContainer.appendChild(colorPicker);
 
-                let colorPaletteLayer = document.createElement('div');
-                colorPaletteLayer.className = 'color-palette-layer';
-                let colorPaletteBox = document.createElement('div');
-                colorPaletteBox.id = property.id + '-colorPalette';
-                colorPaletteBox.className = 'color-palette';
-                colorPaletteLayer.appendChild(colorPaletteBox);
-                colorPicker.appendChild(colorPaletteLayer)
-
-                let option = {
-                    isOpacity: true,
-                    data: {
-                        isSelected: true,
-                        selectedClass: 'selected',
-                        value: elemData[property.id]
+            elementObject = document.createElement('input');
+            elementObject.className = 'color';
+            elementObject.readOnly = true;
+            elementObject.addEventListener('change', function() {
+                let opacity = 0;
+                if (this.dataset['opacity'] !== '') {
+                    opacity = Number(this.dataset['opacity']) / 100;
+                }
+                if (!aliceJs.isHexCode(this.value)) {
+                    this.value = aliceJs.rgbaToHex(this.value); // opacity 값 갱신하기 위해 Hex로 변환
+                }
+                this.value = aliceJs.hexToRgba(this.value, opacity);
+                if (properties.type === 'groupArtifact') {
+                    const groupElement = d3.select(document.getElementById(id));
+                    const selectedElement = elementObject.parentNode.querySelector('span.selected-color');
+                    if (this.id === 'line-color') {
+                        selectedElement.style.borderColor = this.value;
+                        selectedElement.style.backgroundColor = 'transparent';
+                        groupElement.style('stroke', this.value);
+                    }
+                    if (this.id === 'background-color') {
+                        selectedElement.style.backgroundColor = this.value;
+                        selectedElement.style.border = 'transparent';
+                        if (this.value.trim() === '') {
+                            groupElement.style('fill-opacity', 0);
+                        } else {
+                            groupElement.style('fill', this.value).style('fill-opacity', opacity);
+                        }
                     }
                 }
-                colorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
-                break;
-            default:
-                break;
+            });
+            colorInput.appendChild(elementObject);
+
+            let colorPaletteLayer = document.createElement('div');
+            colorPaletteLayer.className = 'color-palette-layer';
+            let colorPaletteBox = document.createElement('div');
+            colorPaletteBox.id = property.id + '-colorPalette';
+            colorPaletteBox.className = 'color-palette';
+            colorPaletteLayer.appendChild(colorPaletteBox);
+            colorPicker.appendChild(colorPaletteLayer);
+
+            let option = {
+                isOpacity: true,
+                data: {
+                    isSelected: true,
+                    selectedClass: 'selected',
+                    value: elemData[property.id]
+                }
+            };
+            colorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
+            break;
+        default:
+            break;
         }
         return elementObject;
     }
@@ -1985,7 +1984,7 @@
         let uniqList =  categories.reduce(function(a, b) {
             if (a.indexOf(b) < 0 ) { a.push(b); }
             return a;
-        },[]);
+        }, []);
         const countList = [];
         uniqList.forEach(function(item) {
             let count = 0;

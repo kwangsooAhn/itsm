@@ -22,8 +22,9 @@ import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.util.AliceFileUtil
-import java.io.*
-import java.net.URI
+import co.brainz.itsm.constants.ItsmConstants
+import java.io.File
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -31,14 +32,13 @@ import java.nio.file.StandardCopyOption
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.Base64
 import java.util.stream.Collectors
 import javax.imageio.ImageIO
 import org.apache.tika.Tika
 import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
-import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.data.repository.findByIdOrNull
@@ -49,11 +49,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
-import java.nio.file.FileSystems
-import java.nio.file.attribute.BasicFileAttributes
-import java.util.*
-import java.util.function.BiPredicate
-
 
 /**
  * 파일 서비스 클래스
@@ -258,96 +253,9 @@ class AliceFileService(
     /**
      * 워크플로우 이미지 파일 로드.
      */
-    fun getExternalImageDataList(type: String, searchValue: String): List<AliceImageFileDto> {
-        val dir = super.getWorkflowDir(this.imagesRootDirectory)
-
-        val fileList = mutableListOf<Path>()
-        if (Files.isDirectory(dir)) {
-            val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
-            fileDirMap[false]?.forEach { filePath ->
-                val file = filePath.toFile()
-                if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
-                    when (searchValue) {
-                        "" -> fileList.add(filePath)
-                        else -> {
-                            if (file.name.matches(".*$searchValue.*".toRegex())) {
-                                fileList.add(filePath)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        val images = mutableListOf<AliceImageFileDto>()
-        fileList.forEach {
-            val file = it.toFile()
-            val bufferedImage = ImageIO.read(file)
-            val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
-
-            images.add(
-                AliceImageFileDto(
-                    name = file.name,
-                    extension = file.extension,
-                    fullpath = file.absolutePath,
-                    size = super.humanReadableByteCount(file.length()),
-                    data = super.encodeToString(resizedBufferedImage, file.extension),
-                    width = bufferedImage.width,
-                    height = bufferedImage.height,
-                    updateDt = LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(file.lastModified()),
-                        ZoneId.systemDefault()
-                    )
-                )
-            )
-        }
-        return images
-    }
-
-    fun getResourceFiles(path: String): List<String> = getResourceAsStream(path).use{
-        return if(it == null) emptyList()
-        else BufferedReader(InputStreamReader(it)).readLines()
-    }
-
-    private fun getResourceAsStream(resource: String): InputStream? =
-        Thread.currentThread().contextClassLoader.getResourceAsStream(resource)
-            ?: resource::class.java.getResourceAsStream(resource)
-
-    /**
-     * Boot Jar 파일 내에 있는 이미지들을 데이터 리스트로 리턴.
-     */
-    fun getInternalImageDataList(type: String, searchValue: String): List<AliceImageFileDto> {
-
-        val zresource = ClassPathResource(this.documentIconRootDirectory)
-        val zpath = Paths.get(zresource.path)
-        val zinputStream = zresource.inputStream
-        val zisDir = zresource.isFile
-
-val zlist = getResourceFiles(zpath.toString())
-val zgetresource = javaClass.getResource(zpath.toString())
-/*        val uri = javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI()
-        if (uri.scheme == "jar") {  //inside jar
-            try {
-
-                val fs = FileSystems.newFileSystem(uri, javaClass.classLoader)
-
-                FileSystems.newFileSystem(uri, Collections.emptyMap())
-                    .use { fs ->
-                        Files.find(fs.getPath("/"), 10,
-                            BiPredicate { path: Path, fileAttr: BasicFileAttributes ->
-                                (!fileAttr.isRegularFile)
-                            })
-                            .forEach(logger.debug("test"))
-                    }
-            } catch (ex: IOException) {
-                ex.printStackTrace()
-            }
-        }*/
-
+    fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
         val dir = when (type) {
-            AliceConstants.FileType.ICON.code ->
-                //Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
-                Paths.get(ClassPathResource(this.documentIconRootDirectory).path)
+            AliceConstants.FileType.ICON.code -> Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
             AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
@@ -642,5 +550,54 @@ val zgetresource = javaClass.getResource(zpath.toString())
                 userRepository.save(userEntity)
             }
         }
+    }
+    /**
+     *  이미지관리 화면내 이미지 조회목록을 리턴한다.
+     */
+    fun getImageList(searchValue: String, offset: Long): List<AliceImageFileDto> {
+        val dir = super.getWorkflowDir(this.imagesRootDirectory)
+        val fileList = mutableListOf<Path>()
+        val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
+        val images = mutableListOf<AliceImageFileDto>()
+        var searchDataCount = ItsmConstants.IMAGE_SEARCH_DATA_COUNT
+
+        fileDirMap[false]?.forEach { filePath ->
+            val file = filePath.toFile()
+            if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
+                when (searchValue) {
+                    "" -> fileList.add(filePath)
+                    else -> {
+                        if (file.name.matches(".*$searchValue.*".toRegex())) {
+                            fileList.add(filePath)
+                        }
+                    }
+                }
+            }
+        }
+        if (fileList.size < offset + searchDataCount) {
+            searchDataCount = fileList.size.toLong() - offset
+        }
+        for (i in offset until offset + searchDataCount) {
+            val file = fileList[i.toInt()].toFile()
+            val bufferedImage = ImageIO.read(file)
+            val resizedBufferedImage = resizeBufferedImage(bufferedImage, "")
+            images.add(
+                AliceImageFileDto(
+                    name = file.name,
+                    extension = file.extension,
+                    fullpath = file.absolutePath,
+                    size = super.humanReadableByteCount(file.length()),
+                    data = super.encodeToString(resizedBufferedImage, file.extension),
+                    width = bufferedImage.width,
+                    height = bufferedImage.height,
+                    totalCount = fileList.size.toLong(),
+                    updateDt = LocalDateTime.ofInstant(
+                        Instant.ofEpochMilli(file.lastModified()),
+                        ZoneId.systemDefault()
+                    )
+                )
+            )
+        }
+        return images
     }
 }

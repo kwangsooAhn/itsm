@@ -16,23 +16,23 @@
 
     const DATA_ATTRIBUTE_LABEL_LIST = 'labelList';
     const componentNameList = [ //컴포넌트 명
-            {'type': 'editbox', 'name': 'Edit Box'},
-            {'type': 'inputbox', 'name': 'Input Box'},
-            {'type': 'textbox', 'name': 'Text Box'},
-            {'type': 'dropdown', 'name': 'Dropdown'},
-            {'type': 'radio', 'name': 'Radio Button'},
-            {'type': 'checkbox', 'name': 'Checkbox'},
-            {'type': 'label', 'name': 'Label'},
-            {'type': 'image', 'name': 'Image'},
-            {'type': 'divider', 'name': 'Divider'},
-            {'type': 'date', 'name': 'Date'},
-            {'type': 'time', 'name': 'Time'},
-            {'type': 'datetime', 'name': 'Date Time'},
-            {'type': 'fileupload', 'name': 'File Upload'},
-            {'type': 'custom-code', 'name': 'Custom Code'},
-            {'type': 'dynamic-row-table', 'name': 'Dynamic Row Table'},
-            {'type': 'accordion', 'name': 'Accordion'},
-            {'type': 'ci', 'name': 'CI'}
+        {'type': 'editbox', 'name': 'Edit Box'},
+        {'type': 'inputbox', 'name': 'Input Box'},
+        {'type': 'textbox', 'name': 'Text Box'},
+        {'type': 'dropdown', 'name': 'Dropdown'},
+        {'type': 'radio', 'name': 'Radio Button'},
+        {'type': 'checkbox', 'name': 'Checkbox'},
+        {'type': 'label', 'name': 'Label'},
+        {'type': 'image', 'name': 'Image'},
+        {'type': 'divider', 'name': 'Divider'},
+        {'type': 'date', 'name': 'Date'},
+        {'type': 'time', 'name': 'Time'},
+        {'type': 'datetime', 'name': 'Date Time'},
+        {'type': 'fileupload', 'name': 'File Upload'},
+        {'type': 'custom-code', 'name': 'Custom Code'},
+        {'type': 'dynamic-row-table', 'name': 'Dynamic Row Table'},
+        {'type': 'accordion', 'name': 'Accordion'},
+        {'type': 'ci', 'name': 'CI'}
     ];
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
@@ -55,7 +55,7 @@
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="editable">` +
             `<div class="move-handler"></div>` +
-            `<div class="field-group" contenteditable="true" placeholder="${i18n.msg("form.help.component-placeholder")}"></div>` +
+            `<div class="field-group" contenteditable="true" placeholder="${i18n.msg('form.help.component-placeholder')}"></div>` +
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -76,7 +76,9 @@
 
         // 기본값 설정
         const defaultValueArr = property.display['default'].split('|'); // select|userId|아이디
-        let defaultValue = (defaultValueArr[0] === 'none') ? defaultValueArr[1] : (defaultValueArr[1] === 'department' ? aliceForm.session['departmentName'] : aliceForm.session[defaultValueArr[1]]);
+        let defaultValue = (defaultValueArr[0] === 'none') ? defaultValueArr[1] :
+            (defaultValueArr[1] === 'department' ? aliceForm.session['departmentName'] :
+                aliceForm.session[defaultValueArr[1]]);
         if (formType === 'form' && defaultValueArr[0] !== 'none') { // 폼 양식 화면 세션 값 미출력
             defaultValue = defaultValueArr[2];
         } else {
@@ -84,7 +86,7 @@
                 defaultValue = property.value;
             }
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -129,7 +131,7 @@
         if (typeof property.value !== 'undefined') {
             defaultValue = (editorUseYn && property.value !== '') ? JSON.parse(property.value) : property.value;
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -185,15 +187,15 @@
             editor.setContents(defaultValue);
         } else {
             // scrollbar 적용
-            textboxElement.querySelector("textarea").className = 'textarea-scroll-wrapper';
-            OverlayScrollbars(textboxElement.querySelector("textarea"), {
+            textboxElement.querySelector('textarea').className = 'textarea-scroll-wrapper';
+            OverlayScrollbars(textboxElement.querySelector('textarea'), {
                 className: 'inner-scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,
                 textarea: {
                     dynHeight: false,
                     dynWidth: false,
-                    inheritedAttrs: "class"
+                    inheritedAttrs: 'class'
                 }
             });
         }
@@ -214,10 +216,10 @@
 
         const optionsTemplate = property.option.map(function (opt) {
             const isMatch = (typeof property.value !== 'undefined' && opt.value === property.value);
-            return `<option value="${aliceJs.filterXSS(opt.value)}" data-seq="${opt.seq}" ${isMatch ? "selected='true'" : ""}>${aliceJs.filterXSS(opt.name)}</option>`;
+            return `<option value="${aliceJs.filterXSS(opt.value)}" data-seq="${opt.seq}" ${isMatch ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(opt.name)}</option>`;
         }).join('');
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -256,19 +258,19 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         const optionsTemplate = property.option.map(function (opt) {
             return `<label class="field-radio radio" for='radio-${property.componentId}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
                     `<input type="radio" id="radio-${property.componentId}-${opt.seq}" name="radio-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
-                    `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
+                    `${(typeof property.value !== 'undefined' && opt.value === property.value) ? ' checked=\'true\'' : ''}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>` +
                     `<span class="label">${aliceJs.filterXSS(opt.name)}</span>` :
                     `<span class="label">${aliceJs.filterXSS(opt.name)}</span>` +
                     `<input type="radio" id="radio-${property.componentId}-${opt.seq}" name="radio-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
-                    `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
+                    `${(typeof property.value !== 'undefined' && opt.value === property.value) ? ' checked=\'true\'' : ''}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>`
-                 }` +
+                }` +
                 `</label>`;
         }).join('');
 
@@ -309,18 +311,18 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         const checkboxValueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         const optionsTemplate = property.option.map(function (opt) {
             return `<label class="field-checkbox checkbox"  for='checkbox-${property.componentId}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
                     `<input type="checkbox" id="checkbox-${property.componentId}-${opt.seq}" name="checkbox-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
-                    `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
+                    `${(checkboxValueArr.indexOf(opt.value) > -1) ? ' checked=\'true\'' : ''}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>` +
                     `<span class="label">${aliceJs.filterXSS(opt.name)}</span>` :
                     `<span class="label">${aliceJs.filterXSS(opt.name)}</span>` +
                     `<input type="checkbox" id="checkbox-${property.componentId}-${opt.seq}" name="checkbox-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
-                    `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
+                    `${(checkboxValueArr.indexOf(opt.value) > -1) ? ' checked=\'true\'' : ''}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>`
                 }` +
                 `</label>`;
@@ -363,7 +365,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -395,7 +397,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         const imageSrc = property.display.path;
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
@@ -442,7 +444,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -476,23 +478,23 @@
             defaultValue = property.value;
         } else { // 신청서는 default값 출력한다.
             switch(defaultValueArr[0]) {
-                case 'now':
-                    defaultValue = i18n.getDate();
-                    break;
-                case 'date':
-                    let offset = {};
-                    offset.days =  aliceJs.isEmpty(defaultValueArr[1]) ? 0 : Number(defaultValueArr[1]);
-                    defaultValue = i18n.getDate(offset);
-                    break;
-                case 'datepicker':
-                    if (!aliceJs.isEmpty(defaultValueArr[1])) {
-                        defaultValue = defaultValueArr[1];
-                    }
-                    break;
-                default: //none
+            case 'now':
+                defaultValue = i18n.getDate();
+                break;
+            case 'date':
+                let offset = {};
+                offset.days =  aliceJs.isEmpty(defaultValueArr[1]) ? 0 : Number(defaultValueArr[1]);
+                defaultValue = i18n.getDate(offset);
+                break;
+            case 'datepicker':
+                if (!aliceJs.isEmpty(defaultValueArr[1])) {
+                    defaultValue = defaultValueArr[1];
+                }
+                break;
+            default: //none
             }
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -546,23 +548,23 @@
             defaultValue = property.value;
         } else { // 신청서는 default값 출력한다.
             switch(defaultValueArr[0]) {
-                case 'now':
-                    defaultValue = i18n.getTime();
-                    break;
-                case 'time':
-                    let offset = {};
-                    offset.hours =  aliceJs.isEmpty(defaultValueArr[1]) ? 0 : Number(defaultValueArr[1]);
-                    defaultValue = i18n.getTime(offset);
-                    break;
-                case 'timepicker':
-                    if (!aliceJs.isEmpty(defaultValueArr[1])) {
-                        defaultValue = defaultValueArr[1];
-                    }
-                    break;
-                default: //none
+            case 'now':
+                defaultValue = i18n.getTime();
+                break;
+            case 'time':
+                let offset = {};
+                offset.hours =  aliceJs.isEmpty(defaultValueArr[1]) ? 0 : Number(defaultValueArr[1]);
+                defaultValue = i18n.getTime(offset);
+                break;
+            case 'timepicker':
+                if (!aliceJs.isEmpty(defaultValueArr[1])) {
+                    defaultValue = defaultValueArr[1];
+                }
+                break;
+            default: //none
             }
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -616,24 +618,24 @@
             defaultValue = property.value;
         } else { // 신청서는 default값 출력한다.
             switch(defaultValueArr[0]) {
-                case 'now':
-                    defaultValue = i18n.getDateTime();
-                    break;
-                case 'datetime':
-                    let offset = {};
-                    offset.days =  aliceJs.isEmpty(defaultValueArr[1]) ? 0 : Number(defaultValueArr[1]);
-                    offset.hours = aliceJs.isEmpty(defaultValueArr[2]) ? 0 : Number(defaultValueArr[2]);
-                    defaultValue = i18n.getDateTime(offset);
-                    break;
-                case 'datetimepicker':
-                    if (!aliceJs.isEmpty(defaultValueArr[1])) {
-                        defaultValue = defaultValueArr[1];
-                    }
-                    break;
-                default: //none
+            case 'now':
+                defaultValue = i18n.getDateTime();
+                break;
+            case 'datetime':
+                let offset = {};
+                offset.days =  aliceJs.isEmpty(defaultValueArr[1]) ? 0 : Number(defaultValueArr[1]);
+                offset.hours = aliceJs.isEmpty(defaultValueArr[2]) ? 0 : Number(defaultValueArr[2]);
+                defaultValue = i18n.getDateTime(offset);
+                break;
+            case 'datetimepicker':
+                if (!aliceJs.isEmpty(defaultValueArr[1])) {
+                    defaultValue = defaultValueArr[1];
+                }
+                break;
+            default: //none
             }
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -679,7 +681,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -714,6 +716,7 @@
         // 드랍존 초기화
         if (formType !== 'form' && formType !== 'preview') {
             document.getElementById('dropZoneUploadedFiles-' + this.id).innerHTML = '';
+            let isReadOnly = !!displayType.indexOf('editable');
             let fileOptions = {
                 extra: {
                     formId: 'frm',
@@ -756,29 +759,29 @@
             }
         } else { // 폼 및 신청서는 default값 출력한다.
             switch(defaultValueArr[0]) {
-                case 'session':
-                    if (defaultValueArr[1] === 'userName') {
-                        defaultCustomData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
-                        defaultValue = aliceForm.session['userName'];
-                    } else if (defaultValueArr[1] === 'department') {
-                        defaultCustomData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
-                        defaultValue = aliceForm.session['departmentName'];
-                    }
-                    if (formType === 'form' || formType === 'preview') {
-                        defaultValue = defaultValueArr[2];
-                    }
-                    break;
-                case 'code':
-                    defaultCustomData = defaultValueArr[1] + '|' + defaultValueArr[2];
+            case 'session':
+                if (defaultValueArr[1] === 'userName') {
+                    defaultCustomData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
+                    defaultValue = aliceForm.session['userName'];
+                } else if (defaultValueArr[1] === 'department') {
+                    defaultCustomData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
+                    defaultValue = aliceForm.session['departmentName'];
+                }
+                if (formType === 'form' || formType === 'preview') {
                     defaultValue = defaultValueArr[2];
-                    break;
-                default: //none
-                    defaultCustomData = defaultValueArr[0] + '|';
-                    break;
+                }
+                break;
+            case 'code':
+                defaultCustomData = defaultValueArr[1] + '|' + defaultValueArr[2];
+                defaultValue = defaultValueArr[2];
+                break;
+            default: //none
+                defaultCustomData = defaultValueArr[0] + '|';
+                break;
             }
         }
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -820,7 +823,7 @@
                 const itemName = 'alice_custom-codes-search-' + property.componentId;
                 sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
                 let url = '/custom-codes/' + property.display.customCode + '/search';
-                window.open(url, itemName, 'width=500, height=655');
+                window.open(url, itemName, 'width=640, height=866');
             });
         }
     }
@@ -834,17 +837,17 @@
         const childElem  = elem.children[0];
         // TODO: DR Table 컴포넌트 내부는 inputbox, select, checkbox, radio 등으로 이루어진다. (추후 구현 예정)
         switch(childElem.type) {
-            case 'text':
-                childElem.value = value;
-                // 신청서 및 처리할 문서 유효성 검증 추가
-                if (!isReadOnly && !parent.hasAttribute('data-readonly')) {
-                    childElem.addEventListener('focusout', function(e) {
-                        aliceDocument.checkValidate(e.target);
-                    }, false);
-                }
+        case 'text':
+            childElem.value = value;
+            // 신청서 및 처리할 문서 유효성 검증 추가
+            if (!isReadOnly && !parent.hasAttribute('data-readonly')) {
+                childElem.addEventListener('focusout', function(e) {
+                    aliceDocument.checkValidate(e.target);
+                }, false);
+            }
             break;
-            default:
-            break
+        default:
+            break;
         }
     }
 
@@ -919,14 +922,14 @@
     function getDRTableColumnsTemplate(type, property, displayType) {
         // inputbox, select, radio, checkbox 등 추후 구현 예정
         switch(type) {
-            case 'inputbox':
-                return `<input type="text" class="align-${property.display.align}" ` +
+        case 'inputbox':
+            return `<input type="text" class="align-${property.display.align}" ` +
                     `placeholder="${aliceJs.filterXSS(property.display.placeholder)}" value=""` +
                     `${displayType === 'editableRequired' ? ' required' : ''}` +
                     ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}"` +
                     ` regexp='${property.validate.regexp}' regexp-msg='${aliceJs.filterXSS(property.validate.regexpMsg)}' />`;
-                break;
-            default:
+            break;
+        default:
             break;
         }
     }
@@ -943,7 +946,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
 
         // 테이블 Header 추가
         const tableHeaderOptions = property['drTableColumns'].map(function(column, idx) {
@@ -1059,7 +1062,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
 
         this.template =
         `<div id="${this.id}" class="component accordion active" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.display.endId}">` +
@@ -1127,7 +1130,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
 
         this.template =
         `<div id="${this.id}" class="component accordion" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" ` +
@@ -1154,7 +1157,7 @@
         this.type = 'ci';
         this.property = property;
         this.renderOrder = property.display.order;
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
 
         // 테이블 Header 추가
         const ciHeaderProperty = CI.getProperty(property.display.isEditable);
@@ -1198,7 +1201,7 @@
                             `<button type="button" class="default-line" id="btn-ci-delete-${property.componentId}" data-actionType="delete">` +
                                 i18n.msg('cmdb.ci.label.existing') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.delete') + 
                             `</button>`
-                        :
+                            :
                             `<button type="button" class="default-line" id="btn-ci-select-${property.componentId}" data-actionType="read">` +
                                 `${i18n.msg('cmdb.ci.label.select')}` +
                             `</button>`
@@ -1263,62 +1266,62 @@
 
         let componentObject = null;
         switch(type) {
-            case 'editbox':
-                componentObject = new Editbox(componentProperty);
-                break;
-            case 'inputbox':
-                componentObject =  new InputBox(componentProperty);
-                break;
-            case 'textbox':
-                componentObject =  new TextBox(componentProperty);
-                break;
-            case 'dropdown':
-                componentObject =  new Dropdown(componentProperty);
-                break;
-            case 'radio':
-                componentObject =  new Radiobox(componentProperty);
-                break;
-            case 'checkbox':
-                componentObject =  new Checkbox(componentProperty);
-                break;
-            case 'label':
-                componentObject =  new Label(componentProperty);
-                break;
-            case 'image':
-                componentObject =  new Imagebox(componentProperty);
-                break;
-            case 'divider':
-                componentObject =  new Divider(componentProperty);
-                break;
-            case 'date':
-                componentObject =  new DateBox(componentProperty);
-                break;
-            case 'time':
-                componentObject =  new TimeBox(componentProperty);
-                break;
-            case 'datetime':
-                componentObject =  new DatetimeBox(componentProperty);
-                break;
-            case 'fileupload':
-                componentObject =  new Fileupload(componentProperty);
-                break;
-            case 'custom-code':
-                componentObject =  new CustomCode(componentProperty);
-                break;
-            case 'dynamic-row-table':
-                componentObject =  new DynamicRowTable(componentProperty);
-                break;
-            case 'accordion-start':
-                componentObject =  new AccordionStart(componentProperty);
-                break;
-            case 'accordion-end':
-                componentObject =  new AccordionEnd(componentProperty);
-                break;
-            case 'ci':
-                componentObject =  new ConfigurationItem(componentProperty);
-                break;
-            default:
-                break;
+        case 'editbox':
+            componentObject = new Editbox(componentProperty);
+            break;
+        case 'inputbox':
+            componentObject =  new InputBox(componentProperty);
+            break;
+        case 'textbox':
+            componentObject =  new TextBox(componentProperty);
+            break;
+        case 'dropdown':
+            componentObject =  new Dropdown(componentProperty);
+            break;
+        case 'radio':
+            componentObject =  new Radiobox(componentProperty);
+            break;
+        case 'checkbox':
+            componentObject =  new Checkbox(componentProperty);
+            break;
+        case 'label':
+            componentObject =  new Label(componentProperty);
+            break;
+        case 'image':
+            componentObject =  new Imagebox(componentProperty);
+            break;
+        case 'divider':
+            componentObject =  new Divider(componentProperty);
+            break;
+        case 'date':
+            componentObject =  new DateBox(componentProperty);
+            break;
+        case 'time':
+            componentObject =  new TimeBox(componentProperty);
+            break;
+        case 'datetime':
+            componentObject =  new DatetimeBox(componentProperty);
+            break;
+        case 'fileupload':
+            componentObject =  new Fileupload(componentProperty);
+            break;
+        case 'custom-code':
+            componentObject =  new CustomCode(componentProperty);
+            break;
+        case 'dynamic-row-table':
+            componentObject =  new DynamicRowTable(componentProperty);
+            break;
+        case 'accordion-start':
+            componentObject =  new AccordionStart(componentProperty);
+            break;
+        case 'accordion-end':
+            componentObject =  new AccordionEnd(componentProperty);
+            break;
+        case 'ci':
+            componentObject =  new ConfigurationItem(componentProperty);
+            break;
+        default:
+            break;
         }
 
         let componentElement = parent.lastChild;
@@ -1338,7 +1341,7 @@
      * @return {Object} match title 일치하는 제목 객제
      */
     function getName(type) {
-        return componentNameList.find(c => { return c.type === type; });
+        return componentNameList.find(c => c.type === type);
     }
 
     /**

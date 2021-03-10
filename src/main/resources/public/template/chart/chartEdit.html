@@ -12,7 +12,7 @@
     </select>
 </div>
 <div class="flex-column edit-row mt-2">
-    <div id="chart" name="chart"/>
+    <textarea id="chart" name="chart" th:text="${chart?.propertyJson}"/>
 </div>
 <div class="flex-column edit-row mt-2">
     <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"/>
@@ -73,7 +73,7 @@
         <div class="flex-column col-6">
             <label id="groupLabel" name="groupLabel" class="field-label required"
                    th:text="#{chart.label.group}"></label>
-            <input type="text" id="targetGroup" name="targetGroup" maxlength="100"/>
+            <input type="text" id="targetGroup" name="targetGroup" th:value="${chart?.group}" maxlength="100"/>
         </div>
     </div>
 </div>

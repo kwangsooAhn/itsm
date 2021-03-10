@@ -81,7 +81,8 @@ aliceJs.serialize = function (form) {
         const field = form.elements[i];
 
         // Don't serialize fields without a name, submits, buttons, file and reset inputs, and disabled fields
-        if (!field.name || field.disabled || field.type === 'file' || field.type === 'reset' || field.type === 'submit' || field.type === 'button') continue;
+        if (!field.name || field.disabled || field.type === 'file' || field.type === 'reset' ||
+            field.type === 'submit' || field.type === 'button') continue;
 
         // If a multi-select, get all selections
         if (field.type === 'select-multiple') {
@@ -122,7 +123,8 @@ aliceJs.serializeArray = function (form) {
         const field = form.elements[i];
 
         // Don't serialize fields without a name, submits, buttons, file and reset inputs, and disabled fields
-        if (!field.name || field.disabled || field.type === 'file' || field.type === 'reset' || field.type === 'submit' || field.type === 'button') continue;
+        if (!field.name || field.disabled || field.type === 'file' || field.type === 'reset' ||
+            field.type === 'submit' || field.type === 'button') continue;
 
         // If a multi-select, get all selections
         if (field.type === 'select-multiple') {
@@ -165,7 +167,7 @@ aliceJs.serializeObject = function (form) {
             result[element.name] = element.value;
         }
     });
-    return result
+    return result;
 };
 
 /**
@@ -185,8 +187,8 @@ aliceJs.formDataToObject = function (form) {
             formDataObject[key] = value;
         }
     });
-    return formDataObject
-}
+    return formDataObject;
+};
 
 /**
  * 비동기 호출 및 응답시 사용한다.
@@ -210,13 +212,13 @@ aliceJs.sendXhr = function (option) {
     let xhr;
     try {
         if (window.ActiveXObject) {
-            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            xhr = new ActiveXObject('Microsoft.XMLHTTP');
         } else {
             xhr = new XMLHttpRequest();
         }
 
     } catch (e) {
-        aliceJs.alertDanger("Error creating the XMLHttpRequest object.");
+        aliceJs.alertDanger('Error creating the XMLHttpRequest object.');
         return;
     }
 
@@ -274,9 +276,9 @@ aliceJs.sendXhr = function (option) {
     xhr.open(method, url, async);
 
     // get 이외 csrf 적용
-    if (method.toUpperCase() !== "GET") {
-        const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
-        const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
+    if (method.toUpperCase() !== 'GET') {
+        const header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+        const token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
         xhr.setRequestHeader(header, token);
         if (option.contentType) {
             xhr.setRequestHeader('Content-type', option.contentType);
@@ -361,24 +363,24 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
     if (p_date === '' || p_date === null) {
         return;
     } else {
-        v_date = p_date.replace(/ /gi, "");
+        v_date = p_date.replace(/ /gi, '');
         if (v_date.length === 10) {
             arrayDate[0] = v_date;
         } else if (v_date.length === 15) {
-            arrayDate[0] = v_date.substring(0,10);
+            arrayDate[0] = v_date.substring(0, 10);
             index = v_date.lastIndexOf(':');
-            arrayDate[1] = v_date.substring(index-2,index+3);
+            arrayDate[1] = v_date.substring(index-2, index+3);
         } else if (v_date.length === 17) {
-            arrayDate[0] = v_date.substring(0,10);
+            arrayDate[0] = v_date.substring(0, 10);
             index = v_date.lastIndexOf(':');
-            arrayDate[1] = v_date.substring(index-2,index+3);
+            arrayDate[1] = v_date.substring(index-2, index+3);
             if (p_date.indexOf('PM') !== -1 || p_date.indexOf('오후') !== -1) {
                 if (p_date.indexOf('PM') !== -1) {
                     index = v_date.lastIndexOf('PM');
                 } else if (p_date.indexOf('오후') !== -1) {
                     index = v_date.lastIndexOf('오후');
                 }
-                arrayDate[2] = v_date.substring(index-2,index+2);
+                arrayDate[2] = v_date.substring(index-2, index+2);
             }
         } else {
             return;
@@ -426,7 +428,7 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
         hour = result_date.getHours();
         if (arrayDate.length === 3) {
             if (p_date.indexOf('PM') !== -1 || p_date.indexOf('오후') !== -1) {
-                hour = eval(hour+12)
+                hour = eval(hour+12);
             }
             //java LocalDateTime은 hour를 24로 계산할 수 없다.
             if (hour === 24) {
@@ -684,7 +686,7 @@ aliceJs.thumbnail = function(options) {
             targetElem.dispatchEvent(new Event('focusout'));
         }
         return true;
-    }
+    };
 
     /**
      * 썸네일 선택.
@@ -744,7 +746,7 @@ aliceJs.thumbnail = function(options) {
                     thumbnailImg.className = 'thumbnail-icon';
                     thumbnailImg.style.backgroundSize = '100%';
                 } else if (options.type === 'file') {
-                  thumbnailImg.className = 'thumbnail-file';
+                    thumbnailImg.className = 'thumbnail-file';
                 }
                 thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
                 thumbnail.appendChild(thumbnailImg);
@@ -804,7 +806,7 @@ aliceJs.thumbnail = function(options) {
                             modal.hide();
                         }
                     }
-                },{
+                }, {
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'default-line',
                     bindKey: false,
@@ -863,7 +865,7 @@ aliceJs.mergeObject = function(target, source) {
  * @returns {boolean}
  */
 aliceJs.isEmpty = function(value) {
-    return value === "" || value == null || (typeof value == "object" && !Object.keys(value).length);
+    return value === '' || value == null || (typeof value === 'object' && !Object.keys(value).length);
 };
 
 /**
@@ -879,7 +881,7 @@ aliceJs.clickInsideElement = function (e, className) {
         el = el.parentNode;
     }
     return null;
-}
+};
 
 /**
  * RGBA 값을 Hex 값으로 변환.
@@ -888,13 +890,13 @@ aliceJs.clickInsideElement = function (e, className) {
  * @returns {string} rgba
  */
 aliceJs.rgbaToHex = function(value) {
-    let rgba = value.replace(/\s/g, '').match(rgbaReg)
+    let rgba = value.replace(/\s/g, '').match(rgbaReg);
     return rgba ?
         '#' +
         (rgba[1] | 1 << 8).toString(16).slice(1) +
         (rgba[2] | 1 << 8).toString(16).slice(1) +
         (rgba[3] | 1 << 8).toString(16).slice(1) : value;
-}
+};
 
 /**
  * RGBA 의 alpha 값 조회.
@@ -908,8 +910,8 @@ aliceJs.rgbaOpacity = function(value) {
     if (alpha === null || alpha === '') {
         alpha = 0.5;
     }
-    return alpha
-}
+    return alpha;
+};
 
 /**
  * Hex 값을 RGBA 값으로 변환.
@@ -933,7 +935,7 @@ aliceJs.hexToRgba = function(value, opacity) {
         }
     }
     return value;
-}
+};
 
 /**
  * Hex 값 체크.
@@ -943,7 +945,7 @@ aliceJs.hexToRgba = function(value, opacity) {
  */
 aliceJs.isHexCode = function(value) {
     return hexReg.test(value);
-}
+};
 
 /**
  * RGBA 값 체크.
@@ -953,7 +955,7 @@ aliceJs.isHexCode = function(value) {
  */
 aliceJs.isRgba = function(value) {
     return rgbaReg.test(value);
-}
+};
 
 /**
  * Slide Toggle (메뉴 등).
@@ -967,7 +969,7 @@ aliceJs.slideToggle = (target, duration = 500) => {
     } else {
         return aliceJs.slideUp(target, duration);
     }
-}
+};
 
 /**
  * Slide Up.
@@ -998,7 +1000,7 @@ aliceJs.slideUp = (target, duration = 500) => {
         target.style.removeProperty('transition-duration');
         target.style.removeProperty('transition-property');
     }, duration);
-}
+};
 
 /**
  * Slide Down.
@@ -1022,7 +1024,7 @@ aliceJs.slideDown = (target, duration = 500) => {
     target.style.marginBottom = '0';
     target.offsetHeight;
     target.style.boxSizing = 'border-box';
-    target.style.transitionProperty = "height, margin, padding";
+    target.style.transitionProperty = 'height, margin, padding';
     target.style.transitionDuration = duration + 'ms';
     target.style.height = height + 'px';
     target.style.removeProperty('padding-top');
@@ -1035,7 +1037,7 @@ aliceJs.slideDown = (target, duration = 500) => {
         target.style.removeProperty('transition-duration');
         target.style.removeProperty('transition-property');
     }, duration);
-}
+};
 
 /**
  * Replace all SVG images with inline SVG
@@ -1080,7 +1082,7 @@ aliceJs.loadSvg = function() {
  * @param objectId 전체수 저장 object-id (default: totalCount)
  * @return {boolean} 스크롤 처리 진행 여부
  */
-aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
+aliceJs.isEnableScrollEvent = function(offset, objectId = 'totalCount') {
     let totalObject = document.getElementById(objectId);
     return offset < totalObject.value;
 };
@@ -1091,8 +1093,8 @@ aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
  * @param totalCount 목록에 보여주고 싶은 건수
  * @param objectId 전체수 저장 object-id (default: spanTotalCount)
  */
-aliceJs.showTotalCount = function(totalCount, objectId = "spanTotalCount") {
-    document.getElementById(objectId).textContent = i18n.msg("common.label.count", totalCount);
+aliceJs.showTotalCount = function(totalCount, objectId = 'spanTotalCount') {
+    document.getElementById(objectId).textContent = i18n.msg('common.label.count', totalCount);
 };
 
 /**

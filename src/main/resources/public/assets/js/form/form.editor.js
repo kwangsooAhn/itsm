@@ -46,6 +46,7 @@
             }
         }
     };
+    
     const shortcuts = [
         { 'keys': 'ctrl+s', 'command': 'editor.save(false);', 'force': true },                //폼 양식 저장
         { 'keys': 'ctrl+shift+s', 'command': 'editor.saveAs();', 'force': true },             //폼 양식 다른이름으로 저장
@@ -147,54 +148,54 @@
 
                 let arg = (typeof validateValueArray[1] !== 'undefined') ? validateValueArray[1].replace(/\]\s*$/gi, '') : '';
                 switch (validateValueArray[0]) {
-                    case 'number':
-                        result = validateFunc.number(target.value);
-                        break;
-                    case 'min':
-                        result = validateFunc.number(target.value);
-                        if (result) {
-                            result = validateFunc.min(target.value, arg);
-                        } else {
-                            validateValueArray[0] = 'number';
-                        }
-                        break;
-                    case 'max':
-                        result = validateFunc.number(target.value);
-                        if (result) {
-                            result = validateFunc.max(target.value, arg);
-                        } else {
-                            validateValueArray[0] = 'number';
-                        }
-                        break;
-                    case 'minLength':
-                        result = validateFunc.minLength(target.value, arg);
-                        break;
-                    case 'maxLength':
-                        result = validateFunc.maxLength(target.value, arg);
-                        break;
-                    case 'required':
-                        result = validateFunc.required(target.value);
-                        break;
-                    case 'label':
-                        result = validateFunc.label(target.value);
-                        break;
-                    case 'unique': // table 중복 체크
-                        result = true;
-                        if (target.parentNode.tagName === 'TD') { // table 일 경우
-                            const tb = aliceJs.clickInsideElement(e, 'property-field-table');
-                            const targetCellIdx = target.parentNode.cellIndex;
-                            const targetRowIdx = target.parentNode.parentNode.rowIndex;
-                            for (let i = 1; i < targetRowIdx; i++) {
-                                const tbRow = tb.rows[i];
-                                const inputCell = tbRow.cells[targetCellIdx].querySelector('input');
-                                if (target.value.trim() === inputCell.value.trim()) {
-                                    result = false;
-                                    break;
-                                }
+                case 'number':
+                    result = validateFunc.number(target.value);
+                    break;
+                case 'min':
+                    result = validateFunc.number(target.value);
+                    if (result) {
+                        result = validateFunc.min(target.value, arg);
+                    } else {
+                        validateValueArray[0] = 'number';
+                    }
+                    break;
+                case 'max':
+                    result = validateFunc.number(target.value);
+                    if (result) {
+                        result = validateFunc.max(target.value, arg);
+                    } else {
+                        validateValueArray[0] = 'number';
+                    }
+                    break;
+                case 'minLength':
+                    result = validateFunc.minLength(target.value, arg);
+                    break;
+                case 'maxLength':
+                    result = validateFunc.maxLength(target.value, arg);
+                    break;
+                case 'required':
+                    result = validateFunc.required(target.value);
+                    break;
+                case 'label':
+                    result = validateFunc.label(target.value);
+                    break;
+                case 'unique': // table 중복 체크
+                    result = true;
+                    if (target.parentNode.tagName === 'TD') { // table 일 경우
+                        const tb = aliceJs.clickInsideElement(e, 'property-field-table');
+                        const targetCellIdx = target.parentNode.cellIndex;
+                        const targetRowIdx = target.parentNode.parentNode.rowIndex;
+                        for (let i = 1; i < targetRowIdx; i++) {
+                            const tbRow = tb.rows[i];
+                            const inputCell = tbRow.cells[targetCellIdx].querySelector('input');
+                            if (target.value.trim() === inputCell.value.trim()) {
+                                result = false;
+                                break;
                             }
                         }
-                    default:
-                        break;
+                    }
+                default:
+                    break;
                 }
                 if (!result) {
                     // 유효성 검증 실패시 저장되지 않도록 기존 이벤트를 모두 중지함
@@ -304,7 +305,7 @@
                     <label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>
                     <textarea rows="3" class="textarea-scroll-wrapper" id="form_description"></textarea>
                 </div>
-                `
+                `;
         };
 
         /**
@@ -382,16 +383,16 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: "default-line",
+                    classes: 'default-line',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
-                          modal.hide();
+                            modal.hide();
                         }
                     }
-                },{
+                }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'default-line',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -409,7 +410,7 @@
                     textarea: {
                         dynHeight: false,
                         dynWidth: false,
-                        inheritedAttrs: "class"
+                        inheritedAttrs: 'class'
                     }
                 });
             }
@@ -653,7 +654,7 @@
         } else {
             focusElem = components[focusIdx - 1];
             if (typeof focusElem === 'undefined') { //컴포넌트가 존재하지 않으면 마지막 컴포넌트를 선택한다.
-                focusElem = formPanel.lastElementChild
+                focusElem = formPanel.lastElementChild;
             }
         }
         if (focusElem.getAttribute('data-type') === aliceForm.defaultType) {
@@ -1404,7 +1405,7 @@
                 changePropertiesValue(changeData, labelTbArr[0], tableIdArr[1], labelTbArr[1], Number(changeCheckbox.value) - 1);
             }, false);
             // 유효성 추가
-            validateCheck('keyup',inputCells[i], inputCells[i].getAttribute('data-validate'));
+            validateCheck('keyup', inputCells[i], inputCells[i].getAttribute('data-validate'));
         }
         rowData[firstRow.cells[1].getAttribute('data-default')] = firstRow.cells[2].getAttribute('data-default');
         tb.getElementsByTagName('tbody')[0].appendChild(row);
@@ -1480,7 +1481,7 @@
                             } else {
                                 changeData[row.cells[1].childNodes[0].value] = elem.value;
                             }
-                            changePropertiesValue(changeData, changePropertiesArr[0], tableIdArr[1], changePropertiesArr[1], Number(seqCell.value) - 1)
+                            changePropertiesValue(changeData, changePropertiesArr[0], tableIdArr[1], changePropertiesArr[1], Number(seqCell.value) - 1);
                         }
                     } else {
                         if (parentElem.id === '') {
@@ -1533,94 +1534,94 @@
         for (i = 0, len = changeElems.length; i < len; i++) {
             const changeElem = changeElems[i];
             switch (changeElem.type) {
-                case 'checkbox':
-                    if (changeElem.classList.contains('property-value')) {
-                        changeElem.addEventListener('change', function (e) {
-                            const changePropertiesArr = e.target.parentNode.parentNode.id.split('-');
-                            changePropertiesValue(e.target.checked, changePropertiesArr[0], changePropertiesArr[1]);
-                        }, false);
-                    }
-                    break;
-                case 'text':
-                    changeElem.addEventListener('change', function(e) {
-                        let elem  = e.target;
-                        if (elem.classList.contains('color')) { // color picker
-                            const changePropertiesArr = elem.id.split('-');
-                            let opacity = (typeof elem.dataset['opacity'] !== 'undefined' && elem.dataset['opacity'] !== '') ? Number(elem.dataset['opacity']) / 100 : 1;
-                            if (!aliceJs.isHexCode(elem.value)) {
-                                elem.value = aliceJs.rgbaToHex(elem.value); // opacity 값 갱신하기 위해 Hex로 변환
-                            }
-                            elem.value = aliceJs.hexToRgba(elem.value, opacity);
-                            changePropertiesValue( elem.value, changePropertiesArr[0], changePropertiesArr[1]);
-                        } else {
-                            let parentElem =  elem.parentNode;
-                            const changePropertiesArr = parentElem.id.split('-');
-                            changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
-                        }
+            case 'checkbox':
+                if (changeElem.classList.contains('property-value')) {
+                    changeElem.addEventListener('change', function (e) {
+                        const changePropertiesArr = e.target.parentNode.parentNode.id.split('-');
+                        changePropertiesValue(e.target.checked, changePropertiesArr[0], changePropertiesArr[1]);
                     }, false);
-                    break;
-                case 'radio':
-                    if (changeElem.parentNode.parentNode.classList.contains('radio-datetime')) { // date picker
-                        changeElem.addEventListener('change', setDateFormat, false);
+                }
+                break;
+            case 'text':
+                changeElem.addEventListener('change', function(e) {
+                    let elem  = e.target;
+                    if (elem.classList.contains('color')) { // color picker
+                        const changePropertiesArr = elem.id.split('-');
+                        let opacity = (typeof elem.dataset['opacity'] !== 'undefined' && elem.dataset['opacity'] !== '') ? Number(elem.dataset['opacity']) / 100 : 1;
+                        if (!aliceJs.isHexCode(elem.value)) {
+                            elem.value = aliceJs.rgbaToHex(elem.value); // opacity 값 갱신하기 위해 Hex로 변환
+                        }
+                        elem.value = aliceJs.hexToRgba(elem.value, opacity);
+                        changePropertiesValue( elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                     } else {
-                        changeElem.addEventListener('change', function (e) {
-                            const elem = e.target;
-                            const parentElem = elem.parentNode.parentNode; // vertical-group
-                            const changePropertiesArr = parentElem.parentNode.id.split('-');
-                            let val = (elem.id !== 'none') ? elem.id + '|' + parentElem.querySelector('select').value : elem.id;
-                            if (elem.checked && elem.id !== 'none') {
-                                val += '|';
-                                if (parentElem.querySelector('select').selectedIndex !== -1) {
-                                    val += parentElem.querySelector('select').options[parentElem.querySelector('select').selectedIndex].text;
-                                }
-                            }
-                            changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
-                        }, false);
+                        let parentElem =  elem.parentNode;
+                        const changePropertiesArr = parentElem.id.split('-');
+                        changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                     }
-                    break;
-                default: //select
-                    if (changeElem.id === 'customCode') {
-                        changeElem.addEventListener('change', changeCustomCodeHandler, false);
-                    } else {
-                        changeElem.addEventListener('change', function (e) {
-                            const elem = e.target;
-                            const parentElem = elem.parentElement.classList.contains('select') ? elem.parentNode.parentNode : elem.parentNode;
-                            if (elem.classList.contains('session')) {
-                                const changePropertiesArr = parentElem.id.split('-');
-                                changePropertiesValue(elem.id + '|' + elem.value + '|' + elem.options[elem.selectedIndex].text, changePropertiesArr[0], changePropertiesArr[1]);
+                }, false);
+                break;
+            case 'radio':
+                if (changeElem.parentNode.parentNode.classList.contains('radio-datetime')) { // date picker
+                    changeElem.addEventListener('change', setDateFormat, false);
+                } else {
+                    changeElem.addEventListener('change', function (e) {
+                        const elem = e.target;
+                        const parentElem = elem.parentNode.parentNode; // vertical-group
+                        const changePropertiesArr = parentElem.parentNode.id.split('-');
+                        let val = (elem.id !== 'none') ? elem.id + '|' + parentElem.querySelector('select').value : elem.id;
+                        if (elem.checked && elem.id !== 'none') {
+                            val += '|';
+                            if (parentElem.querySelector('select').selectedIndex !== -1) {
+                                val += parentElem.querySelector('select').options[parentElem.querySelector('select').selectedIndex].text;
+                            }
+                        }
+                        changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
+                    }, false);
+                }
+                break;
+            default: //select
+                if (changeElem.id === 'customCode') {
+                    changeElem.addEventListener('change', changeCustomCodeHandler, false);
+                } else {
+                    changeElem.addEventListener('change', function (e) {
+                        const elem = e.target;
+                        const parentElem = elem.parentElement.classList.contains('select') ? elem.parentNode.parentNode : elem.parentNode;
+                        if (elem.classList.contains('session')) {
+                            const changePropertiesArr = parentElem.id.split('-');
+                            changePropertiesValue(elem.id + '|' + elem.value + '|' + elem.options[elem.selectedIndex].text, changePropertiesArr[0], changePropertiesArr[1]);
+                        } else {
+                            const targetRadio = parentElem.querySelector('input[type=radio]');
+                            if (targetRadio !== null) {
+                                const changePropertiesArr = parentElem.parentNode.id.split('-');
+                                if (!targetRadio.checked) { return; }
+                                let val = (targetRadio.id !== 'none') ? targetRadio.id + '|' + elem.value : targetRadio.id;
+                                if (targetRadio.checked && targetRadio.id !== 'none') {
+                                    val += '|' + elem.options[elem.selectedIndex].text;
+                                }
+                                changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
                             } else {
-                                const targetRadio = parentElem.querySelector('input[type=radio]');
-                                if (targetRadio !== null) {
-                                    const changePropertiesArr = parentElem.parentNode.id.split('-');
-                                    if (!targetRadio.checked) { return; }
-                                    let val = (targetRadio.id !== 'none') ? targetRadio.id + '|' + elem.value : targetRadio.id;
-                                    if (targetRadio.checked && targetRadio.id !== 'none') {
-                                        val += '|' + elem.options[elem.selectedIndex].text;
-                                    }
-                                    changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
-                                } else {
-                                    const changePropertiesArr = parentElem.id.split('-');
-                                    // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
-                                    //  - 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음. 최악의 방향으로... ㅠㅠ
-                                    //  - DOM id를 이용한 방법은 리펙토링에서 빼는 것이 좋을 것 같다.
-                                    if (changePropertiesArr.length > 2) {
-                                        if (changePropertiesArr[0] !== ATTRIBUTE_TABLE_COLUMN && parentElem.getAttribute('data-field-type') === ATTRIBUTE_TABLE_COLUMN) {
-                                            changePropertiesValue(elem.value, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
-                                        } else {
-                                            changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
-                                        }
+                                const changePropertiesArr = parentElem.id.split('-');
+                                // changePropertiesArr 의 길이가 어떤 의미인지 알 수 없어서 무식하게 조건만 추가했음. (2021-02 hcjung)
+                                //  - 이런 식이면 계속 if 문만 늘어나게 코딩할 수 밖에 없음. 최악의 방향으로... ㅠㅠ
+                                //  - DOM id를 이용한 방법은 리펙토링에서 빼는 것이 좋을 것 같다.
+                                if (changePropertiesArr.length > 2) {
+                                    if (changePropertiesArr[0] !== ATTRIBUTE_TABLE_COLUMN && parentElem.getAttribute('data-field-type') === ATTRIBUTE_TABLE_COLUMN) {
+                                        changePropertiesValue(elem.value, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
                                     } else {
-                                        if (parentElem.getAttribute('data-field-type')) {
-                                            changePropertiesValue(elem.value, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
-                                        } else {
-                                            changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
-                                        }
+                                        changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
+                                    }
+                                } else {
+                                    if (parentElem.getAttribute('data-field-type')) {
+                                        changePropertiesValue(elem.value, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
+                                    } else {
+                                        changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                                     }
                                 }
                             }
+                        }
 
-                        }, false);
-                    }
+                    }, false);
+                }
             }
         }
     }
@@ -1639,83 +1640,83 @@
         </div>`;
         let fieldTemplate = ``;
         switch (property.type) {
-            case 'inputbox':
-                fieldTemplate =
+        case 'inputbox':
+            fieldTemplate =
                     `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
                     `<input type="text" class="property-value" value="${aliceJs.filterXSS(property.value)}" maxlength="100"/>`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
-                break;
-            case 'checkbox-boolean': // 라벨 클릭시에 체크박스가 동작한다.
-                fieldTemplate =
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            break;
+        case 'checkbox-boolean': // 라벨 클릭시에 체크박스가 동작한다.
+            fieldTemplate =
                     `<label class="property-field-name checkbox" for="checkbox-${key}-${property.id}" tabindex="0">` +
                         `<input type="checkbox" class="property-value" id="checkbox-${key}-${property.id}" name="${property.id}" ${property.value ? 'checked' : ''}>` +
                         `<span></span>` +
                         `<span class="label">${i18n.msg('form.attribute.' + property.id)}</span>` +
                     `</label>${tooltipTemplate}`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
-                break;
-            case 'button-option-text':
-            case 'button-option-icon':
-                let optionType = property.type.split('-')[2];
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            break;
+        case 'button-option-text':
+        case 'button-option-icon':
+            let optionType = property.type.split('-')[2];
 
-                const fieldOptions = property.option.map(function (opt) {
-                    return `<button type="button" id="${opt.id}" class="btn-field${property.value === opt.id ? ' active' : ''}">${optionType === 'text' ? opt.name : ''}` +
+            const fieldOptions = property.option.map(function (opt) {
+                return `<button type="button" id="${opt.id}" class="btn-field${property.value === opt.id ? ' active' : ''}">${optionType === 'text' ? opt.name : ''}` +
                                `<span class="icon icon-${group}-${property.id}-${opt.id}"></span>` +
                            `</button>`;
-                }).join('');
+            }).join('');
 
-                fieldTemplate =
+            fieldTemplate =
                     `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>` +
                     `<div class="btn-group-toggle property-field-${optionType}">${fieldOptions}</div>`;
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
 
-                // 버튼 이벤트 핸들러 추가
-                const buttonElemList = elem.querySelector('.property-field-' + optionType).children;
-                for (let i = 0, len = buttonElemList.length; i < len; i++) {
-                    buttonElemList[i].addEventListener('click', toggleOptionButtonClickHandler, false);
-                }
-                break;
-            case 'customcode':
-                const fieldCustomCodeOptions = customCodeList.map(function (code) {
-                    return `<option value='${code.customCodeId}' ${property.value === code.customCodeId ? "selected='true'" : ""}>${aliceJs.filterXSS(code.customCodeName)}</option>`;
-                }).join('');
+            // 버튼 이벤트 핸들러 추가
+            const buttonElemList = elem.querySelector('.property-field-' + optionType).children;
+            for (let i = 0, len = buttonElemList.length; i < len; i++) {
+                buttonElemList[i].addEventListener('click', toggleOptionButtonClickHandler, false);
+            }
+            break;
+        case 'customcode':
+            const fieldCustomCodeOptions = customCodeList.map(function (code) {
+                return `<option value='${code.customCodeId}' ${property.value === code.customCodeId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(code.customCodeName)}</option>`;
+            }).join('');
 
-                fieldTemplate =
+            fieldTemplate =
                     `<label class='property-field-name'>${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>` +
                     `<select class='property-value' id='${property.id}'>${fieldCustomCodeOptions}</select>`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
-                // 첫번째 커스텀 코드를 저장
-                if (property.value === '' && customCodeList.length > 0) {
-                    changePropertiesValue(customCodeList[0].customCodeId, group, property.id);
-                }
-                break;
-            case 'labeling':
-                // 테이블 Header 추가
-                let tableHeaderOptions = `<th></th>`;
-                tableHeaderOptions += property.option.map(function(opt) {
-                    return `<th data-role="${opt.id}" data-default="${opt.value}" data-validate="${opt.validate}">${i18n.msg('form.attribute.option.' + opt.id)}</th>`;
-                }).join('');
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            // 첫번째 커스텀 코드를 저장
+            if (property.value === '' && customCodeList.length > 0) {
+                changePropertiesValue(customCodeList[0].customCodeId, group, property.id);
+            }
+            break;
+        case 'labeling':
+            // 테이블 Header 추가
+            let tableHeaderOptions = `<th></th>`;
+            tableHeaderOptions += property.option.map(function(opt) {
+                return `<th data-role="${opt.id}" data-default="${opt.value}" data-validate="${opt.validate}">${i18n.msg('form.attribute.option.' + opt.id)}</th>`;
+            }).join('');
 
-                // 테이블 Row 추가
-                let tableRowOptions = property.value.label.map(function(opt, index) { // {key: value}
-                    let checkBoxTemplate = `<td>` +
+            // 테이블 Row 추가
+            let tableRowOptions = property.value.label.map(function(opt, index) { // {key: value}
+                let checkBoxTemplate = `<td>` +
                             `<label class="checkbox" for="checkbox-label-${index + 1}" tabindex="0">` +
                                 `<input type="checkbox" id="checkbox-label-${index + 1}" value="${index + 1}" />` +
                                 `<span></span>` +
                             `</label>` +
                         `</td>`;
-                    let labelKey = Object.keys(opt)[0];
-                    return `<tr>` +
+                let labelKey = Object.keys(opt)[0];
+                return `<tr>` +
                             `${checkBoxTemplate}` +
                             `<td><input type="text" id="key" class="property-value" value="${aliceJs.filterXSS(labelKey)}" data-validate="${property.option[0].validate}"/></td>` +
                             `<td><input type="text" id="value" class="property-value" value="${aliceJs.filterXSS(opt[labelKey])}" data-validate="${property.option[1].validate}"/></td>` +
                         `</tr>`;
-                }).join('');
+            }).join('');
 
-                fieldTemplate =
+            fieldTemplate =
                     `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
                     `<button type="button" class="ghost-line btn-option float-right" id="label-option-plus"><span class="icon icon-plus"></span></button>` +
                     `<button type="button" class="ghost-line btn-option float-right mr-1" id="label-option-minus"><span class="icon icon-minus"></span></button>` +
@@ -1732,32 +1733,32 @@
                     `</table>` +
                     `<label class="error-msg"></label>`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
-                break;
-            case 'image':
-                fieldTemplate =
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            break;
+        case 'image':
+            fieldTemplate =
                     `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>` +
                     `<div class="property-field-image">` +
                         `<input type="text" class="input-image property-value" value="${aliceJs.filterXSS(property.value)}" id="path-${key}" maxlength="100"/>` +
                         `<button type="button" class="ghost-line" id="imageUploadPop"><span class="icon icon-search"></span></button>` +
                     `</div>`;
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
 
-                elem.querySelector('#imageUploadPop').addEventListener('click', function(e) {
-                    aliceJs.thumbnail({
-                        title: i18n.msg('image.label.popupTitle'),
-                        targetId: 'path-' + key,
-                        type: 'image',
-                        isThumbnailInfo: true,
-                        isFilePrefix: true,
-                        thumbnailDoubleClickUse: true,
-                        selectedPath: elem.querySelector('#path-' + key).value
-                    });
+            elem.querySelector('#imageUploadPop').addEventListener('click', function(e) {
+                aliceJs.thumbnail({
+                    title: i18n.msg('image.label.popupTitle'),
+                    targetId: 'path-' + key,
+                    type: 'image',
+                    isThumbnailInfo: true,
+                    isFilePrefix: true,
+                    thumbnailDoubleClickUse: true,
+                    selectedPath: elem.querySelector('#path-' + key).value
                 });
-                break;
-            case 'rgb':
-            case 'rgba':
-                fieldTemplate =
+            });
+            break;
+        case 'rgb':
+        case 'rgba':
+            fieldTemplate =
                     `<div class="color-picker">` +
                         `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>` +
                         `<div class="color-input">` +
@@ -1772,126 +1773,126 @@
                         `</div>` +
                     `</div>`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
 
-                // color palette 초기화
-                let option = {
-                    isOpacity: (property.type === 'rgba'), // 불투명도 사용여부
-                    data: {
-                        isSelected: true, // 기존 색상 선택 여부
-                        selectedClass: 'selected', // 기존 값 색상에 css 적용 (테두리)
-                        value: property.value // 기존 값
-                    }
-                };
-                colorPalette.initColorPalette(elem.querySelector('#' + group + '-' + property.id + '-colorPaletteLayer'),
-                    elem.querySelector('.selected-color'),
-                    elem.querySelector('#' + group + '-' + property.id + '-value'),
-                    option);
-                break;
-            case 'radio-datetime':
-                elem.classList.add('vertical');
+            // color palette 초기화
+            let option = {
+                isOpacity: (property.type === 'rgba'), // 불투명도 사용여부
+                data: {
+                    isSelected: true, // 기존 색상 선택 여부
+                    selectedClass: 'selected', // 기존 값 색상에 css 적용 (테두리)
+                    value: property.value // 기존 값
+                }
+            };
+            colorPalette.initColorPalette(elem.querySelector('#' + group + '-' + property.id + '-colorPaletteLayer'),
+                elem.querySelector('.selected-color'),
+                elem.querySelector('#' + group + '-' + property.id + '-value'),
+                option);
+            break;
+        case 'radio-datetime':
+            elem.classList.add('vertical');
 
-                let optionDefaultArr;
-                const defaultFormatArr = property.value !== '' ? property.value.split('|') : ''; // none, now, date|-3, time|2, datetime|7|0 등
-                const fieldDatetimeOptions = property.option.map(function (opt) {
-                    optionDefaultArr = ['', '', ''];
-                    if (defaultFormatArr[0] === opt.id) {
-                        optionDefaultArr = defaultFormatArr;
-                    }
-                    let labelName = i18n.msg('form.attribute.option.' + opt.id).split('{0}');
-                    let optionTemplate= ``;
-                    if (opt.id === 'date' || opt.id === 'datetime' || 'time') {
-                        optionTemplate += `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "' maxlength='4'/><span>" + labelName[1] + "</span>" : ""}` +
-                            `${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><span id='" + opt.id + "-day'>" + labelName[1] + "</span>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><span id='" + opt.id + "-hour'>" + labelName[2] + "</span>" : ""}`;
+            let optionDefaultArr;
+            const defaultFormatArr = property.value !== '' ? property.value.split('|') : ''; // none, now, date|-3, time|2, datetime|7|0 등
+            const fieldDatetimeOptions = property.option.map(function (opt) {
+                optionDefaultArr = ['', '', ''];
+                if (defaultFormatArr[0] === opt.id) {
+                    optionDefaultArr = defaultFormatArr;
+                }
+                let labelName = i18n.msg('form.attribute.option.' + opt.id).split('{0}');
+                let optionTemplate= ``;
+                if (opt.id === 'date' || opt.id === 'datetime' || 'time') {
+                    optionTemplate += `${opt.id === 'date' || opt.id === 'time' ? '<input type=\'text\' class=\'property-value\' data-validate=\'' + opt.validate + '\' id=\'' + opt.id + '\' value=\'' + optionDefaultArr[1] + '\' maxlength=\'4\'/><span>' + labelName[1] + '</span>' : ''}` +
+                            `${opt.id === 'datetime' ? '<input type=\'text\' class=\'property-value\' data-validate=\'' + opt.validate + '\' id=\'' + opt.id + '-day\' value=\'' + optionDefaultArr[1] + '\' /><span id=\'' + opt.id + '-day\'>' + labelName[1] + '</span>' + '<input type=\'text\' class=\'property-value\' data-validate=\'' + opt.validate + '\' id=\'' + opt.id + '-hour\' value=\'' + optionDefaultArr[2] + '\' /><span id=\'' + opt.id + '-hour\'>' + labelName[2] + '</span>' : ''}`;
 
-                    }
-                    return `<div class='vertical-group radio-datetime'>` +
+                }
+                return `<div class='vertical-group radio-datetime'>` +
                         `<label class="radio" for="${opt.id}">` +
-                            `<input type="radio" id="${opt.id}" name="${group}-${property.id}" value="${opt.id}" ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
+                            `<input type="radio" id="${opt.id}" name="${group}-${property.id}" value="${opt.id}" ${defaultFormatArr[0] === opt.id ? 'checked=\'true\'' : ''} /><span></span>` +
                             `${opt.id === 'now' || opt.id === 'none' ? '<span class="label">' + labelName[0] + '</span>' : ''}`+
                         `</label>` +
-                        `${opt.id === 'date' || opt.id === 'datetime' || opt.id === 'time' ? "<div>" + optionTemplate + "</div>" : ""}`+
-                        `${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + key + "' value='" + optionDefaultArr[1] + "'/>" : ""}` +
+                        `${opt.id === 'date' || opt.id === 'datetime' || opt.id === 'time' ? '<div>' + optionTemplate + '</div>' : ''}`+
+                        `${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? '<input type=\'text\' class=\'' + opt.id + '\' id=\'' + opt.id + '-' + key + '\' value=\'' + optionDefaultArr[1] + '\'/>' : ''}` +
                     `</div>`;
-                }).join('');
+            }).join('');
 
-                fieldTemplate = `<label class='property-field-name'>${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>${fieldDatetimeOptions}`;
+            fieldTemplate = `<label class='property-field-name'>${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>${fieldDatetimeOptions}`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
-                break;
-            case 'radio-custom':
-                elem.classList.add('vertical');
-                const fieldValueArr = property.value.split('|');
-                const fieldRadioOptions = property.option.map(function (opt) {
-                    return `<div class="vertical-group radio-custom">` +
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            break;
+        case 'radio-custom':
+            elem.classList.add('vertical');
+            const fieldValueArr = property.value.split('|');
+            const fieldRadioOptions = property.option.map(function (opt) {
+                return `<div class="vertical-group radio-custom">` +
                     `<label class="radio" for="${opt.id}">` +
-                        `<input type="radio" id="${opt.id}" name="${group}-${property.id}" value="${opt.id}" ${fieldValueArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
+                        `<input type="radio" id="${opt.id}" name="${group}-${property.id}" value="${opt.id}" ${fieldValueArr[0] === opt.id ? 'checked=\'true\'' : ''} /><span></span>` +
                         `<span class="label" >${i18n.msg('form.attribute.option.' + opt.id)}</span>` +
                     `</label>` +
-                    `${opt.id !== 'none' ? "<select>" + opt.items.map(function (item) {
-                        return `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`
-                    }).join('') + "</select>" : ""}` +
+                    `${opt.id !== 'none' ? '<select>' + opt.items.map(function (item) {
+                        return `<option value='${item.id}' ${item.id === fieldValueArr[1] ? 'selected=\'selected\'' : ''}>${item.name}</option>`;
+                    }).join('') + '</select>' : ''}` +
                     `</div>`;
-                }).join('');
+            }).join('');
 
-                fieldTemplate = `<label class='property-field-name'>${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>${fieldRadioOptions}`;
+            fieldTemplate = `<label class='property-field-name'>${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>${fieldRadioOptions}`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
-                break;
-            case 'select':
-                let fieldSelectOptions = property.option.map(function (opt) {
-                    return `<option value='${opt.id}' ${property.value === opt.id ? "selected='true'" : ""}>${opt.name}</option>`;
-                }).join('');
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            break;
+        case 'select':
+            let fieldSelectOptions = property.option.map(function (opt) {
+                return `<option value='${opt.id}' ${property.value === opt.id ? 'selected=\'true\'' : ''}>${opt.name}</option>`;
+            }).join('');
 
-                fieldTemplate =
+            fieldTemplate =
                     `<label class='property-field-name'>${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>` +
                     `<select class='property-value'>${fieldSelectOptions}</select>`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
-                break;
-            case 'slider':
-                fieldTemplate =
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            break;
+        case 'slider':
+            fieldTemplate =
                     `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>` +
                     `<div class="property-field-range">` +
                         `<input type="range" class="property-value" id="${group + '-' + property.id}" min="1" max="12" value="${property.value}"/>` +
                         `<input type="text" id="${group + '-' + property.id}-value" value="${property.value}" readonly/>` +
                     `</div>`;
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
-                break;
-            case 'session':
-                fieldTemplate = `<label class='property-field-name'>${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>`;
-                const propValueArr = property.value.split('|');
-                const fieldSessionOptions = property.option.map(function (opt) {
-                    return `<button type="button" name="${opt.id}" class="btn default-line ${propValueArr[0]  === opt.id ? 'active' : ''}">${opt.name}</button>`;
-                }).join('');
-                fieldTemplate += `<div class="property-field-toggle btn-group-toggle">${fieldSessionOptions}</div>`;
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            break;
+        case 'session':
+            fieldTemplate = `<label class='property-field-name'>${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>`;
+            const propValueArr = property.value.split('|');
+            const fieldSessionOptions = property.option.map(function (opt) {
+                return `<button type="button" name="${opt.id}" class="btn default-line ${propValueArr[0]  === opt.id ? 'active' : ''}">${opt.name}</button>`;
+            }).join('');
+            fieldTemplate += `<div class="property-field-toggle btn-group-toggle">${fieldSessionOptions}</div>`;
 
-                // 직접 입력할 경우 input box
-                fieldTemplate += `<input type='text' class='property-value ${property.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? aliceJs.filterXSS(propValueArr[1]) : ""}' maxlength="100"/>`;
-                // 자동 입력일 경우 select box
-                const fieldSubOptions = property.option[1].items.map(function (opt) {
-                    return `<option value='${opt.id}' ${propValueArr[1] === opt.id ? "selected='true'" : ""}>${opt.name}</option>`;
-                }).join('');
-                fieldTemplate +=
-                    `<select class='property-value ${property.type}' id='select' style='${propValueArr[0] === "select" ? "" : "display: none;"}'>${fieldSubOptions}</select>`;
+            // 직접 입력할 경우 input box
+            fieldTemplate += `<input type='text' class='property-value ${property.type}' id='none' style='${propValueArr[0] === 'none' ? '' : 'display: none;'}' value='${propValueArr[0] === 'none' ? aliceJs.filterXSS(propValueArr[1]) : ''}' maxlength="100"/>`;
+            // 자동 입력일 경우 select box
+            const fieldSubOptions = property.option[1].items.map(function (opt) {
+                return `<option value='${opt.id}' ${propValueArr[1] === opt.id ? 'selected=\'true\'' : ''}>${opt.name}</option>`;
+            }).join('');
+            fieldTemplate +=
+                    `<select class='property-value ${property.type}' id='select' style='${propValueArr[0] === 'select' ? '' : 'display: none;'}'>${fieldSubOptions}</select>`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
 
-                // 버튼 이벤트 핸들러 추가
-                const toggleButtons = elem.querySelector('.property-field-toggle').children;
-                for (let i = 0, len = toggleButtons.length; i < len; i++) {
-                    toggleButtons[i].addEventListener('click', toggleSessionButtonClickHandler, false);
-                }
-                break;
-            case 'datepicker':
-            case 'timepicker':
-            case 'datetimepicker':
-                fieldTemplate =
+            // 버튼 이벤트 핸들러 추가
+            const toggleButtons = elem.querySelector('.property-field-toggle').children;
+            for (let i = 0, len = toggleButtons.length; i < len; i++) {
+                toggleButtons[i].addEventListener('click', toggleSessionButtonClickHandler, false);
+            }
+            break;
+        case 'datepicker':
+        case 'timepicker':
+        case 'datetimepicker':
+            fieldTemplate =
                     `<label class='property-field-name'>${i18n.msg('form.attribute.' + property.id)}${tooltipTemplate}</label>` +
                     `<input type='text' class='${property.type} property-value' id='${property.id}-${key}' name='${group}-${property.id}' value='${property.value}'>`;
 
-                elem.insertAdjacentHTML('beforeend', fieldTemplate);
-                break;
+            elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            break;
         }
         // 단위 추가
         if (typeof property.unit !== 'undefined' && property.unit !== '') {
@@ -1935,7 +1936,7 @@
                     for (let j = 0, menuLen = menuItems.length; j < menuLen; j++) {
                         if (!menuItems[j].classList.contains('delete')) {
                             menuItems[j].classList.add('hidden');
-                             // 아코디언 컴포넌트일 경우 add 항목 활성화
+                            // 아코디언 컴포넌트일 경우 add 항목 활성화
                             if (len === 2 && componentType === 'accordion-start' && menuItems[j].classList.contains('add')) {
                                 menuItems[j].classList.remove('hidden');
                             }
@@ -2028,7 +2029,7 @@
                                            `<span class="label">${i18n.msg('form.attribute.drTableColumns', (Number(idx) + 1))}</span>` +
                                        `</label>` +
                                    `</div>` +
-/*                                   `<div class="property-field-block-content"></div>` +*/
+                                /*                                   `<div class="property-field-block-content"></div>` +*/
                                `</div>`;
                             groupElem.insertAdjacentHTML('beforeend', fieldGroupTemplate);
 
@@ -2051,9 +2052,9 @@
                                     }
                                     if (typeof fieldProp.option !== 'undefined') { //align
                                         const fieldButtonOptions = fieldProp.option.map(function (opt) {
-                                            return `<button type='button' id='${opt.id}' class='btn-field${fieldProp.value === opt.id ? " active" : ""}'>` +
+                                            return `<button type='button' id='${opt.id}' class='btn-field${fieldProp.value === opt.id ? ' active' : ''}'>` +
                                                 `<span class="icon icon-align-${opt.id}"></span> ` +
-                                                `</button>`
+                                                `</button>`;
                                         }).join('');
                                         buttonGroupElem.insertAdjacentHTML('beforeend', `<div class="btn-group-toggle" id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
 
@@ -2062,7 +2063,7 @@
                                             buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                         }
                                     } else { //bold, italic, underline
-                                        const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn-field${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
+                                        const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn-field${fieldProp.value === 'Y' ? ' active' : ''}' data-value='${fieldProp.value}'>` +
                                             `<span class="icon icon-${fieldProp.id}"></span>` +
                                             `</button>`;
                                         buttonGroupElem.insertAdjacentHTML('beforeend', buttonTemplate);
@@ -2096,7 +2097,7 @@
                                             if (fieldValueElem.parentNode.tagName !== 'TD') { // table 구조가 아닐 경우
                                                 fieldValueElem.parentNode.insertAdjacentHTML('afterend', `<label class="error-msg"></label>`);
                                             }
-                                            validateCheck('keyup',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
+                                            validateCheck('keyup', fieldValueElem, fieldValueElem.getAttribute('data-validate'));
                                         }
                                     }
                                 }
@@ -2349,9 +2350,9 @@
                             }
                             if (typeof fieldProp.option !== 'undefined') { //align
                                 const fieldButtonOptions = fieldProp.option.map(function (opt) {
-                                    return `<button type='button' id='${opt.id}' class='btn-field${fieldProp.value === opt.id ? " active" : ""}'>` +
+                                    return `<button type='button' id='${opt.id}' class='btn-field${fieldProp.value === opt.id ? ' active' : ''}'>` +
                                                `<span class="icon icon-align-${opt.id}"></span> ` +
-                                           `</button>`
+                                           `</button>`;
                                 }).join('');
                                 buttonGroupElem.insertAdjacentHTML('beforeend', `<div class="btn-group-toggle" id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
 
@@ -2360,7 +2361,7 @@
                                     buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                 }
                             } else { //bold, italic, underline
-                                const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn-field${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
+                                const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn-field${fieldProp.value === 'Y' ? ' active' : ''}' data-value='${fieldProp.value}'>` +
                                         `<span class="icon icon-${fieldProp.id}"></span>` +
                                     `</button>`;
                                 buttonGroupElem.insertAdjacentHTML('beforeend', buttonTemplate);
@@ -2384,9 +2385,9 @@
                             const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
                             for (let i = 0, len = fieldValueElems.length; i < len; i++) {
                                 const fieldValueElem = fieldValueElems[i];
-                                 if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
+                                if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
                                     fieldValueElem.parentNode.insertAdjacentHTML('afterend', `<label class="error-msg"></label>`);
-                                    validateCheck('keyup',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
+                                    validateCheck('keyup', fieldValueElem, fieldValueElem.getAttribute('data-validate'));
                                 }
                             }
                         }
@@ -2425,7 +2426,7 @@
         aliceJs.initDesignedSelectTag();
 
         // 컬럼 추가/삭제 버튼 숨기기
-        const buttonDiv = propertiesPanel.querySelectorAll('.property-group-drTableColumns')
+        const buttonDiv = propertiesPanel.querySelectorAll('.property-group-drTableColumns');
         for (i = 0, len = buttonDiv.length; i < len; i ++) {
             buttonDiv[i].style.display = 'none';
         }
@@ -2459,42 +2460,42 @@
                 if (prop === node.id) {
                     const propElem = node.querySelector('.property-value');
                     switch (node.id) {
-                        case 'name':
-                            propElem.setAttribute('value', formProperties[prop]);
-                            // 필수값 체크
-                            validateCheck('focusout', propElem, 'required');
-                            propElem.addEventListener('keyup', function(e) {
-                                const elem = e.target;
-                                let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
-                                editor.data.name = elem.value;
-                                history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
-                            });
-                            break;
-                        case 'formId':
-                            propElem.setAttribute('value', formProperties[prop]);
-                            break;
-                        case 'desc':
-                            propElem.value = formProperties[prop];
-                            propElem.addEventListener('change', function(e) {
-                                let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
-                                editor.data.desc = this.value;
-                                history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
-                            }, false);
-                            propElem.className = 'textarea-scroll-wrapper';
-                            break;
-                        case 'status':
-                            for (let i = 0,len = propElem.options.length; i < len; i++) {
-                                if (formProperties[prop] === propElem.options[i].value) {
-                                    propElem.options[i].setAttribute('selected', 'selected');
-                                    break;
-                                }
+                    case 'name':
+                        propElem.setAttribute('value', formProperties[prop]);
+                        // 필수값 체크
+                        validateCheck('focusout', propElem, 'required');
+                        propElem.addEventListener('keyup', function(e) {
+                            const elem = e.target;
+                            let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
+                            editor.data.name = elem.value;
+                            history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
+                        });
+                        break;
+                    case 'formId':
+                        propElem.setAttribute('value', formProperties[prop]);
+                        break;
+                    case 'desc':
+                        propElem.value = formProperties[prop];
+                        propElem.addEventListener('change', function(e) {
+                            let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
+                            editor.data.desc = this.value;
+                            history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
+                        }, false);
+                        propElem.className = 'textarea-scroll-wrapper';
+                        break;
+                    case 'status':
+                        for (let i = 0, len = propElem.options.length; i < len; i++) {
+                            if (formProperties[prop] === propElem.options[i].value) {
+                                propElem.options[i].setAttribute('selected', 'selected');
+                                break;
                             }
-                            propElem.addEventListener('change', function(e) {
-                                let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
-                                editor.data.status = this.value;
-                                history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
-                            }, false);
-                            break;
+                        }
+                        propElem.addEventListener('change', function(e) {
+                            let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
+                            editor.data.status = this.value;
+                            history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
+                        }, false);
+                        break;
                     }
                 }
             });
@@ -2509,7 +2510,7 @@
             textarea: {
                 dynHeight: false,
                 dynWidth: false,
-                inheritedAttrs: "class"
+                inheritedAttrs: 'class'
             }
         });
 
@@ -2522,7 +2523,7 @@
      * 조회된 데이터 draw.
      */
     function drawForm() {
-         //컴포넌트 재정렬
+        //컴포넌트 재정렬
         if (editor.data.components.length > 0) {
             if (editor.data.components.length > 2) {
                 editor.data.components.sort(function (a, b) {
