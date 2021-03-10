@@ -24,25 +24,25 @@
     function getComponentTarget(componentElement) {
         let componentTarget;
         switch (componentElement.getAttribute('data-type')) {
-            case 'textbox':
-                componentTarget = componentElement.querySelector('.editor-container');
-                if (!componentTarget) { componentTarget = componentElement.querySelector('textarea'); }
-                break;
-            case 'dropdown':
-                componentTarget = componentElement.querySelector('select');
-                break;
-            case 'radio':
-                componentTarget = componentElement.querySelector('div#radio');
-                break;
-            case 'checkbox':
-                componentTarget = componentElement.querySelector('div#chkbox');
-                break;
-            case 'fileupload':
-                componentTarget = componentElement.querySelector('#fileupload');
-                break;
-            default :
-                componentTarget = componentElement.querySelector('input');
-                break;
+        case 'textbox':
+            componentTarget = componentElement.querySelector('.editor-container');
+            if (!componentTarget) { componentTarget = componentElement.querySelector('textarea'); }
+            break;
+        case 'dropdown':
+            componentTarget = componentElement.querySelector('select');
+            break;
+        case 'radio':
+            componentTarget = componentElement.querySelector('div#radio');
+            break;
+        case 'checkbox':
+            componentTarget = componentElement.querySelector('div#chkbox');
+            break;
+        case 'fileupload':
+            componentTarget = componentElement.querySelector('#fileupload');
+            break;
+        default :
+            componentTarget = componentElement.querySelector('input');
+            break;
         }
         return componentTarget;
     }
@@ -90,49 +90,49 @@
             const nodeValue = attribute.nodeValue;
             if (nodeValue !== '') {
                 switch (attribute.nodeName) {
-                    case 'minlength':
-                    case 'maxlength':
-                        let length = 0;
-                        if (element.classList.contains('editor-container')) { // editor
-                            length = Quill.find(element).getLength() - 1;
-                        } else {
-                            length = element.value.length;
-                        }
-                        if (attribute.nodeName === 'minlength' && length < Number(nodeValue)) {
-                            message = i18n.msg('document.msg.lengthMin', nodeValue);
-                        } else if (attribute.nodeName === 'maxlength' && length > Number(nodeValue)) {
-                            message = i18n.msg('document.msg.lengthMax', nodeValue);
-                        }
-                        break;
-                    case 'date-min':
-                    case 'date-max':
-                        if (attribute.nodeName === 'date-min' && i18n.compareSystemDate(element.value, nodeValue)) {
-                            message = i18n.msg('common.msg.selectAfterDate', nodeValue);
-                        } else if (attribute.nodeName === 'date-max' && i18n.compareSystemDate(nodeValue, element.value)) {
-                            message = i18n.msg('common.msg.selectBeforeDate', nodeValue);
-                        }
-                        break;
-                    case 'time-min':
-                    case 'time-max':
-                        if (attribute.nodeName === 'time-min' && i18n.compareSystemTime(element.value, nodeValue)) {
-                            message = i18n.msg('common.msg.selectAfterTime', nodeValue);
-                        } else if (attribute.nodeName === 'time-max' && i18n.compareSystemTime(nodeValue, element.value)) {
-                            message = i18n.msg('common.msg.selectBeforeTime', nodeValue);
-                        }
-                        break;
-                    case 'datetime-min':
-                    case 'datetime-max':
-                        if (attribute.nodeName === 'datetime-min' && i18n.compareSystemDateTime(element.value, nodeValue)) {
-                            message = i18n.msg('common.msg.selectAfterDateTime', nodeValue);
-                        } else if (attribute.nodeName === 'datetime-max' && i18n.compareSystemDateTime(nodeValue, element.value)) {
-                            message = i18n.msg('common.msg.selectBeforeDateTime', nodeValue);
-                        }
-                        break;
-                    case 'regexp':
-                        if (checkRegexp(nodeValue, element.value)) {
-                            message = element.getAttribute('regexp-msg');
-                        }
-                        break;
+                case 'minlength':
+                case 'maxlength':
+                    let length = 0;
+                    if (element.classList.contains('editor-container')) { // editor
+                        length = Quill.find(element).getLength() - 1;
+                    } else {
+                        length = element.value.length;
+                    }
+                    if (attribute.nodeName === 'minlength' && length < Number(nodeValue)) {
+                        message = i18n.msg('document.msg.lengthMin', nodeValue);
+                    } else if (attribute.nodeName === 'maxlength' && length > Number(nodeValue)) {
+                        message = i18n.msg('document.msg.lengthMax', nodeValue);
+                    }
+                    break;
+                case 'date-min':
+                case 'date-max':
+                    if (attribute.nodeName === 'date-min' && i18n.compareSystemDate(element.value, nodeValue)) {
+                        message = i18n.msg('common.msg.selectAfterDate', nodeValue);
+                    } else if (attribute.nodeName === 'date-max' && i18n.compareSystemDate(nodeValue, element.value)) {
+                        message = i18n.msg('common.msg.selectBeforeDate', nodeValue);
+                    }
+                    break;
+                case 'time-min':
+                case 'time-max':
+                    if (attribute.nodeName === 'time-min' && i18n.compareSystemTime(element.value, nodeValue)) {
+                        message = i18n.msg('common.msg.selectAfterTime', nodeValue);
+                    } else if (attribute.nodeName === 'time-max' && i18n.compareSystemTime(nodeValue, element.value)) {
+                        message = i18n.msg('common.msg.selectBeforeTime', nodeValue);
+                    }
+                    break;
+                case 'datetime-min':
+                case 'datetime-max':
+                    if (attribute.nodeName === 'datetime-min' && i18n.compareSystemDateTime(element.value, nodeValue)) {
+                        message = i18n.msg('common.msg.selectAfterDateTime', nodeValue);
+                    } else if (attribute.nodeName === 'datetime-max' && i18n.compareSystemDateTime(nodeValue, element.value)) {
+                        message = i18n.msg('common.msg.selectBeforeDateTime', nodeValue);
+                    }
+                    break;
+                case 'regexp':
+                    if (checkRegexp(nodeValue, element.value)) {
+                        message = element.getAttribute('regexp-msg');
+                    }
+                    break;
                 }
             } else if (attribute.nodeName === 'required') {
                 message = checkRequired(element);
@@ -157,21 +157,21 @@
         let result = false;
         if (value.length !== 0) {
             switch (nodeValue) {
-                case 'char':
-                    result = (value.match(numIncludeRegular) !== null);
-                    break;
-                case 'num':
-                    result = !numRegular.test(value);
-                    break;
-                case 'numchar':
-                    // TODO: number + char
-                    break;
-                case 'phone':
-                    result = !phoneRegular.test(value);
-                    break;
-                case 'email':
-                    result = !emailRegular.test(value);
-                    break;
+            case 'char':
+                result = (value.match(numIncludeRegular) !== null);
+                break;
+            case 'num':
+                result = !numRegular.test(value);
+                break;
+            case 'numchar':
+                // TODO: number + char
+                break;
+            case 'phone':
+                result = !phoneRegular.test(value);
+                break;
+            case 'email':
+                result = !emailRegular.test(value);
+                break;
             }
         }
         return result;
@@ -185,32 +185,32 @@
     function checkRequired(element) {
         let message = null;
         switch (element.id) {
-            case 'editor':
-                let textEditor = Quill.find(element);
-                if (textEditor.getLength() === 1) {
+        case 'editor':
+            let textEditor = Quill.find(element);
+            if (textEditor.getLength() === 1) {
+                message = i18n.msg('common.msg.requiredEnter');
+            }
+            break;
+        case 'radio':
+        case 'chkbox':
+            if (!checkSelect(element)) {
+                message = i18n.msg('common.msg.requiredSelect');
+            }
+            break;
+        case 'fileupload':
+            if (element.querySelectorAll('input[name=loadedFileSeq], input[name=fileSeq]').length === 0) {
+                message = i18n.msg('document.msg.requiredFileupload');
+            }
+            break;
+        default :
+            if (element.value === '') {
+                if (element.classList.contains('custom-code-text')) { // custom-code
+                    message = i18n.msg('common.msg.requiredSelect');
+                } else {
                     message = i18n.msg('common.msg.requiredEnter');
                 }
-                break;
-            case 'radio':
-            case 'chkbox':
-                if (!checkSelect(element)) {
-                    message = i18n.msg('common.msg.requiredSelect');
-                }
-                break;
-            case 'fileupload':
-                if (element.querySelectorAll('input[name=loadedFileSeq], input[name=fileSeq]').length === 0) {
-                    message = i18n.msg('document.msg.requiredFileupload');
-                }
-                break;
-            default :
-                if (element.value === '') {
-                    if (element.classList.contains('custom-code-text')) { // custom-code
-                        message = i18n.msg('common.msg.requiredSelect');
-                    } else {
-                        message = i18n.msg('common.msg.requiredEnter');
-                    }
-                }
-                break;
+            }
+            break;
         }
         return message;
     }
@@ -308,129 +308,129 @@
                 let componentChild = '';
 
                 switch (componentDataType) {
-                    case 'inputbox':
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
+                case 'inputbox':
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    componentValue = componentChild.item(0).value;
+                    break;
+                case 'date':
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    if (target === 'print') {
                         componentValue = componentChild.item(0).value;
-                        break;
-                    case 'date':
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        if (target === 'print') {
-                            componentValue = componentChild.item(0).value;
-                        } else {
-                            componentValue = i18n.systemDate(componentChild.item(0).value);
+                    } else {
+                        componentValue = i18n.systemDate(componentChild.item(0).value);
+                    }
+                    break;
+                case 'time':
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    if (target === 'print') {
+                        componentValue = componentChild.item(0).value;
+                    } else {
+                        componentValue = i18n.systemTime(componentChild.item(0).value);
+                    }
+                    break;
+                case 'datetime':
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    if (target === 'print') {
+                        componentValue = componentChild.item(0).value;
+                    } else {
+                        componentValue = i18n.systemDateTime(componentChild.item(0).value);
+                    }
+                    break;
+                case 'textbox':
+                    componentChild = componentElements[eIndex].querySelector('.editor-container');
+                    if (componentChild) {
+                        let textEditor = Quill.find(componentChild);
+                        componentValue = JSON.stringify(textEditor.getContents());
+                    } else {
+                        componentChild = componentElements[eIndex].getElementsByTagName('textarea');
+                        componentValue = componentChild.item(0).value;
+                    }
+                    break;
+                case 'dropdown':
+                    componentChild = componentElements[eIndex].getElementsByTagName('select');
+                    componentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
+                    break;
+                case 'radio':
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    for (let radioIndex = 0; radioIndex < componentChild.length; radioIndex++) {
+                        if (componentChild[radioIndex].checked) {
+                            componentValue = componentChild[radioIndex].value;
                         }
-                        break;
-                    case 'time':
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        if (target === 'print') {
-                            componentValue = componentChild.item(0).value;
-                        } else {
-                            componentValue = i18n.systemTime(componentChild.item(0).value);
+                    }
+                    break;
+                case 'checkbox':
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    componentValueArr = [];
+                    for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
+                        if (componentChild[checkBoxIndex].checked && componentValueArr.indexOf(componentChild[checkBoxIndex].value) === -1) {
+                            componentValueArr.push(componentChild[checkBoxIndex].value);
                         }
-                        break;
-                    case 'datetime':
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        if (target === 'print') {
-                            componentValue = componentChild.item(0).value;
-                        } else {
-                            componentValue = i18n.systemDateTime(componentChild.item(0).value);
-                        }
-                        break;
-                    case 'textbox':
-                        componentChild = componentElements[eIndex].querySelector('.editor-container');
-                        if (componentChild) {
-                            let textEditor = Quill.find(componentChild);
-                            componentValue = JSON.stringify(textEditor.getContents());
-                        } else {
-                            componentChild = componentElements[eIndex].getElementsByTagName('textarea');
-                            componentValue = componentChild.item(0).value;
-                        }
-                        break;
-                    case 'dropdown':
-                        componentChild = componentElements[eIndex].getElementsByTagName('select');
-                        componentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
-                        break;
-                    case 'radio':
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        for (let radioIndex = 0; radioIndex < componentChild.length; radioIndex++) {
-                            if (componentChild[radioIndex].checked) {
-                                componentValue = componentChild[radioIndex].value;
-                            }
-                        }
-                        break;
-                    case 'checkbox':
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        componentValueArr = [];
-                        for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
-                            if (componentChild[checkBoxIndex].checked && componentValueArr.indexOf(componentChild[checkBoxIndex].value) === -1) {
-                                componentValueArr.push(componentChild[checkBoxIndex].value);
-                            }
-                        }
-                        componentValue = JSON.stringify(componentValueArr);
-                        break;
-                    case 'fileupload':
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
-                            if (componentChild[fileuploadIndex].name !== 'delFileSeq') {
-                                if (componentValue === '') {
-                                    componentValue = componentChild[fileuploadIndex].value;
-                                } else {
-                                    componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
-                                }
-                            }
-                        }
-                        break;
-                    case 'custom-code':
-                        componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        componentValue = componentChild.item(0).getAttribute('custom-data');
-                        break;
-                    case 'dynamic-row-table':
-                        // "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"] 형태로 데이터 전달
-                        componentChild = componentElements[eIndex].getElementsByTagName('table')[0];
-                        componentValueArr = [];
-                        for (let rowIndex = 1, rowLen = componentChild.rows.length; rowIndex < rowLen; rowIndex++) {
-                            const row = componentChild.rows[rowIndex];
-                            for (let cellIndex = 0, cellLen = row.cells.length; cellIndex < cellLen; cellIndex++) {
-                                const cell = row.cells[cellIndex];
-                                const childElem  = cell.children[0];
-                                let childValue = '';
-                                // DR Table 컴포넌트 내부는 inputbox, select, checkbox, radio 등으로 이루어진다. (추후 구현 예정)
-                                switch(childElem.type) {
-                                    case 'text':
-                                        childValue = childElem.value;
-                                        break;
-                                    default:
-                                        break
-                                }
-                                componentValueArr.push(childValue);
-                            }
-                        }
-
-                        componentValue = JSON.stringify(componentValueArr);
-                        break;
-                    case 'ci':
-                        const componentData = aliceDocument.data.form.components[eIndex];
-                        componentValueArr = [];
-                        // 삭제, 조회일 경우에는 actionType과 ciId만 저장한다.
-                        const allowedKeys = ['actionType', 'ciId', 'ciStatus'];
-                        const filterActionType = ['delete', 'read'];
-                        componentData.value.forEach(function(v) {
-                            if (filterActionType.includes(v.actionType)) {
-                                const filterValue = Object.keys(v)
-                                    .filter( function (key) { return allowedKeys.includes(key); })
-                                    .reduce(function (obj, key) {
-                                        obj[key] = v[key];
-                                        return obj;
-                                    }, {});
-                                componentValueArr.push(filterValue);
+                    }
+                    componentValue = JSON.stringify(componentValueArr);
+                    break;
+                case 'fileupload':
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
+                        if (componentChild[fileuploadIndex].name !== 'delFileSeq') {
+                            if (componentValue === '') {
+                                componentValue = componentChild[fileuploadIndex].value;
                             } else {
-                                componentValueArr.push(v);
+                                componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
                             }
-                        });
-                        componentValue = JSON.stringify(componentValueArr);
-                        break;
-                    default:
-                        break;
+                        }
+                    }
+                    break;
+                case 'custom-code':
+                    componentChild = componentElements[eIndex].getElementsByTagName('input');
+                    componentValue = componentChild.item(0).getAttribute('custom-data');
+                    break;
+                case 'dynamic-row-table':
+                    // "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"] 형태로 데이터 전달
+                    componentChild = componentElements[eIndex].getElementsByTagName('table')[0];
+                    componentValueArr = [];
+                    for (let rowIndex = 1, rowLen = componentChild.rows.length; rowIndex < rowLen; rowIndex++) {
+                        const row = componentChild.rows[rowIndex];
+                        for (let cellIndex = 0, cellLen = row.cells.length; cellIndex < cellLen; cellIndex++) {
+                            const cell = row.cells[cellIndex];
+                            const childElem  = cell.children[0];
+                            let childValue = '';
+                            // DR Table 컴포넌트 내부는 inputbox, select, checkbox, radio 등으로 이루어진다. (추후 구현 예정)
+                            switch(childElem.type) {
+                            case 'text':
+                                childValue = childElem.value;
+                                break;
+                            default:
+                                break;
+                            }
+                            componentValueArr.push(childValue);
+                        }
+                    }
+
+                    componentValue = JSON.stringify(componentValueArr);
+                    break;
+                case 'ci':
+                    const componentData = aliceDocument.data.form.components[eIndex];
+                    componentValueArr = [];
+                    // 삭제, 조회일 경우에는 actionType과 ciId만 저장한다.
+                    const allowedKeys = ['actionType', 'ciId', 'ciStatus'];
+                    const filterActionType = ['delete', 'read'];
+                    componentData.value.forEach(function(v) {
+                        if (filterActionType.includes(v.actionType)) {
+                            const filterValue = Object.keys(v)
+                                .filter( function (key) { return allowedKeys.includes(key); })
+                                .reduce(function (obj, key) {
+                                    obj[key] = v[key];
+                                    return obj;
+                                }, {});
+                            componentValueArr.push(filterValue);
+                        } else {
+                            componentValueArr.push(v);
+                        }
+                    });
+                    componentValue = JSON.stringify(componentValueArr);
+                    break;
+                default:
+                    break;
                 }
                 componentChildObject.componentId = componentId;
                 componentChildObject.value = componentValue;
@@ -497,7 +497,7 @@
         let url = '';
         if (tokenObject.tokenId === '') {
             method = 'post';
-            url = '/rest/tokens/data'
+            url = '/rest/tokens/data';
         } else {
             method = 'put';
             url = '/rest/tokens/' + tokenObject.tokenId + '/data';
@@ -625,7 +625,7 @@
         if (commentContainer !== null) {
 
             let commentBoxTextarea = document.createElement('textarea');
-            commentBoxTextarea.setAttribute('placeholder',i18n.msg('comment.msg.enterComments'));
+            commentBoxTextarea.setAttribute('placeholder', i18n.msg('comment.msg.enterComments'));
             commentBoxTextarea.className = 'textarea-scroll-wrapper';
             let commentButton = document.createElement('button');
             commentButton.type = 'button';
@@ -638,14 +638,14 @@
             commentContainer.appendChild(commentBoxTextarea);
             commentContainer.appendChild(commentButton);
 
-            OverlayScrollbars(commentContainer.querySelector("textarea"), {
+            OverlayScrollbars(commentContainer.querySelector('textarea'), {
                 className: 'inner-scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,
                 textarea: {
                     dynHeight: false,
                     dynWidth: false,
-                    inheritedAttrs: "class"
+                    inheritedAttrs: 'class'
                 }
             });
         }
@@ -792,7 +792,6 @@
      */
     function init(documentId) {
         console.info('document editor initialization. [DOCUMENT ID: ' + documentId + ']');
-
         // document data search.
         aliceJs.sendXhr({
             method: 'GET',
@@ -964,7 +963,7 @@
                     placeholder: i18n.msg('token.msg.tag')
                 });
 
-                const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : "token-history";
+                const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
                 document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
                 OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
             }
