@@ -10,26 +10,31 @@
  *        - param.extra.clickable 파일 추가 버튼을 사용할 element class name
  */
 const fileUploader = (function () {
-    "use strict";
+    'use strict';
 
-    let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId, addFileBtnWrapClassName, exportFile;
+    let extraParam,
+        fileAttrName,
+        delFileAttrName,
+        dragAndDropZoneId,
+        addFileBtnWrapClassName,
+        exportFile;
 
     //외부로 file 정보를 내보냄.
     const getFile = function() {
         return exportFile;
-    }
+    };
 
     const createUid = function () {
         function s4() {
             return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
         }
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    }
+    };
 
     const getExtension = function(fileName) {
-        let dot = fileName.lastIndexOf('.')
+        let dot = fileName.lastIndexOf('.');
         return fileName.substring(dot+1, fileName.length).toLowerCase();
-    }
+    };
 
     const setFileIcon = function (fileName, isView) {
         return '/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg';
@@ -139,7 +144,7 @@ const fileUploader = (function () {
         addFileBtnWrap.appendChild(justText);
         addFileBtnWrap.appendChild(addFileBtn);
         dragAndDropZone.appendChild(addFileBtnWrap);
-    }
+    };
 
     /**
      * 업로드 영역의 dropzone template 을 생성하여 리턴한다.
@@ -212,7 +217,7 @@ const fileUploader = (function () {
         fileView.appendChild(fileViewTemplate);
 
         return fileView.innerHTML;
-    }
+    };
 
     /**
      * 업로드된 파일 다운로드 이벤트 핸들러
@@ -238,7 +243,7 @@ const fileUploader = (function () {
             params: '',
             async: true,
             responseType: 'blob'
-        }
+        };
         aliceJs.sendXhr(fileDownOpt);
     };
 
@@ -270,7 +275,7 @@ const fileUploader = (function () {
         } else {
             let acceptedFiles = extraParam.acceptedFiles.split('.');
             for (let i = 0; i < acceptedFiles.length; i++) {
-                extensionValueArr[i] = acceptedFiles[i].replace(',','').trim().toUpperCase();
+                extensionValueArr[i] = acceptedFiles[i].replace(',', '').trim().toUpperCase();
             }
         }
 
@@ -295,7 +300,7 @@ const fileUploader = (function () {
                 aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', extraParam.dropZoneMaxFiles));
             }
         }
-    }
+    };
 
     /**
      * 파일업로드 드랍존 생성
@@ -310,7 +315,7 @@ const fileUploader = (function () {
         // 파일 업로드 기능 정의
         let dropzoneId = '#'+extraParam.dropZoneFilesId+' #' + dragAndDropZoneId;
         const myDropZone = new Dropzone(dropzoneId, {
-            paramName: "file", // file 매개변수명
+            paramName: 'file', // file 매개변수명
             params: extraParam || null, // 추가 매개변수
             maxFilesize: extraParam.dropZoneMaxFileSize, // 첨부파일 용량 제한
             url: extraParam.dropZoneUrl,
@@ -325,7 +330,7 @@ const fileUploader = (function () {
             createImageThumbnails: false,
             dictDefaultMessage: extraParam.dictDefaultMessage,
             headers: {
-                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
+                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content')
             },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
@@ -359,9 +364,9 @@ const fileUploader = (function () {
                             const fileSizeLogValue = Math.floor(Math.log(fileBytes) / Math.log(logValueDigit));
                             let convertedFileSize;
                             if (fileSizeLogValue === Number.NEGATIVE_INFINITY) {
-                                convertedFileSize = "0 " + unit[0];
+                                convertedFileSize = '0 ' + unit[0];
                             } else {
-                                convertedFileSize = (fileBytes / Math.pow(logValueDigit, Math.floor(fileSizeLogValue))).toFixed(2) + " " + unit[fileSizeLogValue];
+                                convertedFileSize = (fileBytes / Math.pow(logValueDigit, Math.floor(fileSizeLogValue))).toFixed(2) + ' ' + unit[fileSizeLogValue];
                             }
 
                             // 파일 목록 생성
@@ -456,7 +461,7 @@ const fileUploader = (function () {
                     const dropzoneIcon = document.createElement('span');
                     dropzoneIcon.className = 'icon-no-file';
                     if (_this.isFileExist) {
-                      dropzoneIcon.style.display = 'none';
+                        dropzoneIcon.style.display = 'none';
                     }
                     dropzoneMessage.insertBefore(dropzoneIcon, dropzoneMessage.firstChild);
                     // browse 버튼 추가
@@ -469,7 +474,7 @@ const fileUploader = (function () {
                     //all queued files: .getQueuedFiles()
                     //all uploading files: .getUploadingFiles()
 
-                    this.on("addedfile", function (file) {
+                    this.on('addedfile', function (file) {
                         const dropzoneMessage = _this.element.querySelector('.dz-message');
                         if (extraParam.isDropzoneUnder) {
                             dropzoneMessage.style.display = 'none';
@@ -489,7 +494,7 @@ const fileUploader = (function () {
                         exportFile = file;
                     });
 
-                    this.on("removedfile", function (file) {
+                    this.on('removedfile', function (file) {
                         let previewList = _this.element.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                         if (_this.files.length === 0 && previewList.length === 0) {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
@@ -498,7 +503,7 @@ const fileUploader = (function () {
                         }
                     });
 
-                    this.on("sending", function (file, xhr, formData) {
+                    this.on('sending', function (file, xhr, formData) {
                         // Show the total progress bar when upload starts
                         //document.querySelector("#total-progress").style.opacity = "1";
                         // And disable the start button
@@ -506,11 +511,11 @@ const fileUploader = (function () {
                     });
 
                     // Update the total progress bar
-                    this.on("totaluploadprogress", function (progress) {
+                    this.on('totaluploadprogress', function (progress) {
                         //document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
                     });
 
-                    this.on("success", function (file, response) {
+                    this.on('success', function (file, response) {
                         const seq = document.createElement('input');
                         seq.setAttribute('type', 'hidden');
                         seq.setAttribute('name', fileAttrName);
@@ -520,7 +525,7 @@ const fileUploader = (function () {
                         }
                     });
 
-                    this.on("error", function (file, errorMsg, xhr) {
+                    this.on('error', function (file, errorMsg, xhr) {
                         if (xhr !== undefined) {
                             const res = JSON.parse(xhr.response);
                             file.previewElement.querySelector('.dz-error-message').innerText = res.message;
@@ -531,7 +536,7 @@ const fileUploader = (function () {
                         // file.previewElement.querySelector('.dz-error-message').addClass("dz-error");
                     });
 
-                    this.on("complete", function (file) {
+                    this.on('complete', function (file) {
                         if (extraParam.isDropzoneUnder) {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
                             document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
@@ -540,11 +545,11 @@ const fileUploader = (function () {
                     });
 
                     // Hide the total progress bar when nothing's uploading anymore
-                    this.on("queuecomplete", function (progress) {
+                    this.on('queuecomplete', function (progress) {
                         //document.querySelector("#total-progress").style.opacity = "0";
                     });
 
-                    this.on("canceled", function () {
+                    this.on('canceled', function () {
                     });
                 } else {
                     dropZoneFiles.remove();
@@ -554,8 +559,8 @@ const fileUploader = (function () {
                 }
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
-                if (file.name === "justinbieber.jpg") {
-                    done("Naha, you don't.");
+                if (file.name === 'justinbieber.jpg') {
+                    done('Naha, you don\'t.');
                 } else {
                     done();
                 }
@@ -576,7 +581,7 @@ const fileUploader = (function () {
         // 파일 업로드 기능 정의
         let dropzoneId = '#'+extraParam.dropZoneFilesId+' #' + dragAndDropZoneId;
         const myDropZone = new Dropzone(dropzoneId, {
-            paramName: "file", // file 매개변수명
+            paramName: 'file', // file 매개변수명
             params: extraParam || null, // 추가 매개변수
             maxFilesize: extraParam.dropZoneMaxFileSize, // 첨부파일 용량 제한
             url: extraParam.dropZoneUrl,
@@ -593,7 +598,7 @@ const fileUploader = (function () {
             thumbnailHeight: extraParam.thumbnailHeight,
             dictDefaultMessage: extraParam.dictDefaultMessage,
             headers: {
-                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
+                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content')
             },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
@@ -603,7 +608,7 @@ const fileUploader = (function () {
                 const dropzoneIcon = document.createElement('span');
                 dropzoneIcon.className = 'icon-no-img';
                 dropzoneMessage.insertBefore(dropzoneIcon, dropzoneMessage.firstChild);
-                 // browse 버튼 추가
+                // browse 버튼 추가
                 const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
                 dropzoneMessage.appendChild(addFileBtn);
 
@@ -620,7 +625,7 @@ const fileUploader = (function () {
                     extraParam.fileName = extraParam.avatar.id;
                     document.getElementById('avatarUUID').value = extraParam.fileName;
                     _this.files.push(mockFile);
-                    _this.emit("addedfile", mockFile);
+                    _this.emit('addedfile', mockFile);
                     _this.createThumbnailFromUrl(mockFile,
                         _this.options.thumbnailWidth,
                         _this.options.thumbnailHeight,
@@ -630,19 +635,19 @@ const fileUploader = (function () {
                     _this.emit('complete', mockFile);
                 }
 
-                this.on("addedfile", function (file) {
+                this.on('addedfile', function (file) {
                     extraParam.fileName = createUid();
                     document.getElementById('avatarUUID').value = extraParam.fileName;
                     validation(this, file, 'avatarUploader');
                     exportFile = file;
                 });
 
-                this.on("removedfile", function (file) {
+                this.on('removedfile', function (file) {
                     extraParam.fileName = '';
                     document.getElementById('avatarUUID').value = extraParam.fileName;
                 });
 
-                this.on("sending", function (file, xhr, formData) {
+                this.on('sending', function (file, xhr, formData) {
                     // Show the total progress bar when upload starts
                     //document.querySelector("#total-progress").style.opacity = "1";
                     // And disable the start button
@@ -650,11 +655,11 @@ const fileUploader = (function () {
                 });
 
                 // Update the total progress bar
-                this.on("totaluploadprogress", function (progress) {
+                this.on('totaluploadprogress', function (progress) {
                     //document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
                 });
 
-                this.on("success", function (file, response) {
+                this.on('success', function (file, response) {
                     const seq = document.createElement('input');
                     seq.setAttribute('type', 'hidden');
                     seq.setAttribute('name', fileAttrName);
@@ -678,7 +683,7 @@ const fileUploader = (function () {
                     });
                 });
 
-                this.on("error", function (file, errorMsg, xhr) {
+                this.on('error', function (file, errorMsg, xhr) {
                     if (xhr !== undefined) {
                         const res = JSON.parse(xhr.response);
                         file.previewElement.querySelector('.dz-error-message').innerText = res.message;
@@ -689,23 +694,23 @@ const fileUploader = (function () {
                     // file.previewElement.querySelector('.dz-error-message').addClass("dz-error");
                 });
 
-                this.on("complete", function (file) {
+                this.on('complete', function (file) {
                     // const dropzoneMessage = document.querySelector('.dz-message')
                     // document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
                     // dropzoneMessage.style.display = 'block';
                 });
 
                 // Hide the total progress bar when nothing's uploading anymore
-                this.on("queuecomplete", function (progress) {
+                this.on('queuecomplete', function (progress) {
                     //document.querySelector("#total-progress").style.opacity = "0";
                 });
 
-                this.on("canceled", function () {
+                this.on('canceled', function () {
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
-                if (file.name === "justinbieber.jpg") {
-                    done("Naha, you don't.");
+                if (file.name === 'justinbieber.jpg') {
+                    done('Naha, you don\'t.');
                 } else {
                     done();
                 }
@@ -725,5 +730,5 @@ const fileUploader = (function () {
         getFile: function() {
             return getFile();
         }
-    }
+    };
 }());

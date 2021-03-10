@@ -9,8 +9,8 @@
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['exports'], factory) :
-    (factory((global.context = global.context || {})));
+        typeof define === 'function' && define.amd ? define(['exports'], factory) :
+            (factory((global.context = global.context || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -202,8 +202,8 @@
      */
     function setPositionTooltipMenu(target) {
         const clientRect = target.getBoundingClientRect(), // DomRect 구하기 (각종 좌표값이 들어있는 객체)
-        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
         contextMenu.style.top = (clientRect.top + scrollTop + 3) + 'px';
         contextMenu.style.left = (clientRect.right + scrollLeft - 190 - 3) + 'px'; // 190은 컨텍스트 너비, 3은 여백
@@ -247,38 +247,38 @@
             let len = searchItems.length - 1;
 
             switch (userKeyCode) {
-                case keycode.arrowUp:
-                    selectedItem.classList.remove('active');
+            case keycode.arrowUp:
+                selectedItem.classList.remove('active');
 
-                    if (selectedItemIdx > 0) {
-                        selectedItem = searchItems[selectedItemIdx - 1];
-                        selectedItemIdx--;
-                    } else {
-                        selectedItem = searchItems[len];
-                        selectedItemIdx = len;
-                    }
-                    selectedItem.classList.add('active');
-                    setScrollMenu();
-                    break;
-                case keycode.arrowDown:
-                    selectedItem.classList.remove('active');
+                if (selectedItemIdx > 0) {
+                    selectedItem = searchItems[selectedItemIdx - 1];
+                    selectedItemIdx--;
+                } else {
+                    selectedItem = searchItems[len];
+                    selectedItemIdx = len;
+                }
+                selectedItem.classList.add('active');
+                setScrollMenu();
+                break;
+            case keycode.arrowDown:
+                selectedItem.classList.remove('active');
 
-                    if (selectedItemIdx < len) {
-                        selectedItem = searchItems[selectedItemIdx + 1];
-                        selectedItemIdx++;
-                    } else {
-                        selectedItem = searchItems[0];
-                        selectedItemIdx = 0;
-                    }
-                    selectedItem.classList.add('active');
-                    setScrollMenu();
-                    break;
-                case keycode.enter:
-                    menuItemListener(selectedItem);
-                    searchItems = [];
-                    selectedItem = null;
-                    selectedItemIdx = -1;
-                    break;
+                if (selectedItemIdx < len) {
+                    selectedItem = searchItems[selectedItemIdx + 1];
+                    selectedItemIdx++;
+                } else {
+                    selectedItem = searchItems[0];
+                    selectedItemIdx = 0;
+                }
+                selectedItem.classList.add('active');
+                setScrollMenu();
+                break;
+            case keycode.enter:
+                menuItemListener(selectedItem);
+                searchItems = [];
+                selectedItem = null;
+                selectedItemIdx = -1;
+                break;
             }
         }
     }
@@ -564,18 +564,18 @@
      * @return boolean
      */
     function checkAccordionInside() {
-       let rtn = false;
-       if (!itemInContext) { return rtn; }
+        let rtn = false;
+        if (!itemInContext) { return rtn; }
 
-       const componentIndex = Number(itemInContext.getAttribute('data-index'));
-       const accordionEndComp = editor.data.components.find((comp) => comp.type === 'accordion-end' && comp.display.order > componentIndex);
-       if (typeof accordionEndComp !== 'undefined') {
-           const accordionStartComp = editor.data.components.find((comp) => comp.type === 'accordion-start' && comp.componentId === accordionEndComp.display.startId);
-           if (typeof accordionStartComp !== 'undefined' && accordionStartComp.display.order < componentIndex) {
-               rtn = true;
-           }
-       }
-       return rtn;
+        const componentIndex = Number(itemInContext.getAttribute('data-index'));
+        const accordionEndComp = editor.data.components.find((comp) => comp.type === 'accordion-end' && comp.display.order > componentIndex);
+        if (typeof accordionEndComp !== 'undefined') {
+            const accordionStartComp = editor.data.components.find((comp) => comp.type === 'accordion-start' && comp.componentId === accordionEndComp.display.startId);
+            if (typeof accordionStartComp !== 'undefined' && accordionStartComp.display.order < componentIndex) {
+                rtn = true;
+            }
+        }
+        return rtn;
     }
     
     /**
@@ -586,27 +586,27 @@
         contextMenuOff();
         let clickedComponent = itemInContext;
         switch (elem.getAttribute('data-action')) {
-            case 'list': // 컴포넌트 전체 목록 출력
-                // 아코디언 컴포넌트일 경우, 내부에 아코디언 컴포넌트를 포함할 수 없다.
-                if (checkAccordionInside()) {
-                    const accordionItem = contextMenu.querySelector('.accordion-start');
-                    accordionItem.style.display = 'none';
-                }
-                contextMenuOn();
-                setPositionTooltipMenu(clickedComponent);
-                break;
-            case 'copy': // 컴포넌트 복사
-                editor.copyComponent(clickedComponent.id);
-                break;
-            case 'delete': // 컴포넌트 삭제
-                editor.deleteComponent();
-                break;
-            case 'add': // 바로 아래에 editbox 컴포넌트 추가
-                editor.addEditboxDown(clickedComponent.id);
-                break;
-            default:
-                editor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
-                itemInContext = null;
+        case 'list': // 컴포넌트 전체 목록 출력
+            // 아코디언 컴포넌트일 경우, 내부에 아코디언 컴포넌트를 포함할 수 없다.
+            if (checkAccordionInside()) {
+                const accordionItem = contextMenu.querySelector('.accordion-start');
+                accordionItem.style.display = 'none';
+            }
+            contextMenuOn();
+            setPositionTooltipMenu(clickedComponent);
+            break;
+        case 'copy': // 컴포넌트 복사
+            editor.copyComponent(clickedComponent.id);
+            break;
+        case 'delete': // 컴포넌트 삭제
+            editor.deleteComponent();
+            break;
+        case 'add': // 바로 아래에 editbox 컴포넌트 추가
+            editor.addEditboxDown(clickedComponent.id);
+            break;
+        default:
+            editor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
+            itemInContext = null;
         }
     }
 
@@ -615,7 +615,8 @@
      */
     function init() {
         contextMenu = document.getElementById('context-menu');
-        contextMenu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
+        //컨텍스트 메뉴에 스크롤이 잡히도록 추가
+        contextMenu.addEventListener('mousewheel', function (e) {
             let d = -e.deltaY || e.detail;
             this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
             e.preventDefault();
@@ -627,7 +628,8 @@
         document.addEventListener('keyup', onKeyUpHandler, false);
         document.addEventListener('contextmenu', onRightClickHandler, false);
         document.addEventListener('click', onLeftClickHandler, false);
-        document.querySelector('.form-main').addEventListener('mousewheel', onMouseScrollHandler, false);
+        document.querySelector('.form-main').addEventListener('mousewheel',
+            onMouseScrollHandler, false);
         
         //컴포넌트 drag & drop 이벤트
         document.addEventListener('mousedown', onMouseDownHandler, false);

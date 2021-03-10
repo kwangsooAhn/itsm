@@ -17,25 +17,25 @@ var gModal = (function() {
         message: '',
         buttons: [
             /* No buttons by default.
-                        {
-                                content: "Cancel",
-                                classes: "gmodal-button-gray",
-                                // bindKey: 27, <- This would throw a warning because we're
-                                                   using the same key for closing.
-                                bindKey: false,
-                                callback: function(modal){
-                                        alert("You clicked CANCEL!");
-                                        modal.hide();
-                                }
-                        },{
-                                content: "Accept",
-                                classes: "gmodal-button-blue",
-                                bindKey: 13, //Enter. See https://keycode.info/
-                                callback: function(modal){
-                                        alert("You clicked ACCEPT!");
-                                        modal.hide();
-                                }
-                        }
+            {
+                    content: "Cancel",
+                    classes: "gmodal-button-gray",
+                    // bindKey: 27, <- This would throw a warning because we're
+                                       using the same key for closing.
+                    bindKey: false,
+                    callback: function(modal){
+                            alert("You clicked CANCEL!");
+                            modal.hide();
+                    }
+            },{
+                    content: "Accept",
+                    classes: "gmodal-button-blue",
+                    bindKey: 13, //Enter. See https://keycode.info/
+                    callback: function(modal){
+                            alert("You clicked ACCEPT!");
+                            modal.hide();
+                    }
+            }
             */
         ],
 
@@ -48,7 +48,7 @@ var gModal = (function() {
     };
 
     /** Object.assign polyfill **/
-    if (typeof Object.assign != 'function') {
+    if (typeof Object.assign !== 'function') {
         Object.assign = function(target) {
             'use strict';
             if (target == null) {

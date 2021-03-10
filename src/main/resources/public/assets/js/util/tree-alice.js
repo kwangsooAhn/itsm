@@ -44,9 +44,9 @@
             classes: 'default-line',
             bindKey: false,
             callback: function(modal) {
-               if (saveSelectedNode()) {
-                   modal.hide();
-               }
+                if (saveSelectedNode()) {
+                    modal.hide();
+                }
             }
         }, {
             content: 'Cancel',
@@ -154,12 +154,12 @@
                     removeChildNodes: function() { v_tree.removeChildNodes(this); },
                     createChildNode: function(item, p_expanded, p_depth) { return v_tree.createNode(item, p_expanded, p_depth, this); },
                     expandTree: function() { v_tree.expandTree(); }
-                }
+                };
 
                 if (this.rendered) {
                     if (p_parentNode === undefined) {
-                        this.drawNode(this.ulElement,node);
-                        this.adjustLines(this.ulElement,false);
+                        this.drawNode(this.ulElement, node);
+                        this.adjustLines(this.ulElement, false);
                     }
                     else {
                         let v_ul = p_parentNode.elementLi.getElementsByTagName('ul')[0];
@@ -178,8 +178,8 @@
                                 v_img.id = 'toggle_on';
                             }
                         }
-                        this.drawNode(v_ul,node);
-                        this.adjustLines(v_ul,false);
+                        this.drawNode(v_ul, node);
+                        this.adjustLines(v_ul, false);
                     }
                 }
 
@@ -197,14 +197,14 @@
                 let div_tree = document.getElementById(this.div);
                 div_tree.innerHTML = '';
 
-                let ulElement = createSimpleElement('ul',this.name,'tree');
+                let ulElement = createSimpleElement('ul', this.name, 'tree');
                 this.ulElement = ulElement;
 
                 for (let i = 0; i < this.childNodes.length; i++) {
-                    this.drawNode(ulElement,this.childNodes[i]);
+                    this.drawNode(ulElement, this.childNodes[i]);
                 }
                 div_tree.appendChild(ulElement);
-                this.adjustLines(document.getElementById(this.name),true);
+                this.adjustLines(document.getElementById(this.name), true);
             },
             drawNode: function(p_ulElement, p_node) {
                 let v_tree = this;
@@ -224,7 +224,7 @@
                 let v_li = document.createElement('li');
                 p_node.elementLi = v_li;
 
-                let v_span = createSimpleElement('span',null,'node');
+                let v_span = createSimpleElement('span', null, 'node');
 
                 // node 에 dataset 추가
                 v_span.id = p_node.id;
@@ -265,7 +265,7 @@
                 }
                 let v_a = createSimpleElement('label', null, null);
                 if (options.source === 'ciClass' && options.view !== 'modal' && p_node.data.value !== 'root' ) {
-                    v_a.innerHTML =  p_node.text + " " + '(' + p_node.data.count + ')';
+                    v_a.innerHTML =  p_node.text + ' ' + '(' + p_node.data.count + ')';
                 } else {
                     v_a.innerHTML = p_node.text;
                 }
@@ -282,7 +282,7 @@
                         v_ul.style.display = 'none';
                     }
                     for (let i = 0; i < p_node.childNodes.length; i++) {
-                        this.drawNode(v_ul,p_node.childNodes[i]);
+                        this.drawNode(v_ul, p_node.childNodes[i]);
                     }
                 }
             },
@@ -397,7 +397,7 @@
                     v_ul.innerHTML = '';
                 }
             },
-            adjustLines: function(p_ul,p_recursive) {
+            adjustLines: function(p_ul, p_recursive) {
                 let tree = p_ul;
                 let lists = [];
                 if (tree.childNodes.length>0) {
@@ -428,7 +428,7 @@
                     }
                 }
             }
-        }
+        };
         return tree;
     }
 
@@ -496,10 +496,10 @@
      */
     function getRecursiveParentCode(code, pArray) {
         options.data.forEach(function (item) {
-           if (item.code === code && item.pcode !== null) {
-               pArray.push(item.pcode);
-               getRecursiveParentCode(item.pcode, pArray);
-           }
+            if (item.code === code && item.pcode !== null) {
+                pArray.push(item.pcode);
+                getRecursiveParentCode(item.pcode, pArray);
+            }
         });
         return pArray;
     }
@@ -531,11 +531,11 @@
                 let firstNode = tree.createNode(item, expand, 1, null);
                 let itemLevel = '';
                 if (item.level !== undefined) {
-                    itemLevel = item.level
+                    itemLevel = item.level;
                 } else if (item.typeLevel !== undefined) {
-                    itemLevel = item.typeLevel
+                    itemLevel = item.typeLevel;
                 } else {
-                    itemLevel = item.classLevel
+                    itemLevel = item.classLevel;
                 }
                 createChildNode(firstNode, itemLevel, expandObject, 2);
             }
@@ -554,15 +554,15 @@
         options.data.forEach(function (item) {
             let p_node_id = '';
             switch (options.source) {
-                case 'ciType':
-                    p_node_id = item.ptypeId;
-                    break;
-                case 'ciClass':
-                    p_node_id = item.pclassId;
-                    break;
-                default:
-                    p_node_id = item.pcode;
-                    break;
+            case 'ciType':
+                p_node_id = item.ptypeId;
+                break;
+            case 'ciClass':
+                p_node_id = item.pclassId;
+                break;
+            default:
+                p_node_id = item.pcode;
+                break;
             }
             if (node.id === p_node_id) {
                 let expand = false;
@@ -607,7 +607,7 @@
     const createDialogContent = function() {
         return `
             <div id = "${options.target}"></div>
-        `
+        `;
     };
 
     /**
@@ -635,16 +635,16 @@
                 buttons: [
                     {
                         content: i18n.msg('common.btn.select'),
-                        classes: "default-line",
+                        classes: 'default-line',
                         bindKey: false,
                         callback: function(modal) {
                             if (saveSelectedNode()) {
                                 modal.hide();
                             }
                         }
-                    },{
+                    }, {
                         content: i18n.msg('common.btn.cancel'),
-                        classes: "default-line",
+                        classes: 'default-line',
                         bindKey: false,
                         callback: function(modal) {
                             modal.hide();
