@@ -565,7 +565,7 @@
                 data.form.components[i] = componentObj.property;
             }
             // 유효성 검증 추가
-            if (!documentPanel.hasAttribute('data-readonly')) {
+            if (documentPanel.getAttribute('data-display') !== 'complete') {
                 const checkComponents = ['inputbox', 'textbox', 'dropdown', 'radio', 'checkbox'];
                 const componentElements = document.querySelectorAll('.component');
                 for (let i = 0; i < componentElements.length; i++) {
