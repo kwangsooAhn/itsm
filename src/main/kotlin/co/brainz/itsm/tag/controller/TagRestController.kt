@@ -2,7 +2,6 @@ package co.brainz.itsm.tag.controller
 
 import co.brainz.itsm.tag.service.TagService
 import co.brainz.workflow.provider.dto.RestTemplateTagDto
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,7 +21,7 @@ class TagRestController(
     }
 
     @DeleteMapping("/{tagId}")
-    fun deleteComment(@PathVariable tagId: String): ResponseEntity<String> {
+    fun deleteComment(@PathVariable tagId: String): Boolean {
         return tagService.deleteTag(tagId)
     }
 }

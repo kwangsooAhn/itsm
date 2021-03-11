@@ -29,6 +29,7 @@ import com.google.gson.JsonParser
 import java.util.UUID
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class WfFormService(
@@ -114,7 +115,8 @@ class WfFormService(
 
             // 해당 컴포넌트에 연결된 라벨 찾기
             val labelsArray = ArrayList<LinkedHashMap<String, String?>>()
-            val labelEntities = aliceLabelService.getLabels(AliceLabelConstants.LABEL_TARGET_COMPONENT, componentEntity.componentId)
+            val labelEntities =
+                aliceLabelService.getLabels(AliceLabelConstants.LABEL_TARGET_COMPONENT, componentEntity.componentId)
 
             // 저장과 마찬가지로 폼 디자이너 화면에서 사용하기 위해서 Array 형태로 변환이 필요.
             for (labelEntity in labelEntities) {
@@ -196,7 +198,7 @@ class WfFormService(
     /**
      * Get component data.
      */
-    fun getComponentData(
+    private fun getComponentData(
         resultComponentEntity: WfComponentEntity,
         component: ComponentDetail
     ): MutableList<WfComponentDataEntity> {
@@ -307,6 +309,7 @@ class WfFormService(
      *
      * @param formId
      */
+    @Transactional
     fun deleteForm(formId: String): Boolean {
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
         val documentEntity = wfDocumentRepository.findByForm(formEntity)
@@ -333,7 +336,8 @@ class WfFormService(
      *
      * @param restTemplateFormComponentListDto
      */
-    fun saveFormData(restTemplateFormComponentListDto: RestTemplateFormComponentListDto) {
+    @Transactional
+    fun saveFormData(restTemplateFormComponentListDto: RestTemplateFormComponentListDto): Boolean {
 
         // Delete component, attribute
         val componentEntities = restTemplateFormComponentListDto.formId?.let { wfComponentRepository.findByFormId(it) }
@@ -345,10 +349,12 @@ class WfFormService(
             if (componentIds.isNotEmpty()) {
                 wfComponentRepository.deleteComponentEntityByComponentIdIn(componentIds)
                 for (componentId in componentIds) {
-                    aliceLabelService.deleteLabels(AliceLabelDto(
-                        labelTarget = AliceLabelConstants.LABEL_TARGET_COMPONENT,
-                        labelTargetId = componentId
-                    ))
+                    aliceLabelService.deleteLabels(
+                        AliceLabelDto(
+                            labelTarget = AliceLabelConstants.LABEL_TARGET_COMPONENT,
+                            labelTargetId = componentId
+                        )
+                    )
                 }
             }
         }
@@ -368,6 +374,7 @@ class WfFormService(
         if (wfComponentDataEntities.isNotEmpty()) {
             wfComponentDataRepository.saveAll(wfComponentDataEntities)
         }
+        return true
     }
 
     /**
@@ -463,11 +470,13 @@ class WfFormService(
                         }
                     }
 
-                    aliceLabelService.addLabels(AliceLabelDto(
-                        labelTarget = labelList["label_target"] as String,
-                        labelTargetId = labelList["target_id"] as String,
-                        labels = labels
-                    ))
+                    aliceLabelService.addLabels(
+                        AliceLabelDto(
+                            labelTarget = labelList["label_target"] as String,
+                            labelTargetId = labelList["target_id"] as String,
+                            labels = labels
+                        )
+                    )
                 }
             }
         }

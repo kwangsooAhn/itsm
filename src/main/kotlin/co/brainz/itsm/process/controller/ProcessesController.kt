@@ -8,7 +8,6 @@ import co.brainz.itsm.process.service.ProcessAdminService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -33,7 +32,7 @@ class ProcessesController(private val processAdminService: ProcessAdminService) 
      */
     @GetMapping("")
     fun getProcessList(request: HttpServletRequest, model: Model): String {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = processAdminService.getProcesses(params)
