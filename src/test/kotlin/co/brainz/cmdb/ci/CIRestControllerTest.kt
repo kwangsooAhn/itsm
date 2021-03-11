@@ -51,10 +51,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
  *    - CI 읽기, 삭제 기능도 완료되면 테스트 코드 추가가 필요하다.
  */
 
-@RunWith(SpringRunner::class)
+/*@RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)*/
 class CIRestControllerTest {
     /*@Autowired
     private lateinit var mvc: MockMvc
