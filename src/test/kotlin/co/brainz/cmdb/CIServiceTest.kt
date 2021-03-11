@@ -130,7 +130,7 @@ class CIServiceTest {
                     val updateCiDto = CIDto(
                         ciId = ciDto.ciId.toString(),
                         ciNo = ciDto.ciNo,
-                        ciName = ciDto.ciName,
+                        ciName = ciDto.ciName.toString(),
                         ciDesc = "Update Test 1",
                         typeId = ciDto.typeId.toString(),
                         classId = ciDto.classId,
