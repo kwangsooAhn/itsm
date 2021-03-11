@@ -8,7 +8,6 @@ import co.brainz.itsm.process.service.ProcessAdminService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -44,6 +43,6 @@ class ProcessesController(private val processAdminService: ProcessAdminService) 
         val result = processAdminService.getProcesses(params)
         model.addAttribute("processList", result)
         model.addAttribute("processListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return if (request.getParameter("isScroll").toBoolean()) processListFragment else processListPage
+        return if (isScroll) processListFragment else processListPage
     }
 }
