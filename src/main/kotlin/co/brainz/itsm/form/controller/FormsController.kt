@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * ### 폼(문서양식) 관련 화면 호출 처리용 클래스.
@@ -41,13 +42,17 @@ class FormsController(private val formAdminService: FormAdminService) {
      * 폼 리스트 화면.
      */
     @GetMapping("")
-    fun getFormList(request: HttpServletRequest, model: Model): String {
+    fun getFormList(
+        request: HttpServletRequest,
+        @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
+        model: Model
+    ): String {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search") ?: ""
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = formAdminService.findForms(params)
         model.addAttribute("formList", result)
         model.addAttribute("formListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return if (request.getParameter("isScroll").toBoolean()) formListFragment else formListPage
+        return if (isScroll) formListFragment else formListPage
     }
 }

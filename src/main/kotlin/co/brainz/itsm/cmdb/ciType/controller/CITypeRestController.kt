@@ -11,7 +11,6 @@ import co.brainz.cmdb.provider.dto.CITypeListDto
 import co.brainz.itsm.cmdb.ciType.service.CITypeService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -29,9 +29,13 @@ class CITypeRestController(private val ciTypeService: CITypeService) {
      * CI Type 목록 조회
      */
     @GetMapping("/", "")
-    fun getCITypes(request: HttpServletRequest, model: Model): List<CITypeListDto> {
-        val params = LinkedMultiValueMap<String, String>()
-        params["search"] = request.getParameter("search")
+    fun getCITypes(
+        request: HttpServletRequest,
+        @RequestParam(value = "search", required = false, defaultValue = "") search: String,
+        model: Model
+    ): List<CITypeListDto> {
+        val params = LinkedHashMap<String, Any>()
+        params["search"] = search
         return ciTypeService.getCITypeList(params)
     }
 
@@ -39,8 +43,8 @@ class CITypeRestController(private val ciTypeService: CITypeService) {
      * CI Type 단일 조회
      */
     @GetMapping("/{typeId}")
-    fun getCIType(@PathVariable typeId: String): String {
-        return ciTypeService.getCITypes(typeId)
+    fun getCIType(@PathVariable typeId: String): CITypeDto {
+        return ciTypeService.getCIType(typeId)
     }
 
     /**

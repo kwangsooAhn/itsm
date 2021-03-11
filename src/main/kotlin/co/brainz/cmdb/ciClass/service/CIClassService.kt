@@ -140,26 +140,26 @@ class CIClassService(
     /**
      * CMDB CI Class 저장
      */
-    fun createCIClass(CIClassDto: CIClassDto): Boolean {
+    fun createCIClass(ciClassDto: CIClassDto): Boolean {
         var order = 1
         val ciClassEntity = CIClassEntity(
-            classId = CIClassDto.classId,
-            className = CIClassDto.className,
-            classDesc = CIClassDto.classDesc,
-            pClass = CIClassDto.pClassId?.let {
-                ciClassRepository.findById(it).orElse(CIClassEntity(classId = CIClassDto.pClassId!!))
+            classId = ciClassDto.classId,
+            className = ciClassDto.className,
+            classDesc = ciClassDto.classDesc,
+            pClass = ciClassDto.pClassId?.let {
+                ciClassRepository.findById(it).orElse(CIClassEntity(classId = ciClassDto.pClassId!!))
             }
         )
-        if (CIClassDto.pClassId.isNullOrEmpty()) {
+        if (ciClassDto.pClassId.isNullOrEmpty()) {
             ciClassEntity.classLevel = 0
         } else {
-            val pCIClassEntity = ciClassRepository.findById(CIClassDto.pClassId!!).get()
+            val pCIClassEntity = ciClassRepository.findById(ciClassDto.pClassId!!).get()
             ciClassEntity.classLevel = pCIClassEntity.classLevel?.plus(1)
         }
 
         val savedCiClassEntity = ciClassRepository.save(ciClassEntity)
 
-        CIClassDto.attributes?.forEach {
+        ciClassDto.attributes?.forEach {
             val ciAttributeEntity = ciAttributeRepository.getOne(it)
             ciClassAttributeMapRepository.save(
                 CIClassAttributeMapEntity(
@@ -177,21 +177,21 @@ class CIClassService(
     /**
      * CMDB CI Class 수정
      */
-    fun updateCIClass(CIClassDto: CIClassDto): Boolean {
+    fun updateCIClass(ciClassDto: CIClassDto): Boolean {
         var order = 1
-        val ciClassEntity = ciClassRepository.findByIdOrNull(CIClassDto.classId) ?: throw AliceException(
+        val ciClassEntity = ciClassRepository.findByIdOrNull(ciClassDto.classId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
         )
-        ciClassEntity.className = CIClassDto.className
-        ciClassEntity.classDesc = CIClassDto.classDesc
-        ciClassEntity.pClass = CIClassDto.pClassId?.let {
-            ciClassRepository.findById(it).orElse(CIClassEntity(classId = CIClassDto.pClassId!!))
+        ciClassEntity.className = ciClassDto.className
+        ciClassEntity.classDesc = ciClassDto.classDesc
+        ciClassEntity.pClass = ciClassDto.pClassId?.let {
+            ciClassRepository.findById(it).orElse(CIClassEntity(classId = ciClassDto.pClassId!!))
         }
-        ciClassEntity.updateUser = CIClassDto.updateUserKey?.let {
+        ciClassEntity.updateUser = ciClassDto.updateUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
         }
-        ciClassEntity.updateDt = CIClassDto.updateDt
+        ciClassEntity.updateDt = ciClassDto.updateDt
 
         val updatedCiClassEntity = ciClassRepository.save(ciClassEntity)
 
@@ -204,7 +204,7 @@ class CIClassService(
             )
         }
 
-        CIClassDto.attributes?.forEach {
+        ciClassDto.attributes?.forEach {
             val ciAttributeEntity = ciAttributeRepository.getOne(it)
             ciClassAttributeMapRepository.save(
                 CIClassAttributeMapEntity(
