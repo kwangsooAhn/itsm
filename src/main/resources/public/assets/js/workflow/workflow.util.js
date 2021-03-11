@@ -13,7 +13,8 @@ const workflowUtil = {};
  */
 workflowUtil.generateUUID = function() {
     let d = new Date().getTime(); //Timestamp
-    let d2 = (performance && performance.now && (performance.now() * 1000)) || 0; //Time in microseconds since page-load or 0 if unsupported
+    //Time in microseconds since page-load or 0 if unsupported
+    let d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
     return 'axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function(c) {
         let r = Math.random() * 16;//random number between 0 and 16
         if(d > 0){ //Use timestamp until depleted
@@ -91,7 +92,7 @@ workflowUtil.ObjectToXML = function(data) {
                 xml += workflowUtil.ObjectToXML(data[key][item]);
                 xml += '</' + key + '>';
             });
-        } else if (data[key] && typeof data[key] == 'object') {
+        } else if (data[key] && typeof data[key] === 'object') {
             xml += workflowUtil.ObjectToXML(data[key]);
         } else {
             xml += '<![CDATA[' + data[key] + ']]>';
@@ -125,7 +126,7 @@ workflowUtil.createFormXMLString = function(formData, version) {
         delete componentProp.componentId;
         componentNode.setAttribute('type', componentProp.type);
         delete  componentProp.type;
-        if (typeof componentProp == 'object') {
+        if (typeof componentProp === 'object') {
             componentNode.innerHTML = workflowUtil.ObjectToXML(componentProp);
         }
         form.appendChild(componentNode);
@@ -283,8 +284,8 @@ workflowUtil.addRequiredProcessAttribute = function(processData) {
         url: '/assets/js/process/elementAttribute.json',
         callbackFunc: function(xhr) {
             const elementAttributes = JSON.parse(xhr.responseText),
-                    elementsKeys = Object.getOwnPropertyNames(elementAttributes),
-                    elements = processData.elements;
+                elementsKeys = Object.getOwnPropertyNames(elementAttributes),
+                elements = processData.elements;
             elements.forEach(function(element) {
                 let requiredDataArr = [];
                 for (let j = 0, keyLen = elementsKeys.length; j < keyLen; j++) {
@@ -387,7 +388,7 @@ workflowUtil.XMLToObject = function(data) {
 workflowUtil.loadFormFromXML = function(data) {
     const parser = new DOMParser();
     const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
-    const xmlDoc = parser.parseFromString(data,'text/xml');
+    const xmlDoc = parser.parseFromString(data, 'text/xml');
     if (workflowUtil.isParseError(xmlDoc)) {
         throw new Error('Error parsing XML');
     }
@@ -439,7 +440,7 @@ workflowUtil.loadFormFromXML = function(data) {
 workflowUtil.loadProcessFromXML = function(data) {
     const parser = new DOMParser();
     const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
-    const xmlDoc = parser.parseFromString(data,'text/xml');
+    const xmlDoc = parser.parseFromString(data, 'text/xml');
     if (workflowUtil.isParseError(xmlDoc)) {
         throw new Error('Error parsing XML');
     }
@@ -559,17 +560,17 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
             let saveData = {};
             if (type === xmlFile.name.split('_')[0]) {
                 switch (type) {
-                    case 'form':
-                        saveData = workflowUtil.loadFormFromXML(e.target.result);
-                        saveData.name = data.formName;
-                        saveData.desc = data.formDesc;
-                        break;
-                    case 'process':
-                        saveData = workflowUtil.loadProcessFromXML(e.target.result);
-                        saveData.process = {name: data.processName, description: data.processDesc};
-                        workflowUtil.addRequiredProcessAttribute(saveData);
-                        break;
-                    default: //none
+                case 'form':
+                    saveData = workflowUtil.loadFormFromXML(e.target.result);
+                    saveData.name = data.formName;
+                    saveData.desc = data.formDesc;
+                    break;
+                case 'process':
+                    saveData = workflowUtil.loadProcessFromXML(e.target.result);
+                    saveData.process = {name: data.processName, description: data.processDesc};
+                    workflowUtil.addRequiredProcessAttribute(saveData);
+                    break;
+                default: //none
                 }
                 console.debug(saveData);
                 let result = workflowUtil.saveImportData(type, saveData);

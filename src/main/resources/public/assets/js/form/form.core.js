@@ -41,27 +41,27 @@
                     if (displayDefaultValueArray.length > 1 && displayDefaultValueArray[1] !== '') {
                         if (action === 'save') {
                             switch (component.type) {
-                                case 'datetime':
-                                    displayDefaultValueArray[1] = i18n.systemDateTime(displayDefaultValueArray[1]);
-                                    break;
-                                case 'date':
-                                    displayDefaultValueArray[1] = i18n.systemDate(displayDefaultValueArray[1]);
-                                    break;
-                                case 'time':
-                                    displayDefaultValueArray[1] = i18n.systemTime(displayDefaultValueArray[1]);
-                                    break;
+                            case 'datetime':
+                                displayDefaultValueArray[1] = i18n.systemDateTime(displayDefaultValueArray[1]);
+                                break;
+                            case 'date':
+                                displayDefaultValueArray[1] = i18n.systemDate(displayDefaultValueArray[1]);
+                                break;
+                            case 'time':
+                                displayDefaultValueArray[1] = i18n.systemTime(displayDefaultValueArray[1]);
+                                break;
                             }
                         } else if (action === 'read') {
                             switch (component.type) {
-                                case 'datetime':
-                                    displayDefaultValueArray[1] = i18n.userDateTime(displayDefaultValueArray[1]);
-                                    break;
-                                case 'date':
-                                    displayDefaultValueArray[1] = i18n.userDate(displayDefaultValueArray[1]);
-                                    break;
-                                case 'time':
-                                    displayDefaultValueArray[1] = i18n.userTime(displayDefaultValueArray[1]);
-                                    break;
+                            case 'datetime':
+                                displayDefaultValueArray[1] = i18n.userDateTime(displayDefaultValueArray[1]);
+                                break;
+                            case 'date':
+                                displayDefaultValueArray[1] = i18n.userDate(displayDefaultValueArray[1]);
+                                break;
+                            case 'time':
+                                displayDefaultValueArray[1] = i18n.userTime(displayDefaultValueArray[1]);
+                                break;
                             }
                         }
                     }
@@ -76,27 +76,27 @@
                         let validateItemValue = validateItems[item];
                         if (action === 'save') {
                             switch (component.type) {
-                                case 'datetime':
-                                    validateItemValue = i18n.systemDateTime(validateItemValue);
-                                    break;
-                                case 'date':
-                                    validateItemValue = i18n.systemDate(validateItemValue);
-                                    break;
-                                case 'time':
-                                    validateItemValue = i18n.systemTime(validateItemValue);
-                                    break;
+                            case 'datetime':
+                                validateItemValue = i18n.systemDateTime(validateItemValue);
+                                break;
+                            case 'date':
+                                validateItemValue = i18n.systemDate(validateItemValue);
+                                break;
+                            case 'time':
+                                validateItemValue = i18n.systemTime(validateItemValue);
+                                break;
                             }
                         } else if (action === 'read') {
                             switch (component.type) {
-                                case 'datetime':
-                                    validateItemValue = i18n.userDateTime(validateItemValue);
-                                    break;
-                                case 'date':
-                                    validateItemValue = i18n.userDate(validateItemValue);
-                                    break;
-                                case 'time':
-                                    validateItemValue = i18n.userTime(validateItemValue);
-                                    break;
+                            case 'datetime':
+                                validateItemValue = i18n.userDateTime(validateItemValue);
+                                break;
+                            case 'date':
+                                validateItemValue = i18n.userDate(validateItemValue);
+                                break;
+                            case 'time':
+                                validateItemValue = i18n.userTime(validateItemValue);
+                                break;
                             }
                         }
                         components[idx].validate[item] = validateItemValue;
@@ -107,15 +107,15 @@
                 if (component.value !== undefined && component.value !== '') {
                     let componentValue = component.value;
                     switch (component.type) {
-                        case 'datetime':
-                            componentValue = i18n.userDateTime(componentValue);
-                            break;
-                        case 'date':
-                            componentValue = i18n.userDate(componentValue);
-                            break;
-                        case 'time':
-                            componentValue = i18n.userTime(componentValue);
-                            break;
+                    case 'datetime':
+                        componentValue = i18n.userDateTime(componentValue);
+                        break;
+                    case 'date':
+                        componentValue = i18n.userDate(componentValue);
+                        break;
+                    case 'time':
+                        componentValue = i18n.userTime(componentValue);
+                        break;
                     }
                     component.value = componentValue;
                 }
@@ -171,14 +171,13 @@
                 contentType: 'application/json; charset=utf-8'
             });
         }
-        user['departmentName'] = departmentName
+        user['departmentName'] = departmentName;
         Object.assign(sessionInfo, user);
     }
 
     exports.init = init;
     exports.initSession = initSession;
     exports.reformatCalendarFormat = reformatCalendarFormat;
-
     exports.FORM_COMPONENT = FORM_COMPONENT;
     exports.defaultType = defaultType;
     exports.session = sessionInfo;

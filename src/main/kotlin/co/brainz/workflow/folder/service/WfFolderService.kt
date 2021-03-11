@@ -120,8 +120,8 @@ class WfFolderService(
         return relatedInstanceViewList
     }
 
-    fun createFolderData(restTemplateFolderDto: List<RestTemplateFolderDto>) {
-        restTemplateFolderDto.forEach {
+    fun createFolderData(restTemplateFolderDtoList: List<RestTemplateFolderDto>): Boolean {
+        restTemplateFolderDtoList.forEach {
             val wfFolderEntity = WfFolderEntity(
                 folderId = it.folderId!!,
                 instance = wfInstanceRepository.findByInstanceId(it.instanceId)!!,
@@ -132,14 +132,15 @@ class WfFolderService(
 
             wfFolderRepository.save(wfFolderEntity)
         }
+        return true
     }
 
-    fun deleteFolderData(folderId: String, restTemplateFolderDto: RestTemplateFolderDto) {
+    fun deleteFolderData(folderId: String, restTemplateFolderDto: RestTemplateFolderDto): Boolean {
         val wfFolderEntity = WfFolderEntity(
             folderId = folderId,
             instance = wfInstanceRepository.findByInstanceId(restTemplateFolderDto.instanceId)!!
         )
-
         wfFolderRepository.delete(wfFolderEntity)
+        return true
     }
 }

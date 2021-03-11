@@ -10,9 +10,9 @@ import co.brainz.itsm.form.service.FormAdminService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestParam
 
 /**
@@ -48,7 +48,7 @@ class FormsController(private val formAdminService: FormAdminService) {
         @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
         model: Model
     ): String {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search") ?: ""
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = formAdminService.findForms(params)

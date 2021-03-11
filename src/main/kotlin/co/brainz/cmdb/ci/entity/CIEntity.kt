@@ -33,10 +33,10 @@ data class CIEntity(
     var ciNo: String? = "",
 
     @Column(name = "ci_name", length = 128)
-    var ciName: String? = "",
+    var ciName: String = "",
 
     @Column(name = "ci_status", length = 100)
-    var ciStatus: String? = "",
+    var ciStatus: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")

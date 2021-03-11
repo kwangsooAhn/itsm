@@ -6,10 +6,9 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
-import org.springframework.http.ResponseEntity
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -42,7 +41,7 @@ class WorkFlowRestController(
      * @param documentId
      * */
     @DeleteMapping("/{documentId}")
-    fun deleteWorkFlow(@PathVariable documentId: String): ResponseEntity<String> {
+    fun deleteWorkFlow(@PathVariable documentId: String): Boolean {
         return documentService.deleteDocument(documentId)
     }
 
@@ -52,7 +51,7 @@ class WorkFlowRestController(
      * @param documentId
      */
     @GetMapping("/{documentId}")
-    fun getWorkFlow(@PathVariable documentId: String): String {
+    fun getWorkFlow(@PathVariable documentId: String): RestTemplateDocumentDto {
         return documentService.getDocument(documentId)
     }
 
@@ -68,7 +67,7 @@ class WorkFlowRestController(
         @RequestBody restTemplateDocumentDto: RestTemplateDocumentDto,
         @RequestParam(value = "isDeleteData", defaultValue = "false") isDeleteData: String
     ): String? {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["isDeleteData"] = isDeleteData
         return documentService.updateDocument(restTemplateDocumentDto, params)
     }
@@ -79,7 +78,7 @@ class WorkFlowRestController(
      * @param documentId
      */
     @GetMapping("/{documentId}/display")
-    fun getWorkFlowDisplay(@PathVariable documentId: String): String {
+    fun getWorkFlowDisplay(@PathVariable documentId: String): RestTemplateDocumentDisplayViewDto {
         return documentService.getDocumentDisplay(documentId)
     }
 
@@ -92,7 +91,7 @@ class WorkFlowRestController(
     @PutMapping("/{documentId}/display")
     fun updateWorkFlowDisplay(
         @PathVariable documentId: String,
-        @RequestBody documentDisplay: RestTemplateDocumentDisplayDto
+        @RequestBody documentDisplay: RestTemplateDocumentDisplaySaveDto
     ): Boolean {
         return documentService.updateDocumentDisplay(documentDisplay)
     }

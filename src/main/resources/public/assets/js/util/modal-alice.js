@@ -5,9 +5,9 @@
  * @version 1.0
  */
 (function(root, factory) {
-    if (typeof define === "function" && define.amd) {
+    if (typeof define === 'function' && define.amd) {
         define([], factory);
-    } else if (typeof exports === "object") {
+    } else if (typeof exports === 'object') {
         module.exports = factory();
     } else {
         root.modal = factory();
@@ -49,6 +49,7 @@
         onCreate: function(modal) {},
         onDestroy: function(modal) {}
     };
+    
     /**
      * 특정 클래스 목록 조회
      * @param el 대상객체
@@ -58,6 +59,7 @@
             return c.length > 0;
         });
     }
+
     /**
      * 특정 클래스 존재 여부 체크
      * @param el 대상객체
@@ -66,6 +68,7 @@
     function hasClass(el, className) {
         return getClasses(el).indexOf(className) >= 0;
     }
+
     /**
      * 특정 클래스 추가
      * @param el 대상객체
@@ -76,6 +79,7 @@
             el.className += ' ' + className;
         }
     }
+
     /**
      * 특정 클래스 삭제
      * @param el 대상객체
@@ -88,7 +92,8 @@
             el.className = classes.join(' ');
         }
     }
-   /**
+
+    /**
      * 모달 생성 (gModal.js 참고)
      * https://github.com/jsanahuja/thumbnail-modal
      *
@@ -208,7 +213,7 @@
             }
             // 제목
             if (this.options.title instanceof Element ||
-                (typeof this.options.title === "string" && this.options.title !== '')) {
+                (typeof this.options.title === 'string' && this.options.title !== '')) {
                 let title = document.createElement('div');
                 title.className = 'modal-header';
                 if (this.options.title instanceof Element) {
@@ -220,7 +225,7 @@
             }
 
             if (this.options.body instanceof Element ||
-                (typeof this.options.body === "string" && this.options.body !== '')) {
+                (typeof this.options.body === 'string' && this.options.body !== '')) {
                 let body = document.createElement('div');
                 body.className = 'modal-content';
                 if (this.options.body instanceof Element) {
@@ -294,5 +299,5 @@
         };
 
         this.create();
-    }
+    };
 }));

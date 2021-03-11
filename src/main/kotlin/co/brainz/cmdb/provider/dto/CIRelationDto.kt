@@ -11,6 +11,6 @@ import java.io.Serializable
 data class CIRelationDto(
     val relationId: String? = null,
     val relationType: String? = null,
-    val masterCIId: String? = null,
-    val slaveCIId: String? = null
+    val masterCIId: String,
+    val slaveCIId: String
 ) : Serializable

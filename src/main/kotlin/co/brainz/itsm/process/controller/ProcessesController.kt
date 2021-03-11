@@ -38,15 +38,12 @@ class ProcessesController(private val processAdminService: ProcessAdminService) 
         @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
         model: Model
     ): String {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = processAdminService.getProcesses(params)
         model.addAttribute("processList", result)
         model.addAttribute("processListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return when(isScroll) {
-            true -> processListFragment
-            else -> processListPage
-        }
+        return if (request.getParameter("isScroll").toBoolean()) processListFragment else processListPage
     }
 }

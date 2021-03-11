@@ -11,7 +11,6 @@ const charReg = /^[a-zA-Z가-힣]*$/; // 영문자 , 한글
 const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/;
 const rgbReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/;
-
 const errorClass = 'error'; // 에러 발생시 추가될 클래스명
 
 /**
@@ -48,11 +47,13 @@ function isNull(elementId, messageId, callbackFunc) {
  */
 function isEmpty(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
+    const message = i18n.msg(messageId || 'common.msg.emptyValue');
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+        elem.focus();
+    };
     if (elem !== null) {
         if (elem.value.trim() === '') {
-            if (messageId !== undefined) {
-                aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
-            }
+            aliceJs.alertWarning(message, callback);
             return true;
         }
         return false;
@@ -159,8 +160,8 @@ function isOrOperator(condition1, condition2, messageId, callbackFunc) {
  */
 function isValidPassword(elementId, callbackFunc) {
 
-    let userId = document.getElementById("userId").value;
-    let emailId = document.getElementById("email").value.split('@');
+    let userId = document.getElementById('userId').value;
+    let emailId = document.getElementById('email').value.split('@');
     let password = document.getElementById(elementId).value;
     let searchUpperCase = password.search(upperCaseReg);
     let searchLowerCase = password.search(lowerCaseReg);

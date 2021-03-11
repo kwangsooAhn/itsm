@@ -302,7 +302,7 @@ class WfInstanceService(
     /**
      * Instance history
      */
-    fun getInstancesHistory(instanceId: String): List<RestTemplateInstanceHistoryDto> {
+    fun getInstancesHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto> {
         return wfInstanceRepository.findInstanceHistory(instanceId)
     }
 
@@ -331,7 +331,7 @@ class WfInstanceService(
     /**
      * Get Instance Comments.
      */
-    fun getInstanceComments(instanceId: String): MutableList<RestTemplateCommentDto> {
+    fun getInstanceComments(instanceId: String): List<RestTemplateCommentDto> {
         return wfCommentService.getInstanceComments(instanceId)
     }
 

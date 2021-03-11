@@ -37,7 +37,6 @@ import javax.persistence.Column
 import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class CustomCodeService(
@@ -132,7 +131,7 @@ class CustomCodeService(
      * @return List<String>
      */
     fun getUsedCustomCodeIdList(): List<String> {
-        val parameters = LinkedMultiValueMap<String, String>()
+        val parameters = LinkedHashMap<String, Any>()
         parameters["componentType"] = CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE
         parameters["componentAttribute"] = CustomCodeConstants.ATTRIBUTE_ID_DISPLAY
         return componentService.getComponentDataCustomCodeIds(parameters)

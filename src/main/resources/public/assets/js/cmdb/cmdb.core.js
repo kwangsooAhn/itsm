@@ -42,7 +42,7 @@
                 contentType: 'application/json; charset=utf-8'
             });
         }
-        user['departmentName'] = departmentName
+        user['departmentName'] = departmentName;
         Object.assign(sessionInfo, user);
     }
 

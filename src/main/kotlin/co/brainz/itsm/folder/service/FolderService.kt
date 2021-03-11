@@ -3,23 +3,20 @@ package co.brainz.itsm.folder.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.workflow.provider.RestTemplateProvider
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceViewDto
-import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class FolderService(
-    private val restTemplate: RestTemplateProvider,
     private val aliceUserRepository: AliceUserRepository,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val wfFolderService: WfFolderService
 ) {
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -27,15 +24,7 @@ class FolderService(
      * [tokenId]의 관련 문서 조회
      */
     fun getRelatedInstance(tokenId: String): List<RestTemplateRelatedInstanceViewDto>? {
-        val params = LinkedMultiValueMap<String, String>()
-        params["tokenId"] = tokenId
-        val urlDto =
-            RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_RELATED_INSTANCE.url, parameters = params)
-        val responseBody = restTemplate.get(urlDto)
-        val relatedInstance: MutableList<RestTemplateRelatedInstanceViewDto> = mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateRelatedInstanceViewDto::class.java)
-        )
+        val relatedInstance = wfFolderService.getRelatedInstanceList(tokenId)
         val moreInfoAddRelatedInstance: MutableList<RestTemplateRelatedInstanceViewDto> = mutableListOf()
         relatedInstance.forEach {
             val user = aliceUserRepository.getOne(it.instanceCreateUserKey!!)
@@ -47,19 +36,7 @@ class FolderService(
     }
 
     fun getFolderId(tokenId: String): String? {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Folder.GET_FOLDER.url.replace(
-                restTemplate.getKeyRegex(),
-                tokenId
-            )
-        )
-
-        val restTemplateFolderDto: RestTemplateFolderDto = mapper.readValue(
-            restTemplate.get(url),
-            mapper.typeFactory.constructType(RestTemplateFolderDto::class.java)
-        )
-
-        return restTemplateFolderDto.folderId
+        return wfFolderService.getOriginFolder(tokenId).folderId
     }
 
     fun createFolder(restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
@@ -68,22 +45,10 @@ class FolderService(
         for (folder in restTemplateFolderDto) {
             folder.createUserKey = aliceUserDto.userKey
         }
-
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Folder.POST_FOLDER.url
-        )
-        val responseEntity = restTemplate.create(url, restTemplateFolderDto)
-        return responseEntity.body.toString().isNotEmpty()
+        return wfFolderService.createFolderData(restTemplateFolderDto)
     }
 
     fun deleteFolder(folderId: String, restTemplateFolderDto: RestTemplateFolderDto): Boolean {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Folder.DELETE_FOLDER.url.replace(
-                restTemplate.getKeyRegex(),
-                folderId
-            )
-        )
-        val responseEntity = restTemplate.delete(url, restTemplateFolderDto)
-        return responseEntity.body.toString().isNotEmpty()
+        return wfFolderService.deleteFolderData(folderId, restTemplateFolderDto)
     }
 }
