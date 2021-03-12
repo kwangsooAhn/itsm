@@ -511,7 +511,7 @@
                 let tdTemplate = `<td class="align-left ${opt.type === 'hidden' ? '' : 'on'} ${opt.class}" style="border-color: ${rowBorderColor}; width: ${thWidth}%;">`;
                 switch (opt.type) {
                     case 'editable':
-                        tdTemplate += `${data[opt.id]}`;
+                        tdTemplate += `${aliceJs.filterXSS(data[opt.id])}`;
                         break;
                     case 'readonly':
                         tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
