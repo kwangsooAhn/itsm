@@ -2498,12 +2498,11 @@ button .icon-plus {
   padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
 }
 .gnb .menu {
-  position: relative;
+  position: fixed;
   width: 13.75rem;
   height: calc(100vh - 9.375rem - 3.75rem);
   background-color: #333D47;
   top: 3.75rem;
-  left: 0;
   z-index: 100;
   overflow: auto;
 }
