@@ -510,27 +510,27 @@
                 const thWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
                 let tdTemplate = `<td class="align-left ${opt.type === 'hidden' ? '' : 'on'} ${opt.class}" style="border-color: ${rowBorderColor}; width: ${thWidth}%;">`;
                 switch (opt.type) {
-                    case 'editable':
-                        tdTemplate += `${aliceJs.filterXSS(data[opt.id])}`;
-                        break;
-                    case 'readonly':
-                        tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
-                        break;
-                    case 'image':
-                        tdTemplate += `<img src="/assets/media/images/cmdb/${data[opt.id]}" width="20" height="20"/>`;
-                        break;
-                    case 'icon-edit': // CI 등록 / 수정
-                        if (actionType === ACTION_TYPE_DELETE) {
-                            tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
-                        } else {
-                            tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-edit"></span></button>`;
-                        }
-                        break;
-                    case 'icon-search': // CI 상세 조회
+                case 'editable':
+                    tdTemplate += `${aliceJs.filterXSS(data[opt.id])}`;
+                    break;
+                case 'readonly':
+                    tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
+                    break;
+                case 'image':
+                    tdTemplate += `<img src="/assets/media/images/cmdb/${data[opt.id]}" width="20" height="20"/>`;
+                    break;
+                case 'icon-edit': // CI 등록 / 수정
+                    if (actionType === ACTION_TYPE_DELETE) {
                         tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
-                        break;
-                    case 'icon-delete': // Row 삭제
-                        tdTemplate += `<button type="button" onclick="javascript:CI.removeRow('${comp.id}', '${data.ciId}', this);">`+
+                    } else {
+                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-edit"></span></button>`;
+                    }
+                    break;
+                case 'icon-search': // CI 상세 조회
+                    tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
+                    break;
+                case 'icon-delete': // Row 삭제
+                    tdTemplate += `<button type="button" onclick="javascript:CI.removeRow('${comp.id}', '${data.ciId}', this);">`+
                                           `<span class="icon icon-delete"></span>` +
                                       `</button>`;
                     break;
