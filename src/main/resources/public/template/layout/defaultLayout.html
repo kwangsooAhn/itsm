@@ -9,12 +9,14 @@
 	<body>
 		<div class="alice-wrapper">
 			<div class="itsm-container flex-row">
-				<div class="gnb">
-		   		    <th:block th:replace="layout/navigation">menu</th:block>
-				    <th:block th:replace="layout/menu">menu</th:block>
+				<div>
+					<div class="gnb">
+						<th:block th:replace="layout/menu">menu</th:block>
+						<th:block th:replace="layout/navigation">menu</th:block>
+					</div>
 				</div>
 				<div class="main flex-column">
-				    <th:block layout:fragment="content"></th:block>
+					<th:block layout:fragment="content"></th:block>
 				</div>
 				<th:block layout:fragment="aside"></th:block>
 				<footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
