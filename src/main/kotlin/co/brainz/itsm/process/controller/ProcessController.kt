@@ -74,7 +74,7 @@ class ProcessController(
         model: Model
     ): String {
         model.addAttribute("callback", callback)
-        model.addAttribute("imageList", fileService.getImageFileList(AliceConstants.FileType.IMAGE.code, searchValue))
+        model.addAttribute("imageList", fileService.getImageFileList(AliceConstants.FileType.IMAGE.code, searchValue, -1L))
         return processAttachFileViewPage
     }
 }
