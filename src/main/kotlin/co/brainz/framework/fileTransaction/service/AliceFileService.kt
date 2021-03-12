@@ -312,7 +312,6 @@ class AliceFileService(
                 )
             )
         }
-
         return images
     }
 
