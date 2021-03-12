@@ -2,7 +2,6 @@ package co.brainz.itsm.comment.controller
 
 import co.brainz.itsm.comment.service.CommentService
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,7 +21,7 @@ class CommentRestController(
     }
 
     @DeleteMapping("/{commentId}")
-    fun deleteComment(@PathVariable commentId: String): ResponseEntity<String> {
+    fun deleteComment(@PathVariable commentId: String): Boolean {
         return commentService.deleteComment(commentId)
     }
 }

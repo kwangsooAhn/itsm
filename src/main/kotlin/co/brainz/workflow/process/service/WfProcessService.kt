@@ -2,6 +2,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+
 package co.brainz.workflow.process.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
@@ -519,6 +520,7 @@ class WfProcessService(
             }
         }
     }
+
     /**
      * ScriptType 이 CMDB인 경우 상세 데이터 조회.
      */
@@ -529,7 +531,7 @@ class WfProcessService(
                 val valueObject = Gson().fromJson(scriptValue, JsonObject::class.java)
                 if (valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value) != null) {
                     elementData[WfElementConstants.AttributeId.SCRIPT_DETAIL.value] = mutableListOf(
-                            valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value).asString
+                        valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value).asString
                     )
                 }
             }

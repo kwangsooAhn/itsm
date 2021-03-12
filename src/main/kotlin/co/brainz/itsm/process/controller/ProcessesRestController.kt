@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -84,7 +83,7 @@ class ProcessesRestController(
             defaultValue = ""
         ) status: String
     ): List<RestTemplateProcessViewDto> {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["status"] = status
         return processAdminService.getProcesses(params)
     }

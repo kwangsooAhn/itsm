@@ -101,7 +101,7 @@
      * @param tagData 태그 데이터
      */
     function addTags(target, tagData) {
-        target.removeAttribute("onclick");
+        target.removeAttribute('onclick');
         // 기존 데이터가 존재하면 추가
         const ciTags = tagData.map(function (tag) {
             return tag.tagName;
@@ -152,50 +152,50 @@
                 let ciAttribute = {};
                 const attributeType = el.getAttribute('data-attributeType');
                 switch (attributeType) {
-                    case 'inputbox':
-                        const inputElem = el.querySelector('input');
-                        ciAttribute.id = inputElem.id;
-                        ciAttribute.value = inputElem.value;
-                        break;
-                    case 'dropdown':
-                        const selectElem = el.querySelector('select');
-                        ciAttribute.id = selectElem.id;
-                        ciAttribute.value = selectElem.value;
-                        break;
-                    case 'radio':
-                        const radioElem = el.querySelector('input[name="attribute-radio"]:checked');
-                        ciAttribute.id = radioElem.id.split('-')[0];
-                        ciAttribute.value = radioElem.value;
-                        break;
-                    case 'checkbox':
-                        let checkValues = [];
-                        let strValues = "";
-                        el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function(chkElem, idx) {
-                            if (idx === 0) {
-                                ciAttribute.id = chkElem.id.split('-')[0];
-                            }
-                            if (chkElem.checked) {
-                                checkValues.push(chkElem.value);
-                            }
-                        });
-                        if (checkValues.length > 0) {
-                            for (let i = 0; i < checkValues.length; i++) {
-                                if (strValues === "") {
-                                    strValues = checkValues[i];
-                                } else {
-                                    strValues = strValues + "," + checkValues[i];
-                                }
+                case 'inputbox':
+                    const inputElem = el.querySelector('input');
+                    ciAttribute.id = inputElem.id;
+                    ciAttribute.value = inputElem.value;
+                    break;
+                case 'dropdown':
+                    const selectElem = el.querySelector('select');
+                    ciAttribute.id = selectElem.id;
+                    ciAttribute.value = selectElem.value;
+                    break;
+                case 'radio':
+                    const radioElem = el.querySelector('input[name="attribute-radio"]:checked');
+                    ciAttribute.id = radioElem.id.split('-')[0];
+                    ciAttribute.value = radioElem.value;
+                    break;
+                case 'checkbox':
+                    let checkValues = [];
+                    let strValues = '';
+                    el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function(chkElem, idx) {
+                        if (idx === 0) {
+                            ciAttribute.id = chkElem.id.split('-')[0];
+                        }
+                        if (chkElem.checked) {
+                            checkValues.push(chkElem.value);
+                        }
+                    });
+                    if (checkValues.length > 0) {
+                        for (let i = 0; i < checkValues.length; i++) {
+                            if (strValues === '') {
+                                strValues = checkValues[i];
+                            } else {
+                                strValues = strValues + ',' + checkValues[i];
                             }
                         }
-                        ciAttribute.value = strValues;
-                        break;
-                    case 'custom-code':
-                        const customElem = el.querySelector('input');
-                        ciAttribute.id = customElem.parentNode.id;
-                        ciAttribute.value = customElem.getAttribute('custom-data');
-                        break;
-                    default:
-                        break;
+                    }
+                    ciAttribute.value = strValues;
+                    break;
+                case 'custom-code':
+                    const customElem = el.querySelector('input');
+                    ciAttribute.id = customElem.parentNode.id;
+                    ciAttribute.value = customElem.getAttribute('custom-data');
+                    break;
+                default:
+                    break;
                 }
                 if (Object.keys(ciAttribute).length !== 0) {
                     saveData.values.ciAttributes.push(ciAttribute);
@@ -205,7 +205,7 @@
             // 태그 추가
             const tagElems = CITag.getTagElms();
             tagElems.forEach(function (tag) {
-                saveData.values.ciTags.push({'id': workflowUtil.generateUUID(), 'value': tag.getAttribute('value')})
+                saveData.values.ciTags.push({'id': workflowUtil.generateUUID(), 'value': tag.getAttribute('value')});
             });
             restSubmit('/rest/cmdb/cis/' + saveData.ciId + '/data', 'POST', saveData, false, callbackFunc);
         }
@@ -223,7 +223,7 @@
                 classes: 'cmdb-ci-register-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
-                    classes: "point-fill",
+                    classes: 'point-fill',
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
@@ -233,7 +233,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'default-line',
                     bindKey: false,
                     callback: function (modal) {
                         aliceJs.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -254,7 +254,7 @@
                         textarea: {
                             dynHeight: false,
                             dynWidth: false,
-                            inheritedAttrs: "class"
+                            inheritedAttrs: 'class'
                         }
                     });
 
@@ -290,7 +290,7 @@
                 classes: 'cmdb-ci-update-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.modify'),
-                    classes: "point-fill",
+                    classes: 'point-fill',
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
@@ -300,7 +300,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'default-line',
                     bindKey: false,
                     callback: function (modal) {
                         aliceJs.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -329,7 +329,7 @@
                         textarea: {
                             dynHeight: false,
                             dynWidth: false,
-                            inheritedAttrs: "class"
+                            inheritedAttrs: 'class'
                         }
                     });
 
@@ -357,7 +357,7 @@
                 classes: 'cmdb-ci-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: "default-line",
+                    classes: 'default-line',
                     bindKey: false,
                     callback: function (modal) {
                         modal.hide();
@@ -379,7 +379,7 @@
                         textarea: {
                             dynHeight: false,
                             dynWidth: false,
-                            inheritedAttrs: "class"
+                            inheritedAttrs: 'class'
                         }
                     });
                     // 태그 추가
@@ -414,7 +414,7 @@
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
-                classes: "point-fill",
+                classes: 'point-fill',
                 bindKey: false,
                 callback: function (modal) {
                     // 체크된 CI 출력
@@ -445,7 +445,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: "default-line",
+                classes: 'default-line',
                 bindKey: false,
                 callback: function (modal) {
                     modal.hide();
@@ -458,7 +458,7 @@
                 searchCis(componentData);
                 document.getElementById('search').onkeyup = function(e) {
                     searchCis(componentData);
-                }
+                };
                 // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
                 document.getElementById('tagSearch').onkeyup = function(e) {
                     if (e.key === 'Enter') {
@@ -533,10 +533,10 @@
                         tdTemplate += `<button type="button" onclick="javascript:CI.removeRow('${comp.id}', '${data.ciId}', this);">`+
                                           `<span class="icon icon-delete"></span>` +
                                       `</button>`;
-                        break;
-                    default: // hidden
-                        tdTemplate += `<input type="hidden" value="${data[opt.id]}" maxlength="100"/>`;
-                        break;
+                    break;
+                default: // hidden
+                    tdTemplate += `<input type="hidden" value="${data[opt.id]}" maxlength="100"/>`;
+                    break;
                 }
                 tdTemplate += `</td>`;
                 return tdTemplate;
@@ -658,7 +658,6 @@
             }
         });
     }*/
-
     /**
      * CLass 상세 속성 속성 표시
      */

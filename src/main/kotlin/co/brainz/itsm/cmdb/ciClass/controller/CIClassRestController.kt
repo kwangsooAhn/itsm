@@ -13,7 +13,6 @@ import co.brainz.cmdb.provider.dto.CIClassListDto
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -39,26 +39,30 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      * CMDB CI Class 목록 조회
      */
     @GetMapping("/", "")
-    fun getCIClasses(request: HttpServletRequest, model: Model): List<CIClassListDto> {
-        val parameters = LinkedMultiValueMap<String, String>()
-        parameters["search"] = request.getParameter("search")
-        return ciClassService.getCIClasses(parameters)
+    fun getCIClasses(
+        request: HttpServletRequest,
+        @RequestParam(value = "search", required = false, defaultValue = "") search: String,
+        model: Model
+    ): List<CIClassListDto> {
+        val params = LinkedHashMap<String, Any>()
+        params["search"] = search
+        return ciClassService.getCIClasses(params)
     }
 
     /**
      * CMDB CI Class 등록
      */
     @PostMapping("")
-    fun createCIClass(@RequestBody CIClassDto: CIClassDto): String {
-        return ciClassService.createCIClass(CIClassDto)
+    fun createCIClass(@RequestBody ciClassDto: CIClassDto): String {
+        return ciClassService.createCIClass(ciClassDto)
     }
 
     /**
      * CMDB CI Class 수정
      */
     @PutMapping("/{classId}")
-    fun updateCIClass(@RequestBody CIClassDto: CIClassDto): String {
-        return ciClassService.updateCIClass(CIClassDto)
+    fun updateCIClass(@RequestBody ciClassDto: CIClassDto): String {
+        return ciClassService.updateCIClass(ciClassDto)
     }
 
     /**

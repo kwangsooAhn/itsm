@@ -12,7 +12,6 @@ import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -39,7 +38,7 @@ class CIClassController(
      */
     @GetMapping("/view-pop/attributes")
     fun getCIClassAttributeList(request: HttpServletRequest, model: Model): String {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
         val classId = request.getParameter("classId")
         val attributeList = ciAttributeService.getCIAttributes(params)

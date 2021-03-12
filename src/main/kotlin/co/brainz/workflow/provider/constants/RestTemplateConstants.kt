@@ -1,33 +1,11 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.provider.constants
 
 object RestTemplateConstants {
-
-    /**
-     * Form Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Form(val url: String, val method: String) {
-        GET_FORMS("/rest/wf/forms", "GET"),
-        GET_FORM("/rest/wf/forms/{formId}", "GET"),
-        GET_FORM_DATA("/rest/wf/forms/{formId}/data", "GET"),
-        POST_FORM("/rest/wf/forms", "POST"),
-        POST_FORM_SAVE_AS("/rest/wf/forms?saveType=saveas", "POST"),
-        PUT_FORM("/rest/wf/forms/{formId}", "PUT"),
-        PUT_FORM_DATA("/rest/wf/forms/{formId}/data", "PUT"),
-        DELETE_FORM("/rest/wf/forms/{formId}", "DELETE")
-    }
-
-    /**
-     *  컴포넌트를 조회하기 위한 [url]과 [method] 호출 목록
-     *
-     */
-    enum class Component(val url: String, val method: String) {
-        GET_COMPONENT("/rest/wf/components", "GET"),
-        GET_COMPONENT_DATA("/rest/wf/components/data", "GET"),
-        GET_COMPONENT_CUSTOM_CODE_IDS("/rest/wf/components/custom-code-ids/data", "GET")
-    }
 
     /**
      * Form SaveType.
@@ -36,107 +14,6 @@ object RestTemplateConstants {
      */
     enum class FormSaveType(val code: String) {
         SAVE_AS("saveas")
-    }
-
-    /**
-     * Process Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Process(val url: String, val method: String) {
-        GET_PROCESSES("/rest/wf/processes", "GET"),
-        GET_PROCESS("/rest/wf/processes/{processId}", "GET"),
-        GET_PROCESS_DATA("/rest/wf/processes/{processId}/data", "GET"),
-        GET_PROCESS_SIMULATION("/rest/wf/processes/{processId}/simulation", "GET"),
-        POST_PROCESS("/rest/wf/processes", "POST"),
-        POST_PROCESS_SAVE_AS("/rest/wf/processes?saveType=saveas", "POST"),
-        PUT_PROCESS("/rest/wf/processes/{processId}", "PUT"),
-        PUT_PROCESS_DATA("/rest/wf/processes/{processId}/data", "PUT"),
-        DELETE_PROCESS("/rest/wf/processes/{processId}", "DELETE")
-    }
-
-    /**
-     * Token Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Token(val url: String, val method: String) {
-        POST_TOKEN("/rest/wf/tokens", "POST"),
-        PUT_TOKEN("/rest/wf/tokens/{tokenId}", "PUT"),
-        GET_TOKEN("/rest/wf/tokens/{tokenId}", "GET"),
-        GET_TOKENS("/rest/wf/tokens", "GET"),
-        GET_TOKEN_DATA("/rest/wf/tokens/{tokenId}/data", "GET")
-    }
-
-    /**
-     * Comment Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Comment(val url: String, val method: String) {
-        POST_COMMENT("/rest/wf/comments", "POST"),
-        DELETE_COMMENT("/rest/wf/comments/{commentId}", "DELETE")
-    }
-
-    /**
-     * Tag Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Tag(val url: String, val method: String) {
-        POST_TAG("/rest/wf/tags", "POST"),
-        DELETE_TAG("/rest/wf/tags/{tagId}", "DELETE")
-    }
-
-    /**
-     * Folder Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Folder(val url: String, val method: String) {
-        POST_FOLDER("/rest/wf/folders", "POST"),
-        DELETE_FOLDER("/rest/wf/folders/{folderId}", "DELETE"),
-        GET_FOLDER("/rest/wf/folders/{folderId}", "GET")
-    }
-
-    /**
-     * Workflow Url.
-     *
-     * @param url
-     * @param method
-     */
-    enum class Workflow(val url: String, val method: String) {
-        GET_DOCUMENTS("/rest/wf/documents", "GET"),
-        GET_DOCUMENTS_ALL("/rest/wf/documents/all", "GET"),
-        GET_DOCUMENT("/rest/wf/documents/{documentId}", "GET"),
-        GET_DOCUMENT_DATA("/rest/wf/documents/{documentId}/data", "GET"),
-        POST_DOCUMENT("/rest/wf/documents", "POST"),
-        PUT_DOCUMENT("/rest/wf/documents/{documentId}", "PUT"),
-        DELETE_DOCUMENT("/rest/wf/documents/{documentId}", "DELETE"),
-        GET_DOCUMENTS_DISPLAY("/rest/wf/documents/{documentId}/display", "GET"),
-        PUT_DOCUMENTS_DISPLAY("/rest/wf/documents/{documentId}/display", "PUT"),
-        GET_INSTANCE("/rest/wf/instances/{instanceId}", "GET"),
-        GET_INSTANCES("/rest/wf/instances", "GET"),
-        GET_INSTANCES_COUNT("/rest/wf/instances/count", "GET"),
-        TASK_COMPLETE("/rest/wf/tasks/{instanceId}/complete", "PUT"),
-        TASK_GATEWAY("/rest/wf/tasks/{instanceId}/gateway", "PUT")
-    }
-
-    /**
-     * Instance Url.
-     */
-    enum class Instance(val url: String, val method: String) {
-        GET_INSTANCE_HISTORY("/rest/wf/instances/{instanceId}/history", "GET"),
-        GET_RELATED_INSTANCE("/rest/wf/folders", "GET"),
-        GET_INSTANCE_COMMENTS("/rest/wf/instances/{instanceId}/comments", "GET"),
-        GET_INSTANCE_TAGS("/rest/wf/instances/{instanceId}/tags", "GET"),
-        GET_INSTANCE_LATEST("/rest/wf/instances/{instanceId}/latest", "GET"),
-        GET_INSTANCE_SEARCH("/rest/wf/instances/search", "GET")
     }
 
     /**
