@@ -10,6 +10,7 @@ import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.workflow.component.constants.WfComponentConstants
+import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
@@ -165,6 +166,11 @@ class WfTokenService(
                 if (componentEntity.componentId == documentDisplay.componentId) {
                     componentEntity.dataAttribute["displayType"] = documentDisplay.display
                 }
+            }
+
+            // 완료된 문서일 경우 기본값을 readOnly 로 설정한다.
+            if (tokenEntity.get().tokenStatus == WfTokenConstants.Status.FINISH.code) {
+                componentEntity.dataAttribute["displayType"] = WfDocumentConstants.DisplayType.READONLY.value
             }
         }
 
