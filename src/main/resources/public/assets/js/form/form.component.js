@@ -235,7 +235,8 @@
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
-                    `<select ${displayType === 'editableRequired' ? 'required' : ''}>` +
+                    `<select class="${displayType === 'hidden'  ? 'readonly' : displayType}" ` +
+                        `${displayType === 'editableRequired' ? 'required' : ''}>` +
                         `${optionsTemplate}` +
                     `</select>` +
                 `</div>` +
