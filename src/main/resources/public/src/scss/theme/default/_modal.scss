@@ -215,8 +215,11 @@
   }
   // 통계문서 미리보기
   &.chart-view-modal {
-    width: $chart-view-modal-width;
-    height: $chart-view-modal-height;
+    width: $token-list-modal-width;
+    height: $token-list-modal-height;
+    .modal-content {
+      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+    }
   }
   // CI 조회 CI 상세보기
   &.cmdb-ci-view-modal {

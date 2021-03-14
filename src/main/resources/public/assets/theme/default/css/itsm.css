@@ -4726,7 +4726,10 @@ body.modal-active {
 }
 .modal-dialog.chart-view-modal {
   width: 62.5rem;
-  height: 31.25rem;
+  height: 53.0625rem;
+}
+.modal-dialog.chart-view-modal .modal-content {
+  padding: 0.625rem 1.25rem 2.5rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-view-modal {
   width: 62.5rem;
