@@ -46,6 +46,7 @@
         const CHART_MONTH = 'M';
         const CHART_DAY = 'D';
         const CHART_HOUR = 'H';
+        const PIE_CHART = 'chart.pie';
         const STACKED_COLUMN_CHART = 'chart.stackedColumn';
         const BASIC_LINE_CHART = 'chart.basicLine';
 
@@ -258,15 +259,7 @@
                             setDisplay(document.getElementById('typeSelectBox').value);
                         }
                         let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
-                        Highcharts.chart('container', {
-                            chart: data.chart,
-                            title: data.title,
-                            yAxis: data.yAxis,
-                            xAxis: data.xAxis,
-                            tooltip: data.tooltip,
-                            plotOptions: data.plotOptions,
-                            series: data.series
-                        });
+                        Highcharts.chart('container', data);
                     }
                 }
             };
@@ -387,10 +380,10 @@
         }
 
         function setDisplay(value) {
-            if (value === 'chart.basicLine' || value === 'chart.stackedColumn') {
+            if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
                 document.getElementById('periodUnitLabel').style.display = 'block';
                 document.getElementById('periodUnitSelectBox').style.display = 'block';
-                if (value === 'chart.basicLine') {
+                if (value === BASIC_LINE_CHART) {
                     document.getElementById('groupLabel').style.display = 'block';
                     document.getElementById('targetGroup').style.display = 'block';
                 } else {
@@ -436,47 +429,41 @@
                 docValueList.push(propertyJson[1].documentList[key]);
             }
 
-            // chart
-            if (chartConfigJson.type === 'chart.pie') {
+            // Add ChartProperty
+            if (chartConfigJson.type === PIE_CHART) {
                 let chartProperty = new Object();
                 chartProperty.type = 'pie';
                 chartProperty.plotBackgroundColor = null;
                 chartProperty.plotBorderWidth = null;
                 chartProperty.plotShadow = false;
                 jsonObject.chart = chartProperty;
-            } else if (chartConfigJson.type === 'chart.stackedColumn') {
+            } else if (chartConfigJson.type === STACKED_COLUMN_CHART) {
                 let chartProperty = new Object();
                 chartProperty.type = 'column';
                 jsonObject.chart = chartProperty;
             }
 
-            // title
+            // Add TitleProperty
             let titleProperty = new Object;
             titleProperty.text = propertyJson[0].title;
             jsonObject.title = titleProperty;
 
-            // subTitle
-            if (chartConfigJson.type === 'chart.basicLine') {
+            // Add SubTitle
+            if (chartConfigJson.type === BASIC_LINE_CHART) {
                 let subTitleProperty = new Object;
                 subTitleProperty.text = '통계 차트 보고서';
                 jsonObject.subtitle = subTitleProperty;
             }
 
-            // xAxis
-            if (chartConfigJson.type === 'chart.stackedColumn') {
-                let xAxisProperty = new Object;
-                let xAxisArray = new Array;
-                xAxisArray = docKeyList;
-                xAxisProperty.categories = xAxisArray;
-                jsonObject.xAxis = xAxisProperty;
-            } else if (chartConfigJson.type === 'chart.basicLine') {
+            // Add xAxisProperty
+            if (chartConfigJson.type === STACKED_COLUMN_CHART || chartConfigJson.type === BASIC_LINE_CHART) {
                 let xAxisProperty = new Object;
                 xAxisProperty.type = 'datetime';
                 jsonObject.xAxis = xAxisProperty;
             }
 
-            // yAxis
-            if (chartConfigJson.type === 'chart.stackedColumn') {
+            // Add yAxisProperty
+            if (chartConfigJson.type === STACKED_COLUMN_CHART) {
                 let yAxisProperty = new Object;
                 let yAxisTitleProperty = new Object;
                 let stackedLabelsProperty = new Object;
@@ -490,7 +477,7 @@
                 stackedLabelsProperty.style = styleProperty;
                 yAxisProperty.stackedLabels = stackedLabelsProperty;
                 jsonObject.yAxis = yAxisProperty;
-            } else if (chartConfigJson.type === 'chart.basicLine') {
+            } else if (chartConfigJson.type === BASIC_LINE_CHART) {
                 let yAxisProperty = new Object;
                 let yAxisTitleProperty = new Object;
                 yAxisTitleProperty.text = 'Number of Documents';
@@ -498,7 +485,8 @@
                 jsonObject.yAxis = yAxisProperty;
             }
 
-            if (chartConfigJson.type === 'chart.stackedColumn') {
+            // Add LegendProperty
+            if (chartConfigJson.type === STACKED_COLUMN_CHART) {
                 let legendProperty = new Object;
                 legendProperty.align = 'right';
                 legendProperty.x = -30;
@@ -510,7 +498,7 @@
                 legendProperty.borderWidth = 1;
                 legendProperty.shadow = false;
                 jsonObject.legend = legendProperty;
-            } else if (chartConfigJson.type === 'chart.basicLine') {
+            } else if (chartConfigJson.type === BASIC_LINE_CHART) {
                 let legendProperty = new Object;
                 legendProperty.layout = 'vertical';
                 legendProperty.align = 'right';
@@ -518,20 +506,21 @@
                 jsonObject.legend = legendProperty;
             }
 
-            // tooltip
-            let tooltipProperty = new Object;
-            if (chartConfigJson.type === 'chart.pie') {
+            // Add TooltipProperty
+            if (chartConfigJson.type === PIE_CHART) {
+                let tooltipProperty = new Object;
                 if (chartConfigJson.operation === 'percent') {
                     tooltipProperty.pointFormat = '문서 차지 비율: <b>{point.percentage:.1f} %</b>';
                 } else {
                     tooltipProperty.pointFormat = '문서 건 수: <b>{point.y:.f} 건</b>';
                 }
                 jsonObject.tooltip = tooltipProperty;
-            } else if (chartConfigJson.type === 'chart.stackedColumn') {
+            } else if (chartConfigJson.type === STACKED_COLUMN_CHART) {
+                let tooltipProperty = new Object;
                 tooltipProperty.headerFormat = '<b>{point.x}</b><br/>';
                 if (chartConfigJson.operation === 'percent') {
                     tooltipProperty.pointFormatter = function () {
-                        let sum = countArray.reduce((a,b) => (a+b));
+                        let sum = countArray.reduce((a, b) => (a + b));
                         let percent = (this.y / sum) * 100;
                         return '문서 건 수: ' + '<b>' + Highcharts.numberFormat(percent) + '</b>' + '%';
                     }
@@ -541,8 +530,8 @@
                 jsonObject.tooltip = tooltipProperty;
             }
 
-            // accessibility
-            if (chartConfigJson.type === 'chart.pie') {
+            //Add AccessibilityProperty
+            if (chartConfigJson.type === PIE_CHART) {
                 let accessibilityProperty = new Object;
                 let pointProperty = new Object;
                 pointProperty.valueSuffix = '%';
@@ -550,9 +539,9 @@
                 jsonObject.accessibility = accessibilityProperty;
             }
 
-            // plotOptions
+            // plotOptionsProperty
             let plotOptionsProperty = new Object;
-            if (chartConfigJson.type === 'chart.pie') {
+            if (chartConfigJson.type === PIE_CHART) {
                 let pieProperty = new Object;
                 let dataLabelsProperty = new Object;
                 pieProperty.allowPoinSelect = true;
@@ -565,20 +554,6 @@
                 }
                 pieProperty.dataLabels = dataLabelsProperty;
                 plotOptionsProperty.pie = pieProperty;
-            } else if (chartConfigJson.type === 'chart.stackedColumn') {
-                let columnProperty = new Object;
-                let dataLabelsProperty = new Object;
-                columnProperty.stacking = 'normal';
-                dataLabelsProperty.enabled = true;
-                if (chartConfigJson.operation === 'percent') {
-                    dataLabelsProperty.formatter = function () {
-                        let sum = countArray.reduce((a,b) => (a+b));
-                        let percent = (this.y / sum) * 100;
-                        return Highcharts.numberFormat(percent) + '%';
-                    }
-                }
-                columnProperty.dataLabels = dataLabelsProperty;
-                plotOptionsProperty.column = columnProperty;
             } else {
                 const getYear = docKeyList[0].substring(0, 4);
                 const getMonth = docKeyList[0].substring(4, 6);
@@ -593,17 +568,33 @@
                 } else if (chartConfigJson.periodUnit === CHART_DAY) {
                     seriesProperty.pointIntervalUnit = 'day';
                 } else {
+                    seriesProperty.pointInterval = 3600 * 1000;
                 }
                 plotOptionsProperty.series = seriesProperty;
+
+                if (chartConfigJson.type === STACKED_COLUMN_CHART) {
+                    let columnProperty = new Object;
+                    let dataLabelsProperty = new Object;
+                    columnProperty.stacking = 'normal';
+                    dataLabelsProperty.enabled = true;
+                    if (chartConfigJson.operation === 'percent') {
+                        dataLabelsProperty.formatter = function () {
+                            let sum = countArray.reduce((a, b) => (a + b));
+                            let percent = (this.y / sum) * 100;
+                            return Highcharts.numberFormat(percent) + '%';
+                        }
+                    }
+                    columnProperty.dataLabels = dataLabelsProperty;
+                    plotOptionsProperty.column = columnProperty;
+                }
             }
             jsonObject.plotOptions = plotOptionsProperty;
 
-            // series
+            // Add seriesProperty
             let seriesArray = new Array;
             let seriesObject = new Object;
             let seriesDataArray = new Array;
-
-            if (chartConfigJson.type === 'chart.pie') {
+            if (chartConfigJson.type === PIE_CHART) {
                 seriesObject.colorByPoint = true;
                 for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
                     let seriesDataObject = new Object;
@@ -614,13 +605,13 @@
                     seriesDataArray.push(seriesDataObject);
                     seriesObject.data = seriesDataArray;
                 }
-            } else if (chartConfigJson.type === 'chart.stackedColumn') {
+            } else if (chartConfigJson.type === STACKED_COLUMN_CHART) {
                 seriesObject.name = 'Document'
                 for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
                     seriesDataArray.push(countArray[i]);
                 }
                 seriesObject.data = seriesDataArray;
-            } else if (chartConfigJson.type === 'chart.basicLine') {
+            } else if (chartConfigJson.type === BASIC_LINE_CHART) {
                 seriesObject.name = 'Document';
                 for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
                     seriesDataArray.push(countArray[i]);
@@ -630,7 +621,8 @@
             seriesArray.push(seriesObject);
             jsonObject.series = seriesArray;
 
-            if (chartConfigJson.type === 'chart.basicLine') {
+            //Add responsiveProperty
+            if (chartConfigJson.type === BASIC_LINE_CHART) {
                 let responsiveProperty = new Object;
                 let rulesArray = new Array;
                 let rulesProperty = new Object;
