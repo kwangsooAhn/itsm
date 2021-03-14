@@ -93,38 +93,13 @@ class ChartService(
      */
     fun saveChart(chartDto: ChartDto): String {
         val status = ChartConstants.Status.STATUS_SUCCESS.code
-        val chartConfigObj = JsonObject()
-        val durationObj = JsonObject()
-        val chartFromList = JsonArray()
-        chartFromList.add(chartDto.targetLabel)
-        // type
-        chartConfigObj.addProperty(ChartConstants.ObjProperty.TYPE.property, chartDto.chartType)
-        // from
-        chartConfigObj.add(ChartConstants.ObjProperty.FROM.property, chartFromList)
-        // operations
-        chartConfigObj.addProperty(ChartConstants.ObjProperty.OPERATION.property, chartDto.operation)
-        // duration
-        durationObj.addProperty(ChartConstants.ObjProperty.DIGIT.property, chartDto.durationDigit)
-        durationObj.addProperty(ChartConstants.ObjProperty.UNIT.property, chartDto.durationUnit)
-        chartConfigObj.add(ChartConstants.ObjProperty.DURATION.property, durationObj)
-        // periodUnit, group
-        when (chartDto.chartType) {
-            ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
-                chartConfigObj.addProperty(ChartConstants.ObjProperty.PERIOD_UNIT.property, chartDto.periodUnit)
-                if (chartDto.chartType == ChartConstants.Type.BASIC_LINE.code) {
-                    chartConfigObj.addProperty(
-                        ChartConstants.ObjProperty.GROUP.property, chartDto.group
-                    )
-                }
-            }
-        }
 
         val chartEntity = ChartEntity(
             chartId = chartDto.chartId,
             chartType = chartDto.chartType,
             chartName = chartDto.chartName,
             chartDesc = chartDto.chartDesc,
-            chartConfig = chartConfigObj.toString()
+            chartConfig = getChartConfig(chartDto)
         )
 
         chartRepository.save(chartEntity)
@@ -294,10 +269,10 @@ class ChartService(
                     when (startMonth) {
                         12 -> {
                             startYear++
-                            startMonth = 1;
+                            startMonth = 1
                         }
                         else -> {
-                            startMonth++;
+                            startMonth++
                         }
                     }
                 }
@@ -331,7 +306,7 @@ class ChartService(
                     for (day in startDays until lengthOfMonth + 1) {
                         dateFormatList.add(dateFormat + String.format("%02d", day))
 
-                        if (day == endDateTime!!.dayOfMonth && startMonth == endDateTime!!.monthValue) {
+                        if (day == endDateTime!!.dayOfMonth && startMonth == endDateTime.monthValue) {
                             break
                         }
                     }
@@ -383,11 +358,11 @@ class ChartService(
                     for (day in startDays until lengthOfMonth + 1) {
                         for (hours in startHours until 25) {
                             dateFormatList.add(dateFormat + day + String.format("%02d", hours))
-                            if (hours == endDateTime!!.hour && day == endDateTime!!.dayOfMonth && startMonth == endDateTime!!.monthValue) {
+                            if (hours == endDateTime!!.hour && day == endDateTime.dayOfMonth && startMonth == endDateTime.monthValue) {
                                 break
                             }
                         }
-                        if (day == endDateTime!!.dayOfMonth && startMonth == endDateTime!!.monthValue) {
+                        if (day == endDateTime!!.dayOfMonth && startMonth == endDateTime.monthValue) {
                             break
                         }
                         startHours = 1
@@ -434,5 +409,38 @@ class ChartService(
             }
         }
         return jsonDocListObject
+    }
+
+    /**
+     * 화면에서 설정한 옵션에 대한 chartConfig를 생성한다.
+     */
+    fun getChartConfig(chartDto: ChartDto): String {
+        val chartConfigObj = JsonObject()
+        val durationObj = JsonObject()
+        val chartFromList = JsonArray()
+        chartFromList.add(chartDto.targetLabel)
+        // type
+        chartConfigObj.addProperty(ChartConstants.ObjProperty.TYPE.property, chartDto.chartType)
+        // from
+        chartConfigObj.add(ChartConstants.ObjProperty.FROM.property, chartFromList)
+        // operations
+        chartConfigObj.addProperty(ChartConstants.ObjProperty.OPERATION.property, chartDto.operation)
+        // duration
+        durationObj.addProperty(ChartConstants.ObjProperty.DIGIT.property, chartDto.durationDigit)
+        durationObj.addProperty(ChartConstants.ObjProperty.UNIT.property, chartDto.durationUnit)
+        chartConfigObj.add(ChartConstants.ObjProperty.DURATION.property, durationObj)
+        // periodUnit, group
+        when (chartDto.chartType) {
+            ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
+                chartConfigObj.addProperty(ChartConstants.ObjProperty.PERIOD_UNIT.property, chartDto.periodUnit)
+                if (chartDto.chartType == ChartConstants.Type.BASIC_LINE.code) {
+                    chartConfigObj.addProperty(
+                        ChartConstants.ObjProperty.GROUP.property, chartDto.group
+                    )
+                }
+            }
+        }
+
+        return chartConfigObj.toString()
     }
 }

@@ -154,12 +154,13 @@
                 body: createModalContent(),
                 classes: 'chart-edit-modal',
                 buttons: [
-                    // 미리보기
                     {
                         content: i18n.msg('chart.btn.preview'),
                         classes: "default-fill",
                         bindKey: false,
                         callback: function (modal) {
+                            let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
+                            Highcharts.chart('container', data);
                         }
                     }],
                 close: {
@@ -214,7 +215,7 @@
                 body: createModalContent(),
                 classes: 'chart-view-modal',
                 buttons: [{
-                    content: i18n.msg('common.btn.cancel'),
+                    content: i18n.msg('common.btn.close'),
                     classes: "default-line",
                     bindKey: false,
                     callback: function (modal) {
@@ -641,7 +642,6 @@
                 jsonObject.responsive = responsiveProperty;
             }
 
-            console.log(jsonObject);
             return jsonObject;
         }
 

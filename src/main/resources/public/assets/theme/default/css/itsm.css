@@ -2413,6 +2413,11 @@ button .icon-plus {
   border-top: 0.0625rem solid #EBEBEB;
 }
 
+.chart-content-view {
+  width: 100%;
+  height: 25rem;
+}
+
 .gnb {
   width: 13.75rem;
 }
@@ -4726,10 +4731,10 @@ body.modal-active {
 }
 .modal-dialog.chart-view-modal {
   width: 62.5rem;
-  height: 53.0625rem;
 }
 .modal-dialog.chart-view-modal .modal-content {
   padding: 0.625rem 1.25rem 2.5rem 1.25rem;
+  height: auto;
 }
 .modal-dialog.cmdb-ci-view-modal {
   width: 62.5rem;
