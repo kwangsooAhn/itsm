@@ -23,14 +23,13 @@ class WfCommentService(
     /**
      * Get Instance Comments.
      */
-    fun getInstanceComments(instanceId: String): MutableList<RestTemplateCommentDto> {
+    fun getInstanceComments(instanceId: String): List<RestTemplateCommentDto> {
         val commentList: MutableList<RestTemplateCommentDto> = mutableListOf()
         val commentEntities = wfCommentRepository.findByInstanceId(instanceId)
         commentEntities.forEach { comment ->
             commentList.add(wfCommentMapper.toCommentDto(comment))
         }
-
-        return commentList
+        return commentList.toList()
     }
 
     /**

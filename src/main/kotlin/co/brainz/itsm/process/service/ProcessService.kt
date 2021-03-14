@@ -1,13 +1,18 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.process.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.process.dto.ProcessStatusDto
-import co.brainz.workflow.provider.RestTemplateProvider
+import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
-import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -15,7 +20,6 @@ import com.google.gson.Gson
 import java.time.LocalDateTime
 import javax.xml.parsers.DocumentBuilderFactory
 import org.slf4j.LoggerFactory
-import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,8 +30,9 @@ import org.w3c.dom.NodeList
 @Service
 @Transactional
 class ProcessService(
-    private val restTemplate: RestTemplateProvider,
-    private val aliceFileService: AliceFileService
+    private val aliceFileService: AliceFileService,
+    private val wfInstanceService: WfInstanceService,
+    private val wfProcessService: WfProcessService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -36,14 +41,8 @@ class ProcessService(
     /**
      * 프로세스 데이터 조회.
      */
-    fun getProcessData(processId: String): String {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Process.GET_PROCESS_DATA.url.replace(
-                restTemplate.getKeyRegex(),
-                processId
-            )
-        )
-        return restTemplate.get(url)
+    fun getProcessData(processId: String): RestTemplateProcessElementDto {
+        return wfProcessService.getProcessData(processId)
     }
 
     /**
@@ -54,15 +53,7 @@ class ProcessService(
         restTemplateProcessDto.createUserKey = aliceUserDto.userKey
         restTemplateProcessDto.createDt = LocalDateTime.now()
         restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS.url)
-        val responseBody = restTemplate.create(url, restTemplateProcessDto)
-        return when (responseBody.body.toString().isNotEmpty()) {
-            true -> {
-                val dataDto = mapper.readValue(responseBody.body.toString(), RestTemplateProcessDto::class.java)
-                dataDto.processId
-            }
-            false -> ""
-        }
+        return wfProcessService.insertProcess(restTemplateProcessDto).processId
     }
 
     /**
@@ -72,14 +63,7 @@ class ProcessService(
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessElementDto.process?.updateDt = LocalDateTime.now()
         restTemplateProcessElementDto.process?.updateUserKey = userDetails.userKey
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Process.PUT_PROCESS_DATA.url.replace(
-                restTemplate.getKeyRegex(),
-                processId
-            )
-        )
-        val responseEntity = restTemplate.update(url, restTemplateProcessElementDto)
-        return responseEntity.body.toString().isNotEmpty()
+        return wfProcessService.updateProcessData(restTemplateProcessElementDto)
     }
 
     /**
@@ -92,54 +76,28 @@ class ProcessService(
         restTemplateProcessElementDto.process?.updateDt = null
         restTemplateProcessElementDto.process?.updateUserKey = null
         restTemplateProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS_SAVE_AS.url)
-        val responseEntity = restTemplate.createToSave(url, restTemplateProcessElementDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                val processDto = mapper.readValue(responseEntity.body.toString(), RestTemplateProcessDto::class.java)
-                processDto.processId
-            }
-            false -> ""
-        }
+        return wfProcessService.saveAsProcess(restTemplateProcessElementDto).processId
     }
 
     /**
      * 프로세스 1건 데이터 삭제.
      */
-    fun deleteProcess(processId: String): ResponseEntity<String> {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Process.DELETE_PROCESS.url.replace(
-                restTemplate.getKeyRegex(),
-                processId
-            )
-        )
-        return restTemplate.delete(url)
+    fun deleteProcess(processId: String): Boolean {
+        return wfProcessService.deleteProcess(processId)
     }
 
     /**
      * 프로세스 시뮬레이션
      */
     fun getProcessSimulation(processId: String): String {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Process.GET_PROCESS_SIMULATION.url.replace(
-                restTemplate.getKeyRegex(),
-                processId
-            )
-        )
-        return restTemplate.get(url)
+        return mapper.writeValueAsString(wfProcessService.getProcessSimulation(processId))
     }
 
     /**
      * 프로세스 상태.
      */
     fun getProcessStatus(instanceId: String): ProcessStatusDto {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Instance.GET_INSTANCE_LATEST.url.replace(
-                restTemplate.getKeyRegex(),
-                instanceId
-            )
-        )
-        val resultString = restTemplate.get(url)
+        val resultString = Gson().toJson(wfInstanceService.getInstanceLatestToken(instanceId))
         val processStatusDto = Gson().fromJson(resultString, ProcessStatusDto::class.java)
         val xmlFile = aliceFileService.getProcessStatusFile(processStatusDto.processId)
         if (xmlFile.exists()) {

@@ -6,24 +6,33 @@
 package co.brainz.itsm.token.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.document.service.DocumentActionService
-import co.brainz.workflow.provider.RestTemplateProvider
-import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.component.constants.WfComponentConstants
+import co.brainz.workflow.component.service.WfComponentService
+import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
-import co.brainz.workflow.provider.dto.RestTemplateUrlDto
+import co.brainz.workflow.token.service.WfTokenService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class TokenService(
-    private val restTemplate: RestTemplateProvider,
-    private val documentActionService: DocumentActionService
+    private val documentActionService: DocumentActionService,
+    private val wfInstanceService: WfInstanceService,
+    private val wfTokenService: WfTokenService,
+    private val wfComponentService: WfComponentService,
+    private val aliceFileService: AliceFileService,
+    private val wfEngine: WfEngine
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -37,10 +46,24 @@ class TokenService(
     fun postToken(restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateTokenDataUpdateDto.assigneeId = aliceUserDto.userKey
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Token.POST_TOKEN.url)
-        val responseEntity = restTemplate.create(url, restTemplateTokenDataUpdateDto)
 
-        return responseEntity.body.toString().isNotEmpty()
+        val tokenDto = RestTemplateTokenDto(
+            assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
+            instanceId = restTemplateTokenDataUpdateDto.instanceId,
+            tokenId = restTemplateTokenDataUpdateDto.tokenId,
+            documentId = restTemplateTokenDataUpdateDto.documentId,
+            data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
+            instanceCreateUser = restTemplateTokenDataUpdateDto.assigneeId?.let { AliceUserEntity(userKey = it) },
+            action = restTemplateTokenDataUpdateDto.action
+        )
+
+        restTemplateTokenDataUpdateDto.componentData!!.forEach {
+            when (wfComponentService
+                .getComponentTypeById(it.componentId) == (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+                true -> this.aliceFileService.uploadFiles(it.value)
+            }
+        }
+        return wfEngine.startWorkflow(wfEngine.toTokenDto(tokenDto))
     }
 
     /**
@@ -50,17 +73,24 @@ class TokenService(
      * @return Boolean
      */
     fun putToken(tokenId: String, restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Token.PUT_TOKEN.url.replace(
-                restTemplate.getKeyRegex(),
-                tokenId
-            )
-        )
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateTokenDataUpdateDto.assigneeId = aliceUserDto.userKey
-        val responseEntity = restTemplate.update(url, restTemplateTokenDataUpdateDto)
 
-        return responseEntity.body.toString().isNotEmpty()
+        val tokenDto = RestTemplateTokenDto(
+            assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
+            tokenId = restTemplateTokenDataUpdateDto.tokenId,
+            documentId = restTemplateTokenDataUpdateDto.documentId,
+            data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
+            action = restTemplateTokenDataUpdateDto.action
+        )
+
+        restTemplateTokenDataUpdateDto.componentData!!.forEach {
+            when (wfComponentService
+                .getComponentTypeById(it.componentId) == (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+                true -> this.aliceFileService.uploadFiles(it.value)
+            }
+        }
+        return wfEngine.progressWorkflow(wfEngine.toTokenDto(tokenDto))
     }
 
     /**
@@ -72,37 +102,23 @@ class TokenService(
     fun getTokenList(
         restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto
     ): List<RestTemplateInstanceViewDto> {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        params.add("userKey", aliceUserDto.userKey)
-        params.add("tokenType", restTemplateTokenSearchListDto.searchTokenType)
-        params.add("documentId", restTemplateTokenSearchListDto.searchDocumentId)
-        params.add("searchValue", restTemplateTokenSearchListDto.searchValue)
-        params.add("offset", restTemplateTokenSearchListDto.offset)
-        params.add("fromDt", restTemplateTokenSearchListDto.searchFromDt)
-        params.add("toDt", restTemplateTokenSearchListDto.searchToDt)
-        params.add("tags", restTemplateTokenSearchListDto.searchTags)
-
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES.url, parameters = params)
-        val responseBody = restTemplate.get(url)
-
-        return mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceViewDto::class.java)
-        )
+        params["userKey"] = aliceUserDto.userKey
+        params["tokenType"] = restTemplateTokenSearchListDto.searchTokenType
+        params["documentId"] = restTemplateTokenSearchListDto.searchDocumentId
+        params["searchValue"] = restTemplateTokenSearchListDto.searchValue
+        params["offset"] = restTemplateTokenSearchListDto.offset
+        params["fromDt"] = restTemplateTokenSearchListDto.searchFromDt
+        params["toDt"] = restTemplateTokenSearchListDto.searchToDt
+        params["tags"] = restTemplateTokenSearchListDto.searchTags
+        return wfInstanceService.instances(params)
     }
 
     /**
      * [tokenId]를 받아서 처리할 문서 상세 조회 하여 [String]반환 한다.
      */
     fun findToken(tokenId: String): String {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Token.GET_TOKEN_DATA.url.replace(
-                restTemplate.getKeyRegex(),
-                tokenId
-            )
-        )
-
-        return documentActionService.makeTokenAction(restTemplate.get(url))
+        return documentActionService.makeTokenAction(mapper.writeValueAsString(wfTokenService.getTokenData(tokenId)))
     }
 }

@@ -26,6 +26,7 @@
         46: 'delete'
     };
     const keySeparator = '+';
+
     let eventTarget = document,
         keyMap = {},
         shortcutExists = [],

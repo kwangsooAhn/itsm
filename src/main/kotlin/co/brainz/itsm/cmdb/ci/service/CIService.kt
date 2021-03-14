@@ -6,13 +6,11 @@
 
 package co.brainz.itsm.cmdb.ci.service
 
-import co.brainz.cmdb.provider.RestTemplateProvider
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
+import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.CIRelationDto
 import co.brainz.cmdb.provider.dto.CITagDto
-import co.brainz.cmdb.provider.dto.RestTemplateUrlDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
@@ -28,11 +26,10 @@ import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class CIService(
-    private val restTemplate: RestTemplateProvider,
+    private val ciService: CIService,
     private val ciClassService: CIClassService,
     private val ciComponentDataRepository: CIComponentDataRepository
 ) {
@@ -53,36 +50,20 @@ class CIService(
      * CMDB CI 단일 조회
      */
     fun getCI(ciId: String): CIDetailDto {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.CI.GET_CI.url.replace(
-                restTemplate.getKeyRegex(),
-                ciId
-            )
-        )
-        val responseBody = restTemplate.get(url)
-        return mapper.readValue(responseBody, CIDetailDto::class.java)
+        return ciService.getCI(ciId)
     }
 
     /**
      * CMDB CI 목록 조회
      */
-    fun getCIs(params: LinkedMultiValueMap<String, String>): List<CIListDto> {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.CI.GET_CIS.url,
-            parameters = params
-        )
-        val responseBody = restTemplate.get(url)
-        return mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, CIListDto::class.java)
-        )
+    fun getCIs(params: LinkedHashMap<String, Any>): List<CIListDto> {
+        return ciService.getCIs(params)
     }
 
     /**
      * CI 컴포넌트 - CI 데이터 조회
      */
     fun getCIData(ciId: String, componentId: String, instanceId: String, modifyCIData: String): CIDetailDto {
-
         var ciDetailDto = CIDetailDto(
             ciId = ciId
         )

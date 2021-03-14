@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/cmdb/cis")
@@ -45,8 +45,12 @@ class CIController(private val ciService: CIService) {
      * CI 조회 목록 화면 호출
      */
     @GetMapping("")
-    fun getCIList(request: HttpServletRequest, model: Model): String {
-        val params = LinkedMultiValueMap<String, String>()
+    fun getCIList(
+        request: HttpServletRequest,
+        @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
+        model: Model
+    ): String {
+        val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
         params["tags"] = request.getParameter("tagSearch")
         params["flag"] = request.getParameter("flag")
@@ -54,7 +58,7 @@ class CIController(private val ciService: CIService) {
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result)
         model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return if (request.getParameter("isScroll").toBoolean()) ciListFragment else ciListPage
+        return if (isScroll) ciListFragment else ciListPage
     }
 
     /**
@@ -122,7 +126,7 @@ class CIController(private val ciService: CIService) {
      */
     @GetMapping("/component/list")
     fun getCIComponentList(request: HttpServletRequest, model: Model): String {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
         params["tags"] = request.getParameter("tagSearch")
         params["flag"] = request.getParameter("flag")

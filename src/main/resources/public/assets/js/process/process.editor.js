@@ -541,7 +541,7 @@
          */
         const getLinePath = function(d) {
             const targetNode = document.getElementById(d.targetId),
-                  sourceNode = document.getElementById(d.sourceId);
+                sourceNode = document.getElementById(d.sourceId);
             if (!targetNode || !sourceNode) {
                 return '';
             }
@@ -572,9 +572,9 @@
             const midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
             let linePath = '';
             const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
-                  targetPoint = d3.select(document.getElementById(d.id + '_targetPoint')),
-                  startPoint = d3.select(document.getElementById(d.id + '_startPoint')),
-                  endPoint = d3.select(document.getElementById(d.id + '_endPoint'));
+                targetPoint = d3.select(document.getElementById(d.id + '_targetPoint')),
+                startPoint = d3.select(document.getElementById(d.id + '_startPoint')),
+                endPoint = d3.select(document.getElementById(d.id + '_endPoint'));
             if (typeof d.midPoint !== 'undefined') {
                 midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
                 if (d3.select(document.getElementById(d.id)).classed('selected')) {
@@ -662,7 +662,7 @@
                 endCoords = d.midPoint;
             }
             const angleDeg = Math.atan2(endCoords[1] - startCoords[1], endCoords[0] - startCoords[0]) * 180 / Math.PI,
-                  coords = calcDistancePointCoordinate(endCoords, startCoords, displayOptions.connectorLabelPos);
+                coords = calcDistancePointCoordinate(endCoords, startCoords, displayOptions.connectorLabelPos);
             d3.select(document.getElementById(d.id).parentNode).select('text')
                 .attr('x', d.textPoint ? Number(d.textPoint[0]) + coords[0] : coords[0])
                 .attr('y', d.textPoint ? Number(d.textPoint[1]) + coords[1] : coords[1])
@@ -834,19 +834,22 @@
                             isExistTarget = true;
                         }
                         if (isExistSource || isExistTarget) {
-                            if (typeof l.midPoint !== 'undefined' && checkDuplicatePosition(node, l.midPoint)) {
+                            if (typeof l.midPoint !== 'undefined' &&
+                                checkDuplicatePosition(node, l.midPoint)) {
                                 delete l.midPoint;
                                 delete l.sourcePoint;
                                 delete l.targetPoint;
                                 isDeletedPoint = true;
                                 drawConnectors();
                             }
-                            if (typeof l.sourcePoint !== 'undefined' && checkDuplicatePosition(node, l.sourcePoint)) {
+                            if (typeof l.sourcePoint !== 'undefined' &&
+                                checkDuplicatePosition(node, l.sourcePoint)) {
                                 delete l.sourcePoint;
                                 isDeletedPoint = true;
                                 drawConnectors();
                             }
-                            if (typeof l.targetPoint !== 'undefined' && checkDuplicatePosition(node, l.targetPoint)) {
+                            if (typeof l.targetPoint !== 'undefined' &&
+                                checkDuplicatePosition(node, l.targetPoint)) {
                                 delete l.targetPoint;
                                 isDeletedPoint = true;
                                 drawConnectors();
@@ -980,7 +983,7 @@
     function drawGuides(elem) {
         const errorRange = 3;
         const elementBbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [displayOptions.gatewaySize, displayOptions.gatewaySize]);
+            gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [displayOptions.gatewaySize, displayOptions.gatewaySize]);
         let elemLeft = elementBbox.cx - (elementBbox.width / 2),
             elemRight = elementBbox.cx + (elementBbox.width / 2),
             elemTop = elementBbox.cy - (elementBbox.height / 2),
@@ -1022,7 +1025,7 @@
         });
 
         const drawingBoard = document.querySelector('.drawing-board'),
-              gTransform = d3.zoomTransform(d3.select('g.guides-container').node());
+            gTransform = d3.zoomTransform(d3.select('g.guides-container').node());
         if (isDrawCenterX) {
             svg.select('#guides-center-x')
                 .style('stroke-width', 1)
@@ -1095,8 +1098,8 @@
     function dragged(nodeElement, dx, dy) {
         svg.selectAll('.alice-tooltip').remove();
         const gElement = d3.select(nodeElement.node().parentNode),
-              typeElement = gElement.select('.element-type'),
-              textElement = gElement.select('text');
+            typeElement = gElement.select('.element-type'),
+            textElement = gElement.select('text');
 
         let mouseX = Number(nodeElement.attr('x')) + dx,
             mouseY = Number(nodeElement.attr('y')) + dy;
@@ -1129,7 +1132,7 @@
                 .attr('x', mouseX)
                 .attr('y', mouseY + (20 * 2));
         } else if (nodeElement.classed('gateway')) {
-            nodeElement.attr('transform', 'rotate(45, ' + (mouseX + (Number(nodeElement.attr('width')) / 2)) + ', ' + (mouseY + (Number(nodeElement.attr('height')) / 2))+ ')')
+            nodeElement.attr('transform', 'rotate(45, ' + (mouseX + (Number(nodeElement.attr('width')) / 2)) + ', ' + (mouseY + (Number(nodeElement.attr('height')) / 2))+ ')');
             typeElement
                 .attr('x', mouseX + (Number(nodeElement.attr('width')) / 2) - (Number(typeElement.attr('width')) / 2))
                 .attr('y', mouseY + (Number(nodeElement.attr('height')) / 2) - (Number(typeElement.attr('height')) / 2));
@@ -1224,7 +1227,7 @@
                 }
                 if (dragElement.node().classList && dragElement.classed('selected')) {
                     const dx = d3.event.dx,
-                          dy = d3.event.dy;
+                        dy = d3.event.dy;
                     d3.selectAll('.node.selected').each(function() {
                         dragged(d3.select(this), dx, dy);
                     });
@@ -1437,10 +1440,10 @@
         const self = this;
         self.width = width ? width : 360;
         self.height = height ? height : 240;
-        self.defaultType = 'groupArtifact'
+        self.defaultType = 'groupArtifact';
         const minWidth = 120, minHeight = 80;
         const calcX = x - (self.width / 2),
-              calcY = y - (self.height / 2);
+            calcY = y - (self.height / 2);
 
         let elementContainer = groupArtifactContainer.append('g').attr('class', 'element');
         self.nodeElement = elementContainer.append('rect')
@@ -1478,44 +1481,44 @@
                     .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
                             const mouseX = d3.event.dx,
-                                  mouseY = d3.event.dy;
+                                mouseY = d3.event.dy;
                             let rectData = [
                                 {x: Number(self.nodeElement.attr('x')), y: Number(self.nodeElement.attr('y'))},
                                 {x: Number(self.nodeElement.attr('x')) + Number(self.nodeElement.attr('width')), y: Number(self.nodeElement.attr('y')) + Number(self.nodeElement.attr('height'))}
                             ];
                             switch (i + 1) {
-                                case 1:
-                                    if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
-                                        rectData[0].x += mouseX;
-                                    }
-                                    if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
-                                        rectData[0].y += mouseY;
-                                    }
-                                    break;
-                                case 2:
-                                    if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
-                                        rectData[1].x += mouseX;
-                                    }
-                                    if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
-                                        rectData[1].y += mouseY;
-                                    }
-                                    break;
-                                case 3:
-                                    if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
-                                        rectData[1].x += mouseX;
-                                    }
-                                    if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
-                                        rectData[0].y += mouseY;
-                                    }
-                                    break;
-                                case 4:
-                                    if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
-                                        rectData[0].x += mouseX;
-                                    }
-                                    if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
-                                        rectData[1].y += mouseY;
-                                    }
-                                    break;
+                            case 1:
+                                if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
+                                    rectData[0].x += mouseX;
+                                }
+                                if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
+                                    rectData[0].y += mouseY;
+                                }
+                                break;
+                            case 2:
+                                if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
+                                    rectData[1].x += mouseX;
+                                }
+                                if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
+                                    rectData[1].y += mouseY;
+                                }
+                                break;
+                            case 3:
+                                if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
+                                    rectData[1].x += mouseX;
+                                }
+                                if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
+                                    rectData[0].y += mouseY;
+                                }
+                                break;
+                            case 4:
+                                if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
+                                    rectData[0].x += mouseX;
+                                }
+                                if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
+                                    rectData[1].y += mouseY;
+                                }
+                                break;
                             }
                             self.nodeElement
                                 .attr('x', rectData[0].x)
@@ -1604,7 +1607,7 @@
             .attr('draggable', 'true')
             .on('dragend', function() {
                 const svgOffset = svg.node().getBoundingClientRect(),
-                      gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+                    gTransform = d3.zoomTransform(d3.select('g.element-container').node());
                 let x = snapToGrid(d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x),
                     y = snapToGrid(d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y);
                 const drawingBoard = document.querySelector('.drawing-board');
@@ -1670,7 +1673,7 @@
 
                     if (d3.select(elementNode).classed('annotation')) {
                         const textBbox = aliceProcessEditor.utils.getBoundingBoxCenter(textElement),
-                              textElementHeight = textBbox.height + 20;
+                            textElementHeight = textBbox.height + 20;
                         let strokeDashArray = '6,6,6,6,6,' + textElementHeight + ',6,6,6,6,6';
                         for (let i = 0, len = Math.trunc(textElementHeight / 12); i < len; i++) {
                             strokeDashArray += ',6,6';
@@ -1795,9 +1798,9 @@
                 } else {
                     svg.style('cursor', 'grabbing');
                     const nodeTopArray = [],
-                          nodeRightArray = [],
-                          nodeBottomArray = [],
-                          nodeLeftArray = [];
+                        nodeRightArray = [],
+                        nodeBottomArray = [],
+                        nodeLeftArray = [];
                     const nodes = svg.selectAll('.node').nodes();
                     nodes.forEach(function(node) {
                         let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
@@ -1862,7 +1865,7 @@
          */
         function dismovableDrawingboard() {
             const drawingBoard = document.querySelector('.drawing-board'),
-                  gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+                gTransform = d3.zoomTransform(d3.select('g.element-container').node());
             zoom.translateExtent([
                 [-gTransform.x, -gTransform.y],
                 [drawingBoard.offsetWidth - gTransform.x, drawingBoard.offsetHeight - gTransform.y]
@@ -1876,7 +1879,7 @@
         connectors = connectorContainer.selectAll('g.connector');
         const guidesContainer = svg.append('g').attr('class', 'guides-container');
         guidesContainer.selectAll('line')
-            .data(['center-x','center-y','left','right','top','bottom'])
+            .data(['center-x', 'center-y', 'left', 'right', 'top', 'bottom'])
             .enter()
             .append('line')
             .attr('id', function(d) { return 'guides-' + d; })
@@ -1914,41 +1917,41 @@
     function addElement(element) {
         let node;
         const x = element.display['position-x'],
-              y = element.display['position-y'];
+            y = element.display['position-y'];
 
         let category = aliceProcessEditor.getElementCategory(element.type);
         switch (category) {
-            case 'event':
-                node = new EventElement(x, y);
-                aliceProcessEditor.changeElementType(node.nodeElement, element.type);
-                break;
-            case 'task':
-                node = new TaskElement(x, y);
-                aliceProcessEditor.changeElementType(node.nodeElement, element.type);
-                break;
-            case 'subprocess':
-                node = new SubprocessElement(x, y);
-                break;
-            case 'gateway':
-                node = new GatewayElement(x, y);
-                aliceProcessEditor.changeElementType(node.nodeElement, element.type);
-                break;
-            case 'artifact':
-                if (element.type === 'groupArtifact') {
-                    node = new GroupElement(x, y, element.display.width, element.display.height);
-                    node.nodeElement.style('stroke', element.data['line-color'])
-                        .style('fill', element.data['background-color']);
-                    if (element.data['background-color'] === '') {
-                        node.nodeElement.style('fill-opacity', 0);
-                    } else {
-                        node.nodeElement.style('fill-opacity', aliceJs.rgbaOpacity(element.data['background-color']));
-                    }
-                } else if (element.type === 'annotationArtifact') {
-                    node = new AnnotationElement(x, y);
+        case 'event':
+            node = new EventElement(x, y);
+            aliceProcessEditor.changeElementType(node.nodeElement, element.type);
+            break;
+        case 'task':
+            node = new TaskElement(x, y);
+            aliceProcessEditor.changeElementType(node.nodeElement, element.type);
+            break;
+        case 'subprocess':
+            node = new SubprocessElement(x, y);
+            break;
+        case 'gateway':
+            node = new GatewayElement(x, y);
+            aliceProcessEditor.changeElementType(node.nodeElement, element.type);
+            break;
+        case 'artifact':
+            if (element.type === 'groupArtifact') {
+                node = new GroupElement(x, y, element.display.width, element.display.height);
+                node.nodeElement.style('stroke', element.data['line-color'])
+                    .style('fill', element.data['background-color']);
+                if (element.data['background-color'] === '') {
+                    node.nodeElement.style('fill-opacity', 0);
+                } else {
+                    node.nodeElement.style('fill-opacity', aliceJs.rgbaOpacity(element.data['background-color']));
                 }
-                break;
-            default:
-                break;
+            } else if (element.type === 'annotationArtifact') {
+                node = new AnnotationElement(x, y);
+            }
+            break;
+        default:
+            break;
         }
 
         if (node) {
@@ -1983,7 +1986,7 @@
                 return;
             }
             const source = document.getElementById(element.data['start-id']),
-                  target = document.getElementById(element.data['end-id']);
+                target = document.getElementById(element.data['end-id']);
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;

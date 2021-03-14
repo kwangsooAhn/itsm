@@ -2,7 +2,7 @@ const colorPalette = (function() {
     'use strict';
 
     const basicPaletteColors = [
-         '#EBEBEB'
+        '#EBEBEB'
         , '#ACB4BF'
         , '#929AA6'
         , '#586872'
@@ -81,14 +81,14 @@ const colorPalette = (function() {
     function setData(option) {
         let data = {};
         if (option !== null && option !== undefined && option['data'] !== undefined) {
-            data.isSelected = option['data']['isSelected'] !== undefined ? option['data']['isSelected'] : false
-            data.selectedClass = option['data']['selectedClass'] !== undefined ? option['data']['selectedClass'] : null
+            data.isSelected = option['data']['isSelected'] !== undefined ? option['data']['isSelected'] : false;
+            data.selectedClass = option['data']['selectedClass'] !== undefined ? option['data']['selectedClass'] : null;
 
             // data 값이 RGBA 인 경우
             data.value = null;
             let dataValue = option['data']['value'];
             if (dataValue !== undefined) {
-                data.value = aliceJs.isRgba(dataValue) ? aliceJs.rgbaToHex(dataValue) : dataValue
+                data.value = aliceJs.isRgba(dataValue) ? aliceJs.rgbaToHex(dataValue) : dataValue;
             }
         }
         return data;
@@ -103,9 +103,9 @@ const colorPalette = (function() {
     function isPaletteOpacity(option) {
         let isOpacity = false;
         if (option !== null && option !== undefined && option['isOpacity'] !== undefined) {
-            isOpacity = option['isOpacity']
+            isOpacity = option['isOpacity'];
         }
-        return isOpacity
+        return isOpacity;
     }
 
     /**
@@ -119,7 +119,7 @@ const colorPalette = (function() {
         slide.min = '0';
         slide.max = '100';
         slide.value = '100';
-        slide.className = 'slide-object'
+        slide.className = 'slide-object';
         return slide;
     }
 
@@ -147,7 +147,7 @@ const colorPalette = (function() {
      * @param option 옵션
      */
     function initColorPalette(colorLayout, selectedBox, selectedInput, option) {
-        let palette = colorLayout.querySelector(".color-palette");
+        let palette = colorLayout.querySelector('.color-palette');
 
         let colors = setPaletteColors(option);
         let template = setPaletteTemplate(option);
@@ -268,5 +268,5 @@ const colorPalette = (function() {
     return {
         getPaletteColors: getPaletteColors,
         initColorPalette: initColorPalette,
-    }
+    };
 })();
