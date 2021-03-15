@@ -335,7 +335,6 @@ class ChartService(
                                 docDays
                             )
 
-
                         when (docDateFormat) {
                             dateFormat -> {
                                 val jsonDocObject = JsonObject()
@@ -442,5 +441,43 @@ class ChartService(
         }
 
         return chartConfigObj.toString()
+    }
+
+    fun getPreviewChart(chartId: String, chartPreviewDto: ChartDto): ChartDto {
+        val chart = chartRepository.getOne(chartId)
+
+        val chartConfigJson = JsonParser().parse(getChartConfig(chartPreviewDto)).asJsonObject
+        val targetLabel = chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asString
+        val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
+        val durationDigit =
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
+        val durationUnit =
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
+
+        val chartDto = ChartDto(
+            chartId = chart.chartId,
+            chartType = chartPreviewDto.chartType,
+            chartName = chartPreviewDto.chartName,
+            chartDesc = chartPreviewDto.chartDesc,
+            chartConfig = getChartConfig(chartPreviewDto),
+            createDt = chart.createDt,
+            targetLabel = targetLabel,
+            operation = operation,
+            durationDigit = durationDigit.toLong(),
+            durationUnit = durationUnit
+        )
+
+        when (chartDto.chartType) {
+            ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
+                chartDto.periodUnit =
+                    chartConfigJson.get(ChartConstants.ObjProperty.PERIOD_UNIT.property).asString
+                if (chart.chartType == ChartConstants.Type.BASIC_LINE.code) {
+                    chartDto.group = chartConfigJson.get(ChartConstants.ObjProperty.GROUP.property)?.asString
+                }
+            }
+        }
+        chartDto.propertyJson = getChartProperty(chartDto)
+
+        return chartDto
     }
 }

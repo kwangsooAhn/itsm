@@ -159,8 +159,9 @@
                         classes: "default-fill",
                         bindKey: false,
                         callback: function (modal) {
-                            let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
-                            Highcharts.chart('container', data);
+                            restSubmit('post', '/rest/charts/' + chartId + '/preview', getChartDto(), function (response) {
+                                console.log(response);
+                            }, false)
                         }
                     }],
                 close: {
@@ -259,7 +260,7 @@
                         if (target === 'edit') {
                             setDisplay(document.getElementById('typeSelectBox').value);
                         }
-                        let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
+                        const data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
                         Highcharts.chart('container', data);
                     }
                 }
@@ -284,64 +285,24 @@
          * chart 저장 / 수정
          */
         function saveChart(method, chartId) {
-            if (emptyValidataion()) {
-                let chartInfo = {
-                    chartType: document.getElementById('typeSelectBox').value,
-                    chartName: document.getElementById('chartName').value,
-                    chartDesc: document.getElementById('chartDesc').value,
-                    targetLabel: document.getElementById('targetLabel').value,
-                    operation: document.getElementById('operationSelectBox').value,
-                    durationDigit: document.getElementById('durationDigit').value,
-                    durationUnit: document.getElementById('durationUnitSelectBox').value
-                }
-
-                if (chartInfo.chartType === STACKED_COLUMN_CHART || chartInfo.chartType === BASIC_LINE_CHART) {
-                    chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
-
-                    switch (chartInfo.durationUnit) {
-                        case CHART_MONTH:
-                            if (chartInfo.periodUnit === CHART_YEAR) {
-                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                                return false;
-                            }
-                            break;
-                        case CHART_DAY:
-                            if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH) {
-                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                                return false;
-                            }
-                            break;
-                        case CHART_HOUR:
-                            if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH || chartInfo.periodUnit === CHART_DAY) {
-                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                                return false;
-                            }
-                            break;
-                    }
-
-                    if (chartInfo.chartType === BASIC_LINE_CHART) {
-                        chartInfo.group = document.getElementById('targetGroup').value;
-                    }
-                }
-
-                let url = '/rest/charts';
-                if (method === 'put' && chartId !== undefined) {
-                    chartInfo.chartId = chartId;
-                    url += '/' + chartId;
-                }
-                restSubmit(method, url, chartInfo, function (result) {
-                    switch (result) {
-                        case STATUS_SUCCESS:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
-                                location.reload()
-                            });
-                            break;
-                        default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                })
+            let chartInfo = getChartDto();
+            let url = '/rest/charts';
+            if (method === 'put' && chartId !== undefined) {
+                chartInfo.chartId = chartId;
+                url += '/' + chartId;
             }
+            restSubmit(method, url, chartInfo, function (result) {
+                switch (result) {
+                    case STATUS_SUCCESS:
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            location.reload()
+                        });
+                        break;
+                    default:
+                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                        break;
+                }
+            })
         }
 
         /**
@@ -573,7 +534,7 @@
                 }
                 plotOptionsProperty.series = seriesProperty;
 
-                if (chartConfigJson.type === STACKED_COLUMN_CHART) {
+                if (chartConfigJson.type === STACKED_COLUMN_CHART || chartConfigJson.type === BASIC_LINE_CHART) {
                     let columnProperty = new Object;
                     let dataLabelsProperty = new Object;
                     columnProperty.stacking = 'normal';
@@ -642,7 +603,52 @@
                 jsonObject.responsive = responsiveProperty;
             }
 
+            console.log(jsonObject);
             return jsonObject;
+        }
+
+        function getChartDto() {
+            if (emptyValidataion()) {
+                let chartInfo = {
+                    chartType: document.getElementById('typeSelectBox').value,
+                    chartName: document.getElementById('chartName').value,
+                    chartDesc: document.getElementById('chartDesc').value,
+                    targetLabel: document.getElementById('targetLabel').value,
+                    operation: document.getElementById('operationSelectBox').value,
+                    durationDigit: document.getElementById('durationDigit').value,
+                    durationUnit: document.getElementById('durationUnitSelectBox').value
+                }
+
+                if (chartInfo.chartType === STACKED_COLUMN_CHART || chartInfo.chartType === BASIC_LINE_CHART) {
+                    chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
+
+                    switch (chartInfo.durationUnit) {
+                        case CHART_MONTH:
+                            if (chartInfo.periodUnit === CHART_YEAR) {
+                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                                return false;
+                            }
+                            break;
+                        case CHART_DAY:
+                            if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH) {
+                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                                return false;
+                            }
+                            break;
+                        case CHART_HOUR:
+                            if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH || chartInfo.periodUnit === CHART_DAY) {
+                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                                return false;
+                            }
+                            break;
+                    }
+
+                    if (chartInfo.chartType === BASIC_LINE_CHART) {
+                        chartInfo.group = document.getElementById('targetGroup').value;
+                    }
+                }
+                return chartInfo
+            }
         }
 
         /*]]>*/
