@@ -9,6 +9,7 @@ import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.workflow.component.constants.WfComponentConstants
+import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
@@ -124,7 +125,6 @@ class WfTokenService(
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val formId = tokenEntity.get().instance.document.form.formId
         val formData = wfFormService.getFormComponentList(formId)
-
         val documentDisplayList =
             wfDocumentDisplayRepository.findByDocumentIdAndElementId(
                 tokenEntity.get().instance.document.documentId,
@@ -161,7 +161,10 @@ class WfTokenService(
                 }
             }
 
-            // displayType
+            // displayType 값이 존재하지 않을 경우 기본값을 readOnly 로 설정한다.
+            componentEntity.dataAttribute["displayType"] = WfDocumentConstants.DisplayType.READONLY.value
+
+            // displayType이 존재할 경우 기본값 할당
             for (documentDisplay in documentDisplayList) {
                 if (componentEntity.componentId == documentDisplay.componentId) {
                     componentEntity.dataAttribute["displayType"] = documentDisplay.display
