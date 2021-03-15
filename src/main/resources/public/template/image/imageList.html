@@ -63,7 +63,7 @@
             let urlParam = 'searchValue=' + document.getElementById('searchValue').value;
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
+                    offsetCount = aliceJs.imageOffsetCount;
                 }
                 urlParam += '&offset=' + offsetCount;
             } else {
@@ -84,7 +84,7 @@
                     addThumbnailUpload();
                     if (isScroll) {
                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
+                            offsetCount = offsetCount + aliceJs.imageOffsetCount;
                             imageList.forEach(function (image) {
                                 addThumbnail(image);
                             });

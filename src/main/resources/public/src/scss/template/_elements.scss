@@ -52,6 +52,7 @@ a:hover,
 a:active {
   text-decoration: none;
 }
+// 공통: readonly거나 disabled 일 경우 element에 focus가 처리되지 않는다.
 // input
 input {
   height: 2.5rem; // 40px
@@ -69,8 +70,9 @@ input {
   &::placeholder {
     color: $element-placeholder-font-color;
   }
-  
-  &:not(:disabled) {
+
+  &:not(:disabled),
+  &:not(:read-only) {
     &:focus {
       outline: 0;
       border: $element-focus-border;
@@ -94,6 +96,7 @@ input {
   &:read-only {
     background-color: $element-readonly-bg-color;
     border-color: $element-readonly-border-color;
+    pointer-events: none;
     cursor: default;
   }
 
@@ -151,7 +154,8 @@ textarea {
     color: $element-placeholder-font-color;
   }
 
-  &:not(:disabled) {
+  &:not(:disabled),
+  &:not(:read-only) {
     &:focus {
       outline: 0;
       border: $element-focus-border;
@@ -174,6 +178,7 @@ textarea {
   &:read-only {
     background-color: $element-readonly-bg-color;
     border-color: $element-readonly-border-color;
+    pointer-events: none;
     cursor: default;
   }
 
@@ -224,7 +229,8 @@ select {
   padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px 0 10px
   vertical-align: middle;
 
-  &:not(:disabled) {
+  &:not(:disabled),
+  &:not(:read-only) {
     &:focus {
       outline: 0;
       border: $element-focus-border;
@@ -247,7 +253,6 @@ select {
 
 // designed select
 .select {
-  cursor: pointer;
   display: inline-block;
   position: relative;
   font-size: $element-font-size;
@@ -276,6 +281,8 @@ select {
     display: flex;
     align-items: flex-start;
     overflow: hidden;
+    cursor: pointer;
+
     &:after {
       content:"";
       width: 0;
@@ -285,30 +292,28 @@ select {
       position: absolute;
       right: 0.625rem; // 10px
     }
-    &:hover {
-      outline: 0;
-      border: $element-hover-border;
-      box-shadow: $element-hover-box-shadow;
-    }
-    &:active {
-      outline: 0;
-      border: $element-focus-border;
-      &:after {
-        top: 0.5625rem; // 9px
-        background: url($icon-folder-path + "icon_arrow_up.svg") no-repeat center left;
+    &:not(:disabled),
+    &:not(.readonly) {
+      &:hover {
+        outline: 0;
+        border: $element-hover-border;
+        box-shadow: $element-hover-box-shadow;
+      }
+      &.active {
+        outline: 0;
+        border: $element-focus-border;
+
+        &:after {
+          top: 0.5625rem; // 9px
+          background: url($icon-folder-path + "icon_arrow_up.svg") no-repeat center left;
+        }
+
+        + .designed-options {
+          display: block;
+        }
       }
     }
-    &.active {
-      outline: 0;
-      border: $element-focus-border;
-      &:after {
-        top: 0.5625rem; // 9px
-        background: url($icon-folder-path + "icon_arrow_up.svg") no-repeat center left;
-      }
-      + .designed-options {
-        display: block;
-      }
-    }
+
     &.disabled-select {
       color: $element-disabled-font-color;
       background-color: $element-disabled-bg-color;
@@ -353,6 +358,8 @@ select {
   &.readonly {
     .designed-select {
       background-color: $element-readonly-bg-color;
+      pointer-events: none;
+      cursor: default;
     }
   }
 }
@@ -400,7 +407,6 @@ label {
     // ⓞ 로 사용될 span
     + span {
       position: relative;
-      cursor: pointer;
 
       &::before { // 테두리로 사용되는 큰 원
         content: '';
@@ -428,11 +434,10 @@ label {
       }
     }
 
-    ~ .label {
-      cursor: pointer;
-    }
-
     &:not(:disabled) {
+      + span { cursor: pointer; }
+      ~ .label { cursor: pointer; }
+
       &:checked {
         + span {
           &::before {
@@ -504,7 +509,6 @@ label {
     // 체크 박스 span
     + span {
       position: relative;
-      cursor: pointer;
 
       &::before {
         content: '';
@@ -518,11 +522,9 @@ label {
       }
     }
 
-    ~ .label {
-      cursor: pointer;
-    }
-
     &:not(:disabled) {
+      + span { cursor: pointer; }
+      ~ .label { cursor: pointer; }
       &:checked {
         + span {
           // 체크 기호
@@ -680,7 +682,7 @@ label {
     &:focus,
     &:hover,
     &:active {
-      z-index: $z-index-event ;
+      z-index: $z-index-event;
     }
   }
 }

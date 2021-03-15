@@ -797,10 +797,10 @@
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
-                `<div class="field-content custom-code" style="--data-column: ${property.display.column};">` +
+                `<div class="field-content custom-code input-button" style="--data-column: ${property.display.column};">` +
                     `<input class="custom-code-text" type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${aliceJs.filterXSS(defaultValue)}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''} readonly />` +
-                    `<button type="button" class="ghost-line flex-fill" id="codeBtn-${this.id}">${aliceJs.filterXSS(property.display.buttonText)}</button>` +
+                    `<button type="button" class="default-line flex-fill" id="codeBtn-${this.id}">${aliceJs.filterXSS(property.display.buttonText)}</button>` +
                 `</div>` +
             `</div>` +
         `</div>`;

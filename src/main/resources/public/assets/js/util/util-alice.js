@@ -8,6 +8,7 @@ const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
 const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
 
 aliceJs.searchDataCount = 15;
+aliceJs.imageOffsetCount = 17;
 
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
@@ -1184,27 +1185,27 @@ aliceJs.initDesignedSelectTag = function () {
                         this.classList.add('active');
                     }
                 }));
-            }
 
-            // option 을 선택하는 경우 이벤트
-            ulElement.childNodes.forEach(function (liOption) {
-                liOption.addEventListener('click', function (clickedOption) {
-                    clickedOption.stopPropagation();
-                    designedSelectBox.innerText = liOption.innerText;
-                    // 선택된 값 반영
-                    originSelectTag.value = liOption.getAttribute('rel');
-                    originSelectTag.querySelector('option[value=\'' + originSelectTag.value + '\']').selected = true;
-                    // 숨기기
-                    designedSelectBox.classList.remove('active');
-                    // 종종 select 선택이 변경되면 다른 화면의 변경을 위해서 이벤트가 있는 경우에 이벤트 발생.
-                    let changeEvent = new Event('change');
-                    originSelectTag.dispatchEvent(changeEvent);
+                // option 을 선택하는 경우 이벤트
+                ulElement.childNodes.forEach(function (liOption) {
+                    liOption.addEventListener('click', function (clickedOption) {
+                        clickedOption.stopPropagation();
+                        designedSelectBox.innerText = liOption.innerText;
+                        // 선택된 값 반영
+                        originSelectTag.value = liOption.getAttribute('rel');
+                        originSelectTag.querySelector('option[value=\'' + originSelectTag.value + '\']').selected = true;
+                        // 숨기기
+                        designedSelectBox.classList.remove('active');
+                        // 종종 select 선택이 변경되면 다른 화면의 변경을 위해서 이벤트가 있는 경우에 이벤트 발생.
+                        let changeEvent = new Event('change');
+                        originSelectTag.dispatchEvent(changeEvent);
+                    });
                 });
-            });
 
-            document.addEventListener('click', function () {
-                designedSelectBox.classList.remove('active');
-            });
+                document.addEventListener('click', function () {
+                    designedSelectBox.classList.remove('active');
+                });
+            }
         }
     });
 };

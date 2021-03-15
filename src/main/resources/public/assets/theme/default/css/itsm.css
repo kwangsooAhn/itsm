@@ -590,11 +590,11 @@ input {
 input::placeholder {
   color: #ACB4BF;
 }
-input:not(:disabled):focus {
+input:not(:disabled):focus, input:not(:read-only):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
-input:not(:disabled):hover {
+input:not(:disabled):hover, input:not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -609,6 +609,7 @@ input:disabled {
 input:read-only {
   background-color: #F7F8F9;
   border-color: #EBEBEB;
+  pointer-events: none;
   cursor: default;
 }
 input.icon {
@@ -659,11 +660,11 @@ textarea {
 textarea::placeholder {
   color: #ACB4BF;
 }
-textarea:not(:disabled):focus {
+textarea:not(:disabled):focus, textarea:not(:read-only):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
-textarea:not(:disabled):hover {
+textarea:not(:disabled):hover, textarea:not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -677,6 +678,7 @@ textarea:disabled {
 textarea:read-only {
   background-color: #F7F8F9;
   border-color: #EBEBEB;
+  pointer-events: none;
   cursor: default;
 }
 textarea.error {
@@ -722,11 +724,11 @@ select {
   padding: 0 0.625rem 0 0.625rem;
   vertical-align: middle;
 }
-select:not(:disabled):focus {
+select:not(:disabled):focus, select:not(:read-only):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
-select:not(:disabled):hover {
+select:not(:disabled):hover, select:not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -739,7 +741,6 @@ select:disabled {
 }
 
 .select {
-  cursor: pointer;
   display: inline-block;
   position: relative;
   font-size: 1rem;
@@ -767,6 +768,7 @@ select:disabled {
   display: flex;
   align-items: flex-start;
   overflow: hidden;
+  cursor: pointer;
 }
 .select .designed-select:after {
   content: "";
@@ -777,28 +779,20 @@ select:disabled {
   position: absolute;
   right: 0.625rem;
 }
-.select .designed-select:hover {
+.select .designed-select:not(:disabled):hover, .select .designed-select:not(.readonly):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
-.select .designed-select:active {
+.select .designed-select:not(:disabled).active, .select .designed-select:not(.readonly).active {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
-.select .designed-select:active:after {
+.select .designed-select:not(:disabled).active:after, .select .designed-select:not(.readonly).active:after {
   top: 0.5625rem;
   background: url("../media/icons/icon_arrow_up.svg") no-repeat center left;
 }
-.select .designed-select.active {
-  outline: 0;
-  border: 0.0625rem solid #0098FF;
-}
-.select .designed-select.active:after {
-  top: 0.5625rem;
-  background: url("../media/icons/icon_arrow_up.svg") no-repeat center left;
-}
-.select .designed-select.active + .designed-options {
+.select .designed-select:not(:disabled).active + .designed-options, .select .designed-select:not(.readonly).active + .designed-options {
   display: block;
 }
 .select .designed-select.disabled-select {
@@ -841,6 +835,8 @@ select:disabled {
 }
 .select.readonly .designed-select {
   background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
 }
 
 option:hover {
@@ -882,7 +878,6 @@ label {
 }
 .radio input[type=radio] + span {
   position: relative;
-  cursor: pointer;
 }
 .radio input[type=radio] + span::before {
   content: "";
@@ -907,7 +902,10 @@ label {
   background-color: transparent;
   border-radius: 50%;
 }
-.radio input[type=radio] ~ .label {
+.radio input[type=radio]:not(:disabled) + span {
+  cursor: pointer;
+}
+.radio input[type=radio]:not(:disabled) ~ .label {
   cursor: pointer;
 }
 .radio input[type=radio]:not(:disabled):checked + span::before {
@@ -952,7 +950,6 @@ label {
 }
 .checkbox input[type=checkbox] + span {
   position: relative;
-  cursor: pointer;
 }
 .checkbox input[type=checkbox] + span::before {
   content: "";
@@ -964,7 +961,10 @@ label {
   border-radius: 0.0625rem;
   vertical-align: middle;
 }
-.checkbox input[type=checkbox] ~ .label {
+.checkbox input[type=checkbox]:not(:disabled) + span {
+  cursor: pointer;
+}
+.checkbox input[type=checkbox]:not(:disabled) ~ .label {
   cursor: pointer;
 }
 .checkbox input[type=checkbox]:not(:disabled):checked + span::after {
