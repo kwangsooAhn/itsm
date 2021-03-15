@@ -65,6 +65,6 @@ class ImageRestController(private val fileService: AliceFileService) {
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         @RequestParam(value = "offset", defaultValue = "-1") offset: String
     ): List<AliceImageFileDto> {
-        return fileService.getImageFileList(type, searchValue, offset.toLong())
+        return fileService.getImageFileList(type, searchValue, offset.toInt())
     }
 }

@@ -8,7 +8,7 @@ const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
 const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
 
 aliceJs.searchDataCount = 15;
-aliceJs.imageSearchDataCount = 17;
+aliceJs.imageOffsetCount = 17;
 
 
 /**

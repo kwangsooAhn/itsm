@@ -254,15 +254,15 @@ class AliceFileService(
      * 이미지리스트 전체 또는 offset 단위로 가져오기
      *
      */
-    fun getImageFileList(type: String, searchValue: String, offset: Long): List<AliceImageFileDto> {
+    fun getImageFileList(type: String, searchValue: String, offset: Int = -1): List<AliceImageFileDto> {
         val dir = when (type) {
             AliceConstants.FileType.ICON.code -> Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
             AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
 //        logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
-        var searchDataCount = ItsmConstants.IMAGE_SEARCH_DATA_COUNT
-        var offset = offset
+        val imageOffsetCount = ItsmConstants.Image_Offset_Count
+        var startIndex = offset
         var endIndex = 0
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dir)) {
@@ -281,20 +281,20 @@ class AliceFileService(
                 }
             }
         }
-        if (offset === -1L) {
-            offset = 0L
+        if (startIndex === -1) {
+            startIndex = 0
             endIndex = fileList.size
         } else {
-            endIndex = (offset + searchDataCount).toInt()
+            endIndex = startIndex + imageOffsetCount
             if (fileList.size < endIndex) {
                 endIndex = fileList.size
             }
         }
         val images = mutableListOf<AliceImageFileDto>()
-        for (i in offset until endIndex) {
-            val file = fileList[i.toInt()].toFile()
+        for (i in startIndex until endIndex) {
+            val file = fileList[i].toFile()
             val bufferedImage = ImageIO.read(file)
-            val resizedBufferedImage = resizeBufferedImage(bufferedImage, "")
+            val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
             images.add(
                 AliceImageFileDto(
                     name = file.name,
