@@ -261,7 +261,7 @@ class AliceFileService(
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
 //        logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
-        val imageOffsetCount = ItsmConstants.Image_Offset_Count
+        val imageOffsetCount = ItsmConstants.IMAGE_OFFSET_COUNT
         var startIndex = offset
         var endIndex = 0
         val fileList = mutableListOf<Path>()
