@@ -10,7 +10,6 @@ const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
 aliceJs.searchDataCount = 15;
 aliceJs.imageOffsetCount = 17;
 
-
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
