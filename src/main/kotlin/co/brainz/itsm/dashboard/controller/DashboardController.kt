@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -40,7 +39,7 @@ class DashboardController(private val dashboardService: DashboardService) {
      */
     @GetMapping("/statistic")
     fun getDashboardList(model: Model): String {
-        val params = LinkedMultiValueMap<String, String>()
+        val params = LinkedHashMap<String, Any>()
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         params["userKey"] = aliceUserDto.userKey
         model.addAttribute("statusCountList", dashboardService.getStatusCountList(params))

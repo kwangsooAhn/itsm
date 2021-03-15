@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.image.controller
 
-import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.image.dto.ImageRenameDto
@@ -62,15 +61,10 @@ class ImageRestController(private val fileService: AliceFileService) {
      */
     @GetMapping("")
     fun getImageFileList(
+        @RequestParam(value = "type", defaultValue = "") type: String,
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
-        @RequestParam(value = "offset", defaultValue = "0") offset: String
+        @RequestParam(value = "offset", defaultValue = "-1") offset: String
     ): List<AliceImageFileDto> {
-        return when (type) {
-            AliceConstants.FileType.ICON.code, AliceConstants.FileType.ICON_TYPE.code -> fileService.getInternalImageDataList(
-                type,
-                searchValue
-            )
-            else -> fileService.getExternalImageDataList(type, searchValue)
-        }
+        return fileService.getImageFileList(type, searchValue, offset.toInt())
     }
 }

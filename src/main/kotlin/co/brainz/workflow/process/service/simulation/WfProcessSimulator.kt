@@ -48,6 +48,11 @@ class WfProcessSimulator(
 
         val process = wfProcessRepository.getOne(processId)
         val elementEntities = process.elementEntities
+        elementEntities.forEach { data ->
+            if (data.processEntity == null) {
+                data.processEntity = process
+            }
+        }
 
         this.run(elementEntities)
 

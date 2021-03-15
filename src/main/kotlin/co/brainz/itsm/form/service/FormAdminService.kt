@@ -6,12 +6,11 @@
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.workflow.provider.RestTemplateProvider
+import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
-import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -20,10 +19,11 @@ import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
 
 @Service
-class FormAdminService(private val restTemplate: RestTemplateProvider) {
+class FormAdminService(
+    private val wfFormService: WfFormService
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -31,29 +31,15 @@ class FormAdminService(private val restTemplate: RestTemplateProvider) {
     /**
      * 문서양식 데이터 목록 조회.
      */
-    fun findForms(params: LinkedMultiValueMap<String, String>): List<RestTemplateFormDto> {
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORMS.url, parameters = params)
-        val responseBody = restTemplate.get(urlDto)
-        return mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateFormDto::class.java)
-        )
+    fun findForms(params: LinkedHashMap<String, Any>): List<RestTemplateFormDto> {
+        return wfFormService.forms(params)
     }
 
     /**
      * [formId]를 받아서 문서양식 마스터 데이터 조회.
      */
     fun getFormAdmin(formId: String): RestTemplateFormDto {
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Form.GET_FORM.url.replace(
-                restTemplate.getKeyRegex(),
-                formId
-            )
-        )
-        return mapper.readValue(
-            restTemplate.get(url),
-            mapper.typeFactory.constructType(RestTemplateFormDto::class.java)
-        )
+        return wfFormService.form(formId)
     }
 
     /**
@@ -63,14 +49,7 @@ class FormAdminService(private val restTemplate: RestTemplateProvider) {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateFormDto.updateDt = LocalDateTime.now()
         restTemplateFormDto.updateUserKey = userDetails.userKey
-        val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Form.PUT_FORM.url.replace(
-                restTemplate.getKeyRegex(),
-                formId
-            )
-        )
-        val responseEntity = restTemplate.update(url, restTemplateFormDto)
-        return responseEntity.body.toString().isNotEmpty()
+        return wfFormService.updateForm(restTemplateFormDto)
     }
 
     /**
@@ -79,16 +58,7 @@ class FormAdminService(private val restTemplate: RestTemplateProvider) {
     fun saveAsForm(formData: String): String {
         val formComponentListDto = makeFormComponentListDto(formData)
         formComponentListDto.status = RestTemplateConstants.FormStatus.EDIT.value
-
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM_SAVE_AS.url)
-        val responseEntity = restTemplate.createToSave(urlDto, formComponentListDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
-                dataDto.id
-            }
-            false -> ""
-        }
+        return wfFormService.saveAsFormData(formComponentListDto).id
     }
 
     /**
@@ -100,21 +70,13 @@ class FormAdminService(private val restTemplate: RestTemplateProvider) {
         restTemplateFormDto.createUserKey = aliceUserDto.userKey
         restTemplateFormDto.createDt = LocalDateTime.now()
         restTemplateFormDto.updateDt = LocalDateTime.now()
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM.url)
-        val responseEntity = restTemplate.create(url, restTemplateFormDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
-                dataDto.id
-            }
-            false -> ""
-        }
+        return wfFormService.createForm(restTemplateFormDto).id
     }
 
     /**
      * [formData] 받아서 문서양식 세부정보 반환
      */
-    fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
+    private fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
         val components: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
             map["components"],

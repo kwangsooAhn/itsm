@@ -15,10 +15,30 @@ class WfComponentService(
 ) {
 
     /**
+     * 컴포넌트 데이터 목록 중 커스텀코드를 조회하여 리턴한다.
+     * 파라미터[parameters]에 따라 조회 결과를 필터한다.
+     */
+    fun getComponentDataCustomCodeIds(parameters: LinkedHashMap<String, Any>?): List<String> {
+        val customCodeIds = mutableSetOf<String>()
+        val componentDataList = this.getComponentData(parameters)
+        componentDataList.forEach {
+            val component: MutableMap<String, Any> = ObjectMapper().readValue(it.attributeValue)
+            val data: Any? = component[CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE]
+            data?.let { customCodeIds.add(data.toString()) }
+        }
+        return customCodeIds.toList()
+    }
+
+    fun getComponentTypeById(componentId: String): String {
+        val component = wfComponentRepository.findById(componentId)
+        return component.get().componentType
+    }
+
+    /**
      * 컴포넌트 데이터 목록을 조회하여 리턴한다.
      * 파라미터[parameters]에 따라 조회 결과를 필터한다.
      */
-    fun getComponentData(parameters: LinkedHashMap<String, Any>?): List<RestTemplateFormComponentDataDto> {
+    private fun getComponentData(parameters: LinkedHashMap<String, Any>?): List<RestTemplateFormComponentDataDto> {
         // 중복제거를 위해 Set 타입으로 변수 사용.
         val componentDataList = mutableListOf<RestTemplateFormComponentDataDto>()
 
@@ -41,25 +61,5 @@ class WfComponentService(
         }
 
         return componentDataList
-    }
-
-    /**
-     * 컴포넌트 데이터 목록 중 커스텀코드를 조회하여 리턴한다.
-     * 파라미터[parameters]에 따라 조회 결과를 필터한다.
-     */
-    fun getComponentDataCustomCodeIds(parameters: LinkedHashMap<String, Any>?): List<String> {
-        val customCodeIds = mutableSetOf<String>()
-        val componentDataList = this.getComponentData(parameters)
-        componentDataList.forEach {
-            val component: MutableMap<String, Any> = ObjectMapper().readValue(it.attributeValue)
-            val data: Any? = component[CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE]
-            data?.let { customCodeIds.add(data.toString()) }
-        }
-        return customCodeIds.toMutableList()
-    }
-
-    fun getComponentTypeById(componentId: String): String {
-        val component = wfComponentRepository.findById(componentId)
-        return component.get().componentType
     }
 }

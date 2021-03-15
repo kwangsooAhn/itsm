@@ -5,8 +5,8 @@
 
 package co.brainz.workflow.engine.manager.service
 
+import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.provider.dto.CIDto
-import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
@@ -31,7 +31,6 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.RestTemplateProvider
-import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
@@ -63,7 +62,7 @@ class WfTokenManagerService(
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
-    private val restTemplate: RestTemplateProvider
+    private val ciService: CIService
 ) {
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -170,55 +169,27 @@ class WfTokenManagerService(
     }
 
     /**
-     * Post Rest Api (CI).
+     * Create CI.
      */
-    fun postRestApiCi(url: RestTemplateUrlDto, ci: CIDto): String {
-        val responseBody = restTemplate.create(url, ci)
-        return when (responseBody.body.toString().isNotEmpty()) {
-            true -> {
-                val restTemplateReturnDto =
-                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
-                restTemplateReturnDto.code
-            }
-            false -> ""
-        }
+    fun createCI(ci: CIDto): String {
+        val returnDto = ciService.createCI(ci)
+        return returnDto.code
     }
 
     /**
-     * Put Rest Api (CI).
+     * Update CI.
      */
-    fun putRestApiCi(url: RestTemplateUrlDto, ci: CIDto): String {
-        val responseBody = restTemplate.update(url, ci)
-        return when (responseBody.body.toString().isNotEmpty()) {
-            true -> {
-                val restTemplateReturnDto =
-                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
-                restTemplateReturnDto.code
-            }
-            false -> ""
-        }
+    fun updateCI(ci: CIDto): String {
+        val returnDto = ciService.updateCI(ci.ciId, ci)
+        return returnDto.code
     }
 
     /**
-     * Delete Rest Api (CI).
+     * Delete CI.
      */
-    fun deleteRestApiCi(url: RestTemplateUrlDto): String {
-        val responseBody = restTemplate.delete(url)
-        return when (responseBody.body.toString().isNotEmpty()) {
-            true -> {
-                val restTemplateReturnDto =
-                    mapper.readValue(responseBody.body.toString(), RestTemplateReturnDto::class.java)
-                restTemplateReturnDto.code
-            }
-            false -> ""
-        }
-    }
-
-    /**
-     * 문자열 치환 패턴.
-     */
-    fun getKeyRegex(): Regex {
-        return restTemplate.getKeyRegex()
+    fun deleteCI(ciId: String): String {
+        val returnDto = ciService.deleteCI(ciId)
+        return returnDto.code
     }
 
     /**

@@ -15,6 +15,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/charts")
@@ -42,13 +43,17 @@ class ChartController(
      * 통계 차트 목록 화면 호출
      */
     @GetMapping("")
-    fun getCharts(request: HttpServletRequest, model: Model): String {
+    fun getCharts(
+        request: HttpServletRequest,
+        @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
+        model: Model
+    ): String {
         val searchTypeName = request.getParameter("searchTypeName")
         val offset = request.getParameter("offset") ?: "0"
         val result = chartService.getCharts(searchTypeName, offset)
         model.addAttribute("chartList", result)
         model.addAttribute("chartListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return if (request.getParameter("isScroll").toBoolean()) chartListFragment else chartListPage
+        return if (isScroll) chartListFragment else chartListPage
     }
 
     /**

@@ -19,7 +19,6 @@ import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
-import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.CollectionType
@@ -226,26 +225,13 @@ class WfScriptTask(
 
             // 4. 전송
             createCiList.forEach { ci ->
-                val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.CI.POST_CI.url)
-                wfTokenManagerService.postRestApiCi(url, ci)
+                wfTokenManagerService.createCI(ci)
             }
             modifyCiList.forEach { ci ->
-                val url = RestTemplateUrlDto(
-                    callUrl = RestTemplateConstants.CI.PUT_CI.url.replace(
-                        wfTokenManagerService.getKeyRegex(),
-                        ci.ciId
-                    )
-                )
-                wfTokenManagerService.putRestApiCi(url, ci)
+                wfTokenManagerService.updateCI(ci)
             }
             deleteCiList.forEach { ci ->
-                val url = RestTemplateUrlDto(
-                    callUrl = RestTemplateConstants.CI.DELETE_CI.url.replace(
-                        wfTokenManagerService.getKeyRegex(),
-                        ci.ciId
-                    )
-                )
-                wfTokenManagerService.deleteRestApiCi(url)
+                wfTokenManagerService.deleteCI(ci.ciId)
             }
         }
     }

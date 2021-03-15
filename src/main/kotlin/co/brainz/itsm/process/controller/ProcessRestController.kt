@@ -7,7 +7,6 @@ package co.brainz.itsm.process.controller
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import org.slf4j.LoggerFactory
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -26,7 +25,7 @@ class ProcessRestController(private val processService: ProcessService) {
      * 프로세스 불러오기.
      */
     @GetMapping("/{processId}/data")
-    fun getProcessData(@PathVariable processId: String): String {
+    fun getProcessData(@PathVariable processId: String): RestTemplateProcessElementDto {
         val processData = processService.getProcessData(processId)
         logger.debug("get process data. {}", processData)
         return processData
@@ -47,7 +46,7 @@ class ProcessRestController(private val processService: ProcessService) {
      * 프로세스 삭제.
      */
     @DeleteMapping("/{processId}")
-    fun deleteForm(@PathVariable processId: String): ResponseEntity<String> {
+    fun deleteForm(@PathVariable processId: String): Boolean {
         return processService.deleteProcess(processId)
     }
 

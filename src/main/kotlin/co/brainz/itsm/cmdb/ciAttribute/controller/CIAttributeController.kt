@@ -10,10 +10,10 @@ import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/cmdb/attributes")
@@ -37,14 +37,18 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
      * CI Attribute 관리 화면 호출.
      */
     @GetMapping("")
-    fun getCIAttributes(request: HttpServletRequest, model: Model): String {
-        val params = LinkedMultiValueMap<String, String>()
+    fun getCIAttributes(
+        request: HttpServletRequest,
+        @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
+        model: Model
+    ): String {
+        val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = ciAttributeService.getCIAttributes(params)
         model.addAttribute("attributeList", result)
         model.addAttribute("attributeListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return if (request.getParameter("isScroll").toBoolean()) attributeListFragment else attributeListPage
+        return if (isScroll) attributeListFragment else attributeListPage
     }
 
     /**

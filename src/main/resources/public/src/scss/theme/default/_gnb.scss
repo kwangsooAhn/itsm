@@ -95,12 +95,11 @@
   }
   
   .menu {
-    position: relative;
+    position: fixed;
     width: $menu-width;
     height: $menu-height;
     background-color: $menu-bg-color;
     top: $logo-height;
-    left: 0;
     z-index: $z-index-gnb;
     overflow: auto;
 

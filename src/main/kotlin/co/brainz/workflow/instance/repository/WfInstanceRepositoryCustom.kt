@@ -42,7 +42,7 @@ interface WfInstanceRepositoryCustom {
         offset: Long
     ): QueryResults<WfInstanceListViewDto>
 
-    fun findInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto>
+    fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto>
 
     fun deleteInstances(instances: MutableList<WfInstanceEntity>)
 

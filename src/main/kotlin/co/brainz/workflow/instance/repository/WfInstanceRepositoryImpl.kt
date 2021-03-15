@@ -321,7 +321,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         return builder
     }
 
-    override fun findInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto> {
+    override fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto> {
         val user = QAliceUserEntity.aliceUserEntity
         val elementTypes = listOf(
             InstanceConstants.ElementListForHistoryViewing.USER_TASK.value,

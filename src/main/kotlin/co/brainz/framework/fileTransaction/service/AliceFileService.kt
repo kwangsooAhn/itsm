@@ -251,15 +251,19 @@ class AliceFileService(
     }
 
     /**
-     * 워크플로우 이미지 파일 로드.
+     * 이미지리스트 전체 또는 offset 단위로 가져오기
+     *
      */
-    fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
+    fun getImageFileList(type: String, searchValue: String, offset: Int = -1): List<AliceImageFileDto> {
         val dir = when (type) {
             AliceConstants.FileType.ICON.code -> Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
             AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
-
+//        logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
+        val imageOffsetCount = ItsmConstants.IMAGE_OFFSET_COUNT
+        var startIndex = offset
+        var endIndex = 0
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dir)) {
             val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
@@ -277,13 +281,20 @@ class AliceFileService(
                 }
             }
         }
-
+        if (startIndex === -1) {
+            startIndex = 0
+            endIndex = fileList.size
+        } else {
+            endIndex = startIndex + imageOffsetCount
+            if (fileList.size < endIndex) {
+                endIndex = fileList.size
+            }
+        }
         val images = mutableListOf<AliceImageFileDto>()
-        fileList.forEach {
-            val file = it.toFile()
+        for (i in startIndex until endIndex) {
+            val file = fileList[i].toFile()
             val bufferedImage = ImageIO.read(file)
             val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
-
             images.add(
                 AliceImageFileDto(
                     name = file.name,
@@ -293,6 +304,7 @@ class AliceFileService(
                     data = super.encodeToString(resizedBufferedImage, file.extension),
                     width = bufferedImage.width,
                     height = bufferedImage.height,
+                    totalCount = fileList.size.toLong(),
                     updateDt = LocalDateTime.ofInstant(
                         Instant.ofEpochMilli(file.lastModified()),
                         ZoneId.systemDefault()
@@ -550,54 +562,5 @@ class AliceFileService(
                 userRepository.save(userEntity)
             }
         }
-    }
-    /**
-     *  이미지관리 화면내 이미지 조회목록을 리턴한다.
-     */
-    fun getImageList(searchValue: String, offset: Long): List<AliceImageFileDto> {
-        val dir = super.getWorkflowDir(this.imagesRootDirectory)
-        val fileList = mutableListOf<Path>()
-        val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
-        val images = mutableListOf<AliceImageFileDto>()
-        var searchDataCount = ItsmConstants.IMAGE_SEARCH_DATA_COUNT
-
-        fileDirMap[false]?.forEach { filePath ->
-            val file = filePath.toFile()
-            if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
-                when (searchValue) {
-                    "" -> fileList.add(filePath)
-                    else -> {
-                        if (file.name.matches(".*$searchValue.*".toRegex())) {
-                            fileList.add(filePath)
-                        }
-                    }
-                }
-            }
-        }
-        if (fileList.size < offset + searchDataCount) {
-            searchDataCount = fileList.size.toLong() - offset
-        }
-        for (i in offset until offset + searchDataCount) {
-            val file = fileList[i.toInt()].toFile()
-            val bufferedImage = ImageIO.read(file)
-            val resizedBufferedImage = resizeBufferedImage(bufferedImage, "")
-            images.add(
-                AliceImageFileDto(
-                    name = file.name,
-                    extension = file.extension,
-                    fullpath = file.absolutePath,
-                    size = super.humanReadableByteCount(file.length()),
-                    data = super.encodeToString(resizedBufferedImage, file.extension),
-                    width = bufferedImage.width,
-                    height = bufferedImage.height,
-                    totalCount = fileList.size.toLong(),
-                    updateDt = LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(file.lastModified()),
-                        ZoneId.systemDefault()
-                    )
-                )
-            )
-        }
-        return images
     }
 }
