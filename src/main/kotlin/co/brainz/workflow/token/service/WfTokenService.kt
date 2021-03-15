@@ -130,6 +130,7 @@ class WfTokenService(
                 tokenEntity.get().instance.document.documentId,
                 tokenEntity.get().element.elementId
             )
+        val isDisplayType = documentDisplayList.isEmpty()
 
         for (componentEntity in formData.components) {
             // value
@@ -161,15 +162,15 @@ class WfTokenService(
                 }
             }
 
-            // displayType
+            // displayType이 존재할 경우 기본값 할당
             for (documentDisplay in documentDisplayList) {
                 if (componentEntity.componentId == documentDisplay.componentId) {
                     componentEntity.dataAttribute["displayType"] = documentDisplay.display
                 }
             }
 
-            // 완료된 문서일 경우 기본값을 readOnly 로 설정한다.
-            if (tokenEntity.get().tokenStatus == WfTokenConstants.Status.FINISH.code) {
+            // displayType 값이 존재하지 않을 경우 기본값을 readOnly 로 설정한다.
+            if (isDisplayType) {
                 componentEntity.dataAttribute["displayType"] = WfDocumentConstants.DisplayType.READONLY.value
             }
         }

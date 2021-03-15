@@ -86,7 +86,7 @@
                 defaultValue = property.value;
             }
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -131,7 +131,7 @@
         if (typeof property.value !== 'undefined') {
             defaultValue = (editorUseYn && property.value !== '') ? JSON.parse(property.value) : property.value;
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -219,7 +219,7 @@
             return `<option value="${aliceJs.filterXSS(opt.value)}" data-seq="${opt.seq}" ${isMatch ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(opt.name)}</option>`;
         }).join('');
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -258,7 +258,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         const optionsTemplate = property.option.map(function (opt) {
             return `<label class="field-radio radio" for='radio-${property.componentId}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
@@ -311,7 +311,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         const checkboxValueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         const optionsTemplate = property.option.map(function (opt) {
             return `<label class="field-checkbox checkbox"  for='checkbox-${property.componentId}-${opt.seq}'>` +
@@ -365,7 +365,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -397,7 +397,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         const imageSrc = property.display.path;
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
@@ -444,7 +444,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -494,7 +494,7 @@
             default: //none
             }
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -564,7 +564,7 @@
             default: //none
             }
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -635,7 +635,7 @@
             default: //none
             }
         }
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -681,7 +681,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -781,7 +781,7 @@
             }
         }
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -946,7 +946,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
 
         // 테이블 Header 추가
         const tableHeaderOptions = property['drTableColumns'].map(function(column, idx) {
@@ -1062,7 +1062,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
 
         this.template =
         `<div id="${this.id}" class="component accordion active" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.display.endId}">` +
@@ -1130,7 +1130,7 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
 
         this.template =
         `<div id="${this.id}" class="component accordion" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" ` +
@@ -1157,7 +1157,7 @@
         this.type = 'ci';
         this.property = property;
         this.renderOrder = property.display.order;
-        const displayType = property['dataAttribute']['displayType'];
+        const displayType = property['dataAttribute']['displayType'] || 'readonly';
 
         // 테이블 Header 추가
         const ciHeaderProperty = CI.getProperty(property.display.isEditable);
