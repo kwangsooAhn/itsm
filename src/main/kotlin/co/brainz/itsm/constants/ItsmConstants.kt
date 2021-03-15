@@ -15,5 +15,5 @@ object ItsmConstants {
     /**
      * 이미지관리에서 이미지 조회 시 Limit 기본값
      */
-    const val IMAGE_SEARCH_DATA_COUNT = 17L
+    const val IMAGE_OFFSET_COUNT = 17
 }
