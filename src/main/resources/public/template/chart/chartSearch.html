@@ -472,22 +472,21 @@
             if (chartConfigJson.type === PIE_CHART) {
                 let tooltipProperty = new Object;
                 if (chartConfigJson.operation === 'percent') {
-                    tooltipProperty.pointFormat = '문서 차지 비율: <b>{point.percentage:.1f} %</b>';
+                    tooltipProperty.pointFormat = '문서 차지 비율: <b>{point.percentage:.1f}%</b>';
                 } else {
-                    tooltipProperty.pointFormat = '문서 건 수: <b>{point.y:.f} 건</b>';
+                    tooltipProperty.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
                 }
                 jsonObject.tooltip = tooltipProperty;
-            } else if (chartConfigJson.type === STACKED_COLUMN_CHART) {
+            } else if (chartConfigJson.type === STACKED_COLUMN_CHART || chartConfigJson.type === BASIC_LINE_CHART) {
                 let tooltipProperty = new Object;
-                tooltipProperty.headerFormat = '<b>{point.x}</b><br/>';
                 if (chartConfigJson.operation === 'percent') {
                     tooltipProperty.pointFormatter = function () {
                         let sum = countArray.reduce((a, b) => (a + b));
                         let percent = (this.y / sum) * 100;
-                        return '문서 건 수: ' + '<b>' + Highcharts.numberFormat(percent) + '</b>' + '%';
+                        return '문서 차지 비율: ' + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
                     }
                 } else {
-                    tooltipProperty.pointFormat = '문서 건 수: <b>{point.y:.f} 건</b>';
+                    tooltipProperty.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
                 }
                 jsonObject.tooltip = tooltipProperty;
             }
