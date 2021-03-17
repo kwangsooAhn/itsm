@@ -48,7 +48,7 @@ class ChartRestController(private val chartService: ChartService) {
      * 통계 차트 미리보기 데이터
      */
     @PostMapping("/{chartId}/preview")
-    fun chartPreview(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): ChartDto {
+    fun getPreviewChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): ChartDto {
         return chartService.getPreviewChart(chartId, chartDto)
     }
 }
