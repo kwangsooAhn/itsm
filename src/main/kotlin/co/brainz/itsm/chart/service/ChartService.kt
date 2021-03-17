@@ -119,7 +119,7 @@ class ChartService(
     /**
      * 차트 생성 관련 JsonArray 생성
      */
-    fun getChartProperty(chart: ChartDto): JsonArray {
+    fun getChartProperty(chart: ChartDto): String {
         val labelList = aliceLabelRepository.findLabelByKey(chart.targetLabel)
         val labelTargetIds = mutableListOf<String>()
         val formIds = mutableListOf<String>()
@@ -167,7 +167,7 @@ class ChartService(
         jsonObjectArray.add(jsonObject)
         jsonObjectArray.add(parsingDocObject)
 
-        return jsonObjectArray
+        return jsonObjectArray.toString()
     }
 
     /**

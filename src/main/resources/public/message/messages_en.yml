@@ -254,6 +254,7 @@ chart:
   msg:
     searchDescription: "View and manage various statistical charts."
     enterChartName: "Please enter a chart name."
+    enterTargetGroup: "Please enter a target Group."
     enterTargetLabel: "Please enter a target label."
     enterDurationDigit: "Please enter a Duration."
     periodUnitOutOfRange: "The duration is greater than the period."

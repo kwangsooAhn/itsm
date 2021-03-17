@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.chart.dto
 
-import com.google.gson.JsonArray
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -23,5 +22,5 @@ data class ChartDto(
     val durationUnit: String = "",
     var periodUnit: String? = null,
     var group: String? = null,
-    var propertyJson: JsonArray? = null
+    var propertyJson: String? = null
 ) : Serializable

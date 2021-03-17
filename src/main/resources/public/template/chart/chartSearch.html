@@ -159,9 +159,13 @@
                         classes: "default-fill",
                         bindKey: false,
                         callback: function (modal) {
-                            restSubmit('post', '/rest/charts/' + chartId + '/preview', getChartDto(), function (response) {
-                                console.log(response);
-                            }, false)
+                            if (getChartDto() !== undefined) {
+                                restSubmit('post', '/rest/charts/' + chartId + '/preview', getChartDto(), function (response) {
+                                    let responseJson = JSON.parse(response);
+                                    let data = parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
+                                    Highcharts.chart('container', data);
+                                }, false)
+                            }
                         }
                     }],
                 close: {
@@ -260,7 +264,7 @@
                         if (target === 'edit') {
                             setDisplay(document.getElementById('typeSelectBox').value);
                         }
-                        const data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
+                        let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
                         Highcharts.chart('container', data);
                     }
                 }
@@ -268,7 +272,7 @@
             aliceJs.sendXhr(opt);
         }
 
-        function emptyValidataion() {
+        function emptyValidation() {
             if (isEmpty('chartName', 'chart.msg.enterChartName')) {
                 return false
             }
@@ -278,6 +282,11 @@
             if (isEmpty('durationDigit', 'chart.msg.enterDurationDigit')) {
                 return false
             }
+            if (document.getElementById('typeSelectBox').value === BASIC_LINE_CHART) {
+                if (isEmpty('targetGroup', 'chart.msg.enterTargetGroup')) {
+                    return false
+                }
+            }
             return true;
         }
 
@@ -285,24 +294,25 @@
          * chart 저장 / 수정
          */
         function saveChart(method, chartId) {
-            let chartInfo = getChartDto();
-            let url = '/rest/charts';
-            if (method === 'put' && chartId !== undefined) {
-                chartInfo.chartId = chartId;
-                url += '/' + chartId;
-            }
-            restSubmit(method, url, chartInfo, function (result) {
-                switch (result) {
-                    case STATUS_SUCCESS:
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
-                            location.reload()
-                        });
-                        break;
-                    default:
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
-                        break;
+            if (getChartDto() !== undefined) {
+                let url = '/rest/charts';
+                if (method === 'put' && chartId !== undefined) {
+                    getChartDto().chartId = chartId;
+                    url += '/' + chartId;
                 }
-            })
+                restSubmit(method, url, getChartDto(), function (result) {
+                    switch (result) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                location.reload()
+                            });
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
+                    }
+                })
+            }
         }
 
         /**
@@ -602,12 +612,11 @@
                 jsonObject.responsive = responsiveProperty;
             }
 
-            console.log(jsonObject);
             return jsonObject;
         }
 
         function getChartDto() {
-            if (emptyValidataion()) {
+            if (emptyValidation()) {
                 let chartInfo = {
                     chartType: document.getElementById('typeSelectBox').value,
                     chartName: document.getElementById('chartName').value,
@@ -647,6 +656,8 @@
                     }
                 }
                 return chartInfo
+            } else {
+                return undefined;
             }
         }
 
