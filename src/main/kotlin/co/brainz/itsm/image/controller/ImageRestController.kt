@@ -5,9 +5,11 @@
 
 package co.brainz.itsm.image.controller
 
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.image.dto.ImageRenameDto
+import java.nio.file.Paths
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

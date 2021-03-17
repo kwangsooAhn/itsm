@@ -25,6 +25,8 @@ import co.brainz.framework.util.AliceFileUtil
 import co.brainz.itsm.constants.ItsmConstants
 import java.io.File
 import java.io.IOException
+import java.net.URI
+import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -50,6 +52,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 
+
 /**
  * 파일 서비스 클래스
  */
@@ -69,7 +72,8 @@ class AliceFileService(
     private val fileUploadRootDirectory = "uploadRoot"
     private val processAttachFileRootDirectory = this.imagesRootDirectory
     private val documentIconRootDirectory = "public/assets/media/images/document"
-    private val typeIconRootDirectory = "public/assets/media/images/cmdb"
+    private val ciTypeIconRootDirectory = "public/assets/media/images/cmdb"
+    private val classPathInJar = "/BOOT-INF/classes/"
 
     /**
      * 파일 허용 확장자 목록 가져오기
@@ -80,7 +84,7 @@ class AliceFileService(
 
     /**
      * 파일을 임시로 업로드한다.
-     * temp 경로에 파일을 임시로 업로드하고 파일관리테이블에 uploaded 상태를 false로 저장한다.
+     * temp 경로에 파일을 임시로 업로드하고 파일관리테이블에 uploaded 상태를 false 로 저장한다.
      */
     @Transactional
     fun uploadTemp(multipartFile: MultipartFile): AliceFileLocEntity {
@@ -254,17 +258,57 @@ class AliceFileService(
      * 이미지리스트 전체 또는 offset 단위로 가져오기
      *
      */
-    fun getImageFileList(type: String, searchValue: String, offset: Int = -1): List<AliceImageFileDto> {
-        val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> Paths.get(javaClass.classLoader.getResource(this.documentIconRootDirectory).toURI())
-            AliceConstants.FileType.ICON_TYPE.code -> Paths.get(javaClass.classLoader.getResource(this.typeIconRootDirectory).toURI())
-            else -> super.getWorkflowDir(this.imagesRootDirectory)
+    fun getImageFileList(type: String, searchValue: String, currentOffset: Int = -1): List<AliceImageFileDto> {
+        var imageList: List<AliceImageFileDto> = mutableListOf()
+
+        // 2021-03-17 Jung Hee Chan
+        // 기존 이미지 파일 리스트 처리하는 로직에 Jar 파일인 경우 경로를 선택하는 부분이 추가됨.
+        // 이미지 관리 체계가 전면적으로 수정될 필요가 있으나 여기서는 일단 좀 무식하지만 케이스를 분리하여 아래와 같이 분기
+        // 1) 외부 이미지 파일은 배포와 상관없이 접근
+        // 2) 내부 이미지 파일은 WAR 배포 시와 JAR 배포 시 접근 방법이 다름
+        val dir: String
+        val dirURI: URI
+
+        when (type) {
+            // 2가지 타입의 아이콘 조회인 경우
+            AliceConstants.FileType.ICON.code, AliceConstants.FileType.ICON_CI_TYPE.code -> {
+                dir = when (type) {
+                    AliceConstants.FileType.ICON.code -> this.documentIconRootDirectory
+                    AliceConstants.FileType.ICON_CI_TYPE.code -> this.ciTypeIconRootDirectory
+                    else -> this.documentIconRootDirectory
+                }
+
+                javaClass.classLoader.getResource(dir)?.let {
+                    dirURI = it.toURI()
+                    imageList = if (dirURI.scheme == "jar") {
+                        this.getInternalImageDataList(type, dir, searchValue, currentOffset)
+                    } else {
+                        this.getExternalImageDataList(type, Paths.get(dirURI), searchValue, currentOffset)
+                    }
+                }
+            }
+            else -> imageList = this.getExternalImageDataList(
+                type,
+                super.getWorkflowDir(this.imagesRootDirectory),
+                searchValue,
+                currentOffset
+            )
         }
-//        logger.debug(">>>> WORKFLOW IMAGE URI = {}", Paths.get(ClassPathResource(this.documentIconRootDirectory).uri))
-        val imageOffsetCount = ItsmConstants.IMAGE_OFFSET_COUNT
-        var startIndex = offset
-        var endIndex = 0
+        return imageList
+    }
+
+    /**
+     * 외부 경로에 있는 이미지 경로 리스트 가져오기
+     *
+     */
+    fun getExternalImageDataList(
+        type: String,
+        dir: Path,
+        searchValue: String,
+        currentOffset: Int
+    ): List<AliceImageFileDto> {
         val fileList = mutableListOf<Path>()
+
         if (Files.isDirectory(dir)) {
             val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
             fileDirMap[false]?.forEach { filePath ->
@@ -281,21 +325,18 @@ class AliceFileService(
                 }
             }
         }
-        if (startIndex === -1) {
-            startIndex = 0
-            endIndex = fileList.size
-        } else {
-            endIndex = startIndex + imageOffsetCount
-            if (fileList.size < endIndex) {
-                endIndex = fileList.size
-            }
+
+        var startIndex = 0
+        if (currentOffset != -1) { // -1인 경우는 전체 조회
+            startIndex = currentOffset
         }
-        val images = mutableListOf<AliceImageFileDto>()
-        for (i in startIndex until endIndex) {
+
+        val imageList = mutableListOf<AliceImageFileDto>()
+        for (i in startIndex until getImageListEndIndex(currentOffset, fileList.size)) {
             val file = fileList[i].toFile()
             val bufferedImage = ImageIO.read(file)
             val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
-            images.add(
+            imageList.add(
                 AliceImageFileDto(
                     name = file.name,
                     extension = file.extension,
@@ -312,7 +353,103 @@ class AliceFileService(
                 )
             )
         }
-        return images
+        return imageList
+    }
+
+    /**
+     * 내부 경로에 있는 이미지 경로 리스트 가져오기
+     *
+     */
+    fun getInternalImageDataList(
+        type: String,
+        dir: String,
+        searchValue: String,
+        currentOffset: Int
+    ): List<AliceImageFileDto> {
+        var fileList = mutableListOf<Path>()
+        val resourceURL = javaClass.classLoader.getResource(dir)
+
+        // 2021-03-17 Jung Hee Chan
+        // 내부 경로에 위치한 이미지 파일은 경우 Jar 파일 내부에 있을 수 있어 파일시스템을 이용해서 Path 리스트를 취득.
+        resourceURL?.let {
+            FileSystems.newFileSystem(
+                resourceURL.toURI(),
+                mutableMapOf<String, String>()
+            ).use { fs ->
+                fileList = Files.walk(fs.getPath(classPathInJar + dir))
+                    .filter { path: Path ->
+                        val fileName = path.fileName.toString()
+
+                        Files.isRegularFile(path) && // 파일 타입만 조회
+                                (allowedImageExtensions.indexOf(  // 허용 확장자 체크
+                                    fileName.substring(
+                                        (fileName.lastIndexOf(".") + 1),
+                                        fileName.length
+                                    ).toLowerCase()
+                                ) > -1) &&
+                                fileName.matches(".*$searchValue.*".toRegex()) // 검색조건 적용
+                    }
+                    .collect(Collectors.toList())
+            }
+        }
+
+        var startIndex = 0
+        if (currentOffset != -1) { // -1인 경우는 전체 조회
+            startIndex = currentOffset
+        }
+
+        // 2021-03-17 Jung Hee Chan
+        // 내부 경로에 위치한 이미지 파일은 Jar 파일 내부에 있을 수 있어 File 이 아닌 Stream 형태로 읽어옴.
+        // 이때 기존 File 방식과 달리 확장자, 사이즈, 수정일자등 데이터를 가져올 수 없음. --> 이미지 관리에 대한 개선의 여지가 있음.
+        val imageList = mutableListOf<AliceImageFileDto>()
+        for (i in startIndex until getImageListEndIndex(currentOffset, fileList.size)) {
+            var filePathInJAR = fileList[i].toString()
+            val fileName = fileList[i].fileName.toString()
+
+            // 윈도우즈 환경인 경우 제일 앞 / 제거가 필요.
+            if (filePathInJAR.startsWith("/")) {
+                filePathInJAR = filePathInJAR.substring(1, filePathInJAR.length)
+            }
+
+            val fileInputStream = javaClass.classLoader.getResourceAsStream(filePathInJAR)
+            val bufferedImage = ImageIO.read(fileInputStream)
+            val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
+            imageList.add(
+                AliceImageFileDto(
+                    name = fileName,
+                    extension = "",
+                    fullpath = "",
+                    size = "",
+                    data = super.encodeToString(
+                        resizedBufferedImage,
+                        fileName.substring((fileName.lastIndexOf(".") + 1), fileName.length).toLowerCase()
+                    ),
+                    width = bufferedImage.width,
+                    height = bufferedImage.height,
+                    totalCount = fileList.size.toLong(),
+                    updateDt = LocalDateTime.ofInstant(
+                        Instant.ofEpochMilli(0),
+                        ZoneId.systemDefault()
+                    )
+                )
+            )
+        }
+        return imageList
+    }
+
+    /**
+     * 조회하는 이미지 리스트의 갯수를 계산
+     */
+    fun getImageListEndIndex(currentOffset: Int, maxSize: Int): Int {
+        var endIndex: Int
+        // currentOffset 값이 현재 인덱스의 값을 나타내면서 전체 조회인지 여부까지 포함해서 이중적으로 사용되고 있음.
+        if (currentOffset == -1) {
+            endIndex = maxSize // 전체 목록 조회인 경우
+        } else {
+            endIndex = currentOffset + ItsmConstants.IMAGE_OFFSET_COUNT
+            if (maxSize < endIndex) endIndex = maxSize
+        }
+        return endIndex
     }
 
     /**
@@ -542,9 +679,9 @@ class AliceFileService(
     }
 
     /**
-     * 아바타 이미지명을 uuid에서 ID 값으로 변경 한다.
-     * 신규 사용자 등록 시 avatar_id, user_key를 구할 수가 없기 때문에
-     * 임시적으로 생성한 avatar_uuid로 파일명을 만든다. avatar_uuid가 고유 값을 보장 하지 못하기 때문에
+     * 아바타 이미지명을 uuid 에서 ID 값으로 변경 한다.
+     * 신규 사용자 등록 시 avatar_id, user_key 를 구할 수가 없기 때문에
+     * 임시적으로 생성한 avatar_uuid 로 파일명을 만든다. avatar_uuid 가 고유 값을 보장 하지 못하기 때문에
      * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
      */
     fun avatarFileNameMod(userEntity: AliceUserEntity) {
