@@ -40,6 +40,9 @@
         case 'fileupload':
             componentTarget = componentElement.querySelector('#fileupload');
             break;
+        case 'ci':
+            componentTarget = componentElement.querySelector('.ci-table');
+            break;
         default :
             componentTarget = componentElement.querySelector('input');
             break;
@@ -84,7 +87,7 @@
             element.removeAttribute('title');
         }
 
-        for (let i = 0, len = element.attributes.length; i < len; i++) {
+       for (let i = 0, len = element.attributes.length; i < len; i++) {
             let message = null;
             const attribute = element.attributes[i];
             const nodeValue = attribute.nodeValue;
@@ -137,7 +140,6 @@
             } else if (attribute.nodeName === 'required') {
                 message = checkRequired(element);
             }
-
             if (message !== null) {
                 element.classList.add('error');
                 element.title = message;
@@ -184,6 +186,9 @@
      */
     function checkRequired(element) {
         let message = null;
+        if(element.id.toString().length > 2) {
+            element.id.substr(0, 2) === 'ci' ? element.id = `ci` : element.id;
+        }
         switch (element.id) {
         case 'editor':
             let textEditor = Quill.find(element);
@@ -200,6 +205,11 @@
         case 'fileupload':
             if (element.querySelectorAll('input[name=loadedFileSeq], input[name=fileSeq]').length === 0) {
                 message = i18n.msg('document.msg.requiredFileupload');
+            }
+            break;
+        case 'ci':
+            if (element.tBodies[0].rows.length === 1 && element.tBodies[0].firstChild.classList.contains('no-data-found-list')){
+                message = i18n.msg('common.msg.requiredEnter');
             }
             break;
         default :
