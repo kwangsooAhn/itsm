@@ -1218,6 +1218,7 @@
                     `</div>` +
                 `</div>` +
             `</div>`;
+        
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // 폼 디자이너 편집 화면이 아니라면 버튼 동작 추가

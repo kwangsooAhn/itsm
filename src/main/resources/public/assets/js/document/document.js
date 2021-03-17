@@ -87,7 +87,7 @@
             element.removeAttribute('title');
         }
 
-       for (let i = 0, len = element.attributes.length; i < len; i++) {
+        for (let i = 0, len = element.attributes.length; i < len; i++) {
             let message = null;
             const attribute = element.attributes[i];
             const nodeValue = attribute.nodeValue;
@@ -140,6 +140,7 @@
             } else if (attribute.nodeName === 'required') {
                 message = checkRequired(element);
             }
+
             if (message !== null) {
                 element.classList.add('error');
                 element.title = message;
