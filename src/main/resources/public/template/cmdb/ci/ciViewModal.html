@@ -47,7 +47,7 @@
                 <label class="field-label" for="ciDesc">
                     <span th:text="#{cmdb.ci.label.description}"></span>
                 </label>
-                <textarea id="ciDesc" class="textarea-scroll-wrapper" rows="7" maxlength="128" th:text="${ciData?.ciDesc}" readonly></textarea>
+                <textarea id="ciDesc" class="textarea-scroll-wrapper" rows="7" maxlength="500" th:text="${ciData?.ciDesc}" readonly></textarea>
             </div>
             <!--클래스 -->
             <div class="flex-column view-row">
