@@ -30,7 +30,6 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
