@@ -52,7 +52,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 
-
 /**
  * 파일 서비스 클래스
  */
@@ -381,7 +380,8 @@ class AliceFileService(
                         val fileName = path.fileName.toString()
 
                         Files.isRegularFile(path) && // 파일 타입만 조회
-                                (allowedImageExtensions.indexOf(  // 허용 확장자 체크
+                                // 허용 확장자 체크
+                                (allowedImageExtensions.indexOf(
                                     fileName.substring(
                                         (fileName.lastIndexOf(".") + 1),
                                         fileName.length
