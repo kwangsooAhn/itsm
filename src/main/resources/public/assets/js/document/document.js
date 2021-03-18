@@ -187,11 +187,9 @@
      */
     function checkRequired(element) {
         let message = null;
-        let dataType = "element.getAttribute('data-type')";
-        while (eval(dataType) === null) {
-            dataType = dataType.replace(".", ".parentElement.")
-        }
-        switch (eval(dataType)) {
+        let dataType = element.id.substr(0, 2) === 'ci' ? `ci` : element.id;
+
+        switch (dataType) {
         case 'editor':
             let textEditor = Quill.find(element);
             if (textEditor.getLength() === 1) {
