@@ -187,10 +187,11 @@
      */
     function checkRequired(element) {
         let message = null;
-        if(element.id.toString().length > 2) {
-            element.id.substr(0, 2) === 'ci' ? element.id = `ci` : element.id;
+        let dataType = "element.getAttribute('data-type')";
+        while (eval(dataType) === null) {
+            dataType = dataType.replace(".", ".parentElement.")
         }
-        switch (element.id) {
+        switch (eval(dataType)) {
         case 'editor':
             let textEditor = Quill.find(element);
             if (textEditor.getLength() === 1) {
@@ -209,7 +210,7 @@
             }
             break;
         case 'ci':
-            if (element.tBodies[0].rows.length === 1 && element.tBodies[0].firstChild.classList.contains('no-data-found-list')){
+            if (element.tBodies[0].rows.length === 1 && element.tBodies[0].firstChild.classList.contains('no-data-found-list')) {
                 message = i18n.msg('common.msg.requiredEnter');
             }
             break;
