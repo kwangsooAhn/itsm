@@ -264,8 +264,10 @@
                         if (target === 'edit') {
                             setDisplay(document.getElementById('typeSelectBox').value);
                         }
-                        let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
-                        Highcharts.chart('container', data);
+                        if (chartId !== undefined) {
+                            let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
+                            Highcharts.chart('container', data);
+                        }
                     }
                 }
             };
