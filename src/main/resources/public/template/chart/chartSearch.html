@@ -376,20 +376,21 @@
         function parsedPropertyJson(chartConfig, property) {
             let chartConfigJson = JSON.parse(chartConfig);
             let propertyJson = JSON.parse(property);
-            let jsonObject = new Object();
+            let seriesObject = {};
+            let seriesArray = [];
+            let seriesDataArray = [];
 
-            // get propertyJson Data
-            let countArray = new Array;
-            let percentArray = new Array;
+            /** Get propertyJson Data **/
+            let countArray = [];
+            let percentArray = [];
+            let docKeyList = [];
+            let docValueList = [];
             for (key in propertyJson[0].operation) {
                 // 문서에 대한 카운트 개수
                 countArray.push(propertyJson[0].operation[key].count);
                 // 문서에 대한 각 퍼센트
                 percentArray.push(propertyJson[0].operation[key].percent);
             }
-
-            let docKeyList = new Array;
-            let docValueList = new Array;
             for (key in propertyJson[1].documentList) {
                 // 문서의 각 나눈 연도의 개수
                 docKeyList.push(key);
@@ -397,218 +398,255 @@
                 docValueList.push(propertyJson[1].documentList[key]);
             }
 
-            // Add ChartProperty
-            if (chartConfigJson.type === PIE_CHART) {
-                let chartProperty = new Object();
-                chartProperty.type = 'pie';
-                chartProperty.plotBackgroundColor = null;
-                chartProperty.plotBorderWidth = null;
-                chartProperty.plotShadow = false;
-                jsonObject.chart = chartProperty;
-            } else if (chartConfigJson.type === STACKED_COLUMN_CHART) {
-                let chartProperty = new Object();
-                chartProperty.type = 'column';
-                jsonObject.chart = chartProperty;
-            }
+            const getYear = docKeyList[0].substring(0, 4);
+            const getMonth = docKeyList[0].substring(4, 6);
+            const getDay = docKeyList[0].substring(6, 8);
+            const getHour = docKeyList[0].substring(8, 10);
 
-            // Add TitleProperty
-            let titleProperty = new Object;
-            titleProperty.text = propertyJson[0].title;
-            jsonObject.title = titleProperty;
-
-            // Add SubTitle
-            if (chartConfigJson.type === BASIC_LINE_CHART) {
-                let subTitleProperty = new Object;
-                subTitleProperty.text = '통계 차트 보고서';
-                jsonObject.subtitle = subTitleProperty;
-            }
-
-            // Add xAxisProperty
-            if (chartConfigJson.type === STACKED_COLUMN_CHART || chartConfigJson.type === BASIC_LINE_CHART) {
-                let xAxisProperty = new Object;
-                xAxisProperty.type = 'datetime';
-                jsonObject.xAxis = xAxisProperty;
-            }
-
-            // Add yAxisProperty
-            if (chartConfigJson.type === STACKED_COLUMN_CHART) {
-                let yAxisProperty = new Object;
-                let yAxisTitleProperty = new Object;
-                let stackedLabelsProperty = new Object;
-                let styleProperty = new Object;
-                yAxisProperty.min = 0;
-                yAxisTitleProperty.text = 'Number of Document';
-                yAxisProperty.title = yAxisTitleProperty;
-                stackedLabelsProperty.enabled = true;
-                styleProperty.fontWeight = 'bold';
-                styleProperty.color = 'gray';
-                stackedLabelsProperty.style = styleProperty;
-                yAxisProperty.stackedLabels = stackedLabelsProperty;
-                jsonObject.yAxis = yAxisProperty;
-            } else if (chartConfigJson.type === BASIC_LINE_CHART) {
-                let yAxisProperty = new Object;
-                let yAxisTitleProperty = new Object;
-                yAxisTitleProperty.text = 'Number of Documents';
-                yAxisProperty.title = yAxisTitleProperty;
-                jsonObject.yAxis = yAxisProperty;
-            }
-
-            // Add LegendProperty
-            if (chartConfigJson.type === STACKED_COLUMN_CHART) {
-                let legendProperty = new Object;
-                legendProperty.align = 'right';
-                legendProperty.x = -30;
-                legendProperty.verticalAlign = 'top';
-                legendProperty.y = 25;
-                legendProperty.floating = true;
-                legendProperty.backgroundColor = 'white';
-                legendProperty.borderColor = '#CCC';
-                legendProperty.borderWidth = 1;
-                legendProperty.shadow = false;
-                jsonObject.legend = legendProperty;
-            } else if (chartConfigJson.type === BASIC_LINE_CHART) {
-                let legendProperty = new Object;
-                legendProperty.layout = 'vertical';
-                legendProperty.align = 'right';
-                legendProperty.verticalAlign = 'middle';
-                jsonObject.legend = legendProperty;
-            }
-
-            // Add TooltipProperty
-            if (chartConfigJson.type === PIE_CHART) {
-                let tooltipProperty = new Object;
-                if (chartConfigJson.operation === 'percent') {
-                    tooltipProperty.pointFormat = '문서 차지 비율: <b>{point.percentage:.1f}%</b>';
-                } else {
-                    tooltipProperty.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
+            let options = {
+                title: {
+                    text: propertyJson[0].title
                 }
-                jsonObject.tooltip = tooltipProperty;
-            } else if (chartConfigJson.type === STACKED_COLUMN_CHART || chartConfigJson.type === BASIC_LINE_CHART) {
-                let tooltipProperty = new Object;
-                if (chartConfigJson.operation === 'percent') {
-                    tooltipProperty.pointFormatter = function () {
-                        let sum = countArray.reduce((a, b) => (a + b));
-                        let percent = (this.y / sum) * 100;
-                        return '문서 차지 비율: ' + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
+            };
+
+            switch (chartConfigJson.type) {
+                case PIE_CHART:
+                    /** chart Option **/
+                    options.chart = {
+                        type: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: null
                     }
-                } else {
-                    tooltipProperty.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
-                }
-                jsonObject.tooltip = tooltipProperty;
-            }
 
-            //Add AccessibilityProperty
-            if (chartConfigJson.type === PIE_CHART) {
-                let accessibilityProperty = new Object;
-                let pointProperty = new Object;
-                pointProperty.valueSuffix = '%';
-                accessibilityProperty.point = pointProperty
-                jsonObject.accessibility = accessibilityProperty;
-            }
-
-            // plotOptionsProperty
-            let plotOptionsProperty = new Object;
-            if (chartConfigJson.type === PIE_CHART) {
-                let pieProperty = new Object;
-                let dataLabelsProperty = new Object;
-                pieProperty.allowPoinSelect = true;
-                pieProperty.cursor = 'pointer';
-                dataLabelsProperty.enabled = true;
-                if (chartConfigJson.operation === 'percent') {
-                    dataLabelsProperty.format = '<b>{point.name}</b>: {point.percentage:.1f} %';
-                } else {
-                    dataLabelsProperty.format = '<b>{point.name}</b>: {y:.f} 건';
-                }
-                pieProperty.dataLabels = dataLabelsProperty;
-                plotOptionsProperty.pie = pieProperty;
-            } else {
-                const getYear = docKeyList[0].substring(0, 4);
-                const getMonth = docKeyList[0].substring(4, 6);
-                const getDay = docKeyList[0].substring(6, 8);
-                const getHour = docKeyList[0].substring(8, 10);
-                let seriesProperty = new Object;
-                seriesProperty.pointStart = Date.UTC(getYear, getMonth, getDay, getHour);
-                if (chartConfigJson.periodUnit === CHART_YEAR) {
-                    seriesProperty.pointIntervalUnit = 'year';
-                } else if (chartConfigJson.periodUnit === CHART_MONTH) {
-                    seriesProperty.pointIntervalUnit = 'month';
-                } else if (chartConfigJson.periodUnit === CHART_DAY) {
-                    seriesProperty.pointIntervalUnit = 'day';
-                } else {
-                    seriesProperty.pointInterval = 3600 * 1000;
-                }
-                plotOptionsProperty.series = seriesProperty;
-
-                if (chartConfigJson.type === STACKED_COLUMN_CHART || chartConfigJson.type === BASIC_LINE_CHART) {
-                    let columnProperty = new Object;
-                    let dataLabelsProperty = new Object;
-                    columnProperty.stacking = 'normal';
-                    dataLabelsProperty.enabled = true;
+                    /** tooltip Option **/
+                    options.tooltip = {}
                     if (chartConfigJson.operation === 'percent') {
-                        dataLabelsProperty.formatter = function () {
+                        options.tooltip.pointFormat = '문서 차지 비율: <b>{point.percentage:.1f}%</b>';
+                    } else {
+                        options.tooltip.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
+                    }
+
+                    /** accessibility Option **/
+                    options.accessibility = {
+                        point: {
+                            valueSuffix: '%'
+                        }
+                    }
+
+                    /** plot Option **/
+                    options.plotOptions = {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    }
+                    if (chartConfigJson.operation === 'percent') {
+                        options.plotOptions.pie.dataLabels.format = '<b>{point.name}</b>: {point.percentage:.1f} %';
+                    } else {
+                        options.plotOptions.pie.dataLabels.format = '<b>{point.name}</b>: {y:.f} 건';
+                    }
+
+                    /** series Option **/
+                    seriesObject.colorByPoint = true;
+                    for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
+                        let seriesDataObject = new Object;
+                        seriesDataObject.name = docKeyList[i];
+                        seriesDataObject.y = countArray[i];
+                        seriesDataObject.sliced = true;
+                        seriesDataObject.selected = true;
+                        seriesDataArray.push(seriesDataObject);
+                        seriesObject.data = seriesDataArray;
+                    }
+                    seriesArray.push(seriesObject);
+                    options.series = seriesArray;
+                    break;
+                case BASIC_LINE_CHART:
+                    /** subtitle Option **/
+                    options.subtitle = {
+                        text: '통계 차트 보고서'
+                    }
+
+                    /** xAxis Option **/
+                    options.xAxis = {
+                        type: 'datetime'
+                    }
+
+                    /** yAxis Option **/
+                    options.yAxis = {
+                        title: {
+                            text: 'Number of Documents'
+                        }
+                    }
+
+                    /** legend Option **/
+                    options.legend = {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    }
+
+                    /** tooltip Option **/
+                    options.tooltip = {}
+                    if (chartConfigJson.operation === 'percent') {
+                        options.tooltip.pointFormatter = function () {
+                            let sum = countArray.reduce((a, b) => (a + b));
+                            let percent = (this.y / sum) * 100;
+                            return '문서 차지 비율: ' + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
+                        }
+                    } else {
+                        options.tooltip.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
+                    }
+
+                    /** plot Option **/
+                    options.plotOptions = {
+                        series: {
+                            pointStart: Date.UTC(getYear, getMonth, getDay, getHour)
+                        },
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    }
+                    if (chartConfigJson.operation === 'percent') {
+                        options.plotOptions.column.dataLabels.formatter = function () {
                             let sum = countArray.reduce((a, b) => (a + b));
                             let percent = (this.y / sum) * 100;
                             return Highcharts.numberFormat(percent) + '%';
                         }
                     }
-                    columnProperty.dataLabels = dataLabelsProperty;
-                    plotOptionsProperty.column = columnProperty;
-                }
-            }
-            jsonObject.plotOptions = plotOptionsProperty;
+                    if (chartConfigJson.periodUnit === CHART_YEAR) {
+                        options.plotOptions.series.pointIntervalUnit = 'year';
+                    } else if (chartConfigJson.periodUnit === CHART_MONTH) {
+                        options.plotOptions.series.pointIntervalUnit = 'month';
+                    } else if (chartConfigJson.periodUnit === CHART_DAY) {
+                        options.plotOptions.series.pointIntervalUnit = 'day';
+                    } else {
+                        options.plotOptions.series.pointInterval = 3600 * 1000;
+                    }
 
-            // Add seriesProperty
-            let seriesArray = new Array;
-            let seriesObject = new Object;
-            let seriesDataArray = new Array;
-            if (chartConfigJson.type === PIE_CHART) {
-                seriesObject.colorByPoint = true;
-                for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
-                    let seriesDataObject = new Object;
-                    seriesDataObject.name = docKeyList[i];
-                    seriesDataObject.y = countArray[i];
-                    seriesDataObject.sliced = true;
-                    seriesDataObject.selected = true;
-                    seriesDataArray.push(seriesDataObject);
+                    /** responsive Option **/
+                    options.responsive = {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500,
+                            },
+                            chartOptions: {
+                                legend: {
+                                    layout: 'horizontal',
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                }
+                            },
+                        }]
+                    }
+
+                    /** series Option **/
+                    seriesObject.name = 'Document'
+                    for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
+                        seriesDataArray.push(countArray[i]);
+                    }
                     seriesObject.data = seriesDataArray;
-                }
-            } else if (chartConfigJson.type === STACKED_COLUMN_CHART) {
-                seriesObject.name = 'Document'
-                for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
-                    seriesDataArray.push(countArray[i]);
-                }
-                seriesObject.data = seriesDataArray;
-            } else if (chartConfigJson.type === BASIC_LINE_CHART) {
-                seriesObject.name = 'Document';
-                for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
-                    seriesDataArray.push(countArray[i]);
-                }
-                seriesObject.data = seriesDataArray;
-            }
-            seriesArray.push(seriesObject);
-            jsonObject.series = seriesArray;
+                    seriesArray.push(seriesObject);
+                    options.series = seriesArray;
+                    break;
+                case STACKED_COLUMN_CHART:
+                    /** chart Option **/
+                    options.chart = {
+                        type: 'column'
+                    }
 
-            //Add responsiveProperty
-            if (chartConfigJson.type === BASIC_LINE_CHART) {
-                let responsiveProperty = new Object;
-                let rulesArray = new Array;
-                let rulesProperty = new Object;
-                let conditionProperty = new Object;
-                let chartOptionsProperty = new Object;
-                let legendProperty = new Object;
-                legendProperty.layout = 'horizontal';
-                legendProperty.align = 'center';
-                legendProperty.verticalAlign = 'bottom';
-                chartOptionsProperty.legend = legendProperty;
-                conditionProperty.maxWidth = 500;
-                rulesProperty.condition = conditionProperty;
-                rulesProperty.chartOptions = chartOptionsProperty;
-                rulesArray.push(rulesProperty);
-                responsiveProperty.rules = rulesArray;
-                jsonObject.responsive = responsiveProperty;
+                    /** xAxis Option **/
+                    options.xAxis = {
+                        type: 'datetime'
+                    }
+
+                    /** yAxis Option **/
+                    options.yAxis = {
+                        min: 0,
+                        title: {
+                            text: 'Number of Documents'
+                        },
+                        stackedLabels: {
+                            enabled: true,
+                            style: {
+                                fontWeight: 'bold',
+                                color: 'gray'
+                            }
+                        }
+                    }
+
+                    /** legend option **/
+                    options.legend = {
+                        align: 'right',
+                        x: -30,
+                        verticalAlign: 'top',
+                        y: 25,
+                        floating: true,
+                        backgroundColor: 'white',
+                        borderColor: '#CCC',
+                        borderWidth: 1,
+                        shadow: false
+                    }
+
+                    /** plot Option **/
+                    options.plotOptions = {
+                        series: {
+                            pointStart: Date.UTC(getYear, getMonth, getDay, getHour)
+                        },
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    }
+                    if (chartConfigJson.operation === 'percent') {
+                        options.plotOptions.column.dataLabels.formatter = function () {
+                            let sum = countArray.reduce((a, b) => (a + b));
+                            let percent = (this.y / sum) * 100;
+                            return Highcharts.numberFormat(percent) + '%';
+                        }
+                    }
+                    if (chartConfigJson.periodUnit === CHART_YEAR) {
+                        options.plotOptions.series.pointIntervalUnit = 'year';
+                    } else if (chartConfigJson.periodUnit === CHART_MONTH) {
+                        options.plotOptions.series.pointIntervalUnit = 'month';
+                    } else if (chartConfigJson.periodUnit === CHART_DAY) {
+                        options.plotOptions.series.pointIntervalUnit = 'day';
+                    } else {
+                        options.plotOptions.series.pointInterval = 3600 * 1000;
+                    }
+
+                    /** tooltip Option **/
+                    options.tooltip = {}
+                    if (chartConfigJson.operation === 'percent') {
+                        options.tooltip.pointFormatter = function () {
+                            let sum = countArray.reduce((a, b) => (a + b));
+                            let percent = (this.y / sum) * 100;
+                            return '문서 차지 비율: ' + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
+                        }
+                    } else {
+                        options.tooltip.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
+                    }
+
+                    /** series Option **/
+                    seriesObject.name = 'Document';
+                    for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
+                        seriesDataArray.push(countArray[i]);
+                    }
+                    seriesObject.data = seriesDataArray;
+                    seriesArray.push(seriesObject);
+                    options.series = seriesArray;
+                    break;
             }
 
-            return jsonObject;
+            return options;
         }
 
         function getChartDto() {
