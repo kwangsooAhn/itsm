@@ -27,9 +27,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonParser
 import java.util.UUID
+import javax.transaction.Transactional
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
-import javax.transaction.Transactional
 
 @Service
 class WfFormService(
