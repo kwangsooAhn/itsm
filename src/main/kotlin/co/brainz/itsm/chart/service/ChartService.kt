@@ -444,8 +444,7 @@ class ChartService(
     }
 
     fun getPreviewChart(chartId: String, chartPreviewDto: ChartDto): ChartDto {
-        val chart = chartRepository.getOne(chartId)
-
+        var chart: ChartEntity
         val chartConfigJson = JsonParser().parse(getChartConfig(chartPreviewDto)).asJsonObject
         val targetLabel = chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asString
         val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
@@ -455,23 +454,29 @@ class ChartService(
             chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
 
         val chartDto = ChartDto(
-            chartId = chart.chartId,
             chartType = chartPreviewDto.chartType,
             chartName = chartPreviewDto.chartName,
             chartDesc = chartPreviewDto.chartDesc,
             chartConfig = getChartConfig(chartPreviewDto),
-            createDt = chart.createDt,
             targetLabel = targetLabel,
             operation = operation,
             durationDigit = durationDigit.toLong(),
             durationUnit = durationUnit
         )
 
+        if (chartId != "undefined") {
+            chart = chartRepository.getOne(chartId)
+            chartDto.chartId = chart.chartId
+            chartDto.createDt = chart.createDt
+        } else {
+            chartDto.createDt = LocalDateTime.now()
+        }
+
         when (chartDto.chartType) {
             ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
                 chartDto.periodUnit =
                     chartConfigJson.get(ChartConstants.ObjProperty.PERIOD_UNIT.property).asString
-                if (chart.chartType == ChartConstants.Type.BASIC_LINE.code) {
+                if (chartDto.chartType == ChartConstants.Type.BASIC_LINE.code) {
                     chartDto.group = chartConfigJson.get(ChartConstants.ObjProperty.GROUP.property)?.asString
                 }
             }

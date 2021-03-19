@@ -161,6 +161,7 @@
                         callback: function (modal) {
                             if (getChartDto() !== undefined) {
                                 restSubmit('post', '/rest/charts/' + chartId + '/preview', getChartDto(), function (response) {
+                                    document.getElementById('container').style.display = 'block';
                                     let responseJson = JSON.parse(response);
                                     let data = parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
                                     Highcharts.chart('container', data);
@@ -267,6 +268,8 @@
                         if (chartId !== undefined) {
                             let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
                             Highcharts.chart('container', data);
+                        } else {
+                            document.getElementById('container').style.display = 'none';
                         }
                     }
                 }
