@@ -240,11 +240,11 @@
         }
 
         function createModalContent() {
-            return `<div class="flex-column" id="getChart"></div>`
+            return `<div class="flex-column" id="getChart"></div>`;
         }
 
         function getChart(chartId, target) {
-            let strUrl = ''
+            let strUrl = '';
             if (chartId === undefined) {
                 strUrl = '/charts/new';
             } else if (target === 'edit') {
@@ -376,9 +376,6 @@
         function parsedPropertyJson(chartConfig, property) {
             let chartConfigJson = JSON.parse(chartConfig);
             let propertyJson = JSON.parse(property);
-            let seriesObject = {};
-            let seriesArray = [];
-            let seriesDataArray = [];
 
             /** Get propertyJson Data **/
             let countArray = [];
@@ -403,105 +400,86 @@
             const getDay = docKeyList[0].substring(6, 8);
             const getHour = docKeyList[0].substring(8, 10);
 
+            // highcharts 기본 옵션
             let options = {
+                chart: {},
                 title: {
                     text: propertyJson[0].title
-                }
+                },
+                subtitle: {
+                    text : ''
+                },
+                xAxis: {},
+                yAxis: {},
+                tooltip: {
+                    pointFormat: '문서 건 수: <b>{point.y:.f}건</b>'
+                },
+                plotOptions: {},
+                series: []
             };
 
             switch (chartConfigJson.type) {
                 case PIE_CHART:
-                    /** chart Option **/
-                    options.chart = {
-                        type: 'pie',
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: null
-                    }
+                    // chart
+                    options.chart.type = 'pie';
 
-                    /** tooltip Option **/
-                    options.tooltip = {}
+                    // tooltip Option
                     if (chartConfigJson.operation === 'percent') {
                         options.tooltip.pointFormat = '문서 차지 비율: <b>{point.percentage:.1f}%</b>';
-                    } else {
-                        options.tooltip.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
                     }
 
-                    /** accessibility Option **/
-                    options.accessibility = {
-                        point: {
-                            valueSuffix: '%'
+                    // 파이 조각 선택 기능
+                    options.plotOptions.pie = {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: ' + (chartConfigJson.operation === 'percent') ? '{point.percentage:.1f} %' : '{y:.f} 건'
                         }
-                    }
+                    };
 
-                    /** plot Option **/
-                    options.plotOptions = {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true
-                            }
-                        }
-                    }
-                    if (chartConfigJson.operation === 'percent') {
-                        options.plotOptions.pie.dataLabels.format = '<b>{point.name}</b>: {point.percentage:.1f} %';
-                    } else {
-                        options.plotOptions.pie.dataLabels.format = '<b>{point.name}</b>: {y:.f} 건';
-                    }
-
-                    /** series Option **/
-                    seriesObject.colorByPoint = true;
+                    // series
+                    options.series.push({data: []});
                     for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
-                        let seriesDataObject = new Object;
-                        seriesDataObject.name = docKeyList[i];
-                        seriesDataObject.y = countArray[i];
-                        seriesDataObject.sliced = true;
-                        seriesDataObject.selected = true;
-                        seriesDataArray.push(seriesDataObject);
-                        seriesObject.data = seriesDataArray;
+                        options.series[0].data.push({
+                            name: docKeyList[i],
+                            Y: countArray[i],
+                            sliced: (i === 0) ? true : false,
+                            selected: (i === 0) ? true : false
+                        });
                     }
-                    seriesArray.push(seriesObject);
-                    options.series = seriesArray;
                     break;
                 case BASIC_LINE_CHART:
-                    /** subtitle Option **/
-                    options.subtitle = {
-                        text: '통계 차트 보고서'
-                    }
+                    // subtitle
+                    options.subtitle.text = '통계 차트 보고서';
 
-                    /** xAxis Option **/
-                    options.xAxis = {
-                        type: 'datetime'
-                    }
+                    // xAxis
+                    options.xAxis.type = 'datetime';
 
-                    /** yAxis Option **/
+                    // yAxis
                     options.yAxis = {
                         title: {
                             text: 'Number of Documents'
                         }
-                    }
+                    };
 
-                    /** legend Option **/
+                    // legend
                     options.legend = {
                         layout: 'vertical',
                         align: 'right',
                         verticalAlign: 'middle'
-                    }
+                    };
 
-                    /** tooltip Option **/
-                    options.tooltip = {}
+                    // tooltip
                     if (chartConfigJson.operation === 'percent') {
                         options.tooltip.pointFormatter = function () {
                             let sum = countArray.reduce((a, b) => (a + b));
                             let percent = (this.y / sum) * 100;
                             return '문서 차지 비율: ' + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
                         }
-                    } else {
-                        options.tooltip.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
                     }
 
-                    /** plot Option **/
+                    // plot Option
                     options.plotOptions = {
                         series: {
                             pointStart: Date.UTC(getYear, getMonth, getDay, getHour)
@@ -512,7 +490,8 @@
                                 enabled: true
                             }
                         }
-                    }
+                    };
+
                     if (chartConfigJson.operation === 'percent') {
                         options.plotOptions.column.dataLabels.formatter = function () {
                             let sum = countArray.reduce((a, b) => (a + b));
@@ -544,29 +523,22 @@
                                 }
                             },
                         }]
-                    }
+                    };
 
-                    /** series Option **/
-                    seriesObject.name = 'Document'
+                    //series
+                    options.series.push({name: 'Document', data: []}); // 시리즈 1개 고정인가?
                     for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
-                        seriesDataArray.push(countArray[i]);
+                        options.series[0].data.push(countArray[i]);
                     }
-                    seriesObject.data = seriesDataArray;
-                    seriesArray.push(seriesObject);
-                    options.series = seriesArray;
                     break;
                 case STACKED_COLUMN_CHART:
                     /** chart Option **/
-                    options.chart = {
-                        type: 'column'
-                    }
+                    options.chart.type = 'column';
 
-                    /** xAxis Option **/
-                    options.xAxis = {
-                        type: 'datetime'
-                    }
+                    // xAxis
+                    options.xAxis.type = 'datetime';
 
-                    /** yAxis Option **/
+                    // yAxis
                     options.yAxis = {
                         min: 0,
                         title: {
@@ -581,7 +553,7 @@
                         }
                     }
 
-                    /** legend option **/
+                    // legend
                     options.legend = {
                         align: 'right',
                         x: -30,
@@ -592,9 +564,9 @@
                         borderColor: '#CCC',
                         borderWidth: 1,
                         shadow: false
-                    }
+                    };
 
-                    /** plot Option **/
+                    // plot Option
                     options.plotOptions = {
                         series: {
                             pointStart: Date.UTC(getYear, getMonth, getDay, getHour)
@@ -605,7 +577,8 @@
                                 enabled: true
                             }
                         }
-                    }
+                    };
+
                     if (chartConfigJson.operation === 'percent') {
                         options.plotOptions.column.dataLabels.formatter = function () {
                             let sum = countArray.reduce((a, b) => (a + b));
@@ -623,29 +596,22 @@
                         options.plotOptions.series.pointInterval = 3600 * 1000;
                     }
 
-                    /** tooltip Option **/
-                    options.tooltip = {}
+                    // tooltip
                     if (chartConfigJson.operation === 'percent') {
                         options.tooltip.pointFormatter = function () {
                             let sum = countArray.reduce((a, b) => (a + b));
                             let percent = (this.y / sum) * 100;
                             return '문서 차지 비율: ' + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
                         }
-                    } else {
-                        options.tooltip.pointFormat = '문서 건 수: <b>{point.y:.f}건</b>';
                     }
 
-                    /** series Option **/
-                    seriesObject.name = 'Document';
+                    // series
+                    options.series.push({name: 'Document', data: []});
                     for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
-                        seriesDataArray.push(countArray[i]);
+                        options.series[0].data.push(countArray[i]);
                     }
-                    seriesObject.data = seriesDataArray;
-                    seriesArray.push(seriesObject);
-                    options.series = seriesArray;
                     break;
             }
-
             return options;
         }
 
