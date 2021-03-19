@@ -84,6 +84,7 @@ class ChartController(
      */
     @GetMapping("/{chartId}/view")
     fun getChartView(@PathVariable chartId: String, model: Model): String {
+        model.addAttribute("chart", chartService.getChart(chartId))
         return chartViewPage
     }
 }
