@@ -407,12 +407,12 @@
                     text: propertyJson[0].title
                 },
                 subtitle: {
-                    text : ''
+                    text: ''
                 },
                 xAxis: {},
                 yAxis: {},
                 tooltip: {
-                    pointFormat: '문서 건 수: <b>{point.y:.f}건</b>'
+                    pointFormat: i18n.msg('chart.label.docCases') + i18n.msg('common.label.colon') + i18n.msg('common.label.blank') + '<b>' + '{point.y:.f}' + i18n.msg('common.label.count') + '</b>'
                 },
                 plotOptions: {},
                 series: []
@@ -425,7 +425,7 @@
 
                     // tooltip Option
                     if (chartConfigJson.operation === 'percent') {
-                        options.tooltip.pointFormat = '문서 차지 비율: <b>{point.percentage:.1f}%</b>';
+                        options.tooltip.pointFormat = i18n.msg('chart.label.docRatio') + i18n.msg('common.label.colon') + i18n.msg('common.label.blank') + '<b>{point.percentage:.1f}%</b>';
                     }
 
                     // 파이 조각 선택 기능
@@ -434,7 +434,7 @@
                         cursor: 'pointer',
                         dataLabels: {
                             enabled: true,
-                            format: '<b>{point.name}</b>: ' + (chartConfigJson.operation === 'percent') ? '{point.percentage:.1f} %' : '{y:.f} 건'
+                            format: '<b>{point.name}</b>: ' + (chartConfigJson.operation === 'percent') ? '{point.percentage:.1f} %' : '{y:.f}' + i18n.msg('common.label.count')
                         }
                     };
 
@@ -443,7 +443,7 @@
                     for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
                         options.series[0].data.push({
                             name: docKeyList[i],
-                            Y: countArray[i],
+                            y: countArray[i],
                             sliced: (i === 0) ? true : false,
                             selected: (i === 0) ? true : false
                         });
@@ -451,7 +451,7 @@
                     break;
                 case BASIC_LINE_CHART:
                     // subtitle
-                    options.subtitle.text = '통계 차트 보고서';
+                    options.subtitle.text = i18n.msg('chart.option.label.subTitle');
 
                     // xAxis
                     options.xAxis.type = 'datetime';
@@ -459,7 +459,7 @@
                     // yAxis
                     options.yAxis = {
                         title: {
-                            text: 'Number of Documents'
+                            text: i18n.msg('chart.option.label.yAxisTitle')
                         }
                     };
 
@@ -475,7 +475,7 @@
                         options.tooltip.pointFormatter = function () {
                             let sum = countArray.reduce((a, b) => (a + b));
                             let percent = (this.y / sum) * 100;
-                            return '문서 차지 비율: ' + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
+                            return i18n.msg('chart.label.docRatio') + i18n.msg('common.label.colon') + i18n.msg('common.label.blank') + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
                         }
                     }
 
@@ -544,7 +544,7 @@
                         title: {
                             text: 'Number of Documents'
                         },
-                        stackedLabels: {
+                        stackLabels: {
                             enabled: true,
                             style: {
                                 fontWeight: 'bold',
@@ -601,7 +601,7 @@
                         options.tooltip.pointFormatter = function () {
                             let sum = countArray.reduce((a, b) => (a + b));
                             let percent = (this.y / sum) * 100;
-                            return '문서 차지 비율: ' + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
+                            return i18n.msg('chart.label.docRatio') + i18n.msg('common.label.colon') + i18n.msg('common.label.blank') + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
                         }
                     }
 
