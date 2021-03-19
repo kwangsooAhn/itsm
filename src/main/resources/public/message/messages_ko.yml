@@ -25,6 +25,7 @@ common:
     blank: " "
     comment: "댓글"
     contents: "내용"
+    colon: ":"
     count: "{0} 건"
     createDate: "등록 일시"
     createUser: "등록자"
@@ -251,6 +252,12 @@ chart:
     operation: "연산"
     duration: "기간"
     group: "그룹"
+    docCases: "문서 건 수"
+    docRatio: "문서 차지 비율"
+  option:
+    label:
+      subTitle: "통계 차트 보고서"
+      yAxisTitle: "문서 수"
   msg:
     searchDescription: "다양한 통계용 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."
