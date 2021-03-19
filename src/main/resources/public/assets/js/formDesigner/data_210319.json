@@ -1,0 +1,77 @@
+{
+  "id": "form 아이디",
+  "name": "form 이름",
+  "desc": "설명",
+  "status": "편집 | 발생 | 사용 | 폐기",
+  "width": "문서 너비",
+  "height": "문서 높이",
+  "padding": "20 20 20 20 -> 문서 내부 여백(위 오른쪽 아래 왼쪽)",
+  "groups": [
+    {
+      "id": "group 아이디",
+      "name": "group 이름",
+      "displayOrder": "",
+      "margin": "10 0 10 0 -> 그룹 간 간격(위 오른쪽 아래 왼쪽)",
+      "padding": "20 20 20 20 -> 그룹 내부 여백(위 오른쪽 아래 왼쪽)",
+      "label": {
+        "position": "hidden | top | left",
+        "fontSize": "16",
+        "fontColor": "rgb(63, 75, 86)",
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "align": "left | center | right",
+        "text": "GROUP LABEL"
+      },
+      "accordion": {
+        "isUsed": false,
+        "thickness": "1",
+        "color": "rgba(235, 235, 235, 1)"
+      },
+      "rows": [
+        {
+          "id": "row아이디",
+          "name": "row 이름",
+          "margin": "10 0 10 0 -> Row 간 간격(위 오른쪽 아래 왼쪽)",
+          "padding": "20 20 20 20 -> Row 내부 여백(위 오른쪽 아래 왼쪽)",
+          "displayOrder": "",
+          "components": [
+            {
+              "id": "컴포넌트 아이디",
+              "name": "컴포넌트 이름",
+              "type": "inputbox",
+              "value": "${default}",
+              "column": "총 너비인 12 중 컴포넌트가 차지하는 너비",
+              "displayType": "readonly | editable | required | hidden",
+              "displayOrder": "",
+              "isTopic": false,
+              "mapId": "",
+              "tags": [],
+              "label": {
+                "position": "hidden | top | left",
+                "fontSize": "16",
+                "fontColor": "rgb(63, 75, 86)",
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "align": "left | center | right",
+                "text": "COMPONENT LABEL"
+              },
+              "display": {
+                "placeholder": "",
+                "column": "총 너비인 12 중 element가 차지하는 너비",
+                "default": "none|"
+              },
+              "validate": {
+                "regexp": "none",
+                "regexpMsg": "",
+                "lengthMin": "0",
+                "lengthMax": "100"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
