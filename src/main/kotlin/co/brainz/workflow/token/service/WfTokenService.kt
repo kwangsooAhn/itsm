@@ -167,7 +167,7 @@ class WfTokenService(
             // displayType이 존재할 경우 기본값 할당
             for (documentDisplay in documentDisplayList) {
                 if (componentEntity.componentId == documentDisplay.componentId) {
-                    componentEntity.dataAttribute["displayType"] = documentDisplay.display
+                    componentEntity.dataAttribute["displayType"] = WfDocumentConstants.DisplayType.READONLY.value
                 }
             }
         }
@@ -175,13 +175,14 @@ class WfTokenService(
         val tokenData = LinkedMultiValueMap<String, String>()
         tokenData["tokenId"] = tokenEntity.get().tokenId
         tokenData["status"] = tokenEntity.get().tokenStatus
-        return RestTemplateTokenViewDto(
+        var test = RestTemplateTokenViewDto(
             token = tokenData,
             instanceId = tokenEntity.get().instance.instanceId,
             form = formData,
             actions = wfActionService.actions(tokenEntity.get().element.elementId),
             stakeholders = this.getTokenStakeholders(tokenEntity.get())
         )
+        return test
     }
 
     /**
