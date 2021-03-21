@@ -105,9 +105,8 @@ class CIService(
         val ciDetailDto = CIDetailDto(
             ciId = ciId
         )
-        val resultCiEntity = ciRepository.findById(ciId)
-        if (!resultCiEntity.isEmpty) {
-            val ciEntity = resultCiEntity.get()
+        val ciEntity = ciRepository.findByCiId(ciId)
+        if (ciEntity != null) {
             ciDetailDto.ciNo = ciEntity.ciNo
             ciDetailDto.ciName = ciEntity.ciName
             ciDetailDto.ciIcon = ciEntity.ciIcon

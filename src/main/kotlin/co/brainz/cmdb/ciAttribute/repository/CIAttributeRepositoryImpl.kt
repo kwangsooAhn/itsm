@@ -134,6 +134,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                 (ciDataEntity.ciAttribute.attributeId.eq(ciAttributeEntity.attributeId))
                     .and(ciDataEntity.ci.ciId.eq(ciId))
             )
+            .orderBy(ciClassAttributeMapEntity.attributeOrder.asc())
 
         val result = query.fetchResults()
         val ciAttributeDataList = mutableListOf<CIAttributeValueDto>()

@@ -11,8 +11,10 @@
                 th:text="${type.codeName}" th:selected="${type.codeValue} == ${chart?.chartType}"></option>
     </select>
 </div>
+<input type="hidden" id="propertyJson" name="propertyJson" th:value="${chart?.propertyJson}"/>
+<input type="hidden" id="chartConfig" name="chartConfig" th:value="${chart?.chartConfig}"/>
 <div class="flex-column edit-row mt-2">
-    <textarea id="chart" name="chart" th:text="${chart?.propertyJson}"/>
+    <div id="container" class="chart-content-view"/>
 </div>
 <div class="flex-column edit-row mt-2">
     <h4 class="sub-title under-bar bold" th:text="#{chart.label.defaultInfo}"/>
