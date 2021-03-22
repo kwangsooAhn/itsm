@@ -800,7 +800,7 @@
                 `<div class="field-content custom-code input-button" style="--data-column: ${property.display.column};">` +
                     `<input class="custom-code-text" type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${aliceJs.filterXSS(defaultValue)}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''} readonly />` +
-                    `<button type="button" class="default-line flex-fill" id="codeBtn-${this.id}">${aliceJs.filterXSS(property.display.buttonText)}</button>` +
+                    `<button type="button" ${displayType === 'readonly' ? 'style="display:none"' : ''} class="default-line flex-fill" id="codeBtn-${this.id}">${aliceJs.filterXSS(property.display.buttonText)}</button>` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -1192,7 +1192,7 @@
                     `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                     `<div class="field-content" style="--data-column: ${property.display.column};">` +
                         `<div class="btn-list">` +
-                        `${property.display.isEditable ?
+                        `${displayType !== 'readonly' && property.display.isEditable ?
                             `<button type="button" class="default-line" id="btn-ci-register-${property.componentId}" data-actionType="register">` + 
                                 i18n.msg('cmdb.ci.label.new') + i18n.msg('common.label.blank') + i18n.msg('cmdb.ci.label.register') +
                             `</button>` +
@@ -1208,7 +1208,7 @@
                             `</button>`
                         }` +
                         `</div>` +
-                        `<table class="ci-table" id="ci-table-${property.componentId}">` +
+                        `<table class="ci-table" id="ci-table-${property.componentId}" ${displayType === 'editableRequired' ? ' required' : ''}>` +
                             `<thead>` +
                                 `<tr>${tableHeaderOptions}</tr>` +
                             `</thead>` +
@@ -1218,7 +1218,7 @@
                     `</div>` +
                 `</div>` +
             `</div>`;
-
+        
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // 폼 디자이너 편집 화면이 아니라면 버튼 동작 추가

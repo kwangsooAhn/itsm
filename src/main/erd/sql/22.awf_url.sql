@@ -139,6 +139,7 @@ insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 �
 insert into awf_url values ('/rest/charts', 'post', '통계 차트 등록', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}', 'put', '통계 차트 수정', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}', 'delete', '통계 차트 삭제', 'TRUE');
+insert into awf_url values ('/rest/charts/{id}/preview', 'post', '통계 차트 미리보기', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');

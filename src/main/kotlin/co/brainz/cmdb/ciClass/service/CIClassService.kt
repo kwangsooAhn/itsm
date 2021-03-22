@@ -249,8 +249,7 @@ class CIClassService(
                 targetClassId = targetClass.pClass?.classId ?: CIClassConstants.CI_CLASS_ROOT_ID
             }
         }
-
-        classList.forEach {
+        classList.reversed().forEach {
             val ciClassDetailValueDto = CIClassDetailValueDto(
                 attributes = ciAttributeRepository.findAttributeValueList("", it).toMutableList()
             )
