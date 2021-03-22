@@ -1510,6 +1510,9 @@ label {
     margin: 20mm auto;
   }
 
+  .print {
+    width: 100%;
+  }
   .print .print-main {
     min-width: 0;
   }
