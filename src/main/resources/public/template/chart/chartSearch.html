@@ -51,6 +51,7 @@
         const PIE_CHART = 'chart.pie';
         const STACKED_COLUMN_CHART = 'chart.stackedColumn';
         const BASIC_LINE_CHART = 'chart.basicLine';
+        let chart = null;
 
         window.onload = function () {
             document.getElementById('searchTypeName').addEventListener('change', function () {
@@ -150,7 +151,7 @@
         /**
          * Chart edit 화면 호출 (Modal)
          */
-        function openChartEditModal(chartId) {
+        function openChartEditModal(chartId, chartType) {
             let chartOptions = {
                 title: i18n.msg('chart.label.edit'),
                 body: createModalContent(),
@@ -164,8 +165,7 @@
                             if (getChartDto() !== undefined) {
                                 restSubmit('post', '/rest/charts/' + chartId + '/preview', getChartDto(), function (response) {
                                     let responseJson = JSON.parse(response);
-                                    let data = parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
-                                    Highcharts.chart('container', data);
+                                    parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
                                 }, false)
                             }
                         }
@@ -174,8 +174,8 @@
                     closable: false,
                 },
                 onCreate: function (modal) {
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    getChart(chartId, 'edit');
+                    OverlayScrollbars(document.querySelector('.chart-edit-content'), {className: 'scrollbar'});
+                    getChart(chartId, chartType, 'edit');
                 }
             };
 
@@ -216,7 +216,7 @@
         /**
          * Chart view 화면 호출 (Modal)
          */
-        function openChartViewModal(chartId) {
+        function openChartViewModal(chartId, chartType) {
             let chartOptions = {
                 title: i18n.msg('chart.label.viewTitle'),
                 body: createModalContent(),
@@ -233,7 +233,7 @@
                     closable: false,
                 },
                 onCreate: function (modal) {
-                    getChart(chartId, 'view');
+                    getChart(chartId, chartType, 'view');
                 }
             };
 
@@ -242,10 +242,12 @@
         }
 
         function createModalContent() {
-            return `<div class="flex-column" id="getChart"></div>`;
+            return `<div class="chart-edit-content">` +
+                       `<div class="flex-column" id="getChart"></div>` +
+                    `</div>`;
         }
 
-        function getChart(chartId, target) {
+        function getChart(chartId, chartType, target) {
             let strUrl = '';
             if (chartId === undefined) {
                 strUrl = '/charts/new';
@@ -265,10 +267,11 @@
                         document.getElementById('getChart').innerHTML = response.responseText;
                         if (target === 'edit') {
                             setDisplay(document.getElementById('typeSelectBox').value);
+                        } else {
+                            setChart(chartType);
                         }
                         if (chartId !== undefined) {
-                            let data = parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
-                            Highcharts.chart('container', data);
+                            parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
                         }
                     }
                 }
@@ -372,146 +375,60 @@
                 document.getElementById('groupLabel').style.display = 'none';
                 document.getElementById('targetGroup').style.display = 'none';
             }
+            // 차트 새로 그리기
+            setChart(value);
         }
 
-        /** chartConfig 파싱 진행 **/
-        function parsedPropertyJson(chartConfig, property) {
-            let chartConfigJson = JSON.parse(chartConfig);
-            let propertyJson = JSON.parse(property);
-
-            /** Get propertyJson Data **/
-            let countArray = [];
-            let percentArray = [];
-            let docKeyList = [];
-            let docValueList = [];
-            for (key in propertyJson[0].operation) {
-                // 문서에 대한 카운트 개수
-                countArray.push(propertyJson[0].operation[key].count);
-                // 문서에 대한 각 퍼센트
-                percentArray.push(propertyJson[0].operation[key].percent);
-            }
-            for (key in propertyJson[1].documentList) {
-                // 문서의 각 나눈 연도의 개수
-                docKeyList.push(key);
-                // 문서가 가진 정보 값 documentId, documentName, createDt
-                docValueList.push(propertyJson[1].documentList[key]);
-            }
-
-            const getYear = docKeyList[0].substring(0, 4);
-            const getMonth = docKeyList[0].substring(4, 6);
-            const getDay = docKeyList[0].substring(6, 8);
-            const getHour = docKeyList[0].substring(8, 10);
-
+        /** 하이차트 초기화 */
+        function setChart(chartType) {
             // highcharts 기본 옵션
             let options = {
-                chart: {},
-                title: {
-                    text: propertyJson[0].title
-                },
-                subtitle: {
-                    text: ''
-                },
+                chart: { type: 'line' },
+                title: { text: '' },
+                subtitle: { text: '' },
+                credits: { enabled: false },
                 xAxis: {},
                 yAxis: {},
-                tooltip: {
-                    pointFormat: i18n.msg('chart.label.docCases') + i18n.msg('common.label.colon') + i18n.msg('common.label.blank') + '<b>' + '{point.y:.f}' + i18n.msg('common.label.count') + '</b>'
+                tooltip: {},
+                legend: {
+                    align: 'right',
+                    x: -30,
+                    verticalAlign: 'top',
+                    y: 25,
+                    floating: true,
+                    backgroundColor: 'white',
+                    borderColor: '#CCC',
+                    borderWidth: 1,
+                    shadow: false
                 },
                 plotOptions: {},
-                series: []
+                series: [{data: []}]
             };
 
-            switch (chartConfigJson.type) {
+            switch (chartType) {
                 case PIE_CHART:
-                    // chart
                     options.chart.type = 'pie';
-
-                    // tooltip Option
-                    if (chartConfigJson.operation === 'percent') {
-                        options.tooltip.pointFormat = i18n.msg('chart.label.docRatio') + i18n.msg('common.label.colon') + i18n.msg('common.label.blank') + '<b>{point.percentage:.1f}%</b>';
-                    }
-
-                    // 파이 조각 선택 기능
                     options.plotOptions.pie = {
                         allowPointSelect: true,
                         cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b>: ' + (chartConfigJson.operation === 'percent') ? '{point.percentage:.1f} %' : '{y:.f}' + i18n.msg('common.label.count')
-                        }
+                        dataLabels: { enabled: true }
                     };
-
-                    // series
-                    options.series.push({data: []});
-                    for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
-                        options.series[0].data.push({
-                            name: docKeyList[i],
-                            y: countArray[i],
-                            sliced: (i === 0) ? true : false,
-                            selected: (i === 0) ? true : false
-                        });
-                    }
+                    options.series[0].type = 'pie';
                     break;
                 case BASIC_LINE_CHART:
-                    // subtitle
-                    options.subtitle.text = i18n.msg('chart.option.label.subTitle');
-
-                    // xAxis
                     options.xAxis.type = 'datetime';
-
-                    // yAxis
-                    options.yAxis = {
-                        title: {
-                            text: i18n.msg('chart.option.label.yAxisTitle')
-                        }
-                    };
-
-                    // legend
-                    options.legend = {
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle'
-                    };
-
-                    // tooltip
-                    if (chartConfigJson.operation === 'percent') {
-                        options.tooltip.pointFormatter = function () {
-                            let sum = countArray.reduce((a, b) => (a + b));
-                            let percent = (this.y / sum) * 100;
-                            return i18n.msg('chart.label.docRatio') + i18n.msg('common.label.colon') + i18n.msg('common.label.blank') + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
-                        }
-                    }
-
-                    // plot Option
                     options.plotOptions = {
-                        series: {
-                            pointStart: Date.UTC(getYear, getMonth, getDay, getHour)
-                        },
-                        column: {
-                            stacking: 'normal',
+                        line: {
                             dataLabels: {
                                 enabled: true
+                            },
+                        },
+                        series: {
+                            label: {
+                                connectorAllowed: true
                             }
                         }
                     };
-
-                    if (chartConfigJson.operation === 'percent') {
-                        options.plotOptions.column.dataLabels.formatter = function () {
-                            let sum = countArray.reduce((a, b) => (a + b));
-                            let percent = (this.y / sum) * 100;
-                            return Highcharts.numberFormat(percent) + '%';
-                        }
-                    }
-                    if (chartConfigJson.periodUnit === CHART_YEAR) {
-                        options.plotOptions.series.pointIntervalUnit = 'year';
-                    } else if (chartConfigJson.periodUnit === CHART_MONTH) {
-                        options.plotOptions.series.pointIntervalUnit = 'month';
-                    } else if (chartConfigJson.periodUnit === CHART_DAY) {
-                        options.plotOptions.series.pointIntervalUnit = 'day';
-                    } else {
-                        options.plotOptions.series.pointInterval = 3600 * 1000;
-                    }
-
-                    /** responsive Option **/
                     options.responsive = {
                         rules: [{
                             condition: {
@@ -526,53 +443,15 @@
                             },
                         }]
                     };
-
-                    //series
-                    options.series.push({name: 'Document', data: []}); // 시리즈 1개 고정인가?
-                    for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
-                        options.series[0].data.push(countArray[i]);
-                    }
                     break;
                 case STACKED_COLUMN_CHART:
-                    /** chart Option **/
                     options.chart.type = 'column';
-
-                    // xAxis
                     options.xAxis.type = 'datetime';
-
-                    // yAxis
                     options.yAxis = {
                         min: 0,
-                        title: {
-                            text: 'Number of Documents'
-                        },
-                        stackLabels: {
-                            enabled: true,
-                            style: {
-                                fontWeight: 'bold',
-                                color: 'gray'
-                            }
-                        }
+                        stackLabels: { enabled: false }
                     }
-
-                    // legend
-                    options.legend = {
-                        align: 'right',
-                        x: -30,
-                        verticalAlign: 'top',
-                        y: 25,
-                        floating: true,
-                        backgroundColor: 'white',
-                        borderColor: '#CCC',
-                        borderWidth: 1,
-                        shadow: false
-                    };
-
-                    // plot Option
                     options.plotOptions = {
-                        series: {
-                            pointStart: Date.UTC(getYear, getMonth, getDay, getHour)
-                        },
                         column: {
                             stacking: 'normal',
                             dataLabels: {
@@ -580,41 +459,183 @@
                             }
                         }
                     };
-
-                    if (chartConfigJson.operation === 'percent') {
-                        options.plotOptions.column.dataLabels.formatter = function () {
-                            let sum = countArray.reduce((a, b) => (a + b));
-                            let percent = (this.y / sum) * 100;
-                            return Highcharts.numberFormat(percent) + '%';
-                        }
-                    }
-                    if (chartConfigJson.periodUnit === CHART_YEAR) {
-                        options.plotOptions.series.pointIntervalUnit = 'year';
-                    } else if (chartConfigJson.periodUnit === CHART_MONTH) {
-                        options.plotOptions.series.pointIntervalUnit = 'month';
-                    } else if (chartConfigJson.periodUnit === CHART_DAY) {
-                        options.plotOptions.series.pointIntervalUnit = 'day';
-                    } else {
-                        options.plotOptions.series.pointInterval = 3600 * 1000;
-                    }
-
-                    // tooltip
-                    if (chartConfigJson.operation === 'percent') {
-                        options.tooltip.pointFormatter = function () {
-                            let sum = countArray.reduce((a, b) => (a + b));
-                            let percent = (this.y / sum) * 100;
-                            return i18n.msg('chart.label.docRatio') + i18n.msg('common.label.colon') + i18n.msg('common.label.blank') + '<b>' + Highcharts.numberFormat(percent) + '%' + '</b>';
-                        }
-                    }
-
-                    // series
-                    options.series.push({name: 'Document', data: []});
-                    for (let i = 0; i < Object.keys(propertyJson[1].documentList).length; i++) {
-                        options.series[0].data.push(countArray[i]);
-                    }
                     break;
             }
-            return options;
+            chart = Highcharts.chart('container', options);
+        }
+
+        /** chartConfig 파싱 진행 **/
+        function parsedPropertyJson(chartConfig, property) {
+            let chartConfigJson = JSON.parse(chartConfig);
+            let propertyJson = JSON.parse(property);
+
+            /** Get propertyJson Data **/
+            let countArray = [];
+            let percentArray = [];
+            let docKeyList = [];
+            let docValueList = [];
+            for (let key in propertyJson[0].operation) {
+                // 문서에 대한 카운트 개수
+                countArray.push(propertyJson[0].operation[key].count);
+                // 문서에 대한 각 퍼센트
+                percentArray.push(propertyJson[0].operation[key].percent);
+            }
+            for (let key in propertyJson[1].documentList) {
+                // 문서의 각 나눈 연도의 개수
+                docKeyList.push(key);
+                // 문서가 가진 정보 값 documentId, documentName, createDt
+                docValueList.push(propertyJson[1].documentList[key]);
+            }
+            const getYear = Number(docKeyList[0].substring(0, 4));
+            const getMonth = Number(docKeyList[0].substring(4, 6));
+            const getDay = Number(docKeyList[0].substring(6, 8));
+            const getHour = Number(docKeyList[0].substring(8, 10));
+
+            // 라인차트, 컬럼차트용
+            let pointInterval = 1; // time
+            let pointIntervalUnit = undefined; //  highcharts 기본값
+            if (typeof chartConfigJson.periodUnit !== 'undefined') {
+                if (chartConfigJson.periodUnit === CHART_YEAR) {
+                    pointIntervalUnit = 'year';
+                } else if (chartConfigJson.periodUnit === CHART_MONTH) {
+                    pointIntervalUnit = 'month';
+                } else if (chartConfigJson.periodUnit === CHART_DAY) {
+                    pointIntervalUnit = 'day';
+                } else {  // time
+                    pointInterval = 3600 * 1000;
+                }
+            }
+            // 데이터상 현재 시리즈는 1개만 전달됨
+            const seriesName = i18n.msg('chart.label.doc');
+
+            // 차트 업데이트
+            chart.setTitle({text: propertyJson[0].title});
+
+            let seriesData = [];
+            const categoryData = Object.keys(propertyJson[1].documentList);
+            switch (chartConfigJson.type) {
+                case PIE_CHART:
+                    chart.series[0].update({
+                        tooltip: {
+                            pointFormatter: function () {
+                                if (chartConfigJson.operation === 'percent') {
+                                    return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
+                                } else {
+                                    return i18n.msg('chart.label.docCases') + ': <b>' +  i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                }
+                            }
+                        },
+                        dataLabels: {
+                            formatter: function () {
+                                if (chartConfigJson.operation === 'percent') {
+                                    return '<b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
+                                } else {
+                                    return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                                }
+                            }
+                        }
+                    });
+                    for (let i = 0; i < categoryData.length; i++) {
+                        seriesData.push({
+                            name: docKeyList[i],
+                            y: countArray[i],
+                            sliced: (i === 0) ? true : false,
+                            selected: (i === 0) ? true : false
+                        });
+                    }
+                    chart.series[0].setData(seriesData, true);
+                    break;
+                case BASIC_LINE_CHART:
+                    chart.yAxis[0].setTitle({ text: i18n.msg('chart.option.label.yAxisTitle') });
+
+                    chart.series[0].update({
+                        pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
+                        pointInterval: pointInterval,
+                        pointIntervalUnit: pointIntervalUnit,
+                        tooltip: {
+                            pointFormatter: function () {
+                                if (chartConfigJson.operation === 'percent') {
+                                    const sum = countArray.reduce((a, b) => (a + b));
+                                    const percent = (this.y / sum) * 100;
+                                    return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                } else {
+                                    return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                }
+                            }
+                        },
+                        dataLabels: {
+                            formatter: function () {
+                                if (chartConfigJson.operation === 'percent') {
+                                    const sum = countArray.reduce((a, b) => (a + b));
+                                    const percent = (this.y / sum) * 100;
+                                    return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                } else {
+                                    return '<b>' +  Highcharts.numberFormat(this.y, 0) + '</b>';
+                                }
+                            }
+                        }
+                    });
+
+                    for (let i = 0; i < categoryData.length; i++) {
+                        const getYear = categoryData[i].substring(0, 4);
+                        const getMonth = categoryData[i].substring(4, 6);
+                        const getDay = categoryData[i].substring(6, 8);
+                        const getHour = categoryData[i].substring(8, 10);
+                        seriesData.push({
+                            name: seriesName,
+                            x: Date.UTC(getYear, getMonth, getDay, getHour),
+                            y: countArray[i]
+                        });
+                    }
+                    chart.series[0].update({name:seriesName, showInLegend: true}, false);
+                    chart.series[0].setData(seriesData, true);
+                    break;
+                case STACKED_COLUMN_CHART:
+                    chart.yAxis[0].setTitle({ text: i18n.msg('chart.option.label.yAxisTitle') });
+
+                    chart.series[0].update({
+                        pointStart: Date.UTC(getYear, getMonth, getDay, getHour),
+                        pointInterval: pointInterval,
+                        pointIntervalUnit: pointIntervalUnit,
+                        tooltip: {
+                            pointFormatter: function () {
+                                if (chartConfigJson.operation === 'percent') {
+                                    const sum = countArray.reduce((a, b) => (a + b));
+                                    const percent = (this.y / sum) * 100;
+                                    return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                } else {
+                                    return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                }
+                            }
+                        },
+                        dataLabels: {
+                            formatter: function () {
+                                if (chartConfigJson.operation === 'percent') {
+                                    const sum = countArray.reduce((a, b) => (a + b));
+                                    const percent = (this.y / sum) * 100;
+                                    return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                } else {
+                                    return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                                }
+                            }
+                        }
+                    });
+
+                    for (let i = 0; i < categoryData.length; i++) {
+                        const getYear = categoryData[i].substring(0, 4);
+                        const getMonth = categoryData[i].substring(4, 6);
+                        const getDay = categoryData[i].substring(6, 8);
+                        const getHour = categoryData[i].substring(8, 10);
+                        seriesData.push({
+                            name: seriesName,
+                            x: Date.UTC(getYear, getMonth, getDay, getHour),
+                            y: countArray[i]
+                        });
+                    }
+                    chart.series[0].update({name:seriesName, showInLegend: true}, false);
+                    chart.series[0].setData(seriesData, true);
+                    break;
+            }
         }
 
         function getChartDto() {

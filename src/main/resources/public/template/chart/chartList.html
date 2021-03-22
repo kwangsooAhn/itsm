@@ -25,13 +25,13 @@
             <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(chartList)}" th:each="chart: ${chartList}">
                 <td style="width: 15%;" class="align-left" th:text="#{|chart.${chart.chartType}|}"></td>
                 <td sec:authorize="hasAuthority('chart.create') || hasAuthority('chart.update')" style="width: 15%;"
-                    class="align-left underline point-fill pointer" th:onclick="openChartViewModal([[${chart.chartId}]])"
+                    class="align-left underline point-fill pointer" th:onclick="openChartViewModal([[${chart.chartId}]], [[${chart.chartType}]])"
                     th:text="${chart.chartName}">
                 </td>
                 <td style="width: 25%;" class="align-left" th:text="${chart.chartDesc}"></td>
                 <td style="width: 10%;" class="align-center">
                     <button type="button" sec:authorize="hasAuthority('chart.create') || hasAuthority('chart.update')"
-                            th:onclick="openChartEditModal([[${chart.chartId}]])">
+                            th:onclick="openChartEditModal([[${chart.chartId}]], [[${chart.chartType}]])">
                         <span class="icon-edit"></span>
                     </button>
                 </td>
