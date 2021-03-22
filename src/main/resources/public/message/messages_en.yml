@@ -252,6 +252,7 @@ chart:
     operation: "Operation"
     duration: "Duration"
     group: "Group"
+    doc: "Document"
     docCases: "Documents Cases"
     docRatio: "Documents Ratio"
   option:

@@ -164,8 +164,6 @@
   }
   // 관련문서 모달
   // CMDB > Class > AttributeList 모달
-  // 통계 문서 모달
-  &.chart-edit-modal,
   &.cmdb-class-attribute-modal,
   &.token-list {
     width: $token-list-modal-width;
@@ -210,6 +208,23 @@
             }
           }
         }
+      }
+    }
+  }
+  // 통계문서 모달
+  &.chart-edit-modal {
+    width: $chart-edit-modal-width;
+    height: $chart-edit-modal-height;
+    .modal-content {
+      height: calc(#{$chart-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+      overflow: hidden;
+
+      .chart-edit-content {
+        width: calc(#{$chart-edit-modal-width} - 2.5rem); // 너비에서 여백만큼 빼준다.
+        height: calc(#{$chart-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 높이에서 여백만큼 빼준다.
+        padding: 0 1.25rem; // 0 20px
+        overflow-y: auto;
       }
     }
   }
