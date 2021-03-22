@@ -169,7 +169,7 @@ class WfTokenService(
             // displayType이 존재할 경우 기본값 할당
             for (documentDisplay in documentDisplayList) {
                 if (componentEntity.componentId == documentDisplay.componentId) {
-                    componentEntity.dataAttribute["displayType"] = WfDocumentConstants.DisplayType.READONLY.value
+                    componentEntity.dataAttribute["displayType"] = documentDisplay.display
                 }
             }
         }
@@ -196,7 +196,7 @@ class WfTokenService(
                 }
             }
         }
-        return restTemplateTokenDto
+         return restTemplateTokenDto
     }
 
     /**
