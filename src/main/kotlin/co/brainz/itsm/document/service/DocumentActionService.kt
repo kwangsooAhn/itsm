@@ -58,6 +58,21 @@ class DocumentActionService(
             val isAssignee = this.checkAssignee(tokenObject, userEntity)
             // 반환할 버튼 정보
             val actionsResult = this.getActionList(tokenObject, userEntity, isProgress, isAssignee)
+            // 문서에 회수가 존재하지 않으면, 모든 components에 대하여 displayType을 'readonly'로 수정한다.
+            val components = tokenObject.get("form").asJsonObject.get("components").asJsonArray
+            val revokeAssignee = tokenObject.get("stakeholders").asJsonObject.get("revokeAssignee")
+            if (aliceUserDto.userKey != revokeAssignee.asString) {
+                for (action in actionsResult) {
+                    if (action.asJsonObject.get("value").asString == "withdraw") {
+                        for (component in components) {
+                            component.asJsonObject.get("dataAttribute").asJsonObject.addProperty(
+                                "displayType",
+                                "readonly"
+                            )
+                        }
+                    }
+                }
+            }
             tokenObject.remove("actions")
             if (actionsResult.size() > 0) {
                 tokenObject.add("actions", actionsResult)
