@@ -213,6 +213,14 @@
       }
     }
   }
+  // 통계문서 미리보기
+  &.chart-view-modal {
+    width: $token-list-modal-width;
+    .modal-content {
+      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+      height: auto;
+    }
+  }
   // CI 조회 CI 상세보기
   &.cmdb-ci-view-modal {
     width: $cmdb-ci-modal-width;
