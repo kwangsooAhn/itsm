@@ -5,7 +5,6 @@
 
 package co.brainz.workflow.token.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.instance.constants.InstanceConstants
@@ -29,7 +28,6 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.LinkedMultiValueMap
@@ -177,26 +175,13 @@ class WfTokenService(
         val tokenData = LinkedMultiValueMap<String, String>()
         tokenData["tokenId"] = tokenEntity.get().tokenId
         tokenData["status"] = tokenEntity.get().tokenStatus
-        var restTemplateTokenDto = RestTemplateTokenViewDto(
+        return RestTemplateTokenViewDto(
             token = tokenData,
             instanceId = tokenEntity.get().instance.instanceId,
             form = formData,
             actions = wfActionService.actions(tokenEntity.get().element.elementId),
             stakeholders = this.getTokenStakeholders(tokenEntity.get())
         )
-        //만약 데이터에 withdraw 버튼이 존재하게 된다면,
-        //현재 로그인한 사용자의 유저키와 해당 문서의 유저키가 같은지 판단 후,
-        //해당 컴포넌트의 displayType 속성을 READONLY로 수정한다.
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val userKey = aliceUserDto.userKey
-        for (action in restTemplateTokenDto.actions!!) {
-            if (action.value == "withdraw" && restTemplateTokenDto.form.createUserKey != userKey) {
-                for (componentEntity in formData.components) {
-                    componentEntity.dataAttribute["displayType"] = WfDocumentConstants.DisplayType.READONLY.value
-                }
-            }
-        }
-         return restTemplateTokenDto
     }
 
     /**
