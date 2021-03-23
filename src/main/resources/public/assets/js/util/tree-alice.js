@@ -79,7 +79,7 @@
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
 
         if (!selectedNode) {
-            aliceJs.alert(i18n.msg('common.msg.dataSelect'));
+            aliceJs.alertWarning(i18n.msg('common.msg.dataSelect'));
             return false;
         }
         let callbackFunc = options.callbackFunc;

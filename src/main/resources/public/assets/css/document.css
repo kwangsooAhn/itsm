@@ -1492,7 +1492,6 @@ label {
   padding: 6.25rem 4.688rem;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
-  box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
 }
 .print .print-main .drawing-board *:focus {
   outline: none !important;
@@ -1508,7 +1507,19 @@ label {
   body {
     width: 21cm;
     height: 29.7cm;
-    margin: 30mm 45mm 30mm 45mm;
+    margin: 20mm auto;
+  }
+
+  .print {
+    width: 100%;
+  }
+  .print .print-main {
+    min-width: 0;
+  }
+  .print .print-main .print-main-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 }
 /* _modal.scss 

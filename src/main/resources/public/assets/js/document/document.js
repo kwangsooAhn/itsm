@@ -40,6 +40,9 @@
         case 'fileupload':
             componentTarget = componentElement.querySelector('#fileupload');
             break;
+        case 'ci':
+            componentTarget = componentElement.querySelector('.ci-table');
+            break;
         default :
             componentTarget = componentElement.querySelector('input');
             break;
@@ -184,7 +187,9 @@
      */
     function checkRequired(element) {
         let message = null;
-        switch (element.id) {
+        let dataType = element.id.substr(0, 2) === 'ci' ? `ci` : element.id;
+
+        switch (dataType) {
         case 'editor':
             let textEditor = Quill.find(element);
             if (textEditor.getLength() === 1) {
@@ -200,6 +205,11 @@
         case 'fileupload':
             if (element.querySelectorAll('input[name=loadedFileSeq], input[name=fileSeq]').length === 0) {
                 message = i18n.msg('document.msg.requiredFileupload');
+            }
+            break;
+        case 'ci':
+            if (element.tBodies[0].rows.length === 1 && element.tBodies[0].firstChild.classList.contains('no-data-found-list')) {
+                message = i18n.msg('common.msg.requiredEnter');
             }
             break;
         default :

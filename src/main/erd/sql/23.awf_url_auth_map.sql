@@ -207,6 +207,8 @@ insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'bo
 insert into awf_url_auth_map values ('/rest/charts', 'post', 'chart.create');
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'chart.update');
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'chart.delete');
+insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.create');
+insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
