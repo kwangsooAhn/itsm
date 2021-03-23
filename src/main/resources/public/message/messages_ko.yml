@@ -252,6 +252,7 @@ chart:
     operation: "연산"
     duration: "기간"
     group: "그룹"
+    doc: "문서"
     docCases: "문서 건 수"
     docRatio: "문서 차지 비율"
   option:

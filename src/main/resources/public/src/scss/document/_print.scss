@@ -42,7 +42,6 @@
       padding: $drawing-board-padding;
       background-color: $drawing-board-bg-color;
       border: $drawing-board-border;
-      box-shadow: $drawing-board-box-shadow;
       
       & *:focus {
         outline: none !important;
@@ -61,6 +60,19 @@
   body {
     width: 21cm;
     height: 29.7cm;
-    margin: 30mm 45mm 30mm 45mm; 
+    margin: 20mm auto;
+  }
+
+  .print {
+    width: 100%;
+    .print-main {
+      min-width: 0;
+
+      .print-main-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
   }
 }
