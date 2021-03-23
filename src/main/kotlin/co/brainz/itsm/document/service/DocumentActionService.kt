@@ -58,7 +58,7 @@ class DocumentActionService(
             val isAssignee = this.checkAssignee(tokenObject, userEntity)
             // 반환할 버튼 정보
             val actionsResult = this.getActionList(tokenObject, userEntity, isProgress, isAssignee)
-            // 해당 문서의 담당자인 경우, 모든 컴포넌트의 displayType을 readonly로 설정한다.
+            // 해당 문서의 담당자가 아닌 경우, 모든 컴포넌트의 displayType을 readonly로 설정한다.
             val components = tokenObject.get("form").asJsonObject.get("components").asJsonArray
             if (!isAssignee) {
                 for (action in actionsResult) {
