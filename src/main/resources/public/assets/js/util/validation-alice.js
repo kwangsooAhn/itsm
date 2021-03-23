@@ -599,7 +599,7 @@ function isValidRequiredAll(modal) {
     if (modal === undefined) {
         requiredElems = document.querySelectorAll('[required]');
     } else {
-        let modalContent = document.querySelector('.modal-content');
+        let modalContent = document.querySelector('.' + modal.options.classes);
         requiredElems = modalContent.querySelectorAll('[required]');
     }
     for (let i = 0, len = requiredElems.length; i < len; i++) {
