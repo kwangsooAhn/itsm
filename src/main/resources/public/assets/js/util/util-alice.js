@@ -1209,3 +1209,17 @@ aliceJs.initDesignedSelectTag = function () {
         }
     });
 };
+
+
+function nextScroll(event, offsetCount, callbackFunc) {
+    const scrollHeight = event.target.scrollHeight;
+    const scrollTop = event.target.scrollTop;
+    const clientHeight = event.target.clientHeight;
+    console.log(`scrollHeight: ${scrollHeight}`);
+    console.log(`scrollTop: ${scrollTop}`);
+    console.log(`scrollTop: ${scrollTop}`);
+    console.log(`offset: ${offsetCount}`);
+    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+
+    }
+}
