@@ -80,7 +80,17 @@
                         OverlayScrollbars(document.querySelector('.list-body'), {
                             className: 'scrollbar',
                             callbacks: {
-                                onScroll: nextScroll(e, offsetCount, searchFaqs(true));
+                                onScroll: function(e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    // 스크롤이 맨 마지막에 있을 경우
+                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            searchFaqs(true);
+                                        }
+                                    }
+                                }
                             }
                         });
                     }
