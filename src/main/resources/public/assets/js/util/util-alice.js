@@ -294,6 +294,27 @@ aliceJs.sendXhr = function (option) {
     xhr.send(params);
 };
 
+/**
+ * Promise 를 사용한 비동기 호출 및 응답
+ */
+aliceJs.sendXhrPromise = function (option) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        const async = (option.async === undefined || option.async === null) ? true : option.async;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    resolve(xhr.response);
+                } else {
+                    reject('Error: ' + xhr.responseText);
+                }
+            }
+        };
+        xhr.open(option.method, option.url, async);
+        xhr.send(option.params);
+    });
+};
+
 /*
  * ProgressBar 보여줌
  */

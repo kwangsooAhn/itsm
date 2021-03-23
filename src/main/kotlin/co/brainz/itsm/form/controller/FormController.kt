@@ -27,6 +27,7 @@ class FormController(private val fileService: AliceFileService) {
 
     private val formDesignerEditPage: String = "form/formDesignerEdit"
     private val formEditPreviewPage: String = "form/formEditPreview"
+    private val formDesignerEditPage2: String = "formRefactoring/formDesigner"
 
     /**
      * 폼 디자이너 편집 화면.
@@ -35,6 +36,14 @@ class FormController(private val fileService: AliceFileService) {
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
         model.addAttribute("formId", formId)
         return formDesignerEditPage
+    }
+    /**
+     * 폼 디자이너 편집 화면.
+     */
+    @GetMapping("/{formId}/edit2")
+    fun getFormDesignerEdit2(@PathVariable formId: String, model: Model): String {
+        model.addAttribute("formId", formId)
+        return formDesignerEditPage2
     }
 
     /**
