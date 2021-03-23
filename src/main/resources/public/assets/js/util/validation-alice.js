@@ -560,7 +560,6 @@ function isValidMinLength(elementId, minLength, isMessage, callbackFunc) {
  * @param callbackFunc callback 함수
  * @returns {boolean} 유효성 검사 통과 여부
  */
-
 function isValidRequired(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
     if (elem !== null) {
@@ -624,4 +623,47 @@ function hasErrorClass() {
         return false;
     }
     return true;
+}
+
+/**
+ * 필드에 숫자만 있는지 확인한다.
+ * @returns {boolean}
+ */
+function onlyNumber(event) {
+    event = event || window.event;
+    const keyID = (event.which) ? event.which : event.keyCode;
+    if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
+        || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
+        return false;
+    }
+}
+
+/**
+ * 허용된 IP인지 확인한다.
+ * @returns {boolean}
+ */
+function ipAccessCheck(ipList, clientIp, Separator) {
+    if (ipList !== null && clientIp !== null) {
+        for (var i = 0; i < ipList.length; i++) {
+            var comparativeIndex = ipList[i].ipAddr.indexOf(Separator);
+            if (clientIp === ipList[i].ipAddr) {
+                return true;
+            } else if ((comparativeIndex != -1) && (clientIp.substr(0, comparativeIndex) === ipList[i].ipAddr.substr(0, comparativeIndex))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return true;
+}
+
+/**
+ * 스크롤바가 바닥에 닿았는지를 확인한다.
+ * @returns {boolean}
+ */
+function isScrollbarBottom(scrollHeight, scrollTop, clientHeight) {
+    if (scrollHeight - scrollTop === clientHeight) {
+        return true;
+    }
+    return false;
 }
