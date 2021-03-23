@@ -24,6 +24,5 @@ data class CIsDto(
     val createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     val updateUserKey: String? = null,
-    val updateDt: LocalDateTime? = null,
-    var totalCount: Long = 0
+    val updateDt: LocalDateTime? = null
 ) : Serializable

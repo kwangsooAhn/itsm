@@ -7,7 +7,7 @@
 package co.brainz.itsm.cmdb.ciType.controller
 
 import co.brainz.cmdb.provider.dto.CITypeDto
-import co.brainz.cmdb.provider.dto.CITypeListDto
+import co.brainz.cmdb.provider.dto.CITypeTreeListDto
 import co.brainz.itsm.cmdb.ciType.service.CITypeService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.ui.Model
@@ -33,7 +33,7 @@ class CITypeRestController(private val ciTypeService: CITypeService) {
         request: HttpServletRequest,
         @RequestParam(value = "search", required = false, defaultValue = "") search: String,
         model: Model
-    ): List<CITypeListDto> {
+    ): List<CITypeTreeListDto> {
         val params = LinkedHashMap<String, Any>()
         params["search"] = search
         return ciTypeService.getCITypeList(params)

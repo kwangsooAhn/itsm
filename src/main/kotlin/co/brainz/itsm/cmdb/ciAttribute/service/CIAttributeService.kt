@@ -8,7 +8,7 @@ package co.brainz.itsm.cmdb.ciAttribute.service
 
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.cmdb.provider.dto.CIAttributeDto
-import co.brainz.cmdb.provider.dto.CIAttributeListDto
+import co.brainz.cmdb.provider.dto.CIAttributeReturnDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -31,15 +31,15 @@ class CIAttributeService(
     /**
      * Attribute 목록 조회.
      */
-    fun getCIAttributes(params: LinkedHashMap<String, Any>): List<CIAttributeListDto> {
+    fun getCIAttributes(params: LinkedHashMap<String, Any>): CIAttributeReturnDto {
         return ciAttributeService.getCIAttributes(params)
     }
 
     /**
-     * 단일 Attribute 조회.
+     * Attribute 상세 조회.
      */
     fun getCIAttribute(attributeId: String): CIAttributeDto {
-        return ciAttributeService.getCIAttribute(attributeId)
+        return ciAttributeService.getCIAttributeDetail(attributeId)
     }
 
     /**

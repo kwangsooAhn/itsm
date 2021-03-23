@@ -8,8 +8,8 @@ package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.provider.dto.CIDetailDto
-import co.brainz.cmdb.provider.dto.CIListDto
 import co.brainz.cmdb.provider.dto.CIRelationDto
+import co.brainz.cmdb.provider.dto.CIReturnDto
 import co.brainz.cmdb.provider.dto.CITagDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
@@ -50,13 +50,13 @@ class CIService(
      * CMDB CI 단일 조회
      */
     fun getCI(ciId: String): CIDetailDto {
-        return ciService.getCI(ciId)
+        return ciService.getCIDetail(ciId)
     }
 
     /**
      * CMDB CI 목록 조회
      */
-    fun getCIs(params: LinkedHashMap<String, Any>): List<CIListDto> {
+    fun getCIs(params: LinkedHashMap<String, Any>): CIReturnDto {
         return ciService.getCIs(params)
     }
 

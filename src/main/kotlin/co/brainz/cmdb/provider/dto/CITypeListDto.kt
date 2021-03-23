@@ -18,6 +18,5 @@ data class CITypeListDto(
     var pTypeName: String? = null,
     val typeIcon: String? = null,
     val defaultClassId: String? = null,
-    val defaultClassName: String? = null,
-    var totalCount: Long = 0
+    val defaultClassName: String? = null
 ) : Serializable

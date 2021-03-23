@@ -29,7 +29,9 @@ import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
 import co.brainz.cmdb.provider.dto.CIDetailDto
 import co.brainz.cmdb.provider.dto.CIDto
 import co.brainz.cmdb.provider.dto.CIListDto
-import co.brainz.cmdb.provider.dto.CITagDto
+import co.brainz.cmdb.provider.dto.CIReturnDto
+import co.brainz.cmdb.provider.dto.CISearchDto
+import co.brainz.cmdb.provider.dto.CIsDto
 import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -53,55 +55,53 @@ class CIService(
     /**
      * CI 목록 조회.
      */
-    fun getCIs(parameters: LinkedHashMap<String, Any>): List<CIListDto> {
-
+    fun getCIs(parameters: LinkedHashMap<String, Any>): CIReturnDto {
         var tagList = emptyList<String>()
         if (parameters["tags"] != null && parameters["tags"].toString() != "") {
             tagList = parameters["tags"].toString()
                 .replace("#", "")
                 .split(",")
         }
-        val flag = parameters["flag"].toString()
-        var search = ""
+        var search: String? = null
         var offset: Long? = null
+        var limit: Long? = null
+        var flag: String? = null
         if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["offset"] != null) {
-            offset = parameters["offset"].toString().toLong()
-        }
-        val cis = ciRepository.findCIList(search, offset, tagList, flag)
-        var tags = mutableListOf<CITagDto>()
+        if (parameters["offset"] != null) offset = parameters["offset"] as Long?
+        if (parameters["limit"] != null) limit = parameters["limit"] as Long?
+        if (parameters["flag"] != null) flag = parameters["flag"].toString()
+        val ciSearchDto = CISearchDto(
+            search = search,
+            offset = offset,
+            limit = limit,
+            flag = flag,
+            tags = tagList
+        )
+        val cis = ciRepository.findCIList(ciSearchDto)
         val ciList = mutableListOf<CIListDto>()
-        for (ci in cis) {
-            tags = ciTagRepository.findByCIId(ci.ciId!!)
+        for (ci in cis.results) {
             ciList.add(
-                CIListDto(
-                    ciId = ci.ciId,
-                    ciNo = ci.ciNo,
-                    ciName = ci.ciName,
-                    ciStatus = ci.ciStatus,
-                    typeId = ci.typeId,
-                    typeName = ci.typeName,
-                    classId = ci.classId,
-                    className = ci.className,
-                    ciIcon = ci.ciIcon,
-                    ciDesc = ci.ciDesc,
-                    automatic = ci.automatic,
-                    tags = tags,
-                    createUserKey = ci.createUserKey,
-                    createDt = ci.createDt,
-                    updateUserKey = ci.updateUserKey,
-                    updateDt = ci.updateDt,
-                    totalCount = ci.totalCount
-                )
+                this.makeCIListDto(ci)
             )
         }
-        return ciList
+        return CIReturnDto(
+            data = ciList,
+            totalCount = cis.total
+        )
     }
 
     /**
-     * CI 단일 조회
+     * CI 목록 단일 조회
      */
-    fun getCI(ciId: String): CIDetailDto {
+    fun getCI(ciId: String): CIListDto {
+        val ci = ciRepository.findCI(ciId)
+        return this.makeCIListDto(ci)
+    }
+
+    /**
+     * CI 상세 조회
+     */
+    fun getCIDetail(ciId: String): CIDetailDto {
         val ciDetailDto = CIDetailDto(
             ciId = ciId
         )
@@ -412,5 +412,29 @@ class CIService(
             ciPType.pType.typeAlias?.let { typeAliasList.add(it) }
             getPType(ciTypes, ciPType.pType, typeAliasList)
         }
+    }
+
+    /**
+     * CI 조회 결과 DTO 변경
+     */
+    private fun makeCIListDto(ci: CIsDto): CIListDto {
+        return CIListDto(
+            ciId = ci.ciId,
+            ciNo = ci.ciNo,
+            ciName = ci.ciName,
+            ciStatus = ci.ciStatus,
+            typeId = ci.typeId,
+            typeName = ci.typeName,
+            classId = ci.classId,
+            className = ci.className,
+            ciIcon = ci.ciIcon,
+            ciDesc = ci.ciDesc,
+            automatic = ci.automatic,
+            tags = ciTagRepository.findByCIId(ci.ciId!!),
+            createUserKey = ci.createUserKey,
+            createDt = ci.createDt,
+            updateUserKey = ci.updateUserKey,
+            updateDt = ci.updateDt
+        )
     }
 }

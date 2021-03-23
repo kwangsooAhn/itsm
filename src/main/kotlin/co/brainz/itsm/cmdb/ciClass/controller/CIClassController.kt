@@ -51,7 +51,7 @@ class CIClassController(
         }
 
         val classAttributeList = ciClassService.getClassAttributeList(
-            attributeList,
+            attributeList.data,
             addAttributeList,
             extendsAttributeList
         )

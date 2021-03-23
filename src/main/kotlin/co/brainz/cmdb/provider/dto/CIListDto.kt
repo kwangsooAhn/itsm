@@ -25,6 +25,5 @@ data class CIListDto(
     var createDt: LocalDateTime? = null,
     val updateUserKey: String? = null,
     val updateDt: LocalDateTime? = null,
-    var tags: MutableList<CITagDto>? = null,
-    var totalCount: Long = 0
+    var tags: MutableList<CITagDto>? = null
 ) : Serializable

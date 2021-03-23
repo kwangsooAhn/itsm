@@ -50,9 +50,9 @@ class CIClassServiceTest {
         val params = LinkedHashMap<String, Any>()
         val ciClassDtoList = ciClassService.getCIClasses(params)
         assumingThat(
-            ciClassDtoList.isNotEmpty()
+            ciClassDtoList.data.isNotEmpty()
         ) {
-            assertTrue(ciClassDtoList[0].totalCount > 0)
+            assertTrue(ciClassDtoList.totalCount > 0)
         }
     }
 
@@ -65,9 +65,9 @@ class CIClassServiceTest {
         params["search"] = searchValue
         val ciClassDtoList = ciClassService.getCIClasses(params)
         assumingThat(
-            ciClassDtoList.isNotEmpty()
+            ciClassDtoList.data.isNotEmpty()
         ) {
-            Assertions.assertEquals(ciClassDtoList[0].className, searchValue)
+            Assertions.assertEquals(ciClassDtoList.data[0].className, searchValue)
         }
     }
 
@@ -78,15 +78,15 @@ class CIClassServiceTest {
         var classId = ""
         val params = LinkedHashMap<String, Any>()
         val ciClassDtoList = ciClassService.getCIClasses(params)
-        if (!ciClassDtoList.isNullOrEmpty()) {
-            classId = ciClassDtoList[0].classId
+        if (!ciClassDtoList.data.isNullOrEmpty()) {
+            classId = ciClassDtoList.data[0].classId
         }
         assumingThat(
             classId.isNotEmpty()
         ) {
             val classDto = ciClassService.getCIClass(classId)
-            Assertions.assertEquals(classDto.className, ciClassDtoList[0].className)
-            Assertions.assertEquals(classDto.classDesc, ciClassDtoList[0].classDesc)
+            Assertions.assertEquals(classDto.className, ciClassDtoList.data[0].className)
+            Assertions.assertEquals(classDto.classDesc, ciClassDtoList.data[0].classDesc)
         }
     }
 
@@ -98,7 +98,7 @@ class CIClassServiceTest {
         val params = LinkedHashMap<String, Any>()
         params["offset"] = 1
         val attributeList = ciAttributeService.getCIAttributes(params)
-        attributeList.forEachIndexed { index, attribute ->
+        attributeList.data.forEachIndexed { index, attribute ->
             if (index < 5) {
                 attributes.add(attribute.attributeId.toString())
             }
@@ -125,10 +125,10 @@ class CIClassServiceTest {
         params["search"] = this.className
         val ciClassDtoList = ciClassService.getCIClasses(params)
         assumingThat(
-            ciClassDtoList.isNotEmpty()
+            ciClassDtoList.data.isNotEmpty()
         ) {
             val updateAttributes = mutableListOf<String>()
-            for (ciClassDto in ciClassDtoList) {
+            for (ciClassDto in ciClassDtoList.data) {
                 if (ciClassDto.className == this.className) {
                     val ciClassAttributeList = ciClassService.getCIClassAttributes(ciClassDto.classId)
                     ciClassAttributeList.forEach { ciClass ->
@@ -161,9 +161,9 @@ class CIClassServiceTest {
         params["search"] = this.className
         val ciClassDtoList = ciClassService.getCIClasses(params)
         assumingThat(
-            ciClassDtoList.isNotEmpty()
+            ciClassDtoList.data.isNotEmpty()
         ) {
-            for (ciClassDto in ciClassDtoList) {
+            for (ciClassDto in ciClassDtoList.data) {
                 if (ciClassDto.className == this.className) {
                     assertTrue(ciClassService.deleteCIClass(ciClassDto.classId))
                 }

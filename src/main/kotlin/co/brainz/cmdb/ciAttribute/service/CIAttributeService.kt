@@ -11,7 +11,9 @@ import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIAttributeDto
 import co.brainz.cmdb.provider.dto.CIAttributeListDto
+import co.brainz.cmdb.provider.dto.CIAttributeReturnDto
 import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
+import co.brainz.cmdb.provider.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -29,21 +31,37 @@ class CIAttributeService(
     /**
      * CI Attribute 목록 조회.
      */
-    fun getCIAttributes(parameters: LinkedHashMap<String, Any>): List<CIAttributeListDto> {
-        var search = ""
+    fun getCIAttributes(parameters: LinkedHashMap<String, Any>): CIAttributeReturnDto {
+        var search: String? = null
         var offset: Long? = null
+        var limit: Long? = null
         if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["offset"] != null) {
-            offset = parameters["offset"].toString().toLong()
-        }
-        return ciAttributeRepository.findAttributeList(search, offset).toList()
+        if (parameters["offset"] != null) offset = parameters["offset"] as Long?
+        if (parameters["limit"] != null) limit = parameters["limit"] as Long?
+        val searchDto = SearchDto(
+            search = search,
+            offset = offset,
+            limit = limit
+        )
+        val ciAttributes = ciAttributeRepository.findAttributeList(searchDto)
+        return CIAttributeReturnDto(
+            data = ciAttributes.results,
+            totalCount = ciAttributes.total
+        )
     }
 
     /**
-     * CI Attribute 단일 조회.
+     * CI Attribute 목록 단일 조회.
      */
-    fun getCIAttribute(attributeId: String): CIAttributeDto {
+    fun getCIAttribute(attributeId: String): CIAttributeListDto {
         return ciAttributeRepository.findAttribute(attributeId)
+    }
+
+    /**
+     * CI Attribute 단일 상세 조회.
+     */
+    fun getCIAttributeDetail(attributeId: String): CIAttributeDto {
+        return ciAttributeRepository.findAttributeDetail(attributeId)
     }
 
     /**

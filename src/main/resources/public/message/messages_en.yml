@@ -110,6 +110,7 @@ auth:
     editDescription: "Add or view and manage auth."
     enterAuthId: "Please enter a auth id."
     enterAuthName: "Please enter a auth name."
+    invalidToken: "Invalid token"
     searchPlaceholder: "Auth Name / Auth Desc"
   auth:
     read: "auth read"

@@ -13,10 +13,10 @@ import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
 import co.brainz.cmdb.provider.dto.CIAttributeDto
 import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.cmdb.provider.dto.CIAttributeValueDto
-import co.brainz.itsm.constants.ItsmConstants
+import co.brainz.cmdb.provider.dto.SearchDto
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
@@ -26,67 +26,82 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     /**
      * Attribute 목록 조회.
      */
-    override fun findAttributeList(search: String, offset: Long?): List<CIAttributeListDto> {
-        val attribute = QCIAttributeEntity.cIAttributeEntity
-        val query = from(attribute)
+    override fun findAttributeList(searchDto: SearchDto): QueryResults<CIAttributeListDto> {
+        val ciAttribute = QCIAttributeEntity.cIAttributeEntity
+        val query = from(ciAttribute)
             .select(
                 Projections.constructor(
                     CIAttributeListDto::class.java,
-                    attribute.attributeId,
-                    attribute.attributeName,
-                    attribute.attributeText,
-                    attribute.attributeType,
-                    attribute.attributeDesc,
-                    Expressions.numberPath(Long::class.java, "0")
+                    ciAttribute.attributeId,
+                    ciAttribute.attributeName,
+                    ciAttribute.attributeText,
+                    ciAttribute.attributeType,
+                    ciAttribute.attributeDesc
                 )
             )
             .where(
-                super.like(attribute.attributeName, search)
-                    ?.or(super.like(attribute.attributeType, search))
-                    ?.or(super.like(attribute.attributeText, search))
-                    ?.or(super.like(attribute.attributeDesc, search))
-            ).orderBy(attribute.attributeName.asc())
-        if (offset != null) {
-            query.limit(ItsmConstants.SEARCH_DATA_COUNT)
-                .offset(offset)
+                super.like(ciAttribute.attributeName, searchDto.search)
+                    ?.or(super.like(ciAttribute.attributeType, searchDto.search))
+                    ?.or(super.like(ciAttribute.attributeText, searchDto.search))
+                    ?.or(super.like(ciAttribute.attributeDesc, searchDto.search))
+            ).orderBy(ciAttribute.attributeName.asc())
+        if (searchDto.limit != null) {
+            query.limit(searchDto.limit)
         }
-        val result = query.fetchResults()
-        val attributeList = mutableListOf<CIAttributeListDto>()
-        for (data in result.results) {
-            data.totalCount = result.total
-            attributeList.add(data)
+        if (searchDto.offset != null) {
+            query.offset(searchDto.offset)
         }
-        return attributeList.toList()
+        return query.fetchResults()
     }
 
     /**
-     * Attribute 조회.
+     * Attribute 목록 단일 조회.
      */
-    override fun findAttribute(attributeId: String): CIAttributeDto {
-        val attribute = QCIAttributeEntity.cIAttributeEntity
+    override fun findAttribute(attributeId: String): CIAttributeListDto {
+        val ciAttribute = QCIAttributeEntity.cIAttributeEntity
+        return from(ciAttribute)
+            .select(
+                Projections.constructor(
+                    CIAttributeListDto::class.java,
+                    ciAttribute.attributeId,
+                    ciAttribute.attributeName,
+                    ciAttribute.attributeText,
+                    ciAttribute.attributeType,
+                    ciAttribute.attributeDesc
+                )
+            )
+            .where(ciAttribute.attributeId.eq(attributeId))
+            .fetchOne()
+    }
+
+    /**
+     * Attribute 상세 조회.
+     */
+    override fun findAttributeDetail(attributeId: String): CIAttributeDto {
+        val ciAttribute = QCIAttributeEntity.cIAttributeEntity
         val classAttributeMap = QCIClassAttributeMapEntity.cIClassAttributeMapEntity
-        return from(attribute)
+        return from(ciAttribute)
             .select(
                 Projections.constructor(
                     CIAttributeDto::class.java,
-                    attribute.attributeId,
-                    attribute.attributeName,
-                    attribute.attributeDesc,
-                    attribute.attributeText,
-                    attribute.attributeType,
-                    attribute.attributeValue,
-                    attribute.createUser.userKey,
-                    attribute.createDt,
-                    attribute.updateUser.userKey,
-                    attribute.updateDt,
+                    ciAttribute.attributeId,
+                    ciAttribute.attributeName,
+                    ciAttribute.attributeDesc,
+                    ciAttribute.attributeText,
+                    ciAttribute.attributeType,
+                    ciAttribute.attributeValue,
+                    ciAttribute.createUser.userKey,
+                    ciAttribute.createDt,
+                    ciAttribute.updateUser.userKey,
+                    ciAttribute.updateDt,
                     ExpressionUtils.`as`(
                         JPAExpressions.select(!classAttributeMap.ciAttribute.attributeId.count().gt(0))
                             .from(classAttributeMap)
-                            .where(classAttributeMap.ciAttribute.attributeId.eq(attribute.attributeId)), "enabled"
+                            .where(classAttributeMap.ciAttribute.attributeId.eq(ciAttribute.attributeId)), "enabled"
                     )
                 )
             )
-            .where(attribute.attributeId.eq(attributeId))
+            .where(ciAttribute.attributeId.eq(attributeId))
             .fetchOne()
     }
 
@@ -94,11 +109,11 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
      * Attribute 명 중복 체크.
      */
     override fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long {
-        val attribute = QCIAttributeEntity.cIAttributeEntity
-        val query = from(attribute)
-            .where(attribute.attributeName.eq(attributeName))
+        val ciAttribute = QCIAttributeEntity.cIAttributeEntity
+        val query = from(ciAttribute)
+            .where(ciAttribute.attributeName.eq(attributeName))
         if (attributeId.isNotEmpty()) {
-            query.where(!attribute.attributeId.eq(attributeId))
+            query.where(!ciAttribute.attributeId.eq(attributeId))
         }
         return query.fetchCount()
     }

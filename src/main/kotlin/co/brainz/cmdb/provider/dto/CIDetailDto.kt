@@ -21,7 +21,7 @@ data class CIDetailDto(
     var typeName: String? = null,
     var classId: String? = null,
     var className: String? = null,
-    var classes: MutableList<CIClassDetailValueDto>? = null,
+    var classes: List<CIClassDetailValueDto>? = null,
     var ciRelations: MutableList<CIRelationDto>? = null,
     var ciTags: MutableList<CITagDto>? = null,
     var createUserKey: String? = null,
