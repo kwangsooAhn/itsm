@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{form.label.title}"></title>
+    <meta http-equiv="expire" content="-1"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <th:block th:replace="formRefactoring/fragments/formHead :: formHead"></th:block>
+    <script th:src="@{/assets/js/util/shortcut-alice.js}"></script>
+    <script type="module">
+        // 세션 정보
+        import { SESSION } from '../../assets/js/formRefactoring/constant.js';
+        import FormDesigner from '../../assets/js/formRefactoring/formDesigner/formDesigner.js';
+
+        const userSession = {
+            userKey : '[[${#authentication.details.userKey}]]',
+            userId : '[[${#authentication.details.userId}]]',
+            userName: '[[${#authentication.details.userName}]]',
+            email: '[[${#authentication.details.email}]]',
+            position: '[[${#authentication.details.position}]]',
+            department: '[[${#authentication.details.department}]]',
+            officeNumber: '[[${#authentication.details.officeNumber}]]',
+            mobileNumber: '[[${#authentication.details.mobileNumber}]]'
+        };
+        if (userSession['department'] !== '') {
+            aliceJs.sendXhr({
+                method: 'GET',
+                async: false,
+                url: '/rest/codes/' + userSession['department'],
+                callbackFunc: function(xhr) {
+                    let result = JSON.parse(xhr.responseText);
+                    userSession['departmentName'] = result.codeName;
+                    Object.assign(SESSION, userSession);
+                },
+                contentType: 'application/json; charset=utf-8'
+            });
+        } else {
+            Object.assign(SESSION, userSession);
+        }
+        const designer = new FormDesigner('[[${formId}]]');
+    </script>
+</head>
+<body>
+    <div class="alice-wrapper">
+        <form id="frm" name="frm">
+            <div class="form-container">
+                <!-- 상단 네비게이션 -->
+                <!-- 컴포넌트 팔레트 -->
+                <!-- 폼 -->
+                <div class="drawing-board"></div>
+                <!-- 속성 패널 -->
+            </div>
+        </form>
+    </div>
+</body>
+</html>

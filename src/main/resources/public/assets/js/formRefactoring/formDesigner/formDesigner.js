@@ -7,16 +7,10 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-
-
 import Form from '../form/form.js';
-import *  as CONST from '../constant.js';
 
 export default class FormDesigner {
-    constructor(sessionData) {
-        Object.assign(CONST.SESSION, sessionData);
-        console.log(CONST.SESSION);
-
+    constructor(formId) {
         // TODO: 프로미스
         // TODO: 1.화면 레이아웃 구성
         // TODO: 2. 세부 속성 데이터 로드
@@ -58,9 +52,9 @@ export default class FormDesigner {
         // TODO: 가데이터 - 삭제 예정
         aliceJs.sendXhrPromise({
             method: 'GET',
-            url: '/assets/js/formDesigner/data_210320.json',
+            url: '/assets/js/formRefactoring/formDesigner/data_210320.json'
         }).then((data) => {
-            const render = document.getElementById('form-panel'); // 폼이 그려질 대상
+            const render = document.querySelector('.drawing-board'); // 폼이 그려질 대상
             this.form = new Form(JSON.parse(data), render);
         });
     }
