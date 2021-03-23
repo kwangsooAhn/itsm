@@ -134,7 +134,7 @@
                                     const scrollTop = e.target.scrollTop;
                                     const clientHeight = e.target.clientHeight;
                                     // 스크롤이 맨 마지막에 있을 경우
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                    if (scrollHeight - scrollTop === clientHeight) {
                                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                             getNoticeList(true);
                                         }
