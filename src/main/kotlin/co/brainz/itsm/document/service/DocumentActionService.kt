@@ -61,9 +61,13 @@ class DocumentActionService(
             // 문서에 회수가 존재하지 않으면, 모든 components에 대하여 displayType을 'readonly'로 수정한다.
             val components = tokenObject.get("form").asJsonObject.get("components").asJsonArray
             val revokeAssignee = tokenObject.get("stakeholders").asJsonObject.get("revokeAssignee")
-            if (aliceUserDto.userKey != revokeAssignee.asString) {
+            if (!isAssignee) {
                 for (action in actionsResult) {
-                    if (action.asJsonObject.get("value").asString == "withdraw") {
+                    if (action.asJsonObject.get("value").asString == WfElementConstants.Action.CANCEL.value ||
+                        action.asJsonObject.get("value").asString == WfElementConstants.Action.TERMINATE.value ||
+                        action.asJsonObject.get("value").asString == WfElementConstants.Action.REJECT.value ||
+                        action.asJsonObject.get("value").asString == WfElementConstants.Action.WITHDRAW.value
+                    ) {
                         for (component in components) {
                             component.asJsonObject.get("dataAttribute").asJsonObject.addProperty(
                                 "displayType",
