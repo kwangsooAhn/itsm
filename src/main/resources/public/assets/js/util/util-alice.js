@@ -1209,3 +1209,21 @@ aliceJs.initDesignedSelectTag = function () {
         }
     });
 };
+
+/**
+ * 다음스크롤이 있는지 확인하고 있을 경우 추가 스크롤을 생성한다.
+ * @returns {boolean}
+ */
+function nextScroll(event, offsetCount, callbackFunc) {
+    const scrollHeight = event.target.scrollHeight;
+    const scrollTop = event.target.scrollTop;
+    const clientHeight = event.target.clientHeight;
+
+    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+            if (typeof callbackFunc === 'function') {
+                callbackFunc();
+            }
+        }
+    }
+}
