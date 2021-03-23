@@ -590,8 +590,9 @@ function isValidRequired(elementId, isMessage, callbackFunc) {
 
 /**
  * 화면에서 required 속성을 가진 element 들을 모두 검색한 후 하나라도 일지하지 않으면, 경고창과 함께 해당 element에 포커스가 간다.
+ * 만약 modal을 파라미터로 전달받는 경우, modal에 설정된 클래스를 찾아, 해당 클래스 내부의 required 속성을 가진 엘리먼트에 포커스가 간다.
  *
- * @param messageId
+ * @param modal
  * @returns {boolean} 유효성 검사 통과 여부
  */
 function isValidRequiredAll(modal) {
