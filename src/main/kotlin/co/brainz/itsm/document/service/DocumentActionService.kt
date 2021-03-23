@@ -63,7 +63,8 @@ class DocumentActionService(
             val revokeAssignee = tokenObject.get("stakeholders").asJsonObject.get("revokeAssignee")
             if (!isAssignee) {
                 for (action in actionsResult) {
-                    if (action.asJsonObject.get("value").asString == WfElementConstants.Action.CANCEL.value ||
+                    if (action.asJsonObject.get("value").asString == WfElementConstants.Action.SAVE.value ||
+                        action.asJsonObject.get("value").asString == WfElementConstants.Action.CANCEL.value ||
                         action.asJsonObject.get("value").asString == WfElementConstants.Action.TERMINATE.value ||
                         action.asJsonObject.get("value").asString == WfElementConstants.Action.REJECT.value ||
                         action.asJsonObject.get("value").asString == WfElementConstants.Action.WITHDRAW.value
