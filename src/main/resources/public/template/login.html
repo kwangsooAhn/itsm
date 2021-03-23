@@ -89,12 +89,12 @@
         if (!window._onLogin) {
             window._onLogin = true;
             if (isEmpty('uid', "login.msg.enterId", function () {
-                window._onLogin = false, document.getElementById('uid').focus()
+                window._onLogin = false; document.getElementById('uid').focus();
             })) {
                 return false;
             }
             if (isEmpty('upasswd', 'login.msg.enterPassword', function () {
-                window._onLogin = false, document.getElementById('upasswd').focus()
+                window._onLogin = false; document.getElementById('upasswd').focus();
             })) {
                 return false;
             }

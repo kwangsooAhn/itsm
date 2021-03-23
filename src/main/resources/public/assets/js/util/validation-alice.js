@@ -643,12 +643,17 @@ function onlyNumber(event) {
  * @returns {boolean}
  */
 function ipAccessCheck(ipList, clientIp, Separator) {
+    let isIpClassBand = false;
+    let isSameIpClassBand = false;
+    let count = ipList.length;
     if (ipList !== null && clientIp !== null) {
-        for (var i = 0; i < ipList.length; i++) {
-            var comparativeIndex = ipList[i].ipAddr.indexOf(Separator);
+        for (let i = 0; i < count; i++) {
+            let comparativeIndex = ipList[i].ipAddr.indexOf(Separator);
+            isIpClassBand = comparativeIndex != -1;
+            isSameIpClassBand = clientIp.substr(0, comparativeIndex) === ipList[i].ipAddr.substr(0, comparativeIndex);
             if (clientIp === ipList[i].ipAddr) {
                 return true;
-            } else if ((comparativeIndex != -1) && (clientIp.substr(0, comparativeIndex) === ipList[i].ipAddr.substr(0, comparativeIndex))) {
+            } else if (isIpClassBand && isSameIpClassBand) {
                 return true;
             }
         }
@@ -662,8 +667,5 @@ function ipAccessCheck(ipList, clientIp, Separator) {
  * @returns {boolean}
  */
 function isScrollbarBottom(scrollHeight, scrollTop, clientHeight) {
-    if (scrollHeight - scrollTop === clientHeight) {
-        return true;
-    }
-    return false;
+    return scrollHeight - scrollTop === clientHeight
 }
