@@ -595,8 +595,14 @@ function isValidRequired(elementId, isMessage, callbackFunc) {
  * @param messageId
  * @returns {boolean} 유효성 검사 통과 여부
  */
-function isValidRequiredAll() {
-    const requiredElems = document.querySelectorAll('[required]');
+function isValidRequiredAll(modal) {
+    let requiredElems = '';
+    if (modal === undefined) {
+        requiredElems = document.querySelectorAll('[required]');
+    } else {
+        let modalContent = document.querySelector('.modal-content');
+        requiredElems = modalContent.querySelectorAll('[required]');
+    }
     for (let i = 0, len = requiredElems.length; i < len; i++) {
         const requiredElem = requiredElems[i];
         const requiredElemName = requiredElem.getAttribute('data-required-name');
