@@ -128,15 +128,6 @@
         });
     };
 
-    function onlyNumber(event) {
-        event = event || window.event;
-        const keyID = (event.which) ? event.which : event.keyCode;
-        if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
-            || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-            return false;
-        }
-    }
-
     function removeChar(event) {
         event = event || window.event;
         const keyID = (event.which) ? event.which : event.keyCode;
