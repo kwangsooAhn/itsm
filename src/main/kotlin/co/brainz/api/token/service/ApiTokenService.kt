@@ -103,21 +103,30 @@ class ApiTokenService(
                 value["message"] = HttpStatus.NO_CONTENT.reasonPhrase
             }
             else -> {
-                var apiTokenEntity = ApiTokenEntity(
-                    apiId = "",
-                    accessToken = AliceUtil().getUUID(),
-                    refreshToken = AliceUtil().getUUID(),
-                    createDt = LocalDateTime.now(),
-                    expiresIn = ApiConstants.API_EXPIRES_IN,
-                    refreshTokenExpiresIn = ApiConstants.API_REFRESH_TOKEN_EXPIRES_IN,
-                    requestUserId = refreshTokenEntity.requestUserId
-                )
-                apiTokenEntity = apiTokenRepository.save(apiTokenEntity)
-                value["access_token"] = apiTokenEntity.accessToken
-                value["expires_in"] = apiTokenEntity.expiresIn
-                value["refresh_token"] = apiTokenEntity.refreshToken
-                value["refresh_token_expires_in"] = apiTokenEntity.refreshTokenExpiresIn
-                status = HttpStatus.OK
+                // Refresh Token 만료기간 체크
+                val refreshTokenExpires =
+                    refreshTokenEntity.createDt.plusSeconds(refreshTokenEntity.refreshTokenExpiresIn.toLong())
+                if (LocalDateTime.now() < refreshTokenExpires) {
+                    var apiTokenEntity = ApiTokenEntity(
+                        apiId = "",
+                        accessToken = AliceUtil().getUUID(),
+                        refreshToken = AliceUtil().getUUID(),
+                        createDt = LocalDateTime.now(),
+                        expiresIn = ApiConstants.API_EXPIRES_IN,
+                        refreshTokenExpiresIn = ApiConstants.API_REFRESH_TOKEN_EXPIRES_IN,
+                        requestUserId = refreshTokenEntity.requestUserId
+                    )
+                    apiTokenEntity = apiTokenRepository.save(apiTokenEntity)
+                    value["access_token"] = apiTokenEntity.accessToken
+                    value["expires_in"] = apiTokenEntity.expiresIn
+                    value["refresh_token"] = apiTokenEntity.refreshToken
+                    value["refresh_token_expires_in"] = apiTokenEntity.refreshTokenExpiresIn
+                    status = HttpStatus.OK
+                } else {
+                    status = HttpStatus.UNAUTHORIZED
+                    value["code"] = status.value()
+                    value["message"] = status.reasonPhrase
+                }
             }
         }
         return ResponseEntity(value, status)
