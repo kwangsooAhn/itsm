@@ -1,0 +1,74 @@
+{
+  "id": "2c9180887846b12f017849afa958000c",
+  "name": "TEST",
+  "desc": "",
+  "status": "form.status.edit",
+  "width": "1600",
+  "height": "1000",
+  "padding": "20 20 20 20",
+  "type": "process",
+  "groups": [
+    {
+      "id": "gc9180887846b12f017849afa9580000",
+      "displayOrder": "1",
+      "margin": "10 0 10 0",
+      "padding": "20 20 20 20",
+      "label": {
+        "position": "top",
+        "fontSize": "16",
+        "fontColor": "rgb(63, 75, 86)",
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "align": "left",
+        "text": "GROUP LABEL"
+      },
+      "accordion": {
+        "isUsed": true,
+        "thickness": "1",
+        "color": "rgba(235, 235, 235, 1)"
+      },
+      "rows": [
+        {
+          "id": "rc9180887846b12f017849afa9580000",
+          "margin": "10 0 10 0",
+          "padding": "20 20 20 20",
+          "displayOrder": "1",
+          "components": [
+            {
+              "id": "a1e3c506d25322950357753c2be3f674",
+              "type": "inputbox",
+              "columnWidth": "12",
+              "displayOrder": "1",
+              "isTopic": false,
+              "mapId": "",
+              "tags": [],
+              "displayType": "editable",
+              "value": "${default}",
+              "label": {
+                "position": "left",
+                "fontSize": "16",
+                "fontColor": "rgb(63, 75, 86)",
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "align": "left",
+                "text": "COMPONENT LABEL"
+              },
+              "element": {
+                "placeholder": "",
+                "columnWidth": "10",
+                "defaultType": "none|"
+              },
+              "validate": {
+                "validateType": "none",
+                "lengthMin": "0",
+                "lengthMax": "100"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

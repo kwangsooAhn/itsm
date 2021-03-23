@@ -9,17 +9,15 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import Row from '../form/row';
+import Row from './row.js';
 
 const DEFAULT = {
-    name: 'form.label.group',
     margin: '10 0 10 0', // 그룹 간 간격(위 오른쪽 아래 왼쪽)
     padding: '10 10 10 10', // 그룹 내부 여백(위 오른쪽 아래 왼쪽)
     label: {
-        position: 'left',
-        column: '2',
-        size: '16',
-        color: 'rgba(0,0,0,1)',
+        position: 'top',
+        fontSize: '16',
+        fontColor: 'rgba(0,0,0,1)',
         bold: false,
         italic: false,
         underline: false,

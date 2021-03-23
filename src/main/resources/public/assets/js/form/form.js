@@ -9,10 +9,10 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import Group from '../form/group';
+import Group from './group.js';
 
 export default class Form {
-    constructor(data = {}) {
+    constructor(data = {}, render) {
         this.id =  data.id || workflowUtil.generateUUID();
         this.name = data.name || 'form.label.form';
         this.desc = data.desc || '';
@@ -20,7 +20,9 @@ export default class Form {
         this.width = data.width || '1600';
         this.height = data.height || '1000';
         this.padding = data.padding || '20 20 20 20'; // 문서 내부 여백(위 오른쪽 아래 왼쪽)
-
+        this.type = data.type || 'process'; // process | cmdb
+        this.render = render;
+        
         // 그룹 추가
         this.groups = [];
         if (data.hasOwnProperty('groups')) {

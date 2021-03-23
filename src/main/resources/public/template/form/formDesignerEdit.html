@@ -285,5 +285,35 @@
         };
         /*]]>*/
     </script>
+    <script type="module">
+        // 세션 정보
+        import FormDesigner from '../../assets/js/formDesigner/formDesigner.js';
+
+        export const userSesssion = {
+            userKey : '[[${#authentication.details.userKey}]]',
+            userId : '[[${#authentication.details.userId}]]',
+            userName: '[[${#authentication.details.userName}]]',
+            email: '[[${#authentication.details.email}]]',
+            position: '[[${#authentication.details.position}]]',
+            department: '[[${#authentication.details.department}]]',
+            officeNumber: '[[${#authentication.details.officeNumber}]]',
+            mobileNumber: '[[${#authentication.details.mobileNumber}]]'
+        };
+        if (userSesssion['department'] !== '') {
+            aliceJs.sendXhr({
+                method: 'GET',
+                async: false,
+                url: '/rest/codes/' + userSesssion['department'],
+                callbackFunc: function(xhr) {
+                    let result = JSON.parse(xhr.responseText);
+                    userSesssion['departmentName'] = result.codeName;
+                    const designer = new FormDesigner(userSesssion);
+                },
+                contentType: 'application/json; charset=utf-8'
+            });
+        } else {
+            const designer = new FormDesigner(userSesssion);
+        }
+    </script>
 </th:block>
 </html>

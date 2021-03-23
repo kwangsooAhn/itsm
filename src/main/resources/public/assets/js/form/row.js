@@ -10,14 +10,13 @@
  * https://www.brainz.co.kr
  */
 
-import InputBox from './component/inputbox';
+import InputBox from './component/inputbox.js';
 
 let displayOrder = 0; // row 출력 순서
 
 export default class Row {
     constructor(data = {}) {
         this.id =  data.id || workflowUtil.generateUUID();
-        this.name = data.name || 'form.label.row';
         this.margin = data.margin || '10 0 10 0'; // row 간 간격(위 오른쪽 아래 왼쪽)
         this.padding = data.padding || '10 10 10 10'; // row 내부 여백(위 오른쪽 아래 왼쪽)
         this.displayOrder = data.displayOrder || ++displayOrder;

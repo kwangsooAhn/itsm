@@ -8,6 +8,8 @@
  * https://www.brainz.co.kr
  */
 
+import *  as CONST from '../../constant.js';
+
 let displayOrder = 0; // 컴포넌트 출력 순서
 
 export default class Component {
@@ -32,40 +34,41 @@ export default class Component {
         this.domElem = component;
     }
     // 툴팁 출력
-    drawTooltip() {
-
-    }
+    drawTooltip() {}
     // 라벨 출력
     drawLabel() {
-        // 라벨 그룹
-        const labelBlock = document.createElement('div');
-        labelBlock.className = `component-label-block ` +
-            `align-${this.label.align} ` +
-            `position-${this.label.position}`;
-        // cssText 사용시 리플로우와 리페인트 최소화됨
-        labelBlock.style.cssText = `--data-column:${this.label.column};`;
-        
-        // 라벨 문구
-        const label = document.createElement('label');
-        label.className = 'component-label';
-        label.style.cssText = `color:${this.label.fontColor};font-size:${this.label.fontSize}px;` +
-            `${this.label.bold ? 'font-weight:bold;' : ''}` +
-            `${this.label.italic ? 'font-style:italic;' : ''}` +
-            `${this.label.underline ? 'text-decoration:underline;' : ''}`;
-        label.textContent = this.label.text;
-        labelBlock.appendChild(label);
+        return new Promise( (resolve, reject) => {
+            // 라벨 그룹
+            const labelBox = document.createElement('div');
+            let labelColumnWidth = CONST.FORM.DEFAULT_COLUMN; // 12
+            if (this.label.position === CONST.FORM.LABEL.POSITION.HIDDEN) {
+                labelColumnWidth = 0;
+            } else if (this.label.position === CONST.FORM.LABEL.POSITION.LEFT) {
+                labelColumnWidth -= Number(this.element.columnWidth);
+            }
+            labelBox.className = `component-label-box ` +
+                `align-${this.label.align} ` +
+                `position-${this.label.position}`;
+            // cssText 사용시 리플로우와 리페인트 최소화됨
+            labelBox.style.cssText = `--data-column:${labelColumnWidth};`;
 
-        // 필수값
-        const required = document.createElement('span');
-        required.className = 'required';
-        labelBlock.appendChild(required);
+            // 라벨 문구
+            const label = document.createElement('label');
+            label.className = 'component-label';
+            label.style.cssText = `color:${this.label.fontColor};` +
+                `font-size:${this.label.fontSize}px;` +
+                `${this.label.bold ? 'font-weight:bold;' : ''}` +
+                `${this.label.italic ? 'font-style:italic;' : ''}` +
+                `${this.label.underline ? 'text-decoration:underline;' : ''}`;
+            label.textContent = this.label.text;
+            labelBox.appendChild(label);
 
-        this.domElem.appendChild(labelBlock);
+            // 필수값
+            const required = document.createElement('span');
+            required.className = 'required';
+            labelBox.appendChild(required);
 
-        // 영역을 할당하기 위한 Empty Block
-        //const emptyBlock = document.createElement('div');
-        //emptyBlock.className = 'component-label-block';
-        //emptyBlock.style.cssText = `--data-column:${this.label.column};`;
-        //this.domElem.appendChild(labelBlock);
+            resolve(labelBox);
+        });
     }
 }
