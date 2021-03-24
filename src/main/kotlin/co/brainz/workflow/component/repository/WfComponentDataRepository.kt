@@ -17,8 +17,9 @@ interface WfComponentDataRepository : JpaRepository<WfComponentDataEntity, Strin
      * 커스텀 코드 타입의 display 데이터 정보를 리턴.
      */
     @Query(
-        "SELECT distinct cd FROM WfComponentEntity c join WfComponentDataEntity cd " +
-                "ON c.componentType = :componentType AND c.componentId = cd.componentId AND cd.attributeId = :attributeId"
+        "SELECT distinct cd FROM WfComponentEntity c " +
+                "join WfComponentDataEntity cd ON c.componentType = :componentType " +
+                "AND c.componentId = cd.componentId AND cd.attributeId = :attributeId"
     )
     fun findAllByComponentTypeAndAttributeId(componentType: Any, attributeId: Any): List<WfComponentDataEntity>
 

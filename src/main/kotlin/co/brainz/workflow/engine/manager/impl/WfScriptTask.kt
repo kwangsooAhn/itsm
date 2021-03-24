@@ -134,8 +134,7 @@ class WfScriptTask(
      */
     private fun getCiRelations(ciId: String, ciComponentDataValue: Map<String, Any>): MutableList<CIRelationDto> {
         val relationList = mutableListOf<CIRelationDto>()
-        // TODO: 연관된 CI 정보
-
+        // TODO : 연관된 CI 정보
         return relationList
     }
 

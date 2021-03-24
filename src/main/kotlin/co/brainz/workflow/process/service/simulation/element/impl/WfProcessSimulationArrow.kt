@@ -25,7 +25,8 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
         val sourceElement = wfElementRepository.findWfElementEntityByElementId(sourceElementId!!)
         val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(sourceElement.elementId)
         val sourceElementIsGateway =
-            WfElementConstants.ElementType.getAtomic(sourceElement.elementType) == WfElementConstants.ElementType.GATEWAY
+            WfElementConstants.ElementType.getAtomic(sourceElement.elementType) ==
+                    WfElementConstants.ElementType.GATEWAY
 
         if (sourceElementIsGateway && arrowConnectors.size > 1) {
             val connectorType: Int

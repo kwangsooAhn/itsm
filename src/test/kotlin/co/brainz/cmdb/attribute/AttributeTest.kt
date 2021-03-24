@@ -1,5 +1,6 @@
 package co.brainz.cmdb.attribute
 
+/*
 import co.brainz.cmdb.provider.dto.CIAttributeDto
 import co.brainz.cmdb.provider.dto.CIAttributeListDto
 import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+*/
 
 /*@RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)

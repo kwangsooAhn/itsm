@@ -115,10 +115,12 @@ class TimezoneTest {
         if (timezone != "") {
             userTimezone = timezone
         }
-        usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId, aliceUser.password, authorities)
+        usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userId,
+        aliceUser.password, authorities)
         usernamePasswordAuthenticationToken.details = AliceUserDto(
                 aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.useYn,
-                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList, urlList, userTimezone, aliceUser.lang, aliceUser.timeFormat
+                aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, authorities, menuList,
+                urlList, userTimezone, aliceUser.lang, aliceUser.timeFormat
         )
         securityContext.authentication = usernamePasswordAuthenticationToken
     }
@@ -135,7 +137,7 @@ class TimezoneTest {
     }
 
     */
-/**
+    /**
      * 공지사항 등록(기존데이터 삭제후).
      *//*
 
@@ -196,7 +198,7 @@ class TimezoneTest {
     }
 
     */
-/**
+    /**
      * 공지사항 조회.
      *//*
 

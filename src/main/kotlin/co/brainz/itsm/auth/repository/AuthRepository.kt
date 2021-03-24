@@ -20,6 +20,9 @@ interface AuthRepository : JpaRepository<AliceAuthEntity, String> {
     /**
      * 권한 정보 검색
      */
-    @Query("select a from AliceAuthEntity a where (a.authName like concat('%', :search, '%') or a.authDesc like concat('%', :search, '%')) order by a.authName asc")
+    @Query(
+        "select a from AliceAuthEntity a where (a.authName like concat('%', :search, '%') or a.authDesc " +
+                "like concat('%', :search, '%')) order by a.authName asc"
+    )
     fun findAuthSearch(search: String): MutableList<AliceAuthEntity>
 }
