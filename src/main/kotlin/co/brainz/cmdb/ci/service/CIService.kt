@@ -67,8 +67,8 @@ class CIService(
         var limit: Long? = null
         var flag: String? = null
         if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["offset"] != null) offset = parameters["offset"] as Long?
-        if (parameters["limit"] != null) limit = parameters["limit"] as Long?
+        if (parameters["offset"] != null) offset = parameters["offset"].toString().toLong()
+        if (parameters["limit"] != null) limit = parameters["limit"].toString().toLong()
         if (parameters["flag"] != null) flag = parameters["flag"].toString()
         val ciSearchDto = CISearchDto(
             search = search,

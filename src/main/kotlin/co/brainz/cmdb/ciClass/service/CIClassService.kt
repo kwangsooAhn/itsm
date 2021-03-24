@@ -55,8 +55,22 @@ class CIClassService(
             limit = limit
         )
         val ciClasses = ciClassRepository.findClassList(searchDto)
+        val ciClassList = mutableListOf<CIClassListDto>()
+        for (ciClass in ciClasses.results) {
+            ciClassList.add(
+                CIClassListDto(
+                    classId = ciClass.classId,
+                    className = ciClass.className,
+                    classDesc = ciClass.classDesc,
+                    classLevel = ciClass.classLevel,
+                    pClassId = ciClass.pClass?.classId,
+                    pClassName = ciClass.pClass?.className
+                )
+            )
+        }
+
         return CIClassReturnDto(
-            data = ciClasses.results,
+            data = ciClassList,
             totalCount = ciClasses.total
         )
     }

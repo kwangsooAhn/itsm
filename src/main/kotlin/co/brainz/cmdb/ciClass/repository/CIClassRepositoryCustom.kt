@@ -15,7 +15,7 @@ import com.querydsl.core.QueryResults
 
 interface CIClassRepositoryCustom : AliceRepositoryCustom {
     fun findClass(classId: String): CIClassListDto
-    fun findClassList(searchDto: SearchDto): QueryResults<CIClassListDto>
+    fun findClassList(searchDto: SearchDto): QueryResults<CIClassEntity>
     fun findClassEntityList(search: String): QueryResults<CIClassEntity>
     fun findClassToAttributeList(classList: MutableList<String>): List<CIClassToAttributeDto>?
 }

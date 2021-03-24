@@ -32,24 +32,9 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
             .fetchOne()
     }
 
-    override fun findTypeList(searchDto: SearchDto): QueryResults<CITypeListDto> {
+    override fun findTypeList(searchDto: SearchDto): QueryResults<CITypeEntity> {
         val ciType = QCITypeEntity.cITypeEntity
         val query = from(ciType)
-            .select(
-                Projections.constructor(
-                    CITypeListDto::class.java,
-                    ciType.typeId,
-                    ciType.typeName,
-                    ciType.typeDesc,
-                    ciType.typeLevel,
-                    ciType.typeAlias,
-                    ciType.pType.typeId,
-                    ciType.pType.typeName,
-                    ciType.typeIcon,
-                    ciType.defaultClass.classId,
-                    ciType.defaultClass.className
-                )
-            )
             .where(
                 super.like(
                     ciType.typeName, searchDto.search

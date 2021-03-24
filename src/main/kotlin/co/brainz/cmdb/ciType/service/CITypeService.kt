@@ -44,8 +44,26 @@ class CITypeService(
             limit = limit
         )
         val ciTypes = ciTypeRepository.findTypeList(searchDto)
+        val ciTypeList = mutableListOf<CITypeListDto>()
+        for (ciType in ciTypes.results) {
+            ciTypeList.add(
+                CITypeListDto(
+                    typeId = ciType.typeId,
+                    typeAlias = ciType.typeAlias,
+                    typeDesc = ciType.typeDesc,
+                    typeName = ciType.typeName,
+                    typeLevel = ciType.typeLevel,
+                    typeIcon = ciType.typeIcon,
+                    defaultClassId = ciType.defaultClass.classId,
+                    defaultClassName = ciType.defaultClass.className,
+                    pTypeId = ciType.pType?.typeId,
+                    pTypeName = ciType.pType?.typeName
+                )
+            )
+        }
+
         return CITypeReturnDto(
-            data = ciTypes.results,
+            data = ciTypeList,
             totalCount = ciTypes.total
         )
     }
