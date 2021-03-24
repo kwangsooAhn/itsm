@@ -111,13 +111,13 @@
 
     /**
      * CI 세부 속성 데이터 저장
-     * 
+     *
      * @param {String} actionType 타입
      * @param {Object} comp 컴포넌트
      * @param {Function} callbackFunc callback 함수
      */
-    function saveCIComponentData(actionType, comp, callbackFunc) {
-        if (isValidRequiredAll() && hasErrorClass()) {
+    function saveCIComponentData(actionType, comp, modal, callbackFunc) {
+        if (isValidRequiredAll(modal) && hasErrorClass()) {
             const saveCIData = {};
             Object.keys(CIData).forEach(function(key) {
                 const elem = document.getElementById((key === 'ciIcon') ? 'typeIcon': key);
@@ -227,7 +227,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(ACTION_TYPE_REGISTER, ciComponent, function() {
+                        saveCIComponentData(ACTION_TYPE_REGISTER, ciComponent, ciRegisterModal, function() {
                             modal.hide();
                         });
                     }
@@ -294,7 +294,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(ACTION_TYPE_MODIFY, document.getElementById(componentId), function() {
+                        saveCIComponentData(ACTION_TYPE_MODIFY, document.getElementById(componentId), ciUpdateModal, function() {
                             modal.hide();
                         });
                     }
@@ -632,9 +632,9 @@
         });
 
     }
-    
+
     /**
-     * 클래스 선택 모달 
+     * 클래스 선택 모달
      * 2021-02-09 정희찬 팀장님 요청에 따라 타입선택시 클래스가 변경되는 것 외에 클래스 선택 기능은 막음
      * @param {String} typeIcon 아이콘 경로
      */
