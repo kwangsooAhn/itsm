@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title th:text="#{form.label.title}"></title>
     <meta http-equiv="expire" content="-1"/>
@@ -8,7 +9,7 @@
     <th:block th:replace="formRefactoring/fragments/formHead :: formHead"></th:block>
     <script th:src="@{/assets/js/util/shortcut-alice.js}"></script>
     <script type="module">
-        // 세션 정보
+        // 사용자 세션 정보 저장
         import { SESSION } from '../../assets/js/formRefactoring/constant.js';
         import FormDesigner from '../../assets/js/formRefactoring/formDesigner/formDesigner.js';
 
@@ -38,6 +39,7 @@
             Object.assign(SESSION, userSession);
         }
         const designer = new FormDesigner('[[${formId}]]');
+        // TODO: 상단 이벤트 등록
     </script>
 </head>
 <body>
@@ -45,10 +47,176 @@
         <form id="frm" name="frm">
             <div class="form-container">
                 <!-- 상단 네비게이션 -->
+                <div class="form-header">
+                    <img class="logo"  th:src="@{/assets/media/icons/icon_logo_white.svg}" width="152" height="26" alt="Zenius ITSM" />
+                    <span class="name" th:text="#{form.label.title}"></span>
+                    <span class="separator"></span>
+                    <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
+                        <button type="button" id="btnSave" class="btn-header header-tooltip">
+                            <span class="icon-save"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{common.btn.save}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
+                        <button type="button" id="btnSaveAs" class="btn-header header-tooltip">
+                            <span class="icon-save-as"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{common.btn.saveAs}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <th:block th:if="${#strings.isEmpty(isView)}">
+                        <button type="button" id="btnUndo" class="btn-header header-tooltip">
+                            <span class="icon-undo"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{form.label.undo}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <th:block th:if="${#strings.isEmpty(isView)}">
+                        <button type="button" id="btnRedo" class="btn-header header-tooltip">
+                            <span class="icon-redo"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{form.label.redo}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <button type="button" id="btnPreview" class="btn-header header-tooltip">
+                        <span class="icon-preview"></span>
+                        <div class="tooltip-contents">
+                            <span th:text="#{form.label.preview}"></span>
+                        </div>
+                    </button>
+                    <span class="ml-auto" id="form-name"></span>
+                </div>
                 <!-- 컴포넌트 팔레트 -->
+                <div class="form-component-palette">
+                    <div class="component-accordion-box" id="componentList">
+                        <!-- inputs: 일반적인 입력 항목 -->
+                        <div class="component-accordion">
+                            <input type="radio" id="inputs" name="accordion-type" checked="true">
+                            <label class="flex-row justify-content-between accordion-label" for="inputs">
+                                <span class="type-name">Inputs</span>
+                                <span class="arrow-right"></span>
+                            </label>
+                            <div class="accordion-content">
+                                <ul class="flex-row flex-wrap component-icon-box">
+                                    <li class="component-icon inputbox" id="inputbox">
+                                        <span class="icon icon-inputbox"></span>
+                                        <span class="component-name" th:text="#{form.component.inputbox}"></span>
+                                    </li>
+                                    <li class="component-icon textarea" id="textarea">
+                                        <span class="icon icon-textarea"></span>
+                                        <span class="component-name" th:text="#{form.component.textarea}"></span>
+                                    </li>
+                                    <li class="component-icon text-editor" id="text-editor">
+                                        <span class="icon icon-text-editor"></span>
+                                        <span class="component-name" th:text="#{form.component.text-editor}"></span>
+                                    </li>
+                                    <li class="component-icon dropdown" id="dropdown">
+                                        <span class="icon icon-dropdown"></span>
+                                        <span class="component-name" th:text="#{form.component.dropdown}"></span>
+                                    </li>
+                                    <li class="component-icon radio" id="radio">
+                                        <span class="icon icon-radio"></span>
+                                        <span class="component-name" th:text="#{form.component.radio}"></span>
+                                    </li>
+                                    <li class="component-icon checkbox" id="checkbox">
+                                        <span class="icon icon-checkbox"></span>
+                                        <span class="component-name" th:text="#{form.component.checkbox}"></span>
+                                    </li>
+                                    <li class="component-icon date" id="date">
+                                        <span class="icon icon-date"></span>
+                                        <span class="component-name" th:text="#{form.component.date}"></span>
+                                    </li>
+                                    <li class="component-icon time" id="time">
+                                        <span class="icon icon-time"></span>
+                                        <span class="component-name" th:text="#{form.component.time}"></span>
+                                    </li>
+                                    <li class="component-icon datetime" id="datetime">
+                                        <span class="icon icon-datetime"></span>
+                                        <span class="component-name" th:text="#{form.component.datetime}"></span>
+                                    </li>
+                                    <li class="component-icon fileupload" id="fileupload">
+                                        <span class="icon icon-fileupload"></span>
+                                        <span class="component-name" th:text="#{form.component.fileupload}"></span>
+                                    </li>
+                                    <li class="component-icon custom-code" id="custom-code">
+                                        <span class="icon icon-custom-code"></span>
+                                        <span class="component-name" th:text="#{form.component.custom-code}"></span>
+                                    </li>
+                                    <li class="component-icon dynamic-row-table" id="dynamic-row-table">
+                                        <span class="icon icon-dynamic-row-table"></span>
+                                        <span class="component-name" th:text="#{form.component.dynamic-row-table}"></span>
+                                    </li>
+                                    <li class="component-icon ci" id="ci">
+                                        <span class="icon icon-ci"></span>
+                                        <span class="component-name" th:text="#{form.component.ci}"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- format:가로선, 이미지, 라벨 등 꾸미기 항목 -->
+                        <div class="component-accordion">
+                            <input type="radio" id="format" name="accordion-type">
+                            <label class="flex-row justify-content-between accordion-label" for="format">
+                                <span class="type-name">Format</span>
+                                <span class="arrow-right"></span>
+                            </label>
+                            <div class="accordion-content">
+                                <ul class="flex-row flex-wrap component-icon-box">
+                                    <li class="component-icon label" id="label">
+                                        <span class="icon icon-label"></span>
+                                        <span class="component-name" th:text="#{form.component.label}"></span>
+                                    </li>
+                                    <li class="component-icon image" id="image">
+                                        <span class="icon icon-image"></span>
+                                        <span class="component-name" th:text="#{form.component.image}"></span>
+                                    </li>
+                                    <li class="component-icon divider" id="divider">
+                                        <span class="icon icon-divider"></span>
+                                        <span class="component-name" th:text="#{form.component.divider}"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- visual: video, html, map, chart 등 추후 구현 -->
+                        <div class="component-accordion">
+                            <input type="radio" id="visual" name="accordion-type">
+                            <label class="flex-row justify-content-between accordion-label" for="visual">
+                                <span class="type-name">Visual</span>
+                                <span class="arrow-right"></span>
+                            </label>
+                            <div class="accordion-content">
+                                <ul class="flex-row flex-wrap component-icon-box">
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- custom: 고객 설정 컴포넌트 -->
+                        <div class="component-accordion">
+                            <input type="radio" id="custom" name="accordion-type">
+                            <label class="flex-row justify-content-between accordion-label" for="custom">
+                                <span class="type-name">Custom</span>
+                                <span class="arrow-right"></span>
+                            </label>
+                            <div class="accordion-content" id="customComponentList">
+                                <ul class="flex-row flex-wrap component-icon-box">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- 폼 -->
-                <div class="drawing-board"></div>
+                <div class="flex-row justify-content-center form-main">
+                    <div class="drawing-board"></div>
+                </div>
                 <!-- 속성 패널 -->
+                <div class="form-properties-panel-header">
+                    <span id="properties-name"></span>
+                </div>
+                <div class="form-properties-panel"></div>
             </div>
         </form>
     </div>

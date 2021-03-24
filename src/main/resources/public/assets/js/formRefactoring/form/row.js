@@ -35,8 +35,11 @@ export default class Row {
         case 'inputbox':
             this.components.push(new InputBox(data));
             break;
-        case 'textbox':
-            // this.components.push(new TextBox(data));
+        case 'textarea':
+            // this.components.push(new TextArea(data));
+            break;
+        case 'text-editor':
+            // this.components.push(new TextEditor(data));
             break;
         case 'dropdown':
             // this.components.push(new Dropdown(data));

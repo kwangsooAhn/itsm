@@ -643,6 +643,8 @@ form:
     label: "Label"
     radio: "Radio Button"
     textbox: "Text Box"
+    textarea: "Text Box"
+    text-editor: "Text Editor"
     time: "Time"
     ci: "CI"
   help:
