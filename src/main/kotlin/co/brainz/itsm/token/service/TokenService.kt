@@ -59,7 +59,8 @@ class TokenService(
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (wfComponentService
-                .getComponentTypeById(it.componentId) == (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+                .getComponentTypeById(it.componentId) ==
+                    (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
@@ -86,7 +87,8 @@ class TokenService(
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (wfComponentService
-                .getComponentTypeById(it.componentId) == (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
+                .getComponentTypeById(it.componentId) ==
+                    (WfComponentConstants.ComponentType.FILEUPLOAD.code) && it.value.isNotEmpty()) {
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }

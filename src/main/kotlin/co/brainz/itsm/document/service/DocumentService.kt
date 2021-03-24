@@ -66,7 +66,8 @@ class DocumentService(
      *
      * @return List<DocumentDto>
      */
-    fun getDocumentAll(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+    fun getDocumentAll(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
+            List<RestTemplateDocumentDto> {
         val documentList = wfDocumentService.allDocuments(restTemplateDocumentSearchListDto)
         for (document in documentList) {
             if (document.documentIcon.isNullOrEmpty()) {

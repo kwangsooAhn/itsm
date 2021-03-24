@@ -115,7 +115,7 @@ class CIService(
                     }
                 }
 
-                // TODO: 연관 관계
+                // TODO : 연관 관계
 
                 // 세부 속성
                 val ciAttributes: List<Map<String, Any>> =

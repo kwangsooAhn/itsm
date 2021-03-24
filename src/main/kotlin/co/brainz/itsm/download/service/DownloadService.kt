@@ -74,7 +74,9 @@ class DownloadService(
     @Transactional
     fun getDownload(downloadId: String, type: String): DownloadDto {
         var downloadEntity = downloadRepository.findById(downloadId).orElse(DownloadEntity())
-        if (type == "view" && (downloadEntity.createUser?.userId != SecurityContextHolder.getContext().authentication.principal as String)) {
+        if (type == "view" && (downloadEntity.createUser?.userId !=
+                    SecurityContextHolder.getContext().authentication.principal as String)
+        ) {
             downloadEntity.views += 1
             downloadEntity = downloadRepository.save(downloadEntity)
         }

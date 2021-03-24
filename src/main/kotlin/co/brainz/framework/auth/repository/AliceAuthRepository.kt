@@ -27,7 +27,8 @@ interface AliceAuthRepository : JpaRepository<AliceAuthEntity, String> {
 
     @Query(
         "SELECT u " +
-                "FROM AliceUrlEntity u, AliceUrlAuthMapEntity ua, AliceRoleAuthMapEntity ra, AliceUserRoleMapEntity ur " +
+                "FROM AliceUrlEntity u, AliceUrlAuthMapEntity ua, AliceRoleAuthMapEntity ra" +
+                ", AliceUserRoleMapEntity ur " +
                 "WHERE ur.role = ra.role " +
                 "AND ra.auth = ua.auth " +
                 "AND ua.url = u " +

@@ -11,7 +11,11 @@ import org.springframework.stereotype.Repository
 interface AliceFileOwnMapRepository : JpaRepository<AliceFileOwnMapEntity, AliceFileCompositeKey> {
     fun findAllByOwnId(ownId: String): List<AliceFileOwnMapEntity>
 
-    @Query("select f from AliceFileOwnMapEntity f inner join fetch f.fileLocEntity where f.ownId = :ownId and f.fileLocEntity.uploaded = :fileLocEntityUploaded")
+    @Query(
+        "select f from AliceFileOwnMapEntity f " +
+                "inner join fetch f.fileLocEntity " +
+                "where f.ownId = :ownId and f.fileLocEntity.uploaded = :fileLocEntityUploaded"
+    )
     fun findAllByOwnIdAndFileLocEntityUploaded(
         ownId: String,
         fileLocEntityUploaded: Boolean

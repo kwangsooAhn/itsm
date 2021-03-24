@@ -94,7 +94,7 @@ dependencies {
     kaptTest("org.mapstruct:mapstruct-processor:1.3.0.Final")
 }
 
-tasks.withType<Test>().configureEach{
+tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
 
