@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -22,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpHeaders
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
@@ -111,5 +113,17 @@ class CmdbTest {
             .andExpect(status().isOk)
     }
 
-
+    @Test
+    @DisplayName("CI Class 삭제 (임시 데이터)")
+    @Order(5)
+    @Disabled
+    fun deleteClass() {
+        val headers = HttpHeaders()
+        headers.set("Authorization", "Bearer $accessToken")
+        mvc.perform(
+            delete("/api/cmdb/classes/40288ae2781068ef01781096d7d80002")
+                .headers(headers)
+        )
+            .andExpect(status().isOk)
+    }
 }
