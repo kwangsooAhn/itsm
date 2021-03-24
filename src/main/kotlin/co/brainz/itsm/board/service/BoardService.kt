@@ -64,19 +64,19 @@ class BoardService(
     @Transactional
     fun saveBoard(boardDto: BoardDto): Boolean {
         val portalBoardAdminEntity = PortalBoardAdminEntity(
-                boardAdminId = boardDto.boardAdminId,
-                boardAdminTitle = boardDto.boardAdminTitle,
-                boardAdminDesc = boardDto.boardAdminDesc,
-                boardAdminSort = boardDto.boardAdminSort,
-                boardUseYn = boardDto.boardUseYn,
-                replyYn = boardDto.replyYn,
-                commentYn = boardDto.commentYn,
-                categoryYn = boardDto.categoryYn,
-                attachYn = boardDto.attachYn,
-                attachFileSize = boardDto.attachFileSize
+            boardAdminId = boardDto.boardAdminId,
+            boardAdminTitle = boardDto.boardAdminTitle,
+            boardAdminDesc = boardDto.boardAdminDesc,
+            boardAdminSort = boardDto.boardAdminSort,
+            boardUseYn = boardDto.boardUseYn,
+            replyYn = boardDto.replyYn,
+            commentYn = boardDto.commentYn,
+            categoryYn = boardDto.categoryYn,
+            attachYn = boardDto.attachYn,
+            attachFileSize = boardDto.attachFileSize
         )
-        val preBoardEntity: PortalBoardAdminEntity? = boardAdminRepository.findByBoardAdminId(portalBoardAdminEntity.boardAdminId)
-                ?: null
+        val preBoardEntity: PortalBoardAdminEntity? =
+            boardAdminRepository.findByBoardAdminId(portalBoardAdminEntity.boardAdminId) ?: null
         val duplicateCount = boardAdminRepository.countByBoardAdminTitle(boardDto.boardAdminTitle!!)
         if (duplicateCount > 0 && !boardDto.boardAdminTitle.equals(preBoardEntity?.boardAdminTitle)) {
             return false
@@ -113,23 +113,23 @@ class BoardService(
 
                 newCategoryList.forEach { category ->
                     categoryList.add(
-                            PortalBoardCategoryEntity(
-                                    boardCategoryId = "",
-                                    boardAdmin = boardAdminRepository.getOne(boardDto.boardAdminId),
-                                    boardCategoryName = category.boardCategoryName,
-                                    boardCategorySort = category.boardCategorySort
-                            )
+                        PortalBoardCategoryEntity(
+                            boardCategoryId = "",
+                            boardAdmin = boardAdminRepository.getOne(boardDto.boardAdminId),
+                            boardCategoryName = category.boardCategoryName,
+                            boardCategorySort = category.boardCategorySort
+                        )
                     )
                 }
             } else {
                 boardDto.categoryList.forEach { category ->
                     categoryList.add(
-                            PortalBoardCategoryEntity(
-                                    boardCategoryId = "",
-                                    boardAdmin = boardAdmin,
-                                    boardCategoryName = category.boardCategoryName,
-                                    boardCategorySort = category.boardCategorySort
-                            )
+                        PortalBoardCategoryEntity(
+                            boardCategoryId = "",
+                            boardAdmin = boardAdmin,
+                            boardCategoryName = category.boardCategoryName,
+                            boardCategorySort = category.boardCategorySort
+                        )
                     )
                 }
             }

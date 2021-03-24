@@ -87,7 +87,9 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             patternValueObj.toString()
         )
 
-        when (numberingPatternEntity.patternId != "" && numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size > 0) {
+        when (numberingPatternEntity.patternId != "" &&
+                numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size
+                > 0) {
             true -> {
                 status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
             }

@@ -28,7 +28,9 @@ class AliceKeyGeneratorService {
         var num: Int
         do {
             num = random.nextInt(zeroToLowerCaseZ) + charCodeZero
-            if ((num in charCodeZero..charCodeNine) || (num in charCodeUpperA..charCodeUpperZ) || (num in charCodeLowerCaseA..charCodeLowerCaseZ)) {
+            if ((num in charCodeZero..charCodeNine) || (num in charCodeUpperA..charCodeUpperZ) ||
+                (num in charCodeLowerCaseA..charCodeLowerCaseZ)
+            ) {
                 sb.append(num.toChar())
             } else {
                 continue

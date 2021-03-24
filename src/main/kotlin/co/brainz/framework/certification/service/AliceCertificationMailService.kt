@@ -60,7 +60,8 @@ class AliceCertificationMailService(
             }
         }
 
-        val certificationDto = AliceCertificationDto(userId, email, certificationKey, statusCode, password, classficationCode)
+        val certificationDto =
+            AliceCertificationDto(userId, email, certificationKey, statusCode, password, classficationCode)
         aliceCertificationService.updateUser(certificationDto)
         when (target) {
             AliceUserConstants.SendMailStatus.CREATE_USER.code,

@@ -13,7 +13,10 @@ import org.springframework.stereotype.Repository
 @Repository
 interface FaqRepository : JpaRepository<FaqEntity, String>, FaqRepositoryCustom {
 
-    @Query("select f from FaqEntity f join fetch f.createUser left outer join fetch f.updateUser order by f.faqGroup desc ")
+    @Query(
+        "select f from FaqEntity f join fetch f.createUser " +
+                "left outer join fetch f.updateUser order by f.faqGroup desc "
+    )
     fun getFaqList(): MutableList<FaqEntity>
 
     @Query("select distinct(f.faqGroup) as faqGroup from FaqEntity f order by f.faqGroup desc")
@@ -22,6 +25,9 @@ interface FaqRepository : JpaRepository<FaqEntity, String>, FaqRepositoryCustom 
     @Query("select distinct(f.faqGroup) as faqGroup from FaqEntity f where f.faqGroup = :faqGroup")
     fun getFaqGroupList(faqGroup: String): List<String>
 
-    @Query("select count(1) as count from FaqEntity f where f.faqTitle = :faqTitle and  f.faqGroup = :faqGroup")
+    @Query(
+        "select count(f.faqId) as count from FaqEntity f " +
+                "where f.faqTitle = :faqTitle and  f.faqGroup = :faqGroup"
+    )
     fun getCountDuplicateFaqTitleAndCategory(faqTitle: String, faqGroup: String): Int
 }

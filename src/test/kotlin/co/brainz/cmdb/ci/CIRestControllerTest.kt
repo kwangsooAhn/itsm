@@ -5,6 +5,7 @@
 
 package co.brainz.cmdb.ci
 
+/*
 import co.brainz.cmdb.provider.constants.RestTemplateConstants
 import co.brainz.cmdb.provider.dto.CIDataDto
 import co.brainz.cmdb.provider.dto.CIDto
@@ -33,6 +34,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+*/
 
 /**
  * CMDB CI CRUD Label 테스트 코드
