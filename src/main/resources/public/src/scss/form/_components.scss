@@ -236,9 +236,13 @@
               button { 
                 padding: 0;
                 // 돋보기 아이콘
-                .icon-search {
-                  display: inline-block;
-                  @include maskImage('#{$icon-folder-path}icon_search.svg', 1.25rem, 1.25rem, no-repeat, center, 1.25rem 1.25rem, $gray); // 20px 20px
+                &.icon-search-area {
+                  pointer-events: all !important;
+                  background: $white !important;
+                  .icon-search {
+                    display: inline-block;
+                    @include maskImage('#{$icon-folder-path}icon_search.svg', 1.25rem, 1.25rem, no-repeat, center, 1.25rem 1.25rem, $gray); // 20px 20px
+                  }
                 }
                 // 편집 아이콘
                 .icon-edit {

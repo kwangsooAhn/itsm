@@ -520,8 +520,8 @@
                     tdTemplate += `<img src="/assets/media/images/cmdb/${data[opt.id]}" width="20" height="20"/>`;
                     break;
                 case 'icon-edit': // CI 등록 / 수정
-                    if (actionType === ACTION_TYPE_DELETE) {
-                        tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
+                    if (actionType === ACTION_TYPE_DELETE || comp.getAttribute('data-displaytype') === 'readonly') {
+                        tdTemplate += `<button type="button" class="icon-search-area" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
                     } else {
                         tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-edit"></span></button>`;
                     }

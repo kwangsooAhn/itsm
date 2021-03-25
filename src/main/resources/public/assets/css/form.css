@@ -4248,7 +4248,11 @@ body.modal-active {
 .component .field-group .field-content .ci-table tr th button, .component .field-group .field-content .ci-table tr td button {
   padding: 0;
 }
-.component .field-group .field-content .ci-table tr th button .icon-search, .component .field-group .field-content .ci-table tr td button .icon-search {
+.component .field-group .field-content .ci-table tr th button.icon-search-area, .component .field-group .field-content .ci-table tr td button.icon-search-area {
+  pointer-events: all !important;
+  background: #ffffff !important;
+}
+.component .field-group .field-content .ci-table tr th button.icon-search-area .icon-search, .component .field-group .field-content .ci-table tr td button.icon-search-area .icon-search {
   display: inline-block;
   width: 1.25rem;
   height: 1.25rem;
