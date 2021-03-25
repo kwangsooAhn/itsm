@@ -527,7 +527,7 @@
                     }
                     break;
                 case 'icon-search': // CI 상세 조회
-                    tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
+                    tdTemplate += `<button type="button" class="icon-search-area" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
                     break;
                 case 'icon-delete': // Row 삭제
                     tdTemplate += `<button type="button" onclick="javascript:CI.removeRow('${comp.id}', '${data.ciId}', this);">`+
