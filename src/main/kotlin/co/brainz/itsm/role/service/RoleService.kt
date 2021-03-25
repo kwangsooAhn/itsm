@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.role.service
 
 import co.brainz.framework.auth.dto.AliceAuthSimpleDto
@@ -5,6 +10,7 @@ import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
 import co.brainz.framework.auth.entity.AliceRoleEntity
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
@@ -135,47 +141,34 @@ class RoleService(
     }
 
     /**
-     * 모든 역할 목록을 조회한다.
-     */
-    fun getRoles(roleEntities: Set<AliceRoleEntity>?): MutableList<RoleDetailDto> {
-        val dto = mutableListOf<RoleDetailDto>()
-        if (roleEntities != null) {
-            val getRoles = roleRepository.findAll()
-            var i = 0
-            for (allRole in getRoles) {
-                for (dtoRole in roleEntities) {
-                    if (dtoRole.roleId == allRole.roleId) {
-                        i = 1
-                        break
-                    } else {
-                        i = 0
-                    }
-                }
-                if (i == 1) {
-                    dto.add(RoleDetailDto(allRole.roleId, allRole.roleName, true))
-                } else {
-                    dto.add(RoleDetailDto(allRole.roleId, allRole.roleName, false))
-                }
-            }
-        }
-        return dto
-    }
-
-    /**
      * 역할 목록을 조회 (검색어 포함).
      */
     fun getRoleSearchList(search: String): MutableList<RoleListDto> {
-        val queryResults = roleRepository.findRoleSearch(search)
-        val roleList = mutableListOf<RoleListDto>()
-        for (role in queryResults.results) {
-            roleList.add(
-                RoleListDto(
+        return roleRepository.findRoleSearch(search).results
+    }
+
+    /**
+     * 전체 역할 목록 조회 및 사용자가 가지고 있는 역할 체크
+     */
+    fun getAllRolesToUserCheck(userEntity: AliceUserEntity?): MutableList<RoleDetailDto> {
+        val allRoles = roleRepository.findRoleSearch("").results
+        val userRoleIds = mutableListOf<String>()
+        if (userEntity != null) {
+            val userRoles = userRoleMapRepository.findUserRoleByUserKey(userEntity.userKey)
+            for (userRole in userRoles) {
+                userRoleIds.add(userRole.roleId)
+            }
+        }
+        val roleDetailDtoList = mutableListOf<RoleDetailDto>()
+        for (role in allRoles) {
+            roleDetailDtoList.add(
+                RoleDetailDto(
                     roleId = role.roleId,
                     roleName = role.roleName,
-                    roleDesc = role.roleDesc
+                    checked = userRoleIds.contains(role.roleId)
                 )
             )
         }
-        return roleList
+        return roleDetailDtoList
     }
 }
