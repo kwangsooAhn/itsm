@@ -10,10 +10,10 @@ import co.brainz.cmdb.ci.entity.QCIDataEntity
 import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
-import co.brainz.cmdb.provider.dto.CIAttributeDto
-import co.brainz.cmdb.provider.dto.CIAttributeListDto
-import co.brainz.cmdb.provider.dto.CIAttributeValueDto
-import co.brainz.cmdb.provider.dto.SearchDto
+import co.brainz.cmdb.dto.CIAttributeDto
+import co.brainz.cmdb.dto.CIAttributeListDto
+import co.brainz.cmdb.dto.CIAttributeValueDto
+import co.brainz.cmdb.dto.SearchDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections

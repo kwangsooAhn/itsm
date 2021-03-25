@@ -7,8 +7,8 @@
 package co.brainz.cmdb
 
 import co.brainz.cmdb.ci.service.CIService
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.util.AliceUtil
 import javax.transaction.Transactional
 import org.junit.jupiter.api.Assertions.assertEquals

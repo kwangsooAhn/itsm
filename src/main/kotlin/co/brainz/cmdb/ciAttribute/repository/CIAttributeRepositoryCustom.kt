@@ -6,10 +6,10 @@
 
 package co.brainz.cmdb.ciAttribute.repository
 
-import co.brainz.cmdb.provider.dto.CIAttributeDto
-import co.brainz.cmdb.provider.dto.CIAttributeListDto
-import co.brainz.cmdb.provider.dto.CIAttributeValueDto
-import co.brainz.cmdb.provider.dto.SearchDto
+import co.brainz.cmdb.dto.CIAttributeDto
+import co.brainz.cmdb.dto.CIAttributeListDto
+import co.brainz.cmdb.dto.CIAttributeValueDto
+import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import com.querydsl.core.QueryResults
 

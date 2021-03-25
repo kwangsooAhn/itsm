@@ -8,11 +8,11 @@ package co.brainz.api.cmdb.ciClass.service
 
 import co.brainz.api.constants.ApiConstants
 import co.brainz.cmdb.ciClass.service.CIClassService
-import co.brainz.cmdb.provider.dto.CIClassDetailDto
-import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
-import co.brainz.cmdb.provider.dto.CIClassDto
-import co.brainz.cmdb.provider.dto.CIClassListDto
-import co.brainz.cmdb.provider.dto.CIClassReturnDto
+import co.brainz.cmdb.dto.CIClassDetailDto
+import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIClassDto
+import co.brainz.cmdb.dto.CIClassListDto
+import co.brainz.cmdb.dto.CIClassReturnDto
 import co.brainz.itsm.user.service.UserService
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
@@ -36,7 +36,7 @@ class ApiCIClassService(
     /**
      * CI Class 목록 단일 조회
      */
-    fun getCIClass(classId: String): CIClassListDto {
+    fun getCIClass(classId: String): CIClassListDto? {
         return ciClassService.getCIClass(classId)
     }
 

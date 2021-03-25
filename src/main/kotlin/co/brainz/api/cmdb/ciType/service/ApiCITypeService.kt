@@ -8,9 +8,9 @@ package co.brainz.api.cmdb.ciType.service
 
 import co.brainz.api.constants.ApiConstants
 import co.brainz.cmdb.ciType.service.CITypeService
-import co.brainz.cmdb.provider.dto.CITypeDto
-import co.brainz.cmdb.provider.dto.CITypeListDto
-import co.brainz.cmdb.provider.dto.CITypeReturnDto
+import co.brainz.cmdb.dto.CITypeDto
+import co.brainz.cmdb.dto.CITypeListDto
+import co.brainz.cmdb.dto.CITypeReturnDto
 import co.brainz.itsm.user.service.UserService
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
@@ -34,7 +34,7 @@ class ApiCITypeService(
     /**
      * CI Type 단일 목록 조회
      */
-    fun getCIType(typeId: String): CITypeListDto {
+    fun getCIType(typeId: String): CITypeListDto? {
         return ciTypeService.getCIType(typeId)
     }
 

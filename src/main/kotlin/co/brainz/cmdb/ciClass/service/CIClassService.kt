@@ -13,14 +13,14 @@ import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapPk
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassAttributeMapRepository
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
-import co.brainz.cmdb.provider.dto.CIClassDetailDto
-import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
-import co.brainz.cmdb.provider.dto.CIClassDto
-import co.brainz.cmdb.provider.dto.CIClassListDto
-import co.brainz.cmdb.provider.dto.CIClassReturnDto
-import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
-import co.brainz.cmdb.provider.dto.CIClassTreeListDto
-import co.brainz.cmdb.provider.dto.SearchDto
+import co.brainz.cmdb.dto.CIClassDetailDto
+import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIClassDto
+import co.brainz.cmdb.dto.CIClassListDto
+import co.brainz.cmdb.dto.CIClassReturnDto
+import co.brainz.cmdb.dto.CIClassToAttributeDto
+import co.brainz.cmdb.dto.CIClassTreeListDto
+import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -78,8 +78,16 @@ class CIClassService(
     /**
      * CMDB CI Class 단일 조회
      */
-    fun getCIClass(classId: String): CIClassListDto {
-        return ciClassRepository.findClass(classId)
+    fun getCIClass(classId: String): CIClassListDto? {
+        val ciClassEntity = ciClassRepository.findClass(classId)
+        return CIClassListDto(
+            classId = ciClassEntity?.classId,
+            className = ciClassEntity?.className,
+            classDesc = ciClassEntity?.classDesc,
+            classLevel = ciClassEntity?.classLevel,
+            pClassId = ciClassEntity?.pClass?.classId,
+            pClassName = ciClassEntity?.pClass?.className
+        )
     }
 
     /**

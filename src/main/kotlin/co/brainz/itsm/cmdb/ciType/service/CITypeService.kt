@@ -7,8 +7,8 @@
 package co.brainz.itsm.cmdb.ciType.service
 
 import co.brainz.cmdb.ciType.service.CITypeService
-import co.brainz.cmdb.provider.dto.CITypeDto
-import co.brainz.cmdb.provider.dto.CITypeTreeListDto
+import co.brainz.cmdb.dto.CITypeDto
+import co.brainz.cmdb.dto.CITypeTreeListDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants
 import java.time.LocalDateTime

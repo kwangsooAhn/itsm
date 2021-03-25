@@ -8,7 +8,7 @@ package co.brainz.cmdb
 
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.cmdb.ciClass.service.CIClassService
-import co.brainz.cmdb.provider.dto.CIClassDto
+import co.brainz.cmdb.dto.CIClassDto
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.junit.jupiter.api.Assertions
@@ -79,14 +79,14 @@ class CIClassServiceTest {
         val params = LinkedHashMap<String, Any>()
         val ciClassDtoList = ciClassService.getCIClasses(params)
         if (!ciClassDtoList.data.isNullOrEmpty()) {
-            classId = ciClassDtoList.data[0].classId
+            classId = ciClassDtoList.data[0].classId.toString()
         }
         assumingThat(
             classId.isNotEmpty()
         ) {
             val classDto = ciClassService.getCIClass(classId)
-            Assertions.assertEquals(classDto.className, ciClassDtoList.data[0].className)
-            Assertions.assertEquals(classDto.classDesc, ciClassDtoList.data[0].classDesc)
+            Assertions.assertEquals(classDto?.className, ciClassDtoList.data[0].className)
+            Assertions.assertEquals(classDto?.classDesc, ciClassDtoList.data[0].classDesc)
         }
     }
 
@@ -130,7 +130,7 @@ class CIClassServiceTest {
             val updateAttributes = mutableListOf<String>()
             for (ciClassDto in ciClassDtoList.data) {
                 if (ciClassDto.className == this.className) {
-                    val ciClassAttributeList = ciClassService.getCIClassAttributes(ciClassDto.classId)
+                    val ciClassAttributeList = ciClassService.getCIClassAttributes(ciClassDto.classId.toString())
                     ciClassAttributeList.forEach { ciClass ->
                         ciClass.attributes?.forEach { attribute ->
                             updateAttributes.add(attribute.attributeId)
@@ -138,8 +138,8 @@ class CIClassServiceTest {
                     }
 
                     val updateCiClassDto = CIClassDto(
-                        classId = ciClassDto.classId,
-                        className = ciClassDto.className,
+                        classId = ciClassDto.classId.toString(),
+                        className = ciClassDto.className.toString(),
                         classDesc = "Update Test 1",
                         classLevel = ciClassDto.classLevel,
                         attributes = updateAttributes,
@@ -165,7 +165,7 @@ class CIClassServiceTest {
         ) {
             for (ciClassDto in ciClassDtoList.data) {
                 if (ciClassDto.className == this.className) {
-                    assertTrue(ciClassService.deleteCIClass(ciClassDto.classId))
+                    assertTrue(ciClassService.deleteCIClass(ciClassDto.classId.toString()))
                 }
             }
         }

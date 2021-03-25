@@ -6,7 +6,7 @@
 
 package co.brainz.cmdb.ciTag.repository
 
-import co.brainz.cmdb.provider.dto.CITagDto
+import co.brainz.cmdb.dto.CITagDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface CITagRepositoryCustom : AliceRepositoryCustom {

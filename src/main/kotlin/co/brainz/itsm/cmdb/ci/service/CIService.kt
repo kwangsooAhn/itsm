@@ -7,10 +7,10 @@
 package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.ci.service.CIService
-import co.brainz.cmdb.provider.dto.CIDetailDto
-import co.brainz.cmdb.provider.dto.CIRelationDto
-import co.brainz.cmdb.provider.dto.CIReturnDto
-import co.brainz.cmdb.provider.dto.CITagDto
+import co.brainz.cmdb.dto.CIDetailDto
+import co.brainz.cmdb.dto.CIRelationDto
+import co.brainz.cmdb.dto.CIReturnDto
+import co.brainz.cmdb.dto.CITagDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity

@@ -7,13 +7,13 @@
 package co.brainz.itsm.cmdb.ciClass.service
 
 import co.brainz.cmdb.ciClass.service.CIClassService
-import co.brainz.cmdb.provider.dto.CIAttributeListDto
-import co.brainz.cmdb.provider.dto.CIClassAttributeListDto
-import co.brainz.cmdb.provider.dto.CIClassDetailDto
-import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
-import co.brainz.cmdb.provider.dto.CIClassDto
-import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
-import co.brainz.cmdb.provider.dto.CIClassTreeListDto
+import co.brainz.cmdb.dto.CIAttributeListDto
+import co.brainz.cmdb.dto.CIClassAttributeListDto
+import co.brainz.cmdb.dto.CIClassDetailDto
+import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIClassDto
+import co.brainz.cmdb.dto.CIClassToAttributeDto
+import co.brainz.cmdb.dto.CIClassTreeListDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
 import java.time.LocalDateTime

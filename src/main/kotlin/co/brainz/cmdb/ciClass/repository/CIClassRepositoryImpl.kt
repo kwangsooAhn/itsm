@@ -4,37 +4,23 @@ import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
-import co.brainz.cmdb.provider.dto.CIClassListDto
-import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
-import co.brainz.cmdb.provider.dto.SearchDto
-import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.cmdb.dto.CIClassToAttributeDto
+import co.brainz.cmdb.dto.SearchDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.java), CIClassRepositoryCustom {
 
-    override fun findClass(classId: String): CIClassListDto {
+    override fun findClass(classId: String): CIClassEntity? {
         val ciClass = QCIClassEntity.cIClassEntity
         return from(ciClass)
-            .select(
-                Projections.constructor(
-                    CIClassListDto::class.java,
-                    ciClass.classId,
-                    ciClass.className,
-                    ciClass.classDesc,
-                    ciClass.classLevel,
-                    ciClass.pClass?.classId,
-                    ciClass.pClass?.className
-                )
-            )
             .where(ciClass.classId.eq(classId))
             .fetchOne()
     }
 
     override fun findClassList(searchDto: SearchDto): QueryResults<CIClassEntity> {
         val ciClass = QCIClassEntity.cIClassEntity
-        val user = QAliceUserEntity.aliceUserEntity
         val query = from(ciClass)
             .where(
                 super.like(ciClass.className, searchDto.search)

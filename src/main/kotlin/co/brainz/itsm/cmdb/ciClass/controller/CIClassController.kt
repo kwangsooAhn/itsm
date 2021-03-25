@@ -6,7 +6,7 @@
 
 package co.brainz.itsm.cmdb.ciClass.controller
 
-import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
+import co.brainz.cmdb.dto.CIClassToAttributeDto
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest

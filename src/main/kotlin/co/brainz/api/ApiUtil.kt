@@ -56,7 +56,7 @@ open class ApiUtil {
     /**
      * 응답 결과 처리
      */
-    protected fun responseValue(request: HttpServletRequest, contents: Any): ResponseEntity<Any> {
+    protected fun responseValue(request: HttpServletRequest, contents: Any?): ResponseEntity<Any> {
         var value: Any? = contents
         val headers = HttpHeaders()
         var contentType = MediaType.APPLICATION_JSON

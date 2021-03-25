@@ -5,7 +5,7 @@
 
 package co.brainz.cmdb.ciRelation.repository
 
-import co.brainz.cmdb.provider.dto.CIRelationDto
+import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface CIRelationRepositoryCustom : AliceRepositoryCustom {

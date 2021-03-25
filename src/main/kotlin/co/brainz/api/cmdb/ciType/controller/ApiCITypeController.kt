@@ -9,7 +9,7 @@ package co.brainz.api.cmdb.ciType.controller
 import co.brainz.api.ApiUtil
 import co.brainz.api.cmdb.ciType.service.ApiCITypeService
 import co.brainz.api.dto.SearchDto
-import co.brainz.cmdb.provider.dto.CITypeDto
+import co.brainz.cmdb.dto.CITypeDto
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity

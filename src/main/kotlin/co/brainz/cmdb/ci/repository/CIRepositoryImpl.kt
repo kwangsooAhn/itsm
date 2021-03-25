@@ -11,9 +11,9 @@ import co.brainz.cmdb.ci.entity.QCIEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
 import co.brainz.cmdb.ciTag.entity.QCITagEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CISearchDto
-import co.brainz.cmdb.provider.dto.CIsDto
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CISearchDto
+import co.brainz.cmdb.dto.CIsDto
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import com.querydsl.core.QueryResults

@@ -8,10 +8,10 @@ package co.brainz.api.cmdb.ci.service
 
 import co.brainz.api.constants.ApiConstants
 import co.brainz.cmdb.ci.service.CIService
-import co.brainz.cmdb.provider.dto.CIDetailDto
-import co.brainz.cmdb.provider.dto.CIDto
-import co.brainz.cmdb.provider.dto.CIListDto
-import co.brainz.cmdb.provider.dto.CIReturnDto
+import co.brainz.cmdb.dto.CIDetailDto
+import co.brainz.cmdb.dto.CIDto
+import co.brainz.cmdb.dto.CIListDto
+import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.itsm.user.service.UserService
 import java.time.LocalDateTime
 import org.springframework.stereotype.Service

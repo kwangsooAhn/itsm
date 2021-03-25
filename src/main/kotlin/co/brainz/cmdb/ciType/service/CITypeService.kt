@@ -10,11 +10,11 @@ import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
-import co.brainz.cmdb.provider.dto.CITypeDto
-import co.brainz.cmdb.provider.dto.CITypeListDto
-import co.brainz.cmdb.provider.dto.CITypeReturnDto
-import co.brainz.cmdb.provider.dto.CITypeTreeListDto
-import co.brainz.cmdb.provider.dto.SearchDto
+import co.brainz.cmdb.dto.CITypeDto
+import co.brainz.cmdb.dto.CITypeListDto
+import co.brainz.cmdb.dto.CITypeReturnDto
+import co.brainz.cmdb.dto.CITypeTreeListDto
+import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import com.querydsl.core.QueryResults
 import org.slf4j.LoggerFactory
@@ -71,8 +71,20 @@ class CITypeService(
     /**
      * CMDB Type 단일 목록 조회
      */
-    fun getCIType(typeId: String): CITypeListDto {
-        return ciTypeRepository.findType(typeId)
+    fun getCIType(typeId: String): CITypeListDto? {
+        val ciTypeEntity = ciTypeRepository.findType(typeId)
+        return CITypeListDto(
+            typeId = ciTypeEntity?.typeId,
+            typeName = ciTypeEntity?.typeName,
+            typeDesc = ciTypeEntity?.typeDesc,
+            typeAlias = ciTypeEntity?.typeAlias,
+            typeIcon = ciTypeEntity?.typeIcon,
+            typeLevel = ciTypeEntity?.typeLevel,
+            pTypeId = ciTypeEntity?.pType?.typeId,
+            pTypeName = ciTypeEntity?.pType?.typeName,
+            defaultClassId = ciTypeEntity?.defaultClass?.classId,
+            defaultClassName = ciTypeEntity?.defaultClass?.className
+        )
     }
 
     /**

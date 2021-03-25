@@ -2,32 +2,15 @@ package co.brainz.cmdb.ciType.repository
 
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
-import co.brainz.cmdb.provider.dto.CITypeListDto
-import co.brainz.cmdb.provider.dto.SearchDto
+import co.brainz.cmdb.dto.SearchDto
 import com.querydsl.core.QueryResults
-import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java), CITypeRepositoryCustom {
 
-    override fun findType(typeId: String): CITypeListDto {
+    override fun findType(typeId: String): CITypeEntity? {
         val ciType = QCITypeEntity.cITypeEntity
         return from(ciType)
-            .select(
-                Projections.constructor(
-                    CITypeListDto::class.java,
-                    ciType.typeId,
-                    ciType.typeName,
-                    ciType.typeDesc,
-                    ciType.typeLevel,
-                    ciType.typeAlias,
-                    ciType.pType.typeId,
-                    ciType.pType.typeName,
-                    ciType.typeIcon,
-                    ciType.defaultClass.classId,
-                    ciType.defaultClass.className
-                )
-            )
             .where(ciType.typeId.eq(typeId))
             .fetchOne()
     }

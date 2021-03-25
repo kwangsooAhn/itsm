@@ -7,7 +7,7 @@
 package co.brainz.cmdb
 
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
-import co.brainz.cmdb.provider.dto.CIAttributeDto
+import co.brainz.cmdb.dto.CIAttributeDto
 import java.time.LocalDateTime
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

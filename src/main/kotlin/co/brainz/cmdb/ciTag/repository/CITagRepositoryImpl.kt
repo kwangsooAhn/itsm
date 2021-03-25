@@ -8,7 +8,7 @@ package co.brainz.cmdb.ciTag.repository
 
 import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ciTag.entity.QCITagEntity
-import co.brainz.cmdb.provider.dto.CITagDto
+import co.brainz.cmdb.dto.CITagDto
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 

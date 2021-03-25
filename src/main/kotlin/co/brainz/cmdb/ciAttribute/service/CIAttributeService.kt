@@ -8,12 +8,12 @@ package co.brainz.cmdb.ciAttribute.service
 
 import co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIAttributeDto
-import co.brainz.cmdb.provider.dto.CIAttributeListDto
-import co.brainz.cmdb.provider.dto.CIAttributeReturnDto
-import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
-import co.brainz.cmdb.provider.dto.SearchDto
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIAttributeDto
+import co.brainz.cmdb.dto.CIAttributeListDto
+import co.brainz.cmdb.dto.CIAttributeReturnDto
+import co.brainz.cmdb.dto.RestTemplateReturnDto
+import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -36,8 +36,8 @@ class CIAttributeService(
         var offset: Long? = null
         var limit: Long? = null
         if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["offset"] != null) offset = parameters["offset"] as Long?
-        if (parameters["limit"] != null) limit = parameters["limit"] as Long?
+        if (parameters["offset"] != null) offset = parameters["offset"].toString().toLong()
+        if (parameters["limit"] != null) limit = parameters["limit"].toString().toLong()
         val searchDto = SearchDto(
             search = search,
             offset = offset,
