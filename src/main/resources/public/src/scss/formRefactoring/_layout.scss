@@ -164,19 +164,19 @@
             display: inline-block;
             margin:  1.563rem 0 0.625rem 0; // 25px 0 10px 0
           }
-          .icon-inputbox { @include maskImage($icon-component-inputbox, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
-          .icon-textarea { @include maskImage($icon-component-textarea, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
-          .icon-text-editor { @include maskImage($icon-component-text-editor, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-inputBox { @include maskImage($icon-component-inputBox, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-textArea { @include maskImage($icon-component-textArea, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-textEditor { @include maskImage($icon-component-textEditor, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
           .icon-dropdown { @include maskImage($icon-component-dropdown, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
           .icon-radio { @include maskImage($icon-component-radio, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
-          .icon-checkbox { @include maskImage($icon-component-checkbox, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-checkBox { @include maskImage($icon-component-checkBox, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
           .icon-label { @include maskImage($icon-component-label, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
           .icon-date { @include maskImage($icon-component-date, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
           .icon-time { @include maskImage($icon-component-time, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
-          .icon-datetime { @include maskImage($icon-component-datetime, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
-          .icon-fileupload { @include maskImage($icon-component-fileupload, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
-          .icon-custom-code { @include maskImage($icon-component-custom-code, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
-          .icon-dynamic-row-table { @include maskImage($icon-component-dynamic-row-table, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-dateTime { @include maskImage($icon-component-dateTime, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-fileUpload { @include maskImage($icon-component-fileUpload, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-customCode { @include maskImage($icon-component-customCode, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-dynamicRowTable { @include maskImage($icon-component-dynamicRowTable, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
           .icon-ci { @include maskImage($icon-component-ci, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
           .icon-label { @include maskImage($icon-component-label, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
           .icon-image { @include maskImage($icon-component-image, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p

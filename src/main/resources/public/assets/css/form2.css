@@ -723,7 +723,7 @@ input, button, select, optgroup, textarea {
   display: inline-block;
   margin: 1.563rem 0 0.625rem 0;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-inputbox {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-inputBox {
   width: 2.375rem;
   height: 2.375rem;
   -webkit-mask-image: url("../media/icons/form/context-menu/icon-inputbox.svg");
@@ -736,7 +736,7 @@ input, button, select, optgroup, textarea {
   mask-size: 2.375rem 2.375rem;
   background: #929AA6;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-textarea {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-textArea {
   width: 2.375rem;
   height: 2.375rem;
   -webkit-mask-image: url("../media/icons/form/context-menu/icon-textbox.svg");
@@ -749,7 +749,7 @@ input, button, select, optgroup, textarea {
   mask-size: 2.375rem 2.375rem;
   background: #929AA6;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-text-editor {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-textEditor {
   width: 2.375rem;
   height: 2.375rem;
   -webkit-mask-image: url("../media/icons/form/context-menu/icon-textbox.svg");
@@ -788,7 +788,7 @@ input, button, select, optgroup, textarea {
   mask-size: 2.375rem 2.375rem;
   background: #929AA6;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-checkbox {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-checkBox {
   width: 2.375rem;
   height: 2.375rem;
   -webkit-mask-image: url("../media/icons/form/context-menu/icon-checkbox.svg");
@@ -840,7 +840,7 @@ input, button, select, optgroup, textarea {
   mask-size: 2.375rem 2.375rem;
   background: #929AA6;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-datetime {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-dateTime {
   width: 2.375rem;
   height: 2.375rem;
   -webkit-mask-image: url("../media/icons/form/context-menu/icon-datetime.svg");
@@ -853,7 +853,7 @@ input, button, select, optgroup, textarea {
   mask-size: 2.375rem 2.375rem;
   background: #929AA6;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-fileupload {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-fileUpload {
   width: 2.375rem;
   height: 2.375rem;
   -webkit-mask-image: url("../media/icons/form/context-menu/icon-fileupload.svg");
@@ -866,7 +866,7 @@ input, button, select, optgroup, textarea {
   mask-size: 2.375rem 2.375rem;
   background: #929AA6;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-custom-code {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-customCode {
   width: 2.375rem;
   height: 2.375rem;
   -webkit-mask-image: url("../media/icons/form/context-menu/icon-custom-code.svg");
@@ -879,7 +879,7 @@ input, button, select, optgroup, textarea {
   mask-size: 2.375rem 2.375rem;
   background: #929AA6;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-dynamic-row-table {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon-dynamicRowTable {
   width: 2.375rem;
   height: 2.375rem;
   -webkit-mask-image: url("../media/icons/form/context-menu/icon-dynamic-row-table.svg");

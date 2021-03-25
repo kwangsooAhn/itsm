@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import InputBox from './component/inputbox.js';
+import InputBox from './component/inputBox.js';
 
 let displayOrder = 0; // row 출력 순서
 
@@ -32,13 +32,13 @@ export default class Row {
     // 컴포넌트 추가
     addComponent(type, data) {
         switch(type) {
-        case 'inputbox':
+        case 'inputBox':
             this.components.push(new InputBox(data));
             break;
-        case 'textarea':
+        case 'textArea':
             // this.components.push(new TextArea(data));
             break;
-        case 'text-editor':
+        case 'textEditor':
             // this.components.push(new TextEditor(data));
             break;
         case 'dropdown':
@@ -47,7 +47,7 @@ export default class Row {
         case 'radio':
             // this.components.push(new RadioBox(data));
             break;
-        case 'checkbox':
+        case 'checkBox':
             // this.components.push(new CheckBox(data));
             break;
         case 'label':
@@ -65,16 +65,16 @@ export default class Row {
         case 'time':
             // this.components.push(new TimeBox(data));
             break;
-        case 'datetime':
-            // this.components.push(new DatetimeBox(data));
+        case 'dateTime':
+            // this.components.push(new DateTimeBox(data));
             break;
-        case 'fileupload':
-            // this.components.push(new Fileupload(data));
+        case 'fileUpload':
+            // this.components.push(new FileUpload(data));
             break;
-        case 'custom-code':
+        case 'customCode':
             // this.components.push(new CustomCode(data));
             break;
-        case 'dynamic-row-table':
+        case 'dynamicRowTable':
             // this.components.push(new DynamicRowTable(data));
             break;
         case 'ci':

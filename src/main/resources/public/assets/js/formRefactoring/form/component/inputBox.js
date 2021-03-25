@@ -15,7 +15,7 @@ import * as CONST from '../../constant.js';
 import Component from './component.js';
 
 const DEFAULT = {
-    type: 'inputbox',
+    type: 'inputBox',
     value: '${default}',
     columnWidth: '12',
     displayType: 'editable', // 컴포넌트 출력 타입 (readonly, editable, required, hidden)
