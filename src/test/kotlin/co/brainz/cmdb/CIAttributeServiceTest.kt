@@ -7,7 +7,7 @@
 package co.brainz.cmdb
 
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
-import co.brainz.cmdb.provider.dto.CIAttributeDto
+import co.brainz.cmdb.dto.CIAttributeDto
 import java.time.LocalDateTime
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -48,9 +48,9 @@ class CIAttributeServiceTest {
         val params = LinkedHashMap<String, Any>()
         val attributeDtoList = ciAttributeService.getCIAttributes(params)
         assumingThat(
-            attributeDtoList.isNotEmpty()
+            attributeDtoList.data.isNotEmpty()
         ) {
-            assertTrue(attributeDtoList[0].totalCount > 0)
+            assertTrue(attributeDtoList.totalCount > 0)
         }
     }
 
@@ -63,9 +63,9 @@ class CIAttributeServiceTest {
         params["search"] = searchValue
         val attributeDtoList = ciAttributeService.getCIAttributes(params)
         assumingThat(
-            attributeDtoList.isNotEmpty()
+            attributeDtoList.data.isNotEmpty()
         ) {
-            assertEquals(attributeDtoList[0].attributeName, searchValue)
+            assertEquals(attributeDtoList.data[0].attributeName, searchValue)
         }
     }
 
@@ -76,17 +76,17 @@ class CIAttributeServiceTest {
         var attributeId = ""
         val params = LinkedHashMap<String, Any>()
         val attributeDtoList = ciAttributeService.getCIAttributes(params)
-        if (!attributeDtoList.isNullOrEmpty()) {
-            attributeId = attributeDtoList[0].attributeId.toString()
+        if (!attributeDtoList.data.isNullOrEmpty()) {
+            attributeId = attributeDtoList.data[0].attributeId.toString()
         }
         assumingThat(
             attributeId.isNotEmpty()
         ) {
             val attributeDto = ciAttributeService.getCIAttribute(attributeId)
-            assertEquals(attributeDto.attributeName, attributeDtoList[0].attributeName)
-            assertEquals(attributeDto.attributeDesc, attributeDtoList[0].attributeDesc)
-            assertEquals(attributeDto.attributeText, attributeDtoList[0].attributeText)
-            assertEquals(attributeDto.attributeType, attributeDtoList[0].attributeType)
+            assertEquals(attributeDto.attributeName, attributeDtoList.data[0].attributeName)
+            assertEquals(attributeDto.attributeDesc, attributeDtoList.data[0].attributeDesc)
+            assertEquals(attributeDto.attributeText, attributeDtoList.data[0].attributeText)
+            assertEquals(attributeDto.attributeType, attributeDtoList.data[0].attributeType)
         }
     }
 
@@ -117,11 +117,20 @@ class CIAttributeServiceTest {
         params["search"] = this.attributeName
         val attributeDtoList = ciAttributeService.getCIAttributes(params)
         assumingThat(
-            attributeDtoList.isNotEmpty()
+            attributeDtoList.data.isNotEmpty()
         ) {
-            for (attributeDto in attributeDtoList) {
+            for (attributeDto in attributeDtoList.data) {
                 val attribute = ciAttributeService.getCIAttribute(attributeDto.attributeId.toString())
-                val updateAttributeDto = attribute.copy(attributeDesc = "Update Test 1")
+                val updateAttributeDto = CIAttributeDto(
+                    attributeId = attribute.attributeId.toString(),
+                    attributeName = attribute.attributeName.toString(),
+                    attributeValue = "",
+                    attributeDesc = "Update Test 1",
+                    attributeText = attribute.attributeText.toString(),
+                    attributeType = attribute.attributeType,
+                    updateUserKey = this.userKey,
+                    updateDt = LocalDateTime.now()
+                )
                 assertTrue(ciAttributeService.updateCIAttribute(updateAttributeDto).status)
             }
         }
@@ -135,9 +144,9 @@ class CIAttributeServiceTest {
         params["search"] = this.attributeName
         val attributeDtoList = ciAttributeService.getCIAttributes(params)
         assumingThat(
-            attributeDtoList.isNotEmpty()
+            attributeDtoList.data.isNotEmpty()
         ) {
-            for (attributeDto in attributeDtoList) {
+            for (attributeDto in attributeDtoList.data) {
                 assertTrue(ciAttributeService.deleteCIAttribute(attributeDto.attributeId.toString()))
             }
         }

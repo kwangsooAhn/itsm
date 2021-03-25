@@ -7,7 +7,7 @@
 package co.brainz.cmdb
 
 import co.brainz.cmdb.ciType.service.CITypeService
-import co.brainz.cmdb.provider.dto.CITypeDto
+import co.brainz.cmdb.dto.CITypeDto
 import java.time.LocalDateTime
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -43,7 +43,7 @@ class CITypeServiceTest {
     @Order(1)
     fun getAllTypeCountCheck() {
         val params = LinkedHashMap<String, Any>()
-        val ciTypeDtoList = ciTypeService.getCITypes(params)
+        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
         assumingThat(
             ciTypeDtoList.isNotEmpty()
         ) {
@@ -58,7 +58,7 @@ class CITypeServiceTest {
         val searchValue = "서버"
         val params = LinkedHashMap<String, Any>()
         params["search"] = searchValue
-        val ciTypeDtoList = ciTypeService.getCITypes(params)
+        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
         assumingThat(
             ciTypeDtoList.isNotEmpty()
         ) {
@@ -72,14 +72,14 @@ class CITypeServiceTest {
     fun getType() {
         var typeId = ""
         val params = LinkedHashMap<String, Any>()
-        val ciTypeDtoList = ciTypeService.getCITypes(params)
+        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
         if (!ciTypeDtoList.isNullOrEmpty()) {
             typeId = ciTypeDtoList[0].typeId.toString()
         }
         assumingThat(
             typeId.isNotEmpty()
         ) {
-            val typeDto = ciTypeService.getCIType(typeId)
+            val typeDto = ciTypeService.getCITypeDetail(typeId)
             assertEquals(typeDto.typeName, ciTypeDtoList[0].typeName)
             assertEquals(typeDto.typeAlias, ciTypeDtoList[0].typeAlias)
             assertEquals(typeDto.typeDesc, ciTypeDtoList[0].typeDesc)
@@ -110,7 +110,7 @@ class CITypeServiceTest {
     fun updateType() {
         val params = LinkedHashMap<String, Any>()
         params["search"] = this.typeName
-        val ciTypeDtoList = ciTypeService.getCITypes(params)
+        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
         assumingThat(
             ciTypeDtoList.isNotEmpty()
         ) {
@@ -127,7 +127,7 @@ class CITypeServiceTest {
                         updateUserKey = this.userKey,
                         updateDt = LocalDateTime.now()
                     )
-                    assertTrue(ciTypeService.updateCIType(updateTypeDto, ciTypeDto.typeId.toString()))
+                    assertTrue(ciTypeService.updateCIType(ciTypeDto.typeId.toString(), updateTypeDto))
                 }
             }
         }
@@ -139,7 +139,7 @@ class CITypeServiceTest {
     fun deleteType() {
         val params = LinkedHashMap<String, Any>()
         params["search"] = this.typeName
-        val ciTypeDtoList = ciTypeService.getCITypes(params)
+        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
         assumingThat(
             ciTypeDtoList.isNotEmpty()
         ) {

@@ -7,6 +7,7 @@
 package co.brainz.itsm.cmdb.ciAttribute.controller
 
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
+import co.brainz.itsm.constants.ItsmConstants
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -44,10 +45,14 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
     ): String {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
-        params["offset"] = request.getParameter("offset") ?: "0"
+        if (request.getParameter("offset") != null) {
+            params["offset"] = request.getParameter("offset").toString().toLong()
+        }
+        params["limit"] = ItsmConstants.SEARCH_DATA_COUNT
+
         val result = ciAttributeService.getCIAttributes(params)
-        model.addAttribute("attributeList", result)
-        model.addAttribute("attributeListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("attributeList", result.data)
+        model.addAttribute("attributeListCount", result.totalCount)
         return if (isScroll) attributeListFragment else attributeListPage
     }
 

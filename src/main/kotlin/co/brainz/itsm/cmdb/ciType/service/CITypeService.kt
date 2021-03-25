@@ -7,8 +7,8 @@
 package co.brainz.itsm.cmdb.ciType.service
 
 import co.brainz.cmdb.ciType.service.CITypeService
-import co.brainz.cmdb.provider.dto.CITypeDto
-import co.brainz.cmdb.provider.dto.CITypeListDto
+import co.brainz.cmdb.dto.CITypeDto
+import co.brainz.cmdb.dto.CITypeTreeListDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants
 import java.time.LocalDateTime
@@ -26,15 +26,15 @@ class CITypeService(
     /**
      * CI Type 트리 조회
      */
-    fun getCITypeList(params: LinkedHashMap<String, Any>): List<CITypeListDto> {
-        return ciTypeService.getCITypes(params)
+    fun getCITypeList(params: LinkedHashMap<String, Any>): List<CITypeTreeListDto> {
+        return ciTypeService.getCITypesTreeNode(params)
     }
 
     /**
      * CI Type 상세 조회
      */
     fun getCIType(typeId: String): CITypeDto {
-        return ciTypeService.getCIType(typeId)
+        return ciTypeService.getCITypeDetail(typeId)
     }
 
     /**
@@ -59,7 +59,7 @@ class CITypeService(
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         ciTypeDto.updateDt = LocalDateTime.now()
         ciTypeDto.updateUserKey = userDetails.userKey
-        if (ciTypeService.updateCIType(ciTypeDto, typeId)) {
+        if (ciTypeService.updateCIType(typeId, ciTypeDto)) {
             returnValue = CITypeConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
         }
         return returnValue

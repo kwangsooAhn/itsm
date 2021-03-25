@@ -56,8 +56,8 @@ class CIController(private val ciService: CIService) {
         params["flag"] = request.getParameter("flag")
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = ciService.getCIs(params)
-        model.addAttribute("ciList", result)
-        model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("ciList", result.data)
+        model.addAttribute("ciListCount", result.totalCount)
         return if (isScroll) ciListFragment else ciListPage
     }
 
@@ -131,8 +131,8 @@ class CIController(private val ciService: CIService) {
         params["tags"] = request.getParameter("tagSearch")
         params["flag"] = request.getParameter("flag")
         val result = ciService.getCIs(params)
-        model.addAttribute("ciList", result)
-        model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("ciList", result.data)
+        model.addAttribute("ciListCount", result.totalCount)
         return ciListModal
     }
 }

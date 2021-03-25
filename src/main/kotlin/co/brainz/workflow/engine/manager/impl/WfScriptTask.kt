@@ -5,11 +5,11 @@
 
 package co.brainz.workflow.engine.manager.impl
 
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIDataDto
-import co.brainz.cmdb.provider.dto.CIDto
-import co.brainz.cmdb.provider.dto.CIRelationDto
-import co.brainz.cmdb.provider.dto.CITagDto
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIDataDto
+import co.brainz.cmdb.dto.CIDto
+import co.brainz.cmdb.dto.CIRelationDto
+import co.brainz.cmdb.dto.CITagDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity

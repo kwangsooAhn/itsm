@@ -110,6 +110,7 @@ auth:
     editDescription: "권한을 추가하거나 조회 및 관리합니다."
     enterAuthId: "권한 아이디를 입력하세요."
     enterAuthName: "권한 명을 입력하세요."
+    invalidToken: "잘못된 토큰입니다."
     searchPlaceholder: "권한 명 / 권한 설명"
   auth:
     read: "권한 조회"

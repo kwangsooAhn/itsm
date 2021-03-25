@@ -6,7 +6,7 @@
 package co.brainz.workflow.engine.manager.service
 
 import co.brainz.cmdb.ci.service.CIService
-import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
