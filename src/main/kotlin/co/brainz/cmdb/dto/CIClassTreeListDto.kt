@@ -12,4 +12,3 @@ data class CIClassTreeListDto(
     var totalCount: Int = 0,
     var totalAttributes: Int = 0
 ) : Serializable
-

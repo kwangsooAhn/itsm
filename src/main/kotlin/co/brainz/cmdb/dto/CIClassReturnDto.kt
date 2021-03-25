@@ -12,4 +12,3 @@ data class CIClassReturnDto(
     val data: List<CIClassListDto> = emptyList(),
     val totalCount: Long = 0
 ) : Serializable
-

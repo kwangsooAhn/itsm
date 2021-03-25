@@ -28,6 +28,7 @@ import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserRepository
+import java.nio.file.Paths
 import java.security.PrivateKey
 import java.util.Optional
 import kotlin.random.Random
@@ -40,7 +41,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.nio.file.Paths
 
 /**
  * 사용자 관리 서비스
@@ -65,7 +65,6 @@ class UserService(
 
     @Value("\${user.default.profile}")
     private val userDefaultProfile: String = ""
-
 
     /**
      * 사용자 목록을 조회한다.
