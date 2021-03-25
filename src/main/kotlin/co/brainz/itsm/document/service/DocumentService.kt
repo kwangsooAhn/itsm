@@ -6,6 +6,8 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.form.service.FormAdminService
 import co.brainz.itsm.process.service.ProcessAdminService
@@ -30,7 +32,8 @@ import org.springframework.util.MultiValueMap
 class DocumentService(
     private val formAdminService: FormAdminService,
     private val processAdminService: ProcessAdminService,
-    private val wfDocumentService: WfDocumentService
+    private val wfDocumentService: WfDocumentService,
+    private val aliceFileService: AliceFileService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -38,7 +41,7 @@ class DocumentService(
     /**
      * 신청서 리스트 조회.
      *
-     * @return List<DocumentDto>
+     * @return List<RestTemplateDocumentListDto>
      */
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
             List<RestTemplateDocumentListDto> {
@@ -53,11 +56,13 @@ class DocumentService(
             }
         }
         val documentList = wfDocumentService.documents(restTemplateDocumentSearchListDto)
+
         for (document in documentList) {
-            if (document.documentIcon.isNullOrEmpty()) {
-                document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
-            }
+            if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
+            document.documentIcon =
+                aliceFileService.getDataUriSchema(AliceConstants.ExternalFilePath.ICON_DOCUMENT.path + document.documentIcon)
         }
+
         return documentList
     }
 
@@ -68,13 +73,7 @@ class DocumentService(
      */
     fun getDocumentAll(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
             List<RestTemplateDocumentDto> {
-        val documentList = wfDocumentService.allDocuments(restTemplateDocumentSearchListDto)
-        for (document in documentList) {
-            if (document.documentIcon.isNullOrEmpty()) {
-                document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
-            }
-        }
-        return documentList
+        return wfDocumentService.allDocuments(restTemplateDocumentSearchListDto)
     }
 
     /**

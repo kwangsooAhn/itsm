@@ -18,6 +18,7 @@ data class CITypeDto(
     var pTypeId: String? = "",
     var pTypeName: String? = "",
     val typeIcon: String? = null,
+    val typeIconData: String? = null,
     var defaultClassId: String = "",
     val defaultClassName: String? = null,
     var createUserKey: String? = null,

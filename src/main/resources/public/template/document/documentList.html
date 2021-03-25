@@ -18,7 +18,7 @@
                 <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
                 <label th:text="${document.documentDesc}" class="document-description text-ellipsis"></label>
                 <div class="document-icon">
-                    <img th:src="@{/assets/media/images/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
+                    <img th:src="${document.documentIcon}"/>
                 </div>
             </div>
         </div>

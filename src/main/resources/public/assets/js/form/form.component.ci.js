@@ -604,7 +604,7 @@
                         let responseJson = JSON.parse(responseData);
                         document.getElementById('classId').value = responseJson.defaultClassId;
                         document.getElementById('className').value = responseJson.defaultClassName;
-                        document.getElementById('typeIcon').value = responseJson.typeIcon;
+                        document.getElementById('typeIcon').value = responseJson.typeIconData;
                         setAttributeDetail(responseJson.defaultClassId);
                     });
                     document.getElementById('typeName').value = response.dataset.name;
