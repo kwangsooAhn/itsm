@@ -5,8 +5,8 @@
 
 package co.brainz.framework.interceptor
 
-import co.brainz.api.constants.ApiConstants
 import co.brainz.api.apiToken.service.ApiTokenService
+import co.brainz.api.constants.ApiConstants
 import co.brainz.framework.auth.dto.AliceMenuDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.repository.AliceMenuRepository
