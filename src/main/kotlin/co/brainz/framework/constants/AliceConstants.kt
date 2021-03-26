@@ -5,6 +5,8 @@
 
 package co.brainz.framework.constants
 
+import java.io.File
+
 /**
  * 프레임워크에서 공통으로 사용할 상수 선언 클래스
  */
@@ -117,6 +119,14 @@ object AliceConstants {
         IMAGE("image"),
         ICON("icon"),
         ICON_CI_TYPE("cmdb-icon")
+    }
+
+    /**
+     * 외부경로.
+     */
+    enum class ExternalFilePath(val path: String) {
+        ICON_DOCUMENT("icons" + File.separator + "document" + File.separator),
+        ICON_CI_TYPE("icons" + File.separator + "ciType" + File.separator)
     }
 
     /**

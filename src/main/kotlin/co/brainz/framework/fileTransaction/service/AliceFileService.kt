@@ -70,8 +70,6 @@ class AliceFileService(
     private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
     private val fileUploadRootDirectory = "uploadRoot"
     private val processAttachFileRootDirectory = this.imagesRootDirectory
-    private val documentIconRootDirectory = "public/assets/media/images/document"
-    private val ciTypeIconRootDirectory = "public/assets/media/images/cmdb"
     private val classPathInJar = "/BOOT-INF/classes/"
 
     /**
@@ -260,39 +258,21 @@ class AliceFileService(
     fun getImageFileList(type: String, searchValue: String, currentOffset: Int = -1): List<AliceImageFileDto> {
         var imageList: List<AliceImageFileDto> = mutableListOf()
 
-        // 2021-03-17 Jung Hee Chan
-        // 기존 이미지 파일 리스트 처리하는 로직에 Jar 파일인 경우 경로를 선택하는 부분이 추가됨.
-        // 이미지 관리 체계가 전면적으로 수정될 필요가 있으나 여기서는 일단 좀 무식하지만 케이스를 분리하여 아래와 같이 분기
-        // 1) 외부 이미지 파일은 배포와 상관없이 접근
-        // 2) 내부 이미지 파일은 WAR 배포 시와 JAR 배포 시 접근 방법이 다름
-        val dir: String
         val dirURI: URI
 
-        when (type) {
-            // 2가지 타입의 아이콘 조회인 경우
-            AliceConstants.FileType.ICON.code, AliceConstants.FileType.ICON_CI_TYPE.code -> {
-                dir = when (type) {
-                    AliceConstants.FileType.ICON.code -> this.documentIconRootDirectory
-                    AliceConstants.FileType.ICON_CI_TYPE.code -> this.ciTypeIconRootDirectory
-                    else -> this.documentIconRootDirectory
-                }
+        val dir = when (type) {
+            AliceConstants.FileType.ICON.code -> AliceConstants.ExternalFilePath.ICON_DOCUMENT.path
+            AliceConstants.FileType.ICON_CI_TYPE.code -> AliceConstants.ExternalFilePath.ICON_CI_TYPE.path
+            else -> this.imagesRootDirectory
+        }
 
-                javaClass.classLoader.getResource(dir)?.let {
-                    dirURI = it.toURI()
-                    imageList = if (dirURI.scheme == "jar") {
-                        this.getInternalImageDataList(type, dir, searchValue, currentOffset)
-                    } else {
-                        this.getExternalImageDataList(type, Paths.get(dirURI), searchValue, currentOffset)
-                    }
-                }
-            }
-            else -> imageList = this.getExternalImageDataList(
+        imageList = this.getExternalImageDataList(
                 type,
-                super.getWorkflowDir(this.imagesRootDirectory),
+                super.getWorkflowDir(dir),
                 searchValue,
                 currentOffset
             )
-        }
+
         return imageList
     }
 
@@ -359,6 +339,9 @@ class AliceFileService(
      * 내부 경로에 있는 이미지 경로 리스트 가져오기
      *
      */
+    // 2021-03-25 Jung Hee Chan
+    // 기존에 CI Type 및 신청서용 아이콘이 Jar 파일 내부에 포함되어 있어서 만들었음.
+    // 현재 사용되는 곳이 없으나 남겨둠.
     fun getInternalImageDataList(
         type: String,
         dir: String,
@@ -699,5 +682,15 @@ class AliceFileService(
                 userRepository.save(userEntity)
             }
         }
+    }
+
+    /**
+     * 외부경로의 이미지 파일을 데이터로 읽기.
+     *
+     * @param fileFullName 파일 경로와 파일명까지 포함된 전체 이름
+     * @return String 화면 태그에서 사용할 수 있는 형태의 data URI Schema
+     */
+    fun getDataUriSchema(fileFullName: String): String {
+        return "data:image/png;base64," + super.getImageData(fileFullName)
     }
 }

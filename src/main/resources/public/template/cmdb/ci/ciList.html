@@ -23,7 +23,7 @@
         <th:block th:fragment="list">
             <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciList)}" th:each="ci: ${ciList}">
                 <td style="width: 4%;">
-                    <img th:src="@{/assets/media/images/cmdb/{ciIcon}(ciIcon=${ci.ciIcon})}"/>
+                    <img th:src="${ci.ciIconData}"/>
                 </td>
                 <td style="width: 21%;" class="align-left underline pointer" th:text="${ci.ciNo}"
                     th:onclick="openCIDetailModal([[${ci.ciId}]]);"></td>

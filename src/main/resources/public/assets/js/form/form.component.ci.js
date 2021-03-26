@@ -26,6 +26,7 @@
         ciId: '',
         ciNo: '',
         ciIcon: '',
+        ciIconData: '',
         typeId: '',
         typeName: '',
         ciName: '',
@@ -45,7 +46,8 @@
             { id: 'actionType', name: 'form.label.actionType', type: (isEditable ? 'readonly' : 'hidden'), column: '1', class: (isEditable ? 'first': '') },
             { id: 'ciId', name: '', type: 'hidden', column: '0', class: '' },
             { id: 'ciNo', name: '', type: 'hidden', column: '0', class: '' },
-            { id: 'ciIcon', name: '', type: 'image', column: '1', class: (isEditable ? '': 'first') },
+            { id: 'ciIcon', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'ciIconData', name: '', type: 'image', column: '1', class: (isEditable ? '': 'first') },
             { id: 'typeId', name: '', type: 'hidden', column: '0', class: '' },
             { id: 'typeName', name: 'cmdb.ci.label.type', type: 'editable', column: (isEditable ? '3' : '4'), class: '' },
             { id: 'ciName', name: 'cmdb.ci.label.name', type: 'editable', column: (isEditable ? '3' : '4'), class: '' },
@@ -120,7 +122,18 @@
         if (isValidRequiredAll(modal) && hasErrorClass()) {
             const saveCIData = {};
             Object.keys(CIData).forEach(function(key) {
-                const elem = document.getElementById((key === 'ciIcon') ? 'typeIcon': key);
+                let elemKey;
+                switch(key) {
+                    case 'ciIcon':
+                        elemKey = 'typeIcon';
+                        break;
+                    case 'ciIconData':
+                        elemKey = 'typeIconData';
+                        break;
+                    default:
+                        elemKey = keyl;
+                }
+                const elem = document.getElementById(elemKey);
                 if (elem !== null) {
                     saveCIData[key] = elem.value;
                 }
@@ -517,7 +530,7 @@
                     tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
                     break;
                 case 'image':
-                    tdTemplate += `<img src="/assets/media/images/cmdb/${data[opt.id]}" width="20" height="20"/>`;
+                    tdTemplate += `<img src="${data[opt.id]}" width="20" height="20"/>`;
                     break;
                 case 'icon-edit': // CI 등록 / 수정
                     if (actionType === ACTION_TYPE_DELETE || comp.getAttribute('data-displaytype') === 'readonly') {
@@ -605,6 +618,7 @@
                         document.getElementById('classId').value = responseJson.defaultClassId;
                         document.getElementById('className').value = responseJson.defaultClassName;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
+                        document.getElementById('typeIconData').value = responseJson.typeIconData;
                         setAttributeDetail(responseJson.defaultClassId);
                     });
                     document.getElementById('typeName').value = response.dataset.name;

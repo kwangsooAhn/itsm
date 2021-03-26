@@ -155,4 +155,26 @@ open class AliceFileUtil(
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
         return dir
     }
+
+    /**
+     * 외부경로의 이미지 파일을 데이터로 읽기.
+     *
+     * @param fileFullName 파일 경로와 파일명까지 포함된 전체 이름
+     * @return String base64로 인코딩된 데이터 스트링
+     */
+    fun getImageData(fileFullName: String): String {
+        val imageData: String
+        if (this.basePath == "") {
+            this.basePath = environment.getProperty("catalina.base").toString()
+        }
+
+        val file = Paths.get(basePath + File.separator + fileFullName).toFile()
+        imageData = if (file.exists()) {
+            val bufferedImage = ImageIO.read(file)
+            encodeToString(bufferedImage, file.extension)
+        } else {
+            ""
+        }
+        return imageData
+    }
 }

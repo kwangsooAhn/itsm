@@ -16,6 +16,8 @@ import co.brainz.cmdb.dto.CITypeReturnDto
 import co.brainz.cmdb.dto.CITypeTreeListDto
 import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import com.querydsl.core.QueryResults
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -24,7 +26,8 @@ import org.springframework.stereotype.Service
 class CITypeService(
     private val ciTypeRepository: CITypeRepository,
     private val ciClassRepository: CIClassRepository,
-    private val aliceUserRepository: AliceUserRepository
+    private val aliceUserRepository: AliceUserRepository,
+    private val aliceFileService: AliceFileService
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -96,9 +99,7 @@ class CITypeService(
         val treeTypeList = mutableListOf<CITypeTreeListDto>()
         val queryResults: QueryResults<CITypeEntity> = ciTypeRepository.findByTypeList(search)
         val returnList: List<CITypeEntity>
-        var count = 0L
         var typeSearchList = queryResults.results
-
         val pTypeList = mutableListOf<CITypeEntity>()
         for (type in typeSearchList) {
             var tempType = type.pType
@@ -113,7 +114,7 @@ class CITypeService(
             typeSearchList.addAll(pTypeList)
             typeSearchList = typeSearchList.distinct()
         }
-        count = queryResults.total
+        val count: Long = queryResults.total
         returnList = typeSearchList
 
         for (typeEntity in returnList) {
@@ -127,6 +128,7 @@ class CITypeService(
                     pTypeId = typeEntity.pType?.typeId,
                     pTypeName = typeEntity.pType?.typeName,
                     typeIcon = typeEntity.typeIcon,
+                    typeIconData = typeEntity.typeIcon?.let { getCITypeImageData(typeEntity.typeIcon) },
                     defaultClassId = typeEntity.defaultClass.classId,
                     defaultClassName = typeEntity.defaultClass.className,
                     totalCount = count
@@ -150,6 +152,7 @@ class CITypeService(
             pTypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId },
             pTypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
             typeIcon = typeDetailEntity.typeIcon,
+            typeIconData = typeDetailEntity.typeIcon?.let { getCITypeImageData(typeDetailEntity.typeIcon) },
             defaultClassId = typeDetailEntity.defaultClass.classId,
             defaultClassName = typeDetailEntity.defaultClass.className,
             createDt = typeDetailEntity.createDt,
@@ -163,7 +166,7 @@ class CITypeService(
      *  CMDB Type 등록
      */
     fun createCIType(ciTypeDto: CITypeDto): Boolean {
-        var typeLevel = 0
+        val typeLevel: Int
         lateinit var parentTypeEntity: CITypeEntity
 
         if (ciTypeDto.pTypeId.isNullOrEmpty()) {
@@ -223,5 +226,15 @@ class CITypeService(
     fun deleteCIType(typeId: String): Boolean {
         ciTypeRepository.deleteById(typeId)
         return true
+    }
+
+    /**
+     * CI Type 아이콘 파일 읽어오기
+     *
+     * @param ciTypeIconName 저장되어 있는 CI Type 아이콘 파일 이름
+     * @return String 데이터화된 아이콘 이미지
+     */
+    fun getCITypeImageData(ciTypeIconName: String): String {
+        return aliceFileService.getDataUriSchema(AliceConstants.ExternalFilePath.ICON_CI_TYPE.path + ciTypeIconName)
     }
 }

@@ -142,6 +142,7 @@
                         value: node_value || '',
                         editable: item.editable || false,
                         icon: item.typeIcon || '',
+                        iconData: item.typeIconData || '',
                         count: item.totalAttributes || 0
                     },
                     removeNode: function() { v_tree.removeNode(this); },
@@ -216,8 +217,8 @@
                 if (p_node.childNodes.length === 0 && options.leafIcon !== '') {
                     v_icon_image = options.leafIcon;
                 }
-                if (options.source === 'ciType' && p_node.data.icon !== '') {
-                    v_icon_image = cmdbIconPath + '/' + p_node.data.icon;
+                if (options.source === 'ciType' && p_node.data.iconData !== '') {
+                    v_icon_image = p_node.data.iconData;
                 }
                 v_icon = createImgElement(null, 'icon_tree', v_icon_image);
 

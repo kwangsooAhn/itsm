@@ -24,6 +24,7 @@ import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ciTag.repository.CITagRepository
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
+import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIDetailDto
@@ -48,7 +49,8 @@ class CIService(
     private val ciRelationRepository: CIRelationRepository,
     private val ciDataRepository: CIDataRepository,
     private val ciHistoryRepository: CIHistoryRepository,
-    private val ciDataHistoryRepository: CIDataHistoryRepository
+    private val ciDataHistoryRepository: CIDataHistoryRepository,
+    private val ciTypeService: CITypeService
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -110,6 +112,7 @@ class CIService(
             ciDetailDto.ciNo = ciEntity.ciNo
             ciDetailDto.ciName = ciEntity.ciName
             ciDetailDto.ciIcon = ciEntity.ciIcon
+            ciDetailDto.ciIconData = ciEntity.ciIcon?.let { ciTypeService.getCITypeImageData(it) }
             ciDetailDto.ciDesc = ciEntity.ciDesc
             ciDetailDto.ciStatus = ciEntity.ciStatus
             ciDetailDto.automatic = ciEntity.automatic
@@ -428,6 +431,7 @@ class CIService(
             classId = ci.classId,
             className = ci.className,
             ciIcon = ci.ciIcon,
+            ciIconData = ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) },
             ciDesc = ci.ciDesc,
             automatic = ci.automatic,
             tags = ciTagRepository.findByCIId(ci.ciId!!),

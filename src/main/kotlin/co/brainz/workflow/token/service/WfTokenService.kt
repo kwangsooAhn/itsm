@@ -156,6 +156,7 @@ class WfTokenService(
                                 ciJsonData.addProperty("ciDesc", ciData.ciDesc)
                                 ciJsonData.addProperty("ciStatus", ciData.ciStatus)
                                 ciJsonData.addProperty("ciIcon", ciData.ciIcon)
+                                ciJsonData.addProperty("ciIconData", ciData.ciIconData)
                                 ciJsonData.addProperty("classId", ciData.classId)
                             }
                         }
