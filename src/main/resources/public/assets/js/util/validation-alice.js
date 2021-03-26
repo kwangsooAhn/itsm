@@ -269,7 +269,7 @@ function isValidEmail(elementId, isMessage, callbackFunc) {
             } else {
                 elem.value = '';
                 elem.focus();
-                callbackFunc();
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
