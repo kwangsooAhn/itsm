@@ -1,0 +1,206 @@
+@import '../template/_layout.scss';
+
+/* 폼 디자이너 팝업 layout
+ * form-container - form-header : 상단
+ *                - form-component-palette : 컴포넌트 팔레트
+ *                - form-main : 폼 메인
+ *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역
+ *                - form-properties-panel-header: 세부 속성 제목
+ *                - form-properties-panel : 세부속성
+ */
+// 폼 양식
+.form {
+  &-container {
+    @include container;
+  }
+  &-header {
+    @include header;
+    font-size: $layout-header-font-size;
+    font-weight: $layout-header-font-weight;
+    color: $layout-header-font-color;
+    background-color: $layout-header-bg-color;
+    padding: 0 1.25rem; // 0 20px
+    z-index: $z-index-gnb;
+    // form designer 문구
+    .name {
+      font-size: 1.125rem; // 18px
+      padding: 0 0.9375rem; // 15px
+    }
+    // 아이콘 구분자
+    .separator {
+      width: 0.063rem; // 1px
+      height: 1.25rem; // 20px
+      background-color: #4DB7FF;
+  }
+}
+  &-component-palette {
+    position:fixed;
+    top: $layout-header-height;
+    left: 0;
+    bottom: 0;
+    width: $layout-component-palette-width;
+    background-color: $layout-component-palette-bg-color;
+    border-right: $layout-component-palette-border;
+    box-shadow: $layout-component-palette-box-shadow;
+    overflow: hidden;
+
+  }
+  &-main {
+    @include main;
+    left: $layout-component-palette-width;
+    right: $layout-properties-panel-width;
+    background-color: $layout-main-bg-color;
+    @include scrollbarHidden;
+
+    .drawing-board {
+      display: table;
+      width: $drawing-board-width;
+      max-width: $drawing-board-width;
+      min-height: 100%;
+      margin: $drawing-board-margin;
+      padding: $drawing-board-padding;
+      background-color: $drawing-board-bg-color;
+      border: $drawing-board-border;
+      box-shadow: $drawing-board-box-shadow;
+
+      & *:focus {
+        outline: none !important;
+      }
+
+      &[data-readonly=true] {
+        // 폼 양식 화면에서 컴포넌트 수정을 막음
+        .component {
+          .dropzone,
+          .ql-toolbar,
+          textarea,
+          button,
+          input[type=text],
+          label.radio,
+          label.checkbox,
+          select,
+          .select {
+            pointer-events: none;
+          }
+
+          .move-handler {
+            display: inherit;
+          }
+        }
+      }
+    }
+  }
+  &-properties-panel-header {
+    position:fixed;
+    top: $layout-header-height;
+    right: 0;
+    width: $layout-properties-panel-width;
+    height: $layout-properties-panel-header-height;
+    font-size: $layout-properties-panel-header-font-size;
+    font-weight: $layout-properties-panel-header-font-weight;
+    color: $layout-properties-panel-header-font-color;
+    background-color: $layout-properties-panel-header-bg-color;
+    padding: 0.625rem 1.563rem; // 10px 25px;
+  }
+  &-properties-panel {
+    @include properties;
+    top: calc(#{$layout-header-height} + #{$layout-properties-panel-header-height});
+    width: $layout-properties-panel-width;
+    background-color: $layout-properties-panel-bg-color;
+    border-left: $layout-properties-panel-border;
+    box-shadow: $layout-properties-panel-box-shadow;
+    overflow-x: hidden;
+    @include scrollbarHidden;
+  }
+}
+// 아코디언
+.component-accordion-box {
+  .component-accordion {
+    width: 100%;
+    input[type=radio] {
+      position: absolute;
+      opacity: 0;
+      z-index: $z-index-hidden;
+    }
+    .accordion-label {
+      height: $accordion-height;
+      border-bottom: $accordion-border;
+      padding: 0 0.625rem; // 0 10px
+      font-size: $accordion-font-size;
+      color: $accordion-font-color;
+      font-weight: $accordion-font-weight;
+      cursor:pointer;
+      .arrow-right {
+        @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $blue-gray); // 12px 20px
+      }
+    }
+    .accordion-content {
+      height: 0;
+      border-bottom: none;
+      overflow: hidden;
+      transition: all 0.25s ease-out;
+
+      .component-icon-box {
+        width:100%;
+        padding: 0;
+        margin: 0;
+
+        .component-icon {
+          width: $component-icon-width; // 124px
+          height: $component-icon-height;
+          text-align: center;
+          cursor: move;
+          // 홀수
+          &:nth-child(odd) {
+            border-right: $accordion-border;
+            border-bottom: $accordion-border;
+          }
+          // 짝수
+          &:nth-child(even) {
+            border-bottom: $accordion-border;
+          }
+          &:hover { background-color: $component-icon-hover-bg-color; }
+
+          .icon {
+            display: inline-block;
+            margin:  1.563rem 0 0.625rem 0; // 25px 0 10px 0
+          }
+          .icon-inputBox { @include maskImage($icon-component-inputBox, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-textArea { @include maskImage($icon-component-textArea, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-textEditor { @include maskImage($icon-component-textEditor, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-dropdown { @include maskImage($icon-component-dropdown, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-radio { @include maskImage($icon-component-radio, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-checkBox { @include maskImage($icon-component-checkBox, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-label { @include maskImage($icon-component-label, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-date { @include maskImage($icon-component-date, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-time { @include maskImage($icon-component-time, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-dateTime { @include maskImage($icon-component-dateTime, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-fileUpload { @include maskImage($icon-component-fileUpload, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-customCode { @include maskImage($icon-component-customCode, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-dynamicRowTable { @include maskImage($icon-component-dynamicRowTable, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-ci { @include maskImage($icon-component-ci, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-label { @include maskImage($icon-component-label, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-image { @include maskImage($icon-component-image, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+          .icon-divider { @include maskImage($icon-component-divider, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $blue-gray); } // 38xp 38p
+
+          .component-name {
+            display: block;
+            color: $gray;
+          }
+        }
+      }
+    }
+    input[type=radio]:checked {
+      + .accordion-label {
+        .arrow-right {
+          transform: rotate(-90deg);
+        }
+      }
+      ~ .accordion-content {
+        height: calc(100vh - (#{$accordion-height} * 4) - #{$layout-header-height});
+        border-bottom: $accordion-border;
+        overflow-y: auto;
+        @include scrollbarHidden;
+      }
+    }
+  }
+}

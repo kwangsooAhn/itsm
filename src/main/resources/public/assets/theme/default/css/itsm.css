@@ -170,6 +170,10 @@ input, button, select, optgroup, textarea {
   justify-content: space-between;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .align-items-start {
   align-items: flex-start;
 }

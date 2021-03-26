@@ -1,0 +1,42 @@
+@import "../template/_buttons.scss";
+
+// header button
+.btn-header {
+  width: 3.75rem; // 60px
+  height: 3.125rem; // 50px
+  padding: 0;
+  border-radius: 0;
+
+  // 첫번째 버튼만 구분자를 가리기 위해 구분자 너비만큼 margin을 -1px 로 조정한다.
+  &:first-of-type {
+    margin-left: -0.063rem; // -1px
+  }
+
+  // mouse over and pressed
+  &:focus,
+  &:hover,
+  &:active {
+    background-color: #26A7FF;
+  }
+
+  .icon-save {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_save.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white); // 20px 20px 
+  }
+  .icon-save-as {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_save_as.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-undo {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_undo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-redo {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_redo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-preview {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_preview.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+}

@@ -31,6 +31,10 @@ $flex-align-type: (row, column);
   justify-content: space-between;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .align-items-start {
   align-items: flex-start;
 }

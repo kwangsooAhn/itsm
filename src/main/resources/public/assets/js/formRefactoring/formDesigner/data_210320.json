@@ -37,7 +37,7 @@
           "components": [
             {
               "id": "a1e3c506d25322950357753c2be3f674",
-              "type": "inputbox",
+              "type": "inputBox",
               "columnWidth": "12",
               "displayOrder": "1",
               "isTopic": false,
