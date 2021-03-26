@@ -11,7 +11,6 @@ import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.download.dto.DownloadDto
 import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.dto.DownloadSearchDto
-import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
 import java.time.LocalDateTime
@@ -73,10 +72,9 @@ class DownloadService(
      */
     @Transactional
     fun getDownload(downloadId: String, type: String): DownloadDto {
-        var downloadEntity = downloadRepository.findById(downloadId).orElse(DownloadEntity())
-        if (type == "view" && (downloadEntity.createUser?.userId !=
-                    SecurityContextHolder.getContext().authentication.principal as String)
-        ) {
+        var downloadEntity = downloadRepository.findDownload(downloadId)
+        val sessionUser = SecurityContextHolder.getContext().authentication.principal as String
+        if (type == "view" && downloadEntity.createUser?.userId != sessionUser) {
             downloadEntity.views += 1
             downloadEntity = downloadRepository.save(downloadEntity)
         }

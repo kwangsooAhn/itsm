@@ -499,7 +499,7 @@ class AliceFileService(
         val aliceFileOwnMapList: MutableList<AliceFileOwnMapDto> = mutableListOf()
         if (ownId != "") {
             val fileOwnMapEntities =
-                aliceFileOwnMapRepository.findAllByOwnIdAndFileLocEntityUploaded(ownId, true)
+                aliceFileOwnMapRepository.findFileOwnIdAndFileLocUploaded(ownId, true)
             for (fileOwnMapEntity in fileOwnMapEntities) {
                 val fileLocEntity = fileOwnMapEntity.fileLocEntity
                 val fileLocDto = AliceFileLocDto(

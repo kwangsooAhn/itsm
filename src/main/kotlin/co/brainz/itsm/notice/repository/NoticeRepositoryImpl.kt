@@ -150,4 +150,13 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
         }
         return noticeList
     }
+
+    override fun findNotice(noticeNo: String): NoticeEntity {
+        val notice = QNoticeEntity.noticeEntity
+        return from(notice)
+            .innerJoin(notice.createUser).fetchJoin()
+            .leftJoin(notice.updateUser).fetchJoin()
+            .where(notice.noticeNo.eq(noticeNo))
+            .fetchOne()
+    }
 }
