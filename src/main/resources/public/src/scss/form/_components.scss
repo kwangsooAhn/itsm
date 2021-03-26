@@ -435,7 +435,7 @@
 // readonly
 .component[data-displayType="readonly"] {
   input[type=text],
-  button,
+  button:not(.icon-search-area),
   select,
   textarea {
     background-color: $component-disabled-bg-color !important;
