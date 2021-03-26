@@ -19,7 +19,6 @@ data class CIsDto(
     var classId: String? = null,
     var className: String? = null,
     var ciIcon: String? = null,
-    val ciIconData: String? = null,
     var ciDesc: String? = null,
     var automatic: Boolean? = false,
     val createUserKey: String? = null,

@@ -24,6 +24,7 @@ import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ciTag.repository.CITagRepository
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
+import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIDetailDto
@@ -33,14 +34,6 @@ import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.cmdb.dto.CISearchDto
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.cmdb.dto.RestTemplateReturnDto
-import co.brainz.cmdb.ciType.service.CITypeService
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
-import co.brainz.cmdb.provider.dto.CIDetailDto
-import co.brainz.cmdb.provider.dto.CIDto
-import co.brainz.cmdb.provider.dto.CIListDto
-import co.brainz.cmdb.provider.dto.CITagDto
-import co.brainz.cmdb.provider.dto.RestTemplateReturnDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import org.slf4j.LoggerFactory
@@ -119,6 +112,7 @@ class CIService(
             ciDetailDto.ciNo = ciEntity.ciNo
             ciDetailDto.ciName = ciEntity.ciName
             ciDetailDto.ciIcon = ciEntity.ciIcon
+            ciDetailDto.ciIconData = ciEntity.ciIcon?.let { ciTypeService.getCITypeImageData(it) }
             ciDetailDto.ciDesc = ciEntity.ciDesc
             ciDetailDto.ciStatus = ciEntity.ciStatus
             ciDetailDto.automatic = ciEntity.automatic
@@ -437,6 +431,7 @@ class CIService(
             classId = ci.classId,
             className = ci.className,
             ciIcon = ci.ciIcon,
+            ciIconData = ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) },
             ciDesc = ci.ciDesc,
             automatic = ci.automatic,
             tags = ciTagRepository.findByCIId(ci.ciId!!),
