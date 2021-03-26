@@ -1209,3 +1209,23 @@ aliceJs.initDesignedSelectTag = function () {
         }
     });
 };
+
+/**
+ * 정규식에 부합하지 않는 글자들을 지운다.
+ * @param event
+ * @param rexg
+ * @param flag
+ */
+function removeChar(event, rexg = integerReg, flag = "g") {
+    event = event || window.event;
+    let regToString = '[' + rexg.toString()
+        .replaceAll('/', "")
+        .replaceAll('[', "")
+        .replaceAll(']', "")
+        .replaceAll('*$', "") + ']';
+
+    const keyID = (event.which) ? event.which : event.keyCode;
+    if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
+        event.target.value = event.target.value.replace(new RegExp(regToString, flag), '');
+    }
+}

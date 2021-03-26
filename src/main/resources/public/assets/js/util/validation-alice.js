@@ -11,6 +11,7 @@ const charReg = /^[a-zA-Z가-힣]*$/; // 영문자 , 한글
 const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/;
 const rgbReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/;
+const regularCharacterReg = /^[a-zA-Z가-힣0-9ㄱ-ㅎㅏ-ㅣ]*$/;
 const errorClass = 'error'; // 에러 발생시 추가될 클래스명
 
 /**
@@ -42,18 +43,36 @@ function isNull(elementId, messageId, callbackFunc) {
     return true;
 }
 
+/** @brief 해당 아이디를 가진 엘리먼트의 값이 null인 아닌 경우를 판별한다.
+ *  @date 2020-03-03
+ */
+function isNotNull(elementId, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    if (elem !== null) {
+         if (elem.value !== null) {
+            if (messageId !== undefined) {
+                aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
+            }
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+
 /** @brief 해당 엘리먼트의 값이 ''인 경우를 판별한다.
  *  @date 2020-03-03
  */
 function isEmpty(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
-    const message = i18n.msg(messageId || 'common.msg.emptyValue');
     const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
         elem.focus();
     };
     if (elem !== null) {
         if (elem.value.trim() === '') {
-            aliceJs.alertWarning(message, callback);
+            if (messageId !== undefined) {
+                aliceJs.alertWarning(i18n.msg(messageId), callback);
+            }
             return true;
         }
         return false;
@@ -82,7 +101,7 @@ function isNotEmpty(elementId, messageId) {
  *  @date 2020-03-03
  */
 function isEquals(elementId1, elementId2, messageId, callbackFunc) {
-    if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
+    if (isNotNull(elementId1) && isNotNull(elementId2)) {
         if (document.getElementById(elementId1).value === document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
                 aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
@@ -99,7 +118,7 @@ function isEquals(elementId1, elementId2, messageId, callbackFunc) {
  *  @date 2020-03-03
  */
 function isNotEquals(elementId1, elementId2, messageId, callbackFunc) {
-    if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
+    if (isNotNull(elementId1) && isNotNull(elementId2)) {
         if (document.getElementById(elementId1).value !== document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
                 aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
@@ -238,22 +257,19 @@ function isValidPassword(elementId, callbackFunc) {
  */
 function isValidEmail(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!emailReg.test(elem.value)) {
             if (isMessage) {
                 aliceJs.alertWarning(i18n.msg('validation.msg.checkEmailFormat'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -274,22 +290,19 @@ function isValidEmail(elementId, isMessage, callbackFunc) {
  */
 function isValidUserId(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!idReg.test(elem.value)) {
             if (isMessage) {
                 aliceJs.alertWarning(i18n.msg('validation.msg.checkUserIdFormat'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -310,22 +323,19 @@ function isValidUserId(elementId, isMessage, callbackFunc) {
  */
 function isValidRgb(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!rgbReg.test(elem.value)) {
             if (isMessage) {
                 aliceJs.alertWarning(i18n.msg('validation.msg.checkRgbFormat'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             return false;
         }
@@ -344,22 +354,19 @@ function isValidRgb(elementId, isMessage, callbackFunc) {
  */
 function isValidNumber(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!numberReg.test(elem.value)) {
             if (isMessage) {
                 aliceJs.alertWarning(i18n.msg('common.msg.number'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -380,22 +387,19 @@ function isValidNumber(elementId, isMessage, callbackFunc) {
  */
 function isValidChar(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!charReg.test(elem.value)) {
             if (isMessage) {
                 aliceJs.alertWarning(i18n.msg('common.msg.char'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -417,22 +421,19 @@ function isValidChar(elementId, isMessage, callbackFunc) {
  */
 function isValidMax(elementId, maxValue, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && maxValue !== undefined) {
         if (maxValue !== '' && elem.value > Number(maxValue)) {
             if (isMessage) {
                 aliceJs.alertWarning(i18n.msg('common.msg.max', maxValue), function () {
                     elem.value = maxValue;
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = maxValue;
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -454,22 +455,19 @@ function isValidMax(elementId, maxValue, isMessage, callbackFunc) {
  */
 function isValidMin(elementId, minValue, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && minValue !== undefined) {
         if (minValue !== '' && elem.value < Number(minValue)) {
             if (isMessage) {
                 aliceJs.alertWarning(i18n.msg('common.msg.min', minValue), function () {
                     elem.value = minValue;
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = minValue;
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add('error');
             return false;
@@ -491,22 +489,19 @@ function isValidMin(elementId, minValue, isMessage, callbackFunc) {
  */
 function isValidMaxLength(elementId, maxLength, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && maxLength !== undefined) {
         if (maxLength !== '' && elem.value.length > Number(maxLength)) {
             if (isMessage) {
                 aliceJs.alertWarning(i18n.msg('common.msg.maxLength', maxLength), function () {
                     elem.value = elem.value.substring(0, maxLength);
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = elem.value.substring(0, maxLength);
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -528,20 +523,17 @@ function isValidMaxLength(elementId, maxLength, isMessage, callbackFunc) {
  */
 function isValidMinLength(elementId, minLength, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && minLength !== undefined) {
         if (minLength !== '' && elem.value.length < Number(minLength)) {
             if (isMessage) {
                 aliceJs.alertWarning(i18n.msg('common.msg.minLength', minLength), function () {
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -562,22 +554,19 @@ function isValidMinLength(elementId, minLength, isMessage, callbackFunc) {
  */
 function isValidRequired(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (elem.required && elem.value.trim() === '') {
             if (isMessage) {
                 const requiredElemName = elem.getAttribute('data-required-name');
                 let requiredMsg = (requiredElemName !== null) ? i18n.msg('common.msg.required', requiredElemName) : i18n.msg('common.msg.requiredEnter');
-                aliceJs.alertWarning(requiredMsg, function() {
+                aliceJs.alertWarning(requiredMsg, function () {
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -643,6 +632,7 @@ function onlyNumber(event) {
         || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
         return false;
     }
+    return true;
 }
 
 /**

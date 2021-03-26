@@ -118,16 +118,17 @@
         getAuthList(true);
 
         window.onload = function () {
-            if (document.getElementById('btnUpdate') !== null) {
+            if (isNotNull('btnUpdate')){
                 AUTH_UPDATE = true;
             }
-            if (document.getElementById('btnRegist') !== null) {
+            if (isNotNull('btnRegist')) {
                 AUTH_CREATE = true;
             }
-            if (document.getElementById('btnDelete') !== null) {
+            if (isNotNull('btnDelete')) {
                 AUTH_DELETE = true;
             }
-            if (document.getElementById('txtAuthId').value !== null && document.getElementById('txtAuthId').value !== '') {
+
+            if (isNotNull('txtAuthId') && isNotEmpty('txtAuthId')) {
                 document.getElementById('txtAuthId').setAttribute('disabled', '');
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'inline-block';
@@ -254,7 +255,7 @@
                     }
                 }
             } else {
-                if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
+                if (isNotEquals('txtAuthNameOrg', 'txtAuthNameOrg')) {
                     for (let i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
                             aliceJs.alertWarning([[#{auth.msg.duplicateAuthName}]]);
