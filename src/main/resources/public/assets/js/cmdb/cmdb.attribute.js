@@ -499,6 +499,8 @@
     function drawEditDetails(target, attributeData) {
         target.removeAttribute('onclick');
         target.innerHTML = '';
+        console.log("attributeData");
+        console.log(attributeData);
 
         for (let i = 0, iLen = attributeData.length; i < iLen; i++) {
             const groupAttribute = attributeData[i];
@@ -506,6 +508,8 @@
             groupAttributeElem.className = 'attribute-group';
             for (let j = 0, jLen = groupAttribute.attributes.length; j < jLen; j++) {
                 const attributes = groupAttribute.attributes[j];
+                console.log("attributes");
+                console.log(attributes);
                 const childAttributeElem = document.createElement('div');
                 childAttributeElem.className = 'flex-column edit-row attribute';
                 childAttributeElem.setAttribute('data-attributeType', attributes.attributeType);
@@ -518,6 +522,8 @@
                 childAttributeElem.appendChild(labelElem);
 
                 const attributeValue = (attributes.attributeValue === null) ? '' : JSON.parse(attributes.attributeValue);
+                console.log("attributeValue");
+                console.log(attributeValue);
                 switch (attributes.attributeType) {
                 case 'inputbox':
                     const inputElem = document.createElement('input');
@@ -669,15 +675,20 @@
 
                     let customData = attributes.value; // 'key|값'
                     let defaultValue = '';
+                    console.log("intro1");
                     if (attributeValue !== '') {
+                        console.log("intro2");
                         customBtnElem.textContent = attributeValue.button;
                         // 커스텀 코드 기본 값 넣기
-                        if (attributes.value === '') {
+                        if (customData === '') {
+                            console.log("intro3");
                             switch (attributeValue.default.type) {
                             case 'session':
                                 if (attributeValue.default.value === 'userName') {
                                     customData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
                                     defaultValue = aliceForm.session['userName'];
+                                    console.log("defaultValue");
+                                    console.log(defaultValue);
                                 } else if (attributeValue.default.value === 'department') {
                                     customData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
                                     defaultValue = aliceForm.session['departmentName'];
