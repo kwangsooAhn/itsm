@@ -6,7 +6,7 @@
 
 package co.brainz.itsm.cmdb.ci.controller
 
-import co.brainz.cmdb.provider.dto.CIDetailDto
+import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.itsm.cmdb.ci.service.CIService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory

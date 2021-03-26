@@ -13,11 +13,14 @@ import co.brainz.cmdb.ciClass.entity.CIClassAttributeMapPk
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassAttributeMapRepository
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
-import co.brainz.cmdb.provider.dto.CIClassDetailDto
-import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
-import co.brainz.cmdb.provider.dto.CIClassDto
-import co.brainz.cmdb.provider.dto.CIClassListDto
-import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
+import co.brainz.cmdb.dto.CIClassDetailDto
+import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIClassDto
+import co.brainz.cmdb.dto.CIClassListDto
+import co.brainz.cmdb.dto.CIClassReturnDto
+import co.brainz.cmdb.dto.CIClassToAttributeDto
+import co.brainz.cmdb.dto.CIClassTreeListDto
+import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -37,9 +40,60 @@ class CIClassService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
+     * CMDB CI Class 목록 조회
+     */
+    fun getCIClasses(parameters: LinkedHashMap<String, Any>): CIClassReturnDto {
+        var search: String? = null
+        var offset: Long? = null
+        var limit: Long? = null
+        if (parameters["search"] != null) search = parameters["search"].toString()
+        if (parameters["offset"] != null) offset = parameters["offset"] as Long?
+        if (parameters["limit"] != null) limit = parameters["limit"] as Long?
+        val searchDto = SearchDto(
+            search = search,
+            offset = offset,
+            limit = limit
+        )
+        val ciClasses = ciClassRepository.findClassList(searchDto)
+        val ciClassList = mutableListOf<CIClassListDto>()
+        for (ciClass in ciClasses.results) {
+            ciClassList.add(
+                CIClassListDto(
+                    classId = ciClass.classId,
+                    className = ciClass.className,
+                    classDesc = ciClass.classDesc,
+                    classLevel = ciClass.classLevel,
+                    pClassId = ciClass.pClass?.classId,
+                    pClassName = ciClass.pClass?.className
+                )
+            )
+        }
+
+        return CIClassReturnDto(
+            data = ciClassList,
+            totalCount = ciClasses.total
+        )
+    }
+
+    /**
      * CMDB CI Class 단일 조회
      */
-    fun getCIClass(classId: String): CIClassDetailDto {
+    fun getCIClass(classId: String): CIClassListDto? {
+        val ciClassEntity = ciClassRepository.findClass(classId)
+        return CIClassListDto(
+            classId = ciClassEntity?.classId,
+            className = ciClassEntity?.className,
+            classDesc = ciClassEntity?.classDesc,
+            classLevel = ciClassEntity?.classLevel,
+            pClassId = ciClassEntity?.pClass?.classId,
+            pClassName = ciClassEntity?.pClass?.className
+        )
+    }
+
+    /**
+     * CMDB CI Class 상세 조회
+     */
+    fun getCIClassDetail(classId: String): CIClassDetailDto {
         val ciClassEntity = ciClassRepository.getOne(classId)
         var editable = true
         val classList = mutableListOf<String>()
@@ -77,14 +131,14 @@ class CIClassService(
     }
 
     /**
-     * CMDB CI Class 멀티 조회
+     * CMDB CI Class 트리 조회
      */
-    fun getCIClasses(parameters: LinkedHashMap<String, Any>): List<CIClassListDto> {
+    fun getCIClassesTreeNode(parameters: LinkedHashMap<String, Any>): List<CIClassTreeListDto> {
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
 
-        val treeClassList = mutableListOf<CIClassListDto>()
-        val queryResults: QueryResults<CIClassEntity> = ciClassRepository.findClassList(search)
+        val treeClassList = mutableListOf<CIClassTreeListDto>()
+        val queryResults: QueryResults<CIClassEntity> = ciClassRepository.findClassEntityList(search)
         val returnList: List<CIClassEntity>
         val pClassList = mutableListOf<CIClassEntity>()
         val classIdList = mutableListOf<String>()
@@ -122,7 +176,7 @@ class CIClassService(
                 }
             }
             treeClassList.add(
-                CIClassListDto(
+                CIClassTreeListDto(
                     classId = ciClassEntity.classId,
                     className = ciClassEntity.className,
                     classDesc = ciClassEntity.classDesc,
@@ -235,7 +289,7 @@ class CIClassService(
     /**
      * Class에 따른 CI 세부 속성 조회
      */
-    fun getCIClassAttributes(classId: String): MutableList<CIClassDetailValueDto> {
+    fun getCIClassAttributes(classId: String): List<CIClassDetailValueDto> {
         val attributeValueAll = mutableListOf<CIClassDetailValueDto>()
         val classList = mutableListOf<String>()
         var targetClass: CIClassEntity? = null
@@ -255,6 +309,6 @@ class CIClassService(
             )
             attributeValueAll.add(ciClassDetailValueDto)
         }
-        return attributeValueAll
+        return attributeValueAll.toList()
     }
 }

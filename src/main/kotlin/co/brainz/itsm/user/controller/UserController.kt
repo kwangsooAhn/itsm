@@ -1,22 +1,17 @@
 package co.brainz.itsm.user.controller
 
-import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
-import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.service.UserService
-import java.nio.file.Paths
 import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -44,9 +39,6 @@ class UserController(
     private val userListFragment: String = "user/userList :: list"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
-
-    @Value("\${user.default.profile}")
-    private val userDefaultProfile: String = ""
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -87,14 +79,8 @@ class UserController(
         val userEntity = userService.selectUserKey(userKey)
         val users = userMapper.toUserDto(userEntity)
         users.avatarPath = userDetailsService.makeAvatarPath(userEntity)
-        if (userEntity.uploaded) {
-            users.avatarSize = Paths.get(userEntity.uploadedLocation).toFile().length()
-        } else {
-            val resource = ClassPathResource(userDefaultProfile)
-            val path = resource.inputStream
-            users.avatarSize = path.available().toLong()
-        }
-        val roleEntities = mutableSetOf<AliceRoleEntity>()
+        users.avatarSize = userService.getUserAvatarSize(userEntity)
+
         val timeFormat = users.timeFormat!!.split(' ')
         val usersDate = timeFormat[0]
         val usersTime = if (timeFormat.size == 3) {
@@ -103,10 +89,6 @@ class UserController(
             timeFormat[1]
         }
 
-        userEntity.userRoleMapEntities.forEach { userRoleMap ->
-            roleEntities.add(userRoleMap.role)
-        }
-        val roles = roleService.getRoles(roleEntities)
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
         if (!users.department.isNullOrBlank()) {
@@ -114,34 +96,23 @@ class UserController(
             model.addAttribute("deptCodeDetail", deptCodeDetail)
         }
 
-        val codes = mutableListOf(
-            UserConstants.PTHEMECODE.value,
-            UserConstants.PLANGCODE.value,
-            UserConstants.PDATECODE.value,
-            UserConstants.PTIMECODE.value
-        )
-
-        val codeList = codeService.selectCodeByParent(codes)
-        val themeList = AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
-        val langList = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)
-        val dateList = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
-        val timeList = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
+        val allCodes = userService.getInitCodeList()
 
         model.addAttribute("users", users)
-        model.addAttribute("roles", roles)
         model.addAttribute("usersDate", usersDate)
         model.addAttribute("usersTime", usersTime)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
-        model.addAttribute("themeList", themeList)
-        model.addAttribute("langList", langList)
-        model.addAttribute("dateList", dateList)
-        model.addAttribute("timeList", timeList)
+        model.addAttribute("themeList", allCodes["themeList"])
+        model.addAttribute("langList", allCodes["langList"])
+        model.addAttribute("dateList", allCodes["dateList"])
+        model.addAttribute("timeList", allCodes["timeList"])
 
         when (target) {
-            "editself" -> {
+            UserConstants.UserEdit.EDIT_SELF.code -> {
                 returnUrl = userEditSelfPage
             }
-            "edit" -> {
+            UserConstants.UserEdit.EDIT.code -> {
+                model.addAttribute("roles", roleService.getAllRolesToUserCheck(userEntity))
                 returnUrl = userEditPage
             }
         }
@@ -154,26 +125,14 @@ class UserController(
      */
     @GetMapping("/new")
     fun getUserRegister(model: Model): String {
-        val codes = mutableListOf(
-            UserConstants.PTHEMECODE.value,
-            UserConstants.PLANGCODE.value,
-            UserConstants.PDATECODE.value,
-            UserConstants.PTIMECODE.value
-        )
-
-        val codeList = codeService.selectCodeByParent(codes)
-        val themeList = AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
-        val langList = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)
-        val dateList = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
-        val timeList = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
-
+        val allCodes = userService.getInitCodeList()
         model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
-        model.addAttribute("roles", roleService.getRoles(mutableSetOf()))
-        model.addAttribute("themeList", themeList)
-        model.addAttribute("langList", langList)
-        model.addAttribute("dateList", dateList)
-        model.addAttribute("timeList", timeList)
+        model.addAttribute("roles", roleService.getAllRolesToUserCheck(null))
+        model.addAttribute("themeList", allCodes["themeList"])
+        model.addAttribute("langList", allCodes["langList"])
+        model.addAttribute("dateList", allCodes["dateList"])
+        model.addAttribute("timeList", allCodes["timeList"])
 
         return userEditPage
     }

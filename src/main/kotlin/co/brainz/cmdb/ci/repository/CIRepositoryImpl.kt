@@ -11,21 +11,57 @@ import co.brainz.cmdb.ci.entity.QCIEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
 import co.brainz.cmdb.ciTag.entity.QCITagEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIsDto
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CISearchDto
+import co.brainz.cmdb.dto.CIsDto
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepositoryCustom {
+
+    /**
+     * CI 단일 목록 조회.
+     */
+    override fun findCI(ciId: String): CIsDto {
+        val ci = QCIEntity.cIEntity
+        val cmdbType = QCITypeEntity.cITypeEntity
+        val cmdbClass = QCIClassEntity.cIClassEntity
+        val query = from(ci)
+            .select(
+                Projections.constructor(
+                    CIsDto::class.java,
+                    ci.ciId,
+                    ci.ciNo,
+                    ci.ciName,
+                    ci.ciStatus,
+                    cmdbType.typeId,
+                    cmdbType.typeName,
+                    cmdbClass.classId,
+                    cmdbClass.className,
+                    ci.ciIcon,
+                    ci.ciDesc,
+                    ci.automatic,
+                    ci.createUser.userKey,
+                    ci.createDt,
+                    ci.updateUser.userKey,
+                    ci.updateDt
+                )
+            )
+            .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
+            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciClassEntity.classId))
+            .where(ci.ciId.eq(ciId))
+            .orderBy(ci.ciName.asc())
+        return query.fetchOne()
+    }
+
     /**
      * CI 목록 조회.
      */
-    override fun findCIList(search: String, offset: Long?, tags: List<String>, flag: String): MutableList<CIsDto> {
+    override fun findCIList(ciSearchDto: CISearchDto): QueryResults<CIsDto> {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
@@ -51,32 +87,31 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                     ci.createUser.userKey,
                     ci.createDt,
                     ci.updateUser.userKey,
-                    ci.updateDt,
-                    Expressions.numberPath(Long::class.java, "0")
+                    ci.updateDt
                 )
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
             .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciClassEntity.classId))
             .where(
-                super.like(ci.ciName, search)
-                    ?.or(super.like(ci.ciNo, search))
-                    ?.or(super.like(ci.ciTypeEntity.typeName, search))
-                    ?.or(super.like(ci.ciClassEntity.className, search))
-                    ?.or(super.like(ci.ciDesc, search))
+                super.like(ci.ciName, ciSearchDto.search)
+                    ?.or(super.like(ci.ciNo, ciSearchDto.search))
+                    ?.or(super.like(ci.ciTypeEntity.typeName, ciSearchDto.search))
+                    ?.or(super.like(ci.ciClassEntity.className, ciSearchDto.search))
+                    ?.or(super.like(ci.ciDesc, ciSearchDto.search))
             ).orderBy(ci.ciName.asc())
-        if (tags.isNotEmpty()) {
+        if (ciSearchDto.tags.isNotEmpty()) {
             query.where(
                 ci.ciId.`in`(
                     JPAExpressions
                         .select(cmdbTag.ci.ciId)
                         .from(cmdbTag)
                         .where(
-                            cmdbTag.tagName.`in`(tags)
+                            cmdbTag.tagName.`in`(ciSearchDto.tags)
                         )
                 )
             )
         }
-        if (flag == "component") {
+        if (ciSearchDto.flag == "component") {
             query.where(
                 ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_USE.code)
                     .and(
@@ -89,16 +124,13 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                     )
             )
         }
-        if (offset != null) {
-            query.limit(ItsmConstants.SEARCH_DATA_COUNT).offset(offset)
+        if (ciSearchDto.offset != null) {
+            query.offset(ciSearchDto.offset)
         }
-        val result = query.fetchResults()
-        val cis = mutableListOf<CIsDto>()
-        for (data in result.results) {
-            data.totalCount = result.total
-            cis.add(data)
+        if (ciSearchDto.limit != null) {
+            query.limit(ciSearchDto.limit)
         }
-        return cis
+        return query.fetchResults()
     }
 
     /**

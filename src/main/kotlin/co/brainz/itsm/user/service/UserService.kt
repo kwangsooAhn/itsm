@@ -18,19 +18,25 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
+import co.brainz.framework.util.AliceUtil
+import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserRepository
+import java.nio.file.Paths
 import java.security.PrivateKey
 import java.util.Optional
 import kotlin.random.Random
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.ClassPathResource
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.RequestContextHolder
@@ -56,6 +62,9 @@ class UserService(
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     val userMapper: UserMapper = Mappers.getMapper(UserMapper::class.java)
+
+    @Value("\${user.default.profile}")
+    private val userDefaultProfile: String = ""
 
     /**
      * 사용자 목록을 조회한다.
@@ -272,5 +281,35 @@ class UserService(
             password
         )
         return AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
+    }
+
+    /**
+     * Avatar 이미지 사이즈 조회
+     */
+    fun getUserAvatarSize(userEntity: AliceUserEntity): Long {
+        return if (userEntity.uploaded) {
+            Paths.get(userEntity.uploadedLocation).toFile().length()
+        } else {
+            ClassPathResource(userDefaultProfile).inputStream.available().toLong()
+        }
+    }
+
+    /**
+     * 사용자 설정 기본 코드 조회
+     */
+    fun getInitCodeList(): LinkedHashMap<String, List<CodeDto>> {
+        val codes = mutableListOf(
+            UserConstants.PTHEMECODE.value,
+            UserConstants.PLANGCODE.value,
+            UserConstants.PDATECODE.value,
+            UserConstants.PTIMECODE.value
+        )
+        val codeList = codeService.selectCodeByParent(codes)
+        val allCodes: LinkedHashMap<String, List<CodeDto>> = LinkedHashMap()
+        allCodes["themeList"] = AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
+        allCodes["langList"] = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)
+        allCodes["dateList"] = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
+        allCodes["timeList"] = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
+        return allCodes
     }
 }

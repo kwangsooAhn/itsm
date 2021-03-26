@@ -43,6 +43,7 @@ class AliceWebSecurityConfig(
                 "/oauth/**",
                 "/portals/**",
                 "/rest/**",
+                "/api/**",
                 "/i18n/**"
             ).permitAll()
             .anyRequest().authenticated()

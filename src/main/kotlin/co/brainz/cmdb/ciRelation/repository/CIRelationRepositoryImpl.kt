@@ -7,7 +7,7 @@ package co.brainz.cmdb.ciRelation.repository
 
 import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
 import co.brainz.cmdb.ciRelation.entity.QCIRelationEntity
-import co.brainz.cmdb.provider.dto.CIRelationDto
+import co.brainz.cmdb.dto.CIRelationDto
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 

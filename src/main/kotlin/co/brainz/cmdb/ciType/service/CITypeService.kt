@@ -10,8 +10,11 @@ import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
-import co.brainz.cmdb.provider.dto.CITypeDto
-import co.brainz.cmdb.provider.dto.CITypeListDto
+import co.brainz.cmdb.dto.CITypeDto
+import co.brainz.cmdb.dto.CITypeListDto
+import co.brainz.cmdb.dto.CITypeReturnDto
+import co.brainz.cmdb.dto.CITypeTreeListDto
+import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.fileTransaction.service.AliceFileService
@@ -29,12 +32,71 @@ class CITypeService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
+     * CMDB Type 목록 조회
+     */
+    fun getCITypes(parameters: LinkedHashMap<String, Any>): CITypeReturnDto {
+        var search: String? = null
+        var offset: Long? = null
+        var limit: Long? = null
+        if (parameters["search"] != null) search = parameters["search"].toString()
+        if (parameters["offset"] != null) offset = parameters["offset"] as Long?
+        if (parameters["limit"] != null) limit = parameters["limit"] as Long?
+        val searchDto = SearchDto(
+            search = search,
+            offset = offset,
+            limit = limit
+        )
+        val ciTypes = ciTypeRepository.findTypeList(searchDto)
+        val ciTypeList = mutableListOf<CITypeListDto>()
+        for (ciType in ciTypes.results) {
+            ciTypeList.add(
+                CITypeListDto(
+                    typeId = ciType.typeId,
+                    typeAlias = ciType.typeAlias,
+                    typeDesc = ciType.typeDesc,
+                    typeName = ciType.typeName,
+                    typeLevel = ciType.typeLevel,
+                    typeIcon = ciType.typeIcon,
+                    defaultClassId = ciType.defaultClass.classId,
+                    defaultClassName = ciType.defaultClass.className,
+                    pTypeId = ciType.pType?.typeId,
+                    pTypeName = ciType.pType?.typeName
+                )
+            )
+        }
+
+        return CITypeReturnDto(
+            data = ciTypeList,
+            totalCount = ciTypes.total
+        )
+    }
+
+    /**
+     * CMDB Type 단일 목록 조회
+     */
+    fun getCIType(typeId: String): CITypeListDto? {
+        val ciTypeEntity = ciTypeRepository.findType(typeId)
+        return CITypeListDto(
+            typeId = ciTypeEntity?.typeId,
+            typeName = ciTypeEntity?.typeName,
+            typeDesc = ciTypeEntity?.typeDesc,
+            typeAlias = ciTypeEntity?.typeAlias,
+            typeIcon = ciTypeEntity?.typeIcon,
+            typeLevel = ciTypeEntity?.typeLevel,
+            pTypeId = ciTypeEntity?.pType?.typeId,
+            pTypeName = ciTypeEntity?.pType?.typeName,
+            defaultClassId = ciTypeEntity?.defaultClass?.classId,
+            defaultClassName = ciTypeEntity?.defaultClass?.className
+        )
+    }
+
+    /**
      *  CMDB Type 트리 조회
      */
-    fun getCITypes(parameters: LinkedHashMap<String, Any>): List<CITypeListDto> {
+    fun getCITypesTreeNode(parameters: LinkedHashMap<String, Any>): List<CITypeTreeListDto> {
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
-        val treeTypeList = mutableListOf<CITypeListDto>()
+        val treeTypeList = mutableListOf<CITypeTreeListDto>()
         val queryResults: QueryResults<CITypeEntity> = ciTypeRepository.findByTypeList(search)
         val returnList: List<CITypeEntity>
         var typeSearchList = queryResults.results
@@ -57,7 +119,7 @@ class CITypeService(
 
         for (typeEntity in returnList) {
             treeTypeList.add(
-                CITypeListDto(
+                CITypeTreeListDto(
                     typeId = typeEntity.typeId,
                     typeName = typeEntity.typeName,
                     typeDesc = typeEntity.typeDesc,
@@ -77,9 +139,9 @@ class CITypeService(
     }
 
     /**
-     *  CMDB Type 단일 조회
+     *  CMDB Type 상세 조회
      */
-    fun getCIType(typeId: String): CITypeDto {
+    fun getCITypeDetail(typeId: String): CITypeDto {
         val typeDetailEntity = ciTypeRepository.findById(typeId).get()
         return CITypeDto(
             typeId = typeDetailEntity.typeId,
@@ -92,7 +154,11 @@ class CITypeService(
             typeIcon = typeDetailEntity.typeIcon,
             typeIconData = typeDetailEntity.typeIcon?.let { getCITypeImageData(typeDetailEntity.typeIcon) },
             defaultClassId = typeDetailEntity.defaultClass.classId,
-            defaultClassName = typeDetailEntity.defaultClass.className
+            defaultClassName = typeDetailEntity.defaultClass.className,
+            createDt = typeDetailEntity.createDt,
+            createUserKey = typeDetailEntity.createUser?.userKey,
+            updateDt = typeDetailEntity.updateDt,
+            updateUserKey = typeDetailEntity.updateUser?.userKey
         )
     }
 
@@ -133,7 +199,7 @@ class CITypeService(
     /**
      *  CMDB Type 수정
      */
-    fun updateCIType(ciTypeDto: CITypeDto, typeId: String): Boolean {
+    fun updateCIType(typeId: String, ciTypeDto: CITypeDto): Boolean {
         val parentTypeEntity: CITypeEntity = ciTypeRepository.findById(ciTypeDto.pTypeId!!).get()
 
         val ciTypeEntity = CITypeEntity(

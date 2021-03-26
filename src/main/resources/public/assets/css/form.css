@@ -4474,7 +4474,7 @@ body.modal-active {
 }
 
 .component[data-displayType=readonly] input[type=text],
-.component[data-displayType=readonly] button,
+.component[data-displayType=readonly] button:not(.icon-search-area),
 .component[data-displayType=readonly] select,
 .component[data-displayType=readonly] textarea {
   background-color: #F7F8F9 !important;
