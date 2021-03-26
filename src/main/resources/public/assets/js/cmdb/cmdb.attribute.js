@@ -672,7 +672,7 @@
                     if (attributeValue !== '') {
                         customBtnElem.textContent = attributeValue.button;
                         // 커스텀 코드 기본 값 넣기
-                        if (attributes.value === '') {
+                        if (attributes.value === '' || attributes.value === null) {
                             switch (attributeValue.default.type) {
                             case 'session':
                                 if (attributeValue.default.value === 'userName') {
@@ -691,6 +691,7 @@
                                 customData = attributeValue.default.type + '|';
                                 break;
                             }
+                            customInputElem.value = defaultValue;
                         }
                         customInputElem.setAttribute('value', defaultValue);
                         customInputElem.setAttribute('custom-data', customData);
