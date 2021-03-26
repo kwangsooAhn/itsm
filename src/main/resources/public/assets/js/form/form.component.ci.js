@@ -131,7 +131,7 @@
                         elemKey = 'typeIconData';
                         break;
                     default:
-                        elemKey = key
+                        elemKey = keyl;
                 }
                 const elem = document.getElementById(elemKey);
                 if (elem !== null) {

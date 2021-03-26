@@ -237,5 +237,4 @@ class CITypeService(
     fun getCITypeImageData(ciTypeIconName: String): String {
         return aliceFileService.getDataUriSchema(AliceConstants.ExternalFilePath.ICON_CI_TYPE.path + ciTypeIconName)
     }
-
 }
