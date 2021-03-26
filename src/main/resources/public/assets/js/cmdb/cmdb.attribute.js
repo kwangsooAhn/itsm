@@ -38,7 +38,7 @@
 
     /**
      * 초기 데이터 셋팅.
-     * 
+     *
      * @param target
      */
     function init(target) {
@@ -658,16 +658,7 @@
                     const customInputElem = document.createElement('input');
                     customInputElem.type = 'text';
                     customInputElem.className = 'col-pct-12 inherit';
-                    console.log("customValueArr.length");
-                    console.log(customValueArr.length);
-                    if (customValueArr.length > 0) {
-                        console.log("customValueArr.length > 0")
-                        console.log(customValueArr[0]);
-                        console.log(customValueArr[1]);
-                    } else {
-                        console.log("customValueArr.length > 0 Not")
-                        console.log(customValueArr);
-                    }
+                    customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                     customInputElem.readOnly = true;
                     inputButtonElem.appendChild(customInputElem);
 
@@ -681,7 +672,7 @@
                     if (attributeValue !== '') {
                         customBtnElem.textContent = attributeValue.button;
                         // 커스텀 코드 기본 값 넣기
-                        if (customData === '' || customData === null) {
+                        if (attributes.value === '') {
                             switch (attributeValue.default.type) {
                             case 'session':
                                 if (attributeValue.default.value === 'userName') {
