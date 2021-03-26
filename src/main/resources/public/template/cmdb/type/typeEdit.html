@@ -46,7 +46,8 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
-                    <input id="typeAlias" name="typeAlias" type="text" maxlength="16" onkeyup="specialCharCheckRegExp(this)" />
+                    <input id="typeAlias" name="typeAlias" type="text" maxlength="16"
+                           onkeyup="removeChar(event, regularCharacterReg, 'gi')"  />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
@@ -196,14 +197,6 @@
             document.querySelector('#btnRegist').style.display = 'none';
         }
 
-        /** 특수문자 제외 정규식 **/
-        function specialCharCheckRegExp(obj) {
-            const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
-            if (reg.test(obj.value)) {
-                obj.value = obj.value.replace(reg, '');
-            }
-        }
-
         /** save **/
         function onSave(method) {
             const jsonData = {
@@ -299,7 +292,7 @@
 
         /** Type-Class **/
         function classPopUp() {
-            if (document.getElementById('parentTypeId').value !== '') {
+            if (isNotEmpty('parentTypeId')) {
                 tree.load({
                     view: 'modal',
                     title: i18n.msg('cmdb.type.label.class'),
