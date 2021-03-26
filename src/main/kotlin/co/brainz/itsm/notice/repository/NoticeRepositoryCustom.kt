@@ -8,6 +8,7 @@ package co.brainz.itsm.notice.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.notice.dto.NoticeListDto
+import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import java.time.LocalDateTime
 
@@ -19,4 +20,6 @@ interface NoticeRepositoryCustom : AliceRepositoryCustom {
             MutableList<NoticeListDto>
 
     fun findTopNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeListDto>
+
+    fun findNotice(noticeNo: String): NoticeEntity
 }
