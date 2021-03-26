@@ -96,4 +96,13 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             .limit(limit)
             .fetch()
     }
+
+    override fun findDownload(downloadId: String): DownloadEntity {
+        val download = QDownloadEntity.downloadEntity
+        return from(download)
+            .innerJoin(download.createUser).fetchJoin()
+            .leftJoin(download.updateUser).fetchJoin()
+            .where(download.downloadId.eq(downloadId))
+            .fetchOne()
+    }
 }
