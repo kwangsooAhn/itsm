@@ -12,7 +12,7 @@ import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class AliceFileOwnMapRepositoryImpl : QuerydslRepositorySupport(AliceFileOwnMapEntity::class.java),
-AliceFileOwnMapRepositoryCustom {
+    AliceFileOwnMapRepositoryCustom {
     override fun findFileOwnIdAndFileLocUploaded(ownId: String, uploaded: Boolean): List<AliceFileOwnMapEntity> {
         val fileOwnMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val query = from(fileOwnMap)
@@ -26,5 +26,4 @@ AliceFileOwnMapRepositoryCustom {
             .where(fileOwnMap.ownId.eq(ownId).and(fileOwnMap.fileLocEntity.uploaded.eq(uploaded)))
         return query.fetch()
     }
-
 }
