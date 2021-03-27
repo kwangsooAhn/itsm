@@ -560,6 +560,7 @@ COMMENT ON COLUMN awf_ip_verification.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_ip_verification.update_dt IS '수정일';
 
 insert into awf_ip_verification values ('0:0:0:0:0:0:0:1');
+insert into awf_ip_verification values ('192.*.*.*');
 /**
  * 메뉴정보
  */
@@ -596,7 +597,7 @@ insert into awf_menu values ('config.auth', 'config', '/auths/edit', 2,TRUE);
 insert into awf_menu values ('config.role', 'config', '/roles/edit', 3,TRUE);
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,TRUE);
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
-insert into awf_menu values ('config.scheduler', 'config', '/scheduler/search', 6,TRUE);
+insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6,TRUE);
 insert into awf_menu values ('workflow', 'menu', '', 10,TRUE);
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);

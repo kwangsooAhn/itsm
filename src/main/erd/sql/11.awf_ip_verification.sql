@@ -23,3 +23,4 @@ COMMENT ON COLUMN awf_ip_verification.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_ip_verification.update_dt IS '수정일';
 
 insert into awf_ip_verification values ('0:0:0:0:0:0:0:1');
+insert into awf_ip_verification values ('192.*.*.*');
