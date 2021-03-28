@@ -43,6 +43,6 @@ COMMENT ON COLUMN wf_document.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_document.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_document.update_dt IS '수정일시';
 
-insert into wf_document values ('40288ab7772ea2e301772ea9aba40003','만족도 - 단순문의','만족도  단순문의 입니다.','40288ab7772ea2e301772ea7ce1b0002','40288ab7772ea2e301772ea633090001','document.status.use','40288ab7772dae0301772dbca28a0004','#586872','workflow','',NULL,'0509e09412534a6e98f04ca79abb6424',now());
-insert into wf_document values ('40288ab7772ea2e301772ead51fe0005','단순문의','서비스데스크 단순문의 신청서 입니다.','40288ab7772ea2e301772eabb9280004','40288ab7772ea2e301772ea450bb0000','document.status.use','40125c91714df6c325714e053c890125','#F1C40F','application-form','servicedesk.inquiry','img_document_11.png','0509e09412534a6e98f04ca79abb6424',now());
+insert into wf_document values ('4028b25d78778da6017877aff7e40001','만족도 - 단순문의','만족도  단순문의 입니다.','4028b25d787736640178773e71480002','4028b25d787736640178773f645b0003','document.status.use','40288ab7772dae0301772dbca28a0004','#586872','workflow','',NULL,'0509e09412534a6e98f04ca79abb6424',now());
+insert into wf_document values ('4028b25d78778da6017877bb3d3c0010','단순문의','서비스데스크 단순문의 신청서 입니다.','4028b25d78778da6017877b9df60000f','4028b25d787736640178773857920000','document.status.use','40125c91714df6c325714e053c890125','#F1C40F','application-form','servicedesk.inquiry','img_document_11.png','0509e09412534a6e98f04ca79abb6424',now());
 insert into wf_document values ('40288ab777f04ed90177f05f01d1000b','CI 신청서','CI를 등록/수정/삭제를 할 수 있는 구성관리 신청서 입니다.','40288ab777f04ed90177f057ca410000','4028b25d77ed7e6f0177ed8daba10001','document.status.use','40288ab777f04ed90177f05e5ad7000a','#825A2C','application-form','','img_document_06.png','0509e09412534a6e98f04ca79abb6424',now());
