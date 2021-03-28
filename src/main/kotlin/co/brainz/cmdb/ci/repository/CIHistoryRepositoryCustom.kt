@@ -10,4 +10,6 @@ import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface CIHistoryRepositoryCustom : AliceRepositoryCustom {
     fun findByLatelyHistory(ciId: String): CIHistoryEntity?
+
+    fun findAllHistory(ciId: String): List<CIHistoryEntity>
 }

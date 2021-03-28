@@ -26,18 +26,12 @@ import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.constants.RestTemplateConstants
-import co.brainz.cmdb.dto.CIClassDetailValueDto
-import co.brainz.cmdb.dto.CIDetailDto
-import co.brainz.cmdb.dto.CIDto
-import co.brainz.cmdb.dto.CIListDto
-import co.brainz.cmdb.dto.CIReturnDto
-import co.brainz.cmdb.dto.CISearchDto
-import co.brainz.cmdb.dto.CIsDto
-import co.brainz.cmdb.dto.RestTemplateReturnDto
+import co.brainz.cmdb.dto.*
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class CIService(
@@ -440,5 +434,23 @@ class CIService(
             updateUserKey = ci.updateUserKey,
             updateDt = ci.updateDt
         )
+    }
+
+    /**
+     * CI 히스토리 조회
+     */
+    fun getHistory(ciId: String): List<CIHistoryDto> {
+        val ciHistoryDto = mutableListOf<CIHistoryDto>()
+        val historyList = ciHistoryRepository.findAllHistory(ciId)
+        for (history in historyList) {
+            ciHistoryDto.add(
+                CIHistoryDto(
+                    ciId = history.ciId,
+                    ciNo = history.ciNo,
+                    ciStatus = history.ciStatus
+                )
+            )
+        }
+        return ciHistoryDto
     }
 }
