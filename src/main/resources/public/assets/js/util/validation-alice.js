@@ -672,12 +672,15 @@ function isScrollbarBottom(scrollHeight, scrollTop, clientHeight) {
  * @returns {boolean}
  */
 function isAllowedExtensions(allowedExtensionList, fileList) {
-    for (let i = 0, len = fileList.length; i < len; i++) {
-        if (allowedExtensionList.indexOf(fileList[i].name.split('.').pop().toLowerCase()) === -1) {
-            return false;
+    if(allowedExtensionList !== null && fileList !== null ) {
+        for (let i = 0, len = fileList.length; i < len; i++) {
+            if (allowedExtensionList.indexOf(fileList[i].name.split('.').pop().toLowerCase()) === -1) {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
+    return false;
 }
 
 /**
