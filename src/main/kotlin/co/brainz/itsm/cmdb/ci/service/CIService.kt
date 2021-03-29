@@ -8,6 +8,7 @@ package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDetailDto
+import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.cmdb.dto.CITagDto
@@ -183,5 +184,12 @@ class CIService(
             return true
         }
         return false
+    }
+
+    /**
+     * CMDB 히스토리 조회
+     */
+    fun getCIHistory(ciId: String): List<CIHistoryDto> {
+        return ciService.getHistory(ciId)
     }
 }

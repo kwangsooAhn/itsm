@@ -29,6 +29,7 @@ import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDto
+import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.cmdb.dto.CISearchDto
@@ -440,5 +441,23 @@ class CIService(
             updateUserKey = ci.updateUserKey,
             updateDt = ci.updateDt
         )
+    }
+
+    /**
+     * CI 히스토리 조회
+     */
+    fun getHistory(ciId: String): List<CIHistoryDto> {
+        val ciHistoryDto = mutableListOf<CIHistoryDto>()
+        val historyList = ciHistoryRepository.findAllHistory(ciId)
+        for (history in historyList) {
+            ciHistoryDto.add(
+                CIHistoryDto(
+                    ciId = history.ciId,
+                    ciNo = history.ciNo,
+                    ciStatus = history.ciStatus
+                )
+            )
+        }
+        return ciHistoryDto
     }
 }

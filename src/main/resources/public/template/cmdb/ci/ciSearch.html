@@ -120,6 +120,10 @@
                                         }
                                     });
                                     new Tagify(document.querySelector('input[name=tags]'));
+                                    // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+                                    document.querySelectorAll('.date-time').forEach(dt => {
+                                        dt.textContent = i18n.userDateTime(dt.textContent.trim());
+                                    });
                                 }
                             });
                             ciDetailModal.show();

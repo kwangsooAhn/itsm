@@ -17,4 +17,13 @@ class CIHistoryRepositoryImpl : QuerydslRepositorySupport(CIHistoryEntity::class
             .orderBy(history.seq.desc())
             .fetchFirst()
     }
+
+    // todo: 현재 조회하는 필드 일부는 임시로 추가한 dummy입니다. 추후 수정이 필요합니다.
+    override fun findAllHistory(ciId: String): List<CIHistoryEntity> {
+        val history = QCIHistoryEntity.cIHistoryEntity
+        return from(history)
+            .where(history.ciId.eq(ciId))
+            .orderBy(history.seq.desc())
+            .fetch()
+    }
 }
