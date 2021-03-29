@@ -8,6 +8,7 @@ package co.brainz.workflow
 import co.brainz.workflow.process.service.WfProcessService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assumptions.assumeTrue
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -42,6 +43,7 @@ class WfProcessServiceTest {
         }
     }
 
+    @Disabled
     @Test
     @DisplayName("Process Simulation 체크")
     @Order(2)
