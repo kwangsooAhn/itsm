@@ -47,26 +47,8 @@ class CITypeService(
             limit = limit
         )
         val ciTypes = ciTypeRepository.findTypeList(searchDto)
-        val ciTypeList = mutableListOf<CITypeListDto>()
-        for (ciType in ciTypes.results) {
-            ciTypeList.add(
-                CITypeListDto(
-                    typeId = ciType.typeId,
-                    typeAlias = ciType.typeAlias,
-                    typeDesc = ciType.typeDesc,
-                    typeName = ciType.typeName,
-                    typeLevel = ciType.typeLevel,
-                    typeIcon = ciType.typeIcon,
-                    defaultClassId = ciType.defaultClass.classId,
-                    defaultClassName = ciType.defaultClass.className,
-                    pTypeId = ciType.pType?.typeId,
-                    pTypeName = ciType.pType?.typeName
-                )
-            )
-        }
-
         return CITypeReturnDto(
-            data = ciTypeList,
+            data = ciTypes.results,
             totalCount = ciTypes.total
         )
     }
@@ -75,19 +57,7 @@ class CITypeService(
      * CMDB Type 단일 목록 조회
      */
     fun getCIType(typeId: String): CITypeListDto? {
-        val ciTypeEntity = ciTypeRepository.findType(typeId)
-        return CITypeListDto(
-            typeId = ciTypeEntity?.typeId,
-            typeName = ciTypeEntity?.typeName,
-            typeDesc = ciTypeEntity?.typeDesc,
-            typeAlias = ciTypeEntity?.typeAlias,
-            typeIcon = ciTypeEntity?.typeIcon,
-            typeLevel = ciTypeEntity?.typeLevel,
-            pTypeId = ciTypeEntity?.pType?.typeId,
-            pTypeName = ciTypeEntity?.pType?.typeName,
-            defaultClassId = ciTypeEntity?.defaultClass?.classId,
-            defaultClassName = ciTypeEntity?.defaultClass?.className
-        )
+        return ciTypeRepository.findType(typeId)
     }
 
     /**
