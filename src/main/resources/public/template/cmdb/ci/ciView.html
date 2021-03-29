@@ -88,7 +88,7 @@
                     <tbody class="list-body">
                     <!--no data-->
                     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciHistoryList)}">
-                        <td style="width: 100%;" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
+                        <td style="width: 100%;" colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
                     </tr>
                     <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciHistoryList)}" th:each="ciHistory: ${ciHistoryList}">
                         <td style="width: 40%;" th:text="${ciHistory.documentNo}"></td>
