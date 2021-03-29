@@ -67,6 +67,7 @@ class CIController(private val ciService: CIService) {
     @GetMapping("/{ciId}/view")
     fun getCIView(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
         val ciData = ciService.getCI(ciId)
+        val ciHistoryList = ciService.getCIHistory(ciId)
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val tags = JsonArray()
         if (ciData.ciTags != null) {
@@ -78,6 +79,7 @@ class CIController(private val ciService: CIService) {
             }
         }
         model.addAttribute("ciData", ciData)
+        model.addAttribute("ciHistoryList", ciHistoryList)
         model.addAttribute("tags", tags)
         model.addAttribute("userInfo", userDetails)
         return ciViewPage
