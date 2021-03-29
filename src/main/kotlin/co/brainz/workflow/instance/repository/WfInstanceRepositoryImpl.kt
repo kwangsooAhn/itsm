@@ -55,7 +55,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val searchDataCount: Long = WfTokenConstants.searchDataCount
     val element: QWfElementEntity = QWfElementEntity.wfElementEntity
-    val ci: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
+    val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -367,7 +367,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         delete(folder).where(folder.instance.`in`(instances)).execute()
         delete(comment).where(comment.instance.`in`(instances)).execute()
         delete(instance).where(instance.instanceId.`in`(instanceIds)).execute()
-        delete(ci).where(ci.instanceId.`in`(instanceIds)).execute()
+        delete(ciComponent).where(ciComponent.instanceId.`in`(instanceIds)).execute()
     }
 
     override fun findAllInstanceListAndSearch(
