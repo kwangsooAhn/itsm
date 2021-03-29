@@ -8,7 +8,6 @@ package co.brainz.cmdb.ci.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
-import org.hibernate.annotations.GenericGenerator
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -18,6 +17,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "cmdb_ci_history")
