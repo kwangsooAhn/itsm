@@ -118,13 +118,13 @@
         getAuthList(true);
 
         window.onload = function () {
-            if (isNotNull('btnUpdate')){
+            if (document.getElementById('btnUpdate') !== null){
                 AUTH_UPDATE = true;
             }
-            if (isNotNull('btnRegist')) {
+            if (document.getElementById('btnRegist') !== null) {
                 AUTH_CREATE = true;
             }
-            if (isNotNull('btnDelete')) {
+            if (document.getElementById('btnDelete') !== null) {
                 AUTH_DELETE = true;
             }
 

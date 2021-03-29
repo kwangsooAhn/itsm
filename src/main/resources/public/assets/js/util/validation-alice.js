@@ -666,3 +666,27 @@ function ipAccessCheck(ipList, clientIp, Separator) {
 function isScrollbarBottom(scrollHeight, scrollTop, clientHeight) {
     return scrollHeight - scrollTop === clientHeight
 }
+
+/**
+ * 허용된 확장자이외 확장자를 갖고 있는 파일이 있는지 확인한다.
+ * @returns {boolean}
+ */
+function isAllowedExtensions(allowedExtensionList, fileList) {
+    for (let i = 0, len = fileList.length; i < len; i++) {
+        if (allowedExtensionList.indexOf(fileList[i].name.split('.').pop().toLowerCase()) === -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * 최대 글자 수를 초과 하는지 확인후 초과하면 maxLength만큼 문자를 잘라낸다.
+ */
+function maxLengthCheck(object) {
+    if (object.value.length > object.maxLength) {
+        object.value = object.value.slice(0, object.maxLength);
+        return object.value;
+    }
+    return true;
+}

@@ -126,7 +126,7 @@
                 PATTERN_DELETE = true;
             }
 
-            if (document.getElementById('txtRuleId').value !== null && document.getElementById('txtRuleId').value !== '') {
+            if (isNotNull('txtRuleId')  && isNotEmpty('txtRuleId')) {
                 if (PATTERN_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'inline-block';
                 }
@@ -253,7 +253,7 @@
                     }
                 }
             } else {
-                if (document.getElementById('txtRuleName').value !== document.getElementById('txtRuleNameOrg').value) {
+                if (isNotEquals('txtRuleName', 'txtRuleNameOrg')) {
                     for (let i = 0; i < ruleNames.length; i++) {
                         if (document.getElementById('txtRuleName').value === ruleNames[i]) {
                             aliceJs.alertWarning([[#{rule.msg.duplicateRuleName}]]);

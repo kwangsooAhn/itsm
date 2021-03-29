@@ -101,7 +101,6 @@
 
         window.onload = function () {
             getPatternList(true);
-
             if (document.getElementById('btnUpdate') !== null) {
                 PATTERN_UPDATE = true;
             }
@@ -114,7 +113,7 @@
                 PATTERN_DELETE = true;
             }
 
-            if (document.getElementById('txtPatternId').value !== null && document.getElementById('txtPatternId').value !== '') {
+            if (isNotNull('txtPatternId') && isNotEmpty('txtPatternId')) {
                 if (PATTERN_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'inline-block';
                 }
@@ -223,7 +222,7 @@
                     }
                 }
             } else {
-                if (document.getElementById('txtPatternName').value !== document.getElementById('txtPatternNameOrg').value) {
+                if (isNotEquals('txtPatternName', 'txtPatternNameOrg')) {
                     for (let i = 0; i < patternNames.length; i++) {
                         if (document.getElementById('txtPatternName').value === patternNames[i]) {
                             aliceJs.alertWarning([[#{pattern.msg.duplicatePatternName}]]);
@@ -370,23 +369,6 @@
                 if (type[i].checked) {
                     return type[i].id;
                 }
-            }
-        }
-
-        let onlyNumber = function (event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
-                || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                return false;
-            }
-        }
-
-        let removeChar = function (event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                event.target.value = event.target.value.replace(/[^0-9]/g, '');
             }
         }
         /*]]>*/
