@@ -55,22 +55,8 @@ class CIClassService(
             limit = limit
         )
         val ciClasses = ciClassRepository.findClassList(searchDto)
-        val ciClassList = mutableListOf<CIClassListDto>()
-        for (ciClass in ciClasses.results) {
-            ciClassList.add(
-                CIClassListDto(
-                    classId = ciClass.classId,
-                    className = ciClass.className,
-                    classDesc = ciClass.classDesc,
-                    classLevel = ciClass.classLevel,
-                    pClassId = ciClass.pClass?.classId,
-                    pClassName = ciClass.pClass?.className
-                )
-            )
-        }
-
         return CIClassReturnDto(
-            data = ciClassList,
+            data = ciClasses.results,
             totalCount = ciClasses.total
         )
     }
@@ -79,15 +65,7 @@ class CIClassService(
      * CMDB CI Class 단일 조회
      */
     fun getCIClass(classId: String): CIClassListDto? {
-        val ciClassEntity = ciClassRepository.findClass(classId)
-        return CIClassListDto(
-            classId = ciClassEntity?.classId,
-            className = ciClassEntity?.className,
-            classDesc = ciClassEntity?.classDesc,
-            classLevel = ciClassEntity?.classLevel,
-            pClassId = ciClassEntity?.pClass?.classId,
-            pClassName = ciClassEntity?.pClass?.className
-        )
+        return ciClassRepository.findClass(classId)
     }
 
     /**
