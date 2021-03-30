@@ -673,7 +673,8 @@ function isScrollbarBottom(scrollHeight, scrollTop, clientHeight) {
  */
 function isAllowedExtensions(allowedExtensionList, fileList) {
     if (allowedExtensionList !== null && fileList !== null) {
-        for (let i = 0; len = fileList.length; i < len; i++) {
+        let len = fileList.length;
+        for (let i = 0; i < len; i++) {
             if (allowedExtensionList.indexOf(fileList[i].name.split('.').pop().toLowerCase()) === -1) {
                 return false;
             }
