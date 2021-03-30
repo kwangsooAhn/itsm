@@ -29,3 +29,5 @@ COMMENT ON COLUMN wf_process.update_dt IS '수정일시';
 insert into wf_process values('4028b25d787736640178773e71480002', '만족도 - 단순문의', 'process.status.use', '만족도 단순문의 프로세스입니다.', '0509e09412534a6e98f04ca79abb6424', now());
 insert into wf_process values('4028b25d78778da6017877b9df60000f', '서비스데스크 - 단순문의', 'process.status.use', '서비스데스크  단순문의 프로세스 입니다.', '0509e09412534a6e98f04ca79abb6424', now());
 insert into wf_process values('40288ab777f04ed90177f057ca410000','구성관리','process.status.use','구성관리 프로세스입니다.','0509e09412534a6e98f04ca79abb6424', now());
+insert into wf_process values('40288ab77878ea67017878eb3dc30000', '릴리즈관리', 'process.status.use', '릴리즈관리 프로세스입니다.', '0509e09412534a6e98f04ca79abb6424', now());
+
