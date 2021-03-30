@@ -35,7 +35,6 @@ repositories {
 }
 
 apply(plugin = "kotlin-kapt")
-//apply(plugin = "kotlin-allopen")
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -52,7 +51,6 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.10")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    //implementation("org.jetbrains.kotlin:kotlin-allopen")
     implementation("net.rakugakibox.util:yaml-resource-bundle:1.1")
     implementation("org.apache.logging.log4j:log4j-web:2.7")
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2")
@@ -99,12 +97,6 @@ dependencies {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
-
-//allOpen {
-    //annotation("javax.persistence.Entity")
-    //annotation("co.brainz.framework.auth.entity.AliceUserEntity")
-    //annotation("co.brainz.cmdb.ciAttribute.entity.CIAttributeEntity")
-//}
 
 // KTLINT
 ktlint {
