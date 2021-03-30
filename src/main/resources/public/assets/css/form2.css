@@ -601,34 +601,6 @@ input, button, select, optgroup, textarea {
   display: none;
   /* Chrome, Safari, Opera*/
 }
-.form-main .drawing-board {
-  display: table;
-  width: 56.56rem;
-  max-width: 56.56rem;
-  min-height: 100%;
-  margin: 3.75rem 0;
-  padding: 2.188rem;
-  background-color: #ffffff;
-  border: 0.0625rem solid #EBEBEB;
-  box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
-}
-.form-main .drawing-board *:focus {
-  outline: none !important;
-}
-.form-main .drawing-board[data-readonly=true] .component .dropzone,
-.form-main .drawing-board[data-readonly=true] .component .ql-toolbar,
-.form-main .drawing-board[data-readonly=true] .component textarea,
-.form-main .drawing-board[data-readonly=true] .component button,
-.form-main .drawing-board[data-readonly=true] .component input[type=text],
-.form-main .drawing-board[data-readonly=true] .component label.radio,
-.form-main .drawing-board[data-readonly=true] .component label.checkbox,
-.form-main .drawing-board[data-readonly=true] .component select,
-.form-main .drawing-board[data-readonly=true] .component .select {
-  pointer-events: none;
-}
-.form-main .drawing-board[data-readonly=true] .component .move-handler {
-  display: inherit;
-}
 .form-properties-panel-header {
   position: fixed;
   top: 3.125rem;
@@ -963,6 +935,37 @@ input, button, select, optgroup, textarea {
 .component-accordion-box .component-accordion input[type=radio]:checked ~ .accordion-content::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
+}
+
+.drawing-board .form {
+  display: inline-block;
+  min-height: 56.25rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+  /*&[data-readonly=true] {
+    // 폼 양식 화면에서 컴포넌트 수정을 막음
+    .component {
+      .dropzone,
+      .ql-toolbar,
+      textarea,
+      button,
+      input[type=text],
+      label.radio,
+      label.checkbox,
+      select,
+      .select {
+        pointer-events: none;
+      }
+
+      .move-handler {
+        display: inherit;
+      }
+    }
+  }*/
+}
+.drawing-board .form *:focus {
+  outline: none !important;
 }
 
 /* _elements.scss 

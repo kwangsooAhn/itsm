@@ -1,6 +1,6 @@
 /**
- * Control Mixin
- * Form, Group, Row, Component 모두 Control에 의해 조작되는 객체이다.
+ * Mixin
+ * Mixin이란 프로토타입을 바꾸지 않고 한 객체의 프로퍼티를 다른 객체에게 ‘복사’해서 사용하는 방식이다.
  *
  * @author woodajung wdj@brainz.co.kr
  * @version 1.0
@@ -8,11 +8,41 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+// 믹스인 추가
+export function importMixin(target, source) {
+    for (const key in source) {
+        if (source.hasOwnProperty(key)) {
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+// 동적 믹스인 추가 (속성을 loop 돌며 setX 메소드 생성)
+export function dynamicMixin(properties, target) {
+    properties.forEach( property => {
+        const fields = property.split('-');
+        const field = (fields.length === 1) ? fields[0] : fields[1];
+        const method = 'set' + field.substr( 0, 1 ).toUpperCase() +
+            field.substr( 1, field.length );
+        if (target.hasOwnProperty(field)) {
+            if (fields.length === 1) { // 일반 속성
+                target[method] = function () {
+                    this[property] = arguments;
+                    return this;
+                };
+            } else { // 스타일 속성 : style-padding 등
+                target[method] = function () {
+                    this[property] = arguments;
+                    this.setStyle(property, arguments);
+                    return this;
+                };
+            }
+        }
+    });
+}
+
+// layout 공통 믹스인 ( 부모, 자식 계층 구조용)
 export const controlMixin = {
-    parent: null, // 부모 객체
-    children: null, // 자식 객체
-    displayOrder: 0, // 표시 순서
-    domElem: document.body,
     // 자식 객체 추가
     add(object) {
         if (!object) { return false; }
@@ -73,5 +103,41 @@ export const controlMixin = {
             this.domElem.style[style] = args[i];
         }
         return this;
+    }
+};
+// label 공통 믹스인
+export const labelMixin = {
+    makeLabel() {
+        // 라벨 그룹
+        const labelBox = document.createElement('div');
+        let labelColumnWidth = CONST.FORM.DEFAULT_COLUMN; // 12
+        if (this.label.position === CONST.FORM.LABEL.POSITION.HIDDEN) {
+            labelColumnWidth = 0;
+        } else if (this.label.position === CONST.FORM.LABEL.POSITION.LEFT) {
+            labelColumnWidth -= Number(this.element.columnWidth);
+        }
+        labelBox.className = `component-label-box ` +
+            `align-${this.label.align} ` +
+            `position-${this.label.position}`;
+        // cssText 사용시 리플로우와 리페인트 최소화됨
+        labelBox.style.cssText = `--data-column:${labelColumnWidth};`;
+
+        // 라벨 문구
+        const label = document.createElement('label');
+        label.className = 'component-label';
+        label.style.cssText = `color:${this.label.fontColor};` +
+            `font-size:${this.label.fontSize}px;` +
+            `${this.label.bold ? 'font-weight:bold;' : ''}` +
+            `${this.label.italic ? 'font-style:italic;' : ''}` +
+            `${this.label.underline ? 'text-decoration:underline;' : ''}`;
+        label.textContent = this.label.text;
+        labelBox.appendChild(label);
+
+        // 필수값
+        const required = document.createElement('span');
+        required.className = 'required';
+        labelBox.appendChild(required);
+
+        return labelBox;
     }
 };

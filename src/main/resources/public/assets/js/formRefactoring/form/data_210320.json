@@ -7,6 +7,7 @@
   "margin": "60px 35px 60px 35px",
   "padding": "35px 35px 35px 35px",
   "category": "process",
+  "readyState": "initialized",
   "groups": [
     {
       "id": "gc9180887846b12f017849afa9580000",

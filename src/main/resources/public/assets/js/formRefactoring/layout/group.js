@@ -9,50 +9,57 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { controlMixin } from './lib/mixin.js';
+import * as MIXIN from '../lib/mixin.js';
 
-const DEFAULT = {
-    margin: '10px 0px 10px 0px', // 그룹 간 간격(위 오른쪽 아래 왼쪽)
-    padding: '10px 10px 10px 10px', // 그룹 내부 여백(위 오른쪽 아래 왼쪽)
-    label: {
-        position: 'top',
-        fontSize: '16px',
-        fontColor: 'rgba(0,0,0,1)',
-        bold: false,
-        italic: false,
-        underline: false,
-        align: 'left',
-        text: 'GROUP LABEL'
-    },
-    accordion: {
-        isUsed: false,
-        thickness: 1,
-        color: 'rgba(235, 235, 235, 1)'
-    }
+// 기본값
+const LABEL = {
+    position: 'top',
+    fontSize: '16px',
+    fontColor: 'rgba(0,0,0,1)',
+    bold: false,
+    italic: false,
+    underline: false,
+    align: 'left',
+    text: 'LABEL'
+};
+const ACCORDION = {
+    isUsed: false,
+    thickness: '1px',
+    color: 'rgba(235, 235, 235, 1)'
 };
 
 export default class Group {
     constructor(data = {}) {
         this.type = 'group';
-        const mergeData = Object.assign(DEFAULT, data, {
-            id: data.id || workflowUtil.generateUUID()
-        });
+        this.id =  data.id || workflowUtil.generateUUID();
+        this.parent = null;        // 부모 객체
+        this.children = [];        // 자식 객체
+        this.displayOrder = 0;     // 표시 순서
+        this.margin = data.margin || '10px 0px 10px 0px'; // 그룹 간 간격(위 오른쪽 아래 왼쪽)
+        this.padding = data.padding || '10px 10px 10px 10px'; // 그룹 내부 여백(위 오른쪽 아래 왼쪽)
+        this.label = data.label || LABEL;
+        this.accordion = data.accordion || ACCORDION;
 
-        Object.entries(mergeData).forEach(([key, value]) => {
-            if (key !== 'rows') {
-                this[key] = value;
-            }
-        });
+        // Control Mixin import
+        MIXIN.importMixin(this, MIXIN.controlMixin);
+        // Dynamic Mixin import
+        const properties = ['style-margin', 'style-padding'];
+        MIXIN.dynamicMixin(properties, this);
 
-        Object.assign(this, controlMixin);
-
+        this.init();
+    }
+    // 초기화
+    init() {
+        this.domElem = this.makeDomElement();
+    }
+    // DOM 엘리먼트 생성
+    makeDomElement() {
         const group = document.createElement('div');
         group.id = this.id;
-        group.className = 'group';
-        group.setAttribute('data-type', this.type);
+        group.className = this.type;
+        group.style.cssText = `margin:${this.margin};padding:${this.padding};`;
         // TODO: 라벨
         // TODO: 아코디언
-
-        this.domElem = group;
+        return group;
     }
 }

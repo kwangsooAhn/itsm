@@ -51,21 +51,21 @@ export default class FormDesigner {
             // TODO: 8. drag & drop 이벤트 등록
 
             // TODO: 9. 세부 속성 표시
-            this.panel.on(COMPONENT.FORM);
+            //this.panel.on();
         });
     }
     // 폼 초기화
     setForm() {
-        this.form = this.addRenderer(COMPONENT.FORM, this.data);
+        this.form = this.addRenderer(FORM.LAYOUT.FORM, this.data);
         if (this.data.hasOwnProperty('groups')) {
             this.data.groups.forEach( g => {
-                const group = this.addRenderer(COMPONENT.GROUP, g, this.form);
+                const group = this.addRenderer(FORM.LAYOUT.GROUP, g, this.form);
                 if (g.hasOwnProperty('rows')) {
                     g.rows.forEach( r => {
-                        const row = this.addRenderer(COMPONENT.ROW, r, group);
+                        const row = this.addRenderer(FORM.LAYOUT.ROW, r, group);
                         if (r.hasOwnProperty('components')) {
                             r.components.forEach( c => {
-                                this.addRenderer(c.type, c, row);
+                                this.addRenderer(FORM.LAYOUT.COMPONENT, c, row);
                             });
                         }
                     });
@@ -87,53 +87,8 @@ export default class FormDesigner {
         case 'row':
             object = new Row(data);
             break;
-        case 'inputBox':
-            object = new InputBox(data);
-            break;
-        case 'textArea':
-            //object = new TextArea(data);
-            break;
-        case 'textEditor':
-            //object = new TextEditor(data);
-            break;
-        case 'dropdown':
-            //object = new Dropdown(data);
-            break;
-        case 'radio':
-            //object = new Radio(data);
-            break;
-        case 'checkBox':
-            //object = new CheckBox(data);
-            break;
-        case 'label':
-            //object = new Label(data);
-            break;
-        case 'image':
-            //object = new ImageBox(data);
-            break;
-        case 'divider':
-            //object = new Divider(data);
-            break;
-        case 'date':
-            //object = new Date(data);
-            break;
-        case 'time':
-            //object = new Time(data);
-            break;
-        case 'dateTime':
-            //object = new dataTime(data);
-            break;
-        case 'fileUpload':
-            //object = new FileUpload(data);
-            break;
-        case 'customCode':
-            //object = new CustomCode(data);
-            break;
-        case 'dynamicRowTable':
-            //object = new DynamicRowTable(data);
-            break;
-        case 'ci':
-            //object = new ConfigurationItem(data);
+        case 'component':
+            object = new Component(data);
             break;
         default:
             break;
@@ -143,7 +98,7 @@ export default class FormDesigner {
         }
         return object;
     }
-    // 컴포넌트 삭제
+    // TODO: 컴포넌트 삭제
     removeRenderer(object) {
         if (object.parent === null) { return false; } // 폼은 삭제 불가
         return object.parent.remove(object);

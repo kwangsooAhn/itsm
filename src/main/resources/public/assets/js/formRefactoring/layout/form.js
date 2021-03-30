@@ -9,61 +9,45 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
- import { controlMixin } from './lib/mixin.js';
+import * as MIXIN from '../lib/mixin.js';
 
 export default class Form {
     constructor(data = {}) {
         this.type = 'form';
         this.id =  data.id || workflowUtil.generateUUID();
+        this.parent = null;        // 부모 객체
+        this.children = [];        // 자식 객체
+        this.displayOrder = 0;     // 표시 순서f
         this.name = data.name || '';
         this.desc = data.desc || '';
-        this.status = data.status || 'form.status.edit';
+        this.status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
         this.width = data.width || '905px';
         this.margin = data.margin || '60px 0px 60px 0px';
         this.padding = data.padding || '35px 35px 35px 35px';
         this.category = data.category || 'process'; // process | cmdb
+        this.readyState = 'initialized'; //폼 상태 (initialized, interactive, complete)
 
-        Object.assign(this, controlMixin);
-        
-         const form = document.createElement('div');
-         form.id = this.id;
-         form.className = 'form';
-         form.setAttribute('data-type', this.type);
-         form.setAttribute('data-category', this.category);
+        // Control Mixin import
+        MIXIN.importMixin(this, MIXIN.controlMixin);
+        // Dynamic Mixin import
+        const properties = ['name', 'desc', 'status', 'readyState',
+            'style-width', 'style-margin', 'style-padding'];
+        MIXIN.dynamicMixin(properties, this);
 
-         const formMargins = this.margin.split(' ');
-         const formPaddings = this.padding.split(' ');
-         form.style.cssText = `width:${this.width};` +
-             `margin:${formMargins.join(' ')};` +
-             `padding:${formPaddings.join(' ')};`;
-
-         this.domElem = form;
+        this.init();
     }
-    // 이름 변경
-    setName(name) {
-        this.name = name;
+    // 초기화
+    init() {
+        this.domElem = this.makeDomElement();
     }
-    // 설명 변경
-    setDesc(desc) {
-        this.desc = desc;
-    }
-    // 상태 변경
-    setStatus(status) {
-        this.status = status;
-    }
-    // 카테고리 변경
-    setCategory(category) {
-        this.category = category;
+    // DOM 엘리먼트 생성
+    makeDomElement() {
+        const form = document.createElement('div');
+        form.id = this.id;
+        form.className = this.type;
+        form.style.cssText = `width:${this.width};` +
+            `margin:${this.margin};` +
+            `padding:${this.padding};`;
+        return form;
     }
 }
-
-// 디자인 속성 메서드 생상
-const properties = ['width', 'margin', 'padding'];
-properties.forEach( property => {
-    const method = 'set' + property.substr( 0, 1 ).toUpperCase() +
-        property.substr( 1, property.length );
-    Form.prototype[method] = function () {
-        this.setStyle(property, arguments);
-        return this;
-    };
-});

@@ -28,14 +28,6 @@ $layout-properties-panel-box-shadow:               -0.0625rem 0.9375rem 0.4375re
 // main
 $layout-main-bg-color:                             $light-gray;
 
-// drawing-board
-$drawing-board-width:                              56.56rem; // 905px
-$drawing-board-bg-color:                           $white;
-$drawing-board-border:                             0.0625rem solid $line-gray; // 1px
-$drawing-board-box-shadow:                         0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
-$drawing-board-margin:                             3.75rem 0; // 60px 0
-$drawing-board-padding:                            2.188rem; // 35px
-
 // accordion
 $accordion-height:                                 3.125rem; // 50px
 $accordion-border:                                 0.0625rem solid $line-gray; // 1px
@@ -68,6 +60,11 @@ $icon-component-divider:                           $icon-folder-path + "form/con
 
 
 //////////////////////////// form ////////////////////////////
+$form-min-height:                                  56.25rem; // 900px
+$form-bg-color:                                    $white;
+$form-border:                                      0.0625rem solid $line-gray; // 1px
+$form-box-shadow:                                  0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
+
 $column-row:                                       12;  // 폼을 나누는 갯수
 
 ////////////////////////// elements /////////////////////////

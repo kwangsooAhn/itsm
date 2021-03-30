@@ -15,7 +15,8 @@ export const FORM = {
     LAYOUT: {
         FORM: 'form',
         GROUP: 'group',
-        ROW: 'row'
+        ROW: 'row',
+        COMPONENT: 'component'
     },
     DISPLAY_TYPE: {
         EDITABLE: 'editable',

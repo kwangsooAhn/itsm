@@ -8,67 +8,99 @@
  * https://www.brainz.co.kr
  */
 
-import { controlMixin } from './lib/mixin.js';
-import { FORM } from '../lib/constant.js';
+import * as MIXIN from '../lib/mixin.js';
+import {inputBoxMixin} from './component/inputBox.js';
 
 export default class Component {
-    constructor(data) {
-        const mergeData = Object.assign(data, {
-            id: data.id || workflowUtil.generateUUID()
-        });
+    constructor(data = {}) {
+        this.type = data.type;
+        this.id = data.id || workflowUtil.generateUUID();
+        this.parent = null;        // 부모 객체
+        this.children = [];        // 자식 객체
+        this.displayOrder = 0;     // 표시 순서
+        this.columnWidth = data.columnWidth || '12';
+        this.displayType = data.displayType || 'editable'; // 출력 타입 (readonly, editable, required, hidden)
+        this.isTopic = data.isTopic || false;
+        this.mapId = data.mapId || '';
+        this.tags = data.tags || [];
+        this.value = data.value || '${default}';
+        this.label = data.label || {};
+        this.element = data.element || {};
+        this.validate = data.validate || {};
 
-        Object.entries(mergeData).forEach(([key, value]) => {
-            this[key] = value;
-        });
+        // Control Mixin import
+        MIXIN.importMixin(this, MIXIN.controlMixin);
+        // 타입에 따른 Mixin import
+        MIXIN.importMixin(this, this.getMixinByType());
 
-        Object.assign(this, controlMixin);
-
-        // 컴포넌트
+        this.init();
+    }
+    // 초기화
+    init() {
+        this.domElem = this.makeDomElement();
+        // TODO: 라벨 추가
+        // element 추가
+        this.domElem.appendChild(this.makeElement());
+    }
+    // DOM 엘리먼트 생성
+    makeDomElement() {
         const component = document.createElement('div');
         component.id = this.id;
-        component.className = 'component';
-        component.setAttribute('data-type', this.type);
-        component.setAttribute('data-displayOrder', this.displayOrder);
-        component.setAttribute('data-displayType', this.displayType);
-
-        this.domElem = component;
+        component.className = this.type;
+        return component;
     }
-    // 툴팁 출력
-    drawTooltip() {}
-    // 라벨 출력
-    drawLabel() {
-        return new Promise( (resolve, reject) => {
-            // 라벨 그룹
-            const labelBox = document.createElement('div');
-            let labelColumnWidth = CONST.FORM.DEFAULT_COLUMN; // 12
-            if (this.label.position === CONST.FORM.LABEL.POSITION.HIDDEN) {
-                labelColumnWidth = 0;
-            } else if (this.label.position === CONST.FORM.LABEL.POSITION.LEFT) {
-                labelColumnWidth -= Number(this.element.columnWidth);
-            }
-            labelBox.className = `component-label-box ` +
-                `align-${this.label.align} ` +
-                `position-${this.label.position}`;
-            // cssText 사용시 리플로우와 리페인트 최소화됨
-            labelBox.style.cssText = `--data-column:${labelColumnWidth};`;
-
-            // 라벨 문구
-            const label = document.createElement('label');
-            label.className = 'component-label';
-            label.style.cssText = `color:${this.label.fontColor};` +
-                `font-size:${this.label.fontSize}px;` +
-                `${this.label.bold ? 'font-weight:bold;' : ''}` +
-                `${this.label.italic ? 'font-style:italic;' : ''}` +
-                `${this.label.underline ? 'text-decoration:underline;' : ''}`;
-            label.textContent = this.label.text;
-            labelBox.appendChild(label);
-
-            // 필수값
-            const required = document.createElement('span');
-            required.className = 'required';
-            labelBox.appendChild(required);
-
-            resolve(labelBox);
-        });
+    // 타입에 따른 믹스인 호출
+    getMixinByType() {
+        switch(this.type) {
+        case 'inputBox':
+            return inputBoxMixin;
+        case 'textArea':
+            //object = new TextArea(data);
+            break;
+        case 'textEditor':
+            //object = new TextEditor(data);
+            break;
+        case 'dropdown':
+            //object = new Dropdown(data);
+            break;
+        case 'radio':
+            //object = new Radio(data);
+            break;
+        case 'checkBox':
+            //object = new CheckBox(data);
+            break;
+        case 'label':
+            //object = new Label(data);
+            break;
+        case 'image':
+            //object = new ImageBox(data);
+            break;
+        case 'divider':
+            //object = new Divider(data);
+            break;
+        case 'date':
+            //object = new Date(data);
+            break;
+        case 'time':
+            //object = new Time(data);
+            break;
+        case 'dateTime':
+            //object = new dataTime(data);
+            break;
+        case 'fileUpload':
+            //object = new FileUpload(data);
+            break;
+        case 'customCode':
+            //object = new CustomCode(data);
+            break;
+        case 'dynamicRowTable':
+            //object = new DynamicRowTable(data);
+            break;
+        case 'ci':
+            //object = new ConfigurationItem(data);
+            break;
+        default:
+            break;
+        }
     }
 }
