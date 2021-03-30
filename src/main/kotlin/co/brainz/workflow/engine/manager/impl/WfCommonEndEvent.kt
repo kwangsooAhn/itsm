@@ -22,7 +22,7 @@ class WfCommonEndEvent(
 
         // CMDB 임시테이블에 등록된 자산 정보가 있을 경우 삭제한다.
         // CI 컴포넌트와 관련된 신청서의 상태가 '임시'인 경우, CMDB 임시테이블에 등록된 자선 정보를 삭제하지 않는다.
-        val documentStatus = createTokenDto.instanceId?.let { instanceId ->
+        val documentStatus = createTokenDto.instanceId.let { instanceId ->
             wfTokenManagerService.getInstance(instanceId)?.let { WfInstanceEntity ->
                 wfTokenManagerService.getDocument(WfInstanceEntity.document.documentId).documentStatus
             }
