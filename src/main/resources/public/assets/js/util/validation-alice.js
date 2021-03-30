@@ -101,7 +101,7 @@ function isNotEmpty(elementId, messageId) {
  *  @date 2020-03-03
  */
 function isEquals(elementId1, elementId2, messageId, callbackFunc) {
-    if (isNotNull(elementId1) && isNotNull(elementId2)) {
+    if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value === document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
                 aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
@@ -118,7 +118,7 @@ function isEquals(elementId1, elementId2, messageId, callbackFunc) {
  *  @date 2020-03-03
  */
 function isNotEquals(elementId1, elementId2, messageId, callbackFunc) {
-    if (isNotNull(elementId1) && isNotNull(elementId2)) {
+    if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value !== document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
                 aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
@@ -665,4 +665,35 @@ function ipAccessCheck(ipList, clientIp, Separator) {
  */
 function isScrollbarBottom(scrollHeight, scrollTop, clientHeight) {
     return scrollHeight - scrollTop === clientHeight
+}
+
+/**
+ * 허용된 확장자이외 확장자를 갖고 있는 파일이 있는지 확인한다.
+ * @returns {boolean}
+ */
+function isAllowedExtensions(allowedExtensionList, fileList) {
+    if (allowedExtensionList !== null && fileList !== null) {
+        let len = fileList.length;
+        for (let i = 0; i < len; i++) {
+            if (allowedExtensionList.indexOf(fileList[i].name.split('.').pop().toLowerCase()) === -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 최대 글자 수를 초과 하는지 확인후 초과하면 maxLength만큼 문자를 잘라낸다.
+ */
+function maxLengthCheck(object) {
+    if (object !== null && object !== undefined) {
+        if (object.value.length > object.maxLength) {
+            object.value = object.value.slice(0, object.maxLength);
+            return object.value;
+        }
+        return true;
+    }
+    return false;
 }

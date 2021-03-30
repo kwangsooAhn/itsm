@@ -103,7 +103,7 @@
                                     const scrollHeight = e.target.scrollHeight;
                                     const scrollTop = e.target.scrollTop;
                                     const clientHeight = e.target.clientHeight;
-                                    if (Math.floor(scrollHeight - scrollTop) === Math.ceil(clientHeight)) {
+                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
                                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                             getImages(true);
                                         }
@@ -218,13 +218,6 @@
             let fileList = fileObj.files;
             if (fileList.length > 0) {
                 const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-                let isExistNotAllowedExtension = false;
-                for (let i = 0, len = fileList.length; i < len; i++) {
-                    if (allowedExtensions.indexOf(fileList[i].name.split('.').pop().toLowerCase()) === -1) {
-                        isExistNotAllowedExtension = true;
-                    }
-                }
-
                 const uploadImage = function () {
                     let xhr = new XMLHttpRequest(),
                         formData = new FormData();
@@ -244,17 +237,17 @@
                     document.getElementById('image-upload-file').value = '';
                 }
 
-                if (isExistNotAllowedExtension) {
-                    aliceJs.confirmIcon(
-                        i18n.msg('image.msg.existNotAllowedExtension'),
-                        uploadImage, // OK 시 업로드
-                        () => document.getElementById('image-upload-file').value = ''  // CANCEL 시 file object 값 비움 처리
-                    );
-                } else {
+                if (isAllowedExtensions(allowedExtensions, fileList)) {
                     uploadImage();
                     aliceJs.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function () {
                         location.reload();
                     });
+                } else {
+                    aliceJs.confirmIcon(
+                        i18n.msg('image.msg.existNotAllowedExtension'),
+                        uploadImage, // OK 시 업로드
+                        () => document.getElementById('image-upload-file').value = ''  // CANCEL 시 file object 값 비움 처리
+                        );
                 }
             }
         }
