@@ -8,20 +8,20 @@
  * https://www.brainz.co.kr
  */
 
-import *  as CONST from '../../constant.js';
-
-let displayOrder = 0; // 컴포넌트 출력 순서
+import { controlMixin } from './lib/mixin.js';
+import { FORM } from '../lib/constant.js';
 
 export default class Component {
     constructor(data) {
         const mergeData = Object.assign(data, {
-            id: data.id || workflowUtil.generateUUID(),
-            displayOrder: data.displayOrder || ++displayOrder
+            id: data.id || workflowUtil.generateUUID()
         });
 
         Object.entries(mergeData).forEach(([key, value]) => {
             this[key] = value;
         });
+
+        Object.assign(this, controlMixin);
 
         // 컴포넌트
         const component = document.createElement('div');

@@ -9,14 +9,14 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import Row from './row.js';
+import { controlMixin } from './lib/mixin.js';
 
 const DEFAULT = {
-    margin: '10 0 10 0', // 그룹 간 간격(위 오른쪽 아래 왼쪽)
-    padding: '10 10 10 10', // 그룹 내부 여백(위 오른쪽 아래 왼쪽)
+    margin: '10px 0px 10px 0px', // 그룹 간 간격(위 오른쪽 아래 왼쪽)
+    padding: '10px 10px 10px 10px', // 그룹 내부 여백(위 오른쪽 아래 왼쪽)
     label: {
         position: 'top',
-        fontSize: '16',
+        fontSize: '16px',
         fontColor: 'rgba(0,0,0,1)',
         bold: false,
         italic: false,
@@ -31,13 +31,11 @@ const DEFAULT = {
     }
 };
 
-let displayOrder = 0; // 그룹 출력 순서
-
 export default class Group {
     constructor(data = {}) {
+        this.type = 'group';
         const mergeData = Object.assign(DEFAULT, data, {
-            id: data.id || workflowUtil.generateUUID(),
-            displayOrder: data.displayOrder || ++displayOrder
+            id: data.id || workflowUtil.generateUUID()
         });
 
         Object.entries(mergeData).forEach(([key, value]) => {
@@ -46,22 +44,15 @@ export default class Group {
             }
         });
 
-        // row 추가
-        this.rows = [];
-        if (mergeData.hasOwnProperty('rows')) {
-            mergeData.rows.forEach( r => {
-                this.addRow(r);
-            });
-        }
+        Object.assign(this, controlMixin);
+
+        const group = document.createElement('div');
+        group.id = this.id;
+        group.className = 'group';
+        group.setAttribute('data-type', this.type);
+        // TODO: 라벨
+        // TODO: 아코디언
+
+        this.domElem = group;
     }
-    // Row 추가
-    addRow(data) {
-        this.rows.push(new Row(data));
-    }
-    // Row 삭제
-    removeRow() {}
-    // Row 수정
-    modifyRow() {}
-    // Row 복사
-    copyRow() {}
 }

@@ -10,24 +10,23 @@
  * https://www.brainz.co.kr
  */
 
-import InputBox from './component/inputBox.js';
-
-let displayOrder = 0; // row 출력 순서
+import { controlMixin } from './lib/mixin.js';
 
 export default class Row {
     constructor(data = {}) {
+        this.type = 'row';
         this.id =  data.id || workflowUtil.generateUUID();
-        this.margin = data.margin || '10 0 10 0'; // row 간 간격(위 오른쪽 아래 왼쪽)
-        this.padding = data.padding || '10 10 10 10'; // row 내부 여백(위 오른쪽 아래 왼쪽)
-        this.displayOrder = data.displayOrder || ++displayOrder;
+        this.margin = data.margin || '10px 0px 10px 0px'; // row 간 간격(위 오른쪽 아래 왼쪽)
+        this.padding = data.padding || '10px 10px 10px 10px'; // row 내부 여백(위 오른쪽 아래 왼쪽)
 
-        // component 추가
-        this.components = [];
-        if (data.hasOwnProperty('components')) {
-            data.components.forEach( r => {
-                this.addComponent(r.type, r);
-            });
-        }
+        Object.assign(this, controlMixin);
+
+        const row = document.createElement('div');
+        row.id = this.id;
+        row.className = 'row';
+        row.setAttribute('data-type', this.type);
+
+        this.domElem = row;
     }
     // 컴포넌트 추가
     addComponent(type, data) {

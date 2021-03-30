@@ -11,9 +11,7 @@
  * https://www.brainz.co.kr
  */
 
-import * as CONST from '../../constant.js';
-import Component from './component.js';
-
+import { SESSION, FORM } as CONST from '../../lib/constant.js';
 const DEFAULT = {
     type: 'inputBox',
     value: '${default}',
@@ -24,7 +22,7 @@ const DEFAULT = {
     tags: [],
     label: {
         position: 'left',
-        fontSize: '16',
+        fontSize: '16px',
         fontColor: 'rgba(0,0,0,1)',
         bold: false,
         italic: false,
@@ -44,11 +42,11 @@ const DEFAULT = {
     }
 };
 
-export default class InputBox extends Component {
+export default class InputBox {
     constructor(data = {}) {
-        super(Object.assign(DEFAULT, data));
+        //super(Object.assign(DEFAULT, data));
 
-        super.drawLabel()
+        /*super.drawLabel()
             .then((elem) => {
                 this.domElem.appendChild(elem);
                 return this.drawElement();
@@ -56,7 +54,7 @@ export default class InputBox extends Component {
                 this.domElem.appendChild(elem);
             }).then(() => {
                 addEvent.call(this);
-            });
+            });*/
     }
     // input box 출력
     drawElement() {
@@ -71,7 +69,7 @@ export default class InputBox extends Component {
             element.type = 'text';
             element.className = 'component-element';
             element.placeholder = this.element.placeholder;
-            element.required = (this.displayType === CONST.FORM.DISPLAY_TYPE.REQUIRED);
+            element.required = (this.displayType === FORM.DISPLAY_TYPE.REQUIRED);
             element.value = this.getValue();
 
             // 유효성 추가
@@ -91,7 +89,7 @@ export default class InputBox extends Component {
             if (defaultValues[0] === 'none') {
                 return defaultValues[1];
             } else {  // 자동일경우 : select|userKey
-                return CONST.SESSION[defaultValues[1]] || '';
+                return SESSION[defaultValues[1]] || '';
             }
         } else {
             return this.value;
@@ -100,6 +98,4 @@ export default class InputBox extends Component {
 }
 
 // 이벤트 등록 : ex 유효성 검증, 사용자 데이터 입력 등
-function addEvent() {
-    console.log(this);
-}
+function addEvent() {}

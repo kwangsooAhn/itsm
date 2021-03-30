@@ -1,5 +1,5 @@
 /**
- * 이력을 관리하는 Class.
+ * 이벤트 Class.
  *
  * @author woodajung wdj@brainz.co.kr
  * @version 1.0
@@ -8,6 +8,8 @@
  * https://www.brainz.co.kr
  */
 
-export default class History {
-    constructor() {}
+export default class Event {
+    constructor() {
+        this.events = {};
+    }
 }

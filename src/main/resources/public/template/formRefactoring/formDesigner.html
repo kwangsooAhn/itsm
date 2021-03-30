@@ -10,8 +10,8 @@
     <script th:src="@{/assets/js/util/shortcut-alice.js}"></script>
     <script type="module">
         // 사용자 세션 정보 저장
-        import { SESSION } from '../../assets/js/formRefactoring/constant.js';
-        import FormDesigner from '../../assets/js/formRefactoring/formDesigner/formDesigner.js';
+        import { SESSION } from '../../assets/js/formRefactoring/lib/constant.js';
+        import FormDesigner from '../../assets/js/formRefactoring/form/formDesigner.js';
 
         const userSession = {
             userKey : '[[${#authentication.details.userKey}]]',
@@ -39,7 +39,8 @@
             Object.assign(SESSION, userSession);
         }
         const designer = new FormDesigner('[[${formId}]]');
-        // TODO: 상단 이벤트 등록
+        console.log(designer);
+        OverlayScrollbars(document.getElementById('formMain'), { className: 'scrollbar' });
     </script>
 </head>
 <body>
@@ -47,7 +48,7 @@
         <form id="frm" name="frm">
             <div class="form-container">
                 <!-- 상단 네비게이션 -->
-                <div class="form-header">
+                <div class="form-header"  id="menuBar">
                     <img class="logo"  th:src="@{/assets/media/icons/icon_logo_white.svg}" width="152" height="26" alt="Zenius ITSM" />
                     <span class="name" th:text="#{form.label.title}"></span>
                     <span class="separator"></span>
@@ -92,7 +93,7 @@
                     <span class="ml-auto" id="form-name"></span>
                 </div>
                 <!-- 컴포넌트 팔레트 -->
-                <div class="form-component-palette">
+                <div class="form-component-palette" id="componentPalette">
                     <div class="component-accordion-box" id="componentList">
                         <!-- inputs: 일반적인 입력 항목 -->
                         <div class="component-accordion">
@@ -209,14 +210,14 @@
                     </div>
                 </div>
                 <!-- 폼 -->
-                <div class="flex-row justify-content-center form-main">
-                    <div class="drawing-board"></div>
+                <div class="form-main" id="formMain">
+                    <div class="align-center drawing-board" id="drawingBoard"></div>
                 </div>
                 <!-- 속성 패널 -->
                 <div class="form-properties-panel-header">
-                    <span id="properties-name"></span>
+                    <span iid="propertyName"></span>
                 </div>
-                <div class="form-properties-panel"></div>
+                <div class="form-properties-panel" id="propertyPanel"></div>
             </div>
         </form>
     </div>
