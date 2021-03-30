@@ -124,7 +124,7 @@
                 ROLE_DELETE = true;
             }
 
-            if (document.getElementById('txtRoleId').value !== null && document.getElementById('txtRoleId').value !== '') {
+            if (isNotNull('txtRoleId') && isNotEmpty('txtRoleId')) {
                 document.getElementById('txtRoleId').setAttribute('disabled','');
                 if (ROLE_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
@@ -282,7 +282,7 @@
                     }
                 }
             } else {
-                if (document.getElementById('txtRoleName').value !== document.getElementById('txtRoleNameOrg').value) {
+                if (isNotEquals('txtRoleName', 'txtRoleNameOrg')) {
                     for(let i = 0; i < roleNames.length; i++) {
                         if (document.getElementById('txtRoleName').value === roleNames[i]) {
                             aliceJs.alertWarning([[#{role.msg.duplicateRoleName}]]);

@@ -270,25 +270,6 @@
             return true;
         }
 
-        /** 숫자만 허용 **/
-        function onlyNumber(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
-                || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                return false;
-            }
-        }
-
-        /** 숫자가 아닌 경우 자동 삭제 **/
-        function removeChar(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                event.target.value = event.target.value.replace(/[^0-9]/g, '');
-            }
-        }
-
         /** Rest API 호출 **/
         function restSubmit(method, url, data) {
             const opt = {

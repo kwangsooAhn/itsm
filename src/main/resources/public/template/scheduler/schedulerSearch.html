@@ -90,7 +90,7 @@
                                     const scrollHeight = e.target.scrollHeight;
                                     const scrollTop = e.target.scrollTop;
                                     const clientHeight = e.target.clientHeight;
-                                    if (scrollHeight - scrollTop === clientHeight) {
+                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
                                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                             getSchedulerList(true);
                                         }

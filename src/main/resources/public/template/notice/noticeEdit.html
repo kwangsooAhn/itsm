@@ -51,12 +51,14 @@
                             <label th:text="#{notice.label.height}" for="popHeight"></label>
                             <input type="text" id="popHeight" name="popHeight" class="px"
                                    th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
-                                   oninput="maxLengthCheck(this)" />
+                                   onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"
+                                   oninput="maxLengthCheck(this)"/>
                         </div>
                         <div class="flex-column col-6">
                             <label th:text="#{notice.label.width}" for="popWidth"></label>
                             <input type="text" id="popWidth" name="popWidth" class="px"
                                    th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
+                                   onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"
                                    oninput="maxLengthCheck(this)" />
                         </div>
                     </div>
@@ -190,12 +192,6 @@
                     , 'notice.msg.compareWithTopNoticeValue')) return false;
             }
             return true;
-        }
-
-        function maxLengthCheck(object) {
-            if (object.value.length > object.maxLength) {
-                object.value = object.value.slice(0, object.maxLength);
-            }
         }
 
         function saveNotice(method) {
