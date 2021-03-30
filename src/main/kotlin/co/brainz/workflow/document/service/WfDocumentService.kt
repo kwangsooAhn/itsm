@@ -5,10 +5,12 @@
 
 package co.brainz.workflow.document.service
 
+import co.brainz.cmdb.ci.service.CIService
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
+import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
@@ -57,7 +59,9 @@ class WfDocumentService(
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
     private val numberingRuleRepository: NumberingRuleRepository,
-    private val aliceMessageSource: AliceMessageSource
+    private val aliceMessageSource: AliceMessageSource,
+    private val ciService: CIService,
+    private val ciComponentDataRepository: CIComponentDataRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -223,11 +227,23 @@ class WfDocumentService(
         wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
         wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
         wfDocumentEntity.documentIcon = restTemplateDocumentDto.documentIcon
-        updateFormAndProcessStatus(wfDocumentRepository.save(wfDocumentEntity))
 
         if (params["isDeleteData"].toString().toBoolean()) {
             logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
-            wfDocumentEntity.instance?.let { wfInstanceRepository.deleteInstances(it) }
+            val instanceIds = mutableListOf<String>()
+            wfDocumentEntity.instance?.let { instances ->
+                instances.forEach {
+                    instanceIds.add(it.instanceId)
+                }
+
+                ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
+                    ciComponentDataList.forEach { ciComponentData ->
+                        ciService.deleteCI(ciComponentData.ciId)
+                    }
+                }
+
+                wfInstanceRepository.deleteInstances(instances)
+            }
         }
 
         return true

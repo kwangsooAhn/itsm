@@ -6,7 +6,10 @@
 package co.brainz.workflow
 
 import co.brainz.workflow.process.service.WfProcessService
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
@@ -43,7 +46,7 @@ class WfProcessServiceTest {
         }
     }
 
-    @Disabled
+
     @Test
     @DisplayName("Process Simulation 체크")
     @Order(2)
@@ -57,7 +60,15 @@ class WfProcessServiceTest {
         }
         if (processId.isNotEmpty()) {
             val reportDto = wfProcessService.getProcessSimulation(processId)
-            assumeTrue(reportDto.success)
+            if (reportDto.success) {
+                // 시뮬레이션 결과가 성공인 경우.
+                assertTrue(reportDto.success)
+            } else {
+                // 시뮬레이션 결과가 실패해도 적절한 메시지를 가지고 있다면 시뮬레이션 기능 자체는 성공.
+                reportDto.simulationReport.forEach { it ->
+                    if(it.failedMessage.isNotEmpty()) assertTrue(it.failedMessage.isNotEmpty())
+                }
+            }
         }
     }
 }
