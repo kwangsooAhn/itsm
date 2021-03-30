@@ -232,8 +232,8 @@ class WfDocumentService(
             logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
             val instanceIds = mutableListOf<String>()
             wfDocumentEntity.instance?.let { instances ->
-                instances.forEach { instances ->
-                    instanceIds.add(instances.instanceId)
+                instances.forEach {
+                    instanceIds.add(it.instanceId)
                 }
 
                 ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
