@@ -20,6 +20,7 @@ import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentRepository
+import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -78,6 +79,20 @@ class WfTokenManagerService(
      */
     fun getElement(elementId: String): WfElementEntity {
         return wfElementRepository.findWfElementEntityByElementId(elementId)
+    }
+
+    /**
+     * Get Instance entity.
+     */
+    fun getInstance(instanceId: String): WfInstanceEntity? {
+        return wfInstanceRepository.findByInstanceId(instanceId)
+    }
+
+    /**
+     * Get Document entity.
+     */
+    fun getDocument(documentId: String): WfDocumentEntity {
+        return documentRepository.findDocumentEntityByDocumentId(documentId)
     }
 
     /**

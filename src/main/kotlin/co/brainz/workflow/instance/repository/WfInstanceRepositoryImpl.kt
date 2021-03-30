@@ -8,6 +8,7 @@ package co.brainz.workflow.instance.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
+import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.workflow.comment.entity.QWfCommentEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -54,6 +55,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val searchDataCount: Long = WfTokenConstants.searchDataCount
     val element: QWfElementEntity = QWfElementEntity.wfElementEntity
+    val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -365,6 +367,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         delete(folder).where(folder.instance.`in`(instances)).execute()
         delete(comment).where(comment.instance.`in`(instances)).execute()
         delete(instance).where(instance.instanceId.`in`(instanceIds)).execute()
+        delete(ciComponent).where(ciComponent.instanceId.`in`(instanceIds)).execute()
     }
 
     override fun findAllInstanceListAndSearch(

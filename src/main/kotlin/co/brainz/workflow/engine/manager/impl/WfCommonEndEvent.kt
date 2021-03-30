@@ -5,6 +5,7 @@
 
 package co.brainz.workflow.engine.manager.impl
 
+import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
@@ -20,9 +21,18 @@ class WfCommonEndEvent(
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
 
         // CMDB 임시테이블에 등록된 자산 정보가 있을 경우 삭제한다.
-        val ciComponentDataList = wfTokenManagerService.getComponentCiDataList(createTokenDto.instanceId)
-        if (!ciComponentDataList.isNullOrEmpty()) {
-            wfTokenManagerService.deleteCiComponentData(ciComponentDataList)
+        // CI 컴포넌트와 관련된 신청서의 상태가 '임시'인 경우, CMDB 임시테이블에 등록된 자선 정보를 삭제하지 않는다.
+        val documentStatus = createTokenDto.instanceId.let { instanceId ->
+            wfTokenManagerService.getInstance(instanceId)?.let { WfInstanceEntity ->
+                wfTokenManagerService.getDocument(WfInstanceEntity.document.documentId).documentStatus
+            }
+        }
+
+        if (documentStatus != WfDocumentConstants.Status.TEMPORARY.code) {
+            val ciComponentDataList = wfTokenManagerService.getComponentCiDataList(createTokenDto.instanceId)
+            if (!ciComponentDataList.isNullOrEmpty()) {
+                wfTokenManagerService.deleteCiComponentData(ciComponentDataList)
+            }
         }
         return createTokenDto
     }
