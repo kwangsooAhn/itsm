@@ -101,7 +101,7 @@ function isNotEmpty(elementId, messageId) {
  *  @date 2020-03-03
  */
 function isEquals(elementId1, elementId2, messageId, callbackFunc) {
-    if (isNotNull(elementId1) && isNotNull(elementId2)) {
+    if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value === document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
                 aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
@@ -118,7 +118,7 @@ function isEquals(elementId1, elementId2, messageId, callbackFunc) {
  *  @date 2020-03-03
  */
 function isNotEquals(elementId1, elementId2, messageId, callbackFunc) {
-    if (isNotNull(elementId1) && isNotNull(elementId2)) {
+    if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value !== document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
                 aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
@@ -673,7 +673,7 @@ function isScrollbarBottom(scrollHeight, scrollTop, clientHeight) {
  */
 function isAllowedExtensions(allowedExtensionList, fileList) {
     if (allowedExtensionList !== null && fileList !== null) {
-        for (let i = 0, len = fileList.length; i < len; i++) {
+        for (let i = 0; len = fileList.length; i < len; i++) {
             if (allowedExtensionList.indexOf(fileList[i].name.split('.').pop().toLowerCase()) === -1) {
                 return false;
             }
@@ -687,7 +687,7 @@ function isAllowedExtensions(allowedExtensionList, fileList) {
  * 최대 글자 수를 초과 하는지 확인후 초과하면 maxLength만큼 문자를 잘라낸다.
  */
 function maxLengthCheck(object) {
-    if(object !== null && object !== undefined) {
+    if (object !== null && object !== undefined) {
         if (object.value.length > object.maxLength) {
             object.value = object.value.slice(0, object.maxLength);
             return object.value;
