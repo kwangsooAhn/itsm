@@ -4,6 +4,7 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.dto.CodeReturnDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.user.repository.UserRepository
@@ -47,7 +48,7 @@ class CodeService(
     /**
      * 트리 조회.
      */
-    fun getCodeList(search: String, pCode: String): MutableList<CodeDto> {
+    fun getCodeList(search: String, pCode: String): CodeReturnDto {
         val treeCodeList = mutableListOf<CodeDto>()
         val queryResults: QueryResults<CodeEntity>
         var returnList = emptyList<CodeEntity>()
@@ -103,13 +104,14 @@ class CodeService(
                     codeDesc = codeEntity.codeDesc,
                     editable = codeEntity.editable,
                     level = codeEntity.level,
-                    seqNum = codeEntity.seqNum,
-                    createUserName = codeEntity.createUser?.userName,
-                    totalCount = count
+                    seqNum = codeEntity.seqNum
                 )
             )
         }
-        return treeCodeList
+        return CodeReturnDto(
+            data = treeCodeList,
+            totalCount = count
+        )
     }
 
     /**

@@ -9,7 +9,7 @@ package co.brainz.itsm.cmdb.ciClass.controller
 import co.brainz.cmdb.dto.CIClassDetailDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIClassDto
-import co.brainz.cmdb.dto.CIClassTreeListDto
+import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.ui.Model
@@ -39,14 +39,14 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      * CMDB CI Class 목록 조회
      */
     @GetMapping("/", "")
-    fun getCIClasses(
+    fun getCIClassesTreeNode(
         request: HttpServletRequest,
         @RequestParam(value = "search", required = false, defaultValue = "") search: String,
         model: Model
-    ): List<CIClassTreeListDto> {
+    ): CIClassTreeReturnDto {
         val params = LinkedHashMap<String, Any>()
         params["search"] = search
-        return ciClassService.getCIClasses(params)
+        return ciClassService.getCIClassesTreeNode(params)
     }
 
     /**
