@@ -145,10 +145,14 @@
             if (actionType === ACTION_TYPE_REGISTER) { // 신규 추가
                 saveCIData.ciId = workflowUtil.generateUUID();
                 saveCIData.actionType = ACTION_TYPE_REGISTER;
-                addRow(comp, saveCIData, undefined, actionType);
+                addRow(comp, saveCIData, undefined, initActionType);
                 componentData.value.push(saveCIData);
-            } else { // 수정
-                saveCIData.actionType = ACTION_TYPE_MODIFY;
+            } else if (actionType === ACTION_TYPE_MODIFY) { // 수정
+                if (initActionType === ACTION_TYPE_MODIFY) {
+                    saveCIData.actionType = ACTION_TYPE_MODIFY;
+                } else {
+                    saveCIData.actionType = ACTION_TYPE_REGISTER;
+                }
                 const ciId = document.getElementById('ciId').value;
                 const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
                 addRow(comp, saveCIData, ciIdx, initActionType);
@@ -240,7 +244,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(ACTION_TYPE_REGISTER, undefined, ciComponent, ciRegisterModal, function() {
+                        saveCIComponentData(ACTION_TYPE_REGISTER, ACTION_TYPE_REGISTER, ciComponent, ciRegisterModal, function() {
                             modal.hide();
                         });
                     }
@@ -540,6 +544,8 @@
                 case 'icon-edit': // CI 등록 / 수정
                     if (actionType === ACTION_TYPE_DELETE || comp.getAttribute('data-displaytype') === 'readonly') {
                         tdTemplate += `<button type="button" class="icon-search-area" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
+                    } else if (initActionType == undefined) {
+                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this, '${data.actionType}');"><span class="icon icon-edit"></span></button>`;
                     } else {
                         tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this, '${initActionType}');"><span class="icon icon-edit"></span></button>`;
                     }
