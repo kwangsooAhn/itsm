@@ -38,7 +38,7 @@ class ProcessRestController(private val processService: ProcessService) {
     fun updateProcess(
         @RequestBody restTemplateProcessElementDto: RestTemplateProcessElementDto,
         @PathVariable processId: String
-    ): Boolean {
+    ): Int {
         return processService.updateProcessData(processId, restTemplateProcessElementDto)
     }
 
@@ -59,7 +59,7 @@ class ProcessRestController(private val processService: ProcessService) {
         @PathVariable processId: String
     ): String {
         val updated = processService.updateProcessData(processId, restTemplateProcessElementDto)
-        return if (updated) {
+        return if (updated === 1) {
             processService.getProcessSimulation(restTemplateProcessElementDto.process!!.id)
         } else {
             "false"

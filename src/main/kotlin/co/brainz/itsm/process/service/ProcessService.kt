@@ -9,6 +9,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.process.dto.ProcessStatusDto
 import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
@@ -32,7 +33,9 @@ import org.w3c.dom.NodeList
 class ProcessService(
     private val aliceFileService: AliceFileService,
     private val wfInstanceService: WfInstanceService,
-    private val wfProcessService: WfProcessService
+    private val wfProcessService: WfProcessService,
+    private val wfProcessRepository: WfProcessRepository
+
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -53,17 +56,37 @@ class ProcessService(
         restTemplateProcessDto.createUserKey = aliceUserDto.userKey
         restTemplateProcessDto.createDt = LocalDateTime.now()
         restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
-        return wfProcessService.insertProcess(restTemplateProcessDto).processId
+        val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessDto.processName)
+        var gson = Gson()
+        var resultMap = mutableMapOf("processId" to "", "result" to 0) // 중복: -1, 실패:0, 성공: 1
+        if (duplicateCount > 0) {
+            resultMap["result"] = -1
+            return gson.toJson(resultMap)
+        }
+        resultMap["processId"] = wfProcessService.insertProcess(restTemplateProcessDto).processId
+        resultMap["result"] = 1
+        return gson.toJson(resultMap)
     }
 
     /**
      * 프로세스 업데이트
      */
-    fun updateProcessData(processId: String, restTemplateProcessElementDto: RestTemplateProcessElementDto): Boolean {
+    fun updateProcessData(processId: String, restTemplateProcessElementDto: RestTemplateProcessElementDto): Int {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessElementDto.process?.updateDt = LocalDateTime.now()
         restTemplateProcessElementDto.process?.updateUserKey = userDetails.userKey
-        return wfProcessService.updateProcessData(restTemplateProcessElementDto)
+        val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessElementDto.process!!.name!!)
+        val preRestTemplateProcessDto = wfProcessRepository.findByProcessId(processId)
+        var result = 0 // 중복: -1, 실패:0, 성공: 1
+        if (duplicateCount > 0 && !preRestTemplateProcessDto!!.processName.equals(restTemplateProcessElementDto.process!!.name)) {
+            result = -1
+            return result
+        }
+        if (wfProcessService.updateProcessData(restTemplateProcessElementDto)) {
+            result = 1
+        }
+
+        return result
     }
 
     /**
@@ -76,7 +99,16 @@ class ProcessService(
         restTemplateProcessElementDto.process?.updateDt = null
         restTemplateProcessElementDto.process?.updateUserKey = null
         restTemplateProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value
-        return wfProcessService.saveAsProcess(restTemplateProcessElementDto).processId
+        val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessElementDto.process!!.name!!)
+        var gson = Gson()
+        var resultMap = mutableMapOf("processId" to "", "result" to 0) // 중복: -1, 실패:0, 성공: 1
+        if (duplicateCount > 0) {
+            resultMap["result"] = -1
+            return gson.toJson(resultMap)
+        }
+        resultMap["processId"] = wfProcessService.saveAsProcess(restTemplateProcessElementDto).processId
+        resultMap["result"] = 1
+        return gson.toJson(resultMap)
     }
 
     /**

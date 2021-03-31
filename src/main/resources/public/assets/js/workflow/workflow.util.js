@@ -534,9 +534,15 @@ workflowUtil.saveImportData = function(type, data) {
         method: 'POST',
         async: false,
         url: saveUrl,
-        callbackFunc: function(xhr) {
-            if (xhr.responseText !== '') {
-                result = true;
+        callbackFunc: function (response) {
+            if (type === 'process') {
+                let resultToJson = JSON.parse(response.responseText);
+                let resultCode = resultToJson.result;
+                result = resultCode;
+            } else {
+                if (response.responseText !== '') {
+                    result = true;
+                }
             }
         },
         contentType: 'application/json; charset=utf-8',

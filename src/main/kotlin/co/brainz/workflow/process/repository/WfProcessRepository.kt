@@ -9,4 +9,5 @@ interface WfProcessRepository : JpaRepository<WfProcessEntity, String>,
     WfProcessRepositoryCustom {
 
     fun findByProcessId(processId: String): WfProcessEntity?
+    fun countByProcessName(processName: String): Long
 }

@@ -61,7 +61,7 @@ class ProcessesRestController(
     fun updateProcess(
         @RequestBody restTemplateProcessDto: RestTemplateProcessDto,
         @PathVariable processId: String
-    ): Boolean {
+    ): Int {
         return processAdminService.updateProcess(processId, restTemplateProcessDto)
     }
 

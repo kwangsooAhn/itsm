@@ -7,7 +7,11 @@
 
     let savedData = {};
     let isEdited = false;
-    
+
+    const SUCCESS = '1';
+    const FAIL = '0';
+    const DUPLICATION = '-1';
+
     window.addEventListener('beforeunload', function (event) {
         if (isEdited) {
             event.returnValue = '';
@@ -259,18 +263,24 @@
             return false;
         }
         aliceProcessEditor.resetElementPosition();
-        save(function (xhr) {
-            if (xhr.responseText === 'true') {
-                aliceJs.alertSuccess(i18n.msg('common.msg.save'));
-                isEdited = false;
-                savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
-                if (savedData.process.status === 'process.status.publish' ||
-                    savedData.process.status === 'process.status.use') {
-                    uploadProcessFile();
-                }
-                changeProcessName();
-            } else {
-                aliceJs.alertDanger(i18n.msg('common.label.fail'));
+        save(function (response) {
+            let resultCode = response.responseText;
+            switch (resultCode) {
+                case DUPLICATION:
+                    aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                    return;
+                case FAIL:
+                    aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                    return;
+                default:
+                    aliceJs.alertSuccess(i18n.msg('common.msg.save'));
+                    isEdited = false;
+                    savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+                    if (savedData.process.status === 'process.status.publish' ||
+                        savedData.process.status === 'process.status.use') {
+                        uploadProcessFile();
+                    }
+                    changeProcessName();
             }
         });
     }
@@ -280,7 +290,7 @@
      */
     function autoSaveProcess() {
         save(function (xhr) {
-            if (xhr.responseText === 'true') {
+            if (xhr.responseText === SUCCESS) {
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
                 changeProcessName();
@@ -351,12 +361,24 @@
             aliceJs.sendXhr({
                 method: 'POST',
                 url: '/rest/processes' + '?saveType=saveas',
-                callbackFunc: function (xhr) {
-                    if (xhr.responseText !== '') {
+                callbackFunc: function (response) {
+                    let resultToJson = JSON.parse(response.responseText);
+                    let processId = resultToJson.processId;
+                    let resultCode = resultToJson.result;
+                    switch (resultCode.toString()) {
+                        case DUPLICATION:
+                            aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            return;
+                        case FAIL:
+                            aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                            return;
+                    }
+
+                    if (processId !== '') {
                         aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                             opener.location.reload();
-                            window.name = 'process_' + xhr.responseText + '_edit';
-                            location.href = '/process/' + xhr.responseText + '/edit';
+                            window.name = 'process_' + processId + '_edit';
+                            location.href = '/process/' + processId + '/edit';
                         });
                     } else {
                         aliceJs.alertDanger(i18n.msg('common.label.fail'));
