@@ -57,16 +57,16 @@ export default class FormDesigner {
     }
     // 폼 초기화
     init() {
-        this.form = this.addRenderer(FORM.LAYOUT.FORM, this.data);
+        this.form = this.addObjectByType(FORM.LAYOUT.FORM, this.data);
         if (this.data.hasOwnProperty('groups')) {
             this.data.groups.forEach( g => {
-                const group = this.addRenderer(FORM.LAYOUT.GROUP, g, this.form);
+                const group = this.addObjectByType(FORM.LAYOUT.GROUP, g, this.form);
                 if (g.hasOwnProperty('rows')) {
                     g.rows.forEach( r => {
-                        const row = this.addRenderer(FORM.LAYOUT.ROW, r, group);
+                        const row = this.addObjectByType(FORM.LAYOUT.ROW, r, group);
                         if (r.hasOwnProperty('components')) {
                             r.components.forEach( c => {
-                                this.addRenderer(FORM.LAYOUT.COMPONENT, c, row);
+                                this.addObjectByType(FORM.LAYOUT.COMPONENT, c, row);
                             });
                         }
                     });
@@ -76,7 +76,7 @@ export default class FormDesigner {
         this.domElem.appendChild(this.form.domElem);
     }
     // Render 객체 추가
-    addRenderer(type, data, parent) {
+    addObjectByType(type, data, parent) {
         let object = null;
         switch(type) {
         case 'form':
@@ -100,7 +100,7 @@ export default class FormDesigner {
         return object;
     }
     // TODO: 컴포넌트 삭제
-    removeRenderer(object) {
+    removeObject(object) {
         if (object.parent === null) { return false; } // 폼은 삭제 불가
         return object.parent.remove(object);
     }
