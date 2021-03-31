@@ -1132,12 +1132,6 @@ insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '52f
 insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '6b7e7e14001b42d9957cfd1e3aeca64a', 'c9d735a5aca04835ba7f09f63f768a58', 'hidden');
 insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', 'fc4c35ef2332453ba18cc39bef378b26', 'c9d735a5aca04835ba7f09f63f768a58', 'hidden');
 insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', 'bf83695a89684561bb21bb0f8b22a619', 'c9d735a5aca04835ba7f09f63f768a58', 'hidden');
-insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '215cada954bf44e1b0f03f02e44c63db', '4028b25d78870b0901788766663a0023', 'hidden');
-insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '2d805698376849bfb4d0e28b389477df', '4028b25d78870b0901788766663a0023', 'hidden');
-insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '2e5f623b4b244f21b7230364252acc05', '4028b25d78870b0901788766663a0023', 'hidden');
-insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '52fb168ce6db474b8507e77144e256b2', '4028b25d78870b0901788766663a0023', 'hidden');
-insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '6b7e7e14001b42d9957cfd1e3aeca64a', '4028b25d78870b0901788766663a0023', 'hidden');
-insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', 'fc4c35ef2332453ba18cc39bef378b26', '4028b25d78870b0901788766663a0023', 'hidden');
 insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '215cada954bf44e1b0f03f02e44c63db', '906a57e38491441fa61401a8964f8398', 'hidden');
 insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '2d805698376849bfb4d0e28b389477df', '906a57e38491441fa61401a8964f8398', 'hidden');
 insert into wf_document_display values ('4028b25d78870b0901788772ffe20025', '2e5f623b4b244f21b7230364252acc05', '906a57e38491441fa61401a8964f8398', 'hidden');
