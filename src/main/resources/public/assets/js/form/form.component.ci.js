@@ -118,7 +118,7 @@
      * @param {Object} comp 컴포넌트
      * @param {Function} callbackFunc callback 함수
      */
-    function saveCIComponentData(actionType, realActionType, comp, modal, callbackFunc) {
+    function saveCIComponentData(actionType, initActionType, comp, modal, callbackFunc) {
         if (isValidRequiredAll(modal) && hasErrorClass()) {
             const saveCIData = {};
             Object.keys(CIData).forEach(function(key) {
@@ -151,7 +151,7 @@
                 saveCIData.actionType = ACTION_TYPE_MODIFY;
                 const ciId = document.getElementById('ciId').value;
                 const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
-                addRow(comp, saveCIData, ciIdx, realActionType);
+                addRow(comp, saveCIData, ciIdx, initActionType);
                 componentData.value[ciIdx] = saveCIData;
             }
 
@@ -286,13 +286,15 @@
     /**
      * 기존 CI 변경 모달
      */
-    function openUpdateModal(componentId, ciId, elem, realActionType) {
+    function openUpdateModal(componentId, ciId, elem, initActionType) {
+/*        let actionType = initActionType*/
         const compIdx = aliceDocument.getComponentIndex(componentId);
         const componentData = aliceDocument.data.form.components[compIdx];
         const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
 
         if (ciIdx === -1) { return false; }
         const ciData = componentData.value[ciIdx];
+        if (initActionType == 'undefined') { initActionType = ciData.actionType; }
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
         const ciModalTitle = (ciData.actionType === ACTION_TYPE_MODIFY) ? 'cmdb.ci.label.update' : 'cmdb.ci.label.register';
@@ -307,7 +309,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(ACTION_TYPE_MODIFY, realActionType, document.getElementById(componentId), ciUpdateModal, function() {
+                        saveCIComponentData(ACTION_TYPE_MODIFY, initActionType, document.getElementById(componentId), ciUpdateModal, function() {
                             modal.hide();
                         });
                     }
@@ -504,7 +506,7 @@
      * @param {Object} data 데이터
      * @param {Number} idx 인덱스
      */
-    function addRow(comp, data, idx, realActionType) {
+    function addRow(comp, data, idx, initActionType) {
         const ciTb = comp.querySelector('.ci-table-body');
         const row = document.createElement('tr');
         const rowBorderColor = ciTb.getAttribute('data-border');
@@ -527,7 +529,11 @@
                     tdTemplate += (typeof data[opt.id] !== 'undefined') ? `${aliceJs.filterXSS(data[opt.id])}` : '';
                     break;
                 case 'readonly':
-                    tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + realActionType)}`;
+                    if (initActionType !== undefined) {
+                        tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + initActionType)}`;
+                    } else {
+                        tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
+                    }
                     break;
                 case 'image':
                     tdTemplate += `<img src="${data[opt.id]}" width="20" height="20"/>`;
@@ -536,7 +542,7 @@
                     if (actionType === ACTION_TYPE_DELETE || comp.getAttribute('data-displaytype') === 'readonly') {
                         tdTemplate += `<button type="button" class="icon-search-area" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
                     } else {
-                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this, '${realActionType}');"><span class="icon icon-edit"></span></button>`;
+                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this, '${initActionType}');"><span class="icon icon-edit"></span></button>`;
                     }
                     break;
                 case 'icon-search': // CI 상세 조회
