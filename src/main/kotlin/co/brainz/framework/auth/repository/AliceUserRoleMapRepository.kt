@@ -15,4 +15,5 @@ import org.springframework.stereotype.Repository
 interface AliceUserRoleMapRepository : JpaRepository<AliceUserRoleMapEntity, AliceUserRoleMapPk>,
     AliceUserRoleMapRepositoryCustom {
     fun findByRole(roleInfo: AliceRoleEntity): MutableList<AliceUserRoleMapEntity>
+    fun countByRole(roleInfo: AliceRoleEntity): Int
 }

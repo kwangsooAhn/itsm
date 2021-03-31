@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.role.controller
 
 import co.brainz.itsm.role.service.RoleService
@@ -21,11 +26,7 @@ class RoleController(private val roleService: RoleService) {
      */
     @GetMapping("/edit")
     fun getRoleList(request: HttpServletRequest, model: Model): String {
-
-        val roleAllList = roleService.selectRoleList()
-        val authAllList = roleService.selectAuthList()
-        model.addAttribute("authList", authAllList)
-        model.addAttribute("roleList", roleAllList)
+        model.addAttribute("authList", roleService.selectAuthList())
 
         return roleEditPage
     }

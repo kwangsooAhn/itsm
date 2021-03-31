@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.role.dto
 
 import co.brainz.framework.auth.dto.AliceAuthSimpleDto
@@ -17,6 +22,6 @@ data class RoleDto(
     var updateUserName: String?,
     var updateDt: LocalDateTime?,
     var arrAuthId: MutableSet<String>?,
-    var arrAuthList: MutableList<AliceAuthSimpleDto>?,
+    var arrAuthList: List<AliceAuthSimpleDto>?,
     var userRoleMapCount: Int
 )
