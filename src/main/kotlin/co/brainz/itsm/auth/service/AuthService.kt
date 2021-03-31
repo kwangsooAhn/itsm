@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.auth.service
 
 import co.brainz.framework.auth.entity.AliceAuthEntity
@@ -157,7 +162,7 @@ class AuthService(
         val authInfo = authRepository.findByAuthId(authId)
         val menuList = mutableListOf<AuthMenuDto>()
         val urlList = mutableListOf<AuthUrlDto>()
-        val roleAuthMapCount = roleAuthMapRepository.findByAuth(authInfo).count()
+        val roleAuthMapCount = roleAuthMapRepository.countByAuth(authInfo)
 
         authInfo.menuAuthMapEntities.forEach { authMenuMap ->
             menuList.add(AuthMenuDto(authMenuMap.auth.authId, authMenuMap.menu.menuId))
@@ -171,10 +176,6 @@ class AuthService(
                 authInfo.authId,
                 authInfo.authName,
                 authInfo.authDesc,
-                authInfo.createUser?.userName,
-                authInfo.createDt,
-                authInfo.updateUser?.userName,
-                authInfo.updateDt,
                 null,
                 menuList,
                 null,
