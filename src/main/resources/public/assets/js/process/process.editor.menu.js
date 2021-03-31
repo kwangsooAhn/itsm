@@ -2084,7 +2084,7 @@
             url: '/rest/roles',
             contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
-                assigneeTypeData.groups = JSON.parse(xhr.responseText);
+                assigneeTypeData.groups = JSON.parse(xhr.responseText).data;
             }
         });
 

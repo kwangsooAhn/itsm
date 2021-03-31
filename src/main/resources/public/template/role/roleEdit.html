@@ -141,24 +141,6 @@
                 }
             }
 
-            let roleList = document.querySelectorAll('td[name=roleName]');
-            for(let i = 0; i < roleList.length; i++) {
-                roleList[i].addEventListener('click', function(){
-                    let activeTr = document.querySelector('tr.active');
-                    if (activeTr !== null) {
-                        activeTr.classList.remove('active');
-                    }
-                    this.parentElement.classList.add('active');
-                    if (ROLE_UPDATE) {
-                        document.getElementById('btnUpdate').style.display = 'block';
-                    }
-                    if (ROLE_CREATE) {
-                        document.getElementById('btnRegist').style.display = 'none';
-                    }
-                    onGetDetail(this.id);
-                });
-            }
-
             document.getElementById('search').focus();
             document.getElementById('search').addEventListener('keyup', function() {
                 getRoleList(false);

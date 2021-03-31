@@ -8,17 +8,11 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AliceAuthRepository : JpaRepository<AliceAuthEntity, String> {
+
     /**
      * 권한 리스트 조회
      */
-    @Query(
-        "select a " +
-                "from AliceAuthEntity a " +
-                "join fetch a.createUser " +
-                "left outer join a.updateUser " +
-                "order by a.authName"
-    )
-    fun findByOrderByAuthNameAsc(): MutableList<AliceAuthEntity>
+    fun findAllByOrderByAuthName(): List<AliceAuthEntity>
 
     /**
      * 역할별 권한 조회
