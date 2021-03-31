@@ -12,5 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface AliceRoleAuthMapRepository : JpaRepository<AliceRoleAuthMapEntity, AliceRoleAuthMapPk>,
     AliceRoleAuthMapRepositoryCustom {
-    fun findByAuth(authInfo: AliceAuthEntity): MutableList<AliceRoleAuthMapEntity>
+    fun countByAuth(authInfo: AliceAuthEntity): Int
 }

@@ -144,28 +144,6 @@
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             }
-
-            let authList = document.querySelectorAll('td[name=authName]');
-            for (let i = 0; i < authList.length; i++) {
-                authList[i].style.cursor = 'pointer';
-                authList[i].addEventListener('click', function () {
-                    let activeTr = document.querySelector('tr.active');
-                    if (activeTr !== null) {
-                        activeTr.classList.remove('active');
-                    }
-                    this.parentElement.classList.add('active');
-                    if (AUTH_UPDATE) {
-                        document.getElementById('btnUpdate').style.display = 'inline-block';
-                    }
-                    if (AUTH_CREATE) {
-                        document.getElementById('btnRegist').style.display = 'none';
-                    }
-                    if (AUTH_DELETE) {
-                        document.getElementById('btnDelete').style.display = 'inline-block';
-                    }
-                    onGetDetail(this.id);
-                });
-            }
             document.getElementById('search').focus();
             document.getElementById('search').addEventListener('keyup', function () {
                 getAuthList(false);
