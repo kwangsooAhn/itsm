@@ -287,7 +287,6 @@
      * 기존 CI 변경 모달
      */
     function openUpdateModal(componentId, ciId, elem, initActionType) {
-/*        let actionType = initActionType*/
         const compIdx = aliceDocument.getComponentIndex(componentId);
         const componentData = aliceDocument.data.form.components[compIdx];
         const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
