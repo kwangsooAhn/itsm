@@ -118,7 +118,7 @@
      * @param {Object} comp 컴포넌트
      * @param {Function} callbackFunc callback 함수
      */
-    function saveCIComponentData(actionType, comp, modal, callbackFunc) {
+    function saveCIComponentData(actionType, initActionType, comp, modal, callbackFunc) {
         if (isValidRequiredAll(modal) && hasErrorClass()) {
             const saveCIData = {};
             Object.keys(CIData).forEach(function(key) {
@@ -145,13 +145,17 @@
             if (actionType === ACTION_TYPE_REGISTER) { // 신규 추가
                 saveCIData.ciId = workflowUtil.generateUUID();
                 saveCIData.actionType = ACTION_TYPE_REGISTER;
-                addRow(comp, saveCIData);
+                addRow(comp, saveCIData, undefined, initActionType);
                 componentData.value.push(saveCIData);
-            } else { // 수정
-                saveCIData.actionType = ACTION_TYPE_MODIFY;
+            } else if (actionType === ACTION_TYPE_MODIFY) { // 수정
+                if (initActionType === ACTION_TYPE_MODIFY) {
+                    saveCIData.actionType = ACTION_TYPE_MODIFY;
+                } else {
+                    saveCIData.actionType = ACTION_TYPE_REGISTER;
+                }
                 const ciId = document.getElementById('ciId').value;
                 const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
-                addRow(comp, saveCIData, ciIdx);
+                addRow(comp, saveCIData, ciIdx, initActionType);
                 componentData.value[ciIdx] = saveCIData;
             }
 
@@ -240,7 +244,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(ACTION_TYPE_REGISTER, ciComponent, ciRegisterModal, function() {
+                        saveCIComponentData(ACTION_TYPE_REGISTER, ACTION_TYPE_REGISTER, ciComponent, ciRegisterModal, function() {
                             modal.hide();
                         });
                     }
@@ -286,7 +290,7 @@
     /**
      * 기존 CI 변경 모달
      */
-    function openUpdateModal(componentId, ciId, elem) {
+    function openUpdateModal(componentId, ciId, elem, initActionType) {
         const compIdx = aliceDocument.getComponentIndex(componentId);
         const componentData = aliceDocument.data.form.components[compIdx];
         const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
@@ -307,7 +311,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(ACTION_TYPE_MODIFY, document.getElementById(componentId), ciUpdateModal, function() {
+                        saveCIComponentData(ACTION_TYPE_MODIFY, initActionType, document.getElementById(componentId), ciUpdateModal, function() {
                             modal.hide();
                         });
                     }
@@ -446,7 +450,7 @@
                                     ci[cell.id] = (cell.id === 'ciId') ? chkElem.value : cell.textContent;
                                 }
                             });
-                            addRow(ciComponent, ci);
+                            addRow(ciComponent, ci, undefined, actionType);
                             componentData.value.push(ci);
                         }
                     });
@@ -504,7 +508,7 @@
      * @param {Object} data 데이터
      * @param {Number} idx 인덱스
      */
-    function addRow(comp, data, idx) {
+    function addRow(comp, data, idx, initActionType) {
         const ciTb = comp.querySelector('.ci-table-body');
         const row = document.createElement('tr');
         const rowBorderColor = ciTb.getAttribute('data-border');
@@ -527,7 +531,11 @@
                     tdTemplate += (typeof data[opt.id] !== 'undefined') ? `${aliceJs.filterXSS(data[opt.id])}` : '';
                     break;
                 case 'readonly':
-                    tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
+                    if (initActionType !== undefined) {
+                        tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + initActionType)}`;
+                    } else {
+                        tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
+                    }
                     break;
                 case 'image':
                     tdTemplate += `<img src="${data[opt.id]}" width="20" height="20"/>`;
@@ -535,8 +543,10 @@
                 case 'icon-edit': // CI 등록 / 수정
                     if (actionType === ACTION_TYPE_DELETE || comp.getAttribute('data-displaytype') === 'readonly') {
                         tdTemplate += `<button type="button" class="icon-search-area" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
+                    } else if (initActionType == undefined) {
+                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this, '${data.actionType}');"><span class="icon icon-edit"></span></button>`;
                     } else {
-                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-edit"></span></button>`;
+                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this, '${initActionType}');"><span class="icon icon-edit"></span></button>`;
                     }
                     break;
                 case 'icon-search': // CI 상세 조회
