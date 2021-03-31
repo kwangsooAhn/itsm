@@ -537,8 +537,7 @@ workflowUtil.saveImportData = function(type, data) {
         callbackFunc: function (response) {
             if (type === 'process') {
                 let resultToJson = JSON.parse(response.responseText);
-                let resultCode = resultToJson.result;
-                result = resultCode;
+                result = resultToJson.result;
             } else {
                 if (response.responseText !== '') {
                     result = true;

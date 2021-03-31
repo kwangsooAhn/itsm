@@ -8,9 +8,9 @@
     let savedData = {};
     let isEdited = false;
 
-    const SUCCESS = '1';
-    const FAIL = '0';
-    const DUPLICATION = '-1';
+    const RESPONSE_SUCCESS = '1';
+    const RESPONSE_FAIL = '0';
+    const RESPONSE_DUPLICATION = '-1';
 
     window.addEventListener('beforeunload', function (event) {
         if (isEdited) {
@@ -266,10 +266,10 @@
         save(function (response) {
             let resultCode = response.responseText;
             switch (resultCode) {
-                case DUPLICATION:
+                case RESPONSE_DUPLICATION:
                     aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                     return;
-                case FAIL:
+                case RESPONSE_FAIL:
                     aliceJs.alertWarning(i18n.msg('common.msg.fail'));
                     return;
                 default:
@@ -290,7 +290,7 @@
      */
     function autoSaveProcess() {
         save(function (xhr) {
-            if (xhr.responseText === SUCCESS) {
+            if (xhr.responseText === RESPONSE_SUCCESS) {
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
                 changeProcessName();
@@ -366,22 +366,19 @@
                     let processId = resultToJson.processId;
                     let resultCode = resultToJson.result;
                     switch (resultCode.toString()) {
-                        case DUPLICATION:
+                        case RESPONSE_DUPLICATION:
                             aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                             return;
-                        case FAIL:
+                        case RESPONSE_FAIL:
                             aliceJs.alertWarning(i18n.msg('common.msg.fail'));
                             return;
-                    }
+                        default:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                opener.location.reload();
+                                window.name = 'process_' + processId + '_edit';
+                                location.href = '/process/' + processId + '/edit';
+                            });
 
-                    if (processId !== '') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
-                            opener.location.reload();
-                            window.name = 'process_' + processId + '_edit';
-                            location.href = '/process/' + processId + '/edit';
-                        });
-                    } else {
-                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',

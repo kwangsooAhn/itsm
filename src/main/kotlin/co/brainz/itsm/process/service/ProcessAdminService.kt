@@ -1,6 +1,11 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.itsm.process.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
@@ -47,13 +52,13 @@ class ProcessAdminService(
         restTemplateProcessDto.updateUserKey = userDetails.userKey
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessDto.processName)
         val preRestTemplateProcessDto = wfProcessRepository.findByProcessId(processId)
-        var result = 0 // 중복: -1, 실패:0, 성공: 1
-        if (duplicateCount > 0 && !preRestTemplateProcessDto!!.processName.equals(restTemplateProcessDto.processName)) {
-            result = -1
+        var result = WfProcessConstants.ResultCode.FAIL.code
+        if (duplicateCount > 0 && (preRestTemplateProcessDto!!.processName != restTemplateProcessDto.processName)) {
+            result = WfProcessConstants.ResultCode.DUPLICATE.code
             return result
         }
         if (wfProcessService.updateProcess(restTemplateProcessDto)) {
-            result = 1
+            result = WfProcessConstants.ResultCode.SUCCESS.code
         }
         return result
     }

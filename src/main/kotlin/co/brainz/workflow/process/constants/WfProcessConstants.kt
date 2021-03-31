@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.constants
 
 /**
@@ -20,6 +24,15 @@ object WfProcessConstants {
      */
     enum class SaveType(val code: String) {
         SAVE_AS("saveas")
+    }
+
+    /**
+     * 작업 결과 통신 코드
+     */
+    enum class ResultCode(val code: Int) {
+        SUCCESS(1),
+        FAIL(0),
+        DUPLICATE(-1)
     }
 
     const val FORBIDDEN_WORD_LIST = "save|reject|progress|withdraw|cancel|terminate|close"
