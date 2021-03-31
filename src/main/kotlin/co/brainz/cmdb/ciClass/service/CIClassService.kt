@@ -24,6 +24,7 @@ import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
 import com.querydsl.core.QueryResults
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -111,7 +112,7 @@ class CIClassService(
     /**
      * CMDB CI Class 트리 조회
      */
-    fun getCIClassesTreeNode(parameters: LinkedHashMap<String, Any>): List<CIClassTreeListDto> {
+    fun getCIClassesTree(parameters: LinkedHashMap<String, Any>): CIClassTreeReturnDto {
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
 
@@ -120,7 +121,6 @@ class CIClassService(
         val returnList: List<CIClassEntity>
         val pClassList = mutableListOf<CIClassEntity>()
         val classIdList = mutableListOf<String>()
-        var count = 0
         var classSearchList = queryResults.results
 
         for (ciClass in classSearchList) {
@@ -141,7 +141,7 @@ class CIClassService(
         }
         val classAttributeMapList = ciClassRepository.findClassToAttributeList(classIdList)
 
-        count = queryResults.total.toInt()
+        val count: Long = queryResults.total
         returnList = classSearchList
 
         for (ciClassEntity in returnList) {
@@ -161,12 +161,14 @@ class CIClassService(
                     classLevel = ciClassEntity.classLevel,
                     pClassId = ciClassEntity.pClass?.classId,
                     pClassName = ciClassEntity.pClass?.className,
-                    totalCount = count,
                     totalAttributes = attributeCount
                 )
             )
         }
-        return treeClassList
+        return CIClassTreeReturnDto(
+            data = treeClassList,
+            totalCount = count
+        )
     }
 
     /**

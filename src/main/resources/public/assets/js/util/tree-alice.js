@@ -667,10 +667,10 @@
             callbackFunc: function(xhr) {
                 let responseJson = JSON.parse(xhr.responseText);
                 let totalCount = 0;
-                if (responseJson.length > 0) {
-                    options.data = responseJson;
+                if (responseJson.data.length > 0) {
+                    options.data = responseJson.data;
                     if (options.totalCount) {
-                        totalCount = responseJson[0].totalCount;
+                        totalCount = responseJson.totalCount;
                         document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
                     }
                     let tree = makeTree();
