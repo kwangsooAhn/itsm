@@ -297,7 +297,6 @@
 
         if (ciIdx === -1) { return false; }
         const ciData = componentData.value[ciIdx];
-        if (initActionType == 'undefined') { initActionType = ciData.actionType; }
         // 인스턴스 ID
         const instanceId = aliceDocument.data.instanceId;
         const ciModalTitle = (ciData.actionType === ACTION_TYPE_MODIFY) ? 'cmdb.ci.label.update' : 'cmdb.ci.label.register';
