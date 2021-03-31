@@ -43,11 +43,11 @@ class CITypeServiceTest {
     @Order(1)
     fun getAllTypeCountCheck() {
         val params = LinkedHashMap<String, Any>()
-        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
+        val ciTypeDtoList = ciTypeService.getCITypes(params)
         assumingThat(
-            ciTypeDtoList.isNotEmpty()
+            ciTypeDtoList.data.isNotEmpty()
         ) {
-            assertTrue(ciTypeDtoList[0].totalCount > 0)
+            assertTrue(ciTypeDtoList.totalCount > 0)
         }
     }
 
@@ -58,11 +58,11 @@ class CITypeServiceTest {
         val searchValue = "서버"
         val params = LinkedHashMap<String, Any>()
         params["search"] = searchValue
-        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
+        val ciTypeDtoList = ciTypeService.getCITypes(params)
         assumingThat(
-            ciTypeDtoList.isNotEmpty()
+            ciTypeDtoList.data.isNotEmpty()
         ) {
-            assertEquals(ciTypeDtoList[0].typeName, searchValue)
+            assertEquals(ciTypeDtoList.data[0].typeName, searchValue)
         }
     }
 
@@ -72,17 +72,17 @@ class CITypeServiceTest {
     fun getType() {
         var typeId = ""
         val params = LinkedHashMap<String, Any>()
-        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
-        if (!ciTypeDtoList.isNullOrEmpty()) {
-            typeId = ciTypeDtoList[0].typeId.toString()
+        val ciTypeDtoList = ciTypeService.getCITypes(params)
+        if (!ciTypeDtoList.data.isNullOrEmpty()) {
+            typeId = ciTypeDtoList.data[0].typeId.toString()
         }
         assumingThat(
             typeId.isNotEmpty()
         ) {
             val typeDto = ciTypeService.getCITypeDetail(typeId)
-            assertEquals(typeDto.typeName, ciTypeDtoList[0].typeName)
-            assertEquals(typeDto.typeAlias, ciTypeDtoList[0].typeAlias)
-            assertEquals(typeDto.typeDesc, ciTypeDtoList[0].typeDesc)
+            assertEquals(typeDto.typeName, ciTypeDtoList.data[0].typeName)
+            assertEquals(typeDto.typeAlias, ciTypeDtoList.data[0].typeAlias)
+            assertEquals(typeDto.typeDesc, ciTypeDtoList.data[0].typeDesc)
         }
     }
 
@@ -110,11 +110,11 @@ class CITypeServiceTest {
     fun updateType() {
         val params = LinkedHashMap<String, Any>()
         params["search"] = this.typeName
-        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
+        val ciTypeDtoList = ciTypeService.getCITypes(params)
         assumingThat(
-            ciTypeDtoList.isNotEmpty()
+            ciTypeDtoList.data.isNotEmpty()
         ) {
-            for (ciTypeDto in ciTypeDtoList) {
+            for (ciTypeDto in ciTypeDtoList.data) {
                 if (ciTypeDto.typeName == this.typeName) {
                     val updateTypeDto = CITypeDto(
                         typeId = ciTypeDto.typeId.toString(),
@@ -139,11 +139,11 @@ class CITypeServiceTest {
     fun deleteType() {
         val params = LinkedHashMap<String, Any>()
         params["search"] = this.typeName
-        val ciTypeDtoList = ciTypeService.getCITypesTreeNode(params)
+        val ciTypeDtoList = ciTypeService.getCITypes(params)
         assumingThat(
-            ciTypeDtoList.isNotEmpty()
+            ciTypeDtoList.data.isNotEmpty()
         ) {
-            for (ciTypeDto in ciTypeDtoList) {
+            for (ciTypeDto in ciTypeDtoList.data) {
                 if (ciTypeDto.typeName == this.typeName) {
                     assertTrue(ciTypeService.deleteCIType(ciTypeDto.typeId.toString()))
                 }

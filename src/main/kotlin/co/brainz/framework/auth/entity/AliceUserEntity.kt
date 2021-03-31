@@ -25,100 +25,100 @@ import org.springframework.format.annotation.DateTimeFormat
 
 @Entity
 @Table(name = "awf_user")
-data class AliceUserEntity(
+open class AliceUserEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "user_key", length = 128)
-    var userKey: String = "",
+    open var userKey: String = "",
 
     @Column(name = "user_id", length = 128)
-    var userId: String = "",
+    open var userId: String = "",
 
     @Column(name = "user_name", length = 128)
-    var userName: String = "",
+    open var userName: String = "",
 
     @Column(name = "password", length = 1024)
-    var password: String = "",
+    open var password: String = "",
 
     @Column(name = "email", length = 1024)
-    var email: String = "",
+    open var email: String = "",
 
     @Column(name = "use_yn")
-    var useYn: Boolean = true,
+    open var useYn: Boolean = true,
 
     @Column(name = "try_login_count")
-    var tryLoginCount: Int = 0,
+    open var tryLoginCount: Int = 0,
 
     @Column(name = "position", length = 128)
-    var position: String? = "",
+    open var position: String? = "",
 
     @Column(name = "department", length = 128)
-    var department: String? = "",
+    open var department: String? = "",
 
     @Column(name = "office_number", length = 128)
-    var officeNumber: String? = "",
+    open var officeNumber: String? = "",
 
     @Column(name = "mobile_number", length = 128)
-    var mobileNumber: String? = "",
+    open var mobileNumber: String? = "",
 
     @Column(name = "status", length = 100)
-    var status: String = AliceUserConstants.Status.CERTIFIED.code,
+    open var status: String = AliceUserConstants.Status.CERTIFIED.code,
 
     @Column(name = "certification_code", length = 128)
-    var certificationCode: String? = null,
+    open var certificationCode: String? = null,
 
     @Column(name = "platform", length = 100)
-    var platform: String = AliceUserConstants.Platform.ALICE.code,
+    open var platform: String = AliceUserConstants.Platform.ALICE.code,
 
     @Column(name = "expired_dt")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    var expiredDt: LocalDateTime = LocalDateTime.now()
+    open var expiredDt: LocalDateTime = LocalDateTime.now()
         .plusMonths(AliceConstants.EXPIRED_MONTH_PERIOD.toLong()),
 
     @Column(name = "oauth_key", length = 256)
-    var oauthKey: String? = "",
+    open var oauthKey: String? = "",
 
     @Column(name = "timezone", length = 100)
-    var timezone: String = "",
+    open var timezone: String = "",
 
     @Column(name = "lang", length = 100)
-    var lang: String = "",
+    open var lang: String = "",
 
     @Column(name = "time_format", length = 100)
-    var timeFormat: String = "",
+    open var timeFormat: String = "",
 
     @Column(name = "theme", length = 100)
-    var theme: String = "",
+    open var theme: String = "",
 
     @Column(name = "avatar_type", length = 100)
-    var avatarType: String = AliceUserConstants.AvatarType.FILE.code,
+    open var avatarType: String = AliceUserConstants.AvatarType.FILE.code,
 
     @Column(name = "avatar_value", length = 512)
-    var avatarValue: String = AliceUserConstants.AVATAR_BASIC_FILE_NAME,
+    open var avatarValue: String = AliceUserConstants.AVATAR_BASIC_FILE_NAME,
 
     @Column(name = "uploaded")
-    var uploaded: Boolean = false,
+    open var uploaded: Boolean = false,
 
     @Column(name = "uploaded_location")
-    var uploadedLocation: String = "",
+    open var uploadedLocation: String = "",
 
     @CreatedBy
     @Column(name = "create_user_key", nullable = false, updatable = false)
-    var createUser: String? = null,
+    open var createUser: String? = null,
 
     @CreatedDate
     @Column(name = "create_dt", nullable = false, updatable = false)
-    var createDt: LocalDateTime = LocalDateTime.now(),
+    open var createDt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedBy
     @Column(name = "update_user_key", insertable = false)
-    var updateUser: String? = null,
+    open var updateUser: String? = null,
 
     @LastModifiedDate
     @Column(name = "update_dt", insertable = false)
-    var updateDt: LocalDateTime? = LocalDateTime.now()
+    open var updateDt: LocalDateTime? = LocalDateTime.now()
 
 ) : Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()
+    open val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()
 }

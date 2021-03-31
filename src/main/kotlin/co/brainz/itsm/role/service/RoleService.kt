@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.role.service
 
-import co.brainz.framework.auth.dto.AliceAuthSimpleDto
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapEntity
 import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
@@ -17,6 +16,7 @@ import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.itsm.role.dto.RoleDetailDto
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.dto.RoleListDto
+import co.brainz.itsm.role.dto.RoleListReturnDto
 import co.brainz.itsm.role.repository.RoleRepository
 import org.springframework.stereotype.Service
 
@@ -30,26 +30,19 @@ class RoleService(
     /**
      * 상단 전체 역할정보를 가져온다.
      */
-    fun selectRoleList(): MutableList<RoleListDto> {
-        val roleList = roleRepository.findByOrderByRoleNameAsc()
-        val roleDtoList = mutableListOf<RoleListDto>()
-        for (roleEntity in roleList) {
-            roleDtoList.add(
-                RoleListDto(
-                    roleId = roleEntity.roleId,
-                    roleName = roleEntity.roleName,
-                    roleDesc = roleEntity.roleDesc
-                )
-            )
-        }
-        return roleDtoList
+    fun selectRoleList(): RoleListReturnDto {
+        val roleList = roleRepository.findRoleSearch("")
+        return RoleListReturnDto(
+            data = roleList.results,
+            totalCount = roleList.total
+        )
     }
 
     /**
      * 전체 권한정보를 가져온다.
      */
-    fun selectAuthList(): MutableList<AliceAuthEntity> {
-        return authRepository.findByOrderByAuthNameAsc()
+    fun selectAuthList(): List<AliceAuthEntity> {
+        return authRepository.findAllByOrderByAuthName()
     }
 
     /**
@@ -113,18 +106,10 @@ class RoleService(
      */
     fun selectDetailRoles(roleId: String): RoleDto {
         val roleInfo = roleRepository.findByRoleId(roleId)
-        val authList = mutableListOf<AliceAuthSimpleDto>()
-        val userRoleMapCount = userRoleMapRepository.findByRole(roleInfo).count()
-
-        roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
-            authList.add(
-                AliceAuthSimpleDto(
-                    roleAuthMap.auth.authId,
-                    roleAuthMap.auth.authName,
-                    roleAuthMap.auth.authDesc
-                )
-            )
-        }
+        val userRoleMapCount = userRoleMapRepository.countByRole(roleInfo)
+        val roleIds = mutableSetOf<String>()
+        roleIds.add(roleId)
+        val roleAuthMapList = roleAuthMapRepository.findAuthByRoles(roleIds)
 
         return RoleDto(
             roleInfo.roleId,
@@ -135,7 +120,7 @@ class RoleService(
             roleInfo.updateUser?.userName,
             roleInfo.updateDt,
             null,
-            authList,
+            roleAuthMapList,
             userRoleMapCount
         )
     }

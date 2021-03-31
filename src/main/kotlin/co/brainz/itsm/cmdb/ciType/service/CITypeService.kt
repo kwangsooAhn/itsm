@@ -8,9 +8,9 @@ package co.brainz.itsm.cmdb.ciType.service
 
 import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.dto.CITypeDto
-import co.brainz.cmdb.dto.CITypeTreeListDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants
+import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -26,8 +26,8 @@ class CITypeService(
     /**
      * CI Type 트리 조회
      */
-    fun getCITypeList(params: LinkedHashMap<String, Any>): List<CITypeTreeListDto> {
-        return ciTypeService.getCITypesTreeNode(params)
+    fun getCITypesTree(params: LinkedHashMap<String, Any>): CITypeTreeReturnDto {
+        return ciTypeService.getCITypesTree(params)
     }
 
     /**

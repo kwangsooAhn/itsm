@@ -18,6 +18,7 @@ import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
 import com.querydsl.core.QueryResults
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -63,7 +64,7 @@ class CITypeService(
     /**
      *  CMDB Type 트리 조회
      */
-    fun getCITypesTreeNode(parameters: LinkedHashMap<String, Any>): List<CITypeTreeListDto> {
+    fun getCITypesTree(parameters: LinkedHashMap<String, Any>): CITypeTreeReturnDto {
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
         val treeTypeList = mutableListOf<CITypeTreeListDto>()
@@ -100,12 +101,14 @@ class CITypeService(
                     typeIcon = typeEntity.typeIcon,
                     typeIconData = typeEntity.typeIcon?.let { getCITypeImageData(typeEntity.typeIcon) },
                     defaultClassId = typeEntity.defaultClass.classId,
-                    defaultClassName = typeEntity.defaultClass.className,
-                    totalCount = count
+                    defaultClassName = typeEntity.defaultClass.className
                 )
             )
         }
-        return treeTypeList
+        return CITypeTreeReturnDto(
+            data = treeTypeList,
+            totalCount = count
+        )
     }
 
     /**

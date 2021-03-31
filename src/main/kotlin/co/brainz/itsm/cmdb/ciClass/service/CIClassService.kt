@@ -13,9 +13,9 @@ import co.brainz.cmdb.dto.CIClassDetailDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIClassDto
 import co.brainz.cmdb.dto.CIClassToAttributeDto
-import co.brainz.cmdb.dto.CIClassTreeListDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
+import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
@@ -37,10 +37,10 @@ class CIClassService(
     }
 
     /**
-     * CMDB CI class 멀티 조회
+     * CMDB CI class Tree 조회
      */
-    fun getCIClasses(params: LinkedHashMap<String, Any>): List<CIClassTreeListDto> {
-        return ciClassService.getCIClassesTreeNode(params)
+    fun getCIClassesTree(params: LinkedHashMap<String, Any>): CIClassTreeReturnDto {
+        return ciClassService.getCIClassesTree(params)
     }
 
     /**

@@ -1,7 +1,7 @@
 package co.brainz.itsm.code.controller
 
 import co.brainz.itsm.code.dto.CodeDetailDto
-import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.dto.CodeReturnDto
 import co.brainz.itsm.code.service.CodeService
 import javax.validation.Valid
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -25,7 +25,7 @@ class CodeRestController(private val codeService: CodeService) {
     fun getCodeList(
         @RequestParam(value = "search", defaultValue = "") search: String,
         @RequestParam(value = "pCode", defaultValue = "") pCode: String
-    ): MutableList<CodeDto> {
+    ): CodeReturnDto {
         return codeService.getCodeList(search, pCode)
     }
 
