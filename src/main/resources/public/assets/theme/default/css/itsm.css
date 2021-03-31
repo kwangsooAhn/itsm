@@ -4789,8 +4789,8 @@ body.modal-active {
   width: 100%;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-history-list table .list-head tr {
-  color: #3F4B56;
-  border-bottom: 0.125rem solid #E1E3E6;
+  color: #3f4b56;
+  border-bottom: 0.125rem solid #e1e3e6;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-history-list table .list-body {
   display: block;
@@ -4803,7 +4803,7 @@ body.modal-active {
   height: 3.125rem;
   line-height: 3.125rem;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-history-list table .list-body .list-row > td {
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .cmdb-ci-history-list table .list-body .list-row > td {
   display: inline-block;
   vertical-align: middle;
 }
