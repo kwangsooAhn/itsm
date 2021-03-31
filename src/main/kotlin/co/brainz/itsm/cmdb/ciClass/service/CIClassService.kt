@@ -39,8 +39,8 @@ class CIClassService(
     /**
      * CMDB CI class Tree 조회
      */
-    fun getCIClassesTreeNode(params: LinkedHashMap<String, Any>): CIClassTreeReturnDto {
-        return ciClassService.getCIClassesTreeNode(params)
+    fun getCIClassesTree(params: LinkedHashMap<String, Any>): CIClassTreeReturnDto {
+        return ciClassService.getCIClassesTree(params)
     }
 
     /**

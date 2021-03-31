@@ -29,14 +29,14 @@ class CITypeRestController(private val ciTypeService: CITypeService) {
      * CI Type 목록 조회
      */
     @GetMapping("/", "")
-    fun getCITypesTreeNode(
+    fun getCITypesTree(
         request: HttpServletRequest,
         @RequestParam(value = "search", required = false, defaultValue = "") search: String,
         model: Model
     ): CITypeTreeReturnDto {
         val params = LinkedHashMap<String, Any>()
         params["search"] = search
-        return ciTypeService.getCITypesTreeNode(params)
+        return ciTypeService.getCITypesTree(params)
     }
 
     /**

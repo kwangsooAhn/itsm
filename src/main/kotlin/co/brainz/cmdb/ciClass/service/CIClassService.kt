@@ -112,7 +112,7 @@ class CIClassService(
     /**
      * CMDB CI Class 트리 조회
      */
-    fun getCIClassesTreeNode(parameters: LinkedHashMap<String, Any>): CIClassTreeReturnDto {
+    fun getCIClassesTree(parameters: LinkedHashMap<String, Any>): CIClassTreeReturnDto {
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
 

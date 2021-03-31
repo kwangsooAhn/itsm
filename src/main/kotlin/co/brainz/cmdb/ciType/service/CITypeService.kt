@@ -64,7 +64,7 @@ class CITypeService(
     /**
      *  CMDB Type 트리 조회
      */
-    fun getCITypesTreeNode(parameters: LinkedHashMap<String, Any>): CITypeTreeReturnDto {
+    fun getCITypesTree(parameters: LinkedHashMap<String, Any>): CITypeTreeReturnDto {
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
         val treeTypeList = mutableListOf<CITypeTreeListDto>()

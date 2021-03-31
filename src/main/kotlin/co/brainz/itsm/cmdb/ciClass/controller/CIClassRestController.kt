@@ -39,14 +39,14 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      * CMDB CI Class 목록 조회
      */
     @GetMapping("/", "")
-    fun getCIClassesTreeNode(
+    fun getCIClassesTree(
         request: HttpServletRequest,
         @RequestParam(value = "search", required = false, defaultValue = "") search: String,
         model: Model
     ): CIClassTreeReturnDto {
         val params = LinkedHashMap<String, Any>()
         params["search"] = search
-        return ciClassService.getCIClassesTreeNode(params)
+        return ciClassService.getCIClassesTree(params)
     }
 
     /**

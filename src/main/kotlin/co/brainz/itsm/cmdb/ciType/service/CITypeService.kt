@@ -26,8 +26,8 @@ class CITypeService(
     /**
      * CI Type 트리 조회
      */
-    fun getCITypesTreeNode(params: LinkedHashMap<String, Any>): CITypeTreeReturnDto {
-        return ciTypeService.getCITypesTreeNode(params)
+    fun getCITypesTree(params: LinkedHashMap<String, Any>): CITypeTreeReturnDto {
+        return ciTypeService.getCITypesTree(params)
     }
 
     /**
