@@ -7,6 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+import * as util from '../lib/util.js';
 import { FORM } from '../lib/constant.js';
 import History from './history.js';
 import Panel from './panel.js';
@@ -22,40 +23,40 @@ export default class FormDesigner {
         // this.componentPalette = document.getElementById('componentPalette'); // 컴포넌트 팔레트
 
         // 2. 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
-        fetch('/rest/custom-codes?viewType=editor').then((response) =>
-            response.json()
-        ).then((customData) => {
-            FORM.CUSTOM_CODE = customData;
-            // 3. 세부 속성 load
-            return fetch('/assets/js/formRefactoring/form/properties.json');
-        }).then((response) => response.json()).then((propertiesData) => {
-            this.panel = new Panel(propertiesData);
-            // TODO: 4. 폼 데이터 로드
-            //return fetch('/rest/form/' + formId + '/data');
-            return fetch('/assets/js/formRefactoring/form/data_210320.json');
-        }).then((response) => response.json()).then((formData) => {
-            // TODO: 5. 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
-            //this.data = aliceForm.reformatCalendarFormat('read', response.json());
-            // TODO: 6. displayOrder 로 정렬
-            this.data = formData;
-            this.setForm();
-        }).then(() => {
-            // 6. 이력 추가
-            this.history = new History(this);
-            this.setName();
+        util.fetchJson({ method: 'GET', url: '/rest/custom-codes?viewType=editor' })
+            .then((customData) => {
+                FORM.CUSTOM_CODE = customData;
+            });
+        // 3. 세부 속성 load
+        util.fetchJson({ method: 'GET', url: '/assets/js/formRefactoring/form/properties.json' })
+            .then((propertiesData) => {
+                this.panel = new Panel(propertiesData);
+            });
+        // 4. 폼 데이터 load
+        //util.fetchJson({ method: 'GET', url: '/rest/form/' + formId + '/data' })
+        util.fetchJson({ method: 'GET', url: '/assets/js/formRefactoring/form/data_210320.json' })
+            .then((formData) => {
+                // TODO: 5. 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
+                //this.data = aliceForm.reformatCalendarFormat('read', response.json());
+                // TODO: 6. displayOrder 로 정렬
+                this.data = formData;
+                this.init();
+                // 6. 이력 추가
+                this.history = new History(this);
+                this.setName();
 
-            // TODO: 7. 버튼 초기화
-            // TODO: - 상단 메뉴 버튼 액션 추가
-            // TODO: - 단축키 추가
+                // TODO: 7. 버튼 초기화
+                // TODO: - 상단 메뉴 버튼 액션 추가
+                // TODO: - 단축키 추가
 
-            // TODO: 8. drag & drop 이벤트 등록
+                // TODO: 8. drag & drop 이벤트 등록
 
-            // TODO: 9. 세부 속성 표시
-            //this.panel.on();
-        });
+                // TODO: 9. 세부 속성 표시
+                //this.panel.on();
+            });
     }
     // 폼 초기화
-    setForm() {
+    init() {
         this.form = this.addRenderer(FORM.LAYOUT.FORM, this.data);
         if (this.data.hasOwnProperty('groups')) {
             this.data.groups.forEach( g => {

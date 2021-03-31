@@ -9,7 +9,8 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as MIXIN from '../lib/mixin.js';
+import * as util from '../lib/util.js';
+import * as mixin from '../lib/mixin.js';
 
 // 기본값
 const LABEL = {
@@ -41,10 +42,12 @@ export default class Group {
         this.accordion = data.accordion || ACCORDION;
 
         // Control Mixin import
-        MIXIN.importMixin(this, MIXIN.controlMixin);
+        util.importMixin(this, mixin.controlMixin);
+        // UI Mixin import
+        util.importMixin(this, mixin.uiMixin);
         // Dynamic Mixin import
-        const properties = ['style-margin', 'style-padding'];
-        MIXIN.dynamicMixin(properties, this);
+        //const properties = ['margin', 'padding'];
+        //util.importDesignedSetter(properties, this);
 
         this.init();
     }

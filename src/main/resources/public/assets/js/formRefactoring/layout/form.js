@@ -9,7 +9,8 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as MIXIN from '../lib/mixin.js';
+import * as util from '../lib/util.js';
+import * as mixin from '../lib/mixin.js';
 
 export default class Form {
     constructor(data = {}) {
@@ -17,7 +18,7 @@ export default class Form {
         this.id =  data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
-        this.displayOrder = 0;     // 표시 순서f
+        this.displayOrder = 0;     // 표시 순서
         this.name = data.name || '';
         this.desc = data.desc || '';
         this.status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
@@ -28,11 +29,12 @@ export default class Form {
         this.readyState = 'initialized'; //폼 상태 (initialized, interactive, complete)
 
         // Control Mixin import
-        MIXIN.importMixin(this, MIXIN.controlMixin);
+        util.importMixin(this, mixin.controlMixin);
+        // UI Mixin import
+        util.importMixin(this, mixin.uiMixin);
         // Dynamic Mixin import
-        const properties = ['name', 'desc', 'status', 'readyState',
-            'style-width', 'style-margin', 'style-padding'];
-        MIXIN.dynamicMixin(properties, this);
+        //const properties = ['width', 'margin', 'padding'];
+        //util.importDesignedSetter(properties, this);
 
         this.init();
     }

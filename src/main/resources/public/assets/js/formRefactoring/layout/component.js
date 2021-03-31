@@ -8,7 +8,8 @@
  * https://www.brainz.co.kr
  */
 
-import * as MIXIN from '../lib/mixin.js';
+import * as util from '../lib/util.js';
+import * as mixin from '../lib/mixin.js';
 import {inputBoxMixin} from './component/inputBox.js';
 
 export default class Component {
@@ -29,9 +30,11 @@ export default class Component {
         this.validate = data.validate || {};
 
         // Control Mixin import
-        MIXIN.importMixin(this, MIXIN.controlMixin);
+        util.importMixin(this, mixin.controlMixin);
+        // UI Mixin import
+        util.importMixin(this, mixin.uiMixin);
         // 타입에 따른 Mixin import
-        MIXIN.importMixin(this, this.getMixinByType());
+        util.importMixin(this, this.getMixinByType());
 
         this.init();
     }

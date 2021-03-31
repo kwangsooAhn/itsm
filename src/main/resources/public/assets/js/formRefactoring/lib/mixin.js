@@ -8,39 +8,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-// 믹스인 추가
-export function importMixin(target, source) {
-    for (const key in source) {
-        if (source.hasOwnProperty(key)) {
-            target[key] = source[key];
-        }
-    }
-    return target;
-}
-// 동적 믹스인 추가 (속성을 loop 돌며 setX 메소드 생성)
-export function dynamicMixin(properties, target) {
-    properties.forEach( property => {
-        const fields = property.split('-');
-        const field = (fields.length === 1) ? fields[0] : fields[1];
-        const method = 'set' + field.substr( 0, 1 ).toUpperCase() +
-            field.substr( 1, field.length );
-        if (target.hasOwnProperty(field)) {
-            if (fields.length === 1) { // 일반 속성
-                target[method] = function () {
-                    this[property] = arguments;
-                    return this;
-                };
-            } else { // 스타일 속성 : style-padding 등
-                target[method] = function () {
-                    this[property] = arguments;
-                    this.setStyle(property, arguments);
-                    return this;
-                };
-            }
-        }
-    });
-}
-
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
 export const controlMixin = {
     // 자식 객체 추가
@@ -96,13 +63,6 @@ export const controlMixin = {
             }
         }
         return undefined;
-    },
-    // domElem 스타일 변경
-    setStyle(style, args) {
-        for (let i = 0; i < args.length; i++) {
-            this.domElem.style[style] = args[i];
-        }
-        return this;
     }
 };
 // label 공통 믹스인
@@ -139,5 +99,15 @@ export const labelMixin = {
         labelBox.appendChild(required);
 
         return labelBox;
+    }
+};
+// DOM Element 공통 믹스인
+export const uiMixin = {
+    // domElem 스타일 변경
+    setStyle(style, args) {
+        for (let i = 0; i < args.length; i++) {
+            this.domElem.style[style] = args[i];
+        }
+        return this;
     }
 };
