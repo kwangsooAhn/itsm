@@ -1,6 +1,5 @@
 /**
  * Mixin
- * Mixin이란 프로토타입을 바꾸지 않고 한 객체의 프로퍼티를 다른 객체에게 ‘복사’해서 사용하는 방식이다.
  *
  * @author woodajung wdj@brainz.co.kr
  * @version 1.0

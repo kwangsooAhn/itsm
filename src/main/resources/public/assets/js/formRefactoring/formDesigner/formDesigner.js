@@ -11,10 +11,10 @@ import * as util from '../lib/util.js';
 import { FORM } from '../lib/constants.js';
 import History from './history.js';
 import Panel from './panel.js';
-import Form from '../layout/form.js';
-import Group from '../layout/group.js';
-import Row from '../layout/row.js';
-import Component from '../layout/component.js';
+import Form from '../form/form.js';
+import Group from '../form/group.js';
+import Row from '../form/row.js';
+import Component from '../form/component.js';
 
 export default class FormDesigner {
     constructor(formId) {
@@ -50,7 +50,7 @@ export default class FormDesigner {
     initForm(formId) {
         // 폼 데이터 load
         //util.fetchJson({ method: 'GET', url: '/rest/form/' + formId + '/data' })
-        util.fetchJson({ method: 'GET', url: '/assets/js/formRefactoring/form/data_210320.json' })
+        util.fetchJson({ method: 'GET', url: '/assets/js/formRefactoring/formDesigner/data_210320.json' })
             .then((formData) => {
                 // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
                 //this.data = aliceForm.reformatCalendarFormat('read', response.json());

@@ -13,7 +13,7 @@ export default class Panel {
     constructor() {
         this.domElem = document.getElementById('propertyPanel'); // 속성 패널
         // 3. 세부 속성 load
-        util.fetchJson({ method: 'GET', url: '/assets/js/formRefactoring/form/properties.json' })
+        util.fetchJson({ method: 'GET', url: '/assets/js/formRefactoring/formDesigner/properties.json' })
             .then((propertiesData) => {
                 this.property = propertiesData;
             });

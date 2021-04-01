@@ -55,24 +55,6 @@ export function importMixin(target, source) {
 }
 
 /**
- * 동적으로 디자인 setter 추가하는 함수
- *
- * @param properties 속성
- * @param target 대상 객체의 prototype
- * @return target 대상 객체
- */
-export function importDesignedSetter(properties, target) {
-    properties.forEach( property => {
-        const method = 'set' + property.substr( 0, 1 ).toUpperCase() +
-            property.substr( 1, property.length );
-        target[method] = function () {
-            this.setStyle(property, arguments);
-            return this;
-        };
-    });
-}
-
-/**
  * Object 객체이며 true, 아니면 false를 반환
  * @param item 대상
  * @returns {Boolean} boolean
