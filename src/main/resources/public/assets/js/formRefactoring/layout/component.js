@@ -9,8 +9,8 @@
  */
 
 import * as util from '../lib/util.js';
-import * as mixin from '../lib/mixin.js';
-import {inputBoxMixin} from './component/inputBox.js';
+import * as mixin from '../lib/mixins.js';
+import {inputBoxMixIn} from './component/inputBox.js';
 
 export default class Component {
     constructor(data = {}) {
@@ -56,7 +56,7 @@ export default class Component {
     getMixinByType() {
         switch(this.type) {
         case 'inputBox':
-            return inputBoxMixin;
+            return inputBoxMixIn;
         case 'textArea':
             //object = new TextArea(data);
             break;

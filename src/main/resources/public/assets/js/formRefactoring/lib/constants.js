@@ -11,7 +11,7 @@
 export const SESSION = {}; // 사용자 세션 정보
 // 폼
 export const FORM = {
-    DEFAULT_COLUMN: 12,
+    COLUMN: 12,
     LAYOUT: {
         FORM: 'form',
         GROUP: 'group',
@@ -31,7 +31,29 @@ export const FORM = {
             LEFT: 'left'
         }
     },
-    CUSTOM_CODE: []
+    CUSTOM_CODE: [],
+    // 기본 값
+    DEFAULT: {
+        GROUP_LABEL: {
+            fontSize: '16px',
+            fontColor: 'rgba(0,0,0,1)',
+            bold: false,
+            italic: false,
+            underline: false,
+            align: 'left',
+            text: 'GROUP LABEL'
+        },
+        COMPONENT_LABEL: {
+            position: 'top',
+            fontSize: '16px',
+            fontColor: 'rgba(0,0,0,1)',
+            bold: false,
+            italic: false,
+            underline: false,
+            align: 'left',
+            text: 'COMPONENT LABEL'
+        }
+    }
 };
 // 프로세스
 export const PROCESS = {};

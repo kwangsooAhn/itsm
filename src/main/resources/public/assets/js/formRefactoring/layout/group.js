@@ -10,24 +10,8 @@
  * https://www.brainz.co.kr
  */
 import * as util from '../lib/util.js';
-import * as mixin from '../lib/mixin.js';
-
-// 기본값
-const LABEL = {
-    position: 'top',
-    fontSize: '16px',
-    fontColor: 'rgba(0,0,0,1)',
-    bold: false,
-    italic: false,
-    underline: false,
-    align: 'left',
-    text: 'LABEL'
-};
-const ACCORDION = {
-    isUsed: false,
-    thickness: '1px',
-    color: 'rgba(235, 235, 235, 1)'
-};
+import * as mixin from '../lib/mixins.js';
+import { FORM } from '../lib/constants.js';
 
 export default class Group {
     constructor(data = {}) {
@@ -37,16 +21,15 @@ export default class Group {
         this.children = [];        // 자식 객체
         this.displayOrder = 0;     // 표시 순서
         this.margin = data.margin || '10px 0px 10px 0px'; // 그룹 간 간격(위 오른쪽 아래 왼쪽)
-        this.padding = data.padding || '10px 10px 10px 10px'; // 그룹 내부 여백(위 오른쪽 아래 왼쪽)
-        this.label = data.label || LABEL;
-        this.accordion = data.accordion || ACCORDION;
+        this.label = util.mergeObject(data.label || FORM.DEFAULT.GROUP_LABEL);
+        this.isAccordionUsed = data.isAccordionUsed;
 
         // Control Mixin import
         util.importMixin(this, mixin.controlMixin);
         // UI Mixin import
         util.importMixin(this, mixin.uiMixin);
         // Dynamic Mixin import
-        //const properties = ['margin', 'padding'];
+        //const properties = ['margin'];
         //util.importDesignedSetter(properties, this);
 
         this.init();
@@ -59,10 +42,28 @@ export default class Group {
     makeDomElement() {
         const group = document.createElement('div');
         group.id = this.id;
-        group.className = this.type;
-        group.style.cssText = `margin:${this.margin};padding:${this.padding};`;
-        // TODO: 라벨
-        // TODO: 아코디언
+        group.className = this.type + ' align-left' +
+            (this.isAccordionUsed ? ' group-accordion': '');
+        group.style.cssText = `margin:${this.margin};`;
+        // 아코디언용 체크박스
+        if (this.isAccordionUsed) {
+            const chkTemplate = `<input type="checkbox" id="chk-${this.id}" class="group-accordion-checkBox" checked="true"/>`;
+            group.insertAdjacentHTML('beforeend', chkTemplate);
+        }
+        // 라벨
+        const labelTemplate =
+            `<label class="align-${this.label.align} group-labelBox` +
+                `${this.isAccordionUsed ? ' group-accordion-labelBox' : ''}" for="chk-${this.id}">`+
+                `<span class="group-label" style="` +
+                    `color: ${this.label.fontColor}; font-size: ${this.label.fontSize};` +
+                    `${this.label.bold ? ' font-weight: bold;' : ''}` +
+                    `${this.label.italic ? ' font-style: italic;' : ''}` +
+                    `${this.label.underline ? ' text-decoration: underline;' : ''}">` +
+                    `${aliceJs.filterXSS(this.label.text)}` +
+                `</span>` +
+                `<span class="arrow-left"></span>` +
+            `</label>`;
+        group.insertAdjacentHTML('beforeend', labelTemplate);
         return group;
     }
 }

@@ -11,7 +11,7 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM }  from '../../lib/constant.js';
+import { SESSION, FORM }  from '../../lib/constants.js';
 const DEFAULT = {
     type: 'inputBox',
     value: '${default}',
@@ -42,7 +42,7 @@ const DEFAULT = {
     }
 };
 
-export const inputBoxMixin = {
+export const inputBoxMixIn = {
     // DOM 엘리먼트 생성
     makeElement() {
         //  엘리먼트 그룹

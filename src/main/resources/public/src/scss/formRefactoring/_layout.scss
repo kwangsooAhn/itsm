@@ -92,7 +92,7 @@
       color: $accordion-font-color;
       font-weight: $accordion-font-weight;
       cursor:pointer;
-      .arrow-right {
+      .arrow-left {
         @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $blue-gray); // 12px 20px
       }
     }
@@ -154,7 +154,7 @@
     }
     input[type=radio]:checked {
       + .accordion-label {
-        .arrow-right {
+        .arrow-left {
           transform: rotate(-90deg);
         }
       }
@@ -170,6 +170,7 @@
 
 // drawing board
 .drawing-board {
+  // 폼
   .form {
     display: inline-block;
     min-height: $form-min-height;
@@ -178,6 +179,59 @@
     box-shadow: $form-box-shadow;
 
     & *:focus { outline: none !important; }
+    // 그룹
+    .group {
+      .group-labelBox {
+        display: table;
+        width: 100%;
+        min-height: 2.5rem; // 40px
+        padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
+        .group-label {
+          display: table-cell;
+          vertical-align: middle;
+        }
+        .arrow-left {
+          opacity: 0;
+        }
+      }
+
+      &.group-accordion {
+        border-bottom : $group-accordion-border;
+        .group-accordion-checkBox {
+          position: absolute;
+          opacity: 0;
+          z-index: $z-index-hidden;
+
+          &:checked {
+            + .group-accordion-labelBox {
+              border-bottom-color: $group-accordion-border-color;
+              .arrow-left {
+                transform: rotate(-90deg);
+              }
+            }
+            ~ .row {
+              display: block;
+            }
+          }
+        }
+        .group-accordion-labelBox {
+          border: $group-accordion-border;
+          background-color: $group-accordion-bg-color;
+          padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
+          cursor: pointer;
+          border-bottom-color: transparent;
+          .arrow-left {
+            opacity: 1;
+            display: table-cell;
+            @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $blue-gray); // 12px 20px
+          }
+        }
+        .row {
+          display: none;
+          transition: all 0.25s ease-out;
+        }
+      }
+    }
 
     /*&[data-readonly=true] {
       // 폼 양식 화면에서 컴포넌트 수정을 막음

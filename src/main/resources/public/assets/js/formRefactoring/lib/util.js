@@ -71,3 +71,31 @@ export function importDesignedSetter(properties, target) {
         };
     });
 }
+
+/**
+ * Object 객체이며 true, 아니면 false를 반환
+ * @param item 대상
+ * @returns {Boolean} boolean
+ */
+export function isObject(target) {
+    return (target && typeof target === 'object' && !Array.isArray(target) && target !== null);
+}
+
+/**
+ * Merge a `source` object to a `target` recursively
+ * @param target target 객체
+ * @param source source 객제
+ */
+export function mergeObject(target, source) {
+    if (isObject(target) && isObject(source)) {
+        Object.keys(source).forEach(function(key) {
+            if (isObject(source[key])) {
+                if (!target[key]) { Object.assign(target, { [key]: {} }); }
+                mergeObject(target[key], source[key]);
+            } else {
+                Object.assign(target, JSON.parse(JSON.stringify({ [key]: source[key] })));
+            }
+        });
+    }
+    return target;
+}

@@ -7,14 +7,19 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+import * as util from '../lib/util.js';
 
 export default class Panel {
-    constructor(property = {}) {
-        this.property = property;
+    constructor() {
         this.domElem = document.getElementById('propertyPanel'); // 속성 패널
+        // 3. 세부 속성 load
+        util.fetchJson({ method: 'GET', url: '/assets/js/formRefactoring/form/properties.json' })
+            .then((propertiesData) => {
+                this.property = propertiesData;
+            });
     }
     // 세부 속성 출력
-    on(type) {}
+    on() {}
     // 세부 속성 삭제
     off() {
         this.domElem.innerHTML = '';

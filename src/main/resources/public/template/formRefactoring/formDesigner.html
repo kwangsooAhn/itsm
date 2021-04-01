@@ -10,7 +10,7 @@
     <script th:src="@{/assets/js/util/shortcut-alice.js}"></script>
     <script type="module">
         // 사용자 세션 정보 저장
-        import { SESSION } from '../../assets/js/formRefactoring/lib/constant.js';
+        import { SESSION } from '../../assets/js/formRefactoring/lib/constants.js';
         import FormDesigner from '../../assets/js/formRefactoring/form/formDesigner.js';
 
         const userSession = {
@@ -100,7 +100,7 @@
                             <input type="radio" id="inputs" name="accordion-type" checked="true">
                             <label class="flex-row justify-content-between accordion-label" for="inputs">
                                 <span class="type-name">Inputs</span>
-                                <span class="arrow-right"></span>
+                                <span class="arrow-left"></span>
                             </label>
                             <div class="accordion-content">
                                 <ul class="flex-row flex-wrap component-icon-box">
@@ -164,7 +164,7 @@
                             <input type="radio" id="format" name="accordion-type">
                             <label class="flex-row justify-content-between accordion-label" for="format">
                                 <span class="type-name">Format</span>
-                                <span class="arrow-right"></span>
+                                <span class="arrow-left"></span>
                             </label>
                             <div class="accordion-content">
                                 <ul class="flex-row flex-wrap component-icon-box">
@@ -188,7 +188,7 @@
                             <input type="radio" id="visual" name="accordion-type">
                             <label class="flex-row justify-content-between accordion-label" for="visual">
                                 <span class="type-name">Visual</span>
-                                <span class="arrow-right"></span>
+                                <span class="arrow-left"></span>
                             </label>
                             <div class="accordion-content">
                                 <ul class="flex-row flex-wrap component-icon-box">
@@ -200,7 +200,7 @@
                             <input type="radio" id="custom" name="accordion-type">
                             <label class="flex-row justify-content-between accordion-label" for="custom">
                                 <span class="type-name">Custom</span>
-                                <span class="arrow-right"></span>
+                                <span class="arrow-left"></span>
                             </label>
                             <div class="accordion-content" id="customComponentList">
                                 <ul class="flex-row flex-wrap component-icon-box">

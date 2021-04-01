@@ -8,6 +8,8 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+import { FORM } from './constants.js';
+
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
 export const controlMixin = {
     // 자식 객체 추가
@@ -50,13 +52,13 @@ export const controlMixin = {
     // 복사 (자식 포함)
     copy() {},
     // 객체 조회
-    getObjectById(id) {
+    getById(id) {
         if (this['id'] === id) {
             return this;
         }
 
         for (let i = 0, l = this.children.length; i < l; i++) {
-            const object = this.children[i].getComponentById(id);
+            const object = this.children[i].getById(id);
 
             if (object !== undefined) {
                 return object;
@@ -67,19 +69,18 @@ export const controlMixin = {
 };
 // label 공통 믹스인
 export const labelMixin = {
-    makeLabel() {
+    makeLabelElement() {
         // 라벨 그룹
         const labelBox = document.createElement('div');
-        let labelColumnWidth = CONST.FORM.DEFAULT_COLUMN; // 12
-        if (this.label.position === CONST.FORM.LABEL.POSITION.HIDDEN) {
+        let labelColumnWidth = FORM.COLUMN; // 12
+        if (this.label.position === FORM.LABEL.POSITION.HIDDEN) {
             labelColumnWidth = 0;
-        } else if (this.label.position === CONST.FORM.LABEL.POSITION.LEFT) {
+        } else if (this.label.position === FORM.LABEL.POSITION.LEFT) {
             labelColumnWidth -= Number(this.element.columnWidth);
         }
         labelBox.className = `component-label-box ` +
             `align-${this.label.align} ` +
             `position-${this.label.position}`;
-        // cssText 사용시 리플로우와 리페인트 최소화됨
         labelBox.style.cssText = `--data-column:${labelColumnWidth};`;
 
         // 라벨 문구

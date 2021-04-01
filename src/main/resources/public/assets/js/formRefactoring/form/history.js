@@ -23,7 +23,7 @@ export default class History {
 
         (list || this.undoList).push(data);
         this.status = (this.redoList.length);
-        this.editor.setName();
+        this.editor.setFormName();
     }
     undo() {
         if (this.undoList.length) {

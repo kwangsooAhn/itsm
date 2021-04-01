@@ -11,7 +11,7 @@
  */
 
 import * as util from '../lib/util.js';
-import * as mixin from '../lib/mixin.js';
+import * as mixin from '../lib/mixins.js';
 
 export default class Row {
     constructor(data = {}) {
