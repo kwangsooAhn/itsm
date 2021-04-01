@@ -58,15 +58,14 @@ class ProcessService(
         restTemplateProcessDto.createDt = LocalDateTime.now()
         restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessDto.processName)
-        val objectMapper = ObjectMapper()
         val resultMap = mutableMapOf("processId" to "", "result" to WfProcessConstants.ResultCode.FAIL.code)
         if (duplicateCount > 0) {
             resultMap["result"] = WfProcessConstants.ResultCode.DUPLICATE.code
-            return objectMapper.writeValueAsString(resultMap)
+            return mapper.writeValueAsString(resultMap)
         }
         resultMap["processId"] = wfProcessService.insertProcess(restTemplateProcessDto).processId
         resultMap["result"] = WfProcessConstants.ResultCode.SUCCESS.code
-        return objectMapper.writeValueAsString(resultMap)
+        return mapper.writeValueAsString(resultMap)
     }
 
     /**
@@ -100,15 +99,14 @@ class ProcessService(
         restTemplateProcessElementDto.process?.updateUserKey = null
         restTemplateProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessElementDto.process!!.name!!)
-        val objectMapper = ObjectMapper()
         val resultMap = mutableMapOf("processId" to "", "result" to WfProcessConstants.ResultCode.FAIL.code)
         if (duplicateCount > 0) {
             resultMap["result"] = WfProcessConstants.ResultCode.DUPLICATE.code
-            return objectMapper.writeValueAsString(resultMap)
+            return mapper.writeValueAsString(resultMap)
         }
         resultMap["processId"] = wfProcessService.saveAsProcess(restTemplateProcessElementDto).processId
         resultMap["result"] = WfProcessConstants.ResultCode.SUCCESS.code
-        return objectMapper.writeValueAsString(resultMap)
+        return mapper.writeValueAsString(resultMap)
     }
 
     /**

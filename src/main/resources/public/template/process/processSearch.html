@@ -40,9 +40,9 @@
         // process status
         const STATUS_USE = 'process.status.use';
         const STATUS_DESTROY = 'process.status.destroy';
-        const SUCCESS = '1';
-        const FAIL = '0';
-        const DUPLICATION = '-1';
+        const RESPONSE_SUCESS = '1';
+        const RESPONSE_FAIL = '0';
+        const RESPONSE_DUPLICATION = '-1';
 
         let offsetCount = 0;
         window.onload = function() {
@@ -284,10 +284,10 @@
                         let processId = resultToJson.processId;
                         let resultCode = resultToJson.result;
                         switch (resultCode.toString()) {
-                            case DUPLICATION:
+                            case RESPONSE_DUPLICATION:
                                 aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                                 return;
-                            case FAIL:
+                            case RESPONSE_FAIL:
                                 aliceJs.alertWarning(i18n.msg('common.msg.fail'));
                                 return;
                             default:
@@ -297,12 +297,11 @@
                                 window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
                         }
                     } else if (method === "PUT") {
-                        let resultCode = result;
-                        switch (resultCode) {
-                            case DUPLICATION:
+                        switch (result) {
+                            case RESPONSE_DUPLICATION:
                                 aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                                 return;
-                            case FAIL:
+                            case RESPONSE_FAIL:
                                 aliceJs.alertWarning(i18n.msg('common.msg.fail'));
                                 return;
                         }
@@ -352,17 +351,17 @@
 
                 workflowUtil.import(fileList, processInfo, 'process', function (resultCode) {
                     switch (resultCode.toString()) {
-                        case DUPLICATION:
+                        case RESPONSE_DUPLICATION:
                             aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                             return false;
-                        case FAIL:
+                        case RESPONSE_FAIL:
                             aliceJs.alertWarning(i18n.msg('common.msg.fail'));
                             return false;
                         default:
                             aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                                 location.reload();
+                                return true;
                             });
-                            return true;
                     }
                 });
             }
