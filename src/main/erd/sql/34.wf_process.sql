@@ -31,3 +31,4 @@ insert into wf_process values('4028b25d78778da6017877b9df60000f', '서비스데�
 insert into wf_process values('40288ab777f04ed90177f057ca410000','구성관리','process.status.use','구성관리 프로세스입니다.','0509e09412534a6e98f04ca79abb6424', now());
 insert into wf_process values('40288ab77878ea67017878eb3dc30000', '릴리즈관리', 'process.status.use', '릴리즈관리 프로세스입니다.', '0509e09412534a6e98f04ca79abb6424', now());
 insert into wf_process values('4028b25d78870b0901788766663a0023', '인프라변경관리', 'process.status.use', '인프라변경관리 프로세스입니다.', '0509e09412534a6e98f04ca79abb6424', now());
+insert into wf_process values('4028b25d7888a7f4017888b1cde90000', '어플리케이션변경관리', 'process.status.use', '어플리케이션변경관리', '0509e09412534a6e98f04ca79abb6424', now());
