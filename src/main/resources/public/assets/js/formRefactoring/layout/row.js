@@ -24,12 +24,7 @@ export default class Row {
         this.padding = data.padding || '10px 10px 10px 10px'; // row 내부 여백(위 오른쪽 아래 왼쪽)
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
-        // UI Mixin import
-        util.importMixin(this, mixin.uiMixin);
-        // Dynamic Mixin import
-        //const properties = ['margin', 'padding'];
-        //util.importDesignedSetter(properties, this);
+        util.importMixin(this, mixin.controlMixIn);
 
         this.init();
     }

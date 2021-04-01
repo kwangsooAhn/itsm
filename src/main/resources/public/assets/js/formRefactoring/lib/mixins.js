@@ -11,19 +11,19 @@
 import { FORM } from './constants.js';
 
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
-export const controlMixin = {
+export const controlMixIn = {
     // 자식 객체 추가
     add(object) {
         if (!object) { return false; }
 
         if (object.parent !== null) {
             object.parent.remove(object);
-            object.parent.domElem.removeChild(object.domElem);
+            object.parent.UIElem.remove(object.UIElem);
         }
         object.parent = this;
         object.displayOrder = this.children.length;
         this.children.push(object);
-        this.domElem.appendChild(object.domElem);
+        this.UIElem.add(object.UIElem);
 
         return this;
     },
@@ -31,7 +31,7 @@ export const controlMixin = {
     remove(object) {
         const idx = this.children.indexOf(object);
         if (idx !== -1) {
-            object.parent.domElem.removeChild(object.domElem);
+            object.parent.UIElem.remove(object.UIElem);
             object.parent = null;
             this.children.splice(idx, 1);
             // 재정렬
@@ -43,9 +43,9 @@ export const controlMixin = {
     },
     // 자식 전부 삭제
     clear() {
+        this.UIElem.clear();
         for (let i = 0; i < this.children.length; i++) {
             const object = this.children[i];
-            this.domElem.removeChild(object.domElem);
             object.parent = null;
         }
     },
@@ -100,15 +100,5 @@ export const labelMixin = {
         labelBox.appendChild(required);
 
         return labelBox;
-    }
-};
-// DOM Element 공통 믹스인
-export const uiMixin = {
-    // domElem 스타일 변경
-    setStyle(style, args) {
-        for (let i = 0; i < args.length; i++) {
-            this.domElem.style[style] = args[i];
-        }
-        return this;
     }
 };

@@ -25,12 +25,7 @@ export default class Group {
         this.isAccordionUsed = data.isAccordionUsed;
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
-        // UI Mixin import
-        util.importMixin(this, mixin.uiMixin);
-        // Dynamic Mixin import
-        //const properties = ['margin'];
-        //util.importDesignedSetter(properties, this);
+        util.importMixin(this, mixin.controlMixIn);
 
         this.init();
     }

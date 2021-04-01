@@ -30,9 +30,7 @@ export default class Component {
         this.validate = data.validate || {};
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
-        // UI Mixin import
-        util.importMixin(this, mixin.uiMixin);
+        util.importMixin(this, mixin.controlMixIn);
         // 타입에 따른 Mixin import
         util.importMixin(this, this.getMixinByType());
 

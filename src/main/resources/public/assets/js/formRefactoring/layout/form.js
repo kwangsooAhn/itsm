@@ -11,6 +11,7 @@
  */
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
+import { UIForm } from '../lib/ui.js';
 
 export default class Form {
     constructor(data = {}) {
@@ -29,27 +30,16 @@ export default class Form {
         this.readyState = 'initialized'; //폼 상태 (initialized, interactive, complete)
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
-        // UI Mixin import
-        util.importMixin(this, mixin.uiMixin);
-        // Dynamic Mixin import
-        //const properties = ['width', 'margin', 'padding'];
-        //util.importDesignedSetter(properties, this);
+        util.importMixin(this, mixin.controlMixIn);
 
         this.init();
     }
     // 초기화
     init() {
-        this.domElem = this.makeDomElement();
-    }
-    // DOM 엘리먼트 생성
-    makeDomElement() {
-        const form = document.createElement('div');
-        form.id = this.id;
-        form.className = this.type;
-        form.style.cssText = `width:${this.width};` +
-            `margin:${this.margin};` +
-            `padding:${this.padding};`;
-        return form;
+        this.UIElem = new UIForm()
+            .setId(this.id)
+            .setWidth(this.width)
+            .setMargin(this.margin)
+            .setPadding(this.padding);
     }
 }
