@@ -901,6 +901,7 @@ process:
     title: "Process Designer"
     undo: "Undo"
   msg:
+    duplicateProcessName: "Duplicate process name! Please enter other process name."
     duplicateData: "The same data exists."
     enterProcessName: "Please enter a process name."
     failedDestroy: "Related documents exist for this process.<br/>This can't be destroyed."

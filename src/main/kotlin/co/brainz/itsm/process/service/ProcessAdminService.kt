@@ -1,6 +1,12 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.itsm.process.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.workflow.process.constants.WfProcessConstants
+import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
@@ -16,7 +22,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class ProcessAdminService(
-    private val wfProcessService: WfProcessService
+    private val wfProcessService: WfProcessService,
+    private val wfProcessRepository: WfProcessRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -39,10 +46,20 @@ class ProcessAdminService(
     /**
      * [processId], [restTemplateProcessDto]를 받아서 프로세스 마스터 데이터 업데이트.
      */
-    fun updateProcess(processId: String, restTemplateProcessDto: RestTemplateProcessDto): Boolean {
+    fun updateProcess(processId: String, restTemplateProcessDto: RestTemplateProcessDto): Int {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessDto.updateDt = LocalDateTime.now()
         restTemplateProcessDto.updateUserKey = userDetails.userKey
-        return wfProcessService.updateProcess(restTemplateProcessDto)
+        val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessDto.processName)
+        val preRestTemplateProcessDto = wfProcessRepository.findByProcessId(processId)
+        var result = WfProcessConstants.ResultCode.FAIL.code
+        if (duplicateCount > 0 && (preRestTemplateProcessDto!!.processName != restTemplateProcessDto.processName)) {
+            result = WfProcessConstants.ResultCode.DUPLICATE.code
+            return result
+        }
+        if (wfProcessService.updateProcess(restTemplateProcessDto)) {
+            result = WfProcessConstants.ResultCode.SUCCESS.code
+        }
+        return result
     }
 }
