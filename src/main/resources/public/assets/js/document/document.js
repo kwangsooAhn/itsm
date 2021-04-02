@@ -455,7 +455,8 @@
      */
     function save(v_kind) {
         // validation check
-        if (v_kind !== 'save' && checkValidateForSave()) {
+        let exceptionList = ['save', 'cancel', 'terminate'];
+        if ((exceptionList.indexOf(v_kind) === -1) && checkValidateForSave()) {
             return false;
         }
         let tokenObject = {};
