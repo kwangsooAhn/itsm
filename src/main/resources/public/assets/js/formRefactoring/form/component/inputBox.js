@@ -11,9 +11,7 @@
  * https://www.brainz.co.kr
  */
 
-import * as CONST from '../../constant.js';
-import Component from './component.js';
-
+import { SESSION, FORM }  from '../../lib/constants.js';
 const DEFAULT = {
     type: 'inputBox',
     value: '${default}',
@@ -24,7 +22,7 @@ const DEFAULT = {
     tags: [],
     label: {
         position: 'left',
-        fontSize: '16',
+        fontSize: '16px',
         fontColor: 'rgba(0,0,0,1)',
         bold: false,
         italic: false,
@@ -44,45 +42,30 @@ const DEFAULT = {
     }
 };
 
-export default class InputBox extends Component {
-    constructor(data = {}) {
-        super(Object.assign(DEFAULT, data));
+export const inputBoxMixIn = {
+    // DOM 엘리먼트 생성
+    makeElement() {
+        //  엘리먼트 그룹
+        const elementBox = document.createElement('div');
+        elementBox.className = 'component-element-box';
+        elementBox.style.cssText = `--data-column:${this.element.columnWidth};`;
 
-        super.drawLabel()
-            .then((elem) => {
-                this.domElem.appendChild(elem);
-                return this.drawElement();
-            }).then((elem) => {
-                this.domElem.appendChild(elem);
-            }).then(() => {
-                addEvent.call(this);
-            });
-    }
-    // input box 출력
-    drawElement() {
-        return new Promise( (resolve, reject) => {
-            //  엘리먼트 그룹
-            const elementBox = document.createElement('div');
-            elementBox.className = 'component-element-box';
-            elementBox.style.cssText = `--data-column:${this.element.columnWidth};`;
+        // inputbox
+        const element = document.createElement('input');
+        element.type = 'text';
+        element.className = 'component-element';
+        element.placeholder = this.element.placeholder;
+        element.required = (this.displayType === FORM.DISPLAY_TYPE.REQUIRED);
+        element.value = this.getValue();
 
-            // inputbox
-            const element = document.createElement('input');
-            element.type = 'text';
-            element.className = 'component-element';
-            element.placeholder = this.element.placeholder;
-            element.required = (this.displayType === CONST.FORM.DISPLAY_TYPE.REQUIRED);
-            element.value = this.getValue();
+        // 유효성 추가
+        element.setAttribute('data-validate-maxLength', this.validate.lengthMax);
+        element.setAttribute('data-validate-minLength', this.validate.lengthMin);
+        element.setAttribute('data-validate-regexpType', this.validate.validateType);
 
-            // 유효성 추가
-            element.setAttribute('data-validate-maxLength', this.validate.lengthMax);
-            element.setAttribute('data-validate-minLength', this.validate.lengthMin);
-            element.setAttribute('data-validate-regexpType', this.validate.validateType);
-
-            elementBox.appendChild(element);
-            resolve(elementBox);
-        });
-    }
+        elementBox.appendChild(element);
+        return elementBox;
+    },
     // 기본 값 조회
     getValue() {
         if (this.value === '${default}') {
@@ -91,15 +74,10 @@ export default class InputBox extends Component {
             if (defaultValues[0] === 'none') {
                 return defaultValues[1];
             } else {  // 자동일경우 : select|userKey
-                return CONST.SESSION[defaultValues[1]] || '';
+                return SESSION[defaultValues[1]] || '';
             }
         } else {
             return this.value;
         }
     }
-}
-
-// 이벤트 등록 : ex 유효성 검증, 사용자 데이터 입력 등
-function addEvent() {
-    console.log(this);
-}
+};

@@ -28,14 +28,6 @@ $layout-properties-panel-box-shadow:               -0.0625rem 0.9375rem 0.4375re
 // main
 $layout-main-bg-color:                             $light-gray;
 
-// drawing-board
-$drawing-board-width:                              56.56rem; // 905px
-$drawing-board-bg-color:                           $white;
-$drawing-board-border:                             0.0625rem solid $line-gray; // 1px
-$drawing-board-box-shadow:                         0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
-$drawing-board-margin:                             3.75rem 0; // 60px 0
-$drawing-board-padding:                            2.188rem; // 35px
-
 // accordion
 $accordion-height:                                 3.125rem; // 50px
 $accordion-border:                                 0.0625rem solid $line-gray; // 1px
@@ -46,8 +38,9 @@ $component-icon-width:                             7.75rem; // 124px
 $component-icon-height:                            7.188rem; // 115px
 $component-icon-hover-bg-color:                    rgba(235, 235, 235, 0.3);
 
-// icon
+////////////////////////////////////// icon//////////////////////////////////////////////
 $icon-arrow-left:                                  $icon-folder-path + "icon_arrow_left.svg";
+
 $icon-component-inputBox:                          $icon-folder-path + "form/context-menu/icon-inputbox.svg";
 $icon-component-textArea:                          $icon-folder-path + "form/context-menu/icon-textbox.svg";
 $icon-component-textEditor:                        $icon-folder-path + "form/context-menu/icon-textbox.svg";
@@ -66,9 +59,19 @@ $icon-component-label:                             $icon-folder-path + "form/con
 $icon-component-image:                             $icon-folder-path + "form/context-menu/icon-image.svg";
 $icon-component-divider:                           $icon-folder-path + "form/context-menu/icon-divider.svg";
 
+///////////////////////////// common /////////////////////////
+$column-row:                                       12;  // 폼을 나누는 갯수
 
 //////////////////////////// form ////////////////////////////
-$column-row:                                       12;  // 폼을 나누는 갯수
+$form-min-height:                                  56.25rem; // 900px
+$form-bg-color:                                    $white;
+$form-border:                                      0.0625rem solid $line-gray; // 1px
+$form-box-shadow:                                  0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
+
+//////////////////////////// group ///////////////////////////
+$group-accordion-bg-color:                         $light-gray;
+$group-accordion-border-color:                     $line-gray;
+$group-accordion-border:                           0.0625rem solid $group-accordion-border-color; // 1px
 
 ////////////////////////// elements /////////////////////////
 // table

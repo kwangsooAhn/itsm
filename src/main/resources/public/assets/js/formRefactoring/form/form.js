@@ -9,36 +9,37 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import Group from './group.js';
+import * as util from '../lib/util.js';
+import * as mixin from '../lib/mixins.js';
+import { UIForm } from '../lib/ui.js';
 
 export default class Form {
-    constructor(data = {}, render) {
+    constructor(data = {}) {
+        this.type = 'form';
         this.id =  data.id || workflowUtil.generateUUID();
-        this.name = data.name || 'form.label.form';
+        this.parent = null;        // 부모 객체
+        this.children = [];        // 자식 객체
+        this.displayOrder = 0;     // 표시 순서
+        this.name = data.name || '';
         this.desc = data.desc || '';
-        this.status = data.status || 'form.status.edit'; // 편집 | 발생 | 사용 | 폐기
-        this.width = data.width || '1600';
-        this.height = data.height || '1000';
-        this.padding = data.padding || '20 20 20 20'; // 문서 내부 여백(위 오른쪽 아래 왼쪽)
-        this.type = data.type || 'process'; // process | cmdb
-        this.render = render;
-        
-        // 그룹 추가
-        this.groups = [];
-        if (data.hasOwnProperty('groups')) {
-            data.groups.forEach( g => {
-                this.addGroup(g);
-            });
-        }
+        this.status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
+        this.width = data.width || '905px';
+        this.margin = data.margin || '60px 0px 60px 0px';
+        this.padding = data.padding || '35px 35px 35px 35px';
+        this.category = data.category || 'process'; // process | cmdb
+        this.readyState = 'initialized'; //폼 상태 (initialized, interactive, complete)
+
+        // Control Mixin import
+        util.importMixin(this, mixin.controlMixIn);
+
+        this.init();
     }
-    // 그룹 추가
-    addGroup(data) {
-        this.groups.push(new Group(data));
+    // 초기화
+    init() {
+        this.UIElem = new UIForm()
+            .setId(this.id)
+            .setWidth(this.width)
+            .setMargin(this.margin)
+            .setPadding(this.padding);
     }
-    // 그룹 삭제
-    removeGroup() {}
-    // 그룹 수정
-    modifyGroup() {}
-    // 그룹 복사
-    copyGroup() {}
 }

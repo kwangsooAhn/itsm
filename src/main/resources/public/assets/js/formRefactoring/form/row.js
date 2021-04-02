@@ -10,78 +10,34 @@
  * https://www.brainz.co.kr
  */
 
-import InputBox from './component/inputBox.js';
-
-let displayOrder = 0; // row 출력 순서
+import * as util from '../lib/util.js';
+import * as mixin from '../lib/mixins.js';
 
 export default class Row {
     constructor(data = {}) {
+        this.type = 'row';
         this.id =  data.id || workflowUtil.generateUUID();
-        this.margin = data.margin || '10 0 10 0'; // row 간 간격(위 오른쪽 아래 왼쪽)
-        this.padding = data.padding || '10 10 10 10'; // row 내부 여백(위 오른쪽 아래 왼쪽)
-        this.displayOrder = data.displayOrder || ++displayOrder;
+        this.parent = null;        // 부모 객체
+        this.children = [];        // 자식 객체
+        this.displayOrder = 0;     // 표시 순서
+        this.margin = data.margin || '10px 0px 10px 0px'; // row 간 간격(위 오른쪽 아래 왼쪽)
+        this.padding = data.padding || '10px 10px 10px 10px'; // row 내부 여백(위 오른쪽 아래 왼쪽)
 
-        // component 추가
-        this.components = [];
-        if (data.hasOwnProperty('components')) {
-            data.components.forEach( r => {
-                this.addComponent(r.type, r);
-            });
-        }
+        // Control Mixin import
+        util.importMixin(this, mixin.controlMixIn);
+
+        this.init();
     }
-    // 컴포넌트 추가
-    addComponent(type, data) {
-        switch(type) {
-        case 'inputBox':
-            this.components.push(new InputBox(data));
-            break;
-        case 'textArea':
-            // this.components.push(new TextArea(data));
-            break;
-        case 'textEditor':
-            // this.components.push(new TextEditor(data));
-            break;
-        case 'dropdown':
-            // this.components.push(new Dropdown(data));
-            break;
-        case 'radio':
-            // this.components.push(new RadioBox(data));
-            break;
-        case 'checkBox':
-            // this.components.push(new CheckBox(data));
-            break;
-        case 'label':
-            // this.components.push(new Label(data));
-            break;
-        case 'image':
-            // this.components.push(new ImageBox(data));
-            break;
-        case 'divider':
-            // this.components.push(new Divider(data));
-            break;
-        case 'date':
-            // this.components.push(new DateBox(data));
-            break;
-        case 'time':
-            // this.components.push(new TimeBox(data));
-            break;
-        case 'dateTime':
-            // this.components.push(new DateTimeBox(data));
-            break;
-        case 'fileUpload':
-            // this.components.push(new FileUpload(data));
-            break;
-        case 'customCode':
-            // this.components.push(new CustomCode(data));
-            break;
-        case 'dynamicRowTable':
-            // this.components.push(new DynamicRowTable(data));
-            break;
-        case 'ci':
-            // this.components.push(new ConfigurationItem(data));
-            break;
-        default:
-            break;
-        }
+    // 초기화
+    init() {
+        this.domElem = this.makeDomElement();
+    }
+    // DOM 엘리먼트 생성
+    makeDomElement() {
+        const row = document.createElement('div');
+        row.id = this.id;
+        row.className = this.type;
+        row.style.cssText = `margin:${this.margin};padding:${this.padding};`;
+        return row;
     }
 }
