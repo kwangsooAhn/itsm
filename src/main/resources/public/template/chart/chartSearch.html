@@ -305,13 +305,12 @@
          * chart 저장 / 수정
          */
         function saveChart(method, chartId) {
-            if (getChartDto() !== undefined) {
+            if (getChartDto(method, chartId) !== undefined) {
                 let url = '/rest/charts';
                 if (method === 'put' && chartId !== undefined) {
-                    getChartDto().chartId = chartId;
                     url += '/' + chartId;
                 }
-                restSubmit(method, url, getChartDto(), function (result) {
+                restSubmit(method, url, getChartDto(method, chartId), function (result) {
                     switch (result) {
                         case STATUS_SUCCESS:
                             aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
@@ -625,7 +624,7 @@
             }
         }
 
-        function getChartDto() {
+        function getChartDto(method, chartId) {
             if (emptyValidation()) {
                 let chartInfo = {
                     chartType: document.getElementById('typeSelectBox').value,
@@ -635,6 +634,9 @@
                     operation: document.getElementById('operationSelectBox').value,
                     durationDigit: document.getElementById('durationDigit').value,
                     durationUnit: document.getElementById('durationUnitSelectBox').value
+                }
+                if (method === 'put' && chartId !== undefined) {
+                    chartInfo.chartId = chartId;
                 }
 
                 if (chartInfo.chartType === STACKED_COLUMN_CHART || chartInfo.chartType === BASIC_LINE_CHART) {

@@ -13,7 +13,8 @@ CREATE TABLE awf_chart
     create_user_key character varying(128),
     create_dt timestamp,
     update_user_key character varying(128),
-    update_dt timestamp
+    update_dt timestamp,
+    CONSTRAINT awf_chart_pk PRIMARY KEY (chart_id)
 );
 
 COMMENT ON TABLE awf_chart IS '차트설정';
