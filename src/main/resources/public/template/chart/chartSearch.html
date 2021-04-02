@@ -153,7 +153,7 @@
          * Chart edit 화면 호출 (Modal)
          */
         function openChartEditModal(chartId, chartType) {
-            let deletable = document.getElementById('deletable').value
+            const deletable = document.getElementById('deletable').value
             let chartOptions = {
                 title: i18n.msg('chart.label.edit'),
                 body: createModalContent(),
