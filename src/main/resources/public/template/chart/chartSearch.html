@@ -32,6 +32,7 @@
         </div>
     </div>
     <div class="chart-content flex-fill">
+        <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''chart.delete'')')}"/>
         <div class="list" id="chartList"></div>
     </div>
 </th:block>
@@ -152,6 +153,7 @@
          * Chart edit 화면 호출 (Modal)
          */
         function openChartEditModal(chartId, chartType) {
+            let deletable = document.getElementById('deletable').value
             let chartOptions = {
                 title: i18n.msg('chart.label.edit'),
                 body: createModalContent(),
@@ -179,15 +181,17 @@
                 }
             };
 
-            if (chartId !== undefined) {
-                chartOptions.buttons.push({
-                    content: i18n.msg('common.btn.delete'),
-                    classes: "default-fill",
-                    bindKey: false,
-                    callback: function (modal) {
-                        deleteChart(chartId);
-                    }
-                });
+            if (deletable === 'true') {
+                if (chartId !== undefined) {
+                    chartOptions.buttons.push({
+                        content: i18n.msg('common.btn.delete'),
+                        classes: "default-fill",
+                        bindKey: false,
+                        callback: function (modal) {
+                            deleteChart(chartId);
+                        }
+                    });
+                }
             }
 
             chartOptions.buttons.push({
