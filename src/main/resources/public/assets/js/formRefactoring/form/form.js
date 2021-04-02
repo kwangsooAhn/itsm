@@ -27,10 +27,9 @@ export default class Form {
         this.margin = data.margin || '60px 0px 60px 0px';
         this.padding = data.padding || '35px 35px 35px 35px';
         this.category = data.category || 'process'; // process | cmdb
-        this.readyState = 'initialized'; //폼 상태 (initialized, interactive, complete)
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixIn);
+        util.importMixin(this, mixin.controlMixin);
 
         this.init();
     }

@@ -52,24 +52,29 @@ class UIElement {
         return this.domElem.id;
     }
 
-    setClass( name ) {
+    setClass(name) {
         this.domElem.className = name;
         return this;
     }
 
-    addClass( name ) {
-        this.domElem.classList.add( name );
+    addClass(name) {
+        this.domElem.classList.add(name);
         return this;
     }
 
-    removeClass( name ) {
-        this.domElem.classList.remove( name );
+    removeClass(name) {
+        this.domElem.classList.remove(name);
         return this;
     }
 
-    setStyle( style, array ) {
+    setAttribute(name, value) {
+        this.domElem.setAttribute('data-' + name, value);
+        return this;
+    }
+
+    setStyle(style, array) {
         for (let i = 0; i < array.length; i++) {
-            this.domElem.style[ style ] = array[i];
+            this.domElem.style[style] = array[i];
         }
         return this;
     }
@@ -94,7 +99,7 @@ const properties = [ 'position', 'left', 'top', 'right', 'bottom', 'width', 'hei
     'border', 'borderLeft', 'borderTop', 'borderRight', 'borderBottom', 'borderColor',
     'display', 'overflow', 'margin', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom',
     'padding', 'paddingLeft', 'paddingTop', 'paddingRight', 'paddingBottom', 'color',
-    'background', 'backgroundColor', 'opacity', 'fontSize', 'fontWeight',
+    'background', 'backgroundColor', 'opacity', 'fontSize', 'fontWeight', 'fontStyle',
     'textAlign', 'textDecoration', 'textTransform', 'cursor', 'zIndex' ];
 properties.forEach(function (property) {
     const method = 'set' + property.substr( 0, 1 ).toUpperCase() + property.substr( 1, property.length );
@@ -120,6 +125,18 @@ class UISpan extends UIElement {
     }
 }
 
+class UILabel extends UIElement {
+    constructor() {
+        super(document.createElement( 'label' ));
+        this.domElem.className = 'label';
+    }
+
+    setFor(id) {
+        this.domElem.htmlFor = id;
+        return this;
+    }
+}
+
 class UIDiv extends UIElement {
     constructor() {
         super(document.createElement( 'div' ));
@@ -133,10 +150,23 @@ class UIForm extends UIDiv {
     }
 }
 
-class UIGroup extends UIDiv {
-    constructor() {
+class UIAccordion extends UIDiv {
+    constructor(boolean) {
         super();
         this.domElem.className = 'group';
+
+        if (boolean) {
+            this.addClass('accordion');
+        }
+
+        this.checkbox = new UICheckbox(true);
+        this.add(this.checkbox);
+
+        this.label = new UILabel();
+        this.labelText = new UISpan().setClass('label-text');
+        this.arrowIcon = new UISpan().setClass('icon arrow-left');
+        this.label.add(this.labelText).add(this.arrowIcon);
+        this.add(this.label);
     }
 }
 
@@ -147,10 +177,18 @@ class UIRow extends UIDiv {
     }
 }
 
+class UIComponent extends UIDiv {
+    constructor() {
+        super();
+        this.domElem.className = 'component';
+        this.domElem.tabIndex = 0;
+    }
+}
+
 class UIText extends UISpan {
     constructor(text) {
         super();
-        this.domElem.className = 'Text';
+        this.domElem.className = 'text';
         this.domElem.style.cursor = 'default';
         this.domElem.style.display = 'inline-block';
         this.domElem.style.verticalAlign = 'middle';
@@ -173,9 +211,7 @@ class UIText extends UISpan {
 class UIInput extends UIElement {
     constructor( text ) {
         super(document.createElement('input'));
-        this.domElem.className = 'Input';
-        this.domElem.style.padding = '2px';
-        this.domElem.style.border = '1px solid transparent';
+        this.domElem.className = 'input';
 
         this.domElem.addEventListener('keydown', function ( event ) {
             event.stopPropagation();
@@ -192,12 +228,22 @@ class UIInput extends UIElement {
         this.domElem.value = value;
         return this;
     }
+
+    setPlaceholder(value) {
+        this.domElem.placeholder = value;
+        return this;
+    }
+
+    setRequired(boolean) {
+        this.domElem.required = boolean;
+        return this;
+    }
 }
 
 class UITextArea extends UIElement {
     constructor() {
         super(document.createElement('textarea'));
-        this.domElem.className = 'TextArea';
+        this.domElem.className = 'textArea';
         this.domElem.style.padding = '2px';
         this.domElem.spellcheck = false;
 
@@ -208,7 +254,8 @@ class UITextArea extends UIElement {
                 event.preventDefault();
 
                 const cursor = this.domElem.selectionStart;
-                this.domElem.value = this.domElem.value.substring( 0, cursor ) + '\t' + this.domElem.value.substring( cursor );
+                this.domElem.value = this.domElem.value.substring( 0, cursor ) + '\t' +
+                    this.domElem.value.substring( cursor );
                 this.domElem.selectionStart = cursor + 1;
                 this.domElem.selectionEnd = this.domElem.selectionStart;
             }
@@ -229,7 +276,7 @@ class UITextArea extends UIElement {
 class UISelect extends UIElement {
     constructor() {
         super(document.createElement('select'));
-        this.domElem.className = 'Select';
+        this.domElem.className = 'select';
         this.domElem.style.padding = '2px';
     }
 
@@ -274,7 +321,7 @@ class UISelect extends UIElement {
 class UICheckbox extends UIElement {
     constructor(boolean) {
         super( document.createElement('input'));
-        this.domElem.className = 'Checkbox';
+        this.domElem.className = 'checkbox';
         this.domElem.type = 'checkbox';
         this.setValue(boolean);
     }
@@ -296,7 +343,7 @@ class UICheckbox extends UIElement {
 class UIColor extends UIElement {
     constructor() {
         super( document.createElement('input'));
-        this.domElem.className = 'Color';
+        this.domElem.className = 'color';
         this.domElem.style.width = '32px';
         this.domElem.style.height = '16px';
         this.domElem.style.border = '0px';
@@ -916,7 +963,7 @@ class ListboxItem extends UIDiv {
     }
 }
 
-export { UIElement, UISpan, UIDiv, UIForm, UIGroup, UIRow, UIText, UIInput, UITextArea,
-    UISelect, UICheckbox, UIColor, UINumber, UIInteger, UIBreak, UIHorizontalRule,
-    UIButton, UIProgress, UITabbedPanel, UIListbox, ListboxItem
+export { UIElement, UISpan, UILabel, UIDiv, UIForm, UIAccordion, UIRow, UIComponent,
+    UIText, UIInput, UITextArea, UISelect, UICheckbox, UIColor, UINumber, UIInteger,
+    UIBreak, UIHorizontalRule, UIButton, UIProgress, UITabbedPanel, UIListbox, ListboxItem
 };

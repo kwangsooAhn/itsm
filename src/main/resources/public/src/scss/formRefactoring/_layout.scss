@@ -179,79 +179,79 @@
     box-shadow: $form-box-shadow;
 
     & *:focus { outline: none !important; }
+
     // 그룹
     .group {
-      .group-labelBox {
+      // 체크박스
+      > .accordion-checkBox {
+        position: absolute;
+        opacity: 0;
+        z-index: $z-index-hidden;
+      }
+      // 라벨
+      >.label {
         display: table;
         width: 100%;
         min-height: 2.5rem; // 40px
         padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
-        .group-label {
+        &.off { display: none; }
+
+        .label-text {
           display: table-cell;
           vertical-align: middle;
+          opacity: 1;
         }
+        // 화살표 아이콘
         .arrow-left {
           opacity: 0;
+          display: table-cell;
+          @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $blue-gray); // 12px 20px
         }
       }
-
-      &.group-accordion {
+      // 아코디언 사용중일 경우
+      &.accordion {
         border-bottom : $group-accordion-border;
-        .group-accordion-checkBox {
-          position: absolute;
-          opacity: 0;
-          z-index: $z-index-hidden;
-
-          &:checked {
-            + .group-accordion-labelBox {
-              border-bottom-color: $group-accordion-border-color;
-              .arrow-left {
-                transform: rotate(-90deg);
-              }
-            }
-            ~ .row {
-              display: block;
+        // 체크박스 선택 = 아코디언 펼침
+        > .accordion-checkBox:checked {
+          + .label {
+            border-bottom-color: $group-accordion-border-color;
+            .arrow-left {
+              transform: rotate(-90deg);
             }
           }
+          ~ .row {
+            display: block;
+          }
         }
-        .group-accordion-labelBox {
+        // 라벨
+        > .label {
           border: $group-accordion-border;
           background-color: $group-accordion-bg-color;
           padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
           cursor: pointer;
           border-bottom-color: transparent;
+
+          &.off {
+            display: table;
+            .label-text {
+              opacity: 0;
+            }
+          }
+
+          .label-text {
+            padding-right: 0.625rem; // 10px
+          }
+
           .arrow-left {
             opacity: 1;
-            display: table-cell;
-            @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $blue-gray); // 12px 20px
           }
         }
+        // row
         .row {
           display: none;
           transition: all 0.25s ease-out;
         }
       }
     }
-
-    /*&[data-readonly=true] {
-      // 폼 양식 화면에서 컴포넌트 수정을 막음
-      .component {
-        .dropzone,
-        .ql-toolbar,
-        textarea,
-        button,
-        input[type=text],
-        label.radio,
-        label.checkbox,
-        select,
-        .select {
-          pointer-events: none;
-        }
-
-        .move-handler {
-          display: inherit;
-        }
-      }
-    }*/
   }
 }

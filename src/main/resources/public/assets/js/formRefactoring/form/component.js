@@ -10,7 +10,10 @@
 
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
-import {inputBoxMixIn} from './component/inputBox.js';
+import { FORM } from '../lib/constants.js';
+import { inputBoxMixin } from './component/inputBox.js';
+import { UIComponent } from '../lib/ui.js';
+
 
 export default class Component {
     constructor(data = {}) {
@@ -20,41 +23,43 @@ export default class Component {
         this.children = [];        // 자식 객체
         this.displayOrder = 0;     // 표시 순서
         this.columnWidth = data.columnWidth || '12';
-        this.displayType = data.displayType || 'editable'; // 출력 타입 (readonly, editable, required, hidden)
+        this.displayType = data.displayType || 'editable'; // (readonly, editable, required, hidden)
         this.isTopic = data.isTopic || false;
         this.mapId = data.mapId || '';
         this.tags = data.tags || [];
         this.value = data.value || '${default}';
-        this.label = data.label || {};
+        this.label = data.label || util.mergeObject(data.label || FORM.DEFAULT.COMPONENT_LABEL);
         this.element = data.element || {};
         this.validate = data.validate || {};
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixIn);
+        util.importMixin(this, mixin.controlMixin);
         // 타입에 따른 Mixin import
         util.importMixin(this, this.getMixinByType());
+        // 라벨 Mixin import
+        util.importMixin(this, mixin.labelMixin);
 
         this.init();
     }
     // 초기화
     init() {
-        this.domElem = this.makeDomElement();
-        // TODO: 라벨 추가
-        // element 추가
-        this.domElem.appendChild(this.makeElement());
-    }
-    // DOM 엘리먼트 생성
-    makeDomElement() {
-        const component = document.createElement('div');
-        component.id = this.id;
-        component.className = this.type;
-        return component;
+        // 내부 property 초기화
+        this.setProperty();
+        // 컴포넌트 추가
+        this.UIElem = new UIComponent()
+            .setId(this.id)
+            .addClass(this.type)
+            .setAttribute('displayType', this.displayType)
+            .setStyle('--data-column', this.columnWidth);
+        // 내부 엘리먼트 추가
+        this.UIElem.elementGroup = this.makeElement();
+        this.UIElem.add(this.UIElem.elementGroup);
     }
     // 타입에 따른 믹스인 호출
     getMixinByType() {
         switch(this.type) {
         case 'inputBox':
-            return inputBoxMixIn;
+            return inputBoxMixin;
         case 'textArea':
             //object = new TextArea(data);
             break;

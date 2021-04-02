@@ -8,9 +8,10 @@
  * https://www.brainz.co.kr
  */
 import { FORM } from './constants.js';
+import { UILabel, UISpan } from './ui.js';
 
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
-export const controlMixIn = {
+export const controlMixin = {
     // 자식 객체 추가
     add(object) {
         if (!object) { return false; }
@@ -68,36 +69,33 @@ export const controlMixIn = {
 };
 // label 공통 믹스인
 export const labelMixin = {
-    makeLabelElement() {
-        // 라벨 그룹
-        const labelBox = document.createElement('div');
+    // 라벨 객체 생성
+    makeLabel() {
+        const label = new UILabel()
+            .addClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
+            .setStyle('--data-column', this.getLabelColumnWidth(this.label.position))
+            .setTextAlign(this.label.align);
+        label.labelText = new UISpan().setClass('label-text')
+            .setFontSize(this.label.fontSize)
+            .setFontWeight((this.label.bold ? 'bold' : ''))
+            .setFontStyle((this.label.italic ? 'italic' : ''))
+            .setTextDecoration((this.label.underline ? 'underline' : ''))
+            .setColor(this.label.fontColor)
+            .setTextContent(this.label.text);
+        label.add(label.labelText);
+        // 필수 여부
+        label.requiredText = new UISpan().setClass('required');
+        label.add(label.requiredText);
+        return label;
+    },
+    // 라벨 너비 계산
+    getLabelColumnWidth(position) {
         let labelColumnWidth = FORM.COLUMN; // 12
-        if (this.label.position === FORM.LABEL.POSITION.HIDDEN) {
+        if (position === FORM.LABEL.POSITION.HIDDEN) {
             labelColumnWidth = 0;
-        } else if (this.label.position === FORM.LABEL.POSITION.LEFT) {
+        } else if (position === FORM.LABEL.POSITION.LEFT) {
             labelColumnWidth -= Number(this.element.columnWidth);
         }
-        labelBox.className = `component-label-box ` +
-            `align-${this.label.align} ` +
-            `position-${this.label.position}`;
-        labelBox.style.cssText = `--data-column:${labelColumnWidth};`;
-
-        // 라벨 문구
-        const label = document.createElement('label');
-        label.className = 'component-label';
-        label.style.cssText = `color:${this.label.fontColor};` +
-            `font-size:${this.label.fontSize}px;` +
-            `${this.label.bold ? 'font-weight:bold;' : ''}` +
-            `${this.label.italic ? 'font-style:italic;' : ''}` +
-            `${this.label.underline ? 'text-decoration:underline;' : ''}`;
-        label.textContent = this.label.text;
-        labelBox.appendChild(label);
-
-        // 필수값
-        const required = document.createElement('span');
-        required.className = 'required';
-        labelBox.appendChild(required);
-
-        return labelBox;
+        return labelColumnWidth;
     }
 };

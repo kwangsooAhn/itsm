@@ -12,6 +12,7 @@
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
 import { FORM } from '../lib/constants.js';
+import { UIAccordion } from '../lib/ui.js';
 
 export default class Group {
     constructor(data = {}) {
@@ -25,40 +26,27 @@ export default class Group {
         this.isAccordionUsed = data.isAccordionUsed;
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixIn);
+        util.importMixin(this, mixin.controlMixin);
 
         this.init();
     }
     // 초기화
     init() {
-        this.domElem = this.makeDomElement();
-    }
-    // DOM 엘리먼트 생성
-    makeDomElement() {
-        const group = document.createElement('div');
-        group.id = this.id;
-        group.className = this.type + ' align-left' +
-            (this.isAccordionUsed ? ' group-accordion': '');
-        group.style.cssText = `margin:${this.margin};`;
+        const groupUI = new UIAccordion(this.isAccordionUsed).setId(this.id).setMargin(this.margin);
         // 아코디언용 체크박스
-        if (this.isAccordionUsed) {
-            const chkTemplate = `<input type="checkbox" id="chk-${this.id}" class="group-accordion-checkBox" checked="true"/>`;
-            group.insertAdjacentHTML('beforeend', chkTemplate);
-        }
+        groupUI.checkbox.setId('chk-' + this.id).setClass('accordion-checkBox');
         // 라벨
-        const labelTemplate =
-            `<label class="align-${this.label.align} group-labelBox` +
-                `${this.isAccordionUsed ? ' group-accordion-labelBox' : ''}" for="chk-${this.id}">`+
-                `<span class="group-label" style="` +
-                    `color: ${this.label.fontColor}; font-size: ${this.label.fontSize};` +
-                    `${this.label.bold ? ' font-weight: bold;' : ''}` +
-                    `${this.label.italic ? ' font-style: italic;' : ''}` +
-                    `${this.label.underline ? ' text-decoration: underline;' : ''}">` +
-                    `${aliceJs.filterXSS(this.label.text)}` +
-                `</span>` +
-                `<span class="arrow-left"></span>` +
-            `</label>`;
-        group.insertAdjacentHTML('beforeend', labelTemplate);
-        return group;
+        groupUI.label.setFor('chk-' + this.id)
+            .addClass((this.label.isLabelUsed ? 'on' : 'off'))
+            .setTextAlign(this.label.align); // 라벨 사용여부: 라벨 숨김 또는 보임
+        // 라벨 텍스트
+        groupUI.labelText.setFontSize(this.label.fontSize)
+            .setFontWeight((this.label.bold ? 'bold' : ''))
+            .setFontStyle((this.label.italic ? 'italic' : ''))
+            .setTextDecoration((this.label.underline ? 'underline' : ''))
+            .setColor(this.label.fontColor)
+            .setTextContent(this.label.text);
+
+        this.UIElem = groupUI;
     }
 }

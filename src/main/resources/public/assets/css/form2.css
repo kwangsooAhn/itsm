@@ -943,69 +943,31 @@ input, button, select, optgroup, textarea {
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
-  /*&[data-readonly=true] {
-    // 폼 양식 화면에서 컴포넌트 수정을 막음
-    .component {
-      .dropzone,
-      .ql-toolbar,
-      textarea,
-      button,
-      input[type=text],
-      label.radio,
-      label.checkbox,
-      select,
-      .select {
-        pointer-events: none;
-      }
-
-      .move-handler {
-        display: inherit;
-      }
-    }
-  }*/
 }
 .drawing-board .form *:focus {
   outline: none !important;
 }
-.drawing-board .form .group .group-labelBox {
+.drawing-board .form .group > .accordion-checkBox {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+.drawing-board .form .group > .label {
   display: table;
   width: 100%;
   min-height: 2.5rem;
   padding: 0 0.625rem 0 0.625rem;
 }
-.drawing-board .form .group .group-labelBox .group-label {
+.drawing-board .form .group > .label.off {
+  display: none;
+}
+.drawing-board .form .group > .label .label-text {
   display: table-cell;
   vertical-align: middle;
-}
-.drawing-board .form .group .group-labelBox .arrow-left {
-  opacity: 0;
-}
-.drawing-board .form .group.group-accordion {
-  border-bottom: 0.0625rem solid #EBEBEB;
-}
-.drawing-board .form .group.group-accordion .group-accordion-checkBox {
-  position: absolute;
-  opacity: 0;
-  z-index: -1;
-}
-.drawing-board .form .group.group-accordion .group-accordion-checkBox:checked + .group-accordion-labelBox {
-  border-bottom-color: #EBEBEB;
-}
-.drawing-board .form .group.group-accordion .group-accordion-checkBox:checked + .group-accordion-labelBox .arrow-left {
-  transform: rotate(-90deg);
-}
-.drawing-board .form .group.group-accordion .group-accordion-checkBox:checked ~ .row {
-  display: block;
-}
-.drawing-board .form .group.group-accordion .group-accordion-labelBox {
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #F7F8F9;
-  padding: 0 1.125rem 0 0.625rem;
-  cursor: pointer;
-  border-bottom-color: transparent;
-}
-.drawing-board .form .group.group-accordion .group-accordion-labelBox .arrow-left {
   opacity: 1;
+}
+.drawing-board .form .group > .label .arrow-left {
+  opacity: 0;
   display: table-cell;
   width: 0.75rem;
   height: 1.25rem;
@@ -1017,7 +979,38 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #929AA6;
 }
-.drawing-board .form .group.group-accordion .row {
+.drawing-board .form .group.accordion {
+  border-bottom: 0.0625rem solid #EBEBEB;
+}
+.drawing-board .form .group.accordion > .accordion-checkBox:checked + .label {
+  border-bottom-color: #EBEBEB;
+}
+.drawing-board .form .group.accordion > .accordion-checkBox:checked + .label .arrow-left {
+  transform: rotate(-90deg);
+}
+.drawing-board .form .group.accordion > .accordion-checkBox:checked ~ .row {
+  display: block;
+}
+.drawing-board .form .group.accordion > .label {
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #F7F8F9;
+  padding: 0 1.125rem 0 0.625rem;
+  cursor: pointer;
+  border-bottom-color: transparent;
+}
+.drawing-board .form .group.accordion > .label.off {
+  display: table;
+}
+.drawing-board .form .group.accordion > .label.off .label-text {
+  opacity: 0;
+}
+.drawing-board .form .group.accordion > .label .label-text {
+  padding-right: 0.625rem;
+}
+.drawing-board .form .group.accordion > .label .arrow-left {
+  opacity: 1;
+}
+.drawing-board .form .group.accordion .row {
   display: none;
   transition: all 0.25s ease-out;
 }
