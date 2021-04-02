@@ -455,7 +455,7 @@
      */
     function save(v_kind) {
         // validation check
-        let exceptionList = ['save', 'cancel', 'terminate'];
+        let exceptionList = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
         if ((exceptionList.indexOf(v_kind) === -1) && checkValidateForSave()) {
             return false;
         }
