@@ -68,11 +68,8 @@ interface AliceRepositoryCustom {
         }
 
         val regexChar = "[_%\\\\]".toRegex()
-        var convert = input
-        val findSpecialChar = regexChar.findAll(convert)
-        findSpecialChar.forEach {
-            convert = convert!!.replace(it.value, "\\" + it.value)
+        return regexChar.replace(input) {
+            "\\" + it.value
         }
-        return convert
     }
 }
