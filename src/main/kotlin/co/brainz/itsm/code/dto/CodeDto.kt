@@ -3,7 +3,6 @@
  * https://www.brainz.co.kr
  */
 
-
 package co.brainz.itsm.code.dto
 
 import java.io.Serializable

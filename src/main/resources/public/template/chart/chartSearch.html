@@ -32,6 +32,7 @@
         </div>
     </div>
     <div class="chart-content flex-fill">
+        <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''chart.delete'')')}"/>
         <div class="list" id="chartList"></div>
     </div>
 </th:block>
@@ -152,6 +153,7 @@
          * Chart edit 화면 호출 (Modal)
          */
         function openChartEditModal(chartId, chartType) {
+            const deletable = document.getElementById('deletable').value
             let chartOptions = {
                 title: i18n.msg('chart.label.edit'),
                 body: createModalContent(),
@@ -179,15 +181,17 @@
                 }
             };
 
-            if (chartId !== undefined) {
-                chartOptions.buttons.push({
-                    content: i18n.msg('common.btn.delete'),
-                    classes: "default-fill",
-                    bindKey: false,
-                    callback: function (modal) {
-                        deleteChart(chartId);
-                    }
-                });
+            if (deletable === 'true') {
+                if (chartId !== undefined) {
+                    chartOptions.buttons.push({
+                        content: i18n.msg('common.btn.delete'),
+                        classes: "default-fill",
+                        bindKey: false,
+                        callback: function (modal) {
+                            deleteChart(chartId);
+                        }
+                    });
+                }
             }
 
             chartOptions.buttons.push({
@@ -301,13 +305,12 @@
          * chart 저장 / 수정
          */
         function saveChart(method, chartId) {
-            if (getChartDto() !== undefined) {
+            if (getChartDto(method, chartId) !== undefined) {
                 let url = '/rest/charts';
                 if (method === 'put' && chartId !== undefined) {
-                    getChartDto().chartId = chartId;
                     url += '/' + chartId;
                 }
-                restSubmit(method, url, getChartDto(), function (result) {
+                restSubmit(method, url, getChartDto(method, chartId), function (result) {
                     switch (result) {
                         case STATUS_SUCCESS:
                             aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
@@ -621,7 +624,7 @@
             }
         }
 
-        function getChartDto() {
+        function getChartDto(method, chartId) {
             if (emptyValidation()) {
                 let chartInfo = {
                     chartType: document.getElementById('typeSelectBox').value,
@@ -631,6 +634,9 @@
                     operation: document.getElementById('operationSelectBox').value,
                     durationDigit: document.getElementById('durationDigit').value,
                     durationUnit: document.getElementById('durationUnitSelectBox').value
+                }
+                if (method === 'put' && chartId !== undefined) {
+                    chartInfo.chartId = chartId;
                 }
 
                 if (chartInfo.chartType === STACKED_COLUMN_CHART || chartInfo.chartType === BASIC_LINE_CHART) {
