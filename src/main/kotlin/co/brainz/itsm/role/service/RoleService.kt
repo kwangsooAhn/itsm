@@ -133,13 +133,20 @@ class RoleService(
     }
 
     /**
+     * 사용자의 역할 조회
+     */
+    fun getUserRoles(userKey: String): MutableList<RoleListDto> {
+        return userRoleMapRepository.findUserRoleByUserKey(userKey)
+    }
+
+    /**
      * 전체 역할 목록 조회 및 사용자가 가지고 있는 역할 체크
      */
     fun getAllRolesToUserCheck(userEntity: AliceUserEntity?): MutableList<RoleDetailDto> {
         val allRoles = roleRepository.findRoleSearch("").results
         val userRoleIds = mutableListOf<String>()
         if (userEntity != null) {
-            val userRoles = userRoleMapRepository.findUserRoleByUserKey(userEntity.userKey)
+            val userRoles = this.getUserRoles(userEntity.userKey)
             for (userRole in userRoles) {
                 userRoleIds.add(userRole.roleId)
             }

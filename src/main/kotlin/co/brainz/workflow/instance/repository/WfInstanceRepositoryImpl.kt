@@ -83,7 +83,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                         .from(elementDataSub)
                         .innerJoin(elementDataSub.element, element)
                         .where(
-                            token.element.eq(elementDataSub.element),
+                            element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value),
                             elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),
                             elementDataSub.attributeValue.eq(WfTokenConstants.AssigneeType.USERS.code)
                         )
@@ -102,7 +102,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                         .from(elementDataSub)
                         .innerJoin(elementDataSub.element, element)
                         .where(
-                            token.element.eq(elementDataSub.element),
+                            element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value),
                             elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),
                             elementDataSub.attributeValue.eq(WfTokenConstants.AssigneeType.GROUPS.code)
                         )
