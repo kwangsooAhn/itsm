@@ -93,12 +93,17 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
             .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciClassEntity.classId))
             .where(
-                super.like(ci.ciName, ciSearchDto.search)
-                    ?.or(super.like(ci.ciNo, ciSearchDto.search))
-                    ?.or(super.like(ci.ciTypeEntity.typeName, ciSearchDto.search))
-                    ?.or(super.like(ci.ciClassEntity.className, ciSearchDto.search))
-                    ?.or(super.like(ci.ciDesc, ciSearchDto.search))
-            ).orderBy(ci.ciName.asc())
+                (!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
+                    .and(
+                        super.like(ci.ciName, ciSearchDto.search)
+                            ?.or(super.like(ci.ciNo, ciSearchDto.search))
+                            ?.or(super.like(ci.ciTypeEntity.typeName, ciSearchDto.search))
+                            ?.or(super.like(ci.ciClassEntity.className, ciSearchDto.search))
+                            ?.or(super.like(ci.ciDesc, ciSearchDto.search))
+                    )
+            )
+
+            .orderBy(ci.ciName.asc())
         if (ciSearchDto.tags.isNotEmpty()) {
             query.where(
                 ci.ciId.`in`(
@@ -113,15 +118,12 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         }
         if (ciSearchDto.flag == "component") {
             query.where(
-                ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_USE.code)
-                    .and(
-                        ci.ciId.notIn(
-                            JPAExpressions
-                                .select(wfComponentCIData.ciId)
-                                .from(wfComponentCIData)
-                                .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
-                        )
-                    )
+                ci.ciId.notIn(
+                    JPAExpressions
+                        .select(wfComponentCIData.ciId)
+                        .from(wfComponentCIData)
+                        .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
+                )
             )
         }
         if (ciSearchDto.offset != null) {
