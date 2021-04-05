@@ -110,6 +110,9 @@ table[id="documentDisplay"] {
       height: 1.5rem; // 24px
       font-weight: $font-weight-regular;
       color: $dark-gray;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }
