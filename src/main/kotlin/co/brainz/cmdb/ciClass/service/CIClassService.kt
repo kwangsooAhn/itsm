@@ -77,7 +77,6 @@ class CIClassService(
         var editable = true
         val classList = mutableListOf<String>()
         classList.add(ciClassEntity.classId)
-        val recursiveClassList = mutableListOf<String>()
         val attributes = ciClassRepository.findClassToAttributeList(classList)
         var extendsAttributes: List<CIClassToAttributeDto>? = null
 
@@ -90,10 +89,19 @@ class CIClassService(
             editable = false
         }
 
-        if (ciClassRepository.findRecursiveClass(classId).isNotEmpty()) {
-            ciClassRepository.findRecursiveClass(classId).forEach {
-                recursiveClassList.add(it.classId)
-            }
+        val recursiveClassList = mutableListOf<String>()
+        if (ciClassEntity.pClass != null) {
+            val ciClassResult = ciClassRepository.findClassList(SearchDto(offset = null, limit = null))
+            recursiveClassList.addAll(
+                getRecursiveParentClassId(
+                    ciClassResult.results,
+                    ciClassEntity.pClass?.classId,
+                    mutableListOf()
+                )
+            )
+        }
+
+        if (recursiveClassList.isNotEmpty()) {
             extendsAttributes = ciClassRepository.findClassToAttributeList(recursiveClassList)
         }
 
@@ -107,6 +115,25 @@ class CIClassService(
             attributes = attributes,
             extendsAttributes = extendsAttributes
         )
+    }
+
+    /**
+     * CI Class 부모가 존재할 경우 최상위까지 조회화여 classId 추출
+     */
+    private fun getRecursiveParentClassId(
+        allCIClassDtoList: List<CIClassListDto>,
+        pClassId: String?,
+        recursiveClassList: MutableList<String>
+    ): List<String> {
+        if (pClassId != null) {
+            recursiveClassList.add(pClassId)
+            for (ciClassListDto in allCIClassDtoList) {
+                if (ciClassListDto.classId == pClassId) {
+                    getRecursiveParentClassId(allCIClassDtoList, ciClassListDto.pClassId, recursiveClassList)
+                }
+            }
+        }
+        return recursiveClassList.toList()
     }
 
     /**

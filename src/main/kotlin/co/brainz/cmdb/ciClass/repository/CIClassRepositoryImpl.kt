@@ -80,6 +80,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
     override fun findClassToAttributeList(classList: MutableList<String>): List<CIClassToAttributeDto>? {
         val ciClassAttributeMap = QCIClassAttributeMapEntity.cIClassAttributeMapEntity
         val attribute = QCIAttributeEntity.cIAttributeEntity
+        val ciClass = QCIClassEntity.cIClassEntity
         val query = from(ciClassAttributeMap)
             .select(
                 Projections.constructor(
@@ -87,13 +88,16 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
                     ciClassAttributeMap.ciClass.classId,
                     ciClassAttributeMap.ciAttribute.attributeId,
                     ciClassAttributeMap.ciAttribute.attributeName,
+                    ciClass.classLevel,
                     ciClassAttributeMap.attributeOrder
                 )
             )
+            .innerJoin(ciClassAttributeMap.ciClass, ciClass)
             .innerJoin(ciClassAttributeMap.ciAttribute, attribute)
             .where(
                 ciClassAttributeMap.ciClass.classId.`in`(classList)
-            ).orderBy(ciClassAttributeMap.attributeOrder.asc())
+            )
+            .orderBy(ciClass.classLevel.asc(), ciClassAttributeMap.attributeOrder.asc())
         val result = query.fetchResults()
         val ciClassToAttributeList = mutableListOf<CIClassToAttributeDto>()
         for (data in result.results) {
