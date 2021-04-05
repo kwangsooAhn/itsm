@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.workflow.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
@@ -59,39 +65,53 @@ class WfInstanceService(
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val wfTokenMapper: WfTokenMapper = Mappers.getMapper(WfTokenMapper::class.java)
 
+
+    /**
+     * String 데이터를 분리하여 Set<String> 으로 변환
+     */
+    private fun stringToSet(args: String): HashSet<String> {
+        val set = HashSet<String>()
+        if (args.isNotEmpty()) {
+            set.addAll(
+                StringUtils.trimAllWhitespace(args).replace("#", "").split(",")
+            )
+        }
+        return set
+    }
+
     /**
      * Search Instances.
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
+        // String tags -> Set<String>
+        parameters["tags"] = this.stringToSet(parameters["tags"].toString())
 
-        var tagList = emptyList<String>()
-        if (parameters["tags"].toString().isNotEmpty()) {
-            tagList = StringUtils.trimAllWhitespace(parameters["tags"].toString())
-                .replace("#", "")
-                .split(",")
-        }
-        parameters["tags"] = HashSet<String>(tagList)
-
+        // Get Document List
         val queryResults = when (parameters["tokenType"].toString()) {
-            WfTokenConstants.SearchType.REQUESTED.code -> requestedInstances(parameters)
-            WfTokenConstants.SearchType.PROGRESS.code -> relatedInstances(
-                WfInstanceConstants.getTargetStatusGroup(
-                    WfTokenConstants.SearchType.PROGRESS
-                ), parameters
-            )
-            WfTokenConstants.SearchType.COMPLETED.code -> relatedInstances(
-                WfInstanceConstants.getTargetStatusGroup(
-                    WfTokenConstants.SearchType.COMPLETED
-                ), parameters
-            )
-            else -> todoInstances(
-                WfInstanceConstants.getTargetStatusGroup(
-                    WfTokenConstants.SearchType.TODO
-                ),
-                WfTokenConstants.getTargetTokenStatusGroup(
-                    WfTokenConstants.SearchType.TODO
-                ), parameters
-            )
+            WfTokenConstants.SearchType.REQUESTED.code -> {
+                requestedInstances(
+                    parameters
+                )
+            }
+            WfTokenConstants.SearchType.PROGRESS.code -> {
+                relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
+                    parameters
+                )
+            }
+            WfTokenConstants.SearchType.COMPLETED.code -> {
+                relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
+                    parameters
+                )
+            }
+            else -> {
+                todoInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
+                    WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
+                    parameters
+                )
+            }
         }
 
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
