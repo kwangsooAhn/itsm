@@ -12,7 +12,7 @@
 
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
-import { UIDiv, UIRow } from '../lib/ui.js';
+import { UIDiv } from '../lib/ui.js';
 import { CLASS_PREFIX } from '../lib/constants.js';
 
 export default class Row {
@@ -33,14 +33,26 @@ export default class Row {
     // 초기화
     init() {
         // row 용 툴팁
-        const rowTooltip = new UIDiv().setClass(CLASS_PREFIX + 'row-tooltip');
+        const rowTooltip = new UIRowTooltip();
         // row
-        const row = new UIRow()
+        rowTooltip.UIRow = new UIRow()
             .setId(this.id)
             .setMargin(this.margin)
             .setPadding(this.padding);
-        rowTooltip.add(row);
-        this.UITooltip = rowTooltip;
-        this.UIElem = row;
+        rowTooltip.add(rowTooltip.UIRow);
+        this.UIElement = rowTooltip;
+    }
+}
+export class UIRowTooltip extends UIDiv {
+    constructor() {
+        super();
+        this.domElement.className = CLASS_PREFIX + 'row-tooltip';
+    }
+}
+
+export class UIRow extends UIDiv {
+    constructor() {
+        super();
+        this.domElement.className = CLASS_PREFIX + 'row';
     }
 }

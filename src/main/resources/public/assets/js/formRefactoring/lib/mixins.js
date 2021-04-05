@@ -9,6 +9,8 @@
  */
 import { CLASS_PREFIX, FORM } from './constants.js';
 import { UILabel, UISpan } from './ui.js';
+import { UIRowTooltip } from '../form/row.js';
+import { UIComponentTooltip } from '../form/component.js';
 
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
 export const controlMixin = {
@@ -18,18 +20,17 @@ export const controlMixin = {
 
         if (object.parent !== null) {
             object.parent.remove(object);
-            object.parent.UIElem.remove(
-                (object.UITooltip !== undefined) ? object.UITooltip : object.UIElem
-            );
         }
         object.parent = this;
         object.displayOrder = this.children.length;
         this.children.push(object);
-        // dom 객체 삭제
-        if (object.UITooltip !== undefined) {
-            this.UIElem.add(object.UITooltip);
+        // 객체 추가
+        if (object.UIElement instanceof UIRowTooltip) {
+            this.UIElement.UIGroup.add(object.UIElement);
+        } else if (object.UIElement instanceof UIComponentTooltip) {
+            this.UIElement.UIRow.add(object.UIElement);
         } else {
-            this.UIElem.add(object.UIElem);
+            this.UIElement.add(object.UIElement);
         }
 
         return this;
@@ -38,10 +39,12 @@ export const controlMixin = {
     remove(object) {
         const idx = this.children.indexOf(object);
         if (idx !== -1) {
-            if (object.UITooltip !== undefined) {
-                object.parent.UIElem.remove(object.UITooltip);
+            if (object.UIElement instanceof UIRowTooltip) {
+                this.UIElement.UIGroup.remove(object.UIElement);
+            } else if (object.UIElement instanceof UIComponentTooltip) {
+                this.UIElement.UIRow.remove(object.UIElement);
             } else {
-                object.parent.UIElem.remove(object.UIElem);
+                this.UIElement.remove(object.UIElement);
             }
             object.parent = null;
             this.children.splice(idx, 1);
@@ -86,17 +89,17 @@ export const componentLabelMixin = {
             .addClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
             .setStyle('--data-column', this.getLabelColumnWidth(this.label.position))
             .setTextAlign(this.label.align);
-        label.labelText = new UISpan().setClass(CLASS_PREFIX + 'component-label-text')
+        label.UILabelText = new UISpan().setClass(CLASS_PREFIX + 'component-label-text')
             .setFontSize(this.label.fontSize)
             .setFontWeight((this.label.bold ? 'bold' : ''))
             .setFontStyle((this.label.italic ? 'italic' : ''))
             .setTextDecoration((this.label.underline ? 'underline' : ''))
             .setColor(this.label.fontColor)
             .setTextContent(this.label.text);
-        label.add(label.labelText);
+        label.add(label.UILabelText);
         // 필수 여부
-        label.requiredText = new UISpan().setClass('required');
-        label.add(label.requiredText);
+        label.UIRequiredText = new UISpan().setClass('required');
+        label.add(label.UIRequiredText);
         return label;
     },
     // 라벨 너비 계산

@@ -11,7 +11,8 @@
  */
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
-import { UIForm } from '../lib/ui.js';
+import { UIDiv } from '../lib/ui.js';
+import { CLASS_PREFIX } from '../lib/constants.js';
 
 export default class Form {
     constructor(data = {}) {
@@ -35,10 +36,17 @@ export default class Form {
     }
     // 초기화
     init() {
-        this.UIElem = new UIForm()
+        this.UIElement = new UIForm()
             .setId(this.id)
             .setWidth(this.width)
             .setMargin(this.margin)
             .setPadding(this.padding);
+    }
+}
+
+export class UIForm extends UIDiv {
+    constructor() {
+        super();
+        this.domElement.className = CLASS_PREFIX + 'form';
     }
 }

@@ -13,7 +13,7 @@
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
 import * as util from '../../lib/util.js';
-import { UIDiv, UILabel, UISpan, UIInput } from '../../lib/ui.js';
+import { UIDiv, UIInput } from '../../lib/ui.js';
 
 export const inputBoxMixin = {
     // property 초기화
@@ -28,19 +28,21 @@ export const inputBoxMixin = {
         const field = new UIDiv()
             .setClass(CLASS_PREFIX + 'field flex-row align-items-center flex-wrap');
         // label
-        field.label = this.makeLabel();
-        field.add(field.label);
+        field.UILabel = this.makeLabel();
+        field.add(field.UILabel);
         // element
         const element = new UIDiv().setClass(CLASS_PREFIX + 'element')
             .setStyle('--data-column', this.element.columnWidth);
-        element.inputbox = new UIInput().setPlaceholder(this.element.placeholder)
+        element.UIInputbox = new UIInput().setPlaceholder(this.element.placeholder)
             .setRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
             .setValue(this.getValue())
             .setAttribute('validate-type', this.validate.validateType)
             .setAttribute('validate-maxLength', this.validate.lengthMax)
             .setAttribute('validate-minLength', this.validate.lengthMin);
-        field.element = element.inputbox;
-        field.add(element.inputbox);
+        element.add(element.UIInputbox);
+
+        field.UIElement = element;
+        field.add(field.UIElement);
 
         return field;
     },
