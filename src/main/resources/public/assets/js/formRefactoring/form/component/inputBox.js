@@ -11,7 +11,7 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM }  from '../../lib/constants.js';
+import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
 import * as util from '../../lib/util.js';
 import { UIDiv, UILabel, UISpan, UIInput } from '../../lib/ui.js';
 
@@ -22,17 +22,16 @@ export const inputBoxMixin = {
         util.mergeObject(this.element || FORM.DEFAULT.INPUTBOX.ELEMENT);
         util.mergeObject(this.validate || FORM.DEFAULT.INPUTBOX.VALIDATE);
     },
-    // DOM 엘리먼트 생성
-    makeElement() {
-        //this.UIElem.add()
-        // 엘리먼트 그룹
-        const elementGroup = new UIDiv()
-            .setClass('element-group flex-row align-items-center flex-wrap');
+    // field 엘리먼트 생성
+    makeField() {
+        // field > label + element
+        const field = new UIDiv()
+            .setClass(CLASS_PREFIX + 'field flex-row align-items-center flex-wrap');
         // label
-        elementGroup.label = this.makeLabel();
-        elementGroup.add(elementGroup.label);
-        // input box
-        const element = new UIDiv().setClass('element')
+        field.label = this.makeLabel();
+        field.add(field.label);
+        // element
+        const element = new UIDiv().setClass(CLASS_PREFIX + 'element')
             .setStyle('--data-column', this.element.columnWidth);
         element.inputbox = new UIInput().setPlaceholder(this.element.placeholder)
             .setRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
@@ -40,10 +39,10 @@ export const inputBoxMixin = {
             .setAttribute('validate-type', this.validate.validateType)
             .setAttribute('validate-maxLength', this.validate.lengthMax)
             .setAttribute('validate-minLength', this.validate.lengthMin);
-        elementGroup.element = element.inputbox;
-        elementGroup.add(element.inputbox);
+        field.element = element.inputbox;
+        field.add(element.inputbox);
 
-        return elementGroup;
+        return field;
     },
     // 기본 값 조회
     getValue() {

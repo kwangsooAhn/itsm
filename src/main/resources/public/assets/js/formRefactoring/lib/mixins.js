@@ -7,7 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { FORM } from './constants.js';
+import { CLASS_PREFIX, FORM } from './constants.js';
 import { UILabel, UISpan } from './ui.js';
 
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
@@ -18,12 +18,19 @@ export const controlMixin = {
 
         if (object.parent !== null) {
             object.parent.remove(object);
-            object.parent.UIElem.remove(object.UIElem);
+            object.parent.UIElem.remove(
+                (object.UITooltip !== undefined) ? object.UITooltip : object.UIElem
+            );
         }
         object.parent = this;
         object.displayOrder = this.children.length;
         this.children.push(object);
-        this.UIElem.add(object.UIElem);
+        // dom 객체 삭제
+        if (object.UITooltip !== undefined) {
+            this.UIElem.add(object.UITooltip);
+        } else {
+            this.UIElem.add(object.UIElem);
+        }
 
         return this;
     },
@@ -31,7 +38,11 @@ export const controlMixin = {
     remove(object) {
         const idx = this.children.indexOf(object);
         if (idx !== -1) {
-            object.parent.UIElem.remove(object.UIElem);
+            if (object.UITooltip !== undefined) {
+                object.parent.UIElem.remove(object.UITooltip);
+            } else {
+                object.parent.UIElem.remove(object.UIElem);
+            }
             object.parent = null;
             this.children.splice(idx, 1);
             // 재정렬
@@ -68,14 +79,14 @@ export const controlMixin = {
     }
 };
 // label 공통 믹스인
-export const labelMixin = {
+export const componentLabelMixin = {
     // 라벨 객체 생성
     makeLabel() {
-        const label = new UILabel()
+        const label = new UILabel().setClass(CLASS_PREFIX + 'component-label')
             .addClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
             .setStyle('--data-column', this.getLabelColumnWidth(this.label.position))
             .setTextAlign(this.label.align);
-        label.labelText = new UISpan().setClass('label-text')
+        label.labelText = new UISpan().setClass(CLASS_PREFIX + 'component-label-text')
             .setFontSize(this.label.fontSize)
             .setFontWeight((this.label.bold ? 'bold' : ''))
             .setFontStyle((this.label.italic ? 'italic' : ''))

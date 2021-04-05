@@ -10,9 +10,9 @@
 
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
-import { FORM } from '../lib/constants.js';
+import { CLASS_PREFIX, FORM } from '../lib/constants.js';
 import { inputBoxMixin } from './component/inputBox.js';
-import { UIComponent } from '../lib/ui.js';
+import { UIComponent, UIDiv } from '../lib/ui.js';
 
 
 export default class Component {
@@ -37,7 +37,7 @@ export default class Component {
         // 타입에 따른 Mixin import
         util.importMixin(this, this.getMixinByType());
         // 라벨 Mixin import
-        util.importMixin(this, mixin.labelMixin);
+        util.importMixin(this, mixin.componentLabelMixin);
 
         this.init();
     }
@@ -45,15 +45,21 @@ export default class Component {
     init() {
         // 내부 property 초기화
         this.setProperty();
+        // 컴포넌트용 툴팁
+        const componentTooltip = new UIDiv().setClass(CLASS_PREFIX + 'component-tooltip');
         // 컴포넌트 추가
-        this.UIElem = new UIComponent()
+        const component = new UIComponent()
             .setId(this.id)
             .addClass(this.type)
             .setAttribute('displayType', this.displayType)
             .setStyle('--data-column', this.columnWidth);
         // 내부 엘리먼트 추가
-        this.UIElem.elementGroup = this.makeElement();
-        this.UIElem.add(this.UIElem.elementGroup);
+        component.field = this.makeField();
+        component.add(component.field);
+
+        componentTooltip.add(component);
+        this.UITooltip = componentTooltip;
+        this.UIElem = component;
     }
     // 타입에 따른 믹스인 호출
     getMixinByType() {

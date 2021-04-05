@@ -8,6 +8,8 @@
  * https://www.brainz.co.kr
  */
 
+import { CLASS_PREFIX } from './constants.js';
+
 class UIElement {
     constructor(domElem) {
         this.domElem = domElem;
@@ -102,7 +104,8 @@ const properties = [ 'position', 'left', 'top', 'right', 'bottom', 'width', 'hei
     'background', 'backgroundColor', 'opacity', 'fontSize', 'fontWeight', 'fontStyle',
     'textAlign', 'textDecoration', 'textTransform', 'cursor', 'zIndex' ];
 properties.forEach(function (property) {
-    const method = 'set' + property.substr( 0, 1 ).toUpperCase() + property.substr( 1, property.length );
+    const method = 'set' + property.substr( 0, 1 ).toUpperCase() +
+        property.substr( 1, property.length );
     UIElement.prototype[method] = function () {
         this.setStyle(property, arguments);
         return this;
@@ -110,7 +113,7 @@ properties.forEach(function (property) {
 });
 
 // events
-const events = [ 'KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input' ];
+const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input'];
 events.forEach(function (event) {
     const method = 'on' + event;
     UIElement.prototype[ method ] = function (callback) {
@@ -128,7 +131,6 @@ class UISpan extends UIElement {
 class UILabel extends UIElement {
     constructor() {
         super(document.createElement( 'label' ));
-        this.domElem.className = 'label';
     }
 
     setFor(id) {
@@ -146,14 +148,14 @@ class UIDiv extends UIElement {
 class UIForm extends UIDiv {
     constructor() {
         super();
-        this.domElem.className = 'form';
+        this.domElem.className = CLASS_PREFIX + 'form';
     }
 }
 
-class UIAccordion extends UIDiv {
+class UIGroup extends UIDiv {
     constructor(boolean) {
         super();
-        this.domElem.className = 'group';
+        this.domElem.className = CLASS_PREFIX + 'group';
 
         if (boolean) {
             this.addClass('accordion');
@@ -162,10 +164,10 @@ class UIAccordion extends UIDiv {
         this.checkbox = new UICheckbox(true);
         this.add(this.checkbox);
 
-        this.label = new UILabel();
-        this.labelText = new UISpan().setClass('label-text');
-        this.arrowIcon = new UISpan().setClass('icon arrow-left');
-        this.label.add(this.labelText).add(this.arrowIcon);
+        this.label = new UILabel().setClass(CLASS_PREFIX + 'group-label');
+        this.label.labelText = new UISpan().setClass(CLASS_PREFIX + 'group-label-text');
+        this.label.arrowIcon = new UISpan().setClass(CLASS_PREFIX + 'group-label-icon arrow-left');
+        this.label.add(this.label.labelText).add(this.label.arrowIcon);
         this.add(this.label);
     }
 }
@@ -173,14 +175,14 @@ class UIAccordion extends UIDiv {
 class UIRow extends UIDiv {
     constructor() {
         super();
-        this.domElem.className = 'row';
+        this.domElem.className = CLASS_PREFIX + 'row';
     }
 }
 
 class UIComponent extends UIDiv {
     constructor() {
         super();
-        this.domElem.className = 'component';
+        this.domElem.className = CLASS_PREFIX + 'component';
         this.domElem.tabIndex = 0;
     }
 }
@@ -963,7 +965,7 @@ class ListboxItem extends UIDiv {
     }
 }
 
-export { UIElement, UISpan, UILabel, UIDiv, UIForm, UIAccordion, UIRow, UIComponent,
+export { UIElement, UISpan, UILabel, UIDiv, UIForm, UIGroup, UIRow, UIComponent,
     UIText, UIInput, UITextArea, UISelect, UICheckbox, UIColor, UINumber, UIInteger,
     UIBreak, UIHorizontalRule, UIButton, UIProgress, UITabbedPanel, UIListbox, ListboxItem
 };

@@ -9,6 +9,8 @@
  */
 
 export const SESSION = {}; // 사용자 세션 정보
+// class 접두사
+export const CLASS_PREFIX = 'zenius-';
 // 폼
 export const FORM = {
     COLUMN: 12,

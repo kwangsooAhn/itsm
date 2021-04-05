@@ -937,36 +937,36 @@ input, button, select, optgroup, textarea {
   /* Chrome, Safari, Opera*/
 }
 
-.drawing-board .form {
+.drawing-board .zenius-form {
   display: inline-block;
   min-height: 56.25rem;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
 }
-.drawing-board .form *:focus {
+.drawing-board .zenius-form *:focus {
   outline: none !important;
 }
-.drawing-board .form .group > .accordion-checkBox {
+.drawing-board .zenius-group-accordion-checkBox {
   position: absolute;
   opacity: 0;
   z-index: -1;
 }
-.drawing-board .form .group > .label {
+.drawing-board .zenius-group-label {
   display: table;
   width: 100%;
   min-height: 2.5rem;
   padding: 0 0.625rem 0 0.625rem;
 }
-.drawing-board .form .group > .label.off {
+.drawing-board .zenius-group-label.off {
   display: none;
 }
-.drawing-board .form .group > .label .label-text {
+.drawing-board .zenius-group-label .zenius-group-label-text {
   display: table-cell;
   vertical-align: middle;
   opacity: 1;
 }
-.drawing-board .form .group > .label .arrow-left {
+.drawing-board .zenius-group-label .arrow-left {
   opacity: 0;
   display: table-cell;
   width: 0.75rem;
@@ -979,40 +979,43 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #929AA6;
 }
-.drawing-board .form .group.accordion {
+.drawing-board .zenius-group.accordion {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
-.drawing-board .form .group.accordion > .accordion-checkBox:checked + .label {
+.drawing-board .zenius-group.accordion .zenius-group-accordion-checkBox:checked + .zenius-group-label {
   border-bottom-color: #EBEBEB;
 }
-.drawing-board .form .group.accordion > .accordion-checkBox:checked + .label .arrow-left {
+.drawing-board .zenius-group.accordion .zenius-group-accordion-checkBox:checked + .zenius-group-label .arrow-left {
   transform: rotate(-90deg);
 }
-.drawing-board .form .group.accordion > .accordion-checkBox:checked ~ .row {
+.drawing-board .zenius-group.accordion .zenius-group-accordion-checkBox:checked ~ .zenius-row-tooltip {
   display: block;
 }
-.drawing-board .form .group.accordion > .label {
+.drawing-board .zenius-group.accordion .zenius-group-label {
   border: 0.0625rem solid #EBEBEB;
   background-color: #F7F8F9;
   padding: 0 1.125rem 0 0.625rem;
   cursor: pointer;
   border-bottom-color: transparent;
 }
-.drawing-board .form .group.accordion > .label.off {
+.drawing-board .zenius-group.accordion .zenius-group-label.off {
   display: table;
 }
-.drawing-board .form .group.accordion > .label.off .label-text {
+.drawing-board .zenius-group.accordion .zenius-group-label.off .zenius-group-label-text {
   opacity: 0;
 }
-.drawing-board .form .group.accordion > .label .label-text {
+.drawing-board .zenius-group.accordion .zenius-group-label .zenius-group-label-text {
   padding-right: 0.625rem;
 }
-.drawing-board .form .group.accordion > .label .arrow-left {
+.drawing-board .zenius-group.accordion .zenius-group-label .arrow-left {
   opacity: 1;
 }
-.drawing-board .form .group.accordion .row {
+.drawing-board .zenius-group.accordion .zenius-row-tooltip {
   display: none;
   transition: all 0.25s ease-out;
+}
+.drawing-board .zenius-component[data-displayType]:not([data-displayType=required]) .zenius-component-label span[class=required] {
+  display: none;
 }
 
 /* _elements.scss 
