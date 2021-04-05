@@ -1162,6 +1162,7 @@ table[id=documentDisplay] td {
   height: 1.5rem;
   font-weight: 400;
   color: #586872;
+  overflow: hidden;
 }
 
 .tag-group {
