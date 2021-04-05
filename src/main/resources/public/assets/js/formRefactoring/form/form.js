@@ -11,7 +11,8 @@
  */
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
-import { UIForm } from '../lib/ui.js';
+import { UIDiv } from '../lib/ui.js';
+import { CLASS_PREFIX } from '../lib/constants.js';
 
 export default class Form {
     constructor(data = {}) {
@@ -27,19 +28,25 @@ export default class Form {
         this.margin = data.margin || '60px 0px 60px 0px';
         this.padding = data.padding || '35px 35px 35px 35px';
         this.category = data.category || 'process'; // process | cmdb
-        this.readyState = 'initialized'; //폼 상태 (initialized, interactive, complete)
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixIn);
+        util.importMixin(this, mixin.controlMixin);
 
         this.init();
     }
     // 초기화
     init() {
-        this.UIElem = new UIForm()
+        this.UIElement = new UIForm()
             .setId(this.id)
             .setWidth(this.width)
             .setMargin(this.margin)
             .setPadding(this.padding);
+    }
+}
+
+export class UIForm extends UIDiv {
+    constructor() {
+        super();
+        this.domElement.className = CLASS_PREFIX + 'form';
     }
 }

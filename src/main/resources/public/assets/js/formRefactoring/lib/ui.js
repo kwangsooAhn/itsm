@@ -9,15 +9,15 @@
  */
 
 class UIElement {
-    constructor(domElem) {
-        this.domElem = domElem;
+    constructor(domElement) {
+        this.domElement = domElement;
     }
 
     add() {
         for (let i = 0; i < arguments.length; i++) {
             const argument = arguments[i];
             if (argument instanceof UIElement) {
-                this.domElem.appendChild(argument.domElem);
+                this.domElement.appendChild(argument.domElement);
             } else {
                 console.error('UIElement:', argument, 'is not an instance of UIElement.');
             }
@@ -29,75 +29,83 @@ class UIElement {
         for (let i = 0; i < arguments.length; i++) {
             const argument = arguments[i];
             if (argument instanceof UIElement) {
-                this.domElem.removeChild(argument.domElem);
+                this.domElement.removeChild(argument.domElement);
             } else {
-                console.error( 'UIElement:', argument, 'is not an instance of UIElement.' );
+                console.error('UIElement:', argument, 'is not an instance of UIElement.');
             }
         }
         return this;
     }
 
     clear() {
-        while (this.domElem.children.length) {
-            this.domElem.removeChild(this.domElem.lastChild);
+        while (this.domElement.children.length) {
+            this.domElement.removeChild(this.domElement.lastChild);
         }
     }
 
     setId(id) {
-        this.domElem.id = id;
+        this.domElement.id = id;
         return this;
     }
 
     getId() {
-        return this.domElem.id;
+        return this.domElement.id;
     }
 
-    setClass( name ) {
-        this.domElem.className = name;
+    setClass(name) {
+        this.domElement.className = name;
         return this;
     }
 
-    addClass( name ) {
-        this.domElem.classList.add( name );
+    addClass(name) {
+        this.domElement.classList.add(name);
         return this;
     }
 
-    removeClass( name ) {
-        this.domElem.classList.remove( name );
+    removeClass(name) {
+        this.domElement.classList.remove(name);
         return this;
     }
 
-    setStyle( style, array ) {
+    setAttribute(name, value) {
+        this.domElement.setAttribute('data-' + name, value);
+        return this;
+    }
+
+    setStyle(style, array) {
         for (let i = 0; i < array.length; i++) {
-            this.domElem.style[ style ] = array[i];
+            this.domElement.style[style] = array[i];
         }
         return this;
     }
 
     setDisabled(value) {
-        this.domElem.disabled = value;
+        this.domElement.disabled = value;
         return this;
     }
 
     setTextContent(value) {
-        this.domElem.textContent = value;
+        this.domElement.textContent = value;
         return this;
     }
 
     getIndexOfChild(element) {
-        return Array.prototype.indexOf.call(this.domElem.children, element.domElem);
+        return Array.prototype.indexOf.call(this.domElement.children, element.domElement);
     }
 }
 
 // properties
-const properties = [ 'position', 'left', 'top', 'right', 'bottom', 'width', 'height',
+const properties = [
+    'position', 'left', 'top', 'right', 'bottom', 'width', 'height',
     'border', 'borderLeft', 'borderTop', 'borderRight', 'borderBottom', 'borderColor',
     'display', 'overflow', 'margin', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom',
     'padding', 'paddingLeft', 'paddingTop', 'paddingRight', 'paddingBottom', 'color',
-    'background', 'backgroundColor', 'opacity', 'fontSize', 'fontWeight',
-    'textAlign', 'textDecoration', 'textTransform', 'cursor', 'zIndex' ];
+    'background', 'backgroundColor', 'opacity', 'fontSize', 'fontWeight', 'fontStyle', 'textAlign',
+    'textDecoration', 'textTransform', 'cursor', 'zIndex',
+];
 properties.forEach(function (property) {
-    const method = 'set' + property.substr( 0, 1 ).toUpperCase() + property.substr( 1, property.length );
+    const method = 'set' + property.substr(0, 1).toUpperCase() +
+        property.substr(1, property.length);
     UIElement.prototype[method] = function () {
         this.setStyle(property, arguments);
         return this;
@@ -105,91 +113,93 @@ properties.forEach(function (property) {
 });
 
 // events
-const events = [ 'KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input' ];
+const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input'];
 events.forEach(function (event) {
     const method = 'on' + event;
-    UIElement.prototype[ method ] = function (callback) {
-        this.domElem.addEventListener(event.toLowerCase(), callback.bind(this), false );
+    UIElement.prototype[method] = function (callback) {
+        this.domElement.addEventListener(event.toLowerCase(), callback.bind(this), false);
         return this;
     };
 });
 
 class UISpan extends UIElement {
     constructor() {
-        super(document.createElement( 'span' ));
+        super(document.createElement('span'));
+    }
+}
+
+class UILabel extends UIElement {
+    constructor() {
+        super(document.createElement('label'));
+    }
+
+    setFor(id) {
+        this.domElement.htmlFor = id;
+        return this;
     }
 }
 
 class UIDiv extends UIElement {
     constructor() {
-        super(document.createElement( 'div' ));
-    }
-}
-
-class UIForm extends UIDiv {
-    constructor() {
-        super();
-        this.domElem.className = 'form';
-    }
-}
-
-class UIGroup extends UIDiv {
-    constructor() {
-        super();
-        this.domElem.className = 'group';
-    }
-}
-
-class UIRow extends UIDiv {
-    constructor() {
-        super();
-        this.domElem.className = 'row';
+        super(document.createElement('div'));
     }
 }
 
 class UIText extends UISpan {
     constructor(text) {
         super();
-        this.domElem.className = 'Text';
-        this.domElem.style.cursor = 'default';
-        this.domElem.style.display = 'inline-block';
-        this.domElem.style.verticalAlign = 'middle';
+        this.domElement.className = 'text';
+        this.domElement.style.cursor = 'default';
+        this.domElement.style.display = 'inline-block';
+        this.domElement.style.verticalAlign = 'middle';
 
         this.setValue(text);
     }
 
     getValue() {
-        return this.domElem.textContent;
+        return this.domElement.textContent;
     }
 
     setValue(value) {
         if (value !== undefined) {
-            this.domElem.textContent = value;
+            this.domElement.textContent = value;
         }
         return this;
     }
 }
 
 class UIInput extends UIElement {
-    constructor( text ) {
+    constructor(text) {
         super(document.createElement('input'));
-        this.domElem.className = 'Input';
-        this.domElem.style.padding = '2px';
-        this.domElem.style.border = '1px solid transparent';
+        this.domElement.className = 'input';
 
-        this.domElem.addEventListener('keydown', function ( event ) {
-            event.stopPropagation();
-        }, false);
+        this.domElement.addEventListener(
+            'keydown',
+            function (event) {
+                event.stopPropagation();
+            },
+            false
+        );
 
         this.setValue(text);
     }
 
     getValue() {
-        return this.domElem.value;
+        return this.domElement.value;
     }
 
     setValue(value) {
-        this.domElem.value = value;
+        this.domElement.value = value;
+        return this;
+    }
+
+    setPlaceholder(value) {
+        this.domElement.placeholder = value;
+        return this;
+    }
+
+    setRequired(boolean) {
+        this.domElement.required = boolean;
         return this;
     }
 }
@@ -197,31 +207,35 @@ class UIInput extends UIElement {
 class UITextArea extends UIElement {
     constructor() {
         super(document.createElement('textarea'));
-        this.domElem.className = 'TextArea';
-        this.domElem.style.padding = '2px';
-        this.domElem.spellcheck = false;
+        this.domElement.className = 'textArea';
+        this.domElement.style.padding = '2px';
+        this.domElement.spellcheck = false;
 
-        this.domElem.addEventListener('keydown', function (event) {
-            event.stopPropagation();
+        this.domElement.addEventListener(
+            'keydown',
+            function (event) {
+                event.stopPropagation();
 
-            if (event.keyCode === 9) { // TAB 일 경우
-                event.preventDefault();
+                if (event.keyCode === 9) {
+                    // TAB 일 경우
+                    event.preventDefault();
 
-                const cursor = this.domElem.selectionStart;
-                this.domElem.value = this.domElem.value.substring( 0, cursor ) + '\t' + this.domElem.value.substring( cursor );
-                this.domElem.selectionStart = cursor + 1;
-                this.domElem.selectionEnd = this.domElem.selectionStart;
-            }
-        }, false);
-
+                    const cursor = this.domElement.selectionStart;
+                    this.domElement.value = this.domElement.value.substring(0, cursor) + '\t' + this.domElement.value.substring(cursor);
+                    this.domElement.selectionStart = cursor + 1;
+                    this.domElement.selectionEnd = this.domElement.selectionStart;
+                }
+            },
+            false
+        );
     }
 
     getValue() {
-        return this.domElem.value;
+        return this.domElement.value;
     }
 
     setValue(value) {
-        this.domElem.value = value;
+        this.domElement.value = value;
         return this;
     }
 }
@@ -229,42 +243,41 @@ class UITextArea extends UIElement {
 class UISelect extends UIElement {
     constructor() {
         super(document.createElement('select'));
-        this.domElem.className = 'Select';
-        this.domElem.style.padding = '2px';
+        this.domElement.className = 'select';
+        this.domElement.style.padding = '2px';
     }
 
     setMultiple(boolean) {
-        this.domElem.multiple = boolean;
+        this.domElement.multiple = boolean;
         return this;
     }
 
     setOptions(options) {
-        const selected = this.domElem.value;
-        while (this.domElem.children.length > 0) {
-            this.domElem.removeChild(this.domElem.firstChild);
+        const selected = this.domElement.value;
+        while (this.domElement.children.length > 0) {
+            this.domElement.removeChild(this.domElement.firstChild);
         }
 
         for (const key in options) {
             const option = document.createElement('option');
             option.value = key;
             option.innerHTML = options[key];
-            this.domElem.appendChild(option);
-
+            this.domElement.appendChild(option);
         }
-        this.domElem.value = selected;
+        this.domElement.value = selected;
 
         return this;
     }
 
     getValue() {
-        return this.domElem.value;
+        return this.domElement.value;
     }
 
     setValue(value) {
         value = String(value);
 
-        if (this.domElem.value !== value) {
-            this.domElem.value = value;
+        if (this.domElement.value !== value) {
+            this.domElement.value = value;
         }
 
         return this;
@@ -273,19 +286,19 @@ class UISelect extends UIElement {
 
 class UICheckbox extends UIElement {
     constructor(boolean) {
-        super( document.createElement('input'));
-        this.domElem.className = 'Checkbox';
-        this.domElem.type = 'checkbox';
+        super(document.createElement('input'));
+        this.domElement.className = 'checkbox';
+        this.domElement.type = 'checkbox';
         this.setValue(boolean);
     }
 
     getValue() {
-        return this.domElem.checked;
+        return this.domElement.checked;
     }
 
     setValue(value) {
         if (value !== undefined) {
-            this.domElem.checked = value;
+            this.domElement.checked = value;
         }
 
         return this;
@@ -295,50 +308,48 @@ class UICheckbox extends UIElement {
 // TODO: color picker 라이브러리 참조하여 엘리먼트 만들기
 class UIColor extends UIElement {
     constructor() {
-        super( document.createElement('input'));
-        this.domElem.className = 'Color';
-        this.domElem.style.width = '32px';
-        this.domElem.style.height = '16px';
-        this.domElem.style.border = '0px';
-        this.domElem.style.padding = '2px';
-        this.domElem.style.backgroundColor = 'transparent';
+        super(document.createElement('input'));
+        this.domElement.className = 'color';
+        this.domElement.style.width = '32px';
+        this.domElement.style.height = '16px';
+        this.domElement.style.border = '0px';
+        this.domElement.style.padding = '2px';
+        this.domElement.style.backgroundColor = 'transparent';
 
         try {
-            this.domElem.type = 'color';
-            this.domElem.value = '#ffffff';
-        } catch ( exception ) {
-
-        }
+            this.domElement.type = 'color';
+            this.domElement.value = '#ffffff';
+        } catch (exception) {}
     }
 
     getValue() {
-        return this.domElem.value;
+        return this.domElement.value;
     }
 
     getHexValue() {
-        return parseInt(this.domElem.value.substr( 1 ), 16);
+        return parseInt(this.domElement.value.substr(1), 16);
     }
 
     setValue(value) {
-        this.domElem.value = value;
+        this.domElement.value = value;
         return this;
     }
 
     setHexValue(hex) {
-        this.domElem.value = '#' + ( '000000' + hex.toString( 16 ) ).slice( - 6 );
+        this.domElement.value = '#' + ('000000' + hex.toString(16)).slice(-6);
         return this;
     }
 }
 
 class UINumber extends UIElement {
     constructor(number) {
-        super( document.createElement( 'input' ) );
+        super(document.createElement('input'));
 
-        this.domElem.style.cursor = 'ns-resize';
-        this.domElem.className = 'Number';
-        this.domElem.value = '0.00';
+        this.domElement.style.cursor = 'ns-resize';
+        this.domElement.className = 'Number';
+        this.domElement.value = '0.00';
         this.value = 0;
-        this.min = - Infinity;
+        this.min = -Infinity;
         this.max = Infinity;
         this.precision = 2;
         this.step = 1;
@@ -348,8 +359,8 @@ class UINumber extends UIElement {
         this.setValue(number);
 
         const scope = this;
-        const changeEvent = document.createEvent( 'HTMLEvents' );
-        changeEvent.initEvent( 'change', true, true );
+        const changeEvent = document.createEvent('HTMLEvents');
+        changeEvent.initEvent('change', true, true);
 
         let distance = 0;
         let onMouseDownValue = 0;
@@ -357,7 +368,7 @@ class UINumber extends UIElement {
         const pointer = { x: 0, y: 0 };
         const prevPointer = { x: 0, y: 0 };
 
-        function onMouseDown( event ) {
+        function onMouseDown(event) {
             event.preventDefault();
 
             distance = 0;
@@ -366,76 +377,73 @@ class UINumber extends UIElement {
             prevPointer.x = event.clientX;
             prevPointer.y = event.clientY;
 
-            document.addEventListener( 'mousemove', onMouseMove, false );
-            document.addEventListener( 'mouseup', onMouseUp, false );
-
+            document.addEventListener('mousemove', onMouseMove, false);
+            document.addEventListener('mouseup', onMouseUp, false);
         }
 
-        function onMouseMove( event ) {
+        function onMouseMove(event) {
             const currentValue = scope.value;
 
             pointer.x = event.clientX;
             pointer.y = event.clientY;
 
-            distance += ( pointer.x - prevPointer.x ) - ( pointer.y - prevPointer.y );
+            distance += pointer.x - prevPointer.x - (pointer.y - prevPointer.y);
 
-            let value = onMouseDownValue + ( distance / ( event.shiftKey ? 5 : 50 ) ) * scope.step;
-            value = Math.min( scope.max, Math.max( scope.min, value ) );
+            let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
+            value = Math.min(scope.max, Math.max(scope.min, value));
 
             if (currentValue !== value) {
-                scope.setValue( value );
-                scope.domElem.dispatchEvent(changeEvent);
+                scope.setValue(value);
+                scope.domElement.dispatchEvent(changeEvent);
             }
             prevPointer.x = event.clientX;
             prevPointer.y = event.clientY;
         }
 
         function onMouseUp() {
-            document.removeEventListener( 'mousemove', onMouseMove, false );
-            document.removeEventListener( 'mouseup', onMouseUp, false );
+            document.removeEventListener('mousemove', onMouseMove, false);
+            document.removeEventListener('mouseup', onMouseUp, false);
 
-            if (Math.abs( distance ) < 2) {
-                scope.domElem.focus();
-                scope.domElem.select();
+            if (Math.abs(distance) < 2) {
+                scope.domElement.focus();
+                scope.domElement.select();
             }
         }
 
-        function onTouchStart( event ) {
-            if ( event.touches.length === 1 ) {
+        function onTouchStart(event) {
+            if (event.touches.length === 1) {
                 distance = 0;
                 onMouseDownValue = scope.value;
 
                 prevPointer.x = event.touches[0].pageX;
                 prevPointer.y = event.touches[0].pageY;
 
-                document.addEventListener( 'touchmove', onTouchMove, false );
-                document.addEventListener( 'touchend', onTouchEnd, false );
+                document.addEventListener('touchmove', onTouchMove, false);
+                document.addEventListener('touchend', onTouchEnd, false);
             }
         }
 
-        function onTouchMove( event ) {
+        function onTouchMove(event) {
             const currentValue = scope.value;
 
-            pointer.x = event.touches[ 0 ].pageX;
-            pointer.y = event.touches[ 0 ].pageY;
+            pointer.x = event.touches[0].pageX;
+            pointer.y = event.touches[0].pageY;
 
-            distance += (pointer.x - prevPointer.x) - (pointer.y - prevPointer.y);
+            distance += pointer.x - prevPointer.x - (pointer.y - prevPointer.y);
 
             let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
             value = Math.min(scope.max, Math.max(scope.min, value));
 
             if (currentValue !== value) {
-
-                scope.setValue( value );
-                scope.domElem.dispatchEvent( changeEvent );
-
+                scope.setValue(value);
+                scope.domElement.dispatchEvent(changeEvent);
             }
 
-            prevPointer.x = event.touches[ 0 ].pageX;
-            prevPointer.y = event.touches[ 0 ].pageY;
+            prevPointer.x = event.touches[0].pageX;
+            prevPointer.y = event.touches[0].pageY;
         }
 
-        function onTouchEnd( event ) {
+        function onTouchEnd(event) {
             if (event.touches.length === 0) {
                 document.removeEventListener('touchmove', onTouchMove, false);
                 document.removeEventListener('touchend', onTouchEnd, false);
@@ -443,47 +451,47 @@ class UINumber extends UIElement {
         }
 
         function onChange() {
-            scope.setValue(scope.domElem.value);
+            scope.setValue(scope.domElement.value);
         }
 
         function onFocus() {
-            scope.domElem.style.backgroundColor = '';
-            scope.domElem.style.cursor = '';
+            scope.domElement.style.backgroundColor = '';
+            scope.domElement.style.cursor = '';
         }
 
         function onBlur() {
-            scope.domElem.style.backgroundColor = 'transparent';
-            scope.domElem.style.cursor = 'ns-resize';
+            scope.domElement.style.backgroundColor = 'transparent';
+            scope.domElement.style.cursor = 'ns-resize';
         }
 
-        function onKeyDown( event ) {
+        function onKeyDown(event) {
             event.stopPropagation();
 
             switch (event.keyCode) {
             case 13: // enter
-                scope.domElem.blur();
+                scope.domElement.blur();
                 break;
             case 38: // up
                 event.preventDefault();
-                scope.setValue( scope.getValue() + scope.nudge );
-                scope.domElem.dispatchEvent( changeEvent );
+                scope.setValue(scope.getValue() + scope.nudge);
+                scope.domElement.dispatchEvent(changeEvent);
                 break;
             case 40: // down
                 event.preventDefault();
-                scope.setValue( scope.getValue() - scope.nudge );
-                scope.domElem.dispatchEvent( changeEvent );
+                scope.setValue(scope.getValue() - scope.nudge);
+                scope.domElement.dispatchEvent(changeEvent);
                 break;
             }
         }
 
         onBlur();
 
-        this.domElem.addEventListener( 'keydown', onKeyDown, false );
-        this.domElem.addEventListener( 'mousedown', onMouseDown, false );
-        this.domElem.addEventListener( 'touchstart', onTouchStart, false );
-        this.domElem.addEventListener( 'change', onChange, false );
-        this.domElem.addEventListener( 'focus', onFocus, false );
-        this.domElem.addEventListener( 'blur', onBlur, false );
+        this.domElement.addEventListener('keydown', onKeyDown, false);
+        this.domElement.addEventListener('mousedown', onMouseDown, false);
+        this.domElement.addEventListener('touchstart', onTouchStart, false);
+        this.domElement.addEventListener('change', onChange, false);
+        this.domElement.addEventListener('focus', onFocus, false);
+        this.domElement.addEventListener('blur', onBlur, false);
     }
 
     getValue() {
@@ -491,16 +499,16 @@ class UINumber extends UIElement {
     }
 
     setValue(value) {
-        if ( value !== undefined ) {
-            value = parseFloat( value );
+        if (value !== undefined) {
+            value = parseFloat(value);
 
             if (value < this.min) value = this.min;
             if (value > this.max) value = this.max;
 
             this.value = value;
-            this.domElem.value = value.toFixed( this.precision );
+            this.domElement.value = value.toFixed(this.precision);
 
-            if (this.unit !== '') this.domElem.value += ' ' + this.unit;
+            if (this.unit !== '') this.domElement.value += ' ' + this.unit;
         }
         return this;
     }
@@ -537,9 +545,9 @@ class UIInteger extends UIElement {
     constructor(number) {
         super(document.createElement('input'));
 
-        this.domElem.style.cursor = 'ns-resize';
-        this.domElem.className = 'Number';
-        this.domElem.value = '0';
+        this.domElement.style.cursor = 'ns-resize';
+        this.domElement.className = 'Number';
+        this.domElement.value = '0';
 
         this.value = 0;
 
@@ -584,13 +592,12 @@ class UIInteger extends UIElement {
 
             distance += pointer.x - prevPointer.x - (pointer.y - prevPointer.y);
 
-            let value =
-                onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
+            let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
             value = Math.min(scope.max, Math.max(scope.min, value)) | 0;
 
             if (currentValue !== value) {
                 scope.setValue(value);
-                scope.domElem.dispatchEvent(changeEvent);
+                scope.domElement.dispatchEvent(changeEvent);
             }
 
             prevPointer.x = event.clientX;
@@ -602,23 +609,23 @@ class UIInteger extends UIElement {
             document.removeEventListener('mouseup', onMouseUp, false);
 
             if (Math.abs(distance) < 2) {
-                scope.domElem.focus();
-                scope.domElem.select();
+                scope.domElement.focus();
+                scope.domElement.select();
             }
         }
 
         function onChange() {
-            scope.setValue(scope.domElem.value);
+            scope.setValue(scope.domElement.value);
         }
 
         function onFocus() {
-            scope.domElem.style.backgroundColor = '';
-            scope.domElem.style.cursor = '';
+            scope.domElement.style.backgroundColor = '';
+            scope.domElement.style.cursor = '';
         }
 
         function onBlur() {
-            scope.domElem.style.backgroundColor = 'transparent';
-            scope.domElem.style.cursor = 'ns-resize';
+            scope.domElement.style.backgroundColor = 'transparent';
+            scope.domElement.style.cursor = 'ns-resize';
         }
 
         function onKeyDown(event) {
@@ -626,30 +633,30 @@ class UIInteger extends UIElement {
 
             switch (event.keyCode) {
             case 13: // enter
-                scope.domElem.blur();
+                scope.domElement.blur();
                 break;
 
             case 38: // up
                 event.preventDefault();
                 scope.setValue(scope.getValue() + scope.nudge);
-                scope.domElem.dispatchEvent(changeEvent);
+                scope.domElement.dispatchEvent(changeEvent);
                 break;
 
             case 40: // down
                 event.preventDefault();
                 scope.setValue(scope.getValue() - scope.nudge);
-                scope.domElem.dispatchEvent(changeEvent);
+                scope.domElement.dispatchEvent(changeEvent);
                 break;
             }
         }
 
         onBlur();
 
-        this.domElem.addEventListener('keydown', onKeyDown, false);
-        this.domElem.addEventListener('mousedown', onMouseDown, false);
-        this.domElem.addEventListener('change', onChange, false);
-        this.domElem.addEventListener('focus', onFocus, false);
-        this.domElem.addEventListener('blur', onBlur, false);
+        this.domElement.addEventListener('keydown', onKeyDown, false);
+        this.domElement.addEventListener('mousedown', onMouseDown, false);
+        this.domElement.addEventListener('change', onChange, false);
+        this.domElement.addEventListener('focus', onFocus, false);
+        this.domElement.addEventListener('blur', onBlur, false);
     }
 
     getValue() {
@@ -661,7 +668,7 @@ class UIInteger extends UIElement {
             value = parseInt(value);
 
             this.value = value;
-            this.domElem.value = value;
+            this.domElement.value = value;
         }
 
         return this;
@@ -689,23 +696,23 @@ class UIInteger extends UIElement {
 
 class UIBreak extends UIElement {
     constructor() {
-        super( document.createElement( 'br' ) );
-        this.domElem.className = 'Break';
+        super(document.createElement('br'));
+        this.domElement.className = 'Break';
     }
 }
 
 class UIHorizontalRule extends UIElement {
     constructor() {
         super(document.createElement('hr'));
-        this.domElem.className = 'HorizontalRule';
+        this.domElement.className = 'HorizontalRule';
     }
 }
 
 class UIButton extends UIElement {
     constructor(value) {
         super(document.createElement('button'));
-        this.domElem.className = 'Button';
-        this.domElem.textContent = value;
+        this.domElement.className = 'Button';
+        this.domElement.textContent = value;
     }
 }
 
@@ -713,11 +720,11 @@ class UIProgress extends UIElement {
     constructor(value) {
         super(document.createElement('progress'));
 
-        this.domElem.value = value;
+        this.domElement.value = value;
     }
 
     setValue(value) {
-        this.domElem.value = value;
+        this.domElement.value = value;
     }
 }
 
@@ -725,7 +732,7 @@ class UITabbedPanel extends UIDiv {
     constructor() {
         super();
 
-        this.domElem.className = 'TabbedPanel';
+        this.domElement.className = 'TabbedPanel';
 
         this.tabs = [];
         this.panels = [];
@@ -750,10 +757,10 @@ class UITabbedPanel extends UIDiv {
         // Deselect current selection
         if (this.selected && this.selected.length) {
             tab = this.tabs.find(function (item) {
-                return item.domElem.id === scope.selected;
+                return item.domElement.id === scope.selected;
             });
             panel = this.panels.find(function (item) {
-                return item.domElem.id === scope.selected;
+                return item.domElement.id === scope.selected;
             });
 
             if (tab) {
@@ -766,10 +773,10 @@ class UITabbedPanel extends UIDiv {
         }
 
         tab = this.tabs.find(function (item) {
-            return item.domElem.id === id;
+            return item.domElement.id === id;
         });
         panel = this.panels.find(function (item) {
-            return item.domElem.id === id;
+            return item.domElement.id === id;
         });
 
         if (tab) {
@@ -806,14 +813,14 @@ class UITab extends UIText {
     constructor(text, parent) {
         super(text);
 
-        this.domElem.className = 'Tab';
+        this.domElement.className = 'Tab';
 
         this.parent = parent;
 
         const scope = this;
 
-        this.domElem.addEventListener('click', function () {
-            scope.parent.select(scope.domElem.id);
+        this.domElement.addEventListener('click', function () {
+            scope.parent.select(scope.domElement.id);
         });
     }
 }
@@ -822,8 +829,8 @@ class UIListbox extends UIDiv {
     constructor() {
         super();
 
-        this.domElem.className = 'Listbox';
-        this.domElem.tabIndex = 0;
+        this.domElement.className = 'Listbox';
+        this.domElement.tabIndex = 0;
 
         this.items = [];
         this.listitems = [];
@@ -843,7 +850,7 @@ class UIListbox extends UIDiv {
         while (this.listitems.length) {
             const item = this.listitems[0];
 
-            item.domElem.remove();
+            item.domElement.remove();
 
             this.listitems.splice(0, 1);
         }
@@ -893,7 +900,7 @@ class UIListbox extends UIDiv {
 
         const changeEvent = document.createEvent('HTMLEvents');
         changeEvent.initEvent('change', true, true);
-        this.domElem.dispatchEvent(changeEvent);
+        this.domElement.dispatchEvent(changeEvent);
     }
 }
 
@@ -901,7 +908,7 @@ class ListboxItem extends UIDiv {
     constructor(parent) {
         super();
 
-        this.domElem.className = 'ListboxItem';
+        this.domElement.className = 'ListboxItem';
         this.parent = parent;
 
         const scope = this;
@@ -912,11 +919,12 @@ class ListboxItem extends UIDiv {
             }
         }
 
-        this.domElem.addEventListener('click', onClick, false);
+        this.domElement.addEventListener('click', onClick, false);
     }
 }
 
-export { UIElement, UISpan, UIDiv, UIForm, UIGroup, UIRow, UIText, UIInput, UITextArea,
-    UISelect, UICheckbox, UIColor, UINumber, UIInteger, UIBreak, UIHorizontalRule,
-    UIButton, UIProgress, UITabbedPanel, UIListbox, ListboxItem
+export {
+    UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
+    UISelect, UICheckbox, UIColor, UINumber, UIInteger, UIBreak,
+    UIHorizontalRule, UIButton, UIProgress, UITabbedPanel, UIListbox, ListboxItem,
 };

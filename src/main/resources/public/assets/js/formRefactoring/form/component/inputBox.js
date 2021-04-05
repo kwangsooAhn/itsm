@@ -11,60 +11,40 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM }  from '../../lib/constants.js';
-const DEFAULT = {
-    type: 'inputBox',
-    value: '${default}',
-    columnWidth: '12',
-    displayType: 'editable', // 컴포넌트 출력 타입 (readonly, editable, required, hidden)
-    mapId: '', // 매핑 ID
-    isTopic: false,
-    tags: [],
-    label: {
-        position: 'left',
-        fontSize: '16px',
-        fontColor: 'rgba(0,0,0,1)',
-        bold: false,
-        italic: false,
-        underline: false,
-        align: 'left',
-        text: 'COMPONENT LABEL'
+import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
+import * as util from '../../lib/util.js';
+import { UIDiv, UIInput } from '../../lib/ui.js';
+
+export const inputBoxMixin = {
+    // property 초기화
+    setProperty() {
+        // 엘리먼트 property 초기화
+        util.mergeObject(this.element || FORM.DEFAULT.INPUTBOX.ELEMENT);
+        util.mergeObject(this.validate || FORM.DEFAULT.INPUTBOX.VALIDATE);
     },
-    element: {
-        placeholder: '',
-        columnWidth: '10',
-        defaultType: 'none|',
-    },
-    validate: {
-        validateType: 'none', // none | char | num | numchar | email | phone
-        lengthMin: '0',
-        lengthMax: '100'
-    }
-};
+    // field 엘리먼트 생성
+    makeField() {
+        // field > label + element
+        const field = new UIDiv()
+            .setClass(CLASS_PREFIX + 'field flex-row align-items-center flex-wrap');
+        // label
+        field.UILabel = this.makeLabel();
+        field.add(field.UILabel);
+        // element
+        const element = new UIDiv().setClass(CLASS_PREFIX + 'element')
+            .setStyle('--data-column', this.element.columnWidth);
+        element.UIInputbox = new UIInput().setPlaceholder(this.element.placeholder)
+            .setRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
+            .setValue(this.getValue())
+            .setAttribute('validate-type', this.validate.validateType)
+            .setAttribute('validate-maxLength', this.validate.lengthMax)
+            .setAttribute('validate-minLength', this.validate.lengthMin);
+        element.add(element.UIInputbox);
 
-export const inputBoxMixIn = {
-    // DOM 엘리먼트 생성
-    makeElement() {
-        //  엘리먼트 그룹
-        const elementBox = document.createElement('div');
-        elementBox.className = 'component-element-box';
-        elementBox.style.cssText = `--data-column:${this.element.columnWidth};`;
+        field.UIElement = element;
+        field.add(field.UIElement);
 
-        // inputbox
-        const element = document.createElement('input');
-        element.type = 'text';
-        element.className = 'component-element';
-        element.placeholder = this.element.placeholder;
-        element.required = (this.displayType === FORM.DISPLAY_TYPE.REQUIRED);
-        element.value = this.getValue();
-
-        // 유효성 추가
-        element.setAttribute('data-validate-maxLength', this.validate.lengthMax);
-        element.setAttribute('data-validate-minLength', this.validate.lengthMin);
-        element.setAttribute('data-validate-regexpType', this.validate.validateType);
-
-        elementBox.appendChild(element);
-        return elementBox;
+        return field;
     },
     // 기본 값 조회
     getValue() {

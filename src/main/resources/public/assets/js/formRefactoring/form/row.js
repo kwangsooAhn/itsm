@@ -12,6 +12,8 @@
 
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
+import { UIDiv } from '../lib/ui.js';
+import { CLASS_PREFIX } from '../lib/constants.js';
 
 export default class Row {
     constructor(data = {}) {
@@ -24,20 +26,33 @@ export default class Row {
         this.padding = data.padding || '10px 10px 10px 10px'; // row 내부 여백(위 오른쪽 아래 왼쪽)
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixIn);
+        util.importMixin(this, mixin.controlMixin);
 
         this.init();
     }
     // 초기화
     init() {
-        this.domElem = this.makeDomElement();
+        // row 용 툴팁
+        const rowTooltip = new UIRowTooltip();
+        // row
+        rowTooltip.UIRow = new UIRow()
+            .setId(this.id)
+            .setMargin(this.margin)
+            .setPadding(this.padding);
+        rowTooltip.add(rowTooltip.UIRow);
+        this.UIElement = rowTooltip;
     }
-    // DOM 엘리먼트 생성
-    makeDomElement() {
-        const row = document.createElement('div');
-        row.id = this.id;
-        row.className = this.type;
-        row.style.cssText = `margin:${this.margin};padding:${this.padding};`;
-        return row;
+}
+export class UIRowTooltip extends UIDiv {
+    constructor() {
+        super();
+        this.domElement.className = CLASS_PREFIX + 'row-tooltip';
+    }
+}
+
+export class UIRow extends UIDiv {
+    constructor() {
+        super();
+        this.domElement.className = CLASS_PREFIX + 'row';
     }
 }

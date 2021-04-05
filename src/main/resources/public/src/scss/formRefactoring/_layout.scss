@@ -171,7 +171,7 @@
 // drawing board
 .drawing-board {
   // 폼
-  .form {
+  .zenius-form {
     display: inline-block;
     min-height: $form-min-height;
     background-color: $form-bg-color;
@@ -179,79 +179,92 @@
     box-shadow: $form-box-shadow;
 
     & *:focus { outline: none !important; }
-    // 그룹
-    .group {
-      .group-labelBox {
-        display: table;
-        width: 100%;
-        min-height: 2.5rem; // 40px
-        padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
-        .group-label {
-          display: table-cell;
-          vertical-align: middle;
-        }
-        .arrow-left {
-          opacity: 0;
-        }
+  }
+  // 그룹 툴팁
+  //.zenius-group-tooltip {}
+  // 그룹
+  .zenius-group {
+    // 체크 박스
+    &-accordion-checkBox {
+      position: absolute;
+      opacity: 0;
+      z-index: $z-index-hidden;
+    }
+    // 라벨
+    &-label {
+      display: table;
+      width: 100%;
+      min-height: 2.5rem; // 40px
+      padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
+      &.off { display: none; }
+      // 라벨 문구
+      .zenius-group-label-text {
+        display: table-cell;
+        vertical-align: middle;
+        opacity: 1;
       }
-
-      &.group-accordion {
-        border-bottom : $group-accordion-border;
-        .group-accordion-checkBox {
-          position: absolute;
-          opacity: 0;
-          z-index: $z-index-hidden;
-
-          &:checked {
-            + .group-accordion-labelBox {
-              border-bottom-color: $group-accordion-border-color;
-              .arrow-left {
-                transform: rotate(-90deg);
-              }
-            }
-            ~ .row {
-              display: block;
-            }
-          }
-        }
-        .group-accordion-labelBox {
-          border: $group-accordion-border;
-          background-color: $group-accordion-bg-color;
-          padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
-          cursor: pointer;
-          border-bottom-color: transparent;
-          .arrow-left {
-            opacity: 1;
-            display: table-cell;
-            @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $blue-gray); // 12px 20px
-          }
-        }
-        .row {
-          display: none;
-          transition: all 0.25s ease-out;
-        }
+      // 화살표 아이콘
+      .arrow-left {
+        opacity: 0;
+        display: table-cell;
+        @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $blue-gray); // 12px 20px
       }
     }
-
-    /*&[data-readonly=true] {
-      // 폼 양식 화면에서 컴포넌트 수정을 막음
-      .component {
-        .dropzone,
-        .ql-toolbar,
-        textarea,
-        button,
-        input[type=text],
-        label.radio,
-        label.checkbox,
-        select,
-        .select {
-          pointer-events: none;
+    // 아코디언 사용중일 경우
+    &.accordion {
+      border-bottom : $group-accordion-border;
+      // 체크박스 선택 = 아코디언 펼침
+      .zenius-group-accordion-checkBox:checked {
+        + .zenius-group-label {
+          border-bottom-color: $group-accordion-border-color;
+          .arrow-left {
+            transform: rotate(-90deg);
+          }
         }
-
-        .move-handler {
-          display: inherit;
+        ~ .zenius-row-tooltip {
+          display: block;
         }
       }
-    }*/
+      // 라벨
+      .zenius-group-label {
+        border: $group-accordion-border;
+        background-color: $group-accordion-bg-color;
+        padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
+        cursor: pointer;
+        border-bottom-color: transparent;
+
+        &.off {
+          display: table;
+          .zenius-group-label-text {
+            opacity: 0;
+          }
+        }
+
+        .zenius-group-label-text {
+          padding-right: 0.625rem; // 10px
+        }
+
+        .arrow-left {
+          opacity: 1;
+        }
+      }
+      // row
+      .zenius-row-tooltip {
+        display: none;
+        transition: all 0.25s ease-out;
+      }
+    }
+  }
+  // row 툴팁
+  //.zenius-row-tooltip {}
+  // row
+  //.zenius-row {}
+  // component 툴팁
+  // .zenius-component-tooltip {}
+  // component
+  .zenius-component[data-displayType]:not([data-displayType="required"]) { // 필수값 숨김
+    .zenius-component-label {
+      span[class="required"] { display: none; }
+    }
   }
 }

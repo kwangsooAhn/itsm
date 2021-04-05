@@ -7,22 +7,31 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { FORM } from './constants.js';
+import { CLASS_PREFIX, FORM } from './constants.js';
+import { UILabel, UISpan } from './ui.js';
+import { UIRowTooltip } from '../form/row.js';
+import { UIComponentTooltip } from '../form/component.js';
 
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
-export const controlMixIn = {
+export const controlMixin = {
     // 자식 객체 추가
     add(object) {
         if (!object) { return false; }
 
         if (object.parent !== null) {
             object.parent.remove(object);
-            object.parent.UIElem.remove(object.UIElem);
         }
         object.parent = this;
         object.displayOrder = this.children.length;
         this.children.push(object);
-        this.UIElem.add(object.UIElem);
+        // 객체 추가
+        if (object.UIElement instanceof UIRowTooltip) {
+            this.UIElement.UIGroup.add(object.UIElement);
+        } else if (object.UIElement instanceof UIComponentTooltip) {
+            this.UIElement.UIRow.add(object.UIElement);
+        } else {
+            this.UIElement.add(object.UIElement);
+        }
 
         return this;
     },
@@ -30,7 +39,13 @@ export const controlMixIn = {
     remove(object) {
         const idx = this.children.indexOf(object);
         if (idx !== -1) {
-            object.parent.UIElem.remove(object.UIElem);
+            if (object.UIElement instanceof UIRowTooltip) {
+                this.UIElement.UIGroup.remove(object.UIElement);
+            } else if (object.UIElement instanceof UIComponentTooltip) {
+                this.UIElement.UIRow.remove(object.UIElement);
+            } else {
+                this.UIElement.remove(object.UIElement);
+            }
             object.parent = null;
             this.children.splice(idx, 1);
             // 재정렬
@@ -67,37 +82,34 @@ export const controlMixIn = {
     }
 };
 // label 공통 믹스인
-export const labelMixin = {
-    makeLabelElement() {
-        // 라벨 그룹
-        const labelBox = document.createElement('div');
+export const componentLabelMixin = {
+    // 라벨 객체 생성
+    makeLabel() {
+        const label = new UILabel().setClass(CLASS_PREFIX + 'component-label')
+            .addClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
+            .setStyle('--data-column', this.getLabelColumnWidth(this.label.position))
+            .setTextAlign(this.label.align);
+        label.UILabelText = new UISpan().setClass(CLASS_PREFIX + 'component-label-text')
+            .setFontSize(this.label.fontSize)
+            .setFontWeight((this.label.bold ? 'bold' : ''))
+            .setFontStyle((this.label.italic ? 'italic' : ''))
+            .setTextDecoration((this.label.underline ? 'underline' : ''))
+            .setColor(this.label.fontColor)
+            .setTextContent(this.label.text);
+        label.add(label.UILabelText);
+        // 필수 여부
+        label.UIRequiredText = new UISpan().setClass('required');
+        label.add(label.UIRequiredText);
+        return label;
+    },
+    // 라벨 너비 계산
+    getLabelColumnWidth(position) {
         let labelColumnWidth = FORM.COLUMN; // 12
-        if (this.label.position === FORM.LABEL.POSITION.HIDDEN) {
+        if (position === FORM.LABEL.POSITION.HIDDEN) {
             labelColumnWidth = 0;
-        } else if (this.label.position === FORM.LABEL.POSITION.LEFT) {
+        } else if (position === FORM.LABEL.POSITION.LEFT) {
             labelColumnWidth -= Number(this.element.columnWidth);
         }
-        labelBox.className = `component-label-box ` +
-            `align-${this.label.align} ` +
-            `position-${this.label.position}`;
-        labelBox.style.cssText = `--data-column:${labelColumnWidth};`;
-
-        // 라벨 문구
-        const label = document.createElement('label');
-        label.className = 'component-label';
-        label.style.cssText = `color:${this.label.fontColor};` +
-            `font-size:${this.label.fontSize}px;` +
-            `${this.label.bold ? 'font-weight:bold;' : ''}` +
-            `${this.label.italic ? 'font-style:italic;' : ''}` +
-            `${this.label.underline ? 'text-decoration:underline;' : ''}`;
-        label.textContent = this.label.text;
-        labelBox.appendChild(label);
-
-        // 필수값
-        const required = document.createElement('span');
-        required.className = 'required';
-        labelBox.appendChild(required);
-
-        return labelBox;
+        return labelColumnWidth;
     }
 };

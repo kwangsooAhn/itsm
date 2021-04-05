@@ -18,7 +18,7 @@ import Component from '../form/component.js';
 
 export default class FormDesigner {
     constructor(formId) {
-        this.domElem = document.getElementById('drawingBoard') || document.body;
+        this.domElement = document.getElementById('drawingBoard') || document.body;
         this.history = new History(this);  // 이력 추가
         this.panel = new Panel(); // 세부 속성 추가
 
@@ -69,7 +69,7 @@ export default class FormDesigner {
     // DOM 엘리먼트 생성
     makeDomElement() {
         this.form = this.addObjectByType(FORM.LAYOUT.FORM, this.data);
-        /*if (this.data.hasOwnProperty('groups')) {
+        if (this.data.hasOwnProperty('groups')) {
             this.data.groups.forEach( g => {
                 const group = this.addObjectByType(FORM.LAYOUT.GROUP, g, this.form);
                 if (g.hasOwnProperty('rows')) {
@@ -83,8 +83,8 @@ export default class FormDesigner {
                     });
                 }
             });
-        }*/
-        this.domElem.appendChild(this.form.UIElem.domElem);
+        }
+        this.domElement.appendChild(this.form.UIElement.domElement);
     }
     // form, group, row, component 객체 추가
     addObjectByType(type, data, parent) {
