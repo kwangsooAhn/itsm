@@ -12,5 +12,6 @@ data class CIClassToAttributeDto(
     val classId: String? = null,
     val attributeId: String? = null,
     val attributeName: String? = null,
+    val classLevel: Int? = 1,
     val order: Int? = 1
 ) : Serializable
