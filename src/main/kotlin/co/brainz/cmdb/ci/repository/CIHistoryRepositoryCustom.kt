@@ -6,10 +6,10 @@
 package co.brainz.cmdb.ci.repository
 
 import co.brainz.cmdb.ci.entity.CIHistoryEntity
+import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
 interface CIHistoryRepositoryCustom : AliceRepositoryCustom {
     fun findByLatelyHistory(ciId: String): CIHistoryEntity?
-
-    fun findAllHistory(ciId: String): List<CIHistoryEntity>
+    fun findAllHistory(ciId: String): List<CIHistoryDto>
 }
