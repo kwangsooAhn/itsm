@@ -13,7 +13,6 @@
     'use strict';
 
     const iconPath = '/assets/media/icons/tree';
-    const cmdbIconPath = '/assets/media/images/cmdb';
 
     let options = {};
 
@@ -511,6 +510,7 @@
      * @param tree Tree
      */
     function makeNode(tree) {
+        const ROOT_LEVEL = 0;
         // sessionKey에 저장된 펼치진 노드 정보를 추출하여 node 생성시 펼침 여부 판단
         let expandObject = [];
         if (options.selectedValue !== null && options.selectedValue !== '') {
@@ -529,7 +529,7 @@
                 if (expandObject.length > 0 && expandObject.indexOf(item) > -1) {
                     expand = true;
                 }
-                let firstNode = tree.createNode(item, expand, 1, null);
+                let firstNode = tree.createNode(item, expand, ROOT_LEVEL, null);
                 let itemLevel = '';
                 if (item.level !== undefined) {
                     itemLevel = item.level;
@@ -538,7 +538,7 @@
                 } else {
                     itemLevel = item.classLevel;
                 }
-                createChildNode(firstNode, itemLevel, expandObject, 2);
+                createChildNode(firstNode, itemLevel, expandObject, ROOT_LEVEL + 1);
             }
         });
     }

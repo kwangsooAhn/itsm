@@ -16,8 +16,7 @@ CREATE TABLE cmdb_ci_history
 	ci_icon character varying(200),
 	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
-	document_no character varying(128),
-    create_user_key character varying(128),
+	instance_id character varying(128),
     apply_dt timestamp,
 	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
 	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
@@ -35,6 +34,5 @@ COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
 COMMENT ON COLUMN cmdb_ci_history.automatic IS '자동등록여부';
-COMMENT ON COLUMN cmdb_ci_history.document_no IS '관련문서번호';
-COMMENT ON COLUMN cmdb_ci_history.create_user_key IS '신청자';
+COMMENT ON COLUMN cmdb_ci_history.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci_history.apply_dt IS '반영일시';

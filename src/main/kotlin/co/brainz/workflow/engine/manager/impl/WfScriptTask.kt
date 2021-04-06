@@ -174,6 +174,7 @@ class WfScriptTask(
                             classId = ci["classId"] as String,
                             typeId = ci["typeId"] as String,
                             ciStatus = ci["ciStatus"] as String,
+                            instanceId = instanceId,
                             ciDataList = ciDataList,
                             ciTags = ciTags,
                             ciRelations = ciRelations
@@ -183,7 +184,8 @@ class WfScriptTask(
                     ciDtoList.add(
                         CIDto(
                             ciId = ciId,
-                            typeId = ""
+                            typeId = "",
+                            instanceId = instanceId
                         )
                     )
                 }
@@ -230,7 +232,7 @@ class WfScriptTask(
                 wfTokenManagerService.updateCI(ci)
             }
             deleteCiList.forEach { ci ->
-                wfTokenManagerService.deleteCI(ci.ciId)
+                wfTokenManagerService.deleteCI(ci)
             }
         }
     }

@@ -59,15 +59,20 @@ class ApiCIService(
     fun updateCI(ciId: String, ciDto: CIDto): Boolean {
         ciDto.updateUser = userService.selectUser(ApiConstants.CREATE_USER)
         ciDto.updateDt = LocalDateTime.now()
-        val returnDto = ciService.updateCI(ciId, ciDto)
+        val returnDto = ciService.updateCI(ciDto)
         return returnDto.status
     }
 
     /**
      * CI 삭제
      */
-    fun deleteCI(ciId: String): Boolean {
-        val returnDto = ciService.deleteCI(ciId)
+    fun deleteCI(ciId: String, ciDto: CIDto): Boolean {
+        ciDto.updateUser = userService.selectUser(ApiConstants.CREATE_USER)
+        ciDto.updateDt = LocalDateTime.now()
+        if (ciDto.ciId.isEmpty()) {
+            ciDto.ciId = ciId
+        }
+        val returnDto = ciService.deleteCI(ciDto)
         return returnDto.status
     }
 }
