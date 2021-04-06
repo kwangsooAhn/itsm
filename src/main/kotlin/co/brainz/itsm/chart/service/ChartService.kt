@@ -125,8 +125,8 @@ class ChartService(
      */
     fun getChartProperty(chart: ChartDto): String {
         val labelList = mutableListOf<AliceLabelEntity>()
-        chart.targetLabels?.forEach { label ->
-            aliceLabelRepository.findLabelByKey(label).forEach { aliceLabelEntity ->
+        chart.targetLabels?.let {
+            aliceLabelRepository.findLabelByKeyIn(it).forEach { aliceLabelEntity ->
                 labelList.add(aliceLabelEntity)
             }
         }
