@@ -10,6 +10,7 @@ import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.CascadeType
@@ -54,6 +55,10 @@ data class CIEntity(
 
     @Column(name = "automatic")
     var automatic: Boolean? = false,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instance_id")
+    var instance: WfInstanceEntity? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,

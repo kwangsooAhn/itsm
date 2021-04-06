@@ -7,6 +7,9 @@ package co.brainz.cmdb.ci.repository
 
 import co.brainz.cmdb.ci.entity.CIHistoryEntity
 import co.brainz.cmdb.ci.entity.QCIHistoryEntity
+import co.brainz.cmdb.dto.CIHistoryDto
+import co.brainz.workflow.instance.entity.QWfInstanceEntity
+import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIHistoryRepositoryImpl : QuerydslRepositorySupport(CIHistoryEntity::class.java), CIHistoryRepositoryCustom {
@@ -18,10 +21,23 @@ class CIHistoryRepositoryImpl : QuerydslRepositorySupport(CIHistoryEntity::class
             .fetchFirst()
     }
 
-    // todo: 현재 조회하는 필드 일부는 임시로 추가한 dummy입니다. 추후 수정이 필요합니다.
-    override fun findAllHistory(ciId: String): List<CIHistoryEntity> {
+    override fun findAllHistory(ciId: String): List<CIHistoryDto> {
         val history = QCIHistoryEntity.cIHistoryEntity
+        val instance = QWfInstanceEntity.wfInstanceEntity
         return from(history)
+            .select(
+                Projections.constructor(
+                    CIHistoryDto::class.java,
+                    history.ciId,
+                    history.ciNo,
+                    history.ciStatus,
+                    history.instance?.instanceId,
+                    history.instance?.documentNo,
+                    history.instance?.instanceCreateUser?.userKey,
+                    history.applyDt
+                )
+            )
+            .leftJoin(history.instance, instance)
             .where(history.ciId.eq(ciId))
             .orderBy(history.seq.desc())
             .fetch()

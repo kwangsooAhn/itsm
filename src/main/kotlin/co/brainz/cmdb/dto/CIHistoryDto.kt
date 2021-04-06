@@ -13,8 +13,8 @@ data class CIHistoryDto(
     val ciId: String? = "",
     var ciNo: String? = null,
     var ciStatus: String? = null,
-    // 임시 field
-    val documentNo: String? = "TEST-20210401-000",
-    val createUser: String? = "Admin",
+    val instanceId: String? = null,
+    val documentNo: String? = null,
+    val createUser: String? = null,
     var applyDt: LocalDateTime? = LocalDateTime.now()
 ) : Serializable

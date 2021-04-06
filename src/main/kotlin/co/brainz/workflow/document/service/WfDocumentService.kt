@@ -6,6 +6,7 @@
 package co.brainz.workflow.document.service
 
 import co.brainz.cmdb.ci.service.CIService
+import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
@@ -238,7 +239,13 @@ class WfDocumentService(
 
                 ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
                     ciComponentDataList.forEach { ciComponentData ->
-                        ciService.deleteCI(ciComponentData.ciId)
+                        val ciDto = CIDto(
+                            ciId = ciComponentData.ciId,
+                            typeId = "",
+                            ciName = "",
+                            ciStatus = ""
+                        )
+                        ciService.deleteCI(ciDto)
                     }
                 }
 

@@ -194,15 +194,15 @@ class WfTokenManagerService(
      * Update CI.
      */
     fun updateCI(ci: CIDto): String {
-        val returnDto = ciService.updateCI(ci.ciId, ci)
+        val returnDto = ciService.updateCI(ci)
         return returnDto.code
     }
 
     /**
      * Delete CI.
      */
-    fun deleteCI(ciId: String): String {
-        val returnDto = ciService.deleteCI(ciId)
+    fun deleteCI(ci: CIDto): String {
+        val returnDto = ciService.deleteCI(ci)
         return returnDto.code
     }
 

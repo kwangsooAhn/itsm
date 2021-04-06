@@ -14,6 +14,7 @@ CREATE TABLE cmdb_ci
 	ci_icon character varying(200),
 	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
+	instance_id character varying(128),
 	create_user_key character varying(128),
 	create_dt timestamp,
 	update_user_key character varying(128),
@@ -25,7 +26,10 @@ CREATE TABLE cmdb_ci
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT cmdb_ci_fk2 FOREIGN KEY (class_id)
       REFERENCES cmdb_class (class_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT cmdb_ci_fk3 FOREIGN KEY (instance_id)
+        REFERENCES wf_instance (instance_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 COMMENT ON TABLE cmdb_ci IS 'CMDB CI 정보';
@@ -38,6 +42,7 @@ COMMENT ON COLUMN cmdb_ci.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci.ci_desc IS 'CI설명';
 COMMENT ON COLUMN cmdb_ci.automatic IS '자동등록여부';
+COMMENT ON COLUMN cmdb_ci.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_ci.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_ci.update_user_key IS '수정자';

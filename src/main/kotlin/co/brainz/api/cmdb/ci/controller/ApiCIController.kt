@@ -90,8 +90,9 @@ class ApiCIController(
     @DeleteMapping("/{ciId}")
     fun deleteCI(
         request: HttpServletRequest,
-        @PathVariable ciId: String
+        @PathVariable ciId: String,
+        @RequestBody ciDto: CIDto
     ): ResponseEntity<*> {
-        return super.responseValue(request, apiCIService.deleteCI(ciId))
+        return super.responseValue(request, apiCIService.deleteCI(ciId, ciDto))
     }
 }

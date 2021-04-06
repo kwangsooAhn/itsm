@@ -7521,6 +7521,7 @@ CREATE TABLE cmdb_ci
 	ci_icon character varying(200),
 	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
+	instance_id character varying(128),
 	create_user_key character varying(128),
 	create_dt timestamp,
 	update_user_key character varying(128),
@@ -7532,7 +7533,10 @@ CREATE TABLE cmdb_ci
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT cmdb_ci_fk2 FOREIGN KEY (class_id)
       REFERENCES cmdb_class (class_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT cmdb_ci_fk3 FOREIGN KEY (instance_id)
+        REFERENCES wf_instance (instance_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 COMMENT ON TABLE cmdb_ci IS 'CMDB CI 정보';
@@ -7545,6 +7549,7 @@ COMMENT ON COLUMN cmdb_ci.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci.ci_desc IS 'CI설명';
 COMMENT ON COLUMN cmdb_ci.automatic IS '자동등록여부';
+COMMENT ON COLUMN cmdb_ci.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_ci.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_ci.update_user_key IS '수정자';
@@ -7592,8 +7597,7 @@ CREATE TABLE cmdb_ci_history
 	ci_icon character varying(200),
 	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
-	document_no character varying(128),
-    create_user_key character varying(128),
+	instance_id character varying(128),
     apply_dt timestamp,
 	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
 	CONSTRAINT cmdb_ci_history_uk UNIQUE (history_id)
@@ -7611,8 +7615,7 @@ COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
 COMMENT ON COLUMN cmdb_ci_history.automatic IS '자동등록여부';
-COMMENT ON COLUMN cmdb_ci_history.document_no IS '관련문서번호';
-COMMENT ON COLUMN cmdb_ci_history.create_user_key IS '신청자';
+COMMENT ON COLUMN cmdb_ci_history.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci_history.apply_dt IS '반영일시';
 
 /**
@@ -7891,4 +7894,26 @@ COMMENT ON COLUMN awf_api_token.refresh_token IS '리프레시 토큰';
 COMMENT ON COLUMN awf_api_token.refresh_token_expires_in IS '리프레시 토큰 만료 시간(초)';
 COMMENT ON COLUMN awf_api_token.create_dt IS '생성일자';
 COMMENT ON COLUMN awf_api_token.request_user_id IS '요청 사용자 아이디';
+
+/**
+ * API Token 정보
+ */
+DROP TABLE IF EXISTS cmdb_ci_instance_relation cascade;
+
+CREATE TABLE cmdb_ci_instance_relation
+(
+    ci_id character varying(128) NOT NULL,
+    instance_id character varying(128) NOT NULL,
+    CONSTRAINT cmdb_ci_instance_relation_pk PRIMARY KEY (ci_id, instance_id),
+    CONSTRAINT cmdb_ci_instance_relation_fk1 FOREIGN KEY (ci_id)
+      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT cmdb_ci_instance_relation_fk2 FOREIGN KEY (instance_id)
+      REFERENCES wf_instance (instance_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+COMMENT ON TABLE cmdb_ci_instance_relation IS 'CMDB CI 관련문서 정보';
+COMMENT ON COLUMN cmdb_ci_instance_relation.ci_id IS 'CI아이디';
+COMMENT ON COLUMN cmdb_ci_instance_relation.instance_id IS '인스턴스ID';
 
