@@ -246,7 +246,7 @@ chart:
     edit: "차트 편집"
     name: "차트 이름"
     queryInfo: "쿼리 정보"
-    targetLabel: "대상 라벨"
+    targetLabels: "대상 라벨"
     type: "차트 종류"
     periodUnit: "간격"
     viewTitle: "장애 유형별 카운트"
@@ -264,7 +264,7 @@ chart:
     searchDescription: "다양한 통계용 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."
     enterTargetGroup: "그룹을 입력하세요."
-    enterTargetLabel: "대상 라벨을 입력하세요."
+    enterTargetLabels: "대상 라벨을 입력하세요."
     enterDurationDigit: "기간을 입력하세요."
     periodUnitOutOfRange: "간격이 기간보다 큽니다."
   chart:
