@@ -17,7 +17,7 @@ import { UIDiv } from '../lib/ui.js';
 
 export default class Component {
     constructor(data = {}) {
-        this.type = data.type;
+        this.type = data.type || 'component';
         this.id = data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체

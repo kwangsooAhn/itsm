@@ -111,16 +111,19 @@
           width: $component-icon-width; // 124px
           height: $component-icon-height;
           text-align: center;
+          border: $accordion-border;
+          margin-top: -0.0625rem; // -1px
+          margin-right: -0.0625rem; // -1px
           cursor: move;
           // 홀수
-          &:nth-child(odd) {
-            border-right: $accordion-border;
-            border-bottom: $accordion-border;
-          }
+          //&:nth-child(odd) {
+          //  border-right: $accordion-border;
+          //  border-bottom: $accordion-border;
+          //}
           // 짝수
-          &:nth-child(even) {
-            border-bottom: $accordion-border;
-          }
+          //&:nth-child(even) {
+          //  border-bottom: $accordion-border;
+          //}
           &:hover { background-color: $component-icon-hover-bg-color; }
 
           .icon {
@@ -181,7 +184,10 @@
     & *:focus { outline: none !important; }
   }
   // 그룹 툴팁
-  //.zenius-group-tooltip {}
+  .zenius-group-tooltip {
+    padding: 1.25rem; // 20px
+    border: 0.0625rem solid transparent; // 1px
+  }
   // 그룹
   .zenius-group {
     // 체크 박스
@@ -256,11 +262,17 @@
     }
   }
   // row 툴팁
-  //.zenius-row-tooltip {}
+  .zenius-row-tooltip {
+    padding: 1.25rem; // 20px
+    border: 0.0625rem solid transparent; // 1px
+  }
   // row
   //.zenius-row {}
   // component 툴팁
-  // .zenius-component-tooltip {}
+  .zenius-component-tooltip {
+    padding: 1.25rem; // 20px
+    border: 0.0625rem solid transparent; // 1px
+  }
   // component
   .zenius-component[data-displayType]:not([data-displayType="required"]) { // 필수값 숨김
     .zenius-component-label {
