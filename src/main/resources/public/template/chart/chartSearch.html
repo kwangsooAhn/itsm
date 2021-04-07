@@ -247,8 +247,8 @@
 
         function createModalContent() {
             return `<div class="chart-edit-content">` +
-                       `<div class="flex-column" id="getChart"></div>` +
-                    `</div>`;
+                `<div class="flex-column" id="getChart"></div>` +
+                `</div>`;
         }
 
         function getChart(chartId, chartType, target) {
@@ -277,6 +277,8 @@
                         if (chartId !== undefined) {
                             parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
                         }
+                        let targetLabels = document.getElementById('targetLabels').value
+                        document.getElementById('targetLabels').value = targetLabels.substring(1, targetLabels.length - 1);
                     }
                 }
             };
@@ -287,7 +289,7 @@
             if (isEmpty('chartName', 'chart.msg.enterChartName')) {
                 return false
             }
-            if (isEmpty('targetLabel', 'chart.msg.enterTargetLabel')) {
+            if (isEmpty('targetLabels', 'chart.msg.enterTargetLabels')) {
                 return false
             }
             if (isEmpty('durationDigit', 'chart.msg.enterDurationDigit')) {
@@ -369,10 +371,10 @@
         function setChart(chartType) {
             // highcharts 기본 옵션
             let options = {
-                chart: { type: 'line' },
-                title: { text: '' },
-                subtitle: { text: '' },
-                credits: { enabled: false },
+                chart: {type: 'line'},
+                title: {text: ''},
+                subtitle: {text: ''},
+                credits: {enabled: false},
                 xAxis: {},
                 yAxis: {},
                 tooltip: {},
@@ -397,7 +399,7 @@
                     options.plotOptions.pie = {
                         allowPointSelect: true,
                         cursor: 'pointer',
-                        dataLabels: { enabled: true }
+                        dataLabels: {enabled: true}
                     };
                     options.series[0].type = 'pie';
                     break;
@@ -435,7 +437,7 @@
                     options.xAxis.type = 'datetime';
                     options.yAxis = {
                         min: 0,
-                        stackLabels: { enabled: false }
+                        stackLabels: {enabled: false}
                     }
                     options.plotOptions = {
                         column: {
@@ -507,7 +509,7 @@
                                 if (chartConfigJson.operation === 'percent') {
                                     return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
                                 } else {
-                                    return i18n.msg('chart.label.docCases') + ': <b>' +  i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                    return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
                                 }
                             }
                         },
@@ -532,7 +534,7 @@
                     chart.series[0].setData(seriesData, true);
                     break;
                 case BASIC_LINE_CHART:
-                    chart.yAxis[0].setTitle({ text: i18n.msg('chart.option.label.yAxisTitle') });
+                    chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
 
                     chart.series[0].update({
                         pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
@@ -556,7 +558,7 @@
                                     const percent = (this.y / sum) * 100;
                                     return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
                                 } else {
-                                    return '<b>' +  Highcharts.numberFormat(this.y, 0) + '</b>';
+                                    return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
                                 }
                             }
                         }
@@ -573,11 +575,11 @@
                             y: countArray[i]
                         });
                     }
-                    chart.series[0].update({name:seriesName, showInLegend: true}, false);
+                    chart.series[0].update({name: seriesName, showInLegend: true}, false);
                     chart.series[0].setData(seriesData, true);
                     break;
                 case STACKED_COLUMN_CHART:
-                    chart.yAxis[0].setTitle({ text: i18n.msg('chart.option.label.yAxisTitle') });
+                    chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
 
                     chart.series[0].update({
                         pointStart: Date.UTC(getYear, getMonth, getDay, getHour),
@@ -618,7 +620,7 @@
                             y: countArray[i]
                         });
                     }
-                    chart.series[0].update({name:seriesName, showInLegend: true}, false);
+                    chart.series[0].update({name: seriesName, showInLegend: true}, false);
                     chart.series[0].setData(seriesData, true);
                     break;
             }
@@ -630,7 +632,7 @@
                     chartType: document.getElementById('typeSelectBox').value,
                     chartName: document.getElementById('chartName').value,
                     chartDesc: document.getElementById('chartDesc').value,
-                    targetLabel: document.getElementById('targetLabel').value,
+                    targetLabels: document.getElementById('targetLabels').value.split(","),
                     operation: document.getElementById('operationSelectBox').value,
                     durationDigit: document.getElementById('durationDigit').value,
                     durationUnit: document.getElementById('durationUnitSelectBox').value

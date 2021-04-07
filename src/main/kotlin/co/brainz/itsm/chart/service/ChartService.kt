@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.chart.service
 
+import co.brainz.framework.label.entity.AliceLabelEntity
 import co.brainz.framework.label.repository.AliceLabelRepository
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartDto
@@ -52,9 +53,12 @@ class ChartService(
      */
     fun getChart(chartId: String): ChartDto {
         val chart = chartRepository.getOne(chartId)
-
+        val targetLabels = arrayListOf<String>()
         val chartConfigJson = JsonParser().parse(chart.chartConfig).asJsonObject
-        val targetLabel = chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asString
+
+        chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asJsonArray.forEach { label ->
+            targetLabels.add(label.asString)
+        }
         val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
         val durationDigit =
             chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
@@ -68,7 +72,7 @@ class ChartService(
             chartDesc = chart.chartDesc,
             chartConfig = chart.chartConfig,
             createDt = chart.createDt,
-            targetLabel = targetLabel,
+            targetLabels = targetLabels,
             operation = operation,
             durationDigit = durationDigit.toLong(),
             durationUnit = durationUnit
@@ -120,7 +124,12 @@ class ChartService(
      * 차트 생성 관련 JsonArray 생성
      */
     fun getChartProperty(chart: ChartDto): String {
-        val labelList = aliceLabelRepository.findLabelByKey(chart.targetLabel)
+        val labelList = mutableListOf<AliceLabelEntity>()
+        chart.targetLabels?.let {
+            aliceLabelRepository.findLabelByKeyIn(it).forEach { aliceLabelEntity ->
+                labelList.add(aliceLabelEntity)
+            }
+        }
         val labelTargetIds = mutableListOf<String>()
         val formIds = mutableListOf<String>()
         val documentList = mutableListOf<WfDocumentEntity>()
@@ -417,7 +426,10 @@ class ChartService(
         val chartConfigObj = JsonObject()
         val durationObj = JsonObject()
         val chartFromList = JsonArray()
-        chartFromList.add(chartDto.targetLabel)
+
+        chartDto.targetLabels?.forEach { label ->
+            chartFromList.add(label.trim())
+        }
         // type
         chartConfigObj.addProperty(ChartConstants.ObjProperty.TYPE.property, chartDto.chartType)
         // from
@@ -445,8 +457,11 @@ class ChartService(
 
     fun getPreviewChart(chartId: String, chartPreviewDto: ChartDto): ChartDto {
         var chart: ChartEntity
+        val targetLabels = arrayListOf<String>()
         val chartConfigJson = JsonParser().parse(getChartConfig(chartPreviewDto)).asJsonObject
-        val targetLabel = chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asString
+        chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asJsonArray.forEach { label ->
+            targetLabels.add(label.asString)
+        }
         val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
         val durationDigit =
             chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
@@ -458,7 +473,7 @@ class ChartService(
             chartName = chartPreviewDto.chartName,
             chartDesc = chartPreviewDto.chartDesc,
             chartConfig = getChartConfig(chartPreviewDto),
-            targetLabel = targetLabel,
+            targetLabels = targetLabels,
             operation = operation,
             durationDigit = durationDigit.toLong(),
             durationUnit = durationUnit
