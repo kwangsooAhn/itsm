@@ -240,7 +240,7 @@ chart:
     preview: "미리보기"
   label:
     all: "전체"
-    chartList: "통계 차트 목록"
+    chartList: "사용자 정의 차트 목록"
     defaultInfo: "기본 정보"
     description: "차트 설명"
     edit: "차트 편집"
@@ -258,10 +258,10 @@ chart:
     docRatio: "문서 차지 비율"
   option:
     label:
-      subTitle: "통계 차트 보고서"
+      subTitle: "사용자 정의 차트 보고서"
       yAxisTitle: "문서 수"
   msg:
-    searchDescription: "다양한 통계용 차트를 조회하고 관리합니다."
+    searchDescription: "다양한 사용자 정의 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."
     enterTargetGroup: "그룹을 입력하세요."
     enterTargetLabel: "대상 라벨을 입력하세요."
@@ -778,7 +778,7 @@ menu:
   board:
     parent: "게시판"
   chart:
-    parent: "통계 차트"
+    parent: "사용자 정의 차트"
   config:
     auth: "권한"
     boardAdmin: "게시판"

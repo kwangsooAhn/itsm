@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 class ChartRestController(private val chartService: ChartService) {
 
     /**
-     * 통계 차트 등록
+     * 사용자 정의 차트 등록
      */
     @PostMapping("")
     fun createChart(@RequestBody chartDto: ChartDto): String {
@@ -29,7 +29,7 @@ class ChartRestController(private val chartService: ChartService) {
     }
 
     /**
-     * 통계 차트 수정
+     * 사용자 정의 차트 수정
      */
     @PutMapping("/{chartId}")
     fun updateChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): String {
@@ -37,7 +37,7 @@ class ChartRestController(private val chartService: ChartService) {
     }
 
     /**
-     * 통계 차트 삭제
+     * 사용자 정의 차트 삭제
      */
     @DeleteMapping("/{chartId}")
     fun deleteChart(@PathVariable chartId: String): String {
@@ -45,7 +45,7 @@ class ChartRestController(private val chartService: ChartService) {
     }
 
     /**
-     * 통계 차트 미리보기 데이터
+     * 사용자 정의 차트 미리보기 데이터
      */
     @PostMapping("/{chartId}/preview")
     fun getPreviewChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): ChartDto {
