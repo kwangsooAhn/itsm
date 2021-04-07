@@ -220,9 +220,9 @@
         /**
          * Chart view 화면 호출 (Modal)
          */
-        function openChartViewModal(chartId, chartType) {
+        function openChartViewModal(chartId, chartType, chartName) {
             let chartOptions = {
-                title: i18n.msg('chart.label.viewTitle'),
+                title: chartName,
                 body: createModalContent(),
                 classes: 'chart-view-modal',
                 buttons: [{
