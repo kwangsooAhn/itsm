@@ -42,14 +42,14 @@ class ChartService(
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
-     * 전체 통계 차트 조회
+     * 전체 사용자 정의 차트 조회
      */
     fun getCharts(searchTypeName: String, offset: String): List<ChartListDto> {
         return chartRepository.findChartList(searchTypeName, offset.toLong())
     }
 
     /**
-     * 단일 통계 차트 조회
+     * 단일 사용자 정의 차트 조회
      */
     fun getChart(chartId: String): ChartDto {
         val chart = chartRepository.getOne(chartId)
@@ -93,7 +93,7 @@ class ChartService(
     }
 
     /**
-     * 통계 차트 등록 / 수정
+     * 사용자 정의 차트 등록 / 수정
      */
     fun saveChart(chartDto: ChartDto): String {
         val status = ChartConstants.Status.STATUS_SUCCESS.code
@@ -111,7 +111,7 @@ class ChartService(
     }
 
     /**
-     * 통계 차트 삭제
+     * 사용자 정의 차트 삭제
      */
     fun deleteChart(chartId: String): String {
         val status = ChartConstants.Status.STATUS_SUCCESS.code

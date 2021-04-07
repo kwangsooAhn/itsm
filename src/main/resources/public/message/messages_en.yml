@@ -240,12 +240,12 @@ chart:
     preview: "PREVIEW"
   label:
     all: "All"
-    chartList: "Statistics Chart List"
+    chartList: "User Custom Chart List"
     defaultInfo: "Default Info"
     description: "Chart Description"
     edit: "Chart Edit"
     name: "Chart Name"
-    querryInfo: "Query Info"
+    queryInfo: "Query Info"
     targetLabels: "Target Labels"
     type: "Chart Type"
     periodUnit: "PeriodUnit"
@@ -258,10 +258,10 @@ chart:
     docRatio: "Documents Ratio"
   option:
     label:
-      subTitle: "Statistics chart report"
+      subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
   msg:
-    searchDescription: "View and manage various statistical charts."
+    searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
     enterTargetGroup: "Please enter a target Group."
     enterTargetLabels: "Please enter a target labels."
@@ -778,7 +778,7 @@ menu:
   board:
     parent: "Board"
   chart:
-    parent: "Statistic chart"
+    parent: "User custom chart"
   config:
     auth: "Auth"
     boardAdmin: "Board management"
