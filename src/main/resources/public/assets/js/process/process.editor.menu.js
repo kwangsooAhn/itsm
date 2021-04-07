@@ -221,7 +221,7 @@
             delete typeData.notification;
             delete typeData.description;
             Object.keys(typeData).forEach(function(newKey) {
-                Object.keys(elementData[0].data).forEach(function(oldKey)   {
+                Object.keys(elementData[0].data).forEach(function(oldKey) {
                     if (newKey === oldKey) {
                         typeData[newKey] = elementData[0].data[oldKey];
                     }
