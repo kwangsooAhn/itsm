@@ -259,9 +259,7 @@
      * save process.
      */
     function saveProcess() {
-        if (aliceProcessEditor.isView) {
-            return false;
-        }
+        if(!valdationCheck()) return false;
         aliceProcessEditor.resetElementPosition();
         save(function (response) {
             let resultCode = response.responseText;
@@ -974,3 +972,45 @@
     exports.autoSave = autoSaveProcess;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
+
+function valdationCheck() {
+    if (aliceProcessEditor.isView) return false;
+    if (aliceProcessEditor.data.process.name.toString().trim() === '') {
+        aliceJs.alertWarning(i18n.msg("process.msg.enterProcessName"));
+        return false;
+    }
+
+    let status = aliceProcessEditor.data.process.status
+    let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
+        'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
+    let totalComponents = aliceProcessEditor.data.elements;
+    let requiredList = new Array();
+    if (status === 'process.status.publish' || status === 'process.status.use') {
+        for (let i = 0; i < totalComponents.length; i++) {
+            if (typeList.indexOf(totalComponents[i].type) >= 0) {
+                requiredList = totalComponents[i].required;
+                for (let key in totalComponents[i]) {
+                    if (requiredList.indexOf(key) >= 0) {
+                        if (totalComponents[i][key].toString().trim() === '') {
+                            aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
+                                i18n.msg("process.designer.attribute." + totalComponents[i].type)));
+                            return false;
+                        }
+                    }
+                }
+                if (totalComponents[i].data !== undefined) {
+                    for (let key in totalComponents[i].data) {
+                        if (requiredList.indexOf(key) >= 0)
+                            if (totalComponents[i].data[key].toString().trim() === '') {
+                                aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
+                                    i18n.msg("process.designer.attribute." + totalComponents[i].type)));
+                                return false;
+                            }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    return true
+}
