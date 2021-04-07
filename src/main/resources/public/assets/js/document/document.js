@@ -5,6 +5,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    import Tagify from "../../vendors/tagify/tagify";
     let documentPanel = null;
     let buttonPanel = null;
     let commentContainer = null;
