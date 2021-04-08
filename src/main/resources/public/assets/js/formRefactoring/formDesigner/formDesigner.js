@@ -46,11 +46,11 @@ export default class FormDesigner {
         // TODO: 커스텀 컴포넌트 load
 
         //  TODO: drag & drop 이벤트 등록
-        this.dragger = new Dragger(this);
-        const dragItems = document.querySelectorAll('.draggable');
-        dragItems.forEach(item => {
-            this.dragger.addDrag(item);
-        });
+        //this.dragger = new Dragger(this);
+        //const dragItems = document.querySelectorAll('.draggable');
+        //dragItems.forEach(item => {
+        //    this.dragger.addDrag(item);
+        //});
     }
     // 폼 초기화
     initForm(formId) {
