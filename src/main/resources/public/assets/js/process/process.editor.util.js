@@ -259,9 +259,7 @@
      * save process.
      */
     function saveProcess() {
-        if (aliceProcessEditor.isView) {
-            return false;
-        }
+        if(!valdationCheck()) return false;
         aliceProcessEditor.resetElementPosition();
         save(function (response) {
             let resultCode = response.responseText;
@@ -974,3 +972,52 @@
     exports.autoSave = autoSaveProcess;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
+
+function valdationCheck() {
+    if (aliceProcessEditor.isView) return false;
+    if (aliceProcessEditor.data.process.name.toString().trim() === '') {
+        aliceJs.alertWarning(i18n.msg("process.msg.enterProcessName"));
+        return false;
+    }
+
+    let status = aliceProcessEditor.data.process.status
+    let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
+        'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
+    let totalElements = aliceProcessEditor.data.elements;
+    let requiredList = [];
+    if (status === 'process.status.publish' || status === 'process.status.use') {
+        for (let i = 0; i < totalElements.length; i++) {
+            if (typeList.indexOf(totalElements[i].type) >= 0) {
+                requiredList = totalElements[i].required;
+                for (let key in totalElements[i]) {
+                    if (requiredList.indexOf(key) >= 0) {
+                        if (totalElements[i][key].toString().trim() === '') {
+                            const errorElem = document.getElementById(totalElements[i].id);
+                            aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
+                                i18n.msg("process.designer.attribute." + totalElements[i].type)));
+                            aliceProcessEditor.setSelectedElement(d3.select(errorElem));
+                            aliceProcessEditor.setElementMenu(d3.select(errorElem));
+                            return false;
+                        }
+                    }
+                }
+                if (totalElements[i].data !== undefined) {
+                    for (let key in totalElements[i].data) {
+                        if (requiredList.indexOf(key) >= 0) {
+                            if (totalElements[i].data[key].toString().trim() === '') {
+                                const errorElem = document.getElementById(totalElements[i].id);
+                                aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
+                                    i18n.msg("process.designer.attribute." + totalElements[i].type)));
+                                aliceProcessEditor.setSelectedElement(d3.select(errorElem));
+                                aliceProcessEditor.setElementMenu(d3.select(errorElem));
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    return true
+}

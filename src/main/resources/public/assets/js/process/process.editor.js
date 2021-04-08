@@ -2042,5 +2042,6 @@
     exports.removeElementSelected = removeElementSelected;
     exports.setConnectors = setConnectors;
     exports.setDeselectedElement = setDeselectedElement;
+    exports.setSelectedElement = setSelectedElement;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

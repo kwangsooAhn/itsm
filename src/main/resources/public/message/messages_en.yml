@@ -902,6 +902,7 @@ process:
   msg:
     duplicateProcessName: "Duplicate process name! Please enter other process name."
     duplicateData: "The same data exists."
+    enterRequired: "{0} Required field is empty.<br>Please enter Required field"
     enterProcessName: "Please enter a process name."
     failedDestroy: "Related documents exist for this process.<br/>This can't be destroyed."
     noticeImportFile: "Import only possible in XML file"
