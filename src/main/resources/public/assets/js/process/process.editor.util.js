@@ -983,29 +983,34 @@ function valdationCheck() {
     let status = aliceProcessEditor.data.process.status
     let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
         'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
-    let totalComponents = aliceProcessEditor.data.elements;
-    let requiredList = new Array();
+    let totalElements = aliceProcessEditor.data.elements;
+    let requiredList = [];
     if (status === 'process.status.publish' || status === 'process.status.use') {
-        for (let i = 0; i < totalComponents.length; i++) {
-            if (typeList.indexOf(totalComponents[i].type) >= 0) {
-                requiredList = totalComponents[i].required;
-                for (let key in totalComponents[i]) {
+        for (let i = 0; i < totalElements.length; i++) {
+            if (typeList.indexOf(totalElements[i].type) >= 0) {
+                requiredList = totalElements[i].required;
+                for (let key in totalElements[i]) {
                     if (requiredList.indexOf(key) >= 0) {
-                        if (totalComponents[i][key].toString().trim() === '') {
+                        if (totalElements[i][key].toString().trim() === '') {
+                            document.getElementById(totalElements[i].id).classList.add('reject-element');
                             aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
-                                i18n.msg("process.designer.attribute." + totalComponents[i].type)));
+                                i18n.msg("process.designer.attribute." + totalElements[i].type)));
                             return false;
                         }
+                        document.getElementById(totalElements[i].id).classList.remove('reject-element');
                     }
                 }
-                if (totalComponents[i].data !== undefined) {
-                    for (let key in totalComponents[i].data) {
-                        if (requiredList.indexOf(key) >= 0)
-                            if (totalComponents[i].data[key].toString().trim() === '') {
+                if (totalElements[i].data !== undefined) {
+                    for (let key in totalElements[i].data) {
+                        if (requiredList.indexOf(key) >= 0) {
+                            if (totalElements[i].data[key].toString().trim() === '') {
+                                document.getElementById(totalElements[i].id).classList.add('reject-element');
                                 aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
-                                    i18n.msg("process.designer.attribute." + totalComponents[i].type)));
+                                    i18n.msg("process.designer.attribute." + totalElements[i].type)));
                                 return false;
                             }
+                            document.getElementById(totalElements[i].id).classList.remove('reject-element');
+                        }
                     }
                 }
             }
