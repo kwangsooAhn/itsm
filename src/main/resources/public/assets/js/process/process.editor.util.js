@@ -992,24 +992,26 @@ function valdationCheck() {
                 for (let key in totalElements[i]) {
                     if (requiredList.indexOf(key) >= 0) {
                         if (totalElements[i][key].toString().trim() === '') {
-                            document.getElementById(totalElements[i].id).classList.add('reject-element');
+                            const errorElem = document.getElementById(totalElements[i].id);
                             aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
                                 i18n.msg("process.designer.attribute." + totalElements[i].type)));
+                            aliceProcessEditor.setSelectedElement(d3.select(errorElem));
+                            aliceProcessEditor.setElementMenu(d3.select(errorElem));
                             return false;
                         }
-                        document.getElementById(totalElements[i].id).classList.remove('reject-element');
                     }
                 }
                 if (totalElements[i].data !== undefined) {
                     for (let key in totalElements[i].data) {
                         if (requiredList.indexOf(key) >= 0) {
                             if (totalElements[i].data[key].toString().trim() === '') {
-                                document.getElementById(totalElements[i].id).classList.add('reject-element');
+                                const errorElem = document.getElementById(totalElements[i].id);
                                 aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
                                     i18n.msg("process.designer.attribute." + totalElements[i].type)));
+                                aliceProcessEditor.setSelectedElement(d3.select(errorElem));
+                                aliceProcessEditor.setElementMenu(d3.select(errorElem));
                                 return false;
                             }
-                            document.getElementById(totalElements[i].id).classList.remove('reject-element');
                         }
                     }
                 }
