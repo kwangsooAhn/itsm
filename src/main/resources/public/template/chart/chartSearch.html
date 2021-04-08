@@ -516,9 +516,9 @@
                         dataLabels: {
                             formatter: function () {
                                 if (chartConfigJson.operation === 'percent') {
-                                    return '<b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
+                                    return '<b>' + this.key + ': <b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
                                 } else {
-                                    return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                                    return '<b>' + this.key + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
                                 }
                             }
                         }
