@@ -33,11 +33,9 @@ export default class Group {
     // 초기화
     init() {
         // 그룹용 툴팁
-        const groupTooltip = new UIGroupTooltip();
+        const groupTooltip = new UIGroupTooltip().setMargin(this.margin);
         // 그룹
-        groupTooltip.UIGroup = new UIGroup(this.isAccordionUsed)
-            .setId(this.id)
-            .setMargin(this.margin);
+        groupTooltip.UIGroup = new UIGroup(this.isAccordionUsed).setId(this.id);
         // 아코디언용 체크박스
         groupTooltip.UIGroup.UICheckbox.setId('chk-' + this.id)
             .setClass(CLASS_PREFIX + 'group-accordion-checkBox');

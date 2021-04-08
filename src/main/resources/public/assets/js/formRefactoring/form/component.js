@@ -51,8 +51,8 @@ export default class Component {
         componentTooltip.UIComponent = new UIComponent()
             .setId(this.id)
             .addClass(this.type)
-            .setAttribute('displayType', this.displayType)
-            .setStyle('--data-column', this.columnWidth);
+            .setAttribute('data-displayType', this.displayType)
+            .setProperty('--data-column', this.columnWidth);
         // 내부 엘리먼트 추가
         componentTooltip.UIComponent.UIField = this.makeField();
         componentTooltip.UIComponent.add(componentTooltip.UIComponent.UIField);

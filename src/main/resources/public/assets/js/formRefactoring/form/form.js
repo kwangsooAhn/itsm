@@ -26,8 +26,9 @@ export default class Form {
         this.status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
         this.width = data.width || '905px';
         this.margin = data.margin || '60px 0px 60px 0px';
-        this.padding = data.padding || '35px 35px 35px 35px';
+        this.padding = data.padding || '15px 15px 15px 15px';
         this.category = data.category || 'process'; // process | cmdb
+        this.selectedElement = null;
 
         // Control Mixin import
         util.importMixin(this, mixin.controlMixin);

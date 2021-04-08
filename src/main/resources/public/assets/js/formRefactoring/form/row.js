@@ -33,11 +33,10 @@ export default class Row {
     // 초기화
     init() {
         // row 용 툴팁
-        const rowTooltip = new UIRowTooltip();
+        const rowTooltip = new UIRowTooltip().setMargin(this.margin);
         // row
         rowTooltip.UIRow = new UIRow()
             .setId(this.id)
-            .setMargin(this.margin)
             .setPadding(this.padding);
         rowTooltip.add(rowTooltip.UIRow);
         this.UIElement = rowTooltip;

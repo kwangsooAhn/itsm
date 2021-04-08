@@ -72,12 +72,16 @@ $form-box-shadow:                                  0 0 0.9375rem 0 rgba(204, 206
 $group-accordion-bg-color:                         $light-gray;
 $group-accordion-border-color:                     $line-gray;
 $group-accordion-border:                           0.0625rem solid $group-accordion-border-color; // 1px
+$group-selected-border-color:                      $light-blue;
+$group-selected-bg-color:                          rgba(135, 206, 255, 0.1);
 
-////////////////////////// elements /////////////////////////
-// table
-//$table-border-color:                          $line-gray;
+//////////////////////////// row ///////////////////////////
+$row-selected-border-color:                        $light-blue;
+$row-selected-bg-color:                            rgba(135, 206, 255, 0.1);
 
 ////////////////////////// components /////////////////////////
+$component-selected-border-color:                  $light-blue;
+$component-selected-bg-color:                      rgba(135, 206, 255, 0.1);
 //$component-bg-color:                          $white;
 //$component-border-color:                      transparent;
 //$component-border-width:                      0.0625rem; // 1px

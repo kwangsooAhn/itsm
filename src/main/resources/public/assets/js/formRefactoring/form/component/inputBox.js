@@ -32,13 +32,13 @@ export const inputBoxMixin = {
         field.add(field.UILabel);
         // element
         const element = new UIDiv().setClass(CLASS_PREFIX + 'element')
-            .setStyle('--data-column', this.element.columnWidth);
+            .setProperty('--data-column', this.element.columnWidth);
         element.UIInputbox = new UIInput().setPlaceholder(this.element.placeholder)
             .setRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
             .setValue(this.getValue())
-            .setAttribute('validate-type', this.validate.validateType)
-            .setAttribute('validate-maxLength', this.validate.lengthMax)
-            .setAttribute('validate-minLength', this.validate.lengthMin);
+            .setAttribute('data-validate-type', this.validate.validateType)
+            .setAttribute('data-validate-maxLength', this.validate.lengthMax)
+            .setAttribute('data-validate-minLength', this.validate.lengthMin);
         element.add(element.UIInputbox);
 
         field.UIElement = element;
