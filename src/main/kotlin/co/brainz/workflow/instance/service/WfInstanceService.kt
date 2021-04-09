@@ -65,7 +65,6 @@ class WfInstanceService(
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val wfTokenMapper: WfTokenMapper = Mappers.getMapper(WfTokenMapper::class.java)
 
-
     /**
      * String 데이터를 분리하여 Set<String> 으로 변환
      */
