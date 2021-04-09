@@ -1,6 +1,6 @@
 /* _alignments.scss 
  *
- * 파일 경로 : template/_alignments.scss
+ * 파일 경로 : template/utilities/_alignments.scss
  * @description 정렬, 배치 관련 디자인
  * @author jy.lim
  * @version 1.0
@@ -9,14 +9,14 @@
 $text-align-type: (center, left, right);
 @each $direction in $text-align-type {
   .align-#{$direction} {
-    text-align: #{$direction};
+    text-align: #{$direction} !important;
   }
 }
 
 $vertical-align-type: (baseline, top, middle, bottom, text-bottom, text-top);
 @each $direction in $vertical-align-type {
   .align-#{$direction} {
-    vertical-align: #{$direction};
+    vertical-align: #{$direction} !important;
   }
 }
 
