@@ -360,6 +360,7 @@ cmdb:
       searchPlaceholder: "Class Name / Description"
     msg:
       confirmDeleteAttribute: "Are you sure you want to delete the attribute?"
+      enterAttributeList: "Excluding the parent attribute list, there must be at least one own attribute list."
       editDescritpion: "Add, view and manage CMDB Class."
       enterClassName: "Please enter a class name."
     btn:

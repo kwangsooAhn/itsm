@@ -210,6 +210,10 @@
         function onSave(flag) {
             let pClassId = document.getElementById('txtPClassId').value;
             if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
+            if (document.getElementsByName('attribute').length === 0) {
+                aliceJs.alertWarning(i18n.msg("cmdb.class.msg.enterAttributeList"));
+                return;
+            }
             let attributeList = [];
             document.getElementsByName('attribute').forEach(function (elem) {
                 attributeList.push(elem.id);

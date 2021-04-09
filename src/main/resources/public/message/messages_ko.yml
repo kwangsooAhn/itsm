@@ -360,6 +360,7 @@ cmdb:
       searchPlaceholder: "Class 명 / 설명"
     msg:
       confirmDeleteAttribute: "속성을 삭제하시겠습니까?"
+      enterAttributeList: "부모 속성목록을 제외한 본인 속성목록은<br>반드시 1개 이상이여야 합니다."
       editDescription: "CI Class를 조회 및 관리합니다."
       enterClassName: "Class 이름을 입력하세요."
     btn:
