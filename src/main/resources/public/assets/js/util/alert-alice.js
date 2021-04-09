@@ -216,7 +216,7 @@ var gModal = (function() {
                     var button = document.createElement('button');
                     button.setAttribute('type', 'button');
 
-                    button.className = 'gmodal-button';
+                    button.className = 'gmodal-button default-line';
                     if (typeof this.options.buttons[i].classes !== 'undefined') {
                         button.className += ' ' + this.options.buttons[i].classes;
                     }
