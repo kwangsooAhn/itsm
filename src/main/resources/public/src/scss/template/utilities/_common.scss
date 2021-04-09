@@ -1,0 +1,57 @@
+/* _common.scss 
+ *
+ * 파일 경로 : template/utilities/_common.scss
+ * @description 공통으로 사용되는 디자인
+ * @author wdj
+ * @version 1.0
+ */
+// 밑줄
+.underline {
+  text-decoration: underline;
+  text-underline-position: under;
+}
+// 설명
+.description {
+  color: $warm-gray;
+}
+// 필수 (*) 표시
+.required {
+  font-weight: 700;
+  &::after {
+    color: $red;
+    content: '\002a'; // *
+  }
+}
+// 말줄임
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+// 자동 줄바꿈
+.auto-break {
+  word-break: break-all;
+}
+// 공백 처리
+// 한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꿉니다.
+.space-line {
+  white-space: pre-line;
+}
+
+// 가로 선
+@include horizontalBar(0.0625rem, 0.9375rem 0, $element-border-color);
+// 세로 선
+@include verticalBar($vertical-bar-width, $vertical-bar-height, $element-border, $vertical-bar-margin);
+// 아래 실선
+.under-bar {
+  border-bottom: 0.0625rem solid $default-gray; // 1px
+  padding-bottom: 0.625rem; // 10px
+  margin-bottom: 0.625rem; //10px
+  .bold {
+    border-bottom: 0.125rem solid $default-gray; // 2px
+  }
+}
+// 포인터
+.pointer {
+  cursor: pointer;
+}
