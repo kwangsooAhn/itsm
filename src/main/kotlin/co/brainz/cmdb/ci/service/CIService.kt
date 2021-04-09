@@ -43,7 +43,6 @@ import co.brainz.workflow.instance.repository.WfInstanceRepository
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.ZoneId
 
 @Service
 class CIService(
