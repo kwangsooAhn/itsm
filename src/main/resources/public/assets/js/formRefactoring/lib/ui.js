@@ -68,7 +68,7 @@ class UIElement {
     }
 
     setAttribute(name, value) {
-        this.domElement.setAttribute('data-' + name, value);
+        this.domElement.setAttribute(name, value);
         return this;
     }
 
@@ -76,6 +76,11 @@ class UIElement {
         for (let i = 0; i < array.length; i++) {
             this.domElement.style[style] = array[i];
         }
+        return this;
+    }
+
+    setProperty(style, value) {
+        this.domElement.style.setProperty(style, value);
         return this;
     }
 

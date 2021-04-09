@@ -17,7 +17,7 @@ import { UIDiv } from '../lib/ui.js';
 
 export default class Component {
     constructor(data = {}) {
-        this.type = data.type;
+        this.type = data.type || 'component';
         this.id = data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
@@ -51,8 +51,8 @@ export default class Component {
         componentTooltip.UIComponent = new UIComponent()
             .setId(this.id)
             .addClass(this.type)
-            .setAttribute('displayType', this.displayType)
-            .setStyle('--data-column', this.columnWidth);
+            .setAttribute('data-displayType', this.displayType)
+            .setProperty('--data-column', this.columnWidth);
         // 내부 엘리먼트 추가
         componentTooltip.UIComponent.UIField = this.makeField();
         componentTooltip.UIComponent.add(componentTooltip.UIComponent.UIField);

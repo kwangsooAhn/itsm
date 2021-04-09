@@ -87,7 +87,7 @@ export const componentLabelMixin = {
     makeLabel() {
         const label = new UILabel().setClass(CLASS_PREFIX + 'component-label')
             .addClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
-            .setStyle('--data-column', this.getLabelColumnWidth(this.label.position))
+            .setProperty('--data-column', this.getLabelColumnWidth(this.label.position))
             .setTextAlign(this.label.align);
         label.UILabelText = new UISpan().setClass(CLASS_PREFIX + 'component-label-text')
             .setFontSize(this.label.fontSize)
