@@ -7,7 +7,7 @@ package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.fileTransaction.service.AliceFileProvider
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.form.service.FormAdminService
 import co.brainz.itsm.process.service.ProcessAdminService
@@ -33,7 +33,7 @@ class DocumentService(
     private val formAdminService: FormAdminService,
     private val processAdminService: ProcessAdminService,
     private val wfDocumentService: WfDocumentService,
-    private val aliceFileService: AliceFileService
+    private val aliceFileProvider: AliceFileProvider
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -60,7 +60,7 @@ class DocumentService(
         for (document in documentList) {
             if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
             document.documentIcon =
-                aliceFileService.getDataUriSchema(AliceConstants.ExternalFilePath.ICON_DOCUMENT.path + document.documentIcon)
+                aliceFileProvider.getDataUriSchema(AliceConstants.ExternalFilePath.ICON_DOCUMENT.path + document.documentIcon)
         }
 
         return documentList

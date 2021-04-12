@@ -5,7 +5,7 @@
 package co.brainz.itsm.process.controller
 
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.fileTransaction.service.AliceFileProvider
 import co.brainz.itsm.process.service.ProcessService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam
 @RequestMapping("/process")
 class ProcessController(
     private val processService: ProcessService,
-    private val fileService: AliceFileService
+    private val fileProvider: AliceFileProvider
 ) {
 
     private val processDesignerEditPage: String = "process/processDesignerEdit"
@@ -74,7 +74,7 @@ class ProcessController(
         model: Model
     ): String {
         model.addAttribute("callback", callback)
-        model.addAttribute("imageList", fileService.getImageFileList(AliceConstants.FileType.IMAGE.code, searchValue))
+        model.addAttribute("imageList", fileProvider.getImageFileList(AliceConstants.FileType.IMAGE.code, searchValue))
         return processAttachFileViewPage
     }
 }

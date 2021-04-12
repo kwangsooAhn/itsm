@@ -33,7 +33,7 @@ class ProcessAdminService(
      * 프로세스 데이터 목록 조회.
      */
     fun getProcesses(params: LinkedHashMap<String, Any>): List<RestTemplateProcessViewDto> {
-        return wfProcessService.selectProcessList(params)
+        return wfProcessService.getProcesses(params)
     }
 
     /**

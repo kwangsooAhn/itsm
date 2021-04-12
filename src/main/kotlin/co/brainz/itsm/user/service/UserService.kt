@@ -15,7 +15,7 @@ import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceUtil
@@ -50,13 +50,13 @@ class UserService(
     private val aliceCertificationMailService: AliceCertificationMailService,
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val aliceFileService: AliceFileService,
     private val codeService: CodeService,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val roleRepository: RoleRepository,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val aliceFileAvatarService: AliceFileAvatarService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -132,13 +132,13 @@ class UserService(
                     }
                 }
 
-                aliceFileService.uploadAvatarFile(targetEntity, userUpdateDto.avatarUUID)
+                aliceFileAvatarService.uploadAvatarFile(targetEntity, userUpdateDto.avatarUUID)
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
 
                 if (targetEntity.uploaded) {
-                    aliceFileService.avatarFileNameMod(targetEntity)
+                    aliceFileAvatarService.avatarFileNameMod(targetEntity)
                 }
 
                 when (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {

@@ -183,8 +183,8 @@ class WfDocumentService(
             documentIcon = restTemplateDocumentDto.documentIcon
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
-        createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
-        updateFormAndProcessStatus(dataEntity)
+        this.createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
+        this.updateFormAndProcessStatus(dataEntity)
 
         return RestTemplateDocumentDto(
             documentId = dataEntity.documentId,
@@ -259,7 +259,7 @@ class WfDocumentService(
     /**
      * Update Form and Process status.
      */
-    fun updateFormAndProcessStatus(documentEntity: WfDocumentEntity) {
+    private fun updateFormAndProcessStatus(documentEntity: WfDocumentEntity) {
         when (documentEntity.documentStatus) {
             WfDocumentConstants.Status.USE.code -> {
                 val wfFormEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId).get()

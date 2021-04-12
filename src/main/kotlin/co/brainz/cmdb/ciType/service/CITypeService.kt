@@ -17,7 +17,7 @@ import co.brainz.cmdb.dto.CITypeTreeListDto
 import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.fileTransaction.service.AliceFileProvider
 import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
 import com.querydsl.core.QueryResults
 import org.slf4j.LoggerFactory
@@ -28,7 +28,7 @@ class CITypeService(
     private val ciTypeRepository: CITypeRepository,
     private val ciClassRepository: CIClassRepository,
     private val aliceUserRepository: AliceUserRepository,
-    private val aliceFileService: AliceFileService
+    private val aliceFileProvider: AliceFileProvider
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -208,6 +208,6 @@ class CITypeService(
      * @return String 데이터화된 아이콘 이미지
      */
     fun getCITypeImageData(ciTypeIconName: String): String {
-        return aliceFileService.getDataUriSchema(AliceConstants.ExternalFilePath.ICON_CI_TYPE.path + ciTypeIconName)
+        return aliceFileProvider.getDataUriSchema(AliceConstants.ExternalFilePath.ICON_CI_TYPE.path + ciTypeIconName)
     }
 }
