@@ -215,6 +215,7 @@
 
             const chartEditModal = new modal(chartOptions);
             chartEditModal.show();
+            document.querySelector('.modal-dialog .point-fill').focus();
         }
 
         /**
@@ -243,6 +244,7 @@
 
             const chartViewModal = new modal(chartOptions);
             chartViewModal.show();
+            document.querySelector('.modal-dialog .default-line').focus();
         }
 
         function createModalContent() {
