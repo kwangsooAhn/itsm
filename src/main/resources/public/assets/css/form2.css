@@ -919,10 +919,10 @@ input, button, select, optgroup, textarea {
   display: block;
   color: #ACB4BF;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.draggable.selected .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.drag-on .icon {
   background: #0098FF;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.draggable.selected .component-name {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.drag-on .component-name {
   color: #586872;
 }
 .component-accordion-box .component-accordion input[type=radio]:checked + .accordion-label .arrow-left {
@@ -940,6 +940,21 @@ input, button, select, optgroup, textarea {
 .component-accordion-box .component-accordion input[type=radio]:checked ~ .accordion-content::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
+}
+
+.drawing-board .drag-in {
+  height: 120px;
+  background-color: rgba(135, 206, 255, 0.1);
+  border: 0.0625rem dashed #87CEFF;
+}
+.drawing-board .drag-in .icon {
+  opacity: 0;
+}
+.drawing-board .drag-in .component-name {
+  opacity: 0;
+}
+.drawing-board.edit .zenius-group-label {
+  pointer-events: none;
 }
 
 /* _elements.scss 
@@ -4017,13 +4032,4 @@ body.modal-active {
 
 .zenius-component[data-displayType]:not([data-displayType=required]) .zenius-component-label span[class=required] {
   display: none;
-}
-
-.fake-draggable {
-  height: 0;
-}
-.fake-draggable.draggable-in {
-  height: 120px;
-  background-color: rgba(135, 206, 255, 0.1);
-  border: 0.0625rem dashed #87CEFF;
 }
