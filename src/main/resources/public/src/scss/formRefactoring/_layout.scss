@@ -153,11 +153,9 @@
             color: $gray;
           }
           // drag & drop
-          &.draggable {
-            &.selected {
-              .icon { background: $point-blue; }
-              .component-name { color: $dark-gray; }
-            }
+          &.drag-on {
+            .icon { background: $point-blue; }
+            .component-name { color: $dark-gray; }
           }
         }
       }
@@ -179,4 +177,18 @@
 }
 
 // drawing board
-//.drawing-board { }
+.drawing-board {
+  // drag & drop
+  .drag-in {
+    height: 120px;
+    background-color: rgba(135, 206, 255, 0.1);
+    border: 0.0625rem dashed $light-blue;; // 1px
+    .icon { opacity: 0; }
+    .component-name { opacity: 0; }
+  }
+
+  // 문서 상태에 따라 편집을 막음
+  &.edit {
+    .zenius-group-label { pointer-events: none; }
+  }
+}

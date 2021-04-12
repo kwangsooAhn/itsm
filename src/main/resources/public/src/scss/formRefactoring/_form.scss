@@ -149,13 +149,3 @@
     span[class="required"] { display: none; }
   }
 }
-
-//  drag & drop -fake element
-.fake-draggable {
-  height: 0;
-  &.draggable-in {
-    height: 120px;
-    background-color: rgba(135, 206, 255, 0.1);
-    border: 0.0625rem dashed $light-blue;; // 1px
-  }
-}
