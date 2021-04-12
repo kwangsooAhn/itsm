@@ -1237,13 +1237,15 @@ button.point-fill .icon {
   background: #ffffff;
   vertical-align: middle;
 }
-.btn.point-fill:hover,
+.btn.point-fill:focus, .btn.point-fill:hover,
+button.point-fill:focus,
 button.point-fill:hover {
   color: #ffffff;
   background-color: #33ADFF;
   border-color: transparent;
 }
-.btn.point-fill:hover .icon,
+.btn.point-fill:focus .icon, .btn.point-fill:hover .icon,
+button.point-fill:focus .icon,
 button.point-fill:hover .icon {
   background: #ffffff;
 }
@@ -1282,13 +1284,15 @@ button.point-line .icon {
   background: #0098FF;
   vertical-align: middle;
 }
-.btn.point-line:hover,
+.btn.point-line:focus, .btn.point-line:hover,
+button.point-line:focus,
 button.point-line:hover {
   color: #0098FF;
   background-color: rgba(0, 152, 255, 0.1);
   border-color: #0098FF;
 }
-.btn.point-line:hover .icon,
+.btn.point-line:focus .icon, .btn.point-line:hover .icon,
+button.point-line:focus .icon,
 button.point-line:hover .icon {
   background: #0098FF;
 }
@@ -1328,13 +1332,15 @@ button.default-fill .icon {
   background: #3F4B56;
   vertical-align: middle;
 }
-.btn.default-fill:hover,
+.btn.default-fill:focus, .btn.default-fill:hover,
+button.default-fill:focus,
 button.default-fill:hover {
   color: #3F4B56;
   background-color: #EBEBEB;
   border-color: transparent;
 }
-.btn.default-fill:hover .icon,
+.btn.default-fill:focus .icon, .btn.default-fill:hover .icon,
+button.default-fill:focus .icon,
 button.default-fill:hover .icon {
   background: #3F4B56;
 }
@@ -1373,13 +1379,15 @@ button.default-line .icon {
   background: #3F4B56;
   vertical-align: middle;
 }
-.btn.default-line:hover,
+.btn.default-line:focus, .btn.default-line:hover,
+button.default-line:focus,
 button.default-line:hover {
   color: #3F4B56;
   background-color: rgba(230, 230, 230, 0.3);
   border-color: #EBEBEB;
 }
-.btn.default-line:hover .icon,
+.btn.default-line:focus .icon, .btn.default-line:hover .icon,
+button.default-line:focus .icon,
 button.default-line:hover .icon {
   background: #3F4B56;
 }
@@ -1418,13 +1426,15 @@ button.ghost-fill .icon {
   background: #3F4B56;
   vertical-align: middle;
 }
-.btn.ghost-fill:hover,
+.btn.ghost-fill:focus, .btn.ghost-fill:hover,
+button.ghost-fill:focus,
 button.ghost-fill:hover {
   color: #3F4B56;
   background-color: rgba(230, 230, 230, 0.3);
   border-color: transparent;
 }
-.btn.ghost-fill:hover .icon,
+.btn.ghost-fill:focus .icon, .btn.ghost-fill:hover .icon,
+button.ghost-fill:focus .icon,
 button.ghost-fill:hover .icon {
   background: #3F4B56;
 }
@@ -1463,13 +1473,15 @@ button.ghost-line .icon {
   background: #CCCED1;
   vertical-align: middle;
 }
-.btn.ghost-line:hover,
+.btn.ghost-line:focus, .btn.ghost-line:hover,
+button.ghost-line:focus,
 button.ghost-line:hover {
   color: #3F4B56;
   background-color: #ffffff;
   border-color: #EBEBEB;
 }
-.btn.ghost-line:hover .icon,
+.btn.ghost-line:focus .icon, .btn.ghost-line:hover .icon,
+button.ghost-line:focus .icon,
 button.ghost-line:hover .icon {
   background: #3F4B56;
 }

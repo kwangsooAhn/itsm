@@ -165,6 +165,7 @@ button {
         vertical-align: middle;
       }
 
+      &:focus,
       &:hover {
         color: map-get($btn-hover-font-colors, #{$theme});
         background-color: map-get($btn-hover-bg-colors, #{$theme});
