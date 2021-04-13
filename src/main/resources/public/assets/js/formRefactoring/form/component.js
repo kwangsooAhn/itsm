@@ -46,13 +46,13 @@ export default class Component {
         // 내부 property 초기화
         this.setProperty();
         // 컴포넌트용 툴팁
-        const componentTooltip = new UIComponentTooltip();
+        const componentTooltip = new UIComponentTooltip()
+            .setProperty('--data-column', this.columnWidth);
         // 컴포넌트 추가
         componentTooltip.UIComponent = new UIComponent()
             .setId(this.id)
             .addClass(this.type)
-            .setAttribute('data-displayType', this.displayType)
-            .setProperty('--data-column', this.columnWidth);
+            .setAttribute('data-displayType', this.displayType);
         // 내부 엘리먼트 추가
         componentTooltip.UIComponent.UIField = this.makeField();
         componentTooltip.UIComponent.add(componentTooltip.UIComponent.UIField);

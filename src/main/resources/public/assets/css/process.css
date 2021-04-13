@@ -434,7 +434,7 @@ input, button, select, optgroup, textarea {
   font-weight: 700;
 }
 .required::after {
-  color: #FF405A;
+  color: #ff405a;
   content: "*";
 }
 
@@ -699,7 +699,7 @@ input, button, select, optgroup, textarea {
   color: #00C462;
 }
 .process-main .drawing-board .simulation-report-contents-main .result.failed {
-  color: #FF405A;
+  color: #ff405a;
 }
 .process-main .drawing-board .simulation-report-contents-main .details {
   font-size: 1rem;
@@ -711,7 +711,7 @@ input, button, select, optgroup, textarea {
   margin: 0.625rem 0;
 }
 .process-main .drawing-board .simulation-report-contents-main .details div.failed {
-  color: #FF405A;
+  color: #ff405a;
 }
 .process-main .drawing-board .simulation-report-contents-main .details-result, .process-main .drawing-board .simulation-report-contents-main .details-element-info, .process-main .drawing-board .simulation-report-contents-main .details-failed-message {
   margin-left: 0.313rem;
@@ -932,8 +932,8 @@ input.icon {
   padding-right: 2.5rem;
 }
 input.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 input[type=range] {
   -webkit-appearance: none;
@@ -998,8 +998,8 @@ textarea:read-only {
   cursor: default;
 }
 textarea.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 
 table {
@@ -1457,7 +1457,7 @@ svg g.element-container g.element .node.selected {
   stroke-width: 2 !important;
 }
 svg g.element-container g.element .node.selected.error {
-  stroke: #FF405A !important;
+  stroke: #ff405a !important;
 }
 svg g.element-container g.element .node.reject-element {
   stroke: #ff0000 !important;
@@ -1483,7 +1483,7 @@ svg g.element-container g.element.selected .element-type.subprocess {
   stroke-width: 2 !important;
 }
 svg g.element-container g.element.selected.error {
-  stroke: #FF405A !important;
+  stroke: #ff405a !important;
 }
 svg g.group-artifact-container g.element .group {
   stroke: #000000;
@@ -1495,7 +1495,7 @@ svg g.group-artifact-container g.element .node.selected {
   stroke-width: 2 !important;
 }
 svg g.group-artifact-container g.element .node.selected.error {
-  stroke: #FF405A !important;
+  stroke: #ff405a !important;
 }
 svg g.group-artifact-container g.element text {
   font-size: 1rem;
@@ -1516,7 +1516,7 @@ svg g.connector-container g.connector path.connector.selected {
   stroke-width: 2;
 }
 svg g.connector-container g.connector path.connector.selected.error {
-  stroke: #FF405A !important;
+  stroke: #ff405a !important;
 }
 svg g.connector-container g.connector path.connector.is-default {
   stroke-width: 3;

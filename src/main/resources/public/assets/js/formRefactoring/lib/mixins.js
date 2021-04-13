@@ -36,7 +36,8 @@ export const controlMixin = {
         if ((index + 1) === this.children.length) {
             parentElement.appendChild(object.UIElement.domElement);
         } else {
-            parentElement.insertBefore(object.UIElement.domElement, parentElement.children[index]);
+            const nextSibling = this.children[index + 1].UIElement.domElement;
+            parentElement.insertBefore(object.UIElement.domElement, nextSibling);
         }
         return this;
     },

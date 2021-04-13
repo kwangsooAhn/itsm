@@ -433,7 +433,7 @@ input, button, select, optgroup, textarea {
   font-weight: 700;
 }
 .required::after {
-  color: #FF405A;
+  color: #ff405a;
   content: "*";
 }
 
@@ -620,8 +620,8 @@ input.icon {
   padding-right: 2.5rem;
 }
 input.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 input[type=range] {
   -webkit-appearance: none;
@@ -686,8 +686,8 @@ textarea:read-only {
   cursor: default;
 }
 textarea.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 
 table {
@@ -3439,7 +3439,7 @@ button .icon-plus {
   display: none;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error {
-  border-color: #FF405A;
+  border-color: #ff405a;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-error-message {
   display: block;
@@ -3486,7 +3486,7 @@ button .icon-plus {
   mask-position: center;
   -webkit-mask-size: 1.125rem 1.25rem;
   mask-size: 1.125rem 1.25rem;
-  background: #FF405A;
+  background: #ff405a;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-processing .dz-progress {
   opacity: 1;

@@ -53,18 +53,22 @@ export default class FormDesigner {
                 group: {
                     name: 'palette',
                     pull: 'clone',
-                    put: 'add' // group명이 'add'인 것에만 추가할 수 있다.
+                    put: false
                 },
                 animation: 150,
                 sort: false,
                 chosenClass: 'drag-on',
                 editor: this,
+                draggable: '.list-group-item',
+                swapThreshold: 0.5,
+                onChoose: function () {
+                    this.options.editor.deSelectObject();
+                },
                 onMove: function (evt) {
-                    if (evt.from !== evt.to &&
-                        evt.dragged.classList.contains('component-icon')) {
+                    if (evt.from !== evt.to && evt.dragged.classList.contains('component-icon')) {
                         // TODO: form 내부이면, placeholder 로 가상의 group, row, component 표시
                         // TODO: 아니면 타입에 따라 component만 표시
-                        evt.dragged.classList.add('drag-in');
+                        evt.dragged.classList.add('component-icon-drag-in');
                     }
                 },
                 onEnd: function (evt) {
@@ -73,37 +77,26 @@ export default class FormDesigner {
                     const parentObject = this.options.editor.form.getById(evt.to.id);
                     const clickEvent = document.createEvent('Event');
                     clickEvent.initEvent('click', true, true);
-                    // add object with index
-                    if (evt.to.classList.contains(CLASS_PREFIX + 'form')) { // 그룹 추가
-                        const group = this.options.editor.addObjectByType(
-                            FORM.LAYOUT.GROUP,
-                            {},
-                            parentObject,
-                            evt.newDraggableIndex
-                        );
-                        // row 추가
-                        const row = this.options.editor.addObjectByType(
-                            FORM.LAYOUT.ROW,
-                            {},
-                            group,
-                            0
-                        );
-                        // 컴포넌트 추가
-                        this.options.editor.addObjectByType(
-                            FORM.LAYOUT.COMPONENT,
-                            { type : evt.item.id },
-                            row,
-                            0
-                        );
+
+                    if (evt.to.classList.contains(CLASS_PREFIX + 'form')) { // 신규 그룹 추가
+                        const group = this.options.editor.addObjectByType(FORM.LAYOUT.GROUP,
+                            {}, parentObject, evt.newDraggableIndex);
+                        const row = this.options.editor.addObjectByType(FORM.LAYOUT.ROW,
+                            {}, group, 0);
+                        this.options.editor.addObjectByType(FORM.LAYOUT.COMPONENT,
+                            {type: evt.item.id}, row, 0);
                         // 그룹 선택 이벤트 추가
                         group.UIElement.UIGroup.domElement.dispatchEvent(clickEvent);
-                    } else if (evt.to.classList.contains(CLASS_PREFIX + 'row')) { // 컴포넌트 추가
-                        const component = this.options.editor.addObjectByType(
-                            FORM.LAYOUT.COMPONENT,
-                            { type : evt.item.id },
-                            parentObject,
-                            evt.newDraggableIndex
-                        );
+                    } else if (evt.to.classList.contains(CLASS_PREFIX + 'group')) { // 신규 row 추가
+                        const row = this.options.editor.addObjectByType(FORM.LAYOUT.ROW,
+                            {}, parentObject, evt.newDraggableIndex);
+                        this.options.editor.addObjectByType(FORM.LAYOUT.COMPONENT,
+                            {type: evt.item.id}, row, 0);
+                        // row 선택 이벤트 추가
+                        row.UIElement.UIRow.domElement.dispatchEvent(clickEvent);
+                    } else if (evt.to.classList.contains(CLASS_PREFIX + 'row')) { // 신규 컴포넌트 추가
+                        const component = this.options.editor.addObjectByType(FORM.LAYOUT.COMPONENT,
+                            { type : evt.item.id }, parentObject, evt.newDraggableIndex);
                         // 컴포넌트 선택 이벤트 추가
                         component.UIElement.UIComponent.domElement.dispatchEvent(clickEvent);
                     }
@@ -132,7 +125,8 @@ export default class FormDesigner {
         });
 
         document.addEventListener('click', onLeftClickHandler.bind(this), false);
-        document.getElementById('formMain').addEventListener('mousewheel', onScrollHandler.bind(this), false);
+        document.getElementById('formMain').addEventListener('mousewheel',
+            onScrollHandler.bind(this), false);
     }
     // 폼 디자이너 상단 이름 출력
     setFormName() {
@@ -170,17 +164,19 @@ export default class FormDesigner {
             object.UIElement.addClass('list-group');
             new Sortable(object.UIElement.domElement, {
                 group: {
-                    name: 'add',
-                    pull: function (to, from) {
-                        // form은 컴포넌트 팔레트에서 가져온 것만 받아들인다.
-                        return from.el.classList.contains('component-icon');
-                    },
-                    put: true
+                    name: 'form',
+                    pull: false,
+                    put: ['palette', 'group', 'row'],
                 },
                 animation: 150,
                 sort: true,
-                chosenClass: 'selected',
+                chosenClass: 'drag-in',
                 editor: this,
+                draggable: '.list-group-item',
+                swapThreshold: 0.5,
+                onChoose: function () {
+                    this.options.editor.deSelectObject();
+                },
                 onEnd: function (evt) {
                     // 그룹 swap 및 재정렬
                     if (evt.oldDraggableIndex !== evt.newDraggableIndex) {
@@ -197,6 +193,54 @@ export default class FormDesigner {
             // drag & drop 이벤트 추가
             object.UIElement.addClass('list-group-item');
             object.UIElement.UIGroup.addClass('list-group');
+            new Sortable(object.UIElement.UIGroup.domElement, {
+                group: {
+                    name: 'group',
+                    pull: 'clone',
+                    put: ['palette', 'group', 'row']
+                },
+                animation: 150,
+                sort: true,
+                chosenClass: 'drag-in',
+                editor: this,
+                draggable: '.list-group-item',
+                swapThreshold: 0.5,
+                onChoose: function () {
+                    this.options.editor.deSelectObject();
+                },
+                onClone: function (evt) { // clone 대상이되는 엘리먼트 디자인 변경
+                    evt.clone.classList.add('drag-ghost');
+                },
+                onEnd: function (evt) {
+                    evt.clone.classList.remove('drag-ghost');
+
+                    const formObject = this.options.editor.form.getById(evt.from.id);
+                    if (evt.from.id === evt.to.id) {
+                        if (evt.oldDraggableIndex !== evt.newDraggableIndex) { // swap
+                            util.swapObject(formObject.children, evt.oldDraggableIndex, evt.newDraggableIndex);
+                            formObject.sort(0);
+                        }
+                    } else { // 다른 위치로 이동
+                        const toObject = this.options.editor.form.getById(evt.to.id);
+                        const rowObject = formObject.children[evt.oldDraggableIndex];
+                        const clickEvent = document.createEvent('Event');
+                        clickEvent.initEvent('click', true, true);
+
+                        if (evt.to.classList.contains(CLASS_PREFIX + 'form')) { // 폼으로 이동
+                            const group = this.options.editor.addObjectByType(FORM.LAYOUT.GROUP,
+                                {}, toObject, evt.newDraggableIndex);
+                            group.add(rowObject, 0);
+                            group.UIElement.UIGroup.domElement.dispatchEvent(clickEvent);
+                        } else { // 다른 group 이동
+                            toObject.add(rowObject, evt.newDraggableIndex);
+                            rowObject.UIElement.UIRow.domElement.dispatchEvent(clickEvent);
+                        }
+                        this.options.editor.removeObjectByChildren(formObject);
+                        // clone 후 row 삭제
+                        evt.from.removeChild(evt.clone);
+                    }
+                }
+            });
             object.UIElement.UIGroup.onClick(this.selectObject.bind(object));
             break;
         case 'row':
@@ -205,50 +249,75 @@ export default class FormDesigner {
             object.UIElement.UIRow.addClass('list-group');
             new Sortable(object.UIElement.UIRow.domElement, {
                 group: {
-                    name: 'add',
-                    pull: function (to, from) {
-                        // row는 컴포넌트 팔레트에서 가져온 것과 다른 컴포넌트만 받아들인다.
-                        return from.el.classList.contains('component-icon') ||
-                            from.el.classList.contains(CLASS_PREFIX + 'row');
-                    },
-                    put: true
+                    name: 'row',
+                    pull: 'clone',
+                    put: function (to) {
+                        if (to.el.classList.contains(CLASS_PREFIX + 'row') && 
+                          to.el.children.length >= FORM.MAX_ROW) { // row의 컴포넌트 갯수 제한
+                            return 'false';
+                        } else {
+                            return ['palette', 'row'];
+                        }
+                    }
+                },
+                direction: function(evt, target, dragEl) { // 하나의 row에 여러개 컴포넌트 추가 용도
+                    if (target !== null &&
+                        target.className.includes(CLASS_PREFIX + 'component-tooltip') &&
+                        (dragEl.className.includes(CLASS_PREFIX + 'component-tooltip') ||
+                            dragEl.className.includes('component-icon'))) {
+                        return 'horizontal';
+                    }
+                    return 'vertical';
                 },
                 animation: 150,
                 sort: true,
-                chosenClass: 'selected',
+                chosenClass: 'drag-in',
                 editor: this,
+                draggable: '.list-group-item',
+                swapThreshold: 0.5,
+                onChoose: function () {
+                    this.options.editor.deSelectObject();
+                },
+                onClone: function (evt) {
+                    // clone 대상이되는 엘리먼트 디자인 변경
+                    evt.clone.classList.add('drag-ghost');
+                },
                 onEnd: function (evt) {
-                    if (evt.from.id === evt.to.id) { return false; }
-
+                    evt.clone.classList.remove('drag-ghost');
                     const formObject = this.options.editor.form.getById(evt.from.id);
-                    const toObject = this.options.editor.form.getById(evt.to.id);
-                    const componentObject = formObject.children[evt.oldDraggableIndex];
-                    const clickEvent = document.createEvent('Event');
-                    clickEvent.initEvent('click', true, true);
-                    if (evt.to.classList.contains(CLASS_PREFIX + 'form')) { // 폼으로 이동
-                        // group 추가
-                        const group = this.options.editor.addObjectByType(
-                            FORM.LAYOUT.GROUP,
-                            {},
-                            toObject,
-                            evt.newDraggableIndex
-                        );
-                        // row 추가
-                        const row = this.options.editor.addObjectByType(
-                            FORM.LAYOUT.ROW,
-                            {},
-                            group,
-                            0
-                        );
-                        row.add(componentObject, 0);
-                        // 그룹 선택 이벤트 추가
-                        group.UIElement.UIGroup.domElement.dispatchEvent(clickEvent);
-                    } else { // 다른 row로 이동
-                        toObject.add(componentObject, evt.newDraggableIndex);
-                        // 컴포넌트 선택 이벤트 추가
-                        componentObject.UIElement.UIComponent.domElement.dispatchEvent(clickEvent);
+                    if (evt.from.id === evt.to.id) { // swap
+                        if (evt.oldDraggableIndex !== evt.newDraggableIndex) { // swap
+                            util.swapObject(formObject.children, evt.oldDraggableIndex, evt.newDraggableIndex);
+                            formObject.sort(0);
+                        }
+                    } else { // 다른 위치로 이동
+                        const toObject = this.options.editor.form.getById(evt.to.id);
+                        const componentObject = formObject.children[evt.oldDraggableIndex];
+                        const clickEvent = document.createEvent('Event');
+                        clickEvent.initEvent('click', true, true);
+                        if (evt.to.classList.contains(CLASS_PREFIX + 'form')) { // 폼으로 이동
+                            const group = this.options.editor.addObjectByType(FORM.LAYOUT.GROUP,
+                                {}, toObject, evt.newDraggableIndex);
+                            const row = this.options.editor.addObjectByType(FORM.LAYOUT.ROW,
+                                {}, group, 0);
+                            row.add(componentObject, 0);
+                            // 그룹 선택 이벤트 추가
+                            group.UIElement.UIGroup.domElement.dispatchEvent(clickEvent);
+                        } else if (evt.to.classList.contains(CLASS_PREFIX + 'group')) { // group으로 이동
+                            const row = this.options.editor.addObjectByType(FORM.LAYOUT.ROW,
+                                {}, toObject, evt.newDraggableIndex);
+                            row.add(componentObject, 0);
+                            // 그룹 선택 이벤트 추가
+                            row.UIElement.UIRow.domElement.dispatchEvent(clickEvent);
+                        } else { // 다른 row로 이동
+                            toObject.add(componentObject, evt.newDraggableIndex);
+                            // 컴포넌트 선택 이벤트 추가
+                            componentObject.UIElement.UIComponent.domElement.dispatchEvent(clickEvent);
+                        }
+                        this.options.editor.removeObjectByChildren(formObject);
+                        // clone 후 row 삭제
+                        evt.from.removeChild(evt.clone);
                     }
-                    this.options.editor.removeObjectByChildren(formObject);
                 }
             });
             object.UIElement.UIRow.onClick(this.selectObject.bind(object));
@@ -303,7 +372,13 @@ export default class FormDesigner {
         // TODO: 세부 속성 출력
         // editor.panel.on(객체);
     }
-    //
+    // 객체 선택 해제
+    deSelectObject() {
+        // 이전 선택된 객체 디자인 삭제
+        if (this.selectedObject !== null) {
+            this.selectedObject.UIElement.removeClass('selected');
+        }
+    }
     // form 저장
     saveForm() {}
     // 다른 이름으로 form 저장
@@ -316,10 +391,7 @@ export default class FormDesigner {
 function onLeftClickHandler(e) {
     // 폼 내부를 선택한게 아니라면, 기존 선택된 항목을 초기화한다.
     if (!aliceJs.clickInsideElement(e, CLASS_PREFIX + 'form')) {
-        // 이전 선택된 객체 디자인 삭제
-        if (this.selectedObject !== null) {
-            this.selectedObject.UIElement.removeClass('selected');
-        }
+        this.deSelectObject();
     }
 }
 /**

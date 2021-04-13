@@ -434,7 +434,7 @@ input, button, select, optgroup, textarea {
   font-weight: 700;
 }
 .required::after {
-  color: #FF405A;
+  color: #ff405a;
   content: "*";
 }
 
@@ -885,8 +885,8 @@ input.icon {
   padding-right: 2.5rem;
 }
 input.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 input[type=range] {
   -webkit-appearance: none;
@@ -951,8 +951,8 @@ textarea:read-only {
   cursor: default;
 }
 textarea.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 
 table {

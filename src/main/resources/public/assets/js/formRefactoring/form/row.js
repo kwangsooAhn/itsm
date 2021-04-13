@@ -52,6 +52,6 @@ export class UIRowTooltip extends UIDiv {
 export class UIRow extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = CLASS_PREFIX + 'row';
+        this.domElement.className = CLASS_PREFIX + 'row flex-row';
     }
 }

@@ -434,7 +434,7 @@ input, button, select, optgroup, textarea {
   font-weight: 700;
 }
 .required::after {
-  color: #FF405A;
+  color: #ff405a;
   content: "*";
 }
 
@@ -942,15 +942,24 @@ input, button, select, optgroup, textarea {
   /* Chrome, Safari, Opera*/
 }
 
+.drawing-board .drag-ghost {
+  opacity: 0.5;
+}
 .drawing-board .drag-in {
-  height: 120px;
   background-color: rgba(135, 206, 255, 0.1);
   border: 0.0625rem dashed #87CEFF;
 }
-.drawing-board .drag-in .icon {
+.drawing-board .component-icon-drag-in {
+  display: inline-block;
+  width: 100%;
+  height: 7.875rem;
+  background-color: rgba(135, 206, 255, 0.1);
+  border: 0.0625rem dashed #87CEFF;
+}
+.drawing-board .component-icon-drag-in .icon {
   opacity: 0;
 }
-.drawing-board .drag-in .component-name {
+.drawing-board .component-icon-drag-in .component-name {
   opacity: 0;
 }
 .drawing-board.edit .zenius-group-label {
@@ -1056,8 +1065,8 @@ input.icon {
   padding-right: 2.5rem;
 }
 input.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 input[type=range] {
   -webkit-appearance: none;
@@ -1122,8 +1131,8 @@ textarea:read-only {
   cursor: default;
 }
 textarea.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 
 table {
@@ -2799,7 +2808,7 @@ button.ghost-line:disabled .icon {
   display: none;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error {
-  border-color: #FF405A;
+  border-color: #ff405a;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-error-message {
   display: block;
@@ -2846,7 +2855,7 @@ button.ghost-line:disabled .icon {
   mask-position: center;
   -webkit-mask-size: 1.125rem 1.25rem;
   mask-size: 1.125rem 1.25rem;
-  background: #FF405A;
+  background: #ff405a;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-processing .dz-progress {
   opacity: 1;
@@ -4001,7 +4010,8 @@ body.modal-active {
 }
 
 .zenius-component-tooltip {
-  padding: 1.25rem;
+  flex-basis: calc((100% * var(--data-column, 12)) / 12);
+  padding: 0.75rem 1.25rem;
   border: 0.0625rem solid transparent;
   background-color: #ffffff;
 }
@@ -4015,7 +4025,7 @@ body.modal-active {
 }
 .zenius-component .zenius-field .zenius-component-label {
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
-  padding-right: 0.938rem;
+  padding: 0.4375rem 0.938rem 0.4375rem 0;
 }
 .zenius-component .zenius-field .zenius-component-label.on {
   display: block;
@@ -4025,6 +4035,7 @@ body.modal-active {
 }
 .zenius-component .zenius-field .zenius-element {
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
+  padding: 0.4375rem 0;
 }
 .zenius-component .zenius-field .zenius-element .input {
   width: 100%;
