@@ -37,10 +37,10 @@ import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.cmdb.dto.CISearchDto
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.cmdb.dto.RestTemplateReturnDto
+import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.instance.repository.WfInstanceRepository
-import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -57,7 +57,8 @@ class CIService(
     private val ciDataHistoryRepository: CIDataHistoryRepository,
     private val ciTypeService: CITypeService,
     private val wfInstanceRepository: WfInstanceRepository,
-    private val ciInstanceRelationRepository: CIInstanceRelationRepository
+    private val ciInstanceRelationRepository: CIInstanceRelationRepository,
+    private val aliceUserRepository: AliceUserRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -203,8 +204,10 @@ class CIService(
                     ciDesc = ciDto.ciDesc,
                     automatic = ciDto.automatic,
                     instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) },
-                    createDt = LocalDateTime.now(),
-                    createUser = ciDto.createUser
+                    createDt = ciDto.createDt,
+                    createUser = ciDto.createUserKey?.let {
+                        aliceUserRepository.findAliceUserEntityByUserKey(it)
+                    }
                 )
 
                 ciEntity = ciRepository.save(ciEntity)
@@ -268,11 +271,11 @@ class CIService(
             )
         } else {
             // 변경전 데이터를 이력에 저장
-            ciEntity.updateDt = LocalDateTime.now() // 반영일시
+            ciEntity.updateDt = ciDto.updateDt // 반영일시
             this.saveCIHistory(ciEntity)
 
             ciEntity.ciNo = ciDto.ciNo
-            ciDto.updateUser.let { ciEntity.updateUser = ciDto.updateUser }
+            ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
             ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
             ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
             ciDto.ciIcon?.let { ciEntity.ciIcon = ciDto.ciIcon }
@@ -337,10 +340,10 @@ class CIService(
         )
 
         // 삭제전 마지막 값을 이력에 저장
-        ciEntity.updateDt = LocalDateTime.now() // 반영일시
+        ciEntity.updateDt = ciDto.updateDt // 반영일시
         this.saveCIHistory(ciEntity)
 
-        ciDto.updateUser.let { ciEntity.updateUser = ciDto.updateUser }
+        ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
         ciEntity.ciStatus = RestTemplateConstants.CIStatus.STATUS_DELETE.code
         ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
         val ci = ciRepository.save(ciEntity)

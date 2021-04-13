@@ -7,6 +7,7 @@ package co.brainz.workflow.engine.manager.service
 
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDto
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
@@ -44,6 +45,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.ZoneId
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
@@ -186,6 +188,9 @@ class WfTokenManagerService(
      * Create CI.
      */
     fun createCI(ci: CIDto): String {
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        ci.createDt = LocalDateTime.now()
+        ci.createUserKey = userDetails.userKey
         val returnDto = ciService.createCI(ci)
         return returnDto.code
     }
@@ -194,6 +199,9 @@ class WfTokenManagerService(
      * Update CI.
      */
     fun updateCI(ci: CIDto): String {
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        ci.updateDt = LocalDateTime.now()
+        ci.updateUserKey = userDetails.userKey
         val returnDto = ciService.updateCI(ci)
         return returnDto.code
     }
@@ -202,6 +210,9 @@ class WfTokenManagerService(
      * Delete CI.
      */
     fun deleteCI(ci: CIDto): String {
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        ci.updateDt = LocalDateTime.now()
+        ci.updateUserKey = userDetails.userKey
         val returnDto = ciService.deleteCI(ci)
         return returnDto.code
     }

@@ -47,7 +47,8 @@ class ApiCIService(
      * CI 등록
      */
     fun createCI(ciDto: CIDto): Boolean {
-        ciDto.createUser = userService.selectUser(ApiConstants.CREATE_USER)
+        val userEntity = userService.selectUser(ApiConstants.CREATE_USER)
+        ciDto.createUserKey = userEntity.userKey
         ciDto.createDt = LocalDateTime.now()
         val returnDto = ciService.createCI(ciDto)
         return returnDto.status
@@ -57,7 +58,8 @@ class ApiCIService(
      * CI 수정
      */
     fun updateCI(ciId: String, ciDto: CIDto): Boolean {
-        ciDto.updateUser = userService.selectUser(ApiConstants.CREATE_USER)
+        val userEntity = userService.selectUser(ApiConstants.CREATE_USER)
+        ciDto.updateUserKey = userEntity.userKey
         ciDto.updateDt = LocalDateTime.now()
         val returnDto = ciService.updateCI(ciDto)
         return returnDto.status
@@ -67,7 +69,8 @@ class ApiCIService(
      * CI 삭제
      */
     fun deleteCI(ciId: String, ciDto: CIDto): Boolean {
-        ciDto.updateUser = userService.selectUser(ApiConstants.CREATE_USER)
+        val userEntity = userService.selectUser(ApiConstants.CREATE_USER)
+        ciDto.updateUserKey = userEntity.userKey
         ciDto.updateDt = LocalDateTime.now()
         if (ciDto.ciId.isEmpty()) {
             ciDto.ciId = ciId
