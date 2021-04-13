@@ -9,6 +9,7 @@ package co.brainz.itsm.portal.controller
 import co.brainz.framework.fileTransaction.dto.AliceFileNameExtensionDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/rest/portals")
 class PortalRestController(
     private val aliceFileService: AliceFileService,
+    private val aliceFileProvider: AliceFileProvider,
     private val portalService: PortalService
 ) {
     private val fileMapper: AliceFileMapper = Mappers.getMapper(AliceFileMapper::class.java)
@@ -64,7 +66,7 @@ class PortalRestController(
     @GetMapping("/filenameextensions")
     fun getFileNameExtension(): List<AliceFileNameExtensionDto> {
         val fileNameExtensions = mutableListOf<AliceFileNameExtensionDto>()
-        val foundFileNameExtensions = aliceFileService.getFileNameExtension()
+        val foundFileNameExtensions = aliceFileProvider.getFileNameExtension()
         for (foundFileNameExtension in foundFileNameExtensions) {
             fileNameExtensions.add(fileMapper.toAliceFileNameExtensionDto(foundFileNameExtension))
         }

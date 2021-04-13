@@ -10,6 +10,7 @@ import co.brainz.itsm.board.dto.BoardArticleSearchDto
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import co.brainz.itsm.board.dto.BoardDto
 import co.brainz.itsm.board.dto.BoardSearchDto
+import co.brainz.itsm.board.service.BoardArticleService
 import co.brainz.itsm.board.service.BoardService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -19,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/boards")
-class BoardController(private val boardService: BoardService) {
+class BoardController(
+    private val boardService: BoardService,
+    private val boardArticleService: BoardArticleService
+) {
 
     private val boardSearchPage: String = "board/boardSearch"
     private val boardListPage: String = "board/boardList"
@@ -127,7 +131,7 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/articles")
     fun getBoardArticleList(boardArticleSearchDto: BoardArticleSearchDto, model: Model): String {
-        val result = boardService.getBoardArticleList(boardArticleSearchDto)
+        val result = boardArticleService.getBoardArticleList(boardArticleSearchDto)
         model.addAttribute("boardList", result)
         model.addAttribute("boardCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return if (boardArticleSearchDto.isScroll) boardArticlesListFragment else boardArticlesListPage
@@ -142,7 +146,7 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/articles/{boardId}/view")
     fun getBoardArticleView(@PathVariable boardId: String, model: Model): String {
-        val boardArticleDtoInfo: BoardArticleViewDto = boardService.getBoardArticle(boardId, "view")
+        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticle(boardId, "view")
         model.addAttribute("boardInfo", boardArticleDtoInfo)
         model.addAttribute("boardAdminInfo", boardArticleDtoInfo.boardAdmin)
         return boardArticlesViewPage
@@ -157,11 +161,11 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/articles/{boardAdminId}/new")
     fun getBoardArticleNew(@PathVariable boardAdminId: String, model: Model): String {
-        val boardInfo: BoardDto = boardService.getBoardInfo(boardAdminId)
+        val boardInfo: BoardDto = boardArticleService.getBoardArticleInfo(boardAdminId)
         if (boardInfo.categoryYn) {
             model.addAttribute(
                 "boardCategoryInfo",
-                boardService.getBoardArticleCategoryList(boardInfo.boardAdminId)
+                boardArticleService.getBoardArticleCategoryList(boardInfo.boardAdminId)
             )
         }
         model.addAttribute("boardAdminInfo", boardInfo)
@@ -179,7 +183,7 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/articles/{boardId}/edit")
     fun getBoardArticleEdit(@PathVariable boardId: String, model: Model): String {
-        val boardArticleDtoInfo: BoardArticleViewDto = boardService.getBoardArticle(boardId, "edit")
+        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticle(boardId, "edit")
         if (boardArticleDtoInfo.boardAdmin.categoryYn) {
             model.addAttribute("boardCategoryInfo", boardArticleDtoInfo.boardAdmin.category)
         }
@@ -199,7 +203,7 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/articles/{boardId}/comments")
     fun getBoardArticleCommentList(@PathVariable boardId: String, model: Model): String {
-        model.addAttribute("boardCommentList", boardService.getBoardArticleCommentList(boardId))
+        model.addAttribute("boardCommentList", boardArticleService.getBoardArticleCommentList(boardId))
         return boardArticlesCommentListPage
     }
 
@@ -212,11 +216,11 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/articles/{boardId}/reply/edit")
     fun getBoardArticleReplyEdit(@PathVariable boardId: String, model: Model): String {
-        val boardArticleDtoInfo: BoardArticleViewDto = boardService.getBoardArticle(boardId, "reply")
+        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticle(boardId, "reply")
         if (boardArticleDtoInfo.boardAdmin.categoryYn) {
             model.addAttribute(
                 "boardCategoryInfo",
-                boardService.getBoardArticleCategoryList(boardArticleDtoInfo.boardAdmin.boardAdminId)
+                boardArticleService.getBoardArticleCategoryList(boardArticleDtoInfo.boardAdmin.boardAdminId)
             )
         }
         model.addAttribute("boardAdminList", boardService.getSelectBoard())

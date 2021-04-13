@@ -6,6 +6,7 @@
 package co.brainz.itsm.image.controller
 
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.image.dto.ImageRenameDto
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -22,7 +23,10 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/rest/images")
-class ImageRestController(private val fileService: AliceFileService) {
+class ImageRestController(
+    private val fileService: AliceFileService,
+    private val fileProvider: AliceFileProvider
+) {
 
     /**
      * 이미지 파일 업로드.
@@ -65,6 +69,6 @@ class ImageRestController(private val fileService: AliceFileService) {
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         @RequestParam(value = "offset", defaultValue = "-1") offset: String
     ): List<AliceImageFileDto> {
-        return fileService.getImageFileList(type, searchValue, offset.toInt())
+        return fileProvider.getImageFileList(type, searchValue, offset.toInt())
     }
 }

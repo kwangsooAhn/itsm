@@ -2,40 +2,33 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.dto.AliceFileLocDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
-import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.util.AliceFileUtil
-import co.brainz.itsm.constants.ItsmConstants
 import java.io.File
 import java.io.IOException
-import java.net.URI
-import java.nio.file.FileSystems
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Base64
-import java.util.stream.Collectors
 import javax.imageio.ImageIO
 import org.apache.tika.Tika
 import org.apache.tika.metadata.Metadata
@@ -60,24 +53,11 @@ class AliceFileService(
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileNameExtensionRepository: AliceFileNameExtensionRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
-    private val userRepository: AliceUserRepository,
+    private val aliceFileProvider: AliceFileProvider,
     environment: Environment
 ) : AliceFileUtil(environment) {
+
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-    private val processStatusRootDirectory = "processes"
-    private val imagesRootDirectory = "images"
-    private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
-    private val fileUploadRootDirectory = "uploadRoot"
-    private val processAttachFileRootDirectory = this.imagesRootDirectory
-    private val classPathInJar = "/BOOT-INF/classes/"
-
-    /**
-     * 파일 허용 확장자 목록 가져오기
-     */
-    fun getFileNameExtension(): List<AliceFileNameExtensionEntity> {
-        return aliceFileNameExtensionRepository.findAll()
-    }
 
     /**
      * 파일을 임시로 업로드한다.
@@ -87,8 +67,8 @@ class AliceFileService(
     fun uploadTemp(multipartFile: MultipartFile): AliceFileLocEntity {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = super.getRandomFilename()
-        val tempPath = super.getDir("temp", fileName)
-        val filePath = super.getDir(this.fileUploadRootDirectory, fileName)
+        val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileName)
+        val filePath = super.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
         val metadata = Metadata()
         metadata[Metadata.RESOURCE_NAME_KEY] = multipartFile.originalFilename
@@ -108,14 +88,14 @@ class AliceFileService(
         multipartFile.transferTo(tempPath.toFile())
 
         val aliceFileLocEntity = AliceFileLocEntity(
-            0,
-            aliceUserDto.userKey,
-            false,
-            filePath.parent.toString(),
-            fileName,
-            multipartFile.originalFilename,
-            multipartFile.size,
-            0
+            fileSeq = 0,
+            fileOwner = aliceUserDto.userKey,
+            uploaded = false,
+            uploadedLocation = filePath.parent.toString(),
+            randomName = fileName,
+            originName = multipartFile.originalFilename,
+            fileSize = multipartFile.size,
+            sort = 0
         )
         logger.debug("{}", aliceFileLocEntity)
         aliceFileLocRepository.save(aliceFileLocEntity)
@@ -132,7 +112,7 @@ class AliceFileService(
         for (fileSeq in aliceFileDto.fileSeq.orEmpty()) {
             val fileLocEntity = aliceFileLocRepository.getOne(fileSeq)
             val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-            val tempPath = super.getDir("temp", fileLocEntity.randomName)
+            val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
             Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
             logger.debug(">> 임시업로드파일 {} 을 사용할 위치로 이동 {}", tempPath.toAbsolutePath(), filePath.toAbsolutePath())
             logger.debug(
@@ -151,7 +131,7 @@ class AliceFileService(
             }
         }
         for (delFileSeq in aliceFileDto.delFileSeq.orEmpty()) {
-            delete(aliceFileOwnMapRepository.findByFileLocEntityFileSeq(delFileSeq).fileLocEntity)
+            this.delete(aliceFileOwnMapRepository.findByFileLocEntityFileSeq(delFileSeq).fileLocEntity)
         }
     }
 
@@ -166,7 +146,7 @@ class AliceFileService(
             if (fileDataIds[index].isNotEmpty()) {
                 val fileLocEntity = aliceFileLocRepository.getOne(fileDataIds[index].toLong())
                 val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-                val tempPath = super.getDir("temp", fileLocEntity.randomName)
+                val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
                 if (Files.exists(tempPath)) {
                     Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
                     fileLocEntity.uploaded = true
@@ -186,30 +166,21 @@ class AliceFileService(
      * 프로세스 상태 표시를 위한 프로세스 XML 파일을 업로드한다.
      */
     fun uploadProcessFile(multipartFile: MultipartFile) {
-        val dir = super.getWorkflowDir(this.processStatusRootDirectory)
+        val dir = super.getPath(FileConstants.Path.PROCESSES.path)
         val filePath = Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
         multipartFile.transferTo(filePath.toFile())
-    }
-
-    /**
-     * 프로세스 상태 파일 로드.
-     */
-    fun getProcessStatusFile(processId: String): File {
-        val dir = super.getWorkflowDir(this.processStatusRootDirectory)
-        val filePath = Paths.get(dir.toString() + File.separator + processId + ".xml")
-        return filePath.toFile()
     }
 
     /**
      * 워크플로우 이미지 파일 업로드.
      */
     fun uploadImageFiles(multipartFiles: List<MultipartFile>): List<AliceImageFileDto> {
-        val dir = super.getWorkflowDir(this.imagesRootDirectory)
+        val dir = super.getPath(FileConstants.Path.IMAGE.path)
         val images = mutableListOf<AliceImageFileDto>()
         multipartFiles.forEach {
             val filePath = Paths.get(dir.toString() + File.separator + it.originalFilename)
             val file = filePath.toFile()
-            if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
+            if (aliceFileProvider.getAllowedImageExtensions().indexOf(file.extension.toLowerCase()) > -1) {
                 var num = 1
                 var fileName = file.name
                 while (file.exists()) {
@@ -218,7 +189,7 @@ class AliceFileService(
                 }
                 it.transferTo(file)
                 val bufferedImage = ImageIO.read(file)
-                val resizedBufferedImage = resizeBufferedImage(bufferedImage, AliceConstants.FileType.IMAGE.code)
+                val resizedBufferedImage = resizeBufferedImage(bufferedImage, FileConstants.Type.IMAGE.code)
                 images.add(
                     AliceImageFileDto(
                         name = fileName,
@@ -238,208 +209,10 @@ class AliceFileService(
     }
 
     /**
-     * 업로드 경로.
-     */
-    fun getUploadFilePath(fileName: String): Path {
-        return super.getDir(this.fileUploadRootDirectory, fileName)
-    }
-
-    /**
-     * 프로세스 디자이너 첨부파일 경로.
-     */
-    fun getProcessFilePath(): Path {
-        return super.getWorkflowDir(this.processAttachFileRootDirectory)
-    }
-
-    /**
-     * 이미지리스트 전체 또는 offset 단위로 가져오기
-     *
-     */
-    fun getImageFileList(type: String, searchValue: String, currentOffset: Int = -1): List<AliceImageFileDto> {
-        var imageList: List<AliceImageFileDto> = mutableListOf()
-
-        val dirURI: URI
-
-        val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> AliceConstants.ExternalFilePath.ICON_DOCUMENT.path
-            AliceConstants.FileType.ICON_CI_TYPE.code -> AliceConstants.ExternalFilePath.ICON_CI_TYPE.path
-            else -> this.imagesRootDirectory
-        }
-
-        imageList = this.getExternalImageDataList(
-                type,
-                super.getWorkflowDir(dir),
-                searchValue,
-                currentOffset
-            )
-
-        return imageList
-    }
-
-    /**
-     * 외부 경로에 있는 이미지 경로 리스트 가져오기
-     *
-     */
-    fun getExternalImageDataList(
-        type: String,
-        dir: Path,
-        searchValue: String,
-        currentOffset: Int
-    ): List<AliceImageFileDto> {
-        val fileList = mutableListOf<Path>()
-
-        if (Files.isDirectory(dir)) {
-            val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
-            fileDirMap[false]?.forEach { filePath ->
-                val file = filePath.toFile()
-                if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
-                    when (searchValue) {
-                        "" -> fileList.add(filePath)
-                        else -> {
-                            if (file.name.matches(".*$searchValue.*".toRegex())) {
-                                fileList.add(filePath)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        var startIndex = 0
-        if (currentOffset != -1) { // -1인 경우는 전체 조회
-            startIndex = currentOffset
-        }
-
-        val imageList = mutableListOf<AliceImageFileDto>()
-        for (i in startIndex until getImageListEndIndex(currentOffset, fileList.size)) {
-            val file = fileList[i].toFile()
-            val bufferedImage = ImageIO.read(file)
-            val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
-            imageList.add(
-                AliceImageFileDto(
-                    name = file.name,
-                    extension = file.extension,
-                    fullpath = file.absolutePath,
-                    size = super.humanReadableByteCount(file.length()),
-                    data = super.encodeToString(resizedBufferedImage, file.extension),
-                    width = bufferedImage.width,
-                    height = bufferedImage.height,
-                    totalCount = fileList.size.toLong(),
-                    updateDt = LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(file.lastModified()),
-                        ZoneId.systemDefault()
-                    )
-                )
-            )
-        }
-        return imageList
-    }
-
-    /**
-     * 내부 경로에 있는 이미지 경로 리스트 가져오기
-     *
-     */
-    // 2021-03-25 Jung Hee Chan
-    // 기존에 CI Type 및 신청서용 아이콘이 Jar 파일 내부에 포함되어 있어서 만들었음.
-    // 현재 사용되는 곳이 없으나 남겨둠.
-    fun getInternalImageDataList(
-        type: String,
-        dir: String,
-        searchValue: String,
-        currentOffset: Int
-    ): List<AliceImageFileDto> {
-        var fileList = mutableListOf<Path>()
-        val resourceURL = javaClass.classLoader.getResource(dir)
-
-        // 2021-03-17 Jung Hee Chan
-        // 내부 경로에 위치한 이미지 파일은 경우 Jar 파일 내부에 있을 수 있어 파일시스템을 이용해서 Path 리스트를 취득.
-        resourceURL?.let {
-            FileSystems.newFileSystem(
-                resourceURL.toURI(),
-                mutableMapOf<String, String>()
-            ).use { fs ->
-                fileList = Files.walk(fs.getPath(classPathInJar + dir))
-                    .filter { path: Path ->
-                        val fileName = path.fileName.toString()
-
-                        Files.isRegularFile(path) && // 파일 타입만 조회
-                                // 허용 확장자 체크
-                                (allowedImageExtensions.indexOf(
-                                    fileName.substring(
-                                        (fileName.lastIndexOf(".") + 1),
-                                        fileName.length
-                                    ).toLowerCase()
-                                ) > -1) &&
-                                fileName.matches(".*$searchValue.*".toRegex()) // 검색조건 적용
-                    }
-                    .collect(Collectors.toList())
-            }
-        }
-
-        var startIndex = 0
-        if (currentOffset != -1) { // -1인 경우는 전체 조회
-            startIndex = currentOffset
-        }
-
-        // 2021-03-17 Jung Hee Chan
-        // 내부 경로에 위치한 이미지 파일은 Jar 파일 내부에 있을 수 있어 File 이 아닌 Stream 형태로 읽어옴.
-        // 이때 기존 File 방식과 달리 확장자, 사이즈, 수정일자등 데이터를 가져올 수 없음. --> 이미지 관리에 대한 개선의 여지가 있음.
-        val imageList = mutableListOf<AliceImageFileDto>()
-        for (i in startIndex until getImageListEndIndex(currentOffset, fileList.size)) {
-            var filePathInJAR = fileList[i].toString()
-            val fileName = fileList[i].fileName.toString()
-
-            // 윈도우즈 환경인 경우 제일 앞 / 제거가 필요.
-            if (filePathInJAR.startsWith("/")) {
-                filePathInJAR = filePathInJAR.substring(1, filePathInJAR.length)
-            }
-
-            val fileInputStream = javaClass.classLoader.getResourceAsStream(filePathInJAR)
-            val bufferedImage = ImageIO.read(fileInputStream)
-            val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
-            imageList.add(
-                AliceImageFileDto(
-                    name = fileName,
-                    extension = "",
-                    fullpath = "",
-                    size = "",
-                    data = super.encodeToString(
-                        resizedBufferedImage,
-                        fileName.substring((fileName.lastIndexOf(".") + 1), fileName.length).toLowerCase()
-                    ),
-                    width = bufferedImage.width,
-                    height = bufferedImage.height,
-                    totalCount = fileList.size.toLong(),
-                    updateDt = LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(0),
-                        ZoneId.systemDefault()
-                    )
-                )
-            )
-        }
-        return imageList
-    }
-
-    /**
-     * 조회하는 이미지 리스트의 갯수를 계산
-     */
-    fun getImageListEndIndex(currentOffset: Int, maxSize: Int): Int {
-        var endIndex: Int
-        // currentOffset 값이 현재 인덱스의 값을 나타내면서 전체 조회인지 여부까지 포함해서 이중적으로 사용되고 있음.
-        if (currentOffset == -1) {
-            endIndex = maxSize // 전체 목록 조회인 경우
-        } else {
-            endIndex = currentOffset + ItsmConstants.IMAGE_OFFSET_COUNT
-            if (maxSize < endIndex) endIndex = maxSize
-        }
-        return endIndex
-    }
-
-    /**
      * 이미지 로드
      */
     fun getImageFile(name: String): AliceImageFileDto? {
-        val dir = super.getWorkflowDir(this.imagesRootDirectory)
+        val dir = super.getPath(FileConstants.Path.IMAGE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
         val file = filePath.toFile()
         return if (file.exists()) {
@@ -463,7 +236,7 @@ class AliceFileService(
      * 이미지 삭제.
      */
     fun deleteImage(name: String): Boolean {
-        val dir = super.getWorkflowDir(this.imagesRootDirectory)
+        val dir = super.getPath(FileConstants.Path.IMAGE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
         return try {
             Files.delete(filePath)
@@ -477,7 +250,7 @@ class AliceFileService(
      * 이미지명 수정.
      */
     fun renameImage(originName: String, modifyName: String): Boolean {
-        val dir = super.getWorkflowDir(this.imagesRootDirectory)
+        val dir = super.getPath(FileConstants.Path.IMAGE.path)
         val filePath = Paths.get(dir.toString() + File.separator + originName)
         val file = filePath.toFile()
         val modifyFile = File(dir.toFile(), modifyName)
@@ -547,7 +320,7 @@ class AliceFileService(
      */
     @Transactional
     fun delete(seq: Long) {
-        delete(aliceFileOwnMapRepository.findByFileLocEntityFileSeq(seq).fileLocEntity)
+        this.delete(aliceFileOwnMapRepository.findByFileLocEntityFileSeq(seq).fileLocEntity)
     }
 
     /**
@@ -556,7 +329,28 @@ class AliceFileService(
     fun delete(ownId: String) {
         val fileOwnMapEntityList = aliceFileOwnMapRepository.findAllByOwnId(ownId)
         for (fileOwnMapEntity in fileOwnMapEntityList) {
-            delete(fileOwnMapEntity.fileLocEntity)
+            this.delete(fileOwnMapEntity.fileLocEntity)
+        }
+    }
+
+    /**
+     * 파일을 다운로드 한다.
+     */
+    fun download(seq: Long): ResponseEntity<InputStreamResource> {
+        val fileLocEntity = aliceFileLocRepository.getOne(seq)
+        val resource =
+            FileSystemResource(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
+        if (resource.exists()) {
+            return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(Tika().detect(resource.path)))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileLocEntity.originName + "\"")
+                .body(InputStreamResource(resource.inputStream))
+        } else {
+            logger.error(
+                "File not found: {}",
+                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName
+            )
+            throw AliceException(AliceErrorConstants.ERR, "File not found: " + fileLocEntity.originName)
         }
     }
 
@@ -584,113 +378,5 @@ class AliceFileService(
             )
         }
         aliceFileOwnMapRepository.deleteByFileLocEntity(aliceFileLocEntity)
-    }
-
-    /**
-     * 파일을 다운로드 한다.
-     */
-    fun download(seq: Long): ResponseEntity<InputStreamResource> {
-        val fileLocEntity = aliceFileLocRepository.getOne(seq)
-        val resource =
-            FileSystemResource(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
-        if (resource.exists()) {
-            return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(Tika().detect(resource.path)))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileLocEntity.originName + "\"")
-                .body(InputStreamResource(resource.inputStream))
-        } else {
-            logger.error(
-                "File not found: {}",
-                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName
-            )
-            throw AliceException(AliceErrorConstants.ERR, "File not found: " + fileLocEntity.originName)
-        }
-    }
-
-    /**
-     * 회원 가입 시 아바타 파일[multipartFile]를 받아서 임시 폴더에[avatar/temp/]저장 한다.
-     */
-    fun uploadTempAvatarFile(multipartFile: MultipartFile, fileName: String?) {
-        val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
-        val filePath: Path
-        var dir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
-        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
-
-        filePath = when (fileName) {
-            null -> {
-                Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
-            }
-            else -> {
-                Paths.get(dir.toString() + File.separator + fileName)
-            }
-        }
-
-        if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty) {
-            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension is not allowed.")
-        }
-
-        multipartFile.transferTo(filePath.toFile())
-    }
-
-    /**
-     * 업로드한 아바타 이미지정보를 [userEntity] ,[avatarUUID] 를 받아서 처리한다.
-     */
-    fun uploadAvatarFile(userEntity: AliceUserEntity, avatarUUID: String) {
-        val tempDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
-        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
-        val tempFile = File(tempPath.toString())
-
-        val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
-        val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
-
-        if (avatarUUID !== "" && tempFile.exists()) {
-            Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
-            userEntity.avatarValue = avatarUUID
-            userEntity.uploaded = true
-            userEntity.uploadedLocation = avatarFilePath.toString()
-        } else {
-            if (avatarUUID == "" || !userEntity.uploaded) {
-                val uploadedFile = Paths.get(userEntity.uploadedLocation)
-                if (uploadedFile.toFile().exists()) {
-                    Files.delete(uploadedFile)
-                }
-                userEntity.avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
-                userEntity.uploaded = false
-                userEntity.uploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
-            }
-        }
-    }
-
-    /**
-     * 아바타 이미지명을 uuid 에서 ID 값으로 변경 한다.
-     * 신규 사용자 등록 시 avatar_id, user_key 를 구할 수가 없기 때문에
-     * 임시적으로 생성한 avatar_uuid 로 파일명을 만든다. avatar_uuid 가 고유 값을 보장 하지 못하기 때문에
-     * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
-     */
-    fun avatarFileNameMod(userEntity: AliceUserEntity) {
-        if (userEntity.avatarType == AliceUserConstants.AvatarType.FILE.code &&
-            userEntity.uploaded && userEntity.userKey != userEntity.avatarValue
-        ) {
-            val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
-            val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.avatarValue)
-            val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.userKey)
-            val avatarUploadFile = File(avatarFilePath.toString())
-            if (avatarUploadFile.exists()) {
-                Files.move(avatarFilePath, avatarIdFilePath, StandardCopyOption.REPLACE_EXISTING)
-                userEntity.avatarValue = userEntity.userKey
-                userEntity.uploadedLocation = avatarIdFilePath.toString()
-                userRepository.save(userEntity)
-            }
-        }
-    }
-
-    /**
-     * 외부경로의 이미지 파일을 데이터로 읽기.
-     *
-     * @param fileFullName 파일 경로와 파일명까지 포함된 전체 이름
-     * @return String 화면 태그에서 사용할 수 있는 형태의 data URI Schema
-     */
-    fun getDataUriSchema(fileFullName: String): String {
-        return "data:image/png;base64," + super.getImageData(fileFullName)
     }
 }
