@@ -137,7 +137,7 @@ class CIServiceTest {
                         ciTags = ciDto.tags,
                         ciIcon = ciDto.ciIcon
                     )
-                    assertTrue(ciService.updateCI(ciDto.ciId.toString(), updateCiDto).status)
+                    assertTrue(ciService.updateCI(updateCiDto).status)
                 }
             }
         }
@@ -154,7 +154,12 @@ class CIServiceTest {
             ciDtoList.data.isNotEmpty()
         ) {
             for (ciDto in ciDtoList.data) {
-                assertTrue(ciService.deleteCI(ciDto.ciId.toString()).status)
+                val ci = CIDto(
+                    ciId = ciDto.ciId.toString(),
+                    ciStatus = "",
+                    typeId = ""
+                )
+                assertTrue(ciService.deleteCI(ci).status)
             }
         }
     }

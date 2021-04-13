@@ -10,7 +10,7 @@ import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
 
 data class CIDto(
-    val ciId: String,
+    var ciId: String,
     var ciNo: String? = null,
     var ciName: String = "",
     var ciStatus: String = "",
@@ -19,6 +19,7 @@ data class CIDto(
     var ciIcon: String? = null,
     var ciDesc: String? = null,
     var automatic: Boolean? = false,
+    var instanceId: String? = null,
     var ciDataList: MutableList<CIDataDto>? = null,
     var ciRelations: MutableList<CIRelationDto>? = null,
     var ciTags: MutableList<CITagDto>? = null

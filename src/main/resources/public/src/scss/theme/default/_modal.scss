@@ -211,7 +211,7 @@
       }
     }
   }
-  // 통계문서 모달
+  // 사용자 정의 차트 모달
   &.chart-edit-modal {
     width: $chart-edit-modal-width;
     height: $chart-edit-modal-height;
@@ -228,7 +228,7 @@
       }
     }
   }
-  // 통계문서 미리보기
+  // 사용자 정의 차트 미리보기
   &.chart-view-modal {
     width: $token-list-modal-width;
     .modal-content {

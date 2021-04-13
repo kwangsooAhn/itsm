@@ -53,7 +53,7 @@ class AliceLabelRepositoryImpl : QuerydslRepositorySupport(AliceLabelEntity::cla
     /**
      * Label Key를 통해 관련 라벨 데이터 조회
      */
-    override fun findLabelByKey(labelKey: String): MutableList<AliceLabelEntity> {
+    override fun findLabelByKeyIn(labelKey: ArrayList<String>): MutableList<AliceLabelEntity> {
         return from(aliceLabelEntity)
             .select(
                 Projections.constructor(
@@ -63,6 +63,6 @@ class AliceLabelRepositoryImpl : QuerydslRepositorySupport(AliceLabelEntity::cla
                     aliceLabelEntity.labelKey,
                     aliceLabelEntity.labelValue
                 )
-            ).where(labelKeyEq(labelKey)).fetch()
+            ).where(aliceLabelEntity.labelKey.`in`(labelKey)).fetch()
     }
 }

@@ -8,6 +8,7 @@ package co.brainz.workflow.engine.manager.service
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
@@ -172,14 +173,14 @@ class WfTokenManagerService(
      * 첨부파일 업로드 경로(파일명 포함).
      */
     fun getUploadFilePath(fileName: String): Path {
-        return aliceFileService.getUploadFilePath(fileName)
+        return aliceFileService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
     }
 
     /**
      * 프로세스 파일 경로.
      */
     fun getProcessFilePath(attachFileName: String): Path {
-        return Paths.get(aliceFileService.getProcessFilePath().toString() + File.separator + attachFileName)
+        return Paths.get(FileConstants.Path.IMAGE.path + File.separator + attachFileName)
     }
 
     /**
@@ -194,15 +195,15 @@ class WfTokenManagerService(
      * Update CI.
      */
     fun updateCI(ci: CIDto): String {
-        val returnDto = ciService.updateCI(ci.ciId, ci)
+        val returnDto = ciService.updateCI(ci)
         return returnDto.code
     }
 
     /**
      * Delete CI.
      */
-    fun deleteCI(ciId: String): String {
-        val returnDto = ciService.deleteCI(ciId)
+    fun deleteCI(ci: CIDto): String {
+        val returnDto = ciService.deleteCI(ci)
         return returnDto.code
     }
 

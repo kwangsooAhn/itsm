@@ -240,16 +240,15 @@ chart:
     preview: "미리보기"
   label:
     all: "전체"
-    chartList: "통계 차트 목록"
+    chartList: "사용자 정의 차트 목록"
     defaultInfo: "기본 정보"
     description: "차트 설명"
     edit: "차트 편집"
     name: "차트 이름"
     queryInfo: "쿼리 정보"
-    targetLabel: "대상 라벨"
+    targetLabels: "대상 라벨"
     type: "차트 종류"
     periodUnit: "간격"
-    viewTitle: "장애 유형별 카운트"
     operation: "연산"
     duration: "기간"
     group: "그룹"
@@ -258,13 +257,13 @@ chart:
     docRatio: "문서 차지 비율"
   option:
     label:
-      subTitle: "통계 차트 보고서"
+      subTitle: "사용자 정의 차트 보고서"
       yAxisTitle: "문서 수"
   msg:
-    searchDescription: "다양한 통계용 차트를 조회하고 관리합니다."
+    searchDescription: "다양한 사용자 정의 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."
     enterTargetGroup: "그룹을 입력하세요."
-    enterTargetLabel: "대상 라벨을 입력하세요."
+    enterTargetLabels: "대상 라벨을 입력하세요."
     enterDurationDigit: "기간을 입력하세요."
     periodUnitOutOfRange: "간격이 기간보다 큽니다."
   chart:
@@ -361,6 +360,7 @@ cmdb:
       searchPlaceholder: "Class 명 / 설명"
     msg:
       confirmDeleteAttribute: "속성을 삭제하시겠습니까?"
+      enterAttributeList: "부모 속성목록을 제외한 본인 속성목록은<br>반드시 1개 이상이여야 합니다."
       editDescription: "CI Class를 조회 및 관리합니다."
       enterClassName: "Class 이름을 입력하세요."
     btn:
@@ -778,7 +778,7 @@ menu:
   board:
     parent: "게시판"
   chart:
-    parent: "통계 차트"
+    parent: "사용자 정의 차트"
   config:
     auth: "권한"
     boardAdmin: "게시판"
@@ -902,6 +902,7 @@ process:
     undo: "작업취소"
   msg:
     duplicateProcessName: "중복되는 프로세스 명이 있습니다.<br>다른 프로세스 명을 입력하세요."
+    enterRequired: "{0} 필수값이 비어있습니다.<br>필수값을 입력하세요."
     enterProcessName: "프로세스 이름을 입력하세요."
     failedDestroy: "관련 문서가 존재합니다.<br/>폐기할 수 없는 프로세스입니다."
     noticeImportFile: "IMPORT시, XML파일만 가능합니다."

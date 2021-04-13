@@ -34,7 +34,7 @@ class WfElementServiceTest {
         var processId = ""
         val params = LinkedHashMap<String, Any>()
         params["offset"] = 1
-        val processList = wfProcessService.selectProcessList(params)
+        val processList = wfProcessService.getProcesses(params)
         if (processList.isNotEmpty()) {
             processId = processList[0].id
         }

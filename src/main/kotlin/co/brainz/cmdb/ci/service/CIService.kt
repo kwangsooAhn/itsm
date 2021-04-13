@@ -10,9 +10,11 @@ import co.brainz.cmdb.ci.entity.CIDataEntity
 import co.brainz.cmdb.ci.entity.CIDataHistoryEntity
 import co.brainz.cmdb.ci.entity.CIEntity
 import co.brainz.cmdb.ci.entity.CIHistoryEntity
+import co.brainz.cmdb.ci.entity.CIInstanceRelationEntity
 import co.brainz.cmdb.ci.repository.CIDataHistoryRepository
 import co.brainz.cmdb.ci.repository.CIDataRepository
 import co.brainz.cmdb.ci.repository.CIHistoryRepository
+import co.brainz.cmdb.ci.repository.CIInstanceRelationRepository
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ciAttribute.repository.CIAttributeRepository
 import co.brainz.cmdb.ciClass.constants.CIClassConstants
@@ -37,6 +39,8 @@ import co.brainz.cmdb.dto.CIsDto
 import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.workflow.instance.repository.WfInstanceRepository
+import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -51,7 +55,9 @@ class CIService(
     private val ciDataRepository: CIDataRepository,
     private val ciHistoryRepository: CIHistoryRepository,
     private val ciDataHistoryRepository: CIDataHistoryRepository,
-    private val ciTypeService: CITypeService
+    private val ciTypeService: CITypeService,
+    private val wfInstanceRepository: WfInstanceRepository,
+    private val ciInstanceRelationRepository: CIInstanceRelationRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -195,7 +201,10 @@ class CIService(
                     ciClassEntity = ciClassEntity,
                     ciIcon = ciDto.ciIcon,
                     ciDesc = ciDto.ciDesc,
-                    automatic = ciDto.automatic
+                    automatic = ciDto.automatic,
+                    instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) },
+                    createDt = LocalDateTime.now(),
+                    createUser = ciDto.createUser
                 )
 
                 ciEntity = ciRepository.save(ciEntity)
@@ -231,6 +240,9 @@ class CIService(
                         )
                     )
                 }
+
+                // 관련 문서 저장
+                this.saveCIInstanceRelation(ciEntity)
             }
             else -> {
                 restTemplateReturnDto.code = RestTemplateConstants.Status.STATUS_ERROR_DUPLICATION.code
@@ -244,10 +256,10 @@ class CIService(
     /**
      * CI 업데이트.
      */
-    fun updateCI(ciId: String, ciDto: CIDto): RestTemplateReturnDto {
+    fun updateCI(ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
-        val ciEntity = findCIEntity.get()
+        var ciEntity = findCIEntity.get()
 
         if (findCIEntity.isEmpty) {
             throw AliceException(
@@ -256,16 +268,19 @@ class CIService(
             )
         } else {
             // 변경전 데이터를 이력에 저장
+            ciEntity.updateDt = LocalDateTime.now() // 반영일시
             this.saveCIHistory(ciEntity)
 
             ciEntity.ciNo = ciDto.ciNo
-            ciDto.ciName?.let { ciEntity.ciName = ciDto.ciName }
-            ciDto.ciStatus?.let { ciEntity.ciStatus = ciDto.ciStatus }
+            ciDto.updateUser.let { ciEntity.updateUser = ciDto.updateUser }
+            ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
+            ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
             ciDto.ciIcon?.let { ciEntity.ciIcon = ciDto.ciIcon }
             ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
             ciDto.automatic?.let { ciEntity.automatic = ciDto.automatic }
+            ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
         }
-        ciRepository.save(ciEntity)
+        ciEntity = ciRepository.save(ciEntity)
 
         // CIDataEntity Update
         ciEntity.ciDataEntities.clear()
@@ -304,33 +319,56 @@ class CIService(
             )
         }
 
+        // 연관 문서 저장
+        this.saveCIInstanceRelation(ciEntity)
+
         return restTemplateReturnDto
     }
 
     /**
      * CI 삭제
      */
-    fun deleteCI(ciId: String): RestTemplateReturnDto {
+    fun deleteCI(ciDto: CIDto): RestTemplateReturnDto {
         val restTemplateReturnDto = RestTemplateReturnDto()
 
-        val ciEntity = ciRepository.findByCiId(ciId) ?: throw AliceException(
+        val ciEntity = ciRepository.findByCiId(ciDto.ciId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[CI Entity]"
         )
 
         // 삭제전 마지막 값을 이력에 저장
+        ciEntity.updateDt = LocalDateTime.now() // 반영일시
         this.saveCIHistory(ciEntity)
 
+        ciDto.updateUser.let { ciEntity.updateUser = ciDto.updateUser }
         ciEntity.ciStatus = RestTemplateConstants.CIStatus.STATUS_DELETE.code
-        ciRepository.save(ciEntity)
+        ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
+        val ci = ciRepository.save(ciEntity)
+
+        // 연관 문서 저장
+        this.saveCIInstanceRelation(ci)
 
         return restTemplateReturnDto
     }
 
     /**
+     * CI 관련 문서 저장
+     */
+    private fun saveCIInstanceRelation(ci: CIEntity) {
+        val instance = ci.instance
+        if (instance != null) {
+            val ciInstanceRelationEntity = CIInstanceRelationEntity(
+                ci = ci,
+                instance = ci.instance!!
+            )
+            ciInstanceRelationRepository.save(ciInstanceRelationEntity)
+        }
+    }
+
+    /**
      * CI 이력 저장.
      */
-    fun saveCIHistory(ciEntity: CIEntity) {
+    private fun saveCIHistory(ciEntity: CIEntity) {
         var historySeq = 0
         val latelyHistory = ciHistoryRepository.findByLatelyHistory(ciEntity.ciId)
         if (latelyHistory != null) {
@@ -349,7 +387,9 @@ class CIService(
             ciIcon = ciEntity.ciIcon,
             ciStatus = ciEntity.ciStatus,
             classId = ciEntity.ciClassEntity.classId,
-            automatic = ciEntity.automatic
+            automatic = ciEntity.automatic,
+            instance = ciEntity.instance,
+            applyDt = ciEntity.updateDt
         )
         ciHistoryRepository.save(ciHistoryEntity)
 
@@ -447,17 +487,6 @@ class CIService(
      * CI 히스토리 조회
      */
     fun getHistory(ciId: String): List<CIHistoryDto> {
-        val ciHistoryDto = mutableListOf<CIHistoryDto>()
-        val historyList = ciHistoryRepository.findAllHistory(ciId)
-        for (history in historyList) {
-            ciHistoryDto.add(
-                CIHistoryDto(
-                    ciId = history.ciId,
-                    ciNo = history.ciNo,
-                    ciStatus = history.ciStatus
-                )
-            )
-        }
-        return ciHistoryDto
+        return ciHistoryRepository.findAllHistory(ciId)
     }
 }

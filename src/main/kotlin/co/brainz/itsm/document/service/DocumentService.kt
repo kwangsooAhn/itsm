@@ -6,8 +6,8 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.form.service.FormAdminService
 import co.brainz.itsm.process.service.ProcessAdminService
@@ -21,19 +21,18 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
+import java.io.File
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
 
 @Service
 class DocumentService(
     private val formAdminService: FormAdminService,
     private val processAdminService: ProcessAdminService,
     private val wfDocumentService: WfDocumentService,
-    private val aliceFileService: AliceFileService
+    private val aliceFileProvider: AliceFileProvider
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -45,7 +44,6 @@ class DocumentService(
      */
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
             List<RestTemplateDocumentListDto> {
-        val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
         // 업무흐름을 관리하는 사용자라면 신청서 상태가 임시, 사용을 볼 수가 있다.
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         if (aliceUserDto.grantedAuthorises != null) {
@@ -60,7 +58,7 @@ class DocumentService(
         for (document in documentList) {
             if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
             document.documentIcon =
-                aliceFileService.getDataUriSchema(AliceConstants.ExternalFilePath.ICON_DOCUMENT.path + document.documentIcon)
+                aliceFileProvider.getDataUriSchema(FileConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon)
         }
 
         return documentList

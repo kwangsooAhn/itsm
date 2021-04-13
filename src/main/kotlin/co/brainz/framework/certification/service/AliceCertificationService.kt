@@ -16,7 +16,7 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import java.security.PrivateKey
@@ -37,7 +37,7 @@ class AliceCertificationService(
     private val codeService: CodeService,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val aliceFileService: AliceFileService
+    private val aliceFileAvatarService: AliceFileAvatarService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -183,7 +183,7 @@ class AliceCertificationService(
                 user.timeFormat = aliceSignUpDto.timeFormat!!
             }
         }
-        aliceFileService.uploadAvatarFile(user, aliceSignUpDto.avatarUUID)
+        aliceFileAvatarService.uploadAvatarFile(user, aliceSignUpDto.avatarUUID)
 
         return user
     }
@@ -210,6 +210,6 @@ class AliceCertificationService(
      * 사용자 아바타 정보[avatarEntity]를 받아서 이미지명을 avatar_id로 변경한다.
      */
     private fun avatarFileNameMod(userEntity: AliceUserEntity) {
-        aliceFileService.avatarFileNameMod(userEntity)
+        aliceFileAvatarService.avatarFileNameMod(userEntity)
     }
 }

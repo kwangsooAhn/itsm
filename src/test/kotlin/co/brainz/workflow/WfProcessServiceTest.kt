@@ -35,7 +35,7 @@ class WfProcessServiceTest {
         var processId = ""
         val params = LinkedHashMap<String, Any>()
         params["offset"] = 1
-        val processList = wfProcessService.selectProcessList(params)
+        val processList = wfProcessService.getProcesses(params)
         if (processList.isNotEmpty()) {
             processId = processList[0].id
         }
@@ -54,7 +54,8 @@ class WfProcessServiceTest {
         var processId = ""
         val params = LinkedHashMap<String, Any>()
         params["offset"] = 1
-        val processList = wfProcessService.selectProcessList(params)
+        params["status"] = "process.status.use"
+        val processList = wfProcessService.getProcesses(params)
         if (processList.isNotEmpty()) {
             processId = processList[0].id
         }

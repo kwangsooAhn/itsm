@@ -240,16 +240,15 @@ chart:
     preview: "PREVIEW"
   label:
     all: "All"
-    chartList: "Statistics Chart List"
+    chartList: "User Custom Chart List"
     defaultInfo: "Default Info"
     description: "Chart Description"
     edit: "Chart Edit"
     name: "Chart Name"
-    querryInfo: "Query Info"
-    targetLabel: "Target Label"
+    queryInfo: "Query Info"
+    targetLabels: "Target Labels"
     type: "Chart Type"
     periodUnit: "PeriodUnit"
-    viewTitle: "Count by type of failure"
     operation: "Operation"
     duration: "Duration"
     group: "Group"
@@ -258,13 +257,13 @@ chart:
     docRatio: "Documents Ratio"
   option:
     label:
-      subTitle: "Statistics chart report"
+      subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
   msg:
-    searchDescription: "View and manage various statistical charts."
+    searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
     enterTargetGroup: "Please enter a target Group."
-    enterTargetLabel: "Please enter a target label."
+    enterTargetLabels: "Please enter a target labels."
     enterDurationDigit: "Please enter a Duration."
     periodUnitOutOfRange: "The duration is greater than the period."
   chart:
@@ -361,6 +360,7 @@ cmdb:
       searchPlaceholder: "Class Name / Description"
     msg:
       confirmDeleteAttribute: "Are you sure you want to delete the attribute?"
+      enterAttributeList: "Excluding the parent attribute list, there must be at least one own attribute list."
       editDescritpion: "Add, view and manage CMDB Class."
       enterClassName: "Please enter a class name."
     btn:
@@ -778,7 +778,7 @@ menu:
   board:
     parent: "Board"
   chart:
-    parent: "Statistic chart"
+    parent: "User custom chart"
   config:
     auth: "Auth"
     boardAdmin: "Board management"
@@ -903,6 +903,7 @@ process:
   msg:
     duplicateProcessName: "Duplicate process name! Please enter other process name."
     duplicateData: "The same data exists."
+    enterRequired: "{0} Required field is empty.<br>Please enter Required field"
     enterProcessName: "Please enter a process name."
     failedDestroy: "Related documents exist for this process.<br/>This can't be destroyed."
     noticeImportFile: "Import only possible in XML file"

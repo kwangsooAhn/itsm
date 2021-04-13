@@ -1070,6 +1070,7 @@
             let targetMappingInput = document.createElement('input');
             targetMappingInput.id = 'target-mapping-id';
             targetMappingInput.name = 'target-mapping-id';
+            targetMappingInput.maxLength = 150;
             targetMappingInput.required = true;
 
             targetMappingProperties.appendChild(targetMappingLabel);
@@ -1086,6 +1087,7 @@
             let sourceMappingInput = document.createElement('input');
             sourceMappingInput.id = 'source-mapping-id';
             sourceMappingInput.name = 'source-mapping-id';
+            sourceMappingInput.maxLength = 150;
             sourceMappingInput.required = true;
 
             sourceMappingProperties.appendChild(sourceMappingLabel);
@@ -1176,6 +1178,7 @@
             actionContainer.appendChild(conditionLabel);
 
             let conditionInput = document.createElement('input');
+            conditionInput.maxLength = 150;
             actionContainer.appendChild(conditionInput);
 
             // file 생성
@@ -1741,6 +1744,7 @@
         switch (property.type) {
         case 'inputbox':
             elementObject = document.createElement('input');
+            elementObject.maxLength = 70;
             propertyContainer.appendChild(elementObject);
             break;
         case 'inputbox-readonly':
@@ -1786,6 +1790,7 @@
         case 'textarea':
             elementObject = document.createElement('textarea');
             elementObject.style.resize = 'none';
+            elementObject.maxLength = 256;
             propertyContainer.appendChild(elementObject);
 
             // textarea 에 스크롤 적용
