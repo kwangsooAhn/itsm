@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.document.entity
 
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
@@ -75,4 +80,7 @@ data class WfDocumentEntity(
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
     val instance: MutableList<WfInstanceEntity>? = mutableListOf()
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
+    val display: MutableList<WfDocumentDisplayEntity> = mutableListOf()
 }

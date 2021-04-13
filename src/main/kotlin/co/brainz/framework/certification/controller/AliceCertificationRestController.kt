@@ -10,7 +10,7 @@ import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile
 class AliceCertificationRestController(
     private val aliceCertificationService: AliceCertificationService,
     private val aliceCertificationMailService: AliceCertificationMailService,
-    private val aliceFileService: AliceFileService
+    private val aliceFileAvatarService: AliceFileAvatarService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -68,7 +68,7 @@ class AliceCertificationRestController(
         val map: MutableMap<String, Any> = mutableMapOf()
         val fileName = request.getParameter("fileName") ?: null
 
-        map["file"] = aliceFileService.uploadTempAvatarFile(
+        map["file"] = aliceFileAvatarService.uploadTempAvatarFile(
             multipartFile,
             fileName
         )

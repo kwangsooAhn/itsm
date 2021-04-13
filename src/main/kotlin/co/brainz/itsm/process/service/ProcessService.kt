@@ -6,7 +6,7 @@
 package co.brainz.itsm.process.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.itsm.process.dto.ProcessStatusDto
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.process.constants.WfProcessConstants
@@ -32,11 +32,10 @@ import org.w3c.dom.NodeList
 @Service
 @Transactional
 class ProcessService(
-    private val aliceFileService: AliceFileService,
+    private val aliceFileProvider: AliceFileProvider,
     private val wfInstanceService: WfInstanceService,
     private val wfProcessService: WfProcessService,
     private val wfProcessRepository: WfProcessRepository
-
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -129,7 +128,7 @@ class ProcessService(
     fun getProcessStatus(instanceId: String): ProcessStatusDto {
         val resultString = Gson().toJson(wfInstanceService.getInstanceLatestToken(instanceId))
         val processStatusDto = Gson().fromJson(resultString, ProcessStatusDto::class.java)
-        val xmlFile = aliceFileService.getProcessStatusFile(processStatusDto.processId)
+        val xmlFile = aliceFileProvider.getProcessStatusFile(processStatusDto.processId)
         if (xmlFile.exists()) {
             val xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile)
             xmlDoc.documentElement.normalize()

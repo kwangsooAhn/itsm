@@ -10,6 +10,7 @@ import co.brainz.itsm.board.dto.BoardArticleCommentDto
 import co.brainz.itsm.board.dto.BoardArticleSaveDto
 import co.brainz.itsm.board.dto.BoardDetailDto
 import co.brainz.itsm.board.dto.BoardDto
+import co.brainz.itsm.board.service.BoardArticleService
 import co.brainz.itsm.board.service.BoardService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,7 +23,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/boards")
-class BoardRestController(private val boardService: BoardService) {
+class BoardRestController(
+    private val boardService: BoardService,
+    private val boardArticleService: BoardArticleService
+) {
 
     /**
      * [boardAdminId]를 받아서 게시판 관리 정보를 [BoardDetailDto]로 반환한다.
@@ -86,7 +90,7 @@ class BoardRestController(private val boardService: BoardService) {
      */
     @PostMapping("/articles")
     fun createBoardArticle(@RequestBody boardArticleSaveDto: BoardArticleSaveDto) {
-        boardService.saveBoardArticle(boardArticleSaveDto)
+        boardArticleService.saveBoardArticle(boardArticleSaveDto)
     }
 
     /**
@@ -96,7 +100,7 @@ class BoardRestController(private val boardService: BoardService) {
      */
     @PutMapping("/articles")
     fun updateBoardArticle(@RequestBody boardArticleSaveDto: BoardArticleSaveDto) {
-        boardService.saveBoardArticle(boardArticleSaveDto)
+        boardArticleService.saveBoardArticle(boardArticleSaveDto)
     }
 
     /**
@@ -106,7 +110,7 @@ class BoardRestController(private val boardService: BoardService) {
      */
     @DeleteMapping("/articles/{boardId}")
     fun deleteBoardArticle(@PathVariable boardId: String) {
-        boardService.deleteBoardArticle(boardId)
+        boardArticleService.deleteBoardArticle(boardId)
     }
 
     /**
@@ -116,7 +120,7 @@ class BoardRestController(private val boardService: BoardService) {
      */
     @PostMapping("/articles/comments")
     fun createBoardArticleComment(@RequestBody boardArticleCommentDto: BoardArticleCommentDto) {
-        boardService.saveBoardArticleComment(boardArticleCommentDto)
+        boardArticleService.saveBoardArticleComment(boardArticleCommentDto)
     }
 
     /**
@@ -126,7 +130,7 @@ class BoardRestController(private val boardService: BoardService) {
      */
     @PutMapping("/articles/comments")
     fun updateBoardArticleComment(@RequestBody boardArticleCommentDto: BoardArticleCommentDto) {
-        boardService.saveBoardArticleComment(boardArticleCommentDto)
+        boardArticleService.saveBoardArticleComment(boardArticleCommentDto)
     }
 
     /**
@@ -136,7 +140,7 @@ class BoardRestController(private val boardService: BoardService) {
      */
     @DeleteMapping("/articles/comments/{commentId}")
     fun deleteBoardArticleComment(@PathVariable commentId: String) {
-        boardService.deleteBoardArticleComment(commentId)
+        boardArticleService.deleteBoardArticleComment(commentId)
     }
 
     /**
@@ -146,6 +150,6 @@ class BoardRestController(private val boardService: BoardService) {
      */
     @PostMapping("/articles/reply")
     fun createBoardArticleReply(@RequestBody boardArticleSaveDto: BoardArticleSaveDto) {
-        boardService.saveBoardArticleReply(boardArticleSaveDto)
+        boardArticleService.saveBoardArticleReply(boardArticleSaveDto)
     }
 }
