@@ -37,11 +37,14 @@ import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.cmdb.dto.CISearchDto
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.cmdb.dto.RestTemplateReturnDto
+import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
@@ -57,7 +60,8 @@ class CIService(
     private val ciDataHistoryRepository: CIDataHistoryRepository,
     private val ciTypeService: CITypeService,
     private val wfInstanceRepository: WfInstanceRepository,
-    private val ciInstanceRelationRepository: CIInstanceRelationRepository
+    private val ciInstanceRelationRepository: CIInstanceRelationRepository,
+    private val aliceUserRepository: AliceUserRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -180,6 +184,7 @@ class CIService(
         val existCount = 0L
         val ciTypeEntity = ciTypeRepository.getOne(ciDto.typeId)
         val ciNo = this.getCINo(ciTypeEntity)
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
 
         when (existCount) {
             0L -> {
@@ -204,7 +209,7 @@ class CIService(
                     automatic = ciDto.automatic,
                     instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) },
                     createDt = LocalDateTime.now(),
-                    createUser = ciDto.createUser
+                    createUser = aliceUserRepository.findAliceUserEntityByUserKey(userDetails.userKey)
                 )
 
                 ciEntity = ciRepository.save(ciEntity)
@@ -260,6 +265,7 @@ class CIService(
         val restTemplateReturnDto = RestTemplateReturnDto()
         val findCIEntity = ciRepository.findById(ciDto.ciId)
         var ciEntity = findCIEntity.get()
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
 
         if (findCIEntity.isEmpty) {
             throw AliceException(
@@ -272,7 +278,7 @@ class CIService(
             this.saveCIHistory(ciEntity)
 
             ciEntity.ciNo = ciDto.ciNo
-            ciDto.updateUser.let { ciEntity.updateUser = ciDto.updateUser }
+            ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(userDetails.userKey)
             ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
             ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
             ciDto.ciIcon?.let { ciEntity.ciIcon = ciDto.ciIcon }
