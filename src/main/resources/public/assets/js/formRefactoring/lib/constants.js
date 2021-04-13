@@ -14,7 +14,7 @@ export const CLASS_PREFIX = 'zenius-';
 // 폼
 export const FORM = {
     COLUMN: 12,
-    MAX_ROW: 4, // 한 줄에 최대 컴포넌트 개수
+    MAX_COMPONENT_IN_ROW: 4, // row의 최대 컴포넌트 포함 개수
     LAYOUT: {
         FORM: 'form',
         GROUP: 'group',
