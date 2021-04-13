@@ -10,7 +10,7 @@ import co.brainz.framework.fileTransaction.dto.AliceFileNameExtensionDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
-import co.brainz.framework.fileTransaction.service.AliceFileProvider
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers

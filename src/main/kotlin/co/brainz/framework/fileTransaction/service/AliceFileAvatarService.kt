@@ -34,7 +34,7 @@ class AliceFileAvatarService(
     fun uploadTempAvatarFile(multipartFile: MultipartFile, fileName: String?) {
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
         val filePath: Path
-        var dir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
+        var dir = super.getPath(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
 
         filePath = when (fileName) {
@@ -57,11 +57,11 @@ class AliceFileAvatarService(
      * 업로드한 아바타 이미지정보를 [userEntity] ,[avatarUUID] 를 받아서 처리한다.
      */
     fun uploadAvatarFile(userEntity: AliceUserEntity, avatarUUID: String) {
-        val tempDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
+        val tempDir = super.getPath(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
         val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
         val tempFile = File(tempPath.toString())
 
-        val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
+        val avatarDir = super.getPath(AliceUserConstants.AVATAR_IMAGE_DIR)
         val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
 
         if (avatarUUID !== "" && tempFile.exists()) {
@@ -92,7 +92,7 @@ class AliceFileAvatarService(
         if (userEntity.avatarType == AliceUserConstants.AvatarType.FILE.code &&
             userEntity.uploaded && userEntity.userKey != userEntity.avatarValue
         ) {
-            val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
+            val avatarDir = super.getPath(AliceUserConstants.AVATAR_IMAGE_DIR)
             val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.avatarValue)
             val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.userKey)
             val avatarUploadFile = File(avatarFilePath.toString())

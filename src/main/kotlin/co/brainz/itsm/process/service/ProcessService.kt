@@ -6,7 +6,7 @@
 package co.brainz.itsm.process.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.fileTransaction.service.AliceFileProvider
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.itsm.process.dto.ProcessStatusDto
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.process.constants.WfProcessConstants

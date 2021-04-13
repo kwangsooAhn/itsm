@@ -3,16 +3,14 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.framework.fileTransaction.service
+package co.brainz.framework.fileTransaction.provider
 
-import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
 import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.util.AliceFileUtil
 import co.brainz.itsm.constants.ItsmConstants
-import org.springframework.core.env.Environment
-import org.springframework.stereotype.Component
 import java.io.File
 import java.nio.file.FileSystems
 import java.nio.file.Files
@@ -23,6 +21,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.stream.Collectors
 import javax.imageio.ImageIO
+import org.springframework.core.env.Environment
+import org.springframework.stereotype.Component
 
 @Component
 class AliceFileProvider(
@@ -32,25 +32,14 @@ class AliceFileProvider(
 
     private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
     private val classPathInJar = "/BOOT-INF/classes/"
-    private val imagesRootDirectory = "images"
-    private val fileUploadRootDirectory = "uploadRoot"
-    private val processStatusRootDirectory = "processes"
-    private val processAttachFileRootDirectory = this.imagesRootDirectory
 
     /**
      * 프로세스 상태 파일 로드
      */
     fun getProcessStatusFile(processId: String): File {
-        val dir = super.getWorkflowDir(this.processStatusRootDirectory)
+        val dir = super.getPath(FileConstants.Path.PROCESSES.path)
         val filePath = Paths.get(dir.toString() + File.separator + processId + ".xml")
         return filePath.toFile()
-    }
-
-    /**
-     * 프로세스 ROOT 폴더
-     */
-    fun getProcessStatusRootDirectory(): String {
-        return this.processStatusRootDirectory
     }
 
     /**
@@ -58,34 +47,6 @@ class AliceFileProvider(
      */
     fun getAllowedImageExtensions(): List<String> {
         return this.allowedImageExtensions
-    }
-
-    /**
-     * 프로세스 디자이너 첨부파일 경로
-     */
-    fun getProcessFilePath(): Path {
-        return super.getWorkflowDir(this.processAttachFileRootDirectory)
-    }
-
-    /**
-     * 이미지 ROOT 폴더
-     */
-    fun getImageRootDirectory(): String {
-        return this.imagesRootDirectory
-    }
-
-    /**
-     * 파일 업로드 ROOT 폴더
-     */
-    fun getFileUploadRootDirectory(): String {
-        return this.fileUploadRootDirectory
-    }
-
-    /**
-     * 업로드 경로
-     */
-    fun getUploadFilePath(fileName: String): Path {
-        return super.getDir(this.fileUploadRootDirectory, fileName)
     }
 
     /**
@@ -186,14 +147,20 @@ class AliceFileProvider(
      */
     fun getImageFileList(type: String, searchValue: String, currentOffset: Int = -1): List<AliceImageFileDto> {
         val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> AliceConstants.ExternalFilePath.ICON_DOCUMENT.path
-            AliceConstants.FileType.ICON_CI_TYPE.code -> AliceConstants.ExternalFilePath.ICON_CI_TYPE.path
-            else -> this.imagesRootDirectory
+            FileConstants.Type.ICON.code -> {
+                FileConstants.Path.ICON_DOCUMENT.path
+            }
+            FileConstants.Type.ICON_CI_TYPE.code -> {
+                FileConstants.Path.ICON_CI_TYPE.path
+            }
+            else -> {
+                FileConstants.Path.IMAGE.path
+            }
         }
 
         return getExternalImageDataList(
             type,
-            super.getWorkflowDir(dir),
+            super.getPath(dir),
             searchValue,
             currentOffset
         )

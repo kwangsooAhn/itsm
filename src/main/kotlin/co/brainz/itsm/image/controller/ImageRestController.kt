@@ -6,7 +6,7 @@
 package co.brainz.itsm.image.controller
 
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
-import co.brainz.framework.fileTransaction.service.AliceFileProvider
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.image.dto.ImageRenameDto
 import org.springframework.web.bind.annotation.DeleteMapping

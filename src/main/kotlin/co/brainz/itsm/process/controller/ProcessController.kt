@@ -4,8 +4,8 @@
  */
 package co.brainz.itsm.process.controller
 
-import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.fileTransaction.service.AliceFileProvider
+import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.itsm.process.service.ProcessService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -74,7 +74,7 @@ class ProcessController(
         model: Model
     ): String {
         model.addAttribute("callback", callback)
-        model.addAttribute("imageList", fileProvider.getImageFileList(AliceConstants.FileType.IMAGE.code, searchValue))
+        model.addAttribute("imageList", fileProvider.getImageFileList(FileConstants.Type.IMAGE.code, searchValue))
         return processAttachFileViewPage
     }
 }

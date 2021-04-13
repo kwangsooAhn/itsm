@@ -8,11 +8,11 @@ package co.brainz.workflow.engine.manager.service
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
-import co.brainz.framework.fileTransaction.service.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
@@ -60,7 +60,6 @@ class WfTokenManagerService(
     private val wfComponentRepository: WfComponentRepository,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceFileService: AliceFileService,
-    private val aliceFileProvider: AliceFileProvider,
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val ciComponentDataRepository: CIComponentDataRepository,
@@ -174,14 +173,14 @@ class WfTokenManagerService(
      * 첨부파일 업로드 경로(파일명 포함).
      */
     fun getUploadFilePath(fileName: String): Path {
-        return aliceFileProvider.getUploadFilePath(fileName)
+        return aliceFileService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
     }
 
     /**
      * 프로세스 파일 경로.
      */
     fun getProcessFilePath(attachFileName: String): Path {
-        return Paths.get(aliceFileProvider.getProcessFilePath().toString() + File.separator + attachFileName)
+        return Paths.get(FileConstants.Path.IMAGE.path + File.separator + attachFileName)
     }
 
     /**

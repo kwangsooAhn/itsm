@@ -6,15 +6,16 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.dto.AliceFileLocDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
@@ -66,8 +67,8 @@ class AliceFileService(
     fun uploadTemp(multipartFile: MultipartFile): AliceFileLocEntity {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = super.getRandomFilename()
-        val tempPath = super.getDir("temp", fileName)
-        val filePath = super.getDir(aliceFileProvider.getFileUploadRootDirectory(), fileName)
+        val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileName)
+        val filePath = super.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
         val metadata = Metadata()
         metadata[Metadata.RESOURCE_NAME_KEY] = multipartFile.originalFilename
@@ -111,7 +112,7 @@ class AliceFileService(
         for (fileSeq in aliceFileDto.fileSeq.orEmpty()) {
             val fileLocEntity = aliceFileLocRepository.getOne(fileSeq)
             val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-            val tempPath = super.getDir("temp", fileLocEntity.randomName)
+            val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
             Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
             logger.debug(">> 임시업로드파일 {} 을 사용할 위치로 이동 {}", tempPath.toAbsolutePath(), filePath.toAbsolutePath())
             logger.debug(
@@ -145,7 +146,7 @@ class AliceFileService(
             if (fileDataIds[index].isNotEmpty()) {
                 val fileLocEntity = aliceFileLocRepository.getOne(fileDataIds[index].toLong())
                 val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-                val tempPath = super.getDir("temp", fileLocEntity.randomName)
+                val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
                 if (Files.exists(tempPath)) {
                     Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
                     fileLocEntity.uploaded = true
@@ -165,7 +166,7 @@ class AliceFileService(
      * 프로세스 상태 표시를 위한 프로세스 XML 파일을 업로드한다.
      */
     fun uploadProcessFile(multipartFile: MultipartFile) {
-        val dir = super.getWorkflowDir(aliceFileProvider.getProcessStatusRootDirectory())
+        val dir = super.getPath(FileConstants.Path.PROCESSES.path)
         val filePath = Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
         multipartFile.transferTo(filePath.toFile())
     }
@@ -174,7 +175,7 @@ class AliceFileService(
      * 워크플로우 이미지 파일 업로드.
      */
     fun uploadImageFiles(multipartFiles: List<MultipartFile>): List<AliceImageFileDto> {
-        val dir = super.getWorkflowDir(aliceFileProvider.getImageRootDirectory())
+        val dir = super.getPath(FileConstants.Path.IMAGE.path)
         val images = mutableListOf<AliceImageFileDto>()
         multipartFiles.forEach {
             val filePath = Paths.get(dir.toString() + File.separator + it.originalFilename)
@@ -188,7 +189,7 @@ class AliceFileService(
                 }
                 it.transferTo(file)
                 val bufferedImage = ImageIO.read(file)
-                val resizedBufferedImage = resizeBufferedImage(bufferedImage, AliceConstants.FileType.IMAGE.code)
+                val resizedBufferedImage = resizeBufferedImage(bufferedImage, FileConstants.Type.IMAGE.code)
                 images.add(
                     AliceImageFileDto(
                         name = fileName,
@@ -211,7 +212,7 @@ class AliceFileService(
      * 이미지 로드
      */
     fun getImageFile(name: String): AliceImageFileDto? {
-        val dir = super.getWorkflowDir(aliceFileProvider.getImageRootDirectory())
+        val dir = super.getPath(FileConstants.Path.IMAGE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
         val file = filePath.toFile()
         return if (file.exists()) {
@@ -235,7 +236,7 @@ class AliceFileService(
      * 이미지 삭제.
      */
     fun deleteImage(name: String): Boolean {
-        val dir = super.getWorkflowDir(aliceFileProvider.getImageRootDirectory())
+        val dir = super.getPath(FileConstants.Path.IMAGE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
         return try {
             Files.delete(filePath)
@@ -249,7 +250,7 @@ class AliceFileService(
      * 이미지명 수정.
      */
     fun renameImage(originName: String, modifyName: String): Boolean {
-        val dir = super.getWorkflowDir(aliceFileProvider.getImageRootDirectory())
+        val dir = super.getPath(FileConstants.Path.IMAGE.path)
         val filePath = Paths.get(dir.toString() + File.separator + originName)
         val file = filePath.toFile()
         val modifyFile = File(dir.toFile(), modifyName)
