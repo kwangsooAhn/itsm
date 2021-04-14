@@ -253,7 +253,7 @@
 
         data = JSON.parse(JSON.stringify(editor.data));
         let nowStatus = editor.data.status;
-        let deployableStatus = ['form.status.publish', "form.status.use"];
+        let deployableStatus = ['form.status.publish', 'form.status.use'];
 
         if (deployableStatus.indexOf(initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
             aliceJs.alertWarning(i18n.msg("common.msg.onlySaveInEdit"));

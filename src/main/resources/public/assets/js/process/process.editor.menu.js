@@ -2040,7 +2040,7 @@
                 callbackFunc: function(xhr) {
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
                     const elements = aliceProcessEditor.data.elements;
-                    initialStatus = aliceProcessEditor.data.process.status ;
+                    initialStatus = aliceProcessEditor.data.process.status;
                     elements.forEach(function(element) {
                         const category = getElementCategory(element.type);
                         element.required = getAttributeRequired(category, element.type);

@@ -979,7 +979,7 @@ function valdationCheck() {
         'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
     let totalElements = aliceProcessEditor.data.elements;
     let requiredList = [];
-    let deployableStatus = ['process.status.publish', "process.status.use"];
+    let deployableStatus = ['process.status.publish', 'process.status.use'];
     let nowStatus = aliceProcessEditor.data.process.status;
 
     if (deployableStatus.indexOf(aliceProcessEditor.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
