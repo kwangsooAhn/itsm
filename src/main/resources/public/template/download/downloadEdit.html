@@ -90,7 +90,7 @@
         }
 
         function deleteDownload() {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
         }
 
         //REST API

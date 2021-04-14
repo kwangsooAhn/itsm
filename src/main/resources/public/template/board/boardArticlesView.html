@@ -130,7 +130,7 @@
 
         //게시판 삭제
         function deleteBoard(method) {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete',
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete',
                 '/rest/boards/articles/' + boardId);
         }
 

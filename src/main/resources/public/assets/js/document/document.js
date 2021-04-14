@@ -695,7 +695,7 @@
      * @param commentId
      */
     function deleteComment(commentId) {
-        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
+        aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/comments/' + commentId,
@@ -718,7 +718,7 @@
      * @param dataForDeletion
      */
     function deleteRelatedDoc(dataForDeletion) {
-        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
+        aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/folders/' + dataForDeletion.folderId,
