@@ -145,6 +145,7 @@ class WfScriptTask(
         ciList: List<Map<String, Any>>,
         componentId: String,
         instanceId: String,
+        assigneeId: String,
         actionType: String
     ): MutableList<CIDto> {
         val ciDtoList = mutableListOf<CIDto>()
@@ -163,23 +164,32 @@ class WfScriptTask(
                     val ciTags = this.getCiTags(ciId, ciComponentDataValue)
                     val ciRelations = this.getCiRelations(ciId, ciComponentDataValue)
 
-                    // Dto 생성후 List에 담기
-                    ciDtoList.add(
-                        CIDto(
-                            ciId = ciId,
-                            ciNo = ci["ciNo"] as String,
-                            ciName = ci["ciName"] as String,
-                            ciDesc = ci["ciDesc"] as String,
-                            ciIcon = ci["ciIcon"] as String,
-                            classId = ci["classId"] as String,
-                            typeId = ci["typeId"] as String,
-                            ciStatus = ci["ciStatus"] as String,
-                            instanceId = instanceId,
-                            ciDataList = ciDataList,
-                            ciTags = ciTags,
-                            ciRelations = ciRelations
-                        )
+                    val ciDto = CIDto(
+                        ciId = ciId,
+                        ciNo = ci["ciNo"] as String,
+                        ciName = ci["ciName"] as String,
+                        ciDesc = ci["ciDesc"] as String,
+                        ciIcon = ci["ciIcon"] as String,
+                        classId = ci["classId"] as String,
+                        typeId = ci["typeId"] as String,
+                        ciStatus = ci["ciStatus"] as String,
+                        instanceId = instanceId,
+                        ciDataList = ciDataList,
+                        ciTags = ciTags,
+                        ciRelations = ciRelations
                     )
+
+                    when (actionType) {
+                        RestTemplateConstants.ActionType.REGISTER.code -> {
+                            ciDto.createUserKey = assigneeId
+                        }
+                        RestTemplateConstants.ActionType.MODIFY.code, RestTemplateConstants.ActionType.DELETE.code -> {
+                            ciDto.updateUserKey = assigneeId
+                        }
+                    }
+
+                    // Dto 생성후 List에 담기
+                    ciDtoList.add(ciDto)
                 } else {
                     ciDtoList.add(
                         CIDto(
@@ -218,11 +228,29 @@ class WfScriptTask(
             val ciList = this.getCiList(createTokenDto, componentEntity)
             // 3-3. ci 목록을 전송할 형태로 데이터 변경
             val createCiList =
-                this.getCiDtoList(ciList, componentId, instanceId, RestTemplateConstants.ActionType.REGISTER.code)
+                this.getCiDtoList(
+                    ciList,
+                    componentId,
+                    instanceId,
+                    assigneeId,
+                    RestTemplateConstants.ActionType.REGISTER.code
+                )
             val modifyCiList =
-                this.getCiDtoList(ciList, componentId, instanceId, RestTemplateConstants.ActionType.MODIFY.code)
+                this.getCiDtoList(
+                    ciList,
+                    componentId,
+                    instanceId,
+                    assigneeId,
+                    RestTemplateConstants.ActionType.MODIFY.code
+                )
             val deleteCiList =
-                this.getCiDtoList(ciList, componentId, instanceId, RestTemplateConstants.ActionType.DELETE.code)
+                this.getCiDtoList(
+                    ciList,
+                    componentId,
+                    instanceId,
+                    assigneeId,
+                    RestTemplateConstants.ActionType.DELETE.code
+                )
 
             // 4. 전송
             createCiList.forEach { ci ->

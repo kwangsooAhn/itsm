@@ -41,6 +41,7 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.instance.repository.WfInstanceRepository
+import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -204,7 +205,7 @@ class CIService(
                     ciDesc = ciDto.ciDesc,
                     automatic = ciDto.automatic,
                     instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) },
-                    createDt = ciDto.createDt,
+                    createDt = LocalDateTime.now(),
                     createUser = ciDto.createUserKey?.let {
                         aliceUserRepository.findAliceUserEntityByUserKey(it)
                     }
@@ -271,7 +272,7 @@ class CIService(
             )
         } else {
             // 변경전 데이터를 이력에 저장
-            ciEntity.updateDt = ciDto.updateDt // 반영일시
+            ciEntity.updateDt = LocalDateTime.now() // 반영일시
             this.saveCIHistory(ciEntity)
 
             ciEntity.ciNo = ciDto.ciNo
@@ -340,7 +341,7 @@ class CIService(
         )
 
         // 삭제전 마지막 값을 이력에 저장
-        ciEntity.updateDt = ciDto.updateDt // 반영일시
+        ciEntity.updateDt = LocalDateTime.now() // 반영일시
         this.saveCIHistory(ciEntity)
 
         ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
