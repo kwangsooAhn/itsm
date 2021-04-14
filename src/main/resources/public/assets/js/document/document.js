@@ -873,8 +873,9 @@
      */
     function onAddTag(tag) {
         const jsonData = {
-            tagContent: tag.detail.data.value,
-            instanceId: document.getElementById('instanceId').getAttribute('data-id')
+            tagType: 'instance',
+            tagValue: tag.detail.data.value,
+            targetId: document.getElementById('instanceId').getAttribute('data-id')
         };
         aliceJs.sendXhr({
             method: 'POST',
