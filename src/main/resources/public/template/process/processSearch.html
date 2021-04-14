@@ -74,7 +74,7 @@
 
             // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
             if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
-                aliceJs.alertWarning(i18n.msg('process.msg.selectImportFile'));
+                aliceAlert.alertWarning(i18n.msg('process.msg.selectImportFile'));
                 return false;
             }
             return true;
@@ -96,15 +96,15 @@
                     processInfo.processId = processId;
                     processInfo.processStatus = isDestroy ? STATUS_DESTROY : document.getElementById('process_status').value;
                     isEnabled ? restSubmit('PUT', '/rest/processes/' + processId, processInfo)
-                        : aliceJs.alertWarning(i18n.msg('process.msg.failedDestroy'));
+                        : aliceAlert.alertWarning(i18n.msg('process.msg.failedDestroy'));
                 }
             }
         }
 
         // 프로세스 삭제
         function deleteProcess(processId) {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
-                aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
+                aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
                     window.close();
                 });
             });
@@ -286,10 +286,10 @@
                         let resultCode = resultToJson.result;
                         switch (resultCode.toString()) {
                             case RESPONSE_DUPLICATION:
-                                aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                                aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                                 return;
                             case RESPONSE_FAIL:
-                                aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                                 return;
                             default:
                                 sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
@@ -300,10 +300,10 @@
                     } else if (method === "PUT") {
                         switch (result) {
                             case RESPONSE_DUPLICATION:
-                                aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                                aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                                 return;
                             case RESPONSE_FAIL:
-                                aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                                 return;
                         }
                     }
@@ -353,13 +353,13 @@
                 workflowUtil.import(fileList, processInfo, 'process', function (resultCode) {
                     switch (resultCode.toString()) {
                         case RESPONSE_DUPLICATION:
-                            aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                             return false;
                         case RESPONSE_FAIL:
-                            aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                             return false;
                         default:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                                 location.reload();
                                 return true;
                             });

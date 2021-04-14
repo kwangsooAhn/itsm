@@ -277,18 +277,18 @@
                     savedData = JSON.parse(JSON.stringify(editor.data));
                     changeFormName();
                     if (flag) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
                             window.close();
                         });
                     } else {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'));
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
                     }
                     initialStatus = editor.data.status;
                 } else {
-                    aliceJs.alertDanger(i18n.msg('common.label.fail'));
+                    aliceAlert.alertDanger(i18n.msg('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',
@@ -326,7 +326,7 @@
             let nameLabelElem = document.getElementById('form_name');
             if (nameLabelElem.value.trim() === '') {
                 nameLabelElem.classList.add('error');
-                aliceJs.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
+                aliceAlert.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
                     nameLabelElem.focus();
                 });
                 return false;
@@ -355,7 +355,7 @@
                 url: '/rest/forms' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
@@ -363,7 +363,7 @@
                             location.href = '/form/' + xhr.responseText + '/edit';
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
+                        aliceAlert.alertDanger(i18n.msg('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',
@@ -1331,7 +1331,7 @@
         const checkedBlockLen = groupElem.querySelectorAll('input[type="checkbox"]:checked').length;
 
         if (checkedBlockLen === (fieldBlockLen - 1)) {
-            aliceJs.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'));
+            aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'));
             return false;
         } else {
             // 삭제
@@ -1455,7 +1455,7 @@
         if (minusCnt > 0) {
             changePropertiesValue(removeOptionData, changePropertiesArr[0], tableIdArr[1], changePropertiesArr[1]);
         } else {
-            aliceJs.alertWarning(i18n.msg('common.msg.deleteTartget'));
+            aliceAlert.alertWarning(i18n.msg('common.msg.deleteTartget'));
         }
     }
 

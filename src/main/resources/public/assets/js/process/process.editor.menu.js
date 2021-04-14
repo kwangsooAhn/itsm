@@ -1258,7 +1258,7 @@
                     conditionInput.value = '';
                     fileInput.value = '';
                 } else {
-                    aliceJs.alertWarning(i18n.msg('process.msg.duplicateData'));
+                    aliceAlert.alertWarning(i18n.msg('process.msg.duplicateData'));
                 }
             });
 

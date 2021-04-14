@@ -95,7 +95,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('code.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -264,12 +264,12 @@
             };
 
             if (jsonData.code === null || jsonData.code.trim() === '') {
-                aliceJs.alertWarning([[#{code.msg.enterCode}]]);
+                aliceAlert.alertWarning([[#{code.msg.enterCode}]]);
                 return false;
             }
 
             if (jsonData.pCode === null || jsonData.pCode.trim() === '') {
-                aliceJs.alertWarning([[#{code.msg.enterPCode}]]);
+                aliceAlert.alertWarning([[#{code.msg.enterPCode}]]);
                 return false;
             }
 
@@ -287,24 +287,24 @@
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
                             tree.setTreeExpandNode(sessionKey);
-                            aliceJs.alertSuccess(i18n.msg('common.msg.register'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function() {
                                 window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_CODE:
                             tree.setTreeExpandNode(sessionKey);
-                            aliceJs.alertSuccess(i18n.msg('common.msg.modify'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function() {
                                 window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
-                            aliceJs.alertWarning(i18n.msg('code.msg.pCodeNotExist'));
+                            aliceAlert.alertWarning(i18n.msg('code.msg.pCodeNotExist'));
                             break;
                         case STATUS_ERROR_CODE_DUPLICATION:
-                            aliceJs.alertWarning(i18n.msg('code.msg.duplicateCode'));
+                            aliceAlert.alertWarning(i18n.msg('code.msg.duplicateCode'));
                             break;
                         default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }
@@ -322,15 +322,15 @@
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
                             tree.setTreeExpandNode(sessionKey);
-                            aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
                                 window.location.href ='/codes/edit';
                             });
                             break;
                         case STATUS_ERROR_CODE_P_CODE_USED:
-                            aliceJs.alertWarning(i18n.msg('code.msg.referenceCodeExist'));
+                            aliceAlert.alertWarning(i18n.msg('code.msg.referenceCodeExist'));
                             break;
                         default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }

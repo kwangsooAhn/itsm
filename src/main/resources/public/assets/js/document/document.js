@@ -62,7 +62,7 @@
         }
         const validateElement = document.querySelectorAll('.error');
         if (validateElement.length !== 0) {
-            aliceJs.alertWarning(i18n.msg('document.msg.checkDocument'), function () {
+            aliceAlert.alertWarning(i18n.msg('document.msg.checkDocument'), function () {
                 if (validateElement[0].classList.contains('editor-container')) {
                     Quill.find(validateElement[0]).focus();
                 } else if (validateElement[0].id === 'radio' || validateElement[0].id === 'chkbox') {
@@ -520,7 +520,7 @@
             contentType: 'application/json',
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
-                    aliceJs.alertSuccess(actionMsg, function () {
+                    aliceAlert.alertSuccess(actionMsg, function () {
                         if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
                             opener.location.reload();
                             window.close();
@@ -529,7 +529,7 @@
                         }
                     });
                 } else {
-                    aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                 }
             }
         };
@@ -682,7 +682,7 @@
                 if (xhr.responseText) {
                     createTokenInfoTab();
                 } else {
-                    aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                 }
             }
         };
@@ -695,17 +695,17 @@
      * @param commentId
      */
     function deleteComment(commentId) {
-        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
+        aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/comments/' + commentId,
                 callbackFunc: function (xhr) {
                     if (xhr.responseText) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                             createTokenInfoTab();
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                     }
                 }
             };
@@ -718,7 +718,7 @@
      * @param dataForDeletion
      */
     function deleteRelatedDoc(dataForDeletion) {
-        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
+        aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/folders/' + dataForDeletion.folderId,
@@ -726,11 +726,11 @@
                 params: JSON.stringify(dataForDeletion),
                 callbackFunc: function(xhr) {
                     if (xhr.responseText) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
                             createTokenInfoTab();
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                     }
                 }
             };

@@ -253,7 +253,7 @@
                     classes: 'default-line',
                     bindKey: false,
                     callback: function (modal) {
-                        aliceJs.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                        aliceAlert.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
                             modal.hide();
                         });
                     }
@@ -320,7 +320,7 @@
                     classes: 'default-line',
                     bindKey: false,
                     callback: function (modal) {
-                        aliceJs.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                        aliceAlert.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
                             modal.hide();
                         });
                     }
@@ -457,7 +457,7 @@
                     if (isChecked) {
                         modal.hide();
                     } else {
-                        aliceJs.alertWarning(i18n.msg('cmdb.ci.msg.selectCI'));
+                        aliceAlert.alertWarning(i18n.msg('cmdb.ci.msg.selectCI'));
                     }
                 }
             }, {
@@ -590,7 +590,7 @@
 
         const actionType = componentData.value[ciIdx].actionType;
         const alertMsg = (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) ? 'cmdb.ci.msg.deleteEditableCI' : 'cmdb.ci.msg.deleteReadableCI';
-        aliceJs.confirmIcon(i18n.msg(alertMsg), function () {
+        aliceAlert.confirmIcon(i18n.msg(alertMsg), function () {
             if (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) {
                 // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
                 restSubmit('/rest/cmdb/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
@@ -634,7 +634,7 @@
                     document.getElementById('typeName').value = response.dataset.name;
                     document.getElementById('typeId').value = response.id;
                 } else {
-                    aliceJs.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableType'));
+                    aliceAlert.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableType'));
                 }
             }
         });
@@ -677,7 +677,7 @@
                     document.getElementById('classId').value = response.id;
                     setAttributeDetail(response.id);
                 } else {
-                    aliceJs.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableClass'));
+                    aliceAlert.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableClass'));
                 }
             }
         });

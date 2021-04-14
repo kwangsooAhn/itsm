@@ -256,31 +256,31 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alertSuccess([[#{user.msg.createUser}]], function() {
+                            aliceAlert.alertSuccess([[#{user.msg.createUser}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_ADMIN:
-                            aliceJs.alertSuccess([[#{common.msg.modify}]], function() {
+                            aliceAlert.alertSuccess([[#{common.msg.modify}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_EMAIL:
-                            aliceJs.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
+                            aliceAlert.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_PASSWORD:
-                            aliceJs.alertSuccess([[#{user.msg.resetPassword}]]);
+                            aliceAlert.alertSuccess([[#{user.msg.resetPassword}]]);
                             break;
                         case STATUS_ERROR_USER_ID_DUPLICATION:
-                            aliceJs.alertWarning([[#{user.msg.sameUserId}]]);
+                            aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
                             break;
                         case STATUS_ERROR_EMAIL_DUPLICATION:
-                            aliceJs.alertWarning([[#{user.msg.sameEmail}]]);
+                            aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
                             break;
                         default:
-                            aliceJs.alertDanger([[#{common.msg.fail}]]);
+                            aliceAlert.alertDanger([[#{common.msg.fail}]]);
                             break;
                     }
                 }

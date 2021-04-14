@@ -257,7 +257,7 @@
                 contentType: 'application/json',
                 callbackFunc: function(response) {
                     if (method === 'put' || method === 'post' || method === 'delete') {
-                        aliceJs.alertSuccess(resultMsg, function () {
+                        aliceAlert.alertSuccess(resultMsg, function () {
                             searchBoard();
                         });
                     } else if (method === 'get') {

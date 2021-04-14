@@ -199,7 +199,7 @@
                 }
                 drawCondition();
             } else {
-                aliceJs.alertWarning(i18n.msg('customCode.msg.addCondition', searchColumnLength));
+                aliceAlert.alertWarning(i18n.msg('customCode.msg.addCondition', searchColumnLength));
             }
         }
 
@@ -232,7 +232,7 @@
             deleteIcon.classList.add('icon-delete-gray', 'ml-1');
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
-                aliceJs.confirmIcon(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
+                aliceAlert.confirmIcon(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
                     const row = deleteBtn.parentNode;
                     const conditionElems = document.querySelectorAll('input[name=conditionValue]');
                     if (conditionElems.length === 0) {
@@ -281,7 +281,7 @@
                 if (isEmpty('searchColumn', 'customCode.msg.enterSearchColumn')) { return false; }
                 for (let i = 0; i < conditionElems.length; i++) {
                     if (conditionElems[i].value.trim() === '') {
-                        aliceJs.alertWarning(i18n.msg('customCode.msg.enterCondition'));
+                        aliceAlert.alertWarning(i18n.msg('customCode.msg.enterCondition'));
                         conditionElems[i].focus();
                         return false;
                     }
@@ -314,7 +314,7 @@
                             if (typeof conditionData[selectValue] === 'undefined') {
                                 conditionData[selectValue] = div[i].getElementsByTagName('input')[0].value;
                             } else {
-                                aliceJs.alertWarning(i18n.msg('customCode.msg.selectNotDuplicateSearchColumn'));
+                                aliceAlert.alertWarning(i18n.msg('customCode.msg.selectNotDuplicateSearchColumn'));
                                 return false;
                             }
                         }
@@ -328,7 +328,7 @@
                     restSubmit(method, '/rest/custom-codes', data);
                 }
             } else if (method === 'delete') {
-                aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
+                aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
             }
         }
 
@@ -343,35 +343,35 @@
                     if (method === 'post' || method === 'put') {
                         switch (response.responseText) {
                             case STATUS_SUCCESS:
-                                aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                                     location.href = '/custom-codes/search';
                                 });
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_USED:
-                                aliceJs.alertSuccess(i18n.msg('customCode.msg.customCodeUsed'));
+                                aliceAlert.alertSuccess(i18n.msg('customCode.msg.customCodeUsed'));
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                                aliceJs.alertWarning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
+                                aliceAlert.alertWarning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
-                                aliceJs.alertWarning(i18n.msg('customCode.msg.pCodeNotExist'));
+                                aliceAlert.alertWarning(i18n.msg('customCode.msg.pCodeNotExist'));
                                 break;
                             default :
-                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                                 break;
                         }
                     } else if (method === 'delete'){
                         switch (response.responseText) {
                             case STATUS_SUCCESS:
-                                aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                                aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                                     location.href = '/custom-codes/search';
                                 });
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_USED:
-                                aliceJs.alertWarning(i18n.msg('customCode.msg.customCodeUsed'));
+                                aliceAlert.alertWarning(i18n.msg('customCode.msg.customCodeUsed'));
                                 break;
                             default:
-                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                                 break;
                         }
                     }

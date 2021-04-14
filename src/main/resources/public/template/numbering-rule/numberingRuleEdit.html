@@ -94,7 +94,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.rule.delete')"
                         id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
         </div>
@@ -248,7 +248,7 @@
             if (flag === 'post') {
                 for (let i = 0; i < ruleNames.length; i++) {
                     if (document.getElementById('txtRuleName').value === ruleNames[i]) {
-                        aliceJs.alertWarning([[#{rule.msg.duplicateRuleName}]]);
+                        aliceAlert.alertWarning([[#{rule.msg.duplicateRuleName}]]);
                         return;
                     }
                 }
@@ -256,7 +256,7 @@
                 if (isNotEquals('txtRuleName', 'txtRuleNameOrg')) {
                     for (let i = 0; i < ruleNames.length; i++) {
                         if (document.getElementById('txtRuleName').value === ruleNames[i]) {
-                            aliceJs.alertWarning([[#{rule.msg.duplicateRuleName}]]);
+                            aliceAlert.alertWarning([[#{rule.msg.duplicateRuleName}]]);
                             return;
                         }
                     }
@@ -275,7 +275,7 @@
 
             document.querySelectorAll('option:checked').forEach(elem => patternTypeList.push(elem.getAttribute('name')));
             if (!patternTypeList.includes('numbering.pattern.sequence')) {
-                aliceJs.alertWarning(i18n.msg('rule.msg.selectSequence'));
+                aliceAlert.alertWarning(i18n.msg('rule.msg.selectSequence'));
                 return;
             }
 
@@ -296,15 +296,15 @@
                 callbackFunc: function (response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                                 window.location.href = '/numberingRules/edit';
                             });
                             break;
                         case STATUS_ERROR_RULE_USED:
-                            aliceJs.alertWarning(i18n.msg('rule.msg.usedRule'));
+                            aliceAlert.alertWarning(i18n.msg('rule.msg.usedRule'));
                             break;
                         default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }
@@ -320,15 +320,15 @@
                 callbackFunc: function (response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                                 window.location.href = '/numberingRules/edit';
                             });
                             break;
                         case STATUS_ERROR_RULE_USED:
-                            aliceJs.alertWarning(i18n.msg('rule.msg.usedRule'));
+                            aliceAlert.alertWarning(i18n.msg('rule.msg.usedRule'));
                             break;
                         default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }
@@ -399,7 +399,7 @@
                 }
                 count++;
             } else {
-                aliceJs.alertWarning(i18n.msg('rule.msg.addPattern', count));
+                aliceAlert.alertWarning(i18n.msg('rule.msg.addPattern', count));
             }
         }
 

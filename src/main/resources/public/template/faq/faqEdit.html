@@ -89,11 +89,11 @@
                         if (method.toLowerCase() === 'delete') {
                             resultMsg = [[#{common.msg.delete}]];
                         }
-                        aliceJs.alertSuccess(resultMsg, function () {
+                        aliceAlert.alertSuccess(resultMsg, function () {
                             window.location.href = '/faqs/search';
                         });
                     } else {
-                        aliceJs.alertWarning(resultMsg);
+                        aliceAlert.alertWarning(resultMsg);
                     }
                 }
             };
@@ -124,7 +124,7 @@
                     restSubmit('put', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
                 });
                 document.getElementById('btnDelete').addEventListener('click', function () {
-                    aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
+                    aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
                 });
             }
             OverlayScrollbars(document.querySelector('.edit'), { className: 'scrollbar' });

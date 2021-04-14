@@ -153,7 +153,7 @@
         }
 
         function removeImage(imgObj) {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), () => {
                 aliceJs.sendXhr({
                     url: '/rest/images/' + imgObj.dataset.name,
                     method: 'delete',
@@ -199,7 +199,7 @@
                                 labelObj.textContent = modifyName;
                                 labelObj.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
                             } else {
-                                aliceJs.alertWarning(i18n.msg("image.msg.failedRename"));
+                                aliceAlert.alertWarning(i18n.msg("image.msg.failedRename"));
                             }
                         }
                     });
@@ -239,11 +239,11 @@
 
                 if (isAllowedExtensions(allowedExtensions, fileList)) {
                     uploadImage();
-                    aliceJs.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function () {
+                    aliceAlert.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function () {
                         location.reload();
                     });
                 } else {
-                    aliceJs.confirmIcon(
+                    aliceAlert.confirmIcon(
                         i18n.msg('image.msg.existNotAllowedExtension'),
                         uploadImage, // OK 시 업로드
                         () => document.getElementById('image-upload-file').value = ''  // CANCEL 시 file object 값 비움 처리
