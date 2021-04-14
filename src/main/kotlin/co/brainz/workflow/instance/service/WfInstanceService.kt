@@ -11,7 +11,6 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.repository.AliceTagRepository
-import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -23,7 +22,14 @@ import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
-import co.brainz.workflow.provider.dto.*
+import co.brainz.workflow.provider.dto.RestTemplateCommentDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.mapper.WfTokenMapper
 import co.brainz.workflow.token.repository.WfTokenDataRepository
@@ -38,9 +44,6 @@ import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 @Service
 class WfInstanceService(
@@ -53,7 +56,6 @@ class WfInstanceService(
     private val aliceUserRepository: AliceUserRepository,
     private val wfFolderService: WfFolderService,
     private val aliceTagRepository: AliceTagRepository,
-    private val aliceTagService: AliceTagService,
     private val userDetailsService: AliceUserDetailsService
 ) {
 
