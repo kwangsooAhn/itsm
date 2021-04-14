@@ -265,13 +265,13 @@
             let resultCode = response.responseText;
             switch (resultCode) {
                 case RESPONSE_DUPLICATION:
-                    aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                    aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                     return;
                 case RESPONSE_FAIL:
-                    aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                    aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                     return;
                 default:
-                    aliceJs.alertSuccess(i18n.msg('common.msg.save'));
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
                     isEdited = false;
                     savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
                     if (savedData.process.status === 'process.status.publish' ||
@@ -340,7 +340,7 @@
             let nameTextObject = document.getElementById('process_name');
             if (nameTextObject.value.trim() === '') {
                 nameTextObject.classList.add('error');
-                aliceJs.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
+                aliceAlert.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
                     nameTextObject.focus();
                 });
                 return false;
@@ -365,13 +365,13 @@
                     let resultCode = resultToJson.result;
                     switch (resultCode.toString()) {
                         case RESPONSE_DUPLICATION:
-                            aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                             return;
                         case RESPONSE_FAIL:
-                            aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                             return;
                         default:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                                 opener.location.reload();
                                 window.name = 'process_' + processId + '_edit';
                                 location.href = '/process/' + processId + '/edit';
@@ -976,7 +976,7 @@
 function valdationCheck() {
     if (aliceProcessEditor.isView) return false;
     if (aliceProcessEditor.data.process.name.toString().trim() === '') {
-        aliceJs.alertWarning(i18n.msg("process.msg.enterProcessName"));
+        aliceAlert.alertWarning(i18n.msg("process.msg.enterProcessName"));
         return false;
     }
 
@@ -993,7 +993,7 @@ function valdationCheck() {
                     if (requiredList.indexOf(key) >= 0) {
                         if (totalElements[i][key].toString().trim() === '') {
                             const errorElem = document.getElementById(totalElements[i].id);
-                            aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
+                            aliceAlert.alertWarning(i18n.msg("process.msg.enterRequired",
                                 i18n.msg("process.designer.attribute." + totalElements[i].type)));
                             aliceProcessEditor.setSelectedElement(d3.select(errorElem));
                             aliceProcessEditor.setElementMenu(d3.select(errorElem));
@@ -1006,7 +1006,7 @@ function valdationCheck() {
                         if (requiredList.indexOf(key) >= 0) {
                             if (totalElements[i].data[key].toString().trim() === '') {
                                 const errorElem = document.getElementById(totalElements[i].id);
-                                aliceJs.alertWarning(i18n.msg("process.msg.enterRequired",
+                                aliceAlert.alertWarning(i18n.msg("process.msg.enterRequired",
                                     i18n.msg("process.designer.attribute." + totalElements[i].type)));
                                 aliceProcessEditor.setSelectedElement(d3.select(errorElem));
                                 aliceProcessEditor.setElementMenu(d3.select(errorElem));

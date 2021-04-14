@@ -10,7 +10,6 @@
  *
  * https://github.com/jsanahuja/gModal
  */
-// TODO #9495 알림창 라이브러리 소스 리팩토링
 var gModal = (function() {
     var defaults = {
         title: '',
@@ -276,3 +275,167 @@ var gModal = (function() {
 
     return gModal;
 })();
+
+/**
+ * aliceAlert
+ */
+
+const aliceAlert = {};
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceAlert.alert = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-info',
+        buttons: [
+            {
+                content: i18n.msg('common.btn.close'),
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceAlert.alertSuccess = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-success',
+        buttons: [
+            {
+                content: i18n.msg('common.btn.close'),
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceAlert.alertWarning = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-warning',
+        buttons: [
+            {
+                content: i18n.msg('common.btn.close'),
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open error dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceAlert.alertDanger = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-danger',
+        buttons: [
+            {
+                content: i18n.msg('common.btn.close'),
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open confirm with icon dialog.
+ *
+ * @param message message
+ * @param okCallbackFunc ok 시 callback function
+ * @param cancelCallbackFunc cancel 시 callback function
+ * @param params okCallbackFunc 에 전달하는 param
+ */
+aliceAlert.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
+    let params = Array.prototype.slice.call(arguments, 3);
+
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-confirm',
+        buttons: [
+            {
+                content: i18n.msg('common.btn.check'),
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof okCallbackFunc === 'function') {
+                        okCallbackFunc.apply(null, params);
+                    }
+                    modal.hide();
+                }
+            },
+            {
+                content: i18n.msg('common.btn.cancel'),
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof cancelCallbackFunc === 'function') {
+                        cancelCallbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};

@@ -56,7 +56,7 @@
             // 게시물 삭제 처리 시, validation 체크.
             const noticeNo = /*[[${noticePopUp.noticeNo}]]*/;
             if (noticeNo === null) {
-                aliceJs.alertWarning(i18n.msg('notice.msg.alreadyDeleted'));
+                aliceAlert.alertWarning(i18n.msg('notice.msg.alreadyDeleted'));
                 return history.go(-1);
             }
             fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false, isView: true}});

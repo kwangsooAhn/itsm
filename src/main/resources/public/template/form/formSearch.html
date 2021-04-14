@@ -74,7 +74,7 @@
 
             // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
             if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
-                aliceJs.alertWarning(i18n.msg('form.msg.selectImportFile'));
+                aliceAlert.alertWarning(i18n.msg('form.msg.selectImportFile'));
                 return false;
             }
             return true;
@@ -93,7 +93,7 @@
                     formInfo.id = formId;
                     formInfo.status = isDestroy ? STATUS_DESTROY : document.getElementById('form_status').value;
                     isEditable ? restSubmit('PUT', '/rest/forms/' + formId, formInfo)
-                        : aliceJs.alertWarning(i18n.msg('form.msg.failedDestroy'));
+                        : aliceAlert.alertWarning(i18n.msg('form.msg.failedDestroy'));
 
                 }
             }
@@ -103,11 +103,11 @@
         function deleteForm(formId) {
             aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/form/' + formId, function(result) {
                 if (result === 'true') {
-                    aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
+                    aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
                         location.reload();
                     });
                 } else {
-                    aliceJs.alertDanger('[[#{form.msg.failedFormDelete}]]');
+                    aliceAlert.alertDanger('[[#{form.msg.failedFormDelete}]]');
                 }
             });
         }
@@ -331,7 +331,7 @@
 
                 workflowUtil.import(fileList, formInfo, 'form', function (result) {
                     if (result) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                             location.reload();
                         });
                         return true;

@@ -167,26 +167,26 @@
                     if (method === 'post' || method === 'put') {
                         switch (response.responseText) {
                             case STATUS_SUCCESS:
-                                aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                                     location.href = '/cmdb/attributes/search';
                                 });
                                 break;
                             case STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION:
-                                aliceJs.alertSuccess(i18n.msg('cmdb.attribute.msg.attributeNameUsed'));
+                                aliceAlert.alertSuccess(i18n.msg('cmdb.attribute.msg.attributeNameUsed'));
                                 break;
                             default :
-                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                                 break;
                         }
                     } else if (method === 'delete'){
                         switch (response.responseText) {
                             case STATUS_SUCCESS:
-                                aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                                aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                                     location.href = '/cmdb/attributes/search';
                                 });
                                 break;
                             default:
-                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                                 break;
                         }
                     }

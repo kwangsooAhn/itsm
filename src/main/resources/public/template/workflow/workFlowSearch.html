@@ -120,7 +120,7 @@
                     aliceJs.confirmIcon(
                         i18n.msg('document.msg.changeStatusEnabled'),
                         () => restSubmit(method, url + '?isDeleteData=true', documentInfo, function(result) {
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
                                 location.reload();
                             });
                         }),
@@ -128,7 +128,7 @@
                     );
                 } else {
                     restSubmit(method, url, documentInfo, function(result) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
                             if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
                                 openDocumentDisplay(result);
                             }

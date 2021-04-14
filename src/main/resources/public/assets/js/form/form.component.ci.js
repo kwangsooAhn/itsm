@@ -457,7 +457,7 @@
                     if (isChecked) {
                         modal.hide();
                     } else {
-                        aliceJs.alertWarning(i18n.msg('cmdb.ci.msg.selectCI'));
+                        aliceAlert.alertWarning(i18n.msg('cmdb.ci.msg.selectCI'));
                     }
                 }
             }, {
@@ -634,7 +634,7 @@
                     document.getElementById('typeName').value = response.dataset.name;
                     document.getElementById('typeId').value = response.id;
                 } else {
-                    aliceJs.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableType'));
+                    aliceAlert.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableType'));
                 }
             }
         });
@@ -677,7 +677,7 @@
                     document.getElementById('classId').value = response.id;
                     setAttributeDetail(response.id);
                 } else {
-                    aliceJs.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableClass'));
+                    aliceAlert.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableClass'));
                 }
             }
         });

@@ -152,7 +152,7 @@
         //게시판 댓글 수정
         function openCommentEdit(boardCommentId) {
             if (document.getElementById('editComments')) {
-                aliceJs.alertWarning(i18n.msg('comment.msg.afterSavedEditComments'), function () {
+                aliceAlert.alertWarning(i18n.msg('comment.msg.afterSavedEditComments'), function () {
                     return false;
                 });
             } else {

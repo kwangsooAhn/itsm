@@ -583,7 +583,7 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                     callbackFunc(result);
                 }
             } else {
-                aliceJs.alertDanger(i18n.msg('validation.msg.checkImportFormat'));
+                aliceAlert.alertDanger(i18n.msg('validation.msg.checkImportFormat'));
                 return false;
             }
         });

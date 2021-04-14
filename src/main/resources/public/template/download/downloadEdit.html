@@ -109,7 +109,7 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    aliceJs.alertSuccess(resultMsg, function() {
+                    aliceAlert.alertSuccess(resultMsg, function() {
                         location.href = '/downloads/search';
                     });
                 }

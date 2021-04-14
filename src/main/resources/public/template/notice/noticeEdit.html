@@ -242,19 +242,19 @@
                 contentType: 'application/json',
                 callbackFunc: function() {
                     if (method === 'post') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.register'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
                             window.location.href = '/notices/search';
                         });
                     } else if (method === 'put') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.modify'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function () {
                             window.location = '/notices/search';
                         });
                     } else if (method === 'delete') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                             window.location = '/notices/search';
                         });
                     } else {
-                        aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                        aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                     }
                 }
             };

@@ -70,7 +70,7 @@
         keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
         const authFailedMsg = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
         if (authFailedMsg !== null) {
-            aliceJs.alertWarning(i18n.msg(authFailedMsg), function() {
+            aliceAlert.alertWarning(i18n.msg(authFailedMsg), function() {
                 document.getElementById('uid').focus();
             });
         } else {
@@ -99,7 +99,7 @@
                 return false;
             }
             if (!ipAccessCheck(ipList, clientIp, ipSeparator)) {
-                aliceJs.alertWarning([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
+                aliceAlert.alertWarning([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
                 return false;
             }
             const rsa = new RSAKey();

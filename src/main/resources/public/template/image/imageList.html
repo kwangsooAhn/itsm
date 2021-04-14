@@ -199,7 +199,7 @@
                                 labelObj.textContent = modifyName;
                                 labelObj.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
                             } else {
-                                aliceJs.alertWarning(i18n.msg("image.msg.failedRename"));
+                                aliceAlert.alertWarning(i18n.msg("image.msg.failedRename"));
                             }
                         }
                     });
@@ -239,7 +239,7 @@
 
                 if (isAllowedExtensions(allowedExtensions, fileList)) {
                     uploadImage();
-                    aliceJs.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function () {
+                    aliceAlert.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function () {
                         location.reload();
                     });
                 } else {

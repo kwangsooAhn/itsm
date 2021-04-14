@@ -89,11 +89,11 @@
                         if (method.toLowerCase() === 'delete') {
                             resultMsg = [[#{common.msg.delete}]];
                         }
-                        aliceJs.alertSuccess(resultMsg, function () {
+                        aliceAlert.alertSuccess(resultMsg, function () {
                             window.location.href = '/faqs/search';
                         });
                     } else {
-                        aliceJs.alertWarning(resultMsg);
+                        aliceAlert.alertWarning(resultMsg);
                     }
                 }
             };

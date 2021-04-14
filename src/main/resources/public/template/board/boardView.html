@@ -133,7 +133,7 @@
             // 게시물 삭제 처리 시
             const boardAdminId = /*[[${boardAdmin.boardAdminId}]]*/;
             if (boardAdminId === null) {
-                aliceJs.alertSuccess(i18n.msg('common.msg.delete'));
+                aliceAlert.alertSuccess(i18n.msg('common.msg.delete'));
                 return history.go(-1);
             }
         };
