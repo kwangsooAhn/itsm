@@ -286,10 +286,10 @@
                         let resultCode = resultToJson.result;
                         switch (resultCode.toString()) {
                             case RESPONSE_DUPLICATION:
-                                aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                                aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                                 return;
                             case RESPONSE_FAIL:
-                                aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                                 return;
                             default:
                                 sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
@@ -300,10 +300,10 @@
                     } else if (method === "PUT") {
                         switch (result) {
                             case RESPONSE_DUPLICATION:
-                                aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                                aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                                 return;
                             case RESPONSE_FAIL:
-                                aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                                 return;
                         }
                     }
@@ -353,13 +353,13 @@
                 workflowUtil.import(fileList, processInfo, 'process', function (resultCode) {
                     switch (resultCode.toString()) {
                         case RESPONSE_DUPLICATION:
-                            aliceJs.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
                             return false;
                         case RESPONSE_FAIL:
-                            aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                             return false;
                         default:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                                 location.reload();
                                 return true;
                             });

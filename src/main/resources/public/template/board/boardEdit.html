@@ -251,12 +251,12 @@
                 callbackFunc: function (response) {
                     let result = response.responseText === "true" ? true : false;
                     if (result) {
-                        aliceJs.alertSuccess(resultMsg, function () {
+                        aliceAlert.alertSuccess(resultMsg, function () {
                             location.href = '/boards/search';
                         });
                     } else {
                         resultMsg = i18n.msg('board.msg.duplicateBoardAdminTitle');
-                        aliceJs.alertWarning(resultMsg);
+                        aliceAlert.alertWarning(resultMsg);
                     }
                 },
                 showProgressbar: false
@@ -298,7 +298,7 @@
             if (categoryList.some(function(category) {
                 return category.boardCategoryName === document.getElementById('boardCategoryName').value;
             })) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.dataNotDuplicate'));
+                aliceAlert.alertWarning(i18n.msg('validation.msg.dataNotDuplicate'));
                 return;
             }
 

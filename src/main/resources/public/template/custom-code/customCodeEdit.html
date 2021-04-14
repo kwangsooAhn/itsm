@@ -199,7 +199,7 @@
                 }
                 drawCondition();
             } else {
-                aliceJs.alertWarning(i18n.msg('customCode.msg.addCondition', searchColumnLength));
+                aliceAlert.alertWarning(i18n.msg('customCode.msg.addCondition', searchColumnLength));
             }
         }
 
@@ -281,7 +281,7 @@
                 if (isEmpty('searchColumn', 'customCode.msg.enterSearchColumn')) { return false; }
                 for (let i = 0; i < conditionElems.length; i++) {
                     if (conditionElems[i].value.trim() === '') {
-                        aliceJs.alertWarning(i18n.msg('customCode.msg.enterCondition'));
+                        aliceAlert.alertWarning(i18n.msg('customCode.msg.enterCondition'));
                         conditionElems[i].focus();
                         return false;
                     }
@@ -314,7 +314,7 @@
                             if (typeof conditionData[selectValue] === 'undefined') {
                                 conditionData[selectValue] = div[i].getElementsByTagName('input')[0].value;
                             } else {
-                                aliceJs.alertWarning(i18n.msg('customCode.msg.selectNotDuplicateSearchColumn'));
+                                aliceAlert.alertWarning(i18n.msg('customCode.msg.selectNotDuplicateSearchColumn'));
                                 return false;
                             }
                         }
@@ -343,35 +343,35 @@
                     if (method === 'post' || method === 'put') {
                         switch (response.responseText) {
                             case STATUS_SUCCESS:
-                                aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                                     location.href = '/custom-codes/search';
                                 });
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_USED:
-                                aliceJs.alertSuccess(i18n.msg('customCode.msg.customCodeUsed'));
+                                aliceAlert.alertSuccess(i18n.msg('customCode.msg.customCodeUsed'));
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                                aliceJs.alertWarning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
+                                aliceAlert.alertWarning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
-                                aliceJs.alertWarning(i18n.msg('customCode.msg.pCodeNotExist'));
+                                aliceAlert.alertWarning(i18n.msg('customCode.msg.pCodeNotExist'));
                                 break;
                             default :
-                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                                 break;
                         }
                     } else if (method === 'delete'){
                         switch (response.responseText) {
                             case STATUS_SUCCESS:
-                                aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                                aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                                     location.href = '/custom-codes/search';
                                 });
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_USED:
-                                aliceJs.alertWarning(i18n.msg('customCode.msg.customCodeUsed'));
+                                aliceAlert.alertWarning(i18n.msg('customCode.msg.customCodeUsed'));
                                 break;
                             default:
-                                aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                                 break;
                         }
                     }
