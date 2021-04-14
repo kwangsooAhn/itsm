@@ -7,7 +7,6 @@ package co.brainz.workflow
 
 import co.brainz.workflow.instance.service.WfInstanceService
 import java.time.LocalDateTime
-import java.time.ZoneId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assumptions.assumingThat
 import org.junit.jupiter.api.BeforeEach
@@ -48,8 +47,8 @@ class WfInstanceServiceTest {
         params["documentId"] = tokenDto.documentId
         params["searchValue"] = ""
         params["offset"] = 1
-        params["fromDt"] = LocalDateTime.now(ZoneId.of("UTC")).minusYears(1)
-        params["toDt"] = LocalDateTime.now(ZoneId.of("UTC"))
+        params["fromDt"] = LocalDateTime.now().minusYears(1)
+        params["toDt"] = LocalDateTime.now()
         params["tags"] = ""
         val instanceDtoList = wfInstanceService.instances(params)
         for (instanceDto in instanceDtoList) {

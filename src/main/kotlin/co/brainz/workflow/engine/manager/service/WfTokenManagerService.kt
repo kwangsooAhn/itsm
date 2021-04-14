@@ -44,7 +44,6 @@ import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
-import java.time.ZoneId
 import org.springframework.stereotype.Service
 
 @Service
@@ -255,7 +254,7 @@ class WfTokenManagerService(
             WfTokenEntity(
                 tokenId = "",
                 tokenStatus = WfTokenConstants.Status.RUNNING.code,
-                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                tokenStartDt = LocalDateTime.now(),
                 instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
                 element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
             )

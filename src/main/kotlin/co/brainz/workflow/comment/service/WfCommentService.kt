@@ -7,7 +7,6 @@ import co.brainz.workflow.comment.repository.WfCommentRepository
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import java.time.LocalDateTime
-import java.time.ZoneId
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 
@@ -39,7 +38,7 @@ class WfCommentService(
         val wfCommentEntity = WfCommentEntity(
             commentId = "",
             content = restTemplateCommentDto.content,
-            createDt = LocalDateTime.now(ZoneId.of("UTC"))
+            createDt = LocalDateTime.now()
         )
         wfCommentEntity.aliceUserEntity =
             aliceUserRepository.findAliceUserEntityByUserKey(restTemplateCommentDto.createUserKey.toString())
