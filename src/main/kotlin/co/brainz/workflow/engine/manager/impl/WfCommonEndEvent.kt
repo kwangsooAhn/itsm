@@ -12,7 +12,6 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.token.constants.WfTokenConstants
 import java.time.LocalDateTime
-import java.time.ZoneId
 
 class WfCommonEndEvent(
     wfTokenManagerService: WfTokenManagerService,
@@ -48,7 +47,7 @@ class WfCommonEndEvent(
                     var token = wfTokenManagerService.getToken(createNextTokenDto.tokenId)
                     token.tokenDataEntities = super.setTokenData(createNextTokenDto)
                     mainProcessToken.tokenStatus = WfTokenConstants.Status.FINISH.code
-                    mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+                    mainProcessToken.tokenEndDt = LocalDateTime.now()
                     createNextTokenDto.data = wfTokenManagerService.makeSubProcessTokenDataDto(
                         token,
                         mainProcessToken

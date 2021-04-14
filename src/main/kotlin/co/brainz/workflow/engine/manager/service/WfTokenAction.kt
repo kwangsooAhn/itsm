@@ -15,7 +15,6 @@ import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
 import java.time.LocalDateTime
-import java.time.ZoneId
 
 class WfTokenAction(
     private val wfTokenManagerService: WfTokenManagerService
@@ -175,7 +174,7 @@ class WfTokenAction(
 
         // null 이면 담당자는 업데이트를 생략한다.
         token.assigneeId = tokenDto.assigneeId ?: token.assigneeId
-        token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+        token.tokenEndDt = LocalDateTime.now()
         when (tokenDto.action) {
             WfElementConstants.Action.CANCEL.value -> {
                 token.tokenStatus = WfTokenConstants.Status.CANCEL.code
