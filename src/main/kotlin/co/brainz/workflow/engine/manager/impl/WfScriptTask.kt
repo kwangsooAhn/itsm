@@ -163,38 +163,32 @@ class WfScriptTask(
                     val ciTags = this.getCiTags(ciId, ciComponentDataValue)
                     val ciRelations = this.getCiRelations(ciId, ciComponentDataValue)
 
-                    val ciDto = CIDto(
-                        ciId = ciId,
-                        ciNo = ci["ciNo"] as String,
-                        ciName = ci["ciName"] as String,
-                        ciDesc = ci["ciDesc"] as String,
-                        ciIcon = ci["ciIcon"] as String,
-                        classId = ci["classId"] as String,
-                        typeId = ci["typeId"] as String,
-                        ciStatus = ci["ciStatus"] as String,
-                        instanceId = instanceId,
-                        ciDataList = ciDataList,
-                        ciTags = ciTags,
-                        ciRelations = ciRelations
-                    )
-
-                    when (actionType) {
-                        RestTemplateConstants.ActionType.REGISTER.code -> {
-                            ciDto.createUserKey = super.assigneeId
-                        }
-                        RestTemplateConstants.ActionType.MODIFY.code, RestTemplateConstants.ActionType.DELETE.code -> {
-                            ciDto.updateUserKey = super.assigneeId
-                        }
-                    }
-
                     // Dto 생성후 List에 담기
-                    ciDtoList.add(ciDto)
+                    ciDtoList.add(
+                        CIDto(
+                            ciId = ciId,
+                            ciNo = ci["ciNo"] as String,
+                            ciName = ci["ciName"] as String,
+                            ciDesc = ci["ciDesc"] as String,
+                            ciIcon = ci["ciIcon"] as String,
+                            classId = ci["classId"] as String,
+                            typeId = ci["typeId"] as String,
+                            ciStatus = ci["ciStatus"] as String,
+                            instanceId = instanceId,
+                            ciDataList = ciDataList,
+                            ciTags = ciTags,
+                            ciRelations = ciRelations,
+                            createUserKey = super.assigneeId,
+                            updateUserKey = super.assigneeId
+                        )
+                    )
                 } else {
                     ciDtoList.add(
                         CIDto(
                             ciId = ciId,
                             typeId = "",
-                            instanceId = instanceId
+                            instanceId = instanceId,
+                            updateUserKey = super.assigneeId
                         )
                     )
                 }
