@@ -5,6 +5,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    let initialStatus = null;
     const i18nMsgPrefix = 'process.designer.attribute.';
     const data = {};
     const iconDirectory = '/assets/media/icons/process';
@@ -2039,12 +2040,14 @@
                 callbackFunc: function(xhr) {
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
                     const elements = aliceProcessEditor.data.elements;
+                    initialStatus = aliceProcessEditor.data.process.status ;
                     elements.forEach(function(element) {
                         const category = getElementCategory(element.type);
                         element.required = getAttributeRequired(category, element.type);
                     });
                     setElementMenu();
                     aliceProcessEditor.drawProcess(processId, elements);
+                    exports.initialStatus = initialStatus;
                 }
             });
         };

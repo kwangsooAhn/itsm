@@ -61,6 +61,7 @@ common:
     number: "Please enter only numbers."
     modify: "Modified."
     noData: "There is no data."
+    onlySaveInEdit: "It cannot be saved in the publish/edit. Please edit in the edit"
     processedOrDelete: "Already processed or deleted."
     register: "Registered."
     required: "Please enter {0}."

@@ -14,6 +14,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    let initialStatus = null;
     let ATTRIBUTE_TABLE_COLUMN = 'drTableColumns'; // 컴포넌트 세부 속성 - drTableColumns
     const history = {
         redo_list: [],
@@ -251,6 +252,13 @@
         if (!hasErrorClass)  {  return false; }
 
         data = JSON.parse(JSON.stringify(editor.data));
+        let nowStatus = editor.data.status;
+        let deployableStatus = ['form.status.publish', "form.status.use"];
+
+        if (deployableStatus.indexOf(initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
+            aliceJs.alertWarning(i18n.msg("common.msg.onlySaveInEdit"));
+            return false;
+        }
 
         // 2020-05-22 Jung Hee Chan
         // datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
@@ -278,6 +286,7 @@
                     } else {
                         aliceJs.alertSuccess(i18n.msg('common.msg.save'));
                     }
+                    initialStatus = editor.data.status;
                 } else {
                     aliceJs.alertDanger(i18n.msg('common.label.fail'));
                 }
@@ -2609,6 +2618,7 @@
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.components = aliceForm.reformatCalendarFormat('read', responseObject.components);
                 editor.data = responseObject;
+                initialStatus = editor.data.status;
                 drawForm();
             },
             contentType: 'application/json; charset=utf-8'
