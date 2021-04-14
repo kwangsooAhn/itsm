@@ -19,8 +19,8 @@ export const inputBoxMixin = {
     // property 초기화
     setProperty() {
         // 엘리먼트 property 초기화
-        util.mergeObject(this.element || FORM.DEFAULT.INPUTBOX.ELEMENT);
-        util.mergeObject(this.validate || FORM.DEFAULT.INPUTBOX.VALIDATE);
+        util.mergeObject(this.element, FORM.DEFAULT.INPUTBOX.ELEMENT);
+        util.mergeObject(this.validate, FORM.DEFAULT.INPUTBOX.VALIDATE);
     },
     // field 엘리먼트 생성
     makeField() {

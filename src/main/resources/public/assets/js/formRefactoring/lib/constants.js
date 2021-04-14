@@ -14,6 +14,7 @@ export const CLASS_PREFIX = 'zenius-';
 // 폼
 export const FORM = {
     COLUMN: 12,
+    MAX_COMPONENT_IN_ROW: 4, // row의 최대 컴포넌트 포함 개수
     LAYOUT: {
         FORM: 'form',
         GROUP: 'group',
@@ -48,7 +49,7 @@ export const FORM = {
             text: 'GROUP LABEL'
         },
         COMPONENT_LABEL: {
-            position: 'top', // 라벨 위치 hidden | top | left
+            position: 'left', // 라벨 위치 hidden | top | left
             fontSize: '16px',
             fontColor: 'rgba(0,0,0,1)',
             bold: false,

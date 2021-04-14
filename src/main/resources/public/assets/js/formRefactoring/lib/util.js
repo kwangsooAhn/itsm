@@ -60,13 +60,13 @@ export function importMixin(target, source) {
  * @returns {Boolean} boolean
  */
 export function isObject(target) {
-    return (target && typeof target === 'object' && !Array.isArray(target) && target !== null);
+    return (target && typeof target === 'object' && !Array.isArray(target));
 }
 
 /**
  * Merge a `source` object to a `target` recursively
  * @param target target 객체
- * @param source source 객제
+ * @param source source 객체
  */
 export function mergeObject(target, source) {
     if (isObject(target) && isObject(source)) {
@@ -80,4 +80,14 @@ export function mergeObject(target, source) {
         });
     }
     return target;
+}
+/**
+ * Swap object 1 and object2
+ * @param index1 인덱스
+ * @param index2 인덱스
+ */
+export function swapObject(array, index1, index2) {
+    let temp = array[index1];
+    array[index1] = array[index2];
+    array[index2] = temp;
 }

@@ -114,10 +114,10 @@
 }
 // component 툴팁
 .zenius-component-tooltip {
-  padding: 1.25rem; // 20px
+  flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+  padding:  0.75rem 1.25rem; // 12px 20px
   border: 0.0625rem solid transparent; // 1px
   background-color: $white;
-
   &.selected {
     border-color: $component-selected-border-color;
     background-color: $component-selected-bg-color;
@@ -130,13 +130,14 @@
     // label
     .zenius-component-label {
       flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
-      padding-right: 0.938rem; // 15px;
+      padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
       &.on { display: block; }
       &.off { display: none; }
     }
     // element
     .zenius-element {
       flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+      padding: 0.4375rem 0; // 7px 0
 
       // inputBox
       .input { width: 100%; }
@@ -147,15 +148,5 @@
 .zenius-component[data-displayType]:not([data-displayType="required"]) { // 필수값 숨김
   .zenius-component-label {
     span[class="required"] { display: none; }
-  }
-}
-
-//  drag & drop -fake element
-.fake-draggable {
-  height: 0;
-  &.draggable-in {
-    height: 120px;
-    background-color: rgba(135, 206, 255, 0.1);
-    border: 0.0625rem dashed $light-blue;; // 1px
   }
 }

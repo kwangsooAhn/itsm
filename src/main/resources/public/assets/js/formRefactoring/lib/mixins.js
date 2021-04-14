@@ -15,43 +15,49 @@ import { UIComponentTooltip } from '../form/component.js';
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
 export const controlMixin = {
     // 자식 객체 추가
-    add(object) {
+    add(object, index) {
         if (!object) { return false; }
 
         if (object.parent !== null) {
             object.parent.remove(object);
         }
         object.parent = this;
-        object.displayOrder = this.children.length;
-        this.children.push(object);
-        // 객체 추가
+        object.displayOrder = index;
+        this.children.splice(index, 0, object);
+        // 재정렬
+        this.sort((index + 1));
+        // DOM Element 추가
+        let parentElement = this.UIElement.domElement;
         if (object.UIElement instanceof UIRowTooltip) {
-            this.UIElement.UIGroup.add(object.UIElement);
+            parentElement = this.UIElement.UIGroup.domElement;
         } else if (object.UIElement instanceof UIComponentTooltip) {
-            this.UIElement.UIRow.add(object.UIElement);
-        } else {
-            this.UIElement.add(object.UIElement);
+            parentElement = this.UIElement.UIRow.domElement;
         }
-
+        if ((index + 1) === this.children.length) {
+            parentElement.appendChild(object.UIElement.domElement);
+        } else {
+            const nextSibling = this.children[index + 1].UIElement.domElement;
+            parentElement.insertBefore(object.UIElement.domElement, nextSibling);
+        }
         return this;
     },
     // 자식 삭제
     remove(object) {
-        const idx = this.children.indexOf(object);
-        if (idx !== -1) {
+        const index = this.children.indexOf(object);
+        if (index !== -1) {
+            let parentElement = this.UIElement.domElement;
             if (object.UIElement instanceof UIRowTooltip) {
-                this.UIElement.UIGroup.remove(object.UIElement);
+                parentElement = this.UIElement.UIGroup.domElement;
             } else if (object.UIElement instanceof UIComponentTooltip) {
-                this.UIElement.UIRow.remove(object.UIElement);
-            } else {
-                this.UIElement.remove(object.UIElement);
+                parentElement = this.UIElement.UIRow.domElement;
+            }
+            if (parentElement.contains(object.UIElement.domElement)) {
+                parentElement.removeChild(object.UIElement.domElement);
             }
             object.parent = null;
-            this.children.splice(idx, 1);
+            this.children.splice(index, 1);
             // 재정렬
-            for (let i = idx; i < this.children.length; i++) {
-                this.children[i].displayOrder = i;
-            }
+            this.sort(index);
         }
         return this;
     },
@@ -61,6 +67,12 @@ export const controlMixin = {
         for (let i = 0; i < this.children.length; i++) {
             const object = this.children[i];
             object.parent = null;
+        }
+    },
+    // 자식 정렬
+    sort(index) {
+        for (let i = index; i < this.children.length; i++) {
+            this.children[i].displayOrder = i;
         }
     },
     // 복사 (자식 포함)
