@@ -145,7 +145,6 @@ class WfScriptTask(
         ciList: List<Map<String, Any>>,
         componentId: String,
         instanceId: String,
-        assigneeId: String,
         actionType: String
     ): MutableList<CIDto> {
         val ciDtoList = mutableListOf<CIDto>()
@@ -181,10 +180,10 @@ class WfScriptTask(
 
                     when (actionType) {
                         RestTemplateConstants.ActionType.REGISTER.code -> {
-                            ciDto.createUserKey = assigneeId
+                            ciDto.createUserKey = super.assigneeId
                         }
                         RestTemplateConstants.ActionType.MODIFY.code, RestTemplateConstants.ActionType.DELETE.code -> {
-                            ciDto.updateUserKey = assigneeId
+                            ciDto.updateUserKey = super.assigneeId
                         }
                     }
 
@@ -228,29 +227,11 @@ class WfScriptTask(
             val ciList = this.getCiList(createTokenDto, componentEntity)
             // 3-3. ci 목록을 전송할 형태로 데이터 변경
             val createCiList =
-                this.getCiDtoList(
-                    ciList,
-                    componentId,
-                    instanceId,
-                    assigneeId,
-                    RestTemplateConstants.ActionType.REGISTER.code
-                )
+                this.getCiDtoList(ciList, componentId, instanceId, RestTemplateConstants.ActionType.REGISTER.code)
             val modifyCiList =
-                this.getCiDtoList(
-                    ciList,
-                    componentId,
-                    instanceId,
-                    assigneeId,
-                    RestTemplateConstants.ActionType.MODIFY.code
-                )
+                this.getCiDtoList(ciList, componentId, instanceId, RestTemplateConstants.ActionType.MODIFY.code)
             val deleteCiList =
-                this.getCiDtoList(
-                    ciList,
-                    componentId,
-                    instanceId,
-                    assigneeId,
-                    RestTemplateConstants.ActionType.DELETE.code
-                )
+                this.getCiDtoList(ciList, componentId, instanceId, RestTemplateConstants.ActionType.DELETE.code)
 
             // 4. 전송
             createCiList.forEach { ci ->
