@@ -15,7 +15,6 @@ import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
 import java.time.LocalDateTime
-import java.time.ZoneId
 
 /**
  * 프로세스 진행간 생성되는 모든 토큰은 어떤 엘리먼트냐에 따라 동작이 달라진다.
@@ -77,7 +76,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      */
     fun completeToken(tokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
-        token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+        token.tokenEndDt = LocalDateTime.now()
         token.tokenStatus = WfTokenConstants.Status.FINISH.code
         token.assigneeId = tokenDto.assigneeId
 

@@ -32,6 +32,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -268,7 +270,7 @@ class WfInstanceService(
             instanceId = wfTokenDto.instanceId,
             documentNo = documentNo,
             instanceStatus = WfInstanceConstants.Status.RUNNING.code,
-            instanceStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+            instanceStartDt = LocalDateTime.now(),
             instanceCreateUser = user,
             pTokenId = wfTokenDto.parentTokenId,
             document = document
@@ -293,7 +295,7 @@ class WfInstanceService(
     fun completeInstance(instanceId: String) {
         wfInstanceRepository.findByInstanceId(instanceId)?.let {
             it.instanceStatus = WfInstanceConstants.Status.FINISH.code
-            it.instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            it.instanceEndDt = LocalDateTime.now()
             wfInstanceRepository.save(it)
         }
     }

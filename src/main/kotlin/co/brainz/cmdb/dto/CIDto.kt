@@ -6,8 +6,8 @@
 
 package co.brainz.cmdb.dto
 
-import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
+import java.time.LocalDateTime
 
 data class CIDto(
     var ciId: String,
@@ -22,8 +22,12 @@ data class CIDto(
     var instanceId: String? = null,
     var ciDataList: MutableList<CIDataDto>? = null,
     var ciRelations: MutableList<CIRelationDto>? = null,
-    var ciTags: MutableList<CITagDto>? = null
-) : Serializable, AliceMetaEntity()
+    var ciTags: MutableList<CITagDto>? = null,
+    var createUserKey: String? = null,
+    var createDt: LocalDateTime? = null,
+    var updateUserKey: String? = null,
+    var updateDt: LocalDateTime? = null
+) : Serializable
 
 data class CIDataDto(
     var ciId: String,

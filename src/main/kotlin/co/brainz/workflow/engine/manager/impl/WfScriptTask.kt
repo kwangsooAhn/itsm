@@ -177,7 +177,9 @@ class WfScriptTask(
                             instanceId = instanceId,
                             ciDataList = ciDataList,
                             ciTags = ciTags,
-                            ciRelations = ciRelations
+                            ciRelations = ciRelations,
+                            createUserKey = super.assigneeId,
+                            updateUserKey = super.assigneeId
                         )
                     )
                 } else {
@@ -185,7 +187,8 @@ class WfScriptTask(
                         CIDto(
                             ciId = ciId,
                             typeId = "",
-                            instanceId = instanceId
+                            instanceId = instanceId,
+                            updateUserKey = super.assigneeId
                         )
                     )
                 }

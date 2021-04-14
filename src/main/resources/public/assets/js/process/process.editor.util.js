@@ -279,6 +279,7 @@
                         uploadProcessFile();
                     }
                     changeProcessName();
+                    aliceProcessEditor.initialStatus = savedData.process.status;
             }
         });
     }
@@ -974,18 +975,24 @@
 })));
 
 function valdationCheck() {
+    let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
+        'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
+    let totalElements = aliceProcessEditor.data.elements;
+    let requiredList = [];
+    let deployableStatus = ['process.status.publish', 'process.status.use'];
+    let nowStatus = aliceProcessEditor.data.process.status;
+
+    if (deployableStatus.indexOf(aliceProcessEditor.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
+        aliceJs.alertWarning(i18n.msg("common.msg.onlySaveInEdit"));
+        return false;
+    }
     if (aliceProcessEditor.isView) return false;
     if (aliceProcessEditor.data.process.name.toString().trim() === '') {
         aliceJs.alertWarning(i18n.msg("process.msg.enterProcessName"));
         return false;
     }
 
-    let status = aliceProcessEditor.data.process.status
-    let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
-        'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
-    let totalElements = aliceProcessEditor.data.elements;
-    let requiredList = [];
-    if (status === 'process.status.publish' || status === 'process.status.use') {
+    if (deployableStatus.indexOf(nowStatus) >= 0) {
         for (let i = 0; i < totalElements.length; i++) {
             if (typeList.indexOf(totalElements[i].type) >= 0) {
                 requiredList = totalElements[i].required;
