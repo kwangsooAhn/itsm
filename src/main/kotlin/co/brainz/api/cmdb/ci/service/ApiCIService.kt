@@ -12,14 +12,17 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIReturnDto
+import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.service.UserService
 import java.time.LocalDateTime
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class ApiCIService(
     private val ciService: CIService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val userRepository: UserRepository
 ) {
 
     /**
@@ -47,7 +50,11 @@ class ApiCIService(
      * CI 등록
      */
     fun createCI(ciDto: CIDto): Boolean {
-        ciDto.createUser = userService.selectUser(ApiConstants.CREATE_USER)
+        ciDto.createUserKey?.let {
+            if (userRepository.findByIdOrNull(it) == null) {
+                userService.selectUser(ApiConstants.CREATE_USER)
+            }
+        }
         ciDto.createDt = LocalDateTime.now()
         val returnDto = ciService.createCI(ciDto)
         return returnDto.status
@@ -57,7 +64,11 @@ class ApiCIService(
      * CI 수정
      */
     fun updateCI(ciId: String, ciDto: CIDto): Boolean {
-        ciDto.updateUser = userService.selectUser(ApiConstants.CREATE_USER)
+        ciDto.updateUserKey?.let {
+            if (userRepository.findByIdOrNull(it) == null) {
+                userService.selectUser(ApiConstants.CREATE_USER)
+            }
+        }
         ciDto.updateDt = LocalDateTime.now()
         val returnDto = ciService.updateCI(ciDto)
         return returnDto.status
@@ -67,7 +78,11 @@ class ApiCIService(
      * CI 삭제
      */
     fun deleteCI(ciId: String, ciDto: CIDto): Boolean {
-        ciDto.updateUser = userService.selectUser(ApiConstants.CREATE_USER)
+        ciDto.updateUserKey?.let {
+            if (userRepository.findByIdOrNull(it) == null) {
+                userService.selectUser(ApiConstants.CREATE_USER)
+            }
+        }
         ciDto.updateDt = LocalDateTime.now()
         if (ciDto.ciId.isEmpty()) {
             ciDto.ciId = ciId
