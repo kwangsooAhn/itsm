@@ -260,7 +260,7 @@
             for (let i = 0; i < 7; i++) {
                 const calendarTitle =  document.createElement('div');
                 calendarTitle.classList.add('calendar-cell', 'calendar-title');
-                calendarTitle.textContent = luxon.DateTime.local().set({weekday: i}).setLocale('kr').toFormat('ccc');
+                calendarTitle.textContent = luxon.DateTime.local().set({weekday: i}).setLocale(i18n.lang).toFormat('ccc');
                 calendarPanel.appendChild(calendarTitle);
             }
 
@@ -469,6 +469,7 @@
         },
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function() {
+            console.log(this.checkValidate());
             switch (this.type) {
             case 'DATE':
                 this.target.value = this.selectLuxon.toFormat(i18n.dateFormat);
