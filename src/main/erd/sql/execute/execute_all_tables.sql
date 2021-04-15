@@ -9197,37 +9197,24 @@ COMMENT ON COLUMN wf_folder.update_dt IS '수정일시';
 /**
  * 태그
  */
-DROP TABLE IF EXISTS wf_tag cascade;
+DROP TABLE IF EXISTS awf_tag cascade;
 
-CREATE TABLE wf_tag
+CREATE TABLE awf_tag
 (
 	tag_id varchar(128) NOT NULL,
-	tag_content varchar(256) NOT NULL,
-	CONSTRAINT wf_tag_pk PRIMARY KEY (tag_id)
+	tag_type varchar(128) NOT NULL,
+	tag_value varchar(256) NOT NULL,
+	target_id varchar(128) NOT NULL,
+    CONSTRAINT awf_tag_pk PRIMARY KEY (tag_id),
+    CONSTRAINT awf_tag_un UNIQUE (tag_type, tag_value, target_id)
 );
 
-COMMENT ON TABLE wf_tag IS '태그';
-COMMENT ON COLUMN wf_tag.tag_id IS '태그아이디';
-COMMENT ON COLUMN wf_tag.tag_content IS '태그내용';
+COMMENT ON TABLE awf_tag IS '태그';
+COMMENT ON COLUMN awf_tag.tag_id IS '태그아이디';
+COMMENT ON COLUMN awf_tag.tag_type IS '태그타입';
+COMMENT ON COLUMN awf_tag.tag_value IS '태그내용';
+COMMENT ON COLUMN awf_tag.target_id IS '태그대상아이디';
 
-/**
- * 태그매핑테이블
- */
-DROP TABLE IF EXISTS wf_tag_map cascade;
-
-CREATE TABLE wf_tag_map
-(
-	tag_id varchar(128) NOT NULL,
-	instance_id varchar(128) NOT NULL,
-	CONSTRAINT wf_tag_map_pk PRIMARY KEY (tag_id, instance_id),
-	CONSTRAINT wf_tag_map_fk1 FOREIGN KEY (tag_id) REFERENCES wf_tag (tag_id),
-	CONSTRAINT wf_tag_map_fk2 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id)
-	
-);
-
-COMMENT ON TABLE wf_tag_map IS '태그매핑테이블';
-COMMENT ON COLUMN wf_tag_map.tag_id IS '태그아이디';
-COMMENT ON COLUMN wf_tag_map.instance_id IS '인스턴스아이디';
 /**
  * 토큰정보
  */
