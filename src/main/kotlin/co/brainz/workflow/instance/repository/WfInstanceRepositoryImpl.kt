@@ -37,9 +37,9 @@ import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
+import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::class.java),
@@ -367,6 +367,8 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         delete(comment).where(comment.instance.`in`(instances)).execute()
         delete(instance).where(instance.instanceId.`in`(instanceIds)).execute()
         delete(ciComponent).where(ciComponent.instanceId.`in`(instanceIds)).execute()
+        delete(tag).where(tag.tagType.eq(AliceTagConstants.TagType.INSTANCE.code).and(tag.targetId.`in`(instanceIds)))
+            .execute()
     }
 
     override fun findAllInstanceListAndSearch(
