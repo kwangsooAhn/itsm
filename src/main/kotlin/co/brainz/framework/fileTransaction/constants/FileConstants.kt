@@ -3,7 +3,6 @@
  * https://www.brainz.co.kr
  */
 
-
 package co.brainz.framework.fileTransaction.constants
 
 import java.io.File
