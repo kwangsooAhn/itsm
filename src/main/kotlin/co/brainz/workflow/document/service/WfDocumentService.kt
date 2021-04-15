@@ -371,7 +371,6 @@ class WfDocumentService(
         return sortedUserTasks
     }
 
-
     /**
      * 컴포넌트의 display 정보 설정
      */

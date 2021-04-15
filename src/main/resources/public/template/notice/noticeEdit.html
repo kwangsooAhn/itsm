@@ -18,12 +18,12 @@
         <div class="notice-content-edit">
             <form id="frm" method="post">
                 <div class="flex-column edit-row">
-                    <label th:text="#{common.label.title}" for="noticeTitle"></label>
+                    <label th:text="#{common.label.title}" for="noticeTitle" class="required"></label>
                     <input type="text" id="noticeTitle" name="noticeTitle" th:value="${notice?.noticeTitle}"
                            maxlength="128"/>
                 </div>
                 <div class="flex-column edit-row">
-                    <label th:text="#{common.label.contents}" for="noticeContents"></label>
+                    <label th:text="#{common.label.contents}" for="noticeContents" class="required"></label>
                     <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11" class="textarea-scroll-wrapper"
                               th:text="${notice?.noticeContents}"></textarea>
                 </div>
