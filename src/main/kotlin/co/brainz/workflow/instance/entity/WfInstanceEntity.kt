@@ -1,10 +1,14 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.instance.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.comment.entity.WfCommentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.folder.entity.WfFolderEntity
-import co.brainz.workflow.tag.entity.WfTagMapEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -58,7 +62,4 @@ data class WfInstanceEntity(
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
     var comments: MutableList<WfCommentEntity>? = mutableListOf()
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "instance")
-    var tagMaps: MutableList<WfTagMapEntity>? = mutableListOf()
 }

@@ -8,6 +8,9 @@ package co.brainz.workflow.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -15,7 +18,6 @@ import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.instance.constants.WfInstanceConstants
-import co.brainz.workflow.instance.dto.WfInstanceListTagDto
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -26,11 +28,8 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
-import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.tag.repository.WfTagRepository
-import co.brainz.workflow.tag.service.WfTagService
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.mapper.WfTokenMapper
 import co.brainz.workflow.token.repository.WfTokenDataRepository
@@ -56,8 +55,7 @@ class WfInstanceService(
     private val numberingRuleService: NumberingRuleService,
     private val aliceUserRepository: AliceUserRepository,
     private val wfFolderService: WfFolderService,
-    private val wfTagRepository: WfTagRepository,
-    private val wfTagService: WfTagService,
+    private val aliceTagRepository: AliceTagRepository,
     private val userDetailsService: AliceUserDetailsService
 ) {
 
@@ -127,10 +125,15 @@ class WfInstanceService(
 
         // Tag
         val instanceIds = mutableSetOf<String>()
-        val tagDataList = mutableListOf<WfInstanceListTagDto>()
+        val tagDataList = mutableListOf<AliceTagDto>()
         queryResults.results.forEach { result -> instanceIds.add(result.instanceEntity.instanceId) }
         if (instanceIds.isNotEmpty()) {
-            tagDataList.addAll(wfTagRepository.findByInstanceIds(instanceIds))
+            tagDataList.addAll(
+                aliceTagRepository.findByTargetIds(
+                    AliceTagConstants.TagType.INSTANCE.code,
+                    instanceIds
+                )
+            )
         }
 
         for (instance in queryResults.results) {
@@ -149,8 +152,8 @@ class WfInstanceService(
 
             val tags = mutableListOf<String>()
             tagDataList.forEach { tagData ->
-                if (tagData.instanceId == instance.instanceEntity.instanceId) {
-                    tags.add(tagData.tagContent)
+                if (tagData.targetId == instance.instanceEntity.instanceId) {
+                    tags.add(tagData.tagValue)
                 }
             }
 
@@ -356,8 +359,11 @@ class WfInstanceService(
     /**
      * Get Instance Tags.
      */
-    fun getInstanceTags(instanceId: String): List<RestTemplateTagViewDto> {
-        return wfTagService.getInstanceTags(instanceId)
+    fun getInstanceTags(instanceId: String): List<AliceTagDto> {
+        return aliceTagRepository.findByTargetId(
+            AliceTagConstants.TagType.INSTANCE.code,
+            instanceId
+        )
     }
 
     /**

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -873,8 +878,9 @@
      */
     function onAddTag(tag) {
         const jsonData = {
-            tagContent: tag.detail.data.value,
-            instanceId: document.getElementById('instanceId').getAttribute('data-id')
+            tagType: 'instance',
+            tagValue: tag.detail.data.value,
+            targetId: document.getElementById('instanceId').getAttribute('data-id')
         };
         aliceJs.sendXhr({
             method: 'POST',

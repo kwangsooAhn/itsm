@@ -193,8 +193,9 @@
 
         function onAddTag(tag) {
             const jsonData = {
-                tagContent: tag.detail.data.value,
-                instanceId: '[[${instanceId}]]'
+                tagType: 'instance',
+                tagValue: tag.detail.data.value,
+                targetId: '[[${instanceId}]]'
             };
             restSubmit('POST', '/rest/tags', function () {
                 location.reload();

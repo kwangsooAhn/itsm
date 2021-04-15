@@ -3,11 +3,12 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.workflow
+package co.brainz.framework.tag
 
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.dto.RestTemplateTagDto
-import co.brainz.workflow.tag.service.WfTagService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.Assumptions.assumingThat
@@ -23,10 +24,10 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 @DisplayName("Tag API 호출 테스트")
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class WfTagServiceTest {
+class AliceTagServiceTest {
 
     @Autowired
-    private lateinit var wfTagService: WfTagService
+    private lateinit var aliceTagService: AliceTagService
 
     @Autowired
     private lateinit var wfInstanceService: WfInstanceService
@@ -44,12 +45,13 @@ class WfTagServiceTest {
     @DisplayName("Instance Tag 추가")
     @Order(1)
     fun insertTag() {
-        val tagDto = RestTemplateTagDto(
-            instanceId = this.instanceId,
+        val tagDto = AliceTagDto(
             tagId = "",
-            tagContent = this.tagContent
+            tagType = AliceTagConstants.TagType.INSTANCE.code,
+            tagValue = this.tagContent,
+            targetId = this.instanceId
         )
-        assumeTrue(wfTagService.insertTag(tagDto))
+        assumeTrue(aliceTagService.insertTag(tagDto))
     }
 
     @Test
@@ -60,14 +62,17 @@ class WfTagServiceTest {
         assumingThat(
             instanceDto.instanceId.isNotEmpty()
         ) {
-            val instanceTagList = wfTagService.getInstanceTags(instanceDto.instanceId)
+            val instanceTagList =
+                aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.INSTANCE.code, instanceDto.instanceId)
             for (instanceTag in instanceTagList) {
-                instanceTag.value
+                instanceTag.tagValue
             }
             val tagDto = instanceTagList.filter {
-                it.value == this.tagContent
+                it.tagValue == this.tagContent
             }[0]
-            assertEquals(tagDto.value, this.tagContent)
+            assertEquals(tagDto.tagValue, this.tagContent)
+
+            tagDto.tagId?.let { aliceTagService.deleteTag(it) }
         }
     }
 }
