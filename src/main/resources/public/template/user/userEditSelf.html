@@ -224,6 +224,7 @@
         const STATUS_ERROR_USER_ID_DUPLICATION = '1';
         const STATUS_ERROR_EMAIL_DUPLICATION = '3';
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
+        const alicePlatform = 'user.platform.alice';
 
         function restSubmit(method, url) {
             if (!validation()) {
@@ -296,8 +297,10 @@
             }
             if (!isValidUserId("userId", true)) return false;
             if (isEmpty('userName', 'user.msg.enterUserName')) return false;
-            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-            if (!isValidEmail('email', true)) return false;
+            if ([[${users.platform}]] === alicePlatform) {
+                if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
+                if (!isValidEmail('email', true)) return false;
+            }
             return true;
         }
 
