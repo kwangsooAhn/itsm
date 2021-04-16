@@ -20,6 +20,7 @@
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
     let dataForPrint = ''; // 프린트 출력용 저장 데이터
+    let tagify;
 
     /**
      * get component target.
@@ -882,6 +883,7 @@
             tagValue: tag.detail.data.value,
             targetId: document.getElementById('instanceId').getAttribute('data-id')
         };
+
         aliceJs.sendXhr({
             method: 'POST',
             url: '/rest/tags',
@@ -889,7 +891,12 @@
             contentType: 'application/json',
             showProgressbar: true,
             callbackFunc: function (response) {
-                createTokenInfoTab();
+                // DOM 에 tag id 값 추가하기.
+                document.querySelector('tag[__tagid="' + tag.detail.data.__tagId + '"]').setAttribute('id', response.responseText)
+
+                // tagify 데이터에 tag id 값 추가하기.
+                let newId = { id: response.responseText }
+                tagify.tagData(tagify.getTagElms()[tag.detail.index], newId);
             }
         });
     }
@@ -903,10 +910,7 @@
         aliceJs.sendXhr({
             method: 'DELETE',
             url: '/rest/tags/' + tag.detail.data.id,
-            showProgressbar: true,
-            callbackFunc: function (response) {
-                createTokenInfoTab();
-            }
+            showProgressbar: true
         });
     }
 
@@ -957,6 +961,10 @@
                         }
                         // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
                         sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
+
+                        if (e.target.dataset.targetContents === 'token-tag') {
+                            document.querySelector('span[contenteditable]').focus();
+                        }
                     });
                 });
 
@@ -970,7 +978,7 @@
 
                 addCommentBox(instanceId);
 
-                new Tagify(document.querySelector('input[name=tags]'), {
+                tagify = new Tagify(document.querySelector('input[name=tags]'), {
                     pattern: /^.{0,100}$/,
                     editTags: false,
                     callbacks: {

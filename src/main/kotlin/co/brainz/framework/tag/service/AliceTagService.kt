@@ -18,15 +18,15 @@ class AliceTagService(
     /**
      * Set Tag.
      */
-    fun insertTag(aliceTagDto: AliceTagDto): Boolean {
-        aliceTagRepository.save(
+    fun insertTag(aliceTagDto: AliceTagDto): String {
+        val newTag = aliceTagRepository.save(
             AliceTagEntity(
                 tagType = aliceTagDto.tagType,
                 tagValue = aliceTagDto.tagValue,
                 targetId = aliceTagDto.targetId
             )
         )
-        return true
+        return newTag.tagId
     }
 
     /**
