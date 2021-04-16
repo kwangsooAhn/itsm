@@ -51,7 +51,8 @@ class AliceTagServiceTest {
             tagValue = this.tagContent,
             targetId = this.instanceId
         )
-        assumeTrue(aliceTagService.insertTag(tagDto))
+
+        assumeTrue(aliceTagService.insertTag(tagDto) != null)
     }
 
     @Test

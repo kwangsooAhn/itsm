@@ -21,7 +21,7 @@ class AliceTagRestController(
 ) {
 
     @PostMapping("")
-    fun setTag(@RequestBody aliceTagDto: AliceTagDto): Boolean {
+    fun setTag(@RequestBody aliceTagDto: AliceTagDto): String {
         return aliceTagService.insertTag(aliceTagDto)
     }
 
