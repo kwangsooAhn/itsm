@@ -10,4 +10,6 @@ object AliceTagConstants {
         INSTANCE("instance"),
         COMPONENT("component")
     }
+
+    const val TAG_SUGGESTION_MAX_COUNT: Long = 20;
 }

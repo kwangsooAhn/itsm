@@ -21,6 +21,7 @@
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
     let dataForPrint = ''; // 프린트 출력용 저장 데이터
     let tagify;
+    let controller;
 
     /**
      * get component target.
@@ -892,7 +893,7 @@
             showProgressbar: true,
             callbackFunc: function (response) {
                 // DOM 에 tag id 값 추가하기.
-                document.querySelector('tag[__tagid="' + tag.detail.data.__tagId + '"]').setAttribute('id', response.responseText)
+                document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', response.responseText)
 
                 // tagify 데이터에 tag id 값 추가하기.
                 let newId = { id: response.responseText }
@@ -980,6 +981,13 @@
 
                 tagify = new Tagify(document.querySelector('input[name=tags]'), {
                     pattern: /^.{0,100}$/,
+                    whitelist: [],
+                    dropdown: {
+                        maxItems: 20,           // <- 서버에서 이미 20개로 지정하고 있음. 혹시 필요하면 바로 수정할 수 있도록 여기도 살려둠.
+                        classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
+                        enabled: 1,             // <- show suggestions on focus
+                        closeOnSelect: true    // <- do not hide the suggestions dropdown once an item has been selected
+                    },
                     editTags: false,
                     callbacks: {
                         'add': onAddTag,
@@ -988,11 +996,33 @@
                     placeholder: i18n.msg('token.msg.tag')
                 });
 
+                tagify.on('input', onInput)
+
                 const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
                 document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
                 OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
             }
         });
+    }
+
+    function onInput( e ){
+        var value = e.detail.value;
+        tagify.settings.whitelist.length = 0; // reset the whitelist
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
+        controller && controller.abort();
+        controller = new AbortController();
+
+        // show loading animation and hide the suggestions dropdown
+        tagify.loading(true).dropdown.hide.call(tagify)
+
+        fetch('/rest/tags/whitelist?tagValue=' + value + '&tagType=' + 'instance', {signal:controller.signal})
+            .then(RES => RES.json())
+            .then(function(whitelist){
+                // update inwhitelist Array in-place
+                tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
+                tagify.loading(false).dropdown.show.call(tagify, value); // render the suggestions dropdown
+            })
     }
 
     exports.init = init;
