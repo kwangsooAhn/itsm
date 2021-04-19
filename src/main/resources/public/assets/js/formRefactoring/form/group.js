@@ -14,6 +14,19 @@ import * as mixin from '../lib/mixins.js';
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
 import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/ui.js';
 
+const DEFAULT_GROUP_LABEL_PROPERTY = {
+    // 그룹의 라벨은 아코디언 위에 표시되기 때문에 항상 top 위치이며 보여주거나 숨기는 기능을 설정 한다.
+    // 아코디언이 표시되지 않을 경우 라벨 표시 여부에 따라 라벨 영역이 사라지거나 나타난다.
+    visibility: true, // 라벨 사용여부
+    fontColor: 'rgb(63, 75, 86)',
+    fontSize: '16',
+    bold: false,
+    italic: false,
+    underline: false,
+    align: 'left',
+    text: 'GROUP LABEL'
+};
+
 export default class Group {
     constructor(data = {}) {
         this.type = 'group';
@@ -23,20 +36,7 @@ export default class Group {
         this.displayOrder = 0;     // 표시 순서
         this.isAccordionUsed = data.isAccordionUsed;
         this.margin = data.margin || '10 0 10 0'; // 그룹 간 간격(위 오른쪽 아래 왼쪽)
-
-        const GROUP_LABEL = {
-            // 그룹의 라벨은 아코디언 위에 표시되기 때문에 항상 top 위치이며 보여주거나 숨기는 기능을 설정 한다.
-            // 아코디언이 표시되지 않을 경우 라벨 표시 여부에 따라 라벨 영역이 사라지거나 나타난다.
-            visibility: true, // 라벨 사용여부
-            fontColor: 'rgb(63, 75, 86)',
-            fontSize: '16',
-            bold: false,
-            italic: false,
-            underline: false,
-            align: 'left',
-            text: 'GROUP LABEL'
-        };
-        this.label = util.mergeObject(GROUP_LABEL, data.label);
+        this.label = util.mergeObject(DEFAULT_GROUP_LABEL_PROPERTY, data.label);
 
         // Control Mixin import
         util.importMixin(this, mixin.controlMixin);
@@ -47,7 +47,7 @@ export default class Group {
     init() {
         // 그룹용 툴팁
         const groupTooltip = new UIGroupTooltip()
-            .setMargin(this.margin.split(' ').join('px ') + 'px');
+            .setCSSText(`margin:${this.margin.split(' ').join('px ')}px;`);
         // 그룹
         groupTooltip.UIGroup = new UIGroup(this.isAccordionUsed).setId(this.id);
         // 아코디언용 체크박스
@@ -55,14 +55,15 @@ export default class Group {
             .setClass(CLASS_PREFIX + 'group-accordion-checkBox');
         // 라벨
         groupTooltip.UIGroup.UILabel.setFor('chk-' + this.id)
-            .addClass((this.label.visibility ? 'on' : 'off'))
-            .setTextAlign(this.label.align); // 라벨 사용여부: 라벨 숨김 또는 보임
+            .addClass((this.label.visibility ? 'on' : 'off')) // 라벨 사용여부: 라벨 숨김 또는 보임
+            .setCSSText(`text-align: ${this.label.align};`);
         // 라벨 텍스트
-        groupTooltip.UIGroup.UILabel.UILabelText.setFontSize(this.label.fontSize + 'px')
-            .setFontWeight((this.label.bold ? 'bold' : ''))
-            .setFontStyle((this.label.italic ? 'italic' : ''))
-            .setTextDecoration((this.label.underline ? 'underline' : ''))
-            .setColor(this.label.fontColor)
+        const groupLabelCssText = `color:${this.label.fontColor};` +
+            `font-size:${this.label.fontSize}px;` +
+            `${this.label.bold ? 'font-weight:bold;' : ''}` +
+            `${this.label.italic ? 'font-style:italic;' : ''}` +
+            `${this.label.underline ? 'text-decoration:underline;' : ''}`;
+        groupTooltip.UIGroup.UILabel.UILabelText.setCSSText(groupLabelCssText)
             .setTextContent(this.label.text);
 
         groupTooltip.add(groupTooltip.UIGroup);
@@ -156,7 +157,7 @@ export default class Group {
     // 세부 속성
     getProperty() {
         // 기존 데이터 속성과 패널에 표시되는 기본 속성을 merge 한 후, 조회한다.
-        const PROPERTIES = {
+        const PANEL_PROPERTIES = {
             'id': {
                 'name': 'form.properties.id',
                 'type': 'clipboard',
@@ -309,7 +310,7 @@ export default class Group {
                 }
             }
         };
-        return Object.entries(PROPERTIES).reduce((property, [key, value]) => {
+        return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
             if (value.type === 'group') {
                 const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
                     const tempChildValue = { 'value': this[key][childKey] };

@@ -72,6 +72,11 @@ class UIElement {
         return this;
     }
 
+    setCSSText(value) {
+        this.domElement.style.cssText = value;
+        return this;
+    }
+
     setStyle(style, array) {
         for (let i = 0; i < array.length; i++) {
             this.domElement.style[style] = array[i];

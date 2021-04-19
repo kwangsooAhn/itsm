@@ -4352,24 +4352,27 @@ body.modal-active {
   background-color: rgba(135, 206, 255, 0.1);
 }
 
-.zenius-component .zenius-field {
+.zenius-component {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   width: 100%;
 }
-.zenius-component .zenius-field .zenius-component-label {
+.zenius-component .zenius-component-label {
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
   padding: 0.4375rem 0.938rem 0.4375rem 0;
 }
-.zenius-component .zenius-field .zenius-component-label.on {
+.zenius-component .zenius-component-label.on {
   display: block;
 }
-.zenius-component .zenius-field .zenius-component-label.off {
+.zenius-component .zenius-component-label.off {
   display: none;
 }
-.zenius-component .zenius-field .zenius-element {
+.zenius-component .zenius-element {
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
   padding: 0.4375rem 0;
 }
-.zenius-component .zenius-field .zenius-element .input {
+.zenius-component .zenius-element .input {
   width: 100%;
 }
 

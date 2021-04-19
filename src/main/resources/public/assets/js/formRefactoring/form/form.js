@@ -36,11 +36,13 @@ export default class Form {
     }
     // 초기화
     init() {
+        const formCssText = `width:${this.width}px;` +
+            `margin:${this.margin.split(' ').join('px ')}px;` +
+            `padding:${this.padding.split(' ').join('px ')}px;`;
+
         this.UIElement = new UIForm()
             .setId(this.id)
-            .setWidth(this.width + 'px')
-            .setMargin(this.margin.split(' ').join('px ') + 'px')
-            .setPadding(this.padding.split(' ').join('px ') + 'px');
+            .setCSSText(formCssText);
     }
 
     setName(name) {
@@ -118,7 +120,7 @@ export default class Form {
     // 세부 속성
     getProperty() {
         // 기존 데이터 속성과 패널에 표시되는 기본 속성을 merge 한 후, 조회한다.
-        const PROPERTIES = {
+        const PANEL_PROPERTIES = {
             'id': {
                 'name': 'form.properties.id',
                 'type': 'clipboard',
@@ -231,7 +233,7 @@ export default class Form {
                 }
             }
         };
-        return Object.entries(PROPERTIES).reduce((property, [key, value]) => {
+        return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
             property[key] = Object.assign(value, { 'value': this[key] });
             return property;
         }, {});

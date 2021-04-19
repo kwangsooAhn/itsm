@@ -120,23 +120,24 @@
 }
 // component
 .zenius-component {
-  .zenius-field {
-    width: 100%;
-    // label
-    .zenius-component-label {
-      flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
-      padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
-      &.on { display: block; }
-      &.off { display: none; }
-    }
-    // element
-    .zenius-element {
-      flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
-      padding: 0.4375rem 0; // 7px 0
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  // label
+  .zenius-component-label {
+    flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+    padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
+    &.on { display: block; }
+    &.off { display: none; }
+  }
+  // element
+  .zenius-element {
+    flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+    padding: 0.4375rem 0; // 7px 0
 
-      // inputBox
-      .input { width: 100%; }
-    }
+    // inputBox
+    .input { width: 100%; }
   }
 }
 // label

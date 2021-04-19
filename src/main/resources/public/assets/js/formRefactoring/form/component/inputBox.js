@@ -15,33 +15,26 @@ import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
 import * as util from '../../lib/util.js';
 import { UIDiv, UIInput } from '../../lib/ui.js';
 
-export const inputBoxMixin = {
-    // 전달 받은 데이터와 기본 property 합치기
-    mergeProperty() {
-        // 엘리먼트 property 초기화
-        const ELEMENT = {
-            placeholder: '',
-            columnWidth: '10',
-            defaultType: 'input|', // input|사용자입력 / select|세션값
-        };
-        this.element = util.mergeObject(ELEMENT, this.element);
+const DEFAULT_ELEMENT_PROPERTY = {
+    placeholder: '',
+    columnWidth: '10',
+    defaultType: 'input|', // input|사용자입력 / select|세션값
+};
+const DEFAULT_VALIDATE_PROPERTY = {
+    validateType: 'none', // none | char | num | numchar | email | phone
+    lengthMin: '0',
+    lengthMax: '100'
+};
 
-        const VALIDATE = {
-            validateType: 'none', // none | char | num | numchar | email | phone
-            lengthMin: '0',
-            lengthMax: '100'
-        };
-        this.validate = util.mergeObject(VALIDATE, this.validate);
+export const inputBoxMixin = {
+    // 전달 받은 데이터와 기본 property merge
+    initProperty() {
+        // 엘리먼트 property 초기화
+        this.element = util.mergeObject(DEFAULT_ELEMENT_PROPERTY, this.element);
+        this.validate = util.mergeObject(DEFAULT_VALIDATE_PROPERTY, this.validate);
     },
-    // field 엘리먼트 생성
-    makeField() {
-        // field > label + element
-        const field = new UIDiv()
-            .setClass(CLASS_PREFIX + 'field flex-row align-items-center flex-wrap');
-        // label
-        field.UILabel = this.makeLabel();
-        field.add(field.UILabel);
-        // element
+    // component 엘리먼트 생성
+    makeElement() {
         const element = new UIDiv().setClass(CLASS_PREFIX + 'element')
             .setProperty('--data-column', this.element.columnWidth);
         // TODO: 유효성 검증 추가
@@ -52,35 +45,31 @@ export const inputBoxMixin = {
             .setAttribute('data-validate-maxLength', this.validate.lengthMax)
             .setAttribute('data-validate-minLength', this.validate.lengthMin);
         element.add(element.UIInputbox);
-
-        field.UIElement = element;
-        field.add(field.UIElement);
-
-        return field;
+        return element;
     },
     setElementPlaceholder(placeholder) {
         this.element.placeholder = placeholder;
-        this.UIElement.UIComponent.UIField.UIElement.UIInputbox.setPlaceholder(placeholder);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setPlaceholder(placeholder);
     },
     setElementColumnWidth(width) {
         this.element.columnWidth = width;
-        this.UIElement.UIComponent.UIField.UIElement.setProperty('--data-column', width);
+        this.UIElement.UIComponent.UIElement.setProperty('--data-column', width);
     },
     setElementDefaultType(value) {
         this.element.defaultType = value;
-        this.UIElement.UIComponent.UIField.UIElement.UIInputbox.setValue(this.getValue());
+        this.UIElement.UIComponent.UIElement.UIInputbox.setValue(this.getValue());
     },
     setValidateValidateType(type) {
         this.validate.validateType = type;
-        this.UIElement.UIComponent.UIField.UIElement.UIInputbox.setAttribute('data-validate-type', type);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setAttribute('data-validate-type', type);
     },
     setValidateLengthMin(min) {
         this.validate.lengthMin = min;
-        this.UIElement.UIComponent.UIField.UIElement.UIInputbox.setAttribute('data-validate-minLength', min);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setAttribute('data-validate-minLength', min);
     },
     setValidateLengthMax(max) {
         this.validate.lengthMax = max;
-        this.UIElement.UIComponent.UIField.UIElement.UIInputbox.setAttribute('data-validate-maxLength', max);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setAttribute('data-validate-maxLength', max);
     },
     // 기본 값 조회
     getValue() {
@@ -98,7 +87,7 @@ export const inputBoxMixin = {
     },
     // 세부 속성
     getProperty() {
-        const PROPERTIES = {
+        const PANEL_PROPERTIES = {
             'id': {
                 'name': 'form.properties.id',
                 'type': 'clipboard',
@@ -411,7 +400,7 @@ export const inputBoxMixin = {
 
         };
 
-        return Object.entries(PROPERTIES).reduce((property, [key, value]) => {
+        return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
             if (value.type === 'group') {
                 const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
                     const tempChildValue = { 'value': this[key][childKey] };

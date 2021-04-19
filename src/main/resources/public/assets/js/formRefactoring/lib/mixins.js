@@ -99,14 +99,18 @@ export const componentLabelMixin = {
     makeLabel() {
         const label = new UILabel().setClass(CLASS_PREFIX + 'component-label')
             .addClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
-            .setProperty('--data-column', this.getLabelColumnWidth(this.label.position))
-            .setTextAlign(this.label.align);
+            .setCSSText(`text-align: ${this.label.align};`)
+            .setProperty('--data-column', this.getLabelColumnWidth(this.label.position));
+        console.log(this.getLabelColumnWidth(this.label.position));
+        // 라벨 문구
+        const labelCssText = `color:${this.label.fontColor};` +
+            `font-size:${this.label.fontSize}px;` +
+            `${this.label.bold ? 'font-weight:bold;' : ''}` +
+            `${this.label.italic ? 'font-style:italic;' : ''}` +
+            `${this.label.underline ? 'text-decoration:underline;' : ''}`;
+
         label.UILabelText = new UISpan().setClass(CLASS_PREFIX + 'component-label-text')
-            .setFontSize(this.label.fontSize + 'px')
-            .setFontWeight((this.label.bold ? 'bold' : ''))
-            .setFontStyle((this.label.italic ? 'italic' : ''))
-            .setTextDecoration((this.label.underline ? 'underline' : ''))
-            .setColor(this.label.fontColor)
+            .setCSSText(labelCssText)
             .setTextContent(this.label.text);
         label.add(label.UILabelText);
         // 필수 여부

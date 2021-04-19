@@ -37,7 +37,8 @@ export default class Row {
         // row
         rowTooltip.UIRow = new UIRow()
             .setId(this.id)
-            .setPadding(this.padding);
+            .setCSSText(`padding:${this.padding.split(' ').join('px ')}px;`);
+
         rowTooltip.add(rowTooltip.UIRow);
         this.UIElement = rowTooltip;
     }
@@ -100,7 +101,7 @@ export default class Row {
 
     // 세부 속성
     getProperty() {
-        const PROPERTIES = {
+        const PANEL_PROPERTIES = {
             'id': {
                 'name': 'form.properties.id',
                 'type': 'clipboard',
@@ -147,7 +148,7 @@ export default class Row {
                 }
             }
         };
-        return Object.entries(PROPERTIES).reduce((property, [key, value]) => {
+        return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
             property[key] = Object.assign(value, { 'value': this[key] });
             return property;
         }, {});
