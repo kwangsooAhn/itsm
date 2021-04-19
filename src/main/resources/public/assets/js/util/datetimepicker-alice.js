@@ -469,7 +469,6 @@
         },
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function() {
-            console.log(this.checkValidate());
             switch (this.type) {
             case 'DATE':
                 this.target.value = this.selectLuxon.toFormat(i18n.dateFormat);
