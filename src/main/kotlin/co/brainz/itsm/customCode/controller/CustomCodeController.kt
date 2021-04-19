@@ -38,7 +38,7 @@ class CustomCodeController(
      */
     @GetMapping("/search")
     fun getCustomCodeSearch(model: Model): String {
-        model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE))
+        model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE, false))
         return customCodeSearchPage
     }
 
@@ -49,7 +49,7 @@ class CustomCodeController(
     @GetMapping("")
     fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto, model: Model): String {
         val result = customCodeService.getCustomCodeList(customCodeSearchDto)
-        model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE))
+        model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE, false))
         model.addAttribute("customCodeList", result)
         model.addAttribute("customCodeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return if (customCodeSearchDto.isScroll) customCodeListFragment else customCodeListPage

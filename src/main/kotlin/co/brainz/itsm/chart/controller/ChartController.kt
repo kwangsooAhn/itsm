@@ -35,7 +35,7 @@ class ChartController(
      */
     @GetMapping("/search")
     fun getChartSearch(model: Model): String {
-        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE))
+        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE, false))
         return chartSearchPage
     }
 
@@ -61,9 +61,9 @@ class ChartController(
      */
     @GetMapping("/new")
     fun getChartNew(model: Model): String {
-        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE))
-        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.CHART_OPERATION_P_CODE))
-        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.CHART_UNIT_P_CODE))
+        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE, false))
+        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.CHART_OPERATION_P_CODE, false))
+        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.CHART_UNIT_P_CODE, false))
         return chartEditPage
     }
 
@@ -72,9 +72,9 @@ class ChartController(
      */
     @GetMapping("/{chartId}/edit")
     fun getChartEdit(@PathVariable chartId: String, model: Model): String {
-        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE))
-        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.CHART_OPERATION_P_CODE))
-        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.CHART_UNIT_P_CODE))
+        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE, false))
+        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.CHART_OPERATION_P_CODE, false))
+        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.CHART_UNIT_P_CODE, false))
         model.addAttribute("chart", chartService.getChart(chartId))
         return chartEditPage
     }

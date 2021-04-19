@@ -53,7 +53,7 @@ class FaqController(private val faqService: FaqService, private val codeService:
      */
     @GetMapping("/new")
     fun getFaqNew(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("faqGroupList", codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE))
+        model.addAttribute("faqGroupList", codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE, false))
         return faqEditPage
     }
 
@@ -83,7 +83,7 @@ class FaqController(private val faqService: FaqService, private val codeService:
      */
     @GetMapping("/{faqId}/edit")
     fun getFaqEdit(@PathVariable faqId: String, model: Model): String {
-        model.addAttribute("faqGroupList", codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE))
+        model.addAttribute("faqGroupList", codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE, false))
         if (faqId != "") {
             model.addAttribute("faq", faqService.getFaq(faqId))
         }

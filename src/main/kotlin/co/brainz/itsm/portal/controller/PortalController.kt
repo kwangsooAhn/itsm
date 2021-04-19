@@ -131,7 +131,7 @@ class PortalController(
     fun getDownloadSearch(model: Model): String {
         model.addAttribute(
             "categoryList",
-            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
+            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE, false)
         )
         return portalDownloadSearchPage
     }
