@@ -101,7 +101,6 @@ export const componentLabelMixin = {
             .addClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
             .setCSSText(`text-align: ${this.label.align};`)
             .setProperty('--data-column', this.getLabelColumnWidth(this.label.position));
-        console.log(this.getLabelColumnWidth(this.label.position));
         // 라벨 문구
         const labelCssText = `color:${this.label.fontColor};` +
             `font-size:${this.label.fontSize}px;` +
