@@ -1025,7 +1025,7 @@
             })
             .catch(e => {
                 console.log('whitelist canceled by user');
-            })
+            });
     }
 
     exports.init = init;
