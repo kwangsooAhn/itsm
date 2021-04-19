@@ -5,6 +5,7 @@
 
 package co.brainz.framework.tag.repository
 
+import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.entity.QAliceTagEntity
@@ -51,6 +52,19 @@ class AliceTagRepositoryImpl : QuerydslRepositorySupport(AliceTagEntity::class.j
                 (tag.targetId.`in`(targetIds))
                     .and(tag.tagType.eq(tagType))
             )
+            .fetch()
+    }
+
+    override fun findSuggestionList(tagValue: String, tagType: String): List<String> {
+        return from(tag).distinct()
+            .select(
+                tag.tagValue
+            )
+            .where(
+                (super.like(tag.tagValue, tagValue))
+                    ?.and(tag.tagType.eq(tagType))
+            )
+            .limit(AliceTagConstants.TAG_SUGGESTION_MAX_COUNT)
             .fetch()
     }
 }

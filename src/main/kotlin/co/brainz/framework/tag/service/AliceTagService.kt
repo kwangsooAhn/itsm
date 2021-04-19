@@ -42,4 +42,8 @@ class AliceTagService(
     fun getTagsByTargetId(tagType: String, targetId: String): List<AliceTagDto> {
         return aliceTagRepository.findByTargetId(tagType, targetId)
     }
+
+    fun getSuggestionList(tagValue: String, tagType: String): List<String> {
+        return aliceTagRepository.findSuggestionList(tagValue, tagType);
+    }
 }
