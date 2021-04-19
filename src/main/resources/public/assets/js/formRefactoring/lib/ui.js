@@ -131,6 +131,10 @@ class UISpan extends UIElement {
     constructor() {
         super(document.createElement('span'));
     }
+    setInnerHTML(value) {
+        this.domElement.innerHTML = value;
+        return this;
+    }
 }
 
 class UILabel extends UIElement {
@@ -176,6 +180,7 @@ class UIText extends UISpan {
 class UIInput extends UIElement {
     constructor(text) {
         super(document.createElement('input'));
+        this.domElement.type = 'text';
         this.domElement.className = 'input';
 
         this.domElement.addEventListener(
@@ -207,13 +212,18 @@ class UIInput extends UIElement {
         this.domElement.required = boolean;
         return this;
     }
+
+    setReadOnly(boolean) {
+        this.domElement.readOnly = boolean;
+        return this;
+    }
 }
 
 class UITextArea extends UIElement {
     constructor() {
         super(document.createElement('textarea'));
         this.domElement.className = 'textArea';
-        this.domElement.style.padding = '2px';
+        this.domElement.style.padding = '10px';
         this.domElement.spellcheck = false;
 
         this.domElement.addEventListener(
@@ -244,12 +254,12 @@ class UITextArea extends UIElement {
         return this;
     }
 }
-
+// TODO: 디자인용 selectbox로 변경
 class UISelect extends UIElement {
     constructor() {
         super(document.createElement('select'));
         this.domElement.className = 'select';
-        this.domElement.style.padding = '2px';
+        this.domElement.style.padding = '0 2px';
     }
 
     setMultiple(boolean) {
@@ -309,39 +319,109 @@ class UICheckbox extends UIElement {
         return this;
     }
 }
+// 공통으로 사용되는 복사용 inputbox + button
+class UIClipboard extends UIElement {
+    constructor() {
+        super(document.createElement('div'));
+        this.domElement.className = 'clipboard';
+        // input
+        this.UIInput = new UIInput().addClass('copy').setReadOnly(true);
+        this.add(this.UIInput);
+
+        // tooptip
+        this.UITooltip = new UIDiv().setClass('clipboard-tooltip');
+        this.add(this.UITooltip);
+
+        // copy button
+        const scope = this;
+        this.UITooltip.UIButton = new UIButton().setClass('btn-clipboard-tooltip').addClass('ghost-line');
+        this.UITooltip.UIButton.domElement.addEventListener('click', function () {
+            scope.UIInput.domElement.select();
+            scope.UIInput.domElement.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+
+            scope.UITooltip.UITooptipText.setTextContent('Copy success');
+        });
+        this.UITooltip.UIButton.domElement.addEventListener('mouseout', function () {
+            scope.UITooltip.UITooptipText.setTextContent('Copy to clipboard');
+        });
+        this.UITooltip.add(this.UITooltip.UIButton);
+
+        // copy button icon
+        const UIButtonIcon = new UISpan().setClass('icon').addClass('icon-clipboard');
+        this.UITooltip.UIButton.add(UIButtonIcon);
+
+        // tooltip text
+        this.UITooltip.UITooptipText = new UISpan().setClass('clipboard-tooltip-text')
+            .setTextContent('Copy to clipboard');
+        this.UITooltip.UIButton.add(this.UITooltip.UITooptipText);
+    }
+}
 
 // TODO: color picker 라이브러리 참조하여 엘리먼트 만들기
 class UIColor extends UIElement {
-    constructor() {
-        super(document.createElement('input'));
-        this.domElement.className = 'color';
-        this.domElement.style.width = '32px';
-        this.domElement.style.height = '16px';
-        this.domElement.style.border = '0px';
-        this.domElement.style.padding = '2px';
-        this.domElement.style.backgroundColor = 'transparent';
+    constructor(option) {
+        super(document.createElement('div'));
+        this.domElement.className = 'color-picker';
 
-        try {
-            this.domElement.type = 'color';
-            this.domElement.value = '#ffffff';
-        } catch (exception) {}
+        // input box
+        this.UIColor = new UIDiv().setClass('color-input');
+        this.UIColor.UIBox = new UIDiv().setClass('selected-color-box');
+
+        this.UIColor.UIBox.UISpan = new UISpan().setClass('selected-color')
+            .setBackgroundColor(option.data.value);
+        this.UIColor.UIBox.add(this.UIColor.UIBox.UISpan);
+        this.UIColor.add(this.UIColor.UIBox);
+
+        this.UIColor.UIInput = new UIInput().addClass('color').setReadOnly(true)
+            .setValue(option.data.value);
+        this.UIColor.add(this.UIColor.UIInput);
+        this.add(this.UIColor);
+
+        // color palette layer
+        this.UIColorPalette = new UIDiv();
+        this.UIColorPalette.UIColor = new UIDiv().setClass('color-palette');
+        this.UIColorPalette.add(this.UIColorPalette.UIColor);
+
+        this.UIColorPalette.UIOpacity = new UIDiv().setClass('color-palette-opacity');
+        this.UIColorPalette.add(this.UIColorPalette.UIOpacity);
+        this.add(this.UIColorPalette);
+        
+        // color picker 초기화
+        colorPalette.initColorPalette(this.UIColorPalette.domElement,
+            this.UIColor.UIBox.UISpan.domElement, this.UIColor.UIInput.domElement, option);
     }
 
-    getValue() {
-        return this.domElement.value;
+    setId(id) {
+        this.UIColor.UIInput.setId(id);
+        this.UIColorPalette.setId('colorPaletteLayer-' + id);
+        return this;
+    }
+}
+
+class UISwitch extends UIElement {
+    constructor(boolean) {
+        super(document.createElement('label'));
+        this.domElement.className = 'switch';
+
+        // checkbox
+        this.UICheckbox = new UICheckbox(boolean);
+        this.add(this.UICheckbox);
+        this.add(new UISpan());
+
+        // label
+        this.UISpan = new UISpan().setClass('label');
+        this.add(this.UISpan);
     }
 
-    getHexValue() {
-        return parseInt(this.domElement.value.substr(1), 16);
-    }
-
-    setValue(value) {
-        this.domElement.value = value;
+    setId(id) {
+        this.domElement.id = id;
+        this.UICheckbox.setId(id);
         return this;
     }
 
-    setHexValue(hex) {
-        this.domElement.value = '#' + ('000000' + hex.toString(16)).slice(-6);
+    setTextContent(value) {
+        this.UISpan.setTextContent(value);
         return this;
     }
 }
@@ -716,20 +796,44 @@ class UIHorizontalRule extends UIElement {
 class UIButton extends UIElement {
     constructor(value) {
         super(document.createElement('button'));
-        this.domElement.className = 'Button';
+        this.domElement.className = 'btn';
+        this.domElement.type = 'button';
         this.domElement.textContent = value;
     }
 }
 
-class UIProgress extends UIElement {
+class UISlider extends UIElement {
     constructor(value) {
-        super(document.createElement('progress'));
+        super(document.createElement('div'));
+        this.domElement.className = 'slider';
+        // range
+        this.UIRange = new UIInput(value).setClass('range');
+        this.UIRange.domElement.type = 'range';
+        this.add(this.UIRange);
+        // input
+        this.UIInput = new UIInput(value).setReadOnly(true);
+        this.add(this.UIInput);
 
-        this.domElement.value = value;
+        const scope = this;
+        function onInput() {
+            scope.UIInput.setValue(scope.UIRange.getValue());
+
+            const changeEvent = document.createEvent('HTMLEvents');
+            changeEvent.initEvent('change', true, true);
+            scope.UIInput.domElement.dispatchEvent(changeEvent);
+        }
+
+        this.UIRange.domElement.addEventListener('input', onInput, false);
     }
 
-    setValue(value) {
-        this.domElement.value = value;
+    setMin(value) {
+        this.UIRange.domElement.setAttribute('min', value);
+        return this;
+    }
+
+    setMax(value) {
+        this.UIRange.domElement.setAttribute('max', value);
+        return this;
     }
 }
 
@@ -930,6 +1034,6 @@ class ListboxItem extends UIDiv {
 
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
-    UISelect, UICheckbox, UIColor, UINumber, UIInteger, UIBreak,
-    UIHorizontalRule, UIButton, UIProgress, UITabbedPanel, UIListbox, ListboxItem,
+    UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UINumber, UIInteger, UIBreak,
+    UIHorizontalRule, UIButton, UISlider, UITabbedPanel, UIListbox, ListboxItem,
 };

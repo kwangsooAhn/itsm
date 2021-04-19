@@ -91,7 +91,7 @@
                         <span th:text="#{form.label.preview}"></span>
                     </div>
                 </button>
-                <span class="ml-auto" id="form-name"></span>
+                <span class="ml-auto" id="formName"></span>
             </div>
             <!-- 컴포넌트 팔레트 -->
             <div class="form-component-palette" id="componentPalette">
@@ -170,18 +170,18 @@
                         </label>
                         <div class="accordion-content">
                             <div class="flex-row flex-wrap component-icon-box list-group">
-                                <li class="component-icon label list-group-item" id="label">
+                                <div class="component-icon label list-group-item" id="label">
                                     <span class="icon icon-label"></span>
                                     <span class="component-name" th:text="#{form.component.label}"></span>
-                                </li>
-                                <li class="component-icon image list-group-item" id="image">
+                                </div>
+                                <div class="component-icon image list-group-item" id="image">
                                     <span class="icon icon-image"></span>
                                     <span class="component-name" th:text="#{form.component.image}"></span>
-                                </li>
-                                <li class="component-icon divider list-group-item" id="divider">
+                                </div>
+                                <div class="component-icon divider list-group-item" id="divider">
                                     <span class="icon icon-divider"></span>
                                     <span class="component-name" th:text="#{form.component.divider}"></span>
-                                </li>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -216,8 +216,8 @@
                 <div class="align-center drawing-board" id="drawingBoard"></div>
             </div>
             <!-- 속성 패널 -->
-            <div class="form-properties-panel-header">
-                <span iid="propertyName"></span>
+            <div class="form-properties-panel-header breadcrumb">
+                <span id="propertyName"></span>
             </div>
             <div class="form-properties-panel" id="propertyPanel"></div>
         </div>

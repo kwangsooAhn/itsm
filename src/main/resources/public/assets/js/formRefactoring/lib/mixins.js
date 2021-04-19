@@ -102,7 +102,7 @@ export const componentLabelMixin = {
             .setProperty('--data-column', this.getLabelColumnWidth(this.label.position))
             .setTextAlign(this.label.align);
         label.UILabelText = new UISpan().setClass(CLASS_PREFIX + 'component-label-text')
-            .setFontSize(this.label.fontSize)
+            .setFontSize(this.label.fontSize + 'px')
             .setFontWeight((this.label.bold ? 'bold' : ''))
             .setFontStyle((this.label.italic ? 'italic' : ''))
             .setTextDecoration((this.label.underline ? 'underline' : ''))

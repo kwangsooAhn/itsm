@@ -37,27 +37,6 @@ export const FORM = {
     CUSTOM_CODE: [],
     // 기본 값
     DEFAULT: {
-        GROUP_LABEL: {
-            // 그룹의 라벨은 아코디언 위에 표시되기 때문에 항상 top 위치이며 보여주거나 숨기는 기능을 설정 한다.
-            isLabelUsed: true, // 라벨 사용여부
-            fontSize: '16px',
-            fontColor: 'rgba(0,0,0,1)',
-            bold: false,
-            italic: false,
-            underline: false,
-            align: 'left',
-            text: 'GROUP LABEL'
-        },
-        COMPONENT_LABEL: {
-            position: 'left', // 라벨 위치 hidden | top | left
-            fontSize: '16px',
-            fontColor: 'rgba(0,0,0,1)',
-            bold: false,
-            italic: false,
-            underline: false,
-            align: 'left',
-            text: 'COMPONENT LABEL'
-        },
         INPUTBOX: {
             ELEMENT: {
                 placeholder: '',

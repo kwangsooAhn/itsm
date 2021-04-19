@@ -14,7 +14,6 @@ import { CLASS_PREFIX, FORM } from '../lib/constants.js';
 import { inputBoxMixin } from './component/inputBox.js';
 import { UIDiv } from '../lib/ui.js';
 
-
 export default class Component {
     constructor(data = {}) {
         this.type = data.type || 'component';
@@ -28,7 +27,19 @@ export default class Component {
         this.mapId = data.mapId || '';
         this.tags = data.tags || [];
         this.value = data.value || '${default}';
-        this.label = data.label || util.mergeObject(data.label || FORM.DEFAULT.COMPONENT_LABEL);
+
+        const COMPONENT_LABEL = {
+            position: 'left', // 라벨 위치 hidden | top | left
+            fontSize: '16',
+            fontColor: 'rgba(0,0,0,1)',
+            bold: false,
+            italic: false,
+            underline: false,
+            align: 'left',
+            text: 'COMPONENT LABEL'
+        };
+        this.label = util.mergeObject(COMPONENT_LABEL, data.label);
+
         this.element = data.element || {};
         this.validate = data.validate || {};
 
@@ -44,7 +55,7 @@ export default class Component {
     // 초기화
     init() {
         // 내부 property 초기화
-        this.setProperty();
+        this.mergeProperty();
         // 컴포넌트용 툴팁
         const componentTooltip = new UIComponentTooltip()
             .setProperty('--data-column', this.columnWidth);
@@ -113,6 +124,69 @@ export default class Component {
         default:
             break;
         }
+    }
+
+    setMapId(id) {
+        this.mapId = id;
+    }
+
+    setIsTopic(boolean) {
+        this.isTopic = boolean;
+    }
+    // TODO: 태그 기능 추후 구현 예정
+    setTags() {}
+
+    setColumnWidth(width) {
+        this.columnWidth = width;
+        this.UIElement.setProperty('--data-column', width);
+    }
+
+    setLabelPosition(value) {
+        this.label.position = value;
+        if (value === FORM.LABEL.POSITION.HIDDEN) {
+            this.UIElement.UIComponent.UIField.UILabel.removeClass('on').addClass('off');
+        } else {
+            this.UIElement.UIComponent.UIField.UILabel.removeClass('off').addClass('on');
+        }
+        this.UIElement.UIComponent.UIField.UILabel.setProperty('--data-column', this.getLabelColumnWidth(value));
+    }
+
+    setLabelFontColor(color) {
+        this.label.fontColor = color;
+        this.UIElement.UIComponent.UIField.UILabel.UILabelText.setColor(color);
+    }
+
+    setLabelFontSize(size) {
+        this.label.fontSize = size;
+        this.UIElement.UIComponent.UIField.UILabel.UILabelText.setFontSize(size);
+    }
+
+    setLabelAlign(value) {
+        this.label.align = value;
+        this.UIElement.UIComponent.UIField.UILabel.setTextAlign(value);
+    }
+
+    setLabelFontOptionBold(boolean) {
+        this.label.bold = boolean;
+        this.UIElement.UIComponent.UIField.UILabel.UILabelText
+            .setFontWeight((boolean === 'true' ? 'bold' : ''));
+    }
+
+    setLabelFontOptionItalic(boolean) {
+        this.UIElement.UIComponent.UIField.UILabel.UILabelText
+            .setFontStyle((boolean === 'true' ? 'italic' : ''));
+        this.label.italic = boolean;
+    }
+
+    setLabelFontOptionUnderline(boolean) {
+        this.label.underline = boolean;
+        this.UIElement.UIComponent.UIField.UILabel.UILabelText
+            .setTextDecoration((boolean === 'true' ? 'underline' : ''));
+    }
+
+    setLabelText(text) {
+        this.label.text = text;
+        this.UIElement.UIComponent.UIField.UILabel.UILabelText.setTextContent(text);
     }
 }
 

@@ -1,9 +1,4 @@
 /* form, group, row, component 디자인 */
-
-:root {
-  --data-column: 12;
-  --data-row: 2;
-}
 // 폼
 .zenius-form {
   display: inline-block;
@@ -101,7 +96,7 @@
 .zenius-row-tooltip {
   padding: 1.25rem; // 20px
   border: 0.0625rem solid transparent; // 1px
-  background-color: $white;
+  background-color: transparent;
   &.selected {
     border-color: $row-selected-border-color;
     background-color: $row-selected-bg-color;
@@ -117,7 +112,7 @@
   flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
   padding:  0.75rem 1.25rem; // 12px 20px
   border: 0.0625rem solid transparent; // 1px
-  background-color: $white;
+  background-color: transparent;
   &.selected {
     border-color: $component-selected-border-color;
     background-color: $component-selected-bg-color;
