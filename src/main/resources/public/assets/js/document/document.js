@@ -896,8 +896,8 @@
                 document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', response.responseText)
 
                 // tagify 데이터에 tag id 값 추가하기.
-                let newId = { id: response.responseText }
-                tagify.tagData(tagify.getTagElms()[tag.detail.index], newId);
+                let newId = { id: response.responseText };
+                tagify.tagData(tagify.getTagElmByValue(tag.detail.data.value), newId);
             }
         });
     }
@@ -1006,7 +1006,7 @@
     }
 
     function onInput( e ){
-        var value = e.detail.value;
+        let value = e.detail.value;
         tagify.settings.whitelist.length = 0; // reset the whitelist
 
         // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
@@ -1022,6 +1022,9 @@
                 // update inwhitelist Array in-place
                 tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
                 tagify.loading(false).dropdown.show.call(tagify, value); // render the suggestions dropdown
+            })
+            .catch(e => {
+                console.log('whitelist canceled by user');
             })
     }
 
