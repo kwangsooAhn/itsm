@@ -37,7 +37,7 @@ export default class Panel {
                         childKey.substr(1, childKey.length);
                     const childPropertyObject = this.makePropertyByType(childKeyId, childValue);
                     if (childPropertyObject !== null) {
-                        propertyObject.add(childPropertyObject);
+                        propertyObject.addUI(childPropertyObject);
                     }
                 });
             }
@@ -55,23 +55,23 @@ export default class Panel {
         return this;
     }
     makeUILabel(data) {
-        const label = new UILabel().setClass('property-label').setTextAlign('left');
-        label.UILabelText = new UISpan().setClass('property-label-text')
-            .setTextContent(i18n.msg(data.name));
-        label.add(label.UILabelText);
+        const label = new UILabel().setUIClass('property-label').setUITextAlign('left');
+        label.UILabelText = new UISpan().setUIClass('property-label-text')
+            .setUITextContent(i18n.msg(data.name));
+        label.addUI(label.UILabelText);
         // 필수 여부
         if (data.validate.required) {
-            label.UIRequiredText = new UISpan().setClass('required');
-            label.add(label.UIRequiredText);
+            label.UIRequiredText = new UISpan().setUIClass('required');
+            label.addUI(label.UIRequiredText);
         }
         // 툴팁(도움말) 기능 추가
         if (data.help !== '') {
-            label.UITooltip = new UIDiv().setClass('help-tooltip');
-            label.UITooltip.add(new UISpan().setClass('icon').addClass('help-tooltip-icon'));
-            label.UITooltip.UIContent = new UIDiv().setClass('tooltip-contents');
-            label.UITooltip.UIContent.add(new UISpan().setInnerHTML(i18n.msg(data.help)));
-            label.UITooltip.add(label.UITooltip.UIContent);
-            label.add(label.UITooltip);
+            label.UITooltip = new UIDiv().setUIClass('help-tooltip');
+            label.UITooltip.addUI(new UISpan().setUIClass('icon').addUIClass('help-tooltip-icon'));
+            label.UITooltip.UIContent = new UIDiv().setUIClass('tooltip-contents');
+            label.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(data.help)));
+            label.UITooltip.addUI(label.UITooltip.UIContent);
+            label.addUI(label.UITooltip);
         }
         return label;
     }
@@ -80,143 +80,143 @@ export default class Panel {
         let object = null;
         switch(data.type) {
         case 'group':
-            object = new UIDiv().setClass('property-group');
-            object.UIGroupLabel = new UILabel().setClass('property-group-label').setTextAlign('left');
-            object.UIGroupLabel.UILabelText = new UISpan().setClass('property-group-label-text')
-                .setTextContent(i18n.msg(data.name));
-            object.UIGroupLabel.add(object.UIGroupLabel.UILabelText);
-            object.add(object.UIGroupLabel);
+            object = new UIDiv().setUIClass('property-group');
+            object.UIGroupLabel = new UILabel().setUIClass('property-group-label').setUITextAlign('left');
+            object.UIGroupLabel.UILabelText = new UISpan().setUIClass('property-group-label-text')
+                .setUITextContent(i18n.msg(data.name));
+            object.UIGroupLabel.addUI(object.UIGroupLabel.UILabelText);
+            object.addUI(object.UIGroupLabel);
             break;
         case 'clipboard':
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
             // 클립보드
             object.UIClipboard = new UIClipboard();
-            object.UIClipboard.UIInput.setValue(data.value);
-            object.add(object.UIClipboard);
+            object.UIClipboard.UIInput.setUIValue(data.value);
+            object.addUI(object.UIClipboard);
             break;
         case 'input':
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
             // inputbox
-            object.UIInput = new UIInput().setId(key).setValue(data.value)
-                .setAttribute('data-validate-required', data.validate.required)
-                .setAttribute('data-validate-type', data.validate.type)
-                .setAttribute('data-validate-min', data.validate.min)
-                .setAttribute('data-validate-max', data.validate.max)
-                .setAttribute('data-validate-minLength', data.validate.minLength)
-                .setAttribute('data-validate-maxLength', data.validate.maxLength)
-                .onKeyUp(this.updateProperty.bind(this))
-                .onChange(this.updateProperty.bind(this));
+            object.UIInput = new UIInput().setUIId(key).setUIValue(data.value)
+                .setUIAttribute('data-validate-required', data.validate.required)
+                .setUIAttribute('data-validate-type', data.validate.type)
+                .setUIAttribute('data-validate-min', data.validate.min)
+                .setUIAttribute('data-validate-max', data.validate.max)
+                .setUIAttribute('data-validate-minLength', data.validate.minLength)
+                .setUIAttribute('data-validate-maxLength', data.validate.maxLength)
+                .onUIKeyUp(this.updateProperty.bind(this))
+                .onUIChange(this.updateProperty.bind(this));
             // 단위 추가
             if (data.unit !== '') {
-                object.UIInput.addClass('icon-unit-' + data.unit);
+                object.UIInput.addUIClass('icon-unit-' + data.unit);
             }
-            object.add(object.UIInput);
+            object.addUI(object.UIInput);
             break;
         case 'input-box': // 박스 모델용
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
 
-            object.UIBox = new UIDiv().setClass('input-box');
-            object.add(object.UIBox);
+            object.UIBox = new UIDiv().setUIClass('input-box');
+            object.addUI(object.UIBox);
 
             // inputbox : top, right, bottom, left 박스 모델
             const boxValueArray = data.value.split(' ');
             ['Top', 'Left', 'Bottom', 'Right'].forEach((item, index) => {
-                object.UIBox['UIInput' + item] = new UIInput().setId(key + item)
-                    .setValue(boxValueArray[index])
-                    .setAttribute('data-validate-required', data.validate.required)
-                    .setAttribute('data-validate-type', data.validate.type)
-                    .setAttribute('data-validate-min', data.validate.min)
-                    .setAttribute('data-validate-max', data.validate.max)
-                    .setAttribute('data-validate-minLength', data.validate.minLength)
-                    .setAttribute('data-validate-maxLength', data.validate.maxLength)
-                    .onKeyUp(this.updateProperty.bind(this))
-                    .onChange(this.updateProperty.bind(this));
+                object.UIBox['UIInput' + item] = new UIInput().setUIId(key + item)
+                    .setUIValue(boxValueArray[index])
+                    .setUIAttribute('data-validate-required', data.validate.required)
+                    .setUIAttribute('data-validate-type', data.validate.type)
+                    .setUIAttribute('data-validate-min', data.validate.min)
+                    .setUIAttribute('data-validate-max', data.validate.max)
+                    .setUIAttribute('data-validate-minLength', data.validate.minLength)
+                    .setUIAttribute('data-validate-maxLength', data.validate.maxLength)
+                    .onUIKeyUp(this.updateProperty.bind(this))
+                    .onUIChange(this.updateProperty.bind(this));
                 // 단위 추가
                 if (data.unit !== '') {
-                    object.UIBox['UIInput' + item].addClass('icon-unit-' + data.unit);
+                    object.UIBox['UIInput' + item].addUIClass('icon-unit-' + data.unit);
                 }
-                object.UIBox.add(object.UIBox['UIInput' + item]);
+                object.UIBox.addUI(object.UIBox['UIInput' + item]);
             });
             break;
         case 'textarea':
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
             // textarea
-            object.UITextArea = new UITextArea().setId(key).addClass('textarea-scroll-wrapper')
-                .setValue(data.value)
-                .setAttribute('data-validate-required', data.validate.required)
-                .setAttribute('data-validate-minLength', data.validate.minLength)
-                .setAttribute('data-validate-maxLength', data.validate.maxLength)
-                .onChange(this.updateProperty.bind(this));
-            object.add(object.UITextArea);
+            object.UITextArea = new UITextArea().setUIId(key).addUIClass('textarea-scroll-wrapper')
+                .setUIValue(data.value)
+                .setUIAttribute('data-validate-required', data.validate.required)
+                .setUIAttribute('data-validate-minLength', data.validate.minLength)
+                .setUIAttribute('data-validate-maxLength', data.validate.maxLength)
+                .onUIChange(this.updateProperty.bind(this));
+            object.addUI(object.UITextArea);
             break;
         case 'select':
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
 
             // select box
             const option = data.option.reduce((result, option) => {
                 result[option.value] = i18n.msg(option.name);
                 return result;
             }, {});
-            object.UISelect = new UISelect().setId(key).setOptions(option).setValue(data.value)
-                .onChange(this.updateProperty.bind(this));
-            object.add(object.UISelect);
+            object.UISelect = new UISelect().setUIId(key).setUIOptions(option).setUIValue(data.value)
+                .onUIChange(this.updateProperty.bind(this));
+            object.addUI(object.UISelect);
             break;
         case 'switch':
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
-            object.UISwitch = new UISwitch(data.value).setId(key).setTextContent(i18n.msg(data.name));
-            object.UISwitch.UISpan.addClass('property-label');
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
+            object.UISwitch = new UISwitch(data.value).setUIId(key).setUITextContent(i18n.msg(data.name));
+            object.UISwitch.UISpan.addUIClass('property-label');
             // 툴팁(도움말) 기능 추가
             if (data.help !== '') {
-                object.UISwitch.UITooltip = new UIDiv().setClass('help-tooltip');
-                object.UISwitch.UITooltip.add(new UISpan().setClass('icon').addClass('help-tooltip-icon'));
-                object.UISwitch.UITooltip.UIContent = new UIDiv().setClass('tooltip-contents');
-                object.UISwitch.UITooltip.UIContent.add(new UISpan().setInnerHTML(i18n.msg(data.help)));
-                object.UISwitch.UITooltip.add( object.UISwitch.UITooltip.UIContent);
-                object.UISwitch.add( object.UISwitch.UITooltip);
+                object.UISwitch.UITooltip = new UIDiv().setUIClass('help-tooltip');
+                object.UISwitch.UITooltip.addUI(new UISpan().setUIClass('icon').addUIClass('help-tooltip-icon'));
+                object.UISwitch.UITooltip.UIContent = new UIDiv().setUIClass('tooltip-contents');
+                object.UISwitch.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(data.help)));
+                object.UISwitch.UITooltip.addUI( object.UISwitch.UITooltip.UIContent);
+                object.UISwitch.addUI( object.UISwitch.UITooltip);
             }
-            object.UISwitch.UICheckbox.onChange(this.updateProperty.bind(this));
-            object.add(object.UISwitch);
+            object.UISwitch.UICheckbox.onUIChange(this.updateProperty.bind(this));
+            object.addUI(object.UISwitch);
             break;
         case 'slider':
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
 
             // slider
-            object.UISlider = new UISlider(data.value).setMin(0).setMax(FORM.COLUMN);
-            object.UISlider.UIInput.setId(key).onChange(this.updateProperty.bind(this));
-            object.add(object.UISlider);
+            object.UISlider = new UISlider(data.value).setUIMin(0).setUIMax(FORM.COLUMN);
+            object.UISlider.UIInput.setUIId(key).onUIChange(this.updateProperty.bind(this));
+            object.addUI(object.UISlider);
             break;
         case 'rgb':
         case 'rgba':
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
 
             // color picker
             const colorPickerOption = {
@@ -227,96 +227,96 @@ export default class Panel {
                     value: data.value // 기존 값
                 }
             };
-            object.UIColorPicker = new UIColor(colorPickerOption).setId(key);
-            object.UIColorPicker.UIColor.UIInput.onChange(this.updateProperty.bind(this));
-            object.add(object.UIColorPicker);
+            object.UIColorPicker = new UIColor(colorPickerOption).setUIId(key);
+            object.UIColorPicker.UIColor.UIInput.onUIChange(this.updateProperty.bind(this));
+            object.addUI(object.UIColorPicker);
             break;
         case 'button-switch-icon': // 정렬
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
 
             // 버튼 그룹
-            object.UIButtonGroup = new UIDiv().setClass('btn-switch-group');
+            object.UIButtonGroup = new UIDiv().setUIClass('btn-switch-group');
             data.option.forEach((item) => {
                 const name = item.value.substr(0, 1).toUpperCase() +
                     item.value.substr(1, item.value.length);
-                object.UIButtonGroup['UIButton' + name] = new UIButton().setId(key)
-                    .setAttribute('data-value', item.value)
-                    .addClass('btn-switch').onClick(this.updateButton.bind(this));
-                object.UIButtonGroup['UIButton' + name].add(new UISpan().setClass('icon').addClass(item.name));
+                object.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(key)
+                    .setUIAttribute('data-value', item.value)
+                    .addUIClass('btn-switch').onUIClick(this.updateButton.bind(this));
+                object.UIButtonGroup['UIButton' + name].addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
 
                 if (data.value === item.value) {
-                    object.UIButtonGroup['UIButton' + name].addClass('active');
+                    object.UIButtonGroup['UIButton' + name].addUIClass('active');
                 }
-                object.UIButtonGroup.add(object.UIButtonGroup['UIButton' + name]);
+                object.UIButtonGroup.addUI(object.UIButtonGroup['UIButton' + name]);
             });
-            object.add(object.UIButtonGroup);
+            object.addUI(object.UIButtonGroup);
             break;
         case 'button-toggle-icon': // bold, italic, underline
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
 
             // 버튼 그룹
-            object.UIButtonGroup = new UIDiv().setClass('btn-toggle-group');
+            object.UIButtonGroup = new UIDiv().setUIClass('btn-toggle-group');
             const toggleValueArray = data.value.split('|');
             data.option.forEach((item, index) => {
                 const name = item.value.substr(0, 1).toUpperCase() +
                     item.value.substr(1, item.value.length);
 
-                object.UIButtonGroup['UIButton' + name] = new UIButton().setId(key + name)
-                    .setAttribute('data-value', (toggleValueArray[index] === 'Y'))
-                    .addClass('btn-toggle').onClick(this.updateButton.bind(this));
-                object.UIButtonGroup['UIButton' + name].add(new UISpan().setClass('icon').addClass(item.name));
+                object.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(key + name)
+                    .setUIAttribute('data-value', (toggleValueArray[index] === 'Y'))
+                    .addUIClass('btn-toggle').onUIClick(this.updateButton.bind(this));
+                object.UIButtonGroup['UIButton' + name].addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
 
                 if (toggleValueArray[index] === 'Y') {
-                    object.UIButtonGroup['UIButton' + name].addClass('active');
+                    object.UIButtonGroup['UIButton' + name].addUIClass('active');
                 }
-                object.UIButtonGroup.add(object.UIButtonGroup['UIButton' + name]);
+                object.UIButtonGroup.addUI(object.UIButtonGroup['UIButton' + name]);
             });
-            object.add(object.UIButtonGroup);
+            object.addUI(object.UIButtonGroup);
             break;
         case 'default-type': // inputBox - 기본값 타입
-            object = new UIDiv().setClass('property')
-                .setProperty('--data-column', data.columnWidth);
+            object = new UIDiv().setUIClass('property')
+                .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
-            object.add(object.UILabel);
+            object.addUI(object.UILabel);
             // 그룹
-            object.UIGroup = new UIDiv().setClass('default-type');
+            object.UIGroup = new UIDiv().setUIClass('default-type');
             const defaultTypeValueArray = data.value.split('|');
             // switch button
-            object.UIGroup.UIButtonGroup = new UIDiv().setClass('btn-switch-group');
+            object.UIGroup.UIButtonGroup = new UIDiv().setUIClass('btn-switch-group');
             data.option.forEach((item) => {
                 const name = item.value.substr(0, 1).toUpperCase() +
                     item.value.substr(1, item.value.length);
-                object.UIGroup.UIButtonGroup['UIButton' + name] = new UIButton().setId(key)
-                    .setAttribute('data-type', item.value)
-                    .addClass('btn-switch').onClick(this.updateDefaultType.bind(this));
-                object.UIGroup.UIButtonGroup['UIButton' + name].add(new UISpan().setClass('text')
-                    .setTextContent(i18n.msg(item.name)));
+                object.UIGroup.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(key)
+                    .setUIAttribute('data-type', item.value)
+                    .addUIClass('btn-switch').onUIClick(this.updateDefaultType.bind(this));
+                object.UIGroup.UIButtonGroup['UIButton' + name].addUI(new UISpan().setUIClass('text')
+                    .setUITextContent(i18n.msg(item.name)));
 
                 if (defaultTypeValueArray[0] === item.value) {
-                    object.UIGroup.UIButtonGroup['UIButton' + name].addClass('active');
+                    object.UIGroup.UIButtonGroup['UIButton' + name].addUIClass('active');
                 }
-                object.UIGroup.UIButtonGroup.add(object.UIGroup.UIButtonGroup['UIButton' + name]);
+                object.UIGroup.UIButtonGroup.addUI(object.UIGroup.UIButtonGroup['UIButton' + name]);
             });
-            object.UIGroup.add(object.UIGroup.UIButtonGroup);
+            object.UIGroup.addUI(object.UIGroup.UIButtonGroup);
 
             // input
-            object.UIGroup.UIInput = new UIInput().setId(key)
-                .addClass((defaultTypeValueArray[0] === 'input') ? 'on' : 'off')
-                .setValue((defaultTypeValueArray[0] === 'input') ? defaultTypeValueArray[1] : '')
-                .setAttribute('data-validate-minLength', data.validate.minLength)
-                .setAttribute('data-validate-maxLength', data.validate.maxLength)
-                .onKeyUp(this.updateDefaultType.bind(this))
-                .onChange(this.updateDefaultType.bind(this));
-            object.UIGroup.add(object.UIGroup.UIInput);
+            object.UIGroup.UIInput = new UIInput().setUIId(key)
+                .addUIClass((defaultTypeValueArray[0] === 'input') ? 'on' : 'off')
+                .setUIValue((defaultTypeValueArray[0] === 'input') ? defaultTypeValueArray[1] : '')
+                .setUIAttribute('data-validate-minLength', data.validate.minLength)
+                .setUIAttribute('data-validate-maxLength', data.validate.maxLength)
+                .onUIKeyUp(this.updateDefaultType.bind(this))
+                .onUIChange(this.updateDefaultType.bind(this));
+            object.UIGroup.addUI(object.UIGroup.UIInput);
 
             // select
             const selectOptionValue = (defaultTypeValueArray[0] === 'select') ? defaultTypeValueArray[1] : data.selectOption[0].value;
@@ -324,13 +324,13 @@ export default class Panel {
                 result[option.value] = i18n.msg(option.name);
                 return result;
             }, {});
-            object.UIGroup.UISelect = new UISelect().setId(key)
-                .addClass((defaultTypeValueArray[0] === 'select') ? 'on' : 'off')
-                .setOptions(selectOption).setValue(selectOptionValue)
-                .onChange(this.updateDefaultType.bind(this));
-            object.UIGroup.add(object.UIGroup.UISelect);
+            object.UIGroup.UISelect = new UISelect().setUIId(key)
+                .addUIClass((defaultTypeValueArray[0] === 'select') ? 'on' : 'off')
+                .setUIOptions(selectOption).setUIValue(selectOptionValue)
+                .onUIChange(this.updateDefaultType.bind(this));
+            object.UIGroup.addUI(object.UIGroup.UISelect);
             
-            object.add(object.UIGroup);
+            object.addUI(object.UIGroup);
             break;
         default:
             break;

@@ -35,41 +35,41 @@ export const inputBoxMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setClass(CLASS_PREFIX + 'element')
-            .setProperty('--data-column', this.element.columnWidth);
+        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+            .setUIProperty('--data-column', this.element.columnWidth);
         // TODO: 유효성 검증 추가
-        element.UIInputbox = new UIInput().setPlaceholder(this.element.placeholder)
-            .setRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
-            .setValue(this.getValue())
-            .setAttribute('data-validate-type', this.validate.validateType)
-            .setAttribute('data-validate-maxLength', this.validate.lengthMax)
-            .setAttribute('data-validate-minLength', this.validate.lengthMin);
-        element.add(element.UIInputbox);
+        element.UIInputbox = new UIInput().setUIPlaceholder(this.element.placeholder)
+            .setUIRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
+            .setUIValue(this.getValue())
+            .setUIAttribute('data-validate-type', this.validate.validateType)
+            .setUIAttribute('data-validate-maxLength', this.validate.lengthMax)
+            .setUIAttribute('data-validate-minLength', this.validate.lengthMin);
+        element.addUI(element.UIInputbox);
         return element;
     },
     setElementPlaceholder(placeholder) {
         this.element.placeholder = placeholder;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setPlaceholder(placeholder);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIPlaceholder(placeholder);
     },
     setElementColumnWidth(width) {
         this.element.columnWidth = width;
-        this.UIElement.UIComponent.UIElement.setProperty('--data-column', width);
+        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
     },
     setElementDefaultType(value) {
         this.element.defaultType = value;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setValue(this.getValue());
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.getValue());
     },
     setValidateValidateType(type) {
         this.validate.validateType = type;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setAttribute('data-validate-type', type);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validate-type', type);
     },
     setValidateLengthMin(min) {
         this.validate.lengthMin = min;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setAttribute('data-validate-minLength', min);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validate-minLength', min);
     },
     setValidateLengthMax(max) {
         this.validate.lengthMax = max;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setAttribute('data-validate-maxLength', max);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validate-maxLength', max);
     },
     // 기본 값 조회
     getValue() {

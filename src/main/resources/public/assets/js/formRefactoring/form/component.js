@@ -58,21 +58,21 @@ export default class Component {
         this.initProperty();
         // 컴포넌트용 툴팁
         const componentTooltip = new UIComponentTooltip()
-            .setProperty('--data-column', this.columnWidth);
+            .setUIProperty('--data-column', this.columnWidth);
         // 컴포넌트 추가
         componentTooltip.UIComponent = new UIComponent()
-            .setId(this.id)
-            .addClass(this.type)
-            .setAttribute('data-displayType', this.displayType);
+            .setUIId(this.id)
+            .addUIClass(this.type)
+            .setUIAttribute('data-displayType', this.displayType);
         // 라벨 추가
         componentTooltip.UIComponent.UILabel = this.makeLabel();
-        componentTooltip.UIComponent.add(componentTooltip.UIComponent.UILabel);
+        componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UILabel);
 
         // 엘리먼트 추가
         componentTooltip.UIComponent.UIElement = this.makeElement();
-        componentTooltip.UIComponent.add(componentTooltip.UIComponent.UIElement);
+        componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UIElement);
 
-        componentTooltip.add(componentTooltip.UIComponent);
+        componentTooltip.addUI(componentTooltip.UIComponent);
         this.UIElement = componentTooltip;
     }
     // 타입에 따른 믹스인 호출
@@ -142,55 +142,55 @@ export default class Component {
 
     setColumnWidth(width) {
         this.columnWidth = width;
-        this.UIElement.setProperty('--data-column', width);
+        this.UIElement.setUIProperty('--data-column', width);
     }
 
     setLabelPosition(value) {
         this.label.position = value;
         if (value === FORM.LABEL.POSITION.HIDDEN) {
-            this.UIElement.UIComponent.UILabel.removeClass('on').addClass('off');
+            this.UIElement.UIComponent.UILabel.removeUIClass('on').addUIClass('off');
         } else {
-            this.UIElement.UIComponent.UILabel.removeClass('off').addClass('on');
+            this.UIElement.UIComponent.UILabel.removeUIClass('off').addUIClass('on');
         }
-        this.UIElement.UIComponent.UILabel.setProperty('--data-column', this.getLabelColumnWidth(value));
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(value));
     }
 
     setLabelFontColor(color) {
         this.label.fontColor = color;
-        this.UIElement.UIComponent.UILabel.UILabelText.setColor(color);
+        this.UIElement.UIComponent.UILabel.UILabelText.setUIColor(color);
     }
 
     setLabelFontSize(size) {
         this.label.fontSize = size;
-        this.UIElement.UIComponent.UILabel.UILabelText.setFontSize(size);
+        this.UIElement.UIComponent.UILabel.UILabelText.setUIFontSize(size);
     }
 
     setLabelAlign(value) {
         this.label.align = value;
-        this.UIElement.UIComponent.UILabel.setTextAlign(value);
+        this.UIElement.UIComponent.UILabel.setUITextAlign(value);
     }
 
     setLabelFontOptionBold(boolean) {
         this.label.bold = boolean;
         this.UIElement.UIComponent.UILabel.UILabelText
-            .setFontWeight((boolean === 'true' ? 'bold' : ''));
+            .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
     }
 
     setLabelFontOptionItalic(boolean) {
         this.UIElement.UIComponent.UILabel.UILabelText
-            .setFontStyle((boolean === 'true' ? 'italic' : ''));
+            .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
         this.label.italic = boolean;
     }
 
     setLabelFontOptionUnderline(boolean) {
         this.label.underline = boolean;
         this.UIElement.UIComponent.UILabel.UILabelText
-            .setTextDecoration((boolean === 'true' ? 'underline' : ''));
+            .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
     }
 
     setLabelText(text) {
         this.label.text = text;
-        this.UIElement.UIComponent.UILabel.UILabelText.setTextContent(text);
+        this.UIElement.UIComponent.UILabel.UILabelText.setUITextContent(text);
     }
 }
 

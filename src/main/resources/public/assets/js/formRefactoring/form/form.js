@@ -12,7 +12,7 @@
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
 import { UIDiv } from '../lib/ui.js';
-import { CLASS_PREFIX, FORM } from '../lib/constants.js';
+import { CLASS_PREFIX, UNIT, FORM } from '../lib/constants.js';
 
 export default class Form {
     constructor(data = {}) {
@@ -36,13 +36,13 @@ export default class Form {
     }
     // 초기화
     init() {
-        const formCssText = `width:${this.width}px;` +
-            `margin:${this.margin.split(' ').join('px ')}px;` +
-            `padding:${this.padding.split(' ').join('px ')}px;`;
+        const formCssText = `width:${this.width + UNIT.PX};` +
+            `margin:${this.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};` +
+            `padding:${this.padding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`;
 
         this.UIElement = new UIForm()
-            .setId(this.id)
-            .setCSSText(formCssText);
+            .setUIId(this.id)
+            .setUICSSText(formCssText);
     }
 
     setName(name) {
@@ -59,63 +59,63 @@ export default class Form {
 
     setWidth(width) {
         this.width = width;
-        this.UIElement.setWidth(this.width + 'px');
+        this.UIElement.setUIWidth(this.width + UNIT.PX);
     }
 
     setMarginTop(top) {
         const margin = this.margin.split(' ');
         margin[0] = top;
         this.margin = margin.join(' ');
-        this.UIElement.setMarginTop(top + 'px');
+        this.UIElement.setUIMarginTop(top + UNIT.PX);
     }
 
     setMarginRight(right) {
         const margin = this.margin.split(' ');
         margin[1] = right;
         this.margin = margin.join(' ');
-        this.UIElement.setMarginRight(right + 'px');
+        this.UIElement.setUIMarginRight(right + UNIT.PX);
     }
 
     setMarginBottom(bottom) {
         const margin = this.margin.split(' ');
         margin[2] = bottom;
         this.margin = margin.join(' ');
-        this.UIElement.setMarginBottom(bottom + 'px');
+        this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
     setMarginLeft(left) {
         const margin = this.margin.split(' ');
         margin[3] = left;
         this.margin = margin.join(' ');
-        this.UIElement.setMarginLeft(left + 'px');
+        this.UIElement.setUIMarginLeft(left + UNIT.PX);
     }
 
     setPaddingTop(top) {
         const padding = this.padding.split(' ');
         padding[0] = top;
         this.padding = padding.join(' ');
-        this.UIElement.setPaddingTop(top + 'px');
+        this.UIElement.setUIPaddingTop(top + UNIT.PX);
     }
 
     setPaddingRight(right) {
         const padding = this.padding.split(' ');
         padding[1] = right;
         this.padding = padding.join(' ');
-        this.UIElement.setPaddingRight(right + 'px');
+        this.UIElement.setUIPaddingRight(right + UNIT.PX);
     }
 
     setPaddingBottom(bottom) {
         const padding = this.padding.split(' ');
         padding[2] = bottom;
         this.padding = padding.join(' ');
-        this.UIElement.setPaddingBottom(bottom + 'px');
+        this.UIElement.setUIPaddingBottom(bottom + UNIT.PX);
     }
 
     setPaddingLeft(left) {
         const padding = this.padding.split(' ');
         padding[3] = left;
         this.padding = padding.join(' ');
-        this.UIElement.setPaddingLeft(padding + 'px');
+        this.UIElement.setUIPaddingLeft(padding + UNIT.PX);
     }
     // 세부 속성
     getProperty() {

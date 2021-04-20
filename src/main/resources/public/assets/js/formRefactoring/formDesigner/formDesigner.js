@@ -166,7 +166,7 @@ export default class FormDesigner {
         case FORM.LAYOUT.FORM:
             object = new Form(data);
             // drag & drop 이벤트 추가
-            object.UIElement.addClass('list-group');
+            object.UIElement.addUIClass('list-group');
             new Sortable(object.UIElement.domElement, {
                 group: {
                     name: 'form',
@@ -199,8 +199,8 @@ export default class FormDesigner {
         case FORM.LAYOUT.GROUP:
             object = new Group(data);
             // drag & drop 이벤트 추가
-            object.UIElement.addClass('list-group-item');
-            object.UIElement.UIGroup.addClass('list-group');
+            object.UIElement.addUIClass('list-group-item');
+            object.UIElement.UIGroup.addUIClass('list-group');
             new Sortable(object.UIElement.UIGroup.domElement, {
                 group: {
                     name: 'group',
@@ -258,8 +258,8 @@ export default class FormDesigner {
         case FORM.LAYOUT.ROW:
             object = new Row(data);
             // drag & drop 이벤트 추가
-            object.UIElement.addClass('list-group-item');
-            object.UIElement.UIRow.addClass('list-group');
+            object.UIElement.addUIClass('list-group-item');
+            object.UIElement.UIRow.addUIClass('list-group');
             new Sortable(object.UIElement.UIRow.domElement, {
                 group: {
                     name: 'row',
@@ -343,13 +343,13 @@ export default class FormDesigner {
             break;
         case FORM.LAYOUT.COMPONENT:
             object = new Component(data);
-            object.UIElement.addClass('list-group-item'); // drag & drop 이벤트 추가
+            object.UIElement.addUIClass('list-group-item'); // drag & drop 이벤트 추가
             break;
         default:
             break;
         }
         // 선택 이벤트 추가
-        object.UIElement.onClick(this.selectObject.bind(object));
+        object.UIElement.onUIClick(this.selectObject.bind(object));
 
         if (parent !== undefined) {
             parent.add(object, index);
@@ -389,11 +389,11 @@ export default class FormDesigner {
 
         // 이전 선택된 객체 디자인 삭제
         if (editor.selectedObject !== null) {
-            editor.selectedObject.UIElement.removeClass('selected');
+            editor.selectedObject.UIElement.removeUIClass('selected');
             editor.panel.off();
         }
         // 현재 선택된 객체 디자인 추가
-        this.UIElement.addClass('selected');
+        this.UIElement.addUIClass('selected');
         editor.selectedObject = this;
         editor.panel.on(); // 세부 속성 출력
     }
@@ -401,7 +401,7 @@ export default class FormDesigner {
     deSelectObject() {
         // 이전 선택된 객체 디자인 삭제
         if (this.selectedObject !== null) {
-            this.selectedObject.UIElement.removeClass('selected');
+            this.selectedObject.UIElement.removeUIClass('selected');
             this.selectedObject = null;
             this.panel.off();
         }

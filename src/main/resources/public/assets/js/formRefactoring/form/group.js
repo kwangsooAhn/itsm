@@ -11,7 +11,7 @@
  */
 import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
-import { CLASS_PREFIX, FORM } from '../lib/constants.js';
+import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
 import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/ui.js';
 
 const DEFAULT_GROUP_LABEL_PROPERTY = {
@@ -47,35 +47,35 @@ export default class Group {
     init() {
         // 그룹용 툴팁
         const groupTooltip = new UIGroupTooltip()
-            .setCSSText(`margin:${this.margin.split(' ').join('px ')}px;`);
+            .setUICSSText(`margin:${this.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
         // 그룹
-        groupTooltip.UIGroup = new UIGroup(this.isAccordionUsed).setId(this.id);
+        groupTooltip.UIGroup = new UIGroup(this.isAccordionUsed).setUIId(this.id);
         // 아코디언용 체크박스
-        groupTooltip.UIGroup.UICheckbox.setId('chk-' + this.id)
-            .setClass(CLASS_PREFIX + 'group-accordion-checkBox');
+        groupTooltip.UIGroup.UICheckbox.setUIId('chk-' + this.id)
+            .setUIClass(CLASS_PREFIX + 'group-accordion-checkBox');
         // 라벨
-        groupTooltip.UIGroup.UILabel.setFor('chk-' + this.id)
-            .addClass((this.label.visibility ? 'on' : 'off')) // 라벨 사용여부: 라벨 숨김 또는 보임
-            .setCSSText(`text-align: ${this.label.align};`);
+        groupTooltip.UIGroup.UILabel.setUIFor('chk-' + this.id)
+            .addUIClass((this.label.visibility ? 'on' : 'off')) // 라벨 사용여부: 라벨 숨김 또는 보임
+            .setUICSSText(`text-align: ${this.label.align};`);
         // 라벨 텍스트
         const groupLabelCssText = `color:${this.label.fontColor};` +
-            `font-size:${this.label.fontSize}px;` +
+            `font-size:${this.label.fontSize + UNIT.PX};` +
             `${this.label.bold ? 'font-weight:bold;' : ''}` +
             `${this.label.italic ? 'font-style:italic;' : ''}` +
             `${this.label.underline ? 'text-decoration:underline;' : ''}`;
-        groupTooltip.UIGroup.UILabel.UILabelText.setCSSText(groupLabelCssText)
-            .setTextContent(this.label.text);
+        groupTooltip.UIGroup.UILabel.UILabelText.setUICSSText(groupLabelCssText)
+            .setUITextContent(this.label.text);
 
-        groupTooltip.add(groupTooltip.UIGroup);
+        groupTooltip.addUI(groupTooltip.UIGroup);
         this.UIElement = groupTooltip;
     }
 
     setIsAccordionUsed(boolean) {
         this.isAccordionUsed = boolean;
         if (boolean) {
-            this.UIElement.UIGroup.addClass('accordion');
+            this.UIElement.UIGroup.addUIClass('accordion');
         } else {
-            this.UIElement.UIGroup.removeClass('accordion');
+            this.UIElement.UIGroup.removeUIClass('accordion');
         }
     }
 
@@ -83,75 +83,75 @@ export default class Group {
         const margin = this.margin.split(' ');
         margin[0] = top;
         this.margin = margin.join(' ');
-        this.UIElement.setMarginTop(top + 'px');
+        this.UIElement.setUIMarginTop(top + UNIT.PX);
     }
 
     setMarginRight(right) {
         const margin = this.margin.split(' ');
         margin[1] = right;
         this.margin = margin.join(' ');
-        this.UIElement.setMarginRight(right + 'px');
+        this.UIElement.setUIMarginRight(right + UNIT.PX);
     }
 
     setMarginBottom(bottom) {
         const margin = this.margin.split(' ');
         margin[2] = bottom;
         this.margin = margin.join(' ');
-        this.UIElement.setMarginBottom(bottom + 'px');
+        this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
     setMarginLeft(left) {
         const margin = this.margin.split(' ');
         margin[3] = left;
         this.margin = margin.join(' ');
-        this.UIElement.setMarginLeft(left + 'px');
+        this.UIElement.setUIMarginLeft(left + UNIT.PX);
     }
 
     setLabelVisibility(boolean) {
         this.label.visibility = boolean;
         if (boolean) {
-            this.UIElement.UIGroup.UILabel.removeClass('off').addClass('on');
+            this.UIElement.UIGroup.UILabel.removeUIClass('off').addUIClass('on');
         } else {
-            this.UIElement.UIGroup.UILabel.removeClass('on').addClass('off');
+            this.UIElement.UIGroup.UILabel.removeUIClass('on').addUIClass('off');
         }
     }
 
     setLabelFontColor(color) {
         this.label.fontColor = color;
-        this.UIElement.UIGroup.UILabel.UILabelText.setColor(color);
+        this.UIElement.UIGroup.UILabel.UILabelText.setUIColor(color);
     }
 
     setLabelFontSize(size) {
         this.label.fontSize = size;
-        this.UIElement.UIGroup.UILabel.UILabelText.setFontSize(size);
+        this.UIElement.UIGroup.UILabel.UILabelText.setUIFontSize(size);
     }
 
     setLabelAlign(value) {
         this.label.align = value;
-        this.UIElement.UIGroup.UILabel.setTextAlign(value);
+        this.UIElement.UIGroup.UILabel.setUITextAlign(value);
     }
 
     setLabelFontOptionBold(boolean) {
         this.label.bold = boolean;
         this.UIElement.UIGroup.UILabel.UILabelText
-            .setFontWeight((boolean === 'true' ? 'bold' : ''));
+            .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
     }
 
     setLabelFontOptionItalic(boolean) {
         this.label.italic = boolean;
         this.UIElement.UIGroup.UILabel.UILabelText
-            .setFontStyle((boolean === 'true' ? 'italic' : ''));
+            .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
     }
 
     setLabelFontOptionUnderline(boolean) {
         this.label.underline = boolean;
         this.UIElement.UIGroup.UILabel.UILabelText
-            .setTextDecoration((boolean === 'true' ? 'underline' : ''));
+            .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
     }
 
     setLabelText(text) {
         this.label.text = text;
-        this.UIElement.UIGroup.UILabel.UILabelText.setTextContent(text);
+        this.UIElement.UIGroup.UILabel.UILabelText.setUITextContent(text);
     }
 
     // 세부 속성
@@ -343,16 +343,16 @@ export class UIGroup extends UIDiv {
         this.domElement.className = CLASS_PREFIX + FORM.LAYOUT.GROUP;
 
         if (boolean) {
-            this.addClass('accordion');
+            this.addUIClass('accordion');
         }
 
         this.UICheckbox = new UICheckbox(true);
-        this.add(this.UICheckbox);
+        this.addUI(this.UICheckbox);
 
-        this.UILabel = new UILabel().setClass(CLASS_PREFIX + 'group-label');
-        this.UILabel.UILabelText = new UISpan().setClass(CLASS_PREFIX + 'group-label-text');
-        this.UILabel.UIIcon = new UISpan().setClass(CLASS_PREFIX + 'group-label-icon arrow-left');
-        this.UILabel.add(this.UILabel.UILabelText).add(this.UILabel.UIIcon);
-        this.add(this.UILabel);
+        this.UILabel = new UILabel().setUIClass(CLASS_PREFIX + 'group-label');
+        this.UILabel.UILabelText = new UISpan().setUIClass(CLASS_PREFIX + 'group-label-text');
+        this.UILabel.UIIcon = new UISpan().setUIClass(CLASS_PREFIX + 'group-label-icon arrow-left');
+        this.UILabel.addUI(this.UILabel.UILabelText).addUI(this.UILabel.UIIcon);
+        this.addUI(this.UILabel);
     }
 }
