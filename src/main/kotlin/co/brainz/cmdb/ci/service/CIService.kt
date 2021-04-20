@@ -22,6 +22,7 @@ import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
 import co.brainz.cmdb.ciRelation.repository.CIRelationRepository
+import co.brainz.cmdb.ciRelation.repository.CIRelationRepositoryImpl
 import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ciTag.repository.CITagRepository
 import co.brainz.cmdb.ciType.entity.CITypeEntity
@@ -33,6 +34,7 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
+import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.cmdb.dto.CISearchDto
 import co.brainz.cmdb.dto.CIsDto
@@ -239,8 +241,8 @@ class CIService(
                     ciRelationRepository.save(
                         CIRelationEntity(
                             relationType = it.relationType,
-                            masterCIId = it.masterCIId,
-                            slaveCIId = it.slaveCIId
+                            sourceCIId = it.sourceCIId,
+                            targetCIId = it.targetCIId
                         )
                     )
                 }
@@ -317,8 +319,8 @@ class CIService(
             ciRelationRepository.save(
                 CIRelationEntity(
                     relationType = it.relationType,
-                    masterCIId = it.masterCIId,
-                    slaveCIId = it.slaveCIId
+                    sourceCIId = it.sourceCIId,
+                    targetCIId = it.targetCIId
                 )
             )
         }
@@ -492,5 +494,9 @@ class CIService(
      */
     fun getHistory(ciId: String): List<CIHistoryDto> {
         return ciHistoryRepository.findAllHistory(ciId)
+    }
+
+    fun getRelation(ciId: String): List<CIRelationDto> {
+        return ciRelationRepository.selectByCiId(ciId)
     }
 }

@@ -25,10 +25,10 @@ data class CIRelationEntity(
     @Column(name = "relation_type", length = 100)
     var relationType: String? = null,
 
-    @Column(name = "master_ci_id", length = 128)
-    var masterCIId: String = "",
+    @Column(name = "source_ci_id", length = 128)
+    var sourceCIId: String = "",
 
-    @Column(name = "slave_ci_id", length = 128)
-    var slaveCIId: String = ""
+    @Column(name = "target_ci_id", length = 128)
+    var targetCIId: String = ""
 
 ) : Serializable

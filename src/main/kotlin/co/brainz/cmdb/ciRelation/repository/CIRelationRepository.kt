@@ -18,8 +18,8 @@ interface CIRelationRepository : JpaRepository<CIRelationEntity, String>, CIRela
     @Transactional
     @Modifying
     @Query(
-        "DELETE FROM CIRelationEntity ciRelation WHERE ciRelation.masterCIId = :ciId " +
-                "OR ciRelation.slaveCIId = :ciId"
+        "DELETE FROM CIRelationEntity ciRelation WHERE ciRelation.sourceCIId = :ciId " +
+                "OR ciRelation.targetCIId = :ciId"
     )
     fun deleteByCiId(ciId: String)
 }
