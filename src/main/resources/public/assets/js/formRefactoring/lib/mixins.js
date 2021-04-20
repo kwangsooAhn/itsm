@@ -63,7 +63,7 @@ export const controlMixin = {
     },
     // 자식 전부 삭제
     clear() {
-        this.UIElem.clear();
+        this.UIElement.clear();
         for (let i = 0; i < this.children.length; i++) {
             const object = this.children[i];
             object.parent = null;
@@ -75,8 +75,10 @@ export const controlMixin = {
             this.children[i].displayOrder = i;
         }
     },
-    // 복사 (자식 포함)
-    copy() {},
+    // 복제
+    clone(data) {
+        return new this.constructor(data).copy(this);
+    },
     // 객체 조회
     getById(id) {
         if (this['id'] === id) {

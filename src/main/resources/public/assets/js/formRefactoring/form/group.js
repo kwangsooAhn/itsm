@@ -54,6 +54,23 @@ export default class Group {
         groupTooltip.add(groupTooltip.UIGroup);
         this.UIElement = groupTooltip;
     }
+    // 복사 (자식 포함)
+    copy(source) {
+        this.type = source.type;
+        this.id =  source.id;
+        this.displayOrder = source.displayOrder;
+        this.isAccordionUsed = source.isAccordionUsed;
+        this.margin = source.margin;
+        this.label = source.label;
+        this.parent = source.parent;
+        this.UIElement = source.UIElement;
+
+        for (let i = 0; i < source.children.length; i ++) {
+            const child = source.children[i];
+            this.add(child.clone(), i);
+        }
+        return this;
+    }
 }
 
 export class UIGroupTooltip extends UIDiv {

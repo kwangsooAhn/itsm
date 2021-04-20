@@ -35,7 +35,7 @@ export default class Component {
         // Control Mixin import
         util.importMixin(this, mixin.controlMixin);
         // 타입에 따른 Mixin import
-        util.importMixin(this, this.getMixinByType());
+        util.importMixin(this, this.getMixinByType(this.type));
         // 라벨 Mixin import
         util.importMixin(this, mixin.componentLabelMixin);
 
@@ -61,8 +61,8 @@ export default class Component {
         this.UIElement = componentTooltip;
     }
     // 타입에 따른 믹스인 호출
-    getMixinByType() {
-        switch(this.type) {
+    getMixinByType(type) {
+        switch(type) {
         case 'inputBox':
             return inputBoxMixin;
         case 'textArea':
@@ -113,6 +113,26 @@ export default class Component {
         default:
             break;
         }
+    }
+
+    // 복사 (자식 포함)
+    copy(source) {
+        this.type = source.type;
+        this.id =  source.id;
+        this.parent = source.parent;
+        this.children = source.children;
+        this.displayOrder = source.displayOrder;
+        this.columnWidth = source.columnWidth;
+        this.displayType = source.displayType;
+        this.isTopic = source.isTopic;
+        this.mapId = source.mapId;
+        this.tags = source.tags;
+        this.value = source.value;
+        this.label = source.label;
+        this.element = source.element;
+        this.validate = source.validate;
+        this.UIElement = source.UIElement;
+        return this;
     }
 }
 

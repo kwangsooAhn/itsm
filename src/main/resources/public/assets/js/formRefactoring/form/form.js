@@ -43,6 +43,40 @@ export default class Form {
             .setMargin(this.margin)
             .setPadding(this.padding);
     }
+
+    // 복사 (자식 포함)
+    copy(source) {
+        this.type = source.type;
+        this.id =  source.id;
+        this.displayOrder = source.displayOrder;
+        this.name = source.name;
+        this.desc = source.desc;
+        this.status = source.status;
+        this.width = source.width;
+        this.margin = source.margin;
+        this.padding = source.padding;
+        this.category = source.category;
+        this.parent = source.parent;
+        this.UIElement = source.UIElement;
+
+        for (let i = 0; i < source.children.length; i ++) {
+            const child = source.children[i];
+            this.add(child.clone(), i);
+        }
+        return this;
+    }
+    toJSon() {
+        return {
+            id: this.id,
+            name: this.name,
+            desc: this.desc,
+            status: this.status,
+            width: this.width,
+            margin: this.margin,
+            padding: this.padding,
+            category: this.category
+        };
+    }
 }
 
 export class UIForm extends UIDiv {

@@ -56,11 +56,20 @@ export function importMixin(target, source) {
 
 /**
  * Object 객체이며 true, 아니면 false를 반환
- * @param item 대상
+ * @param target 대상
  * @returns {Boolean} boolean
  */
 export function isObject(target) {
     return (target && typeof target === 'object' && !Array.isArray(target));
+}
+
+/**
+ * Object 객체가 빈 객체인지 체크
+ * @param target 대상
+ * @returns {Boolean} boolean
+ */
+export function isEmptyObject(target) {
+    return Object.keys(target).length === 0 && target.constructor === Object;
 }
 
 /**

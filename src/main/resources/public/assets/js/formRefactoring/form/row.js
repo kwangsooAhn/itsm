@@ -41,6 +41,22 @@ export default class Row {
         rowTooltip.add(rowTooltip.UIRow);
         this.UIElement = rowTooltip;
     }
+    // 복사 (자식 포함)
+    copy(source) {
+        this.type = source.type;
+        this.id =  source.id;
+        this.displayOrder = source.displayOrder;
+        this.margin = source.margin;
+        this.padding = source.padding;
+        this.parent = source.parent;
+        this.UIElement = source.UIElement;
+
+        for (let i = 0; i < source.children.length; i ++) {
+            const child = source.children[i];
+            this.add(child.clone({type: child.type}), i);
+        }
+        return this;
+    }
 }
 export class UIRowTooltip extends UIDiv {
     constructor() {
