@@ -56,10 +56,10 @@ class SchedulerController(
      */
     @GetMapping("/new")
     fun getSchedulerNew(model: Model): String {
-        model.addAttribute("taskTypeList", codeService.selectCodeByParent(AliceConstants.SCHEDULE_TASK_TYPE, false))
+        model.addAttribute("taskTypeList", codeService.selectCodeByParent(AliceConstants.SCHEDULE_TASK_TYPE))
         model.addAttribute(
             "executeCycleTypeList",
-            codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE, false)
+            codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE)
         )
         return schedulerEditPage
     }
@@ -69,10 +69,10 @@ class SchedulerController(
      */
     @GetMapping("/{taskId}/view")
     fun getSchedulerView(@PathVariable taskId: String, model: Model): String {
-        model.addAttribute("taskTypeList", codeService.selectCodeByParent(AliceConstants.SCHEDULE_TASK_TYPE, false))
+        model.addAttribute("taskTypeList", codeService.selectCodeByParent(AliceConstants.SCHEDULE_TASK_TYPE))
         model.addAttribute(
             "executeCycleTypeList",
-            codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE, false)
+            codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE)
         )
         model.addAttribute("schedule", schedulerService.getScheduler(taskId))
         return schedulerViewPage
@@ -83,10 +83,10 @@ class SchedulerController(
      */
     @GetMapping("/{taskId}/edit")
     fun getSchedulerEdit(@PathVariable taskId: String, model: Model): String {
-        model.addAttribute("taskTypeList", codeService.selectCodeByParent(AliceConstants.SCHEDULE_TASK_TYPE, false))
+        model.addAttribute("taskTypeList", codeService.selectCodeByParent(AliceConstants.SCHEDULE_TASK_TYPE))
         model.addAttribute(
             "executeCycleTypeList",
-            codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE, false)
+            codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE)
         )
         model.addAttribute("schedule", schedulerService.getScheduler(taskId))
         return schedulerEditPage

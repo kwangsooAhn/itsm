@@ -25,7 +25,7 @@ class NumberingPatternController(
      */
     @GetMapping("/edit")
     fun getNumberingPatternEdit(request: HttpServletRequest, model: Model): String {
-        val dateList = codeService.selectCodeByParent(NumberingPatternConstants.DEFAULT_DATE_FORMAT_PARENT_CODE, false)
+        val dateList = codeService.selectCodeByParent(NumberingPatternConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
 
         model.addAttribute("dateList", dateList)
         return numberingPatternEditPage

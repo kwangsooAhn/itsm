@@ -9,6 +9,7 @@ package co.brainz.itsm.code.repository
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
+import co.brainz.itsm.code.entity.QCodeLangEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -58,8 +59,10 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
             .fetchResults()
     }
 
-    override fun findCodeByPCodeIn(pCodes: Set<String>): List<CodeDto> {
+    override fun findCodeByPCodeIn(pCodes: Set<String>, lang: String?): MutableList<CodeDto> {
         val code = QCodeEntity.codeEntity
+        val codeLang = QCodeLangEntity.codeLangEntity
+
         return from(code)
             .select(
                 Projections.constructor(
@@ -72,9 +75,12 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                     code.editable,
                     code.createDt,
                     code.level,
-                    code.seqNum
+                    code.seqNum,
+                    codeLang.codeValue,
+                    codeLang.lang
                 )
             )
+            .leftJoin(codeLang).on(code.code.eq(codeLang.code), codeLang.lang.eq(lang))
             .where(code.pCode.code.`in`(pCodes))
             .orderBy(code.seqNum.asc(), code.code.asc())
             .fetch()

@@ -45,7 +45,7 @@ class UserController(
      */
     @GetMapping("/search")
     fun getUserSearch(model: Model): String {
-        model.addAttribute("categoryList", codeService.selectCodeByParent(AliceUserConstants.PLATFORM_CATEGORY_P_CODE, false))
+        model.addAttribute("categoryList", codeService.selectCodeByParent(AliceUserConstants.PLATFORM_CATEGORY_P_CODE))
         return userSearchPage
     }
 

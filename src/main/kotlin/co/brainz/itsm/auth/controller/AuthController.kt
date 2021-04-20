@@ -27,8 +27,8 @@ class AuthController(
     @GetMapping("/edit")
     fun getRolelist(request: HttpServletRequest, model: Model): String {
 
-        val defaultUserMenuList = codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code, false)
-        val defaultUserUrlList = codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code, false)
+        val defaultUserMenuList = codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code)
+        val defaultUserUrlList = codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code)
         val menuAllList = authService.getMenuList()
         val urlAllList = authService.getUrlList()
 

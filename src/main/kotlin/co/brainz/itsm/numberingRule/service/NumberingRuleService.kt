@@ -230,7 +230,7 @@ class NumberingRuleService(
     private fun getPatternDate(valueMap: Map<*, *>, currentDateTime: LocalDateTime): String {
         var pattern = ""
         val patternCode = (valueMap[NumberingPatternConstants.ObjProperty.CODE.property] ?: "") as String
-        val codeList = codeService.selectCodeByParent(NumberingPatternConstants.DEFAULT_DATE_FORMAT_PARENT_CODE, false)
+        val codeList = codeService.selectCodeByParent(NumberingPatternConstants.DEFAULT_DATE_FORMAT_PARENT_CODE)
         codeList.forEach { code ->
             if (code.code == patternCode) {
                 pattern = code.codeValue!!

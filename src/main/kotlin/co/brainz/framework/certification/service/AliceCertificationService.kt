@@ -44,7 +44,7 @@ class AliceCertificationService(
 
     fun getDefaultUserRoleList(pRole: String): List<AliceRoleEntity> {
         val roleList = mutableListOf<AliceRoleEntity>()
-        val codeList = codeService.selectCodeByParent(pRole, false)
+        val codeList = codeService.selectCodeByParent(pRole)
         val roleIdList = mutableListOf<String>()
         codeList.forEach { codeEntity ->
             codeEntity.codeValue?.let { codeValue -> roleIdList.add(codeValue) }

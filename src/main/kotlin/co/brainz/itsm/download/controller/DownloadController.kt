@@ -37,7 +37,7 @@ class DownloadController(
     fun getDownloadSearch(model: Model): String {
         model.addAttribute(
             "categoryList",
-            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE, false)
+            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
         )
         return downloadSearchPage
     }
@@ -62,7 +62,7 @@ class DownloadController(
     fun getDownloadNew(model: Model): String {
         model.addAttribute(
             "categoryList",
-            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE, false)
+            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
         )
         return downloadEditPage
     }
@@ -92,7 +92,7 @@ class DownloadController(
         model.addAttribute("download", downloadService.getDownload(downloadId, "edit"))
         model.addAttribute(
             "categoryList",
-            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE, false)
+            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
         )
         return downloadEditPage
     }

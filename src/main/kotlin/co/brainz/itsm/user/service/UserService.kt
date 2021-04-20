@@ -304,7 +304,7 @@ class UserService(
             UserConstants.PDATECODE.value,
             UserConstants.PTIMECODE.value
         )
-        val codeList = codeService.selectCodeByParent(codes, false)
+        val codeList = codeService.selectCodeByParent(codes)
         val allCodes: LinkedHashMap<String, List<CodeDto>> = LinkedHashMap()
         allCodes["themeList"] = AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
         allCodes["langList"] = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)

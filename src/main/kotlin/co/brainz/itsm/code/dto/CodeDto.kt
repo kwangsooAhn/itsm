@@ -17,5 +17,7 @@ data class CodeDto(
     var editable: Boolean? = true,
     var createDt: LocalDateTime? = null,
     var level: Int? = null,
-    var seqNum: Int? = null
+    var seqNum: Int? = null,
+    var codeLangValue: String? = null,
+    var lang: String? = null
 ) : Serializable

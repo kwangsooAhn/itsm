@@ -1,5 +1,6 @@
 package co.brainz.itsm.code.service
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
@@ -10,6 +11,7 @@ import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.user.repository.UserRepository
 import com.querydsl.core.QueryResults
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
@@ -32,7 +34,8 @@ class CodeService(
                 codes.addAll(code as Set<String>)
             }
         }
-        codeList.addAll(codeRepository.findCodeByPCodeIn(codes))
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        codeList.addAll(codeRepository.findCodeByPCodeIn(codes, userDetails.lang))
         return codeList
     }
 
