@@ -9,7 +9,7 @@ interface CodeRepositoryCustom : AliceRepositoryCustom {
 
     fun findByCodeList(search: String, pCode: String): QueryResults<CodeEntity>
 
-    fun findCodeByPCodeIn(pCodes: Set<String>, lang: String?): MutableList<CodeDto>
+    fun findCodeByPCodeIn(pCodes: Set<String>, lang: String?): List<CodeDto>
 
     fun findByCodeAll(): QueryResults<CodeEntity>
 
