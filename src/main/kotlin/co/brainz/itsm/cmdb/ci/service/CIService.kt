@@ -192,4 +192,8 @@ class CIService(
     fun getCIHistory(ciId: String): List<CIHistoryDto> {
         return ciService.getHistory(ciId)
     }
+
+    fun getCIRelation(ciId: String): List<CIRelationDto> {
+        return ciService.getRelation(ciId)
+    }
 }

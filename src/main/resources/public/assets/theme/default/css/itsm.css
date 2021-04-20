@@ -4795,25 +4795,25 @@ body.modal-active {
   border-radius: 0.0625rem;
   margin-bottom: 0.625rem;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-history-list table {
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-list table {
   width: 100%;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-history-list table .list-head tr {
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-list table .list-head tr {
   color: #3F4B56;
   border-bottom: 0.125rem solid #E1E3E6;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-history-list table .list-body {
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-list table .list-body {
   display: block;
   color: #586872;
   overflow-y: auto;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-history-list table .list-body .list-row {
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-list table .list-body .list-row {
   display: table;
   width: 100%;
   height: 3.125rem;
   line-height: 3.125rem;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-history-list table .list-body .list-row > td {
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-list table .list-body .list-row > td {
   display: inline-block;
   vertical-align: middle;
 }
@@ -5516,7 +5516,7 @@ body.modal-active {
   --tag-text-color: black;
   --tag-text-color--edit: black;
   --tag-pad: 0.25rem 0.5rem;
-  --tag-inset-shadow-size: 1.063rem;
+  --tag-inset-shadow-size: 1.125rem;
   --tag-invalid-color: #D39494;
   --tag-invalid-bg: rgba(211, 148, 148, 0.5);
   --tag-remove-bg: rgba(211, 148, 148, 0.3);
