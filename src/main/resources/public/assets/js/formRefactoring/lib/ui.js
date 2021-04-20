@@ -13,7 +13,7 @@ class UIElement {
         this.domElement = domElement;
     }
 
-    add() {
+    addUI() {
         for (let i = 0; i < arguments.length; i++) {
             const argument = arguments[i];
             if (argument instanceof UIElement) {
@@ -25,7 +25,7 @@ class UIElement {
         return this;
     }
 
-    remove() {
+    removeUI() {
         for (let i = 0; i < arguments.length; i++) {
             const argument = arguments[i];
             if (argument instanceof UIElement) {
@@ -37,64 +37,69 @@ class UIElement {
         return this;
     }
 
-    clear() {
+    clearUI() {
         while (this.domElement.children.length) {
             this.domElement.removeChild(this.domElement.lastChild);
         }
     }
 
-    setId(id) {
+    setUIId(id) {
         this.domElement.id = id;
         return this;
     }
 
-    getId() {
+    getUIId() {
         return this.domElement.id;
     }
 
-    setClass(name) {
+    setUIClass(name) {
         this.domElement.className = name;
         return this;
     }
 
-    addClass(name) {
+    addUIClass(name) {
         this.domElement.classList.add(name);
         return this;
     }
 
-    removeClass(name) {
+    removeUIClass(name) {
         this.domElement.classList.remove(name);
         return this;
     }
 
-    setAttribute(name, value) {
+    setUIAttribute(name, value) {
         this.domElement.setAttribute(name, value);
         return this;
     }
 
-    setStyle(style, array) {
+    setUICSSText(value) {
+        this.domElement.style.cssText = value;
+        return this;
+    }
+
+    setUIStyle(style, array) {
         for (let i = 0; i < array.length; i++) {
             this.domElement.style[style] = array[i];
         }
         return this;
     }
 
-    setProperty(style, value) {
+    setUIProperty(style, value) {
         this.domElement.style.setProperty(style, value);
         return this;
     }
 
-    setDisabled(value) {
+    setUIDisabled(value) {
         this.domElement.disabled = value;
         return this;
     }
 
-    setTextContent(value) {
+    setUITextContent(value) {
         this.domElement.textContent = value;
         return this;
     }
 
-    getIndexOfChild(element) {
+    getUIIndexOfChild(element) {
         return Array.prototype.indexOf.call(this.domElement.children, element.domElement);
     }
 }
@@ -109,10 +114,10 @@ const properties = [
     'textDecoration', 'textTransform', 'cursor', 'zIndex',
 ];
 properties.forEach(function (property) {
-    const method = 'set' + property.substr(0, 1).toUpperCase() +
+    const method = 'setUI' + property.substr(0, 1).toUpperCase() +
         property.substr(1, property.length);
     UIElement.prototype[method] = function () {
-        this.setStyle(property, arguments);
+        this.setUIStyle(property, arguments);
         return this;
     };
 });
@@ -120,7 +125,7 @@ properties.forEach(function (property) {
 // events
 const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input'];
 events.forEach(function (event) {
-    const method = 'on' + event;
+    const method = 'onUI' + event;
     UIElement.prototype[method] = function (callback) {
         this.domElement.addEventListener(event.toLowerCase(), callback.bind(this), false);
         return this;
@@ -131,6 +136,10 @@ class UISpan extends UIElement {
     constructor() {
         super(document.createElement('span'));
     }
+    setUIInnerHTML(value) {
+        this.domElement.innerHTML = value;
+        return this;
+    }
 }
 
 class UILabel extends UIElement {
@@ -138,7 +147,7 @@ class UILabel extends UIElement {
         super(document.createElement('label'));
     }
 
-    setFor(id) {
+    setUIFor(id) {
         this.domElement.htmlFor = id;
         return this;
     }
@@ -158,14 +167,14 @@ class UIText extends UISpan {
         this.domElement.style.display = 'inline-block';
         this.domElement.style.verticalAlign = 'middle';
 
-        this.setValue(text);
+        this.setUIValue(text);
     }
 
-    getValue() {
+    getUIValue() {
         return this.domElement.textContent;
     }
 
-    setValue(value) {
+    setUIValue(value) {
         if (value !== undefined) {
             this.domElement.textContent = value;
         }
@@ -176,35 +185,39 @@ class UIText extends UISpan {
 class UIInput extends UIElement {
     constructor(text) {
         super(document.createElement('input'));
+        this.domElement.type = 'text';
         this.domElement.className = 'input';
 
         this.domElement.addEventListener(
             'keydown',
-            function (event) {
-                event.stopPropagation();
-            },
+            function (event) { event.stopPropagation(); },
             false
         );
 
-        this.setValue(text);
+        this.setUIValue(text);
     }
 
-    getValue() {
+    getUIValue() {
         return this.domElement.value;
     }
 
-    setValue(value) {
+    setUIValue(value) {
         this.domElement.value = value;
         return this;
     }
 
-    setPlaceholder(value) {
+    setUIPlaceholder(value) {
         this.domElement.placeholder = value;
         return this;
     }
 
-    setRequired(boolean) {
+    setUIRequired(boolean) {
         this.domElement.required = boolean;
+        return this;
+    }
+
+    setUIReadOnly(boolean) {
+        this.domElement.readOnly = boolean;
         return this;
     }
 }
@@ -213,10 +226,10 @@ class UITextArea extends UIElement {
     constructor() {
         super(document.createElement('textarea'));
         this.domElement.className = 'textArea';
-        this.domElement.style.padding = '2px';
+        this.domElement.style.padding = '10px';
         this.domElement.spellcheck = false;
 
-        this.domElement.addEventListener(
+        this.domElement.addEventListener (
             'keydown',
             function (event) {
                 event.stopPropagation();
@@ -235,29 +248,29 @@ class UITextArea extends UIElement {
         );
     }
 
-    getValue() {
+    getUIValue() {
         return this.domElement.value;
     }
 
-    setValue(value) {
+    setUIValue(value) {
         this.domElement.value = value;
         return this;
     }
 }
-
+// TODO: 디자인용 selectbox로 변경
 class UISelect extends UIElement {
     constructor() {
         super(document.createElement('select'));
         this.domElement.className = 'select';
-        this.domElement.style.padding = '2px';
+        this.domElement.style.padding = '0 2px';
     }
 
-    setMultiple(boolean) {
+    setUIMultiple(boolean) {
         this.domElement.multiple = boolean;
         return this;
     }
 
-    setOptions(options) {
+    setUIOptions(options) {
         const selected = this.domElement.value;
         while (this.domElement.children.length > 0) {
             this.domElement.removeChild(this.domElement.firstChild);
@@ -274,11 +287,11 @@ class UISelect extends UIElement {
         return this;
     }
 
-    getValue() {
+    getUIValue() {
         return this.domElement.value;
     }
 
-    setValue(value) {
+    setUIValue(value) {
         value = String(value);
 
         if (this.domElement.value !== value) {
@@ -294,14 +307,14 @@ class UICheckbox extends UIElement {
         super(document.createElement('input'));
         this.domElement.className = 'checkbox';
         this.domElement.type = 'checkbox';
-        this.setValue(boolean);
+        this.setUIValue(boolean);
     }
 
-    getValue() {
+    getUIValue() {
         return this.domElement.checked;
     }
 
-    setValue(value) {
+    setUIValue(value) {
         if (value !== undefined) {
             this.domElement.checked = value;
         }
@@ -309,392 +322,108 @@ class UICheckbox extends UIElement {
         return this;
     }
 }
+// 공통으로 사용되는 복사용 inputbox + button
+class UIClipboard extends UIElement {
+    constructor() {
+        super(document.createElement('div'));
+        this.domElement.className = 'clipboard';
+        // input
+        this.UIInput = new UIInput().addUIClass('copy').setUIReadOnly(true);
+        this.addUI(this.UIInput);
 
+        // tooptip
+        this.UITooltip = new UIDiv().setUIClass('clipboard-tooltip');
+        this.addUI(this.UITooltip);
+
+        // copy button
+        const scope = this;
+        this.UITooltip.UIButton = new UIButton().setUIClass('btn-clipboard-tooltip').addUIClass('ghost-line');
+        this.UITooltip.UIButton.domElement.addEventListener('click', function () {
+            scope.UIInput.domElement.select();
+            scope.UIInput.domElement.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+
+            scope.UITooltip.UITooptipText.setUITextContent('Copy success');
+        });
+        this.UITooltip.UIButton.domElement.addEventListener('mouseout', function () {
+            scope.UITooltip.UITooptipText.setUITextContent('Copy to clipboard');
+        });
+        this.UITooltip.addUI(this.UITooltip.UIButton);
+
+        // copy button icon
+        const UIButtonIcon = new UISpan().setUIClass('icon').addUIClass('icon-clipboard');
+        this.UITooltip.UIButton.addUI(UIButtonIcon);
+
+        // tooltip text
+        this.UITooltip.UITooptipText = new UISpan().setUIClass('clipboard-tooltip-text')
+            .setUITextContent('Copy to clipboard');
+        this.UITooltip.UIButton.addUI(this.UITooltip.UITooptipText);
+    }
+}
 // TODO: color picker 라이브러리 참조하여 엘리먼트 만들기
 class UIColor extends UIElement {
-    constructor() {
-        super(document.createElement('input'));
-        this.domElement.className = 'color';
-        this.domElement.style.width = '32px';
-        this.domElement.style.height = '16px';
-        this.domElement.style.border = '0px';
-        this.domElement.style.padding = '2px';
-        this.domElement.style.backgroundColor = 'transparent';
+    constructor(option) {
+        super(document.createElement('div'));
+        this.domElement.className = 'color-picker';
 
-        try {
-            this.domElement.type = 'color';
-            this.domElement.value = '#ffffff';
-        } catch (exception) {}
+        // input box
+        this.UIColor = new UIDiv().setUIClass('color-input');
+        this.UIColor.UIBox = new UIDiv().setUIClass('selected-color-box');
+
+        this.UIColor.UIBox.UISpan = new UISpan().setUIClass('selected-color')
+            .setUIBackgroundColor(option.data.value);
+        this.UIColor.UIBox.addUI(this.UIColor.UIBox.UISpan);
+        this.UIColor.addUI(this.UIColor.UIBox);
+
+        this.UIColor.UIInput = new UIInput().addUIClass('color').setUIReadOnly(true)
+            .setUIValue(option.data.value);
+        this.UIColor.addUI(this.UIColor.UIInput);
+        this.addUI(this.UIColor);
+
+        // color palette layer
+        this.UIColorPalette = new UIDiv();
+        this.UIColorPalette.UIColor = new UIDiv().setUIClass('color-palette');
+        this.UIColorPalette.addUI(this.UIColorPalette.UIColor);
+
+        this.UIColorPalette.UIOpacity = new UIDiv().setUIClass('color-palette-opacity');
+        this.UIColorPalette.addUI(this.UIColorPalette.UIOpacity);
+        this.addUI(this.UIColorPalette);
+        
+        // color picker 초기화
+        colorPalette.initColorPalette(this.UIColorPalette.domElement,
+            this.UIColor.UIBox.UISpan.domElement, this.UIColor.UIInput.domElement, option);
     }
 
-    getValue() {
-        return this.domElement.value;
-    }
-
-    getHexValue() {
-        return parseInt(this.domElement.value.substr(1), 16);
-    }
-
-    setValue(value) {
-        this.domElement.value = value;
-        return this;
-    }
-
-    setHexValue(hex) {
-        this.domElement.value = '#' + ('000000' + hex.toString(16)).slice(-6);
-        return this;
-    }
-}
-
-class UINumber extends UIElement {
-    constructor(number) {
-        super(document.createElement('input'));
-
-        this.domElement.style.cursor = 'ns-resize';
-        this.domElement.className = 'Number';
-        this.domElement.value = '0.00';
-        this.value = 0;
-        this.min = -Infinity;
-        this.max = Infinity;
-        this.precision = 2;
-        this.step = 1;
-        this.unit = '';
-        this.nudge = 0.01;
-
-        this.setValue(number);
-
-        const scope = this;
-        const changeEvent = document.createEvent('HTMLEvents');
-        changeEvent.initEvent('change', true, true);
-
-        let distance = 0;
-        let onMouseDownValue = 0;
-
-        const pointer = { x: 0, y: 0 };
-        const prevPointer = { x: 0, y: 0 };
-
-        function onMouseDown(event) {
-            event.preventDefault();
-
-            distance = 0;
-            onMouseDownValue = scope.value;
-
-            prevPointer.x = event.clientX;
-            prevPointer.y = event.clientY;
-
-            document.addEventListener('mousemove', onMouseMove, false);
-            document.addEventListener('mouseup', onMouseUp, false);
-        }
-
-        function onMouseMove(event) {
-            const currentValue = scope.value;
-
-            pointer.x = event.clientX;
-            pointer.y = event.clientY;
-
-            distance += pointer.x - prevPointer.x - (pointer.y - prevPointer.y);
-
-            let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
-            value = Math.min(scope.max, Math.max(scope.min, value));
-
-            if (currentValue !== value) {
-                scope.setValue(value);
-                scope.domElement.dispatchEvent(changeEvent);
-            }
-            prevPointer.x = event.clientX;
-            prevPointer.y = event.clientY;
-        }
-
-        function onMouseUp() {
-            document.removeEventListener('mousemove', onMouseMove, false);
-            document.removeEventListener('mouseup', onMouseUp, false);
-
-            if (Math.abs(distance) < 2) {
-                scope.domElement.focus();
-                scope.domElement.select();
-            }
-        }
-
-        function onTouchStart(event) {
-            if (event.touches.length === 1) {
-                distance = 0;
-                onMouseDownValue = scope.value;
-
-                prevPointer.x = event.touches[0].pageX;
-                prevPointer.y = event.touches[0].pageY;
-
-                document.addEventListener('touchmove', onTouchMove, false);
-                document.addEventListener('touchend', onTouchEnd, false);
-            }
-        }
-
-        function onTouchMove(event) {
-            const currentValue = scope.value;
-
-            pointer.x = event.touches[0].pageX;
-            pointer.y = event.touches[0].pageY;
-
-            distance += pointer.x - prevPointer.x - (pointer.y - prevPointer.y);
-
-            let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
-            value = Math.min(scope.max, Math.max(scope.min, value));
-
-            if (currentValue !== value) {
-                scope.setValue(value);
-                scope.domElement.dispatchEvent(changeEvent);
-            }
-
-            prevPointer.x = event.touches[0].pageX;
-            prevPointer.y = event.touches[0].pageY;
-        }
-
-        function onTouchEnd(event) {
-            if (event.touches.length === 0) {
-                document.removeEventListener('touchmove', onTouchMove, false);
-                document.removeEventListener('touchend', onTouchEnd, false);
-            }
-        }
-
-        function onChange() {
-            scope.setValue(scope.domElement.value);
-        }
-
-        function onFocus() {
-            scope.domElement.style.backgroundColor = '';
-            scope.domElement.style.cursor = '';
-        }
-
-        function onBlur() {
-            scope.domElement.style.backgroundColor = 'transparent';
-            scope.domElement.style.cursor = 'ns-resize';
-        }
-
-        function onKeyDown(event) {
-            event.stopPropagation();
-
-            switch (event.keyCode) {
-            case 13: // enter
-                scope.domElement.blur();
-                break;
-            case 38: // up
-                event.preventDefault();
-                scope.setValue(scope.getValue() + scope.nudge);
-                scope.domElement.dispatchEvent(changeEvent);
-                break;
-            case 40: // down
-                event.preventDefault();
-                scope.setValue(scope.getValue() - scope.nudge);
-                scope.domElement.dispatchEvent(changeEvent);
-                break;
-            }
-        }
-
-        onBlur();
-
-        this.domElement.addEventListener('keydown', onKeyDown, false);
-        this.domElement.addEventListener('mousedown', onMouseDown, false);
-        this.domElement.addEventListener('touchstart', onTouchStart, false);
-        this.domElement.addEventListener('change', onChange, false);
-        this.domElement.addEventListener('focus', onFocus, false);
-        this.domElement.addEventListener('blur', onBlur, false);
-    }
-
-    getValue() {
-        return this.value;
-    }
-
-    setValue(value) {
-        if (value !== undefined) {
-            value = parseFloat(value);
-
-            if (value < this.min) value = this.min;
-            if (value > this.max) value = this.max;
-
-            this.value = value;
-            this.domElement.value = value.toFixed(this.precision);
-
-            if (this.unit !== '') this.domElement.value += ' ' + this.unit;
-        }
-        return this;
-    }
-
-    setPrecision(precision) {
-        this.precision = precision;
-        return this;
-    }
-
-    setStep(step) {
-        this.step = step;
-        return this;
-    }
-
-    setNudge(nudge) {
-        this.nudge = nudge;
-        return this;
-    }
-
-    setRange(min, max) {
-        this.min = min;
-        this.max = max;
-
-        return this;
-    }
-
-    setUnit(unit) {
-        this.unit = unit;
+    setUIId(id) {
+        this.UIColor.UIInput.setUIId(id);
+        this.UIColorPalette.setUIId('colorPaletteLayer-' + id);
         return this;
     }
 }
 
-class UIInteger extends UIElement {
-    constructor(number) {
-        super(document.createElement('input'));
+class UISwitch extends UIElement {
+    constructor(boolean) {
+        super(document.createElement('label'));
+        this.domElement.className = 'switch';
 
-        this.domElement.style.cursor = 'ns-resize';
-        this.domElement.className = 'Number';
-        this.domElement.value = '0';
+        // checkbox
+        this.UICheckbox = new UICheckbox(boolean);
+        this.addUI(this.UICheckbox);
+        this.addUI(new UISpan());
 
-        this.value = 0;
-
-        this.min = -Infinity;
-        this.max = Infinity;
-
-        this.step = 1;
-        this.nudge = 1;
-
-        this.setValue(number);
-
-        const scope = this;
-
-        const changeEvent = document.createEvent('HTMLEvents');
-        changeEvent.initEvent('change', true, true);
-
-        let distance = 0;
-        let onMouseDownValue = 0;
-
-        const pointer = { x: 0, y: 0 };
-        const prevPointer = { x: 0, y: 0 };
-
-        function onMouseDown(event) {
-            event.preventDefault();
-
-            distance = 0;
-
-            onMouseDownValue = scope.value;
-
-            prevPointer.x = event.clientX;
-            prevPointer.y = event.clientY;
-
-            document.addEventListener('mousemove', onMouseMove, false);
-            document.addEventListener('mouseup', onMouseUp, false);
-        }
-
-        function onMouseMove(event) {
-            const currentValue = scope.value;
-
-            pointer.x = event.clientX;
-            pointer.y = event.clientY;
-
-            distance += pointer.x - prevPointer.x - (pointer.y - prevPointer.y);
-
-            let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
-            value = Math.min(scope.max, Math.max(scope.min, value)) | 0;
-
-            if (currentValue !== value) {
-                scope.setValue(value);
-                scope.domElement.dispatchEvent(changeEvent);
-            }
-
-            prevPointer.x = event.clientX;
-            prevPointer.y = event.clientY;
-        }
-
-        function onMouseUp() {
-            document.removeEventListener('mousemove', onMouseMove, false);
-            document.removeEventListener('mouseup', onMouseUp, false);
-
-            if (Math.abs(distance) < 2) {
-                scope.domElement.focus();
-                scope.domElement.select();
-            }
-        }
-
-        function onChange() {
-            scope.setValue(scope.domElement.value);
-        }
-
-        function onFocus() {
-            scope.domElement.style.backgroundColor = '';
-            scope.domElement.style.cursor = '';
-        }
-
-        function onBlur() {
-            scope.domElement.style.backgroundColor = 'transparent';
-            scope.domElement.style.cursor = 'ns-resize';
-        }
-
-        function onKeyDown(event) {
-            event.stopPropagation();
-
-            switch (event.keyCode) {
-            case 13: // enter
-                scope.domElement.blur();
-                break;
-
-            case 38: // up
-                event.preventDefault();
-                scope.setValue(scope.getValue() + scope.nudge);
-                scope.domElement.dispatchEvent(changeEvent);
-                break;
-
-            case 40: // down
-                event.preventDefault();
-                scope.setValue(scope.getValue() - scope.nudge);
-                scope.domElement.dispatchEvent(changeEvent);
-                break;
-            }
-        }
-
-        onBlur();
-
-        this.domElement.addEventListener('keydown', onKeyDown, false);
-        this.domElement.addEventListener('mousedown', onMouseDown, false);
-        this.domElement.addEventListener('change', onChange, false);
-        this.domElement.addEventListener('focus', onFocus, false);
-        this.domElement.addEventListener('blur', onBlur, false);
+        // label
+        this.UISpan = new UISpan().setUIClass('label');
+        this.addUI(this.UISpan);
     }
 
-    getValue() {
-        return this.value;
-    }
-
-    setValue(value) {
-        if (value !== undefined) {
-            value = parseInt(value);
-
-            this.value = value;
-            this.domElement.value = value;
-        }
-
+    setUIId(id) {
+        this.domElement.id = id;
+        this.UICheckbox.setUIId(id);
         return this;
     }
 
-    setStep(step) {
-        this.step = parseInt(step);
-
-        return this;
-    }
-
-    setNudge(nudge) {
-        this.nudge = nudge;
-
-        return this;
-    }
-
-    setRange(min, max) {
-        this.min = min;
-        this.max = max;
-
+    setUITextContent(value) {
+        this.UISpan.setUITextContent(value);
         return this;
     }
 }
@@ -716,220 +445,49 @@ class UIHorizontalRule extends UIElement {
 class UIButton extends UIElement {
     constructor(value) {
         super(document.createElement('button'));
-        this.domElement.className = 'Button';
+        this.domElement.className = 'btn';
+        this.domElement.type = 'button';
         this.domElement.textContent = value;
     }
 }
 
-class UIProgress extends UIElement {
+class UISlider extends UIElement {
     constructor(value) {
-        super(document.createElement('progress'));
+        super(document.createElement('div'));
+        this.domElement.className = 'slider';
+        // range
+        this.UIRange = new UIInput(value).setUIClass('range');
+        this.UIRange.domElement.type = 'range';
+        this.addUI(this.UIRange);
+        // input
+        this.UIInput = new UIInput(value).setUIReadOnly(true);
+        this.addUI(this.UIInput);
 
-        this.domElement.value = value;
-    }
-
-    setValue(value) {
-        this.domElement.value = value;
-    }
-}
-
-class UITabbedPanel extends UIDiv {
-    constructor() {
-        super();
-
-        this.domElement.className = 'TabbedPanel';
-
-        this.tabs = [];
-        this.panels = [];
-
-        this.tabsDiv = new UIDiv();
-        this.tabsDiv.setClass('Tabs');
-
-        this.panelsDiv = new UIDiv();
-        this.panelsDiv.setClass('Panels');
-
-        this.add(this.tabsDiv);
-        this.add(this.panelsDiv);
-
-        this.selected = '';
-    }
-
-    select(id) {
-        let tab;
-        let panel;
         const scope = this;
+        function onInput() {
+            scope.UIInput.setUIValue(scope.UIRange.getUIValue());
 
-        // Deselect current selection
-        if (this.selected && this.selected.length) {
-            tab = this.tabs.find(function (item) {
-                return item.domElement.id === scope.selected;
-            });
-            panel = this.panels.find(function (item) {
-                return item.domElement.id === scope.selected;
-            });
-
-            if (tab) {
-                tab.removeClass('selected');
-            }
-
-            if (panel) {
-                panel.setDisplay('none');
-            }
+            const changeEvent = document.createEvent('HTMLEvents');
+            changeEvent.initEvent('change', true, true);
+            scope.UIInput.domElement.dispatchEvent(changeEvent);
         }
 
-        tab = this.tabs.find(function (item) {
-            return item.domElement.id === id;
-        });
-        panel = this.panels.find(function (item) {
-            return item.domElement.id === id;
-        });
+        this.UIRange.domElement.addEventListener('input', onInput, false);
+    }
 
-        if (tab) {
-            tab.addClass('selected');
-        }
-
-        if (panel) {
-            panel.setDisplay('');
-        }
-
-        this.selected = id;
-
+    setUIMin(value) {
+        this.UIRange.domElement.setAttribute('min', value);
         return this;
     }
 
-    addTab(id, label, items) {
-        const tab = new UITab(label, this);
-        tab.setId(id);
-        this.tabs.push(tab);
-        this.tabsDiv.add(tab);
-
-        const panel = new UIDiv();
-        panel.setId(id);
-        panel.add(items);
-        panel.setDisplay('none');
-        this.panels.push(panel);
-        this.panelsDiv.add(panel);
-
-        this.select(id);
-    }
-}
-
-class UITab extends UIText {
-    constructor(text, parent) {
-        super(text);
-
-        this.domElement.className = 'Tab';
-
-        this.parent = parent;
-
-        const scope = this;
-
-        this.domElement.addEventListener('click', function () {
-            scope.parent.select(scope.domElement.id);
-        });
-    }
-}
-
-class UIListbox extends UIDiv {
-    constructor() {
-        super();
-
-        this.domElement.className = 'Listbox';
-        this.domElement.tabIndex = 0;
-
-        this.items = [];
-        this.listitems = [];
-        this.selectedIndex = 0;
-        this.selectedValue = null;
-    }
-
-    setItems(items) {
-        if (Array.isArray(items)) {
-            this.items = items;
-        }
-
-        this.render();
-    }
-
-    render() {
-        while (this.listitems.length) {
-            const item = this.listitems[0];
-
-            item.domElement.remove();
-
-            this.listitems.splice(0, 1);
-        }
-
-        for (let i = 0; i < this.items.length; i++) {
-            const item = this.items[i];
-
-            const listitem = new UIListbox.ListboxItem(this);
-            listitem.setId(item.id || `Listbox-${i}`);
-            listitem.setTextContent(item.name || item.type);
-            this.add(listitem);
-        }
-    }
-
-    add() {
-        const items = Array.from(arguments);
-
-        this.listitems = this.listitems.concat(items);
-
-        UIElement.prototype.add.apply(this, items);
-    }
-
-    selectIndex(index) {
-        if (index >= 0 && index < this.items.length) {
-            this.setValue(this.listitems[index].getId());
-        }
-
-        this.selectedIndex = index;
-    }
-
-    getValue() {
-        return this.selectedValue;
-    }
-
-    setValue(value) {
-        for (let i = 0; i < this.listitems.length; i++) {
-            const element = this.listitems[i];
-
-            if (element.getId() === value) {
-                element.addClass('active');
-            } else {
-                element.removeClass('active');
-            }
-        }
-
-        this.selectedValue = value;
-
-        const changeEvent = document.createEvent('HTMLEvents');
-        changeEvent.initEvent('change', true, true);
-        this.domElement.dispatchEvent(changeEvent);
-    }
-}
-
-class ListboxItem extends UIDiv {
-    constructor(parent) {
-        super();
-
-        this.domElement.className = 'ListboxItem';
-        this.parent = parent;
-
-        const scope = this;
-
-        function onClick() {
-            if (scope.parent) {
-                scope.parent.setValue(scope.getId());
-            }
-        }
-
-        this.domElement.addEventListener('click', onClick, false);
+    setUIMax(value) {
+        this.UIRange.domElement.setAttribute('max', value);
+        return this;
     }
 }
 
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
-    UISelect, UICheckbox, UIColor, UINumber, UIInteger, UIBreak,
-    UIHorizontalRule, UIButton, UIProgress, UITabbedPanel, UIListbox, ListboxItem,
+    UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
+    UIHorizontalRule, UIButton, UISlider
 };

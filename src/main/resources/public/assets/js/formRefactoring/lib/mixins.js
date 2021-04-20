@@ -7,7 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { CLASS_PREFIX, FORM } from './constants.js';
+import { CLASS_PREFIX, UNIT, FORM } from './constants.js';
 import { UILabel, UISpan } from './ui.js';
 import { UIRowTooltip } from '../form/row.js';
 import { UIComponentTooltip } from '../form/component.js';
@@ -63,7 +63,7 @@ export const controlMixin = {
     },
     // 자식 전부 삭제
     clear() {
-        this.UIElem.clear();
+        this.UIElement.clear();
         for (let i = 0; i < this.children.length; i++) {
             const object = this.children[i];
             object.parent = null;
@@ -97,21 +97,24 @@ export const controlMixin = {
 export const componentLabelMixin = {
     // 라벨 객체 생성
     makeLabel() {
-        const label = new UILabel().setClass(CLASS_PREFIX + 'component-label')
-            .addClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
-            .setProperty('--data-column', this.getLabelColumnWidth(this.label.position))
-            .setTextAlign(this.label.align);
-        label.UILabelText = new UISpan().setClass(CLASS_PREFIX + 'component-label-text')
-            .setFontSize(this.label.fontSize)
-            .setFontWeight((this.label.bold ? 'bold' : ''))
-            .setFontStyle((this.label.italic ? 'italic' : ''))
-            .setTextDecoration((this.label.underline ? 'underline' : ''))
-            .setColor(this.label.fontColor)
-            .setTextContent(this.label.text);
-        label.add(label.UILabelText);
+        const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
+            .addUIClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
+            .setUICSSText(`text-align: ${this.label.align};`)
+            .setUIProperty('--data-column', this.getLabelColumnWidth(this.label.position));
+        // 라벨 문구
+        const labelCssText = `color:${this.label.fontColor};` +
+            `font-size:${this.label.fontSize + UNIT.PX};` +
+            `${this.label.bold ? 'font-weight:bold;' : ''}` +
+            `${this.label.italic ? 'font-style:italic;' : ''}` +
+            `${this.label.underline ? 'text-decoration:underline;' : ''}`;
+
+        label.UILabelText = new UISpan().setUIClass(CLASS_PREFIX + 'component-label-text')
+            .setUICSSText(labelCssText)
+            .setUITextContent(this.label.text);
+        label.addUI(label.UILabelText);
         // 필수 여부
-        label.UIRequiredText = new UISpan().setClass('required');
-        label.add(label.UIRequiredText);
+        label.UIRequiredText = new UISpan().setUIClass('required');
+        label.addUI(label.UIRequiredText);
         return label;
     },
     // 라벨 너비 계산

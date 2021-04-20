@@ -1,3 +1,7 @@
+:root {
+  --data-column: 12;
+  --data-row: 2;
+}
 //////////////////////////// layout ////////////////////////////
 // header
 $layout-header-height:                             3.125rem; // 50px
@@ -82,81 +86,110 @@ $row-selected-bg-color:                            rgba(135, 206, 255, 0.1);
 ////////////////////////// components /////////////////////////
 $component-selected-border-color:                  $light-blue;
 $component-selected-bg-color:                      rgba(135, 206, 255, 0.1);
-//$component-bg-color:                          $white;
-//$component-border-color:                      transparent;
-//$component-border-width:                      0.0625rem; // 1px
-//$component-border:                            $component-border-width solid $component-border-color;
-
-// 컴포넌트 선택시
-//$component-pressed-bg-color:                  rgba(135, 206, 255, 0.1);
-//$component-pressed-border-color:              $light-blue;
-//$move-handler-focus-color:                    $point-blue;
-
-// 컴포넌트 readonly
-//$component-disabled-font-color:               $gray;
-//$component-disabled-bg-color:                 $light-gray;
-
-// 컴포넌트 툴팁
-//$component-tooltip-menu-focus-font-color:     $point-blue;
-
-// 컴포넌트 drag
-//$component-drag-border-color:                 $point-blue;
-//$component-drag-border-width:                 0.125rem; // 2px
-//$component-drag-border:                       $component-drag-border-width dashed $component-drag-border-color;
-
-// editbox 컴포넌트
-//$editbox-font-size:                           $font-size-base;
-//$editbox-font-weight:                         $font-weight-regular;
-//$editbox-font-color:                          $gray;
-//$editbox-pressed-font-color:                  $light-blue;
-
-// image 컴포넌트
-//$img-font-size:                               $font-size-base;
-//$img-font-weight:                             $font-weight-regular;
-//$img-font-color:                              $gray;
-//$img-bg-color:                                $light-gray;
-//$img-border:                                  0.0625rem solid $line-gray;
-
-// 커스텀 코드 컴포넌트
-//$custom-code-btn-font-color:                  $dark-gray;
-
-// Dynamic Row Table 컴포넌트
-//$dr-table-bg-color:                           $white;
-
-// CI 컴포넌트
-//$ci-table-bg-color:                           $white;
-
-////////////////////////// context menu /////////////////////////
-//$context-menu-width:                          11.25rem; // 180px
-//$context-menu-height:                         14.06rem; // 225px
-//$context-menu-bg-color:                       $white;
-//$context-menu-font-size:                      $font-size-base;
-//$context-menu-font-color:                     $dark-gray;
-//$context-menu-font-weight:                    $font-weight-regular;
-//$context-menu-border:                         0.0625rem solid $line-gray; // 1px
-//$context-menu-box-shadow:                     0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
-//$context-menu-focus-bg-color:                 rgba(135, 206, 255, 0.1);
-//$context-menu-focus-font-color:               $point-blue;
 
 // color-picker palette
-$color-picker-palette-width:                  100%;
-$color-picker-palette-margin:                 0.1875rem;  // 3px
-$color-picker-palette-padding:                0.9375rem 0 0.9375rem 0.9375rem; // 15px 0 15px 15px
-$color-picker-colorchip-size:                 1rem; // 16px
-$color-picker-colorchip-margin:               0.1875rem; // 3px
-$color-picker-colorchip-border:               0.125rem solid $white; // 2px
+$color-picker-palette-width:                       100%;
+$color-picker-palette-margin:                      0.1875rem;  // 3px
+$color-picker-palette-padding:                     0.9375rem 0 0.9375rem 0.9375rem; // 15px 0 15px 15px
+$color-picker-colorchip-size:                      1rem; // 16px
+$color-picker-colorchip-margin:                    0.1875rem; // 3px
+$color-picker-colorchip-border:                    0.125rem solid $white; // 2px
 
 //////////////////////////// thumbnail //////////////////////////
 // 썸네일 모달
-$thumbnail-modal-width:                       62.63rem; // 1002px
-$thumbnail-modal-height:                      48.44rem; // 775px
-$thumbnail-main-padding:                      0.625rem; // 10px
+$thumbnail-modal-width:                            62.63rem; // 1002px
+$thumbnail-modal-height:                           48.44rem; // 775px
+$thumbnail-main-padding:                           0.625rem; // 10px
 
 //////////////////////////// tooltip ////////////////////////////
-$tooltip-font-size:                           1rem; // 16px
-$tooltip-contents-width:                      18.13rem; // 290px
-$tooltip-contents-left:                       -1.25rem; // -20px
-$tooltip-contents-padding:                    1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+$tooltip-font-size:                                1rem; // 16px
+$tooltip-contents-width:                           21.25rem; // 340px
+$tooltip-contents-left:                            0.9375rem; // 15px
+$tooltip-contents-padding:                         1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+$tooltip-contents-background:                      $white;
+$tooltip-contents-color:                           $point-blue;
+$tooltip-contents-left:                            0;
+$tooltip-contents-border-width:                    0.125rem; // 2px
+$tooltip-contents-border-color:                    $point-blue;
+$tooltip-contents-border:                          $tooltip-contents-border-width solid $tooltip-contents-border-color;
+$tooltip-contents-border-radius:                   0.125rem; // 2px
+$tooltip-contents-padding:                         1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+$tooltip-contents-box-shadow:                      0 0 0.3125rem 0 rgba(30, 47, 63, 0.2); // 5px
+
+// clipboard tooltip
+// ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
+$clipboard-tooltip-font-size:                      $font-size-base; // 16px
+$clipboard-tooltip-font-weight:                    $font-weight-regular;
+$clipboard-tooltip-font-color:                     $point-blue;
+$clipboard-tooltip-bg-color:                       $white;
+$clipboard-tooltip-border-color:                   $point-blue;
+$clipboard-tooltip-border-width:                   0.125rem; // 2px
+$clipboard-tooltip-border:                         $clipboard-tooltip-border-width solid $clipboard-tooltip-border-color;
+$clipboard-tooltip-border-radius:                  0.0625rem; // 1px
+
+// 도움말용
+$tooltip-help-size:                                1rem; // 16px
+$tooltip-help-margin:                              0.3125rem; // 5px
+$tooltip-help-hover-bg-color:                      $point-blue;
 
 //////////////////////////// 다른이름으로 저장하기 //////////////////////////
-$save-as-modal-height:                        25.63rem; // 410px
+$save-as-modal-height:                             25.63rem; // 410px
+
+/////////////////////////// properties ////////////////////////////
+$property-group-label-color:                       #323233;
+$property-group-label-font-size:                   1rem; // 16px
+
+$property-label-color:                             #8D9299;
+$property-label-font-size:                         0.875rem; // 14px
+
+/////////// switch button 디자인 요소
+$btn-switch-font-size:                            $font-size-base;
+$btn-switch-font-color:                           $gray;
+$btn-switch-font-weight:                          $font-weight-medium;
+$btn-switch-font-color:                           $light-black;
+$btn-switch-bg-color:                             $light-gray;
+$btn-switch-border-color:                         $line-gray;
+$btn-switch-border-width:                         0.0625rem; // 1px
+$btn-switch-border:                               $btn-switch-border-width solid $btn-switch-border-color;
+$btn-switch-border-radius:                        0.1875rem; // 3px
+
+// hover 시 디자인 요소
+$btn-switch-hover-font-color:                     $light-black;
+$btn-switch-hover-bg-color:                       rgba(230, 230, 230, 0.3);
+$btn-switch-hover-border-color:                   $line-gray;
+
+// pressed 시 디자인 요소
+$btn-switch-pressed-font-color:                   $point-blue;
+$btn-switch-pressed-bg-color:                     $white;
+$btn-switch-pressed-border-color:                 $point-blue;
+
+// disabled 시 디자인 요소
+$btn-switch-disabled-font-color:                  $light-black;
+$btn-switch-disabled-bg-color:                    $white;
+$btn-switch-disabled-border-color:                $line-gray;
+
+/////////////// toggle button 디자인 요소
+$btn-toggle-font-size:                            $font-size-base;
+$btn-toggle-font-color:                           $light-black;
+$btn-toggle-font-weight:                          $font-weight-medium;
+$btn-toggle-font-color:                           $light-black;
+$btn-toggle-bg-color:                             $white;
+$btn-toggle-border-color:                         $line-gray;
+$btn-toggle-border-width:                         0.0625rem; // 1px
+$btn-toggle-border:                               $btn-toggle-border-width solid $btn-toggle-border-color;
+$btn-toggle-border-radius:                        0.1875rem; // 3px
+
+// hover 시 디자인 요소
+$btn-toggle-hover-font-color:                     $light-black;
+$btn-toggle-hover-bg-color:                       rgba(230, 230, 230, 0.3);
+$btn-toggle-hover-border-color:                   $line-gray;
+
+// pressed 시 디자인 요소
+$btn-toggle-pressed-font-color:                   $point-blue;
+$btn-toggle-pressed-bg-color:                     $white;
+$btn-toggle-pressed-border-color:                 $point-blue;
+
+// disabled 시 디자인 요소
+$btn-toggle-disabled-font-color:                  $light-black;
+$btn-toggle-disabled-bg-color:                    $white;
+$btn-toggle-disabled-border-color:                $line-gray;
