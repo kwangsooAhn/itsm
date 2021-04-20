@@ -7,7 +7,7 @@ CREATE TABLE awf_code_lang
 (
     code varchar(100) NOT NULL,
     code_value varchar(256),
-    lang varchar(100),
+    lang varchar(100) NOT NULL,
     CONSTRAINT awf_code_lang_pk PRIMARY KEY (code, lang),
     CONSTRAINT awf_code_lang_fk FOREIGN KEY (code) REFERENCES awf_code (code)
 );
