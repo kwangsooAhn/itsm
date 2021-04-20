@@ -69,6 +69,7 @@ class CIController(private val ciService: CIService) {
         val ciData = ciService.getCI(ciId)
         val ciHistoryList = ciService.getCIHistory(ciId)
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val ciRelationList = ciService.getCIRelation(ciId)
         val tags = JsonArray()
         if (ciData.ciTags != null) {
             ciData.ciTags!!.forEach {
@@ -82,6 +83,7 @@ class CIController(private val ciService: CIService) {
         model.addAttribute("ciHistoryList", ciHistoryList)
         model.addAttribute("tags", tags)
         model.addAttribute("userInfo", userDetails)
+        model.addAttribute("ciRelationList", ciRelationList)
         return ciViewPage
     }
 

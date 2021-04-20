@@ -340,6 +340,12 @@ cmdb:
       register: "CI 등록"
       update: "CI 변경"
       view: "CI 상세 조회"
+      relation: "연관 관계"
+      relationType: "연관 관계 타입"
+      sourceCiId: "기준 CI ID"
+      sourceCiName: "기준 CI 이름"
+      targetCiId: "대상 CI ID"
+      targetCiName: "대상 CI 이름"
     msg:
       deleteEditableCI: "입력된 자산정보를 목록에서 삭제하시겠습니까?"
       deleteReadableCI: "자산정보를 목록에서 삭제하시겠습니까?"
