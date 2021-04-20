@@ -31,8 +31,6 @@ export default class History {
     }
 
     undo() {
-    console.log('undo');
-    console.log(this);
         if (this.undoList.length) {
             let restoreData = this.undoList.pop();
             this.restore('undo', restoreData);
@@ -48,28 +46,29 @@ export default class History {
         }
     }
 
-    restore(type, data) {
-        const histories = JSON.parse(JSON.stringify(data));
+    restore(type, histories) {
         if (histories.length > 1 && type === 'redo') {
             histories.reverse();
         }
         histories.forEach((data) => {
-            console.log(data.to);
-            console.log(data.from);
             switch(data.type) {
             case 'add':
-                if (type === 'redo') { // add
-
-                } else { // remove
-                    data.to.parent.remove(data.to);
+                if (!util.isEmptyObject(data.to)) {
+                    const parent = this.editor.form.getById(data.to.parent.id);
+                    if (type === 'redo') {
+                        parent.add(data.to, data.to.displayOrder);
+                    } else { // 기존 추가한 객체를 삭제
+                        parent.remove(data.to);
+                    }
                 }
                 break;
             case 'remove':
-                if (type === 'redo') { // remove
-
-                } else { // add
-                    if (!util.isEmptyObject(data.from)) {
-                        data.from.parent.add(data.from, data.displayOrder);
+                if (!util.isEmptyObject(data.from)) {
+                    const parent = this.editor.form.getById(data.from.parent.id);
+                    if (type === 'redo') {
+                        parent.remove(data.from);
+                    } else { // 기존 삭제한 객체를 다시 추가
+                        parent.add(data.from, data.from.displayOrder);
                     }
                 }
                 break;

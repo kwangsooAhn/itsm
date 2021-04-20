@@ -41,8 +41,8 @@ export default class FormDesigner {
         //TODO: - 상단 메뉴 버튼 액션 추가
         document.getElementById('btnSave').addEventListener('click', this.saveForm.bind(this), false);
         document.getElementById('btnSaveAs').addEventListener('click', this.saveAsForm.bind(this), false);
-        document.getElementById('btnUndo').addEventListener('click', this.history.undo.bind(this), false);
-        document.getElementById('btnRedo').addEventListener('click', this.history.redo.bind(this), false);
+        document.getElementById('btnUndo').addEventListener('click', this.history.undo.bind(this.history), false);
+        document.getElementById('btnRedo').addEventListener('click', this.history.redo.bind(this.history), false);
         document.getElementById('btnPreview').addEventListener('click', this.preview.bind(this), false);
     }
     // TODO: 단축키 등록
@@ -386,7 +386,7 @@ export default class FormDesigner {
                             toObject.add(componentObject, evt.newDraggableIndex);
                             // 이력 추가
                             histories.push({ type: 'add', from: {}, to: componentObject.clone({ type: componentObject.type }) });
-                             // component 선택
+                            // component 선택
                             componentObject.UIElement.UIComponent.domElement.dispatchEvent(clickEvent);
                         }
                         this.options.editor.removeObjectByChildrenEmpty(fromObject, histories);
