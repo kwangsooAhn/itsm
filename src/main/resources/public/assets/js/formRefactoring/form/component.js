@@ -14,6 +14,16 @@ import { CLASS_PREFIX, FORM } from '../lib/constants.js';
 import { inputBoxMixin } from './component/inputBox.js';
 import { UIDiv } from '../lib/ui.js';
 
+const DEFAULT_LABEL_PROPERTY = {
+    position: 'left', // 라벨 위치 hidden | top | left
+    fontSize: '16',
+    fontColor: 'rgba(0,0,0,1)',
+    bold: false,
+    italic: false,
+    underline: false,
+    align: 'left',
+    text: 'COMPONENT LABEL'
+};
 
 export default class Component {
     constructor(data = {}) {
@@ -28,7 +38,8 @@ export default class Component {
         this.mapId = data.mapId || '';
         this.tags = data.tags || [];
         this.value = data.value || '${default}';
-        this.label = data.label || util.mergeObject(data.label || FORM.DEFAULT.COMPONENT_LABEL);
+        this.label = util.mergeObject(DEFAULT_LABEL_PROPERTY, data.label);
+
         this.element = data.element || {};
         this.validate = data.validate || {};
 
@@ -44,20 +55,24 @@ export default class Component {
     // 초기화
     init() {
         // 내부 property 초기화
-        this.setProperty();
+        this.initProperty();
         // 컴포넌트용 툴팁
         const componentTooltip = new UIComponentTooltip()
-            .setProperty('--data-column', this.columnWidth);
+            .setUIProperty('--data-column', this.columnWidth);
         // 컴포넌트 추가
         componentTooltip.UIComponent = new UIComponent()
-            .setId(this.id)
-            .addClass(this.type)
-            .setAttribute('data-displayType', this.displayType);
-        // 내부 엘리먼트 추가
-        componentTooltip.UIComponent.UIField = this.makeField();
-        componentTooltip.UIComponent.add(componentTooltip.UIComponent.UIField);
+            .setUIId(this.id)
+            .addUIClass(this.type)
+            .setUIAttribute('data-displayType', this.displayType);
+        // 라벨 추가
+        componentTooltip.UIComponent.UILabel = this.makeLabel();
+        componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UILabel);
 
-        componentTooltip.add(componentTooltip.UIComponent);
+        // 엘리먼트 추가
+        componentTooltip.UIComponent.UIElement = this.makeElement();
+        componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UIElement);
+
+        componentTooltip.addUI(componentTooltip.UIComponent);
         this.UIElement = componentTooltip;
     }
     // 타입에 따른 믹스인 호출
@@ -113,6 +128,69 @@ export default class Component {
         default:
             break;
         }
+    }
+
+    setMapId(id) {
+        this.mapId = id;
+    }
+
+    setIsTopic(boolean) {
+        this.isTopic = boolean;
+    }
+    // TODO: 태그 기능 추후 구현 예정
+    setTags() {}
+
+    setColumnWidth(width) {
+        this.columnWidth = width;
+        this.UIElement.setUIProperty('--data-column', width);
+    }
+
+    setLabelPosition(value) {
+        this.label.position = value;
+        if (value === FORM.LABEL.POSITION.HIDDEN) {
+            this.UIElement.UIComponent.UILabel.removeUIClass('on').addUIClass('off');
+        } else {
+            this.UIElement.UIComponent.UILabel.removeUIClass('off').addUIClass('on');
+        }
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(value));
+    }
+
+    setLabelFontColor(color) {
+        this.label.fontColor = color;
+        this.UIElement.UIComponent.UILabel.UILabelText.setUIColor(color);
+    }
+
+    setLabelFontSize(size) {
+        this.label.fontSize = size;
+        this.UIElement.UIComponent.UILabel.UILabelText.setUIFontSize(size);
+    }
+
+    setLabelAlign(value) {
+        this.label.align = value;
+        this.UIElement.UIComponent.UILabel.setUITextAlign(value);
+    }
+
+    setLabelFontOptionBold(boolean) {
+        this.label.bold = boolean;
+        this.UIElement.UIComponent.UILabel.UILabelText
+            .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
+    }
+
+    setLabelFontOptionItalic(boolean) {
+        this.UIElement.UIComponent.UILabel.UILabelText
+            .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
+        this.label.italic = boolean;
+    }
+
+    setLabelFontOptionUnderline(boolean) {
+        this.label.underline = boolean;
+        this.UIElement.UIComponent.UILabel.UILabelText
+            .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
+    }
+
+    setLabelText(text) {
+        this.label.text = text;
+        this.UIElement.UIComponent.UILabel.UILabelText.setUITextContent(text);
     }
 
     // 복사 (자식 포함)
