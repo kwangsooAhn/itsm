@@ -35,7 +35,13 @@ class CodeService(
             }
         }
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        codeList.addAll(codeRepository.findCodeByPCodeIn(codes, userDetails.lang))
+        val findCodeList = codeRepository.findCodeByPCodeIn(codes, userDetails.lang)
+        for (code in findCodeList) {
+            if (code.codeLangValue != null && code.lang != null) {
+                code.codeValue = code.codeLangValue
+            }
+        }
+        codeList.addAll(findCodeList)
         return codeList
     }
 

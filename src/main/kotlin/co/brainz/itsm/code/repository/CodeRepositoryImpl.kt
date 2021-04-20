@@ -62,7 +62,6 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
     override fun findCodeByPCodeIn(pCodes: Set<String>, lang: String?): MutableList<CodeDto> {
         val code = QCodeEntity.codeEntity
         val codeLang = QCodeLangEntity.codeLangEntity
-
         return from(code)
             .select(
                 Projections.constructor(
