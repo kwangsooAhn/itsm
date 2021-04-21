@@ -7,7 +7,6 @@
 package co.brainz.cmdb.ci.entity
 
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
-import co.brainz.cmdb.ciTag.entity.CITagEntity
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -75,14 +74,6 @@ data class CIEntity(
     var updateUser: AliceUserEntity? = null
 
 ) : Serializable {
-
-    @OneToMany(
-        mappedBy = "ci",
-        fetch = FetchType.LAZY,
-        cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
-        orphanRemoval = true
-    )
-    val ciTagEntities: MutableList<CITagEntity> = mutableListOf()
 
     @OneToMany(
         mappedBy = "ci",

@@ -6,6 +6,7 @@
 
 package co.brainz.cmdb.dto
 
+import co.brainz.framework.tag.dto.AliceTagDto
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -22,7 +23,7 @@ data class CIDto(
     var instanceId: String? = null,
     var ciDataList: MutableList<CIDataDto>? = null,
     var ciRelations: MutableList<CIRelationDto>? = null,
-    var ciTags: MutableList<CITagDto>? = null,
+    var ciTags: List<AliceTagDto>? = null,
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
