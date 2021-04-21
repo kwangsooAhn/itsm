@@ -56,11 +56,20 @@ export function importMixin(target, source) {
 
 /**
  * Object 객체이며 true, 아니면 false를 반환
- * @param item 대상
+ * @param target 대상
  * @returns {Boolean} boolean
  */
 export function isObject(target) {
     return (target && typeof target === 'object' && !Array.isArray(target));
+}
+
+/**
+ * Object 객체가 빈 객체인지 체크
+ * @param target 대상
+ * @returns {Boolean} boolean
+ */
+export function isEmptyObject(target) {
+    return Object.keys(target).length === 0 && target.constructor === Object;
 }
 
 /**
@@ -90,4 +99,24 @@ export function swapObject(array, index1, index2) {
     let temp = array[index1];
     array[index1] = array[index2];
     array[index2] = temp;
+}
+/**
+ * Move object
+ * @param index1 old index
+ * @param index2 new index
+ */
+export function moveObject(array, index1, index2) {
+    while (index1 < 0) {
+        index1 += array.length;
+    }
+    while (index2 < 0) {
+        index2 += array.length;
+    }
+    if (index2 >= array.length) {
+        let k = index2 - array.length + 1;
+        while (k--) {
+            array.push(undefined);
+        }
+    }
+    array.splice(index2, 0, array.splice(index1, 1)[0]);
 }

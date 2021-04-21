@@ -75,8 +75,10 @@ export const controlMixin = {
             this.children[i].displayOrder = i;
         }
     },
-    // 복사 (자식 포함)
-    copy() {},
+    // 복제
+    clone(data) {
+        return new this.constructor(data).copy(this);
+    },
     // 객체 조회
     getById(id) {
         if (this['id'] === id) {

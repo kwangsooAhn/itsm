@@ -46,7 +46,7 @@ export default class Component {
         // Control Mixin import
         util.importMixin(this, mixin.controlMixin);
         // 타입에 따른 Mixin import
-        util.importMixin(this, this.getMixinByType());
+        util.importMixin(this, this.getMixinByType(this.type));
         // 라벨 Mixin import
         util.importMixin(this, mixin.componentLabelMixin);
 
@@ -76,8 +76,8 @@ export default class Component {
         this.UIElement = componentTooltip;
     }
     // 타입에 따른 믹스인 호출
-    getMixinByType() {
-        switch(this.type) {
+    getMixinByType(type) {
+        switch(type) {
         case 'inputBox':
             return inputBoxMixin;
         case 'textArea':
@@ -134,15 +134,32 @@ export default class Component {
         this.mapId = id;
     }
 
+    getMapId() {
+        return this.mapId;
+    }
+
     setIsTopic(boolean) {
         this.isTopic = boolean;
     }
+
+    getIsTopic() {
+        return this.isTopic;
+    }
+
     // TODO: 태그 기능 추후 구현 예정
     setTags() {}
+
+    getTags() {
+        return this.tags;
+    }
 
     setColumnWidth(width) {
         this.columnWidth = width;
         this.UIElement.setUIProperty('--data-column', width);
+    }
+
+    getColumnWidth() {
+        return this.columnWidth;
     }
 
     setLabelPosition(value) {
@@ -155,9 +172,17 @@ export default class Component {
         this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(value));
     }
 
+    getLabelPosition() {
+        return this.label.position;
+    }
+
     setLabelFontColor(color) {
         this.label.fontColor = color;
         this.UIElement.UIComponent.UILabel.UILabelText.setUIColor(color);
+    }
+
+    getLabelFontColor() {
+        return this.label.fontColor;
     }
 
     setLabelFontSize(size) {
@@ -165,9 +190,17 @@ export default class Component {
         this.UIElement.UIComponent.UILabel.UILabelText.setUIFontSize(size);
     }
 
+    getLabelFontSize() {
+        return this.label.fontSize;
+    }
+
     setLabelAlign(value) {
         this.label.align = value;
         this.UIElement.UIComponent.UILabel.setUITextAlign(value);
+    }
+
+    getLabelAlign() {
+        return this.label.align;
     }
 
     setLabelFontOptionBold(boolean) {
@@ -176,10 +209,18 @@ export default class Component {
             .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
     }
 
+    getLabelFontOptionBold() {
+        return this.label.bold;
+    }
+
     setLabelFontOptionItalic(boolean) {
         this.UIElement.UIComponent.UILabel.UILabelText
             .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
         this.label.italic = boolean;
+    }
+
+    getLabelFontOptionItalic() {
+        return this.label.italic;
     }
 
     setLabelFontOptionUnderline(boolean) {
@@ -188,9 +229,54 @@ export default class Component {
             .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
     }
 
+    getLabelFontOptionUnderline() {
+        return this.label.underline;
+    }
+
     setLabelText(text) {
         this.label.text = text;
         this.UIElement.UIComponent.UILabel.UILabelText.setUITextContent(text);
+    }
+
+    getLabelText() {
+        return this.label.text;
+    }
+
+    // 복사 (자식 포함)
+    copy(source) {
+        this.type = source.type;
+        this.id =  source.id;
+        this.parent = source.parent;
+        this.children = source.children;
+        this.displayOrder = source.displayOrder;
+        this.columnWidth = source.columnWidth;
+        this.displayType = source.displayType;
+        this.isTopic = source.isTopic;
+        this.mapId = source.mapId;
+        this.tags = source.tags;
+        this.value = source.value;
+        this.label = source.label;
+        this.element = source.element;
+        this.validate = source.validate;
+        this.UIElement = source.UIElement;
+        return this;
+    }
+
+    toJSon() {
+        return {
+            id: this.id,
+            type: this.type,
+            displayOrder: this.displayOrder,
+            columnWidth: this.columnWidth,
+            displayType: this.displayType,
+            isTopic: this.isTopic,
+            mapId: this.mapId,
+            tags: this.tags,
+            value: this.value,
+            label: this.label,
+            element: this.element,
+            validate: this.validate
+        };
     }
 }
 

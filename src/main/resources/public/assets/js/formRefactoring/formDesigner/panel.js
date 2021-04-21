@@ -27,7 +27,6 @@ export default class Panel {
 
         // 세부 속성 표시
         const property = this.editor.selectedObject.getProperty();
-
         Object.entries(property).map(([key, value]) => {
             const propertyObject = this.makePropertyByType(key, value);
             // 라벨, 엘리먼트, 유효성 등 그룹에 포함될 경우
@@ -380,11 +379,17 @@ export default class Panel {
             }
         }
         if (passValidate) {
-            const method = 'set' + e.target.id.substr(0, 1).toUpperCase() +
+            const method = e.target.id.substr(0, 1).toUpperCase() +
             e.target.id.substr(1, e.target.id.length);
-            this.editor.selectedObject[method].call(this.editor.selectedObject, changeValue);
-            // TODO: 이력 저장
-            // this.editor.history.save();
+            // 이력 저장
+            this.editor.history.save([{
+                type: 'change',
+                id: this.editor.selectedObject.id,
+                method: 'set' + method,
+                from: this.editor.selectedObject['get' + method].call(this.editor.selectedObject),
+                to: changeValue
+            }]);
+            this.editor.selectedObject['set' + method].call(this.editor.selectedObject, changeValue);
         } else {
             // TODO: 에러 메시지 표시 및 포커스
         }
@@ -430,11 +435,17 @@ export default class Panel {
             } else if (e.target.type === 'button') {
                 changeValue = e.target.getAttribute('data-value');
             }
-            const method = 'set' + e.target.id.substr(0, 1).toUpperCase() +
+            const method = e.target.id.substr(0, 1).toUpperCase() +
                 e.target.id.substr(1, e.target.id.length);
-            this.editor.selectedObject[method].call(this.editor.selectedObject, changeValue);
-            // TODO: 이력 저장
-            // this.editor.history.save();
+            // 이력 저장
+            this.editor.history.save([{
+                type: 'change',
+                id: this.editor.selectedObject.id,
+                method: 'set' + method,
+                from: this.editor.selectedObject['get' + method].call(this.editor.selectedObject),
+                to: changeValue
+            }]);
+            this.editor.selectedObject['set' + method].call(this.editor.selectedObject, changeValue);
         } else {
             // TODO: 에러 메시지 표시 및 포커스
         }

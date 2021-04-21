@@ -50,11 +50,21 @@ export default class Row {
         this.UIElement.setUIMarginTop(top + UNIT.PX);
     }
 
+    getMarginTop() {
+        const margin = this.margin.split(' ');
+        return margin[0];
+    }
+
     setMarginRight(right) {
         const margin = this.margin.split(' ');
         margin[1] = right;
         this.margin = margin.join(' ');
         this.UIElement.setUIMarginRight(right + UNIT.PX);
+    }
+
+    getMarginRight() {
+        const margin = this.margin.split(' ');
+        return margin[1];
     }
 
     setMarginBottom(bottom) {
@@ -64,11 +74,21 @@ export default class Row {
         this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
+    getMarginBottom() {
+        const margin = this.margin.split(' ');
+        return margin[2];
+    }
+
     setMarginLeft(left) {
         const margin = this.margin.split(' ');
         margin[3] = left;
         this.margin = margin.join(' ');
         this.UIElement.setUIMarginLeft(left + UNIT.PX);
+    }
+
+    getMarginLeft() {
+        const margin = this.margin.split(' ');
+        return margin[3];
     }
 
     setPaddingTop(top) {
@@ -78,11 +98,21 @@ export default class Row {
         this.UIElement.UIRow.setUIPaddingTop(top + UNIT.PX);
     }
 
+    getPaddingTop() {
+        const padding = this.padding.split(' ');
+        return padding[0];
+    }
+
     setPaddingRight(right) {
         const padding = this.padding.split(' ');
         padding[1] = right;
         this.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingRight(right + UNIT.PX);
+    }
+
+    getPaddingRight() {
+        const padding = this.padding.split(' ');
+        return padding[1];
     }
 
     setPaddingBottom(bottom) {
@@ -92,11 +122,21 @@ export default class Row {
         this.UIElement.UIRow.setUIPaddingBottom(bottom + UNIT.PX);
     }
 
+    getPaddingBottom() {
+        const padding = this.padding.split(' ');
+        return padding[2];
+    }
+
     setPaddingLeft(left) {
         const padding = this.padding.split(' ');
         padding[3] = left;
         this.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingLeft(padding + UNIT.PX);
+    }
+
+    getPaddingLeft() {
+        const padding = this.padding.split(' ');
+        return padding[3];
     }
 
     // 세부 속성
@@ -153,8 +193,39 @@ export default class Row {
             return property;
         }, {});
     }
-}
 
+    // 복사 (자식 포함)
+    copy(source) {
+        this.type = source.type;
+        this.id =  source.id;
+        this.displayOrder = source.displayOrder;
+        this.margin = source.margin;
+        this.padding = source.padding;
+        this.parent = source.parent;
+        this.UIElement = source.UIElement;
+
+        for (let i = 0; i < source.children.length; i ++) {
+            const child = source.children[i];
+            this.add(child.clone({type: child.type}), i);
+        }
+        return this;
+    }
+
+    toJSon() {
+        const components = [];
+        for (let i = 0; i < this.children.length; i ++) {
+            const child = this.children[i];
+            components.push(child.toJSon());
+        }
+        return {
+            id: this.id,
+            displayOrder: this.displayOrder,
+            margin: this.margin,
+            padding: this.padding,
+            components: components
+        };
+    }
+}
 export class UIRowTooltip extends UIDiv {
     constructor() {
         super();

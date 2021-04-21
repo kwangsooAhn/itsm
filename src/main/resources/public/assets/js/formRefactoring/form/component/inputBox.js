@@ -51,32 +51,50 @@ export const inputBoxMixin = {
         this.element.placeholder = placeholder;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIPlaceholder(placeholder);
     },
+    getElementPlaceholder() {
+        return this.element.placeholder;
+    },
     setElementColumnWidth(width) {
         this.element.columnWidth = width;
         this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
+    },
+    getElementColumnWidth() {
+        return this.element.columnWidth;
     },
     setElementDefaultType(value) {
         this.element.defaultType = value;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.getValue());
     },
+    getElementDefaultType() {
+        return this.element.defaultType;
+    },
     setValidateValidateType(type) {
         this.validate.validateType = type;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validate-type', type);
+    },
+    getValidateValidateType() {
+        return this.validate.validateType;
     },
     setValidateLengthMin(min) {
         this.validate.lengthMin = min;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validate-minLength', min);
     },
+    getValidateLengthMin() {
+        return this.validate.lengthMin;
+    },
     setValidateLengthMax(max) {
         this.validate.lengthMax = max;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validate-maxLength', max);
+    },
+    getValidateLengthMax() {
+        return this.validate.lengthMax;
     },
     // 기본 값 조회
     getValue() {
         if (this.value === '${default}') {
             // 직접입력일 경우 : none|입력값
             const defaultValues = this.element.defaultType.split('|');
-            if (defaultValues[0] === 'none') {
+            if (defaultValues[0] === 'input') {
                 return defaultValues[1];
             } else {  // 자동일경우 : select|userKey
                 return SESSION[defaultValues[1]] || '';
