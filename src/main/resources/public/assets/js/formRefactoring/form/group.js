@@ -79,11 +79,20 @@ export default class Group {
         }
     }
 
+    getIsAccordionUsed() {
+        return this.isAccordionUsed;
+    }
+
     setMarginTop(top) {
         const margin = this.margin.split(' ');
         margin[0] = top;
         this.margin = margin.join(' ');
         this.UIElement.setUIMarginTop(top + UNIT.PX);
+    }
+
+    getMarginTop() {
+        const margin = this.margin.split(' ');
+        return margin[0];
     }
 
     setMarginRight(right) {
@@ -93,6 +102,11 @@ export default class Group {
         this.UIElement.setUIMarginRight(right + UNIT.PX);
     }
 
+    getMarginRight() {
+        const margin = this.margin.split(' ');
+        return margin[1];
+    }
+
     setMarginBottom(bottom) {
         const margin = this.margin.split(' ');
         margin[2] = bottom;
@@ -100,11 +114,21 @@ export default class Group {
         this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
+    getMarginBottom() {
+        const margin = this.margin.split(' ');
+        return margin[2];
+    }
+
     setMarginLeft(left) {
         const margin = this.margin.split(' ');
         margin[3] = left;
         this.margin = margin.join(' ');
         this.UIElement.setUIMarginLeft(left + UNIT.PX);
+    }
+
+    getMarginLeft() {
+        const margin = this.margin.split(' ');
+        return margin[3];
     }
 
     setLabelVisibility(boolean) {
@@ -116,9 +140,17 @@ export default class Group {
         }
     }
 
+    getLabelVisibility() {
+        return this.label.visibility;
+    }
+
     setLabelFontColor(color) {
         this.label.fontColor = color;
         this.UIElement.UIGroup.UILabel.UILabelText.setUIColor(color);
+    }
+
+    getLabelFontColor() {
+        return this.label.fontColor;
     }
 
     setLabelFontSize(size) {
@@ -126,9 +158,17 @@ export default class Group {
         this.UIElement.UIGroup.UILabel.UILabelText.setUIFontSize(size);
     }
 
+    getLabelFontSize() {
+        return this.label.fontSize;
+    }
+
     setLabelAlign(value) {
         this.label.align = value;
         this.UIElement.UIGroup.UILabel.setUITextAlign(value);
+    }
+
+    getLabelAlign() {
+        return this.label.align;
     }
 
     setLabelFontOptionBold(boolean) {
@@ -137,10 +177,18 @@ export default class Group {
             .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
     }
 
+    getLabelFontOptionBold() {
+        return this.label.bold;
+    }
+
     setLabelFontOptionItalic(boolean) {
         this.label.italic = boolean;
         this.UIElement.UIGroup.UILabel.UILabelText
             .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
+    }
+
+    getLabelFontOptionItalic() {
+        return this.label.italic;
     }
 
     setLabelFontOptionUnderline(boolean) {
@@ -149,9 +197,17 @@ export default class Group {
             .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
     }
 
+    getLabelFontOptionUnderline() {
+        return this.label.underline;
+    }
+
     setLabelText(text) {
         this.label.text = text;
         this.UIElement.UIGroup.UILabel.UILabelText.setUITextContent(text);
+    }
+
+    getLabelText() {
+        return this.label.text;
     }
 
     // 세부 속성
@@ -344,6 +400,22 @@ export default class Group {
             this.add(child.clone(), i);
         }
         return this;
+    }
+
+    toJSon() {
+        const rows = [];
+        for (let i = 0; i < this.children.length; i ++) {
+            const child = this.children[i];
+            rows.push(child.toJSon());
+        }
+        return {
+            id: this.id,
+            displayOrder: this.displayOrder,
+            isAccordionUsed: this.isAccordionUsed,
+            margin: this.margin,
+            label: this.label,
+            rows: rows
+        };
     }
 }
 

@@ -100,3 +100,23 @@ export function swapObject(array, index1, index2) {
     array[index1] = array[index2];
     array[index2] = temp;
 }
+/**
+ * Move object
+ * @param index1 old index
+ * @param index2 new index
+ */
+export function moveObject(array, index1, index2) {
+    while (index1 < 0) {
+        index1 += array.length;
+    }
+    while (index2 < 0) {
+        index2 += array.length;
+    }
+    if (index2 >= array.length) {
+        let k = index2 - array.length + 1;
+        while (k--) {
+            array.push(undefined);
+        }
+    }
+    array.splice(index2, 0, array.splice(index1, 1)[0]);
+}

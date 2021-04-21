@@ -49,17 +49,33 @@ export default class Form {
         this.name = name;
     }
 
+    getName() {
+        return this.name;
+    }
+
     setDesc(desc) {
         this.desc = desc;
+    }
+
+    getDesc() {
+        return this.desc;
     }
 
     setStatus(status) {
         this.status = status;
     }
 
+    getStatus() {
+        return this.status;
+    }
+
     setWidth(width) {
         this.width = width;
         this.UIElement.setUIWidth(this.width + UNIT.PX);
+    }
+
+    getWidth() {
+        return this.width;
     }
 
     setMarginTop(top) {
@@ -69,11 +85,21 @@ export default class Form {
         this.UIElement.setUIMarginTop(top + UNIT.PX);
     }
 
+    getMarginTop() {
+        const margin = this.margin.split(' ');
+        return margin[0];
+    }
+
     setMarginRight(right) {
         const margin = this.margin.split(' ');
         margin[1] = right;
         this.margin = margin.join(' ');
         this.UIElement.setUIMarginRight(right + UNIT.PX);
+    }
+
+    getMarginRight() {
+        const margin = this.margin.split(' ');
+        return margin[1];
     }
 
     setMarginBottom(bottom) {
@@ -83,11 +109,21 @@ export default class Form {
         this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
+    getMarginBottom() {
+        const margin = this.margin.split(' ');
+        return margin[2];
+    }
+
     setMarginLeft(left) {
         const margin = this.margin.split(' ');
         margin[3] = left;
         this.margin = margin.join(' ');
         this.UIElement.setUIMarginLeft(left + UNIT.PX);
+    }
+
+    getMarginLeft() {
+        const margin = this.margin.split(' ');
+        return margin[3];
     }
 
     setPaddingTop(top) {
@@ -97,11 +133,21 @@ export default class Form {
         this.UIElement.setUIPaddingTop(top + UNIT.PX);
     }
 
+    getPaddingTop() {
+        const padding = this.padding.split(' ');
+        return padding[0];
+    }
+
     setPaddingRight(right) {
         const padding = this.padding.split(' ');
         padding[1] = right;
         this.padding = padding.join(' ');
         this.UIElement.setUIPaddingRight(right + UNIT.PX);
+    }
+
+    getPaddingRight() {
+        const padding = this.padding.split(' ');
+        return padding[1];
     }
 
     setPaddingBottom(bottom) {
@@ -111,11 +157,21 @@ export default class Form {
         this.UIElement.setUIPaddingBottom(bottom + UNIT.PX);
     }
 
+    getPaddingBottom() {
+        const padding = this.padding.split(' ');
+        return padding[2];
+    }
+
     setPaddingLeft(left) {
         const padding = this.padding.split(' ');
         padding[3] = left;
         this.padding = padding.join(' ');
         this.UIElement.setUIPaddingLeft(padding + UNIT.PX);
+    }
+
+    getPaddingLeft() {
+        const padding = this.padding.split(' ');
+        return padding[3];
     }
     // 세부 속성
     getProperty() {
@@ -238,7 +294,6 @@ export default class Form {
             return property;
         }, {});
     }
-
     // 복사 (자식 포함)
     copy(source) {
         this.type = source.type;
@@ -260,7 +315,13 @@ export default class Form {
         }
         return this;
     }
+
     toJSon() {
+        const groups = [];
+        for (let i = 0; i < this.children.length; i ++) {
+            const child = this.children[i];
+            groups.push(child.toJSon());
+        }
         return {
             id: this.id,
             name: this.name,
@@ -269,7 +330,8 @@ export default class Form {
             width: this.width,
             margin: this.margin,
             padding: this.padding,
-            category: this.category
+            category: this.category,
+            groups: groups
         };
     }
 }
