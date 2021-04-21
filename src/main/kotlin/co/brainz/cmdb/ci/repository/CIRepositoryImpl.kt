@@ -9,11 +9,12 @@ package co.brainz.cmdb.ci.repository
 import co.brainz.cmdb.ci.entity.CIEntity
 import co.brainz.cmdb.ci.entity.QCIEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
-import co.brainz.cmdb.ciTag.entity.QCITagEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CISearchDto
 import co.brainz.cmdb.dto.CIsDto
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import com.querydsl.core.QueryResults
@@ -65,7 +66,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
-        val cmdbTag = QCITagEntity.cITagEntity
+        val cmdbTag = QAliceTagEntity.aliceTagEntity
         val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
         val wfInstance = QWfInstanceEntity.wfInstanceEntity
 
@@ -108,10 +109,11 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             query.where(
                 ci.ciId.`in`(
                     JPAExpressions
-                        .select(cmdbTag.ci.ciId)
+                        .select(cmdbTag.targetId)
                         .from(cmdbTag)
                         .where(
-                            cmdbTag.tagName.`in`(ciSearchDto.tags)
+                            cmdbTag.tagValue.`in`(ciSearchDto.tags)
+                                .and(cmdbTag.tagType.eq(AliceTagConstants.TagType.CI.code))
                         )
                 )
             )

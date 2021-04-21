@@ -9594,28 +9594,6 @@ COMMENT ON COLUMN cmdb_ci_relation.source_ci_id IS 'CI아이디(Master)';
 COMMENT ON COLUMN cmdb_ci_relation.target_ci_id IS 'CI아이디(Slave)';
 
 /**
- * CMDB CI 태그정보
- */
-DROP TABLE IF EXISTS cmdb_ci_tag cascade;
-
-CREATE TABLE cmdb_ci_tag
-(
-	ci_id character varying(128) NOT NULL,
-	tag_id character varying(128) NOT NULL,
-	tag_name character varying(128),
-	CONSTRAINT cmdb_ci_tag_pk PRIMARY KEY (ci_id, tag_id),
-	CONSTRAINT cmdb_ci_tag_uk UNIQUE (tag_id),
-	CONSTRAINT cmdb_ci_tag_fk FOREIGN KEY (ci_id)
-      REFERENCES cmdb_ci (ci_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-);
-
-COMMENT ON TABLE cmdb_ci_tag IS 'CMDB_CI태그정보';
-COMMENT ON COLUMN cmdb_ci_tag.ci_id IS 'CI아이디';
-COMMENT ON COLUMN cmdb_ci_tag.tag_id IS '태그아이디';
-COMMENT ON COLUMN cmdb_ci_tag.tag_name IS '태그이름';
-
-/**
  * CMDB 클래스 속성 정보
  */
 DROP TABLE IF EXISTS cmdb_class_attribute_map cascade;
@@ -9833,7 +9811,7 @@ COMMENT ON COLUMN cmdb_ci_instance_relation.ci_id IS 'CI아이디';
 COMMENT ON COLUMN cmdb_ci_instance_relation.instance_id IS '인스턴스ID';
 
 /**
- * 다국어 코드 정보
+ * 코드 다국어 정보
  */
 DROP TABLE IF EXISTS awf_code_lang cascade;
 

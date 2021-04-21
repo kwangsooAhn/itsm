@@ -22,9 +22,6 @@ import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciRelation.entity.CIRelationEntity
 import co.brainz.cmdb.ciRelation.repository.CIRelationRepository
-import co.brainz.cmdb.ciRelation.repository.CIRelationRepositoryImpl
-import co.brainz.cmdb.ciTag.entity.CITagEntity
-import co.brainz.cmdb.ciTag.repository.CITagRepository
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
 import co.brainz.cmdb.ciType.service.CITypeService
@@ -42,6 +39,9 @@ import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.entity.AliceTagEntity
+import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
@@ -50,7 +50,6 @@ import org.springframework.stereotype.Service
 @Service
 class CIService(
     private val ciRepository: CIRepository,
-    private val ciTagRepository: CITagRepository,
     private val ciTypeRepository: CITypeRepository,
     private val ciClassRepository: CIClassRepository,
     private val ciAttributeRepository: CIAttributeRepository,
@@ -61,7 +60,8 @@ class CIService(
     private val ciTypeService: CITypeService,
     private val wfInstanceRepository: WfInstanceRepository,
     private val ciInstanceRelationRepository: CIInstanceRelationRepository,
-    private val aliceUserRepository: AliceUserRepository
+    private val aliceUserRepository: AliceUserRepository,
+    private val aliceTagRepository: AliceTagRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -135,7 +135,7 @@ class CIService(
             ciDetailDto.createDt = ciEntity.createDt
             ciDetailDto.updateUserKey = ciEntity.updateUser?.userKey
             ciDetailDto.updateDt = ciEntity.updateDt
-            ciDetailDto.ciTags = ciTagRepository.findByCIId(ciEntity.ciId)
+            ciDetailDto.ciTags = aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId)
             ciDetailDto.ciRelations = ciRelationRepository.selectByCiId(ciEntity.ciId)
             ciDetailDto.classes = getAttributeValueAll(ciEntity.ciId, ciEntity.ciClassEntity.classId)
         }
@@ -228,10 +228,11 @@ class CIService(
 
                 // CITagEntity 등록
                 ciDto.ciTags?.forEach {
-                    ciTagRepository.save(
-                        CITagEntity(
-                            ci = ciEntity,
-                            tagName = it.tagName
+                    aliceTagRepository.save(
+                        AliceTagEntity(
+                            tagType = AliceTagConstants.TagType.CI.code,
+                            tagValue = it.tagValue,
+                            targetId = ciEntity.ciId
                         )
                     )
                 }
@@ -303,12 +304,13 @@ class CIService(
         }
 
         // CITagEntity Update
-        ciTagRepository.deleteByCiId(ciDto.ciId)
+        aliceTagRepository.deleteByTargetId(AliceTagConstants.TagType.CI.code, ciDto.ciId)
         ciDto.ciTags?.forEach {
-            ciTagRepository.save(
-                CITagEntity(
-                    ci = ciEntity,
-                    tagName = it.tagName
+            aliceTagRepository.save(
+                AliceTagEntity(
+                    tagType = AliceTagConstants.TagType.CI.code,
+                    tagValue = it.tagValue,
+                    targetId = ciEntity.ciId
                 )
             )
         }
@@ -481,7 +483,7 @@ class CIService(
             ciIconData = ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) },
             ciDesc = ci.ciDesc,
             automatic = ci.automatic,
-            tags = ciTagRepository.findByCIId(ci.ciId!!),
+            tags = aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId),
             createUserKey = ci.createUserKey,
             createDt = ci.createDt,
             updateUserKey = ci.updateUserKey,
