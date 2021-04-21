@@ -7,6 +7,7 @@
 package co.brainz.workflow.component.service
 
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
+import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentDataDto
@@ -35,9 +36,12 @@ class WfComponentService(
         return customCodeIds.toList()
     }
 
+    fun getComponent(componentId: String): WfComponentEntity {
+        return wfComponentRepository.findByComponentId(componentId)
+    }
+
     fun getComponentTypeById(componentId: String): String {
-        val component = wfComponentRepository.findById(componentId)
-        return component.get().componentType
+        return this.getComponent(componentId).componentType
     }
 
     /**
