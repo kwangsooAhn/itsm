@@ -82,8 +82,6 @@ class CallApiDocument {
     fun getComponent() {
         val headers = HttpHeaders()
         headers.set("Authorization", "Bearer $accessToken")
-        // componentId를 여러개 조회해야할 듯.. 아님 우선 1개만
-        // attributeValue 를 json, jsonArray 에 따라 풀어서 map으로 던진다?
         val componentId = "d1e9357c226b4289a35e57fc332026f0"
         val a = mvc.perform(get("/api/wf/component/$componentId").headers(headers))
             .andExpect(status().isOk)
