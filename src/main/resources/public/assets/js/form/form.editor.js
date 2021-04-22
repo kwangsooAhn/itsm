@@ -1702,45 +1702,10 @@
                 changePropertiesValue(customCodeList[0].customCodeId, group, property.id);
             }
             break;
-        case 'labeling':
-            // 테이블 Header 추가
-            let tableHeaderOptions = `<th></th>`;
-            tableHeaderOptions += property.option.map(function(opt) {
-                return `<th data-role="${opt.id}" data-default="${opt.value}" data-validate="${opt.validate}">${i18n.msg('form.attribute.option.' + opt.id)}</th>`;
-            }).join('');
-
-            // 테이블 Row 추가
-            let tableRowOptions = property.value.label.map(function(opt, index) { // {key: value}
-                let checkBoxTemplate = `<td>` +
-                            `<label class="checkbox" for="checkbox-label-${index + 1}" tabindex="0">` +
-                                `<input type="checkbox" id="checkbox-label-${index + 1}" value="${index + 1}" />` +
-                                `<span></span>` +
-                            `</label>` +
-                        `</td>`;
-                let labelKey = Object.keys(opt)[0];
-                return `<tr>` +
-                            `${checkBoxTemplate}` +
-                            `<td><input type="text" id="key" class="property-value" value="${aliceJs.filterXSS(labelKey)}" data-validate="${property.option[0].validate}"/></td>` +
-                            `<td><input type="text" id="value" class="property-value" value="${aliceJs.filterXSS(opt[labelKey])}" data-validate="${property.option[1].validate}"/></td>` +
-                        `</tr>`;
-            }).join('');
-
+        case 'tag-box':
             fieldTemplate =
-                    `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
-                    `<button type="button" class="ghost-line btn-option float-right" id="label-option-plus"><span class="icon icon-plus"></span></button>` +
-                    `<button type="button" class="ghost-line btn-option float-right mr-1" id="label-option-minus"><span class="icon icon-minus"></span></button>` +
-                    `<table class="property-field-table" id="table-label" date-validate="unique">` +
-                        `<colgroup>` +
-                            `<col width="20%">` +
-                            `<col width="40%">` +
-                            `<col width="40%">` +
-                        `</colgroup>` +
-                        `<tbody>` +
-                            `<tr>${tableHeaderOptions}</tr>` +
-                            `${tableRowOptions}` +
-                        `</tbody>` +
-                    `</table>` +
-                    `<label class="error-msg"></label>`;
+                `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
+                `<input type="text" class="property-value" value="${aliceJs.filterXSS(property.value)}" maxlength="100"/>`;
 
             elem.insertAdjacentHTML('beforeend', fieldTemplate);
             break;

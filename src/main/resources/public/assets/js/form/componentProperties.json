@@ -29,25 +29,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
+            {   "id": "tag",
+                "name": "Component Tag",
                 "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
