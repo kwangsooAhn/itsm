@@ -421,8 +421,8 @@ class ChartService(
         val durationObj = JsonObject()
         val chartFromList = JsonArray()
 
-        chartDto.targetTags?.forEach { label ->
-            chartFromList.add(label.trim())
+        chartDto.targetTags?.forEach { tag ->
+            chartFromList.add(tag.trim())
         }
         // type
         chartConfigObj.addProperty(ChartConstants.ObjProperty.TYPE.property, chartDto.chartType)
