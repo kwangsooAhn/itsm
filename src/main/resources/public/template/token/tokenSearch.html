@@ -48,15 +48,18 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[ */
         let offsetCount = 0;
-        window.addEventListener('load', function () {
+        let searchFromDt = i18n.getDate({'months': -1});
+        let searchToDt = i18n.getDate();
+
+        window.onload = function () {
             document.getElementById('searchValue').focus();
             // date picker 초기화
-            document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
-            document.getElementById('toDt').value = i18n.getDate();
+            document.getElementById('searchFromDt').value = searchFromDt;
+            document.getElementById('toDt').value = searchToDt;
+            dateTimePicker.initDatePicker('searchFromDt', setDatePicker);
+            dateTimePicker.initDatePicker('toDt', setDatePicker);
 
             // 검색 이벤트 핸들러 셋업
-            dateTimePicker.initDatePicker('searchFromDt', () => tokenSearch(false));
-            dateTimePicker.initDatePicker('toDt', () => tokenSearch(false));
             document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {
                 element.addEventListener('change', () => tokenSearch(false), false);
             });
@@ -72,7 +75,34 @@
             }, false);
 
             tokenSearch(false);
-        });
+        };
+
+        function setDatePicker(element, picker) {
+            if (typeof picker === 'undefined') {
+                return false;
+            }
+            if (element.id === 'searchFromDt') {
+                const toDtValue = document.getElementById('toDt').value;
+                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
+                    aliceAlert.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function () {
+                        document.getElementById('searchFromDt').value = searchFromDt;
+                        picker.open();
+                    });
+                } else {
+                    tokenSearch(false);
+                }
+            } else {
+                const fromDtValue = document.getElementById('searchFromDt').value;
+                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
+                    aliceAlert.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function () {
+                        document.getElementById('toDt').value = searchToDt;
+                        picker.open();
+                    });
+                } else {
+                    tokenSearch(false);
+                }
+            }
+        }
 
         /**
          * 문서함을 검색한다.

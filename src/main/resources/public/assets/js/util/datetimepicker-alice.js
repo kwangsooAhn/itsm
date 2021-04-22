@@ -260,7 +260,7 @@
             for (let i = 0; i < 7; i++) {
                 const calendarTitle =  document.createElement('div');
                 calendarTitle.classList.add('calendar-cell', 'calendar-title');
-                calendarTitle.textContent = luxon.DateTime.local().set({weekday: i}).setLocale('kr').toFormat('ccc');
+                calendarTitle.textContent = luxon.DateTime.local().set({weekday: i}).setLocale(i18n.lang).toFormat('ccc');
                 calendarPanel.appendChild(calendarTitle);
             }
 

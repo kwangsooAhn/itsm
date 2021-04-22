@@ -34,12 +34,14 @@
     <script th:inline="javascript">
         /*<![CDATA[ */
         let offsetCount = 0;
+        let searchFromDt = i18n.getDate({'months': -1});
+        let searchToDt = i18n.getDate();
 
         window.onload = function () {
             // initialization date picker
             document.getElementById('searchValue').focus();
-            document.getElementById('fromDt').value = i18n.getDate({'months': -1});
-            document.getElementById('searchToDt').value = i18n.getDate();
+            document.getElementById('fromDt').value = searchFromDt;
+            document.getElementById('searchToDt').value = searchToDt;
             dateTimePicker.initDatePicker('fromDt', setDatePicker);
             dateTimePicker.initDatePicker('searchToDt', setDatePicker);
             document.getElementById('searchValue').addEventListener('keyup', function () {
@@ -56,6 +58,7 @@
                 const toDtValue = document.getElementById('searchToDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                     aliceAlert.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function () {
+                        document.getElementById('fromDt').value = searchFromDt;
                         picker.open();
                     });
                 } else {
@@ -65,6 +68,7 @@
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
                     aliceAlert.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function () {
+                        document.getElementById('searchToDt').value = searchToDt;
                         picker.open();
                     });
                 } else {
