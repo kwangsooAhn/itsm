@@ -12,5 +12,5 @@ object AliceTagConstants {
         CI("ci")
     }
 
-    const val TAG_SUGGESTION_MAX_COUNT: Long = 20;
+    const val TAG_SUGGESTION_MAX_COUNT: Long = 20
 }

@@ -44,6 +44,6 @@ class AliceTagService(
     }
 
     fun getSuggestionList(tagValue: String, tagType: String): List<String> {
-        return aliceTagRepository.findSuggestionList(tagValue, tagType);
+        return aliceTagRepository.findSuggestionList(tagValue, tagType)
     }
 }
