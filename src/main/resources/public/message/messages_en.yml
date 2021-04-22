@@ -247,7 +247,7 @@ chart:
     edit: "Chart Edit"
     name: "Chart Name"
     queryInfo: "Query Info"
-    targetLabels: "Target Labels"
+    targetTags: "Target Tags"
     type: "Chart Type"
     periodUnit: "PeriodUnit"
     operation: "Operation"
@@ -264,7 +264,7 @@ chart:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
     enterTargetGroup: "Please enter a target Group."
-    enterTargetLabels: "Please enter a target labels."
+    enterTargetTags: "Please enter a target tags."
     enterDurationDigit: "Please enter a Duration."
     periodUnitOutOfRange: "The duration is greater than the period."
   chart:

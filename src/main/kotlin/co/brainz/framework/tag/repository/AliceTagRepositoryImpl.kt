@@ -67,4 +67,22 @@ class AliceTagRepositoryImpl : QuerydslRepositorySupport(AliceTagEntity::class.j
             .limit(AliceTagConstants.TAG_SUGGESTION_MAX_COUNT)
             .fetch()
     }
+
+    override fun findByTagValueIn(tagType: String, tagValue: List<String>): List<AliceTagDto> {
+        return from(tag)
+            .select(
+                Projections.constructor(
+                    AliceTagDto::class.java,
+                    tag.tagId,
+                    tag.tagType,
+                    tag.tagValue,
+                    tag.targetId
+                )
+            )
+            .where(
+                (tag.tagType.eq(tagType))
+                    .and(tag.tagValue.`in`(tagValue))
+            )
+            .fetch()
+    }
 }

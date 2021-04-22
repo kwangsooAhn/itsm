@@ -16,7 +16,7 @@ data class ChartDto(
     val chartDesc: String? = null,
     var chartConfig: String? = null,
     var createDt: LocalDateTime? = null,
-    val targetLabels: ArrayList<String>? = null,
+    val targetTags: ArrayList<String>? = null,
     val operation: String = "",
     var durationDigit: Long = 0,
     val durationUnit: String = "",
