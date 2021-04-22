@@ -38,6 +38,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
@@ -280,9 +281,14 @@
                         if (chartId !== undefined) {
                             parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
                         }
-                        let targetLabels = document.getElementById('targetLabels').value
-                        document.getElementById('targetLabels').value = targetLabels.substring(1, targetLabels.length - 1);
+                        let targetTags = document.getElementById('targetTags').value
+                        document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
                     }
+                    let tagify = new Tagify(document.querySelector('input[id=targetTags]'), {
+                        pattern: /^.{0,100}$/,
+                        editTags: false,
+                        placeholder: i18n.msg('token.msg.tag')
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
@@ -292,7 +298,7 @@
             if (isEmpty('chartName', 'chart.msg.enterChartName')) {
                 return false
             }
-            if (isEmpty('targetLabels', 'chart.msg.enterTargetLabels')) {
+            if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
                 return false
             }
             if (isEmpty('durationDigit', 'chart.msg.enterDurationDigit')) {
@@ -635,7 +641,7 @@
                     chartType: document.getElementById('typeSelectBox').value,
                     chartName: document.getElementById('chartName').value,
                     chartDesc: document.getElementById('chartDesc').value,
-                    targetLabels: document.getElementById('targetLabels').value.split(","),
+                    targetTags: document.getElementById('targetTags').value.split(","),
                     operation: document.getElementById('operationSelectBox').value,
                     durationDigit: document.getElementById('durationDigit').value,
                     durationUnit: document.getElementById('durationUnitSelectBox').value
