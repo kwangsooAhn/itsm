@@ -6,7 +6,6 @@
 
 package co.brainz.api.workflow.service
 
-import co.brainz.framework.util.AliceUtil
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
@@ -30,7 +29,6 @@ class ApiWorkflowDataStructure {
     fun init(documentData: RestTemplateRequestDocumentDto): RestTemplateTokenDataUpdateDto {
         val dataStructure = RestTemplateTokenDataUpdateDto(
             documentId = documentData.documentId,
-            instanceId = AliceUtil().getUUID(),
             action = WfElementConstants.Action.PROGRESS.value
         )
         val componentData = mutableListOf<RestTemplateTokenDataDto>()
