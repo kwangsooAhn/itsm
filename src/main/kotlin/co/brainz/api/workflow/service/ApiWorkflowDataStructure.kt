@@ -17,6 +17,13 @@ import org.springframework.stereotype.Service
 @Service
 class ApiWorkflowDataStructure {
 
+    private val apiExcludedComponentType: Array<String> = arrayOf(
+        WfComponentConstants.ComponentTypeCode.DIVIDER.code,
+        WfComponentConstants.ComponentTypeCode.LABEL.code,
+        WfComponentConstants.ComponentTypeCode.ACCORDION_START.code,
+        WfComponentConstants.ComponentTypeCode.ACCORDION_END.code
+    )
+
     /**
      * 기본적인 데이터 구조 설정
      */
@@ -27,9 +34,8 @@ class ApiWorkflowDataStructure {
             action = WfElementConstants.Action.PROGRESS.value
         )
         val componentData = mutableListOf<RestTemplateTokenDataDto>()
-        val filterType: Array<String> = this.getFilterType()
         for (component in documentData.form.components) {
-            if (!filterType.contains(component.type)) {
+            if (!apiExcludedComponentType.contains(component.type)) {
                 componentData.add(
                     RestTemplateTokenDataDto(
                         componentId = component.componentId
@@ -43,17 +49,5 @@ class ApiWorkflowDataStructure {
         }
 
         return dataStructure
-    }
-
-    /**
-     * 데이터가 없는 예외 컴포넌트 타입 목록 조회 (해당 컴포넌트는 제외)
-     */
-    private fun getFilterType(): Array<String> {
-        return arrayOf(
-            WfComponentConstants.ComponentTypeCode.DIVIDER.code,
-            WfComponentConstants.ComponentTypeCode.LABEL.code,
-            WfComponentConstants.ComponentTypeCode.ACCORDION_START.code,
-            WfComponentConstants.ComponentTypeCode.ACCORDION_END.code
-        )
     }
 }
