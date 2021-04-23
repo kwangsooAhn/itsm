@@ -14,6 +14,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    let tagify = null;
     let initialStatus = null;
     let ATTRIBUTE_TABLE_COLUMN = 'drTableColumns'; // 컴포넌트 세부 속성 - drTableColumns
     const history = {
@@ -123,9 +124,6 @@
             },
             required: function(value) {
                 return !aliceJs.isEmpty(value);
-            },
-            label: function(value) { // 라벨링 전용
-                return labelRegex.test(value);
             }
         };
         // 이벤트 등록
@@ -176,9 +174,6 @@
                     break;
                 case 'required':
                     result = validateFunc.required(target.value);
-                    break;
-                case 'label':
-                    result = validateFunc.label(target.value);
                     break;
                 case 'unique': // table 중복 체크
                     result = true;
@@ -1705,9 +1700,18 @@
         case 'tag-box':
             fieldTemplate =
                 `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
-                `<input type="text" class="property-value" value="${aliceJs.filterXSS(property.value)}" maxlength="100"/>`;
+                `<input type="text" class="property-value" id="${key}-${property.id}" value='${JSON.stringify(property.value)}'/>`;
 
             elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            tagify = new Tagify(elem.querySelector('input[id='+key+'-'+property.id+']'), {
+                pattern: /^.{0,100}$/,
+                editTags: false,
+                callbacks: {
+                    'add': onAddRemoveTag,
+                    'remove': onAddRemoveTag
+                },
+                placeholder: i18n.msg('token.msg.tag')
+            });
             break;
         case 'image':
             fieldTemplate =
@@ -2588,6 +2592,17 @@
             },
             contentType: 'application/json; charset=utf-8'
         });
+    }
+
+    /**
+     * 태그 추가 및 삭제 시 다시 그리기.
+     */
+    function onAddRemoveTag(tag) {
+        let tagValue = []
+        tagify.getTagElms().forEach( tagElm =>
+            tagValue.push({value: tagElm.title})
+        )
+        changePropertiesValue(tagValue,'dataAttribute','tag');
     }
 
     exports.init = init;
