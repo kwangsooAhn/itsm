@@ -264,7 +264,7 @@
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
-      @include viewTemplate();
+      @include portalViewTemplate();
 
       .list { height: $layout-list-height; }
     }
@@ -277,7 +277,7 @@
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
-      @include viewTemplate();
+      @include portalViewTemplate();
 
       .list { height: $layout-list-height }
     }

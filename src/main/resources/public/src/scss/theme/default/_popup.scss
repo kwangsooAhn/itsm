@@ -23,7 +23,7 @@
     margin-top: 1.25rem; //20px
   }
 
-  @include viewTemplate();
+  @include defaultViewTemplate();
   // custom-code 대상 선택 팝업
   .custom-code-content-popup {
     &.view {

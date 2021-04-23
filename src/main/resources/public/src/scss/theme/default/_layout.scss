@@ -50,7 +50,7 @@
     @include editTemplate();
 
     // view
-    @include viewTemplate();
+    @include defaultViewTemplate();
   }
   // 역할, 권한, 코드 화면의 우측 영역
   .aside {
