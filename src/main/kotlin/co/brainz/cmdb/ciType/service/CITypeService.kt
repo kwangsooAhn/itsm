@@ -217,6 +217,7 @@ class CITypeService(
      * @return String 데이터화된 아이콘 이미지
      */
     fun getCITypeImageData(ciTypeIconName: String): String {
+        // todo #10536 아이콘 선택값이 없을 경우 기본 아이콘 처리
         return aliceFileProvider.getDataUriSchema(FileConstants.Path.ICON_CI_TYPE.path + File.separator + ciTypeIconName)
     }
 }
