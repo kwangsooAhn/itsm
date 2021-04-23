@@ -104,7 +104,8 @@
     }
     .accordion-content {
       height: 0;
-      border-bottom: none;
+      border-bottom: $accordion-border;
+      border-bottom-color: transparent;
       overflow: hidden;
       transition: all 0.25s ease-out;
 
@@ -174,7 +175,7 @@
       }
       ~ .accordion-content {
         height: calc(100vh - (#{$accordion-height} * 4) - #{$layout-header-height});
-        border-bottom: $accordion-border;
+        border-bottom-color: $accordion-border-color;
         overflow-y: auto;
         @include scrollbarHidden;
       }

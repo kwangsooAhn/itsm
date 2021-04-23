@@ -677,7 +677,8 @@ input, button, select, optgroup, textarea {
 }
 .component-accordion-box .component-accordion .accordion-content {
   height: 0;
-  border-bottom: none;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  border-bottom-color: transparent;
   overflow: hidden;
   transition: all 0.25s ease-out;
 }
@@ -941,7 +942,7 @@ input, button, select, optgroup, textarea {
 }
 .component-accordion-box .component-accordion input[type=radio]:checked ~ .accordion-content {
   height: calc(100vh - (3.125rem * 4) - 3.125rem);
-  border-bottom: 0.0625rem solid #EBEBEB;
+  border-bottom-color: #EBEBEB;
   overflow-y: auto;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -4250,6 +4251,7 @@ body.modal-active {
 }
 
 .zenius-group-tooltip {
+  position: relative;
   padding: 1.25rem;
   border: 0.0625rem solid transparent;
   background-color: #ffffff;
@@ -4257,6 +4259,9 @@ body.modal-active {
 .zenius-group-tooltip.selected {
   border-color: #87CEFF;
   background-color: rgba(135, 206, 255, 0.1);
+}
+.zenius-group-tooltip.selected > .zenius-tooltip-menu {
+  visibility: visible;
 }
 
 .zenius-group-accordion-checkBox {
@@ -4328,6 +4333,7 @@ body.modal-active {
 }
 
 .zenius-row-tooltip {
+  position: relative;
   padding: 1.25rem;
   border: 0.0625rem solid transparent;
   background-color: transparent;
@@ -4336,12 +4342,16 @@ body.modal-active {
   border-color: #87CEFF;
   background-color: rgba(135, 206, 255, 0.1);
 }
+.zenius-row-tooltip.selected > .zenius-tooltip-menu {
+  visibility: visible;
+}
 
 .zenius-row {
   background-color: #F7F8F9;
 }
 
 .zenius-component-tooltip {
+  position: relative;
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
   padding: 0.75rem 1.25rem;
   border: 0.0625rem solid transparent;
@@ -4350,6 +4360,9 @@ body.modal-active {
 .zenius-component-tooltip.selected {
   border-color: #87CEFF;
   background-color: rgba(135, 206, 255, 0.1);
+}
+.zenius-component-tooltip.selected > .zenius-tooltip-menu {
+  visibility: visible;
 }
 
 .zenius-component {
@@ -4378,6 +4391,56 @@ body.modal-active {
 
 .zenius-component[data-displayType]:not([data-displayType=required]) .zenius-component-label span[class=required] {
   display: none;
+}
+
+.zenius-tooltip-menu {
+  visibility: hidden;
+  position: absolute;
+  background-color: #ffffff;
+  height: 2.5rem;
+  box-shadow: 0 0 0 0.0625rem #87CEFF inset;
+  bottom: 100%;
+  right: -0.0625rem;
+}
+.zenius-tooltip-menu .zenius-tooltip-menu-items {
+  margin: 0 0.125rem;
+  padding: 0.5625rem 0 0;
+}
+.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item {
+  display: inline-block;
+  margin: 0 0.25rem;
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item .icon {
+  display: inline-block;
+  vertical-align: middle;
+  pointer-events: none;
+}
+.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item .icon.icon-copy {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/formRefactoring/tooltip/icon_copy.svg");
+  mask-image: url("../media/icons/formRefactoring/tooltip/icon_copy.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #87CEFF;
+}
+.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item .icon.icon-remove {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/formRefactoring/tooltip/icon_remove.svg");
+  mask-image: url("../media/icons/formRefactoring/tooltip/icon_remove.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #87CEFF;
+}
+.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item:hover .icon {
+  background: #0098FF;
 }
 
 /* 세부 속성 디자인 */

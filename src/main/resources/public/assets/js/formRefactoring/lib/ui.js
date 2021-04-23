@@ -486,8 +486,20 @@ class UISlider extends UIElement {
     }
 }
 
+class UIUl extends UIElement {
+    constructor() {
+        super(document.createElement('ul'));
+    }
+}
+
+class UILi extends UIElement {
+    constructor() {
+        super(document.createElement('li'));
+    }
+}
+
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
-    UIHorizontalRule, UIButton, UISlider
+    UIHorizontalRule, UIButton, UISlider, UIUl, UILi
 };

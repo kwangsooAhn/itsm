@@ -24,6 +24,7 @@ const DEFAULT_LABEL_PROPERTY = {
     align: 'left',
     text: 'COMPONENT LABEL'
 };
+Object.freeze(DEFAULT_LABEL_PROPERTY);
 
 export default class Component {
     constructor(data = {}) {
@@ -38,7 +39,7 @@ export default class Component {
         this.mapId = data.mapId || '';
         this.tags = data.tags || [];
         this.value = data.value || '${default}';
-        this.label = util.mergeObject(DEFAULT_LABEL_PROPERTY, data.label);
+        this.label = Object.assign({}, DEFAULT_LABEL_PROPERTY, data.label);
 
         this.element = data.element || {};
         this.validate = data.validate || {};
@@ -49,6 +50,8 @@ export default class Component {
         util.importMixin(this, this.getMixinByType(this.type));
         // 라벨 Mixin import
         util.importMixin(this, mixin.componentLabelMixin);
+        // Tooltip Mixin import
+        util.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }
@@ -73,6 +76,10 @@ export default class Component {
         componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UIElement);
 
         componentTooltip.addUI(componentTooltip.UIComponent);
+        // 툴팁
+        componentTooltip.UITooltipMenu = this.makeTooltip();
+        componentTooltip.addUI(componentTooltip.UITooltipMenu);
+
         this.UIElement = componentTooltip;
     }
     // 타입에 따른 믹스인 호출
@@ -243,9 +250,8 @@ export default class Component {
     }
 
     // 복사 (자식 포함)
-    copy(source) {
+    copy(source, flag) {
         this.type = source.type;
-        this.id =  source.id;
         this.parent = source.parent;
         this.children = source.children;
         this.displayOrder = source.displayOrder;
@@ -258,11 +264,13 @@ export default class Component {
         this.label = source.label;
         this.element = source.element;
         this.validate = source.validate;
-        this.UIElement = source.UIElement;
+        if (flag) { this.id = source.id; }
+
+        this.init();
         return this;
     }
 
-    toJSon() {
+    toJson() {
         return {
             id: this.id,
             type: this.type,

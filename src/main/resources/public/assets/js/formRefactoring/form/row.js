@@ -27,6 +27,8 @@ export default class Row {
 
         // Control Mixin import
         util.importMixin(this, mixin.controlMixin);
+        // Tooltip Mixin import
+        util.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }
@@ -40,6 +42,10 @@ export default class Row {
             .setUICSSText(`padding:${this.padding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
 
         rowTooltip.addUI(rowTooltip.UIRow);
+        // 툴팁
+        rowTooltip.UITooltipMenu = this.makeTooltip();
+        rowTooltip.addUI(rowTooltip.UITooltipMenu);
+
         this.UIElement = rowTooltip;
     }
 
@@ -195,27 +201,27 @@ export default class Row {
     }
 
     // 복사 (자식 포함)
-    copy(source) {
+    copy(source, flag) {
         this.type = source.type;
-        this.id =  source.id;
         this.displayOrder = source.displayOrder;
         this.margin = source.margin;
         this.padding = source.padding;
         this.parent = source.parent;
-        this.UIElement = source.UIElement;
+        if (flag) { this.id = source.id; }
 
-        for (let i = 0; i < source.children.length; i ++) {
-            const child = source.children[i];
-            this.add(child.clone({type: child.type}), i);
-        }
+        this.init();
+
+        source.children.forEach((child, index) =>{
+            this.add(child.clone(flag, { type: child.type }), index);
+        });
         return this;
     }
 
-    toJSon() {
+    toJson() {
         const components = [];
         for (let i = 0; i < this.children.length; i ++) {
             const child = this.children[i];
-            components.push(child.toJSon());
+            components.push(child.toJson());
         }
         return {
             id: this.id,

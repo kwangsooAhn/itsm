@@ -26,6 +26,7 @@ const DEFAULT_GROUP_LABEL_PROPERTY = {
     align: 'left',
     text: 'GROUP LABEL'
 };
+Object.freeze(DEFAULT_GROUP_LABEL_PROPERTY);
 
 export default class Group {
     constructor(data = {}) {
@@ -36,10 +37,12 @@ export default class Group {
         this.displayOrder = 0;     // 표시 순서
         this.isAccordionUsed = data.isAccordionUsed;
         this.margin = data.margin || '10 0 10 0'; // 그룹 간 간격(위 오른쪽 아래 왼쪽)
-        this.label = util.mergeObject(DEFAULT_GROUP_LABEL_PROPERTY, data.label);
+        this.label = Object.assign({}, DEFAULT_GROUP_LABEL_PROPERTY, data.label);
 
         // Control Mixin import
         util.importMixin(this, mixin.controlMixin);
+        // Tooltip Mixin import
+        util.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }
@@ -67,6 +70,10 @@ export default class Group {
             .setUITextContent(this.label.text);
 
         groupTooltip.addUI(groupTooltip.UIGroup);
+        // 툴팁
+        groupTooltip.UITooltipMenu = this.makeTooltip();
+        groupTooltip.addUI(groupTooltip.UITooltipMenu);
+
         this.UIElement = groupTooltip;
     }
 
@@ -385,28 +392,28 @@ export default class Group {
         }, {});
     }
     // 복사 (자식 포함)
-    copy(source) {
+    copy(source, flag) {
         this.type = source.type;
-        this.id =  source.id;
         this.displayOrder = source.displayOrder;
         this.isAccordionUsed = source.isAccordionUsed;
         this.margin = source.margin;
         this.label = source.label;
         this.parent = source.parent;
-        this.UIElement = source.UIElement;
+        if (flag) { this.id = source.id; }
 
-        for (let i = 0; i < source.children.length; i ++) {
-            const child = source.children[i];
-            this.add(child.clone(), i);
-        }
+        this.init();
+
+        source.children.forEach((child, index) => {
+            this.add(child.clone(flag), index);
+        });
         return this;
     }
 
-    toJSon() {
+    toJson() {
         const rows = [];
         for (let i = 0; i < this.children.length; i ++) {
             const child = this.children[i];
-            rows.push(child.toJSon());
+            rows.push(child.toJson());
         }
         return {
             id: this.id,

@@ -295,9 +295,8 @@ export default class Form {
         }, {});
     }
     // 복사 (자식 포함)
-    copy(source) {
+    copy(source, flag) {
         this.type = source.type;
-        this.id =  source.id;
         this.displayOrder = source.displayOrder;
         this.name = source.name;
         this.desc = source.desc;
@@ -307,20 +306,21 @@ export default class Form {
         this.padding = source.padding;
         this.category = source.category;
         this.parent = source.parent;
-        this.UIElement = source.UIElement;
+        if (flag) { this.id = source.id; }
 
-        for (let i = 0; i < source.children.length; i ++) {
-            const child = source.children[i];
-            this.add(child.clone(), i);
-        }
+        this.init();
+
+        source.children.forEach((child, index) =>{
+            this.add(child.clone(flag), index);
+        });
         return this;
     }
 
-    toJSon() {
+    toJson() {
         const groups = [];
         for (let i = 0; i < this.children.length; i ++) {
             const child = this.children[i];
-            groups.push(child.toJSon());
+            groups.push(child.toJson());
         }
         return {
             id: this.id,

@@ -8,7 +8,8 @@
  * https://www.brainz.co.kr
  */
 import { CLASS_PREFIX, UNIT, FORM } from './constants.js';
-import { UILabel, UISpan } from './ui.js';
+import {UIDiv, UILabel, UISpan, UIUl, UILi } from './ui.js';
+import { UIGroupTooltip } from '../form/group.js';
 import { UIRowTooltip } from '../form/row.js';
 import { UIComponentTooltip } from '../form/component.js';
 
@@ -76,8 +77,8 @@ export const controlMixin = {
         }
     },
     // 복제
-    clone(data) {
-        return new this.constructor(data).copy(this);
+    clone(flag, data) {
+        return new this.constructor(data).copy(this, flag);
     },
     // 객체 조회
     getById(id) {
@@ -128,5 +129,101 @@ export const componentLabelMixin = {
             labelColumnWidth -= Number(this.element.columnWidth);
         }
         return labelColumnWidth;
+    }
+};
+// tooltip menu 공통 믹스인
+export const toolTipMenuMixin = {
+    // tooltip menu 객체 생성
+    makeTooltip() {
+        const tooltipMenu = new UIDiv().setUIClass(CLASS_PREFIX + 'tooltip-menu');
+        tooltipMenu.UIUl = new UIUl().setUIClass(CLASS_PREFIX + 'tooltip-menu-items');
+
+        // copy
+        tooltipMenu.UIUl.UILiCopy = new UILi().setUIClass(CLASS_PREFIX + 'tooltip-menu-item')
+            .setUIAttribute('data-action', 'copy')
+            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-copy'))
+            .onUIClick(this.copyObject.bind(this));
+        tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiCopy);
+
+        // remove
+        tooltipMenu.UIUl.UILiRemove = new UILi().setUIClass(CLASS_PREFIX + 'tooltip-menu-item')
+            .setUIAttribute('data-action', 'remove')
+            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-remove'))
+            .onUIClick(this.removeObject.bind(this));
+        tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiRemove);
+
+        tooltipMenu.addUI(tooltipMenu.UIUl);
+        return tooltipMenu;
+    },
+    // 객체 복사
+    copyObject(e) {
+        if (e) { // tooltip 선택시 drag & drop 이벤트 중지
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        
+        // 부모 타입이 row이고, 컴포넌트 최대 개수를 초과할 경우 추가되지 않는다.
+        if (this.UIElement instanceof UIComponentTooltip &&
+            this.parent.children.length >= FORM.MAX_COMPONENT_IN_ROW) {
+            return false;
+        }
+        // 복사본 생성
+        const cloneObject = this.clone(false, { type: this.type });
+        const cloneData = cloneObject.toJson();
+
+        let editor = this.parent;
+        if (this.UIElement instanceof UIGroupTooltip) {
+            editor = this.parent.parent;
+        } else if (this.UIElement instanceof UIRowTooltip) {
+            editor = this.parent.parent.parent;
+        } else if (this.UIElement instanceof UIComponentTooltip) {
+            editor = this.parent.parent.parent.parent;
+        }
+        // 복사하여 바로 아래 추가
+        editor.makeDomElement(cloneData, this.parent, (this.displayOrder + 1));
+        const copyObject = this.parent.getById(cloneData.id);
+        editor.history.save([{
+            type: 'add',
+            from: { id: '', clone: null },
+            to: { id: this.parent.id, clone: copyObject.clone(true, { type: this.type }).toJson() }
+        }]);
+        // 복사한 객체 선택
+        copyObject.UIElement.domElement.dispatchEvent(new Event('click'));
+    },
+    removeObject(e) {
+        if (e) { // tooltip 선택시 drag & drop 이벤트 중지
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        const histories = [];  // 이력
+
+        let editor = this.parent;
+        if (this.UIElement instanceof UIGroupTooltip) {
+            editor = this.parent.parent;
+        } else if (this.UIElement instanceof UIRowTooltip) {
+            editor = this.parent.parent.parent;
+        } else if (this.UIElement instanceof UIComponentTooltip) {
+            editor = this.parent.parent.parent.parent;
+        }
+        const cloneObject = this.clone(true, { type: this.type });
+        const parentObject = this.parent;
+        // 삭제
+        histories.push({
+            type: 'remove',
+            from: { id: this.parent.id, clone: cloneObject.toJson() },
+            to: { id: '', clone: null }
+        });
+        parentObject.remove(this);
+        // 컴포넌트 삭제시, row, group 내에 컴포넌트가 하나라도 존재하지 않으면 모두 삭제
+        editor.deleteRowChildrenEmpty(parentObject, histories);
+        // 이력 저장
+        editor.history.save(histories.reverse());
+        // 타입이 동일한 바로 이전 객체 선택, 하나도 존재하지 않으면 form 선택
+        if (parentObject.children[cloneObject.displayOrder - 1]) {
+            parentObject.children[cloneObject.displayOrder - 1].UIElement.domElement.dispatchEvent(new Event('click'));
+        } else {
+            editor.form.UIElement.domElement.dispatchEvent(new Event('click'));
+        }
     }
 };

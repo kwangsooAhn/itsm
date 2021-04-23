@@ -55,48 +55,49 @@ export default class History {
         historiesData.forEach((data) => {
             switch(data.type) {
             case 'add':
-                if (!util.isEmptyObject(data.to)) {
-                    const parent = this.editor.form.getById(data.to.parent.id);
-                    if (type === 'redo') { // 복제한 객체를 다시 추가
-                        parent.add(data.to.clone({ 'type': data.to.type }), data.to.displayOrder);
-                    } else { // 기존 추가한 객체를 삭제
-                        const to = this.editor.form.getById(data.to.id);
-                        parent.remove(to);
-                    }
+                const toParent = this.editor.form.getById(data.to.id);
+                if (type === 'redo') { // 복제한 객체를 다시 추가
+                    this.editor.makeDomElement(data.to.clone, toParent, data.to.clone.displayOrder);
+                    // 추가된 객체 선택
+                    toParent.getById(data.to.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
+                } else { // 기존 추가한 객체를 삭제
+                    const to = this.editor.form.getById(data.to.clone.id);
+                    toParent.remove(to);
                 }
                 break;
             case 'remove':
-                if (!util.isEmptyObject(data.from)) {
-                    const parent = this.editor.form.getById(data.from.parent.id);
-                    if (type === 'redo') {
-                        const from = this.editor.form.getById(data.from.id);
-                        parent.remove(from);
-                    } else { // 기존 삭제한 객체를 다시 추가
-                        parent.add(data.from.clone({ 'type': data.from.type }), data.from.displayOrder);
-                    }
+                const fromParent = this.editor.form.getById(data.from.id);
+                if (type === 'redo') {
+                    const from = this.editor.form.getById(data.from.clone.id);
+                    fromParent.remove(from);
+                } else { // 기존 삭제한 객체를 다시 추가
+                    this.editor.makeDomElement(data.from.clone, fromParent, data.from.clone.displayOrder);
+                    // 추가된 객체 선택
+                    fromParent.getById(data.from.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
                 }
                 break;
             case 'sort': // 정렬 변경시
-                const parent = this.editor.form.getById(data.from.parent.id);
-                let oldIndex = data.to.displayOrder;
-                let newIndex = data.from.displayOrder;
+                const sortParent = this.editor.form.getById(data.from.id);
+                const sortTarget = sortParent.getById(data.from.clone.id);
+                let oldIndex = data.to.clone.displayOrder;
+                let newIndex = data.from.clone.displayOrder;
                 if (type === 'redo') {
-                    oldIndex = data.from.displayOrder;
-                    newIndex = data.to.displayOrder;
+                    oldIndex = data.from.clone.displayOrder;
+                    newIndex = data.to.clone.displayOrder;
                 }
-                util.moveObject(parent.children, oldIndex, newIndex); // 객체 정렬
-                parent.sort(0);
+                util.moveObject(sortParent.children, oldIndex, newIndex); // 객체 정렬
+                sortParent.sort(0);
                 // DOM 객체 정렬
-                const nextSibling = (parent.children.length === (newIndex + 1)) ? null :
-                    parent.children[newIndex + 1].UIElement.domElement;
-                parent.UIElement.domElement.insertBefore(data.from.UIElement.domElement, nextSibling);
+                const nextSibling = (sortParent.children.length === (newIndex + 1)) ? null :
+                    sortParent.children[newIndex + 1].UIElement.domElement;
+                sortParent.UIElement.domElement.insertBefore(sortTarget.UIElement.domElement, nextSibling);
                 break;
             case 'change':
-                const target = this.editor.form.getById(data.id);
+                const changeTarget = this.editor.form.getById(data.id);
                 if (type === 'redo') {
-                    target[data.method].call(target, data.to);
+                    changeTarget[data.method].call(changeTarget, data.to);
                 } else {
-                    target[data.method].call(target, data.from);
+                    changeTarget[data.method].call(changeTarget, data.from);
                 }
                 break;
             default:
