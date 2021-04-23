@@ -9,8 +9,9 @@ import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIDataDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIRelationDto
-import co.brainz.cmdb.dto.CITagDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -111,17 +112,18 @@ class WfScriptTask(
     /**
      * [ciTags] 를 CIDto 에 저장하기 위한 List 형태로 추출.
      */
-    private fun getCiTags(ciId: String, ciComponentDataValue: Map<String, Any>): MutableList<CITagDto> {
-        val tagDataList = mutableListOf<CITagDto>()
+    private fun getCiTags(ciId: String, ciComponentDataValue: Map<String, Any>): MutableList<AliceTagDto> {
+        val tagDataList = mutableListOf<AliceTagDto>()
         val ciTags: List<Map<String, Any>> =
             mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
         ciTags.forEach { tag ->
             if (tag["id"] != null && tag["value"] != null) {
                 tagDataList.add(
-                    CITagDto(
-                        ciId = ciId,
+                    AliceTagDto(
                         tagId = tag["id"] as String,
-                        tagName = tag["value"] as String
+                        tagType = AliceTagConstants.TagType.CI.code,
+                        tagValue = tag["value"] as String,
+                        targetId = ciId
                     )
                 )
             }

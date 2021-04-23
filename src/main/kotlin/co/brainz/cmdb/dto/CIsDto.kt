@@ -10,7 +10,7 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class CIsDto(
-    val ciId: String? = "",
+    val ciId: String = "",
     var ciNo: String? = null,
     var ciName: String? = null,
     var ciStatus: String? = null,

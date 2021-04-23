@@ -32,10 +32,12 @@
 </div>
 <div class="flex-column edit-row">
     <div class="flex-row">
+        <!-- 차트 대상 태그 -->
         <div class="flex-column col-6 mr-4">
-            <label class="field-label required" th:text="#{chart.label.targetLabels}"/>
-            <input type="text" id="targetLabels" name="targetLabels" th:value="${chart?.targetLabels}" maxlength="100"/>
+            <label class="field-label required" th:text="#{chart.label.targetTags}"/>
+            <input id="targetTags" name="targetTags" th:value="${chart?.targetTags}"/>
         </div>
+        <!-- 연산 -->
         <div class="flex-column col-6">
             <label class="field-label" th:text="#{chart.label.operation}"/>
             <select id="operationSelectBox" name="operationSelectBox">

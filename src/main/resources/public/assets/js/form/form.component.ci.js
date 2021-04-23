@@ -106,7 +106,7 @@
         target.removeAttribute('onclick');
         // 기존 데이터가 존재하면 추가
         const ciTags = tagData.map(function (tag) {
-            return tag.tagName;
+            return tag.tagValue;
         });
         CITag.addTags(ciTags);
     }

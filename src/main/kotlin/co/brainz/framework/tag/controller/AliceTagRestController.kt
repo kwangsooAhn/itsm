@@ -37,7 +37,7 @@ class AliceTagRestController(
     fun getSuggestionList(
         @RequestParam(value = "tagValue", defaultValue = "") tagValue: String,
         @RequestParam(value = "tagType", defaultValue = "") tagType: String
-    ) : List<String> {
-        return aliceTagService.getSuggestionList(tagValue, tagType);
+    ): List<String> {
+        return aliceTagService.getSuggestionList(tagValue, tagType)
     }
 }
