@@ -48,7 +48,7 @@ data class CITypeEntity(
     val pType: CITypeEntity? = null,
 
     @Column(name = "type_icon", length = 200)
-    val typeIcon: String? = "",
+    val typeIcon: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "default_class_id", referencedColumnName = "class_id")

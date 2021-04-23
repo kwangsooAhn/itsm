@@ -150,13 +150,17 @@ class CITypeService(
             parentTypeEntity = ciTypeRepository.findById(ciTypeDto.pTypeId!!).get()
             typeLevel = parentTypeEntity.typeLevel!! + 1
         }
-
+        // todo #10536 아이콘 선택값이 없을 경우 기본 아이콘 처리
+        val typeIcon = when (ciTypeDto.typeIcon.isNullOrEmpty()) {
+            true -> null
+            false -> ciTypeDto.typeIcon
+        }
         val ciTypeEntity = CITypeEntity(
             pType = parentTypeEntity,
             typeName = ciTypeDto.typeName,
             typeDesc = ciTypeDto.typeDesc,
             typeAlias = ciTypeDto.typeAlias,
-            typeIcon = ciTypeDto.typeIcon,
+            typeIcon = typeIcon,
             defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId),
             typeLevel = typeLevel
         )
@@ -175,7 +179,11 @@ class CITypeService(
      */
     fun updateCIType(typeId: String, ciTypeDto: CITypeDto): Boolean {
         val parentTypeEntity: CITypeEntity = ciTypeRepository.findById(ciTypeDto.pTypeId!!).get()
-
+        // todo #10536 아이콘 선택값이 없을 경우 기본 아이콘 처리
+        val typeIcon = when (ciTypeDto.typeIcon.isNullOrEmpty()) {
+            true -> null
+            false -> ciTypeDto.typeIcon
+        }
         val ciTypeEntity = CITypeEntity(
             typeId = ciTypeDto.typeId,
             typeName = ciTypeDto.typeName,
@@ -183,7 +191,7 @@ class CITypeService(
             typeAlias = ciTypeDto.typeAlias,
             typeLevel = ciTypeDto.typeLevel,
             pType = parentTypeEntity,
-            typeIcon = ciTypeDto.typeIcon,
+            typeIcon = typeIcon,
             defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId)
         )
         ciTypeEntity.updateUser = ciTypeDto.updateUserKey?.let {
