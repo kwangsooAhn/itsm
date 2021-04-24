@@ -4207,19 +4207,19 @@ body.modal-active {
   background: #CCCED1;
 }
 .help-tooltip .tooltip-contents {
-  visibility: hidden;
-  background-color: #ffffff;
-  color: #0098FF;
+  position: absolute;
+  left: 0;
   width: 21.25rem;
   font-size: 1rem;
+  color: #0098FF;
   border: 0.125rem solid #0098FF;
   border-radius: 0.125rem;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
   margin: 0.25rem 0 0 0;
-  position: absolute;
-  left: 0;
-  z-index: 500;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
+  background-color: #ffffff;
+  visibility: hidden;
+  z-index: 500;
 }
 .help-tooltip .tooltip-contents span {
   color: #0098FF;

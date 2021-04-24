@@ -37,7 +37,9 @@ class FormDesigner {
         this.initShortcut();
         this.initComponentPalette();
     }
-    // 상단 메뉴바 초기화 및 이벤트 등록
+    /**
+     * 상단 메뉴바 초기화 및 이벤트 등록
+     */
     initMenuBar() {
         //TODO: - 상단 메뉴 버튼 액션 추가
         document.getElementById('btnSave').addEventListener('click', this.saveForm.bind(this, false), false);
@@ -46,7 +48,9 @@ class FormDesigner {
         document.getElementById('btnRedo').addEventListener('click', this.history.redo.bind(this.history), false);
         document.getElementById('btnPreview').addEventListener('click', this.preview.bind(this), false);
     }
-    // 단축키 등록
+    /**
+     * 단축키 등록
+     */
     initShortcut() {
         const shortcuts = [
             { 'keys': 'ctrl+s', 'command': 'formDesigner.saveForm(false);', 'force': true },                        //폼 양식 저장
@@ -69,7 +73,9 @@ class FormDesigner {
             shortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
         }
     }
-    // 컴포넌트 팔레트 초기화 및 이벤트 추가
+    /**
+     * 컴포넌트 팔레트 초기화 및 이벤트 추가
+     */
     initComponentPalette() {
         // TODO: 커스텀 컴포넌트 load
 
@@ -154,7 +160,10 @@ class FormDesigner {
             });
         });
     }
-    // 폼 초기화 및 이벤트 추가.
+    /**
+     * 폼 초기화 및 이벤트 추가
+     * @param formId 폼 아이디
+     */
     initForm(formId) {
         // TODO: 폼 데이터 load. > 가데이터 삭제 필요
         //util.fetchJson({ method: 'GET', url: '/rest/form/' + formId + '/data' })
@@ -164,7 +173,8 @@ class FormDesigner {
         }).then((formData) => {
             // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
             //this.data = aliceForm.reformatCalendarFormat('read', response.json());
-            // TODO: displayOrder 로 정렬
+            // displayOrder 로 정렬
+            this.sortJson(formData);
             this.data = formData;
 
             this.makeDomElement(this.data, this); // DOM 엘리먼트 생성
@@ -172,15 +182,45 @@ class FormDesigner {
         });
 
         document.addEventListener('click', onLeftClickHandler.bind(this), false);
-        document.getElementById('formMain').addEventListener('mousewheel',
-            onScrollHandler.bind(this), false);
     }
-    // 폼 디자이너 상단 이름 출력
+    /**
+     * JSON 데이터 정렬 (Recursive)
+     * @param data JSON 데이터
+     */
+    sortJson(data) {
+        if (Object.prototype.hasOwnProperty.call(data, 'groups')) { // form
+            data.groups.sort((a, b) =>
+                a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
+            );
+            data.groups.forEach( (g) => {
+                this.sortJson(g);
+            });
+        } else if (Object.prototype.hasOwnProperty.call(data, 'rows')) { // group
+            data.rows.sort((a, b) =>
+                a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
+            );
+            data.rows.forEach( (r) => {
+                this.sortJson(r);
+            });
+        } else { // row
+            data.components.sort((a, b) =>
+                a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
+            );
+        }
+    }
+    /**
+     * 폼 디자이너 상단 이름 출력
+     */
     setFormName() {
         document.getElementById('formName').textContent =
             (this.history.status ? '*' : '') + (this.data.name);
     }
-    // DOM 엘리먼트 생성
+    /**
+     * DOM 엘리먼트 생성 (Recursive)
+     * @param data JSON 데이터
+     * @param parent 부모 객체
+     * @param index 추가될 객체의 index
+     */
     makeDomElement(data, parent, index) {
         if (Object.prototype.hasOwnProperty.call(data, 'groups')) { // form
             this.form = this.addObjectByType(FORM.LAYOUT.FORM, data);
@@ -204,7 +244,13 @@ class FormDesigner {
             this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);
         }
     }
-    // form, group, row, component 객체 추가
+    /**
+     * form, group, row, component 타입에 따른 객체 추가
+     * @param type form, group, row, component 타입
+     * @param data JSON 데이터
+     * @param parent 부모 객체
+     * @param index 추가될 객체의 index
+     */
     addObjectByType(type, data, parent, index) {
         let addObject = null; // 추가된 객체
 
@@ -459,9 +505,14 @@ class FormDesigner {
 
         return addObject;
     }
-    // 객체 위치 이동
+    /**
+     * group, row, component 객체 위치 이동
+     * @param object group, row, component 객체
+     * @param oldIndex 이전 index
+     * @param newIndex 이후 index
+     */
     swapObject(object, oldIndex, newIndex) {
-        if (oldIdex === newIndex) { return false; }
+        if (oldIndex === newIndex) { return false; }
 
         this.history.save([{
             type: 'sort',
@@ -474,7 +525,9 @@ class FormDesigner {
         
         return object.children[newIndex]; // 변경된 객체
     }
-    // 객체 선택
+    /**
+     * form, group, row, component 객체 선택
+     */
     selectObject(e) {
         e.stopPropagation();
         // 내부에 체크박스, 라디오 버튼이 존재할 경우 2번 호출되므로 삭제
@@ -501,20 +554,26 @@ class FormDesigner {
         editor.selectedObject = this;
         editor.panel.on(); // 세부 속성 출력
     }
-    // 첫번째 그룹 객체 선택
+    /**
+     * 첫번째 group 객체 선택
+     */
     selectFirstGroup() {
         if (this.form.children.length === 0) { return false; }
 
         this.form.children[0].UIElement.domElement.dispatchEvent(new Event('click'));
     }
-    // 마지막 그룹 객체 선택
+    /**
+     * 마지막 group 객체 선택
+     */
     selectLastGroup() {
         if (this.form.children.length === 0) { return false; }
 
         const lastIndex = this.form.children.length - 1;
         this.form.children[lastIndex].UIElement.domElement.dispatchEvent(new Event('click'));
     }
-    // 바로 위 동일 타입 객체 선택
+    /**
+     * 선택된 객체의 바로 위 동일 타입 객체 선택
+     */
     selectUpObject() {
         if (this.selectedObject === null) { return false; }
 
@@ -524,7 +583,9 @@ class FormDesigner {
 
         parentObject.children[selectIndex].UIElement.domElement.dispatchEvent(new Event('click'));
     }
-    // 바로 아래 동일 타입 객체 선택
+    /**
+     * 선택된 객체의 바로 아래 동일 타입 객체 선택
+     */
     selectDownObject() {
         if (this.selectedObject === null) { return false; }
 
@@ -534,7 +595,9 @@ class FormDesigner {
 
         parentObject.children[selectIndex].UIElement.domElement.dispatchEvent(new Event('click'));
     }
-    // 객체 선택 해제
+    /**
+     * 선택된 객체의 선택 해제
+     */
     deSelectObject() {
         // 이전 선택된 객체 디자인 삭제
         if (this.selectedObject !== null) {
@@ -544,6 +607,10 @@ class FormDesigner {
         }
     }
     // 자식이 없는 group, row 삭제
+    /**
+     * 자식이 없는 row 삭제
+     * row 삭제 후 group도 자식이 없으면 group도 삭제
+     */
     deleteRowChildrenEmpty(object, histories) {
         if (object.type === FORM.LAYOUT.ROW && object.children.length === 0) {
             // group 에 자식이 없으면
@@ -564,11 +631,30 @@ class FormDesigner {
             }
         }
     }
-    // TODO: 저장
-    saveForm(boolean) {}
-    // TODO: 다른 이름으로 form 저장
+    /**
+     * TODO: 폼 저장
+     * @param boolean 저장후  팝업 닫을지 여부
+     */
+    saveForm(boolean) {
+        console.log(this.form);
+        // TODO : 유효성 검증
+        const saveData  =  this.form.toJson();
+
+        // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
+        // 저장
+        // util.fetchJson({ method: 'PUT', url: '/rest/form/' + formId + '/data' })
+        // }).then((formData) => {
+        //     // 이력 지우기 및 수정 여부 없애기
+        //     // 팝업 닫기
+        // });
+    }
+    /**
+     * TODO: 다른이름으로 저장
+     */
     saveAsForm() {}
-    // TODO: 미리보기
+    /**
+     * TODO: 미리보기
+     */
     preview() {
         //const itemName = 'alice_forms-preview-' + editor.data.formId;
         //sessionStorage.setItem(itemName, JSON.stringify({'form': editor.data}));
@@ -580,7 +666,7 @@ class FormDesigner {
 
 export const formDesigner = new FormDesigner();
 
-/**
+/**                                                                                                                                                                                                                                                                bv
  * 마우스 좌클릭 이벤트 핸들러
  * @param e 이벤트객체
  */
@@ -592,12 +678,4 @@ function onLeftClickHandler(e) {
     }
 
     //this.deSelectObject();
-}
-/**
- * 마우스 스크롤 이벤트 핸들러
- * @param e 이벤트객체
- */
-function onScrollHandler(e) {
-    // TODO: 스크롤 실행시, 컨텍스트 메뉴가 열려 있으면 메뉴를 닫는다.
-    // contextMenuOff();
 }

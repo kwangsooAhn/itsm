@@ -248,7 +248,6 @@ export default class Component {
     getLabelText() {
         return this.label.text;
     }
-
     // 복사 (자식 포함)
     copy(source, flag) {
         this.type = source.type;
@@ -269,7 +268,7 @@ export default class Component {
         this.init();
         return this;
     }
-
+    // json 데이터 추출
     toJson() {
         return {
             id: this.id,

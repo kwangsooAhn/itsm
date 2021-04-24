@@ -56,19 +56,19 @@
   }
 
   .tooltip-contents {
-    visibility: hidden;
-    background-color: $tooltip-contents-background;
-    color: $tooltip-contents-color;
+    position: absolute;
+    left: $tooltip-contents-left;
     width: $tooltip-contents-width;
     font-size: $tooltip-font-size;
+    color: $tooltip-contents-color;
     border: $tooltip-contents-border;
     border-radius: $tooltip-contents-border-radius;
     padding: $tooltip-contents-padding;
     margin: 0.25rem 0 0 0;
-    position: absolute;
-    left: $tooltip-contents-left;
-    z-index: $z-index-tooltip;
     box-shadow: $tooltip-contents-box-shadow;
+    background-color: $tooltip-contents-background;
+    visibility: hidden;
+    z-index: $z-index-tooltip;
     span {
       color: $point-blue;
       word-break: keep-all;

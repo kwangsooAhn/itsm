@@ -90,16 +90,7 @@ export function mergeObject(target, source) {
     }
     return target;
 }
-/**
- * Swap object 1 and object2
- * @param index1 인덱스
- * @param index2 인덱스
- */
-export function swapObject(array, index1, index2) {
-    let temp = array[index1];
-    array[index1] = array[index2];
-    array[index2] = temp;
-}
+
 /**
  * Move object
  * @param index1 old index
