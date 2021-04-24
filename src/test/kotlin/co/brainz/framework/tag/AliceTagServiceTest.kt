@@ -48,7 +48,7 @@ class AliceTagServiceTest {
         val tagDto = AliceTagDto(
             tagId = "",
             tagType = AliceTagConstants.TagType.INSTANCE.code,
-            tagValue = this.tagContent,
+            value = this.tagContent,
             targetId = this.instanceId
         )
 
@@ -66,12 +66,12 @@ class AliceTagServiceTest {
             val instanceTagList =
                 aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.INSTANCE.code, instanceDto.instanceId)
             for (instanceTag in instanceTagList) {
-                instanceTag.tagValue
+                instanceTag.value
             }
             val tagDto = instanceTagList.filter {
-                it.tagValue == this.tagContent
+                it.value == this.tagContent
             }[0]
-            assertEquals(tagDto.tagValue, this.tagContent)
+            assertEquals(tagDto.value, this.tagContent)
 
             tagDto.tagId?.let { aliceTagService.deleteTag(it) }
         }

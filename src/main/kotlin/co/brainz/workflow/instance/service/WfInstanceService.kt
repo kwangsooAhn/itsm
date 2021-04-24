@@ -153,7 +153,7 @@ class WfInstanceService(
             val tags = mutableListOf<String>()
             tagDataList.forEach { tagData ->
                 if (tagData.targetId == instance.instanceEntity.instanceId) {
-                    tags.add(tagData.tagValue)
+                    tags.add(tagData.value)
                 }
             }
 

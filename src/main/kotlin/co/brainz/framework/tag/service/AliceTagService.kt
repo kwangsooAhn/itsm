@@ -22,7 +22,7 @@ class AliceTagService(
         val newTag = aliceTagRepository.save(
             AliceTagEntity(
                 tagType = aliceTagDto.tagType,
-                tagValue = aliceTagDto.tagValue,
+                tagValue = aliceTagDto.value,
                 targetId = aliceTagDto.targetId
             )
         )

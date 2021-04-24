@@ -231,7 +231,7 @@ class CIService(
                     aliceTagRepository.save(
                         AliceTagEntity(
                             tagType = AliceTagConstants.TagType.CI.code,
-                            tagValue = it.tagValue,
+                            tagValue = it.value,
                             targetId = ciEntity.ciId
                         )
                     )
@@ -309,7 +309,7 @@ class CIService(
             aliceTagRepository.save(
                 AliceTagEntity(
                     tagType = AliceTagConstants.TagType.CI.code,
-                    tagValue = it.tagValue,
+                    tagValue = it.value,
                     targetId = ciEntity.ciId
                 )
             )
