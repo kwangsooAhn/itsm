@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 import { CLASS_PREFIX, UNIT, FORM } from './constants.js';
-import {UIDiv, UILabel, UISpan, UIUl, UILi } from './ui.js';
+import { UIDiv, UILabel, UISpan, UIUl, UILi } from './ui.js';
 import { UIGroupTooltip } from '../form/group.js';
 import { UIRowTooltip } from '../form/row.js';
 import { UIComponentTooltip } from '../form/component.js';

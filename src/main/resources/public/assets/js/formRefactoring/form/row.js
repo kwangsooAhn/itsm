@@ -200,7 +200,11 @@ export default class Row {
         }, {});
     }
 
-    // 복사 (자식 포함)
+    /**
+     * 현재 객체를 대상이 되는 객체로 변경 (복사) 하여 반환한다
+     * @param source 대상 객체
+     * @param flag 객체의 키가 되는 id도 복제할지 여부 (true이면 id도 복제됨)
+     */
     copy(source, flag) {
         this.type = source.type;
         this.displayOrder = source.displayOrder;
