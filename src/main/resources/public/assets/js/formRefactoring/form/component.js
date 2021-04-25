@@ -24,6 +24,7 @@ const DEFAULT_LABEL_PROPERTY = {
     align: 'left',
     text: 'COMPONENT LABEL'
 };
+Object.freeze(DEFAULT_LABEL_PROPERTY);
 
 export default class Component {
     constructor(data = {}) {
@@ -38,7 +39,7 @@ export default class Component {
         this.mapId = data.mapId || '';
         this.tags = data.tags || [];
         this.value = data.value || '${default}';
-        this.label = util.mergeObject(DEFAULT_LABEL_PROPERTY, data.label);
+        this.label = Object.assign({}, DEFAULT_LABEL_PROPERTY, data.label);
 
         this.element = data.element || {};
         this.validate = data.validate || {};
@@ -49,6 +50,8 @@ export default class Component {
         util.importMixin(this, this.getMixinByType(this.type));
         // 라벨 Mixin import
         util.importMixin(this, mixin.componentLabelMixin);
+        // Tooltip Mixin import
+        util.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }
@@ -73,6 +76,10 @@ export default class Component {
         componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UIElement);
 
         componentTooltip.addUI(componentTooltip.UIComponent);
+        // 툴팁
+        componentTooltip.UITooltipMenu = this.makeTooltip();
+        componentTooltip.addUI(componentTooltip.UITooltipMenu);
+
         this.UIElement = componentTooltip;
     }
     // 타입에 따른 믹스인 호출
@@ -242,10 +249,13 @@ export default class Component {
         return this.label.text;
     }
 
-    // 복사 (자식 포함)
-    copy(source) {
+    /**
+     * 현재 객체를 대상이 되는 객체로 변경 (복사) 하여 반환한다
+     * @param source 대상 객체
+     * @param flag 객체의 키가 되는 id도 복제할지 여부 (true이면 id도 복제됨)
+     */
+    copy(source, flag) {
         this.type = source.type;
-        this.id =  source.id;
         this.parent = source.parent;
         this.children = source.children;
         this.displayOrder = source.displayOrder;
@@ -258,11 +268,13 @@ export default class Component {
         this.label = source.label;
         this.element = source.element;
         this.validate = source.validate;
-        this.UIElement = source.UIElement;
+        if (flag) { this.id = source.id; }
+
+        this.init();
         return this;
     }
 
-    toJSon() {
+    toJson() {
         return {
             id: this.id,
             type: this.type,

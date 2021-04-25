@@ -11,12 +11,14 @@
 }
 // 그룹 툴팁
 .zenius-group-tooltip {
+  position: relative;
   padding: 1.25rem; // 20px
   border: 0.0625rem solid transparent; // 1px
   background-color: $white;
   &.selected {
     border-color: $group-selected-border-color;
     background-color: $group-selected-bg-color;
+    > .zenius-tooltip-menu { visibility: visible; }
   }
 }
 // 그룹
@@ -94,12 +96,14 @@
 }
 // row 툴팁
 .zenius-row-tooltip {
+  position: relative;
   padding: 1.25rem; // 20px
   border: 0.0625rem solid transparent; // 1px
   background-color: transparent;
   &.selected {
     border-color: $row-selected-border-color;
     background-color: $row-selected-bg-color;
+    > .zenius-tooltip-menu { visibility: visible; }
   }
 }
 // row
@@ -109,6 +113,7 @@
 }
 // component 툴팁
 .zenius-component-tooltip {
+  position: relative;
   flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
   padding:  0.75rem 1.25rem; // 12px 20px
   border: 0.0625rem solid transparent; // 1px
@@ -116,6 +121,7 @@
   &.selected {
     border-color: $component-selected-border-color;
     background-color: $component-selected-bg-color;
+    >.zenius-tooltip-menu { visibility: visible; }
   }
 }
 // component
@@ -144,5 +150,41 @@
 .zenius-component[data-displayType]:not([data-displayType="required"]) { // 필수값 숨김
   .zenius-component-label {
     span[class="required"] { display: none; }
+  }
+}
+// tooptip
+.zenius-tooltip-menu {
+  visibility: hidden;
+  position: absolute;
+  background-color: $tooltip-menu-bg-color;
+  height: 2.5rem; // 40px;
+  box-shadow: 0 0 0 0.0625rem $tooltip-menu-border-color inset; // 1px
+  bottom: 100%;
+  right: -0.0625rem; // -1px
+  .zenius-tooltip-menu-items {
+    margin: 0 0.125rem; // 0 2px
+    padding: 0.5625rem 0 0; // 9px 0 0 0
+    .zenius-tooltip-menu-item {
+      display: inline-block;
+      margin: 0 0.25rem; // 0 4px
+      padding: 0 0.5rem; // 0 8px
+      cursor: pointer;
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        pointer-events: none;
+        &.icon-copy {
+          @include maskImage('#{$icon-folder-path}formRefactoring/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px
+        }
+        &.icon-remove {
+          @include maskImage('#{$icon-folder-path}formRefactoring/tooltip/icon_remove.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px
+        }
+      }
+      &:hover {
+        .icon {
+          background: $tooltip-menu-focus-bg-color;
+        }
+      }
+    }
   }
 }

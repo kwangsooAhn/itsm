@@ -460,4 +460,11 @@ export default class Panel {
         // 필수값, minLength, maxLength 체크
         return true;
     }
+    // 세부 속성 첫번째 선택
+    selectFirstProperty() {
+        const selectElements = this.domElement.querySelectorAll('input[type=text]:not([readonly])');
+        if (selectElements.length === 0) { return false; }
+
+        selectElements[0].focus();
+    }
 }

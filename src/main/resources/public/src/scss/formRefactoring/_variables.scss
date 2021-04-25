@@ -34,7 +34,9 @@ $layout-main-bg-color:                             $light-gray;
 
 // accordion
 $accordion-height:                                 3.125rem; // 50px
-$accordion-border:                                 0.0625rem solid $line-gray; // 1px
+$accordion-border-width:                           0.0625rem; // 1px
+$accordion-border-color:                           $line-gray;
+$accordion-border:                                 $accordion-border-width solid $accordion-border-color;
 $accordion-font-size:                              $font-size-base;
 $accordion-font-color:                             $blue-gray;
 $accordion-font-weight:                            $font-weight-medium;
@@ -95,6 +97,10 @@ $color-picker-colorchip-size:                      1rem; // 16px
 $color-picker-colorchip-margin:                    0.1875rem; // 3px
 $color-picker-colorchip-border:                    0.125rem solid $white; // 2px
 
+///////////////////////// tooltip-menu /////////////////////////
+$tooltip-menu-bg-color:                            $white;
+$tooltip-menu-border-color:                        $light-blue;
+$tooltip-menu-focus-bg-color:                      $point-blue;
 //////////////////////////// thumbnail //////////////////////////
 // 썸네일 모달
 $thumbnail-modal-width:                            62.63rem; // 1002px

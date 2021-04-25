@@ -199,7 +199,7 @@
       "isAccordionUsed": true,
       "label": {
         "visibility": true,
-        "fontSize": "16",
+        "fontSize": "20",
         "fontColor": "rgb(63, 75, 86)",
         "bold": false,
         "italic": false,

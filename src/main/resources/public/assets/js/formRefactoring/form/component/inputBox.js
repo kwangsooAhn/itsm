@@ -20,18 +20,21 @@ const DEFAULT_ELEMENT_PROPERTY = {
     columnWidth: '10',
     defaultType: 'input|', // input|사용자입력 / select|세션값
 };
+Object.freeze(DEFAULT_ELEMENT_PROPERTY);
+
 const DEFAULT_VALIDATE_PROPERTY = {
     validateType: 'none', // none | char | num | numchar | email | phone
     lengthMin: '0',
     lengthMax: '100'
 };
+Object.freeze(DEFAULT_VALIDATE_PROPERTY);
 
 export const inputBoxMixin = {
     // 전달 받은 데이터와 기본 property merge
     initProperty() {
         // 엘리먼트 property 초기화
-        this.element = util.mergeObject(DEFAULT_ELEMENT_PROPERTY, this.element);
-        this.validate = util.mergeObject(DEFAULT_VALIDATE_PROPERTY, this.validate);
+        this.element = Object.assign({}, DEFAULT_ELEMENT_PROPERTY, this.element);
+        this.validate = Object.assign({}, DEFAULT_VALIDATE_PROPERTY, this.validate);
     },
     // component 엘리먼트 생성
     makeElement() {
