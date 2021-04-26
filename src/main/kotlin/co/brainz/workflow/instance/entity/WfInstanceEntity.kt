@@ -50,7 +50,10 @@ data class WfInstanceEntity(
     val document: WfDocumentEntity,
 
     @Column(name = "document_no", length = 128)
-    var documentNo: String? = null
+    var documentNo: String? = null,
+
+    @Column(name = "instance_platform", length = 128)
+    var instancePlatform: String? = null
 
 ) : Serializable {
 

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.engine.manager.dto
 
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -17,5 +22,6 @@ data class WfTokenDto(
     val action: String? = null,
     val numberingId: String? = null,
     var parentTokenId: String? = null,
-    var instanceCreateUser: AliceUserEntity? = null
+    var instanceCreateUser: AliceUserEntity? = null,
+    var instancePlatform: String? = null
 ) : Serializable

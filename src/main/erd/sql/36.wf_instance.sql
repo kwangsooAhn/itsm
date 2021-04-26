@@ -13,6 +13,7 @@ CREATE TABLE wf_instance
 	instance_create_user_key varchar(128),
 	p_token_id varchar(128),
 	document_no varchar(128) NOT NULL,
+	instance_platform varchar(128) NOT NULL DEFAULT 'itsm',
 	CONSTRAINT wf_instance_pk PRIMARY KEY (instance_id),
 	CONSTRAINT wf_instance_fk FOREIGN KEY (document_id) REFERENCES wf_document (document_id)
 );
@@ -26,3 +27,4 @@ COMMENT ON COLUMN wf_instance.instance_end_dt IS '인스턴스종료일시';
 COMMENT ON COLUMN wf_instance.instance_create_user_key IS '인스턴스생성자';
 COMMENT ON COLUMN wf_instance.p_token_id IS '호출토큰아이디';
 COMMENT ON COLUMN wf_instance.document_no IS '문서번호';
+COMMENT ON COLUMN wf_instance.instance_platform IS '인스턴스플랫폼';

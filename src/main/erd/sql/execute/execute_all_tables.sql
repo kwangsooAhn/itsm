@@ -325,6 +325,10 @@ insert into awf_code values ('chart.unit.year', 'chart.unit', 'Y', '년', null, 
 insert into awf_code values ('chart.unit.month', 'chart.unit', 'M', '월', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.day', 'chart.unit', 'D', '일', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.hour', 'chart.unit', 'H', '시간', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('instance', 'root', null, '인스턴스', null, true, 1, 15, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('instance.platform', 'instance', null, '인스턴스 플랫폼', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('instance.platform.itsm', 'instance.platform', 'ITSM', 'ITSM', null, faLse, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('instance.platform.api', 'instance.platform', 'API', 'API', null, faLse, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 사용자정의코드
@@ -2412,6 +2416,7 @@ CREATE TABLE wf_document
 	document_type varchar(100) NOT NULL,
 	document_group varchar(100),
     document_icon varchar(100),
+    api_enable boolean DEFAULT false,
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -2434,23 +2439,25 @@ COMMENT ON COLUMN wf_document.document_color IS '문서색상';
 COMMENT ON COLUMN wf_document.document_type IS '문서종류';
 COMMENT ON COLUMN wf_document.document_group IS '신청서그룹';
 COMMENT ON COLUMN wf_document.document_icon IS '신청서아이콘';
+COMMENT ON COLUMN wf_document.api_enable IS 'API 활성화';
 COMMENT ON COLUMN wf_document.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_document.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_document.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_document.update_dt IS '수정일시';
 
-insert into wf_document values ('4028b25d78778da6017877aff7e40001','만족도 - 단순문의','만족도  단순문의 입니다.','4028b25d787736640178773e71480002','4028b25d787736640178773f645b0003','document.status.use','40288ab7772dae0301772dbca28a0004','#586872','workflow','',NULL,'0509e09412534a6e98f04ca79abb6424',now());
-insert into wf_document values ('4028b25d78778da6017877bb3d3c0010','단순문의','서비스데스크 단순문의 신청서 입니다.','4028b25d78778da6017877b9df60000f','4028b25d787736640178773857920000','document.status.use','40125c91714df6c325714e053c890125','#F1C40F','application-form','servicedesk.inquiry','img_document_11.png','0509e09412534a6e98f04ca79abb6424',now());
-insert into wf_document values ('40288ab777f04ed90177f05f01d1000b','CI 신청서','CI를 등록/수정/삭제를 할 수 있는 구성관리 신청서 입니다.','40288ab777f04ed90177f057ca410000','4028b25d77ed7e6f0177ed8daba10001','document.status.use','40288ab777f04ed90177f05e5ad7000a','#825A2C','application-form','','img_document_06.png','0509e09412534a6e98f04ca79abb6424',now());
-insert into wf_document values ('4028b8817880d833017880f5cafc0004', '릴리즈관리', '릴리즈관리 업무흐름입니다.', '40288ab77878ea67017878eb3dc30000', '4028b881787e3e8c01787e5018880000', 'document.status.use', '4028b8817880d833017880f34ae10003', '#9B59B6', 'workflow', '', NULL, '0509e09412534a6e98f04ca79abb6424', now());
-insert into wf_document values ('4028b25d78870b0901788772ffe20025','인프라변경관리','인프라변경관리 업무흐름입니다.','4028b25d78870b0901788766663a0023','4028b25d78870b0901788770dc400024','document.status.use','4028b25d7886e2d801788704dd8e0002','#1ABC9C','workflow','',NULL,'0509e09412534a6e98f04ca79abb6424', now());
-insert into wf_document values ('4028b25d7888a7f40178893cfe7f0002', '어플리케이션변경관리', '어플리케이션변경관리 업무흐름입니다.', '4028b25d7888a7f4017888b1cde90000', '4028b25d7888a7f4017888f9e6af0001', 'document.status.use', '4028b25d7886e2d801788704dd8e0002', '#3498DB', 'workflow', '', NULL, '0509e09412534a6e98f04ca79abb6424', now());
-insert into wf_document values ('4028b25d788c4f8601788c9779b60005', '만족도 - 서비스요청', '만족도 서비스요청 입니다.', '4028b25d788c4f8601788c905a790004', '4028b25d788c4f8601788c8b8adc0003', 'document.status.use', '40288ab7772dae0301772dbca28a0004', '#586872', 'workflow', '', NULL, '0509e09412534a6e98f04ca79abb6424', now());
-insert into wf_document values ('4028b25d788c4f8601788ca3a7020006', '서비스 요청', '변경관리(인프라, 어플리케이션) 신청서를 작성 할 수 있습니다.', '4028b25d788c4f8601788c7e678a0001', '4028b25d788c4f8601788c8601f00002', 'document.status.use', '40125c91714df6c325714e053c890125', '#F1C40F', 'application-form', 'servicedesk.request', 'img_document_07.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into wf_document values ('4028b88178c0fcc60178c102fdd90001', '문제관리', '문제관리 업무흐름 입니다.', '4028b25d789037e50178906287a00003', '4028b88178c01b660178c0aba6b10002', 'document.status.use', '4028b88178c01b660178c0cc91310004', '#A20025', 'workflow', '', NULL,'0509e09412534a6e98f04ca79abb6424',now());
-insert into wf_document values ('4028b88178c0fcc60178c118ea9a0004', '장애관리', '장애관리 업무흐름 입니다.', '4028b25d789037e501789050f3020002', '4028b88178c01b660178c05fa23e0000', 'document.status.use', '4028b88178c0fcc60178c10dbb5b0003', '#E74C3C', 'workflow', '', NULL,'0509e09412534a6e98f04ca79abb6424',now());
-insert into wf_document values ('4028b88178c0fcc60178c138939a0007', '만족도 - 장애관리', '만족도 장애관리 입니다.', '4028b88178c0fcc60178c1301f040005', '4028b88178c0fcc60178c132f8930006', 'document.status.use', '40288ab7772dae0301772dbca28a0004', '#586872', 'workflow', '', NULL,'0509e09412534a6e98f04ca79abb6424',now());
-insert into wf_document values ('4028b88178c1466a0178c148b84a0000', '장애신고서', '서비스데스크 장애신고서 입니다.', '4028b25d789037e50178904619930000', '4028b25d789037e50178909a34bb0004', 'document.status.temporary', '4028b88178c0fcc60178c10dbb5b0003', '#F1C40F', 'application-form', 'servicedesk.incident', 'img_document_04.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into wf_document values ('4028b25d78778da6017877aff7e40001','만족도 - 단순문의','만족도  단순문의 입니다.','4028b25d787736640178773e71480002','4028b25d787736640178773f645b0003','document.status.use','40288ab7772dae0301772dbca28a0004','#586872','workflow','',NULL,false,'0509e09412534a6e98f04ca79abb6424',now());
+insert into wf_document values ('4028b25d78778da6017877bb3d3c0010','단순문의','서비스데스크 단순문의 신청서 입니다.','4028b25d78778da6017877b9df60000f','4028b25d787736640178773857920000','document.status.use','40125c91714df6c325714e053c890125','#F1C40F','application-form','servicedesk.inquiry','img_document_11.png',false,'0509e09412534a6e98f04ca79abb6424',now());
+insert into wf_document values ('40288ab777f04ed90177f05f01d1000b','CI 신청서','CI를 등록/수정/삭제를 할 수 있는 구성관리 신청서 입니다.','40288ab777f04ed90177f057ca410000','4028b25d77ed7e6f0177ed8daba10001','document.status.use','40288ab777f04ed90177f05e5ad7000a','#825A2C','application-form','','img_document_06.png',false,'0509e09412534a6e98f04ca79abb6424',now());
+insert into wf_document values ('4028b8817880d833017880f5cafc0004', '릴리즈관리', '릴리즈관리 업무흐름입니다.', '40288ab77878ea67017878eb3dc30000', '4028b881787e3e8c01787e5018880000', 'document.status.use', '4028b8817880d833017880f34ae10003', '#9B59B6', 'workflow', '', NULL, false, '0509e09412534a6e98f04ca79abb6424', now());
+insert into wf_document values ('4028b25d78870b0901788772ffe20025','인프라변경관리','인프라변경관리 업무흐름입니다.','4028b25d78870b0901788766663a0023','4028b25d78870b0901788770dc400024','document.status.use','4028b25d7886e2d801788704dd8e0002','#1ABC9C','workflow','',NULL,false, '0509e09412534a6e98f04ca79abb6424', now());
+insert into wf_document values ('4028b25d7888a7f40178893cfe7f0002', '어플리케이션변경관리', '어플리케이션변경관리 업무흐름입니다.', '4028b25d7888a7f4017888b1cde90000', '4028b25d7888a7f4017888f9e6af0001', 'document.status.use', '4028b25d7886e2d801788704dd8e0002', '#3498DB', 'workflow', '', NULL, false, '0509e09412534a6e98f04ca79abb6424', now());
+insert into wf_document values ('4028b25d788c4f8601788c9779b60005', '만족도 - 서비스요청', '만족도 서비스요청 입니다.', '4028b25d788c4f8601788c905a790004', '4028b25d788c4f8601788c8b8adc0003', 'document.status.use', '40288ab7772dae0301772dbca28a0004', '#586872', 'workflow', '', NULL, false, '0509e09412534a6e98f04ca79abb6424', now());
+insert into wf_document values ('4028b25d788c4f8601788ca3a7020006', '서비스 요청', '변경관리(인프라, 어플리케이션) 신청서를 작성 할 수 있습니다.', '4028b25d788c4f8601788c7e678a0001', '4028b25d788c4f8601788c8601f00002', 'document.status.use', '40125c91714df6c325714e053c890125', '#F1C40F', 'application-form', 'servicedesk.request', 'img_document_07.png', false, '0509e09412534a6e98f04ca79abb6424', now());
+insert into wf_document values ('4028b88178c0fcc60178c102fdd90001', '문제관리', '문제관리 업무흐름 입니다.', '4028b25d789037e50178906287a00003', '4028b88178c01b660178c0aba6b10002', 'document.status.use', '4028b88178c01b660178c0cc91310004', '#A20025', 'workflow', '', NULL, false, '0509e09412534a6e98f04ca79abb6424',now());
+insert into wf_document values ('4028b88178c0fcc60178c118ea9a0004', '장애관리', '장애관리 업무흐름 입니다.', '4028b25d789037e501789050f3020002', '4028b88178c01b660178c05fa23e0000', 'document.status.use', '4028b88178c0fcc60178c10dbb5b0003', '#E74C3C', 'workflow', '', NULL, false, '0509e09412534a6e98f04ca79abb6424',now());
+insert into wf_document values ('4028b88178c0fcc60178c138939a0007', '만족도 - 장애관리', '만족도 장애관리 입니다.', '4028b88178c0fcc60178c1301f040005', '4028b88178c0fcc60178c132f8930006', 'document.status.use', '40288ab7772dae0301772dbca28a0004', '#586872', 'workflow', '', NULL, false, '0509e09412534a6e98f04ca79abb6424',now());
+insert into wf_document values ('4028b88178c1466a0178c148b84a0000', '장애신고서', '서비스데스크 장애신고서 입니다.', '4028b25d789037e50178904619930000', '4028b25d789037e50178909a34bb0004', 'document.status.temporary', '4028b88178c0fcc60178c10dbb5b0003', '#F1C40F', 'application-form', 'servicedesk.incident', 'img_document_04.png', false, '0509e09412534a6e98f04ca79abb6424', now());
+
 /**
  * 인스턴스정보
  */
@@ -2466,6 +2473,7 @@ CREATE TABLE wf_instance
 	instance_create_user_key varchar(128),
 	p_token_id varchar(128),
 	document_no varchar(128) NOT NULL,
+	instance_platform varchar(128) NOT NULL DEFAULT 'itsm',
 	CONSTRAINT wf_instance_pk PRIMARY KEY (instance_id),
 	CONSTRAINT wf_instance_fk FOREIGN KEY (document_id) REFERENCES wf_document (document_id)
 );
@@ -2479,6 +2487,7 @@ COMMENT ON COLUMN wf_instance.instance_end_dt IS '인스턴스종료일시';
 COMMENT ON COLUMN wf_instance.instance_create_user_key IS '인스턴스생성자';
 COMMENT ON COLUMN wf_instance.p_token_id IS '호출토큰아이디';
 COMMENT ON COLUMN wf_instance.document_no IS '문서번호';
+COMMENT ON COLUMN wf_instance.instance_platform IS '인스턴스플랫폼';
 
 /**
  * 의견
@@ -9774,7 +9783,7 @@ CREATE TABLE awf_api_token
     refresh_token varchar(128) NOT NULL,
     refresh_token_expires_in int,
     create_dt timestamp,
-    request_user_id varchar(128),
+    request_user_key varchar(128) NOT NULL,
     CONSTRAINT awf_api_token_pk PRIMARY KEY (api_id),
     CONSTRAINT awf_api_token_uk1 UNIQUE (access_token, refresh_token)
 );
@@ -9786,7 +9795,7 @@ COMMENT ON COLUMN awf_api_token.expires_in IS '접근 토큰 만료 시간(초)'
 COMMENT ON COLUMN awf_api_token.refresh_token IS '리프레시 토큰';
 COMMENT ON COLUMN awf_api_token.refresh_token_expires_in IS '리프레시 토큰 만료 시간(초)';
 COMMENT ON COLUMN awf_api_token.create_dt IS '생성일자';
-COMMENT ON COLUMN awf_api_token.request_user_id IS '요청 사용자 아이디';
+COMMENT ON COLUMN awf_api_token.request_user_key IS '요청 사용자 키';
 
 /**
  * API Token 정보

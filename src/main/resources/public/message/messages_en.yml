@@ -490,13 +490,16 @@ department:
 document:
   label:
     all: "All"
+    apiEnable: "API Enable"
     businessFlowColor: "Business Flow Color"
     businessFlow: "Business Flow"
     description: "Service Request Description"
+    disable: "Disable"
     display: "Service Request Display"
     docNo: "Service Request No"
     document: "Service Request"
     edit: "Service Request Edit"
+    enable: "Enable"
     form: "Form"
     icon: "Service Request Icon"
     name: "Service Request Name"

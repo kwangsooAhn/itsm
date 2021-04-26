@@ -497,13 +497,16 @@ department:
 document:
   label:
     all: "전체"
+    apiEnable: "API 활성화"
     businessFlowColor: "업무흐름 색상"
     businessFlow: "업무흐름"
     description: "설명"
+    disable: "아니요"
     display: "신청서 양식 편집"
     docNo: "문서번호"
     document: "신청서"
     edit : "신청서 수정"
+    enable: "예"
     form: "문서양식"
     icon: "신청서 아이콘"
     name: "신청서 이름"

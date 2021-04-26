@@ -17,4 +17,9 @@ interface AliceUserRepository : JpaRepository<AliceUserEntity, String> {
     fun findByOauthKeyAndPlatform(oauthKey: String, platform: String): AliceUserEntity
 
     fun findAliceUserEntityByUserKey(userKey: String): AliceUserEntity
+
+    /**
+     * 사용자의 KEY로 해당 사용자 1건을 조회한다.
+     */
+    fun findByUserKey(userKey: String): AliceUserEntity
 }

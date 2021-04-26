@@ -275,7 +275,8 @@ class WfInstanceService(
             instanceStartDt = LocalDateTime.now(),
             instanceCreateUser = user,
             pTokenId = wfTokenDto.parentTokenId,
-            document = document
+            document = document,
+            instancePlatform = wfTokenDto.instancePlatform
         )
         val instance = wfInstanceRepository.save(instanceEntity)
         instance.let {

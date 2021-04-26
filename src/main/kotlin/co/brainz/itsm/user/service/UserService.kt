@@ -107,7 +107,7 @@ class UserService(
      * 사용자의 KEY로 해당 정보 1건을 조회한다.
      */
     fun selectUserKey(userKey: String): AliceUserEntity {
-        return userRepository.findByUserKey(userKey)
+        return userDetailsService.selectUserKey(userKey)
     }
 
     /**
@@ -119,7 +119,7 @@ class UserService(
         var code: String = userEditValid(userUpdateDto)
         when (code) {
             AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
-                val userEntity = userRepository.findByUserKey(userUpdateDto.userKey)
+                val userEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey =
                     attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
@@ -178,7 +178,7 @@ class UserService(
      * 자기정보 수정 시, 이메일 및 ID의 중복을 검사한다.
      */
     fun userEditValid(userUpdateDto: UserUpdateDto): String {
-        val targetEntity = userRepository.findByUserKey(userUpdateDto.userKey)
+        val targetEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
         var code: String = AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
 
         when (true) {
@@ -200,7 +200,7 @@ class UserService(
      * 사용자 수정 관련 데이터 저장 공통화
      */
     fun updateDataInput(userUpdateDto: UserUpdateDto): AliceUserEntity {
-        val targetEntity = userRepository.findByUserKey(userUpdateDto.userKey)
+        val targetEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
         userUpdateDto.userId.let { targetEntity.userId = userUpdateDto.userId }
         userUpdateDto.userName?.let { targetEntity.userName = userUpdateDto.userName!! }
         userUpdateDto.email?.let { targetEntity.email = userUpdateDto.email!! }
@@ -269,14 +269,14 @@ class UserService(
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val decryptPassword = aliceCryptoRsa.decrypt(privateKey, encryptPassword)
-        val targetEntity = userRepository.findByUserKey(userKey)
+        val targetEntity = userDetailsService.selectUserKey(userKey)
         targetEntity.password = BCryptPasswordEncoder().encode(decryptPassword)
 
         userRepository.save(targetEntity)
 
         aliceCertificationMailService.sendMail(
             targetEntity.userId,
-            targetEntity.email!!,
+            targetEntity.email,
             AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
             password
         )
