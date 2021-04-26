@@ -1703,7 +1703,7 @@
                 `<input type="text" class="property-value" id="${key}-${property.id}" value='${JSON.stringify(property.value)}'/>`;
 
             elem.insertAdjacentHTML('beforeend', fieldTemplate);
-            tagify = new Tagify(elem.querySelector('input[id='+key+'-'+property.id+']'), {
+            tagify = new Tagify(elem.querySelector('input[id="'+key+'-'+property.id+'"]'), {
                 pattern: /^.{0,100}$/,
                 editTags: false,
                 callbacks: {

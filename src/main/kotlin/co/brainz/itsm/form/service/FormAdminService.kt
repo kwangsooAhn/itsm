@@ -95,6 +95,11 @@ class FormAdminService(
                         linkedMapType
                     )
             }
+            if (dataAttribute["tag"] is LinkedHashMap<*, *>) {
+                val dummyTag: ArrayList<LinkedHashMap<String, Any>> = mutableListOf<LinkedHashMap<String, Any>>() as ArrayList<LinkedHashMap<String, Any>>
+                dummyTag.add(dataAttribute["tag"] as java.util.LinkedHashMap<String, Any>)
+                dataAttribute["tag"] = dummyTag
+            }
 
             var display: LinkedHashMap<String, Any> = linkedMapOf()
             component["display"]?.let {
