@@ -74,8 +74,8 @@ class CIController(private val ciService: CIService) {
         if (ciData.ciTags != null) {
             ciData.ciTags!!.forEach {
                 val tagData = JsonObject()
-                tagData.addProperty("id", it.tagId.toString())
-                tagData.addProperty("value", it.tagName)
+                tagData.addProperty("id", it.tagId)
+                tagData.addProperty("value", it.tagValue)
                 tags.add(tagData)
             }
         }

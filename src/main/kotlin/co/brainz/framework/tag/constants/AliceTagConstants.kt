@@ -8,8 +8,9 @@ package co.brainz.framework.tag.constants
 object AliceTagConstants {
     enum class TagType(val code: String) {
         INSTANCE("instance"),
-        COMPONENT("component")
+        COMPONENT("component"),
+        CI("ci")
     }
 
-    const val TAG_SUGGESTION_MAX_COUNT: Long = 20;
+    const val TAG_SUGGESTION_MAX_COUNT: Long = 20
 }

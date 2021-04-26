@@ -35,4 +35,6 @@ interface WfComponentRepository : JpaRepository<WfComponentEntity, String> {
         isTopic: Boolean,
         componentTypes: List<String>
     ): List<WfComponentEntity>
+
+    fun findByComponentId(componentId: String): WfComponentEntity
 }

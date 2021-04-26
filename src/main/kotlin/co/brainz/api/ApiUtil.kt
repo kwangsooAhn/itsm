@@ -59,7 +59,7 @@ open class ApiUtil {
     protected fun responseValue(request: HttpServletRequest, contents: Any?): ResponseEntity<Any> {
         var value: Any? = contents
         val headers = HttpHeaders()
-        var contentType = MediaType.APPLICATION_JSON
+        var contentType = MediaType.APPLICATION_JSON_UTF8
         headers.date = System.currentTimeMillis()
         when (request.contentType) {
             MediaType.APPLICATION_XML_VALUE -> {
