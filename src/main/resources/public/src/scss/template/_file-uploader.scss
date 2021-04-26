@@ -61,7 +61,7 @@
           .icon-no-file {
             display: block;
             height: 2.813rem; // 45px
-            @include background($icon-folder-path + 'icon-no-file.svg', 2.438rem 2.813rem, no-repeat, center, center, null); // 39px 45px
+            @include backgroundImage($icon-folder-path + 'icon-no-file.svg', 2.438rem 2.813rem, no-repeat, center, center, null); // 39px 45px
             margin-bottom: 1.25rem; // 20px
           }
           // or brows 영역

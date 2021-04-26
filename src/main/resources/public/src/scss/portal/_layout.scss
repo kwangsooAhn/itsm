@@ -174,7 +174,7 @@
   // FAQ
   .faq {
     &-header {
-      @include mainHeader;
+      @include portalHeaderTemplate;
       .faq-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
@@ -259,7 +259,7 @@
   // 자료실
   .download {
     &-header {
-      @include mainHeader;
+      @include portalHeaderTemplate;
       .download-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
@@ -272,7 +272,7 @@
   // 공지사항
   .notice {
     &-header {
-      @include mainHeader;
+      @include portalHeaderTemplate;
       .notice-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {

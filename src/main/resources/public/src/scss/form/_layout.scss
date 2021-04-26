@@ -256,10 +256,10 @@
           width: 100%;
           .datepicker,
           .datetimepicker {
-            @include background($icon-folder-path + 'icon_calendar.svg', auto, no-repeat, 98%, 50%, null);
+            @include backgroundImage($icon-folder-path + 'icon_calendar.svg', auto, no-repeat, 98%, 50%, null);
           }
           .timepicker {
-            @include background($icon-folder-path + 'icon_clock.svg', auto, no-repeat, 98%, 50%, null);
+            @include backgroundImage($icon-folder-path + 'icon_clock.svg', auto, no-repeat, 98%, 50%, null);
           }
         }
         // 단위

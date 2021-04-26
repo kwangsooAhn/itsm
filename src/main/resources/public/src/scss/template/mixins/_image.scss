@@ -1,0 +1,34 @@
+// TODO : backgroundImage와 maskImage 각 mixin이 의도된 기능대로 @include 되었는지 점검 필요
+// TODO : maskImage가 주석대로 아이콘(버튼)에만 사용되고 있는지 확인, mixin 이름을 기능에에 맞게 수정 필요
+
+// 배경 이미지
+@mixin backgroundImage($path, $size, $repeat, $posX, $posY, $color) {
+  background-image: url($path);
+  background-size: if($size == null, auto, $size);
+  background-repeat: if($repeat == null, no-repeat, $repeat);
+  background-position-x: if($posX == null, center, $posX);
+  background-position-y: if($posY == null, center, $posY);
+  @if ($color != null) {
+    background-color: $color;
+  }
+}
+// 아이콘
+@mixin maskImage($path, $width, $height, $repeat, $pos, $size, $color) {
+  @if ($width != null) {
+    width: $width;
+  }
+  @if ($height != null) {
+    height: $height;
+  }
+  -webkit-mask-image: url($path);
+  mask-image: url($path);
+  -webkit-mask-repeat: if($repeat == null, no-repeat, $repeat);
+  mask-repeat: if($repeat == null, no-repeat, $repeat);
+  -webkit-mask-position: if($pos == null, center, $pos);
+  mask-position: if($pos == null, center, $pos);
+  @if ($size != null) {
+    -webkit-mask-size: $size;
+    mask-size: $size;
+  }
+  background: $color;
+}
