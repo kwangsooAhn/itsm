@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.code.repository
 
+import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
@@ -83,5 +84,29 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
             .where(code.pCode.code.`in`(pCodes))
             .orderBy(code.seqNum.asc(), code.code.asc())
             .fetch()
+    }
+
+    override fun findCodeDetail(search: String): CodeDetailDto {
+        val code = QCodeEntity.codeEntity
+        val codeLang = QCodeLangEntity.codeLangEntity
+        return from(code)
+            .select(
+                Projections.constructor(
+                    CodeDetailDto::class.java,
+                    code.code,
+                    code.pCode.code,
+                    code.codeName,
+                    code.codeValue,
+                    code.codeDesc,
+                    code.editable,
+                    code.level,
+                    code.seqNum,
+                    codeLang.codeValue,
+                    codeLang.lang
+                )
+            )
+            .leftJoin(codeLang).on(code.code.eq(codeLang.code))
+            .where(code.code.eq(search))
+            .fetchOne()
     }
 }

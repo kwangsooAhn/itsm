@@ -14,7 +14,7 @@
             <h6 class="description" th:text="#{code.msg.editDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input type="text" class="search col-5 mr-2" id="search" name="search"  maxlength="100"
+            <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{code.label.searchPlaceholder}"/>
             <span id="totalCount" class="txt-num"></span>
             <div class="ml-auto">
@@ -40,17 +40,20 @@
                     </div>
                     <div class="edit-column flex-column flex-fill">
                         <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
-                        <input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/>
+                        <input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}"
+                               maxlength="100"/>
                     </div>
                 </div>
                 <div class="edit-row flex-row">
                     <div class="edit-column flex-column flex-fill mr-4">
                         <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
-                        <input id="txtCodeName" name="txtCodeName" type="text" th:value="${codeDetail?.codeName}" maxlength="100"/>
+                        <input id="txtCodeName" name="txtCodeName" type="text" th:value="${codeDetail?.codeName}"
+                               maxlength="100"/>
                     </div>
                     <div class="edit-column flex-column flex-fill">
-                        <label class="form-title" th:text="#{code.label.codeValue}" for="txtCodeValue"></label>
-                        <input id="txtCodeValue" name="txtCodeValue" type="text" th:value="${codeDetail?.codeValue}" maxlength="100"/>
+                        <label class="form-title" th:text="#{code.label.defaultCodeValue}" for="txtCodeValue"></label>
+                        <input id="txtCodeValue" name="txtCodeValue" type="text" th:value="${codeDetail?.codeValue}"
+                               maxlength="100"/>
                     </div>
                 </div>
                 <div class="edit-row flex-column">
@@ -63,25 +66,14 @@
                     <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
                               class="textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
                 </div>
-                <div class="edit-row flex-row">
-                    <div class="edit-column flex-column flex-fill mr-4">
-                        <label class="form-title" th:text="#{common.label.createUser}"></label>
-                        <input id="txtCreateUserName" name="txtCreateUserName" type="text" th:value="${codeDetail?.createUserName}" th:disabled="true" maxlength="100"/>
+                <div class="edit-row flex-column">
+                    <div class="under-bar">
+                        <label th:text="#{code.label.langCode}"></label>
+                        <button type="button" class="default-line plus float-right" onclick="addLangCode()">
+                            <span class="icon-plus"></span>
+                        </button>
                     </div>
-                    <div class="edit-column flex-column flex-fill">
-                        <label class="form-title" th:text="#{common.label.updateUser}"></label>
-                        <input id="txtUpdateUserName" name="txtUpdateUserName" type="text" th:value="${codeDetail?.updateUserName}" th:disabled="true" maxlength="100"/>
-                    </div>
-                </div>
-                <div class="edit-row flex-row">
-                    <div class="edit-column flex-column flex-fill mr-4">
-                        <label class="form-title" th:text="#{common.label.createDate}"></label>
-                        <input id="txtCreateDt" name="txtCreateDt" class="search-datetime" type="text" th:disabled="true" maxlength="100"/>
-                    </div>
-                    <div class="edit-column flex-column flex-fill">
-                        <label class="form-title" th:text="#{common.label.updateDate}"></label>
-                        <input id="txtUpdateDt" name="txtUpdateDt" class="search-datetime" type="text" th:disabled="true" maxlength="100"/>
-                    </div>
+                    <div id="langCode"></div>
                 </div>
             </div>
         </div>
@@ -95,7 +87,8 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('code.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -114,7 +107,7 @@
         let CODE_UPDATE = false;
         const sessionKey = 'code_expand_key';
 
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             if (document.getElementById('btnUpdate') !== null) {
                 CODE_UPDATE = true;
             }
@@ -136,14 +129,16 @@
                     leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
                     sessionKey: sessionKey,
                     totalCount: true,
-                    selectedNode: function(response) {
+                    selectedNode: function (response) {
                         onGetDetail(response.id)
                     }
                 });
             }
+
             getCodeList();
+
             function onGetDetail(codeId) {
-                document.querySelectorAll('input[type=text]').forEach(function(object){
+                document.querySelectorAll('input[type=text]').forEach(function (object) {
                     object.value = '';
                 });
                 document.querySelector('textarea').value = '';
@@ -152,20 +147,16 @@
                     method: 'get',
                     url: '/rest/codes/' + codeId,
                     showProgressbar: false,
-                    callbackFunc: function(response) {
+                    callbackFunc: function (response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('txtCode').value = responseJson.code;
-                        document.getElementById('txtCode').setAttribute('disabled','');
+                        document.getElementById('txtCode').setAttribute('disabled', '');
                         document.getElementById('txtPCode').value = responseJson.pcode;
-                        document.getElementById('txtPCode').setAttribute('disabled','');
+                        document.getElementById('txtPCode').setAttribute('disabled', '');
                         document.getElementById('txtCodeName').value = responseJson.codeName;
                         document.getElementById('txtCodeValue').value = responseJson.codeValue;
                         document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
                         document.getElementById('txtSeqNum').value = responseJson.seqNum;
-                        document.getElementById('txtCreateUserName').value = responseJson.createUserName;
-                        document.getElementById('txtCreateDt').value = i18n.userDateTime(responseJson.createDt);
-                        document.getElementById('txtUpdateUserName').value = responseJson.updateUserName;
-                        document.getElementById('txtUpdateDt').value = i18n.userDateTime(responseJson.updateDt);
                         if (CODE_CREATE) {
                             document.querySelector('#btnRegist').style.display = 'none';
                         }
@@ -193,11 +184,12 @@
 
                 aliceJs.sendXhr(opt);
             }
-            OverlayScrollbars(document.querySelector('.list-tree'), { className: 'scrollbar' });
-            document.getElementById('search').addEventListener('keyup', function() {
+
+            OverlayScrollbars(document.querySelector('.list-tree'), {className: 'scrollbar'});
+            document.getElementById('search').addEventListener('keyup', function () {
                 getCodeList();
             });
-            OverlayScrollbars(document.querySelector('.code-content-edit'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.code-content-edit'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelectorAll('#txtCodeDesc'), {
                 className: 'scrollbar',
                 resize: 'vertical',
@@ -209,7 +201,6 @@
                 }
             });
         });
-
 
 
         /** create **/
@@ -226,7 +217,7 @@
                 document.querySelector('#btnRegist').removeAttribute('disabled');
                 document.querySelector('#btnRegist').style.display = 'block';
             }
-            document.querySelectorAll('input[type=text]').forEach(function(object){
+            document.querySelectorAll('input[type=text]').forEach(function (object) {
                 object.value = '';
             });
             document.querySelector('textarea').value = '';
@@ -273,6 +264,28 @@
                 return false;
             }
 
+            const langCodeList = document.querySelectorAll('input[name=langCodeValue]');
+            for (let i = 0; i < langCodeList.length; i++) {
+                if (langCodeList[i].value === "") {
+                    aliceAlert.alertWarning(i18n.msg('code.msg.enterLangCodeValue'));
+                    return false;
+                }
+            }
+
+            let langCodeData = {};
+            let divLang = document.getElementById('langCode').childNodes;
+            for (let i = 0; i < divLang.length; i++) {
+                const selectValue = divLang[i].getElementsByTagName('select')[0].value;
+                const langCodeValue = divLang[i].getElementsByTagName('input')[0].value;
+                if (typeof langCodeData[selectValue] === 'undefined') {
+                    langCodeData[selectValue] = langCodeValue;
+                } else {
+                    aliceAlert.alertWarning(i18n.msg('code.msg.selectNotDuplicateLang'));
+                    return false;
+                }
+            }
+            jsonData.langCodeList = langCodeData;
+
             let url = '/rest/codes';
             if (method !== 'post') {
                 url += '/' + document.getElementById('txtCode').value;
@@ -283,17 +296,17 @@
                 url: url,
                 params: JSON.stringify(jsonData),
                 contentType: 'application/json',
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
                             tree.setTreeExpandNode(sessionKey);
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
                                 window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_CODE:
                             tree.setTreeExpandNode(sessionKey);
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function () {
                                 window.location.href = '/codes/edit';
                             });
                             break;
@@ -318,12 +331,12 @@
             const opt = {
                 method: 'delete',
                 url: '/rest/codes/' + document.getElementById('txtCode').value,
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
                             tree.setTreeExpandNode(sessionKey);
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
-                                window.location.href ='/codes/edit';
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                                window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_ERROR_CODE_P_CODE_USED:
@@ -338,6 +351,60 @@
 
             aliceJs.sendXhr(opt);
         }
+
+        /** 다국어 코드 등록 **/
+        function addLangCode(param) {
+            const divRow = document.createElement('div');
+            divRow.classList.add('flex-row', 'edit-row');
+
+            /** lang List **/
+            const divLang = document.createElement('div');
+            divLang.classList.add('edit-column', 'flex-column', 'flex-fill', 'mr-4');
+            const langLabel = document.createElement('label');
+            langLabel.classList.add('required');
+            langLabel.textContent = i18n.msg('code.label.lang');
+            const langSelect = document.createElement('select');
+            const langList = /*[[${langList}]]*/'';
+            for (let i = 0; i < langList.length; i++) {
+                const selectOption = document.createElement('option');
+                selectOption.value = langList[i].codeValue;
+                selectOption.text = langList[i].codeValue;
+                langSelect.appendChild(selectOption);
+            }
+            divLang.appendChild(langLabel);
+            divLang.appendChild(langSelect);
+
+            /** codeValue **/
+            const divLangCodeValue = document.createElement('div');
+            divLangCodeValue.classList.add('edit-column', 'flex-column', 'flex-fill');
+            const langCodeValueLabel = document.createElement('label');
+            langCodeValueLabel.classList.add('required');
+            langCodeValueLabel.textContent = i18n.msg('code.label.codeValue');
+            const langCodeValueInput = document.createElement('input');
+            langCodeValueInput.type = 'text';
+            langCodeValueInput.name = 'langCodeValue';
+            langCodeValueInput.maxLength = 100;
+            langCodeValueInput.value = (typeof param !== 'undefined') ? param.value : '';
+            divLangCodeValue.appendChild(langCodeValueLabel);
+            divLangCodeValue.appendChild(langCodeValueInput);
+
+            /** delete Btn**/
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('btn-minus');
+            const deleteIcon = document.createElement('span');
+            deleteIcon.classList.add('icon-delete-gray', 'ml-1');
+            deleteBtn.appendChild(deleteIcon);
+            deleteBtn.addEventListener('click', function () {
+                const row = deleteBtn.parentNode;
+                row.remove();
+            });
+
+            divRow.appendChild(divLang);
+            divRow.appendChild(divLangCodeValue);
+            divRow.appendChild(deleteBtn);
+            document.getElementById('langCode').appendChild(divRow);
+        }
+
         /*]]>*/
     </script>
 </th:block>

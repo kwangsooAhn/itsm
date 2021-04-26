@@ -393,7 +393,10 @@ code:
   label:
     code: "Code"
     codeValue: "Code Value"
+    defaultCodeValue: "Default Code Value"
     description: "Code Description"
+    lang: "Language"
+    langCode: "Multilingual Code"
     name: "Code Name"
     pCode: "Parent Code"
     searchPlaceholder: "Code"
@@ -403,8 +406,10 @@ code:
     editDescription: "Add, view and manage code."
     enterCode: "Please enter a code."
     enterPCode: "Please enter a Parent Code."
+    enterLangCodeValue: "Please enter the multilingual code value."
     pCodeNotExist: "Parent code does not exist."
     referenceCodeExist: "Code exists that references the code."
+    selectNotDuplicateLang: "There are redundant multilingual options."
 
 # Comment
 comment:

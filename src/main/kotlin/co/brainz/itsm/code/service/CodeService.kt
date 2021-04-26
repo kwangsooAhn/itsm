@@ -1,14 +1,12 @@
 package co.brainz.itsm.code.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.dto.CodeReturnDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
-import co.brainz.itsm.user.repository.UserRepository
 import com.querydsl.core.QueryResults
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
@@ -16,8 +14,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CodeService(
-    private val codeRepository: CodeRepository,
-    private val userRepository: UserRepository
+    private val codeRepository: CodeRepository
 ) {
 
     fun selectCodeByParent(code: Any): MutableList<CodeDto> {
@@ -129,10 +126,6 @@ class CodeService(
     fun getDetailCodes(code: String): CodeDetailDto? {
         return try {
             val codeDetailDto = codeRepository.findCodeDetail(code)
-            codeDetailDto.createUserName =
-                codeDetailDto.createUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
-            codeDetailDto.updateUserName =
-                codeDetailDto.updateUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
             codeDetailDto
         } catch (e: EmptyResultDataAccessException) {
             null
