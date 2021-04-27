@@ -6,21 +6,13 @@
  * @version 1.0
  */
 
-// 모달 default position 정의
-@mixin setPosition() {
-  position:fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
 
 body.modal-active {
   overflow: hidden !important;
 }
 
 .modal-wrapper {
-  @include setPosition();
+  @include resetPosition();
   display:none;
   overflow:auto;
   z-index: $z-index-modal;
@@ -28,7 +20,7 @@ body.modal-active {
   &.modal-active { display:block; }
 
   .modal-backdrop {
-    @include setPosition();
+    @include resetPosition();
     z-index: $z-index-between-alert-modal;
     background-color: $modal-backdrop-bg-color;
   }

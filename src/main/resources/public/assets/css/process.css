@@ -482,12 +482,9 @@ input, button, select, optgroup, textarea {
   cursor: pointer;
 }
 
-/* _fonts.scss 
- *
- * 파일 경로 : template/_fonts.scss
- * @description 폰트 디자인
- * @author wdj
- * @version 1.0
+/*
+ * 폰트
+ * 파일 경로 : _fonts.scss
  */
 @font-face {
   font-family: "Noto Sans KR";

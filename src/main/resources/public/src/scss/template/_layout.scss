@@ -11,38 +11,5 @@
   margin: 0 auto;
 }
 
-@mixin container {
-  max-width: 120rem;
-  margin: 0 auto;
-}
-
-@mixin header {
-  position: fixed;
-  top:0;
-  left:0;
-  right:0;
-  height: $layout-header-height;
-  display: flex;
-  align-items: center;
-}
-
-@mixin main {
-  position: fixed;
-  top: $layout-header-height;
-  left: 0;
-  right: $layout-properties-width;
-  bottom: 0;
-  overflow-y: auto;
-}
-
-@mixin properties {
-  position:fixed;
-  top: $layout-header-height;
-  right: 0;
-  bottom: 0;
-  width: $layout-properties-width;
-  overflow-y: auto;
-}
-
 // 추후 테마 등 추가가 가능한 상황을 고려하여 구성에 포함합니다.
 // @mixin footer {}

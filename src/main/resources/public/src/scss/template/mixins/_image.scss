@@ -12,6 +12,7 @@
     background-color: $color;
   }
 }
+
 // 아이콘
 @mixin maskImage($path, $width, $height, $repeat, $pos, $size, $color) {
   @if ($width != null) {
