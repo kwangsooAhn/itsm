@@ -112,7 +112,7 @@ class CIService(
                             AliceTagDto(
                                 tagId = tag["id"] as String,
                                 tagType = AliceTagConstants.TagType.CI.code,
-                                tagValue = tag["value"] as String,
+                                value = tag["value"] as String,
                                 targetId = ciId
                             )
                         )

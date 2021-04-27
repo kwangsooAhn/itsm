@@ -61,7 +61,7 @@ class ApiTokenService(
                     createDt = LocalDateTime.now(),
                     expiresIn = ApiConstants.API_EXPIRES_IN,
                     refreshTokenExpiresIn = ApiConstants.API_REFRESH_TOKEN_EXPIRES_IN,
-                    requestUserId = userId
+                    requestUserKey = userEntity.userKey
                 )
                 apiTokenEntity = apiTokenRepository.save(apiTokenEntity)
                 value["access_token"] = apiTokenEntity.accessToken
@@ -114,7 +114,7 @@ class ApiTokenService(
                         createDt = LocalDateTime.now(),
                         expiresIn = ApiConstants.API_EXPIRES_IN,
                         refreshTokenExpiresIn = ApiConstants.API_REFRESH_TOKEN_EXPIRES_IN,
-                        requestUserId = refreshTokenEntity.requestUserId
+                        requestUserKey = refreshTokenEntity.requestUserKey
                     )
                     apiTokenEntity = apiTokenRepository.save(apiTokenEntity)
                     value["access_token"] = apiTokenEntity.accessToken

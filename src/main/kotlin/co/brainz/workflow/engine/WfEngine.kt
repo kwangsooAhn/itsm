@@ -102,7 +102,8 @@ class WfEngine(
             assigneeId = restTemplateTokenDto.assigneeId,
             data = tokenData,
             action = restTemplateTokenDto.action,
-            parentTokenId = restTemplateTokenDto.parentTokenId
+            parentTokenId = restTemplateTokenDto.parentTokenId,
+            instancePlatform = restTemplateTokenDto.instancePlatform
         )
     }
 

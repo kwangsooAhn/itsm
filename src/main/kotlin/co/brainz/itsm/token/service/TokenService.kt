@@ -13,6 +13,7 @@ import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
@@ -54,7 +55,8 @@ class TokenService(
             documentId = restTemplateTokenDataUpdateDto.documentId,
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
             instanceCreateUser = restTemplateTokenDataUpdateDto.assigneeId?.let { AliceUserEntity(userKey = it) },
-            action = restTemplateTokenDataUpdateDto.action
+            action = restTemplateTokenDataUpdateDto.action,
+            instancePlatform = RestTemplateConstants.InstancePlatform.ITSM.code
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
@@ -82,7 +84,8 @@ class TokenService(
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
-            action = restTemplateTokenDataUpdateDto.action
+            action = restTemplateTokenDataUpdateDto.action,
+            instancePlatform = RestTemplateConstants.InstancePlatform.ITSM.code
         )
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {

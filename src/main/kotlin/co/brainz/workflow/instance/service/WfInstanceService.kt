@@ -153,7 +153,7 @@ class WfInstanceService(
             val tags = mutableListOf<String>()
             tagDataList.forEach { tagData ->
                 if (tagData.targetId == instance.instanceEntity.instanceId) {
-                    tags.add(tagData.tagValue)
+                    tags.add(tagData.value)
                 }
             }
 
@@ -275,7 +275,8 @@ class WfInstanceService(
             instanceStartDt = LocalDateTime.now(),
             instanceCreateUser = user,
             pTokenId = wfTokenDto.parentTokenId,
-            document = document
+            document = document,
+            instancePlatform = wfTokenDto.instancePlatform
         )
         val instance = wfInstanceRepository.save(instanceEntity)
         instance.let {

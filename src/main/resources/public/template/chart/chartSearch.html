@@ -637,11 +637,16 @@
 
         function getChartDto(method, chartId) {
             if (emptyValidation()) {
+                let tagList = [];
+                JSON.parse(document.getElementById('targetTags').value).forEach (tag => {
+                        tagList.push(tag.value);
+                })
+
                 let chartInfo = {
                     chartType: document.getElementById('typeSelectBox').value,
                     chartName: document.getElementById('chartName').value,
                     chartDesc: document.getElementById('chartDesc').value,
-                    targetTags: document.getElementById('targetTags').value.split(","),
+                    targetTags: tagList,
                     operation: document.getElementById('operationSelectBox').value,
                     durationDigit: document.getElementById('durationDigit').value,
                     durationUnit: document.getElementById('durationUnitSelectBox').value

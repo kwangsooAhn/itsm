@@ -102,6 +102,7 @@ class WfDocumentService(
             documentStatus = document.documentStatus,
             processId = document.process.processId,
             formId = document.form.formId,
+            apiEnable = document.apiEnable,
             createDt = document.createDt,
             createUserKey = document.createUserKey,
             updateDt = document.updateDt,
@@ -177,6 +178,7 @@ class WfDocumentService(
             createDt = restTemplateDocumentDto.createDt,
             createUserKey = restTemplateDocumentDto.createUserKey,
             documentStatus = restTemplateDocumentDto.documentStatus,
+            apiEnable = restTemplateDocumentDto.apiEnable,
             numberingRule = numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
                 .get(),
             documentColor = restTemplateDocumentDto.documentColor,
@@ -224,6 +226,7 @@ class WfDocumentService(
         wfDocumentEntity.updateDt = restTemplateDocumentDto.updateDt
         wfDocumentEntity.form = form
         wfDocumentEntity.process = process
+        wfDocumentEntity.apiEnable = restTemplateDocumentDto.apiEnable
         wfDocumentEntity.numberingRule =
             numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
         wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor

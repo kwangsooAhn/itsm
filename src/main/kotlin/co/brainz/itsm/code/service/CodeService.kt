@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.code.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
@@ -33,9 +38,9 @@ class CodeService(
         }
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val findCodeList = codeRepository.findCodeByPCodeIn(codes, userDetails.lang)
-        for (code in findCodeList) {
-            if (code.codeLangValue != null && code.lang != null) {
-                code.codeValue = code.codeLangValue
+        for (codeDto in findCodeList) {
+            if (codeDto.codeLangValue != null && codeDto.lang != null) {
+                codeDto.codeValue = codeDto.codeLangValue
             }
         }
         codeList.addAll(findCodeList)

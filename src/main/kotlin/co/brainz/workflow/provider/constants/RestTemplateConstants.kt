@@ -73,4 +73,12 @@ object RestTemplateConstants {
      */
     const val BASE_DIR: String = "public"
     const val FORM_IMAGE_DIR: String = "assets/media/images/form/"
+
+    /**
+     * 인스턴스 플랫폼
+     */
+    enum class InstancePlatform(val code: String) {
+        ITSM("itsm"),
+        API("api")
+    }
 }

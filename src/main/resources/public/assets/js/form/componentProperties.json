@@ -29,25 +29,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -321,25 +309,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -544,25 +520,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -734,25 +698,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -960,25 +912,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -1186,25 +1126,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1311,25 +1239,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1413,25 +1329,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "display": [
@@ -1505,25 +1409,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -1718,25 +1610,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -1931,25 +1811,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -2144,25 +2012,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -2311,25 +2167,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -2530,25 +2374,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -2918,25 +2750,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -3070,25 +2890,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [
@@ -3222,25 +3030,13 @@
                 "code": "",
                 "unit": ""
             },
-            {
-                "id": "labelList",
-                "name": "Component Label",
-                "value": "",
-                "type": "labeling",
-                "option": [
-                    {
-                        "id": "key",
-                        "name": "Key",
-                        "value": "option",
-                        "validate": "required|maxLength[128]|label|unique"
-                    },
-                    {
-                        "id": "value",
-                        "name": "Value",
-                        "value": "option",
-                        "validate": "maxLength[512]|label"
-                    }
-                ]
+            {   "id": "tag",
+                "name": "Component Tag",
+                "value": [],
+                "type": "tag-box",
+                "code": "",
+                "unit": "",
+                "validate": ""
             }
         ],
         "label": [

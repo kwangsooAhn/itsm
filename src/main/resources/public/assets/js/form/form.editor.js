@@ -14,6 +14,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    let tagify = null;
     let initialStatus = null;
     let ATTRIBUTE_TABLE_COLUMN = 'drTableColumns'; // 컴포넌트 세부 속성 - drTableColumns
     const history = {
@@ -123,9 +124,6 @@
             },
             required: function(value) {
                 return !aliceJs.isEmpty(value);
-            },
-            label: function(value) { // 라벨링 전용
-                return labelRegex.test(value);
             }
         };
         // 이벤트 등록
@@ -176,9 +174,6 @@
                     break;
                 case 'required':
                     result = validateFunc.required(target.value);
-                    break;
-                case 'label':
-                    result = validateFunc.label(target.value);
                     break;
                 case 'unique': // table 중복 체크
                     result = true;
@@ -1702,47 +1697,21 @@
                 changePropertiesValue(customCodeList[0].customCodeId, group, property.id);
             }
             break;
-        case 'labeling':
-            // 테이블 Header 추가
-            let tableHeaderOptions = `<th></th>`;
-            tableHeaderOptions += property.option.map(function(opt) {
-                return `<th data-role="${opt.id}" data-default="${opt.value}" data-validate="${opt.validate}">${i18n.msg('form.attribute.option.' + opt.id)}</th>`;
-            }).join('');
-
-            // 테이블 Row 추가
-            let tableRowOptions = property.value.label.map(function(opt, index) { // {key: value}
-                let checkBoxTemplate = `<td>` +
-                            `<label class="checkbox" for="checkbox-label-${index + 1}" tabindex="0">` +
-                                `<input type="checkbox" id="checkbox-label-${index + 1}" value="${index + 1}" />` +
-                                `<span></span>` +
-                            `</label>` +
-                        `</td>`;
-                let labelKey = Object.keys(opt)[0];
-                return `<tr>` +
-                            `${checkBoxTemplate}` +
-                            `<td><input type="text" id="key" class="property-value" value="${aliceJs.filterXSS(labelKey)}" data-validate="${property.option[0].validate}"/></td>` +
-                            `<td><input type="text" id="value" class="property-value" value="${aliceJs.filterXSS(opt[labelKey])}" data-validate="${property.option[1].validate}"/></td>` +
-                        `</tr>`;
-            }).join('');
-
+        case 'tag-box':
             fieldTemplate =
-                    `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
-                    `<button type="button" class="ghost-line btn-option float-right" id="label-option-plus"><span class="icon icon-plus"></span></button>` +
-                    `<button type="button" class="ghost-line btn-option float-right mr-1" id="label-option-minus"><span class="icon icon-minus"></span></button>` +
-                    `<table class="property-field-table" id="table-label" date-validate="unique">` +
-                        `<colgroup>` +
-                            `<col width="20%">` +
-                            `<col width="40%">` +
-                            `<col width="40%">` +
-                        `</colgroup>` +
-                        `<tbody>` +
-                            `<tr>${tableHeaderOptions}</tr>` +
-                            `${tableRowOptions}` +
-                        `</tbody>` +
-                    `</table>` +
-                    `<label class="error-msg"></label>`;
+                `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
+                `<input type="text" class="property-value" id="${key}-${property.id}" value='${JSON.stringify(property.value)}'/>`;
 
             elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            tagify = new Tagify(elem.querySelector('input[id="'+key+'-'+property.id+'"]'), {
+                pattern: /^.{0,100}$/,
+                editTags: false,
+                callbacks: {
+                    'add': onAddRemoveTag,
+                    'remove': onAddRemoveTag
+                },
+                placeholder: i18n.msg('token.msg.tag')
+            });
             break;
         case 'image':
             fieldTemplate =
@@ -2623,6 +2592,17 @@
             },
             contentType: 'application/json; charset=utf-8'
         });
+    }
+
+    /**
+     * 태그 추가 및 삭제 시 다시 그리기.
+     */
+    function onAddRemoveTag(tag) {
+        let tagValue = []
+        tagify.getTagElms().forEach( tagElm =>
+            tagValue.push({value: tagElm.title})
+        )
+        changePropertiesValue(tagValue,'dataAttribute','tag');
     }
 
     exports.init = init;

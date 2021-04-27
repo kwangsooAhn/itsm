@@ -49,6 +49,9 @@ data class WfDocumentEntity(
     @Column(name = "document_group", length = 100)
     var documentGroup: String? = null,
 
+    @Column(name = "api_enable")
+    var apiEnable: Boolean = false,
+
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 

@@ -20,5 +20,6 @@ data class RestTemplateTokenDto(
     val action: String? = null,
     val numberingId: String? = null,
     var parentTokenId: String? = null,
-    var processId: String? = null
+    var processId: String? = null,
+    var instancePlatform: String? = null
 ) : Serializable

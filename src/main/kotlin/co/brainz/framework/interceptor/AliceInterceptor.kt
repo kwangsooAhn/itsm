@@ -9,7 +9,7 @@ import co.brainz.api.apiToken.service.ApiTokenService
 import co.brainz.api.constants.ApiConstants
 import co.brainz.framework.auth.dto.AliceMenuDto
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.auth.repository.AliceMenuRepository
+import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.exception.AliceErrorConstants
@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.ModelAndView
@@ -32,9 +33,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 @Component
 class AliceInterceptor(
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val aliceMenuRepository: AliceMenuRepository,
     private val aliceMessageSource: AliceMessageSource,
-    private val apiTokenService: ApiTokenService
+    private val apiTokenService: ApiTokenService,
+    private val userDetailsService: AliceUserDetailsService
 ) : HandlerInterceptorAdapter() {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -82,6 +83,8 @@ class AliceInterceptor(
                 aliceMessageSource.getMessage("auth.msg.invalidToken")
             )
         }
+        SecurityContextHolder.getContext().authentication =
+            userDetailsService.createNewAuthentication(apiTokenEntity.requestUserKey)
     }
 
     /**
