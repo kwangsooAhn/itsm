@@ -14,7 +14,6 @@
 }(this, (function (exports) {
     'use strict';
 
-    const DATA_ATTRIBUTE_LABEL_LIST = 'labelList';
     const componentNameList = [ //컴포넌트 명
         {'type': 'editbox', 'name': 'Edit Box'},
         {'type': 'inputbox', 'name': 'Input Box'},
@@ -1400,16 +1399,7 @@
                                 attributeItemValue = attributeItem.value;
                             }
                         }
-                        if (attributeItem.id === DATA_ATTRIBUTE_LABEL_LIST) { // 라벨링
-                            let labelList = {
-                                'label_target': aliceForm.FORM_COMPONENT,
-                                'target_id': data.componentId,
-                                'label': []
-                            };
-                            refineProperty[group][attributeItem.id] = labelList;
-                        } else {
-                            refineProperty[group][attributeItem.id] = attributeItemValue;
-                        }
+                        refineProperty[group][attributeItem.id] = attributeItemValue;
                     });
                 }
             });

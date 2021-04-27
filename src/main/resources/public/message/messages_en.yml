@@ -340,6 +340,12 @@ cmdb:
       register: "CI Register"
       update: "CI Update"
       view: "CI View"
+      relation: "CI Relation"
+      relationType: "Relation Type"
+      sourceCiId: "Source CI ID"
+      sourceCiName: "Source CI Name"
+      targetCiId: "Target CI ID"
+      targetCiName: "Target CI Name"
     msg:
       deleteEditableCI: "Do you want to delete the entered asset information from the list?"
       deleteReadableCI: "Do you want to delete asset information from the list?"
@@ -388,6 +394,7 @@ cmdb:
     btn:
       import: "Import"
       export: "Export"
+
 # Code
 code:
   label:
@@ -511,8 +518,7 @@ document:
     write: "Service Request Write"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
-    changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status
-    will be deleted."
+    changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status will be deleted."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
     enterBusinessFlowColor: "Please enter Business Flow Color."
@@ -696,7 +702,7 @@ form:
     height: "Height"
     isEditable: "Editable"
     isTopic: "is Topic"
-    labelList: "Component Label"
+    tag: "Tag"
     lengthMax: "Max Length"
     lengthMin: "Min Length"
     mappingId: "Mapping ID"
@@ -910,15 +916,15 @@ process:
     noticeImportFile: "Import only possible in XML file"
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
+  title:
+    preview: "Zenius ITSM : Process Preview"
+    processMap: "Zenius ITMS : Process Map"
+    update: "Zenius ITSM : Process Update"
   status:
     destroy: "Destroy"
     edit: "Edit"
     publish: "Publish"
     use: "Use"
-  title:
-    preview: "Zenius ITSM : Process Preview"
-    processMap: "Zenius ITMS : Process Map"
-    update: "Zenius ITSM : Process Update"
   designer:
     element:
       annotation: "Annotation"
@@ -1144,6 +1150,9 @@ user:
     ※ Do not include your email ID.<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zeniu comprises available<br/>
     ※ Do not allow spaces.<br/>"
+
+
+
 
 # Validation
 validation:

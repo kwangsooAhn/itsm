@@ -138,11 +138,9 @@ class ChartService(
         val jsonObjectArray = JsonArray()
         val componentList = wfComponentRepository.findByComponentIdIn(tagTargetIds)
         componentList.forEach { component ->
-            if (component.componentType == WfComponentConstants.ComponentType.LABEL.code) {
-                formIds.add(
-                    component.form.formId
-                )
-            }
+            formIds.add(
+                component.form.formId
+            )
         }
 
         val formList = wfFormRepository.findByFormIdIn(formIds)

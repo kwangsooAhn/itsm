@@ -948,11 +948,12 @@ aliceJs.showTotalCount = function(totalCount, objectId = 'spanTotalCount') {
  * @return {string} 변환된 문자열
  */
 aliceJs.filterXSS = function (str) {
-    return str.replace(/&/g, '&amp;')
+    return (typeof str === 'string' || str instanceof String)?
+        str.replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/\"/g, '&quot;')
-        .replace(/\'/g, '&apos;');
+        .replace(/\'/g, '&apos;'):str;
 };
 
 /**
