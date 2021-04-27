@@ -1,7 +1,0 @@
-/*
- * 폰트
- * 파일 경로 : _fonts.scss
- */
-@each $fname, $weight in $font-face-map {
-    @include fontFace("Noto Sans KR", $font-folder-path + "/" + $fname , "opentype", normal, $weight);
-}

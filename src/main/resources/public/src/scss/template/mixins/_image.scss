@@ -1,5 +1,5 @@
 // TODO : backgroundImage와 maskImage 각 mixin이 의도된 기능대로 @include 되었는지 점검 필요
-// TODO : maskImage가 주석대로 아이콘(버튼)에만 사용되고 있는지 확인, mixin 이름을 기능에에 맞게 수정 필요
+// TODO : maskImage가 주석대로 아이콘(버튼)에만 사용되고 있는지 확인, mixin 이름을 기능에 맞게 수정 필요
 
 // 배경 이미지
 @mixin backgroundImage($path, $size, $repeat, $posX, $posY, $color) {

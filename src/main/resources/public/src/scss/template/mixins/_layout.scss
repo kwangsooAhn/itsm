@@ -156,7 +156,6 @@
 @mixin editTemplate() {
   .edit {
     height: 100vh; // edit 화면에서 스크롤이 생기는 영역
-
     .edit-row {
       margin: 0.625rem 0 0; // 10px 0 0 0
 

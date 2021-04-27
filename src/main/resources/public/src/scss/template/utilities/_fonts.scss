@@ -1,0 +1,10 @@
+/* _fonts.scss
+ *
+ * 파일 경로 : template/utilities/_fonts.scss
+ * @description 글꼴 관련 설정
+ * @author jy.lim
+ * @version 1.0
+ */
+@each $fname, $weight in $font-face-map {
+  @include fontFace("Noto Sans KR", $font-folder-path + "/" + $fname , "opentype", normal, $weight);
+}
