@@ -6,6 +6,8 @@
 
 package co.brainz.api
 
+import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.workflow.token.constants.WfTokenConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -42,6 +44,9 @@ class CallApiDocument {
 
     @Autowired
     private lateinit var mvc: MockMvc
+
+    @Autowired
+    private lateinit var wfInstanceService: WfInstanceService
 
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -191,10 +196,21 @@ class CallApiDocument {
     @Order(4)
     @Test
     fun getInstanceHistory() {
-        val instanceId = "4028b26774af76bb0174af84a63d000a"
+        // 완료된 문서 찾기
+        val params = LinkedHashMap<String, Any>()
+        params["userKey"] = "0509e09412534a6e98f04ca79abb6424" // ADMIN
+        params["documentId"] = ""
+        params["searchValue"] = ""
+        params["tokenType"] = WfTokenConstants.SearchType.COMPLETED.code
+        params["fromDt"] = LocalDateTime.now().minusMonths(1).atZone(ZoneOffset.UTC).toString()
+        params["toDt"] = LocalDateTime.now().atZone(ZoneOffset.UTC).toString()
+        params["offset"] = 0
+        params["tags"] = ""
+        val instances = wfInstanceService.instances(params)
         assumingThat(
-            instanceId.isNotEmpty()
+            !instances.isNullOrEmpty()
         ) {
+            val instanceId = instances[0].instanceId
             mvc.perform(get("/api/wf/$instanceId/history").headers(this.setAccessToken()))
                 .andExpect(status().isOk)
                 .andDo(print())
