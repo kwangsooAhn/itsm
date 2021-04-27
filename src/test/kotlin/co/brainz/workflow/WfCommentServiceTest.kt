@@ -37,7 +37,7 @@ class WfCommentServiceTest {
     @BeforeEach
     fun init() {
         this.userKey = "0509e09412534a6e98f04ca79abb6424" // admin (기본 제공)
-        // TODO: 추후 신규 instance를 추가하는 작업 진행
+        // TODO : 추후 신규 instance를 추가하는 작업 진행
         this.instanceId = "4028b26774af76bb0174af84a63d000a"
         this.commentContent = "Comment Test 1"
     }

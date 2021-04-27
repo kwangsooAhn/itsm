@@ -1,9 +1,14 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.itsm.user.repository.UserRepository
+import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.provider.dto.RestTemplateActionDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
@@ -18,7 +23,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class DocumentActionService(
-    private val userRepository: UserRepository
+    private val aliceUserRepository: AliceUserRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -50,7 +55,7 @@ class DocumentActionService(
         val tokenObject = JsonParser().parse(tokensData).asJsonObject
         // 문서를 연 사용자 정보
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val userEntity = userRepository.findByUserKey(aliceUserDto.userKey)
+        val userEntity = aliceUserRepository.findByUserKey(aliceUserDto.userKey)
         if (tokenObject.isJsonObject) {
             // 현재 진행중 문서 확인
             val isProgress = this.checkTokenStatus(tokenObject)

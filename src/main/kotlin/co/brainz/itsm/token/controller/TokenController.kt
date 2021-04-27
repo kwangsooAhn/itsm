@@ -12,6 +12,7 @@ import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
+import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
@@ -34,7 +35,8 @@ class TokenController(
     private val instanceService: InstanceService,
     private val folderService: FolderService,
     private val tokenService: TokenService,
-    private val documentService: DocumentService
+    private val documentService: DocumentService,
+    private val roleService: RoleService
 ) {
     private val statusPage: String = "redirect:/certification/status"
     private val tokenSearchPage: String = "token/tokenSearch"
@@ -65,12 +67,15 @@ class TokenController(
             AliceUserConstants.Status.EDIT.code -> return statusPage
         }
         val restTemplateDocumentSearchListDto = RestTemplateDocumentSearchListDto()
-        userDto.userRoleMapEntities.forEach { userRoleMap ->
-            if (userRoleMap.role.roleId.contains(AliceUserConstants.ADMIN_ID)) {
-                restTemplateDocumentSearchListDto.viewType = DocumentConstants.DocumentViewType.ADMIN.value
+        val userRoles = roleService.getUserRoles(userKey)
+        run loop@{
+            userRoles.forEach { role ->
+                if (role.roleId == AliceUserConstants.ADMIN_ID) {
+                    restTemplateDocumentSearchListDto.viewType = DocumentConstants.DocumentViewType.ADMIN.value
+                    return@loop
+                }
             }
         }
-
         model.addAttribute("documentList", documentService.getDocumentAll(restTemplateDocumentSearchListDto))
         return tokenSearchPage
     }

@@ -5,7 +5,7 @@
     border: 0.1875rem solid #68717c;
   }
   .color-palette {
-    @include color-palette();
+    @include colorPalette();
     & div {
       &:last-child { border: 0.0625rem solid $line-gray; }
     }

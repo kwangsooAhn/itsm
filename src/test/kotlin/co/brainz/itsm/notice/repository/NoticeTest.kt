@@ -17,7 +17,7 @@ import co.brainz.itsm.notice.service.NoticeService*/
 // @RunWith(SpringJUnit4ClassRunner::class)
 // @SpringBootTest
 // @AutoConfigureTestDatabase(replace = Replace.NONE)
-class NoticeTest() {
+class NoticeTest {
 
 /*    @Autowired
     lateinit var noticeRepository: NoticeRepository

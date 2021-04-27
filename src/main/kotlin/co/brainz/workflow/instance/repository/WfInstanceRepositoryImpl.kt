@@ -8,6 +8,9 @@ package co.brainz.workflow.instance.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.entity.QAliceTagEntity
+import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.workflow.comment.entity.QWfCommentEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -25,8 +28,6 @@ import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
-import co.brainz.workflow.tag.entity.QWfTagEntity
-import co.brainz.workflow.tag.entity.QWfTagMapEntity
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
 import co.brainz.workflow.token.entity.QWfTokenEntity
@@ -48,12 +49,12 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val token: QWfTokenEntity = QWfTokenEntity.wfTokenEntity
     val tokenData: QWfTokenDataEntity = QWfTokenDataEntity.wfTokenDataEntity
     val comment: QWfCommentEntity = QWfCommentEntity.wfCommentEntity
-    val tagMap: QWfTagMapEntity = QWfTagMapEntity.wfTagMapEntity
-    val tag: QWfTagEntity = QWfTagEntity.wfTagEntity
+    val tag: QAliceTagEntity = QAliceTagEntity.aliceTagEntity
     val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val searchDataCount: Long = WfTokenConstants.searchDataCount
     val element: QWfElementEntity = QWfElementEntity.wfElementEntity
+    val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -81,7 +82,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                         .from(elementDataSub)
                         .innerJoin(elementDataSub.element, element)
                         .where(
-                            token.element.eq(elementDataSub.element),
+                            element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value),
                             elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),
                             elementDataSub.attributeValue.eq(WfTokenConstants.AssigneeType.USERS.code)
                         )
@@ -100,7 +101,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                         .from(elementDataSub)
                         .innerJoin(elementDataSub.element, element)
                         .where(
-                            token.element.eq(elementDataSub.element),
+                            element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value),
                             elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),
                             elementDataSub.attributeValue.eq(WfTokenConstants.AssigneeType.GROUPS.code)
                         )
@@ -256,10 +257,11 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             query.where(
                 instance.instanceId.`in`(
                     JPAExpressions
-                        .select(tagMap.instance.instanceId)
-                        .from(tagMap)
-                        .join(tag).on(
-                            tagMap.tagId.eq(tag.tagId).and(tag.tagContent.`in`(tags))
+                        .select(tag.targetId)
+                        .from(tag)
+                        .where(
+                            (tag.tagType.eq(AliceTagConstants.TagType.INSTANCE.code))
+                                .and(tag.tagValue.`in`(tags))
                         )
                 )
             )
@@ -359,12 +361,14 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         instances.forEach { instanceIds.add(it.instanceId) }
 
         // Delete instance relation data.
-        delete(tagMap).where(tagMap.instance.`in`(instances)).execute()
         delete(tokenData).where(tokenData.token.`in`(tokens)).execute()
         delete(token).where(token.instance.`in`(instances)).execute()
         delete(folder).where(folder.instance.`in`(instances)).execute()
         delete(comment).where(comment.instance.`in`(instances)).execute()
         delete(instance).where(instance.instanceId.`in`(instanceIds)).execute()
+        delete(ciComponent).where(ciComponent.instanceId.`in`(instanceIds)).execute()
+        delete(tag).where(tag.tagType.eq(AliceTagConstants.TagType.INSTANCE.code).and(tag.targetId.`in`(instanceIds)))
+            .execute()
     }
 
     override fun findAllInstanceListAndSearch(

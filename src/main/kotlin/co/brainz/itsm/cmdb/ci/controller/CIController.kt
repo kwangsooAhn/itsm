@@ -56,8 +56,8 @@ class CIController(private val ciService: CIService) {
         params["flag"] = request.getParameter("flag")
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = ciService.getCIs(params)
-        model.addAttribute("ciList", result)
-        model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("ciList", result.data)
+        model.addAttribute("ciListCount", result.totalCount)
         return if (isScroll) ciListFragment else ciListPage
     }
 
@@ -67,19 +67,23 @@ class CIController(private val ciService: CIService) {
     @GetMapping("/{ciId}/view")
     fun getCIView(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
         val ciData = ciService.getCI(ciId)
+        val ciHistoryList = ciService.getCIHistory(ciId)
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val ciRelationList = ciService.getCIRelation(ciId)
         val tags = JsonArray()
         if (ciData.ciTags != null) {
             ciData.ciTags!!.forEach {
                 val tagData = JsonObject()
-                tagData.addProperty("id", it.tagId.toString())
-                tagData.addProperty("value", it.tagName)
+                tagData.addProperty("id", it.tagId)
+                tagData.addProperty("value", it.value)
                 tags.add(tagData)
             }
         }
         model.addAttribute("ciData", ciData)
+        model.addAttribute("ciHistoryList", ciHistoryList)
         model.addAttribute("tags", tags)
         model.addAttribute("userInfo", userDetails)
+        model.addAttribute("ciRelationList", ciRelationList)
         return ciViewPage
     }
 
@@ -131,8 +135,8 @@ class CIController(private val ciService: CIService) {
         params["tags"] = request.getParameter("tagSearch")
         params["flag"] = request.getParameter("flag")
         val result = ciService.getCIs(params)
-        model.addAttribute("ciList", result)
-        model.addAttribute("ciListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("ciList", result.data)
+        model.addAttribute("ciListCount", result.totalCount)
         return ciListModal
     }
 }

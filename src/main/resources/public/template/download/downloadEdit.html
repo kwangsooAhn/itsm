@@ -90,7 +90,7 @@
         }
 
         function deleteDownload() {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
         }
 
         //REST API
@@ -109,7 +109,7 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    aliceJs.alertSuccess(resultMsg, function() {
+                    aliceAlert.alertSuccess(resultMsg, function() {
                         location.href = '/downloads/search';
                     });
                 }

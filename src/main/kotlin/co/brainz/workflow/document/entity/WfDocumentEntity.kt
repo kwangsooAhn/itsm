@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.document.entity
 
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
@@ -44,6 +49,9 @@ data class WfDocumentEntity(
     @Column(name = "document_group", length = 100)
     var documentGroup: String? = null,
 
+    @Column(name = "api_enable")
+    var apiEnable: Boolean = false,
+
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 
@@ -75,4 +83,7 @@ data class WfDocumentEntity(
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
     val instance: MutableList<WfInstanceEntity>? = mutableListOf()
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
+    val display: MutableList<WfDocumentDisplayEntity> = mutableListOf()
 }

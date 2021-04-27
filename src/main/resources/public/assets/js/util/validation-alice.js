@@ -11,6 +11,7 @@ const charReg = /^[a-zA-Z가-힣]*$/; // 영문자 , 한글
 const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/;
 const rgbReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/;
+const regularCharacterReg = /^[a-zA-Z가-힣0-9ㄱ-ㅎㅏ-ㅣ]*$/;
 const errorClass = 'error'; // 에러 발생시 추가될 클래스명
 
 /**
@@ -19,7 +20,7 @@ const errorClass = 'error'; // 에러 발생시 추가될 클래스명
 function isNullElement(elementId) {
     const elem = document.getElementById(elementId);
     if (elem === undefined || elem === null) {
-        aliceJs.alertWarning(i18n.msg('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
+        aliceAlert.alertWarning(i18n.msg('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
         return null;
     }
     return elem;
@@ -33,7 +34,7 @@ function isNull(elementId, messageId, callbackFunc) {
     if (elem !== null) {
         if (elem.value === null) {
             if (messageId !== undefined) {
-                aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
+                aliceAlert.alertWarning(i18n.msg(messageId), callbackFunc);
             }
             return true;
         }
@@ -42,18 +43,36 @@ function isNull(elementId, messageId, callbackFunc) {
     return true;
 }
 
+/** @brief 해당 아이디를 가진 엘리먼트의 값이 null인 아닌 경우를 판별한다.
+ *  @date 2020-03-03
+ */
+function isNotNull(elementId, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    if (elem !== null) {
+         if (elem.value !== null) {
+            if (messageId !== undefined) {
+                aliceAlert.alertWarning(i18n.msg(messageId), callbackFunc);
+            }
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+
 /** @brief 해당 엘리먼트의 값이 ''인 경우를 판별한다.
  *  @date 2020-03-03
  */
 function isEmpty(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
-    const message = i18n.msg(messageId || 'common.msg.emptyValue');
     const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
         elem.focus();
     };
     if (elem !== null) {
         if (elem.value.trim() === '') {
-            aliceJs.alertWarning(message, callback);
+            if (messageId !== undefined) {
+                aliceAlert.alertWarning(i18n.msg(messageId), callback);
+            }
             return true;
         }
         return false;
@@ -69,7 +88,7 @@ function isNotEmpty(elementId, messageId) {
     if (elem !== null) {
         if (elem.value !== '') {
             if (messageId !== undefined) {
-                aliceJs.alertWarning(i18n.msg(messageId));
+                aliceAlert.alertWarning(i18n.msg(messageId));
             }
             return true;
         }
@@ -85,13 +104,13 @@ function isEquals(elementId1, elementId2, messageId, callbackFunc) {
     if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value === document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
-                aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
+                aliceAlert.alertWarning(i18n.msg(messageId), callbackFunc);
             }
             return true;
         }
         return false;
     }
-    aliceJs.alertWarning(i18n.msg('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceAlert.alertWarning(i18n.msg('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -102,13 +121,13 @@ function isNotEquals(elementId1, elementId2, messageId, callbackFunc) {
     if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value !== document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
-                aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
+                aliceAlert.alertWarning(i18n.msg(messageId), callbackFunc);
             }
             return true;
         }
         return false;
     }
-    aliceJs.alertWarning(i18n.msg('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceAlert.alertWarning(i18n.msg('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -120,7 +139,7 @@ function isExistInScope(elementId, minValue, maxValue, messageId, callbackFunc) 
     if (elem !== null) {
         if ((minValue !== undefined && elem.value < minValue) || (maxValue !== undefined && elem.value > maxValue)) {
             if (messageId !== undefined) {
-                aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
+                aliceAlert.alertWarning(i18n.msg(messageId), callbackFunc);
             }
             return true;
         }
@@ -135,7 +154,7 @@ function isExistInScope(elementId, minValue, maxValue, messageId, callbackFunc) 
 function isAndOperator(condition1, condition2, messageId, callbackFunc) {
     if (condition1 && condition2) {
         if (messageId !== undefined) {
-            aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
+            aliceAlert.alertWarning(i18n.msg(messageId), callbackFunc);
         }
         return true;
     }
@@ -148,7 +167,7 @@ function isAndOperator(condition1, condition2, messageId, callbackFunc) {
 function isOrOperator(condition1, condition2, messageId, callbackFunc) {
     if (condition1 || condition2) {
         if (messageId !== undefined) {
-            aliceJs.alertWarning(i18n.msg(messageId), callbackFunc);
+            aliceAlert.alertWarning(i18n.msg(messageId), callbackFunc);
         }
         return true;
     }
@@ -174,7 +193,7 @@ function isValidPassword(elementId, callbackFunc) {
      * 비밀번호에 공백을 포함하지 않는다.
      */
     if (blankReg.test(password)) {
-        aliceJs.alertWarning(i18n.msg('validation.msg.pwNotContainSpace'), callbackFunc);
+        aliceAlert.alertWarning(i18n.msg('validation.msg.pwNotContainSpace'), callbackFunc);
         return false;
     }
 
@@ -186,7 +205,7 @@ function isValidPassword(elementId, callbackFunc) {
      */
     if (lowerCaseReg.test(password) || upperCaseReg.test(password) || specialCharReg.test(password) || integerReg.test(password)) {
         if (password.length < 10 || password.length > 20) {
-            aliceJs.alertWarning(i18n.msg('validation.msg.pwOneBetween10And20'), callbackFunc);
+            aliceAlert.alertWarning(i18n.msg('validation.msg.pwOneBetween10And20'), callbackFunc);
             return false;
         }
     }
@@ -200,7 +219,7 @@ function isValidPassword(elementId, callbackFunc) {
     if ((searchUpperCase < 0 && searchLowerCase < 0) || (searchLowerCase < 0 && searchSpecialChar < 0) ||
         (searchSpecialChar < 0 && searchNumber < 0) || (searchNumber < 0 && searchUpperCase < 0)) {
         if (password.length < 8 || password.length > 20) {
-            aliceJs.alertWarning(i18n.msg('validation.msg.pwTwoBetween8And20'), callbackFunc);
+            aliceAlert.alertWarning(i18n.msg('validation.msg.pwTwoBetween8And20'), callbackFunc);
             return false;
         }
     }
@@ -211,7 +230,7 @@ function isValidPassword(elementId, callbackFunc) {
      * 비밀번호에 사용자의 ID를 포함하지 않는다.
      */
     if (password.search(userId) > -1) {
-        aliceJs.alertWarning(i18n.msg('validation.msg.pwContainsId'), callbackFunc);
+        aliceAlert.alertWarning(i18n.msg('validation.msg.pwContainsId'), callbackFunc);
         return false;
     }
 
@@ -221,7 +240,7 @@ function isValidPassword(elementId, callbackFunc) {
      * 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
      */
     if (password.search(emailId[0]) > -1) {
-        aliceJs.alertWarning(i18n.msg('validation.msg.pwContainsEmail'), callbackFunc);
+        aliceAlert.alertWarning(i18n.msg('validation.msg.pwContainsEmail'), callbackFunc);
         return false;
     }
 
@@ -238,22 +257,19 @@ function isValidPassword(elementId, callbackFunc) {
  */
 function isValidEmail(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!emailReg.test(elem.value)) {
             if (isMessage) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.checkEmailFormat'), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.checkEmailFormat'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -274,22 +290,19 @@ function isValidEmail(elementId, isMessage, callbackFunc) {
  */
 function isValidUserId(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!idReg.test(elem.value)) {
             if (isMessage) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.checkUserIdFormat'), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.checkUserIdFormat'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -310,22 +323,19 @@ function isValidUserId(elementId, isMessage, callbackFunc) {
  */
 function isValidRgb(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!rgbReg.test(elem.value)) {
             if (isMessage) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.checkRgbFormat'), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.checkRgbFormat'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             return false;
         }
@@ -344,22 +354,19 @@ function isValidRgb(elementId, isMessage, callbackFunc) {
  */
 function isValidNumber(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!numberReg.test(elem.value)) {
             if (isMessage) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.number'), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.number'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -380,22 +387,19 @@ function isValidNumber(elementId, isMessage, callbackFunc) {
  */
 function isValidChar(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!charReg.test(elem.value)) {
             if (isMessage) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.char'), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.char'), function () {
                     elem.value = '';
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = '';
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -417,22 +421,19 @@ function isValidChar(elementId, isMessage, callbackFunc) {
  */
 function isValidMax(elementId, maxValue, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && maxValue !== undefined) {
         if (maxValue !== '' && elem.value > Number(maxValue)) {
             if (isMessage) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.max', maxValue), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.max', maxValue), function () {
                     elem.value = maxValue;
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = maxValue;
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -454,22 +455,19 @@ function isValidMax(elementId, maxValue, isMessage, callbackFunc) {
  */
 function isValidMin(elementId, minValue, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && minValue !== undefined) {
         if (minValue !== '' && elem.value < Number(minValue)) {
             if (isMessage) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.min', minValue), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.min', minValue), function () {
                     elem.value = minValue;
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = minValue;
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add('error');
             return false;
@@ -491,22 +489,19 @@ function isValidMin(elementId, minValue, isMessage, callbackFunc) {
  */
 function isValidMaxLength(elementId, maxLength, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && maxLength !== undefined) {
         if (maxLength !== '' && elem.value.length > Number(maxLength)) {
             if (isMessage) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.maxLength', maxLength), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.maxLength', maxLength), function () {
                     elem.value = elem.value.substring(0, maxLength);
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.value = elem.value.substring(0, maxLength);
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -528,20 +523,17 @@ function isValidMaxLength(elementId, maxLength, isMessage, callbackFunc) {
  */
 function isValidMinLength(elementId, minLength, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && minLength !== undefined) {
         if (minLength !== '' && elem.value.length < Number(minLength)) {
             if (isMessage) {
-                aliceJs.alertWarning(i18n.msg('validation.msg.minLength', minLength), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.minLength', minLength), function () {
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -560,25 +552,21 @@ function isValidMinLength(elementId, minLength, isMessage, callbackFunc) {
  * @param callbackFunc callback 함수
  * @returns {boolean} 유효성 검사 통과 여부
  */
-
 function isValidRequired(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (elem.required && elem.value.trim() === '') {
             if (isMessage) {
                 const requiredElemName = elem.getAttribute('data-required-name');
                 let requiredMsg = (requiredElemName !== null) ? i18n.msg('common.msg.required', requiredElemName) : i18n.msg('common.msg.requiredEnter');
-                aliceJs.alertWarning(requiredMsg, function() {
+                aliceAlert.alertWarning(requiredMsg, function () {
                     elem.focus();
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
+                    callback();
                 });
             } else {
                 elem.focus();
-                if (typeof callbackFunc === 'function') {
-                    callbackFunc();
-                }
+                callback();
             }
             elem.classList.add(errorClass);
             return false;
@@ -591,19 +579,26 @@ function isValidRequired(elementId, isMessage, callbackFunc) {
 
 /**
  * 화면에서 required 속성을 가진 element 들을 모두 검색한 후 하나라도 일지하지 않으면, 경고창과 함께 해당 element에 포커스가 간다.
+ * 만약 modal을 파라미터로 전달받는 경우, modal에 설정된 클래스를 찾아, 해당 클래스 내부의 required 속성을 가진 엘리먼트에 포커스가 간다.
  *
- * @param messageId
+ * @param modal
  * @returns {boolean} 유효성 검사 통과 여부
  */
-function isValidRequiredAll() {
-    const requiredElems = document.querySelectorAll('[required]');
+function isValidRequiredAll(modal) {
+    let requiredElems = '';
+    if (modal === undefined) {
+        requiredElems = document.querySelectorAll('[required]');
+    } else {
+        let modalContent = document.querySelector('.' + modal.options.classes);
+        requiredElems = modalContent.querySelectorAll('[required]');
+    }
     for (let i = 0, len = requiredElems.length; i < len; i++) {
         const requiredElem = requiredElems[i];
         const requiredElemName = requiredElem.getAttribute('data-required-name');
         if (requiredElem.value.trim() === '') {
             requiredElem.classList.add(errorClass);
             let requiredMsg = (requiredElemName !== null) ? i18n.msg('common.msg.required', requiredElemName) : i18n.msg('common.msg.requiredEnter');
-            aliceJs.alertWarning(requiredMsg, function() {
+            aliceAlert.alertWarning(requiredMsg, function() {
                 requiredElem.focus();
             });
             return false;
@@ -624,4 +619,81 @@ function hasErrorClass() {
         return false;
     }
     return true;
+}
+
+/**
+ * 필드에 숫자만 있는지 확인한다.
+ * @returns {boolean}
+ */
+function onlyNumber(event) {
+    event = event || window.event;
+    const keyID = (event.which) ? event.which : event.keyCode;
+    if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
+        || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * 허용된 IP인지 확인한다.
+ * @returns {boolean}
+ */
+function ipAccessCheck(ipList, clientIp, Separator) {
+    let isIpClassBand = false;
+    let isSameIpClassBand = false;
+    let count = ipList.length;
+    if (ipList !== null && clientIp !== null) {
+        for (let i = 0; i < count; i++) {
+            let comparativeIndex = ipList[i].ipAddr.indexOf(Separator);
+            isIpClassBand = comparativeIndex != -1;
+            isSameIpClassBand = clientIp.substr(0, comparativeIndex) === ipList[i].ipAddr.substr(0, comparativeIndex);
+            if (clientIp === ipList[i].ipAddr) {
+                return true;
+            } else if (isIpClassBand && isSameIpClassBand) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return true;
+}
+
+/**
+ * 스크롤바가 바닥에 닿았는지를 확인한다.
+ * @returns {boolean}
+ */
+function isScrollbarBottom(scrollHeight, scrollTop, clientHeight) {
+    return scrollHeight - scrollTop === clientHeight
+}
+
+/**
+ * 허용된 확장자이외 확장자를 갖고 있는 파일이 있는지 확인한다.
+ * @returns {boolean}
+ */
+function isAllowedExtensions(allowedExtensionList, fileList) {
+    if (allowedExtensionList !== null && fileList !== null) {
+        let len = fileList.length;
+        for (let i = 0; i < len; i++) {
+            if (allowedExtensionList.indexOf(fileList[i].name.split('.').pop().toLowerCase()) === -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 최대 글자 수를 초과 하는지 확인후 초과하면 maxLength만큼 문자를 잘라낸다.
+ */
+function maxLengthCheck(object) {
+    if (object !== null && object !== undefined) {
+        if (object.value.length > object.maxLength) {
+            object.value = object.value.slice(0, object.maxLength);
+            return object.value;
+        }
+        return true;
+    }
+    return false;
 }

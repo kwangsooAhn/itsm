@@ -6,10 +6,10 @@
 
 package co.brainz.itsm.cmdb.ciClass.controller
 
-import co.brainz.cmdb.provider.dto.CIClassDetailDto
-import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
-import co.brainz.cmdb.provider.dto.CIClassDto
-import co.brainz.cmdb.provider.dto.CIClassListDto
+import co.brainz.cmdb.dto.CIClassDetailDto
+import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIClassDto
+import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.ui.Model
@@ -39,14 +39,14 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      * CMDB CI Class 목록 조회
      */
     @GetMapping("/", "")
-    fun getCIClasses(
+    fun getCIClassesTree(
         request: HttpServletRequest,
         @RequestParam(value = "search", required = false, defaultValue = "") search: String,
         model: Model
-    ): List<CIClassListDto> {
+    ): CIClassTreeReturnDto {
         val params = LinkedHashMap<String, Any>()
         params["search"] = search
-        return ciClassService.getCIClasses(params)
+        return ciClassService.getCIClassesTree(params)
     }
 
     /**
@@ -77,7 +77,7 @@ class CIClassRestController(private val ciClassService: CIClassService) {
      * CMDB CI Class에 따른 세부 속성 조회
      */
     @GetMapping("/{classId}/attributes")
-    fun getCIClassAttributes(@PathVariable classId: String): MutableList<CIClassDetailValueDto> {
+    fun getCIClassAttributes(@PathVariable classId: String): List<CIClassDetailValueDto> {
         return ciClassService.getCIClassAttributes(classId)
     }
 }

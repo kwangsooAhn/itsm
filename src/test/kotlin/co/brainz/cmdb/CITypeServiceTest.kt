@@ -7,7 +7,7 @@
 package co.brainz.cmdb
 
 import co.brainz.cmdb.ciType.service.CITypeService
-import co.brainz.cmdb.provider.dto.CITypeDto
+import co.brainz.cmdb.dto.CITypeDto
 import java.time.LocalDateTime
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -45,9 +45,9 @@ class CITypeServiceTest {
         val params = LinkedHashMap<String, Any>()
         val ciTypeDtoList = ciTypeService.getCITypes(params)
         assumingThat(
-            ciTypeDtoList.isNotEmpty()
+            ciTypeDtoList.data.isNotEmpty()
         ) {
-            assertTrue(ciTypeDtoList[0].totalCount > 0)
+            assertTrue(ciTypeDtoList.totalCount > 0)
         }
     }
 
@@ -60,9 +60,9 @@ class CITypeServiceTest {
         params["search"] = searchValue
         val ciTypeDtoList = ciTypeService.getCITypes(params)
         assumingThat(
-            ciTypeDtoList.isNotEmpty()
+            ciTypeDtoList.data.isNotEmpty()
         ) {
-            assertEquals(ciTypeDtoList[0].typeName, searchValue)
+            assertEquals(ciTypeDtoList.data[0].typeName, searchValue)
         }
     }
 
@@ -73,16 +73,16 @@ class CITypeServiceTest {
         var typeId = ""
         val params = LinkedHashMap<String, Any>()
         val ciTypeDtoList = ciTypeService.getCITypes(params)
-        if (!ciTypeDtoList.isNullOrEmpty()) {
-            typeId = ciTypeDtoList[0].typeId.toString()
+        if (!ciTypeDtoList.data.isNullOrEmpty()) {
+            typeId = ciTypeDtoList.data[0].typeId.toString()
         }
         assumingThat(
             typeId.isNotEmpty()
         ) {
-            val typeDto = ciTypeService.getCIType(typeId)
-            assertEquals(typeDto.typeName, ciTypeDtoList[0].typeName)
-            assertEquals(typeDto.typeAlias, ciTypeDtoList[0].typeAlias)
-            assertEquals(typeDto.typeDesc, ciTypeDtoList[0].typeDesc)
+            val typeDto = ciTypeService.getCITypeDetail(typeId)
+            assertEquals(typeDto.typeName, ciTypeDtoList.data[0].typeName)
+            assertEquals(typeDto.typeAlias, ciTypeDtoList.data[0].typeAlias)
+            assertEquals(typeDto.typeDesc, ciTypeDtoList.data[0].typeDesc)
         }
     }
 
@@ -112,9 +112,9 @@ class CITypeServiceTest {
         params["search"] = this.typeName
         val ciTypeDtoList = ciTypeService.getCITypes(params)
         assumingThat(
-            ciTypeDtoList.isNotEmpty()
+            ciTypeDtoList.data.isNotEmpty()
         ) {
-            for (ciTypeDto in ciTypeDtoList) {
+            for (ciTypeDto in ciTypeDtoList.data) {
                 if (ciTypeDto.typeName == this.typeName) {
                     val updateTypeDto = CITypeDto(
                         typeId = ciTypeDto.typeId.toString(),
@@ -127,7 +127,7 @@ class CITypeServiceTest {
                         updateUserKey = this.userKey,
                         updateDt = LocalDateTime.now()
                     )
-                    assertTrue(ciTypeService.updateCIType(updateTypeDto, ciTypeDto.typeId.toString()))
+                    assertTrue(ciTypeService.updateCIType(ciTypeDto.typeId.toString(), updateTypeDto))
                 }
             }
         }
@@ -141,9 +141,9 @@ class CITypeServiceTest {
         params["search"] = this.typeName
         val ciTypeDtoList = ciTypeService.getCITypes(params)
         assumingThat(
-            ciTypeDtoList.isNotEmpty()
+            ciTypeDtoList.data.isNotEmpty()
         ) {
-            for (ciTypeDto in ciTypeDtoList) {
+            for (ciTypeDto in ciTypeDtoList.data) {
                 if (ciTypeDto.typeName == this.typeName) {
                     assertTrue(ciTypeService.deleteCIType(ciTypeDto.typeId.toString()))
                 }

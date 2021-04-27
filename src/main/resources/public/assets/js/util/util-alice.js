@@ -63,7 +63,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     });
     //elmNode.appendChild(table);
     console.info(data);
-    aliceJs.alertWarning(data.message);
+    aliceAlert.alertWarning(data.message);
 };
 
 /*!
@@ -219,7 +219,7 @@ aliceJs.sendXhr = function (option) {
         }
 
     } catch (e) {
-        aliceJs.alertDanger('Error creating the XMLHttpRequest object.');
+        aliceAlert.alertDanger('Error creating the XMLHttpRequest object.');
         return;
     }
 
@@ -516,165 +516,6 @@ function dateFormatFromNow(date) {
 }
 
 /**
- * open alert dialog.
- *
- * @param message message
- * @param callbackFunc callback function
- */
-aliceJs.alert = function(message, callbackFunc) {
-    const myModal = new gModal({
-        message: message,
-        type: 'gmodal-icon-info',
-        buttons: [
-            {
-                content: i18n.msg('common.btn.close'),
-                bindKey: 13, /* Enter */
-                callback: function(modal) {
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
-                    modal.hide();
-                }
-            }
-        ],
-        close: {
-            closable: false,
-        }
-    });
-    myModal.show();
-};
-
-/**
- * open alert dialog.
- *
- * @param message message
- * @param callbackFunc callback function
- */
-aliceJs.alertSuccess = function(message, callbackFunc) {
-    const myModal = new gModal({
-        message: message,
-        type: 'gmodal-icon-success',
-        buttons: [
-            {
-                content: i18n.msg('common.btn.close'),
-                bindKey: 13, /* Enter */
-                callback: function(modal) {
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
-                    modal.hide();
-                }
-            }
-        ],
-        close: {
-            closable: false,
-        }
-    });
-    myModal.show();
-};
-
-/**
- * open alert dialog.
- *
- * @param message message
- * @param callbackFunc callback function
- */
-aliceJs.alertWarning = function(message, callbackFunc) {
-    const myModal = new gModal({
-        message: message,
-        type: 'gmodal-icon-warning',
-        buttons: [
-            {
-                content: i18n.msg('common.btn.close'),
-                bindKey: 13, /* Enter */
-                callback: function(modal) {
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
-                    modal.hide();
-                }
-            }
-        ],
-        close: {
-            closable: false,
-        }
-    });
-    myModal.show();
-};
-
-/**
- * open error dialog.
- *
- * @param message message
- * @param callbackFunc callback function
- */
-aliceJs.alertDanger = function(message, callbackFunc) {
-    const myModal = new gModal({
-        message: message,
-        type: 'gmodal-icon-danger',
-        buttons: [
-            {
-                content: i18n.msg('common.btn.close'),
-                bindKey: 13, /* Enter */
-                callback: function(modal) {
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
-                    modal.hide();
-                }
-            }
-        ],
-        close: {
-            closable: false,
-        }
-    });
-    myModal.show();
-};
-
-/**
- * open confirm with icon dialog.
- *
- * @param message message
- * @param okCallbackFunc ok 시 callback function
- * @param cancelCallbackFunc cancel 시 callback function
- * @param params okCallbackFunc 에 전달하는 param
- */
-aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
-    let params = Array.prototype.slice.call(arguments, 3);
-
-    const myModal = new gModal({
-        message: message,
-        type: 'gmodal-icon-confirm',
-        buttons: [
-            {
-                content: i18n.msg('common.btn.check'),
-                bindKey: false, /* no key! */
-                callback: function(modal) {
-                    if (typeof okCallbackFunc === 'function') {
-                        okCallbackFunc.apply(null, params);
-                    }
-                    modal.hide();
-                }
-            },
-            {
-                content: i18n.msg('common.btn.cancel'),
-                bindKey: false, /* no key! */
-                callback: function(modal) {
-                    if (typeof cancelCallbackFunc === 'function') {
-                        cancelCallbackFunc();
-                    }
-                    modal.hide();
-                }
-            }
-        ],
-        close: {
-            closable: false,
-        }
-    });
-    myModal.show();
-};
-
-/**
  * 썸네일
  *
  * @param options 옵션
@@ -695,7 +536,7 @@ aliceJs.thumbnail = function(options) {
         // image 미선택 시 알림창 출력
         let selectedFile = document.querySelector('.thumbnail.selected');
         if (!selectedFile) {
-            aliceJs.alertWarning(i18n.msg('image.msg.fileSelect'));
+            aliceAlert.alertWarning(i18n.msg('image.msg.fileSelect'));
             return false;
         }
         const targetElem = document.getElementById(targetId);
@@ -1128,11 +969,12 @@ aliceJs.showTotalCount = function(totalCount, objectId = 'spanTotalCount') {
  * @return {string} 변환된 문자열
  */
 aliceJs.filterXSS = function (str) {
-    return str.replace(/&/g, '&amp;')
+    return (typeof str === 'string' || str instanceof String)?
+        str.replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/\"/g, '&quot;')
-        .replace(/\'/g, '&apos;');
+        .replace(/\'/g, '&apos;'):str;
 };
 
 /**
@@ -1230,3 +1072,23 @@ aliceJs.initDesignedSelectTag = function () {
         }
     });
 };
+
+/**
+ * 정규식에 부합하지 않는 글자들을 지운다.
+ * @param event
+ * @param rexg
+ * @param flag
+ */
+function removeChar(event, rexg = integerReg, flag = "g") {
+    event = event || window.event;
+    let regToString = '[' + rexg.toString()
+        .replaceAll('/', "")
+        .replaceAll('[', "")
+        .replaceAll(']', "")
+        .replaceAll('*$', "") + ']';
+
+    const keyID = (event.which) ? event.which : event.keyCode;
+    if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
+        event.target.value = event.target.value.replace(new RegExp(regToString, flag), '');
+    }
+}

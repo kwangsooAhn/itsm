@@ -176,3 +176,7 @@ insert into awf_code values ('chart.unit.year', 'chart.unit', 'Y', '년', null, 
 insert into awf_code values ('chart.unit.month', 'chart.unit', 'M', '월', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.day', 'chart.unit', 'D', '일', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.unit.hour', 'chart.unit', 'H', '시간', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('instance', 'root', null, '인스턴스', null, true, 1, 15, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('instance.platform', 'instance', null, '인스턴스 플랫폼', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('instance.platform.itsm', 'instance.platform', 'ITSM', 'ITSM', null, faLse, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('instance.platform.api', 'instance.platform', 'API', 'API', null, faLse, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);

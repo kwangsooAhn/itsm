@@ -213,8 +213,8 @@
           opacity: 0;
 
           &.on { opacity: 1; }
-          &.icon-arrow-down { @include background($icon-folder-path + 'icon_arrow_bottom.svg', 0.625rem 0.375rem, no-repeat, center, center, null); } // 10px 6px
-          &.icon-arrow-left { @include background($icon-folder-path + 'icon_arrow_left.svg', 0.375rem 0.625rem, no-repeat, center, center, null); } // 6px 10px
+          &.icon-arrow-down { @include backgroundImage($icon-folder-path + 'icon_arrow_bottom.svg', 0.625rem 0.375rem, no-repeat, center, center, null); } // 10px 6px
+          &.icon-arrow-left { @include backgroundImage($icon-folder-path + 'icon_arrow_left.svg', 0.375rem 0.625rem, no-repeat, center, center, null); } // 6px 10px
         }
       }
       // CI 컴포넌트
@@ -435,7 +435,7 @@
 // readonly
 .component[data-displayType="readonly"] {
   input[type=text],
-  button,
+  button:not(.icon-search-area),
   select,
   textarea {
     background-color: $component-disabled-bg-color !important;

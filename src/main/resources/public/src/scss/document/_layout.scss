@@ -13,7 +13,7 @@
   @include container;
 
   .document-main {
-    @include main;
+    @include fixedContainer;
     background-color: $layout-main-bg-color;
     @include scrollbarHidden;
 
@@ -72,7 +72,7 @@
   }
 
   .token-properties {
-    @include properties;
+    @include propertiesTemplate;
     background-color: $layout-properties-bg-color;
     border-left: $layout-properties-border;
     padding: 0 4.0625rem; // 65px

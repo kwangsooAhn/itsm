@@ -53,7 +53,7 @@
 
             const faqId = [[${faq?.faqId}]];
             if (faqId === null) {
-                aliceJs.alertWarning([[#{common.msg.processedOrDelete}]], function () {
+                aliceAlert.alertWarning([[#{common.msg.processedOrDelete}]], function () {
                     location.href = '/faqs/search';
                 });
                 return;

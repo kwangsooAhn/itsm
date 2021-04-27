@@ -19,6 +19,7 @@ data class RestTemplateDocumentDto(
     val documentNumberingRuleId: String = "",
     val documentColor: String? = "",
     var documentGroup: String? = null,
+    var apiEnable: Boolean = false,
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,

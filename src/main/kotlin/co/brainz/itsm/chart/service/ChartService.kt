@@ -6,7 +6,8 @@
 
 package co.brainz.itsm.chart.service
 
-import co.brainz.framework.label.repository.AliceLabelRepository
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.dto.ChartListDto
@@ -33,7 +34,7 @@ import org.springframework.stereotype.Service
 @Service
 class ChartService(
     private val chartRepository: ChartRepository,
-    private val aliceLabelRepository: AliceLabelRepository,
+    private val aliceTagRepository: AliceTagRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val wfFormRepository: WfFormRepository
 ) {
@@ -41,20 +42,23 @@ class ChartService(
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
-     * 전체 통계 차트 조회
+     * 전체 사용자 정의 차트 조회
      */
     fun getCharts(searchTypeName: String, offset: String): List<ChartListDto> {
         return chartRepository.findChartList(searchTypeName, offset.toLong())
     }
 
     /**
-     * 단일 통계 차트 조회
+     * 단일 사용자 정의 차트 조회
      */
     fun getChart(chartId: String): ChartDto {
         val chart = chartRepository.getOne(chartId)
-
+        val targetTags = arrayListOf<String>()
         val chartConfigJson = JsonParser().parse(chart.chartConfig).asJsonObject
-        val targetLabel = chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asString
+
+        chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asJsonArray.forEach { tag ->
+            targetTags.add(tag.asString)
+        }
         val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
         val durationDigit =
             chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
@@ -68,7 +72,7 @@ class ChartService(
             chartDesc = chart.chartDesc,
             chartConfig = chart.chartConfig,
             createDt = chart.createDt,
-            targetLabel = targetLabel,
+            targetTags = targetTags,
             operation = operation,
             durationDigit = durationDigit.toLong(),
             durationUnit = durationUnit
@@ -89,7 +93,7 @@ class ChartService(
     }
 
     /**
-     * 통계 차트 등록 / 수정
+     * 사용자 정의 차트 등록 / 수정
      */
     fun saveChart(chartDto: ChartDto): String {
         val status = ChartConstants.Status.STATUS_SUCCESS.code
@@ -107,7 +111,7 @@ class ChartService(
     }
 
     /**
-     * 통계 차트 삭제
+     * 사용자 정의 차트 삭제
      */
     fun deleteChart(chartId: String): String {
         val status = ChartConstants.Status.STATUS_SUCCESS.code
@@ -120,26 +124,23 @@ class ChartService(
      * 차트 생성 관련 JsonArray 생성
      */
     fun getChartProperty(chart: ChartDto): String {
-        val labelList = aliceLabelRepository.findLabelByKey(chart.targetLabel)
-        val labelTargetIds = mutableListOf<String>()
+
+        val tagTargetIds = mutableListOf<String>()
+        chart.targetTags?.let {
+            aliceTagRepository.findByTagValueIn(AliceTagConstants.TagType.COMPONENT.code, it).forEach { tag ->
+                tagTargetIds.add(tag.targetId)
+            }
+        }
+
         val formIds = mutableListOf<String>()
         val documentList = mutableListOf<WfDocumentEntity>()
         val jsonObject = JsonObject()
         val jsonObjectArray = JsonArray()
-
-        labelList.forEach { label ->
-            labelTargetIds.add(
-                label.labelTargetId
-            )
-        }
-
-        val componentList = wfComponentRepository.findByComponentIdIn(labelTargetIds)
+        val componentList = wfComponentRepository.findByComponentIdIn(tagTargetIds)
         componentList.forEach { component ->
-            if (component.componentType == WfComponentConstants.ComponentType.LABEL.code) {
-                formIds.add(
-                    component.form.formId
-                )
-            }
+            formIds.add(
+                component.form.formId
+            )
         }
 
         val formList = wfFormRepository.findByFormIdIn(formIds)
@@ -417,7 +418,10 @@ class ChartService(
         val chartConfigObj = JsonObject()
         val durationObj = JsonObject()
         val chartFromList = JsonArray()
-        chartFromList.add(chartDto.targetLabel)
+
+        chartDto.targetTags?.forEach { tag ->
+            chartFromList.add(tag.trim())
+        }
         // type
         chartConfigObj.addProperty(ChartConstants.ObjProperty.TYPE.property, chartDto.chartType)
         // from
@@ -445,8 +449,11 @@ class ChartService(
 
     fun getPreviewChart(chartId: String, chartPreviewDto: ChartDto): ChartDto {
         var chart: ChartEntity
+        val targetTags = arrayListOf<String>()
         val chartConfigJson = JsonParser().parse(getChartConfig(chartPreviewDto)).asJsonObject
-        val targetLabel = chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asString
+        chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asJsonArray.forEach { tag ->
+            targetTags.add(tag.asString)
+        }
         val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
         val durationDigit =
             chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
@@ -458,7 +465,7 @@ class ChartService(
             chartName = chartPreviewDto.chartName,
             chartDesc = chartPreviewDto.chartDesc,
             chartConfig = getChartConfig(chartPreviewDto),
-            targetLabel = targetLabel,
+            targetTags = targetTags,
             operation = operation,
             durationDigit = durationDigit.toLong(),
             durationUnit = durationUnit

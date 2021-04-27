@@ -14,6 +14,8 @@
 }(this, (function (exports) {
     'use strict';
 
+    let tagify = null;
+    let initialStatus = null;
     let ATTRIBUTE_TABLE_COLUMN = 'drTableColumns'; // 컴포넌트 세부 속성 - drTableColumns
     const history = {
         redo_list: [],
@@ -122,9 +124,6 @@
             },
             required: function(value) {
                 return !aliceJs.isEmpty(value);
-            },
-            label: function(value) { // 라벨링 전용
-                return labelRegex.test(value);
             }
         };
         // 이벤트 등록
@@ -175,9 +174,6 @@
                     break;
                 case 'required':
                     result = validateFunc.required(target.value);
-                    break;
-                case 'label':
-                    result = validateFunc.label(target.value);
                     break;
                 case 'unique': // table 중복 체크
                     result = true;
@@ -251,6 +247,13 @@
         if (!hasErrorClass)  {  return false; }
 
         data = JSON.parse(JSON.stringify(editor.data));
+        let nowStatus = editor.data.status;
+        let deployableStatus = ['form.status.publish', 'form.status.use'];
+
+        if (deployableStatus.indexOf(initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
+            aliceJs.alertWarning(i18n.msg("common.msg.onlySaveInEdit"));
+            return false;
+        }
 
         // 2020-05-22 Jung Hee Chan
         // datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
@@ -269,17 +272,18 @@
                     savedData = JSON.parse(JSON.stringify(editor.data));
                     changeFormName();
                     if (flag) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
                             window.close();
                         });
                     } else {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'));
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
                     }
+                    initialStatus = editor.data.status;
                 } else {
-                    aliceJs.alertDanger(i18n.msg('common.label.fail'));
+                    aliceAlert.alertDanger(i18n.msg('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',
@@ -317,7 +321,7 @@
             let nameLabelElem = document.getElementById('form_name');
             if (nameLabelElem.value.trim() === '') {
                 nameLabelElem.classList.add('error');
-                aliceJs.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
+                aliceAlert.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
                     nameLabelElem.focus();
                 });
                 return false;
@@ -346,7 +350,7 @@
                 url: '/rest/forms' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
@@ -354,7 +358,7 @@
                             location.href = '/form/' + xhr.responseText + '/edit';
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
+                        aliceAlert.alertDanger(i18n.msg('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',
@@ -1322,7 +1326,7 @@
         const checkedBlockLen = groupElem.querySelectorAll('input[type="checkbox"]:checked').length;
 
         if (checkedBlockLen === (fieldBlockLen - 1)) {
-            aliceJs.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'));
+            aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'));
             return false;
         } else {
             // 삭제
@@ -1446,7 +1450,7 @@
         if (minusCnt > 0) {
             changePropertiesValue(removeOptionData, changePropertiesArr[0], tableIdArr[1], changePropertiesArr[1]);
         } else {
-            aliceJs.alertWarning(i18n.msg('common.msg.deleteTartget'));
+            aliceAlert.alertWarning(i18n.msg('common.msg.deleteTartget'));
         }
     }
 
@@ -1693,47 +1697,21 @@
                 changePropertiesValue(customCodeList[0].customCodeId, group, property.id);
             }
             break;
-        case 'labeling':
-            // 테이블 Header 추가
-            let tableHeaderOptions = `<th></th>`;
-            tableHeaderOptions += property.option.map(function(opt) {
-                return `<th data-role="${opt.id}" data-default="${opt.value}" data-validate="${opt.validate}">${i18n.msg('form.attribute.option.' + opt.id)}</th>`;
-            }).join('');
-
-            // 테이블 Row 추가
-            let tableRowOptions = property.value.label.map(function(opt, index) { // {key: value}
-                let checkBoxTemplate = `<td>` +
-                            `<label class="checkbox" for="checkbox-label-${index + 1}" tabindex="0">` +
-                                `<input type="checkbox" id="checkbox-label-${index + 1}" value="${index + 1}" />` +
-                                `<span></span>` +
-                            `</label>` +
-                        `</td>`;
-                let labelKey = Object.keys(opt)[0];
-                return `<tr>` +
-                            `${checkBoxTemplate}` +
-                            `<td><input type="text" id="key" class="property-value" value="${aliceJs.filterXSS(labelKey)}" data-validate="${property.option[0].validate}"/></td>` +
-                            `<td><input type="text" id="value" class="property-value" value="${aliceJs.filterXSS(opt[labelKey])}" data-validate="${property.option[1].validate}"/></td>` +
-                        `</tr>`;
-            }).join('');
-
+        case 'tag-box':
             fieldTemplate =
-                    `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
-                    `<button type="button" class="ghost-line btn-option float-right" id="label-option-plus"><span class="icon icon-plus"></span></button>` +
-                    `<button type="button" class="ghost-line btn-option float-right mr-1" id="label-option-minus"><span class="icon icon-minus"></span></button>` +
-                    `<table class="property-field-table" id="table-label" date-validate="unique">` +
-                        `<colgroup>` +
-                            `<col width="20%">` +
-                            `<col width="40%">` +
-                            `<col width="40%">` +
-                        `</colgroup>` +
-                        `<tbody>` +
-                            `<tr>${tableHeaderOptions}</tr>` +
-                            `${tableRowOptions}` +
-                        `</tbody>` +
-                    `</table>` +
-                    `<label class="error-msg"></label>`;
+                `<label class="property-field-name">${i18n.msg('form.attribute.' + property.id)}</label>${tooltipTemplate}` +
+                `<input type="text" class="property-value" id="${key}-${property.id}" value='${JSON.stringify(property.value)}'/>`;
 
             elem.insertAdjacentHTML('beforeend', fieldTemplate);
+            tagify = new Tagify(elem.querySelector('input[id="'+key+'-'+property.id+'"]'), {
+                pattern: /^.{0,100}$/,
+                editTags: false,
+                callbacks: {
+                    'add': onAddRemoveTag,
+                    'remove': onAddRemoveTag
+                },
+                placeholder: i18n.msg('token.msg.tag')
+            });
             break;
         case 'image':
             fieldTemplate =
@@ -2609,10 +2587,22 @@
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.components = aliceForm.reformatCalendarFormat('read', responseObject.components);
                 editor.data = responseObject;
+                initialStatus = editor.data.status;
                 drawForm();
             },
             contentType: 'application/json; charset=utf-8'
         });
+    }
+
+    /**
+     * 태그 추가 및 삭제 시 다시 그리기.
+     */
+    function onAddRemoveTag(tag) {
+        let tagValue = []
+        tagify.getTagElms().forEach( tagElm =>
+            tagValue.push({value: tagElm.title})
+        )
+        changePropertiesValue(tagValue,'dataAttribute','tag');
     }
 
     exports.init = init;

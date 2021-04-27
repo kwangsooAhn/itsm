@@ -9,6 +9,8 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileNameExtensionDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers
@@ -29,7 +31,11 @@ import org.springframework.web.multipart.MultipartFile
  * 파일 관련 컨트롤 클래스
  */
 @RestController
-class AliceFileController(private val aliceFileService: AliceFileService) {
+class AliceFileController(
+    private val aliceFileService: AliceFileService,
+    private val aliceFileProvider: AliceFileProvider,
+    private val aliceFileAvatarService: AliceFileAvatarService
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val fileMapper: AliceFileMapper = Mappers.getMapper(AliceFileMapper::class.java)
@@ -49,7 +55,7 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
         when (request.getParameter("target") ?: null) {
             AliceUserConstants.AVATAR_ID -> {
                 val fileName = request.getParameter("fileName") ?: null
-                map["file"] = aliceFileService.uploadTempAvatarFile(
+                map["file"] = aliceFileAvatarService.uploadTempAvatarFile(
                     multipartFile,
                     fileName
                 )
@@ -91,7 +97,7 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
     @GetMapping("/rest/filenameextensions")
     fun getFileNameExtension(): List<AliceFileNameExtensionDto> {
         val fileNameExtensions = mutableListOf<AliceFileNameExtensionDto>()
-        val foundFileNameExtensions = aliceFileService.getFileNameExtension()
+        val foundFileNameExtensions = aliceFileProvider.getFileNameExtension()
         for (foundFileNameExtension in foundFileNameExtensions) {
             fileNameExtensions.add(fileMapper.toAliceFileNameExtensionDto(foundFileNameExtension))
         }

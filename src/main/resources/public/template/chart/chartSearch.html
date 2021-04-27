@@ -32,13 +32,16 @@
         </div>
     </div>
     <div class="chart-content flex-fill">
+        <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''chart.delete'')')}"/>
         <div class="list" id="chartList"></div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
@@ -108,7 +111,7 @@
                                     const scrollHeight = e.target.scrollHeight;
                                     const scrollTop = e.target.scrollTop;
                                     const clientHeight = e.target.clientHeight;
-                                    if (scrollHeight - scrollTop === clientHeight) {
+                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
                                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                             searchCharts(true);
                                         }
@@ -152,6 +155,7 @@
          * Chart edit 화면 호출 (Modal)
          */
         function openChartEditModal(chartId, chartType) {
+            const deletable = document.getElementById('deletable').value
             let chartOptions = {
                 title: i18n.msg('chart.label.edit'),
                 body: createModalContent(),
@@ -179,15 +183,17 @@
                 }
             };
 
-            if (chartId !== undefined) {
-                chartOptions.buttons.push({
-                    content: i18n.msg('common.btn.delete'),
-                    classes: "default-fill",
-                    bindKey: false,
-                    callback: function (modal) {
-                        deleteChart(chartId);
-                    }
-                });
+            if (deletable === 'true') {
+                if (chartId !== undefined) {
+                    chartOptions.buttons.push({
+                        content: i18n.msg('common.btn.delete'),
+                        classes: "default-fill",
+                        bindKey: false,
+                        callback: function (modal) {
+                            deleteChart(chartId);
+                        }
+                    });
+                }
             }
 
             chartOptions.buttons.push({
@@ -211,14 +217,15 @@
 
             const chartEditModal = new modal(chartOptions);
             chartEditModal.show();
+            document.querySelector('.modal-dialog .point-fill').focus();
         }
 
         /**
          * Chart view 화면 호출 (Modal)
          */
-        function openChartViewModal(chartId, chartType) {
+        function openChartViewModal(chartId, chartType, chartName) {
             let chartOptions = {
-                title: i18n.msg('chart.label.viewTitle'),
+                title: chartName,
                 body: createModalContent(),
                 classes: 'chart-view-modal',
                 buttons: [{
@@ -239,12 +246,13 @@
 
             const chartViewModal = new modal(chartOptions);
             chartViewModal.show();
+            document.querySelector('.modal-dialog .default-line').focus();
         }
 
         function createModalContent() {
             return `<div class="chart-edit-content">` +
-                       `<div class="flex-column" id="getChart"></div>` +
-                    `</div>`;
+                `<div class="flex-column" id="getChart"></div>` +
+                `</div>`;
         }
 
         function getChart(chartId, chartType, target) {
@@ -273,7 +281,14 @@
                         if (chartId !== undefined) {
                             parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
                         }
+                        let targetTags = document.getElementById('targetTags').value
+                        document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
                     }
+                    let tagify = new Tagify(document.querySelector('input[id=targetTags]'), {
+                        pattern: /^.{0,100}$/,
+                        editTags: false,
+                        placeholder: i18n.msg('token.msg.tag')
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
@@ -283,7 +298,7 @@
             if (isEmpty('chartName', 'chart.msg.enterChartName')) {
                 return false
             }
-            if (isEmpty('targetLabel', 'chart.msg.enterTargetLabel')) {
+            if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
                 return false
             }
             if (isEmpty('durationDigit', 'chart.msg.enterDurationDigit')) {
@@ -301,21 +316,20 @@
          * chart 저장 / 수정
          */
         function saveChart(method, chartId) {
-            if (getChartDto() !== undefined) {
+            if (getChartDto(method, chartId) !== undefined) {
                 let url = '/rest/charts';
                 if (method === 'put' && chartId !== undefined) {
-                    getChartDto().chartId = chartId;
                     url += '/' + chartId;
                 }
-                restSubmit(method, url, getChartDto(), function (result) {
+                restSubmit(method, url, getChartDto(method, chartId), function (result) {
                     switch (result) {
                         case STATUS_SUCCESS:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
                                 location.reload()
                             });
                             break;
                         default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 })
@@ -326,36 +340,19 @@
          * chart 삭제
          */
         function deleteChart(chartId) {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
                 chartId, {}, function (result) {
                 switch (result) {
                     case STATUS_SUCCESS:
-                        aliceJs.alertSuccess('[[#{common.msg.delete}]]', function () {
+                        aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function () {
                             location.reload();
                         });
                         break;
                     default:
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                         break;
                 }
             })
-        }
-
-        function onlyNumber(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
-                || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                return false;
-            }
-        }
-
-        function removeChar(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                event.target.value = event.target.value.replace(/[^0-9]/g, '');
-            }
         }
 
         function setDisplay(value) {
@@ -383,10 +380,10 @@
         function setChart(chartType) {
             // highcharts 기본 옵션
             let options = {
-                chart: { type: 'line' },
-                title: { text: '' },
-                subtitle: { text: '' },
-                credits: { enabled: false },
+                chart: {type: 'line'},
+                title: {text: ''},
+                subtitle: {text: ''},
+                credits: {enabled: false},
                 xAxis: {},
                 yAxis: {},
                 tooltip: {},
@@ -411,7 +408,7 @@
                     options.plotOptions.pie = {
                         allowPointSelect: true,
                         cursor: 'pointer',
-                        dataLabels: { enabled: true }
+                        dataLabels: {enabled: true}
                     };
                     options.series[0].type = 'pie';
                     break;
@@ -449,7 +446,7 @@
                     options.xAxis.type = 'datetime';
                     options.yAxis = {
                         min: 0,
-                        stackLabels: { enabled: false }
+                        stackLabels: {enabled: false}
                     }
                     options.plotOptions = {
                         column: {
@@ -521,16 +518,16 @@
                                 if (chartConfigJson.operation === 'percent') {
                                     return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
                                 } else {
-                                    return i18n.msg('chart.label.docCases') + ': <b>' +  i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                    return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
                                 }
                             }
                         },
                         dataLabels: {
                             formatter: function () {
                                 if (chartConfigJson.operation === 'percent') {
-                                    return '<b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
+                                    return '<b>' + this.key + ': <b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
                                 } else {
-                                    return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                                    return '<b>' + this.key + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
                                 }
                             }
                         }
@@ -546,7 +543,7 @@
                     chart.series[0].setData(seriesData, true);
                     break;
                 case BASIC_LINE_CHART:
-                    chart.yAxis[0].setTitle({ text: i18n.msg('chart.option.label.yAxisTitle') });
+                    chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
 
                     chart.series[0].update({
                         pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
@@ -570,7 +567,7 @@
                                     const percent = (this.y / sum) * 100;
                                     return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
                                 } else {
-                                    return '<b>' +  Highcharts.numberFormat(this.y, 0) + '</b>';
+                                    return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
                                 }
                             }
                         }
@@ -587,11 +584,11 @@
                             y: countArray[i]
                         });
                     }
-                    chart.series[0].update({name:seriesName, showInLegend: true}, false);
+                    chart.series[0].update({name: seriesName, showInLegend: true}, false);
                     chart.series[0].setData(seriesData, true);
                     break;
                 case STACKED_COLUMN_CHART:
-                    chart.yAxis[0].setTitle({ text: i18n.msg('chart.option.label.yAxisTitle') });
+                    chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
 
                     chart.series[0].update({
                         pointStart: Date.UTC(getYear, getMonth, getDay, getHour),
@@ -632,22 +629,30 @@
                             y: countArray[i]
                         });
                     }
-                    chart.series[0].update({name:seriesName, showInLegend: true}, false);
+                    chart.series[0].update({name: seriesName, showInLegend: true}, false);
                     chart.series[0].setData(seriesData, true);
                     break;
             }
         }
 
-        function getChartDto() {
+        function getChartDto(method, chartId) {
             if (emptyValidation()) {
+                let tagList = [];
+                JSON.parse(document.getElementById('targetTags').value).forEach (tag => {
+                        tagList.push(tag.value);
+                })
+
                 let chartInfo = {
                     chartType: document.getElementById('typeSelectBox').value,
                     chartName: document.getElementById('chartName').value,
                     chartDesc: document.getElementById('chartDesc').value,
-                    targetLabel: document.getElementById('targetLabel').value,
+                    targetTags: tagList,
                     operation: document.getElementById('operationSelectBox').value,
                     durationDigit: document.getElementById('durationDigit').value,
                     durationUnit: document.getElementById('durationUnitSelectBox').value
+                }
+                if (method === 'put' && chartId !== undefined) {
+                    chartInfo.chartId = chartId;
                 }
 
                 if (chartInfo.chartType === STACKED_COLUMN_CHART || chartInfo.chartType === BASIC_LINE_CHART) {
@@ -656,19 +661,19 @@
                     switch (chartInfo.durationUnit) {
                         case CHART_MONTH:
                             if (chartInfo.periodUnit === CHART_YEAR) {
-                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                                aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
                                 return false;
                             }
                             break;
                         case CHART_DAY:
                             if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH) {
-                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                                aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
                                 return false;
                             }
                             break;
                         case CHART_HOUR:
                             if (chartInfo.periodUnit === CHART_YEAR || chartInfo.periodUnit === CHART_MONTH || chartInfo.periodUnit === CHART_DAY) {
-                                aliceJs.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                                aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
                                 return false;
                             }
                             break;

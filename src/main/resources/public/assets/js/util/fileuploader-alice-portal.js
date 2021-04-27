@@ -280,10 +280,10 @@ const portalFileUploader = (function () {
             if (extraParam.isDropzoneUnder) {
                 dropzoneMessage.style.display = 'block';
             }
-            aliceJs.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
+            aliceAlert.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
         } else if (file.size > extraParam.dropZoneMaxFileSize * 1024 * 1024) {
             dropzone.removeFile(file);
-            aliceJs.alert(i18n.msg('fileupload.msg.maxFileSize', extraParam.dropZoneMaxFileSize));
+            aliceAlert.alert(i18n.msg('fileupload.msg.maxFileSize', extraParam.dropZoneMaxFileSize));
         } else if (extraParam.dropZoneMaxFiles !== null && (dropzone.files.length > extraParam.dropZoneMaxFiles)) {
             if (uploaderType === 'avatarUploader' && extraParam.dropZoneMaxFiles === 1) {
                 if (dropzone.files.length > 1) {
@@ -293,7 +293,7 @@ const portalFileUploader = (function () {
                 document.getElementById('avatarUUID').value = extraParam.fileName;
             } else {
                 dropzone.removeFile(file);
-                aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', extraParam.dropZoneMaxFiles));
+                aliceAlert.alert(i18n.msg('fileupload.msg.maxFileCount', extraParam.dropZoneMaxFiles));
             }
         }
     };

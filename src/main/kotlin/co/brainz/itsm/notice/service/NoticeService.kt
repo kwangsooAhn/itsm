@@ -38,12 +38,12 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     // 공지사항 조회 및 수정용 세부정보
     fun findNoticeByNoticeNo(noticeNo: String): NoticeDto {
-        return noticeMapper.toNoticeDto(noticeRepository.findById(noticeNo).orElse(NoticeEntity()))
+        return noticeMapper.toNoticeDto(noticeRepository.findNotice(noticeNo))
     }
 
     // 최초 로그인 시 팝업용 공지사항 조회
     fun findPopupNoticeByNoticeNo(noticeNo: String): NoticePopupDto {
-        return noticeMapper.toNoticePopupDto(noticeRepository.findById(noticeNo).orElse(NoticeEntity()))
+        return noticeMapper.toNoticePopupDto(noticeRepository.findNotice(noticeNo))
     }
 
     // 최초 로그인 시 팝업용 공지사항 리스트 조회

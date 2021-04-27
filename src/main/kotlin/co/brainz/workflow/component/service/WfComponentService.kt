@@ -1,6 +1,13 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.workflow.component.service
 
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
+import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentDataDto
@@ -29,9 +36,12 @@ class WfComponentService(
         return customCodeIds.toList()
     }
 
+    fun getComponent(componentId: String): WfComponentEntity {
+        return wfComponentRepository.findByComponentId(componentId)
+    }
+
     fun getComponentTypeById(componentId: String): String {
-        val component = wfComponentRepository.findById(componentId)
-        return component.get().componentType
+        return this.getComponent(componentId).componentType
     }
 
     /**
@@ -39,27 +49,16 @@ class WfComponentService(
      * 파라미터[parameters]에 따라 조회 결과를 필터한다.
      */
     private fun getComponentData(parameters: LinkedHashMap<String, Any>?): List<RestTemplateFormComponentDataDto> {
-        // 중복제거를 위해 Set 타입으로 변수 사용.
-        val componentDataList = mutableListOf<RestTemplateFormComponentDataDto>()
-
-        val componentType = parameters?.get("componentType")
-        val componentAttribute = parameters?.get("componentAttribute")
-
-        val componentDataEntities = if (componentType != null && componentAttribute != null) {
-            wfComponentDataRepository.findAllByComponentTypeAndAttributeId(componentType, componentAttribute)
-        } else {
-            wfComponentDataRepository.findAll()
+        var componentType: String? = null
+        var componentAttribute: String? = null
+        if (parameters != null) {
+            if (parameters["componentType"] != null) {
+                componentType = parameters["componentType"].toString()
+            }
+            if (parameters["componentAttribute"] != null) {
+                componentAttribute = parameters["componentAttribute"].toString()
+            }
         }
-        componentDataEntities.forEach {
-            componentDataList.add(
-                RestTemplateFormComponentDataDto(
-                    componentId = it.componentId,
-                    attributeId = it.attributeId,
-                    attributeValue = it.attributeValue
-                )
-            )
-        }
-
-        return componentDataList
+        return wfComponentDataRepository.findComponentTypeAndAttributeId(componentType, componentAttribute)
     }
 }

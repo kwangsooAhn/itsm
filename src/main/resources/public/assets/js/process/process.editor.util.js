@@ -7,7 +7,11 @@
 
     let savedData = {};
     let isEdited = false;
-    
+
+    const RESPONSE_SUCCESS = '1';
+    const RESPONSE_FAIL = '0';
+    const RESPONSE_DUPLICATION = '-1';
+
     window.addEventListener('beforeunload', function (event) {
         if (isEdited) {
             event.returnValue = '';
@@ -255,22 +259,27 @@
      * save process.
      */
     function saveProcess() {
-        if (aliceProcessEditor.isView) {
-            return false;
-        }
+        if(!valdationCheck()) return false;
         aliceProcessEditor.resetElementPosition();
-        save(function (xhr) {
-            if (xhr.responseText === 'true') {
-                aliceJs.alertSuccess(i18n.msg('common.msg.save'));
-                isEdited = false;
-                savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
-                if (savedData.process.status === 'process.status.publish' ||
-                    savedData.process.status === 'process.status.use') {
-                    uploadProcessFile();
-                }
-                changeProcessName();
-            } else {
-                aliceJs.alertDanger(i18n.msg('common.label.fail'));
+        save(function (response) {
+            let resultCode = response.responseText;
+            switch (resultCode) {
+                case RESPONSE_DUPLICATION:
+                    aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                    return;
+                case RESPONSE_FAIL:
+                    aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                    return;
+                default:
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
+                    isEdited = false;
+                    savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+                    if (savedData.process.status === 'process.status.publish' ||
+                        savedData.process.status === 'process.status.use') {
+                        uploadProcessFile();
+                    }
+                    changeProcessName();
+                    aliceProcessEditor.initialStatus = savedData.process.status;
             }
         });
     }
@@ -280,7 +289,7 @@
      */
     function autoSaveProcess() {
         save(function (xhr) {
-            if (xhr.responseText === 'true') {
+            if (xhr.responseText === RESPONSE_SUCCESS) {
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
                 changeProcessName();
@@ -332,7 +341,7 @@
             let nameTextObject = document.getElementById('process_name');
             if (nameTextObject.value.trim() === '') {
                 nameTextObject.classList.add('error');
-                aliceJs.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
+                aliceAlert.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
                     nameTextObject.focus();
                 });
                 return false;
@@ -351,15 +360,24 @@
             aliceJs.sendXhr({
                 method: 'POST',
                 url: '/rest/processes' + '?saveType=saveas',
-                callbackFunc: function (xhr) {
-                    if (xhr.responseText !== '') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
-                            opener.location.reload();
-                            window.name = 'process_' + xhr.responseText + '_edit';
-                            location.href = '/process/' + xhr.responseText + '/edit';
-                        });
-                    } else {
-                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
+                callbackFunc: function (response) {
+                    let resultToJson = JSON.parse(response.responseText);
+                    let processId = resultToJson.processId;
+                    let resultCode = resultToJson.result;
+                    switch (resultCode.toString()) {
+                        case RESPONSE_DUPLICATION:
+                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            return;
+                        case RESPONSE_FAIL:
+                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                            return;
+                        default:
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                opener.location.reload();
+                                window.name = 'process_' + processId + '_edit';
+                                location.href = '/process/' + processId + '/edit';
+                            });
+
                     }
                 },
                 contentType: 'application/json; charset=utf-8',
@@ -955,3 +973,58 @@
     exports.autoSave = autoSaveProcess;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
+
+function valdationCheck() {
+    let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
+        'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
+    let totalElements = aliceProcessEditor.data.elements;
+    let requiredList = [];
+    let deployableStatus = ['process.status.publish', 'process.status.use'];
+    let nowStatus = aliceProcessEditor.data.process.status;
+
+    if (deployableStatus.indexOf(aliceProcessEditor.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
+        aliceJs.alertWarning(i18n.msg("common.msg.onlySaveInEdit"));
+        return false;
+    }
+    if (aliceProcessEditor.isView) return false;
+    if (aliceProcessEditor.data.process.name.toString().trim() === '') {
+        aliceAlert.alertWarning(i18n.msg("process.msg.enterProcessName"));
+        return false;
+    }
+
+    if (deployableStatus.indexOf(nowStatus) >= 0) {
+        for (let i = 0; i < totalElements.length; i++) {
+            if (typeList.indexOf(totalElements[i].type) >= 0) {
+                requiredList = totalElements[i].required;
+                for (let key in totalElements[i]) {
+                    if (requiredList.indexOf(key) >= 0) {
+                        if (totalElements[i][key].toString().trim() === '') {
+                            const errorElem = document.getElementById(totalElements[i].id);
+                            aliceAlert.alertWarning(i18n.msg("process.msg.enterRequired",
+                                i18n.msg("process.designer.attribute." + totalElements[i].type)));
+                            aliceProcessEditor.setSelectedElement(d3.select(errorElem));
+                            aliceProcessEditor.setElementMenu(d3.select(errorElem));
+                            return false;
+                        }
+                    }
+                }
+                if (totalElements[i].data !== undefined) {
+                    for (let key in totalElements[i].data) {
+                        if (requiredList.indexOf(key) >= 0) {
+                            if (totalElements[i].data[key].toString().trim() === '') {
+                                const errorElem = document.getElementById(totalElements[i].id);
+                                aliceAlert.alertWarning(i18n.msg("process.msg.enterRequired",
+                                    i18n.msg("process.designer.attribute." + totalElements[i].type)));
+                                aliceProcessEditor.setSelectedElement(d3.select(errorElem));
+                                aliceProcessEditor.setElementMenu(d3.select(errorElem));
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    return true
+}

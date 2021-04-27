@@ -91,6 +91,7 @@
                 let documentForm = document.getElementById('document-form');
                 let documentProcess = document.getElementById('document-process');
                 let documentStatus = document.getElementById('document-status');
+                let apiEnable = document.getElementById('api-enable');
                 let documentNumberingRule = document.getElementById('document-numbering-rule');
                 let documentGroup = document.getElementById('document-group');
 
@@ -102,6 +103,7 @@
                     processId: documentProcess.options[documentProcess.selectedIndex].value,
                     documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
                     documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
+                    apiEnable: apiEnable.options[apiEnable.selectedIndex].value,
                     documentColor: document.getElementById('document-color').value,
                     documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
                 };
@@ -117,10 +119,10 @@
                 }
 
                 if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
-                    aliceJs.confirmIcon(
+                    aliceAlert.confirmIcon(
                         i18n.msg('document.msg.changeStatusEnabled'),
                         () => restSubmit(method, url + '?isDeleteData=true', documentInfo, function(result) {
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
                                 location.reload();
                             });
                         }),
@@ -128,10 +130,11 @@
                     );
                 } else {
                     restSubmit(method, url, documentInfo, function(result) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
                             if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
                                 openDocumentDisplay(result);
                             }
+                            location.reload();
                         });
                     });
                 }
@@ -271,7 +274,7 @@
                     // 모달 호출
                     const documentAdminModal = new modal(modalOptions);
                     documentAdminModal.show();
-
+                    document.querySelector('.modal-dialog .point-fill').focus();
                 },
                 contentType: 'application/json; charset=utf-8'
             });
@@ -411,7 +414,7 @@
                 params: displayJson,
                 contentType: 'application/json',
                 callbackFunc: function () {
-                    aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
                         location.reload();
                     });
                 }
@@ -420,14 +423,14 @@
         }
 
         function deleteDocument(documentId) {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/workflows/' +
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/workflows/' +
                 documentId, {}, function(result) {
                 if (JSON.parse(result)) {
-                    aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
+                    aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
                         location.reload();
                     });
                 } else {
-                    aliceJs.alertWarning('[[#{document.msg.launchedInstance}]]');
+                    aliceAlert.alertWarning('[[#{document.msg.launchedInstance}]]');
                 }
             }, false);
         }
@@ -473,7 +476,7 @@
                                     const scrollHeight = e.target.scrollHeight;
                                     const scrollTop = e.target.scrollTop;
                                     const clientHeight = e.target.clientHeight;
-                                    if (scrollHeight - scrollTop === clientHeight) {
+                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
                                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                             documentSearches(true);
                                         }

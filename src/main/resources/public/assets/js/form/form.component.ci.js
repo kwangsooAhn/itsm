@@ -26,6 +26,7 @@
         ciId: '',
         ciNo: '',
         ciIcon: '',
+        ciIconData: '',
         typeId: '',
         typeName: '',
         ciName: '',
@@ -45,7 +46,8 @@
             { id: 'actionType', name: 'form.label.actionType', type: (isEditable ? 'readonly' : 'hidden'), column: '1', class: (isEditable ? 'first': '') },
             { id: 'ciId', name: '', type: 'hidden', column: '0', class: '' },
             { id: 'ciNo', name: '', type: 'hidden', column: '0', class: '' },
-            { id: 'ciIcon', name: '', type: 'image', column: '1', class: (isEditable ? '': 'first') },
+            { id: 'ciIcon', name: '', type: 'hidden', column: '0', class: '' },
+            { id: 'ciIconData', name: '', type: 'image', column: '1', class: (isEditable ? '': 'first') },
             { id: 'typeId', name: '', type: 'hidden', column: '0', class: '' },
             { id: 'typeName', name: 'cmdb.ci.label.type', type: 'editable', column: (isEditable ? '3' : '4'), class: '' },
             { id: 'ciName', name: 'cmdb.ci.label.name', type: 'editable', column: (isEditable ? '3' : '4'), class: '' },
@@ -104,23 +106,34 @@
         target.removeAttribute('onclick');
         // 기존 데이터가 존재하면 추가
         const ciTags = tagData.map(function (tag) {
-            return tag.tagName;
+            return tag.tagValue;
         });
         CITag.addTags(ciTags);
     }
 
     /**
      * CI 세부 속성 데이터 저장
-     * 
+     *
      * @param {String} actionType 타입
      * @param {Object} comp 컴포넌트
      * @param {Function} callbackFunc callback 함수
      */
-    function saveCIComponentData(actionType, comp, callbackFunc) {
-        if (isValidRequiredAll() && hasErrorClass()) {
+    function saveCIComponentData(actionType, initActionType, comp, modal, callbackFunc) {
+        if (isValidRequiredAll(modal) && hasErrorClass()) {
             const saveCIData = {};
             Object.keys(CIData).forEach(function(key) {
-                const elem = document.getElementById((key === 'ciIcon') ? 'typeIcon': key);
+                let elemKey;
+                switch(key) {
+                    case 'ciIcon':
+                        elemKey = 'typeIcon';
+                        break;
+                    case 'ciIconData':
+                        elemKey = 'typeIconData';
+                        break;
+                    default:
+                        elemKey = key;
+                }
+                const elem = document.getElementById(elemKey);
                 if (elem !== null) {
                     saveCIData[key] = elem.value;
                 }
@@ -132,13 +145,17 @@
             if (actionType === ACTION_TYPE_REGISTER) { // 신규 추가
                 saveCIData.ciId = workflowUtil.generateUUID();
                 saveCIData.actionType = ACTION_TYPE_REGISTER;
-                addRow(comp, saveCIData);
+                addRow(comp, saveCIData, undefined, initActionType);
                 componentData.value.push(saveCIData);
-            } else { // 수정
-                saveCIData.actionType = ACTION_TYPE_MODIFY;
+            } else if (actionType === ACTION_TYPE_MODIFY) { // 수정
+                if (initActionType === ACTION_TYPE_MODIFY) {
+                    saveCIData.actionType = ACTION_TYPE_MODIFY;
+                } else {
+                    saveCIData.actionType = ACTION_TYPE_REGISTER;
+                }
                 const ciId = document.getElementById('ciId').value;
                 const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
-                addRow(comp, saveCIData, ciIdx);
+                addRow(comp, saveCIData, ciIdx, initActionType);
                 componentData.value[ciIdx] = saveCIData;
             }
 
@@ -227,7 +244,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(ACTION_TYPE_REGISTER, ciComponent, function() {
+                        saveCIComponentData(ACTION_TYPE_REGISTER, ACTION_TYPE_REGISTER, ciComponent, ciRegisterModal, function() {
                             modal.hide();
                         });
                     }
@@ -236,7 +253,7 @@
                     classes: 'default-line',
                     bindKey: false,
                     callback: function (modal) {
-                        aliceJs.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                        aliceAlert.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
                             modal.hide();
                         });
                     }
@@ -273,7 +290,7 @@
     /**
      * 기존 CI 변경 모달
      */
-    function openUpdateModal(componentId, ciId, elem) {
+    function openUpdateModal(componentId, ciId, elem, initActionType) {
         const compIdx = aliceDocument.getComponentIndex(componentId);
         const componentData = aliceDocument.data.form.components[compIdx];
         const ciIdx = componentData.value.findIndex(function (ci) { return ci.ciId === ciId; });
@@ -294,7 +311,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         // 세부 속성 저장
-                        saveCIComponentData(ACTION_TYPE_MODIFY, document.getElementById(componentId), function() {
+                        saveCIComponentData(ACTION_TYPE_MODIFY, initActionType, document.getElementById(componentId), ciUpdateModal, function() {
                             modal.hide();
                         });
                     }
@@ -303,7 +320,7 @@
                     classes: 'default-line',
                     bindKey: false,
                     callback: function (modal) {
-                        aliceJs.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                        aliceAlert.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
                             modal.hide();
                         });
                     }
@@ -433,14 +450,14 @@
                                     ci[cell.id] = (cell.id === 'ciId') ? chkElem.value : cell.textContent;
                                 }
                             });
-                            addRow(ciComponent, ci);
+                            addRow(ciComponent, ci, undefined, actionType);
                             componentData.value.push(ci);
                         }
                     });
                     if (isChecked) {
                         modal.hide();
                     } else {
-                        aliceJs.alertWarning(i18n.msg('cmdb.ci.msg.selectCI'));
+                        aliceAlert.alertWarning(i18n.msg('cmdb.ci.msg.selectCI'));
                     }
                 }
             }, {
@@ -491,7 +508,7 @@
      * @param {Object} data 데이터
      * @param {Number} idx 인덱스
      */
-    function addRow(comp, data, idx) {
+    function addRow(comp, data, idx, initActionType) {
         const ciTb = comp.querySelector('.ci-table-body');
         const row = document.createElement('tr');
         const rowBorderColor = ciTb.getAttribute('data-border');
@@ -514,20 +531,26 @@
                     tdTemplate += (typeof data[opt.id] !== 'undefined') ? `${aliceJs.filterXSS(data[opt.id])}` : '';
                     break;
                 case 'readonly':
-                    tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
+                    if (initActionType !== undefined) {
+                        tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + initActionType)}`;
+                    } else {
+                        tdTemplate += `${i18n.msg('cmdb.ci.actionType.' + data.actionType)}`;
+                    }
                     break;
                 case 'image':
-                    tdTemplate += `<img src="/assets/media/images/cmdb/${data[opt.id]}" width="20" height="20"/>`;
+                    tdTemplate += `<img src="${data[opt.id]}" width="20" height="20"/>`;
                     break;
                 case 'icon-edit': // CI 등록 / 수정
-                    if (actionType === ACTION_TYPE_DELETE) {
-                        tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
+                    if (actionType === ACTION_TYPE_DELETE || comp.getAttribute('data-displaytype') === 'readonly') {
+                        tdTemplate += `<button type="button" class="icon-search-area" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
+                    } else if (initActionType == undefined) {
+                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this, '${data.actionType}');"><span class="icon icon-edit"></span></button>`;
                     } else {
-                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-edit"></span></button>`;
+                        tdTemplate += `<button type="button" onclick="javascript:CI.openUpdateModal('${comp.id}', '${data.ciId}', this, '${initActionType}');"><span class="icon icon-edit"></span></button>`;
                     }
                     break;
                 case 'icon-search': // CI 상세 조회
-                    tdTemplate += `<button type="button" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
+                    tdTemplate += `<button type="button" class="icon-search-area" onclick="javascript:CI.openViewModal('${comp.id}', '${data.ciId}', this);"><span class="icon icon-search"></span></button>`;
                     break;
                 case 'icon-delete': // Row 삭제
                     tdTemplate += `<button type="button" onclick="javascript:CI.removeRow('${comp.id}', '${data.ciId}', this);">`+
@@ -567,7 +590,7 @@
 
         const actionType = componentData.value[ciIdx].actionType;
         const alertMsg = (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) ? 'cmdb.ci.msg.deleteEditableCI' : 'cmdb.ci.msg.deleteReadableCI';
-        aliceJs.confirmIcon(i18n.msg(alertMsg), function () {
+        aliceAlert.confirmIcon(i18n.msg(alertMsg), function () {
             if (actionType === ACTION_TYPE_REGISTER || actionType === ACTION_TYPE_MODIFY) {
                 // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
                 restSubmit('/rest/cmdb/cis/data?ciId=' + ciId + '&componentId=' + componentId, 'DELETE', {}, true);
@@ -605,12 +628,13 @@
                         document.getElementById('classId').value = responseJson.defaultClassId;
                         document.getElementById('className').value = responseJson.defaultClassName;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
+                        document.getElementById('typeIconData').value = responseJson.typeIconData;
                         setAttributeDetail(responseJson.defaultClassId);
                     });
                     document.getElementById('typeName').value = response.dataset.name;
                     document.getElementById('typeId').value = response.id;
                 } else {
-                    aliceJs.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableType'));
+                    aliceAlert.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableType'));
                 }
             }
         });
@@ -632,9 +656,9 @@
         });
 
     }
-    
+
     /**
-     * 클래스 선택 모달 
+     * 클래스 선택 모달
      * 2021-02-09 정희찬 팀장님 요청에 따라 타입선택시 클래스가 변경되는 것 외에 클래스 선택 기능은 막음
      * @param {String} typeIcon 아이콘 경로
      */
@@ -653,7 +677,7 @@
                     document.getElementById('classId').value = response.id;
                     setAttributeDetail(response.id);
                 } else {
-                    aliceJs.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableClass'));
+                    aliceAlert.alertWarning(i18n.msg('cmdb.type.msg.selectAvailableClass'));
                 }
             }
         });

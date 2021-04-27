@@ -55,6 +55,7 @@ common:
     fail: "Failed."
     modify: "Modified."
     noData: "There is no data."
+    onlySaveInEdit: "It cannot be saved in the publish/edit. Please edit in the edit"
     processedOrDelete: "Already processed or deleted."
     register: "Registered."
     required: "Please enter {0}."
@@ -104,6 +105,7 @@ auth:
     editDescription: "Add or view and manage auth."
     enterAuthId: "Please enter a auth id."
     enterAuthName: "Please enter a auth name."
+    invalidToken: "Invalid token"
     searchPlaceholder: "Auth Name / Auth Desc"
   auth:
     read: "auth read"
@@ -233,16 +235,15 @@ chart:
     preview: "PREVIEW"
   label:
     all: "All"
-    chartList: "Statistics Chart List"
+    chartList: "User Custom Chart List"
     defaultInfo: "Default Info"
     description: "Chart Description"
     edit: "Chart Edit"
     name: "Chart Name"
-    querryInfo: "Query Info"
-    targetLabel: "Target Label"
+    queryInfo: "Query Info"
+    targetTags: "Target Tags"
     type: "Chart Type"
     periodUnit: "PeriodUnit"
-    viewTitle: "Count by type of failure"
     operation: "Operation"
     duration: "Duration"
     group: "Group"
@@ -251,13 +252,13 @@ chart:
     docRatio: "Documents Ratio"
   option:
     label:
-      subTitle: "Statistics chart report"
+      subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
   msg:
-    searchDescription: "View and manage various statistical charts."
+    searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
     enterTargetGroup: "Please enter a target Group."
-    enterTargetLabel: "Please enter a target label."
+    enterTargetTags: "Please enter a target tags."
     enterDurationDigit: "Please enter a Duration."
     periodUnitOutOfRange: "The duration is greater than the period."
   chart:
@@ -308,23 +309,37 @@ cmdb:
       register: "Add"
     label:
       all: "All"
+      applyDate: "Apply Date"
       ciNo: "CI No."
       ciInquiry: "CI Inquiry"
+      createUser: "Create User"
       delete: "CI Delete"
       description: "CI Description"
       existing: "Existing"
       export: "Export"
+      history: "History"
       name: "CI Name"
       new: "New"
+      relatedDocument: "Related document"
       searchPlaceholder: "CI No / CI Type / CI Name / Description"
       select: "CI Select"
       seqNum: "CI No"
+      status:
+        delete: "delete"
+        tyoe: "status"
+        use: "use"
       tag: "Tag"
       tagPlaceholder: "#Tag"
       type: "CI Type"
       register: "CI Register"
       update: "CI Update"
       view: "CI View"
+      relation: "CI Relation"
+      relationType: "Relation Type"
+      sourceCiId: "Source CI ID"
+      sourceCiName: "Source CI Name"
+      targetCiId: "Target CI ID"
+      targetCiName: "Target CI Name"
     msg:
       deleteEditableCI: "Do you want to delete the entered asset information from the list?"
       deleteReadableCI: "Do you want to delete asset information from the list?"
@@ -346,6 +361,7 @@ cmdb:
       searchPlaceholder: "Class Name / Description"
     msg:
       confirmDeleteAttribute: "Are you sure you want to delete the attribute?"
+      enterAttributeList: "Excluding the parent attribute list, there must be at least one own attribute list."
       editDescritpion: "Add, view and manage CMDB Class."
       enterClassName: "Please enter a class name."
     btn:
@@ -372,6 +388,7 @@ cmdb:
     btn:
       import: "Import"
       export: "Export"
+
 # Code
 code:
   label:
@@ -474,13 +491,16 @@ department:
 document:
   label:
     all: "All"
+    apiEnable: "API Enable"
     businessFlowColor: "Business Flow Color"
     businessFlow: "Business Flow"
     description: "Service Request Description"
+    disable: "Disable"
     display: "Service Request Display"
     docNo: "Service Request No"
     document: "Service Request"
     edit: "Service Request Edit"
+    enable: "Enable"
     form: "Form"
     icon: "Service Request Icon"
     name: "Service Request Name"
@@ -495,8 +515,7 @@ document:
     write: "Service Request Write"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
-    changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status
-    will be deleted."
+    changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status will be deleted."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
     enterBusinessFlowColor: "Please enter Business Flow Color."
@@ -737,7 +756,7 @@ form:
     height: "Height"
     isEditable: "Editable"
     isTopic: "is Topic"
-    labelList: "Component Label"
+    tag: "Tag"
     lengthMax: "Max Length"
     lengthMin: "Min Length"
     mappingId: "Mapping ID"
@@ -820,7 +839,7 @@ menu:
   board:
     parent: "Board"
   chart:
-    parent: "Statistic chart"
+    parent: "User custom chart"
   config:
     auth: "Auth"
     boardAdmin: "Board management"
@@ -943,21 +962,23 @@ process:
     title: "Process Designer"
     undo: "Undo"
   msg:
+    duplicateProcessName: "Duplicate process name! Please enter other process name."
     duplicateData: "The same data exists."
+    enterRequired: "{0} Required field is empty.<br>Please enter Required field"
     enterProcessName: "Please enter a process name."
     failedDestroy: "Related documents exist for this process.<br/>This can't be destroyed."
     noticeImportFile: "Import only possible in XML file"
     searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
+  title:
+    preview: "Zenius ITSM : Process Preview"
+    processMap: "Zenius ITMS : Process Map"
+    update: "Zenius ITSM : Process Update"
   status:
     destroy: "Destroy"
     edit: "Edit"
     publish: "Publish"
     use: "Use"
-  title:
-    preview: "Zenius ITSM : Process Preview"
-    processMap: "Zenius ITMS : Process Map"
-    update: "Zenius ITSM : Process Update"
   designer:
     element:
       annotation: "Annotation"
@@ -1183,6 +1204,9 @@ user:
     ※ Do not include your email ID.<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zeniu comprises available<br/>
     ※ Do not allow spaces.<br/>"
+
+
+
 
 # Validation
 validation:

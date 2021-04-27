@@ -38,7 +38,7 @@
                             <input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}"
                                    required="required"/>
                         </div>
-                        <div class="flex-column edit-row">
+                        <div class="flex-column edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                             <label for="password">
                                 <span th:text="#{user.label.password}"></span>
                                 <span class="required"></span>
@@ -52,7 +52,7 @@
                             <input type="password" id="password" name="password" maxlength="100"
                                    autocomplete="new-password" required="required"/>
                         </div>
-                        <div class="flex-column edit-row">
+                        <div class="flex-column edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                             <label for="rePassword">
                                 <span th:text="#{user.label.rePassword}"></span>
                                 <span class="required"></span>
@@ -68,7 +68,7 @@
                             <input id="userName" name="userName" th:value="${users?.userName}" maxlength="100"
                                    required="required"/>
                         </div>
-                        <div class="flex-column edit-row">
+                        <div class="flex-column edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                             <label for="email">
                                 <span th:text="#{user.label.email}"></span>
                                 <span class="required"></span>
@@ -220,27 +220,11 @@
             OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
         };
 
-        function onlyNumber(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
-                || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                return false;
-            }
-        }
-
-        function removeChar(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                event.target.value = event.target.value.replace(/[^0-9]/g, '');
-            }
-        }
-
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_USER_ID_DUPLICATION = '1';
         const STATUS_ERROR_EMAIL_DUPLICATION = '3';
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
+        const alicePlatform = 'user.platform.alice';
 
         function restSubmit(method, url) {
             if (!validation()) {
@@ -280,23 +264,23 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alertSuccess([[#{common.msg.modify}]], function() {
+                            aliceAlert.alertSuccess([[#{common.msg.modify}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_EMAIL:
-                            aliceJs.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
+                            aliceAlert.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_ERROR_USER_ID_DUPLICATION:
-                            aliceJs.alertWarning([[#{user.msg.sameUserId}]]);
+                            aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
                             break;
                         case STATUS_ERROR_EMAIL_DUPLICATION:
-                            aliceJs.alertWarning([[#{user.msg.sameEmail}]]);
+                            aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
                             break;
                         default :
-                            aliceJs.alertDanger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
                             break;
                     }
                 }
@@ -313,8 +297,10 @@
             }
             if (!isValidUserId("userId", true)) return false;
             if (isEmpty('userName', 'user.msg.enterUserName')) return false;
-            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-            if (!isValidEmail('email', true)) return false;
+            if ([[${users.platform}]] === alicePlatform) {
+                if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
+                if (!isValidEmail('email', true)) return false;
+            }
             return true;
         }
 

@@ -2,9 +2,10 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+
 package co.brainz.framework.util
 
-import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.fileTransaction.constants.FileConstants
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -89,7 +90,7 @@ open class AliceFileUtil(
         var scaledWidth = 0
         var scaledHeight = 0
         when (type) {
-            AliceConstants.FileType.ICON.code -> {
+            FileConstants.Type.ICON.code -> {
                 scaledWidth = this.thumbnailIconWidth
                 if (image.width < scaledWidth) {
                     scaledWidth = image.width
@@ -125,34 +126,51 @@ open class AliceFileUtil(
     }
 
     /**
-     * 업로드 대상 파일 경로 구하기
-     *
-     * @param rootDir 업로드할 경로
-     * @param fileName 업로드할 파일명
+     * 경로 구하기 (Root)
+     * @param root
      */
-    fun getDir(rootDir: String, fileName: String?): Path {
-        val cal = Calendar.getInstance()
-        val df = SimpleDateFormat("yyyyMMdd")
-
-        if (basePath == "") {
+    fun getPath(root: String): Path {
+        if (this.basePath == "") {
             this.basePath = environment.getProperty("catalina.base").toString()
         }
+        var dir: Path = Paths.get(basePath + File.separator + root)
+        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
+        return dir
+    }
 
-        var dir: Path = Paths.get(basePath + File.separator + rootDir + File.separator + df.format(cal.time))
+    /**
+     * 업로드 대상 파일 경로 구하기
+     *
+     * @param root 업로드할 경로
+     * @param fileName 업로드할 파일명
+     */
+    fun getUploadFilePath(root: String, fileName: String?): Path {
+        val cal = Calendar.getInstance()
+        val df = SimpleDateFormat("yyyyMMdd")
+        var dir = Paths.get(this.getPath(root).toString() + File.separator + df.format(cal.time))
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
         return Paths.get(dir.toString() + File.separator + fileName)
     }
 
     /**
-     * 프로세스 및 이미지관리에서 사용하는 dir 조회.
+     * 외부경로의 이미지 파일을 데이터로 읽기.
+     *
+     * @param fileFullName 파일 경로와 파일명까지 포함된 전체 이름
+     * @return String base64로 인코딩된 데이터 스트링
      */
-    fun getWorkflowDir(rootDir: String): Path {
+    fun getImageData(fileFullName: String): String {
+        val imageData: String
         if (this.basePath == "") {
             this.basePath = environment.getProperty("catalina.base").toString()
         }
 
-        var dir: Path = Paths.get(basePath + File.separator + rootDir)
-        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
-        return dir
+        val file = Paths.get(basePath + File.separator + fileFullName).toFile()
+        imageData = if (file.exists()) {
+            val bufferedImage = ImageIO.read(file)
+            encodeToString(bufferedImage, file.extension)
+        } else {
+            ""
+        }
+        return imageData
     }
 }

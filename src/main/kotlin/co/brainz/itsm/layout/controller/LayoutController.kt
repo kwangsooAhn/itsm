@@ -31,7 +31,9 @@ class LayoutController(private val noticeService: NoticeService, private val use
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userKey = aliceUserDto.userKey
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)
-        if (userDto.status == AliceUserConstants.Status.SIGNUP.code || userDto.status == AliceUserConstants.Status.EDIT.code) {
+        if (userDto.status == AliceUserConstants.Status.SIGNUP.code ||
+            userDto.status == AliceUserConstants.Status.EDIT.code
+        ) {
             return statusPage
         }
 

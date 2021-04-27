@@ -5,6 +5,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    let initialStatus = null;
     const i18nMsgPrefix = 'process.designer.attribute.';
     const data = {};
     const iconDirectory = '/assets/media/icons/process';
@@ -1070,6 +1071,7 @@
             let targetMappingInput = document.createElement('input');
             targetMappingInput.id = 'target-mapping-id';
             targetMappingInput.name = 'target-mapping-id';
+            targetMappingInput.maxLength = 150;
             targetMappingInput.required = true;
 
             targetMappingProperties.appendChild(targetMappingLabel);
@@ -1086,6 +1088,7 @@
             let sourceMappingInput = document.createElement('input');
             sourceMappingInput.id = 'source-mapping-id';
             sourceMappingInput.name = 'source-mapping-id';
+            sourceMappingInput.maxLength = 150;
             sourceMappingInput.required = true;
 
             sourceMappingProperties.appendChild(sourceMappingLabel);
@@ -1176,6 +1179,7 @@
             actionContainer.appendChild(conditionLabel);
 
             let conditionInput = document.createElement('input');
+            conditionInput.maxLength = 150;
             actionContainer.appendChild(conditionInput);
 
             // file 생성
@@ -1254,7 +1258,7 @@
                     conditionInput.value = '';
                     fileInput.value = '';
                 } else {
-                    aliceJs.alertWarning(i18n.msg('process.msg.duplicateData'));
+                    aliceAlert.alertWarning(i18n.msg('process.msg.duplicateData'));
                 }
             });
 
@@ -1741,6 +1745,7 @@
         switch (property.type) {
         case 'inputbox':
             elementObject = document.createElement('input');
+            elementObject.maxLength = 70;
             propertyContainer.appendChild(elementObject);
             break;
         case 'inputbox-readonly':
@@ -1786,6 +1791,7 @@
         case 'textarea':
             elementObject = document.createElement('textarea');
             elementObject.style.resize = 'none';
+            elementObject.maxLength = 256;
             propertyContainer.appendChild(elementObject);
 
             // textarea 에 스크롤 적용
@@ -2034,12 +2040,14 @@
                 callbackFunc: function(xhr) {
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
                     const elements = aliceProcessEditor.data.elements;
+                    initialStatus = aliceProcessEditor.data.process.status;
                     elements.forEach(function(element) {
                         const category = getElementCategory(element.type);
                         element.required = getAttributeRequired(category, element.type);
                     });
                     setElementMenu();
                     aliceProcessEditor.drawProcess(processId, elements);
+                    exports.initialStatus = initialStatus;
                 }
             });
         };
@@ -2084,7 +2092,7 @@
             url: '/rest/roles',
             contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
-                assigneeTypeData.groups = JSON.parse(xhr.responseText);
+                assigneeTypeData.groups = JSON.parse(xhr.responseText).data;
             }
         });
 

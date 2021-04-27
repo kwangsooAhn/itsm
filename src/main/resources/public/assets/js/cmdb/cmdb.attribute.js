@@ -38,7 +38,7 @@
 
     /**
      * 초기 데이터 셋팅.
-     * 
+     *
      * @param target
      */
     function init(target) {
@@ -405,7 +405,7 @@
                 let labelObject = detailsObject[i].querySelectorAll('input')[0];
                 let valueObject = detailsObject[i].querySelectorAll('input')[1];
                 if (labels.indexOf(labelObject.value.trim()) > -1 || values.indexOf(valueObject.value.trim()) > -1) {
-                    aliceJs.alertWarning(i18n.msg('validation.msg.dataNotDuplicate'));
+                    aliceAlert.alertWarning(i18n.msg('validation.msg.dataNotDuplicate'));
                     isValid = false;
                     break;
                 }
@@ -672,7 +672,7 @@
                     if (attributeValue !== '') {
                         customBtnElem.textContent = attributeValue.button;
                         // 커스텀 코드 기본 값 넣기
-                        if (attributes.value === '') {
+                        if (attributes.value === '' || attributes.value === null) {
                             switch (attributeValue.default.type) {
                             case 'session':
                                 if (attributeValue.default.value === 'userName') {
@@ -691,6 +691,7 @@
                                 customData = attributeValue.default.type + '|';
                                 break;
                             }
+                            customInputElem.value = defaultValue;
                         }
                         customInputElem.setAttribute('value', defaultValue);
                         customInputElem.setAttribute('custom-data', customData);

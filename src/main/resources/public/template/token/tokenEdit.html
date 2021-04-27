@@ -59,7 +59,7 @@
         function saveTokenList() {
             let checked = document.querySelectorAll('input[name=chk]:checked');
             if (checked.length === 0) {
-                aliceJs.alertWarning(i18n.msg('token.msg.selectToken'));
+                aliceAlert.alertWarning(i18n.msg('token.msg.selectToken'));
                 return;
             } else {
                 let jsonArray = new Array();

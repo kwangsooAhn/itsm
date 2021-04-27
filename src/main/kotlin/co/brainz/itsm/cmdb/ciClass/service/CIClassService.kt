@@ -7,15 +7,15 @@
 package co.brainz.itsm.cmdb.ciClass.service
 
 import co.brainz.cmdb.ciClass.service.CIClassService
-import co.brainz.cmdb.provider.dto.CIAttributeListDto
-import co.brainz.cmdb.provider.dto.CIClassAttributeListDto
-import co.brainz.cmdb.provider.dto.CIClassDetailDto
-import co.brainz.cmdb.provider.dto.CIClassDetailValueDto
-import co.brainz.cmdb.provider.dto.CIClassDto
-import co.brainz.cmdb.provider.dto.CIClassListDto
-import co.brainz.cmdb.provider.dto.CIClassToAttributeDto
+import co.brainz.cmdb.dto.CIAttributeListDto
+import co.brainz.cmdb.dto.CIClassAttributeListDto
+import co.brainz.cmdb.dto.CIClassDetailDto
+import co.brainz.cmdb.dto.CIClassDetailValueDto
+import co.brainz.cmdb.dto.CIClassDto
+import co.brainz.cmdb.dto.CIClassToAttributeDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
+import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
@@ -33,14 +33,14 @@ class CIClassService(
      * CMDB CI Class 단일 조회
      */
     fun getCIClass(classId: String): CIClassDetailDto {
-        return ciClassService.getCIClass(classId)
+        return ciClassService.getCIClassDetail(classId)
     }
 
     /**
-     * CMDB CI class 멀티 조회
+     * CMDB CI class Tree 조회
      */
-    fun getCIClasses(params: LinkedHashMap<String, Any>): List<CIClassListDto> {
-        return ciClassService.getCIClasses(params)
+    fun getCIClassesTree(params: LinkedHashMap<String, Any>): CIClassTreeReturnDto {
+        return ciClassService.getCIClassesTree(params)
     }
 
     /**
@@ -118,7 +118,7 @@ class CIClassService(
     /**
      * CMDB CI 세부 속성 조회
      */
-    fun getCIClassAttributes(classId: String): MutableList<CIClassDetailValueDto> {
+    fun getCIClassAttributes(classId: String): List<CIClassDetailValueDto> {
         return ciClassService.getCIClassAttributes(classId)
     }
 }

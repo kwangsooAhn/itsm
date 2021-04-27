@@ -5,11 +5,15 @@
 
 package co.brainz.workflow.document.service
 
+import co.brainz.cmdb.ci.service.CIService
+import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
+import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
+import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -57,7 +61,9 @@ class WfDocumentService(
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
     private val numberingRuleRepository: NumberingRuleRepository,
-    private val aliceMessageSource: AliceMessageSource
+    private val aliceMessageSource: AliceMessageSource,
+    private val ciService: CIService,
+    private val ciComponentDataRepository: CIComponentDataRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -96,6 +102,7 @@ class WfDocumentService(
             documentStatus = document.documentStatus,
             processId = document.process.processId,
             formId = document.form.formId,
+            apiEnable = document.apiEnable,
             createDt = document.createDt,
             createUserKey = document.createUserKey,
             updateDt = document.updateDt,
@@ -171,6 +178,7 @@ class WfDocumentService(
             createDt = restTemplateDocumentDto.createDt,
             createUserKey = restTemplateDocumentDto.createUserKey,
             documentStatus = restTemplateDocumentDto.documentStatus,
+            apiEnable = restTemplateDocumentDto.apiEnable,
             numberingRule = numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
                 .get(),
             documentColor = restTemplateDocumentDto.documentColor,
@@ -178,8 +186,8 @@ class WfDocumentService(
             documentIcon = restTemplateDocumentDto.documentIcon
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
-        createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
-        updateFormAndProcessStatus(dataEntity)
+        this.createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
+        this.updateFormAndProcessStatus(dataEntity)
 
         return RestTemplateDocumentDto(
             documentId = dataEntity.documentId,
@@ -218,16 +226,35 @@ class WfDocumentService(
         wfDocumentEntity.updateDt = restTemplateDocumentDto.updateDt
         wfDocumentEntity.form = form
         wfDocumentEntity.process = process
+        wfDocumentEntity.apiEnable = restTemplateDocumentDto.apiEnable
         wfDocumentEntity.numberingRule =
             numberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
         wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
         wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
         wfDocumentEntity.documentIcon = restTemplateDocumentDto.documentIcon
-        updateFormAndProcessStatus(wfDocumentRepository.save(wfDocumentEntity))
 
         if (params["isDeleteData"].toString().toBoolean()) {
             logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
-            wfDocumentEntity.instance?.let { wfInstanceRepository.deleteInstances(it) }
+            val instanceIds = mutableListOf<String>()
+            wfDocumentEntity.instance?.let { instances ->
+                instances.forEach {
+                    instanceIds.add(it.instanceId)
+                }
+
+                ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
+                    ciComponentDataList.forEach { ciComponentData ->
+                        val ciDto = CIDto(
+                            ciId = ciComponentData.ciId,
+                            typeId = "",
+                            ciName = "",
+                            ciStatus = ""
+                        )
+                        ciService.deleteCI(ciDto)
+                    }
+                }
+
+                wfInstanceRepository.deleteInstances(instances)
+            }
         }
 
         return true
@@ -236,7 +263,7 @@ class WfDocumentService(
     /**
      * Update Form and Process status.
      */
-    fun updateFormAndProcessStatus(documentEntity: WfDocumentEntity) {
+    private fun updateFormAndProcessStatus(documentEntity: WfDocumentEntity) {
         when (documentEntity.documentStatus) {
             WfDocumentConstants.Status.USE.code -> {
                 val wfFormEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId).get()
@@ -305,9 +332,9 @@ class WfDocumentService(
     }
 
     /**
-     * [processId]로 조회한 processEntity 의 elementEntity 중 userTask 를 정렬하여 [List]로 반환
+     * [elementEntities] 중 userTask 를 정렬하여 [List]로 반환
      */
-    private fun makeSortedUserTasks(processId: String): List<Map<String, Any>> {
+    private fun makeSortedUserTasks(elementEntities: MutableList<WfElementEntity>): List<Map<String, Any>> {
         // userTask 를 저장할 변수
         val sortedUserTasks: MutableList<Map<String, Any>> = mutableListOf()
         // 게이트웨이가 가지는 컨넥터(화살표)를 저장할 큐
@@ -316,13 +343,9 @@ class WfDocumentService(
         val checkedGatewayIds: MutableMap<String, String> = mutableMapOf()
         // gateway 에 여러개의 경우의 수가 있을 경우 저장
         val gatewayQueue = ArrayDeque<WfElementEntity>()
-        val process = wfProcessRepository.getOne(processId)
-        val processElementEntities = process.elementEntities
-
         // 쓸모 없는 그룹, 주석을 제거
-        val allElementEntitiesInProcess: List<WfElementEntity> = processElementEntities.filter {
-            WfElementConstants.ElementType.getAtomic(it.elementType) != WfElementConstants.ElementType.ARTIFACT
-        }
+        val allElementEntitiesInProcess =
+            elementEntities.filter { WfElementConstants.ElementType.getAtomic(it.elementType) != WfElementConstants.ElementType.ARTIFACT }
 
         // 첫 commonStart 엘리먼트 찾기
         val startElement = allElementEntitiesInProcess.first {
@@ -352,6 +375,51 @@ class WfDocumentService(
     }
 
     /**
+     * 컴포넌트의 display 정보 설정
+     */
+    private fun getDisplayComponent(
+        userTasks: List<Map<String, Any>>,
+        displayList: List<WfDocumentDisplayEntity>,
+        component: WfComponentEntity
+    ): LinkedHashMap<String, Any> {
+        var isDisplay = false
+        val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        for (elementEntity in userTasks) {
+            for (display in displayList) {
+                if (display.componentId == component.componentId && display.elementId == elementEntity["elementId"].toString()) {
+                    val displayMap = LinkedHashMap<String, Any>()
+                    displayMap["elementId"] = display.elementId
+                    displayMap["display"] = display.display
+                    displayValue.add(displayMap)
+                    isDisplay = true
+                }
+            }
+            // 강제적으로 component 가 추가 되었을때 기본값 출력
+            if (!isDisplay) {
+                val displayMap = LinkedHashMap<String, Any>()
+                displayMap["elementId"] = elementEntity["elementId"].toString()
+                displayMap["display"] = WfDocumentConstants.DisplayType.EDITABLE.value
+                displayValue.add(displayMap)
+                isDisplay = false
+            }
+        }
+        val componentMap = LinkedHashMap<String, Any>()
+        val componentData =
+            wfComponentDataRepository.findByComponentIdAndAttributeId(component.componentId, "label")
+        val attributeValue = if (componentData.isNotEmpty()) {
+            // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
+            componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
+        } else {
+            // 컴포넌트 라벨 속성이 없는 경우, 컴포넌트 타입을 화면에 표시한다.
+            component.componentType
+        }
+        componentMap["componentId"] = component.componentId
+        componentMap["attributeValue"] = attributeValue
+        componentMap["displayValue"] = displayValue
+        return componentMap
+    }
+
+    /**
      * Search Document Display data.
      *
      * @param documentId
@@ -359,50 +427,12 @@ class WfDocumentService(
      */
     fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        val userTasks = makeSortedUserTasks(documentEntity.process.processId)
+        val userTasks = this.makeSortedUserTasks(documentEntity.process.elementEntities)
         val componentEntities =
             wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
-        val displayList = wfDocumentDisplayRepository.findByDocumentId(documentId)
-
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (component in componentEntities) {
-            var isDisplay = false
-            val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-            for (elementEntity in userTasks) {
-                for (display in displayList) {
-                    if (display.componentId == component.componentId) {
-                        if (display.elementId == elementEntity["elementId"].toString()) {
-                            val displayMap = LinkedHashMap<String, Any>()
-                            displayMap["elementId"] = display.elementId
-                            displayMap["display"] = display.display
-                            displayValue.add(displayMap)
-                            isDisplay = true
-                        }
-                    }
-                }
-                // 강제적으로 component 가 추가 되었을때 기본값 출력
-                if (!isDisplay) {
-                    val displayMap = LinkedHashMap<String, Any>()
-                    displayMap["elementId"] = elementEntity["elementId"].toString()
-                    displayMap["display"] = WfDocumentConstants.DisplayType.EDITABLE.value
-                    displayValue.add(displayMap)
-                    isDisplay = false
-                }
-            }
-            val componentMap = LinkedHashMap<String, Any>()
-            val componentData =
-                wfComponentDataRepository.findByComponentIdAndAttributeId(component.componentId, "label")
-            val attributeValue = if (componentData.isNotEmpty()) {
-                // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
-                componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
-            } else {
-                // 컴포넌트 라벨 속성이 없는 경우, 컴포넌트 타입을 화면에 표시한다.
-                component.componentType
-            }
-            componentMap["componentId"] = component.componentId
-            componentMap["attributeValue"] = attributeValue
-            componentMap["displayValue"] = displayValue
-            components.add(componentMap)
+            components.add(this.getDisplayComponent(userTasks, documentEntity.display, component))
         }
         return RestTemplateDocumentDisplayViewDto(
             documentId = documentId,

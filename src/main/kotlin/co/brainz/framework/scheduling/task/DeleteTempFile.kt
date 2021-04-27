@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component
  * 주기적으로 임시 업로드된 파일을 삭제하는 클래스
  */
 @Component
-class DeleteTempFile() : Runnable {
+class DeleteTempFile : Runnable {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 

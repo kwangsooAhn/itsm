@@ -46,7 +46,8 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
-                    <input id="typeAlias" name="typeAlias" type="text" maxlength="16" onkeyup="specialCharCheckRegExp(this)" />
+                    <input id="typeAlias" name="typeAlias" type="text" maxlength="16"
+                           onkeyup="removeChar(event, regularCharacterReg, 'gi')"  />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
@@ -80,7 +81,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('cmdb.type.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -196,14 +197,6 @@
             document.querySelector('#btnRegist').style.display = 'none';
         }
 
-        /** 특수문자 제외 정규식 **/
-        function specialCharCheckRegExp(obj) {
-            const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
-            if (reg.test(obj.value)) {
-                obj.value = obj.value.replace(reg, '');
-            }
-        }
-
         /** save **/
         function onSave(method) {
             const jsonData = {
@@ -218,15 +211,15 @@
                 typeLevel: document.getElementById('typeLevel').value
             };
             if (jsonData.pTypeId === null || jsonData.pTypeId.trim() === '') {
-                aliceJs.alertWarning([[#{cmdb.type.msg.enterPType}]]);
+                aliceAlert.alertWarning([[#{cmdb.type.msg.enterPType}]]);
                 return false;
             }
             if (jsonData.typeName === null || jsonData.typeName.trim() === '') {
-                aliceJs.alertWarning([[#{cmdb.type.msg.enterTypeName}]]);
+                aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeName}]]);
                 return false;
             }
             if (jsonData.typeAlias === null || jsonData.typeAlias.trim() === '') {
-                aliceJs.alertWarning([[#{cmdb.type.msg.enterTypeAlias}]]);
+                aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeAlias}]]);
                 return false;
             }
             let url = '/rest/cmdb/types';
@@ -241,17 +234,17 @@
                 callbackFunc: function (response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.register'), function () {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
                                 window.location.href = '/cmdb/types/edit';
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_TYPE:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.update'), function () {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.update'), function () {
                                 window.location.href = '/cmdb/types/edit';
                             });
                             break;
                         default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }
@@ -267,12 +260,12 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
                                 window.location.href ='/cmdb/types/edit';
                             });
                             break;
                         default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }
@@ -293,13 +286,13 @@
                     selectedPath: document.querySelector('#typeIcon').value,
                 });
             } else {
-                aliceJs.alertWarning([[#{cmdb.type.msg.selectType}]]);
+                aliceAlert.alertWarning([[#{cmdb.type.msg.selectType}]]);
             }
         }
 
         /** Type-Class **/
         function classPopUp() {
-            if (document.getElementById('parentTypeId').value !== '') {
+            if (isNotEmpty('parentTypeId')) {
                 tree.load({
                     view: 'modal',
                     title: i18n.msg('cmdb.type.label.class'),
@@ -314,12 +307,12 @@
                             document.querySelector('#typeClass').value = response.dataset.name;
                             document.querySelector('#typeClassId').value = response.id;
                         } else {
-                            aliceJs.alertWarning([[#{cmdb.type.msg.selectAvailableClass}]]);
+                            aliceAlert.alertWarning([[#{cmdb.type.msg.selectAvailableClass}]]);
                         }
                     }
                 });
             } else {
-                aliceJs.alertWarning([[#{cmdb.type.msg.selectType}]]);
+                aliceAlert.alertWarning([[#{cmdb.type.msg.selectType}]]);
             }
         }
         /*]]>*/

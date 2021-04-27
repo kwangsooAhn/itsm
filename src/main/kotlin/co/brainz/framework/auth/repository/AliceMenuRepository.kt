@@ -20,7 +20,8 @@ interface AliceMenuRepository : JpaRepository<AliceMenuEntity, String> {
 
     @Query(
         "SELECT m " +
-                "FROM AliceMenuEntity m, AliceMenuAuthMapEntity ma, AliceRoleAuthMapEntity ra, AliceUserRoleMapEntity ur " +
+                "FROM AliceMenuEntity m, AliceMenuAuthMapEntity ma " +
+                ", AliceRoleAuthMapEntity ra, AliceUserRoleMapEntity ur " +
                 "WHERE ur.role = ra.role " +
                 "AND ra.auth = ma.auth " +
                 "AND ma.menu = m " +

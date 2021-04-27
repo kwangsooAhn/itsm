@@ -15,22 +15,28 @@ import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
+import co.brainz.framework.util.AliceUtil
+import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserRepository
+import java.nio.file.Paths
 import java.security.PrivateKey
 import java.util.Optional
 import kotlin.random.Random
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.ClassPathResource
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.RequestContextHolder
@@ -44,18 +50,21 @@ class UserService(
     private val aliceCertificationMailService: AliceCertificationMailService,
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val aliceFileService: AliceFileService,
     private val codeService: CodeService,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val roleRepository: RoleRepository,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val aliceFileAvatarService: AliceFileAvatarService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     val userMapper: UserMapper = Mappers.getMapper(UserMapper::class.java)
+
+    @Value("\${user.default.profile}")
+    private val userDefaultProfile: String = ""
 
     /**
      * 사용자 목록을 조회한다.
@@ -98,7 +107,7 @@ class UserService(
      * 사용자의 KEY로 해당 정보 1건을 조회한다.
      */
     fun selectUserKey(userKey: String): AliceUserEntity {
-        return userRepository.findByUserKey(userKey)
+        return userDetailsService.selectUserKey(userKey)
     }
 
     /**
@@ -110,7 +119,7 @@ class UserService(
         var code: String = userEditValid(userUpdateDto)
         when (code) {
             AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
-                val userEntity = userRepository.findByUserKey(userUpdateDto.userKey)
+                val userEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey =
                     attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
@@ -123,13 +132,13 @@ class UserService(
                     }
                 }
 
-                aliceFileService.uploadAvatarFile(targetEntity, userUpdateDto.avatarUUID)
+                aliceFileAvatarService.uploadAvatarFile(targetEntity, userUpdateDto.avatarUUID)
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
 
                 if (targetEntity.uploaded) {
-                    aliceFileService.avatarFileNameMod(targetEntity)
+                    aliceFileAvatarService.avatarFileNameMod(targetEntity)
                 }
 
                 when (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
@@ -169,7 +178,7 @@ class UserService(
      * 자기정보 수정 시, 이메일 및 ID의 중복을 검사한다.
      */
     fun userEditValid(userUpdateDto: UserUpdateDto): String {
-        val targetEntity = userRepository.findByUserKey(userUpdateDto.userKey)
+        val targetEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
         var code: String = AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
 
         when (true) {
@@ -191,7 +200,7 @@ class UserService(
      * 사용자 수정 관련 데이터 저장 공통화
      */
     fun updateDataInput(userUpdateDto: UserUpdateDto): AliceUserEntity {
-        val targetEntity = userRepository.findByUserKey(userUpdateDto.userKey)
+        val targetEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
         userUpdateDto.userId.let { targetEntity.userId = userUpdateDto.userId }
         userUpdateDto.userName?.let { targetEntity.userName = userUpdateDto.userName!! }
         userUpdateDto.email?.let { targetEntity.email = userUpdateDto.email!! }
@@ -260,17 +269,47 @@ class UserService(
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val decryptPassword = aliceCryptoRsa.decrypt(privateKey, encryptPassword)
-        val targetEntity = userRepository.findByUserKey(userKey)
+        val targetEntity = userDetailsService.selectUserKey(userKey)
         targetEntity.password = BCryptPasswordEncoder().encode(decryptPassword)
 
         userRepository.save(targetEntity)
 
         aliceCertificationMailService.sendMail(
             targetEntity.userId,
-            targetEntity.email!!,
+            targetEntity.email,
             AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
             password
         )
         return AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
+    }
+
+    /**
+     * Avatar 이미지 사이즈 조회
+     */
+    fun getUserAvatarSize(userEntity: AliceUserEntity): Long {
+        return if (userEntity.uploaded) {
+            Paths.get(userEntity.uploadedLocation).toFile().length()
+        } else {
+            ClassPathResource(userDefaultProfile).inputStream.available().toLong()
+        }
+    }
+
+    /**
+     * 사용자 설정 기본 코드 조회
+     */
+    fun getInitCodeList(): LinkedHashMap<String, List<CodeDto>> {
+        val codes = mutableListOf(
+            UserConstants.PTHEMECODE.value,
+            UserConstants.PLANGCODE.value,
+            UserConstants.PDATECODE.value,
+            UserConstants.PTIMECODE.value
+        )
+        val codeList = codeService.selectCodeByParent(codes)
+        val allCodes: LinkedHashMap<String, List<CodeDto>> = LinkedHashMap()
+        allCodes["themeList"] = AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
+        allCodes["langList"] = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)
+        allCodes["dateList"] = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
+        allCodes["timeList"] = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
+        return allCodes
     }
 }

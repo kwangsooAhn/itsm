@@ -64,4 +64,12 @@ enum class UserConstants(val value: String) {
             }
         }
     }
+
+    /**
+     * 사용자 설정 타입
+     */
+    enum class UserEdit(val code: String) {
+        EDIT("edit"),
+        EDIT_SELF("editself")
+    }
 }

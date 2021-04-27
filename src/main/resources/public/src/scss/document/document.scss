@@ -10,12 +10,8 @@
 @import '../template/_variables.scss';      // 상속 불가
 @import '../template/_functions.scss';      // 상속 불가
 @import '../template/_mixins.scss';         // 상속 불가
-@import '../template/_alignments.scss';     // 상속 불가
-@import '../template/_flex.scss';           // 상속 불가
-@import '../template/_columns.scss';        // 상속 불가
-@import '../template/_common.scss';         // 상속 불가
+@import '../template/_utilities.scss';      // 상속 불가
 @import '_variables.scss';
-@import '_fonts.scss';
 @import '_layout.scss';
 @import '_elements.scss';
 @import '_tag.scss';

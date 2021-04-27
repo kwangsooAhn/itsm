@@ -40,6 +40,9 @@
         // process status
         const STATUS_USE = 'process.status.use';
         const STATUS_DESTROY = 'process.status.destroy';
+        const RESPONSE_SUCESS = '1';
+        const RESPONSE_FAIL = '0';
+        const RESPONSE_DUPLICATION = '-1';
 
         let offsetCount = 0;
         window.onload = function() {
@@ -71,7 +74,7 @@
 
             // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
             if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
-                aliceJs.alertWarning(i18n.msg('process.msg.selectImportFile'));
+                aliceAlert.alertWarning(i18n.msg('process.msg.selectImportFile'));
                 return false;
             }
             return true;
@@ -93,15 +96,15 @@
                     processInfo.processId = processId;
                     processInfo.processStatus = isDestroy ? STATUS_DESTROY : document.getElementById('process_status').value;
                     isEnabled ? restSubmit('PUT', '/rest/processes/' + processId, processInfo)
-                        : aliceJs.alertWarning(i18n.msg('process.msg.failedDestroy'));
+                        : aliceAlert.alertWarning(i18n.msg('process.msg.failedDestroy'));
                 }
             }
         }
 
         // 프로세스 삭제
         function deleteProcess(processId) {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
-                aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
+                aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
                     window.close();
                 });
             });
@@ -259,6 +262,7 @@
                 }
             });
             processModal.show();
+            document.querySelector('.modal-dialog .point-fill').focus();
         }
 
         // REST API
@@ -268,7 +272,8 @@
                 url: url,
                 params: JSON.stringify(data),
                 contentType: 'application/json',
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
+                    let result = response.responseText;
                     if (method === 'POST') {
                         const _width = 1800,
                             _height = 920;
@@ -276,12 +281,31 @@
                         const _left = Math.ceil((window.screen.width - _width) / 2);
                         const _top = Math.ceil((window.screen.height - _height) / 4);
 
-                        let processId = response.responseText;
-                        sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
-
-                        let specs = 'left=' + _left + ',top=' + _top;
-                        specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                        window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                        let resultToJson = JSON.parse(result);
+                        let processId = resultToJson.processId;
+                        let resultCode = resultToJson.result;
+                        switch (resultCode.toString()) {
+                            case RESPONSE_DUPLICATION:
+                                aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                                return;
+                            case RESPONSE_FAIL:
+                                aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                                return;
+                            default:
+                                sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
+                                let specs = 'left=' + _left + ',top=' + _top;
+                                specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                                window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                        }
+                    } else if (method === "PUT") {
+                        switch (result) {
+                            case RESPONSE_DUPLICATION:
+                                aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                                return;
+                            case RESPONSE_FAIL:
+                                aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                                return;
+                        }
                     }
                     location.reload();
                 }
@@ -326,15 +350,19 @@
                     processDesc: document.getElementById('process_description').value
                 };
 
-                workflowUtil.import(fileList, processInfo, 'process', function (result) {
-                    if (result) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
-                            location.reload();
-                        });
-                        return true;
-                    } else {
-                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
-                        return false;
+                workflowUtil.import(fileList, processInfo, 'process', function (resultCode) {
+                    switch (resultCode.toString()) {
+                        case RESPONSE_DUPLICATION:
+                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            return false;
+                        case RESPONSE_FAIL:
+                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                            return false;
+                        default:
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                location.reload();
+                                return true;
+                            });
                     }
                 });
             }
@@ -409,6 +437,7 @@
                 }
             });
             importModal.show();
+            document.querySelector('.modal-dialog .default-line').focus();
         }
 
         // REST API
@@ -441,7 +470,7 @@
                                     const scrollHeight = e.target.scrollHeight;
                                     const scrollTop = e.target.scrollTop;
                                     const clientHeight = e.target.clientHeight;
-                                    if (scrollHeight - scrollTop === clientHeight) {
+                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
                                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                             getProcessList(document.getElementById('search').value, true);
                                         }

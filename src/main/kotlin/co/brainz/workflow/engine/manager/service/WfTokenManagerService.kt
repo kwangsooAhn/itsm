@@ -6,8 +6,9 @@
 package co.brainz.workflow.engine.manager.service
 
 import co.brainz.cmdb.ci.service.CIService
-import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
@@ -20,6 +21,7 @@ import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentRepository
+import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -42,7 +44,6 @@ import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
-import java.time.ZoneId
 import org.springframework.stereotype.Service
 
 @Service
@@ -78,6 +79,20 @@ class WfTokenManagerService(
      */
     fun getElement(elementId: String): WfElementEntity {
         return wfElementRepository.findWfElementEntityByElementId(elementId)
+    }
+
+    /**
+     * Get Instance entity.
+     */
+    fun getInstance(instanceId: String): WfInstanceEntity? {
+        return wfInstanceRepository.findByInstanceId(instanceId)
+    }
+
+    /**
+     * Get Document entity.
+     */
+    fun getDocument(documentId: String): WfDocumentEntity {
+        return documentRepository.findDocumentEntityByDocumentId(documentId)
     }
 
     /**
@@ -157,14 +172,14 @@ class WfTokenManagerService(
      * 첨부파일 업로드 경로(파일명 포함).
      */
     fun getUploadFilePath(fileName: String): Path {
-        return aliceFileService.getUploadFilePath(fileName)
+        return aliceFileService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
     }
 
     /**
      * 프로세스 파일 경로.
      */
     fun getProcessFilePath(attachFileName: String): Path {
-        return Paths.get(aliceFileService.getProcessFilePath().toString() + File.separator + attachFileName)
+        return Paths.get(FileConstants.Path.IMAGE.path + File.separator + attachFileName)
     }
 
     /**
@@ -179,15 +194,15 @@ class WfTokenManagerService(
      * Update CI.
      */
     fun updateCI(ci: CIDto): String {
-        val returnDto = ciService.updateCI(ci.ciId, ci)
+        val returnDto = ciService.updateCI(ci)
         return returnDto.code
     }
 
     /**
      * Delete CI.
      */
-    fun deleteCI(ciId: String): String {
-        val returnDto = ciService.deleteCI(ciId)
+    fun deleteCI(ci: CIDto): String {
+        val returnDto = ciService.deleteCI(ci)
         return returnDto.code
     }
 
@@ -239,7 +254,7 @@ class WfTokenManagerService(
             WfTokenEntity(
                 tokenId = "",
                 tokenStatus = WfTokenConstants.Status.RUNNING.code,
-                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                tokenStartDt = LocalDateTime.now(),
                 instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
                 element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
             )

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.code.dto
 
 import java.io.Serializable
@@ -11,8 +16,8 @@ data class CodeDto(
     var codeDesc: String? = null,
     var editable: Boolean? = true,
     var createDt: LocalDateTime? = null,
-    var createUserName: String? = null,
     var level: Int? = null,
     var seqNum: Int? = null,
-    var totalCount: Long = 0
+    val codeLangValue: String? = null,
+    val lang: String? = null
 ) : Serializable

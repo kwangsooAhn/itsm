@@ -31,7 +31,7 @@ class ChartController(
     private val chartViewPage: String = "chart/chartView"
 
     /**
-     * 통계 차트 목록 검색 화면 호출
+     * 사용자 정의 차트 목록 검색 화면 호출
      */
     @GetMapping("/search")
     fun getChartSearch(model: Model): String {
@@ -40,7 +40,7 @@ class ChartController(
     }
 
     /**
-     * 통계 차트 목록 화면 호출
+     * 사용자 정의 차트 목록 화면 호출
      */
     @GetMapping("")
     fun getCharts(

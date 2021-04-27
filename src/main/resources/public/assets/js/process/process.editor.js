@@ -1569,6 +1569,7 @@
             .attr('id', workflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
+            .attr('min-height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
             .attr('class', 'node artifact annotation')
@@ -1699,6 +1700,20 @@
                             textElement.text(displayText + '...');
                             textLength = textElement.node().getComputedTextLength();
                         }
+                    }
+                    // annotation case
+                    if (d3.select(elementNode).classed('annotation')) {
+                        const textBbox = aliceProcessEditor.utils.getBoundingBoxCenter(textElement),
+                            defHeight = 30,
+                            calHeight = textBbox.height - 20,
+                            textElementHeight = calHeight > defHeight ? calHeight : defHeight;
+                        let strokeDashArray = '6,6,6,6,6,' + textElementHeight + ',6,6,6,6,6';
+                        for (let i = 0, len = Math.trunc(textElementHeight / 12); i < len; i++) {
+                            strokeDashArray += ',6,6';
+                        }
+                        d3.select(elementNode)
+                            .attr('height', textElementHeight)
+                            .style('stroke-dasharray', strokeDashArray);
                     }
                 }
             }
@@ -2042,5 +2057,6 @@
     exports.removeElementSelected = removeElementSelected;
     exports.setConnectors = setConnectors;
     exports.setDeselectedElement = setDeselectedElement;
+    exports.setSelectedElement = setSelectedElement;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

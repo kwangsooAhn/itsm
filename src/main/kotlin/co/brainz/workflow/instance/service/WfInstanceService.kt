@@ -1,7 +1,16 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.workflow.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -9,7 +18,6 @@ import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.instance.constants.WfInstanceConstants
-import co.brainz.workflow.instance.dto.WfInstanceListTagDto
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -20,11 +28,8 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
-import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.tag.repository.WfTagRepository
-import co.brainz.workflow.tag.service.WfTagService
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.mapper.WfTokenMapper
 import co.brainz.workflow.token.repository.WfTokenDataRepository
@@ -34,7 +39,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -51,8 +55,7 @@ class WfInstanceService(
     private val numberingRuleService: NumberingRuleService,
     private val aliceUserRepository: AliceUserRepository,
     private val wfFolderService: WfFolderService,
-    private val wfTagRepository: WfTagRepository,
-    private val wfTagService: WfTagService,
+    private val aliceTagRepository: AliceTagRepository,
     private val userDetailsService: AliceUserDetailsService
 ) {
 
@@ -60,38 +63,51 @@ class WfInstanceService(
     private val wfTokenMapper: WfTokenMapper = Mappers.getMapper(WfTokenMapper::class.java)
 
     /**
+     * String 데이터를 분리하여 Set<String> 으로 변환
+     */
+    private fun stringToSet(args: String): HashSet<String> {
+        val set = HashSet<String>()
+        if (args.isNotEmpty()) {
+            set.addAll(
+                StringUtils.trimAllWhitespace(args).replace("#", "").split(",")
+            )
+        }
+        return set
+    }
+
+    /**
      * Search Instances.
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
+        // String tags -> Set<String>
+        parameters["tags"] = this.stringToSet(parameters["tags"].toString())
 
-        var tagList = emptyList<String>()
-        if (parameters["tags"].toString().isNotEmpty()) {
-            tagList = StringUtils.trimAllWhitespace(parameters["tags"].toString())
-                .replace("#", "")
-                .split(",")
-        }
-        parameters["tags"] = HashSet<String>(tagList)
-
+        // Get Document List
         val queryResults = when (parameters["tokenType"].toString()) {
-            WfTokenConstants.SearchType.REQUESTED.code -> requestedInstances(parameters)
-            WfTokenConstants.SearchType.PROGRESS.code -> relatedInstances(
-                WfInstanceConstants.getTargetStatusGroup(
-                    WfTokenConstants.SearchType.PROGRESS
-                ), parameters
-            )
-            WfTokenConstants.SearchType.COMPLETED.code -> relatedInstances(
-                WfInstanceConstants.getTargetStatusGroup(
-                    WfTokenConstants.SearchType.COMPLETED
-                ), parameters
-            )
-            else -> todoInstances(
-                WfInstanceConstants.getTargetStatusGroup(
-                    WfTokenConstants.SearchType.TODO
-                ),
-                WfTokenConstants.getTargetTokenStatusGroup(
-                    WfTokenConstants.SearchType.TODO
-                ), parameters
-            )
+            WfTokenConstants.SearchType.REQUESTED.code -> {
+                requestedInstances(
+                    parameters
+                )
+            }
+            WfTokenConstants.SearchType.PROGRESS.code -> {
+                relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
+                    parameters
+                )
+            }
+            WfTokenConstants.SearchType.COMPLETED.code -> {
+                relatedInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
+                    parameters
+                )
+            }
+            else -> {
+                todoInstances(
+                    WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
+                    WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
+                    parameters
+                )
+            }
         }
 
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
@@ -109,10 +125,15 @@ class WfInstanceService(
 
         // Tag
         val instanceIds = mutableSetOf<String>()
-        val tagDataList = mutableListOf<WfInstanceListTagDto>()
+        val tagDataList = mutableListOf<AliceTagDto>()
         queryResults.results.forEach { result -> instanceIds.add(result.instanceEntity.instanceId) }
         if (instanceIds.isNotEmpty()) {
-            tagDataList.addAll(wfTagRepository.findByInstanceIds(instanceIds))
+            tagDataList.addAll(
+                aliceTagRepository.findByTargetIds(
+                    AliceTagConstants.TagType.INSTANCE.code,
+                    instanceIds
+                )
+            )
         }
 
         for (instance in queryResults.results) {
@@ -131,8 +152,8 @@ class WfInstanceService(
 
             val tags = mutableListOf<String>()
             tagDataList.forEach { tagData ->
-                if (tagData.instanceId == instance.instanceEntity.instanceId) {
-                    tags.add(tagData.tagContent)
+                if (tagData.targetId == instance.instanceEntity.instanceId) {
+                    tags.add(tagData.value)
                 }
             }
 
@@ -251,10 +272,11 @@ class WfInstanceService(
             instanceId = wfTokenDto.instanceId,
             documentNo = documentNo,
             instanceStatus = WfInstanceConstants.Status.RUNNING.code,
-            instanceStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+            instanceStartDt = LocalDateTime.now(),
             instanceCreateUser = user,
             pTokenId = wfTokenDto.parentTokenId,
-            document = document
+            document = document,
+            instancePlatform = wfTokenDto.instancePlatform
         )
         val instance = wfInstanceRepository.save(instanceEntity)
         instance.let {
@@ -276,7 +298,7 @@ class WfInstanceService(
     fun completeInstance(instanceId: String) {
         wfInstanceRepository.findByInstanceId(instanceId)?.let {
             it.instanceStatus = WfInstanceConstants.Status.FINISH.code
-            it.instanceEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+            it.instanceEndDt = LocalDateTime.now()
             wfInstanceRepository.save(it)
         }
     }
@@ -338,8 +360,11 @@ class WfInstanceService(
     /**
      * Get Instance Tags.
      */
-    fun getInstanceTags(instanceId: String): List<RestTemplateTagViewDto> {
-        return wfTagService.getInstanceTags(instanceId)
+    fun getInstanceTags(instanceId: String): List<AliceTagDto> {
+        return aliceTagRepository.findByTargetId(
+            AliceTagConstants.TagType.INSTANCE.code,
+            instanceId
+        )
     }
 
     /**

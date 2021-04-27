@@ -30,6 +30,7 @@
             </td>
             <td style="width: 15%;" class="align-left" id="ciNo" th:text="${ci.ciNo}"></td>
             <td style="width: 0%; display: none;" id="ciIcon" th:text="${ci.ciIcon}"></td>
+            <td style="width: 0%; display: none;" id="ciIconData" th:text="${ci.ciIconData}"></td>
             <td style="width: 0%; display: none;" id="typeId" th:text="${ci.typeId}"></td>
             <td style="width: 15%;" class="align-left" id="typeName" th:text="${ci.typeName}"></td>
             <td style="width: 15%;" class="align-left" id="ciName" th:text="${ci.ciName}"></td>
@@ -37,7 +38,7 @@
             <td style="width: 0%; display: none;" id="classId" th:text="${ci.classId}"></td>
             <td style="width: 25%;" class="align-left">
                 <div class="tag-group align-middle">
-                    <span class="tag align-center text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag.tagName}"></span>
+                    <span class="tag align-center text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag.tagValue}"></span>
                 </div>
             </td>
         </tr>

@@ -97,7 +97,7 @@
                 <button type="button" class="point-fill" sec:authorize="hasAuthority('role.update')" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="point-fill" sec:authorize="hasAuthority('role.delete')" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -124,7 +124,7 @@
                 ROLE_DELETE = true;
             }
 
-            if (document.getElementById('txtRoleId').value !== null && document.getElementById('txtRoleId').value !== '') {
+            if (isNotNull('txtRoleId') && isNotEmpty('txtRoleId')) {
                 document.getElementById('txtRoleId').setAttribute('disabled','');
                 if (ROLE_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
@@ -139,24 +139,6 @@
                 if (ROLE_CREATE) {
                     document.getElementById('btnRegist').style.display = 'none';
                 }
-            }
-
-            let roleList = document.querySelectorAll('td[name=roleName]');
-            for(let i = 0; i < roleList.length; i++) {
-                roleList[i].addEventListener('click', function(){
-                    let activeTr = document.querySelector('tr.active');
-                    if (activeTr !== null) {
-                        activeTr.classList.remove('active');
-                    }
-                    this.parentElement.classList.add('active');
-                    if (ROLE_UPDATE) {
-                        document.getElementById('btnUpdate').style.display = 'block';
-                    }
-                    if (ROLE_CREATE) {
-                        document.getElementById('btnRegist').style.display = 'none';
-                    }
-                    onGetDetail(this.id);
-                });
             }
 
             document.getElementById('search').focus();
@@ -271,21 +253,21 @@
             if (flag === 'post') {
                 for(let i = 0; i < roleIds.length; i++) {
                     if (document.getElementById('txtRoleId').value === roleIds[i]) {
-                        aliceJs.alertWarning([[#{role.msg.duplicateRoleId}]]);
+                        aliceAlert.alertWarning([[#{role.msg.duplicateRoleId}]]);
                         return;
                     }
                 }
                 for(let i = 0; i < roleNames.length; i++) {
                     if (document.getElementById('txtRoleName').value === roleNames[i]) {
-                        aliceJs.alertWarning([[#{role.msg.duplicateRoleName}]]);
+                        aliceAlert.alertWarning([[#{role.msg.duplicateRoleName}]]);
                         return;
                     }
                 }
             } else {
-                if (document.getElementById('txtRoleName').value !== document.getElementById('txtRoleNameOrg').value) {
+                if (isNotEquals('txtRoleName', 'txtRoleNameOrg')) {
                     for(let i = 0; i < roleNames.length; i++) {
                         if (document.getElementById('txtRoleName').value === roleNames[i]) {
-                            aliceJs.alertWarning([[#{role.msg.duplicateRoleName}]]);
+                            aliceAlert.alertWarning([[#{role.msg.duplicateRoleName}]]);
                             return;
                         }
                     }
@@ -303,7 +285,7 @@
             });
 
             if (arrAuthId.length === 0) {
-                aliceJs.alertWarning([[#{role.msg.selectAuth}]]);
+                aliceAlert.alertWarning([[#{role.msg.selectAuth}]]);
                 return;
             }
 
@@ -318,7 +300,7 @@
                 params: JSON.stringify(obj),
                 contentType: 'application/json',
                 callbackFunc: function () {
-                    aliceJs.alertSuccess([[#{common.msg.save}]], function() {
+                    aliceAlert.alertSuccess([[#{common.msg.save}]], function() {
                         window.location.href = '/roles/edit';
                     });
                 }
@@ -334,15 +316,15 @@
                     callbackFunc: function(response) {
                         switch (response.responseText) {
                             case "true":
-                                aliceJs.alertSuccess([[#{common.msg.delete}]], function() {
+                                aliceAlert.alertSuccess([[#{common.msg.delete}]], function() {
                                     window.location.href = '/roles/edit';
                                 });
                                 break;
                             case "false":
-                                aliceJs.alertDanger(i18n.msg('common.label.delete') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                                aliceAlert.alertDanger(i18n.msg('common.label.delete') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
                                 break;
                             default :
-                                aliceJs.alertDanger([[#{common.msg.fail}]]);
+                                aliceAlert.alertDanger([[#{common.msg.fail}]]);
                                 break;
                         }
                     }

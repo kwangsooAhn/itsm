@@ -91,7 +91,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button sec:authorize="hasAuthority('auth.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
         </div>
@@ -118,7 +118,7 @@
         getAuthList(true);
 
         window.onload = function () {
-            if (document.getElementById('btnUpdate') !== null) {
+            if (document.getElementById('btnUpdate') !== null){
                 AUTH_UPDATE = true;
             }
             if (document.getElementById('btnRegist') !== null) {
@@ -127,7 +127,8 @@
             if (document.getElementById('btnDelete') !== null) {
                 AUTH_DELETE = true;
             }
-            if (document.getElementById('txtAuthId').value !== null && document.getElementById('txtAuthId').value !== '') {
+
+            if (isNotNull('txtAuthId') && isNotEmpty('txtAuthId')) {
                 document.getElementById('txtAuthId').setAttribute('disabled', '');
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'inline-block';
@@ -142,28 +143,6 @@
                 if (AUTH_CREATE) {
                     document.getElementById('btnRegist').style.display = 'none';
                 }
-            }
-
-            let authList = document.querySelectorAll('td[name=authName]');
-            for (let i = 0; i < authList.length; i++) {
-                authList[i].style.cursor = 'pointer';
-                authList[i].addEventListener('click', function () {
-                    let activeTr = document.querySelector('tr.active');
-                    if (activeTr !== null) {
-                        activeTr.classList.remove('active');
-                    }
-                    this.parentElement.classList.add('active');
-                    if (AUTH_UPDATE) {
-                        document.getElementById('btnUpdate').style.display = 'inline-block';
-                    }
-                    if (AUTH_CREATE) {
-                        document.getElementById('btnRegist').style.display = 'none';
-                    }
-                    if (AUTH_DELETE) {
-                        document.getElementById('btnDelete').style.display = 'inline-block';
-                    }
-                    onGetDetail(this.id);
-                });
             }
             document.getElementById('search').focus();
             document.getElementById('search').addEventListener('keyup', function () {
@@ -243,21 +222,21 @@
             if (flag === 'post') {
                 for (let i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
-                        aliceJs.alertWarning([[#{auth.msg.duplicateAuthId}]]);
+                        aliceAlert.alertWarning([[#{auth.msg.duplicateAuthId}]]);
                         return;
                     }
                 }
                 for (let i = 0; i < authNames.length; i++) {
                     if (document.getElementById('txtAuthName').value === authNames[i]) {
-                        aliceJs.alertWarning([[#{auth.msg.duplicateAuthName}]]);
+                        aliceAlert.alertWarning([[#{auth.msg.duplicateAuthName}]]);
                         return;
                     }
                 }
             } else {
-                if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
+                if (isNotEquals('txtAuthNameOrg', 'txtAuthNameOrg')) {
                     for (let i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
-                            aliceJs.alertWarning([[#{auth.msg.duplicateAuthName}]]);
+                            aliceAlert.alertWarning([[#{auth.msg.duplicateAuthName}]]);
                             return;
                         }
                     }
@@ -295,7 +274,7 @@
                 params: authJson,
                 contentType: 'application/json',
                 callbackFunc: function () {
-                    aliceJs.alertSuccess([[#{common.msg.save}]], function () {
+                    aliceAlert.alertSuccess([[#{common.msg.save}]], function () {
                         window.location.href = '/auths/edit';
                     });
                 }
@@ -310,7 +289,7 @@
                 method: 'delete',
                 url: '/rest/auths/' + document.getElementById('txtAuthId').value,
                 callbackFunc: function () {
-                    aliceJs.alertSuccess([[#{common.msg.delete}]], function () {
+                    aliceAlert.alertSuccess([[#{common.msg.delete}]], function () {
                         window.location.href = '/auths/edit';
                     });
                 }

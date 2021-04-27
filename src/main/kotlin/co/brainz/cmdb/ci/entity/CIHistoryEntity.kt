@@ -6,11 +6,16 @@
 
 package co.brainz.cmdb.ci.entity
 
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import java.io.Serializable
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
@@ -50,6 +55,13 @@ data class CIHistoryEntity(
     var ciDesc: String? = null,
 
     @Column(name = "automatic")
-    var automatic: Boolean? = false
+    var automatic: Boolean? = false,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instance_id")
+    val instance: WfInstanceEntity? = null,
+
+    @Column(name = "apply_dt")
+    val applyDt: LocalDateTime? = null
 
 ) : Serializable

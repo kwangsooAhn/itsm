@@ -37,11 +37,13 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
+        let searchFromDt = i18n.getDate({'months': -1});
+        let searchToDt = i18n.getDate();
 
         window.onload = function () {
             document.getElementById('search').focus();
-            document.getElementById('fromDt').value = i18n.getDate({'months':-1});
-            document.getElementById('searchToDt').value = i18n.getDate();
+            document.getElementById('fromDt').value = searchFromDt;
+            document.getElementById('searchToDt').value = searchToDt;
             dateTimePicker.initDatePicker('fromDt', setDatePicker);
             dateTimePicker.initDatePicker('searchToDt', setDatePicker);
             document.getElementById('category').addEventListener('change', function() { getDownloadList(false); });
@@ -57,7 +59,8 @@
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('searchToDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceJs.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function () {
+                    aliceAlert.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function () {
+                        document.getElementById('fromDt').value = searchFromDt;
                         picker.open();
                     });
                 } else {
@@ -66,7 +69,8 @@
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceJs.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function () {
+                    aliceAlert.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function () {
+                        document.getElementById('searchToDt').value = searchToDt;
                         picker.open();
                     });
                 } else {
@@ -122,7 +126,7 @@
                                     const scrollTop = e.target.scrollTop;
                                     const clientHeight = e.target.clientHeight;
                                     // 스크롤이 맨 마지막에 있을 경우
-                                    if (scrollHeight - scrollTop === clientHeight) {
+                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
                                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                             getDownloadList(true);
                                         }

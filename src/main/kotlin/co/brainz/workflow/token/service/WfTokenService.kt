@@ -138,12 +138,16 @@ class WfTokenService(
                 if (tokenDataEntity.component.componentId == componentEntity.componentId) {
                     var resultValue = tokenDataEntity.value
                     // CI 컴포넌트 - 세부 데이터 조회
-                    if (resultValue.isNotEmpty() && componentEntity.type == WfComponentConstants.ComponentType.CI.code) {
+                    if (resultValue.isNotEmpty() && componentEntity.type ==
+                        WfComponentConstants.ComponentType.CI.code
+                    ) {
                         val ciJsonArray = Gson().fromJson(resultValue, JsonArray::class.java)
                         ciJsonArray.forEach {
                             val ciJsonData = it.asJsonObject
                             val actionType = ciJsonData.get("actionType").asString
-                            if (actionType == CIConstants.ActionType.DELETE.code || actionType == CIConstants.ActionType.READ.code) {
+                            if (actionType == CIConstants.ActionType.DELETE.code ||
+                                actionType == CIConstants.ActionType.READ.code
+                            ) {
                                 val ciData = ciService.getCI(ciJsonData.get("ciId").asString)
                                 ciJsonData.addProperty("ciNo", ciData.ciNo)
                                 ciJsonData.addProperty("ciName", ciData.ciName)
@@ -152,6 +156,7 @@ class WfTokenService(
                                 ciJsonData.addProperty("ciDesc", ciData.ciDesc)
                                 ciJsonData.addProperty("ciStatus", ciData.ciStatus)
                                 ciJsonData.addProperty("ciIcon", ciData.ciIcon)
+                                ciJsonData.addProperty("ciIconData", ciData.ciIconData)
                                 ciJsonData.addProperty("classId", ciData.classId)
                             }
                         }

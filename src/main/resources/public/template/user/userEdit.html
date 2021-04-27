@@ -212,23 +212,6 @@
             OverlayScrollbars(document.querySelector('.checkbox-list'), {className: 'inner-scrollbar'});
         };
 
-        function onlyNumber(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
-                || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                return false;
-            }
-        }
-
-        function removeChar(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                event.target.value = event.target.value.replace(/[^0-9]/g, '');
-            }
-        }
-
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_USER_ID_DUPLICATION = '1';
         const STATUS_ERROR_EMAIL_DUPLICATION = '3';
@@ -273,31 +256,31 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alertSuccess([[#{user.msg.createUser}]], function() {
+                            aliceAlert.alertSuccess([[#{user.msg.createUser}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_ADMIN:
-                            aliceJs.alertSuccess([[#{common.msg.modify}]], function() {
+                            aliceAlert.alertSuccess([[#{common.msg.modify}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_EMAIL:
-                            aliceJs.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
+                            aliceAlert.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_PASSWORD:
-                            aliceJs.alertSuccess([[#{user.msg.resetPassword}]]);
+                            aliceAlert.alertSuccess([[#{user.msg.resetPassword}]]);
                             break;
                         case STATUS_ERROR_USER_ID_DUPLICATION:
-                            aliceJs.alertWarning([[#{user.msg.sameUserId}]]);
+                            aliceAlert.alertWarning([[#{user.msg.sameUserId}]]);
                             break;
                         case STATUS_ERROR_EMAIL_DUPLICATION:
-                            aliceJs.alertWarning([[#{user.msg.sameEmail}]]);
+                            aliceAlert.alertWarning([[#{user.msg.sameEmail}]]);
                             break;
                         default:
-                            aliceJs.alertDanger([[#{common.msg.fail}]]);
+                            aliceAlert.alertDanger([[#{common.msg.fail}]]);
                             break;
                     }
                 }

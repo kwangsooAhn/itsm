@@ -7,8 +7,8 @@
 package co.brainz.cmdb
 
 import co.brainz.cmdb.ci.service.CIService
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIDto
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.util.AliceUtil
 import javax.transaction.Transactional
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -48,9 +48,9 @@ class CIServiceTest {
         val params = LinkedHashMap<String, Any>()
         val ciDtoList = ciService.getCIs(params)
         assumingThat(
-            ciDtoList.isNotEmpty()
+            ciDtoList.data.isNotEmpty()
         ) {
-            assertTrue(ciDtoList[0].totalCount > 0)
+            assertTrue(ciDtoList.totalCount > 0)
         }
     }
 
@@ -86,9 +86,9 @@ class CIServiceTest {
         params["search"] = searchValue
         val ciDtoList = ciService.getCIs(params)
         assumingThat(
-            ciDtoList.isNotEmpty()
+            ciDtoList.data.isNotEmpty()
         ) {
-            assertEquals(ciDtoList[0].ciName, searchValue)
+            assertEquals(ciDtoList.data[0].ciName, searchValue)
         }
     }
 
@@ -100,18 +100,18 @@ class CIServiceTest {
         val params = LinkedHashMap<String, Any>()
         params["search"] = this.ciName
         val ciDtoList = ciService.getCIs(params)
-        if (!ciDtoList.isNullOrEmpty()) {
-            ciId = ciDtoList[0].ciId.toString()
+        if (!ciDtoList.data.isNullOrEmpty()) {
+            ciId = ciDtoList.data[0].ciId.toString()
         }
         assumingThat(
             ciId.isNotEmpty()
         ) {
-            val ciDto = ciService.getCI(ciId)
-            assertEquals(ciDto.ciNo, ciDtoList[0].ciNo)
-            assertEquals(ciDto.ciName, ciDtoList[0].ciName)
-            assertEquals(ciDto.ciDesc, ciDtoList[0].ciDesc)
-            assertEquals(ciDto.typeId, ciDtoList[0].typeId)
-            assertEquals(ciDto.ciStatus, ciDtoList[0].ciStatus)
+            val ciDto = ciService.getCIDetail(ciId)
+            assertEquals(ciDto.ciNo, ciDtoList.data[0].ciNo)
+            assertEquals(ciDto.ciName, ciDtoList.data[0].ciName)
+            assertEquals(ciDto.ciDesc, ciDtoList.data[0].ciDesc)
+            assertEquals(ciDto.typeId, ciDtoList.data[0].typeId)
+            assertEquals(ciDto.ciStatus, ciDtoList.data[0].ciStatus)
         }
     }
 
@@ -123,9 +123,9 @@ class CIServiceTest {
         params["search"] = this.ciName
         val ciDtoList = ciService.getCIs(params)
         assumingThat(
-            ciDtoList.isNotEmpty()
+            ciDtoList.data.isNotEmpty()
         ) {
-            for (ciDto in ciDtoList) {
+            for (ciDto in ciDtoList.data) {
                 if (ciDto.ciId != null) {
                     val updateCiDto = CIDto(
                         ciId = ciDto.ciId.toString(),
@@ -137,7 +137,7 @@ class CIServiceTest {
                         ciTags = ciDto.tags,
                         ciIcon = ciDto.ciIcon
                     )
-                    assertTrue(ciService.updateCI(ciDto.ciId.toString(), updateCiDto).status)
+                    assertTrue(ciService.updateCI(updateCiDto).status)
                 }
             }
         }
@@ -151,10 +151,15 @@ class CIServiceTest {
         params["search"] = this.ciName
         val ciDtoList = ciService.getCIs(params)
         assumingThat(
-            ciDtoList.isNotEmpty()
+            ciDtoList.data.isNotEmpty()
         ) {
-            for (ciDto in ciDtoList) {
-                assertTrue(ciService.deleteCI(ciDto.ciId.toString()).status)
+            for (ciDto in ciDtoList.data) {
+                val ci = CIDto(
+                    ciId = ciDto.ciId.toString(),
+                    ciStatus = "",
+                    typeId = ""
+                )
+                assertTrue(ciService.deleteCI(ci).status)
             }
         }
     }

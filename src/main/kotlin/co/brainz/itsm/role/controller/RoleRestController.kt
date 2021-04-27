@@ -1,7 +1,12 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.role.controller
 
 import co.brainz.itsm.role.dto.RoleDto
-import co.brainz.itsm.role.dto.RoleListDto
+import co.brainz.itsm.role.dto.RoleListReturnDto
 import co.brainz.itsm.role.service.RoleService
 import javax.validation.Valid
 import org.slf4j.LoggerFactory
@@ -27,7 +32,7 @@ class RoleRestController(private val roleService: RoleService) {
      * 역할 전체 목록을 조회한다.
      */
     @GetMapping("/", "")
-    fun getRoles(): MutableList<RoleListDto> {
+    fun getRoles(): RoleListReturnDto {
         return roleService.selectRoleList()
     }
 

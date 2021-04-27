@@ -13,7 +13,6 @@
     'use strict';
 
     const iconPath = '/assets/media/icons/tree';
-    const cmdbIconPath = '/assets/media/images/cmdb';
 
     let options = {};
 
@@ -79,7 +78,7 @@
         const selectedNode = document.querySelector('#' + options.target + ' ' + nodeSelector);
 
         if (!selectedNode) {
-            aliceJs.alertWarning(i18n.msg('common.msg.dataSelect'));
+            aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
             return false;
         }
         let callbackFunc = options.callbackFunc;
@@ -142,6 +141,7 @@
                         value: node_value || '',
                         editable: item.editable || false,
                         icon: item.typeIcon || '',
+                        iconData: item.typeIconData || '',
                         count: item.totalAttributes || 0
                     },
                     removeNode: function() { v_tree.removeNode(this); },
@@ -216,8 +216,8 @@
                 if (p_node.childNodes.length === 0 && options.leafIcon !== '') {
                     v_icon_image = options.leafIcon;
                 }
-                if (options.source === 'ciType' && p_node.data.icon !== '') {
-                    v_icon_image = cmdbIconPath + '/' + p_node.data.icon;
+                if (options.source === 'ciType' && p_node.data.iconData !== '') {
+                    v_icon_image = p_node.data.iconData;
                 }
                 v_icon = createImgElement(null, 'icon_tree', v_icon_image);
 
@@ -510,6 +510,7 @@
      * @param tree Tree
      */
     function makeNode(tree) {
+        const ROOT_LEVEL = 0;
         // sessionKey에 저장된 펼치진 노드 정보를 추출하여 node 생성시 펼침 여부 판단
         let expandObject = [];
         if (options.selectedValue !== null && options.selectedValue !== '') {
@@ -528,7 +529,7 @@
                 if (expandObject.length > 0 && expandObject.indexOf(item) > -1) {
                     expand = true;
                 }
-                let firstNode = tree.createNode(item, expand, 1, null);
+                let firstNode = tree.createNode(item, expand, ROOT_LEVEL, null);
                 let itemLevel = '';
                 if (item.level !== undefined) {
                     itemLevel = item.level;
@@ -537,7 +538,7 @@
                 } else {
                     itemLevel = item.classLevel;
                 }
-                createChildNode(firstNode, itemLevel, expandObject, 2);
+                createChildNode(firstNode, itemLevel, expandObject, ROOT_LEVEL + 1);
             }
         });
     }
@@ -666,10 +667,10 @@
             callbackFunc: function(xhr) {
                 let responseJson = JSON.parse(xhr.responseText);
                 let totalCount = 0;
-                if (responseJson.length > 0) {
-                    options.data = responseJson;
+                if (responseJson.data.length > 0) {
+                    options.data = responseJson.data;
                     if (options.totalCount) {
-                        totalCount = responseJson[0].totalCount;
+                        totalCount = responseJson.totalCount;
                         document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
                     }
                     let tree = makeTree();

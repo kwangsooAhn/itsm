@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.user.controller
 
-import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
@@ -14,7 +13,6 @@ import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
-import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.service.UserService
@@ -25,8 +23,6 @@ import javax.validation.Valid
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -113,7 +109,8 @@ class UserRestController(
         if (SecurityContextHolder.getContext().authentication != null) {
             val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
             if (user.userKey == aliceUserDto.userKey) {
-                SecurityContextHolder.getContext().authentication = createNewAuthentication(user)
+                SecurityContextHolder.getContext().authentication =
+                    userDetailsService.createNewAuthentication(user.userKey)
             }
         }
         return result
@@ -125,19 +122,6 @@ class UserRestController(
     @GetMapping("/all")
     fun getUsers(): MutableList<UserSelectListDto> {
         return userService.selectUserListOrderByName()
-    }
-
-    /**
-     * 변경된 사용자 정보를 SecurityContextHolder에 update한다.
-     */
-    private fun createNewAuthentication(user: UserUpdateDto): Authentication {
-        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(user.userKey))
-        aliceUser = userDetailsService.getAuthInfo(aliceUser)
-        aliceUser.avatarPath = userDetailsService.makeAvatarPath(aliceUser)
-        val usernamePasswordAuthenticationToken =
-            UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
-        usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)
-        return usernamePasswordAuthenticationToken
     }
 
     /**

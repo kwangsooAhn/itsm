@@ -1,18 +1,27 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.interceptor
 
+import co.brainz.api.apiToken.service.ApiTokenService
+import co.brainz.api.constants.ApiConstants
 import co.brainz.framework.auth.dto.AliceMenuDto
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.auth.repository.AliceMenuRepository
+import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
+import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.ModelAndView
@@ -24,19 +33,58 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 @Component
 class AliceInterceptor(
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val aliceMenuRepository: AliceMenuRepository,
-    private val aliceMessageSource: AliceMessageSource
+    private val aliceMessageSource: AliceMessageSource,
+    private val apiTokenService: ApiTokenService,
+    private val userDetailsService: AliceUserDetailsService
 ) : HandlerInterceptorAdapter() {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Throws(Exception::class)
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+        // API Access Token Check.
+        apiTokenCheck(request)
         // User Agent, IE 브라우저 접근 확인
         userAgentCheck(request, response)
         // URL 접근 확인
         urlAccessAuthCheck(request)
         return true
+    }
+
+    /**
+     * API URL 필터링 (토큰 요청 url은 제외)
+     */
+    private fun apiTokenCheck(request: HttpServletRequest) {
+        val reg = "/api/((?!tokens).)*".toRegex()
+        if (reg.matches(request.requestURI)) {
+            when (val authorization = request.getHeader(ApiConstants.API_TOKEN_KEY)) {
+                null -> throw Exception(aliceMessageSource.getMessage("auth.msg.invalidToken"))
+                else -> {
+                    this.accessTokenValid(authorization)
+                }
+            }
+        }
+    }
+
+    /**
+     * Access Token 검증
+     */
+    private fun accessTokenValid(authorization: String) {
+        val accessToken = authorization.replace("Bearer ", "")
+        val apiTokenEntity = apiTokenService.getAccessToken(accessToken)
+            ?: throw AliceException(
+                AliceErrorConstants.ERR_00003,
+                aliceMessageSource.getMessage("auth.msg.invalidToken")
+            )
+        val expiresDt = apiTokenEntity.createDt.plusSeconds(apiTokenEntity.expiresIn.toLong())
+        if (expiresDt < LocalDateTime.now()) {
+            throw AliceException(
+                AliceErrorConstants.ERR_00003,
+                aliceMessageSource.getMessage("auth.msg.invalidToken")
+            )
+        }
+        SecurityContextHolder.getContext().authentication =
+            userDetailsService.createNewAuthentication(apiTokenEntity.requestUserKey)
     }
 
     /**

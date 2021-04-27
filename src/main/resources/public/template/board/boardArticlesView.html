@@ -130,7 +130,7 @@
 
         //게시판 삭제
         function deleteBoard(method) {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete',
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete',
                 '/rest/boards/articles/' + boardId);
         }
 
@@ -152,7 +152,7 @@
         //게시판 댓글 수정
         function openCommentEdit(boardCommentId) {
             if (document.getElementById('editComments')) {
-                aliceJs.alertWarning(i18n.msg('comment.msg.afterSavedEditComments'), function () {
+                aliceAlert.alertWarning(i18n.msg('comment.msg.afterSavedEditComments'), function () {
                     return false;
                 });
             } else {
@@ -188,7 +188,7 @@
                 contentType: 'application/json',
                 callbackFunc: function (response) {
                     if (method === 'put' || method === 'post' || method === 'delete') {
-                        aliceJs.alertSuccess(resultMsg, function () {
+                        aliceAlert.alertSuccess(resultMsg, function () {
                             if (url.indexOf('/rest/boards/articles/comments') !== -1) {
                                 document.getElementById('boardComments').value = '';
                                 getBoardCommentList();

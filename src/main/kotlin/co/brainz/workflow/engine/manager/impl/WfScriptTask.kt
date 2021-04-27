@@ -5,12 +5,13 @@
 
 package co.brainz.workflow.engine.manager.impl
 
-import co.brainz.cmdb.provider.constants.RestTemplateConstants
-import co.brainz.cmdb.provider.dto.CIDataDto
-import co.brainz.cmdb.provider.dto.CIDto
-import co.brainz.cmdb.provider.dto.CIRelationDto
-import co.brainz.cmdb.provider.dto.CITagDto
+import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIDataDto
+import co.brainz.cmdb.dto.CIDto
+import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -111,17 +112,18 @@ class WfScriptTask(
     /**
      * [ciTags] 를 CIDto 에 저장하기 위한 List 형태로 추출.
      */
-    private fun getCiTags(ciId: String, ciComponentDataValue: Map<String, Any>): MutableList<CITagDto> {
-        val tagDataList = mutableListOf<CITagDto>()
+    private fun getCiTags(ciId: String, ciComponentDataValue: Map<String, Any>): MutableList<AliceTagDto> {
+        val tagDataList = mutableListOf<AliceTagDto>()
         val ciTags: List<Map<String, Any>> =
             mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
         ciTags.forEach { tag ->
             if (tag["id"] != null && tag["value"] != null) {
                 tagDataList.add(
-                    CITagDto(
-                        ciId = ciId,
+                    AliceTagDto(
                         tagId = tag["id"] as String,
-                        tagName = tag["value"] as String
+                        tagType = AliceTagConstants.TagType.CI.code,
+                        value = tag["value"] as String,
+                        targetId = ciId
                     )
                 )
             }
@@ -134,8 +136,7 @@ class WfScriptTask(
      */
     private fun getCiRelations(ciId: String, ciComponentDataValue: Map<String, Any>): MutableList<CIRelationDto> {
         val relationList = mutableListOf<CIRelationDto>()
-        // TODO: 연관된 CI 정보
-
+        // TODO : 연관된 CI 정보
         return relationList
     }
 
@@ -175,16 +176,21 @@ class WfScriptTask(
                             classId = ci["classId"] as String,
                             typeId = ci["typeId"] as String,
                             ciStatus = ci["ciStatus"] as String,
+                            instanceId = instanceId,
                             ciDataList = ciDataList,
                             ciTags = ciTags,
-                            ciRelations = ciRelations
+                            ciRelations = ciRelations,
+                            createUserKey = super.assigneeId,
+                            updateUserKey = super.assigneeId
                         )
                     )
                 } else {
                     ciDtoList.add(
                         CIDto(
                             ciId = ciId,
-                            typeId = ""
+                            typeId = "",
+                            instanceId = instanceId,
+                            updateUserKey = super.assigneeId
                         )
                     )
                 }
@@ -231,7 +237,7 @@ class WfScriptTask(
                 wfTokenManagerService.updateCI(ci)
             }
             deleteCiList.forEach { ci ->
-                wfTokenManagerService.deleteCI(ci.ciId)
+                wfTokenManagerService.deleteCI(ci)
             }
         }
     }

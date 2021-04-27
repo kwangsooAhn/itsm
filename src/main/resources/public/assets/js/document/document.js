@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -15,6 +20,8 @@
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
     let dataForPrint = ''; // 프린트 출력용 저장 데이터
+    let tagify;
+    let controller;
 
     /**
      * get component target.
@@ -62,7 +69,7 @@
         }
         const validateElement = document.querySelectorAll('.error');
         if (validateElement.length !== 0) {
-            aliceJs.alertWarning(i18n.msg('document.msg.checkDocument'), function () {
+            aliceAlert.alertWarning(i18n.msg('document.msg.checkDocument'), function () {
                 if (validateElement[0].classList.contains('editor-container')) {
                     Quill.find(validateElement[0]).focus();
                 } else if (validateElement[0].id === 'radio' || validateElement[0].id === 'chkbox') {
@@ -455,7 +462,8 @@
      */
     function save(v_kind) {
         // validation check
-        if (v_kind !== 'save' && checkValidateForSave()) {
+        let exceptionList = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
+        if ((exceptionList.indexOf(v_kind) === -1) && checkValidateForSave()) {
             return false;
         }
         let tokenObject = {};
@@ -519,7 +527,7 @@
             contentType: 'application/json',
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
-                    aliceJs.alertSuccess(actionMsg, function () {
+                    aliceAlert.alertSuccess(actionMsg, function () {
                         if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
                             opener.location.reload();
                             window.close();
@@ -528,7 +536,7 @@
                         }
                     });
                 } else {
-                    aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                 }
             }
         };
@@ -681,7 +689,7 @@
                 if (xhr.responseText) {
                     createTokenInfoTab();
                 } else {
-                    aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                 }
             }
         };
@@ -694,17 +702,17 @@
      * @param commentId
      */
     function deleteComment(commentId) {
-        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
+        aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/comments/' + commentId,
                 callbackFunc: function (xhr) {
                     if (xhr.responseText) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                             createTokenInfoTab();
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                     }
                 }
             };
@@ -717,7 +725,7 @@
      * @param dataForDeletion
      */
     function deleteRelatedDoc(dataForDeletion) {
-        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
+        aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/folders/' + dataForDeletion.folderId,
@@ -725,11 +733,11 @@
                 params: JSON.stringify(dataForDeletion),
                 callbackFunc: function(xhr) {
                     if (xhr.responseText) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
                             createTokenInfoTab();
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                        aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                     }
                 }
             };
@@ -872,9 +880,11 @@
      */
     function onAddTag(tag) {
         const jsonData = {
-            tagContent: tag.detail.data.value,
-            instanceId: document.getElementById('instanceId').getAttribute('data-id')
+            tagType: 'instance',
+            tagValue: tag.detail.data.value,
+            targetId: document.getElementById('instanceId').getAttribute('data-id')
         };
+
         aliceJs.sendXhr({
             method: 'POST',
             url: '/rest/tags',
@@ -882,7 +892,12 @@
             contentType: 'application/json',
             showProgressbar: true,
             callbackFunc: function (response) {
-                createTokenInfoTab();
+                // DOM 에 tag id 값 추가하기.
+                document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', response.responseText)
+
+                // tagify 데이터에 tag id 값 추가하기.
+                let newId = { id: response.responseText };
+                tagify.tagData(tagify.getTagElmByValue(tag.detail.data.value), newId);
             }
         });
     }
@@ -896,10 +911,7 @@
         aliceJs.sendXhr({
             method: 'DELETE',
             url: '/rest/tags/' + tag.detail.data.id,
-            showProgressbar: true,
-            callbackFunc: function (response) {
-                createTokenInfoTab();
-            }
+            showProgressbar: true
         });
     }
 
@@ -950,6 +962,10 @@
                         }
                         // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
                         sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
+
+                        if (e.target.dataset.targetContents === 'token-tag') {
+                            document.querySelector('span[contenteditable]').focus();
+                        }
                     });
                 });
 
@@ -963,8 +979,15 @@
 
                 addCommentBox(instanceId);
 
-                new Tagify(document.querySelector('input[name=tags]'), {
+                tagify = new Tagify(document.querySelector('input[name=tags]'), {
                     pattern: /^.{0,100}$/,
+                    whitelist: [],
+                    dropdown: {
+                        maxItems: 20,           // <- 서버에서 이미 20개로 지정하고 있음. 혹시 필요하면 바로 수정할 수 있도록 여기도 살려둠.
+                        classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
+                        enabled: 1,             // <- show suggestions on focus
+                        closeOnSelect: true    // <- do not hide the suggestions dropdown once an item has been selected
+                    },
                     editTags: false,
                     callbacks: {
                         'add': onAddTag,
@@ -973,11 +996,36 @@
                     placeholder: i18n.msg('token.msg.tag')
                 });
 
+                tagify.on('input', onInput)
+
                 const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
                 document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
                 OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
             }
         });
+    }
+
+    function onInput( e ){
+        let value = e.detail.value;
+        tagify.settings.whitelist.length = 0; // reset the whitelist
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
+        controller && controller.abort();
+        controller = new AbortController();
+
+        // show loading animation and hide the suggestions dropdown
+        tagify.loading(true).dropdown.hide.call(tagify)
+
+        fetch('/rest/tags/whitelist?tagValue=' + value + '&tagType=' + 'instance', {signal:controller.signal})
+            .then(RES => RES.json())
+            .then(function(whitelist){
+                // update inwhitelist Array in-place
+                tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
+                tagify.loading(false).dropdown.show.call(tagify, value); // render the suggestions dropdown
+            })
+            .catch(e => {
+                console.log('whitelist canceled by user');
+            });
     }
 
     exports.init = init;

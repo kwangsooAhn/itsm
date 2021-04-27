@@ -1,14 +1,23 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.code.service
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.dto.CodeReturnDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.user.repository.UserRepository
 import com.querydsl.core.QueryResults
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
@@ -31,7 +40,14 @@ class CodeService(
                 codes.addAll(code as Set<String>)
             }
         }
-        codeList.addAll(codeRepository.findCodeByPCodeIn(codes))
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val findCodeList = codeRepository.findCodeByPCodeIn(codes, userDetails.lang)
+        for (codeDto in findCodeList) {
+            if (codeDto.codeLangValue != null && codeDto.lang != null) {
+                codeDto.codeValue = codeDto.codeLangValue
+            }
+        }
+        codeList.addAll(findCodeList)
         return codeList
     }
 
@@ -47,7 +63,7 @@ class CodeService(
     /**
      * 트리 조회.
      */
-    fun getCodeList(search: String, pCode: String): MutableList<CodeDto> {
+    fun getCodeList(search: String, pCode: String): CodeReturnDto {
         val treeCodeList = mutableListOf<CodeDto>()
         val queryResults: QueryResults<CodeEntity>
         var returnList = emptyList<CodeEntity>()
@@ -103,13 +119,14 @@ class CodeService(
                     codeDesc = codeEntity.codeDesc,
                     editable = codeEntity.editable,
                     level = codeEntity.level,
-                    seqNum = codeEntity.seqNum,
-                    createUserName = codeEntity.createUser?.userName,
-                    totalCount = count
+                    seqNum = codeEntity.seqNum
                 )
             )
         }
-        return treeCodeList
+        return CodeReturnDto(
+            data = treeCodeList,
+            totalCount = count
+        )
     }
 
     /**

@@ -95,7 +95,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('code.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -109,9 +109,21 @@
         const STATUS_ERROR_CODE_DUPLICATION = '2';
         const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
         const STATUS_ERROR_CODE_P_CODE_USED = '4';
+        let CODE_DELETE = false;
+        let CODE_CREATE = false;
+        let CODE_UPDATE = false;
         const sessionKey = 'code_expand_key';
 
         window.addEventListener('load', function() {
+            if (document.getElementById('btnUpdate') !== null) {
+                CODE_UPDATE = true;
+            }
+            if (document.getElementById('btnRegist') !== null) {
+                CODE_CREATE = true;
+            }
+            if (document.getElementById('btnDelete') !== null) {
+                CODE_DELETE = true;
+            }
             document.getElementById('search').focus();
             onCreate();
 
@@ -154,14 +166,27 @@
                         document.getElementById('txtCreateDt').value = i18n.userDateTime(responseJson.createDt);
                         document.getElementById('txtUpdateUserName').value = responseJson.updateUserName;
                         document.getElementById('txtUpdateDt').value = i18n.userDateTime(responseJson.updateDt);
-                        if (responseJson.editable) {
-                            document.querySelector('#btnUpdate').removeAttribute('disabled');
-                            document.querySelector('#btnDelete').removeAttribute('disabled');
-                        } else {
-                            document.getElementById('btnUpdate').disabled = true;
-                            document.getElementById('btnDelete').disabled = true;
+                        if (CODE_CREATE) {
+                            document.querySelector('#btnRegist').style.display = 'none';
                         }
-                        document.querySelector('#btnRegist').setAttribute('disabled', 'true');
+                        if (responseJson.editable) {
+                            if (CODE_UPDATE) {
+                                document.querySelector('#btnUpdate').removeAttribute('disabled');
+                            }
+                            if (CODE_DELETE) {
+                                document.querySelector('#btnDelete').removeAttribute('disabled');
+                            }
+                        } else {
+                            if (CODE_UPDATE) {
+                                document.getElementById('btnUpdate').disabled = true;
+                            }
+                            if (CODE_DELETE) {
+                                document.getElementById('btnDelete').disabled = true;
+                            }
+                        }
+                        if (CODE_CREATE) {
+                            document.querySelector('#btnRegist').setAttribute('disabled', 'true');
+                        }
                         onEdit();
                     }
                 };
@@ -185,31 +210,22 @@
             });
         });
 
-        function onlyNumber(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
-                || keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                return false;
-            }
-        }
 
-        function removeChar(event) {
-            event = event || window.event;
-            const keyID = (event.which) ? event.which : event.keyCode;
-            if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                event.target.value = event.target.value.replace(/[^0-9]/g, '');
-            }
-        }
 
         /** create **/
         function onCreate() {
-            document.querySelector('#btnUpdate').style.display = 'none';
-            document.querySelector('#btnUpdate').setAttribute('disabled', 'true');
-            document.querySelector('#btnDelete').style.display = 'none';
-            document.querySelector('#btnDelete').setAttribute('disabled', 'true');
-            document.querySelector('#btnRegist').removeAttribute('disabled');
-            document.querySelector('#btnRegist').style.display = 'block';
+            if (CODE_UPDATE) {
+                document.querySelector('#btnUpdate').style.display = 'none';
+                document.querySelector('#btnUpdate').setAttribute('disabled', 'true');
+            }
+            if (CODE_DELETE) {
+                document.querySelector('#btnDelete').style.display = 'none';
+                document.querySelector('#btnDelete').setAttribute('disabled', 'true');
+            }
+            if (CODE_CREATE) {
+                document.querySelector('#btnRegist').removeAttribute('disabled');
+                document.querySelector('#btnRegist').style.display = 'block';
+            }
             document.querySelectorAll('input[type=text]').forEach(function(object){
                 object.value = '';
             });
@@ -224,10 +240,17 @@
         }
 
         function onEdit() {
-            document.querySelector('#btnUpdate').style.display = 'block';
-            document.querySelector('#btnDelete').style.display = 'block';
-            document.querySelector('#btnRegist').style.display = 'none';
+            if (CODE_UPDATE) {
+                document.querySelector('#btnUpdate').style.display = 'block';
+            }
+            if (CODE_DELETE) {
+                document.querySelector('#btnDelete').style.display = 'block';
+            }
+            if (CODE_DELETE) {
+                document.querySelector('#btnRegist').style.display = 'none';
+            }
         }
+
 
         /** save **/
         function onSave(method) {
@@ -241,12 +264,12 @@
             };
 
             if (jsonData.code === null || jsonData.code.trim() === '') {
-                aliceJs.alertWarning([[#{code.msg.enterCode}]]);
+                aliceAlert.alertWarning([[#{code.msg.enterCode}]]);
                 return false;
             }
 
             if (jsonData.pCode === null || jsonData.pCode.trim() === '') {
-                aliceJs.alertWarning([[#{code.msg.enterPCode}]]);
+                aliceAlert.alertWarning([[#{code.msg.enterPCode}]]);
                 return false;
             }
 
@@ -264,24 +287,24 @@
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
                             tree.setTreeExpandNode(sessionKey);
-                            aliceJs.alertSuccess(i18n.msg('common.msg.register'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function() {
                                 window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_CODE:
                             tree.setTreeExpandNode(sessionKey);
-                            aliceJs.alertSuccess(i18n.msg('common.msg.modify'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function() {
                                 window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
-                            aliceJs.alertWarning(i18n.msg('code.msg.pCodeNotExist'));
+                            aliceAlert.alertWarning(i18n.msg('code.msg.pCodeNotExist'));
                             break;
                         case STATUS_ERROR_CODE_DUPLICATION:
-                            aliceJs.alertWarning(i18n.msg('code.msg.duplicateCode'));
+                            aliceAlert.alertWarning(i18n.msg('code.msg.duplicateCode'));
                             break;
                         default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }
@@ -299,15 +322,15 @@
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
                             tree.setTreeExpandNode(sessionKey);
-                            aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                            aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function() {
                                 window.location.href ='/codes/edit';
                             });
                             break;
                         case STATUS_ERROR_CODE_P_CODE_USED:
-                            aliceJs.alertWarning(i18n.msg('code.msg.referenceCodeExist'));
+                            aliceAlert.alertWarning(i18n.msg('code.msg.referenceCodeExist'));
                             break;
                         default:
-                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
                             break;
                     }
                 }

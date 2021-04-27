@@ -6,8 +6,12 @@
 package co.brainz.workflow
 
 import co.brainz.workflow.process.service.WfProcessService
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Assumptions.assumeTrue
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -31,7 +35,7 @@ class WfProcessServiceTest {
         var processId = ""
         val params = LinkedHashMap<String, Any>()
         params["offset"] = 1
-        val processList = wfProcessService.selectProcessList(params)
+        val processList = wfProcessService.getProcesses(params)
         if (processList.isNotEmpty()) {
             processId = processList[0].id
         }
@@ -42,6 +46,7 @@ class WfProcessServiceTest {
         }
     }
 
+
     @Test
     @DisplayName("Process Simulation 체크")
     @Order(2)
@@ -49,13 +54,22 @@ class WfProcessServiceTest {
         var processId = ""
         val params = LinkedHashMap<String, Any>()
         params["offset"] = 1
-        val processList = wfProcessService.selectProcessList(params)
+        params["status"] = "process.status.use"
+        val processList = wfProcessService.getProcesses(params)
         if (processList.isNotEmpty()) {
             processId = processList[0].id
         }
         if (processId.isNotEmpty()) {
             val reportDto = wfProcessService.getProcessSimulation(processId)
-            assumeTrue(reportDto.success)
+            if (reportDto.success) {
+                // 시뮬레이션 결과가 성공인 경우.
+                assertTrue(reportDto.success)
+            } else {
+                // 시뮬레이션 결과가 실패해도 적절한 메시지를 가지고 있다면 시뮬레이션 기능 자체는 성공.
+                reportDto.simulationReport.forEach { it ->
+                    if(it.failedMessage.isNotEmpty()) assertTrue(it.failedMessage.isNotEmpty())
+                }
+            }
         }
     }
 }

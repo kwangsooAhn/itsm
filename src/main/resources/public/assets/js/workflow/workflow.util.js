@@ -534,9 +534,14 @@ workflowUtil.saveImportData = function(type, data) {
         method: 'POST',
         async: false,
         url: saveUrl,
-        callbackFunc: function(xhr) {
-            if (xhr.responseText !== '') {
-                result = true;
+        callbackFunc: function (response) {
+            if (type === 'process') {
+                let resultToJson = JSON.parse(response.responseText);
+                result = resultToJson.result;
+            } else {
+                if (response.responseText !== '') {
+                    result = true;
+                }
             }
         },
         contentType: 'application/json; charset=utf-8',
@@ -578,7 +583,7 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                     callbackFunc(result);
                 }
             } else {
-                aliceJs.alertDanger(i18n.msg('validation.msg.checkImportFormat'));
+                aliceAlert.alertDanger(i18n.msg('validation.msg.checkImportFormat'));
                 return false;
             }
         });

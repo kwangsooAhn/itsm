@@ -52,7 +52,7 @@ class WfProcessService(
     /**
      * 프로세스 목록 조회
      */
-    fun selectProcessList(parameters: LinkedHashMap<String, Any>): MutableList<RestTemplateProcessViewDto> {
+    fun getProcesses(parameters: LinkedHashMap<String, Any>): MutableList<RestTemplateProcessViewDto> {
         var search = ""
         var status = listOf<String>()
         var offset: Long? = null

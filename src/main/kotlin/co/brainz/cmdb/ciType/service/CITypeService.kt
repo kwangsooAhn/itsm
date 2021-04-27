@@ -10,10 +10,17 @@ import co.brainz.cmdb.ciClass.repository.CIClassRepository
 import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.repository.CITypeRepository
-import co.brainz.cmdb.provider.dto.CITypeDto
-import co.brainz.cmdb.provider.dto.CITypeListDto
+import co.brainz.cmdb.dto.CITypeDto
+import co.brainz.cmdb.dto.CITypeListDto
+import co.brainz.cmdb.dto.CITypeReturnDto
+import co.brainz.cmdb.dto.CITypeTreeListDto
+import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
 import com.querydsl.core.QueryResults
+import java.io.File
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -21,22 +28,50 @@ import org.springframework.stereotype.Service
 class CITypeService(
     private val ciTypeRepository: CITypeRepository,
     private val ciClassRepository: CIClassRepository,
-    private val aliceUserRepository: AliceUserRepository
+    private val aliceUserRepository: AliceUserRepository,
+    private val aliceFileProvider: AliceFileProvider
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
+     * CMDB Type 목록 조회
+     */
+    fun getCITypes(parameters: LinkedHashMap<String, Any>): CITypeReturnDto {
+        var search: String? = null
+        var offset: Long? = null
+        var limit: Long? = null
+        if (parameters["search"] != null) search = parameters["search"].toString()
+        if (parameters["offset"] != null) offset = parameters["offset"] as Long?
+        if (parameters["limit"] != null) limit = parameters["limit"] as Long?
+        val searchDto = SearchDto(
+            search = search,
+            offset = offset,
+            limit = limit
+        )
+        val ciTypes = ciTypeRepository.findTypeList(searchDto)
+        return CITypeReturnDto(
+            data = ciTypes.results,
+            totalCount = ciTypes.total
+        )
+    }
+
+    /**
+     * CMDB Type 단일 목록 조회
+     */
+    fun getCIType(typeId: String): CITypeListDto? {
+        return ciTypeRepository.findType(typeId)
+    }
+
+    /**
      *  CMDB Type 트리 조회
      */
-    fun getCITypes(parameters: LinkedHashMap<String, Any>): List<CITypeListDto> {
+    fun getCITypesTree(parameters: LinkedHashMap<String, Any>): CITypeTreeReturnDto {
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
-        val treeTypeList = mutableListOf<CITypeListDto>()
+        val treeTypeList = mutableListOf<CITypeTreeListDto>()
         val queryResults: QueryResults<CITypeEntity> = ciTypeRepository.findByTypeList(search)
         val returnList: List<CITypeEntity>
-        var count = 0L
         var typeSearchList = queryResults.results
-
         val pTypeList = mutableListOf<CITypeEntity>()
         for (type in typeSearchList) {
             var tempType = type.pType
@@ -51,12 +86,12 @@ class CITypeService(
             typeSearchList.addAll(pTypeList)
             typeSearchList = typeSearchList.distinct()
         }
-        count = queryResults.total
+        val count: Long = queryResults.total
         returnList = typeSearchList
 
         for (typeEntity in returnList) {
             treeTypeList.add(
-                CITypeListDto(
+                CITypeTreeListDto(
                     typeId = typeEntity.typeId,
                     typeName = typeEntity.typeName,
                     typeDesc = typeEntity.typeDesc,
@@ -65,19 +100,22 @@ class CITypeService(
                     pTypeId = typeEntity.pType?.typeId,
                     pTypeName = typeEntity.pType?.typeName,
                     typeIcon = typeEntity.typeIcon,
+                    typeIconData = typeEntity.typeIcon?.let { getCITypeImageData(typeEntity.typeIcon) },
                     defaultClassId = typeEntity.defaultClass.classId,
-                    defaultClassName = typeEntity.defaultClass.className,
-                    totalCount = count
+                    defaultClassName = typeEntity.defaultClass.className
                 )
             )
         }
-        return treeTypeList
+        return CITypeTreeReturnDto(
+            data = treeTypeList,
+            totalCount = count
+        )
     }
 
     /**
-     *  CMDB Type 단일 조회
+     *  CMDB Type 상세 조회
      */
-    fun getCIType(typeId: String): CITypeDto {
+    fun getCITypeDetail(typeId: String): CITypeDto {
         val typeDetailEntity = ciTypeRepository.findById(typeId).get()
         return CITypeDto(
             typeId = typeDetailEntity.typeId,
@@ -88,8 +126,13 @@ class CITypeService(
             pTypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId },
             pTypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
             typeIcon = typeDetailEntity.typeIcon,
+            typeIconData = typeDetailEntity.typeIcon?.let { getCITypeImageData(typeDetailEntity.typeIcon) },
             defaultClassId = typeDetailEntity.defaultClass.classId,
-            defaultClassName = typeDetailEntity.defaultClass.className
+            defaultClassName = typeDetailEntity.defaultClass.className,
+            createDt = typeDetailEntity.createDt,
+            createUserKey = typeDetailEntity.createUser?.userKey,
+            updateDt = typeDetailEntity.updateDt,
+            updateUserKey = typeDetailEntity.updateUser?.userKey
         )
     }
 
@@ -97,7 +140,7 @@ class CITypeService(
      *  CMDB Type 등록
      */
     fun createCIType(ciTypeDto: CITypeDto): Boolean {
-        var typeLevel = 0
+        val typeLevel: Int
         lateinit var parentTypeEntity: CITypeEntity
 
         if (ciTypeDto.pTypeId.isNullOrEmpty()) {
@@ -130,7 +173,7 @@ class CITypeService(
     /**
      *  CMDB Type 수정
      */
-    fun updateCIType(ciTypeDto: CITypeDto, typeId: String): Boolean {
+    fun updateCIType(typeId: String, ciTypeDto: CITypeDto): Boolean {
         val parentTypeEntity: CITypeEntity = ciTypeRepository.findById(ciTypeDto.pTypeId!!).get()
 
         val ciTypeEntity = CITypeEntity(
@@ -157,5 +200,19 @@ class CITypeService(
     fun deleteCIType(typeId: String): Boolean {
         ciTypeRepository.deleteById(typeId)
         return true
+    }
+
+    /**
+     * CI Type 아이콘 파일 읽어오기
+     *
+     * @param ciTypeIconName 저장되어 있는 CI Type 아이콘 파일 이름
+     * @return String 데이터화된 아이콘 이미지
+     */
+    fun getCITypeImageData(ciTypeIconName: String): String {
+        // todo #10536 아이콘 선택값이 없을 경우 기본 아이콘 처리
+        return when (ciTypeIconName != "") {
+            true -> aliceFileProvider.getDataUriSchema(FileConstants.Path.ICON_CI_TYPE.path + File.separator + ciTypeIconName)
+            false -> ""
+        }
     }
 }

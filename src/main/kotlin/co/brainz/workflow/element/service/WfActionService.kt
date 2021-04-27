@@ -89,7 +89,13 @@ class WfActionService(
      */
     private fun preActions(): MutableList<RestTemplateActionDto> {
         val preActions: MutableList<RestTemplateActionDto> = mutableListOf()
-        preActions.add(RestTemplateActionDto(name = "common.btn.save", value = WfElementConstants.Action.SAVE.value, customYn = false))
+        preActions.add(
+            RestTemplateActionDto(
+                name = "common.btn.save",
+                value = WfElementConstants.Action.SAVE.value,
+                customYn = false
+            )
+        )
         return preActions
     }
 
@@ -100,7 +106,13 @@ class WfActionService(
      */
     private fun closeActions(): MutableList<RestTemplateActionDto> {
         val closeActions: MutableList<RestTemplateActionDto> = mutableListOf()
-        closeActions.add(RestTemplateActionDto(name = "common.btn.close", value = WfElementConstants.Action.CLOSE.value, customYn = false))
+        closeActions.add(
+            RestTemplateActionDto(
+                name = "common.btn.close",
+                value = WfElementConstants.Action.CLOSE.value,
+                customYn = false
+            )
+        )
         return closeActions
     }
 
@@ -115,16 +127,42 @@ class WfActionService(
         val postActions: MutableList<RestTemplateActionDto> = mutableListOf()
         // 현재 element 속성에 회수, 반려가 존재할 경우
         element.elementDataEntities.forEach {
-            if (it.attributeId == WfElementConstants.AttributeId.WITHDRAW.value && it.attributeValue == WfElementConstants.AttributeValue.WITHDRAW_ENABLE.value) {
-                postActions.add(RestTemplateActionDto(name = "common.btn.withdraw", value = WfElementConstants.Action.WITHDRAW.value, customYn = false))
+            if (it.attributeId == WfElementConstants.AttributeId.WITHDRAW.value &&
+                it.attributeValue == WfElementConstants.AttributeValue.WITHDRAW_ENABLE.value
+            ) {
+                postActions.add(
+                    RestTemplateActionDto(
+                        name = "common.btn.withdraw",
+                        value = WfElementConstants.Action.WITHDRAW.value,
+                        customYn = false
+                    )
+                )
             }
             if (it.attributeId == WfElementConstants.AttributeId.REJECT_ID.value && it.attributeValue.isNotEmpty()) {
-                postActions.add(RestTemplateActionDto(name = "common.btn.reject", value = WfElementConstants.Action.REJECT.value, customYn = false))
+                postActions.add(
+                    RestTemplateActionDto(
+                        name = "common.btn.reject",
+                        value = WfElementConstants.Action.REJECT.value,
+                        customYn = false
+                    )
+                )
             }
         }
 
-        postActions.add(RestTemplateActionDto(name = "common.btn.cancel", value = WfElementConstants.Action.CANCEL.value, customYn = false))
-        postActions.add(RestTemplateActionDto(name = "common.btn.terminate", value = WfElementConstants.Action.TERMINATE.value, customYn = false))
+        postActions.add(
+            RestTemplateActionDto(
+                name = "common.btn.cancel",
+                value = WfElementConstants.Action.CANCEL.value,
+                customYn = false
+            )
+        )
+        postActions.add(
+            RestTemplateActionDto(
+                name = "common.btn.terminate",
+                value = WfElementConstants.Action.TERMINATE.value,
+                customYn = false
+            )
+        )
         logger.info("Make actions. {} ", postActions)
 
         return postActions
@@ -158,7 +196,8 @@ class WfActionService(
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                 // condition-item 값에 따라 action인지 condition인지 확인하여 arrowConnector 정보를 리턴한다.
                 val arrows =
-                    when (nextElement.getElementDataValue(WfElementConstants.AttributeId.CONDITION_ITEM.value) == WfElementConstants.AttributeValue.ACTION.value) {
+                    when (nextElement.getElementDataValue(WfElementConstants.AttributeId.CONDITION_ITEM.value)
+                            == WfElementConstants.AttributeValue.ACTION.value) {
                         true -> this.getArrowElements(nextElement.elementId)
                         false -> mutableListOf(arrow)
                     }
@@ -168,7 +207,13 @@ class WfActionService(
             }
         }
         if (typeActions.isEmpty()) {
-            typeActions.add(RestTemplateActionDto(name = "common.btn.process", value = WfElementConstants.Action.PROGRESS.value, customYn = false))
+            typeActions.add(
+                RestTemplateActionDto(
+                    name = "common.btn.process",
+                    value = WfElementConstants.Action.PROGRESS.value,
+                    customYn = false
+                )
+            )
         }
 
         return typeActions

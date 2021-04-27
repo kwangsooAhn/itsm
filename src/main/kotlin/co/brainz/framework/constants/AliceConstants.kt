@@ -111,15 +111,6 @@ object AliceConstants {
     const val EMAIL_CERTIFICATION_KEY_SIZE = 50
 
     /**
-     * 파일 타입.
-     */
-    enum class FileType(val code: String) {
-        IMAGE("image"),
-        ICON("icon"),
-        ICON_CI_TYPE("cmdb-icon")
-    }
-
-    /**
      * 알림 개수.
      */
     const val NOTIFICATION_SIZE = 50L

@@ -18,12 +18,12 @@
         <div class="notice-content-edit">
             <form id="frm" method="post">
                 <div class="flex-column edit-row">
-                    <label th:text="#{common.label.title}" for="noticeTitle"></label>
+                    <label th:text="#{common.label.title}" for="noticeTitle" class="required"></label>
                     <input type="text" id="noticeTitle" name="noticeTitle" th:value="${notice?.noticeTitle}"
                            maxlength="128"/>
                 </div>
                 <div class="flex-column edit-row">
-                    <label th:text="#{common.label.contents}" for="noticeContents"></label>
+                    <label th:text="#{common.label.contents}" for="noticeContents" class="required"></label>
                     <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11" class="textarea-scroll-wrapper"
                               th:text="${notice?.noticeContents}"></textarea>
                 </div>
@@ -51,12 +51,14 @@
                             <label th:text="#{notice.label.height}" for="popHeight"></label>
                             <input type="text" id="popHeight" name="popHeight" class="px"
                                    th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
-                                   oninput="maxLengthCheck(this)" />
+                                   onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"
+                                   oninput="maxLengthCheck(this)"/>
                         </div>
                         <div class="flex-column col-6">
                             <label th:text="#{notice.label.width}" for="popWidth"></label>
                             <input type="text" id="popWidth" name="popWidth" class="px"
                                    th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
+                                   onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"
                                    oninput="maxLengthCheck(this)" />
                         </div>
                     </div>
@@ -192,12 +194,6 @@
             return true;
         }
 
-        function maxLengthCheck(object) {
-            if (object.value.length > object.maxLength) {
-                object.value = object.value.slice(0, object.maxLength);
-            }
-        }
-
         function saveNotice(method) {
             if (!validation()) {
                 return false;
@@ -235,7 +231,7 @@
         }
 
         function deleteNotice() {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/notices/' + [[${notice?.noticeNo}]]);
+            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/notices/' + [[${notice?.noticeNo}]]);
         }
 
         function restSubmit(method, url, data) {
@@ -246,19 +242,19 @@
                 contentType: 'application/json',
                 callbackFunc: function() {
                     if (method === 'post') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.register'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.register'), function () {
                             window.location.href = '/notices/search';
                         });
                     } else if (method === 'put') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.modify'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.modify'), function () {
                             window.location = '/notices/search';
                         });
                     } else if (method === 'delete') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                             window.location = '/notices/search';
                         });
                     } else {
-                        aliceJs.alertWarning(i18n.msg('common.msg.fail'));
+                        aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
                     }
                 }
             };

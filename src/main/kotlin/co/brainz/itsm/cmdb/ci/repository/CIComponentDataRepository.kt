@@ -29,4 +29,6 @@ interface CIComponentDataRepository : JpaRepository<CIComponentDataEntity, Strin
     ): CIComponentDataEntity?
 
     fun findByInstanceId(instanceId: String): List<CIComponentDataEntity>?
+
+    fun findByInstanceIdIn(instanceIds: MutableList<String>): List<CIComponentDataEntity>?
 }

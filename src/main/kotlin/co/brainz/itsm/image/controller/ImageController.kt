@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/images")
-class ImageController() {
+class ImageController {
 
     private val imageListPage: String = "image/imageList"
 

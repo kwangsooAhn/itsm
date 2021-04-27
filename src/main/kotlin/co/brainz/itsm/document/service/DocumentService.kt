@@ -6,6 +6,8 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.form.service.FormAdminService
 import co.brainz.itsm.process.service.ProcessAdminService
@@ -19,18 +21,18 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
+import java.io.File
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
 
 @Service
 class DocumentService(
     private val formAdminService: FormAdminService,
     private val processAdminService: ProcessAdminService,
-    private val wfDocumentService: WfDocumentService
+    private val wfDocumentService: WfDocumentService,
+    private val aliceFileProvider: AliceFileProvider
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -38,11 +40,10 @@ class DocumentService(
     /**
      * 신청서 리스트 조회.
      *
-     * @return List<DocumentDto>
+     * @return List<RestTemplateDocumentListDto>
      */
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
             List<RestTemplateDocumentListDto> {
-        val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
         // 업무흐름을 관리하는 사용자라면 신청서 상태가 임시, 사용을 볼 수가 있다.
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         if (aliceUserDto.grantedAuthorises != null) {
@@ -53,11 +54,13 @@ class DocumentService(
             }
         }
         val documentList = wfDocumentService.documents(restTemplateDocumentSearchListDto)
+
         for (document in documentList) {
-            if (document.documentIcon.isNullOrEmpty()) {
-                document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
-            }
+            if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
+            document.documentIcon =
+                aliceFileProvider.getDataUriSchema(FileConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon)
         }
+
         return documentList
     }
 
@@ -66,14 +69,9 @@ class DocumentService(
      *
      * @return List<DocumentDto>
      */
-    fun getDocumentAll(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
-        val documentList = wfDocumentService.allDocuments(restTemplateDocumentSearchListDto)
-        for (document in documentList) {
-            if (document.documentIcon.isNullOrEmpty()) {
-                document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
-            }
-        }
-        return documentList
+    fun getDocumentAll(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
+            List<RestTemplateDocumentDto> {
+        return wfDocumentService.allDocuments(restTemplateDocumentSearchListDto)
     }
 
     /**
