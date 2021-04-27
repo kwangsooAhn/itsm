@@ -1,0 +1,223 @@
+@import "../template/_buttons.scss";
+
+// header button
+.btn-header {
+  width: 3.75rem; // 60px
+  height: 3.125rem; // 50px
+  padding: 0;
+  border-radius: 0;
+
+  // 첫번째 버튼만 구분자를 가리기 위해 구분자 너비만큼 margin을 -1px 로 조정한다.
+  &:first-of-type {
+    margin-left: -0.063rem; // -1px
+  }
+
+  // mouse over and pressed
+  &:focus,
+  &:hover,
+  &:active {
+    background-color: #26A7FF;
+  }
+
+  .icon-save {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_save.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white); // 20px 20px
+  }
+  .icon-save-as {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_save_as.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px
+  }
+  .icon-undo {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_undo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px
+  }
+  .icon-redo {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_redo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px
+  }
+  .icon-preview {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_preview.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px
+  }
+}
+
+// clipboard tooltip button
+.btn-clipboard-tooltip {
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
+  padding: 0;
+
+  .icon-clipboard {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, $pressed-gray); // 20px 20px
+  }
+}
+
+// button switch group
+.btn-switch-group {
+  display: inline-flex;
+  flex-direction: row;
+  vertical-align: middle;
+
+  .btn-switch {
+    flex: 1 1 auto;
+    min-width: 48px; // 48px
+    height: 2.5rem; // 40px
+    padding: 0;
+    font-size: $btn-switch-font-size;
+    font-weight: $btn-switch-font-weight;
+    color: $btn-switch-font-color;
+    background-color: $btn-switch-bg-color;
+    border: $btn-switch-border;
+    border-radius: $btn-switch-border-radius;
+    // if icon exist
+    .icon {
+      display: inline-block;
+      background: $btn-switch-font-color;
+      vertical-align: middle;
+      pointer-events: none;
+
+      &.icon-align-left {
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_left.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+      }
+      &.icon-align-center {
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_center.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+      }
+      &.icon-align-right {
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_right.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+      }
+      &.icon-position-left {
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_left.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+      }
+      &.icon-position-top {
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_top.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+      }
+      &.icon-position-hidden {
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_hidden.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+      }
+    }
+    // if text exist
+    .text { pointer-events: none; }
+
+    &:focus,
+    &:hover {
+      color: $btn-switch-hover-font-color;
+      background-color: $btn-switch-hover-bg-color;
+      border-color: $btn-switch-hover-border-color;
+
+      .icon { background: $btn-switch-hover-font-color; }
+    }
+
+    &:not(:disabled) {
+      &:active,
+      &.active { // pressed
+        color: $btn-switch-pressed-font-color;
+        background-color: $btn-switch-pressed-bg-color;
+        border-color: $btn-switch-pressed-border-color;
+        z-index: $z-index-event;
+
+        .icon { background: $btn-switch-pressed-font-color; }
+      }
+    }
+
+    &:disabled {
+      color: $btn-switch-disabled-font-color;
+      background-color: $btn-switch-disabled-bg-color;
+      border-color: $btn-switch-disabled-border-color;
+
+      .icon { background: $btn-switch-disabled-font-color; }
+    }
+  }
+
+  // 양 끝 테두리 둥글게
+  .btn-switch:not(:first-child) {
+    margin-left: -$btn-switch-border-width;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .btn-switch:not(:last-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+// button toggle group
+.btn-toggle-group {
+  display: inline-flex;
+  flex-direction: row;
+  vertical-align: middle;
+
+  .btn-toggle {
+    flex: 1 1 auto;
+    min-width: 48px; // 48px
+    height: 2.5rem; // 40px
+    padding: 0;
+    font-size: $btn-toggle-font-size;
+    font-weight: $btn-toggle-font-weight;
+    color: $btn-toggle-font-color;
+    background-color: $btn-toggle-bg-color;
+    border: $btn-toggle-border;
+    border-radius: $btn-toggle-border-radius;
+    // if icon exist
+    .icon {
+      display: inline-block;
+      background: $btn-toggle-font-color;
+      vertical-align: middle;
+      pointer-events: none;
+
+      &.icon-bold {
+        @include maskImage('#{$icon-folder-path}form/property/icon_bold.svg', 16px, 20px, no-repeat, center, null, $light-black); // 16px 20px
+      }
+      &.icon-italic {
+        @include maskImage('#{$icon-folder-path}form/property/icon_italic.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+      }
+      &.icon-underline {
+        @include maskImage('#{$icon-folder-path}form/property/icon_underline.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+      }
+    }
+    // if text exist
+    .text { pointer-events: none; }
+
+    &:focus,
+    &:hover {
+      color: $btn-toggle-hover-font-color;
+      background-color: $btn-toggle-hover-bg-color;
+      border-color: $btn-toggle-hover-border-color;
+
+      .icon { background: $btn-toggle-hover-font-color; }
+    }
+
+    &:not(:disabled) {
+      &:active,
+      &.active { // pressed
+        color: $btn-toggle-pressed-font-color;
+        background-color: $btn-toggle-pressed-bg-color;
+        border-color: $btn-toggle-pressed-border-color;
+        z-index: $z-index-event;
+
+        .icon { background: $btn-toggle-pressed-font-color; }
+      }
+    }
+
+    &:disabled {
+      color: $btn-toggle-disabled-font-color;
+      background-color: $btn-toggle-disabled-bg-color;
+      border-color: $btn-toggle-disabled-border-color;
+
+      .icon { background: $btn-toggle-disabled-font-color; }
+    }
+  }
+
+  // 양 끝 테두리 둥글게
+  .btn-toggle:not(:first-child) {
+    margin-left: -$btn-toggle-border-width;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .btn-toggle:not(:last-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}

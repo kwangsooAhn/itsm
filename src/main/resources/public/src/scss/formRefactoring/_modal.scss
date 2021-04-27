@@ -1,0 +1,21 @@
+@import '../template/_modal.scss';
+
+.modal-dialog {
+  // 폼 다른이름으로 저장하기 모달
+  &.save-as {
+    .modal-content {
+      height: calc(#{$save-as-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem; // 10px 20px
+      @include scrollbarHidden;
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
+      .textarea-scroll-wrapper {
+        resize: none;
+      }
+    }
+  }
+}

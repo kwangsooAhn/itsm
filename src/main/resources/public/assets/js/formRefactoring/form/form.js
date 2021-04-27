@@ -1,0 +1,352 @@
+/**
+ * Form Class.
+ *
+ * 폼은 1개, 혹은 그 이상의 Group으로 구성된다.
+ *
+ * @author woodajung wdj@brainz.co.kr
+ * @version 1.0
+ *
+ * Copyright 2021 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+import * as util from '../lib/util.js';
+import * as mixin from '../lib/mixins.js';
+import { UIDiv } from '../lib/ui.js';
+import { CLASS_PREFIX, UNIT, FORM } from '../lib/constants.js';
+
+export default class Form {
+    constructor(data = {}) {
+        this.type = 'form';
+        this.id =  data.id || workflowUtil.generateUUID();
+        this.parent = null;        // 부모 객체
+        this.children = [];        // 자식 객체
+        this.displayOrder = 0;     // 표시 순서
+        this.name = data.name || '';
+        this.desc = data.desc || '';
+        this.status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
+        this.width = data.width || '905';
+        this.margin = data.margin || '60 0 60 0';
+        this.padding = data.padding || '15 15 15 15';
+        this.category = data.category || 'process'; // process | cmdb
+
+        // Control Mixin import
+        util.importMixin(this, mixin.controlMixin);
+
+        this.init();
+    }
+    // 초기화
+    init() {
+        const formCssText = `width:${this.width + UNIT.PX};` +
+            `margin:${this.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};` +
+            `padding:${this.padding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`;
+
+        this.UIElement = new UIForm()
+            .setUIId(this.id)
+            .setUICSSText(formCssText);
+    }
+
+    setName(name) {
+        this.name = name;
+        if (typeof this.parent.setFormName === 'function') {
+            this.parent.setFormName(name);
+        }
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    setDesc(desc) {
+        this.desc = desc;
+    }
+
+    getDesc() {
+        return this.desc;
+    }
+
+    setStatus(status) {
+        this.status = status;
+    }
+
+    getStatus() {
+        return this.status;
+    }
+
+    setWidth(width) {
+        this.width = width;
+        this.UIElement.setUIWidth(this.width + UNIT.PX);
+    }
+
+    getWidth() {
+        return this.width;
+    }
+
+    setMarginTop(top) {
+        const margin = this.margin.split(' ');
+        margin[0] = top;
+        this.margin = margin.join(' ');
+        this.UIElement.setUIMarginTop(top + UNIT.PX);
+    }
+
+    getMarginTop() {
+        const margin = this.margin.split(' ');
+        return margin[0];
+    }
+
+    setMarginRight(right) {
+        const margin = this.margin.split(' ');
+        margin[1] = right;
+        this.margin = margin.join(' ');
+        this.UIElement.setUIMarginRight(right + UNIT.PX);
+    }
+
+    getMarginRight() {
+        const margin = this.margin.split(' ');
+        return margin[1];
+    }
+
+    setMarginBottom(bottom) {
+        const margin = this.margin.split(' ');
+        margin[2] = bottom;
+        this.margin = margin.join(' ');
+        this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
+    }
+
+    getMarginBottom() {
+        const margin = this.margin.split(' ');
+        return margin[2];
+    }
+
+    setMarginLeft(left) {
+        const margin = this.margin.split(' ');
+        margin[3] = left;
+        this.margin = margin.join(' ');
+        this.UIElement.setUIMarginLeft(left + UNIT.PX);
+    }
+
+    getMarginLeft() {
+        const margin = this.margin.split(' ');
+        return margin[3];
+    }
+
+    setPaddingTop(top) {
+        const padding = this.padding.split(' ');
+        padding[0] = top;
+        this.padding = padding.join(' ');
+        this.UIElement.setUIPaddingTop(top + UNIT.PX);
+    }
+
+    getPaddingTop() {
+        const padding = this.padding.split(' ');
+        return padding[0];
+    }
+
+    setPaddingRight(right) {
+        const padding = this.padding.split(' ');
+        padding[1] = right;
+        this.padding = padding.join(' ');
+        this.UIElement.setUIPaddingRight(right + UNIT.PX);
+    }
+
+    getPaddingRight() {
+        const padding = this.padding.split(' ');
+        return padding[1];
+    }
+
+    setPaddingBottom(bottom) {
+        const padding = this.padding.split(' ');
+        padding[2] = bottom;
+        this.padding = padding.join(' ');
+        this.UIElement.setUIPaddingBottom(bottom + UNIT.PX);
+    }
+
+    getPaddingBottom() {
+        const padding = this.padding.split(' ');
+        return padding[2];
+    }
+
+    setPaddingLeft(left) {
+        const padding = this.padding.split(' ');
+        padding[3] = left;
+        this.padding = padding.join(' ');
+        this.UIElement.setUIPaddingLeft(padding + UNIT.PX);
+    }
+
+    getPaddingLeft() {
+        const padding = this.padding.split(' ');
+        return padding[3];
+    }
+    // 세부 속성
+    getProperty() {
+        // 기존 데이터 속성과 패널에 표시되는 기본 속성을 merge 한 후, 조회한다.
+        const PANEL_PROPERTIES = {
+            'id': {
+                'name': 'form.properties.id',
+                'type': 'clipboard',
+                'unit': '',
+                'help': '',
+                'columnWidth': '12',
+                'validate': {
+                    'required': false,
+                    'type': '',
+                    'max': '',
+                    'min': '',
+                    'maxLength': '',
+                    'minLength': ''
+                }
+            },
+            'name': {
+                'name': 'form.properties.name',
+                'type': 'input',
+                'unit': '',
+                'help': '',
+                'columnWidth': '12',
+                'validate': {
+                    'required': true,
+                    'type': '',
+                    'max': '',
+                    'min': '',
+                    'maxLength': '128',
+                    'minLength': ''
+                }
+            },
+            'desc': {
+                'name': 'form.properties.desc',
+                'type': 'textarea',
+                'unit': '',
+                'help': '',
+                'columnWidth': '12',
+                'validate': {
+                    'required': false,
+                    'type': '',
+                    'max': '',
+                    'min': '',
+                    'maxLength': '512',
+                    'minLength': ''
+                }
+            },
+            'status': {
+                'name': 'form.properties.status',
+                'type': 'select',
+                'unit': '',
+                'help': '',
+                'columnWidth': '12',
+                'validate': {
+                    'required': false,
+                    'type': '',
+                    'max': '',
+                    'min': '',
+                    'maxLength': '',
+                    'minLength': ''
+                },
+                'option': [
+                    { 'name': 'form.status.edit', 'value': 'form.status.edit' },
+                    { 'name': 'form.status.publish', 'value': 'form.status.publish' },
+                    { 'name': 'form.status.use', 'value': 'form.status.use' },
+                    { 'name': 'form.status.destroy', 'value': 'form.status.destroy'}
+                ]
+            },
+            'width': {
+                'name': 'form.properties.width',
+                'type': 'input',
+                'unit': 'px',
+                'help': '',
+                'columnWidth': '12',
+                'validate': {
+                    'required': true,
+                    'type': 'number',
+                    'max': '8192',
+                    'min': '0',
+                    'maxLength': '',
+                    'minLength': ''
+                }
+            },
+            'margin': {
+                'name': 'form.properties.margin',
+                'type': 'input-box',
+                'unit': 'px',
+                'help': '',
+                'columnWidth': '12',
+                'validate': {
+                    'required': false,
+                    'type': 'number',
+                    'max': '100',
+                    'min': '0',
+                    'maxLength': '',
+                    'minLength': ''
+                }
+            },
+            'padding': {
+                'name': 'form.properties.padding',
+                'type': 'input-box',
+                'unit': 'px',
+                'help': '',
+                'columnWidth': '12',
+                'validate': {
+                    'required': false,
+                    'type': 'number',
+                    'max': '100',
+                    'min': '0',
+                    'maxLength': '',
+                    'minLength': ''
+                }
+            }
+        };
+        return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
+            property[key] = Object.assign(value, { 'value': this[key] });
+            return property;
+        }, {});
+    }
+
+    /**
+     * 현재 객체를 대상이 되는 객체로 변경 (복사) 하여 반환한다
+     * @param source 대상 객체
+     * @param flag 객체의 키가 되는 id도 복제할지 여부 (true이면 id도 복제됨)
+     */
+    copy(source, flag) {
+        this.type = source.type;
+        this.displayOrder = source.displayOrder;
+        this.name = source.name;
+        this.desc = source.desc;
+        this.status = source.status;
+        this.width = source.width;
+        this.margin = source.margin;
+        this.padding = source.padding;
+        this.category = source.category;
+        this.parent = source.parent;
+        if (flag) { this.id = source.id; }
+
+        this.init();
+
+        source.children.forEach((child, index) =>{
+            this.add(child.clone(flag), index);
+        });
+        return this;
+    }
+    // json 데이터 추출
+    toJson() {
+        const groups = [];
+        for (let i = 0; i < this.children.length; i ++) {
+            const child = this.children[i];
+            groups.push(child.toJson());
+        }
+        return {
+            id: this.id,
+            name: this.name,
+            desc: this.desc,
+            status: this.status,
+            width: this.width,
+            margin: this.margin,
+            padding: this.padding,
+            category: this.category,
+            groups: groups
+        };
+    }
+}
+
+export class UIForm extends UIDiv {
+    constructor() {
+        super();
+        this.domElement.className = CLASS_PREFIX + FORM.LAYOUT.FORM;
+    }
+}
