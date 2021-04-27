@@ -13,5 +13,6 @@ data class CodeDetailDto(
     var codeDesc: String? = null,
     var editable: Boolean? = true,
     var level: Int? = null,
-    var seqNum: Int? = null
+    var seqNum: Int? = null,
+    var codeLang: String? = null
 ) : Serializable

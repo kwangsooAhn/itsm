@@ -11,7 +11,12 @@ import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.dto.CodeReturnDto
 import co.brainz.itsm.code.entity.CodeEntity
+import co.brainz.itsm.code.entity.CodeLangEntity
+import co.brainz.itsm.code.entity.CodeLangEntityPk
+import co.brainz.itsm.code.repository.CodeLangRepository
 import co.brainz.itsm.code.repository.CodeRepository
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import com.querydsl.core.QueryResults
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
@@ -19,7 +24,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class CodeService(
-    private val codeRepository: CodeRepository
+    private val codeRepository: CodeRepository,
+    private val codeLangRepository: CodeLangRepository
 ) {
 
     fun selectCodeByParent(code: Any): MutableList<CodeDto> {
@@ -129,8 +135,14 @@ class CodeService(
      * 코드 데이터 상세 정보 조회
      */
     fun getDetailCodes(code: String): CodeDetailDto? {
+        val codeDetailDto = codeRepository.findCodeDetail(code)
+        val codeLangList = codeRepository.findByCodeLangList(code)
+
+        if (codeLangList.isNotEmpty()) {
+            codeDetailDto.codeLang = Gson().toJson(codeLangList)
+        }
+
         return try {
-            val codeDetailDto = codeRepository.findCodeDetail(code)
             codeDetailDto
         } catch (e: EmptyResultDataAccessException) {
             null
@@ -165,6 +177,20 @@ class CodeService(
             }
             codeRepository.save(codeEntity)
         }
+
+        if (!codeDetailDto.codeLang.isNullOrEmpty()) {
+            val codeLangObject = JsonParser().parse(codeDetailDto.codeLang).asJsonObject
+            codeLangObject.entrySet().forEach { codeLang ->
+                codeLangRepository.save(
+                    CodeLangEntity(
+                        code = codeDetailDto.code,
+                        codeValue = codeLang.value.asString,
+                        lang = codeLang.key
+                    )
+                )
+            }
+        }
+
         return status
     }
 
@@ -198,6 +224,29 @@ class CodeService(
                 status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
             }
         }
+
+        val codeLangList = codeRepository.findByCodeLangList(codeDetailDto.code)
+        if (codeLangList.isNotEmpty()) {
+            for (codeLangDto in codeLangList) {
+                codeLangRepository.deleteById(
+                    CodeLangEntityPk(codeLangDto.code, codeLangDto.lang)
+                )
+            }
+        }
+
+        if (!codeDetailDto.codeLang.isNullOrEmpty()) {
+            val codeLangObject = JsonParser().parse(codeDetailDto.codeLang).asJsonObject
+            codeLangObject.entrySet().forEach { codeLang ->
+                codeLangRepository.save(
+                    CodeLangEntity(
+                        code = codeDetailDto.code,
+                        codeValue = codeLang.value.asString,
+                        lang = codeLang.key
+                    )
+                )
+            }
+        }
+
         return status
     }
 
@@ -206,6 +255,15 @@ class CodeService(
      */
     fun deleteCode(code: String): String {
         var status = CodeConstants.Status.STATUS_SUCCESS.code
+        var codeLangList = codeRepository.findByCodeLangList(code)
+
+        if (codeLangList.isNotEmpty()) {
+            for (codeLangDto in codeLangList) {
+                codeLangRepository.deleteById(
+                    CodeLangEntityPk(codeLangDto.code, codeLangDto.lang)
+                )
+            }
+        }
 
         when (codeRepository.existsByPCodeAndEditableTrue(
             codeRepository.findById(code).orElse(CodeEntity(code = code))

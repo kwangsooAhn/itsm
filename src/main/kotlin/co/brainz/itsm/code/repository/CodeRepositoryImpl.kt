@@ -14,6 +14,7 @@ import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.code.entity.QCodeLangEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
@@ -100,7 +101,8 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                     code.codeDesc,
                     code.editable,
                     code.level,
-                    code.seqNum
+                    code.seqNum,
+                    Expressions.asString("")
                 )
             )
             .where(code.code.eq(search))

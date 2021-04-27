@@ -68,12 +68,12 @@
                 </div>
                 <div class="edit-row flex-column">
                     <div class="under-bar">
-                        <label th:text="#{code.label.langCode}"></label>
-                        <button type="button" class="default-line plus float-right" onclick="addLangCode()">
+                        <label th:text="#{code.label.codeLang}"></label>
+                        <button type="button" class="default-line plus float-right" onclick="drawCodeLang()">
                             <span class="icon-plus"></span>
                         </button>
                     </div>
-                    <div id="langCode"></div>
+                    <div id="codeLang"></div>
                 </div>
             </div>
         </div>
@@ -157,6 +157,7 @@
                         document.getElementById('txtCodeValue').value = responseJson.codeValue;
                         document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
                         document.getElementById('txtSeqNum').value = responseJson.seqNum;
+                        initCodeLang(responseJson.codeLang);
                         if (CODE_CREATE) {
                             document.querySelector('#btnRegist').style.display = 'none';
                         }
@@ -264,27 +265,29 @@
                 return false;
             }
 
-            const langCodeList = document.querySelectorAll('input[name=langCodeValue]');
-            for (let i = 0; i < langCodeList.length; i++) {
-                if (langCodeList[i].value === "") {
-                    aliceAlert.alertWarning(i18n.msg('code.msg.enterLangCodeValue'));
+            const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
+            for (let i = 0; i < codeLangList.length; i++) {
+                if (codeLangList[i].value === "") {
+                    aliceAlert.alertWarning(i18n.msg('code.msg.entercodeLangValue'));
                     return false;
                 }
             }
 
-            let langCodeData = {};
-            let divLang = document.getElementById('langCode').childNodes;
+            let codeLangData = {};
+            let divLang = document.getElementById('codeLang').childNodes;
             for (let i = 0; i < divLang.length; i++) {
                 const selectValue = divLang[i].getElementsByTagName('select')[0].value;
-                const langCodeValue = divLang[i].getElementsByTagName('input')[0].value;
-                if (typeof langCodeData[selectValue] === 'undefined') {
-                    langCodeData[selectValue] = langCodeValue;
+                const codeLangValue = divLang[i].getElementsByTagName('input')[0].value;
+                if (typeof codeLangData[selectValue] === 'undefined') {
+                    codeLangData[selectValue] = codeLangValue;
                 } else {
                     aliceAlert.alertWarning(i18n.msg('code.msg.selectNotDuplicateLang'));
                     return false;
                 }
             }
-            jsonData.langCodeList = langCodeData;
+            if (divLang.length != 0) {
+                jsonData.codeLang = JSON.stringify(codeLangData);
+            }
 
             let url = '/rest/codes';
             if (method !== 'post') {
@@ -353,7 +356,7 @@
         }
 
         /** 다국어 코드 등록 **/
-        function addLangCode(param) {
+        function drawCodeLang(param) {
             const divRow = document.createElement('div');
             divRow.classList.add('flex-row', 'edit-row');
 
@@ -369,24 +372,25 @@
                 const selectOption = document.createElement('option');
                 selectOption.value = langList[i].codeValue;
                 selectOption.text = langList[i].codeValue;
+                selectOption.selected = (typeof param !== 'undefined') ? (param.lang === selectOption.value) : '';
                 langSelect.appendChild(selectOption);
             }
             divLang.appendChild(langLabel);
             divLang.appendChild(langSelect);
 
             /** codeValue **/
-            const divLangCodeValue = document.createElement('div');
-            divLangCodeValue.classList.add('edit-column', 'flex-column', 'flex-fill');
-            const langCodeValueLabel = document.createElement('label');
-            langCodeValueLabel.classList.add('required');
-            langCodeValueLabel.textContent = i18n.msg('code.label.codeValue');
-            const langCodeValueInput = document.createElement('input');
-            langCodeValueInput.type = 'text';
-            langCodeValueInput.name = 'langCodeValue';
-            langCodeValueInput.maxLength = 100;
-            langCodeValueInput.value = (typeof param !== 'undefined') ? param.value : '';
-            divLangCodeValue.appendChild(langCodeValueLabel);
-            divLangCodeValue.appendChild(langCodeValueInput);
+            const divcodeLangValue = document.createElement('div');
+            divcodeLangValue.classList.add('edit-column', 'flex-column', 'flex-fill');
+            const codeLangValueLabel = document.createElement('label');
+            codeLangValueLabel.classList.add('required');
+            codeLangValueLabel.textContent = i18n.msg('code.label.codeValue');
+            const codeLangValueInput = document.createElement('input');
+            codeLangValueInput.type = 'text';
+            codeLangValueInput.name = 'codeLangValue';
+            codeLangValueInput.maxLength = 100;
+            codeLangValueInput.value = (typeof param !== 'undefined') ? param.codeLangValue : '';
+            divcodeLangValue.appendChild(codeLangValueLabel);
+            divcodeLangValue.appendChild(codeLangValueInput);
 
             /** delete Btn**/
             const deleteBtn = document.createElement('button');
@@ -400,9 +404,24 @@
             });
 
             divRow.appendChild(divLang);
-            divRow.appendChild(divLangCodeValue);
+            divRow.appendChild(divcodeLangValue);
             divRow.appendChild(deleteBtn);
-            document.getElementById('langCode').appendChild(divRow);
+            document.getElementById('codeLang').appendChild(divRow);
+        }
+
+        function initCodeLang(param) {
+            const divCodeLang = document.getElementById('codeLang');
+            while (divCodeLang.hasChildNodes()) {
+                divCodeLang.removeChild(divCodeLang.firstChild);
+            }
+            if (param !== '') {
+                const codeLang = JSON.parse(param);
+                if (codeLang !== null) {
+                    for (let index in codeLang) {
+                        drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeLangValue});
+                    }
+                }
+            }
         }
 
         /*]]>*/
