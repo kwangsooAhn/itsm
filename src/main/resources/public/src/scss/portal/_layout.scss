@@ -35,13 +35,13 @@
 }
 
 .portal-container {
-  @include containerTemplate;
+  @include container;
   width: 100vw;
   height: 100vh;
   overflow: auto;
 
   .header {
-    @include fixedHeaderTemplate;
+    @include fixedHeader;
     max-width: 120rem;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
@@ -60,7 +60,7 @@
   }
   // 포탈 메인
   .main {
-    @include fixedContainerTemplate;
+    @include fixedContainer;
     max-width: 120rem;
     margin: 0 auto;
 
@@ -174,7 +174,7 @@
   // FAQ
   .faq {
     &-header {
-      @include portalHeaderTemplate;
+      @include portalHeader;
       .faq-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
@@ -259,7 +259,7 @@
   // 자료실
   .download {
     &-header {
-      @include portalHeaderTemplate;
+      @include portalHeader;
       .download-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
@@ -272,7 +272,7 @@
   // 공지사항
   .notice {
     &-header {
-      @include portalHeaderTemplate;
+      @include portalHeader;
       .notice-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {

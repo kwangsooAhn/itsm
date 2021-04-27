@@ -9,10 +9,10 @@
  */
 // 폼 양식
 .form-container {
-  @include containerTemplate;
+  @include container;
 
   .form-header {
-    @include fixedHeaderTemplate;
+    @include fixedHeader;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
@@ -33,7 +33,7 @@
   }
 
   .form-main {
-    @include fixedContainerTemplate;
+    @include fixedContainer;
     background-color: $layout-main-bg-color;
     @include scrollbarHidden;
 

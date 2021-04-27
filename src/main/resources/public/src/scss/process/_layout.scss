@@ -11,11 +11,11 @@
 
 .process {
   &-container {
-    @include containerTemplate;
+    @include container;
   }
   // header
   &-header {
-    @include fixedHeaderTemplate;
+    @include fixedHeader;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
@@ -48,7 +48,7 @@
   }
   // main
   &-main {
-    @include fixedContainerTemplate;
+    @include fixedContainer;
     left: $layout-element-palette-width;
     overflow: hidden;
 

@@ -1,5 +1,5 @@
 // todo: layout 내 mixin 이름 refactoring
-@mixin headerTemplate() {
+@mixin header {
   .header-title {
     padding: 1.563rem 0px 3.875rem 0px; // 25px 0px 62px 0px
     .description { margin-left: 0.625rem; } // 10px
@@ -11,7 +11,7 @@
   }
 }
 
-@mixin fixedHeaderTemplate {
+@mixin fixedHeader {
   position: fixed;
   top:0;
   left:0;
@@ -21,18 +21,103 @@
   align-items: center;
 }
 
-@mixin containerTemplate {
+@mixin container {
   max-width: 120rem;
   margin: 0 auto;
 }
 
-@mixin fixedContainerTemplate {
+@mixin fixedContainer {
   position: fixed;
   top: $layout-header-height;
   left: 0;
   right: $layout-properties-width;
   bottom: 0;
   overflow-y: auto;
+}
+
+@mixin portalHeader() {
+  padding: 0 0 0 13.75rem; // 220px
+  background-color: $main-header-bg-color;
+  border-bottom: $main-header-border;
+
+  .header-title {
+    height: 10.625rem; // 170px
+    padding: 3.75rem 0; // 60px 0
+
+    .description { margin-left: 0.625rem; } // 10px
+  }
+}
+
+@mixin portalViewTemplate() {
+  .view {
+    // 제목
+    &-title {
+      font-size: $view-title-font-size;
+      font-weight: $view-title-font-weight;
+      color: $view-title-font-color;
+      padding-bottom: 0.625rem; // 10px
+      margin-bottom: 0.625rem; //10px
+      border-bottom: 0.125rem solid $default-gray; // 2px
+    }
+    // 등록일, 등록자
+    &-sub-title {
+      font-size: $view-sub-title-font-size;
+      font-weight: $view-sub-title-font-weight;
+      color: $view-sub-title-font-color;
+      padding: 0 1.25rem; // 0 20px
+    }
+    // 내용
+    &-content {
+      font-size: $view-content-font-size;
+      font-weight: $view-content-font-weight;
+      color: $view-content-font-color;
+      min-height: 13.4375rem; // 215px
+      padding: 0.3125rem 1.25rem; // 5px 20px
+
+      .view-text { margin: 0; }
+    }
+    // 버튼 영역
+    &-btn-content {
+      padding: 0.625rem 0 0 0; // 10px 0 0 0
+    }
+  }
+}
+
+@mixin viewTemplate() {
+  .view {
+    height: 100vh; // edit 화면에서 스크롤이 생기는 영역
+    // 각 행
+    .view-row {
+      margin: 0.625rem 0 0 0; // 10px 0 0 0
+      // 버튼 목록
+      .btn-list { margin-top: 1.875rem; } // 30px
+    }
+    // 제목
+    &-title {
+      font-size: $view-title-font-size;
+      font-weight: $view-title-font-weight;
+      color: $view-title-font-color;
+      padding-bottom: 0.625rem; // 10px
+      border-bottom: 0.125rem solid $default-gray; // 2px
+    }
+    // 등록일, 등록자
+    &-sub-title {
+      font-size: $view-sub-title-font-size;
+      font-weight: $view-sub-title-font-weight;
+      color: $view-sub-title-font-color;
+      padding: 0 1.25rem; // 0 20px
+    }
+    // 내용
+    &-content {
+      font-size: $view-content-font-size;
+      font-weight: $view-content-font-weight;
+      color: $view-content-font-color;
+      min-height: 13.4375rem; // 215px
+      padding: 0.3125rem 1.25rem; // 5px 20px
+
+      .view-text { margin: 0; }
+    }
+  }
 }
 
 @mixin listTemplate() {
@@ -159,43 +244,6 @@
   }
 }
 
-@mixin viewTemplate() {
-  .view {
-    height: 100vh; // edit 화면에서 스크롤이 생기는 영역
-    // 각 행
-    .view-row {
-      margin: 0.625rem 0 0 0; // 10px 0 0 0
-      // 버튼 목록
-      .btn-list { margin-top: 1.875rem; } // 30px
-    }
-    // 제목
-    &-title {
-      font-size: $view-title-font-size;
-      font-weight: $view-title-font-weight;
-      color: $view-title-font-color;
-      padding-bottom: 0.625rem; // 10px
-      border-bottom: 0.125rem solid $default-gray; // 2px
-    }
-    // 등록일, 등록자
-    &-sub-title {
-      font-size: $view-sub-title-font-size;
-      font-weight: $view-sub-title-font-weight;
-      color: $view-sub-title-font-color;
-      padding: 0 1.25rem; // 0 20px
-    }
-    // 내용
-    &-content {
-      font-size: $view-content-font-size;
-      font-weight: $view-content-font-weight;
-      color: $view-content-font-color;
-      min-height: 13.4375rem; // 215px
-      padding: 0.3125rem 1.25rem; // 5px 20px
-
-      .view-text { margin: 0; }
-    }
-  }
-}
-
 @mixin propertiesTemplate {
   position:fixed;
   top: $layout-header-height;
@@ -203,52 +251,4 @@
   bottom: 0;
   width: $layout-properties-width;
   overflow-y: auto;
-}
-
-@mixin portalHeaderTemplate() {
-  padding: 0 0 0 13.75rem; // 220px
-  background-color: $main-header-bg-color;
-  border-bottom: $main-header-border;
-
-  .header-title {
-    height: 10.625rem; // 170px
-    padding: 3.75rem 0; // 60px 0
-
-    .description { margin-left: 0.625rem; } // 10px
-  }
-}
-
-@mixin portalViewTemplate() {
-  .view {
-    // 제목
-    &-title {
-      font-size: $view-title-font-size;
-      font-weight: $view-title-font-weight;
-      color: $view-title-font-color;
-      padding-bottom: 0.625rem; // 10px
-      margin-bottom: 0.625rem; //10px
-      border-bottom: 0.125rem solid $default-gray; // 2px
-    }
-    // 등록일, 등록자
-    &-sub-title {
-      font-size: $view-sub-title-font-size;
-      font-weight: $view-sub-title-font-weight;
-      color: $view-sub-title-font-color;
-      padding: 0 1.25rem; // 0 20px
-    }
-    // 내용
-    &-content {
-      font-size: $view-content-font-size;
-      font-weight: $view-content-font-weight;
-      color: $view-content-font-color;
-      min-height: 13.4375rem; // 215px
-      padding: 0.3125rem 1.25rem; // 5px 20px
-
-      .view-text { margin: 0; }
-    }
-    // 버튼 영역
-    &-btn-content {
-      padding: 0.625rem 0 0 0; // 10px 0 0 0
-    }
-  }
 }

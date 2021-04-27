@@ -10,10 +10,10 @@
 
 // 신청서, 문서함 공통
 .document-container {
-  @include containerTemplate;
+  @include container;
 
   .document-main {
-    @include fixedContainerTemplate;
+    @include fixedContainer;
     background-color: $layout-main-bg-color;
     @include scrollbarHidden;
 
