@@ -13,7 +13,7 @@ import {
     UISwitch, UIColor, UIButton, UISlider
 } from '../lib/ui.js';
 import { FORM } from '../lib/constants.js';
-import Validate from '../lib/validate.js';
+import Validation from '../lib/validation.js';
 
 export default class Panel {
     constructor(editor) {
@@ -23,7 +23,7 @@ export default class Panel {
         // 유효성이 만족할 경우 true, 만족하지 않을 경우 false
         // 유효성 실패시, 다른 이벤트의 동작을 멈추기 위한 용도이다.
         this.validateStatus = true;
-        this.validate = new Validate();
+        this.validate = new Validation();
     }
     /**
      * 세부 속성 출력

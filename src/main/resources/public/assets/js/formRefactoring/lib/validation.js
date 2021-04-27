@@ -1,5 +1,5 @@
 /**
- * 유효성 검증 Class.
+ * 유효성 검증 모듈 Class.
  *
  * @author woodajung wdj@brainz.co.kr
  * @version 1.0
@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 
-export default class Validate {
+export default class Validation {
     constructor(options = { alert: true }) {
         // 알림창 사용 여부가 false일 경우 DOM을 검색하여 'error-msg' class를 찾아서 에러 메시지를 표기한다.
         this.alert = options.alert; // 알림창 사용여부
@@ -149,7 +149,6 @@ export default class Validate {
                 typeof object.nodeName === 'string';
         }
     }
-
     /**
      * DOM 엘리먼트 에러 표시
      * @param isValid 유효성 통과 여부
@@ -179,14 +178,12 @@ export default class Validate {
             if (typeof callback === 'function') { callback(); }
         }
     }
-
     /**
      * null, undefined 체크
      */
     isDefined(target) {
         return target !== null && target !== undefined;
     }
-
     /**
      * 배열 체크
      */
