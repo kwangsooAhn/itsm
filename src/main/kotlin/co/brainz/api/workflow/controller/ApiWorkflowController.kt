@@ -51,4 +51,12 @@ class ApiWorkflowController(
     ): ResponseEntity<*> {
         return super.responseValue(request, apiWorkflowService.callDocument(documentId, requestDto))
     }
+
+    @GetMapping("/{instanceId}/history")
+    fun getInstanceHistory(
+        request: HttpServletRequest,
+        @PathVariable instanceId: String
+    ): ResponseEntity<*> {
+        return super.responseValue(request, apiWorkflowService.getInstanceHistory(instanceId))
+    }
 }
