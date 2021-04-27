@@ -356,7 +356,6 @@ export default class Validate {
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.getDOMElementValue(target).trim() !== '';
-            console.log('결과는?' + rtn);
             const requiredDOMElementName = target.getAttribute('data-validate-required-name');
             const msg =  requiredDOMElementName ? i18n.msg('validation.msg.required', requiredDOMElementName) : i18n.msg('common.msg.requiredEnter');
             this.setDOMElementError(rtn, target, msg, callback);

@@ -643,7 +643,6 @@ class FormDesigner {
      * @param boolean 저장후  팝업 닫을지 여부
      */
     saveForm(boolean) {
-        console.log(this.form);
         // 세부 속성 유효성 검증 실패시 동작을 중지함
         if (!this.panel.validateStatus) { return false; }
         // 저장할 데이터 가져오기
@@ -659,7 +658,9 @@ class FormDesigner {
     /**
      * TODO: 다른이름으로 저장
      */
-    saveAsForm() {}
+    saveAsForm() {
+        if (!this.panel.validateStatus) { return false; }
+    }
     /**
      * TODO: 미리보기
      */
