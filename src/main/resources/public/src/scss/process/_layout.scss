@@ -15,7 +15,7 @@
   }
   // header
   &-header {
-    @include header;
+    @include fixedHeader;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
@@ -48,7 +48,7 @@
   }
   // main
   &-main {
-    @include main;
+    @include fixedContainer;
     left: $layout-element-palette-width;
     overflow: hidden;
 
@@ -196,7 +196,7 @@
   }
   // element 속성
   &-properties {
-    @include properties;
+    @include propertiesTemplate;
     top: calc(#{$layout-header-height} + #{$layout-properties-header-height});
     width: $layout-properties-width;
     background-color: $layout-properties-bg-color;

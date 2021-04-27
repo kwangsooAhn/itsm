@@ -41,7 +41,7 @@
   overflow: auto;
 
   .header {
-    @include header;
+    @include fixedHeader;
     max-width: 120rem;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
@@ -60,7 +60,7 @@
   }
   // 포탈 메인
   .main {
-    @include main;
+    @include fixedContainer;
     max-width: 120rem;
     margin: 0 auto;
 
@@ -174,7 +174,7 @@
   // FAQ
   .faq {
     &-header {
-      @include mainHeader;
+      @include portalHeader;
       .faq-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
@@ -259,12 +259,12 @@
   // 자료실
   .download {
     &-header {
-      @include mainHeader;
+      @include portalHeader;
       .download-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
-      @include viewTemplate();
+      @include portalViewTemplate();
 
       .list { height: $layout-list-height; }
     }
@@ -272,12 +272,12 @@
   // 공지사항
   .notice {
     &-header {
-      @include mainHeader;
+      @include portalHeader;
       .notice-search { padding-bottom: 1.875rem; } // 30px
     }
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
-      @include viewTemplate();
+      @include portalViewTemplate();
 
       .list { height: $layout-list-height }
     }

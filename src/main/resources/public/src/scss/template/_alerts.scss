@@ -101,19 +101,19 @@
 
   &-icon {
     &-success {
-      @include background ('#{$icon-folder-path}alert/icon_alert_success.svg', null, no-repeat, 0, $alert-margin-size, null); // 5px
+      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_success.svg', null, no-repeat, 0, $alert-margin-size, null); // 5px
     }
     &-info {
-      @include background ('#{$icon-folder-path}alert/icon_alert_info.svg', null, no-repeat, 0, $alert-margin-size, null);    // 5px
+      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_info.svg', null, no-repeat, 0, $alert-margin-size, null);    // 5px
     }
     &-warning {
-      @include background ('#{$icon-folder-path}alert/icon_alert_warning.svg', null, no-repeat, 0, $alert-margin-size, null); // 5px
+      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_warning.svg', null, no-repeat, 0, $alert-margin-size, null); // 5px
     }
     &-danger {
-      @include background ('#{$icon-folder-path}alert/icon_alert_danger.svg', null, no-repeat, 0, $alert-margin-size, null);  // 5px
+      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_danger.svg', null, no-repeat, 0, $alert-margin-size, null);  // 5px
     }
     &-confirm {
-      @include background ('#{$icon-folder-path}alert/icon_alert_confirm.svg', null, no-repeat, 0, $alert-margin-size, null); // 5px
+      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_confirm.svg', null, no-repeat, 0, $alert-margin-size, null); // 5px
     }
   }
 }
