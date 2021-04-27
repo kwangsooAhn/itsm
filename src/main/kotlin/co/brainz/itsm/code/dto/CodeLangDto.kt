@@ -8,6 +8,7 @@ package co.brainz.itsm.code.dto
 import java.io.Serializable
 
 data class CodeLangDto(
-    val codeLangValue: String? = null,
-    val lang: String? = null
+    val code: String,
+    val codeLangValue: String,
+    val lang: String
 ) : Serializable

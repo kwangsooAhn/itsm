@@ -8,6 +8,7 @@ package co.brainz.itsm.code.repository
 
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
+import co.brainz.itsm.code.dto.CodeLangDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.code.entity.QCodeLangEntity
@@ -88,7 +89,6 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
 
     override fun findCodeDetail(search: String): CodeDetailDto {
         val code = QCodeEntity.codeEntity
-        val codeLang = QCodeLangEntity.codeLangEntity
         return from(code)
             .select(
                 Projections.constructor(
@@ -100,13 +100,25 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                     code.codeDesc,
                     code.editable,
                     code.level,
-                    code.seqNum,
+                    code.seqNum
+                )
+            )
+            .where(code.code.eq(search))
+            .fetchOne()
+    }
+
+    override fun findByCodeLangList(search: String): MutableList<CodeLangDto> {
+        val codeLang = QCodeLangEntity.codeLangEntity
+        return from(codeLang)
+            .select(
+                Projections.constructor(
+                    CodeLangDto::class.java,
+                    codeLang.code,
                     codeLang.codeValue,
                     codeLang.lang
                 )
             )
-            .leftJoin(codeLang).on(code.code.eq(codeLang.code))
-            .where(code.code.eq(search))
-            .fetchOne()
+            .where(codeLang.code.eq(search))
+            .fetch()
     }
 }
