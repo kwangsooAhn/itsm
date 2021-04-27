@@ -355,12 +355,10 @@
             aliceJs.sendXhr(opt);
         }
 
-        /** 다국어 코드 등록 **/
         function drawCodeLang(param) {
             const divRow = document.createElement('div');
             divRow.classList.add('flex-row', 'edit-row');
 
-            /** lang List **/
             const divLang = document.createElement('div');
             divLang.classList.add('edit-column', 'flex-column', 'flex-fill', 'mr-4');
             const langLabel = document.createElement('label');
@@ -378,7 +376,6 @@
             divLang.appendChild(langLabel);
             divLang.appendChild(langSelect);
 
-            /** codeValue **/
             const divcodeLangValue = document.createElement('div');
             divcodeLangValue.classList.add('edit-column', 'flex-column', 'flex-fill');
             const codeLangValueLabel = document.createElement('label');
@@ -392,7 +389,6 @@
             divcodeLangValue.appendChild(codeLangValueLabel);
             divcodeLangValue.appendChild(codeLangValueInput);
 
-            /** delete Btn**/
             const deleteBtn = document.createElement('button');
             deleteBtn.classList.add('btn-minus');
             const deleteIcon = document.createElement('span');
