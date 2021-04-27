@@ -8,7 +8,6 @@ package co.brainz.itsm.code.repository
 
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
-import co.brainz.itsm.code.dto.CodeLangDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.code.entity.QCodeLangEntity
@@ -107,20 +106,5 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
             )
             .where(code.code.eq(search))
             .fetchOne()
-    }
-
-    override fun findByCodeLangList(search: String): MutableList<CodeLangDto> {
-        val codeLang = QCodeLangEntity.codeLangEntity
-        return from(codeLang)
-            .select(
-                Projections.constructor(
-                    CodeLangDto::class.java,
-                    codeLang.code,
-                    codeLang.codeValue,
-                    codeLang.lang
-                )
-            )
-            .where(codeLang.code.eq(search))
-            .fetch()
     }
 }

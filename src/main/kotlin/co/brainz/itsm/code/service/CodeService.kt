@@ -136,7 +136,7 @@ class CodeService(
      */
     fun getDetailCodes(code: String): CodeDetailDto? {
         val codeDetailDto = codeRepository.findCodeDetail(code)
-        val codeLangList = codeRepository.findByCodeLangList(code)
+        val codeLangList = codeLangRepository.findByCodeLangList(code)
 
         if (codeLangList.isNotEmpty()) {
             codeDetailDto.codeLang = Gson().toJson(codeLangList)
@@ -225,7 +225,7 @@ class CodeService(
             }
         }
 
-        val codeLangList = codeRepository.findByCodeLangList(codeDetailDto.code)
+        val codeLangList = codeLangRepository.findByCodeLangList(codeDetailDto.code)
         if (codeLangList.isNotEmpty()) {
             for (codeLangDto in codeLangList) {
                 codeLangRepository.deleteById(
@@ -255,7 +255,7 @@ class CodeService(
      */
     fun deleteCode(code: String): String {
         var status = CodeConstants.Status.STATUS_SUCCESS.code
-        var codeLangList = codeRepository.findByCodeLangList(code)
+        var codeLangList = codeLangRepository.findByCodeLangList(code)
 
         if (codeLangList.isNotEmpty()) {
             for (codeLangDto in codeLangList) {
