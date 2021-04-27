@@ -1,38 +1,4 @@
 // todo: layout 내 mixin 이름 refactoring
-@mixin container {
-  max-width: 120rem;
-  margin: 0 auto;
-}
-
-@mixin header {
-  position: fixed;
-  top:0;
-  left:0;
-  right:0;
-  height: $layout-header-height;
-  display: flex;
-  align-items: center;
-}
-
-@mixin main {
-  position: fixed;
-  top: $layout-header-height;
-  left: 0;
-  right: $layout-properties-width;
-  bottom: 0;
-  overflow-y: auto;
-}
-
-@mixin properties {
-  position:fixed;
-  top: $layout-header-height;
-  right: 0;
-  bottom: 0;
-  width: $layout-properties-width;
-  overflow-y: auto;
-}
-
-// ITSM에서 사용하고자 하는 디자인 묶음을 mixin으로 정의합니다. (default)
 @mixin headerTemplate() {
   .header-title {
     padding: 1.563rem 0px 3.875rem 0px; // 25px 0px 62px 0px
@@ -43,6 +9,30 @@
     // 건수
     .txt-num { color: $warm-gray; }
   }
+}
+
+@mixin fixedHeaderTemplate {
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  height: $layout-header-height;
+  display: flex;
+  align-items: center;
+}
+
+@mixin containerTemplate {
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+@mixin fixedContainerTemplate {
+  position: fixed;
+  top: $layout-header-height;
+  left: 0;
+  right: $layout-properties-width;
+  bottom: 0;
+  overflow-y: auto;
 }
 
 @mixin listTemplate() {
@@ -206,7 +196,15 @@
   }
 }
 
-// Portal에서 사용하고자 하는 디자인 묶음을 mixin으로 정의합니다.
+@mixin propertiesTemplate {
+  position:fixed;
+  top: $layout-header-height;
+  right: 0;
+  bottom: 0;
+  width: $layout-properties-width;
+  overflow-y: auto;
+}
+
 @mixin portalHeaderTemplate() {
   padding: 0 0 0 13.75rem; // 220px
   background-color: $main-header-bg-color;

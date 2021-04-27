@@ -35,13 +35,13 @@
 }
 
 .portal-container {
-  @include container;
+  @include containerTemplate;
   width: 100vw;
   height: 100vh;
   overflow: auto;
 
   .header {
-    @include header;
+    @include fixedHeaderTemplate;
     max-width: 120rem;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
@@ -60,7 +60,7 @@
   }
   // 포탈 메인
   .main {
-    @include main;
+    @include fixedContainerTemplate;
     max-width: 120rem;
     margin: 0 auto;
 
