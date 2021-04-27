@@ -33,7 +33,6 @@ export default class History {
 
         (list || this.undoList).push(data);
         this.status = (this.undoList.length > 0); // undoList가 없으면 수정된 항목이 없음을 의미한다.
-        this.editor.setFormName();
     }
     /**
      * 되돌리기

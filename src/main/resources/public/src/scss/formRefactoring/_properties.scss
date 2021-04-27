@@ -6,6 +6,9 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 1.25rem; // 20px
+  padding: 0.9375rem; // 15px;
+  border: $layout-properties-panel-border;
+  border-radius: 0.125rem; // 2px
   // 라벨
   .property-group-label {
     font-size: $property-group-label-font-size;
@@ -17,7 +20,7 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  margin-top: 0.9375rem; // 15px
+  margin: 0.9375rem 0 0 0; // 15px 0 0 0
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
   // 라벨
   .property-label {
@@ -25,7 +28,7 @@
     color: $property-label-color;
     padding-bottom: 0.625rem; // 10px
   }
-  // margin / padding 등 박스 모델
+  // margin / padding 박스 모델
   .input-box {
     display: flex;
     flex-direction: row;
@@ -34,7 +37,7 @@
       width: 4.375rem; // 70px
     }
   }
-
+  // input 엘리먼트
   .input {
     padding: 0 0.625rem; // 0 10px
     vertical-align: middle;
@@ -56,11 +59,11 @@
       padding-right: 1.875rem; // 30px
     }
   }
-
+  // textarea 엘리먼트
   .textArea {
     min-height: 7.5rem; // 120px
   }
-
+  // column 너비 조정
   .slider {
     .range { width : 75%; }
     .input {
@@ -69,11 +72,11 @@
       margin-left: 2%;
     }
   }
-
+  // select box
   .select {
     width: 100%;
   }
-
+  // inputBox 컴포넌트 - 기본값 속성
   .default-type {
     display: flex;
     flex-direction: row;
@@ -90,5 +93,4 @@
       &.off { display: none; }
     }
   }
-
 }

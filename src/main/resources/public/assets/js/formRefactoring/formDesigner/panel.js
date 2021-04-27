@@ -19,7 +19,11 @@ export default class Panel {
     constructor(editor) {
         this.domElement = document.getElementById('propertyPanel'); // 속성 패널
         this.editor = editor;
-        this.validate = new Validate({ alert: false });
+
+        // 유효성이 만족할 경우 true, 만족하지 않을 경우 false
+        // 유효성 실패시, 다른 이벤트의 동작을 멈추기 위한 용도이다.
+        this.validateStatus = true;
+        this.validate = new Validate();
     }
     /**
      * 세부 속성 출력
@@ -120,6 +124,7 @@ export default class Panel {
             // inputbox
             object.UIInput = new UIInput().setUIId(key).setUIValue(data.value)
                 .setUIAttribute('data-validate-required', data.validate.required)
+                .setUIAttribute('data-validate-required-name', i18n.msg(data.name))
                 .setUIAttribute('data-validate-type', data.validate.type)
                 .setUIAttribute('data-validate-min', data.validate.min)
                 .setUIAttribute('data-validate-max', data.validate.max)
@@ -132,8 +137,6 @@ export default class Panel {
                 object.UIInput.addUIClass('icon-unit-' + data.unit);
             }
             object.addUI(object.UIInput);
-            // error message
-            object.addUI(new UIDiv().setUIClass('error-msg'));
             break;
         case 'input-box': // 박스 모델용
             object = new UIDiv().setUIClass('property')
@@ -151,6 +154,7 @@ export default class Panel {
                 object.UIBox['UIInput' + item] = new UIInput().setUIId(key + item)
                     .setUIValue(boxValueArray[index])
                     .setUIAttribute('data-validate-required', data.validate.required)
+                    .setUIAttribute('data-validate-required-name', i18n.msg(data.name))
                     .setUIAttribute('data-validate-type', data.validate.type)
                     .setUIAttribute('data-validate-min', data.validate.min)
                     .setUIAttribute('data-validate-max', data.validate.max)
@@ -164,9 +168,6 @@ export default class Panel {
                 }
                 object.UIBox.addUI(object.UIBox['UIInput' + item]);
             });
-
-            // error message
-            object.addUI(new UIDiv().setUIClass('error-msg'));
             break;
         case 'textarea':
             object = new UIDiv().setUIClass('property')
@@ -178,12 +179,11 @@ export default class Panel {
             object.UITextArea = new UITextArea().setUIId(key).addUIClass('textarea-scroll-wrapper')
                 .setUIValue(data.value)
                 .setUIAttribute('data-validate-required', data.validate.required)
+                .setUIAttribute('data-validate-required-name', i18n.msg(data.name))
                 .setUIAttribute('data-validate-minLength', data.validate.minLength)
                 .setUIAttribute('data-validate-maxLength', data.validate.maxLength)
                 .onUIChange(this.updateProperty.bind(this));
             object.addUI(object.UITextArea);
-            // error message
-            object.addUI(new UIDiv().setUIClass('error-msg'));
             break;
         case 'select':
             object = new UIDiv().setUIClass('property')
@@ -250,8 +250,6 @@ export default class Panel {
             object.UIColorPicker = new UIColor(colorPickerOption).setUIId(key);
             object.UIColorPicker.UIColor.UIInput.onUIChange(this.updateProperty.bind(this));
             object.addUI(object.UIColorPicker);
-            // error message
-            object.addUI(new UIDiv().setUIClass('error-msg'));
             break;
         case 'button-switch-icon': // 정렬
             object = new UIDiv().setUIClass('property')
@@ -374,7 +372,7 @@ export default class Panel {
     updateDefaultType(e) {
         e.stopPropagation();
         e.preventDefault();
-        
+
         let passValidate = true; // 유효성 검증
         let defaultTypeGroup = e.target.parentNode;
         let changeValue = '';
@@ -410,6 +408,7 @@ export default class Panel {
                 changeValue = 'select|' + select.options[0].value;
             }
         }
+        this.validateStatus = passValidate;
         if (passValidate) {
             const method = e.target.id.substr(0, 1).toUpperCase() +
             e.target.id.substr(1, e.target.id.length);
@@ -461,13 +460,17 @@ export default class Panel {
     updateProperty(e) {
         e.stopPropagation();
         e.preventDefault();
+        // enter 입력시
+        if (e.key === 'Enter' || e.keyCode === 13) { return false; }
 
-        let passValidate = true; // 유효성 검증
-        if (e.type === 'keyup') {// keyup 일 경우 type, min, max 체크
+        // 유효성 검증
+        let passValidate = true;
+        if (e.type === 'keyup') { // keyup 일 경우 type, min, max 체크
             passValidate = this.keyUpValidateCheck(e.target);
-        } else if (e.type === 'change') {// change 일 경우 필수값, minLength, maxLength 체크
+        } else if (e.type === 'change') { // change 일 경우 필수값, minLength, maxLength 체크
             passValidate = this.changeValidateCheck(e.target);
         }
+        this.validateStatus = passValidate;
         if (passValidate) {
             let changeValue = e.target.value;
             if (e.target.type === 'checkbox') {
@@ -515,7 +518,7 @@ export default class Panel {
     changeValidateCheck(element) {
         // 필수값, minLength, maxLength 체크
         if (element.getAttribute('data-validate-required') &&
-            element.getAttribute('data-validate-required') !== '') {
+            element.getAttribute('data-validate-required') !== 'false') {
             return this.validate.emit('required', element);
         }
         if (element.getAttribute('data-validate-minLength') &&

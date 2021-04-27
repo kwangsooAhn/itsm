@@ -178,7 +178,7 @@ class FormDesigner {
             this.data = formData;
 
             this.makeDomElement(this.data, this); // DOM 엘리먼트 생성
-            this.setFormName(); // 폼 디자이너 상단 이름 출력
+            this.setFormName(this.data.name); // 폼 디자이너 상단 이름 출력
         });
 
         document.addEventListener('click', onLeftClickHandler.bind(this), false);
@@ -211,9 +211,9 @@ class FormDesigner {
     /**
      * 폼 디자이너 상단 이름 출력
      */
-    setFormName() {
+    setFormName(name) {
         document.getElementById('formName').textContent =
-            (this.history.status ? '*' : '') + (this.data.name);
+            (this.history.status ? '*' : '') + name;
     }
     /**
      * DOM 엘리먼트 생성 (Recursive)
@@ -541,8 +541,12 @@ class FormDesigner {
         } else if (this.UIElement instanceof UIComponentTooltip) {
             editor = this.parent.parent.parent.parent;
         }
+
         // 이전 선택된 객체를 다시 선택할 경우
         if (editor.selectedObject === this) { return false; }
+
+        // 세부 속성 유효성 검증 실패시 동작을 중지함
+        if (!editor.panel.validateStatus) { return false; }
 
         // 이전 선택된 객체 디자인 삭제
         if (editor.selectedObject !== null) {
@@ -599,6 +603,9 @@ class FormDesigner {
      * 선택된 객체의 선택 해제
      */
     deSelectObject() {
+        // 세부 속성 유효성 검증 실패시 동작을 중지함
+        if (!this.panel.validateStatus) { return false; }
+
         // 이전 선택된 객체 디자인 삭제
         if (this.selectedObject !== null) {
             this.selectedObject.UIElement.removeUIClass('selected');
@@ -637,9 +644,10 @@ class FormDesigner {
      */
     saveForm(boolean) {
         console.log(this.form);
-        // TODO : 유효성 검증
+        // 세부 속성 유효성 검증 실패시 동작을 중지함
+        if (!this.panel.validateStatus) { return false; }
+        // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
-
         // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
         // 저장
         // util.fetchJson({ method: 'PUT', url: '/rest/form/' + formId + '/data' })

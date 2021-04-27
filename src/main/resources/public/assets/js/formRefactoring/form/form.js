@@ -47,6 +47,9 @@ export default class Form {
 
     setName(name) {
         this.name = name;
+        if (typeof this.parent.setFormName === 'function') {
+            this.parent.setFormName(name);
+        }
     }
 
     getName() {
