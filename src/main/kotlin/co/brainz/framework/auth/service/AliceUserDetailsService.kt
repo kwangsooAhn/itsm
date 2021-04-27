@@ -7,16 +7,21 @@ package co.brainz.framework.auth.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.user.dto.UserListDto
+import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -30,6 +35,8 @@ class AliceUserDetailsService(
     private var aliceRoleAuthMapRepository: AliceRoleAuthMapRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    val aliceUserMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     @Value("\${file.image.uri}")
     private val resourcesUriPath: String? = null
@@ -110,5 +117,25 @@ class AliceUserDetailsService(
             AliceUserConstants.AvatarType.URL.code -> uploadedLocation
             else -> uploadedLocation
         }
+    }
+
+    /**
+     * 사용자 Key 로 조회
+     */
+    fun selectUserKey(userKey: String): AliceUserEntity {
+        return aliceUserRepository.findByUserKey(userKey)
+    }
+
+    /**
+     * Security Session 생성(갱신)
+     */
+    fun createNewAuthentication(userKey: String): Authentication {
+        var aliceUser: AliceUserAuthDto = aliceUserMapper.toAliceUserAuthDto(this.selectUserKey(userKey))
+        aliceUser = this.getAuthInfo(aliceUser)
+        aliceUser.avatarPath = this.makeAvatarPath(aliceUser)
+        val usernamePasswordAuthenticationToken =
+            UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
+        usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)
+        return usernamePasswordAuthenticationToken
     }
 }

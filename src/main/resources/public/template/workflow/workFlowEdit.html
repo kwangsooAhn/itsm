@@ -72,6 +72,12 @@
                 <option th:each="status:${statusList}" th:value="${status.code}"
                         th:text="${status.codeValue}" th:selected="${status.code} == ${documentData?.documentStatus}"></option>
             </select>
+            <!-- API 활성화 -->
+            <label class="field-label" th:text="#{document.label.apiEnable}" for="api-enable"></label>
+            <select id="api-enable" required="required">
+                <option value="true" th:text="#{document.label.enable}" th:selected="${documentData?.apiEnable == true}"></option>
+                <option value="false" th:text="#{document.label.disable}" th:selected="${documentData?.apiEnable == null || documentData?.apiEnable == false}"></option>
+            </select>
             <!-- 업무 흐름 색상 -->
             <label class="field-label" for="document-color">
                 <span th:text="#{document.label.businessFlowColor}"></span>

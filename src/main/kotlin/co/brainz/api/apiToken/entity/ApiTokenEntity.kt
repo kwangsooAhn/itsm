@@ -37,6 +37,6 @@ data class ApiTokenEntity(
     @Column(name = "create_dt")
     var createDt: LocalDateTime,
 
-    @Column(name = "request_user_id", length = 128)
-    var requestUserId: String? = null
+    @Column(name = "request_user_key", length = 128)
+    var requestUserKey: String
 )

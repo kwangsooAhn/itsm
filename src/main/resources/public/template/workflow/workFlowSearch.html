@@ -91,6 +91,7 @@
                 let documentForm = document.getElementById('document-form');
                 let documentProcess = document.getElementById('document-process');
                 let documentStatus = document.getElementById('document-status');
+                let apiEnable = document.getElementById('api-enable');
                 let documentNumberingRule = document.getElementById('document-numbering-rule');
                 let documentGroup = document.getElementById('document-group');
 
@@ -102,6 +103,7 @@
                     processId: documentProcess.options[documentProcess.selectedIndex].value,
                     documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
                     documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
+                    apiEnable: apiEnable.options[apiEnable.selectedIndex].value,
                     documentColor: document.getElementById('document-color').value,
                     documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
                 };
