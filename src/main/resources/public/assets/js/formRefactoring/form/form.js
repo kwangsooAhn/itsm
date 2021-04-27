@@ -47,6 +47,9 @@ export default class Form {
 
     setName(name) {
         this.name = name;
+        if (typeof this.parent.setFormName === 'function') {
+            this.parent.setFormName(name);
+        }
     }
 
     getName() {
@@ -320,7 +323,7 @@ export default class Form {
         });
         return this;
     }
-
+    // json 데이터 추출
     toJson() {
         const groups = [];
         for (let i = 0; i < this.children.length; i ++) {

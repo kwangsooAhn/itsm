@@ -1038,7 +1038,7 @@ a:active {
 input {
   height: 2.5rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1108,7 +1108,7 @@ input[type=range]::-moz-range-thumb {
 
 textarea {
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1152,7 +1152,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #586872;
   background-color: transparent;
@@ -1175,7 +1175,7 @@ table tr td, table tr th {
 select {
   height: 2.5rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1204,7 +1204,7 @@ select:disabled {
 .select {
   display: inline-block;
   position: relative;
-  font-size: 1rem;
+  font-size: 0.875rem;
   height: 2.5rem;
 }
 .select .select-hidden {
@@ -1223,7 +1223,7 @@ select:disabled {
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   display: flex;
@@ -1326,7 +1326,7 @@ label {
 .radio {
   position: relative;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #586872;
   outline: none;
@@ -1397,7 +1397,7 @@ label {
 
 .checkbox {
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1461,7 +1461,7 @@ label {
   position: relative;
   height: 2.188rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -2142,10 +2142,10 @@ button.ghost-line:disabled .icon {
 }
 .btn-switch-group .btn-switch {
   flex: 1 1 auto;
-  min-width: 55px;
+  min-width: 48px;
   height: 2.5rem;
   padding: 0;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: #3F4B56;
   background-color: #F7F8F9;
@@ -2269,10 +2269,10 @@ button.ghost-line:disabled .icon {
 }
 .btn-toggle-group .btn-toggle {
   flex: 1 1 auto;
-  min-width: 55px;
+  min-width: 48px;
   height: 2.5rem;
   padding: 0;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: #3F4B56;
   background-color: #ffffff;
@@ -2588,7 +2588,7 @@ button.ghost-line:disabled .icon {
 
 .textarea-scroll-wrapper {
   display: block;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -4098,7 +4098,7 @@ body.modal-active {
   background-color: #ffffff;
   color: #0098FF;
   width: 21.25rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   border: 0.125rem solid #0098FF solid #0098FF;
   border-radius: 0.125rem solid #0098FF;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
@@ -4165,7 +4165,7 @@ body.modal-active {
   visibility: hidden;
   position: absolute;
   width: 9.375rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #0098FF;
   background-color: #ffffff;
@@ -4207,19 +4207,19 @@ body.modal-active {
   background: #CCCED1;
 }
 .help-tooltip .tooltip-contents {
-  visibility: hidden;
-  background-color: #ffffff;
-  color: #0098FF;
+  position: absolute;
+  left: 0;
   width: 21.25rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
+  color: #0098FF;
   border: 0.125rem solid #0098FF;
   border-radius: 0.125rem;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
   margin: 0.25rem 0 0 0;
-  position: absolute;
-  left: 0;
-  z-index: 500;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
+  background-color: #ffffff;
+  visibility: hidden;
+  z-index: 500;
 }
 .help-tooltip .tooltip-contents span {
   color: #0098FF;
@@ -4450,6 +4450,9 @@ body.modal-active {
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 1.25rem;
+  padding: 0.9375rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.125rem;
 }
 .property-group .property-group-label {
   font-size: 1rem;
@@ -4460,7 +4463,7 @@ body.modal-active {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  margin-top: 0.9375rem;
+  margin: 0.9375rem 0 0 0;
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
 }
 .property .property-label {

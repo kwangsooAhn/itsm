@@ -67,6 +67,7 @@ $icon-component-divider:                           $icon-folder-path + "form/con
 
 ///////////////////////////// common /////////////////////////
 $column-row:                                       12;  // 폼을 나누는 갯수
+$element-font-size:                                0.875rem; // 14px
 
 //////////////////////////// form ////////////////////////////
 $form-min-height:                                  56.25rem; // 900px
@@ -108,7 +109,7 @@ $thumbnail-modal-height:                           48.44rem; // 775px
 $thumbnail-main-padding:                           0.625rem; // 10px
 
 //////////////////////////// tooltip ////////////////////////////
-$tooltip-font-size:                                1rem; // 16px
+$tooltip-font-size:                                0.875rem; // 14px
 $tooltip-contents-width:                           21.25rem; // 340px
 $tooltip-contents-left:                            0.9375rem; // 15px
 $tooltip-contents-padding:                         1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
@@ -124,7 +125,7 @@ $tooltip-contents-box-shadow:                      0 0 0.3125rem 0 rgba(30, 47, 
 
 // clipboard tooltip
 // ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
-$clipboard-tooltip-font-size:                      $font-size-base; // 16px
+$clipboard-tooltip-font-size:                      0.875rem; // 14px
 $clipboard-tooltip-font-weight:                    $font-weight-regular;
 $clipboard-tooltip-font-color:                     $point-blue;
 $clipboard-tooltip-bg-color:                       $white;
@@ -138,6 +139,17 @@ $tooltip-help-size:                                1rem; // 16px
 $tooltip-help-margin:                              0.3125rem; // 5px
 $tooltip-help-hover-bg-color:                      $point-blue;
 
+// 유효성 검증용
+$tooltip-validate-contents-width:                  3.75rem; // 60px
+$tooltip-validate-contents-bg-color:               $white;
+$tooltip-validate-contents-font-size:              0.875rem; // 14px
+$tooltip-validate-contents-font-weight:            $font-weight-regular;
+$tooltip-validate-contents-font-color:             $red;
+$tooltip-validate-contents-border-color:           $red;
+$tooltip-validate-contents-border-width:           0.125rem; // 2px
+$tooltip-validate-contents-border:                 $tooltip-validate-contents-border-width solid $tooltip-validate-contents-border-color;
+$tooltip-validate-contents-border-radius:          0.0625rem; // 1px
+$tooltip-validate-contents-padding:                0.6875rem 0.875rem; // 11px 14px
 //////////////////////////// 다른이름으로 저장하기 //////////////////////////
 $save-as-modal-height:                             25.63rem; // 410px
 
@@ -147,9 +159,8 @@ $property-group-label-font-size:                   1rem; // 16px
 
 $property-label-color:                             #8D9299;
 $property-label-font-size:                         0.875rem; // 14px
-
 /////////// switch button 디자인 요소
-$btn-switch-font-size:                            $font-size-base;
+$btn-switch-font-size:                            0.875rem; // 14px
 $btn-switch-font-color:                           $gray;
 $btn-switch-font-weight:                          $font-weight-medium;
 $btn-switch-font-color:                           $light-black;
@@ -175,7 +186,7 @@ $btn-switch-disabled-bg-color:                    $white;
 $btn-switch-disabled-border-color:                $line-gray;
 
 /////////////// toggle button 디자인 요소
-$btn-toggle-font-size:                            $font-size-base;
+$btn-toggle-font-size:                            0.875rem; // 14px
 $btn-toggle-font-color:                           $light-black;
 $btn-toggle-font-weight:                          $font-weight-medium;
 $btn-toggle-font-color:                           $light-black;

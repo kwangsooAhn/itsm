@@ -413,7 +413,7 @@ export default class Group {
         });
         return this;
     }
-
+    // json 데이터 추출
     toJson() {
         const rows = [];
         for (let i = 0; i < this.children.length; i ++) {

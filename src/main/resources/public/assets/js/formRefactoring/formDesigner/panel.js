@@ -13,13 +13,21 @@ import {
     UISwitch, UIColor, UIButton, UISlider
 } from '../lib/ui.js';
 import { FORM } from '../lib/constants.js';
+import Validation from '../lib/validation.js';
 
 export default class Panel {
     constructor(editor) {
         this.domElement = document.getElementById('propertyPanel'); // 속성 패널
         this.editor = editor;
+
+        // 유효성이 만족할 경우 true, 만족하지 않을 경우 false
+        // 유효성 실패시, 다른 이벤트의 동작을 멈추기 위한 용도이다.
+        this.validateStatus = true;
+        this.validate = new Validation();
     }
-    // 세부 속성 출력
+    /**
+     * 세부 속성 출력
+     */
     on() {
         if (!this.editor.selectedObject) { return false; }
         // 세부 속성 이름 출력
@@ -47,12 +55,18 @@ export default class Panel {
 
         return this;
     }
-    // 세부 속성 삭제
+    /**
+     * 세부 속성 삭제
+     */
     off() {
         this.domElement.innerHTML = '';
         this.setPropertyName('');
         return this;
     }
+    /**
+     * 세부 속성 공통 라벨 생성
+     * @param data 세부 속성 데이터
+     */
     makeUILabel(data) {
         const label = new UILabel().setUIClass('property-label').setUITextAlign('left');
         label.UILabelText = new UISpan().setUIClass('property-label-text')
@@ -74,7 +88,11 @@ export default class Panel {
         }
         return label;
     }
-    // 타입에 따른 세부 속성 객체 생성
+    /**
+     * 타입에 따른 세부 속성 객체 생성
+     * @param key 세부 속성 아이디
+     * @param data 세부 속성 데이터
+     */
     makePropertyByType(key, data) {
         let object = null;
         switch(data.type) {
@@ -106,6 +124,7 @@ export default class Panel {
             // inputbox
             object.UIInput = new UIInput().setUIId(key).setUIValue(data.value)
                 .setUIAttribute('data-validate-required', data.validate.required)
+                .setUIAttribute('data-validate-required-name', i18n.msg(data.name))
                 .setUIAttribute('data-validate-type', data.validate.type)
                 .setUIAttribute('data-validate-min', data.validate.min)
                 .setUIAttribute('data-validate-max', data.validate.max)
@@ -135,6 +154,7 @@ export default class Panel {
                 object.UIBox['UIInput' + item] = new UIInput().setUIId(key + item)
                     .setUIValue(boxValueArray[index])
                     .setUIAttribute('data-validate-required', data.validate.required)
+                    .setUIAttribute('data-validate-required-name', i18n.msg(data.name))
                     .setUIAttribute('data-validate-type', data.validate.type)
                     .setUIAttribute('data-validate-min', data.validate.min)
                     .setUIAttribute('data-validate-max', data.validate.max)
@@ -159,6 +179,7 @@ export default class Panel {
             object.UITextArea = new UITextArea().setUIId(key).addUIClass('textarea-scroll-wrapper')
                 .setUIValue(data.value)
                 .setUIAttribute('data-validate-required', data.validate.required)
+                .setUIAttribute('data-validate-required-name', i18n.msg(data.name))
                 .setUIAttribute('data-validate-minLength', data.validate.minLength)
                 .setUIAttribute('data-validate-maxLength', data.validate.maxLength)
                 .onUIChange(this.updateProperty.bind(this));
@@ -336,14 +357,23 @@ export default class Panel {
         }
         return object;
     }
+    /**
+     * 세부 속성 이름 표시
+     */
     // 세부 속성 이름 출력
     setPropertyName(name) {
         // TODO: Breadcrumb 기능 추가
         document.getElementById('propertyName').textContent = name;
     }
-    // default Type 업데이트
+    /**
+     * inputBox 컴포넌트일 경우, 기본값 변경시 이벤트 핸들러
+     * @param e 이벤트객체
+     */
     updateDefaultType(e) {
-        let passValidate = true;
+        e.stopPropagation();
+        e.preventDefault();
+
+        let passValidate = true; // 유효성 검증
         let defaultTypeGroup = e.target.parentNode;
         let changeValue = '';
         if (e.type === 'keyup') { // input
@@ -378,6 +408,7 @@ export default class Panel {
                 changeValue = 'select|' + select.options[0].value;
             }
         }
+        this.validateStatus = passValidate;
         if (passValidate) {
             const method = e.target.id.substr(0, 1).toUpperCase() +
             e.target.id.substr(1, e.target.id.length);
@@ -390,12 +421,16 @@ export default class Panel {
                 to: changeValue
             }]);
             this.editor.selectedObject['set' + method].call(this.editor.selectedObject, changeValue);
-        } else {
-            // TODO: 에러 메시지 표시 및 포커스
         }
     }
-    // 버튼 업데이트
+    /**
+     * switch button / toggle button 변경시 이벤트 핸들러
+     * @param e 이벤트객체
+     */
     updateButton(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
         if (e.target.classList.contains('btn-switch')) { // 정렬
             if (e.target.classList.contains('active')) { return false; }
 
@@ -418,16 +453,24 @@ export default class Panel {
         }
         this.updateProperty.call(this, e);
     }
-    // 세부 속성 업데이트
+    /**
+     * 세부 속성 변경시 이벤트 핸들러
+     * @param e 이벤트객체
+     */
     updateProperty(e) {
-        //TODO: 유효성 검증
+        e.stopPropagation();
+        e.preventDefault();
+        // enter 입력시
+        if (e.key === 'Enter' || e.keyCode === 13) { return false; }
+
+        // 유효성 검증
         let passValidate = true;
-        if (e.type === 'keyup') {// keyup 일 경우 type, min, max 체크
+        if (e.type === 'keyup') { // keyup 일 경우 type, min, max 체크
             passValidate = this.keyUpValidateCheck(e.target);
-        } else if (e.type === 'change') {// change 일 경우 필수값, minLength, maxLength 체크
+        } else if (e.type === 'change') { // change 일 경우 필수값, minLength, maxLength 체크
             passValidate = this.changeValidateCheck(e.target);
         }
-
+        this.validateStatus = passValidate;
         if (passValidate) {
             let changeValue = e.target.value;
             if (e.target.type === 'checkbox') {
@@ -446,21 +489,51 @@ export default class Panel {
                 to: changeValue
             }]);
             this.editor.selectedObject['set' + method].call(this.editor.selectedObject, changeValue);
-        } else {
-            // TODO: 에러 메시지 표시 및 포커스
         }
     }
-    // keyup 유효성 검증
+    /**
+     * keyup 유효성 검증 이벤트 핸들러
+     * @param e 이벤트객체
+     */
     keyUpValidateCheck(element) {
         // type(number, char, email 등), min, max 체크
+        if (element.getAttribute('data-validate-type') &&
+            element.getAttribute('data-validate-type') !== '') {
+            return this.validate.emit(element.getAttribute('data-validate-type'), element);
+        }
+        if (element.getAttribute('data-validate-min') &&
+            element.getAttribute('data-validate-min') !== '') {
+            return this.validate.emit('min', element, element.getAttribute('data-validate-min'));
+        }
+        if (element.getAttribute('data-validate-max') &&
+            element.getAttribute('data-validate-max') !== '') {
+            return this.validate.emit('max', element, element.getAttribute('data-validate-max'));
+        }
         return true;
     }
-    // change 유효성 검증
+    /**
+     * change 유효성 검증 이벤트 핸들러
+     * @param e 이벤트객체
+     */
     changeValidateCheck(element) {
         // 필수값, minLength, maxLength 체크
+        if (element.getAttribute('data-validate-required') &&
+            element.getAttribute('data-validate-required') !== 'false') {
+            return this.validate.emit('required', element);
+        }
+        if (element.getAttribute('data-validate-minLength') &&
+            element.getAttribute('data-validate-minLength') !== '') {
+            return this.validate.emit('minLength', element.getAttribute('data-validate-minLength'));
+        }
+        if (element.getAttribute('data-validate-maxLength') &&
+            element.getAttribute('data-validate-maxLength') !== '') {
+            return this.validate.emit('maxLength', element.getAttribute('data-validate-maxLength'));
+        }
         return true;
     }
-    // 세부 속성 첫번째 선택
+    /**
+     * 세부 속성 첫번째 inputbox 포커싱 - 단축키에서 사용
+     */
     selectFirstProperty() {
         const selectElements = this.domElement.querySelectorAll('input[type=text]:not([readonly])');
         if (selectElements.length === 0) { return false; }

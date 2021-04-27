@@ -220,7 +220,7 @@ export default class Row {
         });
         return this;
     }
-
+    // json 데이터 추출
     toJson() {
         const components = [];
         for (let i = 0; i < this.children.length; i ++) {

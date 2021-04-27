@@ -16,7 +16,12 @@ export default class History {
         this.redoList = [];
         this.status = false; // 수정 여부
     }
-
+    /**
+     * 이력 저장
+     * @param data 저장할 데이터
+     * @param list undo/redo 목록
+     * @param flag redo 목록 유지할지 여부 : false이면 redo 목록을 비운다.
+     */
     save(data, list, flag) {
         if (data.length === 0) { return false; }
         if (data.length === 1 && workflowUtil.compareJson(data[0].from, data[0].to)) {
@@ -28,9 +33,10 @@ export default class History {
 
         (list || this.undoList).push(data);
         this.status = (this.undoList.length > 0); // undoList가 없으면 수정된 항목이 없음을 의미한다.
-        this.editor.setFormName();
     }
-
+    /**
+     * 되돌리기
+     */
     undo() {
         if (this.undoList.length) {
             let restoreData = this.undoList.pop();
@@ -38,7 +44,9 @@ export default class History {
             this.save(restoreData, this.redoList, true);
         }
     }
-
+    /**
+     * 재실행
+     */
     redo() {
         if (this.redoList.length) {
             let restoreData = this.redoList.pop();
@@ -46,7 +54,11 @@ export default class History {
             this.save(restoreData, this.undoList, true);
         }
     }
-
+    /**
+     * 적용
+     * @param type undo | redo
+     * @param histories 이력 데이터
+     */
     restore(type, histories) {
         const historiesData = histories.slice();
         if (historiesData.length > 1 && type === 'redo') {

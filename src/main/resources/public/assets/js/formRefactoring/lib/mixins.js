@@ -15,7 +15,11 @@ import { UIComponentTooltip } from '../form/component.js';
 
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
 export const controlMixin = {
-    // 자식 객체 추가
+    /**
+     * 자식 객체 추가
+     * @param object group, row, component 객체
+     * @param index 인덱스
+     */
     add(object, index) {
         if (!object) { return false; }
 
@@ -42,7 +46,10 @@ export const controlMixin = {
         }
         return this;
     },
-    // 자식 삭제
+    /**
+     * 자식 객체 삭제 (단일)
+     * @param object group, row, component 객체
+     */
     remove(object) {
         const index = this.children.indexOf(object);
         if (index !== -1) {
@@ -62,25 +69,37 @@ export const controlMixin = {
         }
         return this;
     },
-    // 자식 전부 삭제
+    /**
+     * 자식 객체 전부 삭제
+     */
     clear() {
-        this.UIElement.clear();
+        this.UIElement.clearUI();
         for (let i = 0; i < this.children.length; i++) {
             const object = this.children[i];
             object.parent = null;
         }
     },
-    // 자식 정렬
+    /**
+     * 자식 객체 정렬
+     * @param index 인덱스
+     */
     sort(index) {
         for (let i = index; i < this.children.length; i++) {
             this.children[i].displayOrder = i;
         }
     },
-    // 복제
+    /**
+     * 복제
+     * @param flag 객체의 키가되는 id도 복제할지 여부 (true이면 id도 복제됨)
+     * @param data 인스턴스에 전달되는 데이터
+     */
     clone(flag, data) {
         return new this.constructor(data).copy(this, flag);
     },
-    // 객체 조회
+    /**
+     * 아이디로 객체 조회
+     * @param id 아이디
+     */
     getById(id) {
         if (this['id'] === id) {
             return this;
@@ -98,7 +117,9 @@ export const controlMixin = {
 };
 // label 공통 믹스인
 export const componentLabelMixin = {
-    // 라벨 객체 생성
+    /**
+     * 라벨 DOM 객체 생성
+     */
     makeLabel() {
         const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
             .addUIClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
@@ -120,7 +141,10 @@ export const componentLabelMixin = {
         label.addUI(label.UIRequiredText);
         return label;
     },
-    // 라벨 너비 계산
+    /**
+     * 라벨 너비 계산
+     * @param position 위치
+     */
     getLabelColumnWidth(position) {
         let labelColumnWidth = FORM.COLUMN; // 12
         if (position === FORM.LABEL.POSITION.HIDDEN) {
@@ -133,7 +157,9 @@ export const componentLabelMixin = {
 };
 // tooltip menu 공통 믹스인
 export const toolTipMenuMixin = {
-    // tooltip menu 객체 생성
+    /**
+     * 툴팁 DOM 객체 생성
+     */
     makeTooltip() {
         const tooltipMenu = new UIDiv().setUIClass(CLASS_PREFIX + 'tooltip-menu');
         tooltipMenu.UIUl = new UIUl().setUIClass(CLASS_PREFIX + 'tooltip-menu-items');
@@ -155,7 +181,9 @@ export const toolTipMenuMixin = {
         tooltipMenu.addUI(tooltipMenu.UIUl);
         return tooltipMenu;
     },
-    // 객체 복사
+    /**
+     * group, row, component 객체 복제
+     */
     copyObject(e) {
         if (e) { // tooltip 선택시 drag & drop 이벤트 중지
             e.stopPropagation();
@@ -190,6 +218,9 @@ export const toolTipMenuMixin = {
         // 복사한 객체 선택
         copyObject.UIElement.domElement.dispatchEvent(new Event('click'));
     },
+    /**
+     * group, row, component 객체 삭제
+     */
     removeObject(e) {
         if (e) { // tooltip 선택시 drag & drop 이벤트 중지
             e.stopPropagation();

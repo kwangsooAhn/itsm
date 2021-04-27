@@ -273,7 +273,7 @@ export default class Component {
         this.init();
         return this;
     }
-
+    // json 데이터 추출
     toJson() {
         return {
             id: this.id,
