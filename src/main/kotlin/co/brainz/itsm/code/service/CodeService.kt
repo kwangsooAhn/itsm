@@ -6,6 +6,7 @@
 package co.brainz.itsm.code.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
@@ -45,8 +46,13 @@ class CodeService(
                 codes.addAll(code as Set<String>)
             }
         }
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val findCodeList = codeRepository.findCodeByPCodeIn(codes, userDetails.lang)
+        val lang = if (SecurityContextHolder.getContext().authentication.principal == "anonymousUser") {
+            AliceUserConstants.USER_LOCALE_LANG
+        } else {
+            val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+            userDetails.lang
+        }
+        val findCodeList = codeRepository.findCodeByPCodeIn(codes, lang)
         for (codeDto in findCodeList) {
             if (codeDto.codeLangValue != null && codeDto.lang != null) {
                 codeDto.codeValue = codeDto.codeLangValue
