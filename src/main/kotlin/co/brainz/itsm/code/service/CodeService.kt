@@ -19,7 +19,6 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonParser
 import com.querydsl.core.QueryResults
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
@@ -240,13 +239,14 @@ class CodeService(
         }
 
         if (!codeDetailDto.codeLang.isNullOrEmpty()) {
-            val codeLangObject = JsonParser().parse(codeDetailDto.codeLang).asJsonObject
-            codeLangObject.entrySet().forEach { codeLang ->
+            val codeLangObject: LinkedHashMap<String, String> =
+                mapper.readValue(codeDetailDto.codeLang, object : TypeReference<Map<String, String>>() {})
+            codeLangObject.entries.forEach {
                 codeLangRepository.save(
                     CodeLangEntity(
                         code = codeDetailDto.code,
-                        codeValue = codeLang.value.asString,
-                        lang = codeLang.key
+                        codeValue = it.value,
+                        lang = it.key
                     )
                 )
             }
