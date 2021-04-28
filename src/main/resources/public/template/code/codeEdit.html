@@ -267,7 +267,7 @@
 
             const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
             for (let i = 0; i < codeLangList.length; i++) {
-                if (codeLangList[i].value === "") {
+                if (codeLangList[i].value.trim() === "") {
                     aliceAlert.alertWarning(i18n.msg('code.msg.enterCodeLangValue'));
                     return false;
                 }
