@@ -164,7 +164,7 @@ export default class Validation {
         }
         //유효성 검증 실패시
         if (this.alert) { // 알림창 사용시
-            aliceJs.alertWarning(message, () => {
+            aliceAlert.alertWarning(message, () => {
                 element.classList.add(this.errorClassName);
                 element.focus();
                 if (typeof callback === 'function') {

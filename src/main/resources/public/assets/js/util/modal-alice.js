@@ -223,16 +223,16 @@
                 }
                 dialog.appendChild(title);
             }
-
-            if (this.options.body instanceof Element ||
-                (typeof this.options.body === 'string' && this.options.body !== '')) {
+            if (this.options.body instanceof Element || (this.options.body instanceof Object &&
+                this.options.body instanceof DocumentFragment)) {
                 let body = document.createElement('div');
                 body.className = 'modal-content';
-                if (this.options.body instanceof Element) {
-                    body.appendChild(this.options.body);
-                } else {
-                    body.innerHTML = this.options.body;
-                }
+                body.appendChild(this.options.body);
+                dialog.appendChild(body);
+            } else if (typeof this.options.body === 'string' && this.options.body !== '') {
+                let body = document.createElement('div');
+                body.className = 'modal-content';
+                body.innerHTML = this.options.body;
                 dialog.appendChild(body);
             }
             // 버튼
