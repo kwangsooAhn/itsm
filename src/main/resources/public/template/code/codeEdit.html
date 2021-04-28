@@ -412,10 +412,8 @@
             }
             if (param !== '') {
                 const codeLang = JSON.parse(param);
-                if (codeLang !== null) {
-                    for (let index in codeLang) {
-                        drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue});
-                    }
+                for (let index in codeLang) {
+                    drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue});
                 }
             }
         }
