@@ -376,8 +376,8 @@
             divLang.appendChild(langLabel);
             divLang.appendChild(langSelect);
 
-            const divcodeLangValue = document.createElement('div');
-            divcodeLangValue.classList.add('edit-column', 'flex-column', 'flex-fill');
+            const divCodeLangValue = document.createElement('div');
+            divCodeLangValue.classList.add('edit-column', 'flex-column', 'flex-fill');
             const codeLangValueLabel = document.createElement('label');
             codeLangValueLabel.classList.add('required');
             codeLangValueLabel.textContent = i18n.msg('code.label.codeValue');
@@ -386,8 +386,8 @@
             codeLangValueInput.name = 'codeLangValue';
             codeLangValueInput.maxLength = 100;
             codeLangValueInput.value = (typeof param !== 'undefined') ? param.codeLangValue : '';
-            divcodeLangValue.appendChild(codeLangValueLabel);
-            divcodeLangValue.appendChild(codeLangValueInput);
+            divCodeLangValue.appendChild(codeLangValueLabel);
+            divCodeLangValue.appendChild(codeLangValueInput);
 
             const deleteBtn = document.createElement('button');
             deleteBtn.classList.add('btn-minus');
@@ -400,7 +400,7 @@
             });
 
             divRow.appendChild(divLang);
-            divRow.appendChild(divcodeLangValue);
+            divRow.appendChild(divCodeLangValue);
             divRow.appendChild(deleteBtn);
             document.getElementById('codeLang').appendChild(divRow);
         }
@@ -414,7 +414,7 @@
                 const codeLang = JSON.parse(param);
                 if (codeLang !== null) {
                     for (let index in codeLang) {
-                        drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeLangValue});
+                        drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue});
                     }
                 }
             }

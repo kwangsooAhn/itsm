@@ -9,6 +9,6 @@ import java.io.Serializable
 
 data class CodeLangDto(
     val code: String,
-    val codeLangValue: String,
+    val codeValue: String,
     val lang: String
 ) : Serializable
