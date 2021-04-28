@@ -251,7 +251,7 @@
         let deployableStatus = ['form.status.publish', 'form.status.use'];
 
         if (deployableStatus.indexOf(initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
-            aliceJs.alertWarning(i18n.msg("common.msg.onlySaveInEdit"));
+            aliceAlert.alertWarning(i18n.msg('common.msg.onlySaveInEdit'));
             return false;
         }
 
@@ -2598,11 +2598,11 @@
      * 태그 추가 및 삭제 시 다시 그리기.
      */
     function onAddRemoveTag(tag) {
-        let tagValue = []
+        let tagValue = [];
         tagify.getTagElms().forEach( tagElm =>
             tagValue.push({value: tagElm.title})
-        )
-        changePropertiesValue(tagValue,'dataAttribute','tag');
+        );
+        changePropertiesValue(tagValue, 'dataAttribute', 'tag');
     }
 
     exports.init = init;

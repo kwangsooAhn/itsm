@@ -12,7 +12,7 @@
   @include container;
 
   .form-header {
-    @include header;
+    @include fixedHeader;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
@@ -33,7 +33,7 @@
   }
 
   .form-main {
-    @include main;
+    @include fixedContainer;
     background-color: $layout-main-bg-color;
     @include scrollbarHidden;
 
@@ -89,7 +89,7 @@
   }
 
   .form-properties {
-    @include properties;
+    @include propertiesTemplate;
     top: calc(#{$layout-header-height} + #{$layout-properties-header-height});
     width: $layout-properties-width;
     background-color: $layout-properties-bg-color;
@@ -256,10 +256,10 @@
           width: 100%;
           .datepicker,
           .datetimepicker {
-            @include background($icon-folder-path + 'icon_calendar.svg', auto, no-repeat, 98%, 50%, null);
+            @include backgroundImage($icon-folder-path + 'icon_calendar.svg', auto, no-repeat, 98%, 50%, null);
           }
           .timepicker {
-            @include background($icon-folder-path + 'icon_clock.svg', auto, no-repeat, 98%, 50%, null);
+            @include backgroundImage($icon-folder-path + 'icon_clock.svg', auto, no-repeat, 98%, 50%, null);
           }
         }
         // 단위

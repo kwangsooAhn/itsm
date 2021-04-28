@@ -358,7 +358,7 @@ function isValidNumber(elementId, isMessage, callbackFunc) {
     if (elem !== null) {
         if (!numberReg.test(elem.value)) {
             if (isMessage) {
-                aliceAlert.alertWarning(i18n.msg('common.msg.number'), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.number'), function () {
                     elem.value = '';
                     elem.focus();
                     callback();
@@ -391,7 +391,7 @@ function isValidChar(elementId, isMessage, callbackFunc) {
     if (elem !== null) {
         if (!charReg.test(elem.value)) {
             if (isMessage) {
-                aliceAlert.alertWarning(i18n.msg('common.msg.char'), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.char'), function () {
                     elem.value = '';
                     elem.focus();
                     callback();
@@ -425,7 +425,7 @@ function isValidMax(elementId, maxValue, isMessage, callbackFunc) {
     if (elem !== null && maxValue !== undefined) {
         if (maxValue !== '' && elem.value > Number(maxValue)) {
             if (isMessage) {
-                aliceAlert.alertWarning(i18n.msg('common.msg.max', maxValue), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.max', maxValue), function () {
                     elem.value = maxValue;
                     elem.focus();
                     callback();
@@ -459,7 +459,7 @@ function isValidMin(elementId, minValue, isMessage, callbackFunc) {
     if (elem !== null && minValue !== undefined) {
         if (minValue !== '' && elem.value < Number(minValue)) {
             if (isMessage) {
-                aliceAlert.alertWarning(i18n.msg('common.msg.min', minValue), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.min', minValue), function () {
                     elem.value = minValue;
                     elem.focus();
                     callback();
@@ -493,7 +493,7 @@ function isValidMaxLength(elementId, maxLength, isMessage, callbackFunc) {
     if (elem !== null && maxLength !== undefined) {
         if (maxLength !== '' && elem.value.length > Number(maxLength)) {
             if (isMessage) {
-                aliceAlert.alertWarning(i18n.msg('common.msg.maxLength', maxLength), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.maxLength', maxLength), function () {
                     elem.value = elem.value.substring(0, maxLength);
                     elem.focus();
                     callback();
@@ -527,7 +527,7 @@ function isValidMinLength(elementId, minLength, isMessage, callbackFunc) {
     if (elem !== null && minLength !== undefined) {
         if (minLength !== '' && elem.value.length < Number(minLength)) {
             if (isMessage) {
-                aliceAlert.alertWarning(i18n.msg('common.msg.minLength', minLength), function () {
+                aliceAlert.alertWarning(i18n.msg('validation.msg.minLength', minLength), function () {
                     elem.focus();
                     callback();
                 });

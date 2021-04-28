@@ -3,6 +3,6 @@
 
 .color-picker {
     .color-palette {
-        @include color-palette();
+        @include colorPalette();
     }
 }

@@ -171,6 +171,10 @@ input, button, select, optgroup, textarea {
   justify-content: space-between !important;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .align-items-start {
   align-items: flex-start !important;
 }
@@ -417,6 +421,49 @@ input, button, select, optgroup, textarea {
   margin-top: auto;
 }
 
+/* _fonts.scss
+ *
+ * 파일 경로 : template/utilities/_fonts.scss
+ * @description 글꼴 관련 설정
+ * @author jy.lim
+ * @version 1.0
+ */
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
+  font-style: normal;
+  font-weight: 100;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
+  font-style: normal;
+  font-weight: 900;
+}
 /* _common.scss 
  *
  * 파일 경로 : template/utilities/_common.scss
@@ -437,7 +484,7 @@ input, button, select, optgroup, textarea {
   font-weight: 700;
 }
 .required::after {
-  color: #FF405A;
+  color: #ff405a;
   content: "*";
 }
 
@@ -482,49 +529,6 @@ input, button, select, optgroup, textarea {
   cursor: pointer;
 }
 
-/* _fonts.scss 
- *
- * 파일 경로 : template/_fonts.scss
- * @description 폰트 디자인
- * @author wdj
- * @version 1.0
- */
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
-  font-style: normal;
-  font-weight: 100;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
-  font-style: normal;
-  font-weight: 300;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
-  font-style: normal;
-  font-weight: 400;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
-  font-style: normal;
-  font-weight: 500;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
-  font-style: normal;
-  font-weight: 700;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
-  font-style: normal;
-  font-weight: 900;
-}
 /* _layout.scss
  *
  * 파일 경로 : template/_layout.scss
@@ -888,8 +892,8 @@ input.icon {
   padding-right: 2.5rem;
 }
 input.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 input[type=range] {
   -webkit-appearance: none;
@@ -954,8 +958,8 @@ textarea:read-only {
   cursor: default;
 }
 textarea.error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
 }
 
 table {

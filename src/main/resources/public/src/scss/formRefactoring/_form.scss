@@ -1,0 +1,190 @@
+/* form, group, row, component 디자인 */
+// 폼
+.zenius-form {
+  display: inline-block;
+  min-height: $form-min-height;
+  background-color: $form-bg-color;
+  border: $form-border;
+  box-shadow: $form-box-shadow;
+
+  & *:focus { outline: none !important; }
+}
+// 그룹 툴팁
+.zenius-group-tooltip {
+  position: relative;
+  padding: 1.25rem; // 20px
+  border: 0.0625rem solid transparent; // 1px
+  background-color: $white;
+  &.selected {
+    border-color: $group-selected-border-color;
+    background-color: $group-selected-bg-color;
+    > .zenius-tooltip-menu { visibility: visible; }
+  }
+}
+// 그룹
+.zenius-group {
+  // 체크 박스
+  &-accordion-checkBox {
+    position: absolute;
+    opacity: 0;
+    z-index: $z-index-hidden;
+  }
+  // 라벨
+  &-label {
+    display: table;
+    width: 100%;
+    min-height: 2.5rem; // 40px
+    padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
+    &.off { display: none; }
+    // 라벨 문구
+    .zenius-group-label-text {
+      display: table-cell;
+      vertical-align: middle;
+      opacity: 1;
+    }
+    // 화살표 아이콘
+    .arrow-left {
+      opacity: 0;
+      display: table-cell;
+      @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $blue-gray); // 12px 20px
+    }
+  }
+  // 아코디언 사용중일 경우
+  &.accordion {
+    border-bottom : $group-accordion-border;
+    // 체크박스 선택 = 아코디언 펼침
+    .zenius-group-accordion-checkBox:checked {
+      + .zenius-group-label {
+        border-bottom-color: $group-accordion-border-color;
+        .arrow-left {
+          transform: rotate(-90deg);
+        }
+      }
+      ~ .zenius-row-tooltip {
+        display: block;
+      }
+    }
+    // 라벨
+    .zenius-group-label {
+      border: $group-accordion-border;
+      background-color: $group-accordion-bg-color;
+      padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
+      cursor: pointer;
+      border-bottom-color: transparent;
+
+      &.off {
+        display: table;
+        .zenius-group-label-text {
+          opacity: 0;
+        }
+      }
+
+      .zenius-group-label-text {
+        padding-right: 0.625rem; // 10px
+      }
+
+      .arrow-left {
+        opacity: 1;
+      }
+    }
+    // row
+    .zenius-row-tooltip {
+      display: none;
+      transition: all 0.25s ease-out;
+    }
+  }
+}
+// row 툴팁
+.zenius-row-tooltip {
+  position: relative;
+  padding: 1.25rem; // 20px
+  border: 0.0625rem solid transparent; // 1px
+  background-color: transparent;
+  &.selected {
+    border-color: $row-selected-border-color;
+    background-color: $row-selected-bg-color;
+    > .zenius-tooltip-menu { visibility: visible; }
+  }
+}
+// row
+.zenius-row {
+  // TODO: 삭제
+  background-color: $light-gray;
+}
+// component 툴팁
+.zenius-component-tooltip {
+  position: relative;
+  flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+  padding:  0.75rem 1.25rem; // 12px 20px
+  border: 0.0625rem solid transparent; // 1px
+  background-color: transparent;
+  &.selected {
+    border-color: $component-selected-border-color;
+    background-color: $component-selected-bg-color;
+    >.zenius-tooltip-menu { visibility: visible; }
+  }
+}
+// component
+.zenius-component {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  // label
+  .zenius-component-label {
+    flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+    padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
+    &.on { display: block; }
+    &.off { display: none; }
+  }
+  // element
+  .zenius-element {
+    flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+    padding: 0.4375rem 0; // 7px 0
+
+    // inputBox
+    .input { width: 100%; }
+  }
+}
+// label
+.zenius-component[data-displayType]:not([data-displayType="required"]) { // 필수값 숨김
+  .zenius-component-label {
+    span[class="required"] { display: none; }
+  }
+}
+// tooptip
+.zenius-tooltip-menu {
+  visibility: hidden;
+  position: absolute;
+  background-color: $tooltip-menu-bg-color;
+  height: 2.5rem; // 40px;
+  box-shadow: 0 0 0 0.0625rem $tooltip-menu-border-color inset; // 1px
+  bottom: 100%;
+  right: -0.0625rem; // -1px
+  .zenius-tooltip-menu-items {
+    margin: 0 0.125rem; // 0 2px
+    padding: 0.5625rem 0 0; // 9px 0 0 0
+    .zenius-tooltip-menu-item {
+      display: inline-block;
+      margin: 0 0.25rem; // 0 4px
+      padding: 0 0.5rem; // 0 8px
+      cursor: pointer;
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        pointer-events: none;
+        &.icon-copy {
+          @include maskImage('#{$icon-folder-path}formRefactoring/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px
+        }
+        &.icon-remove {
+          @include maskImage('#{$icon-folder-path}formRefactoring/tooltip/icon_remove.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px
+        }
+      }
+      &:hover {
+        .icon {
+          background: $tooltip-menu-focus-bg-color;
+        }
+      }
+    }
+  }
+}

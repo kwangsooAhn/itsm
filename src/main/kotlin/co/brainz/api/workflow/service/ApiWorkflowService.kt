@@ -13,9 +13,11 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateComponentDataDto
 import co.brainz.workflow.provider.dto.RestTemplateComponentDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service
 @Service
 class ApiWorkflowService(
     private val documentService: DocumentService,
+    private val instanceService: WfInstanceService,
     private val wfEngine: WfEngine,
     private val wfComponentService: WfComponentService,
     private val apiWorkflowMapper: ApiWorkflowMapper,
@@ -91,5 +94,9 @@ class ApiWorkflowService(
                 )
             }
         }
+    }
+
+    fun getInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto> {
+        return instanceService.getInstancesHistory(instanceId)
     }
 }

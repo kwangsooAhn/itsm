@@ -6,12 +6,16 @@
 
 package co.brainz.api
 
+import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.workflow.token.constants.WfTokenConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import org.junit.jupiter.api.Assumptions.assumingThat
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -27,8 +31,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,6 +44,9 @@ class CallApiDocument {
 
     @Autowired
     private lateinit var mvc: MockMvc
+
+    @Autowired
+    private lateinit var wfInstanceService: WfInstanceService
 
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -185,6 +190,32 @@ class CallApiDocument {
         )
             .andExpect(status().isOk)
             .andDo(print())
+    }
+
+    @DisplayName("문서 처리 상태 조회")
+    @Order(4)
+    @Test
+    fun getInstanceHistory() {
+        // 완료된 문서 찾기
+        val params = LinkedHashMap<String, Any>()
+        params["userKey"] = "0509e09412534a6e98f04ca79abb6424" // ADMIN
+        params["documentId"] = ""
+        params["searchValue"] = ""
+        params["tokenType"] = WfTokenConstants.SearchType.COMPLETED.code
+        params["fromDt"] = LocalDateTime.now().minusMonths(1).atZone(ZoneOffset.UTC).toString()
+        params["toDt"] = LocalDateTime.now().atZone(ZoneOffset.UTC).toString()
+        params["offset"] = 0
+        params["tags"] = ""
+        val instances = wfInstanceService.instances(params)
+        assumingThat(
+            !instances.isNullOrEmpty()
+        ) {
+            val instanceId = instances[0].instanceId
+            mvc.perform(get("/api/wf/$instanceId/history").headers(this.setAccessToken()))
+                .andExpect(status().isOk)
+                .andDo(print())
+                .andReturn()
+        }
     }
 
     @DisplayName("AccessToken 헤더 설정")
