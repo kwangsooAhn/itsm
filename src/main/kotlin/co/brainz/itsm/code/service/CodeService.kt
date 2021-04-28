@@ -6,15 +6,20 @@
 package co.brainz.itsm.code.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.dto.CodeReturnDto
 import co.brainz.itsm.code.entity.CodeEntity
+import co.brainz.itsm.code.entity.CodeLangEntity
+import co.brainz.itsm.code.entity.CodeLangEntityPk
+import co.brainz.itsm.code.repository.CodeLangRepository
 import co.brainz.itsm.code.repository.CodeRepository
-import co.brainz.itsm.user.repository.UserRepository
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.JsonParser
 import com.querydsl.core.QueryResults
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
@@ -23,8 +28,9 @@ import org.springframework.stereotype.Service
 @Service
 class CodeService(
     private val codeRepository: CodeRepository,
-    private val userRepository: UserRepository
+    private val codeLangRepository: CodeLangRepository
 ) {
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun selectCodeByParent(code: Any): MutableList<CodeDto> {
         val codeList = mutableListOf<CodeDto>()
@@ -133,12 +139,14 @@ class CodeService(
      * 코드 데이터 상세 정보 조회
      */
     fun getDetailCodes(code: String): CodeDetailDto? {
+        val codeDetailDto = codeRepository.findCodeDetail(code)
+        val codeLangList = codeLangRepository.findByCodeLangList(code)
+
+        if (codeLangList.isNotEmpty()) {
+            codeDetailDto.codeLang = mapper.writeValueAsString(codeLangList)
+        }
+
         return try {
-            val codeDetailDto = codeRepository.findCodeDetail(code)
-            codeDetailDto.createUserName =
-                codeDetailDto.createUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
-            codeDetailDto.updateUserName =
-                codeDetailDto.updateUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
             codeDetailDto
         } catch (e: EmptyResultDataAccessException) {
             null
@@ -173,6 +181,21 @@ class CodeService(
             }
             codeRepository.save(codeEntity)
         }
+
+        if (!codeDetailDto.codeLang.isNullOrEmpty()) {
+            val codeLangObject: LinkedHashMap<String, String> =
+                mapper.readValue(codeDetailDto.codeLang, object : TypeReference<Map<String, String>>() {})
+            codeLangObject.entries.forEach {
+                codeLangRepository.save(
+                    CodeLangEntity(
+                        code = codeDetailDto.code,
+                        codeValue = it.value,
+                        lang = it.key
+                    )
+                )
+            }
+        }
+
         return status
     }
 
@@ -206,6 +229,29 @@ class CodeService(
                 status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
             }
         }
+
+        val codeLangList = codeLangRepository.findByCodeLangList(codeDetailDto.code)
+        if (codeLangList.isNotEmpty()) {
+            for (codeLangDto in codeLangList) {
+                codeLangRepository.deleteById(
+                    CodeLangEntityPk(codeLangDto.code, codeLangDto.lang)
+                )
+            }
+        }
+
+        if (!codeDetailDto.codeLang.isNullOrEmpty()) {
+            val codeLangObject = JsonParser().parse(codeDetailDto.codeLang).asJsonObject
+            codeLangObject.entrySet().forEach { codeLang ->
+                codeLangRepository.save(
+                    CodeLangEntity(
+                        code = codeDetailDto.code,
+                        codeValue = codeLang.value.asString,
+                        lang = codeLang.key
+                    )
+                )
+            }
+        }
+
         return status
     }
 
@@ -214,6 +260,15 @@ class CodeService(
      */
     fun deleteCode(code: String): String {
         var status = CodeConstants.Status.STATUS_SUCCESS.code
+        val codeLangList = codeLangRepository.findByCodeLangList(code)
+
+        if (codeLangList.isNotEmpty()) {
+            for (codeLangDto in codeLangList) {
+                codeLangRepository.deleteById(
+                    CodeLangEntityPk(codeLangDto.code, codeLangDto.lang)
+                )
+            }
+        }
 
         when (codeRepository.existsByPCodeAndEditableTrue(
             codeRepository.findById(code).orElse(CodeEntity(code = code))

@@ -6,12 +6,14 @@
 
 package co.brainz.itsm.code.repository
 
+import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.code.entity.QCodeLangEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
@@ -83,5 +85,26 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
             .where(code.pCode.code.`in`(pCodes))
             .orderBy(code.seqNum.asc(), code.code.asc())
             .fetch()
+    }
+
+    override fun findCodeDetail(search: String): CodeDetailDto {
+        val code = QCodeEntity.codeEntity
+        return from(code)
+            .select(
+                Projections.constructor(
+                    CodeDetailDto::class.java,
+                    code.code,
+                    code.pCode.code,
+                    code.codeName,
+                    code.codeValue,
+                    code.codeDesc,
+                    code.editable,
+                    code.level,
+                    code.seqNum,
+                    Expressions.asString("")
+                )
+            )
+            .where(code.code.eq(search))
+            .fetchOne()
     }
 }
