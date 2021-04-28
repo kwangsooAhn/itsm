@@ -15,6 +15,7 @@ import co.brainz.itsm.code.entity.CodeLangEntity
 import co.brainz.itsm.code.entity.CodeLangEntityPk
 import co.brainz.itsm.code.repository.CodeLangRepository
 import co.brainz.itsm.code.repository.CodeRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -182,13 +183,14 @@ class CodeService(
         }
 
         if (!codeDetailDto.codeLang.isNullOrEmpty()) {
-            val codeLangObject = JsonParser().parse(codeDetailDto.codeLang).asJsonObject
-            codeLangObject.entrySet().forEach { codeLang ->
+            val codeLangObject: LinkedHashMap<String, String> =
+                mapper.readValue(codeDetailDto.codeLang, object : TypeReference<Map<String, String>>() {})
+            codeLangObject.entries.forEach {
                 codeLangRepository.save(
                     CodeLangEntity(
                         code = codeDetailDto.code,
-                        codeValue = codeLang.value.asString,
-                        lang = codeLang.key
+                        codeValue = it.value,
+                        lang = it.key
                     )
                 )
             }
