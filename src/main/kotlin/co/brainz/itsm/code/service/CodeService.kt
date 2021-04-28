@@ -255,7 +255,7 @@ class CodeService(
      */
     fun deleteCode(code: String): String {
         var status = CodeConstants.Status.STATUS_SUCCESS.code
-        var codeLangList = codeLangRepository.findByCodeLangList(code)
+        val codeLangList = codeLangRepository.findByCodeLangList(code)
 
         if (codeLangList.isNotEmpty()) {
             for (codeLangDto in codeLangList) {

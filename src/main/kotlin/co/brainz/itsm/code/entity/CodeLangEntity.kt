@@ -1,6 +1,11 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.code.entity
 
-import co.brainz.framework.auth.entity.AliceUrlEntityPk
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
