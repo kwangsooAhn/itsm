@@ -15,7 +15,9 @@ import co.brainz.itsm.code.entity.CodeLangEntity
 import co.brainz.itsm.code.entity.CodeLangEntityPk
 import co.brainz.itsm.code.repository.CodeLangRepository
 import co.brainz.itsm.code.repository.CodeRepository
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonParser
 import com.querydsl.core.QueryResults
 import org.springframework.dao.EmptyResultDataAccessException
@@ -27,6 +29,7 @@ class CodeService(
     private val codeRepository: CodeRepository,
     private val codeLangRepository: CodeLangRepository
 ) {
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun selectCodeByParent(code: Any): MutableList<CodeDto> {
         val codeList = mutableListOf<CodeDto>()
@@ -139,7 +142,7 @@ class CodeService(
         val codeLangList = codeLangRepository.findByCodeLangList(code)
 
         if (codeLangList.isNotEmpty()) {
-            codeDetailDto.codeLang = Gson().toJson(codeLangList)
+            codeDetailDto.codeLang = mapper.writeValueAsString(codeLangList)
         }
 
         return try {

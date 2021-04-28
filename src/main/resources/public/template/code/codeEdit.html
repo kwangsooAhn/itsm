@@ -268,7 +268,7 @@
             const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
             for (let i = 0; i < codeLangList.length; i++) {
                 if (codeLangList[i].value === "") {
-                    aliceAlert.alertWarning(i18n.msg('code.msg.entercodeLangValue'));
+                    aliceAlert.alertWarning(i18n.msg('code.msg.enterCodeLangValue'));
                     return false;
                 }
             }
@@ -359,11 +359,15 @@
             const divRow = document.createElement('div');
             divRow.classList.add('flex-row', 'edit-row');
 
-            const divLang = document.createElement('div');
-            divLang.classList.add('edit-column', 'flex-column', 'flex-fill', 'mr-4');
+            const divLangLabel = document.createElement('div');
+            divLangLabel.classList.add('flex-column', 'col-1');
             const langLabel = document.createElement('label');
             langLabel.classList.add('required');
             langLabel.textContent = i18n.msg('code.label.lang');
+            divLangLabel.appendChild(langLabel)
+
+            const divLangSelect = document.createElement('div');
+            divLangSelect.classList.add('flex-column', 'col-5', 'mr-4');
             const langSelect = document.createElement('select');
             const langList = /*[[${langList}]]*/'';
             for (let i = 0; i < langList.length; i++) {
@@ -373,35 +377,42 @@
                 selectOption.selected = (typeof param !== 'undefined') ? (param.lang === selectOption.value) : '';
                 langSelect.appendChild(selectOption);
             }
-            divLang.appendChild(langLabel);
-            divLang.appendChild(langSelect);
+            divLangSelect.appendChild(langSelect);
 
-            const divCodeLangValue = document.createElement('div');
-            divCodeLangValue.classList.add('edit-column', 'flex-column', 'flex-fill');
+            const divCodeLangLabel = document.createElement('div');
+            divCodeLangLabel.classList.add('flex-column', 'col-1');
             const codeLangValueLabel = document.createElement('label');
             codeLangValueLabel.classList.add('required');
             codeLangValueLabel.textContent = i18n.msg('code.label.codeValue');
+            divCodeLangLabel.appendChild(codeLangValueLabel);
+
+            const divCodeLangValueInput = document.createElement('div');
+            divCodeLangValueInput.classList.add('flex-column', 'col-5', 'ml-4');
             const codeLangValueInput = document.createElement('input');
             codeLangValueInput.type = 'text';
             codeLangValueInput.name = 'codeLangValue';
             codeLangValueInput.maxLength = 100;
             codeLangValueInput.value = (typeof param !== 'undefined') ? param.codeLangValue : '';
-            divCodeLangValue.appendChild(codeLangValueLabel);
-            divCodeLangValue.appendChild(codeLangValueInput);
+            divCodeLangValueInput.appendChild(codeLangValueInput);
 
+            const divDeleteBtn = document.createElement('div');
+            divDeleteBtn.classList.add('flex-column', 'col-1');
             const deleteBtn = document.createElement('button');
             deleteBtn.classList.add('btn-minus');
             const deleteIcon = document.createElement('span');
             deleteIcon.classList.add('icon-delete-gray', 'ml-1');
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
-                const row = deleteBtn.parentNode;
+                const row = deleteBtn.parentNode.parentNode;
                 row.remove();
             });
+            divDeleteBtn.appendChild(deleteBtn);
 
-            divRow.appendChild(divLang);
-            divRow.appendChild(divCodeLangValue);
-            divRow.appendChild(deleteBtn);
+            divRow.appendChild(divLangLabel);
+            divRow.appendChild(divLangSelect);
+            divRow.appendChild(divCodeLangLabel);
+            divRow.appendChild(divCodeLangValueInput);
+            divRow.appendChild(divDeleteBtn);
             document.getElementById('codeLang').appendChild(divRow);
         }
 
