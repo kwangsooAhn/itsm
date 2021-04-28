@@ -225,5 +225,16 @@
         </div>
     </form>
 </div>
+<template id="saveAsModalTemplate">
+    <div class="save-as-main flex-column">
+        <label class="field-label" for="newFormName">
+            <span th:text="#{form.label.name}"></span>
+            <span class="required"></span>
+        </label>
+        <input type="text" id="newFormName" data-validate-required="true">
+        <label class="field-label" for="newFormDesc" th:text="#{form.label.description}"></label>
+        <textarea class="textarea-scroll-wrapper" id="newFormDesc" rows="3" ></textarea>
+    </div>
+</template>
 </body>
 </html>

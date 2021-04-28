@@ -16,6 +16,15 @@ export default class History {
         this.redoList = [];
         this.status = false; // 수정 여부
     }
+
+    /**
+     * 이력 초기화
+     */
+    reset() {
+        this.undoList = [];
+        this.redoList = [];
+        this.status = false;
+    }
     /**
      * 이력 저장
      * @param data 저장할 데이터

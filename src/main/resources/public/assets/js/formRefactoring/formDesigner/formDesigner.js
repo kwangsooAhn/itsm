@@ -15,6 +15,7 @@ import Form from '../form/form.js';
 import Group, { UIGroupTooltip } from '../form/group.js';
 import Row, { UIRowTooltip } from '../form/row.js';
 import Component, { UIComponentTooltip } from '../form/component.js';
+import Validation from '../lib/validation.js';
 
 class FormDesigner {
     constructor() {
@@ -24,6 +25,7 @@ class FormDesigner {
 
         this.history = new History(this);  // 이력 관리
         this.panel = new Panel(this); // 세부 속성 관리
+        this.validation = new Validation(); // 유효성 검증
         this.selectedObject = null;
 
         // 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
@@ -41,12 +43,20 @@ class FormDesigner {
      * 상단 메뉴바 초기화 및 이벤트 등록
      */
     initMenuBar() {
-        //TODO: - 상단 메뉴 버튼 액션 추가
+        //상단 메뉴 버튼 액션 추가
         document.getElementById('btnSave').addEventListener('click', this.saveForm.bind(this, false), false);
-        document.getElementById('btnSaveAs').addEventListener('click', this.saveAsForm.bind(this), false);
+        document.getElementById('btnSaveAs').addEventListener('click', this.openSaveAsModal.bind(this), false);
         document.getElementById('btnUndo').addEventListener('click', this.history.undo.bind(this.history), false);
         document.getElementById('btnRedo').addEventListener('click', this.history.redo.bind(this.history), false);
         document.getElementById('btnPreview').addEventListener('click', this.preview.bind(this), false);
+
+        // 사용자가 페이지를 떠날 때 정말로 떠날 것인지 묻는 확인창 표시
+        window.addEventListener('beforeunload', (e) => {
+            if (this.history.status) {
+                e.preventDefault(); // 표준에 따라 기본 동작 방지
+                e.returnValue = ''; // Chrome에서는 returnValue 설정이 필요함
+            }
+        });
     }
     /**
      * 단축키 등록
@@ -54,7 +64,7 @@ class FormDesigner {
     initShortcut() {
         const shortcuts = [
             { 'keys': 'ctrl+s', 'command': 'formDesigner.saveForm(false);', 'force': true },                        //폼 양식 저장
-            { 'keys': 'ctrl+shift+s', 'command': 'formDesigner.saveAsForm();', 'force': true },                     //폼 양식 다른이름으로 저장
+            { 'keys': 'ctrl+shift+s', 'command': 'formDesigner.openSaveAsModal();', 'force': true },                //폼 양식 다른이름으로 저장
             { 'keys': 'ctrl+z', 'command': 'formDesigner.history.undo();', 'force': false },                        //폼 편집 화면 작업 취소
             { 'keys': 'ctrl+shift+z', 'command': 'formDesigner.history.redo();', 'force': false },                  //폼 편집 화면 작업 재실행
             { 'keys': 'ctrl+e', 'command': 'formDesigner.preview();', 'force': false },                             //폼 양식 미리보기
@@ -639,27 +649,127 @@ class FormDesigner {
         }
     }
     /**
-     * TODO: 폼 저장
+     * 폼 저장
      * @param boolean 저장후  팝업 닫을지 여부
      */
     saveForm(boolean) {
-        // 세부 속성 유효성 검증 실패시 동작을 중지함
+        // 세부 속성 유효성 검증 실패시 동작을 중지한다.
         if (!this.panel.validateStatus) { return false; }
+        // 발행, 사용 상태일 경우, 저장이 불가능하다.
+        const deployableStatus = ['form.status.publish', 'form.status.use'];
+        if (deployableStatus.includes(this.data.status)) {
+            aliceAlert.alertWarning(i18n.msg('common.msg.onlySaveInEdit'));
+            return false;
+        }
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
         // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
+        console.log(saveData);
+        return false;
         // 저장
-        // util.fetchJson({ method: 'PUT', url: '/rest/form/' + formId + '/data' })
-        // }).then((formData) => {
-        //     // 이력 지우기 및 수정 여부 없애기
-        //     // 팝업 닫기
-        // });
+        util.fetchJson({
+            method: 'PUT',
+            url: '/rest/form/' + formId + '/data',
+            params: JSON.stringify(saveData)
+        }).then((formData) => {
+            if (formData) {
+                // 이력 지우기
+                this.history.reset();
+                this.setFormName(formData.name);
+                // 팝업 닫기
+                if (boolean) {
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
+                        if (window.opener && !window.opener.closed) {
+                            opener.location.reload();
+                        }
+                        window.close();
+                    });
+                } else {
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
+                }
+            } else {
+                aliceAlert.alertDanger(i18n.msg('common.label.fail'));
+            }
+        });
+    }
+
+    /**
+     * 다른이름으로 저장하기 모달 오픈
+     */
+    openSaveAsModal() {
+        if (!this.panel.validateStatus) { return false; }
+
+        const saveAsModalTemplate = document.getElementById('saveAsModalTemplate');
+        const saveAsModal = new modal({
+            title: i18n.msg('common.btn.saveAs'),
+            body: saveAsModalTemplate.content.cloneNode(true),
+            classes: 'save-as',
+            buttons: [
+                {
+                    content: i18n.msg('common.btn.save'),
+                    classes: 'default-line',
+                    bindKey: false,
+                    callback: (modal) => {
+                        const newFormName = document.getElementById('newFormName');
+                        if (this.validation.emit('required', newFormName)) {
+                            this.saveAsForm();
+                            modal.hide();
+                        }
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'default-line',
+                    bindKey: false,
+                    callback: (modal) => {
+                        modal.hide();
+                    }
+                }
+            ],
+            close: { closable: false },
+            onCreate: function(modal) {
+                OverlayScrollbars(document.getElementById('newFormDesc'), {
+                    className: 'scrollbar',
+                    resize: 'none',
+                    sizeAutoCapable: true,
+                    textarea: {
+                        dynHeight: false,
+                        dynWidth: false,
+                        inheritedAttrs: 'class'
+                    }
+                });
+            }
+        });
+        saveAsModal.show();
     }
     /**
-     * TODO: 다른이름으로 저장
+     * 다른이름으로 저장
      */
     saveAsForm() {
-        if (!this.panel.validateStatus) { return false; }
+        // 저장할 데이터 가져오기
+        const saveData  =  this.form.toJson();
+        saveData.name = document.getElementById('newFormName').value;
+        saveData.desc = document.getElementById('newFormDesc').value;
+        // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
+        console.log(saveData);
+        return false;
+        // 저장
+        util.fetchJson({
+            method: 'POST',
+            url: '/rest/forms?saveType=saveas',
+            params: JSON.stringify(saveData)
+        }).then((formId) => {
+            if (formId) {
+                aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
+                    if (window.opener && !window.opener.closed) {
+                        opener.location.reload();
+                    }
+                    window.name = 'form_' + formId + '_edit';
+                    location.href = '/form/' + formId + '/edit2';
+                });
+            } else {
+                aliceAlert.alertDanger(i18n.msg('common.label.fail'));
+            }
+        });
     }
     /**
      * TODO: 미리보기
