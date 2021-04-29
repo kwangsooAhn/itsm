@@ -23,7 +23,7 @@ input {
     background-color: $element-bg-color;
 
     &:disabled {
-      background-color: $light-gray;
+      background-color: map-get($gray, "light");
     }
   }
 
@@ -32,7 +32,7 @@ input {
     background-color: $element-bg-color;
 
     &:disabled {
-      background-color: $light-gray;
+      background-color: map-get($gray, "light");
     }
   }
 
@@ -56,14 +56,14 @@ input {
     background-color: $element-bg-color;
 
     &:disabled {
-      background-color: $light-gray;
+      background-color: map-get($gray, "light");
     }
   }
 }
 
 label {
   margin: 0.625rem 0; // 10px 0
-  color: $light-black;
+  color: map-get($black, "light");
 }
 
 textarea {
@@ -109,7 +109,7 @@ table[id="documentDisplay"] {
     li {
       height: 1.5rem; // 24px
       font-weight: $font-weight-regular;
-      color: $dark-gray;
+      color: map-get($gray, "dark");
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

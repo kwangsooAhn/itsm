@@ -22,7 +22,7 @@
   .move-handler {
     margin: 0 0.5rem 0 0; // 0 8.8px 0 0
     content: '';
-    @include maskImage('#{$icon-folder-path}form/icon_component_move.svg', 0.625rem, 0.75rem, no-repeat, center, null, $pressed-gray); // 10px 12px
+    @include maskImage('#{$icon-folder-path}form/icon_component_move.svg', 0.625rem, 0.75rem, no-repeat, center, null, map-get($gray, "pressed")); // 10px 12px
     opacity: 0;
     cursor: move;
 
@@ -111,7 +111,7 @@
         padding: 1.875rem 0 0.625rem; // 30px 0 10px 0
         .icon-no-img {
             display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, $pressed-gray); // 45px
+            @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, map-get($gray, "pressed")); // 45px
         }
         p {
           margin-top: 1.25rem; // 20px
@@ -185,11 +185,11 @@
         input[type=text] { width: 100%; }
 
         .on {
-          box-shadow: 0 0 0 0.125rem $point-blue inset; // 2px
+          box-shadow: 0 0 0 0.125rem $blue inset; // 2px
         }
 
         .no-data-found-list {
-          background-color: $light-gray;
+          background-color: map-get($gray, "light");
           pointer-events: none;
           color: $gray;
         }
@@ -197,7 +197,7 @@
       // 아코디언 컴포넌트
       &.accordion {
         height: 2.5rem; // 40px
-        background-color: $light-gray;
+        background-color: map-get($gray, "light");
         position: relative;
         padding: 0.625rem 0 0.625rem 1.125rem; // 10px 0 10px 18px
         cursor: pointer;
@@ -273,7 +273,7 @@
       padding: 0;
       .btn-dr-table-row-add-text {
         margin-left: 0.625rem;
-        color: $light-black;
+        color: map-get($black, "light");
       }
     }
     // Dynamic Row Table 컴포넌트 - Row 삭제 버튼
@@ -334,16 +334,16 @@
           .icon {
             display: inline-block;
             &.icon-list {
-              @include maskImage('#{$icon-folder-path}form/tooltip/icon_list.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px 
+              @include maskImage('#{$icon-folder-path}form/tooltip/icon_list.svg', 1.25rem, 1.25rem, no-repeat, center, null, $component-tooltip-menu-icon-color); // 20px 20px
             }
             &.icon-copy {
-              @include maskImage('#{$icon-folder-path}form/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px 
+              @include maskImage('#{$icon-folder-path}form/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center, null, $component-tooltip-menu-icon-color); // 20px 20px
             }
             &.icon-delete {
-              @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px 
+              @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, $component-tooltip-menu-icon-color); // 20px 20px
             }
             &.icon-add {
-              @include maskImage('#{$icon-folder-path}form/tooltip/icon_add.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px 
+              @include maskImage('#{$icon-folder-path}form/tooltip/icon_add.svg', 1.25rem, 1.25rem, no-repeat, center, null, $component-tooltip-menu-icon-color); // 20px 20px
             }
           }
         }

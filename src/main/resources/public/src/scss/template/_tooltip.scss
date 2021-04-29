@@ -23,7 +23,7 @@
   .help-tooltip-icon {
     display: inline-block;
     cursor: pointer;
-    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, $pressed-gray);
+    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, map-get($gray, "pressed"));
   }
 
   .tooltip-contents {
@@ -32,7 +32,7 @@
     color: $tooltip-contents-color;
     width: $tooltip-contents-width;
     font-size: $tooltip-font-size;
-    border: $tooltip-contents-border solid $point-blue;
+    border: $tooltip-contents-border solid $blue;
     border-radius: $tooltip-contents-border;
     padding: $tooltip-contents-padding;
     margin: 0.25rem 0 0 0;
@@ -41,7 +41,7 @@
     z-index: $z-index-tooltip;
     box-shadow: $tooltip-contents-box-shadow;
     span {
-      color: $point-blue;
+      color: $blue;
       word-break: keep-all;
       line-height: 1.5;
     }
@@ -53,7 +53,7 @@
       @include animation (0s, 0.3s, fadeIn, ease-out);
     }
     .help-tooltip-icon {
-      background: $point-blue;
+      background: $blue;
     }
   }
 }
@@ -62,7 +62,7 @@
   .tooltip-contents {
     min-width: $tooltip-header-contents-width;
     visibility: hidden;
-    background-color: $hover-blue;
+    background-color: map-get($blue, "hover");
     color: $white;
     text-align: center;
     font-size: $tooltip-header-contents-size;

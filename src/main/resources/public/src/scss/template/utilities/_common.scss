@@ -12,7 +12,7 @@
 }
 // 설명
 .description {
-  color: $warm-gray;
+  color: map-get($gray, "warm");
 }
 // 필수 (*) 표시
 .required {
@@ -44,11 +44,11 @@
 @include verticalBar($vertical-bar-width, $vertical-bar-height, $element-border, $vertical-bar-margin);
 // 아래 실선
 .under-bar {
-  border-bottom: 0.0625rem solid $default-gray; // 1px
+  border-bottom: 0.0625rem solid map-get($gray, "default"); // 1px
   padding-bottom: 0.625rem; // 10px
   margin-bottom: 0.625rem; //10px
   .bold {
-    border-bottom: 0.125rem solid $default-gray; // 2px
+    border-bottom: 0.125rem solid map-get($gray, "default"); // 2px
   }
 }
 // 포인터

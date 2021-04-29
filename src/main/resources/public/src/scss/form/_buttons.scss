@@ -48,11 +48,11 @@
 
   .icon-minus {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_minus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $pressed-gray); // 14px 14px 
+    @include maskImage('#{$icon-folder-path}icon_minus.svg', 0.875rem, 0.875rem, no-repeat, center, null, map-get($gray, "pressed")); // 14px 14px
   }
   .icon-plus {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $pressed-gray); // 14px 14px
+    @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, map-get($gray, "pressed")); // 14px 14px
   }
 
   .icon-fail {
@@ -67,46 +67,46 @@
   padding: 0;
 
   .icon-bold {
-    @include maskImage('#{$icon-folder-path}form/property/icon_bold.svg', 16px, 20px, no-repeat, center, null, $light-black); // 16px 20px
+    @include maskImage('#{$icon-folder-path}form/property/icon_bold.svg', 16px, 20px, no-repeat, center, null, $layout-properties-icon-color); // 16px 20px
   }
   .icon-italic {
-    @include maskImage('#{$icon-folder-path}form/property/icon_italic.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+    @include maskImage('#{$icon-folder-path}form/property/icon_italic.svg', 20px, 20px, no-repeat, center, null, $layout-properties-icon-color); // 20px 20px
   }
   .icon-underline {
-    @include maskImage('#{$icon-folder-path}form/property/icon_underline.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+    @include maskImage('#{$icon-folder-path}form/property/icon_underline.svg', 20px, 20px, no-repeat, center, null, $layout-properties-icon-color); // 20px 20px
   }
   .icon-align-left {
-    @include maskImage('#{$icon-folder-path}form/property/icon_align_left.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_left.svg', 20px, 18px, no-repeat, center, null, $layout-properties-icon-color); // 20px 18px
   }
   .icon-align-center {
-    @include maskImage('#{$icon-folder-path}form/property/icon_align_center.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_center.svg', 20px, 18px, no-repeat, center, null, $layout-properties-icon-color); // 20px 18px
   }
   .icon-align-right {
-    @include maskImage('#{$icon-folder-path}form/property/icon_align_right.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_right.svg', 20px, 18px, no-repeat, center, null, $layout-properties-icon-color); // 20px 18px
   }
   .icon-label-position-left {
-    @include maskImage('#{$icon-folder-path}form/property/icon_label_position_left.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+    @include maskImage('#{$icon-folder-path}form/property/icon_label_position_left.svg', 20px, 20px, no-repeat, center, null, $layout-properties-icon-color); // 20px 20px
   }
   .icon-label-position-top {
-    @include maskImage('#{$icon-folder-path}form/property/icon_label_position_top.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+    @include maskImage('#{$icon-folder-path}form/property/icon_label_position_top.svg', 20px, 20px, no-repeat, center, null, $layout-properties-icon-color); // 20px 20px
   }
   .icon-label-position-hidden {
-    @include maskImage('#{$icon-folder-path}form/property/icon_label_position_hidden.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+    @include maskImage('#{$icon-folder-path}form/property/icon_label_position_hidden.svg', 20px, 20px, no-repeat, center, null, $layout-properties-icon-color); // 20px 20px
   }
   .icon-display-position-left {
-    @include maskImage('#{$icon-folder-path}form/property/icon_display_left.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+    @include maskImage('#{$icon-folder-path}form/property/icon_display_left.svg', 20px, 20px, no-repeat, center, null, $layout-properties-icon-color); // 20px 20px
   }
   .icon-display-position-right {
-    @include maskImage('#{$icon-folder-path}form/property/icon_display_right.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+    @include maskImage('#{$icon-folder-path}form/property/icon_display_right.svg', 20px, 20px, no-repeat, center, null, $layout-properties-icon-color); // 20px 20px
   }
   .icon-display-align-left {
-    @include maskImage('#{$icon-folder-path}form/property/icon_align_left.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_left.svg', 20px, 18px, no-repeat, center, null, $layout-properties-icon-color); // 20px 18px
   }
   .icon-display-align-center {
-    @include maskImage('#{$icon-folder-path}form/property/icon_align_center.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_center.svg', 20px, 18px, no-repeat, center, null, $layout-properties-icon-color); // 20px 18px
   }
   .icon-display-align-right {
-    @include maskImage('#{$icon-folder-path}form/property/icon_align_right.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_right.svg', 20px, 18px, no-repeat, center, null, $layout-properties-icon-color); // 20px 18px
   }
 }
 

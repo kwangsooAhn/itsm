@@ -21,10 +21,10 @@
         width: $color-picker-box-size;
         height: $color-picker-box-size;
         margin-right: $color-picker-margin;
-        border: 0.0625rem solid $line-gray;
+        border: 0.0625rem solid map-get($gray, "line");
         display: flex;
         &:hover {
-          border: 0.0625rem solid $point-blue; // 1px
+          border: 0.0625rem solid $blue; // 1px
         }
       }
     }

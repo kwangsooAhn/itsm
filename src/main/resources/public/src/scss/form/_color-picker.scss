@@ -4,7 +4,7 @@
   .color-palette {
     @include colorPalette();
     & div {
-      &:last-child { border: 0.0625rem solid $line-gray; }
+      &:last-child { border: 0.0625rem solid map-get($gray, "line"); }
     }
   }
   .color-palette-opacity {

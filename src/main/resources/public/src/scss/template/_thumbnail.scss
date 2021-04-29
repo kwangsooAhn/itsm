@@ -54,7 +54,7 @@
 
         &:first-child {
           label {
-            color:  $dark-gray;
+            color:  map-get($gray, "dark");
             cursor: pointer;
           }
           // 더블 클릭시 fileName 수정 가능
@@ -62,7 +62,7 @@
             display: none;
             width: 12.19rem; // 195px 
             height: 1.875rem; // 30px
-            color:  $dark-gray;
+            color:  map-get($gray, "dark");
             float: left;
           }
         }
@@ -86,11 +86,11 @@
         height: 2.5rem; // 40px
 
         .icon-delete {
-          @include maskImage('#{$icon-folder-path}icon_delete.svg', 0.9375rem, 1.25rem, no-repeat, center, null, $pressed-gray); // 18px 20px
+          @include maskImage('#{$icon-folder-path}icon_delete.svg', 0.9375rem, 1.25rem, no-repeat, center, null, $thumbnail-icon-color); // 18px 20px
           cursor: pointer;
         }
         &:hover {
-          .icon-delete { background: $point-blue;}
+          .icon-delete { background: $blue;}
         }
       }
     }
@@ -104,7 +104,7 @@
     padding: 5.625rem 0 0 0; // 90px
     border: $thumbnail-border;
     box-shadow: none;
-    background-color: $light-gray;
+    background-color: map-get($gray, "light");
     cursor: pointer;
     overflow: hidden;
 

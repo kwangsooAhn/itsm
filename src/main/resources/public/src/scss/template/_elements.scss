@@ -607,7 +607,7 @@ label {
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: $default-gray;
+      background-color: map-get($gray, "default");
       border-radius: 2.5rem; // 40px
       cursor: pointer;
       -webkit-transition: .4s;

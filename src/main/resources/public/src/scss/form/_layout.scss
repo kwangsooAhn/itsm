@@ -113,7 +113,7 @@
         margin: 1.563rem 0; // 25px 0
 
         .property-group-name {
-          color: $point-blue;
+          color: $blue;
         }
       }
 
@@ -285,12 +285,12 @@
         margin-bottom: 0.625rem; // 10px
         &-header {
           padding: 0.625rem; // 10px
-          background-color: $light-gray;
-          border: 0.0625rem solid $line-gray; // 1px
+          background-color: map-get($gray, "light");
+          border: 0.0625rem solid map-get($gray, "line"); // 1px
         }
         &-content {
           padding: 0 0.625rem; // 0 10px
-          border: 0.0625rem solid $line-gray; // 1px
+          border: 0.0625rem solid map-get($gray, "line"); // 1px
         }
       }
       // 에러 문구

@@ -16,17 +16,17 @@
 // font color
 $btn-font-colors: (
   "point-fill":                  $white,
-  "point-line":                  $point-blue,
-  "default-fill":                $light-black,
-  "default-line":                $light-black,
-  "ghost-fill":                  $light-black,
-  "ghost-line":                  $pressed-gray
+  "point-line":                  $blue,
+  "default-fill":                map-get($black, "light"),
+  "default-line":                map-get($black, "light"),
+  "ghost-fill":                  map-get($black, "light"),
+  "ghost-line":                  map-get($gray, "pressed")
 );
 // background color
 $btn-bg-colors: (
-    "point-fill":                $point-blue,
+    "point-fill":                $blue,
     "point-line":                $white,
-    "default-fill":              $default-gray,
+    "default-fill":              map-get($gray, "default"),
     "default-line":              $white,
     "ghost-fill":                transparent,
     "ghost-line":                $white
@@ -34,27 +34,27 @@ $btn-bg-colors: (
 // border color
 $btn-border-colors: (
     "point-fill":                transparent,
-    "point-line":                $point-blue,
+    "point-line":                $blue,
     "default-fill":              transparent,
-    "default-line":              $line-gray,
+    "default-line":              map-get($gray, "line"),
     "ghost-fill":                transparent,
-    "ghost-line":                $line-gray
+    "ghost-line":                map-get($gray, "line")
 );
 // hover , focus 시 디자인 요소
 // hover font color
 $btn-hover-font-colors: (
   "point-fill":                  $white,
-  "point-line":                  $point-blue,
-  "default-fill":                $light-black,
-  "default-line":                $light-black,
-  "ghost-fill":                  $light-black,
-  "ghost-line":                  $light-black
+  "point-line":                  $blue,
+  "default-fill":                map-get($black, "light"),
+  "default-line":                map-get($black, "light"),
+  "ghost-fill":                  map-get($black, "light"),
+  "ghost-line":                  map-get($black, "light")
 );
 // hover background color
 $btn-hover-bg-colors: (
-    "point-fill":                $hover-blue,
+    "point-fill":                map-get($blue, "hover"),
     "point-line":                rgba(0, 152, 255, 0.1),
-    "default-fill":              $line-gray,
+    "default-fill":              map-get($gray, "line"),
     "default-line":              rgba(230, 230, 230, 0.3),
     "ghost-fill":                rgba(230, 230, 230, 0.3),
     "ghost-line":                $white
@@ -62,67 +62,67 @@ $btn-hover-bg-colors: (
 // hover border color
 $btn-hover-border-colors: (
     "point-fill":                transparent,
-    "point-line":                $point-blue,
+    "point-line":                $blue,
     "default-fill":              transparent,
-    "default-line":              $line-gray,
+    "default-line":              map-get($gray, "line"),
     "ghost-fill":                transparent,
-    "ghost-line":                $line-gray
+    "ghost-line":                map-get($gray, "line")
 );
 // pressed 시 디자인 요소
 // pressed font color
 $btn-pressed-font-colors: (
   "point-fill":                  $white,
   "point-line":                  $white,
-  "default-fill":                $light-black,
-  "default-line":                $light-black,
-  "ghost-fill":                  $light-black,
-  "ghost-line":                  $point-blue
+  "default-fill":                map-get($black, "light"),
+  "default-line":                map-get($black, "light"),
+  "ghost-fill":                  map-get($black, "light"),
+  "ghost-line":                  $blue
 );
 // pressed background color
 $btn-pressed-bg-colors: (
-    "point-fill":                $pressed-blue,
-    "point-line":                $hover-blue,
-    "default-fill":              $pressed-gray,
-    "default-line":              $line-gray,
-    "ghost-fill":                $line-gray,
+    "point-fill":                map-get($blue, "pressed"),
+    "point-line":                map-get($blue, "hover"),
+    "default-fill":              map-get($gray, "pressed"),
+    "default-line":              map-get($gray, "line"),
+    "ghost-fill":                map-get($gray, "line"),
     "ghost-line":                $white
 );
 // pressed border color
 $btn-pressed-border-colors: (
     "point-fill":                transparent,
-    "point-line":                $point-blue,
+    "point-line":                $blue,
     "default-fill":              transparent,
-    "default-line":              $pressed-gray,
+    "default-line":              map-get($gray, "pressed"),
     "ghost-fill":                transparent,
-    "ghost-line":                $point-blue
+    "ghost-line":                $blue
 );
 // disabled 시 디자인 요소
 // disabled font color
 $btn-disabled-font-colors: (
   "point-fill":                  $white,
-  "point-line":                  $point-blue,
-  "default-fill":                $light-black,
-  "default-line":                $light-black,
-  "ghost-fill":                  $light-black,
-  "ghost-line":                  $light-black
+  "point-line":                  $blue,
+  "default-fill":                map-get($black, "light"),
+  "default-line":                map-get($black, "light"),
+  "ghost-fill":                  map-get($black, "light"),
+  "ghost-line":                  map-get($black, "light")
 );
 // disabled background color
 $btn-disabled-bg-colors: (
-    "point-fill":                $point-blue,
+    "point-fill":                $blue,
     "point-line":                $white,
-    "default-fill":              $default-gray,
+    "default-fill":              map-get($gray, "default"),
     "default-line":              $white,
     "ghost-fill":                transparent,
-    "ghost-line":                $pressed-gray
+    "ghost-line":                map-get($gray, "pressed")
 );
 // disabled border color
 $btn-disabled-border-colors: (
     "point-fill":                transparent,
-    "point-line":                $point-blue,
+    "point-line":                $blue,
     "default-fill":              transparent,
-    "default-line":              $line-gray,
+    "default-line":              map-get($gray, "line"),
     "ghost-fill":                transparent,
-    "ghost-line":                $line-gray
+    "ghost-line":                map-get($gray, "line")
 );
 // <a class="btn"></a>  or button
 .btn, 

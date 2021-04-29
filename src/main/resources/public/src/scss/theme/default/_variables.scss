@@ -11,20 +11,22 @@ $logo-height:                                 3.75rem; // 60px
 // Navigation
 $nav-width:                                   13.75rem; // 220px
 $nav-height:                                  9.375rem; // 150px
-$nav-bg-color:                                $ground-black;
+$nav-bg-color:                                map-get($black, "ground");
 
 // Menu
 $menu-width:                                  13.75rem; // 220px
 $menu-height:                                 calc(100vh - #{$nav-height} - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
-$menu-bg-color:                               $ground-black;
-$menu-bg-selected-color:                      $focus-black;
-$menu-bg-hover:                               $focus-black;
-$menu-color:                                  $blue-gray;
+$menu-bg-color:                               map-get($black, "ground");
+$menu-bg-selected-color:                      map-get($black, "focus");
+$menu-bg-hover:                               map-get($black, "focus");
+$menu-color:                                  map-get($gray, "blue");
 $menu-selected-color:                         $white;
-$menu-hover:                                  $blue-gray;
+$menu-hover:                                  map-get($gray, "blue");
 $menu-font:                                   1rem; // 16px;
 
 // Menu Icons
+$icon-gnb-color:                              map-get($gray, "blue");
+
 $icon-gnb-board:                              $icon-folder-path + "gnb/icon_gnb_board.svg";
 $icon-gnb-chart:                              $icon-folder-path + "gnb/icon_gnb_chart.svg";
 $icon-gnb-dashboard:                          $icon-folder-path + "gnb/icon_gnb_dashboard.svg";
@@ -48,38 +50,38 @@ $profile-photo-background:                    #F0F0F0;
 $document-color-size:                         1rem; // 16px
 
 // 헤더
-$layout-header-border:                        0.0625rem solid $line-gray; // 1px
+$layout-header-border:                        0.0625rem solid map-get($gray, "line"); // 1px
 
 ////////////////////////////// View //////////////////////////////
 $view-title-font-size:                        1.125rem; // 18px
 $view-title-font-weight:                      $font-weight-medium;
-$view-title-font-color:                       $light-black;
+$view-title-font-color:                       map-get($black, "light");
 
 $view-sub-title-font-size:                    $font-size-base; // 16px
 $view-sub-title-font-weight:                  $font-weight-regular;
-$view-sub-title-font-color:                   $dark-gray;
+$view-sub-title-font-color:                   map-get($gray, "dark");
 
 $view-content-font-size:                      $font-size-base; // 16px
 $view-content-font-weight:                    $font-weight-regular;
-$view-content-font-color:                     $dark-gray;
+$view-content-font-color:                     map-get($gray, "dark");
 
 ////////////////////////////// 리스트 //////////////////////////////
 // 리스트 - 마우스 오버시
-$list-hover-bg-color:                         $line-gray;
+$list-hover-bg-color:                         map-get($gray, "line");
 
 // 리스트 - 데이터 없을때
-$no-data-found-list-bg:                       $line-gray;
+$no-data-found-list-bg:                       map-get($gray, "line");
 
 // 리스트 - 선택시
-$list-active-font-color:                      $dark-blue;
-$list-active-bg-color:                       rgba(230, 232, 235, 0.6);
+$list-active-font-color:                      map-get($blue, "dark");
+$list-active-bg-color:                        rgba(230, 232, 235, 0.6);
 
 // 공지사항 상단 공지 (배경색 별도 처리)
 $notice-pinned-color:                         rgba(135, 206, 255, 0.15);
 
 ////////////////////////////// 카드 //////////////////////////////
 $card-border-width:                           0.0625rem; // 1px
-$card-border-color:                           $line-gray;
+$card-border-color:                           map-get($gray, "line");
 $card-border:                                 $card-border-width solid $card-border-color;
 $card-border-radius:                          0.0625rem; // 1px
 $card-hover-box-shadow:                       0 0 0.9375rem rgba(204, 206, 209, 0.15), inset 0 0 0 $card-border-width $card-border-color;
@@ -89,15 +91,15 @@ $no-data-found-bg:                           rgba(247, 248, 249, 0.45); // $ligh
 
 ///////////////////////////// Elements /////////////////////////////
 $element-font-size:                           1rem; // 16px
-$element-font-color:                          $dark-gray;
+$element-font-color:                          map-get($gray, "dark");
 $element-font-weight:                         $font-weight-regular;
 $element-bg-color:                            $white;
-$element-border-color:                        $line-gray;
+$element-border-color:                        map-get($gray, "line");
 $element-border-width:                        0.0625rem; // 1px
 $element-border-radius:                       0.0625rem; // 1px
 
 //////////////////////////// Thumbnail /////////////////////////////
-$thumbnail-border:                            0.0625rem solid $line-gray;
+$thumbnail-border:                            0.0625rem solid map-get($gray, "line");
 $thumbnail-box-shadow:                        0 0 0.3125rem 0.0625rem $thumbnail-border-color; // 5px
 $thumbnail-asset-path:                        "../../../media/icons/thumbnail";
 
@@ -126,23 +128,24 @@ $tooltip-contents-width:                      22.5rem; // 360px
 $notification-icon-width:                     100%;
 $notification-icon-height:                    3.125rem; // 50px
 $notification-icon-padding:                   0.6875rem 0 0.6875rem 1.3125rem; // 11px 0 11px 21px
+$notification-icon-color:                     map-get($gray, "pressed");
 
-$notification-container-color:                $light-black;
+$notification-container-color:                map-get($black, "light");
 $notification-container-background:           $white;
-$notification-container-border:               0.0625rem solid $line-gray; // 1px
-$notification-container-box-shadow:           0 0 0.3125rem 0 $line-gray; // 5px
+$notification-container-border:               0.0625rem solid map-get($gray, "line"); // 1px
+$notification-container-box-shadow:           0 0 0.3125rem 0 map-get($gray, "line"); // 5px
 
-$notification-header-background:              $point-blue;
+$notification-header-background:              $blue;
 $notification-checkbox-size:                  1.125rem; // 18px
 $notification-checkbox-border:                0.063rem; // 1px
-$notification-checkbox-border-defualt:        $notification-checkbox-border solid $point-blue;
-$notification-checkbox-border-checked:        $notification-checkbox-border solid $line-gray;
+$notification-checkbox-border-defualt:        $notification-checkbox-border solid $blue;
+$notification-checkbox-border-checked:        $notification-checkbox-border solid map-get($gray, "line");
 
 $toastify-height:                             6.25rem; // 100px
 $toastify-background:                         $white !important;
 $toastify-border-radius:                      0.0625rem; // 1px
-$toastify-border:                             $toastify-border-radius solid $line-gray !important;
-$toastify-box-shadow:                         0 0 0.3125rem 0 $line-gray !important;
+$toastify-border:                             $toastify-border-radius solid map-get($gray, "line") !important;
+$toastify-box-shadow:                         0 0 0.3125rem 0 map-get($gray, "line") !important;
 $toastify-icon-size:                          6.25rem; // 100px
 
 ///////////////////////////// Tree ////////////////////////////////
@@ -176,17 +179,17 @@ $vertical-bar-margin:                         0.0625rem 0.9375rem 0.0625rem 0; /
 
 //////////////////////////// tag //////////////////////////////
 // tag
-$tag-font-color:                             rgba(0, 152, 255, 0.7); // $point-blue , 불투명도 70
-$tag-bg-color:                               rgba(0, 152, 255, 0.1); // $point-blue , 불투명도 10
+$tag-font-color:                             rgba(0, 152, 255, 0.7); // $blue , 불투명도 70
+$tag-bg-color:                               rgba(0, 152, 255, 0.1); // $blue , 불투명도 10
 $tag-border:                                 0.0625rem solid #E5F5FF; // 1px
 // tag 삭제 버튼
-$tag-btn-remove-color:                       $hover-blue;
+$tag-btn-remove-color:                       map-get($blue, "hover");
 // tag 마우스 오버
-$tag-hover-font-color:                       $point-blue;
-$tag-hover-bg-color:                         rgba(0, 152, 255, 0.1); // $point-blue , 불투명도 10
-$tag-hover-border:                           0.0625rem solid $point-blue; // 1px
+$tag-hover-font-color:                       $blue;
+$tag-hover-bg-color:                         rgba(0, 152, 255, 0.1); // $blue , 불투명도 10
+$tag-hover-border:                           0.0625rem solid $blue; // 1px
 $tag-hover-btn-remove-color:                 $white;
-$tag-hover-btn-remove-bg-color:              $point-blue;
+$tag-hover-btn-remove-bg-color:              $blue;
 // 빨간색 Tag 디자인은 중복된 태그 단어 입력 시 중복 입력은 불가능한
 // 느낌을 주기 위해 빨간색 Tag 디자인을 하였습니다. 중복된 Tag는 일정
 // 시간만 보여준 후 사라집니다.
@@ -198,8 +201,8 @@ $tag-invalid-bg-color:                       rgba(255, 64, 90, 0.1); // $red , �
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
 
-$cmdb-ci-attribute-border:                   0.0625rem solid $line-gray; // 1px
-$cmdb-ci-attribute-bg-color:                 $light-gray;
+$cmdb-ci-attribute-border:                   0.0625rem solid map-get($gray, "line"); // 1px
+$cmdb-ci-attribute-bg-color:                 map-get($gray, "light");
 
 //////////////////////////// 스케줄러 모달 /////////////////////////
 $scheduler-modal-width:                      62.5rem; // 1000px

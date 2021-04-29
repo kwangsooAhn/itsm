@@ -35,7 +35,7 @@
           // 아이콘
           .icon-no-img {
             display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 5rem, no-repeat, center, 5rem, $pressed-gray); // 65px
+            @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 5rem, no-repeat, center, 5rem, map-get($gray, "pressed")); // 65px
             margin-bottom: 1.25rem; // 20px
           }
           // or brows 영역

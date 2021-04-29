@@ -9,9 +9,9 @@
   }
   &-input-row {
     padding: 1.3125rem 1.25rem; // 21px 20px
-    background-color: $light-gray;
-    border-top: 0.0625rem solid $line-gray;
-    border-bottom: 0.0625rem solid $line-gray;
+    background-color: map-get($gray, "light");
+    border-top: 0.0625rem solid map-get($gray, "line");
+    border-bottom: 0.0625rem solid map-get($gray, "line");
     .reply-input {
       width: 100%;
       margin: 0 0.3125rem; // 5px
@@ -23,8 +23,8 @@
 
   &-list {
     padding: 0 0;
-    border-bottom: 0.0625rem solid $line-gray;
-    @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid $line-gray, 0.0625rem 0.9375rem 0.0625rem 0, );
+    border-bottom: 0.0625rem solid map-get($gray, "line");
+    @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid map-get($gray, "line"), 0.0625rem 0.9375rem 0.0625rem 0, );
     .reply {
       &-info {
         align-items: center;
@@ -63,6 +63,6 @@
   // 버튼
   .icon-edit, 
   .icon-delete {
-    background: $pressed-gray;
+    background: map-get($gray, "pressed");
   }
 }

@@ -46,7 +46,7 @@
     .arrow-left {
       opacity: 0;
       display: table-cell;
-      @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $blue-gray); // 12px 20px
+      @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, map-get($gray, "blue")); // 12px 20px
     }
   }
   // 아코디언 사용중일 경우
@@ -109,7 +109,7 @@
 // row
 .zenius-row {
   // TODO: 삭제
-  background-color: $light-gray;
+  background-color: map-get($gray, "light");
 }
 // component 툴팁
 .zenius-component-tooltip {
@@ -174,10 +174,10 @@
         vertical-align: middle;
         pointer-events: none;
         &.icon-copy {
-          @include maskImage('#{$icon-folder-path}formRefactoring/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px
+          @include maskImage('#{$icon-folder-path}formRefactoring/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center, null, $tooltip-menu-icon-color); // 20px 20px
         }
         &.icon-remove {
-          @include maskImage('#{$icon-folder-path}formRefactoring/tooltip/icon_remove.svg', 1.25rem, 1.25rem, no-repeat, center, null, $light-blue); // 20px 20px
+          @include maskImage('#{$icon-folder-path}formRefactoring/tooltip/icon_remove.svg', 1.25rem, 1.25rem, no-repeat, center, null, $tooltip-menu-icon-color); // 20px 20px
         }
       }
       &:hover {

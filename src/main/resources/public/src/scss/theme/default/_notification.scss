@@ -82,7 +82,7 @@
   &-content {
     height: 6.875rem; // 110px
     padding: 0.938rem;// 15px
-    border-bottom: 0.063rem solid $line-gray; // 1px
+    border-bottom: 0.063rem solid map-get($gray, "line"); // 1px
     &:hover {
       background-color: rgba(135, 206, 255, 0.1);
     }
@@ -104,7 +104,7 @@
         cursor: pointer;
         &:checked {
           border: $notification-checkbox-border-checked;
-          color: $pressed-gray;
+          color: map-get($gray, "pressed");
           cursor: unset;
         }
         &:checked::after {
@@ -113,21 +113,21 @@
           position: absolute;
           top: -0.063rem; // -1px
           left: 0.063rem; // 1px
-          color: $pressed-gray;
+          color: map-get($gray, "pressed");
         }
       }
     }
     // 제거 버튼 영역
     .icon-remove {
       padding: 0;
-      @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 1.25rem, no-repeat, center, null, $pressed-gray); // 18px 20px
+      @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 1.25rem, no-repeat, center, null, $notification-icon-color); // 18px 20px
     }
     span {
       &.title {
         font-weight: $font-weight-medium;
         font-size: 1rem; // 16px
         line-height: 1.2;
-        color: $light-black;
+        color: map-get($black, "light");
         max-width: 18.13rem; // 290px
         margin-left: 0.625rem; // 10px
         &.confirm {
@@ -142,7 +142,7 @@
         font-weight: $font-weight-regular;
         font-size: 1rem; // 16px
         display: block;
-        color: $dark-gray;
+        color: map-get($gray, "dark");
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
         margin-left: 1.75rem; // 28px
@@ -194,13 +194,13 @@
           &.title {
             font-size: 1rem; // 16px
             font-weight: $font-weight-medium;
-            color: $light-black;
+            color: map-get($black, "light");
             max-width: 18.13rem; // 290px
           }
           &.message {
             font-size: 1rem; // 16px
             font-weight: $font-weight-regular;
-            color: $dark-gray;
+            color: map-get($gray, "dark");
             max-width: 22.5rem; // 360px
           }
           &.date {
@@ -217,6 +217,6 @@
     padding: 0;
     top: 0.688rem; // 11px
     right: 0.688rem; // 11px
-    @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $pressed-gray); // 14px
+    @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-color); // 14px
   }
 }
