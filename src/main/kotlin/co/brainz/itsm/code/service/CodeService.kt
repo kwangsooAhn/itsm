@@ -6,6 +6,7 @@
 package co.brainz.itsm.code.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
@@ -19,7 +20,6 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonParser
 import com.querydsl.core.QueryResults
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
@@ -46,8 +46,13 @@ class CodeService(
                 codes.addAll(code as Set<String>)
             }
         }
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val findCodeList = codeRepository.findCodeByPCodeIn(codes, userDetails.lang)
+        val lang = if (SecurityContextHolder.getContext().authentication.principal == "anonymousUser") {
+            AliceUserConstants.USER_LOCALE_LANG
+        } else {
+            val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+            userDetails.lang
+        }
+        val findCodeList = codeRepository.findCodeByPCodeIn(codes, lang)
         for (codeDto in findCodeList) {
             if (codeDto.codeLangValue != null && codeDto.lang != null) {
                 codeDto.codeValue = codeDto.codeLangValue
@@ -240,13 +245,14 @@ class CodeService(
         }
 
         if (!codeDetailDto.codeLang.isNullOrEmpty()) {
-            val codeLangObject = JsonParser().parse(codeDetailDto.codeLang).asJsonObject
-            codeLangObject.entrySet().forEach { codeLang ->
+            val codeLangObject: LinkedHashMap<String, String> =
+                mapper.readValue(codeDetailDto.codeLang, object : TypeReference<Map<String, String>>() {})
+            codeLangObject.entries.forEach {
                 codeLangRepository.save(
                     CodeLangEntity(
                         code = codeDetailDto.code,
-                        codeValue = codeLang.value.asString,
-                        lang = codeLang.key
+                        codeValue = it.value,
+                        lang = it.key
                     )
                 )
             }

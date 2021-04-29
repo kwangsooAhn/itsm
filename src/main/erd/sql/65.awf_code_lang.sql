@@ -20,3 +20,6 @@ COMMENT ON COLUMN awf_code_lang.lang IS '언어';
 insert into awf_code_lang values ('document.status.temporary', 'temporary', 'en');
 insert into awf_code_lang values ('document.status.destroy', 'destroy', 'en');
 insert into awf_code_lang values ('document.status.use', 'use', 'en');
+insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');
+insert into awf_code_lang values ('servicedesk.inquiry', 'Simple Inquiry', 'en');
+insert into awf_code_lang values ('servicedesk.request', 'Service Request', 'en');

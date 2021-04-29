@@ -8,13 +8,14 @@ package co.brainz.itsm.board.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.board.dto.BoardListDto
+import co.brainz.itsm.board.dto.BoardListReturnDto
 
 interface BoardAdminRepositoryCustom : AliceRepositoryCustom {
 
     fun findByBoardAdminList(
         search: String,
         offset: Long
-    ): List<BoardListDto>
+    ): BoardListReturnDto
 
     fun findPortalBoardAdmin(): List<BoardListDto>
 }

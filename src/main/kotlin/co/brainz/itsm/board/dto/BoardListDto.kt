@@ -13,7 +13,6 @@ data class BoardListDto(
     var boardAdminTitle: String? = "",
     var categoryYn: Boolean = false,
     var boardBoardCount: Long = 0,
-    var totalCount: Long = 0,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = ""
 )
