@@ -1,15 +1,15 @@
 // template / 하위 SCSS에서 사용하는 변수 모음
 // font family
 $font-face-map: (
-    "NotoSansKR-Thin.otf":                    100,
-    "NotoSansKR-Light.otf":                   300,
-    "NotoSansKR-Regular.otf":                 400,
-    "NotoSansKR-Medium.otf":                  500,
-    "NotoSansKR-Bold.otf":                    700,
-    "NotoSansKR-Black.otf":                   900
+    'NotoSansKR-Thin.otf':                    100,
+    'NotoSansKR-Light.otf':                   300,
+    'NotoSansKR-Regular.otf':                 400,
+    'NotoSansKR-Medium.otf':                  500,
+    'NotoSansKR-Bold.otf':                    700,
+    'NotoSansKR-Black.otf':                   900
 );
-// 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (") 사용
-$font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif; 
+// 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (') 사용
+$font-family:                                 'Noto Sans KR', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif; 
 
 // font size
 $font-size-base:                              1rem !default;  // 16px
@@ -37,53 +37,53 @@ $orange:                                      #FF7319 !default;
 $green:                                       #00C462 !default;
 
 $color: (
-  "black":                                    $black,
-  "gray":                                     $gray,
-  "white":                                    $white,
-  "red":                                      $red,
-  "blue":                                     $blue,
-  "orange":                                   $orange,
-  "green":                                    $green
+  'black':                                    $black,
+  'gray':                                     $gray,
+  'white':                                    $white,
+  'red':                                      $red,
+  'blue':                                     $blue,
+  'orange':                                   $orange,
+  'green':                                    $green
 ) !default;
 
 // black color
 $blacks: (
-  "focus":                                    #283238,
-  "ground":                                   #333D47,
-  "light":                                    #3F4B56
+  'focus':                                    #283238,
+  'ground':                                   #333D47,
+  'light':                                    #3F4B56
 ) !default;
 
 // gray color
 $grays: (
-  "dark":                                     #586872,
-  "warm":                                     #7E848C,
-  "blue":                                     #929AA6,
-  "pressed":                                  #CCCED1,
-  "default":                                  #E1E3E6,
-  "line":                                     #EBEBEB,
-  "light":                                    #F7F8F9
+  'dark':                                     #586872,
+  'warm':                                     #7E848C,
+  'blue':                                     #929AA6,
+  'pressed':                                  #CCCED1,
+  'default':                                  #E1E3E6,
+  'line':                                     #EBEBEB,
+  'light':                                    #F7F8F9
 ) !default;
 
 // blue color
 $blues: (
-  "dark":                                     #0060A5,
-  "pressed":                                  #0088E6,
-  "hover":                                    #33ADFF,
-  "light":                                    #87CEFF
+  'dark':                                     #0060A5,
+  'pressed':                                  #0088E6,
+  'hover':                                    #33ADFF,
+  'light':                                    #87CEFF
 ) !default;
 
 // orange color
 $oranges: (
-  "light":                                    #FF850A
+  'light':                                    #FF850A
 ) !default;
 
 // element default
 $element-font-size:                           $font-size-base;
-$element-font-color:                          map-get($grays, "dark");
+$element-font-color:                          map-get($grays, 'dark');
 $element-font-weight:                         $font-weight-regular;
 $element-line-height:                         1.2;
 $element-bg-color:                            $white;
-$element-border-color:                        map-get($grays, "line");
+$element-border-color:                        map-get($grays, 'line');
 $element-border-width:                        0.0625rem; // 1px
 $element-border:                              $element-border-width solid $element-border-color;
 $element-border-radius:                       0.0625rem; // 1px
@@ -105,14 +105,14 @@ $element-hover-box-shadow:                    0 0 0.3125rem 0 rgba(0, 152, 255, 
 
 // element disabled시 사용하는 디자인 변수
 $element-disabled-font-color:                 $gray;
-$element-disabled-bg-color:                   map-get($grays, "light");
-$element-disabled-border-color:               map-get($grays, "line");
+$element-disabled-bg-color:                   map-get($grays, 'light');
+$element-disabled-border-color:               map-get($grays, 'line');
 $element-disabled-border-width:               0.0625rem; // 1px
 
 // element readonly시 사용하는 디자인 변수
-$element-readonly-font-color:                 map-get($grays, "dark");
-$element-readonly-bg-color:                   map-get($grays, "light");
-$element-readonly-border-color:               map-get($grays, "line");
+$element-readonly-font-color:                 map-get($grays, 'dark');
+$element-readonly-bg-color:                   map-get($grays, 'light');
+$element-readonly-border-color:               map-get($grays, 'line');
 $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:               $element-readonly-border-width solid $element-readonly-border-color;
 
@@ -137,12 +137,12 @@ $h4-font-size:                                $font-size-base * 1.25; // 20px
 $h5-font-size:                                $font-size-base;
 $h6-font-size:                                $font-size-base * 0.875; // 14px
 
-$headings-font-color:                         map-get($blacks, "light");
+$headings-font-color:                         map-get($blacks, 'light');
 $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
 
 // label
-$label-font-color:                            map-get($blacks, "light");
+$label-font-color:                            map-get($blacks, 'light');
 $label-font-size:                             $font-size-base;
 $label-font-weight:                           $font-weight-medium;
 
@@ -152,7 +152,7 @@ $table-th-font-weight:                        $font-weight-medium;
 
 // button, a
 $btn-font-size:                              $font-size-base;
-$btn-font-color:                             map-get($blacks, "light");
+$btn-font-color:                             map-get($blacks, 'light');
 $btn-font-weight:                            $font-weight-medium;
 $btn-line-height:                            1.2;
 $btn-bg-color:                               transparent;
@@ -160,6 +160,46 @@ $btn-border-color:                           transparent;
 $btn-border-width:                           0.0625rem; // 1px
 $btn-border:                                 $btn-border-width solid $btn-border-color;
 $btn-border-radius:                          0.1875rem; // 3px
+
+// button 테마
+$btn-themes-colors: (
+  'point-fill': (
+    'default': ('font': $white, 'background': $blue, 'border': transparent),
+    'hover': ('font': $white, 'background': map-get($blues, 'hover'), 'border': transparent),
+    'pressed': ('font': $white, 'background': map-get($blues, 'pressed'), 'border': transparent),
+    'disabled': ('font': $white, 'background': $blue, 'border': transparent)
+  ),
+  'point-line': (
+    'default': ('font': $blue, 'background': $white, 'border': $blue),
+    'hover': ('font': $blue, 'background': rgba(0, 152, 255, 0.1), 'border': $blue),
+    'pressed': ('font': $white, 'background': map-get($blues, 'hover'), 'border': $blue),
+    'disabled': ('font': $blue, 'background': $white, 'border': $blue)
+  ),
+  'default-fill': (
+    'default': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'default'), 'border': transparent),
+    'hover': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'line'), 'border': transparent),
+    'pressed': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'pressed'), 'border': transparent),
+    'disabled': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'default'), 'border': transparent)
+  ),
+  'default-line': (
+    'default': ('font': map-get($blacks, 'light'), 'background': $white, 'border': map-get($grays, 'line')),
+    'hover': ('font': map-get($blacks, 'light'), 'background': rgba(230, 230, 230, 0.3), 'border': map-get($grays, 'line')),
+    'pressed': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'line'), 'border': map-get($grays, 'pressed')),
+    'disabled': ('font': map-get($blacks, 'light'), 'background': $white, 'border': map-get($grays, 'line'))
+  ),
+  'ghost-fill': (
+    'default': ('font': map-get($blacks, 'light'), 'background': transparent, 'border': transparent),
+    'hover': ('font': map-get($blacks, 'light'), 'background': rgba(230, 230, 230, 0.3), 'border': transparent),
+    'pressed': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'line'), 'border': transparent),
+    'disabled': ('font': map-get($blacks, 'light'), 'background': transparent, 'border': transparent)
+  ),
+  'ghost-line': (
+    'default': ('font': map-get($grays, 'pressed'), 'background': $white, 'border': map-get($grays, 'line')),
+    'hover': ('font': map-get($blacks, 'light'), 'background': $white, 'border': map-get($grays, 'line')),
+    'pressed': ('font': $blue, 'background': $white, 'border': $blue),
+    'disabled': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'pressed'), 'border':  map-get($grays, 'line'))
+  )
+);
 
 //구글, 카카오 로그인 버튼 색상정의
 $btn-google-defualt-border-color:            #EBEBEB;
@@ -185,20 +225,20 @@ $btn-kakao-disabled-bg-color:                #FFDE00;
 
 // button-group 디자인 요소
 $btn-group-font-size:                        $font-size-base;
-$btn-group-font-color:                       map-get($blacks, "light");
+$btn-group-font-color:                       map-get($blacks, 'light');
 $btn-group-font-weight:                      $font-weight-medium;
 $btn-group-line-height:                      1.2;
-$btn-group-font-color:                       map-get($blacks, "light");
+$btn-group-font-color:                       map-get($blacks, 'light');
 $btn-group-bg-color:                         $white;
-$btn-group-border-color:                     map-get($grays, "line");
+$btn-group-border-color:                     map-get($grays, 'line');
 $btn-group-border-width:                     0.0625rem; // 1px
 $btn-group-border:                           $btn-group-border-width solid $btn-group-border-color;
 $btn-group-border-radius:                    0.1875rem; // 3px
 
 // button-group hover 시 디자인 요소
-$btn-group-hover-font-color:                 map-get($blacks, "light");
+$btn-group-hover-font-color:                 map-get($blacks, 'light');
 $btn-group-hover-bg-color:                   rgba(230, 230, 230, 0.3);
-$btn-group-hover-border-color:               map-get($grays, "line");
+$btn-group-hover-border-color:               map-get($grays, 'line');
 
 // button-group pressed 시 디자인 요소
 $btn-group-pressed-font-color:               $blue;
@@ -206,13 +246,13 @@ $btn-group-pressed-bg-color:                 $white;
 $btn-group-pressed-border-color:             $blue;
 
 // button-group disabled 시 디자인 요소
-$btn-group-disabled-font-color:              map-get($blacks, "light");
+$btn-group-disabled-font-color:              map-get($blacks, 'light');
 $btn-group-disabled-bg-color:                $white;
-$btn-group-disabled-border-color:            map-get($grays, "line");
+$btn-group-disabled-border-color:            map-get($grays, 'line');
 
 // button-group-toggle 디자인 요소
 $btn-group-toggle-font-color:                $gray;
-$btn-group-toggle-bg-color:                  map-get($grays, "light");
+$btn-group-toggle-bg-color:                  map-get($grays, 'light');
 
 //////////////////////////////// layout ////////////////////////////////
 $layout-header-height:                       3.125rem; // 50px
@@ -225,17 +265,17 @@ $scrollbar-thick:                            0.5rem; // 8px
 // element 내부 scrollbar 두께
 $scrollbar-thick-sm:                         0.25rem; // 4px
 // scrollbar 색상
-$scrollbar-color:                            map-get($grays, "default");
+$scrollbar-color:                            map-get($grays, 'default');
 // scrollbar 모서리 곡선
 $scrollbar-border-radius:                     0.5rem; // 8px
 // scrollbar 배경 색상
 $scrollbar-bg-color:                         rgba(235,235,235, 0.6);
 // scrollbar hover, click 이동시 색상
-$scrollbar-hover-color:                      map-get($grays, "pressed");
+$scrollbar-hover-color:                      map-get($grays, 'pressed');
 // dark 테마 스크롤바 (메뉴 사용)
-$scrollbar-dark-color:                       map-get($blacks, "light");
-$scrollbar-dark-bg-color:                    map-get($blacks, "focus");
-$scrollbar-dark-hover-color:                 map-get($grays, "dark");
+$scrollbar-dark-color:                       map-get($blacks, 'light');
+$scrollbar-dark-bg-color:                    map-get($blacks, 'focus');
+$scrollbar-dark-hover-color:                 map-get($grays, 'dark');
 
 ///////////////////////////////// columns /////////////////////////////////
 // Column width (fixed)
@@ -255,33 +295,33 @@ $column-12: $column-init * 12; // 960px
 
 //////////////////////////////// fileuploader ////////////////////////////////
 $file-uploader-font-size:                    $font-size-base;
-$file-uploader-font-color:                   map-get($grays, "dark");
+$file-uploader-font-color:                   map-get($grays, 'dark');
 $file-uploader-font-weight:                  $font-weight-medium;
-$file-uploader-icon-color:                   map-get($grays, "pressed");
+$file-uploader-icon-color:                   map-get($grays, 'pressed');
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-base;
 $dropzone-font-color:                        $gray;
 $dropzone-font-weight:                       $font-weight-regular;
-$dropzone-bg-color:                          map-get($grays, "light");
-$dropzone-border:                            0.0625rem solid map-get($grays, "line"); // 1px
+$dropzone-bg-color:                          map-get($grays, 'light');
+$dropzone-border:                            0.0625rem solid map-get($grays, 'line'); // 1px
 // browse click 버튼
 $dropzone-clickable-font-color:              $blue;
 // 미리보기
 $file-uploader-preview-height:               5rem; // 80px;
 $file-uploader-progress-color:               $blue;
-$file-uploader-progress-bg-color:            map-get($grays, "line");
-$file-uploader-filename-font-color:          map-get($grays, "dark");
+$file-uploader-progress-bg-color:            map-get($grays, 'line');
+$file-uploader-filename-font-color:          map-get($grays, 'dark');
 $file-uploader-filesize-font-color:          $gray;
 // 파일 미존재시
 $file-uploader-no-date-font-color:           $gray;
 // view 모드
 $file-uploader-view-font-size:               $font-size-base;
-$file-uploader-view-font-color:              map-get($grays, "dark");
+$file-uploader-view-font-color:              map-get($grays, 'dark');
 $file-uploader-view-font-weight:             $font-weight-regular;
 
 //////////////////////////////// avatar ////////////////////////////////
 $avatar-font-size:                           $font-size-base;
-$avatar-font-color:                          map-get($blacks, "light");
+$avatar-font-color:                          map-get($blacks, 'light');
 $avatar-font-weight:                         $font-weight-medium;
 // drag and drop 영역
 $avatar-dropzone-width:                      20.63rem; // 330px
@@ -291,8 +331,8 @@ $avatar-dropzone-sm-height:                  9.375rem; // 150px
 $avatar-dropzone-font-size:                  $font-size-base;
 $avatar-dropzone-font-color:                 $gray;
 $avatar-dropzone-font-weight:                $font-weight-regular;
-$avatar-dropzone-bg-color:                   map-get($grays, "light");
-$avatar-dropzone-border:                     0.0625rem solid map-get($grays, "line"); // 1px
+$avatar-dropzone-bg-color:                   map-get($grays, 'light');
+$avatar-dropzone-border:                     0.0625rem solid map-get($grays, 'line'); // 1px
 // browse click 버튼
 $avatar-dropzone-clickable-font-color:       $blue;
 // description
@@ -302,71 +342,71 @@ $avatar-desc-font-weight:                    $font-weight-regular;
 
 ///////////////////////////////// date picker /////////////////////////////////
 $datepicker-font-size:                       $font-size-base;
-$datepicker-font-color:                      map-get($grays, "dark");
+$datepicker-font-color:                      map-get($grays, 'dark');
 $datepicker-font-weight:                     $font-weight-regular;
 $datepicker-line-height:                     1.2;
 $datepicker-bg-color:                        $white;
-$datepicker-border-color:                    map-get($grays, "line");
+$datepicker-border-color:                    map-get($grays, 'line');
 $datepicker-border-width:                    0.0625rem; // 1px
 $datepicker-border:                          $datepicker-border-width solid $datepicker-border-color;
 $datepicker-border-radius:                   0.0625rem; // 1px
 $datepicker-border-box-shadow:               0 0 0.3125rem 0 rgba(235, 235, 235, 1); // 0 0 5px 0 $line-gray
 $datepicker-hover-color:                     $blue;
-$datepicker-icon-color:                      map-get($grays, "pressed");
+$datepicker-icon-color:                      map-get($grays, 'pressed');
 // focus
 $datepicker-focus-border-color:              $blue;
 $datepicker-focus-border-width:              0.0625rem; // 1px
 $datepicker-focus-border:                    $datepicker-focus-border-width solid $datepicker-focus-border-color;
 // title
 $datepicker-title-font-size:                 1.125rem; // 18px
-$datepicker-title-font-color:                map-get($blacks, "light");
+$datepicker-title-font-color:                map-get($blacks, 'light');
 $datepicker-title-font-weight:               $font-weight-medium;
 // sub title
 $datepicker-sub-title-font-size:             $font-size-base;
-$datepicker-sub-title-font-color:            map-get($grays, "dark");
+$datepicker-sub-title-font-color:            map-get($grays, 'dark');
 $datepicker-sub-title-font-weight:           $font-weight-regular;
-$datepicker-sub-title-bg-color:              map-get($grays, "light");
+$datepicker-sub-title-bg-color:              map-get($grays, 'light');
 // cell
 $datepicker-cell-font-color:                 $gray;
 // current cell
-$datepicker-current-cell-font-color:         map-get($grays, "dark");
+$datepicker-current-cell-font-color:         map-get($grays, 'dark');
 // selected cell
 $datepicker-selected-cell-font-color:        $white;
 $datepicker-selected-cell-bg-color:          $blue;;
 // time
 $datepicker-time-font-size:                  1.75rem; // 28px
-$datepicker-time-font-color:                 map-get($blacks, "light");
+$datepicker-time-font-color:                 map-get($blacks, 'light');
 $datepicker-time-font-weight:                $font-weight-medium;
 // toggle button
 $datepicker-btn-border-radius:               0.0625rem; // 1px
 
 ///////////////////////////////// text editor /////////////////////////////////
 $text-editor-font-size:                      $font-size-base;
-$text-editor-font-color:                     map-get($grays, "dark");
+$text-editor-font-color:                     map-get($grays, 'dark');
 $text-editor-font-weight:                    $font-weight-regular;
 $text-editor-line-height:                    1.5;
-$text-editor-border-color:                   map-get($grays, "line");
+$text-editor-border-color:                   map-get($grays, 'line');
 $text-editor-bg-color:                       $white;
 $text-editor-border-width:                   0.0625rem; // 1px
 $text-editor-border:                         $text-editor-border-width solid $text-editor-border-color;
 $text-editor-toolbar-font-size:              $font-size-base;
-$text-editor-toolbar-font-color:             map-get($blacks, "light");
+$text-editor-toolbar-font-color:             map-get($blacks, 'light');
 $text-editor-toolbar-font-weight:            $font-weight-medium;
-$text-editor-toolbar-box-shadow:             0 0 0.3125rem 0 map-get($grays, "line");
+$text-editor-toolbar-box-shadow:             0 0 0.3125rem 0 map-get($grays, 'line');
 // text editor의 hover와 pressec 는 동일한 디자인이다.
-$text-editor-toolbar-hover-font-color:       map-get($blacks, "light");
-$text-editor-toolbar-hover-bg-color:         map-get($grays, "line");
+$text-editor-toolbar-hover-font-color:       map-get($blacks, 'light');
+$text-editor-toolbar-hover-bg-color:         map-get($grays, 'line');
 $text-editor-toolbar-selected-font-color:    $blue;
 
 ///////////////////////////////// tree /////////////////////////////////
 $tree-folder-path:                           '/../media/icons/tree';
 $tree-font-size:                             $font-size-base;
-$tree-font-color:                            map-get($blacks, "light");
+$tree-font-color:                            map-get($blacks, 'light');
 $tree-font-weight:                           $font-weight-medium;
 // tree 간격
 $tree-line-height:                           1.875rem; // 30px
-$tree-bg-color:                              map-get($grays, "light");
-$tree-line-color:                            map-get($grays, "default");
+$tree-bg-color:                              map-get($grays, 'light');
+$tree-line-color:                            map-get($grays, 'default');
 $tree-line-width:                            0.0625rem; // 1px
 $tree-line:                                  $tree-line-width solid $tree-line-color;
 // +, - icon
@@ -387,11 +427,11 @@ $tree-hover-bg-color:                        rgba(0, 152, 255, 0.05);
 ///////////////////////////////// modal //////////////////////////////
 // 모달 오픈시 바탕 어둡게
 $modal-backdrop-bg-color:                    rgba(116, 147, 179, 0.5);
-$modal-border-color:                         map-get($grays, "line");
+$modal-border-color:                         map-get($grays, 'line');
 $modal-bg-color:                             $white;
 $modal-border-width:                         0.0625rem; // 1px
 $modal-border:                               $modal-border-width solid $modal-border-color;
-$modal-box-shadow:                           0 0 0.3125rem 0 map-get($grays, "line"); // 흐림 5px, $line-gray
+$modal-box-shadow:                           0 0 0.3125rem 0 map-get($grays, 'line'); // 흐림 5px, $line-gray
 
 $modal-width:                                34.38rem; // 550px
 $modal-height:                               22.5rem; // 360px
@@ -399,7 +439,7 @@ $modal-height:                               22.5rem; // 360px
 // 모달 제목
 $modal-header-height:                        3.375rem; // 54px
 $modal-header-font-size:                     1.125rem; // 18px
-$modal-header-font-color:                    map-get($blacks, "light");
+$modal-header-font-color:                    map-get($blacks, 'light');
 $modal-header-font-weight:                   $font-weight-medium;
 
 // 모달 버튼 영역
@@ -408,7 +448,7 @@ $modal-bottom-height:                       5rem; // 80px
 ///////////////////////////////// alert //////////////////////////////
 $alert-font-size:                            1rem;
 $alert-border-size:                          0.0625rem;  // 1px
-$alert-border:                               solid $alert-border-size map-get($grays, "line");  // 1px
+$alert-border:                               solid $alert-border-size map-get($grays, 'line');  // 1px
 $alert-margin-size:                          0.3125rem;  // 5px
 $alert-box-sizing:                           border-box;
 $alert-box-shadow:                           0 0 $alert-margin-size $alert-margin-size rgba(116, 147, 179, 0.25);
@@ -426,23 +466,23 @@ $color-picker-colorchip-margin:              0.625rem;   // 10px
 $color-picker-colorchip-border:              0.375rem solid $white;      // 6px
 
 ////////////////////////////// thumbnail /////////////////////////////
-$thumbnail-asset-path:                       "../media/icons/thumbnail";
-$thumbnail-font-family:                      "Noto Sans KR";
+$thumbnail-asset-path:                       '../media/icons/thumbnail';
+$thumbnail-font-family:                      'Noto Sans KR';
 $thumbnail-font-size:                        1rem; // 16px;
 $thumbnail-font-weight:                      400; // regulalr
 $thumbnail-font-color:                       $gray;
 
 $thumbnail-main-height:                      100%;
 $thumbnail-main-padding:                     0;
-$thumbnail-icon-color:                       map-get($grays, "pressed");
+$thumbnail-icon-color:                       map-get($grays, 'pressed');
 // 썸네일
 $thumbnail-width:                            14.06rem; // 225px
 $thumbnail-height:                           18.13rem; // 290px
 $thumbnail-border-width:                     0.0625rem; // 1px
-$thumbnail-border-color:                     map-get($grays, "line");
+$thumbnail-border-color:                     map-get($grays, 'line');
 $thumbnail-border:                           $thumbnail-border-width solid $thumbnail-border-color;
 $thumbnail-bg-color:                         $white;
-$thumbnail-box-shadow:                       0 0 0.3125rem 0 map-get($grays, "line"); // 흐림 5px, $line-gray
+$thumbnail-box-shadow:                       0 0 0.3125rem 0 map-get($grays, 'line'); // 흐림 5px, $line-gray
 
 $thumbnail-selected-border-width:            0.0625rem; // 1px
 $thumbnail-selected-border-color:            $blue;

@@ -94,7 +94,7 @@
       display: inline-block;
       @include maskImage('#{$icon-folder-path}process/element-palette/icon_connector.svg', 24px, 24px, no-repeat, center, null, $gray); // 24px 24px 
       // Connector 문구
-      + .icon-text { color: $grays; }
+      + .icon-text { color: $gray; }
     }
     // 선택시
     &.selected {
