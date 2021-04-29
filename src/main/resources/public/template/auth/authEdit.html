@@ -233,7 +233,7 @@
                     }
                 }
             } else {
-                if (isNotEquals('txtAuthNameOrg', 'txtAuthNameOrg')) {
+                if (isNotEquals('txtAuthName', 'txtAuthNameOrg')) {
                     for (let i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
                             aliceAlert.alertWarning([[#{auth.msg.duplicateAuthName}]]);
