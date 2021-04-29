@@ -5,125 +5,6 @@
  * @author wdj
  * @version 1.0
  */
- $btn-themes: (
-   'point-fill', 
-   'point-line', 
-   'default-fill',
-   'default-line',
-   'ghost-fill',
-   'ghost-line'
-);
-// font color
-$btn-font-colors: (
-  "point-fill":                  $white,
-  "point-line":                  $blue,
-  "default-fill":                map-get($blacks, "light"),
-  "default-line":                map-get($blacks, "light"),
-  "ghost-fill":                  map-get($blacks, "light"),
-  "ghost-line":                  map-get($grays, "pressed")
-);
-// background color
-$btn-bg-colors: (
-    "point-fill":                $blue,
-    "point-line":                $white,
-    "default-fill":              map-get($grays, "default"),
-    "default-line":              $white,
-    "ghost-fill":                transparent,
-    "ghost-line":                $white
-);
-// border color
-$btn-border-colors: (
-    "point-fill":                transparent,
-    "point-line":                $blue,
-    "default-fill":              transparent,
-    "default-line":              map-get($grays, "line"),
-    "ghost-fill":                transparent,
-    "ghost-line":                map-get($grays, "line")
-);
-// hover , focus 시 디자인 요소
-// hover font color
-$btn-hover-font-colors: (
-  "point-fill":                  $white,
-  "point-line":                  $blue,
-  "default-fill":                map-get($blacks, "light"),
-  "default-line":                map-get($blacks, "light"),
-  "ghost-fill":                  map-get($blacks, "light"),
-  "ghost-line":                  map-get($blacks, "light")
-);
-// hover background color
-$btn-hover-bg-colors: (
-    "point-fill":                map-get($blues, "hover"),
-    "point-line":                rgba(0, 152, 255, 0.1),
-    "default-fill":              map-get($grays, "line"),
-    "default-line":              rgba(230, 230, 230, 0.3),
-    "ghost-fill":                rgba(230, 230, 230, 0.3),
-    "ghost-line":                $white
-);
-// hover border color
-$btn-hover-border-colors: (
-    "point-fill":                transparent,
-    "point-line":                $blue,
-    "default-fill":              transparent,
-    "default-line":              map-get($grays, "line"),
-    "ghost-fill":                transparent,
-    "ghost-line":                map-get($grays, "line")
-);
-// pressed 시 디자인 요소
-// pressed font color
-$btn-pressed-font-colors: (
-  "point-fill":                  $white,
-  "point-line":                  $white,
-  "default-fill":                map-get($blacks, "light"),
-  "default-line":                map-get($blacks, "light"),
-  "ghost-fill":                  map-get($blacks, "light"),
-  "ghost-line":                  $blue
-);
-// pressed background color
-$btn-pressed-bg-colors: (
-    "point-fill":                map-get($blues, "pressed"),
-    "point-line":                map-get($blues, "hover"),
-    "default-fill":              map-get($grays, "pressed"),
-    "default-line":              map-get($grays, "line"),
-    "ghost-fill":                map-get($grays, "line"),
-    "ghost-line":                $white
-);
-// pressed border color
-$btn-pressed-border-colors: (
-    "point-fill":                transparent,
-    "point-line":                $blue,
-    "default-fill":              transparent,
-    "default-line":              map-get($grays, "pressed"),
-    "ghost-fill":                transparent,
-    "ghost-line":                $blue
-);
-// disabled 시 디자인 요소
-// disabled font color
-$btn-disabled-font-colors: (
-  "point-fill":                  $white,
-  "point-line":                  $blue,
-  "default-fill":                map-get($blacks, "light"),
-  "default-line":                map-get($blacks, "light"),
-  "ghost-fill":                  map-get($blacks, "light"),
-  "ghost-line":                  map-get($blacks, "light")
-);
-// disabled background color
-$btn-disabled-bg-colors: (
-    "point-fill":                $blue,
-    "point-line":                $white,
-    "default-fill":              map-get($grays, "default"),
-    "default-line":              $white,
-    "ghost-fill":                transparent,
-    "ghost-line":                map-get($grays, "pressed")
-);
-// disabled border color
-$btn-disabled-border-colors: (
-    "point-fill":                transparent,
-    "point-line":                $blue,
-    "default-fill":              transparent,
-    "default-line":              map-get($grays, "line"),
-    "ghost-fill":                transparent,
-    "ghost-line":                map-get($grays, "line")
-);
 // <a class="btn"></a>  or button
 .btn, 
 button {
@@ -153,49 +34,47 @@ button {
     cursor: default;
   }
   // 단일 버튼 (테마별 적용)
-  @each $theme in $btn-themes {
+  @each $theme, $value in $btn-themes-colors {
     &.#{$theme} {
-      color: map-get($btn-font-colors, #{$theme});
-      background-color: map-get($btn-bg-colors, #{$theme});
-      border-color: map-get($btn-border-colors, #{$theme});
+      color: map-get($value, 'default', 'font');
+      background-color: map-get($value, 'default', 'background');
+      border-color: map-get($value, 'default', 'border');
       // 아이콘이 존재한다면
       .icon {
         display: inline-block;
-        background: map-get($btn-font-colors, #{$theme});
+        background: map-get($value, 'default', 'font');
         vertical-align: middle;
       }
 
       &:focus,
       &:hover {
-        color: map-get($btn-hover-font-colors, #{$theme});
-        background-color: map-get($btn-hover-bg-colors, #{$theme});
-        border-color: map-get($btn-hover-border-colors, #{$theme});
+        color: map-get($value, 'hover', 'font');
+        background-color: map-get($value, 'hover', 'background');
+        border-color: map-get($value, 'hover', 'border');
 
         .icon {
-          background: map-get($btn-hover-font-colors, #{$theme});
+          background: map-get($value, 'hover', 'font');
         }
       }
 
       &:not(:disabled) {
         &:active,
         &.active { // pressed
-          color: map-get($btn-pressed-font-colors, #{$theme});
-          background-color: map-get($btn-pressed-bg-colors, #{$theme});
-          border-color: map-get($btn-pressed-border-colors, #{$theme});
-          @if $theme == 'point-line' {
-            opacity: 0.3;
-          }
+          color: map-get($value, 'pressed', 'font');
+          background-color: map-get($value, 'pressed', 'background');
+          border-color: map-get($value, 'pressed', 'border');
+          @if $theme == 'point-line' { opacity: 0.3; }
 
           .icon {
-            background: map-get($btn-pressed-font-colors, #{$theme});
+            background: map-get($value, 'pressed', 'font');
           }
         }
       }
 
       &:disabled {
-        color: map-get($btn-disabled-font-colors, #{$theme});
-        background-color: map-get($btn-disabled-bg-colors, #{$theme});
-        border-color: map-get($btn-disabled-border-colors, #{$theme});
+        color: map-get($value, 'disabled', 'font');
+        background-color: map-get($value, 'disabled', 'background');
+        border-color: map-get($value, 'disabled', 'border');
         @if $theme == 'default-fill' {
           opacity: 0.5;
         } @else {
@@ -203,10 +82,10 @@ button {
         }
 
         .icon {
-          background: map-get($btn-disabled-font-colors, #{$theme});
+          background: map-get($value, 'disabled', 'font');
         }
       }
-    } 
+    }
   }
 }
 

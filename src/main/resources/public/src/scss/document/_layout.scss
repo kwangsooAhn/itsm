@@ -232,7 +232,7 @@
                 &-info {
                   .user-name { color: map-get($grays, "dark"); }
                   .user-date-time { 
-                    color: $grays;
+                    color: $gray;
                     margin-left: 0.625rem; // 10px
                   }
                   button {
