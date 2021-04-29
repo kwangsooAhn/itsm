@@ -8,6 +8,7 @@ package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ci.service.CIService
+import co.brainz.itsm.constants.ItsmConstants
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import javax.servlet.http.HttpServletRequest
@@ -55,6 +56,7 @@ class CIController(private val ciService: CIService) {
         params["tags"] = request.getParameter("tagSearch")
         params["flag"] = request.getParameter("flag")
         params["offset"] = request.getParameter("offset") ?: "0"
+        params["limit"] = ItsmConstants.SEARCH_DATA_COUNT
         val result = ciService.getCIs(params)
         model.addAttribute("ciList", result.data)
         model.addAttribute("ciListCount", result.totalCount)

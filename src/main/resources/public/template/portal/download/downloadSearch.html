@@ -107,12 +107,15 @@
                             offsetCount = offsetCount + aliceJs.searchDataCount;
                         }
                         const downloadTbody = document.querySelector('.list-body .os-content');
-                        const tempTb = document.createElement('table');
-                        tempTb.innerHTML = response.responseText;
-                        setDateTimeFormat(tempTb);
-                        for (let i = 0; i < tempTb.rows.length; i++) {
-                            downloadTbody.appendChild(tempTb.rows[i]);
+                        const tbody = document.createElement('tbody');
+                        tbody.innerHTML = response.responseText;
+                        setDateTimeFormat(tbody);
+                        const container = document.createDocumentFragment();
+                        for (let i = 0; i < tbody.rows.length; i++) {
+                            let node = tbody.rows[i].cloneNode(true);
+                            container.appendChild(node);
                         }
+                        downloadTbody.appendChild(container)
                     } else {
                         document.getElementById('downloadList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);
