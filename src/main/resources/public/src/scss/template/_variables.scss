@@ -28,35 +28,62 @@ $icon-folder-path:                            '../media/icons/';
 $image-folder-path:                           '../media/images/';
 
 // color
-$black:                                       #000000;
-$white:                                       #ffffff;
-$red: #ff405a;
-$orange:                                      #FF7319;
-$green:                                       #00C462;
-$focus-black:                                 #283238;
-$ground-black:                                #333D47;
-$light-black:                                 #3F4B56;
-$dark-gray:                                   #586872;
-$warm-gray:                                   #7E848C;
-$blue-gray:                                   #929AA6;
-$gray:                                        #ACB4BF;
-$pressed-gray:                                #CCCED1;
-$default-gray:                                #E1E3E6;
-$line-gray:                                   #EBEBEB;
-$light-gray:                                  #F7F8F9;
-$dark-blue:                                   #0060A5;
-$pressed-blue:                                #0088E6;
-$point-blue:                                  #0098FF;
-$hover-blue:                                  #33ADFF;
-$light-blue:                                  #87CEFF;
+$black:                                       #000000 !default;
+$gray:                                        #ACB4BF !default;
+$white:                                       #ffffff !default;
+$red:                                         #ff405a !default;
+$blue:                                        #0098FF !default;
+$orange:                                      #FF7319 !default;
+$green:                                       #00C462 !default;
+
+$color: (
+  "black":                                    $black,
+  "gray":                                     $gray,
+  "white":                                    $white,
+  "red":                                      $red,
+  "blue":                                     $blue,
+  "orange":                                   $orange,
+  "green":                                    $green
+) !default;
+
+// black color
+$blacks: (
+  "focus":                                    #283238,
+  "ground":                                   #333D47,
+  "light":                                    #3F4B56
+) !default;
+
+// gray color
+$grays: (
+  "dark":                                     #586872,
+  "warm":                                     #7E848C,
+  "blue":                                     #929AA6,
+  "pressed":                                  #CCCED1,
+  "default":                                  #E1E3E6,
+  "line":                                     #EBEBEB,
+  "light":                                    #F7F8F9
+) !default;
+
+// blue color
+$blues: (
+  "dark":                                     #0060A5,
+  "pressed":                                  #0088E6,
+  "hover":                                    #33ADFF,
+  "light":                                    #87CEFF
+) !default;
+
+// orange color
+$oranges: (
+  "light":                                    #FF850A
+) !default;
 
 // element default
 $element-font-size:                           $font-size-base;
-$element-font-color:                          $dark-gray;
+$element-font-color:                          map-get($grays, "dark");
 $element-font-weight:                         $font-weight-regular;
 $element-line-height:                         1.2;
 $element-bg-color:                            $white;
-$element-border-color:                        $line-gray;
+$element-border-color:                        map-get($grays, "line");
 $element-border-width:                        0.0625rem; // 1px
 $element-border:                              $element-border-width solid $element-border-color;
 $element-border-radius:                       0.0625rem; // 1px
@@ -66,34 +93,34 @@ $element-indent:                              0.625rem; // 10px 내부 들여쓰
 $element-placeholder-font-color:              $gray;
 
 // 키보드 또는 선택시, 해당 element에 포커싱되었을때 사용하는 디자인 변수
-$element-focus-border-color:                  $point-blue;
+$element-focus-border-color:                  $blue;
 $element-focus-border-width:                  0.0625rem; // 1px
 $element-focus-border:                        $element-focus-border-width solid $element-focus-border-color;
 
 // element 마우스 오버시 사용하는 디자인 변수 
-$element-hover-border-color:                  $point-blue;
+$element-hover-border-color:                  $blue;
 $element-hover-border-width:                  0.0625rem; // 1px
 $element-hover-border:                        $element-hover-border-width solid $element-hover-border-color;
 $element-hover-box-shadow:                    0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
 
 // element disabled시 사용하는 디자인 변수
 $element-disabled-font-color:                 $gray;
-$element-disabled-bg-color:                   $light-gray;
-$element-disabled-border-color:               $line-gray;
+$element-disabled-bg-color:                   map-get($grays, "light");
+$element-disabled-border-color:               map-get($grays, "line");
 $element-disabled-border-width:               0.0625rem; // 1px
 
 // element readonly시 사용하는 디자인 변수
-$element-readonly-font-color:                 $dark-gray;
-$element-readonly-bg-color:                   $light-gray;
-$element-readonly-border-color:               $line-gray;
+$element-readonly-font-color:                 map-get($grays, "dark");
+$element-readonly-bg-color:                   map-get($grays, "light");
+$element-readonly-border-color:               map-get($grays, "line");
 $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:               $element-readonly-border-width solid $element-readonly-border-color;
 
 // 체크박스, 라디오 버튼, 스위치 등 선택되었을때 (ON) 디자인 변수
-$element-checked-bg-color:                    $point-blue;
+$element-checked-bg-color:                    $blue;
 
 //셀렉트 박스 선택되었을때 옵션에 사용하는 디자인 변수
-$element-selected-font-color:                 $point-blue;
+$element-selected-font-color:                 $blue;
 $element-hover-bg-color:                      rgba(0, 152, 255, 0.08);
 
 // 유효성 검증 실패시 디자인 변수
@@ -110,12 +137,12 @@ $h4-font-size:                                $font-size-base * 1.25; // 20px
 $h5-font-size:                                $font-size-base;
 $h6-font-size:                                $font-size-base * 0.875; // 14px
 
-$headings-font-color:                         $light-black;
+$headings-font-color:                         map-get($blacks, "light");
 $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
 
 // label
-$label-font-color:                            $light-black;
+$label-font-color:                            map-get($blacks, "light");
 $label-font-size:                             $font-size-base;
 $label-font-weight:                           $font-weight-medium;
 
@@ -125,7 +152,7 @@ $table-th-font-weight:                        $font-weight-medium;
 
 // button, a
 $btn-font-size:                              $font-size-base;
-$btn-font-color:                             $light-black;
+$btn-font-color:                             map-get($blacks, "light");
 $btn-font-weight:                            $font-weight-medium;
 $btn-line-height:                            1.2;
 $btn-bg-color:                               transparent;
@@ -158,34 +185,34 @@ $btn-kakao-disabled-bg-color:                #FFDE00;
 
 // button-group 디자인 요소
 $btn-group-font-size:                        $font-size-base;
-$btn-group-font-color:                       $light-black;
+$btn-group-font-color:                       map-get($blacks, "light");
 $btn-group-font-weight:                      $font-weight-medium;
 $btn-group-line-height:                      1.2;
-$btn-group-font-color:                       $light-black;
+$btn-group-font-color:                       map-get($blacks, "light");
 $btn-group-bg-color:                         $white;
-$btn-group-border-color:                     $line-gray;
+$btn-group-border-color:                     map-get($grays, "line");
 $btn-group-border-width:                     0.0625rem; // 1px
 $btn-group-border:                           $btn-group-border-width solid $btn-group-border-color;
 $btn-group-border-radius:                    0.1875rem; // 3px
 
 // button-group hover 시 디자인 요소
-$btn-group-hover-font-color:                 $light-black;
+$btn-group-hover-font-color:                 map-get($blacks, "light");
 $btn-group-hover-bg-color:                   rgba(230, 230, 230, 0.3);
-$btn-group-hover-border-color:               $line-gray;
+$btn-group-hover-border-color:               map-get($grays, "line");
 
 // button-group pressed 시 디자인 요소
-$btn-group-pressed-font-color:               $point-blue;
+$btn-group-pressed-font-color:               $blue;
 $btn-group-pressed-bg-color:                 $white;
-$btn-group-pressed-border-color:             $point-blue;
+$btn-group-pressed-border-color:             $blue;
 
 // button-group disabled 시 디자인 요소
-$btn-group-disabled-font-color:              $light-black;
+$btn-group-disabled-font-color:              map-get($blacks, "light");
 $btn-group-disabled-bg-color:                $white;
-$btn-group-disabled-border-color:            $line-gray;
+$btn-group-disabled-border-color:            map-get($grays, "line");
 
 // button-group-toggle 디자인 요소
 $btn-group-toggle-font-color:                $gray;
-$btn-group-toggle-bg-color:                  $light-gray;
+$btn-group-toggle-bg-color:                  map-get($grays, "light");
 
 //////////////////////////////// layout ////////////////////////////////
 $layout-header-height:                       3.125rem; // 50px
@@ -198,17 +225,17 @@ $scrollbar-thick:                            0.5rem; // 8px
 // element 내부 scrollbar 두께
 $scrollbar-thick-sm:                         0.25rem; // 4px
 // scrollbar 색상
-$scrollbar-color:                            $default-gray;
+$scrollbar-color:                            map-get($grays, "default");
 // scrollbar 모서리 곡선
 $scrollbar-border-radius:                     0.5rem; // 8px
 // scrollbar 배경 색상
 $scrollbar-bg-color:                         rgba(235,235,235, 0.6);
 // scrollbar hover, click 이동시 색상
-$scrollbar-hover-color:                      $pressed-gray;
+$scrollbar-hover-color:                      map-get($grays, "pressed");
 // dark 테마 스크롤바 (메뉴 사용)
-$scrollbar-dark-color:                       $light-black;
-$scrollbar-dark-bg-color:                    $focus-black;
-$scrollbar-dark-hover-color:                 $dark-gray;
+$scrollbar-dark-color:                       map-get($blacks, "light");
+$scrollbar-dark-bg-color:                    map-get($blacks, "focus");
+$scrollbar-dark-hover-color:                 map-get($grays, "dark");
 
 ///////////////////////////////// columns /////////////////////////////////
 // Column width (fixed)
@@ -228,32 +255,33 @@ $column-12: $column-init * 12; // 960px
 
 //////////////////////////////// fileuploader ////////////////////////////////
 $file-uploader-font-size:                    $font-size-base;
-$file-uploader-font-color:                   $dark-gray;
+$file-uploader-font-color:                   map-get($grays, "dark");
 $file-uploader-font-weight:                  $font-weight-medium;
+$file-uploader-icon-color:                   map-get($grays, "pressed");
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-base;
 $dropzone-font-color:                        $gray;
 $dropzone-font-weight:                       $font-weight-regular;
-$dropzone-bg-color:                          $light-gray;
-$dropzone-border:                            0.0625rem solid $line-gray; // 1px
+$dropzone-bg-color:                          map-get($grays, "light");
+$dropzone-border:                            0.0625rem solid map-get($grays, "line"); // 1px
 // browse click 버튼
-$dropzone-clickable-font-color:              $point-blue;
+$dropzone-clickable-font-color:              $blue;
 // 미리보기
 $file-uploader-preview-height:               5rem; // 80px;
-$file-uploader-progress-color:               $point-blue;
-$file-uploader-progress-bg-color:            $line-gray;
-$file-uploader-filename-font-color:          $dark-gray;
+$file-uploader-progress-color:               $blue;
+$file-uploader-progress-bg-color:            map-get($grays, "line");
+$file-uploader-filename-font-color:          map-get($grays, "dark");
 $file-uploader-filesize-font-color:          $gray;
 // 파일 미존재시
 $file-uploader-no-date-font-color:           $gray;
 // view 모드
 $file-uploader-view-font-size:               $font-size-base;
-$file-uploader-view-font-color:              $dark-gray;
+$file-uploader-view-font-color:              map-get($grays, "dark");
 $file-uploader-view-font-weight:             $font-weight-regular;
 
 //////////////////////////////// avatar ////////////////////////////////
 $avatar-font-size:                           $font-size-base;
-$avatar-font-color:                          $light-black;
+$avatar-font-color:                          map-get($blacks, "light");
 $avatar-font-weight:                         $font-weight-medium;
 // drag and drop 영역
 $avatar-dropzone-width:                      20.63rem; // 330px
@@ -263,10 +291,10 @@ $avatar-dropzone-sm-height:                  9.375rem; // 150px
 $avatar-dropzone-font-size:                  $font-size-base;
 $avatar-dropzone-font-color:                 $gray;
 $avatar-dropzone-font-weight:                $font-weight-regular;
-$avatar-dropzone-bg-color:                   $light-gray;
-$avatar-dropzone-border:                     0.0625rem solid $line-gray; // 1px
+$avatar-dropzone-bg-color:                   map-get($grays, "light");
+$avatar-dropzone-border:                     0.0625rem solid map-get($grays, "line"); // 1px
 // browse click 버튼
-$avatar-dropzone-clickable-font-color:       $point-blue;
+$avatar-dropzone-clickable-font-color:       $blue;
 // description
 $avatar-desc-font-size:                      $font-size-base;
 $avatar-desc-font-color:                     $gray;
@@ -274,70 +302,71 @@ $avatar-desc-font-weight:                    $font-weight-regular;
 
 ///////////////////////////////// date picker /////////////////////////////////
 $datepicker-font-size:                       $font-size-base;
-$datepicker-font-color:                      $dark-gray;
+$datepicker-font-color:                      map-get($grays, "dark");
 $datepicker-font-weight:                     $font-weight-regular;
 $datepicker-line-height:                     1.2;
 $datepicker-bg-color:                        $white;
-$datepicker-border-color:                    $line-gray;
+$datepicker-border-color:                    map-get($grays, "line");
 $datepicker-border-width:                    0.0625rem; // 1px
 $datepicker-border:                          $datepicker-border-width solid $datepicker-border-color;
 $datepicker-border-radius:                   0.0625rem; // 1px
 $datepicker-border-box-shadow:               0 0 0.3125rem 0 rgba(235, 235, 235, 1); // 0 0 5px 0 $line-gray
-$datepicker-hover-color:                     $point-blue;
+$datepicker-hover-color:                     $blue;
+$datepicker-icon-color:                      map-get($grays, "pressed");
 // focus
-$datepicker-focus-border-color:              $point-blue;
+$datepicker-focus-border-color:              $blue;
 $datepicker-focus-border-width:              0.0625rem; // 1px
 $datepicker-focus-border:                    $datepicker-focus-border-width solid $datepicker-focus-border-color;
 // title
 $datepicker-title-font-size:                 1.125rem; // 18px
-$datepicker-title-font-color:                $light-black;
+$datepicker-title-font-color:                map-get($blacks, "light");
 $datepicker-title-font-weight:               $font-weight-medium;
 // sub title
 $datepicker-sub-title-font-size:             $font-size-base;
-$datepicker-sub-title-font-color:            $dark-gray;
+$datepicker-sub-title-font-color:            map-get($grays, "dark");
 $datepicker-sub-title-font-weight:           $font-weight-regular;
-$datepicker-sub-title-bg-color:              $light-gray;
+$datepicker-sub-title-bg-color:              map-get($grays, "light");
 // cell
 $datepicker-cell-font-color:                 $gray;
 // current cell
-$datepicker-current-cell-font-color:         $dark-gray;
+$datepicker-current-cell-font-color:         map-get($grays, "dark");
 // selected cell
 $datepicker-selected-cell-font-color:        $white;
-$datepicker-selected-cell-bg-color:          $point-blue;;
+$datepicker-selected-cell-bg-color:          $blue;;
 // time
 $datepicker-time-font-size:                  1.75rem; // 28px
-$datepicker-time-font-color:                 $light-black;
+$datepicker-time-font-color:                 map-get($blacks, "light");
 $datepicker-time-font-weight:                $font-weight-medium;
 // toggle button
 $datepicker-btn-border-radius:               0.0625rem; // 1px
 
 ///////////////////////////////// text editor /////////////////////////////////
 $text-editor-font-size:                      $font-size-base;
-$text-editor-font-color:                     $dark-gray;
+$text-editor-font-color:                     map-get($grays, "dark");
 $text-editor-font-weight:                    $font-weight-regular;
 $text-editor-line-height:                    1.5;
-$text-editor-border-color:                   $line-gray;
+$text-editor-border-color:                   map-get($grays, "line");
 $text-editor-bg-color:                       $white;
 $text-editor-border-width:                   0.0625rem; // 1px
 $text-editor-border:                         $text-editor-border-width solid $text-editor-border-color;
 $text-editor-toolbar-font-size:              $font-size-base;
-$text-editor-toolbar-font-color:             $light-black;
+$text-editor-toolbar-font-color:             map-get($blacks, "light");
 $text-editor-toolbar-font-weight:            $font-weight-medium;
-$text-editor-toolbar-box-shadow:             0 0 0.3125rem 0 $line-gray;
+$text-editor-toolbar-box-shadow:             0 0 0.3125rem 0 map-get($grays, "line");
 // text editor의 hover와 pressec 는 동일한 디자인이다.
-$text-editor-toolbar-hover-font-color:       $light-black;
-$text-editor-toolbar-hover-bg-color:         $line-gray;
-$text-editor-toolbar-selected-font-color:    $point-blue;
+$text-editor-toolbar-hover-font-color:       map-get($blacks, "light");
+$text-editor-toolbar-hover-bg-color:         map-get($grays, "line");
+$text-editor-toolbar-selected-font-color:    $blue;
 
 ///////////////////////////////// tree /////////////////////////////////
 $tree-folder-path:                           '/../media/icons/tree';
 $tree-font-size:                             $font-size-base;
-$tree-font-color:                            $light-black;
+$tree-font-color:                            map-get($blacks, "light");
 $tree-font-weight:                           $font-weight-medium;
 // tree 간격
 $tree-line-height:                           1.875rem; // 30px
-$tree-bg-color:                              $light-gray;
-$tree-line-color:                            $default-gray;
+$tree-bg-color:                              map-get($grays, "light");
+$tree-line-color:                            map-get($grays, "default");
 $tree-line-width:                            0.0625rem; // 1px
 $tree-line:                                  $tree-line-width solid $tree-line-color;
 // +, - icon
@@ -349,7 +378,7 @@ $tree-folder-margin-left:                    0.5rem; // 8px
 // line 위치 계산
 $tree-indentation:                           calc((#{$tree-toggle-icon-width} / 2) + #{$tree-folder-margin-left} + (#{$tree-folder-icon-width} / 2));
 // node 선택
-$tree-selected-border-color:                 $point-blue;
+$tree-selected-border-color:                 $blue;
 $tree-selected-border-width:                 0.0625rem; // 1px;
 $tree-selected-border:                       $tree-selected-border-width solid $tree-selected-border-color;
 $tree-selected-bg-color:                     rgba(0, 152, 255, 0.05);
@@ -358,11 +387,11 @@ $tree-hover-bg-color:                        rgba(0, 152, 255, 0.05);
 ///////////////////////////////// modal //////////////////////////////
 // 모달 오픈시 바탕 어둡게
 $modal-backdrop-bg-color:                    rgba(116, 147, 179, 0.5);
-$modal-border-color:                         $line-gray;
+$modal-border-color:                         map-get($grays, "line");
 $modal-bg-color:                             $white;
 $modal-border-width:                         0.0625rem; // 1px
 $modal-border:                               $modal-border-width solid $modal-border-color;
-$modal-box-shadow:                           0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
+$modal-box-shadow:                           0 0 0.3125rem 0 map-get($grays, "line"); // 흐림 5px, $line-gray
 
 $modal-width:                                34.38rem; // 550px
 $modal-height:                               22.5rem; // 360px
@@ -370,7 +399,7 @@ $modal-height:                               22.5rem; // 360px
 // 모달 제목
 $modal-header-height:                        3.375rem; // 54px
 $modal-header-font-size:                     1.125rem; // 18px
-$modal-header-font-color:                    $light-black;
+$modal-header-font-color:                    map-get($blacks, "light");
 $modal-header-font-weight:                   $font-weight-medium;
 
 // 모달 버튼 영역
@@ -379,7 +408,7 @@ $modal-bottom-height:                       5rem; // 80px
 ///////////////////////////////// alert //////////////////////////////
 $alert-font-size:                            1rem;
 $alert-border-size:                          0.0625rem;  // 1px
-$alert-border:                               solid $alert-border-size $line-gray;  // 1px
+$alert-border:                               solid $alert-border-size map-get($grays, "line");  // 1px
 $alert-margin-size:                          0.3125rem;  // 5px
 $alert-box-sizing:                           border-box;
 $alert-box-shadow:                           0 0 $alert-margin-size $alert-margin-size rgba(116, 147, 179, 0.25);
@@ -405,18 +434,18 @@ $thumbnail-font-color:                       $gray;
 
 $thumbnail-main-height:                      100%;
 $thumbnail-main-padding:                     0;
-
+$thumbnail-icon-color:                       map-get($grays, "pressed");
 // 썸네일
 $thumbnail-width:                            14.06rem; // 225px
 $thumbnail-height:                           18.13rem; // 290px
 $thumbnail-border-width:                     0.0625rem; // 1px
-$thumbnail-border-color:                     $line-gray;
+$thumbnail-border-color:                     map-get($grays, "line");
 $thumbnail-border:                           $thumbnail-border-width solid $thumbnail-border-color;
 $thumbnail-bg-color:                         $white;
-$thumbnail-box-shadow:                       0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
+$thumbnail-box-shadow:                       0 0 0.3125rem 0 map-get($grays, "line"); // 흐림 5px, $line-gray
 
 $thumbnail-selected-border-width:            0.0625rem; // 1px
-$thumbnail-selected-border-color:            $point-blue;
+$thumbnail-selected-border-color:            $blue;
 $thumbnail-selected-border:                  $thumbnail-selected-border-width solid $thumbnail-selected-border-color;
 $thumbnail-selected-bg-color:                rgba(0, 152, 255, 0.05);
 
@@ -429,7 +458,7 @@ $tooltip-help-size:                          1rem; // 16px
 $tooltip-help-margin:                        0.3125rem; // 5px
 $tooltip-font-size:                          1rem; // 16px
 $tooltip-contents-background:                $white;
-$tooltip-contents-color:                     $point-blue;
+$tooltip-contents-color:                     $blue;
 $tooltip-contents-left:                      0;
 $tooltip-contents-width:                     100%;
 $tooltip-contents-border:                    0.125rem; // 2px

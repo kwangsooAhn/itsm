@@ -6,7 +6,7 @@
   width: $color-picker-palette-width;
   margin-top: $color-picker-margin;
   padding: $color-picker-palette-padding;
-  border: 0.0625rem solid $line-gray;
+  border: 0.0625rem solid map-get($grays, "line");
   & div {              // 컬러 팔레트 내부의 색상표 박스 디자인
     display: inline-block;
     width: $color-picker-colorchip-size;
@@ -16,7 +16,7 @@
     cursor: pointer;
     &.selected {
       border: $color-picker-colorchip-border;
-      outline: 0.0625rem solid $point-blue;
+      outline: 0.0625rem solid $blue;
     }
   }
 }
@@ -24,7 +24,7 @@
 @mixin opacity() {
   background-color: $white;
   width: 100%;
-  border: 0.0625rem solid $line-gray; // 1px
+  border: 0.0625rem solid map-get($grays, "line"); // 1px
   border-top: none;
   padding-left: 0.219rem; // 3.5px
   display: none;
@@ -57,7 +57,7 @@
       }
 
       &::-moz-range-progress {
-        background-color: $point-blue;
+        background-color: $blue;
         height: 0.0625rem; // 1px
       }
     }

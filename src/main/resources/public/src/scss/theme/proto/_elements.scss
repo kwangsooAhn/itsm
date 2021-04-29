@@ -12,7 +12,7 @@ select {
     height: 1.875rem; // 30px
     color:$element-font-color;
     font-size: $element-font-size;
-    border: $element-border solid $line-gray;
+    border: $element-border solid map-get($grays, "line");
     border-radius: $element-border-radius;
     padding: 0 10px;
     margin-right: 0.0625rem; // 1px
@@ -30,7 +30,7 @@ input {
     height: 1.875rem; // 30px
     color:$element-font-color;
     font-size: $element-font-size;
-    border: $element-border solid $line-gray;
+    border: $element-border solid map-get($grays, "line");
     border-radius: $element-border-radius;
     padding: 0 10px;
     margin-right: 0.0625rem; // 1px
@@ -62,7 +62,7 @@ textarea{
     padding: 0 0.625rem;
     margin: 10px 0 15px 0;
     display: block;
-    border: 1px solid $line-gray;
+    border: 1px solid map-get($grays, "line");
     color: $element-font-color;
     background-color: $element-bg-color;
     font-size: 0.875rem;

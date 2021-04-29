@@ -81,45 +81,45 @@ input, button, select, optgroup, textarea {
 
 /* _alignments.scss 
  *
- * 파일 경로 : template/utilities/_alignments.scss
+ * 파일 경로 : template/_alignments.scss
  * @description 정렬, 배치 관련 디자인
  * @author jy.lim
  * @version 1.0
  */
 .align-center {
-  text-align: center !important;
+  text-align: center;
 }
 
 .align-left {
-  text-align: left !important;
+  text-align: left;
 }
 
 .align-right {
-  text-align: right !important;
+  text-align: right;
 }
 
 .align-baseline {
-  vertical-align: baseline !important;
+  vertical-align: baseline;
 }
 
 .align-top {
-  vertical-align: top !important;
+  vertical-align: top;
 }
 
 .align-middle {
-  vertical-align: middle !important;
+  vertical-align: middle;
 }
 
 .align-bottom {
-  vertical-align: bottom !important;
+  vertical-align: bottom;
 }
 
 .align-text-bottom {
-  vertical-align: text-bottom !important;
+  vertical-align: text-bottom;
 }
 
 .align-text-top {
-  vertical-align: text-top !important;
+  vertical-align: text-top;
 }
 
 .float-clear {
@@ -136,39 +136,39 @@ input, button, select, optgroup, textarea {
 
 /* _flex.scss
  *
- * 파일 경로 : template/utilities/_flex.scss
+ * 파일 경로 : template/_flex.scss
  * @description flex display 관련 디자인
  * @author jy.lim
  * @version 1.0
  */
 .flex-row {
   display: flex;
-  flex-direction: row !important;
+  flex-direction: row;
 }
 
 .flex-column {
   display: flex;
-  flex-direction: column !important;
+  flex-direction: column;
 }
 
 .inline-flex {
-  display: inline-flex !important;
+  display: inline-flex;
 }
 
 .justify-content-start {
-  justify-content: flex-start !important;
+  justify-content: flex-start;
 }
 
 .justify-content-end {
-  justify-content: flex-end !important;
+  justify-content: flex-end;
 }
 
 .justify-content-center {
-  justify-content: center !important;
+  justify-content: center;
 }
 
 .justify-content-between {
-  justify-content: space-between !important;
+  justify-content: space-between;
 }
 
 .flex-wrap {
@@ -176,35 +176,35 @@ input, button, select, optgroup, textarea {
 }
 
 .align-items-start {
-  align-items: flex-start !important;
+  align-items: flex-start;
 }
 
 .align-items-end {
-  align-items: flex-end !important;
+  align-items: flex-end;
 }
 
 .align-items-center {
-  align-items: center !important;
+  align-items: center;
 }
 
 .align-items-baseline {
-  align-items: baseline !important;
+  align-items: baseline;
 }
 
 .align-self-start {
-  align-self: flex-start !important;
+  align-self: flex-start;
 }
 
 .align-self-end {
-  align-self: flex-end !important;
+  align-self: flex-end;
 }
 
 .align-self-center {
-  align-self: center !important;
+  align-self: center;
 }
 
 .align-self-baseline {
-  align-self: baseline !important;
+  align-self: baseline;
 }
 
 .flex-fill {
@@ -213,8 +213,8 @@ input, button, select, optgroup, textarea {
 
 /* _columns.scss 
  *
- * 파일 경로 : template/utilities/_columns.scss
- * @description HTML element column 너비 관련 디자인
+ * 파일 경로 : template/_columns.scss
+ * @description HTML element 너비 관련 디자인
  * @author jy.lim
  * @version 1.0
  */
@@ -314,13 +314,6 @@ input, button, select, optgroup, textarea {
   width: 100%;
 }
 
-/* _spacing.scss
- *
- * 파일 경로 : template/utilities/_spacing.scss
- * @description HTML element padding, margin 여백 관련 디자인
- * @author jy.lim
- * @version 1.0
- */
 .p-0 {
   padding: 0;
 }
@@ -421,52 +414,9 @@ input, button, select, optgroup, textarea {
   margin-top: auto;
 }
 
-/* _fonts.scss
- *
- * 파일 경로 : template/utilities/_fonts.scss
- * @description 글꼴 관련 설정
- * @author jy.lim
- * @version 1.0
- */
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
-  font-style: normal;
-  font-weight: 100;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
-  font-style: normal;
-  font-weight: 300;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
-  font-style: normal;
-  font-weight: 400;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
-  font-style: normal;
-  font-weight: 500;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
-  font-style: normal;
-  font-weight: 700;
-}
-@font-face {
-  font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
-  font-style: normal;
-  font-weight: 900;
-}
 /* _common.scss 
  *
- * 파일 경로 : template/utilities/_common.scss
+ * 파일 경로 : template/_common.scss
  * @description 공통으로 사용되는 디자인
  * @author wdj
  * @version 1.0
@@ -529,6 +479,49 @@ input, button, select, optgroup, textarea {
   cursor: pointer;
 }
 
+/* _fonts.scss 
+ *
+ * 파일 경로 : template/_fonts.scss
+ * @description 폰트 디자인
+ * @author wdj
+ * @version 1.0
+ */
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
+  font-style: normal;
+  font-weight: 100;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
+  font-style: normal;
+  font-weight: 900;
+}
 /* _layout.scss
  *
  * 파일 경로 : template/_layout.scss

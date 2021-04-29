@@ -29,7 +29,7 @@
 
           // 세부 속성
           .attribute-group {
-            background-color: $light-gray;
+            background-color: map-get($grays, "light");
             padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
             border: $cmdb-ci-attribute-border;
             border-radius:  0.0625rem; // 1px
@@ -46,7 +46,7 @@
 
           // 세부 속성
           .attribute-group {
-            background-color: $light-gray;
+            background-color: map-get($grays, "light");
             padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
             border: $cmdb-ci-attribute-border;
             border-radius:  0.0625rem; // 1px
@@ -60,15 +60,15 @@
             width: 100%;
             .list-head {
               tr {
-                color: $light-black;
-                border-bottom: 0.125rem solid $default-gray;
+                color: map-get($blacks, "light");
+                border-bottom: 0.125rem solid map-get($grays, "default");
               }
             }
             .list-body {
               display: block;
               width: 60rem; // 960px
               height: 32.8125rem; // 525px
-              color: $dark-gray;
+              color: map-get($grays, "dark");
               overflow-y: auto;
               .list-row {
                 display: table;

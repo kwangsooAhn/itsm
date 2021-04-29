@@ -8,12 +8,12 @@ $layout-header-height:                             3.125rem; // 50px
 $layout-header-font-size:                          $font-size-base;
 $layout-header-font-color:                         $white;
 $layout-header-font-weight:                        $font-weight-medium;
-$layout-header-bg-color:                           $point-blue;
+$layout-header-bg-color:                           $blue;
 
 // component palette
 $layout-component-palette-width:                   15.63rem; // 250px
 $layout-component-palette-bg-color:                $white;
-$layout-component-palette-border:                  0.0625rem solid $line-gray; // 1px
+$layout-component-palette-border:                  0.0625rem solid map-get($grays, "line"); // 1px
 $layout-component-palette-box-shadow:              0.0625rem 0 0.4375rem 0 rgba(204, 206, 209, 0.15); // 1px 0px 7px 0px $pressed-gray, 불투명도 15%;
 
 // properties header
@@ -21,24 +21,24 @@ $layout-properties-panel-header-height:            3.125rem; // 50px
 $layout-properties-panel-header-font-size:         $font-size-base;
 $layout-properties-panel-header-font-color:        $white;
 $layout-properties-panel-header-font-weight:       $font-weight-medium;
-$layout-properties-panel-header-bg-color:          $hover-blue;
+$layout-properties-panel-header-bg-color:          map-get($blues, "hover");
 
 // properties panel
 $layout-properties-panel-width:                    23.13rem; // 370px
 $layout-properties-panel-bg-color:                 $white;
-$layout-properties-panel-border:                   0.0625rem solid $line-gray; // 1px
+$layout-properties-panel-border:                   0.0625rem solid map-get($grays, "line"); // 1px
 $layout-properties-panel-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.15);// -1px 15px 7px 0px $pressed-gray, 불투명도 15%;
 
 // main
-$layout-main-bg-color:                             $light-gray;
+$layout-main-bg-color:                             map-get($grays, "light");
 
 // accordion
 $accordion-height:                                 3.125rem; // 50px
 $accordion-border-width:                           0.0625rem; // 1px
-$accordion-border-color:                           $line-gray;
+$accordion-border-color:                           map-get($grays, "line");
 $accordion-border:                                 $accordion-border-width solid $accordion-border-color;
 $accordion-font-size:                              $font-size-base;
-$accordion-font-color:                             $blue-gray;
+$accordion-font-color:                             map-get($grays, "blue");
 $accordion-font-weight:                            $font-weight-medium;
 $component-icon-width:                             7.813rem; // 125.5px
 $component-icon-height:                            7.188rem; // 115px
@@ -46,6 +46,8 @@ $component-icon-hover-bg-color:                    rgba(235, 235, 235, 0.3);
 
 ////////////////////////////////////// icon//////////////////////////////////////////////
 $icon-arrow-left:                                  $icon-folder-path + "icon_arrow_left.svg";
+
+$icon-component-color:                             map-get($grays, "blue");
 
 $icon-component-inputBox:                          $icon-folder-path + "form/context-menu/icon-inputbox.svg";
 $icon-component-textArea:                          $icon-folder-path + "form/context-menu/icon-textbox.svg";
@@ -72,22 +74,22 @@ $element-font-size:                                0.875rem; // 14px
 //////////////////////////// form ////////////////////////////
 $form-min-height:                                  56.25rem; // 900px
 $form-bg-color:                                    $white;
-$form-border:                                      0.0625rem solid $line-gray; // 1px
+$form-border:                                      0.0625rem solid map-get($grays, "line"); // 1px
 $form-box-shadow:                                  0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
 
 //////////////////////////// group ///////////////////////////
-$group-accordion-bg-color:                         $light-gray;
-$group-accordion-border-color:                     $line-gray;
+$group-accordion-bg-color:                         map-get($grays, "light");
+$group-accordion-border-color:                     map-get($grays, "line");
 $group-accordion-border:                           0.0625rem solid $group-accordion-border-color; // 1px
-$group-selected-border-color:                      $light-blue;
+$group-selected-border-color:                      map-get($blues, "light");
 $group-selected-bg-color:                          rgba(135, 206, 255, 0.1);
 
 //////////////////////////// row ///////////////////////////
-$row-selected-border-color:                        $light-blue;
+$row-selected-border-color:                        map-get($blues, "light");
 $row-selected-bg-color:                            rgba(135, 206, 255, 0.1);
 
 ////////////////////////// components /////////////////////////
-$component-selected-border-color:                  $light-blue;
+$component-selected-border-color:                  map-get($blues, "light");
 $component-selected-bg-color:                      rgba(135, 206, 255, 0.1);
 
 // color-picker palette
@@ -100,8 +102,9 @@ $color-picker-colorchip-border:                    0.125rem solid $white; // 2px
 
 ///////////////////////// tooltip-menu /////////////////////////
 $tooltip-menu-bg-color:                            $white;
-$tooltip-menu-border-color:                        $light-blue;
-$tooltip-menu-focus-bg-color:                      $point-blue;
+$tooltip-menu-border-color:                        map-get($blues, "light");
+$tooltip-menu-focus-bg-color:                      $blue;
+$tooltip-menu-icon-color:                          map-get($blues, "light");
 //////////////////////////// thumbnail //////////////////////////
 // 썸네일 모달
 $thumbnail-modal-width:                            62.63rem; // 1002px
@@ -114,10 +117,10 @@ $tooltip-contents-width:                           21.25rem; // 340px
 $tooltip-contents-left:                            0.9375rem; // 15px
 $tooltip-contents-padding:                         1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
 $tooltip-contents-background:                      $white;
-$tooltip-contents-color:                           $point-blue;
+$tooltip-contents-color:                           $blue;
 $tooltip-contents-left:                            0;
 $tooltip-contents-border-width:                    0.125rem; // 2px
-$tooltip-contents-border-color:                    $point-blue;
+$tooltip-contents-border-color:                    $blue;
 $tooltip-contents-border:                          $tooltip-contents-border-width solid $tooltip-contents-border-color;
 $tooltip-contents-border-radius:                   0.125rem; // 2px
 $tooltip-contents-padding:                         1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
@@ -127,9 +130,9 @@ $tooltip-contents-box-shadow:                      0 0 0.3125rem 0 rgba(30, 47, 
 // ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
 $clipboard-tooltip-font-size:                      0.875rem; // 14px
 $clipboard-tooltip-font-weight:                    $font-weight-regular;
-$clipboard-tooltip-font-color:                     $point-blue;
+$clipboard-tooltip-font-color:                     $blue;
 $clipboard-tooltip-bg-color:                       $white;
-$clipboard-tooltip-border-color:                   $point-blue;
+$clipboard-tooltip-border-color:                   $blue;
 $clipboard-tooltip-border-width:                   0.125rem; // 2px
 $clipboard-tooltip-border:                         $clipboard-tooltip-border-width solid $clipboard-tooltip-border-color;
 $clipboard-tooltip-border-radius:                  0.0625rem; // 1px
@@ -137,7 +140,7 @@ $clipboard-tooltip-border-radius:                  0.0625rem; // 1px
 // 도움말용
 $tooltip-help-size:                                1rem; // 16px
 $tooltip-help-margin:                              0.3125rem; // 5px
-$tooltip-help-hover-bg-color:                      $point-blue;
+$tooltip-help-hover-bg-color:                      $blue;
 
 // 유효성 검증용
 $tooltip-validate-contents-width:                  3.75rem; // 60px
@@ -161,52 +164,50 @@ $property-label-color:                             #8D9299;
 $property-label-font-size:                         0.875rem; // 14px
 /////////// switch button 디자인 요소
 $btn-switch-font-size:                            0.875rem; // 14px
-$btn-switch-font-color:                           $gray;
 $btn-switch-font-weight:                          $font-weight-medium;
-$btn-switch-font-color:                           $light-black;
-$btn-switch-bg-color:                             $light-gray;
-$btn-switch-border-color:                         $line-gray;
+$btn-switch-font-color:                           map-get($blacks, "light");
+$btn-switch-bg-color:                             map-get($grays, "light");
+$btn-switch-border-color:                         map-get($grays, "line");
 $btn-switch-border-width:                         0.0625rem; // 1px
 $btn-switch-border:                               $btn-switch-border-width solid $btn-switch-border-color;
 $btn-switch-border-radius:                        0.1875rem; // 3px
 
 // hover 시 디자인 요소
-$btn-switch-hover-font-color:                     $light-black;
+$btn-switch-hover-font-color:                     map-get($blacks, "light");
 $btn-switch-hover-bg-color:                       rgba(230, 230, 230, 0.3);
-$btn-switch-hover-border-color:                   $line-gray;
+$btn-switch-hover-border-color:                   map-get($grays, "line");
 
 // pressed 시 디자인 요소
-$btn-switch-pressed-font-color:                   $point-blue;
+$btn-switch-pressed-font-color:                   $blue;
 $btn-switch-pressed-bg-color:                     $white;
-$btn-switch-pressed-border-color:                 $point-blue;
+$btn-switch-pressed-border-color:                 $blue;
 
 // disabled 시 디자인 요소
-$btn-switch-disabled-font-color:                  $light-black;
+$btn-switch-disabled-font-color:                  map-get($blacks, "light");
 $btn-switch-disabled-bg-color:                    $white;
-$btn-switch-disabled-border-color:                $line-gray;
+$btn-switch-disabled-border-color:                map-get($grays, "line");
 
 /////////////// toggle button 디자인 요소
 $btn-toggle-font-size:                            0.875rem; // 14px
-$btn-toggle-font-color:                           $light-black;
+$btn-toggle-font-color:                           map-get($blacks, "light");
 $btn-toggle-font-weight:                          $font-weight-medium;
-$btn-toggle-font-color:                           $light-black;
 $btn-toggle-bg-color:                             $white;
-$btn-toggle-border-color:                         $line-gray;
+$btn-toggle-border-color:                         map-get($grays, "line");
 $btn-toggle-border-width:                         0.0625rem; // 1px
 $btn-toggle-border:                               $btn-toggle-border-width solid $btn-toggle-border-color;
 $btn-toggle-border-radius:                        0.1875rem; // 3px
 
 // hover 시 디자인 요소
-$btn-toggle-hover-font-color:                     $light-black;
+$btn-toggle-hover-font-color:                     map-get($blacks, "light");
 $btn-toggle-hover-bg-color:                       rgba(230, 230, 230, 0.3);
-$btn-toggle-hover-border-color:                   $line-gray;
+$btn-toggle-hover-border-color:                   map-get($grays, "line");
 
 // pressed 시 디자인 요소
-$btn-toggle-pressed-font-color:                   $point-blue;
+$btn-toggle-pressed-font-color:                   $blue;
 $btn-toggle-pressed-bg-color:                     $white;
-$btn-toggle-pressed-border-color:                 $point-blue;
+$btn-toggle-pressed-border-color:                 $blue;
 
 // disabled 시 디자인 요소
-$btn-toggle-disabled-font-color:                  $light-black;
+$btn-toggle-disabled-font-color:                  map-get($blacks, "light");
 $btn-toggle-disabled-bg-color:                    $white;
-$btn-toggle-disabled-border-color:                $line-gray;
+$btn-toggle-disabled-border-color:                map-get($grays, "line");

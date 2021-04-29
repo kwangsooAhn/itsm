@@ -43,7 +43,7 @@
       display: inline-block;
       right: 1.25rem; // 20px
       cursor: pointer;
-      @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $pressed-gray); // 14px 14px
+      @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $datepicker-icon-color); // 14px 14px
       // mouse over
       &:hover {
         background: $datepicker-hover-color;
@@ -88,7 +88,7 @@
         .date-prev {
           display: table-cell;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 0.625rem, 1.563rem, no-repeat, center, null, $dark-gray); // 너비 10px 높이 25px 아이콘 크기 10px 6px
+          @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 0.625rem, 1.563rem, no-repeat, center, null, map-get($grays, "dark")); // 너비 10px 높이 25px 아이콘 크기 10px 6px
         }
 
         .date-text {
@@ -102,7 +102,7 @@
         .date-next {
           display: table-cell;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 0.625rem, 1.563rem, no-repeat, center, null, $dark-gray); // 너비 10px 높이 25px 아이콘 크기 10px 6px
+          @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 0.625rem, 1.563rem, no-repeat, center, null, map-get($grays, "dark")); // 너비 10px 높이 25px 아이콘 크기 10px 6px
         }
       }
       // calendar
@@ -159,7 +159,7 @@
           display: inline-block;
           margin: 0;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_triangle_up.svg', 1.125rem, 0.625rem, no-repeat, center, null, $pressed-gray); // 18px, 10px
+          @include maskImage('#{$icon-folder-path}icon_triangle_up.svg', 1.125rem, 0.625rem, no-repeat, center, null, $datepicker-icon-color); // 18px, 10px
 
           &:hover {
             background: $datepicker-hover-color;
@@ -170,7 +170,7 @@
           display: inline-block;
           margin: 0;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_triangle_down.svg', 1.125rem, 0.625rem, no-repeat, center, null, $pressed-gray); // 18px, 10px
+          @include maskImage('#{$icon-folder-path}icon_triangle_down.svg', 1.125rem, 0.625rem, no-repeat, center, null, $datepicker-icon-color); // 18px, 10px
 
           &:hover {
             background: $datepicker-hover-color;

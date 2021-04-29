@@ -2,9 +2,9 @@
 
 .color-picker {
   .color-palette {
-    @include color-palette();
+    @include colorPalette();
     & div {
-      &:last-child { border: 0.0625rem solid $line-gray; }
+      &:last-child { border: 0.0625rem solid map-get($grays, "line"); }
     }
   }
   .color-palette-opacity {

@@ -28,7 +28,7 @@
     }
 }
 
-@include horizontalBar(0.0625rem,  0.625rem 0, $line-gray);
+@include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, "line"));
 
 .file-uploader {
   // edit 모드
@@ -184,10 +184,10 @@
           cursor: pointer;
           .icon-download {
             display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_download.svg', 1.25rem, 3rem, no-repeat, center, 1.25rem, $pressed-gray); // 20px 48px, 아이콘 크기 20px
+            @include maskImage('#{$icon-folder-path}icon_download.svg', 1.25rem, 3rem, no-repeat, center, 1.25rem, $file-uploader-icon-color); // 20px 48px, 아이콘 크기 20px
             cursor: pointer;
             &:hover {
-              background: $dark-gray;
+              background: map-get($grays, "dark");
             }
           }
         }
@@ -203,10 +203,10 @@
 
           .icon-delete {
             display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $pressed-gray); // 18px 48px, 아이콘 크기 19px 20px
+            @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $file-uploader-icon-color); // 18px 48px, 아이콘 크기 19px 20px
             cursor: pointer;
             &:hover {
-              background: $dark-gray;
+              background: map-get($grays, "dark");
             }
           }
         }

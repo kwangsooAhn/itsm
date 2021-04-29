@@ -26,11 +26,11 @@
 
   .error-code-txt {
     margin: 1.25rem 0; // 20px
-    color: $point-blue;
+    color: $blue;
   }
 
   .error-bottom-txt {
-    color: $dark-gray;
+    color: map-get($grays, "dark");
     margin: 5rem 0; // 80px
   }
 }
