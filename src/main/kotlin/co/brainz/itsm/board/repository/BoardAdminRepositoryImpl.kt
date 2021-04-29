@@ -8,6 +8,7 @@ package co.brainz.itsm.board.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.board.dto.BoardListDto
+import co.brainz.itsm.board.dto.BoardListReturnDto
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
@@ -26,7 +27,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
     override fun findByBoardAdminList(
         search: String,
         offset: Long
-    ): List<BoardListDto> {
+    ): BoardListReturnDto {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         val user = QAliceUserEntity.aliceUserEntity
         val board = QPortalBoardEntity("board")
@@ -40,9 +41,6 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     ExpressionUtils.`as`(
                         JPAExpressions.select(board.boardId.count()).from(board)
                             .where(board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)), "boardBoardCount"
-                    ),
-                    ExpressionUtils.`as`(
-                        JPAExpressions.select(board.boardId.count()).from(board), "totalCount"
                     ),
                     boardAdmin.createDt,
                     boardAdmin.createUser.userName
@@ -58,20 +56,10 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             .offset(offset)
             .fetchResults()
 
-        val boardList = mutableListOf<BoardListDto>()
-        for (data in query.results) {
-            val boardListDto = BoardListDto(
-                boardAdminId = data.boardAdminId,
-                boardAdminTitle = data.boardAdminTitle,
-                categoryYn = data.categoryYn,
-                boardBoardCount = data.boardBoardCount,
-                totalCount = query.total,
-                createDt = data.createDt,
-                createUserName = data.createUserName
-            )
-            boardList.add(boardListDto)
-        }
-        return boardList.toList()
+        return BoardListReturnDto(
+            data = query.results,
+            totalCount = query.total
+        )
     }
 
     override fun findPortalBoardAdmin(): List<BoardListDto> {
@@ -84,7 +72,6 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     boardAdmin.boardAdminId,
                     boardAdmin.boardAdminTitle,
                     boardAdmin.categoryYn,
-                    Expressions.numberPath(Long::class.java, "0"),
                     Expressions.numberPath(Long::class.java, "0"),
                     boardAdmin.createDt,
                     boardAdmin.createUser.userName

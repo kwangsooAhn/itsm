@@ -10,6 +10,7 @@ import co.brainz.itsm.board.dto.BoardCategoryDetailDto
 import co.brainz.itsm.board.dto.BoardCategoryDto
 import co.brainz.itsm.board.dto.BoardDto
 import co.brainz.itsm.board.dto.BoardListDto
+import co.brainz.itsm.board.dto.BoardListReturnDto
 import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.PortalBoardCategoryEntity
@@ -25,10 +26,10 @@ class BoardService(
 ) {
 
     /**
-     * [boardSearchDto]로 받아서 게시판 관리 목록 조회를 [List<BoardAdminListDto>]으로 반환.
+     * [boardSearchDto]로 받아서 게시판 관리 목록 조회를 [BoardListReturnDto]으로 반환.
      *
      */
-    fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardListDto> {
+    fun getBoardList(boardSearchDto: BoardSearchDto): BoardListReturnDto {
         return boardAdminRepository.findByBoardAdminList(
             boardSearchDto.search,
             boardSearchDto.offset
