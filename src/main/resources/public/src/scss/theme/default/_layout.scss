@@ -29,7 +29,7 @@
   height: 100vh;
   overflow: auto;
 
-  @include horizontalBar(0.0625rem,  0.625rem 0, map-get($gray, "line"));
+  @include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, "line"));
 
   // 메뉴 디자인은 _gnb.scss 참조
   // 메인
@@ -129,7 +129,7 @@
 .cmdb-ci-header,
 .scheduler-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
-  background-color: map-get($gray, "light");
+  background-color: map-get($grays, "light");
 }
 
 // 문서함
@@ -139,7 +139,7 @@
 .token-header,
 .dashboard-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
-  background-color: map-get($gray, "light");
+  background-color: map-get($grays, "light");
   border-bottom: $layout-header-border;
 }
 
@@ -176,7 +176,7 @@
 .cmdb-class-content,
 .cmdb-ci-content{
   padding: 0.9375rem 3.75rem; // 15px 60px
-  background-color: map-get($gray, "light");
+  background-color: map-get($grays, "light");
 }
 // 공지사항 상단 공지
 .notice-pinned { background-color: $notice-pinned-color; }
@@ -207,7 +207,7 @@
       width: 20rem; // 320px
       font-size: 1rem; // 16px
       font-weight: $font-weight-regular;
-      color: map-get($gray, "blue");
+      color: map-get($grays, "blue");
       margin-top: 0.625rem; // 10px
     }
   }
@@ -246,7 +246,7 @@
           .topic {
             font-size: 1rem; // 16px
             font-weight: $font-weight-regular;
-            color: map-get($gray, "dark");
+            color: map-get($grays, "dark");
           }
         }
       }
@@ -259,7 +259,7 @@
           .element-name {
             font-size: 1rem; // 16px
             font-weight: $font-weight-regular;
-            color: map-get($gray, "dark");
+            color: map-get($grays, "dark");
           }
         }
         &-tag {
@@ -278,7 +278,7 @@
   .statistic {
     &-box {
       width: 23.75rem; // 380px
-      border: 0.0625rem solid map-get($gray, "line");
+      border: 0.0625rem solid map-get($grays, "line");
       border-radius: 0.3125rem; // 5px
       padding: 1.5625rem; // 25px
     }
@@ -288,7 +288,7 @@
     &-count {
       margin-bottom: 0.9375rem; // 15px
     }
-    &-type { color: map-get($gray, "blue"); }
+    &-type { color: map-get($grays, "blue"); }
   }
   // 대시보드 > 처리할 문서
   .scroll-wrap {
@@ -356,11 +356,11 @@
       height: 2.5rem; // 40px
       line-height: 2.5rem;
       th {
-        border-bottom: 0.0625rem solid map-get($gray, "line"); // 1px
+        border-bottom: 0.0625rem solid map-get($grays, "line"); // 1px
       }
       td {
         padding: 0 0.9375rem; // 0 15px
-        border-bottom: 0.0625rem solid map-get($gray, "line"); // 1px
+        border-bottom: 0.0625rem solid map-get($grays, "line"); // 1px
       }
     }
     .tbody {

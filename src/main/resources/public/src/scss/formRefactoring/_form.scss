@@ -46,7 +46,7 @@
     .arrow-left {
       opacity: 0;
       display: table-cell;
-      @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, map-get($gray, "blue")); // 12px 20px
+      @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, map-get($grays, "blue")); // 12px 20px
     }
   }
   // 아코디언 사용중일 경우
@@ -87,6 +87,7 @@
         opacity: 1;
       }
     }
+
     // row
     .zenius-row-tooltip {
       display: none;
@@ -109,7 +110,7 @@
 // row
 .zenius-row {
   // TODO: 삭제
-  background-color: map-get($gray, "light");
+  background-color: map-get($grays, "light");
 }
 // component 툴팁
 .zenius-component-tooltip {

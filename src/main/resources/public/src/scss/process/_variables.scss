@@ -9,22 +9,22 @@ $layout-header-bg-color:                     $blue;
 // element palette
 $layout-element-palette-width:               6.25rem; // 100px
 $layout-element-palette-bg-color:            $white;
-$layout-element-palette-border:              0.0625rem solid map-get($gray, "line"); // 1px
+$layout-element-palette-border:              0.0625rem solid map-get($grays, "line"); // 1px
 $layout-element-palette-box-shadow:          0.0625rem 0 0.4375rem 0 rgba(204, 206, 209, 0.15);// 1px 0px 7px 0px $pressed-gray, 불투명도 15%;
-$icon-rectangle-menu-color:                  map-get($gray, "pressed");
+$icon-rectangle-menu-color:                  map-get($grays, "pressed");
 
 // main > drawing-board
-$drawing-board-bg-color:                     map-get($gray, "light"); // 모눈종이 바탕색
+$drawing-board-bg-color:                     map-get($grays, "light"); // 모눈종이 바탕색
 $drawing-board-line-width:                   1; // 모눈종이 라인 굵기
-$drawing-board-line-color:                   map-get($gray, "line"); // 모눈종이 선 색상
+$drawing-board-line-color:                   map-get($grays, "line"); // 모눈종이 선 색상
 
 // 미니맵
 $minimap-width:                              350px; // 350px
 $minimap-height:                             260px; // 260px
 $minimap-bg-color:                           $white;
-$minimap-inside-bg-color:                    map-get($gray, "light"); // 미니맵 내부 배경 색상
-$minimap-border:                             0.0625rem solid map-get($gray, "line"); // 1px
-$minimap-box-shadow:                         0 0 0.3125rem 0 map-get($gray, "line"); // 0 0 5px 0
+$minimap-inside-bg-color:                    map-get($grays, "light"); // 미니맵 내부 배경 색상
+$minimap-border:                             0.0625rem solid map-get($grays, "line"); // 1px
+$minimap-box-shadow:                         0 0 0.3125rem 0 map-get($grays, "line"); // 0 0 5px 0
 $minimap-border-radius:                      0.0625rem; // 1px
 $minimap-guide-bg-color:                     #A3B6CC; // 미니맵 위치 변경시 표시되는 색상
 $minimap-guide-bg-color-opacity:             0.25; // 미니맵 위치 변경시 표시되는 색상 불투명도
@@ -33,34 +33,34 @@ $minimap-guide-bg-color-opacity:             0.25; // 미니맵 위치 변경시
 $simulation-report-width:                    63.75rem; // 1020px
 $simulation-report-height:                   22.688rem; // 363px
 $simulation-report-bg-color:                 $white;
-$simulation-report-border:                   0.0625rem solid map-get($gray, "line"); // 1px
-$simulation-report-box-shadow:               0 0 0.3125rem 0 map-get($gray, "line"); // 0 0 5px 0
+$simulation-report-border:                   0.0625rem solid map-get($grays, "line"); // 1px
+$simulation-report-box-shadow:               0 0 0.3125rem 0 map-get($grays, "line"); // 0 0 5px 0
 $simulation-report-border-radius:            0.0625rem; // 1px
 // 모달의 제목과 성공/실패 결과 표시
 $simulation-report-title-font-size:          1.125rem; // 18px
 $simulation-report-title-font-weight:        $font-weight-medium;
-$simulation-report-title-font-color:         map-get($black, "light");
+$simulation-report-title-font-color:         map-get($blacks, "light");
 $simulation-report-content-font-size:        1rem; // 16px
 $simulation-report-content-font-weight:      $font-weight-regular;
-$simulation-report-content-font-color:       map-get($gray, "dark");
+$simulation-report-content-font-color:       map-get($grays, "dark");
 
 // process properties header
 $layout-properties-header-height:            2.5rem; // 40px
 $layout-properties-header-font-size:         $font-size-base;
 $layout-properties-header-font-color:        $white;
 $layout-properties-header-font-weight:       $font-weight-medium;
-$layout-properties-header-bg-color:          map-get($blue, "hover");
+$layout-properties-header-bg-color:          map-get($blues, "hover");
 
 // process properties
 $layout-properties-width:                     18.75rem; // 300px
 $layout-properties-bg-color:                  $white;
-$layout-properties-border:                    0.0625rem solid map-get($gray, "line"); // 1px
+$layout-properties-border:                    0.0625rem solid map-get($grays, "line"); // 1px
 $layout-properties-box-shadow:                -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.15);// -1px 15px 7px 0px $pressed-gray, 불투명도 15%;
 
 // 세부 속성명
 $properties-title-font-size:                  $font-size-base; // 16px
 $properties-title-font-weight:                $font-weight-medium;
-$properties-title-font-color:                 map-get($black, "light");
+$properties-title-font-color:                 map-get($blacks, "light");
 
 // clipboard tooltip
 // ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
@@ -75,12 +75,12 @@ $clipboard-tooltip-border-radius:             0.0625rem; // 1px
 
 //////////////////////////// element ////////////////////////////
 // table
-$table-border-color:                          map-get($gray, "line");
+$table-border-color:                          map-get($grays, "line");
 
 // element
 $node-font-size:                              $font-size-base; // 16px
 $node-font-weight:                            $font-weight-medium;
-$node-font-color:                             map-get($black, "light");
+$node-font-color:                             map-get($blacks, "light");
 $node-width:                                  1; // 두께
 $node-selected-width:                         2;
 $node-selected-color:                         $blue;
@@ -96,7 +96,7 @@ $reject-color:                                #ff0000;
 $annotation-color:                            #000000;
 
 // 선
-$connector-color:                             map-get($gray, "dark");
+$connector-color:                             map-get($grays, "dark");
 $connector-width:                             1; // 두께
 $connector-selected-width:                    2;
 $connector-pointer-color:                     $blue; // 점
@@ -107,12 +107,12 @@ $guides-line-color:                           darkgray;
 // tooltip
 $tooltip-bg-color:                            $white;
 $tooltip-border-width:                        1;
-$tooltip-border-color:                        map-get($blue, "light");
+$tooltip-border-color:                        map-get($blues, "light");
 
 // readonly일 경우
 $element-readonly-font-color:                 $gray;
-$element-readonly-bg-color:                   map-get($gray, "light");
-$element-readonly-border-color:               map-get($gray, "line");
+$element-readonly-bg-color:                   map-get($grays, "light");
+$element-readonly-border-color:               map-get($grays, "line");
 
 //////////////////////////// color-picker palette ////////////////////////////
 $color-picker-palette-width:                  100%;

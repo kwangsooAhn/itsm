@@ -35,7 +35,7 @@
           position: absolute;
           font-size: 0.75rem; // 12px
           font-weight: $font-weight-bold;
-          background-color: map-get($gray, "blue");
+          background-color: map-get($grays, "blue");
           margin: 0.3125rem 1rem; // 5px 16px
           padding: 0.125rem 0.625rem; // 2px 10px
           border-radius: 1.25rem; // 20px
@@ -57,7 +57,7 @@
           display: inline-block;
           height: 1.688rem;  // 27px
           line-height: 1.688rem;  // 27px
-          color: map-get($gray, "blue");
+          color: map-get($grays, "blue");
           font-weight: $font-weight-medium;
         }
         .user-profile {
@@ -74,7 +74,7 @@
         padding: 0.6875rem 0 0.6875rem 1.3125rem;
         .btn-logout {
           font-weight: $font-weight-medium;
-          color: map-get($gray, "blue");
+          color: map-get($grays, "blue");
         }
         .icon-logout {
           margin-right: 0.875rem; // 14px

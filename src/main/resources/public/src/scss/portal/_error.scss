@@ -30,7 +30,7 @@
   }
 
   .error-bottom-txt {
-    color: map-get($gray, "dark");
+    color: map-get($grays, "dark");
     margin: 5rem 0; // 80px
   }
 }

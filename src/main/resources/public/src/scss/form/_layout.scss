@@ -285,12 +285,12 @@
         margin-bottom: 0.625rem; // 10px
         &-header {
           padding: 0.625rem; // 10px
-          background-color: map-get($gray, "light");
-          border: 0.0625rem solid map-get($gray, "line"); // 1px
+          background-color: map-get($grays, "light");
+          border: 0.0625rem solid map-get($grays, "line"); // 1px
         }
         &-content {
           padding: 0 0.625rem; // 0 10px
-          border: 0.0625rem solid map-get($gray, "line"); // 1px
+          border: 0.0625rem solid map-get($grays, "line"); // 1px
         }
       }
       // 에러 문구

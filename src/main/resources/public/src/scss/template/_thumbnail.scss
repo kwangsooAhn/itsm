@@ -54,7 +54,7 @@
 
         &:first-child {
           label {
-            color:  map-get($gray, "dark");
+            color:  map-get($grays, "dark");
             cursor: pointer;
           }
           // 더블 클릭시 fileName 수정 가능
@@ -62,7 +62,7 @@
             display: none;
             width: 12.19rem; // 195px 
             height: 1.875rem; // 30px
-            color:  map-get($gray, "dark");
+            color:  map-get($grays, "dark");
             float: left;
           }
         }
@@ -104,7 +104,7 @@
     padding: 5.625rem 0 0 0; // 90px
     border: $thumbnail-border;
     box-shadow: none;
-    background-color: map-get($gray, "light");
+    background-color: map-get($grays, "light");
     cursor: pointer;
     overflow: hidden;
 

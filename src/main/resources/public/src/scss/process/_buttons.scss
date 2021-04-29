@@ -51,13 +51,13 @@
   height: 4.375rem; // 70px
   padding: 0;
   margin: 0.313rem 0.313rem 0 0.313rem; // 5px
-  border: 0.063rem solid map-get($gray, "line");
+  border: 0.063rem solid map-get($grays, "line");
   
   .icon-text {
     display: block;
     font-size: 14px; // 14px
     font-weight: $font-weight-regular;
-    color: map-get($black, "light");
+    color: map-get($blacks, "light");
   }
 
   .icon-event {
@@ -88,13 +88,13 @@
   &.connector {
     position: absolute;
     bottom: 5rem; // 80px
-    background-color: map-get($gray, "light");
+    background-color: map-get($grays, "light");
 
     .icon-connector {
       display: inline-block;
       @include maskImage('#{$icon-folder-path}process/element-palette/icon_connector.svg', 24px, 24px, no-repeat, center, null, $gray); // 24px 24px 
       // Connector 문구
-      + .icon-text { color: $gray; }
+      + .icon-text { color: $grays; }
     }
     // 선택시
     &.selected {
@@ -108,7 +108,7 @@
   &.move-icon {
     position: absolute;
     bottom: 0.313rem; // 5px
-    background-color: map-get($gray, "light");
+    background-color: map-get($grays, "light");
 
     .icon-background {
       display: inline-block;
@@ -142,7 +142,7 @@
 
   .icon-minimap {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/editor/icon_map.svg', 1.063rem, 1.25rem, no-repeat, center, null, map-get($gray, "pressed")); // 17px 20px
+    @include maskImage('#{$icon-folder-path}process/editor/icon_map.svg', 1.063rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 17px 20px
   }
 }
 
@@ -162,7 +162,7 @@
 
   .icon-simulation-report {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/editor/icon_simulation_report.svg', 1.25rem, 1rem, no-repeat, center, null, map-get($gray, "pressed")); // 20px 16px
+    @include maskImage('#{$icon-folder-path}process/editor/icon_simulation_report.svg', 1.25rem, 1rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 16px
     vertical-align: baseline; // TODO: 아이콘 위치가 다른 아이콘과 조금 다름
   }
 }
@@ -175,7 +175,7 @@
 
   .icon-clipboard {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/editor/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($gray, "pressed")); // 20px 20px
+    @include maskImage('#{$icon-folder-path}process/editor/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
   }
 }
 
@@ -188,7 +188,7 @@
 
   .icon-plus {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_plus.svg', 24px, 24px, no-repeat, center, 20px 20px, map-get($gray, "pressed"));
+    @include maskImage('#{$icon-folder-path}icon_plus.svg', 24px, 24px, no-repeat, center, 20px 20px, map-get($grays, "pressed"));
   }
 }
 
@@ -209,6 +209,6 @@
 button {
   .icon-delete {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($gray, "pressed")); // 20px 20px
+    @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
   }
 }

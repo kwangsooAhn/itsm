@@ -133,7 +133,7 @@
             display: inline-block;
             right: 1.125rem; // 17px
             cursor: pointer;
-            @include maskImage('#{$icon-folder-path}icon_minus.svg', 1rem, 1.5rem, no-repeat, center, null, map-get($gray, "pressed")); // 16px 24px
+            @include maskImage('#{$icon-folder-path}icon_minus.svg', 1rem, 1.5rem, no-repeat, center, null, map-get($grays, "pressed")); // 16px 24px
             // mouse over
             &:hover {
               background: $blue;
@@ -207,7 +207,7 @@
 
     // element 명
     .properties-group-title {
-      color: map-get($blue, "hover");
+      color: map-get($blues, "hover");
       margin: 1.563rem 1.563rem 0 1.563rem; // 25px 25px 0 25px
     }
 
@@ -270,15 +270,15 @@
     //프로세스 개요
     .process-info-main {
       margin: 1.25rem 1.563rem; // 20px 25px
-      .process-info-title { color: map-get($blue, "hover"); }
+      .process-info-title { color: map-get($blues, "hover"); }
       // 엘리먼트 갯수
       .process-info-dashboard {
         margin-top: 1.25rem; // 20px
         .total {
-          color: map-get($black, "light");
+          color: map-get($blacks, "light");
           padding: 0 0 0.625rem 0; // 0 0 10px 0
           margin: 0;
-          border-bottom: 0.125rem solid map-get($gray, "line");
+          border-bottom: 0.125rem solid map-get($grays, "line");
         }
         table tr td {
             padding: 0.625rem; // 10px 들여쓰기

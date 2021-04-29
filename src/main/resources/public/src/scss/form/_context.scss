@@ -26,7 +26,7 @@
         margin: 0;
         svg {
           margin: 0 0.9375rem 0 0.3125rem; // 0 15px 0 5px
-          fill: map-get($gray, "blue");
+          fill: map-get($grays, "blue");
         }
         label {
           pointer-events: none;

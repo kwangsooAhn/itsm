@@ -14,8 +14,8 @@
           width: 100%;
           .list-head {
             tr {
-              color: map-get($black, "light");
-              border-bottom: 0.125rem solid map-get($gray, "default");
+              color: map-get($blacks, "light");
+              border-bottom: 0.125rem solid map-get($grays, "default");
             }
           }
           .list-body {
@@ -23,7 +23,7 @@
             width: 60rem; // 960px
             //height: 32.8125rem; // 525px
             height: 21.75rem; // 348px
-            color: map-get($gray, "dark");
+            color: map-get($grays, "dark");
             overflow-y: auto;
             .list-row {
               display: table;
@@ -184,15 +184,15 @@
             width: 100%;
             .list-head {
               tr {
-                color: map-get($black, "light");
-                border-bottom: 0.125rem solid map-get($gray, "default");
+                color: map-get($blacks, "light");
+                border-bottom: 0.125rem solid map-get($grays, "default");
               }
             }
             .list-body {
               display: block;
               width: 60rem; // 960px
               height: 32.8125rem; // 525px
-              color: map-get($gray, "dark");
+              color: map-get($grays, "dark");
               overflow-y: auto;
               .attribute-list,
               .instance-list {
@@ -254,7 +254,7 @@
 
         // 세부 속성
         .attribute-group {
-          background-color: map-get($gray, "light");
+          background-color: map-get($grays, "light");
           padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
           border: $cmdb-ci-attribute-border;
           border-radius:  0.0625rem; // 1px
@@ -271,7 +271,7 @@
 
         // 세부 속성
         .attribute-group {
-          background-color: map-get($gray, "light");
+          background-color: map-get($grays, "light");
           padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
           border: $cmdb-ci-attribute-border;
           border-radius:  0.0625rem; // 1px
@@ -284,13 +284,13 @@
             width: 100%;
             .list-head {
               tr {
-                color: map-get($black, "light");
-                border-bottom: 0.125rem solid map-get($gray, "default");
+                color: map-get($blacks, "light");
+                border-bottom: 0.125rem solid map-get($grays, "default");
               }
             }
             .list-body {
               display: block;
-              color: map-get($gray, "dark");
+              color: map-get($grays, "dark");
               overflow-y: auto;
               .list-row {
                 display: table;
@@ -313,15 +313,15 @@
           width: 100%;
           .list-head {
             tr {
-              color: map-get($black, "light");
-              border-bottom: 0.125rem solid map-get($gray, "default");
+              color: map-get($blacks, "light");
+              border-bottom: 0.125rem solid map-get($grays, "default");
             }
           }
           .list-body {
             display: block;
             width: 60rem; // 960px
             height: 32.8125rem; // 525px
-            color: map-get($gray, "dark");
+            color: map-get($grays, "dark");
             overflow-y: auto;
             .list-row {
               display: table;

@@ -23,7 +23,7 @@
 
   h1 { line-height: 1.7; }
   h3 { 
-    color: map-get($gray, "dark");
+    color: map-get($grays, "dark");
     margin: 1.25rem 0 5rem 0; // 20px 0 80px 0
   }
 }

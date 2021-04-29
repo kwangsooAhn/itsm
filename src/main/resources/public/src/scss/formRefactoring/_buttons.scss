@@ -49,7 +49,7 @@
 
   .icon-clipboard {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($gray, "pressed")); // 20px 20px
+    @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
   }
 }
 

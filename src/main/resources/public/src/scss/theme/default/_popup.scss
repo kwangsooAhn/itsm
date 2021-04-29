@@ -16,7 +16,7 @@
 
   &-btn-content {
     margin-top: 2rem; //32px
-    border-top: 0.0625rem solid map-get($gray, "default"); //1px
+    border-top: 0.0625rem solid map-get($grays, "default"); //1px
   }
 
   &-btn-list {

@@ -21,7 +21,7 @@
         width: $color-picker-box-size;
         height: $color-picker-box-size;
         margin-right: $color-picker-margin;
-        border: 0.0625rem solid map-get($gray, "line");
+        border: 0.0625rem solid map-get($grays, "line");
         display: flex;
         &:hover {
           border: 0.0625rem solid $blue; // 1px

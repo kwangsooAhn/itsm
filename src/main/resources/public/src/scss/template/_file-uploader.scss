@@ -28,7 +28,7 @@
     }
 }
 
-@include horizontalBar(0.0625rem,  0.625rem 0, map-get($gray, "line"));
+@include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, "line"));
 
 .file-uploader {
   // edit 모드
@@ -187,7 +187,7 @@
             @include maskImage('#{$icon-folder-path}icon_download.svg', 1.25rem, 3rem, no-repeat, center, 1.25rem, $file-uploader-icon-color); // 20px 48px, 아이콘 크기 20px
             cursor: pointer;
             &:hover {
-              background: map-get($gray, "dark");
+              background: map-get($grays, "dark");
             }
           }
         }
@@ -206,7 +206,7 @@
             @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $file-uploader-icon-color); // 18px 48px, 아이콘 크기 19px 20px
             cursor: pointer;
             &:hover {
-              background: map-get($gray, "dark");
+              background: map-get($grays, "dark");
             }
           }
         }

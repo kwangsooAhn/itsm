@@ -42,7 +42,7 @@
     &::before {
       content: '';
       flex-grow: 1;
-      background: map-get($gray, "line");
+      background: map-get($grays, "line");
       height: 0.063rem; // 1px
       margin-right: 1rem; // 16px
     }
@@ -50,7 +50,7 @@
     &::after {
       content: '';
       flex-grow: 1;
-      background: map-get($gray, "line");
+      background: map-get($grays, "line");
       height: 0.063rem; // 1px
       margin-left: 1rem; // 16px
     }
@@ -71,7 +71,7 @@
     color: $login-form-font-color;
     margin-top: 6.188rem; // 99px
 
-    @include verticalBar(1.25rem, 2.5rem, 0.0625rem solid map-get($gray, "line"), 0 1.875rem 0 0); // 30px,  40px
+    @include verticalBar(1.25rem, 2.5rem, 0.0625rem solid map-get($grays, "line"), 0 1.875rem 0 0); // 30px,  40px
 
     a { color: $login-form-font-color; }
 

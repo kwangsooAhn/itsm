@@ -48,11 +48,11 @@
 
   .icon-minus {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_minus.svg', 0.875rem, 0.875rem, no-repeat, center, null, map-get($gray, "pressed")); // 14px 14px
+    @include maskImage('#{$icon-folder-path}icon_minus.svg', 0.875rem, 0.875rem, no-repeat, center, null, map-get($grays, "pressed")); // 14px 14px
   }
   .icon-plus {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, map-get($gray, "pressed")); // 14px 14px
+    @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, map-get($grays, "pressed")); // 14px 14px
   }
 
   .icon-fail {

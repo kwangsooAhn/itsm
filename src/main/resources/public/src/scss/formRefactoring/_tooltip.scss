@@ -52,7 +52,7 @@
   .help-tooltip-icon {
     display: inline-block;
     cursor: pointer;
-    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, map-get($gray, "pressed"));
+    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, map-get($grays, "pressed"));
   }
 
   .tooltip-contents {

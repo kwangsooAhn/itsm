@@ -23,7 +23,7 @@
   .help-tooltip-icon {
     display: inline-block;
     cursor: pointer;
-    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, map-get($gray, "pressed"));
+    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, map-get($grays, "pressed"));
   }
 
   .tooltip-contents {
@@ -62,7 +62,7 @@
   .tooltip-contents {
     min-width: $tooltip-header-contents-width;
     visibility: hidden;
-    background-color: map-get($blue, "hover");
+    background-color: map-get($blues, "hover");
     color: $white;
     text-align: center;
     font-size: $tooltip-header-contents-size;

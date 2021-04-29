@@ -3,12 +3,12 @@
 $layout-header-height:                       0; // 0px
 
 // main
-$layout-main-bg-color:                       map-get($gray, "light");
+$layout-main-bg-color:                       map-get($grays, "light");
 
 // main > drawing-board
 $drawing-board-width:                        60rem; // 960px
 $drawing-board-bg-color:                     $white;
-$drawing-board-border:                       0.0625rem solid map-get($gray, "line"); // 1px
+$drawing-board-border:                       0.0625rem solid map-get($grays, "line"); // 1px
 $drawing-board-box-shadow:                   0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
 $drawing-board-margin:                       0 0 7.5rem 0; // 0 0 120px 0
 $drawing-board-padding:                      6.25rem 4.688rem; // 100px 75px;
@@ -16,14 +16,14 @@ $drawing-board-padding:                      6.25rem 4.688rem; // 100px 75px;
 // properties
 $layout-properties-width:                    38.13rem; // 610px
 $layout-properties-bg-color:                 $white;
-$layout-properties-border:                   0.0625rem solid map-get($gray, "line"); // 1px
+$layout-properties-border:                   0.0625rem solid map-get($grays, "line"); // 1px
 
 // properties > tab
 $tab-font-size:                              1.125rem; // 18px
 $tab-font-color:                             $gray;
 $tab-font-weight:                            $font-weight-medium;
-$tab-border:                                 0.125rem solid map-get($gray, "default"); // 2px
-$tab-selected-font-color:                    map-get($black, "light");
+$tab-border:                                 0.125rem solid map-get($grays, "default"); // 2px
+$tab-selected-font-color:                    map-get($blacks, "light");
 $tab-selected-border:                        0.25rem solid $blue; // 4px
 $tab-content-height:                         43.75rem; // 700px
 
@@ -32,7 +32,7 @@ $tag-font-color:                             rgba(0, 152, 255, 0.7); // $blue , 
 $tag-bg-color:                               rgba(0, 152, 255, 0.1); // $blue , 불투명도 10
 $tag-border:                                 0.0625rem solid #E5F5FF; // 1px
 // tag 삭제 버튼
-$tag-btn-remove-color:                       map-get($blue, "hover");
+$tag-btn-remove-color:                       map-get($blues, "hover");
 // tag 마우스 오버
 $tag-hover-font-color:                       $blue;
 $tag-hover-bg-color:                         rgba(0, 152, 255, 0.1); // $blue , 불투명도 10
@@ -50,8 +50,8 @@ $tag-invalid-bg-color:                       rgba(255, 64, 90, 0.1); // $red , �
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
 
-$cmdb-ci-attribute-border:                   0.0625rem solid map-get($gray, "line"); // 1px
-$cmdb-ci-attribute-bg-color:                 map-get($gray, "light");
+$cmdb-ci-attribute-border:                   0.0625rem solid map-get($grays, "line"); // 1px
+$cmdb-ci-attribute-bg-color:                 map-get($grays, "light");
 
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                           40rem; // 640px

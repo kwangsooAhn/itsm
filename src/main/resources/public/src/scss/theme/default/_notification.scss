@@ -82,7 +82,7 @@
   &-content {
     height: 6.875rem; // 110px
     padding: 0.938rem;// 15px
-    border-bottom: 0.063rem solid map-get($gray, "line"); // 1px
+    border-bottom: 0.063rem solid map-get($grays, "line"); // 1px
     &:hover {
       background-color: rgba(135, 206, 255, 0.1);
     }
@@ -104,7 +104,7 @@
         cursor: pointer;
         &:checked {
           border: $notification-checkbox-border-checked;
-          color: map-get($gray, "pressed");
+          color: map-get($grays, "pressed");
           cursor: unset;
         }
         &:checked::after {
@@ -113,7 +113,7 @@
           position: absolute;
           top: -0.063rem; // -1px
           left: 0.063rem; // 1px
-          color: map-get($gray, "pressed");
+          color: map-get($grays, "pressed");
         }
       }
     }
@@ -127,7 +127,7 @@
         font-weight: $font-weight-medium;
         font-size: 1rem; // 16px
         line-height: 1.2;
-        color: map-get($black, "light");
+        color: map-get($blacks, "light");
         max-width: 18.13rem; // 290px
         margin-left: 0.625rem; // 10px
         &.confirm {
@@ -142,7 +142,7 @@
         font-weight: $font-weight-regular;
         font-size: 1rem; // 16px
         display: block;
-        color: map-get($gray, "dark");
+        color: map-get($grays, "dark");
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
         margin-left: 1.75rem; // 28px
@@ -194,13 +194,13 @@
           &.title {
             font-size: 1rem; // 16px
             font-weight: $font-weight-medium;
-            color: map-get($black, "light");
+            color: map-get($blacks, "light");
             max-width: 18.13rem; // 290px
           }
           &.message {
             font-size: 1rem; // 16px
             font-weight: $font-weight-regular;
-            color: map-get($gray, "dark");
+            color: map-get($grays, "dark");
             max-width: 22.5rem; // 360px
           }
           &.date {
