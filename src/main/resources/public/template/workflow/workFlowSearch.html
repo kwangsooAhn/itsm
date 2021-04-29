@@ -461,11 +461,14 @@
                             offsetCount = offsetCount + aliceJs.searchDataCount;
                         }
                         const workflowTbody = document.querySelector('.list-body .os-content');
-                        const tempTb = document.createElement('table');
-                        tempTb.innerHTML = response.responseText;
-                        for (let i = 0; i < tempTb.rows.length; i++) {
-                            workflowTbody.appendChild(tempTb.rows[i]);
+                        const tbody = document.createElement('tbody');
+                        tbody.innerHTML = response.responseText;
+                        const container = document.createDocumentFragment();
+                        for (let i = 0; i < tbody.rows.length; i++) {
+                            let node = tbody.rows[i].cloneNode(true);
+                            container.appendChild(node);
                         }
+                        workflowTbody.appendChild(container)
                     } else {
                         document.getElementById('documentList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);

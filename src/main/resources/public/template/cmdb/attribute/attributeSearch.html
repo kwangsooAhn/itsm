@@ -73,11 +73,14 @@
                             offsetCount = offsetCount + aliceJs.searchDataCount;
                         }
                         const attributeTbody = document.querySelector('.list-body .os-content');
-                        const tempTb = document.createElement('table');
-                        tempTb.innerHTML = response.responseText;
-                        for (let i = 0; i < tempTb.rows.length; i++) {
-                            attributeTbody.appendChild(tempTb.rows[i]);
+                        const tbody = document.createElement('tbody');
+                        tbody.innerHTML = response.responseText;
+                        const container = document.createDocumentFragment();
+                        for (let i = 0; i < tbody.rows.length; i++) {
+                            let node = tbody.rows[i].cloneNode(true);
+                            container.appendChild(node);
                         }
+                        attributeTbody.appendChild(container)
                     } else {
                         document.getElementById('attributeList').innerHTML = response.responseText;
                         aliceJs.showTotalCount(document.getElementById('totalCount').value);

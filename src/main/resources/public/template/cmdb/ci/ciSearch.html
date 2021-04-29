@@ -83,11 +83,14 @@
                             offsetCount = offsetCount + aliceJs.searchDataCount;
                         }
                         const ciTbody = document.querySelector('.list-body .os-content');
-                        const tempTb = document.createElement('table');
-                        tempTb.innerHTML = response.responseText;
-                        for (let i = 0; i < tempTb.rows.length; i++) {
-                            ciTbody.appendChild(tempTb.rows[i]);
+                        const tbody = document.createElement('tbody');
+                        tbody.innerHTML = response.responseText;
+                        const container = document.createDocumentFragment();
+                        for (let i = 0; i < tbody.rows.length; i++) {
+                            let node = tbody.rows[i].cloneNode(true);
+                            container.appendChild(node);
                         }
+                        ciTbody.appendChild(container)
                     } else {
                         if (url.indexOf("/view") > 0) {
                             const ciDetailModal = new modal({
