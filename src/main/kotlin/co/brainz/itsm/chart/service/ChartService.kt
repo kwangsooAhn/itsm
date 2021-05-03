@@ -14,7 +14,6 @@ import co.brainz.itsm.chart.dto.ChartListDto
 import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.document.constants.DocumentConstants
-import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.WfDocumentEntity
