@@ -124,14 +124,14 @@
             Object.keys(CIData).forEach(function(key) {
                 let elemKey;
                 switch(key) {
-                    case 'ciIcon':
-                        elemKey = 'typeIcon';
-                        break;
-                    case 'ciIconData':
-                        elemKey = 'typeIconData';
-                        break;
-                    default:
-                        elemKey = key;
+                case 'ciIcon':
+                    elemKey = 'typeIcon';
+                    break;
+                case 'ciIconData':
+                    elemKey = 'typeIconData';
+                    break;
+                default:
+                    elemKey = key;
                 }
                 const elem = document.getElementById(elemKey);
                 if (elem !== null) {
@@ -181,13 +181,15 @@
                     break;
                 case 'radio':
                     const radioElem = el.querySelector('input[name="attribute-radio"]:checked');
-                    ciAttribute.id = radioElem.id.split('-')[0];
-                    ciAttribute.value = radioElem.value;
+                    if (radioElem !== null) {
+                        ciAttribute.id = radioElem.id.split('-')[0];
+                        ciAttribute.value = radioElem.value;
+                    }
                     break;
                 case 'checkbox':
                     let checkValues = [];
                     let strValues = '';
-                    el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function(chkElem, idx) {
+                    el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function (chkElem, idx) {
                         if (idx === 0) {
                             ciAttribute.id = chkElem.id.split('-')[0];
                         }
