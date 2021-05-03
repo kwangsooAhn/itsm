@@ -4270,6 +4270,9 @@ body.modal-active {
 .zenius-group-tooltip.selected > .zenius-tooltip-menu {
   visibility: visible;
 }
+.zenius-group-tooltip.off {
+  display: none;
+}
 
 .zenius-group-accordion-checkBox {
   position: absolute;
@@ -4312,7 +4315,7 @@ body.modal-active {
 .zenius-group.accordion .zenius-group-accordion-checkBox:checked + .zenius-group-label .arrow-left {
   transform: rotate(-90deg);
 }
-.zenius-group.accordion .zenius-group-accordion-checkBox:checked ~ .zenius-row-tooltip {
+.zenius-group.accordion .zenius-group-accordion-checkBox:checked ~ .zenius-row-tooltip:not(.off) {
   display: block;
 }
 .zenius-group.accordion .zenius-group-label {
@@ -4352,6 +4355,9 @@ body.modal-active {
 .zenius-row-tooltip.selected > .zenius-tooltip-menu {
   visibility: visible;
 }
+.zenius-row-tooltip.off {
+  display: none;
+}
 
 .zenius-row {
   background-color: #F7F8F9;
@@ -4370,6 +4376,9 @@ body.modal-active {
 }
 .zenius-component-tooltip.selected > .zenius-tooltip-menu {
   visibility: visible;
+}
+.zenius-component-tooltip.off {
+  display: none;
 }
 
 .zenius-component {

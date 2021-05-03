@@ -15,7 +15,7 @@ import Form from '../form/form.js';
 import Group, { UIGroupTooltip } from '../form/group.js';
 import Row, { UIRowTooltip } from '../form/row.js';
 import Component, { UIComponentTooltip } from '../form/component.js';
-import Validation from '../lib/validation.js';
+import { validation } from '../lib/validation.js';
 
 class FormDesigner {
     constructor() {
@@ -25,7 +25,6 @@ class FormDesigner {
 
         this.history = new History(this);  // 이력 관리
         this.panel = new Panel(this); // 세부 속성 관리
-        this.validation = new Validation(); // 유효성 검증
         this.selectedObject = null;
 
         // 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
@@ -187,7 +186,7 @@ class FormDesigner {
             this.sortJson(formData);
             this.data = formData;
 
-            this.makeDomElement(this.data, this); // DOM 엘리먼트 생성
+            this.makeForm(this.data, this); // DOM 엘리먼트 생성
             this.setFormName(this.data.name); // 폼 디자이너 상단 이름 출력
         });
 
@@ -226,29 +225,29 @@ class FormDesigner {
             (this.history.status ? '*' : '') + name;
     }
     /**
-     * DOM 엘리먼트 생성 (Recursive)
+     * FORM 생성 (Recursive)
      * @param data JSON 데이터
      * @param parent 부모 객체
      * @param index 추가될 객체의 index
      */
-    makeDomElement(data, parent, index) {
+    makeForm(data, parent, index) {
         if (Object.prototype.hasOwnProperty.call(data, 'groups')) { // form
             this.form = this.addObjectByType(FORM.LAYOUT.FORM, data);
             this.form.parent = parent;
             this.domElement.appendChild(this.form.UIElement.domElement);
 
             data.groups.forEach( (g, gIndex) => {
-                this.makeDomElement(g, this.form, gIndex);
+                this.makeForm(g, this.form, gIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'rows')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
             data.rows.forEach( (r, rIndex) => {
-                this.makeDomElement(r, group, rIndex);
+                this.makeForm(r, group, rIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'components')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
             data.components.forEach( (c, cIndex) => {
-                this.makeDomElement(c, row, cIndex);
+                this.makeForm(c, row, cIndex);
             });
         } else { // component
             this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);
@@ -711,7 +710,7 @@ class FormDesigner {
                     bindKey: false,
                     callback: (modal) => {
                         const newFormName = document.getElementById('newFormName');
-                        if (this.validation.emit('required', newFormName)) {
+                        if (validation.emit('required', newFormName)) {
                             this.saveAsForm();
                             modal.hide();
                         }

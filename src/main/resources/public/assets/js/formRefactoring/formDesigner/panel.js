@@ -13,7 +13,7 @@ import {
     UISwitch, UIColor, UIButton, UISlider
 } from '../lib/ui.js';
 import { FORM } from '../lib/constants.js';
-import Validation from '../lib/validation.js';
+import { validation } from '../lib/validation.js';
 
 export default class Panel {
     constructor(editor) {
@@ -498,15 +498,15 @@ export default class Panel {
         // type(number, char, email 등), min, max 체크
         if (element.getAttribute('data-validate-type') &&
             element.getAttribute('data-validate-type') !== '') {
-            return this.editor.validation.emit(element.getAttribute('data-validate-type'), element);
+            return validation.emit(element.getAttribute('data-validate-type'), element);
         }
         if (element.getAttribute('data-validate-min') &&
             element.getAttribute('data-validate-min') !== '') {
-            return this.editor.validation.emit('min', element, element.getAttribute('data-validate-min'));
+            return validation.emit('min', element, element.getAttribute('data-validate-min'));
         }
         if (element.getAttribute('data-validate-max') &&
             element.getAttribute('data-validate-max') !== '') {
-            return this.editor.validation.emit('max', element, element.getAttribute('data-validate-max'));
+            return validation.emit('max', element, element.getAttribute('data-validate-max'));
         }
         return true;
     }
@@ -518,15 +518,15 @@ export default class Panel {
         // 필수값, minLength, maxLength 체크
         if (element.getAttribute('data-validate-required') &&
             element.getAttribute('data-validate-required') !== 'false') {
-            return this.editor.validation.emit('required', element);
+            return validation.emit('required', element);
         }
         if (element.getAttribute('data-validate-minLength') &&
             element.getAttribute('data-validate-minLength') !== '') {
-            return this.editor.validation.emit('minLength', element.getAttribute('data-validate-minLength'));
+            return validation.emit('minLength', element, element.getAttribute('data-validate-minLength'));
         }
         if (element.getAttribute('data-validate-maxLength') &&
             element.getAttribute('data-validate-maxLength') !== '') {
-            return this.editor.validation.emit('maxLength', element.getAttribute('data-validate-maxLength'));
+            return validation.emit('maxLength', element, element.getAttribute('data-validate-maxLength'));
         }
         return true;
     }
