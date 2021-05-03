@@ -813,7 +813,7 @@
                 e.stopPropagation();
                 const customCodeTextElem = parent.querySelector('#custom-code-' + property.componentId);
                 if (defaultCustomData !== '') {
-                    let customDataValue = defaultCustomData.split('|');
+                    let customDataValue = customCodeTextElem.getAttribute('custom-data').split('|');
                     customCodeTextElem.value = (customDataValue.length > 1) ? customDataValue[1] : '';
                 }
                 let customCodeData = {
