@@ -39,7 +39,6 @@
     let annotationDefaultPadding= 10;
     let annotationLineHeight= 19.2;
 
-
     /**
      * reset mouse variables.
      */
