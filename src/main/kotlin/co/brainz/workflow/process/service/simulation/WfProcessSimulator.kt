@@ -39,6 +39,7 @@ class WfProcessSimulator(
     private lateinit var removedDuplicationElements: MutableSet<WfElementEntity>
     private lateinit var processMessage: StringBuilder
     private lateinit var simulationReportDto: SimulationReportDto
+    private lateinit var completeElements: MutableSet<String>
 
     /**
      * [processId] 에 해당하는 프로세스 시뮬레이션을 실행한다.
@@ -84,10 +85,24 @@ class WfProcessSimulator(
             currentElement = this.getTargetElement(arrowElement)
             this.simulation(currentElement)
 
+            // GW 에 의한 분기 진행이 종료될 때 처리 (종료 or GW 다른 화살표)
             if (gatewayQueue.size > 0 &&
                 currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value
             ) {
                 currentElement = gatewayQueue.pop()
+            }
+
+            // 회수, 반려에 의해 앞으로 넘어온 경우 무한 반복을 해제
+            if (completeElements.contains(currentElement.elementId)) {
+                if (gatewayQueue.size > 0) {
+                    currentElement = gatewayQueue.pop()
+                } else {
+                    break
+                }
+            }
+            // GW 제외한 element 중 처리한 element 는 저장한다. (GW에 의한 반려, 회수 시 제외)
+            if (WfElementConstants.ElementType.getAtomic(currentElement.elementType) != WfElementConstants.ElementType.GATEWAY) {
+                completeElements.add(currentElement.elementId)
             }
         }
 
@@ -112,6 +127,7 @@ class WfProcessSimulator(
         this.removedDuplicationElements = mutableSetOf()
         this.processMessage = StringBuilder()
         this.simulationReportDto = SimulationReportDto()
+        this.completeElements = mutableSetOf()
     }
 
     /**
@@ -150,7 +166,7 @@ class WfProcessSimulator(
                     arrowConnectorInGateway.remove(current.elementId)
                 } else {
                     // 검증해야할 gateway 발 arrowConnector가 존재하므로 또다시 꺼낼 수 있도록 큐에 넣어 둔다.
-                    gatewayQueue.push(current)
+                    this.gatewayQueue.push(current)
                 }
             } else {
                 element = arrowConnectors.last()
@@ -179,7 +195,7 @@ class WfProcessSimulator(
      * 점검할 엘리먼트들[removedDuplicationElements]은 별도로 저장한다.
      */
     private fun simulation(element: WfElementEntity) {
-        removedDuplicationElements.add(element)
+        this.removedDuplicationElements.add(element)
 
         val simulationElement = when (WfElementConstants.ElementType.getAtomic(element.elementType)) {
             WfElementConstants.ElementType.EVENT -> WfProcessSimulationEvent(
