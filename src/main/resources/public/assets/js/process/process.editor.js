@@ -36,6 +36,10 @@
 
     let isView = true;            //view 모드 여부
 
+    let annotationDefaultPadding= 10;
+    let annotationLineHeight= 19.2;
+
+
     /**
      * reset mouse variables.
      */
@@ -1662,7 +1666,7 @@
             if (textElement.node()) {
                 const textArr = text.split('\n');
                 if (textArr.length > 1) {
-                    textElement.selectAll('*').remove();
+                    elementNode.nextSibling.textContent = '';
                     textElement.selectAll('tspan')
                         .data(textArr)
                         .enter()
@@ -1673,8 +1677,7 @@
                         .text(function(d) { return d; });
 
                     if (d3.select(elementNode).classed('annotation')) {
-                        const textBbox = aliceProcessEditor.utils.getBoundingBoxCenter(textElement),
-                            textElementHeight = textBbox.height + 20;
+                        let textElementHeight = annotationDefaultPadding + annotationLineHeight * textArr.length;
                         let strokeDashArray = '6,6,6,6,6,' + textElementHeight + ',6,6,6,6,6';
                         for (let i = 0, len = Math.trunc(textElementHeight / 12); i < len; i++) {
                             strokeDashArray += ',6,6';
