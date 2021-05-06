@@ -1,0 +1,1388 @@
+@charset "UTF-8";
+/*
+ * documnent.scss
+ * 
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+/* _reset.scss 
+ *
+ * 파일 경로 : template/_reset.scss
+ * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
+ * @author wdj
+ * @version 1.0
+ */
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+template {
+  display: none;
+}
+
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* _alignments.scss 
+ *
+ * 파일 경로 : template/utilities/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.align-center {
+  text-align: center !important;
+}
+
+.align-left {
+  text-align: left !important;
+}
+
+.align-right {
+  text-align: right !important;
+}
+
+.align-baseline {
+  vertical-align: baseline !important;
+}
+
+.align-top {
+  vertical-align: top !important;
+}
+
+.align-middle {
+  vertical-align: middle !important;
+}
+
+.align-bottom {
+  vertical-align: bottom !important;
+}
+
+.align-text-bottom {
+  vertical-align: text-bottom !important;
+}
+
+.align-text-top {
+  vertical-align: text-top !important;
+}
+
+.float-clear {
+  clear: both;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+/* _flex.scss
+ *
+ * 파일 경로 : template/utilities/_flex.scss
+ * @description flex display 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.flex-row {
+  display: flex;
+  flex-direction: row !important;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column !important;
+}
+
+.inline-flex {
+  display: inline-flex !important;
+}
+
+.justify-content-start {
+  justify-content: flex-start !important;
+}
+
+.justify-content-end {
+  justify-content: flex-end !important;
+}
+
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.justify-content-between {
+  justify-content: space-between !important;
+}
+
+.align-items-start {
+  align-items: flex-start !important;
+}
+
+.align-items-end {
+  align-items: flex-end !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.align-items-baseline {
+  align-items: baseline !important;
+}
+
+.align-self-start {
+  align-self: flex-start !important;
+}
+
+.align-self-end {
+  align-self: flex-end !important;
+}
+
+.align-self-center {
+  align-self: center !important;
+}
+
+.align-self-baseline {
+  align-self: baseline !important;
+}
+
+.flex-fill {
+  flex: 1 1 auto;
+}
+
+/* _columns.scss 
+ *
+ * 파일 경로 : template/utilities/_columns.scss
+ * @description HTML element column 너비 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.col-1 {
+  width: 5rem;
+}
+
+.col-2 {
+  width: 10rem;
+}
+
+.col-3 {
+  width: 15rem;
+}
+
+.col-4 {
+  width: 20rem;
+}
+
+.col-5 {
+  width: 25rem;
+}
+
+.col-6 {
+  width: 30rem;
+}
+
+.col-7 {
+  width: 35rem;
+}
+
+.col-8 {
+  width: 40rem;
+}
+
+.col-9 {
+  width: 45rem;
+}
+
+.col-10 {
+  width: 50rem;
+}
+
+.col-11 {
+  width: 55rem;
+}
+
+.col-12 {
+  width: 60rem;
+}
+
+.col-pct-1 {
+  width: 8.3333333333%;
+}
+
+.col-pct-2 {
+  width: 16.6666666667%;
+}
+
+.col-pct-3 {
+  width: 25%;
+}
+
+.col-pct-4 {
+  width: 33.3333333333%;
+}
+
+.col-pct-5 {
+  width: 41.6666666667%;
+}
+
+.col-pct-6 {
+  width: 50%;
+}
+
+.col-pct-7 {
+  width: 58.3333333333%;
+}
+
+.col-pct-8 {
+  width: 66.6666666667%;
+}
+
+.col-pct-9 {
+  width: 75%;
+}
+
+.col-pct-10 {
+  width: 83.3333333333%;
+}
+
+.col-pct-11 {
+  width: 91.6666666667%;
+}
+
+.col-pct-12 {
+  width: 100%;
+}
+
+/* _spacing.scss
+ *
+ * 파일 경로 : template/utilities/_spacing.scss
+ * @description HTML element padding, margin 여백 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.p-0 {
+  padding: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.ml-1 {
+  margin-left: 0.3125rem;
+}
+
+.ml-2 {
+  margin-left: 0.625rem;
+}
+
+.ml-3 {
+  margin-left: 0.9375rem;
+}
+
+.ml-4 {
+  margin-left: 1.25rem;
+}
+
+.ml-5 {
+  margin-left: 1.875rem;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-0 {
+  margin-right: 0;
+}
+
+.mr-1 {
+  margin-right: 0.3125rem;
+}
+
+.mr-2 {
+  margin-right: 0.625rem;
+}
+
+.mr-3 {
+  margin-right: 0.9375rem;
+}
+
+.mr-4 {
+  margin-right: 1.25rem;
+}
+
+.mr-5 {
+  margin-right: 1.875rem;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mt-1 {
+  margin-top: 0.3125rem;
+}
+
+.mt-2 {
+  margin-top: 0.625rem;
+}
+
+.mt-3 {
+  margin-top: 0.9375rem;
+}
+
+.mt-4 {
+  margin-top: 1.25rem;
+}
+
+.mt-5 {
+  margin-top: 1.875rem;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
+/* _fonts.scss
+ *
+ * 파일 경로 : template/utilities/_fonts.scss
+ * @description 글꼴 관련 설정
+ * @author jy.lim
+ * @version 1.0
+ */
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
+  font-style: normal;
+  font-weight: 100;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
+  font-style: normal;
+  font-weight: 900;
+}
+/* _common.scss 
+ *
+ * 파일 경로 : template/utilities/_common.scss
+ * @description 공통으로 사용되는 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.underline {
+  text-decoration: underline;
+  text-underline-position: under;
+}
+
+.description {
+  color: #7E848C;
+}
+
+.required {
+  font-weight: 700;
+}
+.required::after {
+  color: #ff405a;
+  content: "*";
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.auto-break {
+  word-break: break-all;
+}
+
+.space-line {
+  white-space: pre-line;
+}
+
+.horizontal-bar {
+  height: 0.0625rem;
+  margin: 0.9375rem 0;
+  background-color: #EBEBEB;
+}
+
+.vertical-bar {
+  width: 1.875rem;
+  min-height: 1.875rem;
+  border-right: 0.0625rem solid #EBEBEB;
+  margin: 0 1.875rem 0 0;
+  vertical-align: middle;
+}
+
+.under-bar {
+  border-bottom: 0.0625rem solid #E1E3E6;
+  padding-bottom: 0.625rem;
+  margin-bottom: 0.625rem;
+}
+.under-bar .bold {
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+/* _layout.scss
+ *
+ * 파일 경로 : template/_layout.scss
+ * @description HTML layout 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.alice-wrapper {
+  display: flex;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+/* 신청서 / 처리할 문서 양식 layout
+ * document-container
+ *                - document-main : 문서양식 메인
+ *                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
+ *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > form/_component.scss )
+ *                - token-properties : 문서이력, 관련문서, 의견, 태그
+ */
+.document-container {
+  max-width: 120rem;
+  margin: 0 auto;
+}
+.document-container .document-main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 18.75rem;
+  bottom: 0;
+  overflow-y: auto;
+  background-color: #F7F8F9;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.document-container .document-main::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.document-container .document-main.preview {
+  right: 0;
+}
+.document-container .document-main .document-main-header {
+  width: 60rem;
+  max-width: 60rem;
+  padding: 8.438rem 0 0.9375rem 0;
+}
+.document-container .document-main .drawing-board[data-readonly=true] .dropzone,
+.document-container .document-main .drawing-board[data-readonly=true] .ql-toolbar,
+.document-container .document-main .drawing-board[data-readonly=true] textarea,
+.document-container .document-main .drawing-board[data-readonly=true] button,
+.document-container .document-main .drawing-board[data-readonly=true] input[type=text],
+.document-container .document-main .drawing-board[data-readonly=true] label.radio,
+.document-container .document-main .drawing-board[data-readonly=true] label.checkbox,
+.document-container .document-main .drawing-board[data-readonly=true] select {
+  pointer-events: none;
+}
+.document-container .document-main .drawing-board[data-readonly=true] .component .move-handler {
+  display: inherit;
+}
+.document-container .document-main .drawing-board[data-display=complete] .btn-dr-table-row-add {
+  opacity: 0;
+}
+.document-container .document-main .drawing-board[data-display=complete] .dr-table-row-delete {
+  opacity: 0;
+}
+
+/* _elements.scss 
+ *
+ * 파일 경로 : template/_elements.scss
+ * @description HTML element 디자인
+ * @author wdj
+ * @version 1.0
+ */
+body {
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #3F4B56;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+h6 {
+  font-family: "Malgun Gothic";
+  font-size: 0.875rem;
+}
+
+a {
+  cursor: pointer;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+}
+
+input {
+  height: 2.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0 0.625rem 0 0.625rem;
+  vertical-align: middle;
+}
+input::placeholder {
+  color: #ACB4BF;
+}
+input:not(:disabled):focus, input:not(:read-only):focus {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+}
+input:not(:disabled):hover, input:not(:read-only):hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+input:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  border-color: #EBEBEB;
+  pointer-events: none;
+  cursor: default;
+}
+input:read-only {
+  background-color: #F7F8F9;
+  border-color: #EBEBEB;
+  pointer-events: none;
+  cursor: default;
+}
+input.icon {
+  padding-right: 2.5rem;
+}
+input.error {
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
+}
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 0.0625rem;
+  background-color: #EBEBEB;
+  outline: 0;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 50%;
+  cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0.5rem 0.625rem 0.5rem 0.625rem;
+  resize: vertical;
+}
+textarea::placeholder {
+  color: #ACB4BF;
+}
+textarea:not(:disabled):focus, textarea:not(:read-only):focus {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+}
+textarea:not(:disabled):hover, textarea:not(:read-only):hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+textarea:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
+}
+textarea:read-only {
+  background-color: #F7F8F9;
+  border-color: #EBEBEB;
+  pointer-events: none;
+  cursor: default;
+}
+textarea.error {
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
+}
+
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  background-color: transparent;
+  border: 0.0625rem solid transparent;
+}
+table tr {
+  height: 2.5rem;
+}
+table tr th {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+table tr td, table tr th {
+  border: 0.0625rem solid transparent;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+select {
+  height: 2.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0 0.625rem 0 0.625rem;
+  vertical-align: middle;
+}
+select:not(:disabled):focus, select:not(:read-only):focus {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+}
+select:not(:disabled):hover, select:not(:read-only):hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+select:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
+}
+
+.select {
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  height: 2.5rem;
+}
+.select .select-hidden {
+  visibility: hidden;
+  padding-right: 0.625rem;
+}
+.select .designed-select {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem 0.625rem;
+  background-color: #ffffff;
+  color: #586872;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  cursor: pointer;
+}
+.select .designed-select:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 0.625rem solid transparent;
+  background: url("../media/icons/icon_arrow_bottom.svg") no-repeat center left;
+  position: absolute;
+  right: 0.625rem;
+}
+.select .designed-select:not(:disabled):hover, .select .designed-select:not(.readonly):hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+.select .designed-select:not(:disabled).active, .select .designed-select:not(.readonly).active {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+}
+.select .designed-select:not(:disabled).active:after, .select .designed-select:not(.readonly).active:after {
+  top: 0.5625rem;
+  background: url("../media/icons/icon_arrow_up.svg") no-repeat center left;
+}
+.select .designed-select:not(:disabled).active + .designed-options, .select .designed-select:not(.readonly).active + .designed-options {
+  display: block;
+}
+.select .designed-select.disabled-select {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
+}
+.select .designed-options {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.3125rem);
+  right: 0;
+  left: 0;
+  z-index: 5000;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 25rem;
+  overflow: auto;
+  color: #586872;
+  background-color: #ffffff;
+  outline: 0;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  box-shadow: 0 0 0.3125rem 0 #ebebeb;
+}
+.select .designed-options li {
+  margin: 0;
+  padding: 0.75rem 0;
+  text-indent: 0.625rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.select .designed-options li:hover {
+  background: rgba(0, 152, 255, 0.08);
+}
+.select .designed-options li[rel=hide] {
+  display: none;
+}
+.select.readonly .designed-select {
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
+}
+
+option:hover {
+  background-color: rgba(0, 152, 255, 0.08);
+}
+option:visited {
+  color: #0098FF;
+  background-color: #ffffff;
+}
+option:active, option:focus {
+  color: #0098FF;
+}
+
+span {
+  font-family: inherit;
+  margin: auto 0;
+}
+
+label {
+  font-family: inherit;
+  color: #3F4B56;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.radio {
+  position: relative;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  outline: none;
+}
+.radio > span:first-of-type {
+  padding-right: 0.625rem;
+}
+.radio input[type=radio] {
+  display: none;
+}
+.radio input[type=radio] + span {
+  position: relative;
+}
+.radio input[type=radio] + span::before {
+  content: "";
+  display: inline-block;
+  position: relative;
+  width: 1.125rem;
+  height: 1.125rem;
+  top: -0.0625rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 50%;
+  vertical-align: middle;
+  text-align: center;
+}
+.radio input[type=radio] + span::after {
+  content: "";
+  position: absolute;
+  width: 0.625rem;
+  height: 0.625rem;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  border-radius: 50%;
+}
+.radio input[type=radio]:not(:disabled) + span {
+  cursor: pointer;
+}
+.radio input[type=radio]:not(:disabled) ~ .label {
+  cursor: pointer;
+}
+.radio input[type=radio]:not(:disabled):checked + span::before {
+  border-color: #EBEBEB;
+}
+.radio input[type=radio]:not(:disabled):checked + span::after {
+  background-color: #0098FF;
+  transform: translate(4px, 9px) scale(1);
+}
+.radio input[type=radio]:not(:disabled):hover + span::before {
+  border-color: #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+.radio input[type=radio]:disabled + span::before {
+  border-color: #EBEBEB;
+  background-color: #F7F8F9;
+}
+.radio input[type=radio]:disabled ~ .label {
+  color: #ACB4BF;
+}
+.radio input[type=radio]:disabled:checked + span::after {
+  background-color: #ACB4BF;
+  transform: translate(4px, 9px) scale(1);
+}
+.radio:focus input[type=radio]:not(:disabled) + span:before {
+  border-color: #0098FF;
+}
+
+.checkbox {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  outline: none;
+}
+.checkbox > span:first-of-type {
+  padding-right: 0.625rem;
+}
+.checkbox input[type=checkbox] {
+  display: none;
+}
+.checkbox input[type=checkbox] + span {
+  position: relative;
+}
+.checkbox input[type=checkbox] + span::before {
+  content: "";
+  display: inline-block;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  vertical-align: middle;
+}
+.checkbox input[type=checkbox]:not(:disabled) + span {
+  cursor: pointer;
+}
+.checkbox input[type=checkbox]:not(:disabled) ~ .label {
+  cursor: pointer;
+}
+.checkbox input[type=checkbox]:not(:disabled):checked + span::after {
+  content: "";
+  position: absolute;
+  width: 0.75rem;
+  height: 0.375rem;
+  top: 0.375rem;
+  left: 0;
+  border: 0.125rem solid #0098FF;
+  border-right: none;
+  border-top: none;
+  transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
+}
+.checkbox input[type=checkbox]:not(:disabled):hover + span::before {
+  border-color: #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+.checkbox input[type=checkbox]:disabled + span::before {
+  background-color: #F7F8F9;
+}
+.checkbox input[type=checkbox]:disabled + span::after {
+  border-color: #ACB4BF;
+}
+.checkbox input[type=checkbox]:disabled ~ .label {
+  color: #ACB4BF;
+}
+.checkbox:focus input[type=checkbox]:not(:disabled) + span:before {
+  border-color: #0098FF;
+}
+
+.switch {
+  position: relative;
+  height: 2.188rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  outline: none;
+}
+.switch .label {
+  display: inline-block;
+  height: 2.188rem;
+  line-height: 2;
+  margin-left: 5.625rem;
+  cursor: pointer;
+}
+.switch input[type=checkbox] {
+  display: none;
+}
+.switch input[type=checkbox] + span {
+  position: absolute;
+  width: 5rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #E1E3E6;
+  border-radius: 2.5rem;
+  cursor: pointer;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.switch input[type=checkbox] + span::before {
+  content: "";
+  position: absolute;
+  width: 1.563rem;
+  height: 1.563rem;
+  left: 0.25rem;
+  bottom: 0.3125rem;
+  background-color: #ffffff;
+  border-radius: 50%;
+}
+.switch input[type=checkbox]:checked + span {
+  background-color: #0098FF;
+}
+.switch input[type=checkbox]:checked + span::before {
+  -webkit-transform: translateX(2.875rem);
+  transform: translateX(2.875rem);
+}
+.switch input[type=checkbox]:hover + span::before {
+  border-color: #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+.switch:focus input[type=checkbox] + span:before {
+  border-color: #0098FF;
+}
+
+.input-button input[type=text] {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-button input[type=text]:focus, .input-button input[type=text]:hover {
+  z-index: 25;
+}
+.input-button button {
+  margin-left: -0.0625rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.input-button button:focus, .input-button button:hover, .input-button button:active {
+  z-index: 25;
+}
+
+/* _print.scss 
+ *
+ * 파일 경로 : document/_print.scss
+ * @description 프린트 화면 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.print {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+.print .print-main {
+  min-width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.print .print-main::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.print .print-main .print-main-header {
+  width: 100vw;
+  margin: 0.9375rem;
+}
+.print .print-main .print-main-header span {
+  line-height: 1.2;
+}
+.print .print-main .print-area {
+  min-height: 100%;
+}
+.print .print-main .drawing-board {
+  display: table;
+  width: 710px;
+  min-height: 100%;
+  margin: 0.9375rem;
+  padding: 6.25rem 4.688rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+}
+.print .print-main .drawing-board *:focus {
+  outline: none !important;
+}
+.print .print-main .drawing-board .component {
+  page-break-inside: always;
+}
+.print .print-main .drawing-board .component:hover .move-handler {
+  opacity: 0;
+}
+
+@media print {
+  body {
+    width: 21cm;
+    height: 29.7cm;
+    margin: 20mm auto;
+  }
+
+  .print {
+    width: 100%;
+  }
+  .print .print-main {
+    min-width: 0;
+  }
+  .print .print-main .print-main-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+/* _modal.scss 
+ *
+ * 파일 경로 : template/_modal.scss
+ * @description 모달 디자인
+ * @author wdj
+ * @version 1.0
+ */
+body.modal-active {
+  overflow: hidden !important;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  overflow: auto;
+  z-index: 1000;
+}
+.modal-wrapper.modal-active {
+  display: block;
+}
+.modal-wrapper .modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5000;
+  background-color: rgba(116, 147, 179, 0.5);
+}
+.modal-wrapper .modal-dialog {
+  position: absolute;
+  top: 4em;
+  left: 0;
+  right: 0;
+  width: 34.38rem;
+  margin: 0 auto 2em auto;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border-radius: 0.0625rem;
+  z-index: 5000;
+}
+.modal-wrapper .modal-dialog .modal-header {
+  height: 3.375rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #3F4B56;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  padding: 1.125rem 0 0 1.25rem;
+}
+.modal-wrapper .modal-dialog .modal-content {
+  height: calc(22.5rem - 3.375rem - 5rem);
+  border-bottom: 0.0625rem solid #EBEBEB;
+  overflow: auto;
+}
+.modal-wrapper .modal-dialog .modal-bottom {
+  height: 5rem;
+  padding: 1.25rem 1.25rem 1.25rem 0;
+}
+
+.modal-wrapper.modal-active {
+  display: block;
+  z-index: 1000;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal, .modal-wrapper .modal-dialog.cmdb-ci-update-modal, .modal-wrapper .modal-dialog.cmdb-ci-view-modal, .modal-wrapper .modal-dialog.cmdb-ci-list-modal {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content {
+  height: calc(53.0625rem - 3.375rem - 5rem);
+  padding: 1.25rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit {
+  height: calc(53.0625rem - 3.375rem - 5rem - 3.125rem);
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-form {
+  padding: 0 2.5rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-row {
+  margin-top: 0.625rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .field-label, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .field-label, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .field-label, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .field-label {
+  margin: 0.625rem 0;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group {
+  background-color: #F7F8F9;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  margin-bottom: 0.625rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view {
+  height: calc(53.0625rem - 3.375rem - 5rem - 3.125rem);
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .view-form {
+  padding: 0 2.5rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .view-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .view-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .view-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .view-row {
+  margin-top: 0.625rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .field-label, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .field-label, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .field-label, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .field-label {
+  margin: 0.625rem 0;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group {
+  background-color: #F7F8F9;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  margin-bottom: 0.625rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set {
+  margin-top: 2.188rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table {
+  width: 100%;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .list-head tr, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .list-head tr {
+  color: #3F4B56;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .list-body, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .list-body, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .list-body, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .list-body {
+  display: block;
+  width: 60rem;
+  height: 32.8125rem;
+  color: #586872;
+  overflow-y: auto;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .list-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .list-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .list-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .list-body .list-row {
+  display: table;
+  width: 100%;
+  height: 3.125rem;
+  line-height: 3.125rem;
+}
+.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set table .list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set table .list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set table .list-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set table .list-body .list-row > td {
+  display: inline-block;
+  vertical-align: middle;
+}
+.modal-wrapper .modal-dialog.document-modal-dialog .document-main {
+  right: 0;
+}
+.modal-wrapper .modal-dialog.tree {
+  width: 40rem;
+  height: 44.19rem;
+}
+.modal-wrapper .modal-dialog.tree .modal-content {
+  height: calc(44.19rem - 3.375rem - 5rem);
+  padding: 1.125rem 0 0 1.25rem;
+}
+.modal-wrapper .modal-dialog.tree .modal-content div {
+  height: 100%;
+}
+.modal-wrapper .modal-dialog.tree .modal-content div label {
+  font-weight: 400;
+}
+.modal-wrapper .modal-dialog.tree .modal-content div li:last-child:before {
+  background-color: #ffffff;
+}

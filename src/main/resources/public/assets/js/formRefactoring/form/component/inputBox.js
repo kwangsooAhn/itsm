@@ -12,7 +12,7 @@
  */
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
-import * as util from '../../lib/util.js';
+import { validation } from '../../lib/validation.js';
 import { UIDiv, UIInput } from '../../lib/ui.js';
 
 const DEFAULT_ELEMENT_PROPERTY = {
@@ -40,13 +40,17 @@ export const inputBoxMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.element.columnWidth);
-        // TODO: 유효성 검증 추가
+
         element.UIInputbox = new UIInput().setUIPlaceholder(this.element.placeholder)
             .setUIRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
+            .setUIReadOnly((this.displayType === FORM.DISPLAY_TYPE.READONLY))
             .setUIValue(this.getValue())
+            .setUIAttribute('data-validate-required', (this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
             .setUIAttribute('data-validate-type', this.validate.validateType)
             .setUIAttribute('data-validate-maxLength', this.validate.lengthMax)
-            .setUIAttribute('data-validate-minLength', this.validate.lengthMin);
+            .setUIAttribute('data-validate-minLength', this.validate.lengthMin)
+            .onUIKeyUp(this.updateValue.bind(this))
+            .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIInputbox);
         return element;
     },
@@ -91,6 +95,27 @@ export const inputBoxMixin = {
     },
     getValidateLengthMax() {
         return this.validate.lengthMax;
+    },
+    // input box 값 변경시 이벤트 핸들러
+    updateValue(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        // enter 입력시
+        if (e.key === 'Enter' || e.keyCode === 13) { return false; }
+        // 유효성 검증
+        let passValidate = true;
+        if (e.type === 'keyup') { // keyup 일 경우 type, min, max 체크
+            passValidate = this.keyUpValidateCheck(e.target);
+        } else if (e.type === 'change') { // change 일 경우 필수값, minLength, maxLength 체크
+            passValidate = this.changeValidateCheck(e.target);
+        }
+        if (passValidate) {
+            this.setValue(e.target.value);
+        }
+    },
+    // 기본 값 변경
+    setValue(value) {
+        this.value = value;
     },
     // 기본 값 조회
     getValue() {
@@ -438,5 +463,37 @@ export const inputBoxMixin = {
             }
             return property;
         }, {});
+    },
+    /**
+     * keyup 유효성 검증 이벤트 핸들러
+     * @param e 이벤트객체
+     */
+    keyUpValidateCheck(element) {
+        // type(number, char, email 등), min, max 체크
+        if (element.getAttribute('data-validate-type') &&
+            element.getAttribute('data-validate-type') !== '') {
+            return validation.emit(element.getAttribute('data-validate-type'), element);
+        }
+        return true;
+    },
+    /**
+     * change 유효성 검증 이벤트 핸들러
+     * @param e 이벤트객체
+     */
+    changeValidateCheck(element) {
+        // 필수값, minLength, maxLength 체크
+        if (element.getAttribute('data-validate-required') &&
+            element.getAttribute('data-validate-required') !== 'false') {
+            return validation.emit('required', element);
+        }
+        if (element.getAttribute('data-validate-minLength') &&
+            element.getAttribute('data-validate-minLength') !== '') {
+            return validation.emit('minLength', element, element.getAttribute('data-validate-minLength'));
+        }
+        if (element.getAttribute('data-validate-maxLength') &&
+            element.getAttribute('data-validate-maxLength') !== '') {
+            return validation.emit('maxLength', element, element.getAttribute('data-validate-maxLength'));
+        }
+        return true;
     }
 };

@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 
-export default class Validation {
+class Validation {
     constructor(options = { alert: true }) {
         // 알림창 사용 여부가 false일 경우 DOM을 검색하여 'error-msg' class를 찾아서 에러 메시지를 표기한다.
         this.alert = options.alert; // 알림창 사용여부
@@ -298,6 +298,8 @@ export default class Validation {
             console.error('The minValue is incorrect. Please check the parameters.');
             return true;
         }
+        if (this.isEmpty(target)) { return true; }
+
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
@@ -306,14 +308,14 @@ export default class Validation {
                 console.error('The DOM Element is incorrect. Please check the DOM Element.');
                 return true;
             }
-            rtn = targetValue < Number(minValue);
+            rtn = targetValue > Number(minValue);
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.min', minValue), callback);
         } else { // 변수이면 true인지 false인지만 반환
             if (!this.isNumber(Number(target))) {
                 console.error('The variable is incorrect. Please check the variable.');
                 return true;
             }
-            rtn = Number(target) < Number(minValue);
+            rtn = Number(target) > Number(minValue);
         }
         return rtn;
     }
@@ -325,6 +327,8 @@ export default class Validation {
             console.error('The maxValue is incorrect. Please check the parameters.');
             return true;
         }
+        if (this.isEmpty(target)) { return true; }
+
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
@@ -333,14 +337,14 @@ export default class Validation {
                 console.error('The DOM Element is incorrect. Please check the DOM Element.');
                 return true;
             }
-            rtn = targetValue > Number(maxValue);
+            rtn = targetValue < Number(maxValue);
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.max', maxValue), callback);
         } else { // 변수이면 true인지 false인지만 반환
             if (!this.isNumber(Number(target))) {
                 console.error('The variable is incorrect. Please check the variable.');
                 return true;
             }
-            rtn = Number(target) > Number(maxValue);
+            rtn = Number(target) < Number(maxValue);
         }
         return rtn;
     }
@@ -369,13 +373,14 @@ export default class Validation {
             console.error('The minLength is incorrect. Please check the parameters.');
             return true;
         }
+        if (this.isEmpty(target)) { return true; }
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.getDOMElementValue(target).length < Number(minLength);
+            rtn = this.getDOMElementValue(target).length > Number(minLength);
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.minLength', minLength), callback);
         } else { // 변수이면 true인지 false인지만 반환
-            rtn = target.length < Number(minLength);
+            rtn = target.length > Number(minLength);
         }
         return rtn;
     }
@@ -387,14 +392,17 @@ export default class Validation {
             console.error('The maxLength is incorrect. Please check the parameters.');
             return true;
         }
+        if (this.isEmpty(target)) { return true; }
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.getDOMElementValue(target).length > Number(maxLength);
+            rtn = this.getDOMElementValue(target).length < Number(maxLength);
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.maxLength', maxLength), callback);
         } else { // 변수이면 true인지 false인지만 반환
-            rtn = target.length > Number(maxLength);
+            rtn = target.length < Number(maxLength);
         }
         return rtn;
     }
 }
+
+export const validation = new Validation();

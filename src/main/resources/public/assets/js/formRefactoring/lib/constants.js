@@ -38,22 +38,7 @@ export const FORM = {
             LEFT: 'left'
         }
     },
-    CUSTOM_CODE: [],
-    // 기본 값
-    DEFAULT: {
-        INPUTBOX: {
-            ELEMENT: {
-                placeholder: '',
-                columnWidth: '10',
-                defaultType: 'none|',
-            },
-            VALIDATE: {
-                validateType: 'none', // none | char | num | numchar | email | phone
-                lengthMin: '0',
-                lengthMax: '100'
-            }
-        }
-    }
+    CUSTOM_CODE: []
 };
 // 프로세스
 export const PROCESS = {};

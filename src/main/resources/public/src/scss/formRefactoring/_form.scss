@@ -20,6 +20,8 @@
     background-color: $group-selected-bg-color;
     > .zenius-tooltip-menu { visibility: visible; }
   }
+  // displayType이 hidden일 경우
+  &.off { display: none; }
 }
 // 그룹
 .zenius-group {
@@ -60,7 +62,7 @@
           transform: rotate(-90deg);
         }
       }
-      ~ .zenius-row-tooltip {
+      ~ .zenius-row-tooltip:not(.off) {
         display: block;
       }
     }
@@ -106,6 +108,8 @@
     background-color: $row-selected-bg-color;
     > .zenius-tooltip-menu { visibility: visible; }
   }
+  // displayType이 hidden일 경우
+  &.off { display: none; }
 }
 // row
 .zenius-row {
@@ -124,6 +128,8 @@
     background-color: $component-selected-bg-color;
     >.zenius-tooltip-menu { visibility: visible; }
   }
+  // displayType이 hidden일 경우
+  &.off { display: none; }
 }
 // component
 .zenius-component {
