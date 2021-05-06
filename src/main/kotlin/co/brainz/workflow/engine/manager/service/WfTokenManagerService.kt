@@ -252,15 +252,11 @@ class WfTokenManagerService(
     fun saveToken(wfTokenDto: WfTokenDto): WfTokenEntity {
         val wfTokenEntity = WfTokenEntity(
             tokenId = "",
-            tokenStatus = WfTokenConstants.Status.RUNNING.code,
+            tokenStatus = WfTokenConstants.Status.RUNNING.code ?: wfTokenDto.tokenStatus!!,
             tokenStartDt = LocalDateTime.now(),
             instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
             element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
         )
-
-        if (wfTokenDto.tokenStatus != null) {
-            wfTokenEntity.tokenStatus = wfTokenDto.tokenStatus!!
-        }
 
         return this.saveToken(wfTokenEntity)
     }
