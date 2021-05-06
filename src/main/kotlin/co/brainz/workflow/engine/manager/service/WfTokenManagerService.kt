@@ -250,15 +250,15 @@ class WfTokenManagerService(
      * 토큰 DTO를 엔티티로 변환하여 저장.
      */
     fun saveToken(wfTokenDto: WfTokenDto): WfTokenEntity {
-        return this.saveToken(
-            WfTokenEntity(
-                tokenId = "",
-                tokenStatus = WfTokenConstants.Status.RUNNING.code,
-                tokenStartDt = LocalDateTime.now(),
-                instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
-                element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
-            )
+        val wfTokenEntity = WfTokenEntity(
+            tokenId = "",
+            tokenStatus = WfTokenConstants.Status.RUNNING.code ?: wfTokenDto.tokenStatus!!,
+            tokenStartDt = LocalDateTime.now(),
+            instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
+            element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
         )
+
+        return this.saveToken(wfTokenEntity)
     }
 
     /**
