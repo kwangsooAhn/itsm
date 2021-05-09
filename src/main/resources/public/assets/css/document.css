@@ -1351,10 +1351,6 @@ label {
  * /document/_tag.scss
  * 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
  */
-.tagify {
-  min-height: 3.375rem;
-  padding-left: 0.3125rem;
-}
 .tagify tag {
   border: 0.0625rem solid #E5F5FF;
   margin: 0.625rem 0 0.625rem 0.3125rem;
