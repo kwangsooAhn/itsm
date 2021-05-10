@@ -16,7 +16,7 @@ import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-@Table(name = "wf_token_test")
+@Table(name = "wf_token")
 data class WfTokenEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -30,6 +30,9 @@ data class WfTokenEntity(
     @Column(name = "token_status", length = 100)
     var tokenStatus: String,
 
+    @Column(name = "token_action", length = 100)
+    var tokenAction: String? = null,
+
     @Column(name = "token_start_dt", nullable = false)
     val tokenStartDt: LocalDateTime? = null,
 
@@ -38,9 +41,6 @@ data class WfTokenEntity(
 
     @Column(name = "assignee_id", length = 128)
     var assigneeId: String? = null,
-
-    @Column(name = "token_action", length = 100)
-    var tokenAction: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instance_id")
