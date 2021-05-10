@@ -12,7 +12,6 @@ import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 
 class WfSignalSend(
     wfTokenManagerService: WfTokenManagerService,
@@ -32,7 +31,7 @@ class WfSignalSend(
         makeDocumentTokens.forEach {
             it.assigneeId = createTokenDto.assigneeId
             it.instanceId = AliceUtil().getUUID()
-            it.instancePlatform = createTokenDto.instancePlatform ?: RestTemplateConstants.InstancePlatform.ITSM.code
+            it.instancePlatform = createTokenDto.instancePlatform
             WfEngine(wfTokenManagerService).startWorkflow(it)
         }
 
