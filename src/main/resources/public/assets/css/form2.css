@@ -4314,7 +4314,6 @@ body.modal-active {
 }
 .zenius-group.accordion .zenius-group-accordion-checkBox:checked + .zenius-group-label .arrow-left {
   transform: rotate(-90deg);
-  transform: rotate(-90deg);
 }
 .zenius-group.accordion .zenius-group-accordion-checkBox:checked ~ .zenius-row-tooltip:not(.off) {
   display: block;
