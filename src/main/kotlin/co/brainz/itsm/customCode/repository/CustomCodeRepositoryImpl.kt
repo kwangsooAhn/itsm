@@ -9,6 +9,7 @@ package co.brainz.itsm.customCode.repository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
+import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
@@ -58,5 +59,38 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
         }
 
         return customCodeList
+    }
+
+    override fun findByCustomCode(customCodeId: String): CustomCodeCoreDto {
+        val customCode = QCustomCodeEntity.customCodeEntity
+        val query = from(customCode)
+            .select(
+                Projections.constructor(
+                    CustomCodeCoreDto::class.java,
+                    customCode.customCodeId,
+                    customCode.customCodeName,
+                    customCode.type,
+                    customCode.targetTable,
+                    customCode.searchColumn,
+                    customCode.valueColumn,
+                    customCode.pCode,
+                    customCode.condition
+                )
+            )
+            .where(
+                super.eq(customCode.customCodeId, customCodeId)
+            )
+
+        val result = query.fetchResults()
+        return CustomCodeCoreDto(
+            customCodeId = result.results[0].customCodeId,
+            customCodeName = result.results[0].customCodeName,
+            type = result.results[0].type,
+            targetTable = result.results[0].targetTable,
+            searchColumn = result.results[0].searchColumn,
+            valueColumn = result.results[0].valueColumn,
+            pCode = result.results[0].pCode,
+            condition = result.results[0].condition
+        )
     }
 }
