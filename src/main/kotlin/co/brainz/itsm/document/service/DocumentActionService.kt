@@ -58,7 +58,7 @@ class DocumentActionService(
         val userEntity = aliceUserRepository.findByUserKey(aliceUserDto.userKey)
         if (tokenObject.isJsonObject) {
             // 현재 진행중 문서 확인
-            val isProgress = this.checkTokenStatus(tokenObject)
+            val isProgress = this.checkTokenStatusAndAction(tokenObject)
             // 담당자 인지 확인
             val isAssignee = this.checkAssignee(tokenObject, userEntity)
             // 반환할 버튼 정보
@@ -93,7 +93,7 @@ class DocumentActionService(
     /**
      * 문서상태[tokenObject]에 따라서 현재 문서가 진행 중인지 확인 하여 [Boolean]로 반환 한다.
      */
-    private fun checkTokenStatus(tokenObject: JsonObject): Boolean {
+    private fun checkTokenStatusAndAction(tokenObject: JsonObject): Boolean {
         return when (tokenObject.get("token").asJsonObject.get("status").asString) {
             WfTokenConstants.Status.RUNNING.code,
             WfTokenConstants.Status.WITHDRAW.code,

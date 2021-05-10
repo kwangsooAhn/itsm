@@ -40,7 +40,7 @@ data class WfTokenEntity(
     var assigneeId: String? = null,
 
     @Column(name = "token_action", length = 100)
-    var tokenAction: String?,
+    var tokenAction: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instance_id")
