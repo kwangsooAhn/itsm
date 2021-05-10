@@ -64,6 +64,8 @@ export const inputBoxMixin = {
     setElementColumnWidth(width) {
         this.element.columnWidth = width;
         this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column',
+            this.getLabelColumnWidth(this.label.position));
     },
     getElementColumnWidth() {
         return this.element.columnWidth;
