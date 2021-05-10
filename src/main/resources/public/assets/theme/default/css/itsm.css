@@ -5503,9 +5503,39 @@ body.modal-active {
  * @author jy.lim
  * @version 1.0
  */
+@-webkit-keyframes tags--bump {
+  30% {
+    transform: scale(1.2);
+  }
+}
+@-moz-keyframes tags--bump {
+  30% {
+    transform: scale(1.2);
+  }
+}
+@-o-keyframes tags--bump {
+  30% {
+    transform: scale(1.2);
+  }
+}
 @keyframes tags--bump {
   30% {
     transform: scale(1.2);
+  }
+}
+@-webkit-keyframes rotateLoader {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@-moz-keyframes rotateLoader {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@-o-keyframes rotateLoader {
+  to {
+    transform: rotate(1turn);
   }
 }
 @keyframes rotateLoader {
@@ -5514,32 +5544,25 @@ body.modal-active {
   }
 }
 .tagify {
-  min-height: 2.5rem;
-  padding-left: 0.3125rem;
   display: flex;
+  min-height: 2.5rem;
   align-items: flex-start;
   flex-wrap: wrap;
+  position: relative;
+  padding: 0 0 0 0.3125rem;
   border: 0.0625rem solid #DDDDDD;
-  padding: 0;
   line-height: 1.1;
   cursor: text;
   outline: 0;
-  position: relative;
   transition: 0.1s;
+  --tag-hide-transition: 0.3s;
 }
 .tagify:hover {
   border: 0.0625rem solid #CCCCCC;
 }
-.tagify:not(.tagify--mix) .tagify__input * {
-  display: inline;
-  white-space: nowrap;
-}
-.tagify:not(.tagify--mix) .tagify__input br {
-  display: none;
-}
 .tagify.tagify--focus {
-  transition: 0s;
   border: 0.0625rem solid #3595F6;
+  transition: 0s;
 }
 .tagify[readonly] {
   cursor: default;
@@ -5553,14 +5576,21 @@ body.modal-active {
   display: none;
 }
 .tagify[readonly] .tagify__tag > div {
+  padding: 0.25rem 0.5rem;
   color: #586872;
   pointer-events: none;
-  padding: 0.25rem 0.5rem;
 }
 .tagify[readonly] .tagify__tag > div::before {
   background-color: #F7F8F9;
   pointer-events: none;
   box-shadow: none;
+}
+.tagify:not(.tagify--mix) .tagify__input * {
+  display: inline;
+  white-space: nowrap;
+}
+.tagify:not(.tagify--mix) .tagify__input br {
+  display: none;
 }
 .tagify + input,
 .tagify + textarea {
@@ -5573,10 +5603,10 @@ body.modal-active {
 .tagify--loading .tagify__input::after {
   width: 0.75rem;
   height: 0.75rem;
+  margin: -0.125rem 0 -0.125rem 0.5rem;
   border: 0.1875rem solid;
   border-color: #eeeeee #bbbbbb #888888 transparent;
   border-radius: 50%;
-  margin: -0.125rem 0 -0.125rem 0.5rem;
   content: "";
   vertical-align: middle;
   opacity: 1;
@@ -5589,52 +5619,52 @@ body.modal-active {
 .tagify__tag {
   display: inline-flex;
   align-items: center;
-  margin: 0.3125rem 0 0.3125rem 0.3125rem;
   position: relative;
+  margin: 0.3125rem 0 0.3125rem 0.3125rem;
   z-index: 1;
   outline: 0;
   cursor: default;
   transition: 0.13s ease-out;
 }
 .tagify__tag > div {
-  vertical-align: top;
-  box-sizing: border-box;
   max-width: 100%;
   padding: 0.25rem 0.5rem;
+  border-radius: 0.188rem;
+  vertical-align: top;
+  box-sizing: border-box;
   color: black;
   line-height: inherit;
-  border-radius: 0.188rem;
   -webkit-user-select: none;
   user-select: none;
   transition: 0.13s ease-out;
 }
 .tagify__tag > div > * {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: inline-block;
   vertical-align: top;
   min-width: 1ch;
   max-width: max-content;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: 0.8s ease, 0.1s color;
 }
 .tagify__tag > div > [contenteditable] {
+  max-width: 21.88rem;
+  margin: -0.125rem;
+  padding: 0.125rem;
   outline: 0;
   -webkit-user-select: text;
   user-select: text;
   cursor: text;
-  margin: -0.125rem;
-  padding: 0.125rem;
-  max-width: 21.88rem;
 }
 .tagify__tag > div::before {
   content: "";
   position: absolute;
-  border-radius: inherit;
-  left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  left: 0;
+  border-radius: inherit;
   z-index: -1;
   pointer-events: none;
   transition: 120ms ease;
@@ -5646,7 +5676,7 @@ body.modal-active {
   right: -0.125rem;
   bottom: -0.125rem;
   left: -0.125rem;
-  box-shadow: 0 0 0 1.1em #d3e2e2 inset;
+  box-shadow: 0 0 0 1.125rem #d3e2e2 inset;
 }
 .tagify__tag--loading {
   pointer-events: none;
@@ -5657,14 +5687,14 @@ body.modal-active {
 .tagify__tag--loading::after {
   content: "";
   vertical-align: middle;
-  opacity: 1;
   width: 0.688rem;
   height: 0.688rem;
+  margin: 0 0.5rem 0 -0.063rem;
   border: 0.1875rem solid;
   border-color: #eeeeee #bbbbbb #888888 transparent;
   border-radius: 50%;
+  opacity: 1;
   animation: rotateLoader 0.4s infinite linear;
-  margin: 0 0.5rem 0 -0.063rem;
 }
 .tagify__tag.tagify--noAnim > div::before {
   animation: none;
@@ -5677,7 +5707,7 @@ body.modal-active {
   margin-right: 0;
   opacity: 0;
   transform: scale(0);
-  transition: 0.3s;
+  transition: var(--tag-hide-transition);
   pointer-events: none;
 }
 .tagify__tag.tagify--mark div::before {
@@ -5687,7 +5717,7 @@ body.modal-active {
   opacity: 0.5;
 }
 .tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div::before {
-  box-shadow: 0 0 0 1.125em rgba(211, 148, 148, 0.5) inset !important;
+  box-shadow: 0 0 0 1.125rem rgba(211, 148, 148, 0.5) inset !important;
   transition: 0.2s;
 }
 .tagify__tag[readonly] .tagify__tag__removeBtn {
@@ -5710,20 +5740,19 @@ body.modal-active {
 }
 
 .tagify__tag__removeBtn {
-  width: 0.875rem;
-  height: 0.875rem;
-  margin-right: 0.25rem;
-  margin-left: -0.25rem;
-  transition: 0.2s ease-out;
-  order: 5;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin: 0 0.25rem;
+  transition: 0.2s ease-out;
   border-radius: 3.125rem;
+  order: 5;
   cursor: pointer;
   font: 0.875rem Serif;
-  background: 0 0;
   color: black;
+  background: 0 0;
 }
 .tagify__tag__removeBtn::after {
   content: "×";
@@ -5770,29 +5799,29 @@ body.modal-active {
   transform: none;
 }
 .tagify__input::before {
-  width: 0;
-  height: 1em;
-  top: 0;
-  bottom: 0;
   display: inline-block;
   position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  height: 1em;
+  margin: auto 0;
   content: attr(data-placeholder);
   line-height: 1em;
-  margin: auto 0;
   z-index: 1;
   color: black;
+  opacity: 0;
   white-space: nowrap;
   pointer-events: none;
-  opacity: 0;
 }
 .tagify__input::after {
   content: attr(data-suggest);
   display: inline-block;
+  max-width: 100px;
   white-space: pre;
   color: black;
   opacity: 0.3;
   pointer-events: none;
-  max-width: 100px;
 }
 .tagify__input .tagify__tag {
   margin: 0;
@@ -5831,15 +5860,15 @@ body.modal-active {
   line-height: 1.7;
 }
 .tagify--mix .tagify__input {
-  padding: 5px;
-  margin: 0;
   width: 100%;
   height: 100%;
+  padding: 5px;
+  margin: 0;
   line-height: inherit;
 }
 .tagify--mix .tagify__input::before {
-  height: auto;
   position: static;
+  height: auto;
   line-height: inherit;
 }
 .tagify--mix .tagify__input::after {
@@ -5848,14 +5877,14 @@ body.modal-active {
 
 .tagify--select::after {
   content: ">";
-  opacity: 0.5;
   position: absolute;
   top: 50%;
   right: 0;
   bottom: 0;
+  height: 8px;
+  opacity: 0.5;
   font: 16px monospace;
   line-height: 8px;
-  height: 8px;
   pointer-events: none;
   transform: translate(-150%, -50%) scaleX(1.2) rotate(90deg);
   transition: 0.2s ease-in-out;
@@ -5903,10 +5932,10 @@ body.modal-active {
 }
 .tagify__dropdown__wrapper {
   max-height: 300px;
-  overflow: hidden;
-  background: white;
   border: 1px solid #3595f6;
   border-top-width: 0;
+  overflow: hidden;
+  background: white;
   box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.2);
   transition: 0.25s cubic-bezier(0, 1, 0.5, 1);
 }
@@ -5921,18 +5950,18 @@ body.modal-active {
   transform: translateY(-1em);
 }
 .tagify__dropdown__item {
+  position: relative;
   box-sizing: inherit;
   padding: 0.3em 0.5em;
   margin: 1px;
-  cursor: pointer;
   border-radius: 2px;
-  position: relative;
+  cursor: pointer;
   outline: 0;
 }
 .tagify__dropdown__item:active {
   filter: brightness(105%);
 }
 .tagify__dropdown__item--active {
-  background: #3595f6;
   color: white;
+  background: #3595f6;
 }
