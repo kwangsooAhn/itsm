@@ -1123,6 +1123,7 @@ token:
     list: "My Document List"
     print: "Process Document Print"
     relatedInstance: "Related Documents"
+    relatedInstancePlaceholder: "Document Name / Create User"
     searchPlaceholder: "Create User / Contents"
     startDt: "Start Date"
     tagPlaceHolder: "#Tags"
