@@ -5503,39 +5503,9 @@ body.modal-active {
  * @author jy.lim
  * @version 1.0
  */
-@-webkit-keyframes tags--bump {
-  30% {
-    transform: scale(1.2);
-  }
-}
-@-moz-keyframes tags--bump {
-  30% {
-    transform: scale(1.2);
-  }
-}
-@-o-keyframes tags--bump {
-  30% {
-    transform: scale(1.2);
-  }
-}
 @keyframes tags--bump {
   30% {
     transform: scale(1.2);
-  }
-}
-@-webkit-keyframes rotateLoader {
-  to {
-    transform: rotate(1turn);
-  }
-}
-@-moz-keyframes rotateLoader {
-  to {
-    transform: rotate(1turn);
-  }
-}
-@-o-keyframes rotateLoader {
-  to {
-    transform: rotate(1turn);
   }
 }
 @keyframes rotateLoader {
@@ -5638,19 +5608,6 @@ body.modal-active {
   user-select: none;
   transition: 0.13s ease-out;
 }
-.tagify__tag > div::before {
-  content: "";
-  position: absolute;
-  border-radius: inherit;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  pointer-events: none;
-  transition: 120ms ease;
-  box-shadow: 0 0 0 1.125rem #e5e5e5 inset;
-}
 .tagify__tag > div > * {
   white-space: nowrap;
   overflow: hidden;
@@ -5670,6 +5627,20 @@ body.modal-active {
   padding: 0.125rem;
   max-width: 21.88rem;
 }
+.tagify__tag > div::before {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: 120ms ease;
+  animation: tags--bump 0.3s ease-out 1;
+  box-shadow: 0 0 0 1.125rem #e5e5e5 inset;
+}
 .tagify__tag:hover:not([readonly]) div::before {
   top: -0.125rem;
   right: -0.125rem;
@@ -5677,13 +5648,23 @@ body.modal-active {
   left: -0.125rem;
   box-shadow: 0 0 0 1.1em #d3e2e2 inset;
 }
-.tagify__tag[readonly] .tagify__tag__removeBtn {
+.tagify__tag--loading {
+  pointer-events: none;
+}
+.tagify__tag--loading .tagify__tag__removeBtn {
   display: none;
 }
-.tagify__tag[readonly] > div::before {
-  background: linear-gradient(45deg, #e5e5e5 25%, transparent 25%, transparent 50%, #e5e5e5 50%, #e5e5e5 75%, transparent 75%, transparent) 0/5px 5px;
-  box-shadow: none;
-  filter: brightness(0.95);
+.tagify__tag--loading::after {
+  content: "";
+  vertical-align: middle;
+  opacity: 1;
+  width: 0.688rem;
+  height: 0.688rem;
+  border: 0.1875rem solid;
+  border-color: #eeeeee #bbbbbb #888888 transparent;
+  border-radius: 50%;
+  animation: rotateLoader 0.4s infinite linear;
+  margin: 0 0.5rem 0 -0.063rem;
 }
 .tagify__tag.tagify--noAnim > div::before {
   animation: none;
@@ -5702,41 +5683,30 @@ body.modal-active {
 .tagify__tag.tagify--mark div::before {
   animation: none;
 }
+.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div > span {
+  opacity: 0.5;
+}
 .tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div::before {
   box-shadow: 0 0 0 1.125em rgba(211, 148, 148, 0.5) inset !important;
   transition: 0.2s;
 }
-.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div > span {
-  opacity: 0.5;
-}
-
-.tagify__tag--loading {
-  pointer-events: none;
-}
-.tagify__tag--loading::after {
-  content: "";
-  vertical-align: middle;
-  opacity: 1;
-  width: 0.688rem;
-  height: 0.688rem;
-  border: 0.1875rem solid;
-  border-color: #eeeeee #bbbbbb #888888 transparent;
-  border-radius: 50%;
-  animation: rotateLoader 0.4s infinite linear;
-  margin: 0 0.5rem 0 -0.063rem;
-}
-.tagify__tag--loading .tagify__tag__removeBtn {
+.tagify__tag[readonly] .tagify__tag__removeBtn {
   display: none;
 }
-
-.tagify__tag--editable.tagify--invalid > div::before {
-  box-shadow: 0 0 0 2px #d39494 inset !important;
+.tagify__tag[readonly] > div::before {
+  background: linear-gradient(45deg, #e5e5e5 25%, transparent 25%, transparent 50%, #e5e5e5 50%, #e5e5e5 75%, transparent 75%, transparent) 0/5px 5px;
+  box-shadow: none;
+  filter: brightness(0.95);
 }
+
 .tagify__tag--editable > div {
   color: black;
 }
 .tagify__tag--editable > div::before {
   box-shadow: 0 0 0 2px #d3e2e2 inset !important;
+}
+.tagify__tag--editable.tagify--invalid > div::before {
+  box-shadow: 0 0 0 2px #d39494 inset !important;
 }
 
 .tagify__tag__removeBtn {
@@ -5762,12 +5732,12 @@ body.modal-active {
   color: white;
   background: #c77777;
 }
+.tagify__tag__removeBtn:hover + div > span {
+  opacity: 0.5;
+}
 .tagify__tag__removeBtn:hover + div::before {
   box-shadow: 0 0 0 1.125em rgba(211, 148, 148, 0.3) inset !important;
   transition: 0.2s;
-}
-.tagify__tag__removeBtn:hover + div > span {
-  opacity: 0.5;
 }
 
 .tagify__input {
@@ -5779,31 +5749,6 @@ body.modal-active {
   line-height: inherit;
   position: relative;
   white-space: pre-line;
-}
-.tagify__input::before {
-  top: 0;
-  bottom: 0;
-  width: 0;
-  height: 1em;
-  display: inline-block;
-  position: absolute;
-  content: attr(data-placeholder);
-  line-height: 1em;
-  margin: auto 0;
-  z-index: 1;
-  color: black;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-}
-.tagify__input::after {
-  content: attr(data-suggest);
-  display: inline-block;
-  white-space: pre;
-  color: black;
-  opacity: 0.3;
-  pointer-events: none;
-  max-width: 100px;
 }
 .tagify__input:empty::before {
   transition: 0.2s ease-out;
@@ -5823,6 +5768,31 @@ body.modal-active {
   transition: 0.2s ease-out;
   opacity: 0.3;
   transform: none;
+}
+.tagify__input::before {
+  width: 0;
+  height: 1em;
+  top: 0;
+  bottom: 0;
+  display: inline-block;
+  position: absolute;
+  content: attr(data-placeholder);
+  line-height: 1em;
+  margin: auto 0;
+  z-index: 1;
+  color: black;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+}
+.tagify__input::after {
+  content: attr(data-suggest);
+  display: inline-block;
+  white-space: pre;
+  color: black;
+  opacity: 0.3;
+  pointer-events: none;
+  max-width: 100px;
 }
 .tagify__input .tagify__tag {
   margin: 0;
