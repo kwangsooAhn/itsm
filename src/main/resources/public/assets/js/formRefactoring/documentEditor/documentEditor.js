@@ -7,7 +7,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as util from '../lib/util.js';
 import { FORM } from '../lib/constants.js';
 import { validation } from '../lib/validation.js';
 import { UIButton, UIDiv } from '../lib/ui.js';
@@ -47,8 +46,8 @@ class DocumentEditor {
      */
     openDocument(documentId) {
         // TODO: 신청서 데이터 load. > 가데이터 삭제 필요
-        //util.fetchJson({ method: 'GET', url: '/rest/documents/' + documentId + '/data' })
-        util.fetchJson({
+        //aliceJs.fetchJson({ method: 'GET', url: '/rest/documents/' + documentId + '/data' })
+        aliceJs.fetchJson({
             method: 'GET',
             url: '/assets/js/formRefactoring/documentEditor/data_210430.json'
         }).then((documentData) => {
@@ -69,22 +68,22 @@ class DocumentEditor {
      * @param data JSON 데이터
      */
     sortJson(data) {
-        if (Object.prototype.hasOwnProperty.call(data, 'groups')) { // form
-            data.groups.sort((a, b) =>
+        if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
+            data.group.sort((a, b) =>
                 a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
             );
-            data.groups.forEach( (g) => {
+            data.group.forEach( (g) => {
                 this.sortJson(g);
             });
-        } else if (Object.prototype.hasOwnProperty.call(data, 'rows')) { // group
-            data.rows.sort((a, b) =>
+        } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
+            data.row.sort((a, b) =>
                 a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
             );
-            data.rows.forEach( (r) => {
+            data.row.forEach( (r) => {
                 this.sortJson(r);
             });
         } else { // row
-            data.components.sort((a, b) =>
+            data.component.sort((a, b) =>
                 a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
             );
         }
@@ -123,36 +122,36 @@ class DocumentEditor {
      * @param index 추가될 객체의 index
      */
     makeDocument(data, parent, index) {
-        if (Object.prototype.hasOwnProperty.call(data, 'groups')) { // form
+        if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             this.form = this.addObjectByType(FORM.LAYOUT.FORM, data);
             this.form.parent = parent;
             this.domElement.appendChild(this.form.UIElement.domElement);
 
-            data.groups.forEach( (g, gIndex) => {
+            data.group.forEach( (g, gIndex) => {
                 this.makeDocument(g, this.form, gIndex);
             });
-        } else if (Object.prototype.hasOwnProperty.call(data, 'rows')) { // group
+        } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
             // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
             // row 에 포함된 component displayType이 모두 hidden이면 group도 숨긴다.
-            const checkDisplay = data.rows.some( (row) => row.components.some((component) =>
+            const checkDisplay = data.row.some( (row) => row.component.some((component) =>
                 component.displayType !== FORM.DISPLAY_TYPE.HIDDEN));
             if (!checkDisplay) {
                 group.UIElement.addUIClass('off');
             }
-            data.rows.forEach( (r, rIndex) => {
+            data.row.forEach( (r, rIndex) => {
                 this.makeDocument(r, group, rIndex);
             });
-        } else if (Object.prototype.hasOwnProperty.call(data, 'components')) { // row
+        } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
             // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
             // component displayType 이 모두 hidden이면 row도 숨긴다.
-            const checkDisplay = data.components.some((component) =>
+            const checkDisplay = data.component.some((component) =>
                 component.displayType !== FORM.DISPLAY_TYPE.HIDDEN);
             if (!checkDisplay) {
                 row.UIElement.addUIClass('off');
             }
-            data.components.forEach( (c, cIndex) => {
+            data.component.forEach( (c, cIndex) => {
                 this.makeDocument(c, row, cIndex);
             });
         } else { // component

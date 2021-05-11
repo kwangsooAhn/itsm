@@ -9,7 +9,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
 import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
 import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/ui.js';
@@ -40,9 +39,9 @@ export default class Group {
         this.label = Object.assign({}, DEFAULT_GROUP_LABEL_PROPERTY, data.label);
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
+        aliceJs.importMixin(this, mixin.controlMixin);
         // Tooltip Mixin import
-        util.importMixin(this, mixin.toolTipMenuMixin);
+        aliceJs.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }
@@ -415,10 +414,10 @@ export default class Group {
     }
     // json 데이터 추출
     toJson() {
-        const rows = [];
+        const row = [];
         for (let i = 0; i < this.children.length; i ++) {
             const child = this.children[i];
-            rows.push(child.toJson());
+            row.push(child.toJson());
         }
         return {
             id: this.id,
@@ -426,7 +425,7 @@ export default class Group {
             isAccordionUsed: this.isAccordionUsed,
             margin: this.margin,
             label: this.label,
-            rows: rows
+            row: row
         };
     }
 }
