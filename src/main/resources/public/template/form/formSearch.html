@@ -138,7 +138,16 @@
                             title: isView ? i18n.msg('form.label.detail') : i18n.msg('form.label.edit') ,
                             body: createModalContent(responseObject),
                             classes: 'form-edit',
-                            buttons: [],
+                            buttons: [{
+                                content: i18n.msg('form.btn.export'), // 내보내기 버튼
+                                classes: "point-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    // TODO: 폼 리팩토링 완료 후, exportWoo를 export로 변경하고 export 함수를 삭제한다.
+                                    workflowUtil.export(responseObject.id, 'form');
+                                    //workflowUtil.exportWoo(responseObject.id, 'form');
+                                }
+                            }],
                             close: {
                                 closable: false,
                             },
@@ -160,15 +169,6 @@
 
                         // 버튼 설정
                         if (responseObject.editable && !isView) {
-                            // 내보내기 버튼
-                            options.buttons.push({
-                                content: i18n.msg('form.btn.export'),
-                                classes: "point-fill",
-                                bindKey: false,
-                                callback: function(modal) {
-                                    workflowUtil.export(responseObject.id, 'form');
-                                }
-                            });
                             // 수정
                             options.buttons.push({
                                 content: i18n.msg('common.btn.modify'),
@@ -188,15 +188,6 @@
                                 }
                             });
                         } else if (responseObject.status === STATUS_USE) {
-                            // 내보내기 버튼
-                            options.buttons.push({
-                                content: i18n.msg('form.btn.export'),
-                                classes: "point-fill",
-                                bindKey: false,
-                                callback: function(modal) {
-                                    workflowUtil.export(responseObject.id, 'form');
-                                }
-                            });
                             // 폐기
                             options.buttons.push({
                                 content: i18n.msg('form.status.destroy'),
@@ -310,7 +301,7 @@
 
         // 폼 리팩토링 > 폼 디자이너 편집화면 오픈
         function openFormDesigner(formId) {
-            const _width = 1600,
+            const _width = 1800,
                 _height = 980;
             // 중앙 배치
             const _left = Math.ceil((window.screen.width - _width) / 2);
@@ -318,7 +309,7 @@
 
             let specs = 'left=' + _left + ',top=' + _top;
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/form/' + formId + '/edit2', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
+            window.open('/form/' + formId + '/edit_woo', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
         // 폼 디자이너 미리보기화면 오픈

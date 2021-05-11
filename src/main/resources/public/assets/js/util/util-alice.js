@@ -971,10 +971,10 @@ aliceJs.showTotalCount = function(totalCount, objectId = 'spanTotalCount') {
 aliceJs.filterXSS = function (str) {
     return (typeof str === 'string' || str instanceof String)?
         str.replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/\"/g, '&quot;')
-        .replace(/\'/g, '&apos;'):str;
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\"/g, '&quot;')
+            .replace(/\'/g, '&apos;'):str;
 };
 
 /**
@@ -1074,18 +1074,86 @@ aliceJs.initDesignedSelectTag = function () {
 };
 
 /**
+ * Move object
+ * @param index1 old index
+ * @param index2 new index
+ */
+aliceJs.moveObject = function (array, index1, index2) {
+    while (index1 < 0) {
+        index1 += array.length;
+    }
+    while (index2 < 0) {
+        index2 += array.length;
+    }
+    if (index2 >= array.length) {
+        let k = index2 - array.length + 1;
+        while (k--) {
+            array.push(undefined);
+        }
+    }
+    array.splice(index2, 0, array.splice(index1, 1)[0]);
+};
+
+/**
+ * 비동기 통신 후 Promise 형태로 반환되는 함수
+ *
+ * @param option 옵션
+ * @return 비동기 통신 객체 = Promise 객체
+ */
+
+aliceJs.doFetch = function(option) {
+    // TODO: Progressbar 추가/삭제
+    const fetchParam = { method: option.method.toUpperCase() || 'POST' };
+    if (fetchParam.method !== 'GET') {
+        fetchParam.headers = {
+            'Content-Type': option.contentType || 'application/x-www-form-urlencoded'
+        };
+    }
+    if (option.params) {
+        fetchParam.body = option.params;
+    }
+    return fetch(option.url, fetchParam);
+};
+
+/**
+ * 비동기 통신 후 Promise 형태로 Json 데이터를 반환하는 함수
+ * @param option 옵션
+ * @returns Promise 객체 반환값
+ */
+aliceJs.fetchJson = function(option) {
+    return aliceJs.doFetch(option)
+        .then(response => response.json());
+};
+
+/**
+ * 믹스인을 추가하는 함수
+ *
+ * @param target 믹스인을 추가할 대상 객체의 prototype
+ * @param source 믹스인
+ * @return target 믹스인이 추가된 대상
+ */
+aliceJs.importMixin = function (target, source) {
+    for (const key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+        }
+    }
+    return target;
+};
+
+/**
  * 정규식에 부합하지 않는 글자들을 지운다.
  * @param event
  * @param rexg
  * @param flag
  */
-function removeChar(event, rexg = integerReg, flag = "g") {
+function removeChar(event, rexg = integerReg, flag = 'g') {
     event = event || window.event;
     let regToString = '[' + rexg.toString()
-        .replaceAll('/', "")
-        .replaceAll('[', "")
-        .replaceAll(']', "")
-        .replaceAll('*$', "") + ']';
+        .replaceAll('/', '')
+        .replaceAll('[', '')
+        .replaceAll(']', '')
+        .replaceAll('*$', '') + ']';
 
     const keyID = (event.which) ? event.which : event.keyCode;
     if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {

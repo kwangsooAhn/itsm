@@ -31,6 +31,7 @@ class WfSignalSend(
         makeDocumentTokens.forEach {
             it.assigneeId = createTokenDto.assigneeId
             it.instanceId = AliceUtil().getUUID()
+            it.instancePlatform = createTokenDto.instancePlatform
             WfEngine(wfTokenManagerService).startWorkflow(it)
         }
 
