@@ -24,7 +24,7 @@ class DocumentController(
 ) {
 
     private val documentSearchPage: String = "document/documentSearch"
-    private val documentSearchPage2: String = "formRefactoring/documentSearch"
+    private val documentSearchPageWoo: String = "formRefactoring/documentSearch"
     private val documentListPage: String = "document/documentList"
     private val documentListFragment: String = "document/documentList :: list"
     private val documentPrintPage: String = "document/documentPrint"
@@ -44,9 +44,9 @@ class DocumentController(
      *
      * @return String
      */
-    @GetMapping("/search2")
-    fun getDocumentSearch2(): String {
-        return documentSearchPage2
+    @GetMapping("/search_woo")
+    fun getDocumentSearchWoo(): String {
+        return documentSearchPageWoo
     }
 
     /**

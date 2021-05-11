@@ -9,7 +9,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
 import { UIDiv } from '../lib/ui.js';
 import { CLASS_PREFIX, UNIT, FORM } from '../lib/constants.js';
@@ -30,7 +29,7 @@ export default class Form {
         this.category = data.category || 'process'; // process | cmdb
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
+        aliceJs.importMixin(this, mixin.controlMixin);
 
         this.init();
     }
@@ -325,10 +324,10 @@ export default class Form {
     }
     // json 데이터 추출
     toJson() {
-        const groups = [];
+        const group = [];
         for (let i = 0; i < this.children.length; i ++) {
             const child = this.children[i];
-            groups.push(child.toJson());
+            group.push(child.toJson());
         }
         return {
             id: this.id,
@@ -339,7 +338,7 @@ export default class Form {
             margin: this.margin,
             padding: this.padding,
             category: this.category,
-            groups: groups
+            group: group
         };
     }
 }

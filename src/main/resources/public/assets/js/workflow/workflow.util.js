@@ -42,7 +42,7 @@ workflowUtil.compareJson = function(obj1, obj2) {
         return false;
     }
 
-    if (!Object.keys(obj2).every(function(key) { return obj1.hasOwnProperty(key); })) {
+    if (!Object.keys(obj2).every(function(key) { return Object.prototype.hasOwnProperty.call(obj1, key); })) {
         return false;
     }
     return Object.keys(obj1).every(function(key) {
@@ -82,18 +82,26 @@ workflowUtil.polyfill = function() {
  * @param data 데이터
  * @return {string} XML 문자열
  */
-workflowUtil.ObjectToXML = function(data) {
+workflowUtil.objectToXML = function(data) {
     let xml = '';
     Object.keys(data).forEach(function(key) {
+        // id는 속성으로 처리하고 나머지는 엘리먼트로 처리한다.
+        if (key === 'id') { return; }
         xml += Array.isArray(data[key]) ? '' : '<' + key + '>';
+
         if (data[key] && Array.isArray(data[key])) {
             Object.keys(data[key]).forEach(function (item) {
-                xml += '<' + key + '>';
-                xml += workflowUtil.ObjectToXML(data[key][item]);
+                // id가 존재하면 id를 속성으로 처리한다.
+                if (Object.prototype.hasOwnProperty.call(data[key][item], 'id')) {
+                    xml += '<' + key + ' id="' + data[key][item]['id'] + '">';
+                } else {
+                    xml += '<' + key + '>';
+                }
+                xml += workflowUtil.objectToXML(data[key][item]);
                 xml += '</' + key + '>';
             });
         } else if (data[key] && typeof data[key] === 'object') {
-            xml += workflowUtil.ObjectToXML(data[key]);
+            xml += workflowUtil.objectToXML(data[key]);
         } else {
             xml += '<![CDATA[' + data[key] + ']]>';
         }
@@ -127,13 +135,27 @@ workflowUtil.createFormXMLString = function(formData, version) {
         componentNode.setAttribute('type', componentProp.type);
         delete  componentProp.type;
         if (typeof componentProp === 'object') {
-            componentNode.innerHTML = workflowUtil.ObjectToXML(componentProp);
+            componentNode.innerHTML = workflowUtil.objectToXML(componentProp);
         }
         form.appendChild(componentNode);
     }
     definitions.appendChild(form);
     xmlDoc.appendChild(definitions);
     let serializer = new XMLSerializer();
+    return serializer.serializeToString(xmlDoc);
+};
+workflowUtil.createFormXMLStringWoo = function (formData, version) {
+    const serializer = new XMLSerializer();
+    const xmlDoc = document.implementation.createDocument('', '', null);
+    // 세부 정보
+    const definitions = xmlDoc.createElement('definitions');
+    const form = xmlDoc.createElement('form');
+    form.setAttribute('version', version); // 버전
+    form.setAttribute('id', formData.id);
+    form.innerHTML = workflowUtil.objectToXML(formData);
+    definitions.appendChild(form);
+
+    xmlDoc.appendChild(definitions);
     return serializer.serializeToString(xmlDoc);
 };
 
@@ -253,6 +275,32 @@ workflowUtil.export = function(id, type) {
             });
         },
         contentType: 'application/json; charset=utf-8'
+    });
+};
+workflowUtil.exportWoo = function (id, type) {
+    // TODO: 가데이터 삭제 필요
+    //let exportUrl = '/rest/form/' + id + '/data';
+    //if (type === 'process') {
+    //    exportUrl = '/rest/process/' + id + '/data';
+    //}
+    //aliceJs.fetchJson({ method: 'GET', url: exportUrl })
+    aliceJs.fetchJson({
+        method: 'GET',
+        url: '/assets/js/formRefactoring/formDesigner/data_210320.json'
+    }).then((data) => {
+        // 버전 정보
+        aliceJs.fetchJson({
+            method: 'GET',
+            url: '/rest/codes/version.workflow'
+        }).then(codeData => {
+            let xmlString = '';
+            if (type === 'form') {
+                xmlString = workflowUtil.createFormXMLStringWoo(data, codeData.codeValue);
+            } else if (type === 'process') {
+                //xmlString = workflowUtil.createProcessXMLString(data, codeData.codeValue);
+            }
+            workflowUtil.downloadXML(id, type, xmlString);
+        });
     });
 };
 
@@ -592,3 +640,4 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
         console.error(e);
     }
 };
+

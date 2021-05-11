@@ -7,8 +7,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as util from '../lib/util.js';
-
 export default class History {
     constructor(editor) {
         this.editor = editor;
@@ -78,7 +76,7 @@ export default class History {
             case 'add':
                 const toParent = this.editor.form.getById(data.to.id);
                 if (type === 'redo') { // 복제한 객체를 다시 추가
-                    this.editor.makeDomElement(data.to.clone, toParent, data.to.clone.displayOrder);
+                    this.editor.makeForm(data.to.clone, toParent, data.to.clone.displayOrder);
                     // 추가된 객체 선택
                     toParent.getById(data.to.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
                 } else { // 기존 추가한 객체를 삭제
@@ -92,7 +90,7 @@ export default class History {
                     const from = this.editor.form.getById(data.from.clone.id);
                     fromParent.remove(from);
                 } else { // 기존 삭제한 객체를 다시 추가
-                    this.editor.makeDomElement(data.from.clone, fromParent, data.from.clone.displayOrder);
+                    this.editor.makeForm(data.from.clone, fromParent, data.from.clone.displayOrder);
                     // 추가된 객체 선택
                     fromParent.getById(data.from.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
                 }
@@ -106,7 +104,7 @@ export default class History {
                     oldIndex = data.from.clone.displayOrder;
                     newIndex = data.to.clone.displayOrder;
                 }
-                util.moveObject(sortParent.children, oldIndex, newIndex); // 객체 정렬
+                aliceJs.moveObject(sortParent.children, oldIndex, newIndex); // 객체 정렬
                 sortParent.sort(0);
                 // DOM 객체 정렬
                 const nextSibling = (sortParent.children.length === (newIndex + 1)) ? null :
