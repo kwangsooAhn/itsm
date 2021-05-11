@@ -8,11 +8,7 @@ object WfTokenConstants {
     enum class Status(val code: String) {
         RUNNING("token.status.running"),
         WAITING("token.status.waiting"),
-        FINISH("token.status.finish"),
-        WITHDRAW("token.status.withdraw"),
-        REJECT("token.status.reject"),
-        CANCEL("token.status.cancel"),
-        TERMINATE("token.status.terminate")
+        FINISH("token.status.finish")
     }
 
     /**
