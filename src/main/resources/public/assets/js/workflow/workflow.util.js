@@ -374,6 +374,7 @@ workflowUtil.XMLToObject = function(data) {
         if (data.attributes.length > 0) { // 속성 정보도 object 데이터로 추가한다.
             for (let i = 0, len = data.attributes.length; i < len; i++) {
                 let attr = data.attributes.item(i);
+                if (attr.nodeName === 'version') { continue; } // xml 버전은 제외
                 obj[attr.nodeName] = attr.nodeValue;
             }
         }
@@ -466,6 +467,18 @@ workflowUtil.loadFormFromXML = function(data) {
         return comp.display.order = Number(comp.display.order);
     });
     return formData;
+};
+workflowUtil.loadFormFromXMLWoo = function (data) {
+    const parser = new DOMParser();
+    const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
+    const xmlDoc = parser.parseFromString(data, 'application/xml');
+    if (workflowUtil.isParseError(xmlDoc)) {
+        throw new Error('Error parsing XML');
+    }
+
+    const form = xmlDoc.evaluate('/definitions/form', xmlDoc, null, resultType, null);
+    const jsonData = workflowUtil.XMLToObject(form.singleNodeValue);
+    return jsonData;
 };
 
 /**
@@ -614,7 +627,9 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
             if (type === xmlFile.name.split('_')[0]) {
                 switch (type) {
                 case 'form':
+                    // TODO: 폼 리팩토링 완료 후, loadFormFromXMLWoo을 사용하도록 수정한다.
                     saveData = workflowUtil.loadFormFromXML(e.target.result);
+                    //saveData = workflowUtil.loadFormFromXMLWoo(e.target.result);
                     saveData.name = data.formName;
                     saveData.desc = data.formDesc;
                     break;
