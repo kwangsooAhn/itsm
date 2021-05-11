@@ -343,6 +343,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     token.element.elementName,
                     token.element.elementType,
                     token.tokenStatus,
+                    token.tokenAction,
                     token.assigneeId,
                     user.userName
                 )
