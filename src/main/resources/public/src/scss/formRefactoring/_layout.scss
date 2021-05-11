@@ -19,12 +19,12 @@
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
     background-color: $layout-header-bg-color;
-    padding: 0 1.25rem; // 0 20px
+    padding: 0 0.75rem; // 0 12px
     z-index: $z-index-gnb;
     // form designer 문구
     .name {
       font-size: 1.125rem; // 18px
-      padding: 0 0.9375rem; // 15px
+      padding: 0 0.75rem 0 1.25rem; // 0 12px 0 20px
     }
     // 아이콘 구분자
     .separator {

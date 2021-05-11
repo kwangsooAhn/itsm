@@ -52,26 +52,13 @@
     <form id="frm" name="frm">
         <div class="form-container">
             <!-- 상단 네비게이션 -->
-            <div class="form-header"  id="menuBar">
-                <img class="logo"  th:src="@{/assets/media/icons/icon_logo_white.svg}" width="152" height="26" alt="Zenius ITSM" />
-                <span class="name" th:text="#{form.label.title}"></span>
-                <span class="separator"></span>
-                <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
-                    <button type="button" id="btnSave" class="btn-header header-tooltip">
-                        <span class="icon-save"></span>
-                        <div class="tooltip-contents">
-                            <span th:text="#{common.btn.save}"></span>
-                        </div>
-                    </button>
-                </th:block>
-                <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                    <button type="button" id="btnSaveAs" class="btn-header header-tooltip">
-                        <span class="icon-save-as"></span>
-                        <div class="tooltip-contents">
-                            <span th:text="#{common.btn.saveAs}"></span>
-                        </div>
-                    </button>
-                </th:block>
+            <div class="form-header" id="menuBar">
+                <!--로고-->
+                <img class="logo" th:src="@{/assets/media/icons/formRefactoring/topmenu/icon_form_designer.svg}" width="169" height="25" alt="Form Designer" />
+                <!--파일명-->
+                <span class="ml-auto mr-auto" id="formName"></span>
+
+                <!--실행 취소-->
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <button type="button" id="btnUndo" class="btn-header header-tooltip">
                         <span class="icon-undo"></span>
@@ -80,21 +67,44 @@
                         </div>
                     </button>
                 </th:block>
+                <!--재실행(드롭다운)-->
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <button type="button" id="btnRedo" class="btn-header header-tooltip">
-                        <span class="icon-redo"></span>
+                        <span class="icon-dropdown"></span>
                         <div class="tooltip-contents">
                             <span th:text="#{form.label.redo}"></span>
                         </div>
                     </button>
                 </th:block>
+
+                <!--미리보기-->
                 <button type="button" id="btnPreview" class="btn-header header-tooltip">
                     <span class="icon-preview"></span>
                     <div class="tooltip-contents">
                         <span th:text="#{form.label.preview}"></span>
                     </div>
                 </button>
-                <span class="ml-auto" id="formName"></span>
+
+                <!--저장하기-->
+                <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
+                    <button type="button" id="btnSave" class="btn-header header-tooltip">
+                        <span class="icon-save"></span>
+                        <div class="tooltip-contents">
+                            <span th:text="#{common.btn.save}"></span>
+                        </div>
+                    </button>
+                </th:block>
+                <!--다른 이름으로 저장(드롭다운)-->
+                <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
+                    <button type="button" id="btnSaveAs" class="btn-header header-tooltip">
+                        <span class="icon-dropdown"></span>
+                        <div class="tooltip-contents">
+                            <span th:text="#{common.btn.saveAs}"></span>
+                        </div>
+                    </button>
+                </th:block>
+
+
             </div>
             <!-- 컴포넌트 팔레트 -->
             <div class="form-component-palette" id="componentPalette">
