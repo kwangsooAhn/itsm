@@ -53,10 +53,11 @@ export default class Group {
         // 그룹
         groupTooltip.UIGroup = new UIGroup(this.isAccordionUsed).setUIId(this.id);
         // 아코디언용 체크박스
-        groupTooltip.UIGroup.UICheckbox.setUIId('chk-' + this.id)
+        const accordionId = workflowUtil.generateUUID(); // 미리보기에서도 동작하도록 key를 동적으로 만듬
+        groupTooltip.UIGroup.UICheckbox.setUIId('chk-' + accordionId)
             .setUIClass(CLASS_PREFIX + 'group-accordion-checkBox');
         // 라벨
-        groupTooltip.UIGroup.UILabel.setUIFor('chk-' + this.id)
+        groupTooltip.UIGroup.UILabel.setUIFor('chk-' + accordionId)
             .addUIClass((this.label.visibility ? 'on' : 'off')) // 라벨 사용여부: 라벨 숨김 또는 보임
             .setUICSSText(`text-align: ${this.label.align};`);
         // 라벨 텍스트

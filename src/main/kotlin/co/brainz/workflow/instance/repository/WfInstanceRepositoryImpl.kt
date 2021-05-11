@@ -376,27 +376,30 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         searchValue: String
     ): MutableList<RestTemplateInstanceListDto> {
         val instance = QWfInstanceEntity.wfInstanceEntity
+        val user = QAliceUserEntity.aliceUserEntity
 
         val query = from(instance)
             .select(
                 Projections.constructor(
                     RestTemplateInstanceListDto::class.java,
                     instance.instanceId,
-                    instance.document.documentName,
+                    document.documentName,
                     instance.documentNo,
                     instance.instanceStartDt,
                     instance.instanceEndDt,
-                    instance.instanceCreateUser.userKey,
-                    instance.instanceCreateUser.userName,
+                    user.userKey,
+                    user.userName,
                     Expressions.asBoolean(false)
                 )
             )
             .distinct()
-            .where(instance.instanceId.notEqualsIgnoreCase(instanceId))
+            .innerJoin(document).on(document.documentId.eq(instance.document.documentId))
+            .leftJoin(user).on(user.userKey.eq(instance.instanceCreateUser.userKey))
+            .where(instance.instanceId.notIn(instanceId))
         if (searchValue.isNotEmpty()) {
             query.where(
-                instance.document.documentName.likeIgnoreCase(searchValue)
-                    .or(instance.instanceCreateUser.userName.likeIgnoreCase(searchValue))
+                document.documentName.likeIgnoreCase("%" + searchValue + "%")
+                    .or(user.userName.likeIgnoreCase("%" + searchValue + "%"))
             )
         }
         query.orderBy(instance.instanceStartDt.asc())

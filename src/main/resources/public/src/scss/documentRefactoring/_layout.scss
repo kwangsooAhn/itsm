@@ -18,37 +18,15 @@
     @include scrollbarHidden;
 
     // 미리보기 화면
-    &.preview { right: 0; }
-    
+    &.preview {
+      .input { pointer-events: none; }
+    }
+
     // 버튼 그려지는 영역
     .document-main-header {
       width: $drawing-board-width;
       max-width: $drawing-board-width;
       padding: 8.438rem 0 0.9375rem 0; // 135px 0 15px 0
-    }
-    // 폼이 그려지는 영역
-    .drawing-board {
-      // 미리보기일 경우 화면에서 수정을 막음
-      &[data-readonly=true] {
-        .dropzone,
-        .ql-toolbar,
-        textarea,
-        button,
-        input[type=text],
-        label.radio,
-        label.checkbox,
-        select {
-          pointer-events: none;
-        }
-        .component .move-handler {
-          display: inherit;
-        }
-      }
-      // 완료(종결)된 문서일 경우 DR 테이블 버튼 숨김
-      &[data-display=complete] {
-        .btn-dr-table-row-add { opacity: 0; }
-        .dr-table-row-delete { opacity: 0; }
-      }
     }
   }
 }

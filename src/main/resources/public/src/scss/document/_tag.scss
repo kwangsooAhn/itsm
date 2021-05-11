@@ -1,28 +1,25 @@
 /* 태그 기능 디자인
  * /document/_tag.scss
- * 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
  */
 .tagify {
-  min-height: 3.375rem; // 54px
-  padding-left: 0.3125rem; // 5px
   // 태그
-  tag {
+  .tagify__tag {
     border: $tag-border;
     margin: 0.625rem 0 0.625rem 0.3125rem; // 10px 0 10px 5px
 
     // 태그 문구
     > div {
-      color: $tag-font-color;
-      border-radius: 0.0625rem; // 1px
       padding: 0.375rem 0.5rem; // 6px 8px
-      
+      border-radius: 0.0625rem; // 1px
+      color: $tag-font-color;
+
       &::before {
         animation: none;
         box-shadow: 0 0 0 1.25rem $tag-bg-color inset;
       }
       span {
-        height: 1.25rem; // 20px
         max-width: 26.625rem; // 426px
+        height: 1.25rem; // 20px
       }
       
       &:hover {
@@ -37,11 +34,11 @@
     .tagify__tag__removeBtn {
       width: 1.125rem; // 18px
       height: 1.125rem; // 18px
+      margin-left: 0;
       font-family: $font-family;
       font-size: 1rem; // 16px
       font-weight: $font-weight-bold;
       color: $tag-btn-remove-color;
-      margin-left: 0;
 
       &:after {
         height: 1.125rem; // 18px
@@ -78,6 +75,8 @@
 
   // 동일 태그 입력시
   .tagify--notAllowed:not(.tagify__tag--editable) {
+    border: $tag-invalid-border;
+
     // 태그 문구
     > div {
       color: $tag-invalid-color !important;
@@ -90,7 +89,7 @@
       pointer-events: none;
     }
     &:hover {
-      border: $tag-invalid-border;
+      border: $tag-invalid-hover-border;
 
       .tagify__tag__removeBtn {
         background-color: transparent;
@@ -100,8 +99,8 @@
 
   // 태그를 입력하세요 input box
   .tagify__input {
-    margin: 0.625rem 0.3125rem; // 10px 5px
     padding: 0.4375rem; // 7px
+    margin: 0.625rem 0.3125rem; // 10px 5px
     white-space: pre-line;
 
     &:empty {

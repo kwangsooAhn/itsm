@@ -11,6 +11,7 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.component.service.ComponentService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
+import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
@@ -224,7 +225,7 @@ class CustomCodeService(
      * @return List<CustomCodeDataDto>
      */
     fun getCustomCodeData(customCodeId: String): List<CustomCodeDataDto> {
-        val customCode = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
+        val customCode = customCodeRepository.findByCustomCode(customCodeId)
         return if (customCode.type == CustomCodeConstants.Type.TABLE.code) {
             getTableTypeData(customCode)
         } else {
@@ -238,7 +239,7 @@ class CustomCodeService(
      * @param customCode CustomCodeEntity
      * @return MutableList<CustomCodeDataDto>
      */
-    fun getTableTypeData(customCode: CustomCodeEntity): MutableList<CustomCodeDataDto> {
+    fun getTableTypeData(customCode: CustomCodeCoreDto): MutableList<CustomCodeDataDto> {
         val customDataList = mutableListOf<CustomCodeDataDto>()
         var dataList = mutableListOf<Any>()
         val condition = jsonToMapByCondition(customCode.condition)
@@ -282,7 +283,7 @@ class CustomCodeService(
      * @param customCode CustomCodeEntity
      * @return MutableList<CustomCodeDataDto>
      */
-    fun getCodeTypeData(customCode: CustomCodeEntity): MutableList<CustomCodeDataDto> {
+    fun getCodeTypeData(customCode: CustomCodeCoreDto): MutableList<CustomCodeDataDto> {
         val customDataList = mutableListOf<CustomCodeDataDto>()
         val dataList = customCode.pCode?.let { codeService.getCodeListByCustomCode(it) }
         dataList?.forEach {

@@ -566,32 +566,13 @@ input, button, select, optgroup, textarea {
   display: none;
   /* Chrome, Safari, Opera*/
 }
-.document-container .document-main.preview {
-  right: 0;
+.document-container .document-main.preview .input {
+  pointer-events: none;
 }
 .document-container .document-main .document-main-header {
   width: 60rem;
   max-width: 60rem;
   padding: 8.438rem 0 0.9375rem 0;
-}
-.document-container .document-main .drawing-board[data-readonly=true] .dropzone,
-.document-container .document-main .drawing-board[data-readonly=true] .ql-toolbar,
-.document-container .document-main .drawing-board[data-readonly=true] textarea,
-.document-container .document-main .drawing-board[data-readonly=true] button,
-.document-container .document-main .drawing-board[data-readonly=true] input[type=text],
-.document-container .document-main .drawing-board[data-readonly=true] label.radio,
-.document-container .document-main .drawing-board[data-readonly=true] label.checkbox,
-.document-container .document-main .drawing-board[data-readonly=true] select {
-  pointer-events: none;
-}
-.document-container .document-main .drawing-board[data-readonly=true] .component .move-handler {
-  display: inherit;
-}
-.document-container .document-main .drawing-board[data-display=complete] .btn-dr-table-row-add {
-  opacity: 0;
-}
-.document-container .document-main .drawing-board[data-display=complete] .dr-table-row-delete {
-  opacity: 0;
 }
 
 /* _elements.scss 

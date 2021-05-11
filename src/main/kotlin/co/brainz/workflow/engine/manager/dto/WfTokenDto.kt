@@ -6,6 +6,7 @@
 package co.brainz.workflow.engine.manager.dto
 
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.workflow.provider.constants.RestTemplateConstants
 import java.io.Serializable
 
 data class WfTokenDto(
@@ -23,5 +24,5 @@ data class WfTokenDto(
     val numberingId: String? = null,
     var parentTokenId: String? = null,
     var instanceCreateUser: AliceUserEntity? = null,
-    var instancePlatform: String? = null
+    var instancePlatform: String? = RestTemplateConstants.InstancePlatform.ITSM.code
 ) : Serializable

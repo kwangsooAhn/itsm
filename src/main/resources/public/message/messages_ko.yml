@@ -1123,6 +1123,7 @@ token:
     list: "문서함"
     print: "처리할 문서 인쇄"
     relatedInstance: "관련 문서"
+    relatedInstancePlaceholder: "신청서 이름/ 등록자"
     searchPlaceholder: "등록자 / 내용"
     startDt: "시작 일시"
     tagPlaceHolder: "#태그"

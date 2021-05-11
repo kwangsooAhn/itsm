@@ -15,10 +15,11 @@ import Group, { UIGroupTooltip } from '../form/group.js';
 import Row, { UIRowTooltip } from '../form/row.js';
 import Component, { UIComponentTooltip } from '../form/component.js';
 import { validation } from '../lib/validation.js';
+import { documentEditor } from '../documentEditor/documentEditor.js';
 
 class FormDesigner {
     constructor() {
-        this.domElement = document.getElementById('drawingBoard') || document.body;
+        this.domElement = document.getElementById('formDrawingBoard') || document.body;
         // edit, view, complete 등 문서의 상태에 따라 아코디언, 컴포넌트 등 동작을 막음
         this.domElement.classList.add('edit');
 
@@ -173,6 +174,7 @@ class FormDesigner {
      * @param formId 폼 아이디
      */
     initForm(formId) {
+        this.formId = formId;
         // TODO: 폼 데이터 load. > 가데이터 삭제 필요
         //aliceJs.fetchJson({ method: 'GET', url: '/rest/form/' + formId + '/data' })
         aliceJs.fetchJson({
@@ -773,11 +775,9 @@ class FormDesigner {
      * TODO: 미리보기
      */
     preview() {
-        //const itemName = 'alice_forms-preview-' + editor.data.formId;
-        //sessionStorage.setItem(itemName, JSON.stringify({'form': editor.data}));
-        //let url = '/form/' + editor.data.formId + '/preview';
-        //const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-        //window.open(url, itemName, 'width=1200,height=900,' + specs);
+        documentEditor.makeActionButton([{ 'name': 'common.btn.close', 'value': 'close', 'customYn': false }]);
+        documentEditor.makeDocument(this.form.toJson()); // Form 생성
+        documentEditor.documentModal.show(); // 모달 표시
     }
 }
 
@@ -793,6 +793,4 @@ function onLeftClickHandler(e) {
         aliceJs.clickInsideElement(e, 'form-properties-panel')) {
         return false;
     }
-
-    //this.deSelectObject();
 }
