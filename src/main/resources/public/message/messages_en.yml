@@ -73,13 +73,9 @@ common:
   code:
     token:
       status:
-        cancel: "cancel"
         finish: "finish"
-        reject: "reject"
         running: "running"
-        terminate: "terminate"
         waiting: "waiting"
-        withdraw: "withdraw"
     faq:
       category:
         all: "All"
