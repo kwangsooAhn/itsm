@@ -121,6 +121,7 @@
           height: $component-icon-height;
           text-align: center;
           border: $accordion-border;
+          padding: 0.625rem 0; // 10px 0
           margin-top: -0.0625rem; // -1px
           margin-right: -0.0625rem; // -1px
           cursor: move;
@@ -137,29 +138,30 @@
 
           .icon {
             display: inline-block;
-            margin:  1.563rem 0 0.625rem 0; // 25px 0 10px 0
           }
-          .icon-inputBox { @include maskImage($icon-component-inputBox, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-textArea { @include maskImage($icon-component-textArea, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-textEditor { @include maskImage($icon-component-textEditor, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-dropdown { @include maskImage($icon-component-dropdown, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-radio { @include maskImage($icon-component-radio, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-checkBox { @include maskImage($icon-component-checkBox, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-label { @include maskImage($icon-component-label, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-date { @include maskImage($icon-component-date, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-time { @include maskImage($icon-component-time, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-dateTime { @include maskImage($icon-component-dateTime, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-fileUpload { @include maskImage($icon-component-fileUpload, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-customCode { @include maskImage($icon-component-customCode, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-dynamicRowTable { @include maskImage($icon-component-dynamicRowTable, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-ci { @include maskImage($icon-component-ci, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-label { @include maskImage($icon-component-label, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-image { @include maskImage($icon-component-image, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
-          .icon-divider { @include maskImage($icon-component-divider, 2.375rem, 2.375rem, no-repeat, center, 2.375rem 2.375rem, $icon-component-color); } // 38xp 38p
+          .icon-inputBox { @include maskImage($icon-component-inputBox, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-textArea { @include maskImage($icon-component-textArea, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-textEditor { @include maskImage($icon-component-textEditor, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-dropdown { @include maskImage($icon-component-dropdown, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-radio { @include maskImage($icon-component-radio, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-checkBox { @include maskImage($icon-component-checkBox, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-label { @include maskImage($icon-component-label, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-date { @include maskImage($icon-component-date, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-time { @include maskImage($icon-component-time, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-dateTime { @include maskImage($icon-component-dateTime, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-fileUpload { @include maskImage($icon-component-fileUpload, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-customCode { @include maskImage($icon-component-customCode, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-dynamicRowTable { @include maskImage($icon-component-dynamicRowTable, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-ci { @include maskImage($icon-component-ci, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-label { @include maskImage($icon-component-label, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-image { @include maskImage($icon-component-image, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .icon-divider { @include maskImage($icon-component-divider, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
 
           .component-name {
             display: block;
+            padding-top: 0.375rem; // 6px
             color: $gray;
+            font-size: 0.875rem; // 14px
           }
           // drag & drop
           &.drag-on {

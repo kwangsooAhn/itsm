@@ -11,7 +11,7 @@ $layout-header-font-weight:                        $font-weight-medium;
 $layout-header-bg-color:                           $blue;
 
 // component palette
-$layout-component-palette-width:                   15.63rem; // 250px
+$layout-component-palette-width:                   12.5rem; // 200px
 $layout-component-palette-bg-color:                $white;
 $layout-component-palette-border:                  0.0625rem solid map-get($grays, "line"); // 1px
 $layout-component-palette-box-shadow:              0.0625rem 0 0.4375rem 0 rgba(204, 206, 209, 0.15); // 1px 0px 7px 0px $pressed-gray, 불투명도 15%;
@@ -40,8 +40,8 @@ $accordion-border:                                 $accordion-border-width solid
 $accordion-font-size:                              $font-size-base;
 $accordion-font-color:                             map-get($grays, "blue");
 $accordion-font-weight:                            $font-weight-medium;
-$component-icon-width:                             7.813rem; // 125.5px
-$component-icon-height:                            7.188rem; // 115px
+$component-icon-width:                             6.25rem; // 100px
+$component-icon-height:                            4.6875rem; // 75px
 $component-icon-hover-bg-color:                    rgba(235, 235, 235, 0.3);
 
 ////////////////////////////////////// icon//////////////////////////////////////////////
