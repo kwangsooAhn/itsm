@@ -1,7 +1,7 @@
 /**
  * CI 컴포넌트 - CI 세부 속성 임시 테이블
  */
-DROP TABLE IF EXISTS wf_component_ci_data;
+DROP TABLE IF EXISTS wf_component_ci_data cascade;
 
 CREATE TABLE wf_component_ci_data
 (

@@ -236,6 +236,7 @@ insert into awf_url values ('/rest/schedulers', 'post', '스케줄러 등록', '
 insert into awf_url values ('/rest/schedulers/{id}', 'delete', '스케줄러 삭제', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}', 'put', '스케줄러 수정', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}/execute', 'post', '스케줄러 실행', 'TRUE');
+insert into awf_url values ('/rest/tags/whitelist', 'get', 'Tag 추천 목록 조회', 'FALSE');
 insert into awf_url values ('/rest/tags', 'post', 'Tag 저장', 'FALSE');
 insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
 insert into awf_url values ('/rest/tokens/data', 'post', 'token 신규 등록', 'TRUE');
@@ -257,9 +258,9 @@ insert into awf_url values ('/schedulers/{id}/view', 'get', '스케줄러 상세
 insert into awf_url values ('/tokens', 'get', '처리할 문서 리스트 조회', 'FALSE');
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/documents', 'get', '관련문서 리스트', 'TRUE');
-insert into awf_url values ('/tokens/{id}/edit', 'get', 'NULL', 'TRUE');
+insert into awf_url values ('/tokens/{id}/edit', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/edit-tab', 'get', '문서 오른쪽 탭 정보', 'TRUE');
-insert into awf_url values ('/tokens/{id}/view', 'get', 'NULL', 'TRUE');
+insert into awf_url values ('/tokens/{id}/view', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view-tab', 'get', '문서 오른쪽 탭 정보', 'TRUE');
 insert into awf_url values ('/tokens/{id}/print', 'get', '처리할 문서 프린트 화면', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업 화면', 'TRUE');
