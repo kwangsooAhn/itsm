@@ -180,6 +180,7 @@ class WfTokenService(
         val tokenData = LinkedMultiValueMap<String, String>()
         tokenData["tokenId"] = tokenEntity.get().tokenId
         tokenData["status"] = tokenEntity.get().tokenStatus
+        tokenData["action"] = tokenEntity.get().tokenAction
         return RestTemplateTokenViewDto(
             token = tokenData,
             instanceId = tokenEntity.get().instance.instanceId,

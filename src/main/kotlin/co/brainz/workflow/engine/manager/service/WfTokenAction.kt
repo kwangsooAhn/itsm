@@ -178,16 +178,20 @@ class WfTokenAction(
         token.tokenEndDt = LocalDateTime.now()
         when (tokenDto.action) {
             WfElementConstants.Action.CANCEL.value -> {
-                token.tokenStatus = WfTokenConstants.Status.CANCEL.code
+                token.tokenAction = WfTokenConstants.FinishAction.CANCEL.code
+                token.tokenStatus = WfTokenConstants.Status.FINISH.code
             }
             WfElementConstants.Action.TERMINATE.value -> {
-                token.tokenStatus = WfTokenConstants.Status.TERMINATE.code
+                token.tokenAction = WfTokenConstants.FinishAction.TERMINATE.code
+                token.tokenStatus = WfTokenConstants.Status.FINISH.code
             }
             WfElementConstants.Action.WITHDRAW.value -> {
-                token.tokenStatus = WfTokenConstants.Status.WITHDRAW.code
+                token.tokenAction = WfTokenConstants.FinishAction.WITHDRAW.code
+                token.tokenStatus = WfTokenConstants.Status.FINISH.code
             }
             WfElementConstants.Action.REJECT.value -> {
-                token.tokenStatus = WfTokenConstants.Status.REJECT.code
+                token.tokenAction = WfTokenConstants.FinishAction.REJECT.code
+                token.tokenStatus = WfTokenConstants.Status.FINISH.code
             }
             WfElementConstants.Action.SAVE.value -> {
                 token.tokenEndDt = null

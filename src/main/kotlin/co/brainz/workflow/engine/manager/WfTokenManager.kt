@@ -78,6 +78,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now()
         token.tokenStatus = WfTokenConstants.Status.FINISH.code
+        token.tokenAction = WfTokenConstants.FinishAction.FINISH.code
         token.assigneeId = tokenDto.assigneeId
 
         this.tokenEntity = wfTokenManagerService.saveToken(token)

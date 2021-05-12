@@ -1001,6 +1001,10 @@
                 const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
                 document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
                 OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
+                const tokenActionEle = document.querySelectorAll('td[name=tokenAction]');
+                for (let i = 0; i < tokenActionEle.length; i++) {
+                    tokenActionEle[i].textContent = i18n.msg(tokenActionEle[i].textContent);
+                }
             }
         });
     }

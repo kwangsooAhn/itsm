@@ -252,13 +252,9 @@ insert into awf_code values ('script.type.cmdb', 'script.type', 'script.type.cmd
 insert into awf_code values ('script.type.document.attachFile', 'script.type', 'script.type.document.attachFile', '[문서편집] 첨부파일', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token', 'root', null, '토큰 관련 코드', null, false, 1, 9, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status', 'token', null, '토큰 상태 코드', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.cancel', 'token.status', null, '취소', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.finish', 'token.status', null, '처리 완료', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.reject', 'token.status', null, '반려', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.running', 'token.status', null, '진행 중', null, false, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.terminate', 'token.status', null, '종료', null, false, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.waiting', 'token.status', null, '대기 중', null, false, 3, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.withdraw', 'token.status', null, '회수', null, false, 3, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('token.status.finish', 'token.status', null, '처리 완료', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('token.status.running', 'token.status', null, '진행 중', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('token.status.waiting', 'token.status', null, '대기 중', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('user', 'root', null, '사용자', null, false,1,10, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.id', 'user', null, '아이디', null, false,2,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.name', 'user', null, '이름', null, false,2,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
@@ -9238,6 +9234,7 @@ CREATE TABLE wf_token
 	token_start_dt timestamp,
 	token_end_dt timestamp,
 	token_status varchar(100) NOT NULL,
+	token_action varchar(100),
 	assignee_id varchar(128),
 	CONSTRAINT wf_token_pk PRIMARY KEY (token_id),
 	CONSTRAINT wf_token_fk1 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id),
@@ -9251,6 +9248,7 @@ COMMENT ON COLUMN wf_token.element_id IS '엘리먼트아이디';
 COMMENT ON COLUMN wf_token.token_start_dt IS '토큰시작일시';
 COMMENT ON COLUMN wf_token.token_end_dt IS '토큰종료일시';
 COMMENT ON COLUMN wf_token.token_status IS '토큰상태';
+COMMENT ON COLUMN wf_token.token_action IS '토큰액션';
 COMMENT ON COLUMN wf_token.assignee_id IS '담당자아이디';
 /**
  * 토큰데이터정보

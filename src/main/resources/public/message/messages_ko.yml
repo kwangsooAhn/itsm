@@ -73,13 +73,9 @@ common:
   code:
     token:
       status:
-        cancel: "취소"
         finish: "처리 완료"
-        reject: "반려"
         running: "진행 중"
-        terminate: "종료"
         waiting: "대기 중"
-        withdraw: "회수"
     faq:
       category:
         all: "전체"
@@ -1129,6 +1125,7 @@ token:
     tagPlaceHolder: "#태그"
     view: "문서 조회"
     write: "처리할 문서"
+    process: "처리"
   msg:
     selectToken: "추가할 관련 문서를 선택해주세요."
     searchDescription: "나와 관련된 문서를 조회 및 처리합니다."
@@ -1138,6 +1135,12 @@ token:
     progress: "진행 중 문서"
     requested: "신청한 문서"
     todo: "처리할 문서"
+  action:
+    withdraw: "회수"
+    reject: "반려"
+    cancel: "취소"
+    terminate: "종결"
+    finish: "처리 완료"
 
 # WorkflowAdmin
 workflowAdmin:
