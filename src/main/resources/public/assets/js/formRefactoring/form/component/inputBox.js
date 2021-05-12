@@ -1,40 +1,51 @@
 /**
- * Inputbox Class
+ * Inputbox Mixin
  *
- * 사용자 입력을 받는 input box.
- * 정규식을 이용하여 숫자, 문자, 전화번호, 이메일 등 제어가 가능하다.
+ * inputbox 컴포넌트를 위한 mixin 모음.
+ * inputbox 는 HTML 에서 text 타입의 input 요소를 뜻한다.
+ * 유효성 체크를 통해서 숫자, 문자, 전화번호, 이메일 등 제어가 가능하다.
  *
- * @author woodajung wdj@brainz.co.kr
+ * @author woodajung <wdj@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
+ *
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
-import { validation } from '../../lib/validation.js';
-import { UIDiv, UIInput } from '../../lib/ui.js';
+import {SESSION, FORM, CLASS_PREFIX} from '../../lib/constants.js';
+import {UIDiv, UIInput} from '../../lib/ui.js';
+import {COMMON_PROPERTIES} from "../../formDesigner/propertyType/commonPropertyPanel.js";
+import InputTypeProperty from "../../formDesigner/propertyType/inputTypeProperty.module.js";
+import SliderTypeProperty from "../../formDesigner/propertyType/sliderTypeProperty.module.js";
+import DefaultValueSelectTypeProperty from "../../formDesigner/propertyType/defaultValueSelectTypeProperty.module.js";
+import SelectTypeProperty from "../../formDesigner/propertyType/selectTypeProperty.module.js";
 
-const DEFAULT_ELEMENT_PROPERTY = {
-    placeholder: '',
-    columnWidth: '10',
-    defaultType: 'input|', // input|사용자입력 / select|세션값
+/**
+ * 컴포넌트 별 기본 속성 값
+ */
+const DEFAULT_COMPONENT_PROPERTY = {
+    element: {
+        placeholder: '',
+        columnWidth: '10',
+        defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
+    },
+    validate: {
+        validateType: 'none', // none | char | num | numchar | email | phone
+        minLength: '0',
+        maxLength: '100'
+    }
 };
-Object.freeze(DEFAULT_ELEMENT_PROPERTY);
-
-const DEFAULT_VALIDATE_PROPERTY = {
-    validateType: 'none', // none | char | num | numchar | email | phone
-    lengthMin: '0',
-    lengthMax: '100'
-};
-Object.freeze(DEFAULT_VALIDATE_PROPERTY);
+Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 
 export const inputBoxMixin = {
+
     // 전달 받은 데이터와 기본 property merge
     initProperty() {
         // 엘리먼트 property 초기화
-        this.element = Object.assign({}, DEFAULT_ELEMENT_PROPERTY, this.element);
-        this.validate = Object.assign({}, DEFAULT_VALIDATE_PROPERTY, this.validate);
+        this.element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.element);
+        this.validate = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validate, this.validate);
+        this.propertyPanel = this.initPropertyPanel();
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -70,12 +81,12 @@ export const inputBoxMixin = {
     getElementColumnWidth() {
         return this.element.columnWidth;
     },
-    setElementDefaultType(value) {
-        this.element.defaultType = value;
+    setElementDefaultValueSelect(value) {
+        this.element.defaultValueSelect = value;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.getValue());
     },
-    getElementDefaultType() {
-        return this.element.defaultType;
+    getElementDefaultValueSelect() {
+        return this.element.defaultValueSelect;
     },
     setValidateValidateType(type) {
         this.validate.validateType = type;
@@ -103,7 +114,9 @@ export const inputBoxMixin = {
         e.stopPropagation();
         e.preventDefault();
         // enter 입력시
-        if (e.key === 'Enter' || e.keyCode === 13) { return false; }
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            return false;
+        }
         // 유효성 검증
         let passValidate = true;
         if (e.type === 'keyup') { // keyup 일 경우 type, min, max 체크
@@ -133,325 +146,45 @@ export const inputBoxMixin = {
             return this.value;
         }
     },
-    // 세부 속성
     getProperty() {
-        const PANEL_PROPERTIES = {
-            'id': {
-                'name': 'form.properties.id',
-                'type': 'clipboard',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'mapId': {
-                'name': 'form.properties.mapId',
-                'type': 'input',
-                'unit': '',
-                'help': 'form.help.mapping-id',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '128',
-                    'minLength': ''
-                }
-            },
-            'isTopic': {
-                'name': 'form.properties.isTopic',
-                'type': 'switch',
-                'unit': '',
-                'help': 'form.help.is-topic',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'tags': { // TODO: 태그 기능은 추구 구현 예정
-                'name': 'form.properties.tag',
-                'type': 'table',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'columnWidth': {
-                'name': 'form.properties.columnWidth',
-                'type': 'slider',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'label': {
-                'name': 'form.properties.label',
-                'type': 'group',
-                'children': {
-                    'position': {
-                        'name': 'form.properties.visibility',
-                        'type': 'button-switch-icon',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        },
-                        'option': [
-                            { 'name': 'icon-position-left', 'value': 'left' },
-                            { 'name': 'icon-position-top', 'value': 'top' },
-                            { 'name': 'icon-position-hidden', 'value': 'hidden' }
-                        ]
-                    },
-                    'fontColor': {
-                        'name': 'form.properties.fontColor',
-                        'type': 'rgb',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '8',
-                        'validate': {
-                            'required': false,
-                            'type': 'rgb',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '25',
-                            'minLength': ''
-                        }
-                    },
-                    'fontSize': {
-                        'name': 'form.properties.fontSize',
-                        'type': 'input',
-                        'unit': 'px',
-                        'help': '',
-                        'columnWidth': '3',
-                        'validate': {
-                            'required': false,
-                            'type': 'number',
-                            'max': '100',
-                            'min': '10',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    },
-                    'align' : {
-                        'name': 'form.properties.align',
-                        'type': 'button-switch-icon',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '5',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        },
-                        'option': [
-                            { 'name': 'icon-align-left', 'value': 'left' },
-                            { 'name': 'icon-align-center', 'value': 'center' },
-                            { 'name': 'icon-align-right', 'value': 'right' }
-                        ]
-                    },
-                    'fontOption' : {
-                        'name': 'form.properties.option',
-                        'type': 'button-toggle-icon',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '5',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        },
-                        'option': [
-                            { 'name': 'icon-bold', 'value': 'bold'},
-                            { 'name': 'icon-italic', 'value': 'italic' },
-                            { 'name': 'icon-underline', 'value': 'underline' }
-                        ]
-                    },
-                    'text': {
-                        'name': 'form.properties.text',
-                        'type': 'input',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '128',
-                            'minLength': ''
-                        }
-                    }
-                }
-            },
-            'element': {
-                'name': 'form.properties.element',
-                'type': 'group',
-                'children': {
-                    'placeholder': {
-                        'name': 'form.properties.placeholder',
-                        'type': 'input',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '128',
-                            'minLength': ''
-                        }
-                    },
-                    'columnWidth': {
-                        'name': 'form.properties.columnWidth',
-                        'type': 'slider',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    },
-                    'defaultType': {
-                        'name': 'form.properties.defaultType',
-                        'type': 'default-type',
-                        'unit': '',
-                        'help': 'form.help.date-default',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': '128'
-                        },
-                        'option': [
-                            { 'name': 'form.properties.direct', 'value': 'input'},
-                            { 'name': 'form.properties.auto', 'value': 'select'}
-                        ],
-                        'selectOption': [
-                            { 'name': 'form.properties.userKey', 'value': 'userKey' },
-                            { 'name': 'form.properties.userId', 'value': 'userId' },
-                            { 'name': 'form.properties.userName', 'value': 'userName' },
-                            { 'name': 'form.properties.email', 'value': 'email' },
-                            { 'name': 'form.properties.jobPosition', 'value': 'position'},
-                            { 'name': 'form.properties.department', 'value': 'department' },
-                            { 'name': 'form.properties.officeNumber', 'value': 'officeNumber' },
-                            { 'name': 'form.properties.officeNumber', 'value': 'officeNumber' }
-                        ]
-                    }
-                }
-            },
-            'validate': {
-                'name': 'form.properties.validate',
-                'type': 'group',
-                'children': {
-                    'validateType': {
-                        'name': 'form.properties.validateType',
-                        'type': 'select',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        },
-                        'option': [
-                            { 'name': 'form.properties.none', 'value': 'none' },
-                            { 'name': 'form.properties.char', 'value': 'char' },
-                            { 'name': 'form.properties.number', 'value': 'number' },
-                            { 'name': 'form.properties.email', 'value': 'email'},
-                            { 'name': 'form.properties.phone', 'value': 'phone'}
-                        ]
-                    },
-                    'lengthMin': {
-                        'name': 'form.properties.lengthMin',
-                        'type': 'input',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': 'number',
-                            'max': '128',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    },
-                    'lengthMax': {
-                        'name': 'form.properties.lengthMax',
-                        'type': 'input',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': 'number',
-                            'max': '128',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    }
-                }
-            }
+        return this.propertyPanel;
+    },
+    // 세부 속성
+    initPropertyPanel() {
+        let PANEL_PROPERTIES = COMMON_PROPERTIES;
+        PANEL_PROPERTIES.element = {
+            name: 'form.properties.element',
+            type: 'group',
+            children: {}
+        }
 
-        };
+        PANEL_PROPERTIES.element.children.placeholder = new InputTypeProperty('placeholder').getPropertyTypeConfig();
+        PANEL_PROPERTIES.element.children.columnWidth = new SliderTypeProperty('columnWidth').getPropertyTypeConfig();
+        PANEL_PROPERTIES.element.children.defaultValueSelect = new DefaultValueSelectTypeProperty('defaultValueSelect').getPropertyTypeConfig();
+
+            PANEL_PROPERTIES.validate = {
+            name: 'form.properties.validate',
+            type: 'group',
+            children: {}
+        }
+
+        PANEL_PROPERTIES.validate.children.validateType = new SelectTypeProperty(
+            'validateType',
+            [
+                {name: 'form.properties.none', value: 'none'},
+                {name: 'form.properties.char', value: 'char'},
+                {name: 'form.properties.number', value: 'number'},
+                {name: 'form.properties.email', value: 'email'},
+                {name: 'form.properties.phone', value: 'phone'}
+            ]
+        );
+        PANEL_PROPERTIES.validate.children.minLength = new InputTypeProperty('minLength').getPropertyTypeConfig();
+        PANEL_PROPERTIES.validate.children.maxLength = new InputTypeProperty('maxLength').getPropertyTypeConfig();
 
         return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
             if (value.type === 'group') {
                 const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
-                    const tempChildValue = { 'value': this[key][childKey] };
+                    const tempChildValue = {'value': this[key][childKey]};
                     if (childValue.type === 'button-toggle-icon') { // 토글 데이터
                         tempChildValue.value = childValue.option.map((item) =>
                             (this[key][item.value]) ? 'Y' : 'N').join('|');
@@ -459,9 +192,9 @@ export const inputBoxMixin = {
                     child[childKey] = Object.assign(childValue, tempChildValue);
                     return child;
                 }, {});
-                property[key] = Object.assign(value, { 'children': childProperties });
+                property[key] = Object.assign(value, {'children': childProperties});
             } else {
-                property[key] = Object.assign(value, { 'value': this[key] });
+                property[key] = Object.assign(value, {'value': this[key]});
             }
             return property;
         }, {});

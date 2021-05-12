@@ -15,6 +15,7 @@ export const CLASS_PREFIX = 'zenius-';
 export const UNIT = {
     PX: 'px'
 };
+export const MAX_COLUMN_COUNT = 12;
 // 폼
 export const FORM = {
     COLUMN: 12,

@@ -300,7 +300,7 @@ export default class Panel {
             });
             object.addUI(object.UIButtonGroup);
             break;
-        case 'default-type': // inputBox - 기본값 타입
+        case 'default-value-select': // inputBox - 기본값 타입
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
