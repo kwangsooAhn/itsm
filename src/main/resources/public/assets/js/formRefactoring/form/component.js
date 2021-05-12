@@ -7,8 +7,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-
-import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
 import { inputBoxMixin } from './component/inputBox.js';
@@ -45,13 +43,13 @@ export default class Component {
         this.validate = data.validate || {};
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
+        aliceJs.importMixin(this, mixin.controlMixin);
         // 타입에 따른 Mixin import
-        util.importMixin(this, this.getMixinByType(this.type));
+        aliceJs.importMixin(this, this.getMixinByType(this.type));
         // 라벨 Mixin import
-        util.importMixin(this, mixin.componentLabelMixin);
+        aliceJs.importMixin(this, mixin.componentLabelMixin);
         // Tooltip Mixin import
-        util.importMixin(this, mixin.toolTipMenuMixin);
+        aliceJs.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }

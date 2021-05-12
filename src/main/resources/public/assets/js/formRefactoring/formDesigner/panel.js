@@ -225,7 +225,7 @@ export default class Panel {
             object.addUI(object.UILabel);
 
             // slider
-            object.UISlider = new UISlider(data.value).setUIMin(0).setUIMax(FORM.COLUMN);
+            object.UISlider = new UISlider(data.value).setUIMin(1).setUIMax(FORM.COLUMN);
             object.UISlider.UIInput.setUIId(key).onUIChange(this.updateProperty.bind(this));
             object.addUI(object.UISlider);
             break;

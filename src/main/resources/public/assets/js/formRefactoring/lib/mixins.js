@@ -208,7 +208,7 @@ export const toolTipMenuMixin = {
             editor = this.parent.parent.parent.parent;
         }
         // 복사하여 바로 아래 추가
-        editor.makeDomElement(cloneData, this.parent, (this.displayOrder + 1));
+        editor.makeForm(cloneData, this.parent, (this.displayOrder + 1));
         const copyObject = this.parent.getById(cloneData.id);
         editor.history.save([{
             type: 'add',

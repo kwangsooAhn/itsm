@@ -7,7 +7,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as util from '../lib/util.js';
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
 import History from './history.js';
 import Panel from './panel.js';
@@ -16,10 +15,11 @@ import Group, { UIGroupTooltip } from '../form/group.js';
 import Row, { UIRowTooltip } from '../form/row.js';
 import Component, { UIComponentTooltip } from '../form/component.js';
 import { validation } from '../lib/validation.js';
+import { documentEditor } from '../documentEditor/documentEditor.js';
 
 class FormDesigner {
     constructor() {
-        this.domElement = document.getElementById('drawingBoard') || document.body;
+        this.domElement = document.getElementById('formDrawingBoard') || document.body;
         // edit, view, complete 등 문서의 상태에 따라 아코디언, 컴포넌트 등 동작을 막음
         this.domElement.classList.add('edit');
 
@@ -28,7 +28,7 @@ class FormDesigner {
         this.selectedObject = null;
 
         // 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
-        util.fetchJson({ method: 'GET', url: '/rest/custom-codes?viewType=editor' })
+        aliceJs.fetchJson({ method: 'GET', url: '/rest/custom-codes?viewType=editor' })
             .then((customData) => {
                 FORM.CUSTOM_CODE = customData;
             });
@@ -174,9 +174,10 @@ class FormDesigner {
      * @param formId 폼 아이디
      */
     initForm(formId) {
+        this.formId = formId;
         // TODO: 폼 데이터 load. > 가데이터 삭제 필요
-        //util.fetchJson({ method: 'GET', url: '/rest/form/' + formId + '/data' })
-        util.fetchJson({
+        //aliceJs.fetchJson({ method: 'GET', url: '/rest/form/' + formId + '/data' })
+        aliceJs.fetchJson({
             method: 'GET',
             url: '/assets/js/formRefactoring/formDesigner/data_210320.json'
         }).then((formData) => {
@@ -197,22 +198,22 @@ class FormDesigner {
      * @param data JSON 데이터
      */
     sortJson(data) {
-        if (Object.prototype.hasOwnProperty.call(data, 'groups')) { // form
-            data.groups.sort((a, b) =>
+        if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
+            data.group.sort((a, b) =>
                 a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
             );
-            data.groups.forEach( (g) => {
+            data.group.forEach( (g) => {
                 this.sortJson(g);
             });
-        } else if (Object.prototype.hasOwnProperty.call(data, 'rows')) { // group
-            data.rows.sort((a, b) =>
+        } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
+            data.row.sort((a, b) =>
                 a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
             );
-            data.rows.forEach( (r) => {
+            data.row.forEach( (r) => {
                 this.sortJson(r);
             });
         } else { // row
-            data.components.sort((a, b) =>
+            data.component.sort((a, b) =>
                 a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
             );
         }
@@ -231,22 +232,22 @@ class FormDesigner {
      * @param index 추가될 객체의 index
      */
     makeForm(data, parent, index) {
-        if (Object.prototype.hasOwnProperty.call(data, 'groups')) { // form
+        if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             this.form = this.addObjectByType(FORM.LAYOUT.FORM, data);
             this.form.parent = parent;
             this.domElement.appendChild(this.form.UIElement.domElement);
 
-            data.groups.forEach( (g, gIndex) => {
+            data.group.forEach( (g, gIndex) => {
                 this.makeForm(g, this.form, gIndex);
             });
-        } else if (Object.prototype.hasOwnProperty.call(data, 'rows')) { // group
+        } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
-            data.rows.forEach( (r, rIndex) => {
+            data.row.forEach( (r, rIndex) => {
                 this.makeForm(r, group, rIndex);
             });
-        } else if (Object.prototype.hasOwnProperty.call(data, 'components')) { // row
+        } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
-            data.components.forEach( (c, cIndex) => {
+            data.component.forEach( (c, cIndex) => {
                 this.makeForm(c, row, cIndex);
             });
         } else { // component
@@ -525,11 +526,11 @@ class FormDesigner {
 
         this.history.save([{
             type: 'sort',
-            form: { id: object.id, clone: object.children[oldIndex].clone(true).toJson() },
+            from: { id: object.id, clone: object.children[oldIndex].clone(true).toJson() },
             to: { id: object.id, clone: object.children[newIndex].clone(true).toJson() }
         }]);
 
-        util.moveObject(object.children, oldIndex, newIndex);
+        aliceJs.moveObject(object.children, oldIndex, newIndex);
         object.sort(0); // 재정렬
         
         return object.children[newIndex]; // 변경된 객체
@@ -666,7 +667,7 @@ class FormDesigner {
         console.log(saveData);
         return false;
         // 저장
-        util.fetchJson({
+        aliceJs.fetchJson({
             method: 'PUT',
             url: '/rest/form/' + formId + '/data',
             params: JSON.stringify(saveData)
@@ -752,7 +753,7 @@ class FormDesigner {
         console.log(saveData);
         return false;
         // 저장
-        util.fetchJson({
+        aliceJs.fetchJson({
             method: 'POST',
             url: '/rest/forms?saveType=saveas',
             params: JSON.stringify(saveData)
@@ -774,11 +775,9 @@ class FormDesigner {
      * TODO: 미리보기
      */
     preview() {
-        //const itemName = 'alice_forms-preview-' + editor.data.formId;
-        //sessionStorage.setItem(itemName, JSON.stringify({'form': editor.data}));
-        //let url = '/form/' + editor.data.formId + '/preview';
-        //const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-        //window.open(url, itemName, 'width=1200,height=900,' + specs);
+        documentEditor.makeActionButton([{ 'name': 'common.btn.close', 'value': 'close', 'customYn': false }]);
+        documentEditor.makeDocument(this.form.toJson()); // Form 생성
+        documentEditor.documentModal.show(); // 모달 표시
     }
 }
 
@@ -794,6 +793,4 @@ function onLeftClickHandler(e) {
         aliceJs.clickInsideElement(e, 'form-properties-panel')) {
         return false;
     }
-
-    //this.deSelectObject();
 }

@@ -9,8 +9,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-
-import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
 import { UIDiv } from '../lib/ui.js';
 import {CLASS_PREFIX, FORM, UNIT} from '../lib/constants.js';
@@ -26,9 +24,9 @@ export default class Row {
         this.padding = data.padding || '10 10 10 10'; // row 내부 여백(위 오른쪽 아래 왼쪽)
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
+        aliceJs.importMixin(this, mixin.controlMixin);
         // Tooltip Mixin import
-        util.importMixin(this, mixin.toolTipMenuMixin);
+        aliceJs.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }
@@ -222,17 +220,17 @@ export default class Row {
     }
     // json 데이터 추출
     toJson() {
-        const components = [];
+        const component = [];
         for (let i = 0; i < this.children.length; i ++) {
             const child = this.children[i];
-            components.push(child.toJson());
+            component.push(child.toJson());
         }
         return {
             id: this.id,
             displayOrder: this.displayOrder,
             margin: this.margin,
             padding: this.padding,
-            components: components
+            component: component
         };
     }
 }

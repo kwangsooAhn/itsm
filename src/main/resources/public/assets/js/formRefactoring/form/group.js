@@ -9,7 +9,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
 import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
 import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/ui.js';
@@ -40,9 +39,9 @@ export default class Group {
         this.label = Object.assign({}, DEFAULT_GROUP_LABEL_PROPERTY, data.label);
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
+        aliceJs.importMixin(this, mixin.controlMixin);
         // Tooltip Mixin import
-        util.importMixin(this, mixin.toolTipMenuMixin);
+        aliceJs.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }
@@ -54,10 +53,11 @@ export default class Group {
         // 그룹
         groupTooltip.UIGroup = new UIGroup(this.isAccordionUsed).setUIId(this.id);
         // 아코디언용 체크박스
-        groupTooltip.UIGroup.UICheckbox.setUIId('chk-' + this.id)
+        const accordionId = workflowUtil.generateUUID(); // 미리보기에서도 동작하도록 key를 동적으로 만듬
+        groupTooltip.UIGroup.UICheckbox.setUIId('chk-' + accordionId)
             .setUIClass(CLASS_PREFIX + 'group-accordion-checkBox');
         // 라벨
-        groupTooltip.UIGroup.UILabel.setUIFor('chk-' + this.id)
+        groupTooltip.UIGroup.UILabel.setUIFor('chk-' + accordionId)
             .addUIClass((this.label.visibility ? 'on' : 'off')) // 라벨 사용여부: 라벨 숨김 또는 보임
             .setUICSSText(`text-align: ${this.label.align};`);
         // 라벨 텍스트
@@ -415,10 +415,10 @@ export default class Group {
     }
     // json 데이터 추출
     toJson() {
-        const rows = [];
+        const row = [];
         for (let i = 0; i < this.children.length; i ++) {
             const child = this.children[i];
-            rows.push(child.toJson());
+            row.push(child.toJson());
         }
         return {
             id: this.id,
@@ -426,7 +426,7 @@ export default class Group {
             isAccordionUsed: this.isAccordionUsed,
             margin: this.margin,
             label: this.label,
-            rows: rows
+            row: row
         };
     }
 }
