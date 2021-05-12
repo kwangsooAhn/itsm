@@ -16,10 +16,10 @@
 import {SESSION, FORM, CLASS_PREFIX} from '../../lib/constants.js';
 import {UIDiv, UIInput} from '../../lib/ui.js';
 import {COMMON_PROPERTIES} from "../../formDesigner/propertyType/commonPropertyPanel.js";
-import InputTypeProperty from "../../formDesigner/propertyType/InputTypeProperty.js";
-import SliderTypeProperty from "../../formDesigner/propertyType/SliderTypeProperty.js";
-import DefaultValueSelectTypeProperty from "../../formDesigner/propertyType/DefaultValueSelectTypeProperty.js";
-import SelectTypeProperty from "../../formDesigner/propertyType/SelectTypeProperty.js";
+import InputTypeProperty from "../../formDesigner/propertyType/inputTypeProperty.module.js";
+import SliderTypeProperty from "../../formDesigner/propertyType/sliderTypeProperty.module.js";
+import DefaultValueSelectTypeProperty from "../../formDesigner/propertyType/defaultValueSelectTypeProperty.module.js";
+import SelectTypeProperty from "../../formDesigner/propertyType/selectTypeProperty.module.js";
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -45,6 +45,7 @@ export const inputBoxMixin = {
         // 엘리먼트 property 초기화
         this.element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.element);
         this.validate = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validate, this.validate);
+        this.propertyPanel = this.initPropertyPanel();
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -145,8 +146,11 @@ export const inputBoxMixin = {
             return this.value;
         }
     },
-    // 세부 속성
     getProperty() {
+        return this.propertyPanel;
+    },
+    // 세부 속성
+    initPropertyPanel() {
         let PANEL_PROPERTIES = COMMON_PROPERTIES;
         PANEL_PROPERTIES.element = {
             name: 'form.properties.element',
@@ -194,5 +198,37 @@ export const inputBoxMixin = {
             }
             return property;
         }, {});
+    },
+    /**
+     * keyup 유효성 검증 이벤트 핸들러
+     * @param e 이벤트객체
+     */
+    keyUpValidateCheck(element) {
+        // type(number, char, email 등), min, max 체크
+        if (element.getAttribute('data-validate-type') &&
+            element.getAttribute('data-validate-type') !== '') {
+            return validation.emit(element.getAttribute('data-validate-type'), element);
+        }
+        return true;
+    },
+    /**
+     * change 유효성 검증 이벤트 핸들러
+     * @param e 이벤트객체
+     */
+    changeValidateCheck(element) {
+        // 필수값, minLength, maxLength 체크
+        if (element.getAttribute('data-validate-required') &&
+            element.getAttribute('data-validate-required') !== 'false') {
+            return validation.emit('required', element);
+        }
+        if (element.getAttribute('data-validate-minLength') &&
+            element.getAttribute('data-validate-minLength') !== '') {
+            return validation.emit('minLength', element, element.getAttribute('data-validate-minLength'));
+        }
+        if (element.getAttribute('data-validate-maxLength') &&
+            element.getAttribute('data-validate-maxLength') !== '') {
+            return validation.emit('maxLength', element, element.getAttribute('data-validate-maxLength'));
+        }
+        return true;
     }
 };
