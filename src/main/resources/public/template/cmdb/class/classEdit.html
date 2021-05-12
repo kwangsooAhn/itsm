@@ -184,6 +184,7 @@
             while (attributeList.hasChildNodes()) {
                 attributeList.removeChild(attributeList.firstChild);
             }
+            classAttributeMap.clear();
 
             document.getElementById('btnUpdate').style.display = 'none';
             document.getElementById('btnDelete').style.display = 'none';
@@ -319,7 +320,7 @@
         }
 
         function openClassAttributeListModal() {
-            classAttributeListModal = new modal({
+            const classAttributeListModal = new modal({
                 title: i18n.msg('cmdb.class.label.attributeList'),
                 body: createModalContent(),
                 classes: 'cmdb-class-attribute-modal',
