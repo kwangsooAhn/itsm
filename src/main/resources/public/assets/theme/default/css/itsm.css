@@ -1182,7 +1182,7 @@ table[id=documentDisplay] td {
 .tag {
   display: inline-block;
   max-width: 13.75rem;
-  color: rgba(0, 152, 255, 0.7);
+  color: #0088E6;
   border-radius: 0.0625rem;
   padding: 0.3125rem 0.9375rem;
   background-color: rgba(0, 152, 255, 0.1);
@@ -5550,7 +5550,7 @@ body.modal-active {
   flex-wrap: wrap;
   position: relative;
   padding: 0 0 0 0.3125rem;
-  border: 0.0625rem solid #DDDDDD;
+  border: 0.0625rem solid #EBEBEB;
   line-height: 1.1;
   cursor: text;
   outline: 0;
@@ -5558,10 +5558,10 @@ body.modal-active {
   --tag-hide-transition: 0.3s;
 }
 .tagify:hover {
-  border: 0.0625rem solid #CCCCCC;
+  border: 0.0625rem solid #87CEFF;
 }
 .tagify.tagify--focus {
-  border: 0.0625rem solid #3595F6;
+  border: 0.0625rem solid #0098FF;
   transition: 0s;
 }
 .tagify[readonly] {
@@ -5569,7 +5569,6 @@ body.modal-active {
 }
 .tagify[readonly] > .tagify__input {
   width: 0;
-  margin: 0.3125rem 0;
   visibility: hidden;
 }
 .tagify[readonly] .tagify__tag__removeBtn {
@@ -5604,8 +5603,7 @@ body.modal-active {
   width: 0.75rem;
   height: 0.75rem;
   margin: -0.125rem 0 -0.125rem 0.5rem;
-  border: 0.1875rem solid;
-  border-color: #eeeeee #bbbbbb #888888 transparent;
+  border: 0.1875rem solid transparent;
   border-radius: 50%;
   content: "";
   vertical-align: middle;
@@ -5621,6 +5619,8 @@ body.modal-active {
   align-items: center;
   position: relative;
   margin: 0.3125rem 0 0.3125rem 0.3125rem;
+  border: 0.0625rem solid #E5F5FF;
+  border-radius: 0.4375rem;
   z-index: 1;
   outline: 0;
   cursor: default;
@@ -5628,11 +5628,11 @@ body.modal-active {
 }
 .tagify__tag > div {
   max-width: 100%;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.188rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: 0.4375rem;
   vertical-align: top;
   box-sizing: border-box;
-  color: black;
+  color: #0088E6;
   line-height: inherit;
   -webkit-user-select: none;
   user-select: none;
@@ -5669,14 +5669,14 @@ body.modal-active {
   pointer-events: none;
   transition: 120ms ease;
   animation: tags--bump 0.3s ease-out 1;
-  box-shadow: 0 0 0 1.125rem #e5e5e5 inset;
+  box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset;
+}
+.tagify__tag:hover:not([readonly]) {
+  border-color: #ADD6F3;
 }
 .tagify__tag:hover:not([readonly]) div::before {
-  top: -0.125rem;
-  right: -0.125rem;
-  bottom: -0.125rem;
-  left: -0.125rem;
-  box-shadow: 0 0 0 1.125rem #d3e2e2 inset;
+  color: #0088E6;
+  box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset;
 }
 .tagify__tag--loading {
   pointer-events: none;
@@ -5690,8 +5690,7 @@ body.modal-active {
   width: 0.688rem;
   height: 0.688rem;
   margin: 0 0.5rem 0 -0.063rem;
-  border: 0.1875rem solid;
-  border-color: #eeeeee #bbbbbb #888888 transparent;
+  border: 0.1875rem solid transparent;
   border-radius: 50%;
   opacity: 1;
   animation: rotateLoader 0.4s infinite linear;
@@ -5713,12 +5712,28 @@ body.modal-active {
 .tagify__tag.tagify--mark div::before {
   animation: none;
 }
+.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) {
+  border: 0.0625rem solid #FFE2E6;
+}
+.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div {
+  color: rgba(255, 64, 90, 0.7);
+}
 .tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div > span {
-  opacity: 0.5;
+  opacity: 1;
 }
 .tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div::before {
-  box-shadow: 0 0 0 1.125rem rgba(211, 148, 148, 0.5) inset !important;
+  box-shadow: 0 0 0 1.25rem rgba(255, 64, 90, 0.1) inset;
   transition: 0.2s;
+}
+.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) .tagify__tag__removeBtn {
+  color: rgba(255, 64, 90, 0.7);
+  pointer-events: none;
+}
+.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable):hover {
+  border: 0.0625rem solid rgba(255, 64, 90, 0.7);
+}
+.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable):hover .tagify__tag__removeBtn {
+  background-color: transparent;
 }
 .tagify__tag[readonly] .tagify__tag__removeBtn {
   display: none;
@@ -5733,39 +5748,43 @@ body.modal-active {
   color: black;
 }
 .tagify__tag--editable > div::before {
-  box-shadow: 0 0 0 2px #d3e2e2 inset !important;
+  box-shadow: 0 0 0 0.125rem #d3e2e2 inset !important;
 }
 .tagify__tag--editable.tagify--invalid > div::before {
-  box-shadow: 0 0 0 2px #d39494 inset !important;
+  box-shadow: 0 0 0 0.125rem #d39494 inset !important;
 }
 
 .tagify__tag__removeBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 1.125rem;
+  height: 1.125rem;
   margin: 0 0.25rem;
   transition: 0.2s ease-out;
   border-radius: 3.125rem;
   order: 5;
   cursor: pointer;
-  font: 0.875rem Serif;
-  color: black;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0088E6;
   background: 0 0;
 }
 .tagify__tag__removeBtn::after {
+  height: 1.125rem;
+  line-height: 0.875rem;
   content: "×";
 }
 .tagify__tag__removeBtn:hover {
-  color: white;
-  background: #c77777;
+  color: #ffffff;
+  background: #0098FF;
 }
 .tagify__tag__removeBtn:hover + div > span {
-  opacity: 0.5;
+  opacity: 1;
 }
 .tagify__tag__removeBtn:hover + div::before {
-  box-shadow: 0 0 0 1.125em rgba(211, 148, 148, 0.3) inset !important;
+  box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset;
   transition: 0.2s;
 }
 
@@ -5781,7 +5800,7 @@ body.modal-active {
 }
 .tagify__input:empty::before {
   transition: 0.2s ease-out;
-  opacity: 0.5;
+  opacity: 0;
   transform: none;
   width: auto;
 }
@@ -5795,7 +5814,7 @@ body.modal-active {
 }
 .tagify__input:focus:empty::before {
   transition: 0.2s ease-out;
-  opacity: 0.3;
+  opacity: 0;
   transform: none;
 }
 .tagify__input::before {
@@ -5809,7 +5828,7 @@ body.modal-active {
   content: attr(data-placeholder);
   line-height: 1em;
   z-index: 1;
-  color: black;
+  color: #586872;
   opacity: 0;
   white-space: nowrap;
   pointer-events: none;
@@ -5817,10 +5836,10 @@ body.modal-active {
 .tagify__input::after {
   content: attr(data-suggest);
   display: inline-block;
-  max-width: 100px;
+  max-width: 6.25rem;
   white-space: pre;
-  color: black;
-  opacity: 0.3;
+  color: #586872;
+  opacity: 0;
   pointer-events: none;
 }
 .tagify__input .tagify__tag {
@@ -5862,7 +5881,7 @@ body.modal-active {
 .tagify--mix .tagify__input {
   width: 100%;
   height: 100%;
-  padding: 5px;
+  padding: 0.3125rem;
   margin: 0;
   line-height: inherit;
 }
@@ -5881,10 +5900,10 @@ body.modal-active {
   top: 50%;
   right: 0;
   bottom: 0;
-  height: 8px;
+  height: 0.5rem;
   opacity: 0.5;
-  font: 16px monospace;
-  line-height: 8px;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  line-height: 0.5rem;
   pointer-events: none;
   transform: translate(-150%, -50%) scaleX(1.2) rotate(90deg);
   transition: 0.2s ease-in-out;
@@ -5906,7 +5925,7 @@ body.modal-active {
 }
 
 .tagify--invalid {
-  border: #D39494;
+  border-color: #FFE2E6;
 }
 
 .tagify__dropdown {
@@ -5914,13 +5933,14 @@ body.modal-active {
   z-index: 9999;
   transform: translateY(1px);
   overflow: hidden;
+  margin-top: 0.3125rem;
 }
 .tagify__dropdown[placement=top] {
   margin-top: 0;
   transform: translateY(-2px);
 }
 .tagify__dropdown[placement=top] .tagify__dropdown__wrapper {
-  border-top-width: 1px;
+  border-top-width: 0.0625rem;
   border-bottom-width: 0;
 }
 .tagify__dropdown--text {
@@ -5928,15 +5948,15 @@ body.modal-active {
   font-size: 0.9em;
 }
 .tagify__dropdown--text .tagify__dropdown__wrapper {
-  border-width: 1px;
+  border-width: 0.0625rem;
 }
 .tagify__dropdown__wrapper {
-  max-height: 300px;
-  border: 1px solid #3595f6;
-  border-top-width: 0;
+  max-height: 18.75rem;
+  padding: 0 0.25rem 0.5rem 0.25rem;
+  border: 0.0625rem solid #EBEBEB;
   overflow: hidden;
   background: white;
-  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0.0625rem 0.0625rem 0.3125rem 0 #CCCED1;
   transition: 0.25s cubic-bezier(0, 1, 0.5, 1);
 }
 .tagify__dropdown__wrapper:hover {
@@ -5953,8 +5973,8 @@ body.modal-active {
   position: relative;
   box-sizing: inherit;
   padding: 0.3em 0.5em;
-  margin: 1px;
-  border-radius: 2px;
+  margin: 0.0625rem;
+  border-radius: 0.125rem;
   cursor: pointer;
   outline: 0;
 }
@@ -5964,4 +5984,22 @@ body.modal-active {
 .tagify__dropdown__item--active {
   color: white;
   background: #3595f6;
+}
+
+.tags-look .tagify__dropdown__item {
+  display: inline-block;
+  border-radius: 0.4375rem;
+  padding: 0.25rem 0.5rem;
+  border: 0.0625rem solid #E5F5FF;
+  background: rgba(0, 152, 255, 0.1);
+  margin: 0.5rem 0.25rem 0 0.25rem;
+  color: #0088E6;
+  transition: 0s;
+}
+.tags-look .tagify__dropdown__item:hover {
+  background: rgba(0, 152, 255, 0.1);
+  border-color: #ADD6F3;
+}
+.tags-look .tagify__dropdown__item--active {
+  color: #0088E6;
 }
