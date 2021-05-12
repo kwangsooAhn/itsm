@@ -15,11 +15,11 @@
 
 import {SESSION, FORM, CLASS_PREFIX} from '../../lib/constants.js';
 import {UIDiv, UIInput} from '../../lib/ui.js';
-import {COMMON_PROPERTIES} from "../propertyType/commonPropertyPanel.js";
-import InputTypeProperty from "../propertyType/InputTypeProperty.js";
-import SliderTypeProperty from "../propertyType/SliderTypeProperty.js";
-import DefaultValueSelectTypeProperty from "../propertyType/DefaultValueSelectTypeProperty.js";
-import SelectTypeProperty from "../propertyType/SelectTypeProperty.js";
+import {COMMON_PROPERTIES} from "../../formDesigner/propertyType/commonPropertyPanel.js";
+import InputTypeProperty from "../../formDesigner/propertyType/InputTypeProperty.js";
+import SliderTypeProperty from "../../formDesigner/propertyType/SliderTypeProperty.js";
+import DefaultValueSelectTypeProperty from "../../formDesigner/propertyType/DefaultValueSelectTypeProperty.js";
+import SelectTypeProperty from "../../formDesigner/propertyType/SelectTypeProperty.js";
 
 /**
  * 컴포넌트 별 기본 속성 값
