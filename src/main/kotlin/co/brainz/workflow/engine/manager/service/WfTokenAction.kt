@@ -60,7 +60,8 @@ class WfTokenAction(
             instanceId = token.instance.instanceId,
             elementId = element.elementId,
             elementType = element.elementType,
-            action = WfElementConstants.Action.PROGRESS.value
+            action = WfElementConstants.Action.PROGRESS.value,
+            data = tokenDto.data
         )
         val tokenManager =
             WfTokenManagerFactory(wfTokenManagerService).createTokenManager(commonEndTokenDto.elementType)
