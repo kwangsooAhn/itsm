@@ -19,20 +19,19 @@
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
     background-color: $layout-header-bg-color;
-    padding: 0 0.75rem; // 0 12px
     z-index: $z-index-gnb;
-    // form designer 문구
-    .name {
-      font-size: 1.125rem; // 18px
-      padding: 0 0.75rem 0 1.25rem; // 0 12px 0 20px
+    .logo {
+      width: 12.5rem; // 200px
+      padding: 0 0.75rem; // 0 12px
     }
-    // 아이콘 구분자
-    .separator {
-      width: 0.063rem; // 1px
-      height: 1.25rem; // 20px
-      background-color: #4DB7FF;
+    .name {
+      font-size: $layout-header-font-size;
+    }
+    .control-box {
+      width: 20rem; // 320px
+      padding: 0 0.75rem; // 0 12px
+    }
   }
-}
   &-component-palette {
     position:fixed;
     top: $layout-header-height;

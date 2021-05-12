@@ -563,21 +563,22 @@ input, button, select, optgroup, textarea {
   height: 3.125rem;
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 500;
   color: #ffffff;
   background-color: #0098FF;
-  padding: 0 0.75rem;
   z-index: 100;
+}
+.form-header .logo {
+  width: 12.5rem;
+  padding: 0 0.75rem;
 }
 .form-header .name {
   font-size: 1.125rem;
-  padding: 0 0.75rem 0 1.25rem;
 }
-.form-header .separator {
-  width: 0.063rem;
-  height: 1.25rem;
-  background-color: #4DB7FF;
+.form-header .control-box {
+  width: 20rem;
+  padding: 0 0.75rem;
 }
 .form-component-palette {
   position: fixed;
@@ -598,7 +599,7 @@ input, button, select, optgroup, textarea {
   bottom: 0;
   overflow-y: auto;
   left: 15.63rem;
-  right: 23.13rem;
+  right: 20rem;
   background-color: #F7F8F9;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -613,7 +614,7 @@ input, button, select, optgroup, textarea {
   position: fixed;
   top: 3.125rem;
   right: 0;
-  width: 23.13rem;
+  width: 20rem;
   height: 3.125rem;
   font-size: 1rem;
   font-weight: 500;
@@ -634,7 +635,7 @@ input, button, select, optgroup, textarea {
   align-content: flex-start;
   justify-content: space-between;
   top: calc(3.125rem + 3.125rem);
-  width: 23.13rem;
+  width: 20rem;
   background-color: #ffffff;
   border-left: 0.0625rem solid #EBEBEB;
   box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.15);
@@ -2051,13 +2052,13 @@ button.ghost-line:disabled .icon {
 }
 
 .btn-header {
-  width: 3.75rem;
+  width: 1.5rem;
   height: 3.125rem;
   padding: 0;
   border-radius: 0;
 }
-.btn-header:first-of-type {
-  margin-left: -0.063rem;
+.btn-header:not(.btn-dropdown) {
+  width: 2rem;
 }
 .btn-header:focus, .btn-header:hover, .btn-header:active {
   background-color: #26A7FF;
@@ -4158,6 +4159,32 @@ body.modal-active {
   z-index: 500;
 }
 .header-tooltip .tooltip-contents span {
+  color: #ffffff;
+  font-weight: 500;
+}
+.header-tooltip:hover .tooltip-contents {
+  visibility: visible;
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: fadeIn;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+}
+
+.header-tooltip .tooltip-contents-reverse {
+  min-width: 3.75rem;
+  visibility: hidden;
+  background-color: #33ADFF;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.125rem;
+  border-radius: 0.1875rem;
+  padding: 0.6875rem 0.875rem;
+  margin: 1.3125rem 0 0 0;
+  position: absolute;
+  z-index: 500;
+}
+.header-tooltip .tooltip-contents-reverse span {
   color: #ffffff;
   font-weight: 500;
 }

@@ -2,14 +2,12 @@
 
 // header button
 .btn-header {
-  width: 3.75rem; // 60px
+  width: 1.5rem; // 24px
   height: 3.125rem; // 50px
   padding: 0;
   border-radius: 0;
-
-  // 첫번째 버튼만 구분자를 가리기 위해 구분자 너비만큼 margin을 -1px 로 조정한다.
-  &:first-of-type {
-    margin-left: -0.063rem; // -1px
+  &:not(.btn-dropdown) {
+    width: 2rem; // 32px
   }
 
   // mouse over and pressed

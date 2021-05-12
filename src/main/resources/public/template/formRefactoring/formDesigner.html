@@ -53,58 +53,54 @@
         <div class="form-container">
             <!-- 상단 네비게이션 -->
             <div class="form-header" id="menuBar">
-                <!--로고-->
                 <img class="logo" th:src="@{/assets/media/icons/formRefactoring/topmenu/icon_form_designer.svg}" width="169" height="25" alt="Form Designer" />
-                <!--파일명-->
-                <span class="ml-auto mr-auto" id="formName"></span>
-
-                <!--실행 취소-->
-                <th:block th:if="${#strings.isEmpty(isView)}">
-                    <button type="button" id="btnUndo" class="btn-header header-tooltip">
-                        <span class="icon-undo"></span>
+                <span class="name ml-auto mr-auto" id="formName"></span>
+                <!--버튼 영역-->
+                <div class="control-box">
+                    <!--실행 취소-->
+                    <th:block th:if="${#strings.isEmpty(isView)}">
+                        <button type="button" id="btnUndo" class="btn-header header-tooltip">
+                            <span class="icon-undo"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{form.label.undo}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <!--재실행(드롭다운)-->
+                    <th:block th:if="${#strings.isEmpty(isView)}">
+                        <button type="button" id="btnRedo" class="btn-header btn-dropdown">
+                            <span class="icon-dropdown"></span>
+                            <div class="tooltip-contents">
+<!--                                <span th:text="#{form.label.redo}"></span>-->
+                            </div>
+                        </button>
+                    </th:block>
+                    <!--다른 이름으로 저장(드롭다운)-->
+                    <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
+                        <button type="button" id="btnSaveAs" class="btn-header btn-dropdown float-right">
+                            <span class="icon-dropdown"></span>
+                            <div class="tooltip-contents">
+<!--                                <span th:text="#{common.btn.saveAs}"></span>-->
+                            </div>
+                        </button>
+                    </th:block>
+                    <!--저장하기-->
+                    <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
+                        <button type="button" id="btnSave" class="btn-header header-tooltip float-right">
+                            <span class="icon-save"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{common.btn.save}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <!--미리보기-->
+                    <button type="button" id="btnPreview" class="btn-header header-tooltip float-right">
+                        <span class="icon-preview"></span>
                         <div class="tooltip-contents">
-                            <span th:text="#{form.label.undo}"></span>
+                            <span th:text="#{form.label.preview}"></span>
                         </div>
                     </button>
-                </th:block>
-                <!--재실행(드롭다운)-->
-                <th:block th:if="${#strings.isEmpty(isView)}">
-                    <button type="button" id="btnRedo" class="btn-header header-tooltip">
-                        <span class="icon-dropdown"></span>
-                        <div class="tooltip-contents">
-                            <span th:text="#{form.label.redo}"></span>
-                        </div>
-                    </button>
-                </th:block>
-
-                <!--미리보기-->
-                <button type="button" id="btnPreview" class="btn-header header-tooltip">
-                    <span class="icon-preview"></span>
-                    <div class="tooltip-contents">
-                        <span th:text="#{form.label.preview}"></span>
-                    </div>
-                </button>
-
-                <!--저장하기-->
-                <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
-                    <button type="button" id="btnSave" class="btn-header header-tooltip">
-                        <span class="icon-save"></span>
-                        <div class="tooltip-contents">
-                            <span th:text="#{common.btn.save}"></span>
-                        </div>
-                    </button>
-                </th:block>
-                <!--다른 이름으로 저장(드롭다운)-->
-                <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                    <button type="button" id="btnSaveAs" class="btn-header header-tooltip">
-                        <span class="icon-dropdown"></span>
-                        <div class="tooltip-contents">
-                            <span th:text="#{common.btn.saveAs}"></span>
-                        </div>
-                    </button>
-                </th:block>
-
-
+                </div>
             </div>
             <!-- 컴포넌트 팔레트 -->
             <div class="form-component-palette" id="componentPalette">
