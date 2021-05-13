@@ -33,11 +33,12 @@ export default class Group {
         this.id =  data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
-        this.displayOrder = 0;     // 표시 순서
-        this.isAccordionUsed = data.isAccordionUsed;
-        this.margin = data.margin || '10 0 10 0'; // 그룹 간 간격(위 오른쪽 아래 왼쪽)
         this.label = Object.assign({}, DEFAULT_GROUP_LABEL_PROPERTY, data.label);
-
+        this.display = {
+            displayOrder: 0,     // 표시 순서
+            isAccordionUsed: data.display.isAccordionUsed,
+            margin: data.display.margin || '10 0 10 0' // 그룹 간 간격(위 오른쪽 아래 왼쪽)
+        }
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
         // Tooltip Mixin import
@@ -49,9 +50,9 @@ export default class Group {
     init() {
         // 그룹용 툴팁
         const groupTooltip = new UIGroupTooltip()
-            .setUICSSText(`margin:${this.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
+            .setUICSSText(`margin:${this.display.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
         // 그룹
-        groupTooltip.UIGroup = new UIGroup(this.isAccordionUsed).setUIId(this.id);
+        groupTooltip.UIGroup = new UIGroup(this.display.isAccordionUsed).setUIId(this.id);
         // 아코디언용 체크박스
         const accordionId = workflowUtil.generateUUID(); // 미리보기에서도 동작하도록 key를 동적으로 만듬
         groupTooltip.UIGroup.UICheckbox.setUIId('chk-' + accordionId)
@@ -77,8 +78,8 @@ export default class Group {
         this.UIElement = groupTooltip;
     }
 
-    setIsAccordionUsed(boolean) {
-        this.isAccordionUsed = boolean;
+    setDisplayIsAccordionUsed(boolean) {
+        this.display.isAccordionUsed = boolean;
         if (boolean) {
             this.UIElement.UIGroup.addUIClass('accordion');
         } else {
@@ -86,55 +87,55 @@ export default class Group {
         }
     }
 
-    getIsAccordionUsed() {
-        return this.isAccordionUsed;
+    getDisplayIsAccordionUsed() {
+        return this.display.isAccordionUsed;
     }
 
-    setMarginTop(top) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginTop(top) {
+        const margin = this.display.margin.split(' ');
         margin[0] = top;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginTop(top + UNIT.PX);
     }
 
-    getMarginTop() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginTop() {
+        const margin = this.display.margin.split(' ');
         return margin[0];
     }
 
-    setMarginRight(right) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginRight(right) {
+        const margin = this.display.margin.split(' ');
         margin[1] = right;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginRight(right + UNIT.PX);
     }
 
-    getMarginRight() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginRight() {
+        const margin = this.display.margin.split(' ');
         return margin[1];
     }
 
-    setMarginBottom(bottom) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginBottom(bottom) {
+        const margin = this.display.margin.split(' ');
         margin[2] = bottom;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
-    getMarginBottom() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginBottom() {
+        const margin = this.display.margin.split(' ');
         return margin[2];
     }
 
-    setMarginLeft(left) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginLeft(left) {
+        const margin = this.display.margin.split(' ');
         margin[3] = left;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginLeft(left + UNIT.PX);
     }
 
-    getMarginLeft() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginLeft() {
+        const margin = this.display.margin.split(' ');
         return margin[3];
     }
 
@@ -236,34 +237,40 @@ export default class Group {
                     'minLength': ''
                 }
             },
-            'isAccordionUsed': {
-                'name': 'form.properties.isAccordionUsed',
-                'type': 'switch',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'margin': {
-                'name': 'form.properties.margin',
-                'type': 'input-box',
-                'unit': 'px',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': 'number',
-                    'max': '100',
-                    'min': '0',
-                    'maxLength': '',
-                    'minLength': ''
+            'display': {
+                name: 'form.properties.display',
+                type: 'group',
+                children: {
+                    'isAccordionUsed': {
+                        'name': 'form.properties.isAccordionUsed',
+                        'type': 'switch',
+                        'unit': '',
+                        'help': '',
+                        'columnWidth': '12',
+                        'validate': {
+                            'required': false,
+                            'type': '',
+                            'max': '',
+                            'min': '',
+                            'maxLength': '',
+                            'minLength': ''
+                        }
+                    },
+                    'margin': {
+                        'name': 'form.properties.margin',
+                        'type': 'input-box',
+                        'unit': 'px',
+                        'help': '',
+                        'columnWidth': '12',
+                        'validate': {
+                            'required': false,
+                            'type': 'number',
+                            'max': '100',
+                            'min': '0',
+                            'maxLength': '',
+                            'minLength': ''
+                        }
+                    }
                 }
             },
             'label': {
@@ -399,9 +406,9 @@ export default class Group {
      */
     copy(source, flag) {
         this.type = source.type;
-        this.displayOrder = source.displayOrder;
-        this.isAccordionUsed = source.isAccordionUsed;
-        this.margin = source.margin;
+        this.display.displayOrder = source.display.displayOrder;
+        this.display.isAccordionUsed = source.display.isAccordionUsed;
+        this.display.margin = source.display.margin;
         this.label = source.label;
         this.parent = source.parent;
         if (flag) { this.id = source.id; }
@@ -422,9 +429,7 @@ export default class Group {
         }
         return {
             id: this.id,
-            displayOrder: this.displayOrder,
-            isAccordionUsed: this.isAccordionUsed,
-            margin: this.margin,
+            display: this.display,
             label: this.label,
             row: row
         };

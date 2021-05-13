@@ -58,19 +58,25 @@ export const COMMON_PROPERTIES = {
             'minLength': ''
         }
     },
-    'columnWidth': {
-        'name': 'form.properties.columnWidth',
-        'type': 'slider',
-        'unit': '',
-        'help': '',
-        'columnWidth': '12',
-        'validate': {
-            'required': false,
-            'type': '',
-            'max': '',
-            'min': '',
-            'maxLength': '',
-            'minLength': ''
+    'display': {
+        name: 'form.properties.display',
+        type: 'group',
+        children: {
+            'columnWidth': {
+                'name': 'form.properties.columnWidth',
+                'type': 'slider',
+                'unit': '',
+                'help': '',
+                'columnWidth': '12',
+                'validate': {
+                    'required': false,
+                    'type': '',
+                    'max': '',
+                    'min': '',
+                    'maxLength': '',
+                    'minLength': ''
+                }
+            }
         }
     },
     'label': {

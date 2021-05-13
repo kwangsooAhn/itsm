@@ -19,14 +19,16 @@ export default class Form {
         this.id =  data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
-        this.displayOrder = 0;     // 표시 순서
         this.name = data.name || '';
         this.desc = data.desc || '';
         this.status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
-        this.width = data.width || '905';
-        this.margin = data.margin || '60 0 60 0';
-        this.padding = data.padding || '15 15 15 15';
         this.category = data.category || 'process'; // process | cmdb
+
+        this.display = {
+            width: data.display.width || '905',
+            margin: data.display.margin || '60 0 60 0',
+            padding: data.display.padding || '15 15 15 15'
+        }
 
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
@@ -35,9 +37,9 @@ export default class Form {
     }
     // 초기화
     init() {
-        const formCssText = `width:${this.width + UNIT.PX};` +
-            `margin:${this.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};` +
-            `padding:${this.padding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`;
+        const formCssText = `width:${this.display.width + UNIT.PX};` +
+            `margin:${this.display.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};` +
+            `padding:${this.display.padding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`;
 
         this.UIElement = new UIForm()
             .setUIId(this.id)
@@ -71,108 +73,108 @@ export default class Form {
         return this.status;
     }
 
-    setWidth(width) {
-        this.width = width;
-        this.UIElement.setUIWidth(this.width + UNIT.PX);
+    setDisplayWidth(width) {
+        this.display.width = width;
+        this.UIElement.setUIWidth(this.display.width + UNIT.PX);
     }
 
-    getWidth() {
-        return this.width;
+    getDisplayWidth() {
+        return this.display.width;
     }
 
-    setMarginTop(top) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginTop(top) {
+        const margin = this.display.margin.split(' ');
         margin[0] = top;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginTop(top + UNIT.PX);
     }
 
-    getMarginTop() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginTop() {
+        const margin = this.display.margin.split(' ');
         return margin[0];
     }
 
-    setMarginRight(right) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginRight(right) {
+        const margin = this.display.margin.split(' ');
         margin[1] = right;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginRight(right + UNIT.PX);
     }
 
-    getMarginRight() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginRight() {
+        const margin = this.display.margin.split(' ');
         return margin[1];
     }
 
-    setMarginBottom(bottom) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginBottom(bottom) {
+        const margin = this.display.margin.split(' ');
         margin[2] = bottom;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
-    getMarginBottom() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginBottom() {
+        const margin = this.display.margin.split(' ');
         return margin[2];
     }
 
-    setMarginLeft(left) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginLeft(left) {
+        const margin = this.display.margin.split(' ');
         margin[3] = left;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginLeft(left + UNIT.PX);
     }
 
-    getMarginLeft() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginLeft() {
+        const margin = this.display.margin.split(' ');
         return margin[3];
     }
 
-    setPaddingTop(top) {
-        const padding = this.padding.split(' ');
+    setDisplayPaddingTop(top) {
+        const padding = this.display.padding.split(' ');
         padding[0] = top;
-        this.padding = padding.join(' ');
+        this.display.padding = padding.join(' ');
         this.UIElement.setUIPaddingTop(top + UNIT.PX);
     }
 
-    getPaddingTop() {
-        const padding = this.padding.split(' ');
+    getDisplayPaddingTop() {
+        const padding = this.display.padding.split(' ');
         return padding[0];
     }
 
-    setPaddingRight(right) {
-        const padding = this.padding.split(' ');
+    setDisplayPaddingRight(right) {
+        const padding = this.display.padding.split(' ');
         padding[1] = right;
-        this.padding = padding.join(' ');
+        this.display.padding = padding.join(' ');
         this.UIElement.setUIPaddingRight(right + UNIT.PX);
     }
 
-    getPaddingRight() {
-        const padding = this.padding.split(' ');
+    getDisplayPaddingRight() {
+        const padding = this.display.padding.split(' ');
         return padding[1];
     }
 
-    setPaddingBottom(bottom) {
-        const padding = this.padding.split(' ');
+    setDisplayPaddingBottom(bottom) {
+        const padding = this.display.padding.split(' ');
         padding[2] = bottom;
-        this.padding = padding.join(' ');
+        this.display.padding = padding.join(' ');
         this.UIElement.setUIPaddingBottom(bottom + UNIT.PX);
     }
 
-    getPaddingBottom() {
-        const padding = this.padding.split(' ');
+    getDisplayPaddingBottom() {
+        const padding = this.display.padding.split(' ');
         return padding[2];
     }
 
-    setPaddingLeft(left) {
-        const padding = this.padding.split(' ');
+    setDisplayPaddingLeft(left) {
+        const padding = this.display.padding.split(' ');
         padding[3] = left;
-        this.padding = padding.join(' ');
+        this.display.padding = padding.join(' ');
         this.UIElement.setUIPaddingLeft(padding + UNIT.PX);
     }
 
-    getPaddingLeft() {
-        const padding = this.padding.split(' ');
+    getDisplayPaddingLeft() {
+        const padding = this.display.padding.split(' ');
         return padding[3];
     }
     // 세부 속성
@@ -245,54 +247,73 @@ export default class Form {
                     { 'name': 'form.status.destroy', 'value': 'form.status.destroy'}
                 ]
             },
-            'width': {
-                'name': 'form.properties.width',
-                'type': 'input',
-                'unit': 'px',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': true,
-                    'type': 'number',
-                    'max': '8192',
-                    'min': '0',
-                    'maxLength': '',
-                    'minLength': ''
+            'display': {
+                name: 'form.properties.display',
+                type: 'group',
+                children: {
+                    'width': {
+                        'name': 'form.properties.width',
+                        'type': 'input',
+                        'unit': 'px',
+                        'help': '',
+                        'columnWidth': '12',
+                        'validate': {
+                            'required': true,
+                            'type': 'number',
+                            'max': '8192',
+                            'min': '0',
+                            'maxLength': '',
+                            'minLength': ''
+                        }
+                    },
+                    'margin': {
+                        'name': 'form.properties.margin',
+                        'type': 'input-box',
+                        'unit': 'px',
+                        'help': '',
+                        'columnWidth': '12',
+                        'validate': {
+                            'required': false,
+                            'type': 'number',
+                            'max': '100',
+                            'min': '0',
+                            'maxLength': '',
+                            'minLength': ''
+                        }
+                    },
+                    'padding': {
+                        'name': 'form.properties.padding',
+                        'type': 'input-box',
+                        'unit': 'px',
+                        'help': '',
+                        'columnWidth': '12',
+                        'validate': {
+                            'required': false,
+                            'type': 'number',
+                            'max': '100',
+                            'min': '0',
+                            'maxLength': '',
+                            'minLength': ''
+                        }
+                    }
                 }
             },
-            'margin': {
-                'name': 'form.properties.margin',
-                'type': 'input-box',
-                'unit': 'px',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': 'number',
-                    'max': '100',
-                    'min': '0',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'padding': {
-                'name': 'form.properties.padding',
-                'type': 'input-box',
-                'unit': 'px',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': 'number',
-                    'max': '100',
-                    'min': '0',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            }
         };
         return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            property[key] = Object.assign(value, { 'value': this[key] });
+            if (value.type === 'group') {
+                const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
+                    const tempChildValue = {'value': this[key][childKey]};
+                    if (childValue.type === 'button-toggle-icon') { // 토글 데이터
+                        tempChildValue.value = childValue.option.map((item) =>
+                            (this[key][item.value]) ? 'Y' : 'N').join('|');
+                    }
+                    child[childKey] = Object.assign(childValue, tempChildValue);
+                    return child;
+                }, {});
+                property[key] = Object.assign(value, {'children': childProperties});
+            } else {
+                property[key] = Object.assign(value, {'value': this[key]});
+            }
             return property;
         }, {});
     }
@@ -304,13 +325,10 @@ export default class Form {
      */
     copy(source, flag) {
         this.type = source.type;
-        this.displayOrder = source.displayOrder;
         this.name = source.name;
         this.desc = source.desc;
         this.status = source.status;
-        this.width = source.width;
-        this.margin = source.margin;
-        this.padding = source.padding;
+        this.display = source.display;
         this.category = source.category;
         this.parent = source.parent;
         if (flag) { this.id = source.id; }
@@ -334,9 +352,7 @@ export default class Form {
             name: this.name,
             desc: this.desc,
             status: this.status,
-            width: this.width,
-            margin: this.margin,
-            padding: this.padding,
+            display: this.display,
             category: this.category,
             group: group
         };
