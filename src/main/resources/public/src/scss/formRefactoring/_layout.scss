@@ -22,14 +22,40 @@
     z-index: $z-index-gnb;
     .logo {
       width: 12.5rem; // 200px
-      padding: 0 0.75rem; // 0 12px
+      padding: 0 $layout-header-padding; // 0 12px
     }
     .name {
       font-size: $layout-header-font-size;
     }
-    .control-box {
+    .buttons {
       width: 20rem; // 320px
-      padding: 0 0.75rem; // 0 12px
+      padding: 0 $layout-header-padding; // 0 12px
+      .dropdown {
+        &-content {
+          visibility: hidden;
+          background-color: $layout-header-dropdown-bg-color;
+          color: map-get($blues, "hover");
+          text-align: center;
+          font-size: 1.125rem; // 18px
+          margin: 0.6875rem 0 0 0; // 11px
+          position: absolute;
+          z-index: 500;
+          box-shadow: $layout-header-box-shadow;
+        }
+        &-item {
+          padding: 0.6875rem 0.875rem; // 11px 14px
+          &:hover { background-color: $layout-header-dropdown-hover-bg-color; }
+        }
+      }
+      .btn-dropdown:hover {
+        > .dropdown-content {
+          visibility: visible;
+          display: block;
+        }
+        &:last-child > .dropdown-content {
+          right: $layout-header-padding; // 12px
+        }
+      }
     }
   }
   &-component-palette {
