@@ -11,12 +11,12 @@
     <div class="numbering-rule-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{rule.label.rule}"></h1>
-            <h6 class="description" th:text="#{rule.msg.editDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{rule.msg.editDescription}"></h6>
         </div>
         <div class="header-search flex-row">
             <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{rule.msg.searchPlaceholder}"/>
-            <span id="totalCount" class="txt-num"></span>
+            <span id="totalCount" class="search-count"></span>
             <div class="ml-auto">
                 <button type="button" class="default-fill" id="btnSearch" name="btnSearch" onclick="onCreate();"
                         sec:authorize="hasAuthority('numbering.rule.create')" th:text="#{common.btn.add}"></button>

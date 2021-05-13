@@ -97,7 +97,7 @@
       content: '';
       vertical-align: middle;
       opacity: 1;
-      animation: rotateLoader 0.4s infinite linear;
+      @include animation(0s, 0.4s, rotateLoader, linear, infinite);
     }
     &:empty::after {
       margin-left: 0;
@@ -115,7 +115,7 @@
   z-index: 1;
   outline: 0;
   cursor: default;
-  transition: 0.13s ease-out;
+  @include transition(0.13s ease-out);
   // 태그 문구
   > div {
     max-width: 100%;
@@ -127,17 +127,13 @@
     line-height: inherit;
     -webkit-user-select: none;
     user-select: none;
-    transition: 0.13s ease-out;
+    @include transition(0.13s ease-out);
 
     > * {
-      display: inline-block;
+      @include ellipsis(inline-block, max-content);
       vertical-align: top;
       min-width: 1ch;
-      max-width: max-content;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      transition: 0.8s ease, 0.1s color;
+      @include transition(0.8s ease);
     }
 
     > [contenteditable] {
@@ -161,7 +157,7 @@
       z-index: -1;
       pointer-events: none;
       transition: 120ms ease;
-      animation: tags--bump 0.3s ease-out 1;
+      @include animation(0s, 0.3s, tags--bump, ease-out, 1);
       box-shadow: 0 0 0 1.25rem $tag-bg-color inset;
     }
   }
@@ -190,7 +186,7 @@
       border: $tagify-load-border;
       border-radius: 50%;
       opacity: 1;
-      animation: rotateLoader 0.4s infinite linear;
+      @include animation(0s, 0.4s, rotateLoader, linear, infinite);
     }
   }
 
@@ -259,7 +255,7 @@
     > div::before {
       background: linear-gradient(45deg, #e5e5e5 25%, transparent 25%, transparent 50%, #e5e5e5 50%, #e5e5e5 75%, transparent 75%, transparent) 0/5px 5px;
       box-shadow: none;
-      filter: brightness(0.95);
+      @include filter(brightness(0.95));
     }
   }
 }
@@ -287,7 +283,7 @@
   width: 1.125rem; // 18px
   height: 1.125rem; // 18px
   margin: 0 0.25rem 0 0; // 0 4.66667px
-  transition: 0.2s ease-out;
+  @include transition(0.2s ease-out);
   border-radius: 3.125rem; // 50px
   order: 5;
   cursor: pointer;
@@ -330,7 +326,7 @@
   white-space: pre-line;
   // 미 입력시, placeholder 투명도 조정 가능
   &:empty::before {
-    transition: 0.2s ease-out;
+    @include transition(0.2s ease-out);
     opacity: 0; // 기존 0.5
     transform: none;
     width: auto;
@@ -339,13 +335,13 @@
   &:focus {
     outline: 0;
     &::before {
-      transition: 0.2s ease-out;
+      @include transition(0.2s ease-out);
       opacity: 0;
       transform: translatex(6px);
     }
 
     &:empty::before {
-      transition: 0.2s ease-out;
+      @include transition(0.2s ease-out);
       opacity: 0; // 기존 0.3
       transform: none;
     }
@@ -451,12 +447,12 @@
     font-family: $font-family;
     line-height: 0.5rem; // 8px
     pointer-events: none;
-    transform: translate(-150%, -50%) scaleX(1.2) rotate(90deg);
-    transition: 0.2s ease-in-out;
+    @include transform(translate(-150%, -50%) scaleX(1.2) rotate(90deg));
+    @include transition(0.2s ease-in-out);
   }
 
   &[aria-expanded=true]::after {
-    transform: translate(-150%, -50%) rotate(270deg) scaleY(1.2);
+    @include transform(translate(-150%, -50%) rotate(270deg) scaleY(1.2));
   }
 
   .tagify__tag {
@@ -510,7 +506,7 @@
     overflow: hidden;
     background: white;
     box-shadow: 0.0625rem 0.0625rem 0.3125rem 0 map-get($grays, 'pressed'); // 1px 1px 5px 0
-    transition: 0.25s cubic-bezier(0, 1, 0.5, 1);
+    @include transition(0.25s cubic-bezier(0, 1, 0.5, 1));
 
     &:hover {
       overflow: auto;
@@ -519,12 +515,12 @@
 
   &--initial {
     &[placement=top] .tagify__dropdown__wrapper {
-      transform: translateY(2em);
+      @include translate(0, 2em);
     }
 
     .tagify__dropdown__wrapper {
       max-height: 20px;
-      transform: translateY(-1em);
+      @include translate(0, -1em);
     }
   }
 
@@ -538,7 +534,7 @@
     outline: 0;
 
     &:active {
-      filter: brightness(105%);
+      @include filter(brightness(105%));
     }
 
     &--active {

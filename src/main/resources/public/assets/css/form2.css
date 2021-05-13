@@ -561,11 +561,11 @@ input, button, select, optgroup, textarea {
 .form-header {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
-  height: 3.125rem;
+  left: 0;
   display: flex;
   align-items: center;
+  height: 3.125rem;
   font-size: 1rem;
   font-weight: 500;
   color: #ffffff;
@@ -596,9 +596,9 @@ input, button, select, optgroup, textarea {
 .form-main {
   position: fixed;
   top: 3.125rem;
-  left: 0;
   right: 18.75rem;
   bottom: 0;
+  left: 0;
   overflow-y: auto;
   left: 15.63rem;
   right: 23.13rem;
@@ -626,23 +626,21 @@ input, button, select, optgroup, textarea {
 }
 .form-properties-panel {
   position: fixed;
-  top: 3.125rem;
+  top: calc(3.125rem + 3.125rem);
   right: 0;
   bottom: 0;
-  width: 18.75rem;
-  overflow-y: auto;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
   justify-content: space-between;
-  top: calc(3.125rem + 3.125rem);
   width: 23.13rem;
   background-color: #ffffff;
   border-left: 0.0625rem solid #EBEBEB;
   box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.15);
   padding: 0.9375rem;
   overflow-x: hidden;
+  overflow-y: auto;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
@@ -2399,12 +2397,12 @@ button.ghost-line:disabled .icon {
 }
 .gmodal-wrapper {
   display: none;
-  overflow: auto;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  overflow: auto;
 }
 .gmodal-wrapper.gmodal-active {
   z-index: 999999;
@@ -2425,8 +2423,8 @@ button.ghost-line:disabled .icon {
   border-radius: 0.0625rem;
   position: absolute;
   top: 8em;
-  left: 0;
   right: 0;
+  left: 0;
   width: 100%;
   line-height: 1;
   max-width: 26.875rem;

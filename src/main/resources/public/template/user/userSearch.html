@@ -11,12 +11,12 @@
     <div class="user-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{user.label.user}"></h1>
-            <h6 class="description" th:text="#{user.msg.searchDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{user.msg.searchDescription}"></h6>
         </div>
         <div class="header-search flex-row">
             <input class="search col-5 mr-2" id="search" type="text" maxlength="100"
                    th:placeholder="#{user.label.searchPlaceholder}"/>
-            <span id="spanTotalCount" class="txt-num"></span>
+            <span id="spanTotalCount" class="search-count"></span>
             <div class="ml-auto">
                 <button type="button" class="default-fill" onclick="location.href='/users/new'"
                         sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>

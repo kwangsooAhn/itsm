@@ -555,9 +555,9 @@ input, button, select, optgroup, textarea {
 .document-container .document-main {
   position: fixed;
   top: 0;
-  left: 0;
   right: 18.75rem;
   bottom: 0;
+  left: 0;
   overflow-y: auto;
   background-color: #F7F8F9;
   -ms-overflow-style: none;

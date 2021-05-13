@@ -11,10 +11,18 @@
 // @include position(absolute, $top: 1em, $left: 50%);
 @mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
   position: $position;
-  top: $top;
-  right: $right;
-  bottom: $bottom;
-  left: $left;
+  @if ($top != null) {
+    top: $top;
+  }
+  @if ($right != null) {
+    right: $right;
+  }
+  @if ($bottom != null) {
+    bottom: $bottom;
+  }
+  @if ($left != null) {
+    left: $left;
+  }
 }
 
 // @include absolute($top: 1em, $left: 50%);

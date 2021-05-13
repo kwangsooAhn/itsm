@@ -11,12 +11,12 @@
     <div class="code-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{code.label.code}"></h1>
-            <h6 class="description" th:text="#{code.msg.editDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{code.msg.editDescription}"></h6>
         </div>
         <div class="header-search flex-row">
             <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{code.label.searchPlaceholder}"/>
-            <span id="totalCount" class="txt-num"></span>
+            <span id="totalCount" class="search-count"></span>
             <div class="ml-auto">
                 <button type="button" class="default-fill" id="btnCreate" name="btnCreate" onclick="onCreate();"
                         sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"></button>

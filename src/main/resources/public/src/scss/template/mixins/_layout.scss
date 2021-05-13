@@ -1,50 +1,32 @@
 // todo: layout 내 mixin 이름 refactoring
-@mixin header {
-  .header-title {
-    padding: 1.563rem 0px 3.875rem 0px; // 25px 0px 62px 0px
-    .description { margin-left: 0.625rem; } // 10px
-  }
-  .header-search {
-    padding: 0.3125rem 0px 1.875rem 0px; // 5px 0px 30px 0px
-    // 건수
-    .txt-num { color: map-get($grays, "warm"); }
-  }
-}
-
-@mixin fixedHeader {
-  position: fixed;
-  top:0;
-  left:0;
-  right:0;
-  height: $layout-header-height;
-  display: flex;
-  align-items: center;
-}
-
+// 메인 화면을 중앙 위치에 표시하기 위한 공통 디자인
 @mixin container {
   max-width: 120rem;
   margin: 0 auto;
 }
 
+// 고정 layout 디자인
+@mixin fixedHeader {
+  @include fixed(0, 0, null, 0);
+  display: flex;
+  align-items: center;
+  height: $layout-header-height;
+}
+
 @mixin fixedContainer {
-  position: fixed;
-  top: $layout-header-height;
-  left: 0;
-  right: $layout-properties-width;
-  bottom: 0;
+  @include fixed($layout-header-height, $layout-properties-width, 0, 0);
   overflow-y: auto;
 }
 
+// portal 디자인
 @mixin portalHeader() {
   padding: 0 0 0 13.75rem; // 220px
   background-color: $main-header-bg-color;
   border-bottom: $main-header-border;
-
+  // 제목
   .header-title {
     height: 10.625rem; // 170px
     padding: 3.75rem 0; // 60px 0
-
-    .description { margin-left: 0.625rem; } // 10px
   }
 }
 
@@ -83,7 +65,21 @@
   }
 }
 
-@mixin viewTemplate() {
+// itsm 디자인
+@mixin defaultHeader {
+  // 제목
+  .header-title {
+    padding: 1.563rem 0px 3.875rem 0px; // 25px 0px 62px 0px
+  }
+  // 검색 영역
+  .header-search {
+    padding: 0.3125rem 0px 1.875rem 0px; // 5px 0px 30px 0px
+    // 건수
+    .search-count { color: map-get($grays, "warm"); }
+  }
+}
+// view
+@mixin defaultViewTemplate() {
   .view {
     height: 100vh; // edit 화면에서 스크롤이 생기는 영역
     // 각 행
@@ -119,8 +115,8 @@
     }
   }
 }
-
-@mixin listTemplate() {
+// list
+@mixin defaultListTemplate() {
   .list {
     a, button { cursor: pointer; }
     // 테이블
@@ -185,8 +181,8 @@
     }
   }
 }
-
-@mixin cardTemplate() {
+// card
+@mixin defaultCardTemplate() {
   .card-list {
     flex-wrap: wrap;
     padding-bottom: 0.625rem; // 10px
@@ -226,9 +222,8 @@
     }
   }
 }
-
-// register, edit 공통 템플릿
-@mixin editTemplate() {
+// register, edit
+@mixin defaultEditTemplate() {
   .edit {
     height: 100vh; // edit 화면에서 스크롤이 생기는 영역
     .edit-row {
@@ -242,13 +237,4 @@
       .edit-row { margin: 0.625rem 0 0 0; } // 10px 0 0 0
     }
   }
-}
-
-@mixin propertiesTemplate {
-  position:fixed;
-  top: $layout-header-height;
-  right: 0;
-  bottom: 0;
-  width: $layout-properties-width;
-  overflow-y: auto;
 }

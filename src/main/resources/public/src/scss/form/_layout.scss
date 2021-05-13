@@ -89,13 +89,13 @@
   }
 
   .form-properties {
-    @include propertiesTemplate;
-    top: calc(#{$layout-header-height} + #{$layout-properties-header-height});
+    @include fixed(calc(#{$layout-header-height} + #{$layout-properties-header-height}), 0, 0, null);
     width: $layout-properties-width;
     background-color: $layout-properties-bg-color;
     border-left: $layout-properties-border;
     box-shadow: $layout-properties-box-shadow;
     overflow-x: hidden;
+    overflow-y: auto;
     @include scrollbarHidden;
 
     // 그룹 속성
