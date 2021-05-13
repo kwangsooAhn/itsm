@@ -5760,7 +5760,7 @@ body.modal-active {
   justify-content: center;
   width: 1.125rem;
   height: 1.125rem;
-  margin: 0 0.25rem;
+  margin: 0 0.25rem 0 0;
   transition: 0.2s ease-out;
   border-radius: 3.125rem;
   order: 5;
