@@ -1398,7 +1398,6 @@ insert into awf_url values ('/cmdb/attributes/{id}/edit', 'get', 'CMDB Attribute
 insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute 보기 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
-insert into awf_url values ('/cmdb/types', 'get', 'CMDB Type 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
 insert into awf_url values ('/cmdb/cis', 'get', 'CMDB CI 조회 목록', 'TRUE');
 insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
@@ -1487,7 +1486,6 @@ insert into awf_url values ('/rest/charts', 'post', '사용자 정의 차트 등
 insert into awf_url values ('/rest/charts/{id}', 'put', '사용자 정의 차트 수정', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}', 'delete', '사용자 정의 차트 삭제', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}/preview', 'post', '사용자 정의 차트 미리보기', 'TRUE');
-insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
@@ -1700,7 +1698,6 @@ insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', '
 insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'form.read');
-insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.delete');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.update');
@@ -1829,9 +1826,9 @@ insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'chart.update')
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'chart.delete');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.create');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.update');
-insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
@@ -1883,8 +1880,10 @@ insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'custom.code.d
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'custom.code.delete');
-insert into awf_url_auth_map values ('/rest/documents', 'get', 'process.update');
-insert into awf_url_auth_map values ('/rest/documents', 'get', 'process.create');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.create');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.update');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.read');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.delete');
 insert into awf_url_auth_map values ('/rest/workflows', 'post', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'document.admin.create');
@@ -3123,7 +3122,7 @@ insert into wf_component_data values ('a640301d7e67dc92c279f83bec7358be', 'displ
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"처리일시"}');
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'display', '{"column":"10","default":"now","order":20}');
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'validate', '{"datetimeMin":"","datetimeMax":""}');
-insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'display', '{"column":"10","customCode":"40288a19736b46fb01736b89e46c0008","default":"session|userName|이름","buttonText":"검색","order":9}');
+insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'display', '{"column":"10","customCode":"40288a19736b46fb01736b89e46c0008","default":"none","buttonText":"검색","order":9}');
 insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"담당자"}');
 insert into wf_component_data values ('a7fb73ce3c61d3d600ab135d6a6a8684', 'validate', '{"lengthMin":"0","lengthMax":"500"}');
 insert into wf_component_data values ('a7fb73ce3c61d3d600ab135d6a6a8684', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"요청내역"}');

@@ -53,7 +53,7 @@ insert into wf_component_data values ('a640301d7e67dc92c279f83bec7358be', 'displ
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"처리일시"}');
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'display', '{"column":"10","default":"now","order":20}');
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'validate', '{"datetimeMin":"","datetimeMax":""}');
-insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'display', '{"column":"10","customCode":"40288a19736b46fb01736b89e46c0008","default":"session|userName|이름","buttonText":"검색","order":9}');
+insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'display', '{"column":"10","customCode":"40288a19736b46fb01736b89e46c0008","default":"none","buttonText":"검색","order":9}');
 insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"담당자"}');
 insert into wf_component_data values ('a7fb73ce3c61d3d600ab135d6a6a8684', 'validate', '{"lengthMin":"0","lengthMax":"500"}');
 insert into wf_component_data values ('a7fb73ce3c61d3d600ab135d6a6a8684', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"요청내역"}');
