@@ -485,9 +485,12 @@ input, button, select, optgroup, textarea {
 }
 
 .text-ellipsis {
+  display: inline-block;
+  max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  word-wrap: normal;
 }
 
 .auto-break {
@@ -639,11 +642,11 @@ input, button, select, optgroup, textarea {
 .portal-container .header {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
-  height: 3.125rem;
+  left: 0;
   display: flex;
   align-items: center;
+  height: 3.125rem;
   max-width: 120rem;
   font-size: 1rem;
   font-weight: 500;
@@ -662,9 +665,9 @@ input, button, select, optgroup, textarea {
 .portal-container .main {
   position: fixed;
   top: 3.125rem;
-  left: 0;
   right: 0;
   bottom: 0;
+  left: 0;
   overflow-y: auto;
   max-width: 120rem;
   margin: 0 auto;
@@ -772,9 +775,6 @@ input, button, select, optgroup, textarea {
 .portal-container .faq-header .header-title {
   height: 10.625rem;
   padding: 3.75rem 0;
-}
-.portal-container .faq-header .header-title .description {
-  margin-left: 0.625rem;
 }
 .portal-container .faq-header .faq-search {
   padding-bottom: 1.875rem;
@@ -884,9 +884,6 @@ input, button, select, optgroup, textarea {
   height: 10.625rem;
   padding: 3.75rem 0;
 }
-.portal-container .download-header .header-title .description {
-  margin-left: 0.625rem;
-}
 .portal-container .download-header .download-search {
   padding-bottom: 1.875rem;
 }
@@ -932,9 +929,6 @@ input, button, select, optgroup, textarea {
   height: 10.625rem;
   padding: 3.75rem 0;
 }
-.portal-container .notice-header .header-title .description {
-  margin-left: 0.625rem;
-}
 .portal-container .notice-header .notice-search {
   padding-bottom: 1.875rem;
 }
@@ -974,19 +968,69 @@ input, button, select, optgroup, textarea {
 
 .slide-down {
   display: block;
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-name: slideDown;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 0.3s;
+  -moz-animation-name: slideDown;
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-direction: normal;
+  -o-animation-delay: 0s;
+  -o-animation-duration: 0.3s;
+  -o-animation-name: slideDown;
+  -o-animation-timing-function: ease-out;
+  -o-animation-iteration-count: 1;
+  -o-animation-direction: normal;
+  -ms-animation-delay: 0s;
+  -ms-animation-duration: 0.3s;
+  -ms-animation-name: slideDown;
+  -ms-animation-timing-function: ease-out;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-direction: normal;
   animation-delay: 0s;
   animation-duration: 0.3s;
   animation-name: slideDown;
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
+  animation-direction: normal;
 }
 
 .slide-up {
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-name: slideUp;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 0.3s;
+  -moz-animation-name: slideUp;
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-direction: normal;
+  -o-animation-delay: 0s;
+  -o-animation-duration: 0.3s;
+  -o-animation-name: slideUp;
+  -o-animation-timing-function: ease-out;
+  -o-animation-iteration-count: 1;
+  -o-animation-direction: normal;
+  -ms-animation-delay: 0s;
+  -ms-animation-duration: 0.3s;
+  -ms-animation-name: slideUp;
+  -ms-animation-timing-function: ease-out;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-direction: normal;
   animation-delay: 0s;
   animation-duration: 0.3s;
   animation-name: slideUp;
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
+  animation-direction: normal;
 }
 
 /* _elements.scss 
@@ -1178,9 +1222,12 @@ table tr th {
 }
 table tr td, table tr th {
   border: 0.0625rem solid transparent;
+  display: table-cell;
+  max-width: 100%;
   text-overflow: ellipsis;
-  overflow: hidden;
   white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 
 select {
@@ -1296,8 +1343,12 @@ select:disabled {
   margin: 0;
   padding: 0.75rem 0;
   text-indent: 0.625rem;
+  display: list-item;
+  max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 .select .designed-options li:hover {
   background: rgba(0, 152, 255, 0.08);
@@ -1385,6 +1436,10 @@ label {
 }
 .radio input[type=radio]:not(:disabled):checked + span::after {
   background-color: #0098FF;
+  -webkit-transform: translate(4px, 9px) scale(1);
+  -moz-transform: translate(4px, 9px) scale(1);
+  -o-transform: translate(4px, 9px) scale(1);
+  -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
 }
 .radio input[type=radio]:not(:disabled):hover + span::before {
@@ -1400,6 +1455,10 @@ label {
 }
 .radio input[type=radio]:disabled:checked + span::after {
   background-color: #ACB4BF;
+  -webkit-transform: translate(4px, 9px) scale(1);
+  -moz-transform: translate(4px, 9px) scale(1);
+  -o-transform: translate(4px, 9px) scale(1);
+  -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
 }
 .radio:focus input[type=radio]:not(:disabled) + span:before {
@@ -1449,6 +1508,10 @@ label {
   border: 0.125rem solid #0098FF;
   border-right: none;
   border-top: none;
+  -webkit-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
+  -moz-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
+  -o-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
+  -ms-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
   transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
 }
 .checkbox input[type=checkbox]:not(:disabled):hover + span::before {
@@ -1515,8 +1578,11 @@ label {
   background-color: #0098FF;
 }
 .switch input[type=checkbox]:checked + span::before {
-  -webkit-transform: translateX(2.875rem);
-  transform: translateX(2.875rem);
+  -webkit-transform: translate(2.875rem, 0);
+  -moz-transform: translate(2.875rem, 0);
+  -o-transform: translate(2.875rem, 0);
+  -ms-transform: translate(2.875rem, 0);
+  transform: translate(2.875rem, 0);
 }
 .switch input[type=checkbox]:hover + span::before {
   border-color: #0098FF;
@@ -2240,12 +2306,12 @@ button.ghost-line:disabled .icon {
 }
 .gmodal-wrapper {
   display: none;
-  overflow: auto;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  overflow: auto;
 }
 .gmodal-wrapper.gmodal-active {
   z-index: 999999;
@@ -2266,8 +2332,8 @@ button.ghost-line:disabled .icon {
   border-radius: 0.0625rem;
   position: absolute;
   top: 8em;
-  left: 0;
   right: 0;
+  left: 0;
   width: 100%;
   line-height: 1;
   max-width: 26.875rem;
@@ -2442,6 +2508,9 @@ button.ghost-line:disabled .icon {
 
 .scrollbar.os-host-transition > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
   -webkit-transition: background-color 0.3s;
+  -moz-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  -ms-transition: background-color 0.3s;
   transition: background-color 0.3s;
 }
 
@@ -2801,12 +2870,15 @@ button.ghost-line:disabled .icon {
   opacity: 1;
 }
 .file-uploader-edit .dropzone .dz-preview:hover .dz-image img {
-  -webkit-transform: scale(1.05, 1.05);
-  -moz-transform: scale(1.05, 1.05);
-  -ms-transform: scale(1.05, 1.05);
-  -o-transform: scale(1.05, 1.05);
-  transform: scale(1.05, 1.05);
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -o-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
   -webkit-filter: blur(8px);
+  -moz-filter: blur(8px);
+  -o-filter: blur(8px);
+  -ms-filter: blur(8px);
   filter: blur(8px);
 }
 .file-uploader-edit .dropzone .dz-preview.dz-file-preview .dz-image {
@@ -2846,11 +2918,14 @@ button.ghost-line:disabled .icon {
   grid-row: 1/span 2;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename {
-  white-space: nowrap;
-  text-align: left;
-  overflow: hidden;
+  display: inline-block;
+  max-width: 100%;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
   padding: 0 20px;
+  text-align: left;
   grid-column: 2;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename span {
@@ -2997,11 +3072,36 @@ button.ghost-line:disabled .icon {
   transition: opacity 0.4s ease-in;
 }
 .file-uploader-edit .dropzone .dz-preview:not(.dz-processing) .dz-progress {
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 6s;
+  -webkit-animation-name: pulse;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: normal;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 6s;
+  -moz-animation-name: pulse;
+  -moz-animation-timing-function: ease;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-direction: normal;
+  -o-animation-delay: 0s;
+  -o-animation-duration: 6s;
+  -o-animation-name: pulse;
+  -o-animation-timing-function: ease;
+  -o-animation-iteration-count: infinite;
+  -o-animation-direction: normal;
+  -ms-animation-delay: 0s;
+  -ms-animation-duration: 6s;
+  -ms-animation-name: pulse;
+  -ms-animation-timing-function: ease;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-direction: normal;
   animation-delay: 0s;
   animation-duration: 6s;
   animation-name: pulse;
   animation-timing-function: ease;
   animation-iteration-count: infinite;
+  animation-direction: normal;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-progress {
   position: relative;
@@ -3013,6 +3113,9 @@ button.ghost-line:disabled .icon {
   border-radius: 0.5rem;
   margin: 0 5%;
   -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
   transform: scale(1);
   opacity: 1;
   z-index: 750;
@@ -3592,11 +3695,36 @@ button.ghost-line:disabled .icon {
 }
 .help-tooltip:hover .tooltip-contents {
   visibility: visible;
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 0.3s;
+  -moz-animation-name: fadeIn;
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-direction: normal;
+  -o-animation-delay: 0s;
+  -o-animation-duration: 0.3s;
+  -o-animation-name: fadeIn;
+  -o-animation-timing-function: ease-out;
+  -o-animation-iteration-count: 1;
+  -o-animation-direction: normal;
+  -ms-animation-delay: 0s;
+  -ms-animation-duration: 0.3s;
+  -ms-animation-name: fadeIn;
+  -ms-animation-timing-function: ease-out;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-direction: normal;
   animation-delay: 0s;
   animation-duration: 0.3s;
   animation-name: fadeIn;
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
+  animation-direction: normal;
 }
 .help-tooltip:hover .help-tooltip-icon {
   background: #0098FF;
@@ -3621,11 +3749,36 @@ button.ghost-line:disabled .icon {
 }
 .header-tooltip:hover .tooltip-contents {
   visibility: visible;
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 0.3s;
+  -moz-animation-name: fadeIn;
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-direction: normal;
+  -o-animation-delay: 0s;
+  -o-animation-duration: 0.3s;
+  -o-animation-name: fadeIn;
+  -o-animation-timing-function: ease-out;
+  -o-animation-iteration-count: 1;
+  -o-animation-direction: normal;
+  -ms-animation-delay: 0s;
+  -ms-animation-duration: 0.3s;
+  -ms-animation-name: fadeIn;
+  -ms-animation-timing-function: ease-out;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-direction: normal;
   animation-delay: 0s;
   animation-duration: 0.3s;
   animation-name: fadeIn;
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
+  animation-direction: normal;
 }
 
 /*

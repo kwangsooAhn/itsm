@@ -11,7 +11,7 @@
     <div class="board-admin-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{board.label.board}"></h1>
-            <h6 class="description" th:text="#{board.msg.adminSearchDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{board.msg.adminSearchDescription}"></h6>
         </div>
         <div class="header-search flex-row">
             <input type="hidden" sec:authorize="hasAuthority('board.admin.update')" th:name="isRole"
@@ -21,7 +21,7 @@
             <form id="searchFrm">
                 <input type="text" id="search" name="search" class="search col-5 mr-2" maxlength="100"
                        th:placeholder="#{board.label.searchPlaceholder}"/>
-                <span id="spanTotalCount" class="txt-num"></span>
+                <span id="spanTotalCount" class="search-count"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-fill" onclick="openBoardAdminAdd()"

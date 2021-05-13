@@ -32,7 +32,7 @@
     left: 50%;
     margin-left: -8.125rem; // -130px
     opacity: 0;
-    transition: opacity 0.3s;
+    @include transition(opacity 0.3s);
 
     &::after {
       content: '';

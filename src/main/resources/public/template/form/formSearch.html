@@ -14,14 +14,14 @@
     <div class="form-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{form.label.form}"></h1>
-            <h6 class="description" th:text="#{form.msg.searchDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{form.msg.searchDescription}"></h6>
         </div>
         <div class="header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
             <form id="searchFrm">
                 <input type="text" id="search" name="search" class="search col-5 mr-2" maxlength="100"
                        th:placeholder="#{form.label.searchPlaceholder}"/>
-                <span id="spanTotalCount" class="txt-num"></span>
+                <span id="spanTotalCount" class="search-count"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-line" onclick="openFormImport();"

@@ -99,13 +99,8 @@
           }
           .dz-image {
             img {
-              -webkit-transform: scale(1.05, 1.05);
-              -moz-transform: scale(1.05, 1.05);
-              -ms-transform: scale(1.05, 1.05);
-              -o-transform: scale(1.05, 1.05);
-              transform: scale(1.05, 1.05); 
-              -webkit-filter: blur(8px);
-              filter: blur(8px);
+              @include scale(1.05);
+              @include filter(blur(8px));
             }
           }
         }
@@ -151,11 +146,9 @@
           }
           // 파일명
           .dz-filename {
-            white-space: nowrap;
-            text-align: left;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            @include ellipsis();
             padding: 0 20px; // 0 20px
+            text-align: left;
             grid-column: 2;
 
             span {
@@ -303,8 +296,7 @@
           background: $file-uploader-progress-bg-color;
           border-radius: 0.5rem; // 8px
           margin: 0 5%;
-          -webkit-transform: scale(1);
-          transform: scale(1);
+          @include scale(1);
           opacity: 1;
           z-index: $z-index-between-modal-gnb;
           overflow: hidden;

@@ -65,19 +65,19 @@
     padding: 0.9375rem; // 15px;
   }
   &-properties-panel {
-    @include propertiesTemplate;
+    @include fixed(calc(#{$layout-header-height} + #{$layout-properties-panel-header-height}), 0, 0, null);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-content: flex-start;
     justify-content: space-between;
-    top: calc(#{$layout-header-height} + #{$layout-properties-panel-header-height});
     width: $layout-properties-panel-width;
     background-color: $layout-properties-panel-bg-color;
     border-left: $layout-properties-panel-border;
     box-shadow: $layout-properties-panel-box-shadow;
     padding: 0.9375rem; // 15px;
     overflow-x: hidden;
+    overflow-y: auto;
     @include scrollbarHidden;
   }
 }

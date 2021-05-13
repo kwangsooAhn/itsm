@@ -88,8 +88,7 @@
   >.os-scrollbar {
     >.os-scrollbar-track {
       >.os-scrollbar-handle {
-        -webkit-transition: background-color 0.3s;
-        transition: background-color 0.3s;
+        @include transition(background-color 0.3s);
       }
     }
   }

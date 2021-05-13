@@ -485,9 +485,12 @@ input, button, select, optgroup, textarea {
 }
 
 .text-ellipsis {
+  display: inline-block;
+  max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  word-wrap: normal;
 }
 
 .auto-break {
@@ -552,9 +555,9 @@ input, button, select, optgroup, textarea {
 .document-container .document-main {
   position: fixed;
   top: 0;
-  left: 0;
   right: 38.13rem;
   bottom: 0;
+  left: 0;
   overflow-y: auto;
   background-color: #F7F8F9;
   -ms-overflow-style: none;
@@ -618,10 +621,10 @@ input, button, select, optgroup, textarea {
   right: 0;
   bottom: 0;
   width: 38.13rem;
-  overflow-y: auto;
   background-color: #ffffff;
   border-left: 0.0625rem solid #EBEBEB;
   padding: 0 4.0625rem;
+  overflow-y: auto;
 }
 .document-container .token-properties .token-info-tab {
   display: flex;
@@ -664,9 +667,12 @@ input, button, select, optgroup, textarea {
   height: 3.438rem;
 }
 .document-container .token-properties .token-info-contents .token-history .table th, .document-container .token-properties .token-info-contents .token-history .table td {
+  display: table-cell;
+  max-width: 100%;
   text-overflow: ellipsis;
-  overflow: hidden;
   white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 .document-container .token-properties .token-info-contents .token-history .table th {
   color: #3F4B56;
@@ -978,9 +984,12 @@ table tr th {
 }
 table tr td, table tr th {
   border: 0.0625rem solid transparent;
+  display: table-cell;
+  max-width: 100%;
   text-overflow: ellipsis;
-  overflow: hidden;
   white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 
 select {
@@ -1096,8 +1105,12 @@ select:disabled {
   margin: 0;
   padding: 0.75rem 0;
   text-indent: 0.625rem;
+  display: list-item;
+  max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 .select .designed-options li:hover {
   background: rgba(0, 152, 255, 0.08);
@@ -1185,6 +1198,10 @@ label {
 }
 .radio input[type=radio]:not(:disabled):checked + span::after {
   background-color: #0098FF;
+  -webkit-transform: translate(4px, 9px) scale(1);
+  -moz-transform: translate(4px, 9px) scale(1);
+  -o-transform: translate(4px, 9px) scale(1);
+  -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
 }
 .radio input[type=radio]:not(:disabled):hover + span::before {
@@ -1200,6 +1217,10 @@ label {
 }
 .radio input[type=radio]:disabled:checked + span::after {
   background-color: #ACB4BF;
+  -webkit-transform: translate(4px, 9px) scale(1);
+  -moz-transform: translate(4px, 9px) scale(1);
+  -o-transform: translate(4px, 9px) scale(1);
+  -ms-transform: translate(4px, 9px) scale(1);
   transform: translate(4px, 9px) scale(1);
 }
 .radio:focus input[type=radio]:not(:disabled) + span:before {
@@ -1249,6 +1270,10 @@ label {
   border: 0.125rem solid #0098FF;
   border-right: none;
   border-top: none;
+  -webkit-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
+  -moz-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
+  -o-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
+  -ms-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
   transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
 }
 .checkbox input[type=checkbox]:not(:disabled):hover + span::before {
@@ -1315,8 +1340,11 @@ label {
   background-color: #0098FF;
 }
 .switch input[type=checkbox]:checked + span::before {
-  -webkit-transform: translateX(2.875rem);
-  transform: translateX(2.875rem);
+  -webkit-transform: translate(2.875rem, 0);
+  -moz-transform: translate(2.875rem, 0);
+  -o-transform: translate(2.875rem, 0);
+  -ms-transform: translate(2.875rem, 0);
+  transform: translate(2.875rem, 0);
 }
 .switch input[type=checkbox]:hover + span::before {
   border-color: #0098FF;

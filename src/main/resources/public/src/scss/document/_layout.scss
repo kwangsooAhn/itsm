@@ -72,10 +72,12 @@
   }
 
   .token-properties {
-    @include propertiesTemplate;
+    @include fixed($layout-header-height, 0, 0, null);
+    width: $layout-properties-width;
     background-color: $layout-properties-bg-color;
     border-left: $layout-properties-border;
     padding: 0 4.0625rem; // 65px
+    overflow-y: auto;
     // 탭
     .token-info-tab {
       display: flex;
@@ -121,9 +123,7 @@
               }
             }
             th, td {
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space:nowrap;
+              @include ellipsis(table-cell);
             }
             th { 
               color: map-get($blacks, "light");

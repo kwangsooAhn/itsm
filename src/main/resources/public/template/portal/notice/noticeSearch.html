@@ -11,7 +11,7 @@
     <div class="notice-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{notice.label.notice}"></h1>
-            <h6 class="description" th:text="#{notice.msg.portalDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{notice.msg.portalDescription}"></h6>
         </div>
         <div class="notice-search">
             <form id="searchFrm">
@@ -21,7 +21,7 @@
                 <span>~</span>
                 <input type="text" class="search-date icon-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
                 <input type="hidden" class="search-date icon-date" id="toDt" name="toDt" readonly="readonly"/>
-                <span id="spanTotalCount" class="txt-num"></span>
+                <span id="spanTotalCount" class="search-count"></span>
             </form>
         </div>
     </div>
