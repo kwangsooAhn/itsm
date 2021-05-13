@@ -526,8 +526,8 @@ class FormDesigner {
 
         this.history.save([{
             type: 'sort',
-            from: { id: object.id, clone: object.children[oldIndex].clone(true).toJson() },
-            to: { id: object.id, clone: object.children[newIndex].clone(true).toJson() }
+            from: { id: object.id, clone: object.children[oldIndex].clone(true, { type: object.children[oldIndex].type }).toJson() },
+            to: { id: object.id, clone: object.children[newIndex].clone(true, { type: object.children[newIndex].type }).toJson() }
         }]);
 
         aliceJs.moveObject(object.children, oldIndex, newIndex);
