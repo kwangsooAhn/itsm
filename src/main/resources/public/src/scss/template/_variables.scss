@@ -532,3 +532,42 @@ $z-index-event:				                 25;
 $z-index-between-event-and-default:	         10;
 $z-index-auto:                               auto;
 $z-index-hidden:                             -1;
+
+//////////////////////////// tag //////////////////////////////
+// tagify 영역 default
+$tagify-border:                              0.0625rem solid map-get($grays, "line"); // 1px
+$tagify-hover-border:                        0.0625rem solid map-get($blues, "light"); // 1px
+$tagify-focus-border:                        0.0625rem solid $blue; // 1px
+// tagify readonly
+$tagify-read-font-color:                     #586872;
+$tagify-read-bg-color:                       #F7F8F9;
+// tagify loading
+$tagify-load-border:                         0.1875rem solid transparent; // 3px
+// tag
+$tag-font-color:                             map-get($blues, "pressed");
+$tag-bg-color:                               rgba(0, 152, 255, 0.1); // $blue , 불투명도 10
+$tag-border:                                 0.0625rem solid #E5F5FF; // 1px
+$tag-border-radius:                          0.4375rem; // 7px
+// tag 삭제 버튼
+$tag-btn-remove-color:                       map-get($blues, "pressed");
+// tag 마우스 오버
+$tag-hover-font-color:                       map-get($blues, "pressed");
+$tag-hover-bg-color:                         rgba(0, 152, 255, 0.1); // $blue , 불투명도 10
+$tag-hover-border-color:                     #ADD6F3;
+
+$tag-hover-btn-remove-color:                 $white;
+$tag-hover-btn-remove-bg-color:              $blue;
+// 태그를 입력하세요 input box
+$tag-input-font-color:                       map-get($grays, "dark");
+
+// 빨간색 Tag 디자인은 중복된 태그 단어 입력 시 중복 입력은 불가능한
+// 느낌을 주기 위해 빨간색 Tag 디자인을 하였습니다. 중복된 Tag는 일정
+// 시간만 보여준 후 사라집니다.
+$tag-invalid-color:                          rgba(255, 64, 90, 0.7); // $red , 불투명도 70
+$tag-invalid-bg-color:                       rgba(255, 64, 90, 0.1); // $red , 불투명도 10
+$tag-invalid-border-color:                   #FFE2E6;
+$tag-invalid-border:                         0.0625rem solid $tag-invalid-border-color; // 1px
+$tag-invalid-hover-border:                   0.0625rem solid $tag-invalid-color; // 1px
+
+// 자동완성을 위한 검색 div
+$tag-dropdown-wrapper-border:                0.0625rem solid map-get($grays, "line");
