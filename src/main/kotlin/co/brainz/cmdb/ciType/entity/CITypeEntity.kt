@@ -48,11 +48,11 @@ data class CITypeEntity(
     val pType: CITypeEntity? = null,
 
     @Column(name = "type_icon", length = 200)
-    val typeIcon: String? = "",
+    var typeIcon: String? = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "default_class_id", referencedColumnName = "class_id")
-    var defaultClass: CIClassEntity,
+    @JoinColumn(name = "class_id", referencedColumnName = "class_id")
+    var ciClass: CIClassEntity,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
