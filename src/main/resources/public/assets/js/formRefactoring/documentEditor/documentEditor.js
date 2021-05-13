@@ -75,21 +75,21 @@ class DocumentEditor {
     sortJson(data) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             data.group.sort((a, b) =>
-                a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
+                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
             );
             data.group.forEach( (g) => {
                 this.sortJson(g);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             data.row.sort((a, b) =>
-                a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
+                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
             );
             data.row.forEach( (r) => {
                 this.sortJson(r);
             });
         } else { // row
             data.component.sort((a, b) =>
-                a.displayOrder < b.displayOrder ? -1 : a.displayOrder > b.displayOrder ? 1 : 0
+                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
             );
         }
     }

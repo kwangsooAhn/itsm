@@ -19,10 +19,10 @@ export default class Row {
         this.id =  data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
-        this.display = {
+        this.display = data.display || {
             displayOrder: 0,     // 표시 순서
-            margin: data.display.margin || '10 0 10 0', // row 간 간격(위 오른쪽 아래 왼쪽)
-            padding: data.display.padding || '10 10 10 10' // row 내부 여백(위 오른쪽 아래 왼쪽)
+            margin: '10 0 10 0', // row 간 간격(위 오른쪽 아래 왼쪽)
+            padding: '10 10 10 10' // row 내부 여백(위 오른쪽 아래 왼쪽)
         }
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);

@@ -34,10 +34,10 @@ export default class Group {
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
         this.label = Object.assign({}, DEFAULT_GROUP_LABEL_PROPERTY, data.label);
-        this.display = {
+        this.display = data.display || {
             displayOrder: 0,     // 표시 순서
-            isAccordionUsed: data.display.isAccordionUsed,
-            margin: data.display.margin || '10 0 10 0' // 그룹 간 간격(위 오른쪽 아래 왼쪽)
+            isAccordionUsed: true,
+            margin: '10 0 10 0' // 그룹 간 간격(위 오른쪽 아래 왼쪽)
         }
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
