@@ -121,9 +121,7 @@
               }
             }
             th, td {
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space:nowrap;
+              @include ellipsis(table-cell);
             }
             th { 
               color: map-get($blacks, "light");

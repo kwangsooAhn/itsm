@@ -1,8 +1,33 @@
 // modal default position 정의
+// @include resetPosition();
 @mixin resetPosition() {
   position:fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+// @include position(absolute, $top: 1em, $left: 50%);
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $position;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+// @include absolute($top: 1em, $left: 50%);
+@mixin absolute($args...) {
+  @include position(absolute, $args...);
+}
+
+// @include relative($top: 1em, $left: 50%);
+@mixin relative($args...) {
+  @include position(relative, $args...);
+}
+
+// @include fixed($top: 1em, $left: 50%);
+@mixin fixed($args...) {
+  @include position(fixed, $args...);
 }

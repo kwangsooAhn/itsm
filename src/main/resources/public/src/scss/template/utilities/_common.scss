@@ -24,9 +24,7 @@
 }
 // 말줄임
 .text-ellipsis {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  @include ellipsis();
 }
 // 자동 줄바꿈
 .auto-break {

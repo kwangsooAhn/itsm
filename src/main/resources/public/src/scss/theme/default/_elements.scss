@@ -110,9 +110,7 @@ table[id="documentDisplay"] {
       height: 1.5rem; // 24px
       font-weight: $font-weight-regular;
       color: map-get($grays, "dark");
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      @include ellipsis(list-item);
     }
   }
 }

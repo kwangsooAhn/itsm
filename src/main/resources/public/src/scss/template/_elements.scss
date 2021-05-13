@@ -209,9 +209,7 @@ table {
 
     td, th {
       border: $element-border-width solid transparent;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space:nowrap;
+      @include ellipsis(table-cell);
     }
   }
 }
@@ -344,8 +342,7 @@ select {
       margin: 0;
       padding: 0.75rem 0; // 12px
       text-indent: 0.625rem; // 10px
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      @include ellipsis(list-item);
       &:hover {
         background: $select-bg-color;
       }
@@ -445,7 +442,7 @@ label {
           }
           &::after {
             background-color: $element-checked-bg-color;
-            transform: translate(4px, 9px) scale(1); // 4px, 9px
+            @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
           }
         }
       }
@@ -474,7 +471,7 @@ label {
         + span {
           &::after {
             background-color: $element-disabled-font-color;
-            transform: translate(4px, 9px) scale(1); // 4px, 9px
+            @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
           }
         }
       }
@@ -538,7 +535,7 @@ label {
             border: 0.125rem solid $element-checked-bg-color; // 2px
             border-right: none;
             border-top: none;
-            transform: translate(0.1875rem, 0.25rem) rotate(-45deg); // 3px, 4px
+            @include transform(translate(0.1875rem, 0.25rem) rotate(-45deg)); // 3px, 4px
           }
         }
       }
@@ -630,8 +627,7 @@ label {
         background-color: $element-checked-bg-color;
 
         &::before {
-          -webkit-transform: translateX(2.875rem); // 46px
-          transform: translateX(2.875rem);
+          @include translate(2.875rem, 0); // 46px
         }
       }
     }

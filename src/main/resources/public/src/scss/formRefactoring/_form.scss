@@ -59,7 +59,7 @@
       + .zenius-group-label {
         border-bottom-color: $group-accordion-border-color;
         .arrow-left {
-          transform: rotate(-90deg);
+          @include rotate(-90);
         }
       }
       ~ .zenius-row-tooltip:not(.off) {
@@ -93,7 +93,7 @@
     // row
     .zenius-row-tooltip {
       display: none;
-      transition: all 0.25s ease-out;
+      @include transition(all 0.25s ease-out);
     }
   }
 }

@@ -1,0 +1,23 @@
+// 말줄임
+// @include ellipsis(inline-block, 8.75rem);
+@mixin ellipsis($display: inline-block, $width: 100%) {
+  display: $display;
+  max-width: $width;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+}
+
+// @include placeholder {
+//  color: red;
+//}
+@mixin placeholder {
+  $placeholders: ':-moz' ':-webkit-input' '-moz' '-ms-input';
+
+  @each $placeholder in $placeholders {
+    &:#{$placeholder}-placeholder {
+      @content;
+    }
+  }
+}
