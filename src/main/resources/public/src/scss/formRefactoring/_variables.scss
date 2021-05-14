@@ -14,7 +14,7 @@ $layout-header-bg-color:                           $blue;
 $layout-component-palette-width:                   15.63rem; // 250px
 $layout-component-palette-bg-color:                $white;
 $layout-component-palette-border:                  0.0625rem solid map-get($grays, "line"); // 1px
-$layout-component-palette-box-shadow:              0.0625rem 0 0.4375rem 0 rgba(204, 206, 209, 0.15); // 1px 0px 7px 0px $pressed-gray, 불투명도 15%;
+$layout-component-palette-box-shadow:              0.0625rem 0 0.4375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.15); // 1px 0px 7px 0px $pressed-gray, 불투명도 15%;
 
 // properties header
 $layout-properties-panel-header-height:            3.125rem; // 50px
@@ -27,7 +27,7 @@ $layout-properties-panel-header-bg-color:          map-get($blues, "hover");
 $layout-properties-panel-width:                    23.13rem; // 370px
 $layout-properties-panel-bg-color:                 $white;
 $layout-properties-panel-border:                   0.0625rem solid map-get($grays, "line"); // 1px
-$layout-properties-panel-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.15);// -1px 15px 7px 0px $pressed-gray, 불투명도 15%;
+$layout-properties-panel-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.15);// -1px 15px 7px 0px $pressed-gray, 불투명도 15%;
 
 // main
 $layout-main-bg-color:                             map-get($grays, "light");
@@ -75,22 +75,22 @@ $element-font-size:                                0.875rem; // 14px
 $form-min-height:                                  56.25rem; // 900px
 $form-bg-color:                                    $white;
 $form-border:                                      0.0625rem solid map-get($grays, "line"); // 1px
-$form-box-shadow:                                  0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
+$form-box-shadow:                                  0 0 0.9375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
 
 //////////////////////////// group ///////////////////////////
 $group-accordion-bg-color:                         map-get($grays, "light");
 $group-accordion-border-color:                     map-get($grays, "line");
 $group-accordion-border:                           0.0625rem solid $group-accordion-border-color; // 1px
 $group-selected-border-color:                      map-get($blues, "light");
-$group-selected-bg-color:                          rgba(135, 206, 255, 0.1);
+$group-selected-bg-color:                          hexToRGBA(map-get($blues, 'light'), 0.1);
 
 //////////////////////////// row ///////////////////////////
 $row-selected-border-color:                        map-get($blues, "light");
-$row-selected-bg-color:                            rgba(135, 206, 255, 0.1);
+$row-selected-bg-color:                            hexToRGBA(map-get($blues, 'light'), 0.1);
 
 ////////////////////////// components /////////////////////////
 $component-selected-border-color:                  map-get($blues, "light");
-$component-selected-bg-color:                      rgba(135, 206, 255, 0.1);
+$component-selected-bg-color:                      hexToRGBA(map-get($blues, 'light'), 0.1);
 
 // color-picker palette
 $color-picker-palette-width:                       100%;

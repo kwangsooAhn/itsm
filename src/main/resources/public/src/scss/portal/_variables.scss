@@ -62,7 +62,7 @@ $faq-group-opened-border:                    $faq-group-opened-border-width soli
 $faq-row-font-size:                          1rem; // 16px
 $faq-row-font-weight:                        $font-weight-medium;
 $faq-row-font-color:                         map-get($blacks, "light");
-$faq-row-opened-bg-color:                    rgba(0, 152, 255, 0.05);
+$faq-row-opened-bg-color:                    hexToRGBA($blue, 0.05);
 $faq-row-border-color:                       map-get($grays, "line");
 $faq-row-opened-border-color:                $blue;
 // faq > faq group > faq row content
@@ -85,7 +85,7 @@ $no-data-found-bg-color:                     rgba(230, 232, 235, 0.6);
 $browser-guide-bg-color:                     map-get($grays, "light");
 $browser-box-bg-color:                       $white;
 $browser-box-border:                         0.0625rem solid map-get($grays, "line");
-$browser-hover-box-shadow:                   0 0 0.9375rem rgba(204, 206, 209, 0.3); // 15px;
+$browser-hover-box-shadow:                   0 0 0.9375rem hexToRGBA(map-get($grays, 'pressed'), 0.3); // 15px;
 
 
 ////////////////////////// 로그인  //////////////////////////

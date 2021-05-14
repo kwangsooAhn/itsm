@@ -923,7 +923,7 @@ select:disabled {
   outline: 0;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
-  box-shadow: 0 0 0.3125rem 0 #ebebeb;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
 }
 .select .designed-options li {
   margin: 0;
@@ -2939,8 +2939,8 @@ button .icon-plus {
   overflow: auto;
 }
 .gmodal-wrapper.gmodal-active {
-  z-index: 999999;
   display: block;
+  z-index: 999999;
 }
 .gmodal-backdrop {
   z-index: 999999;
@@ -2952,34 +2952,34 @@ button .icon-plus {
   background: rgba(116, 147, 179, 0.5);
 }
 .gmodal-dialog {
-  z-index: 999999;
-  border: solid 0.0625rem #EBEBEB;
-  border-radius: 0.0625rem;
   position: absolute;
   top: 8em;
   right: 0;
   left: 0;
   width: 100%;
-  line-height: 1;
   max-width: 26.875rem;
+  line-height: 1;
+  padding: 1.5625rem;
   margin: 0 auto 2em auto;
   box-sizing: border-box;
-  background: #ffffff;
   box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  padding: 1.5625rem;
+  border: solid 0.0625rem #EBEBEB;
+  border-radius: 0.0625rem;
+  background: #ffffff;
+  z-index: 999999;
 }
 .gmodal-title {
   padding: 1em;
-  text-align: center;
   font-size: 1rem;
   box-sizing: border-box;
+  text-align: center;
 }
 .gmodal-body {
+  min-height: 3.4375rem;
   padding: 0 0 0 3.875rem;
   margin-bottom: 2rem;
-  overflow: auto;
-  min-height: 3.4375rem;
   box-sizing: border-box;
+  overflow: auto;
 }
 .gmodal-message {
   display: flex;
@@ -2994,20 +2994,20 @@ button .icon-plus {
   text-align: right;
 }
 .gmodal-button {
-  border: solid 0.0625rem #EBEBEB;
-  margin: 0rem 0rem 0rem 0.3125rem;
-  padding: 0.4375rem 1.5rem;
-  text-align: center;
+  display: inline-block;
   color: #3F4B56;
   font-size: 1rem;
   font-weight: 500;
   text-transform: uppercase;
-  cursor: pointer;
-  display: inline-block;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  border-radius: 0.1875rem;
   text-decoration: none;
+  text-align: center;
+  margin: 0rem 0rem 0rem 0.3125rem;
+  padding: 0.4375rem 1.5rem;
+  border: solid 0.0625rem #EBEBEB;
+  border-radius: 0.1875rem;
+  -webkit-border-radius: 0.1875rem;
+  -moz-border-radius: 0.1875rem;
+  cursor: pointer;
 }
 .gmodal-icon-success {
   background-image: url("../media/icons/alert/icon_alert_success.svg");
@@ -4040,7 +4040,7 @@ button .icon-plus {
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
-  box-shadow: 0 0 0.3125rem 0 #ebebeb;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   text-align: center;
   z-index: 1000;
 }

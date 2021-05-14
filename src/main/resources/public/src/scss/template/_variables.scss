@@ -101,7 +101,7 @@ $element-focus-border:                        $element-focus-border-width solid 
 $element-hover-border-color:                  $blue;
 $element-hover-border-width:                  0.0625rem; // 1px
 $element-hover-border:                        $element-hover-border-width solid $element-hover-border-color;
-$element-hover-box-shadow:                    0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+$element-hover-box-shadow:                    0 0 0.3125rem 0 hexToRGBA($blue, 0.2); // 불투명도 20%
 
 // element disabled시 사용하는 디자인 변수
 $element-disabled-font-color:                 $gray;
@@ -114,14 +114,14 @@ $element-readonly-font-color:                 map-get($grays, 'dark');
 $element-readonly-bg-color:                   map-get($grays, 'light');
 $element-readonly-border-color:               map-get($grays, 'line');
 $element-readonly-border-width:               0.0625rem; // 1px
-$element-readonly-border:               $element-readonly-border-width solid $element-readonly-border-color;
+$element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
 
 // 체크박스, 라디오 버튼, 스위치 등 선택되었을때 (ON) 디자인 변수
 $element-checked-bg-color:                    $blue;
 
 //셀렉트 박스 선택되었을때 옵션에 사용하는 디자인 변수
 $element-selected-font-color:                 $blue;
-$element-hover-bg-color:                      rgba(0, 152, 255, 0.08);
+$element-hover-bg-color:                      hexToRGBA($blue, 0.08); // 불투명도 8%
 
 // 유효성 검증 실패시 디자인 변수
 $element-error-font-color:                    $red !important;
@@ -151,15 +151,15 @@ $table-th-font-size:                          1.125rem; // 18px
 $table-th-font-weight:                        $font-weight-medium;
 
 // button, a
-$btn-font-size:                              $font-size-base;
-$btn-font-color:                             map-get($blacks, 'light');
-$btn-font-weight:                            $font-weight-medium;
-$btn-line-height:                            1.2;
-$btn-bg-color:                               transparent;
-$btn-border-color:                           transparent;
-$btn-border-width:                           0.0625rem; // 1px
-$btn-border:                                 $btn-border-width solid $btn-border-color;
-$btn-border-radius:                          0.1875rem; // 3px
+$btn-font-size:                               $font-size-base;
+$btn-font-color:                              map-get($blacks, 'light');
+$btn-font-weight:                             $font-weight-medium;
+$btn-line-height:                             1.2;
+$btn-bg-color:                                transparent;
+$btn-border-color:                            transparent;
+$btn-border-width:                            0.0625rem; // 1px
+$btn-border:                                  $btn-border-width solid $btn-border-color;
+$btn-border-radius:                           0.1875rem; // 3px
 
 // button 테마
 $btn-themes-colors: (
@@ -171,7 +171,7 @@ $btn-themes-colors: (
   ),
   'point-line': (
     'default': ('font': $blue, 'background': $white, 'border': $blue),
-    'hover': ('font': $blue, 'background': rgba(0, 152, 255, 0.1), 'border': $blue),
+    'hover': ('font': $blue, 'background': hexToRGBA($blue, 0.1), 'border': $blue),
     'pressed': ('font': $white, 'background': map-get($blues, 'hover'), 'border': $blue),
     'disabled': ('font': $blue, 'background': $white, 'border': $blue)
   ),
@@ -183,13 +183,13 @@ $btn-themes-colors: (
   ),
   'default-line': (
     'default': ('font': map-get($blacks, 'light'), 'background': $white, 'border': map-get($grays, 'line')),
-    'hover': ('font': map-get($blacks, 'light'), 'background': rgba(230, 230, 230, 0.3), 'border': map-get($grays, 'line')),
+    'hover': ('font': map-get($blacks, 'light'), 'background': hexToRGBA(#E6E6E6, 0.3), 'border': map-get($grays, 'line')),
     'pressed': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'line'), 'border': map-get($grays, 'pressed')),
     'disabled': ('font': map-get($blacks, 'light'), 'background': $white, 'border': map-get($grays, 'line'))
   ),
   'ghost-fill': (
     'default': ('font': map-get($blacks, 'light'), 'background': transparent, 'border': transparent),
-    'hover': ('font': map-get($blacks, 'light'), 'background': rgba(230, 230, 230, 0.3), 'border': transparent),
+    'hover': ('font': map-get($blacks, 'light'), 'background': hexToRGBA(#E6E6E6, 0.3), 'border': transparent),
     'pressed': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'line'), 'border': transparent),
     'disabled': ('font': map-get($blacks, 'light'), 'background': transparent, 'border': transparent)
   ),
@@ -237,7 +237,7 @@ $btn-group-border-radius:                    0.1875rem; // 3px
 
 // button-group hover 시 디자인 요소
 $btn-group-hover-font-color:                 map-get($blacks, 'light');
-$btn-group-hover-bg-color:                   rgba(230, 230, 230, 0.3);
+$btn-group-hover-bg-color:                   hexToRGBA(#E6E6E6, 0.3);
 $btn-group-hover-border-color:               map-get($grays, 'line');
 
 // button-group pressed 시 디자인 요소
@@ -269,7 +269,7 @@ $scrollbar-color:                            map-get($grays, 'default');
 // scrollbar 모서리 곡선
 $scrollbar-border-radius:                     0.5rem; // 8px
 // scrollbar 배경 색상
-$scrollbar-bg-color:                         rgba(235,235,235, 0.6);
+$scrollbar-bg-color:                         hexToRGBA(map-get($grays, 'line'), 0.6);
 // scrollbar hover, click 이동시 색상
 $scrollbar-hover-color:                      map-get($grays, 'pressed');
 // dark 테마 스크롤바 (메뉴 사용)
@@ -339,7 +339,7 @@ $datepicker-border-color:                    map-get($grays, 'line');
 $datepicker-border-width:                    0.0625rem; // 1px
 $datepicker-border:                          $datepicker-border-width solid $datepicker-border-color;
 $datepicker-border-radius:                   0.0625rem; // 1px
-$datepicker-border-box-shadow:               0 0 0.3125rem 0 rgba(235, 235, 235, 1); // 0 0 5px 0 $line-gray
+$datepicker-border-box-shadow:               0 0 0.3125rem 0 map-get($grays, 'line'); // 0 0 5px 0 $line-gray
 $datepicker-hover-color:                     $blue;
 $datepicker-icon-color:                      map-get($grays, 'pressed');
 // focus
@@ -410,12 +410,12 @@ $tree-indentation:                           calc((#{$tree-toggle-icon-width} / 
 $tree-selected-border-color:                 $blue;
 $tree-selected-border-width:                 0.0625rem; // 1px;
 $tree-selected-border:                       $tree-selected-border-width solid $tree-selected-border-color;
-$tree-selected-bg-color:                     rgba(0, 152, 255, 0.05);
-$tree-hover-bg-color:                        rgba(0, 152, 255, 0.05);
+$tree-selected-bg-color:                     hexToRGBA($blue, 0.05);
+$tree-hover-bg-color:                        hexToRGBA($blue, 0.05);
 
 ///////////////////////////////// modal //////////////////////////////
 // 모달 오픈시 바탕 어둡게
-$modal-backdrop-bg-color:                    rgba(116, 147, 179, 0.5);
+$modal-backdrop-bg-color:                    hexToRGBA(#7493b3, 0.5);
 $modal-border-color:                         map-get($grays, 'line');
 $modal-bg-color:                             $white;
 $modal-border-width:                         0.0625rem; // 1px
@@ -440,7 +440,7 @@ $alert-border-size:                          0.0625rem;  // 1px
 $alert-border:                               solid $alert-border-size map-get($grays, 'line');  // 1px
 $alert-margin-size:                          0.3125rem;  // 5px
 $alert-box-sizing:                           border-box;
-$alert-box-shadow:                           0 0 $alert-margin-size $alert-margin-size rgba(116, 147, 179, 0.25);
+$alert-box-shadow:                           0 0 $alert-margin-size $alert-margin-size hexToRGBA(#7493b3, 0.25);
 
 ///////////////////////////// color-picker ///////////////////////////
 $color-picker-color-size:                    1.75rem;    // 28px
@@ -476,7 +476,7 @@ $thumbnail-box-shadow:                       0 0 0.3125rem 0 map-get($grays, 'li
 $thumbnail-selected-border-width:            0.0625rem; // 1px
 $thumbnail-selected-border-color:            $blue;
 $thumbnail-selected-border:                  $thumbnail-selected-border-width solid $thumbnail-selected-border-color;
-$thumbnail-selected-bg-color:                rgba(0, 152, 255, 0.05);
+$thumbnail-selected-bg-color:                hexToRGBA($blue, 0.05);
 
 // 썸네일 미리보기
 $thumbnail-preview-modal-width:              760px; // 760px
@@ -492,7 +492,7 @@ $tooltip-contents-left:                      0;
 $tooltip-contents-width:                     100%;
 $tooltip-contents-border:                    0.125rem; // 2px
 $tooltip-contents-padding:                   1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
-$tooltip-contents-box-shadow:                0 0 0.3125rem 0 rgba(30, 47, 63, 0.2); // 5px
+$tooltip-contents-box-shadow:                0 0 0.3125rem 0 hexToRGBA(#1e2f3f, 0.2); // 5px
 
 $tooltip-header-contents-size:               1.125rem; // 18px
 $tooltip-header-contents-width:              3.75rem; // 60px
@@ -501,7 +501,7 @@ $tooltip-header-contents-padding:            0.6875rem 0.875rem; // 11px 14px
 $tooltip-header-contents-margin:             1.3125rem 0 0 0; // 21px
 
 /////////////////////////////// designed select ///////////////////////////////
-$select-bg-color: rgba(0, 152, 255, 0.08);
+$select-bg-color:                            hexToRGBA($blue, 0.08);
 
 //////////////////////////////////// common ///////////////////////////////////
 $vertical-bar-width:                         1.875rem; // 30px
@@ -524,8 +524,8 @@ $z-index-hidden:                             -1;
 
 //////////////////////////// tag //////////////////////////////
 // tagify 영역 default
-$tagify-border:                              0.0625rem solid map-get($grays, "line"); // 1px
-$tagify-hover-border:                        0.0625rem solid map-get($blues, "light"); // 1px
+$tagify-border:                              0.0625rem solid map-get($grays, 'line'); // 1px
+$tagify-hover-border:                        0.0625rem solid map-get($blues, 'light'); // 1px
 $tagify-focus-border:                        0.0625rem solid $blue; // 1px
 // tagify readonly
 $tagify-read-font-color:                     #586872;
@@ -533,30 +533,30 @@ $tagify-read-bg-color:                       #F7F8F9;
 // tagify loading
 $tagify-load-border:                         0.1875rem solid transparent; // 3px
 // tag
-$tag-font-color:                             map-get($blues, "pressed");
-$tag-bg-color:                               rgba(0, 152, 255, 0.1); // $blue , 불투명도 10
+$tag-font-color:                             map-get($blues, 'pressed');
+$tag-bg-color:                               hexToRGBA($blue, 0.1); // $blue , 불투명도 10
 $tag-border:                                 0.0625rem solid #E5F5FF; // 1px
 $tag-border-radius:                          0.4375rem; // 7px
 // tag 삭제 버튼
-$tag-btn-remove-color:                       map-get($blues, "pressed");
+$tag-btn-remove-color:                       map-get($blues, 'pressed');
 // tag 마우스 오버
-$tag-hover-font-color:                       map-get($blues, "pressed");
-$tag-hover-bg-color:                         rgba(0, 152, 255, 0.1); // $blue , 불투명도 10
+$tag-hover-font-color:                       map-get($blues, 'pressed');
+$tag-hover-bg-color:                         hexToRGBA($blue, 0.1); // $blue , 불투명도 10
 $tag-hover-border-color:                     #ADD6F3;
 
 $tag-hover-btn-remove-color:                 $white;
 $tag-hover-btn-remove-bg-color:              $blue;
 // 태그를 입력하세요 input box
-$tag-input-font-color:                       map-get($grays, "dark");
+$tag-input-font-color:                       map-get($grays, 'dark');
 
 // 빨간색 Tag 디자인은 중복된 태그 단어 입력 시 중복 입력은 불가능한
 // 느낌을 주기 위해 빨간색 Tag 디자인을 하였습니다. 중복된 Tag는 일정
 // 시간만 보여준 후 사라집니다.
-$tag-invalid-color:                          rgba(255, 64, 90, 0.7); // $red , 불투명도 70
-$tag-invalid-bg-color:                       rgba(255, 64, 90, 0.1); // $red , 불투명도 10
+$tag-invalid-color:                          hexToRGBA($red, 0.7); // $red , 불투명도 70
+$tag-invalid-bg-color:                       hexToRGBA($red, 0.1); // $red , 불투명도 10
 $tag-invalid-border-color:                   #FFE2E6;
 $tag-invalid-border:                         0.0625rem solid $tag-invalid-border-color; // 1px
 $tag-invalid-hover-border:                   0.0625rem solid $tag-invalid-color; // 1px
 
 // 자동완성을 위한 검색 div
-$tag-dropdown-wrapper-border:                0.0625rem solid map-get($grays, "line");
+$tag-dropdown-wrapper-border:                0.0625rem solid map-get($grays, 'line');

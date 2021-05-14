@@ -84,7 +84,7 @@
     padding: 0.938rem;// 15px
     border-bottom: 0.063rem solid map-get($grays, "line"); // 1px
     &:hover {
-      background-color: rgba(135, 206, 255, 0.1);
+      background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
     }
     // 체크 박스 영역
     .notification-checked {

@@ -974,7 +974,7 @@ select:disabled {
   outline: 0;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
-  box-shadow: 0 0 0.3125rem 0 #ebebeb;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
 }
 .select .designed-options li {
   margin: 0;

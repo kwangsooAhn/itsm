@@ -3,56 +3,36 @@
 $layout-header-height:                       0; // 0px
 
 // main
-$layout-main-bg-color:                       map-get($grays, "light");
+$layout-main-bg-color:                       map-get($grays, 'light');
 
 // main > drawing-board
 $drawing-board-width:                        60rem; // 960px
 $drawing-board-bg-color:                     $white;
-$drawing-board-border:                       0.0625rem solid map-get($grays, "line"); // 1px
-$drawing-board-box-shadow:                   0 0 0.9375rem 0 hexToRGBA(map-get($grays, "pressed"), 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
+$drawing-board-border:                       0.0625rem solid map-get($grays, 'line'); // 1px
+$drawing-board-box-shadow:                   0 0 0.9375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
 $drawing-board-margin:                       0 0 7.5rem 0; // 0 0 120px 0
 $drawing-board-padding:                      6.25rem 4.688rem; // 100px 75px;
 
 // properties
 $layout-properties-width:                    38.13rem; // 610px
 $layout-properties-bg-color:                 $white;
-$layout-properties-border:                   0.0625rem solid map-get($grays, "line"); // 1px
+$layout-properties-border:                   0.0625rem solid map-get($grays, 'line'); // 1px
 
 // properties > tab
 $tab-font-size:                              1.125rem; // 18px
 $tab-font-color:                             $gray;
 $tab-font-weight:                            $font-weight-medium;
-$tab-border:                                 0.125rem solid map-get($grays, "default"); // 2px
-$tab-selected-font-color:                    map-get($blacks, "light");
+$tab-border:                                 0.125rem solid map-get($grays, 'default'); // 2px
+$tab-selected-font-color:                    map-get($blacks, 'light');
 $tab-selected-border:                        0.25rem solid $blue; // 4px
 $tab-content-height:                         43.75rem; // 700px
-
-// tag
-$tag-font-color:                             hexToRGBA($blue, 0.7); // $blue , 불투명도 70
-$tag-bg-color:                               hexToRGBA($blue, 0.1); // $blue , 불투명도 10
-$tag-border:                                 0.0625rem solid #E5F5FF; // 1px
-// tag 삭제 버튼
-$tag-btn-remove-color:                       map-get($blues, "hover");
-// tag 마우스 오버
-$tag-hover-font-color:                       $blue;
-$tag-hover-bg-color:                         hexToRGBA($blue, 0.1); // $blue , 불투명도 10
-$tag-hover-border:                           0.0625rem solid $blue; // 1px
-$tag-hover-btn-remove-color:                 $white;
-$tag-hover-btn-remove-bg-color:              $blue;
-// 빨간색 Tag 디자인은 중복된 태그 단어 입력 시 중복 입력은 불가능한 
-// 느낌을 주기 위해 빨간색 Tag 디자인을 하였습니다. 중복된 Tag는 일정
-// 시간만 보여준 후 사라집니다.
-$tag-invalid-color:                          hexToRGBA($red, 0.7); // $red , 불투명도 70
-$tag-invalid-bg-color:                       hexToRGBA($red, 0.1); // $red , 불투명도 10
-$tag-invalid-border:                         0.0625rem solid #FFEBEE; // 1px
-$tag-invalid-hover-border:                   0.0625rem solid $tag-invalid-color; // 1px
 
 //////////////////////////// CI 모달 /////////////////////////
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
 
-$cmdb-ci-attribute-border:                   0.0625rem solid map-get($grays, "line"); // 1px
-$cmdb-ci-attribute-bg-color:                 map-get($grays, "light");
+$cmdb-ci-attribute-border:                   0.0625rem solid map-get($grays, 'line'); // 1px
+$cmdb-ci-attribute-bg-color:                 map-get($grays, 'light');
 
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                           40rem; // 640px

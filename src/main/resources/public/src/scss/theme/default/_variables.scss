@@ -11,36 +11,36 @@ $logo-height:                                 3.75rem; // 60px
 // Navigation
 $nav-width:                                   13.75rem; // 220px
 $nav-height:                                  9.375rem; // 150px
-$nav-bg-color:                                map-get($blacks, "ground");
+$nav-bg-color:                                map-get($blacks, 'ground');
 
 // Menu
 $menu-width:                                  13.75rem; // 220px
 $menu-height:                                 calc(100vh - #{$nav-height} - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
-$menu-bg-color:                               map-get($blacks, "ground");
-$menu-bg-selected-color:                      map-get($blacks, "focus");
-$menu-bg-hover:                               map-get($blacks, "focus");
-$menu-color:                                  map-get($grays, "blue");
+$menu-bg-color:                               map-get($blacks, 'ground');
+$menu-bg-selected-color:                      map-get($blacks, 'focus');
+$menu-bg-hover:                               map-get($blacks, 'focus');
+$menu-color:                                  map-get($grays, 'blue');
 $menu-selected-color:                         $white;
-$menu-hover:                                  map-get($grays, "blue");
+$menu-hover:                                  map-get($grays, 'blue');
 $menu-font:                                   1rem; // 16px;
 
 // Menu Icons
-$icon-gnb-color:                              map-get($grays, "blue");
+$icon-gnb-color:                              map-get($grays, 'blue');
 
-$icon-gnb-board:                              $icon-folder-path + "gnb/icon_gnb_board.svg";
-$icon-gnb-chart:                              $icon-folder-path + "gnb/icon_gnb_chart.svg";
-$icon-gnb-dashboard:                          $icon-folder-path + "gnb/icon_gnb_dashboard.svg";
-$icon-gnb-document:                           $icon-folder-path + "gnb/icon_gnb_document.svg";
-$icon-gnb-download:                           $icon-folder-path + "gnb/icon_gnb_download.svg";
-$icon-gnb-faq:                                $icon-folder-path + "gnb/icon_gnb_faq.svg";
-$icon-gnb-notice:                             $icon-folder-path + "gnb/icon_gnb_notice.svg";
-$icon-gnb-config:                             $icon-folder-path + "gnb/icon_gnb_config.svg";
-$icon-gnb-workflow:                           $icon-folder-path + "gnb/icon_gnb_workflow.svg";
-$icon-gnb-token:                              $icon-folder-path + "gnb/icon_gnb_token.svg";
-$icon-gnb-cmdb:                               $icon-folder-path + "gnb/icon_gnb_cmdb.svg";
+$icon-gnb-board:                              $icon-folder-path + 'gnb/icon_gnb_board.svg';
+$icon-gnb-chart:                              $icon-folder-path + 'gnb/icon_gnb_chart.svg';
+$icon-gnb-dashboard:                          $icon-folder-path + 'gnb/icon_gnb_dashboard.svg';
+$icon-gnb-document:                           $icon-folder-path + 'gnb/icon_gnb_document.svg';
+$icon-gnb-download:                           $icon-folder-path + 'gnb/icon_gnb_download.svg';
+$icon-gnb-faq:                                $icon-folder-path + 'gnb/icon_gnb_faq.svg';
+$icon-gnb-notice:                             $icon-folder-path + 'gnb/icon_gnb_notice.svg';
+$icon-gnb-config:                             $icon-folder-path + 'gnb/icon_gnb_config.svg';
+$icon-gnb-workflow:                           $icon-folder-path + 'gnb/icon_gnb_workflow.svg';
+$icon-gnb-token:                              $icon-folder-path + 'gnb/icon_gnb_token.svg';
+$icon-gnb-cmdb:                               $icon-folder-path + 'gnb/icon_gnb_cmdb.svg';
 
-$icon-arrow-left:                             $icon-folder-path + "icon_arrow_left.svg";
-$icon-arrow-bottom:                           $icon-folder-path + "icon_arrow_bottom.svg";
+$icon-arrow-left:                             $icon-folder-path + 'icon_arrow_left.svg';
+$icon-arrow-bottom:                           $icon-folder-path + 'icon_arrow_bottom.svg';
 
 // Profile
 $profile-photo-size:                          2rem; // 16px
@@ -50,58 +50,58 @@ $profile-photo-background:                    #F0F0F0;
 $document-color-size:                         1rem; // 16px
 
 // 헤더
-$layout-header-border:                        0.0625rem solid map-get($grays, "line"); // 1px
+$layout-header-border:                        0.0625rem solid map-get($grays, 'line'); // 1px
 
 ////////////////////////////// View //////////////////////////////
 $view-title-font-size:                        1.125rem; // 18px
 $view-title-font-weight:                      $font-weight-medium;
-$view-title-font-color:                       map-get($blacks, "light");
+$view-title-font-color:                       map-get($blacks, 'light');
 
 $view-sub-title-font-size:                    $font-size-base; // 16px
 $view-sub-title-font-weight:                  $font-weight-regular;
-$view-sub-title-font-color:                   map-get($grays, "dark");
+$view-sub-title-font-color:                   map-get($grays, 'dark');
 
 $view-content-font-size:                      $font-size-base; // 16px
 $view-content-font-weight:                    $font-weight-regular;
-$view-content-font-color:                     map-get($grays, "dark");
+$view-content-font-color:                     map-get($grays, 'dark');
 
 ////////////////////////////// 리스트 //////////////////////////////
 // 리스트 - 마우스 오버시
-$list-hover-bg-color:                         map-get($grays, "line");
+$list-hover-bg-color:                         map-get($grays, 'line');
 
 // 리스트 - 데이터 없을때
-$no-data-found-list-bg:                       map-get($grays, "line");
+$no-data-found-list-bg:                       map-get($grays, 'line');
 
 // 리스트 - 선택시
-$list-active-font-color:                      map-get($blues, "dark");
-$list-active-bg-color:                        rgba(230, 232, 235, 0.6);
+$list-active-font-color:                      map-get($blues, 'dark');
+$list-active-bg-color:                        hexToRGBA(#e6e8eb, 0.6);
 
 // 공지사항 상단 공지 (배경색 별도 처리)
-$notice-pinned-color:                         rgba(135, 206, 255, 0.15);
+$notice-pinned-color:                         hexToRGBA(map-get($blues, 'light'), 0.15);
 
 ////////////////////////////// 카드 //////////////////////////////
 $card-border-width:                           0.0625rem; // 1px
-$card-border-color:                           map-get($grays, "line");
+$card-border-color:                           map-get($grays, 'line');
 $card-border:                                 $card-border-width solid $card-border-color;
 $card-border-radius:                          0.0625rem; // 1px
-$card-hover-box-shadow:                       0 0 0.9375rem rgba(204, 206, 209, 0.15), inset 0 0 0 $card-border-width $card-border-color;
+$card-hover-box-shadow:                       0 0 0.9375rem hexToRGBA(map-get($grays, 'pressed'), 0.15), inset 0 0 0 $card-border-width $card-border-color;
 
 // 카드 - 데이터 없을 때
-$no-data-found-bg:                           rgba(247, 248, 249, 0.45); // $light-gray
+$no-data-found-bg:                            hexToRGBA(map-get($grays, 'light'), 0.45);
 
 ///////////////////////////// Elements /////////////////////////////
 $element-font-size:                           1rem; // 16px
-$element-font-color:                          map-get($grays, "dark");
+$element-font-color:                          map-get($grays, 'dark');
 $element-font-weight:                         $font-weight-regular;
 $element-bg-color:                            $white;
-$element-border-color:                        map-get($grays, "line");
+$element-border-color:                        map-get($grays, 'line');
 $element-border-width:                        0.0625rem; // 1px
 $element-border-radius:                       0.0625rem; // 1px
 
 //////////////////////////// Thumbnail /////////////////////////////
-$thumbnail-border:                            0.0625rem solid map-get($grays, "line");
+$thumbnail-border:                            0.0625rem solid map-get($grays, 'line');
 $thumbnail-box-shadow:                        0 0 0.3125rem 0.0625rem $thumbnail-border-color; // 5px
-$thumbnail-asset-path:                        "../../../media/icons/thumbnail";
+$thumbnail-asset-path:                        '../../../media/icons/thumbnail';
 
 // 업무흐름 아이콘 선택
 $thumbnail-icon-modal-width:                  47.81rem; // 765px
@@ -128,24 +128,24 @@ $tooltip-contents-width:                      22.5rem; // 360px
 $notification-icon-width:                     100%;
 $notification-icon-height:                    3.125rem; // 50px
 $notification-icon-padding:                   0.6875rem 0 0.6875rem 1.3125rem; // 11px 0 11px 21px
-$notification-icon-color:                     map-get($grays, "pressed");
+$notification-icon-color:                     map-get($grays, 'pressed');
 
-$notification-container-color:                map-get($blacks, "light");
+$notification-container-color:                map-get($blacks, 'light');
 $notification-container-background:           $white;
-$notification-container-border:               0.0625rem solid map-get($grays, "line"); // 1px
-$notification-container-box-shadow:           0 0 0.3125rem 0 map-get($grays, "line"); // 5px
+$notification-container-border:               0.0625rem solid map-get($grays, 'line'); // 1px
+$notification-container-box-shadow:           0 0 0.3125rem 0 map-get($grays, 'line'); // 5px
 
 $notification-header-background:              $blue;
 $notification-checkbox-size:                  1.125rem; // 18px
 $notification-checkbox-border:                0.063rem; // 1px
 $notification-checkbox-border-defualt:        $notification-checkbox-border solid $blue;
-$notification-checkbox-border-checked:        $notification-checkbox-border solid map-get($grays, "line");
+$notification-checkbox-border-checked:        $notification-checkbox-border solid map-get($grays, 'line');
 
 $toastify-height:                             6.25rem; // 100px
 $toastify-background:                         $white !important;
 $toastify-border-radius:                      0.0625rem; // 1px
-$toastify-border:                             $toastify-border-radius solid map-get($grays, "line") !important;
-$toastify-box-shadow:                         0 0 0.3125rem 0 map-get($grays, "line") !important;
+$toastify-border:                             $toastify-border-radius solid map-get($grays, 'line') !important;
+$toastify-box-shadow:                         0 0 0.3125rem 0 map-get($grays, 'line') !important;
 $toastify-icon-size:                          6.25rem; // 100px
 
 ///////////////////////////// Tree ////////////////////////////////
@@ -181,8 +181,8 @@ $vertical-bar-margin:                         0.0625rem 0.9375rem 0.0625rem 0; /
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
 $cmdb-ci-modal-height:                       53.0625rem; // 849px
 
-$cmdb-ci-attribute-border:                   0.0625rem solid map-get($grays, "line"); // 1px
-$cmdb-ci-attribute-bg-color:                 map-get($grays, "light");
+$cmdb-ci-attribute-border:                   0.0625rem solid map-get($grays, 'line'); // 1px
+$cmdb-ci-attribute-bg-color:                 map-get($grays, 'light');
 
 //////////////////////////// 스케줄러 모달 /////////////////////////
 $scheduler-modal-width:                      62.5rem; // 1000px
