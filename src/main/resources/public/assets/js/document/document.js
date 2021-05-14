@@ -881,7 +881,7 @@
     function onAddTag(tag) {
         const jsonData = {
             tagType: 'instance',
-            tagValue: tag.detail.data.value,
+            value: tag.detail.data.value,
             targetId: document.getElementById('instanceId').getAttribute('data-id')
         };
 

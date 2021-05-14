@@ -1584,6 +1584,7 @@ insert into awf_url values ('/rest/schedulers/{id}/execute', 'post', '스케줄�
 insert into awf_url values ('/rest/tags/whitelist', 'get', 'Tag 추천 목록 조회', 'FALSE');
 insert into awf_url values ('/rest/tags', 'post', 'Tag 저장', 'FALSE');
 insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
+insert into awf_url values ('/rest/tags/whitelist', 'get', '태그추천목록조회', 'FALSE');
 insert into awf_url values ('/rest/tokens/data', 'post', 'token 신규 등록', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'get', '처리할 문서 상세 데이터', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'put', 'token 수정', 'TRUE');
