@@ -1398,7 +1398,6 @@ insert into awf_url values ('/cmdb/attributes/{id}/edit', 'get', 'CMDB Attribute
 insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute 보기 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
-insert into awf_url values ('/cmdb/types', 'get', 'CMDB Type 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
 insert into awf_url values ('/cmdb/cis', 'get', 'CMDB CI 조회 목록', 'TRUE');
 insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
@@ -1487,7 +1486,6 @@ insert into awf_url values ('/rest/charts', 'post', '사용자 정의 차트 등
 insert into awf_url values ('/rest/charts/{id}', 'put', '사용자 정의 차트 수정', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}', 'delete', '사용자 정의 차트 삭제', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}/preview', 'post', '사용자 정의 차트 미리보기', 'TRUE');
-insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
@@ -1700,7 +1698,6 @@ insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', '
 insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'form.read');
-insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.delete');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.update');
@@ -1829,9 +1826,9 @@ insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'chart.update')
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'chart.delete');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.create');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.update');
-insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
@@ -1883,8 +1880,10 @@ insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'custom.code.d
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'custom.code.delete');
-insert into awf_url_auth_map values ('/rest/documents', 'get', 'process.update');
-insert into awf_url_auth_map values ('/rest/documents', 'get', 'process.create');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.create');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.update');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.read');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.delete');
 insert into awf_url_auth_map values ('/rest/workflows', 'post', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'document.admin.create');
@@ -3123,7 +3122,7 @@ insert into wf_component_data values ('a640301d7e67dc92c279f83bec7358be', 'displ
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"처리일시"}');
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'display', '{"column":"10","default":"now","order":20}');
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'validate', '{"datetimeMin":"","datetimeMax":""}');
-insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'display', '{"column":"10","customCode":"40288a19736b46fb01736b89e46c0008","default":"session|userName|이름","buttonText":"검색","order":9}');
+insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'display', '{"column":"10","customCode":"40288a19736b46fb01736b89e46c0008","default":"none","buttonText":"검색","order":9}');
 insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"담당자"}');
 insert into wf_component_data values ('a7fb73ce3c61d3d600ab135d6a6a8684', 'validate', '{"lengthMin":"0","lengthMax":"500"}');
 insert into wf_component_data values ('a7fb73ce3c61d3d600ab135d6a6a8684', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"요청내역"}');
@@ -9559,7 +9558,7 @@ CREATE TABLE cmdb_type
 	type_desc character varying(512),
 	type_alias character varying(128),
 	type_level int,
-	default_class_id character varying(128) NOT NULL,
+	class_id character varying(128) NOT NULL,
 	type_icon character varying(200),
 	create_user_key character varying(128),
 	create_dt timestamp,
@@ -9567,7 +9566,7 @@ CREATE TABLE cmdb_type
 	update_dt timestamp,
 	CONSTRAINT cmdb_type_pk PRIMARY KEY (type_id),
 	CONSTRAINT cmdb_type_uk UNIQUE (type_id),
-	CONSTRAINT cmdb_type_fk FOREIGN KEY (default_class_id)
+	CONSTRAINT cmdb_type_fk FOREIGN KEY (class_id)
       REFERENCES cmdb_class (class_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
@@ -9579,7 +9578,7 @@ COMMENT ON COLUMN cmdb_type.type_name IS '타입이름';
 COMMENT ON COLUMN cmdb_type.type_desc IS '타입설명';
 COMMENT ON COLUMN cmdb_type.type_alias IS '타입식별자';
 COMMENT ON COLUMN cmdb_type.type_level IS '타입레벨';
-COMMENT ON COLUMN cmdb_type.default_class_id IS '기본클래스아이디';
+COMMENT ON COLUMN cmdb_type.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_type.type_icon IS '타입아이콘';
 COMMENT ON COLUMN cmdb_type.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';
@@ -9650,8 +9649,6 @@ CREATE TABLE cmdb_ci
 	ci_name character varying(128) NOT NULL,
 	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
-	class_id character varying(128) NOT NULL,
-	ci_icon character varying(200),
 	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
 	instance_id character varying(128),
@@ -9664,10 +9661,7 @@ CREATE TABLE cmdb_ci
 	CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)
       REFERENCES cmdb_type (type_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_fk2 FOREIGN KEY (class_id)
-      REFERENCES cmdb_class (class_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT cmdb_ci_fk3 FOREIGN KEY (instance_id)
+    CONSTRAINT cmdb_ci_fk2 FOREIGN KEY (instance_id)
         REFERENCES wf_instance (instance_id) MATCH SIMPLE
         ON UPDATE NO ACTION ON DELETE NO ACTION
 );
@@ -9678,8 +9672,6 @@ COMMENT ON COLUMN cmdb_ci.ci_no IS '시퀀스';
 COMMENT ON COLUMN cmdb_ci.ci_name IS 'CI이름';
 COMMENT ON COLUMN cmdb_ci.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci.type_id IS '타입아이디';
-COMMENT ON COLUMN cmdb_ci.class_id IS '클래스아이디';
-COMMENT ON COLUMN cmdb_ci.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci.ci_desc IS 'CI설명';
 COMMENT ON COLUMN cmdb_ci.automatic IS '자동등록여부';
 COMMENT ON COLUMN cmdb_ci.instance_id IS '인스턴스ID';

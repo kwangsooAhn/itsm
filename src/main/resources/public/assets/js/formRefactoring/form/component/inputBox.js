@@ -136,7 +136,7 @@ export const inputBoxMixin = {
     getValue() {
         if (this.value === '${default}') {
             // 직접입력일 경우 : none|입력값
-            const defaultValues = this.element.defaultType.split('|');
+            const defaultValues = this.element.defaultValueSelect.split('|');
             if (defaultValues[0] === 'input') {
                 return defaultValues[1];
             } else {  // 자동일경우 : select|userKey

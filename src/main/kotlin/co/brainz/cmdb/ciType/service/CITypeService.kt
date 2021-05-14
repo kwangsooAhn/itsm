@@ -100,9 +100,9 @@ class CITypeService(
                     pTypeId = typeEntity.pType?.typeId,
                     pTypeName = typeEntity.pType?.typeName,
                     typeIcon = typeEntity.typeIcon,
-                    typeIconData = typeEntity.typeIcon?.let { getCITypeImageData(typeEntity.typeIcon) },
-                    defaultClassId = typeEntity.defaultClass.classId,
-                    defaultClassName = typeEntity.defaultClass.className
+                    typeIconData = typeEntity.typeIcon?.let { getCITypeImageData(typeEntity.typeIcon!!) },
+                    classId = typeEntity.ciClass.classId,
+                    className = typeEntity.ciClass.className
                 )
             )
         }
@@ -126,9 +126,9 @@ class CITypeService(
             pTypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId },
             pTypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
             typeIcon = typeDetailEntity.typeIcon,
-            typeIconData = typeDetailEntity.typeIcon?.let { getCITypeImageData(typeDetailEntity.typeIcon) },
-            defaultClassId = typeDetailEntity.defaultClass.classId,
-            defaultClassName = typeDetailEntity.defaultClass.className,
+            typeIconData = typeDetailEntity.typeIcon?.let { getCITypeImageData(typeDetailEntity.typeIcon!!) },
+            classId = typeDetailEntity.ciClass.classId,
+            className = typeDetailEntity.ciClass.className,
             createDt = typeDetailEntity.createDt,
             createUserKey = typeDetailEntity.createUser?.userKey,
             updateDt = typeDetailEntity.updateDt,
@@ -157,7 +157,7 @@ class CITypeService(
             typeDesc = ciTypeDto.typeDesc,
             typeAlias = ciTypeDto.typeAlias,
             typeIcon = ciTypeDto.typeIcon,
-            defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId),
+            ciClass = ciClassRepository.getOne(ciTypeDto.classId),
             typeLevel = typeLevel
         )
 
@@ -184,7 +184,7 @@ class CITypeService(
             typeLevel = ciTypeDto.typeLevel,
             pType = parentTypeEntity,
             typeIcon = ciTypeDto.typeIcon,
-            defaultClass = ciClassRepository.getOne(ciTypeDto.defaultClassId)
+            ciClass = ciClassRepository.getOne(ciTypeDto.classId)
         )
         ciTypeEntity.updateUser = ciTypeDto.updateUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)

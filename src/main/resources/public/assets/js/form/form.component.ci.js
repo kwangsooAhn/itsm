@@ -627,11 +627,11 @@
                     // 아이콘과 클래스가 없을 경우, 타입 변경시 기본 값을 추가해준다.
                     restSubmit('/rest/cmdb/types/' + response.id, 'GET', {}, false, function (responseData) {
                         let responseJson = JSON.parse(responseData);
-                        document.getElementById('classId').value = responseJson.defaultClassId;
-                        document.getElementById('className').value = responseJson.defaultClassName;
+                        document.getElementById('classId').value = responseJson.classId;
+                        document.getElementById('className').value = responseJson.className;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
                         document.getElementById('typeIconData').value = responseJson.typeIconData;
-                        setAttributeDetail(responseJson.defaultClassId);
+                        setAttributeDetail(responseJson.classId);
                     });
                     document.getElementById('typeName').value = response.dataset.name;
                     document.getElementById('typeId').value = response.id;
@@ -644,9 +644,10 @@
 
     /**
      * 타입 아이콘 선택 모달
+     * 2021-05-13 아이콘을 타입선택시 자동 설정 외에 변경 불가로 주석 처리
      * @param {String} typeIcon 아이콘 경로
      */
-    function openSelectIconModal(typeIcon) {
+    /*function openSelectIconModal(typeIcon) {
         aliceJs.thumbnail({
             title: i18n.msg('cmdb.type.label.icon'),
             targetId: 'typeIcon',
@@ -657,7 +658,7 @@
             selectedPath: document.querySelector('#typeIcon').value
         });
 
-    }
+    }*/
 
     /**
      * 클래스 선택 모달
@@ -703,7 +704,6 @@
     exports.addRow = addRow;
     exports.removeRow = removeRow;
     exports.openSelectTypeModal = openSelectTypeModal;
-    exports.openSelectIconModal = openSelectIconModal;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
