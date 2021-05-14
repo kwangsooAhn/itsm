@@ -96,7 +96,7 @@ class CITypeServiceTest {
             typeAlias = "TestAlias",
             typeDesc = "",
             typeLevel = 1,
-            defaultClassId = "df562114ab87c066adeaea79b2e4a8a2",
+            classId = "df562114ab87c066adeaea79b2e4a8a2",
             pTypeId = "root",
             createDt = LocalDateTime.now(),
             createUserKey = this.userKey
@@ -123,7 +123,7 @@ class CITypeServiceTest {
                         typeAlias = ciTypeDto.typeAlias,
                         typeLevel = ciTypeDto.typeLevel,
                         pTypeId = "root",
-                        defaultClassId = "df562114ab87c066adeaea79b2e4a8a2",
+                        classId = "df562114ab87c066adeaea79b2e4a8a2",
                         updateUserKey = this.userKey,
                         updateDt = LocalDateTime.now()
                     )

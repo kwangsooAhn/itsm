@@ -127,16 +127,16 @@
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('parentTypeName').setAttribute('disabled','');
-                        document.getElementById('parentTypeName').value = responseJson.ptypeName;
-                        document.getElementById('parentTypeId').value = responseJson.ptypeId;
+                        document.getElementById('parentTypeName').value = responseJson.pTypeName;
+                        document.getElementById('parentTypeId').value = responseJson.pTypeId;
                         document.getElementById('typeName').value = responseJson.typeName;
                         document.getElementById('typeId').value = responseJson.typeId;
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
                         document.getElementById('typeAlias').value = responseJson.typeAlias;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
-                        document.getElementById('typeClassId').value = responseJson.defaultClassId;
-                        document.getElementById('typeClass').value = responseJson.defaultClassName;
-                        if (responseJson.ptypeId !== null) {
+                        document.getElementById('typeClassId').value = responseJson.classId;
+                        document.getElementById('typeClass').value = responseJson.className;
+                        if (responseJson.pTypeId !== null) {
                             document.querySelector('#btnUpdate').removeAttribute('disabled');
                             document.querySelector('#btnDelete').removeAttribute('disabled');
                             document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
@@ -206,8 +206,8 @@
                 typeAlias: document.getElementById('typeAlias').value,
                 typeDesc: document.getElementById('typeDesc').value,
                 typeIcon: document.getElementById('typeIcon').value,
-                defaultClassId: document.getElementById('typeClassId').value,
-                defaultClassName: document.getElementById('typeClass').value,
+                classId: document.getElementById('typeClassId').value,
+                className: document.getElementById('typeClass').value,
                 typeLevel: document.getElementById('typeLevel').value
             };
             if (jsonData.pTypeId === null || jsonData.pTypeId.trim() === '') {

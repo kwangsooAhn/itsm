@@ -43,7 +43,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                     cmdbType.typeName,
                     cmdbClass.classId,
                     cmdbClass.className,
-                    ci.ciIcon,
+                    cmdbType.typeIcon,
                     ci.ciDesc,
                     ci.automatic,
                     ci.createUser.userKey,
@@ -53,7 +53,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                 )
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
-            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciClassEntity.classId))
+            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
             .where(ci.ciId.eq(ciId))
             .orderBy(ci.ciName.asc())
         return query.fetchOne()
@@ -82,7 +82,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                     cmdbType.typeName,
                     cmdbClass.classId,
                     cmdbClass.className,
-                    ci.ciIcon,
+                    cmdbType.typeIcon,
                     ci.ciDesc,
                     ci.automatic,
                     ci.createUser.userKey,
@@ -92,14 +92,14 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                 )
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
-            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciClassEntity.classId))
+            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
             .where(
                 (!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
                     .and(
                         super.like(ci.ciName, ciSearchDto.search)
                             ?.or(super.like(ci.ciNo, ciSearchDto.search))
                             ?.or(super.like(ci.ciTypeEntity.typeName, ciSearchDto.search))
-                            ?.or(super.like(ci.ciClassEntity.className, ciSearchDto.search))
+                            ?.or(super.like(cmdbClass.className, ciSearchDto.search))
                             ?.or(super.like(ci.ciDesc, ciSearchDto.search))
                     )
             )
