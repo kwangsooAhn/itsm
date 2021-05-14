@@ -1,6 +1,11 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.notice.dto
 
-import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -10,5 +15,5 @@ data class NoticePopupDto(
     var noticeContents: String = "",
     var createDt: LocalDateTime = LocalDateTime.now(),
     var createUserKey: String = "",
-    var aliceUserEntity: AliceUserEntity? = null
+    var createUserName: String = ""
 ) : Serializable

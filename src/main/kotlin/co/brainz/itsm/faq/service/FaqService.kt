@@ -9,11 +9,10 @@ package co.brainz.itsm.faq.service
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
+import co.brainz.itsm.faq.dto.FaqListReturnDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
-import co.brainz.itsm.faq.mapper.FaqMapper
 import co.brainz.itsm.faq.repository.FaqRepository
-import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -30,12 +29,11 @@ import org.springframework.transaction.annotation.Transactional
 class FaqService(private val faqRepository: FaqRepository, private val aliceFileService: AliceFileService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val faqMapper: FaqMapper = Mappers.getMapper(FaqMapper::class.java)
 
     /**
      * FAQ 목록을 조회한다.
      */
-    fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
+    fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto): FaqListReturnDto {
         return faqRepository.findFaqs(faqSearchRequestDto)
     }
 

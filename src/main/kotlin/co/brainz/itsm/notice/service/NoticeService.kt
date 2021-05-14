@@ -1,9 +1,16 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.notice.service
 
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.notice.dto.NoticeDto
 import co.brainz.itsm.notice.dto.NoticeListDto
+import co.brainz.itsm.notice.dto.NoticeListReturnDto
 import co.brainz.itsm.notice.dto.NoticePopupDto
 import co.brainz.itsm.notice.dto.NoticePopupListDto
 import co.brainz.itsm.notice.entity.NoticeEntity
@@ -22,18 +29,19 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     private val noticeMapper: NoticeMapper = Mappers.getMapper(NoticeMapper::class.java)
 
     // 공지사항 리스트
-    fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime, offset: Long):
-            MutableList<NoticeListDto> {
-        return noticeRepository.findNoticeSearch(searchValue, fromDt, toDt, offset)
+    fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime, offset: Long, limit: Long):
+            NoticeListReturnDto {
+        return noticeRepository.findNoticeSearch(searchValue, fromDt, toDt, offset, limit)
     }
 
     // 공지사항 상단 리스트
     fun findTopNoticeSearch(
         searchValue: String,
         fromDt: LocalDateTime,
-        toDt: LocalDateTime
+        toDt: LocalDateTime,
+        limit: Long
     ): MutableList<NoticeListDto> {
-        return noticeRepository.findTopNoticeSearch(searchValue, fromDt, toDt)
+        return noticeRepository.findTopNoticeSearch(searchValue, fromDt, toDt, limit)
     }
 
     // 공지사항 조회 및 수정용 세부정보

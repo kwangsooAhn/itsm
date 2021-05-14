@@ -63,8 +63,8 @@ class FaqController(private val faqService: FaqService, private val codeService:
     @GetMapping("")
     fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
         val result = faqService.getFaqs(faqSearchRequestDto)
-        model.addAttribute("faqs", result)
-        model.addAttribute("faqCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("faqs", result.data)
+        model.addAttribute("faqCount", result.totalCount)
         return if (faqSearchRequestDto.isScroll) faqListFragment else faqListPage
     }
 

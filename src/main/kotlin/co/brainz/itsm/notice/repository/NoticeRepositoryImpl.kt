@@ -6,9 +6,8 @@
 
 package co.brainz.itsm.notice.repository
 
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.notice.dto.NoticeListDto
-import co.brainz.itsm.notice.dto.NoticeQueryResultDto
+import co.brainz.itsm.notice.dto.NoticeListReturnDto
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
@@ -42,113 +41,79 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
         searchValue: String,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
-        offset: Long
-    ): MutableList<NoticeListDto> {
+        offset: Long,
+        limit: Long
+    ): NoticeListReturnDto {
         val notice = QNoticeEntity.noticeEntity
         val query = from(notice)
             .select(
                 Projections.constructor(
-                    NoticeQueryResultDto::class.java,
+                    NoticeListDto::class.java,
                     notice.topNoticeYn,
                     notice.noticeNo,
                     notice.noticeTitle,
                     notice.popYn,
-                    notice.popWidth,
-                    notice.popHeight,
                     notice.createDt,
                     notice.popStrtDt,
                     notice.popEndDt,
+                    notice.popWidth,
+                    notice.popHeight,
                     notice.topNoticeStrtDt,
                     notice.topNoticeEndDt,
-                    notice.aliceUserEntity
+                    notice.createUser.userName
                 )
             )
             .where(
                 super.like(notice.noticeTitle, searchValue)?.or(
-                    super.like(notice.aliceUserEntity.userName, searchValue)
+                    super.like(notice.createUser.userName, searchValue)
                 ),
                 notice.createDt.goe(fromDt), notice.createDt.lt(toDt)
             )
             .orderBy(notice.createDt.desc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
+            .limit(limit)
             .offset(offset)
             .fetchResults()
 
-        val noticeList = mutableListOf<NoticeListDto>()
-        for (data in query.results) {
-            val noticeListDto = NoticeListDto(
-                topNoticeYn = data.topNoticeYn,
-                noticeNo = data.noticeNo,
-                noticeTitle = data.noticeTitle,
-                popYn = data.popYn,
-                popWidth = data.popWidth,
-                popHeight = data.popHeight,
-                createDt = data.createDt,
-                popStrtDt = data.popStrtDt,
-                popEndDt = data.popEndDt,
-                topNoticeStrtDt = data.topNoticeStrtDt,
-                topNoticeEndDt = data.topNoticeEndDt,
-                totalCount = query.total,
-                createUserName = data.aliceUserEntity?.userName
-            )
-            noticeList.add(noticeListDto)
-        }
-        return noticeList
+        return NoticeListReturnDto(
+            data = query.results,
+            totalCount = query.total
+        )
     }
 
     override fun findTopNoticeSearch(
         searchValue: String,
         fromDt: LocalDateTime,
-        toDt: LocalDateTime
+        toDt: LocalDateTime,
+        limit: Long
     ): MutableList<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
-        val query = from(notice)
+        return from(notice)
             .select(
                 Projections.constructor(
-                    NoticeQueryResultDto::class.java,
+                    NoticeListDto::class.java,
                     notice.topNoticeYn,
                     notice.noticeNo,
                     notice.noticeTitle,
                     notice.popYn,
-                    notice.popWidth,
-                    notice.popHeight,
                     notice.createDt,
                     notice.popStrtDt,
                     notice.popEndDt,
+                    notice.popWidth,
+                    notice.popHeight,
                     notice.topNoticeStrtDt,
                     notice.topNoticeEndDt,
-                    notice.aliceUserEntity
+                    notice.createUser.userName
                 )
             )
             .where(
                 super.like(notice.noticeTitle, searchValue)?.or(
-                    super.like(notice.aliceUserEntity.userName, searchValue)
+                    super.like(notice.createUser.userName, searchValue)
                 ),
                 notice.createDt.goe(fromDt), notice.createDt.lt(toDt), notice.topNoticeYn.eq(true)
             )
             .orderBy(notice.createDt.desc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
+            .limit(limit)
             .fetch()
-
-        val noticeList = mutableListOf<NoticeListDto>()
-        for (data in query) {
-            val noticeListDto = NoticeListDto(
-                topNoticeYn = data.topNoticeYn,
-                noticeNo = data.noticeNo,
-                noticeTitle = data.noticeTitle,
-                popYn = data.popYn,
-                popWidth = data.popWidth,
-                popHeight = data.popHeight,
-                createDt = data.createDt,
-                popStrtDt = data.popStrtDt,
-                popEndDt = data.popEndDt,
-                topNoticeStrtDt = data.topNoticeStrtDt,
-                topNoticeEndDt = data.topNoticeEndDt,
-                createUserName = data.aliceUserEntity?.userName
-            )
-            noticeList.add(noticeListDto)
-        }
-        return noticeList
     }
 
     override fun findNotice(noticeNo: String): NoticeEntity {

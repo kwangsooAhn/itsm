@@ -7,16 +7,12 @@
 package co.brainz.itsm.notice.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
-import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
@@ -56,10 +52,5 @@ data class NoticeEntity(
     var topNoticeStrtDt: LocalDateTime? = null,
 
     @Column(name = "top_notice_end_dt")
-    var topNoticeEndDt: LocalDateTime? = null,
-
-    @ManyToOne(targetEntity = AliceUserEntity::class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_user_key", insertable = false, updatable = false)
-    var aliceUserEntity: AliceUserEntity? = null
-
+    var topNoticeEndDt: LocalDateTime? = null
 ) : Serializable, AliceMetaEntity()
