@@ -8,6 +8,20 @@
   overflow: hidden;
   word-wrap: normal;
 }
+// 줄바꿈
+@mixin wordWrap($wrap: break-word) {
+  overflow-wrap: $wrap;
+  word-wrap: $wrap;
+
+  @if $wrap == break-word {
+    white-space: pre-line;      // CSS 3.0
+    white-space: -o-pre-wrap;   // Opera
+    white-space: -moz-pre-wrap; // Mozilla
+    word-break: break-all;
+  } @else {
+    word-break: $wrap;
+  }
+}
 
 // @include placeholder {
 //  color: red;

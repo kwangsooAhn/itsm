@@ -119,21 +119,11 @@ input {
     &::-webkit-slider-thumb { // 동그라미
       -webkit-appearance: none;
       appearance: none;
-      width: 1.125rem; // 18px
-      height: 1.125rem; // 18px
-      background-color: $element-bg-color;
-      border: $element-border;
-      border-radius: 50%;
-      cursor: pointer;
+      @include thumb(1.125rem, 1.125rem, $element-border, 50%, $element-bg-color); // 18px 18px
     }
 
     &::-moz-range-thumb { // 동그라미
-      width: 1.125rem; // 18px
-      height: 1.125rem; // 18px
-      background-color: $element-bg-color;
-      border: $element-border;
-      border-radius: 50%;
-      cursor: pointer;
+      @include thumb(1.125rem, 1.125rem, $element-border, 50%, $element-bg-color); // 18px 18px
     }
   }
 }

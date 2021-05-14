@@ -24,7 +24,9 @@
             </div>
             <div class="horizontal-bar"></div>
             <div class="view-content flex-row">
-                <span class="view-text auto-break space-line" th:text="${notice?.noticeContents}"/>
+                <pre>
+                    <span class="view-text" th:text="${notice?.noticeContents}"/>
+                </pre>
             </div>
             <div class="horizontal-bar"></div>
             <div class="file-uploader-view">

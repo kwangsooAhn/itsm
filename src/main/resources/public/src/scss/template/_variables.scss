@@ -279,19 +279,8 @@ $scrollbar-dark-hover-color:                 map-get($grays, 'dark');
 
 ///////////////////////////////// columns /////////////////////////////////
 // Column width (fixed)
+$column-count: 12;
 $column-init: 5rem; // 80px
-$column-1: $column-init * 1; // 80px
-$column-2: $column-init * 2; // 160px
-$column-3: $column-init * 3; // 240px
-$column-4: $column-init * 4; // 320px
-$column-5: $column-init * 5; // 400px
-$column-6: $column-init * 6; // 480px
-$column-7: $column-init * 7; // 560px
-$column-8: $column-init * 8; // 640px
-$column-9: $column-init * 9; // 720px
-$column-10: $column-init * 10; // 800px
-$column-11: $column-init * 11; // 880px
-$column-12: $column-init * 12; // 960px
 
 //////////////////////////////// fileuploader ////////////////////////////////
 $file-uploader-font-size:                    $font-size-base;

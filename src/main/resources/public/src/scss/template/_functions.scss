@@ -1,1 +1,9 @@
 // 공통으로 사용하고자 하는 함수들을 정의합니다.
+
+@function getColumnPercentWidth($columns) {
+  @return (100% / $columns)
+}
+
+@function hexToRGBA($hexcolor, $opacity: 1) {
+  @return rgba($hexcolor, $opacity)
+}

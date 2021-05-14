@@ -323,7 +323,7 @@
   padding: 0.3em 0.5em;
   line-height: inherit;
   position: relative;
-  white-space: pre-line;
+  @include wordWrap(break-word);
   // 미 입력시, placeholder 투명도 조정 가능
   &:empty::before {
     @include transition(0.2s ease-out);

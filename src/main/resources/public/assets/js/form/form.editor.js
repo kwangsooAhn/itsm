@@ -1746,7 +1746,7 @@
                             `<input type="text" class="property-value color" id="${group}-${property.id}-value"  value="${property.value}" readonly>` +
                         `</div>` +
                         `<div id="${group + '-' + property.id}-colorPaletteLayer">` +
-                            `<div id="${group + '-' + property.id}-colorPalette" class="color-palette"></div>` +
+                            `<div id="${group + '-' + property.id}-colorPalette" class="color-palette "></div>` +
                             `<div id="${group + '-' + property.id}-colorPalette-opacity" class="color-palette-opacity"></div>` +
                         `</div>` +
                     `</div>`;

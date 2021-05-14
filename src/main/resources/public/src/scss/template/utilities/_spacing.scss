@@ -7,31 +7,28 @@
  */
 // padding
 .p-0 { padding: 0; }
-.pl-0 { padding-left: 0; }
-.pr-0 { padding-right: 0; }
+// pt-0 ~ pt-5, pl-0 ~ pl-5, pb-0 ~ pb-5, pr-0 ~ pr-5
+@for $i from 1 through 5 {
+  $padding: $i * 0.3125rem; // 5px 씩 증가
+  .pt-#{$i} { padding-top: $padding; }
+  .pl-#{$i} { padding-left: $padding; }
+  .pb-#{$i} { padding-bottom: $padding; }
+  .pr-#{$i} { padding-right: $padding; }
+}
 
 // margin
 .m-0 { margin: 0; }
-.ml-0 { margin-left: 0; }
-.ml-1 { margin-left: 0.3125rem; } // 5px
-.ml-2 { margin-left: 0.625rem; }  // 10px
-.ml-3 { margin-left: 0.9375rem; } // 15px
-.ml-4 { margin-left: 1.25rem; }   // 20px
-.ml-5 { margin-left: 1.875rem; }  // 30px
-.ml-auto { margin-left: auto; }
+.m-auto { margin: auto; }
 
-.mr-0 { margin-right: 0; }
-.mr-1 { margin-right: 0.3125rem; } // 5px
-.mr-2 { margin-right: 0.625rem; }  // 10px
-.mr-3 { margin-right: 0.9375rem; } // 15px
-.mr-4 { margin-right: 1.25rem; }   // 20px
-.mr-5 { margin-right: 1.875rem; } // 30px
-.mr-auto { margin-right: auto; }
-
-.mt-0 { margin-top: 0; }
-.mt-1 { margin-top: 0.3125rem; } // 5px
-.mt-2 { margin-top: 0.625rem; }  // 10px
-.mt-3 { margin-top: 0.9375rem; } // 15px
-.mt-4 { margin-top: 1.25rem; }   // 20px
-.mt-5 { margin-top: 1.875rem; }  // 30px
+// mt-0 ~ mt-5, ml-0 ~ ml-5, mb-0 ~ mb-5, mr-0 ~ mr-5
+@for $i from 1 through 5 {
+  $margin: $i * 0.3125rem; // 5px 씩 증가
+  .mt-#{$i} { margin-top: $margin; }
+  .ml-#{$i} { margin-left: $margin; }
+  .mb-#{$i} { margin-bottom: $margin; }
+  .mr-#{$i} { margin-right: $margin; }
+}
 .mt-auto { margin-top: auto; }
+.ml-auto { margin-left: auto; }
+.mb-auto { margin-bottom: auto; }
+.mr-auto { margin-right: auto; }
