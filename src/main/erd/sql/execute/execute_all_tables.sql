@@ -2352,6 +2352,41 @@ COMMENT ON COLUMN portal_notice.create_dt IS '등록일';
 COMMENT ON COLUMN portal_notice.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_notice.update_dt IS '수정일';
 
+CREATE TABLE wf_form_group
+(
+    form_group_id varchar(128) NULL,
+    form_id varchar(128) NULL,
+    CONSTRAINT wf_form_group_pk PRIMARY KEY (form_group_id),
+    CONSTRAINT wf_form_group_fk FOREIGN KEY (form_id) REFERENCES wf_form (form_id)
+);
+
+COMMENT ON TABLE wf_form_group IS '문서양식 그룹정보';
+COMMENT ON COLUMN wf_form_group.form_group_id IS '문서양식 그룹아이디';
+COMMENT ON COLUMN wf_form_group.form_id IS '문서양식아이디';
+CREATE TABLE wf_form_group_property (
+    form_group_id varchar(128) NOT NULL,
+    property_type varchar(100) NOT NULL,
+    property_options text NULL,
+    CONSTRAINT wf_form_group_property_pk PRIMARY KEY (form_group_id, property_type),
+    CONSTRAINT wf_form_group_property_fk FOREIGN KEY (form_group_id) REFERENCES wf_form_group(form_group_id)
+);
+
+COMMENT ON TABLE wf_form_group_property IS '문서양식 그룹 세부정보';
+COMMENT ON COLUMN wf_form_group_property.form_group_id IS '문서양식 그룹아이디';
+COMMENT ON COLUMN wf_form_group_property.property_type IS '속성 타입';
+COMMENT ON COLUMN wf_form_group_property.property_options IS '속성 값';
+CREATE TABLE wf_form_row (
+     form_row_id varchar(128) NULL,
+     form_group_id varchar(128) NULL,
+     row_display_option text NULL,
+     CONSTRAINT wf_form_row_pk PRIMARY KEY (form_row_id),
+     CONSTRAINT wf_form_row_fk FOREIGN KEY (form_group_id) REFERENCES wf_form_group(form_group_id)
+);
+
+COMMENT ON TABLE wf_form_row IS '문서양식 ROW 정보';
+COMMENT ON COLUMN wf_form_row.form_row_id IS '문서양식 ROW 아이디';
+COMMENT ON COLUMN wf_form_row.form_group_id IS '문서양식 그룹아이디';
+COMMENT ON COLUMN wf_form_row.row_display_option IS 'ROW 출력용 속성';
 /**
  * 문서양식정보
  */
@@ -2363,6 +2398,8 @@ CREATE TABLE wf_form
 	form_name varchar(256) NOT NULL,
 	form_desc varchar(256),
 	form_status varchar(100) DEFAULT 'form.status.edit' NOT NULL,
+    form_display_option text,
+    form_category varchar(128),
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -2547,6 +2584,18 @@ COMMENT ON COLUMN wf_comment.content IS '내용';
 COMMENT ON COLUMN wf_comment.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_comment.create_dt IS '생성일시';
 
+CREATE TABLE wf_component_property (
+    component_id varchar(128) NULL,
+    property_type varchar(100) NULL,
+    property_options text NULL,
+    CONSTRAINT wf_component_property_pk PRIMARY KEY (component_id,property_type),
+    CONSTRAINT wf_component_property_fk FOREIGN KEY (component_id) REFERENCES wf_component(component_id)
+);
+
+COMMENT ON TABLE wf_component_property IS '컴포넌트 세부속성';
+COMMENT ON COLUMN wf_component_property.component_id IS '컴포넌트 아이디';
+COMMENT ON COLUMN wf_component_property.property_type IS '속성 타입';
+COMMENT ON COLUMN wf_component_property.property_options IS '속성 값';
 /**
  * 컴포넌트정보
  */
@@ -2555,17 +2604,17 @@ DROP TABLE IF EXISTS wf_component cascade;
 CREATE TABLE wf_component
 (
 	component_id varchar(128) NOT NULL,
-	form_id varchar(128) NOT NULL,
 	component_type varchar(100) NOT NULL,
 	mapping_id varchar(128),
 	is_topic boolean DEFAULT 'false',
+	form_row_id varchar(128),
 	CONSTRAINT wf_component_pk PRIMARY KEY (component_id),
-	CONSTRAINT wf_component_fk FOREIGN KEY (form_id) REFERENCES wf_form (form_id)
+    CONSTRAINT wf_component_fk FOREIGN KEY (form_row_id) REFERENCES wf_form_row (form_row_id)
 );
 
 COMMENT ON TABLE wf_component IS '컴포넌트정보';
 COMMENT ON COLUMN wf_component.component_id IS '컴포넌트아이디';
-COMMENT ON COLUMN wf_component.form_id IS '문서양식아이디';
+COMMENT ON COLUMN wf_component.form_row_id IS '문서양식 ROW 아이디';
 COMMENT ON COLUMN wf_component.component_type IS '컴포넌트종류';
 COMMENT ON COLUMN wf_component.mapping_id IS '매핑아이디';
 COMMENT ON COLUMN wf_component.is_topic IS '토픽여부';

@@ -175,11 +175,9 @@ class FormDesigner {
      */
     initForm(formId) {
         this.formId = formId;
-        // TODO: 폼 데이터 load. > 가데이터 삭제 필요
-        //aliceJs.fetchJson({ method: 'GET', url: '/rest/form/' + formId + '/data' })
         aliceJs.fetchJson({
             method: 'GET',
-            url: '/assets/js/formRefactoring/formDesigner/data_210320.json'
+            url: '/rest/form/' + this.formId + '/dataFormRefactoring', // TODO 리팩토링이 모두 끝나면 URL 정리 필요.
         }).then((formData) => {
             // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
             //this.data = aliceForm.reformatCalendarFormat('read', response.json());
@@ -665,17 +663,19 @@ class FormDesigner {
         const saveData  =  this.form.toJson();
         // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
         console.log(saveData);
-        return false;
+
         // 저장
         aliceJs.fetchJson({
             method: 'PUT',
-            url: '/rest/form/' + formId + '/data',
+            url: '/rest/form/' + this.formId + '/dataFormRefactoring',
+            contentType: 'application/json',
             params: JSON.stringify(saveData)
         }).then((formData) => {
             if (formData) {
+                // 2021-05-21 아래에서 이력은 왜 지우나? 다정과장에게 확인 하자.
                 // 이력 지우기
-                this.history.reset();
-                this.setFormName(formData.name);
+                // this.history.reset();
+                this.setFormName(this.form.name);
                 // 팝업 닫기
                 if (boolean) {
                     aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
