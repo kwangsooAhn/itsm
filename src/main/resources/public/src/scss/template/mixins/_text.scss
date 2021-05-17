@@ -35,3 +35,16 @@
     }
   }
 }
+
+// 밑줄
+@mixin underline {
+  text-decoration: underline;
+  text-underline-position: under;
+}
+
+// 사용자 텍스트 선택 여부
+@mixin userSelect($select) {
+  @each $prefix in -webkit-, -moz-, -o-, -ms-, '' {
+    #{$prefix}user-select: $select;
+  }
+}

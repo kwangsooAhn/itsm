@@ -18,17 +18,17 @@
 }
 
 .tagify {
+  @include relative();
   display: flex;
   min-height: 2.5rem; // 40px
   align-items: flex-start;
   flex-wrap: wrap;
-  position: relative;
   padding: 0 0 0 0.3125rem; // 0 0 0 5px
   border: $tagify-border;
   line-height: 1.1;
   cursor: text;
   outline: 0;
-  transition: 0.1s;
+  @include transition(0.1s);
   --tag-hide-transition: 0.3s;
 
   &:hover {
@@ -37,7 +37,7 @@
 
   &.tagify--focus {
     border: $tagify-focus-border;
-    transition: 0s;
+    @include transition(0s);
   }
 
   &[readonly] {
@@ -93,7 +93,7 @@
       height: 0.75rem; // 12px
       margin: -0.125rem 0 -0.125rem 0.5rem; // -2px, 0, -2px, 8px
       border: $tagify-load-border;
-      border-radius: 50%;
+      @include borderRadius(50%);
       content: '';
       vertical-align: middle;
       opacity: 1;
@@ -106,12 +106,12 @@
 }
 
 .tagify__tag {
+  @include relative();
   display: inline-flex;
   align-items: center;
-  position: relative;
   margin: 0.3125rem 0 0.3125rem 0.3125rem; //5px 0 5px 5px
   border: $tag-border;
-  border-radius: $tag-border-radius;
+  @include borderRadius($tag-border-radius);
   z-index: 1;
   outline: 0;
   cursor: default;
@@ -120,13 +120,12 @@
   > div {
     max-width: 100%;
     padding: 0.375rem 0.5rem; // 6px 8px
-    border-radius: $tag-border-radius;
+    @include borderRadius($tag-border-radius);
     vertical-align: top;
     box-sizing: border-box;
     color: $tag-font-color;
     line-height: inherit;
-    -webkit-user-select: none;
-    user-select: none;
+    @include userSelect(none);
     @include transition(0.13s ease-out);
 
     > * {
@@ -141,24 +140,19 @@
       margin: -0.125rem; // -2px
       padding: 0.125rem; // 2px
       outline: 0;
-      -webkit-user-select: text;
-      user-select: text;
+      @include userSelect(text);
       cursor: text;
     }
 
     &::before {
       content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      border-radius: inherit;
+      @include absolute(0, 0, 0, 0);
+      @include borderRadius(inherit);
       z-index: -1;
       pointer-events: none;
-      transition: 120ms ease;
+      @include transition(120ms ease);
       @include animation(0s, 0.3s, tags--bump, ease-out, 1);
-      box-shadow: 0 0 0 1.25rem $tag-bg-color inset;
+      @include insideBorder(1.25rem, $tag-bg-color);
     }
   }
 
@@ -166,7 +160,7 @@
     border-color: $tag-hover-border-color;
     div::before {
       color: $tag-hover-font-color;
-      box-shadow: 0 0 0 1.25rem $tag-hover-bg-color inset;
+      @include insideBorder(1.25rem, $tag-hover-bg-color);
     }
   }
 
@@ -184,7 +178,7 @@
       height: 0.688rem; // 11px
       margin: 0 0.5rem 0 -0.063rem; // 8px, -1px
       border: $tagify-load-border;
-      border-radius: 50%;
+      @include borderRadius(50%);
       opacity: 1;
       @include animation(0s, 0.4s, rotateLoader, linear, infinite);
     }
@@ -203,7 +197,7 @@
     margin-left: 0;
     margin-right: 0;
     opacity: 0;
-    transform: scale(0);
+    @include scale(0);
     transition: var(--tag-hide-transition);
     pointer-events: none;
   }
@@ -226,8 +220,8 @@
         }
 
         &::before {
-          box-shadow: 0 0 0 1.25rem $tag-invalid-bg-color inset;
-          transition: 0.2s;
+          @include insideBorder(1.25rem, $tag-invalid-bg-color);
+          @include transition(0.2s);
         }
       }
 
@@ -284,7 +278,7 @@
   height: 1.125rem; // 18px
   margin: 0 0.25rem 0 0; // 0 4.66667px
   @include transition(0.2s ease-out);
-  border-radius: 3.125rem; // 50px
+  @include borderRadius(3.125rem); // 50px
   order: 5;
   cursor: pointer;
   font-family: $font-family;
@@ -307,8 +301,8 @@
         opacity: 1; // 기존 0.5
       }
       &::before {
-        box-shadow: 0 0 0 1.25rem $tag-hover-bg-color inset;
-        transition: 0.2s;
+        @include insideBorder(1.25rem, $tag-hover-bg-color);
+        @include transition(0.2s);
       }
     }
   }
@@ -316,13 +310,13 @@
 
 // 태그를 입력하세요 input box
 .tagify__input {
+  @include relative();
   flex: 1;
   display: block;
   min-width: 6.875rem; // 110px
   margin: 0.312rem; // 5px
   padding: 0.3em 0.5em;
   line-height: inherit;
-  position: relative;
   @include wordWrap(break-word);
   // 미 입력시, placeholder 투명도 조정 가능
   &:empty::before {
@@ -337,7 +331,7 @@
     &::before {
       @include transition(0.2s ease-out);
       opacity: 0;
-      transform: translatex(6px);
+      @include translate(6px, 0); // 6px
     }
 
     &:empty::before {
@@ -349,9 +343,7 @@
 
   &::before {
     display: inline-block;
-    position: absolute;
-    top: 0;
-    bottom: 0;
+    @include absolute($top: 0, $bottom: 0);
     width: 0;
     height: 1em;
     margin: auto 0;
@@ -438,10 +430,7 @@
 .tagify--select {
   &::after {
     content: '>';
-    position: absolute;
-    top: 50%;
-    right: 0;
-    bottom: 0;
+    @include absolute(50%, 0, 0, null);
     height: 0.5rem; // 8px
     opacity: 0.5;
     font-family: $font-family;
@@ -456,10 +445,7 @@
   }
 
   .tagify__tag {
-    position: absolute;
-    top: 0;
-    right: 1.8em;
-    bottom: 0;
+    @include absolute(0, 1.8em, 0, null);
     div {
       display: none;
     }
@@ -475,7 +461,7 @@
 }
 
 .tagify__dropdown {
-  position: absolute;
+  @include absolute();
   z-index: 9999;
   transform: translateY(1px);
   overflow: hidden;
@@ -483,7 +469,7 @@
 
   &[placement=top] {
     margin-top: 0;
-    transform: translateY(-2px);
+    @include translate(0, -2px);
     .tagify__dropdown__wrapper {
       border-top-width: .0625rem; // 1px
       border-bottom-width: 0;
@@ -491,7 +477,7 @@
   }
 
   &--text {
-    box-shadow: 0 0 0 3px rgba(53, 149, 246, 0.1);
+    @include boxShadow(0, 0, 0, 3px, hexToRGBA(#3595f6, 0.1));
     font-size: 0.9em;
 
     .tagify__dropdown__wrapper {
@@ -505,7 +491,7 @@
     border: $tag-dropdown-wrapper-border;
     overflow: hidden;
     background: white;
-    box-shadow: 0.0625rem 0.0625rem 0.3125rem 0 map-get($grays, 'pressed'); // 1px 1px 5px 0
+    @include boxShadow(0.0625rem, 0.0625rem, 0.3125rem, 0, map-get($grays, 'pressed')); // 1px 1px 5px 0
     @include transition(0.25s cubic-bezier(0, 1, 0.5, 1));
 
     &:hover {
@@ -525,11 +511,11 @@
   }
 
   &__item {
-    position: relative;
+    @include relative();
     box-sizing: inherit;
     padding: 0.3em 0.5em;
     margin: 0.0625rem;
-    border-radius: 0.125rem;
+    @include borderRadius(0.125rem);
     cursor: pointer;
     outline: 0;
 
@@ -548,13 +534,13 @@
 .tags-look {
   .tagify__dropdown__item {
     display: inline-block;
-    border-radius: $tag-border-radius;
+    @include borderRadius($tag-border-radius);
     padding: 0.25rem 0.5rem; // 4px, 8px
     border: $tag-border;
     background: $tag-bg-color;
     margin: 0.5rem 0.25rem 0 0.25rem; // 8px 4px 0 4px
     color: $tag-font-color;
-    transition: 0s;
+    @include transition(0s);
     &:hover {
       background: $tag-hover-bg-color;
       border-color: $tag-hover-border-color;

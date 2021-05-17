@@ -7,8 +7,7 @@
  */
 // 밑줄
 .underline {
-  text-decoration: underline;
-  text-underline-position: under;
+  @include underline;
 }
 // 설명
 .description {

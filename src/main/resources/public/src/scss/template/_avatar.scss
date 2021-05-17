@@ -35,7 +35,7 @@
           // 아이콘
           .icon-no-img {
             display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 5rem, no-repeat, center, 5rem, map-get($grays, "pressed")); // 65px
+            @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 5rem, no-repeat, center, 5rem, map-get($grays, 'pressed')); // 65px
             margin-bottom: 1.25rem; // 20px
           }
           // or brows 영역
@@ -64,18 +64,16 @@
         border: 0;
 
         .dz-image {
-          overflow: hidden;
           position: relative;
           display: contents;
+          overflow: hidden;
           z-index: $z-index-between-event-and-default ;
 
           img {
             object-fit: cover;
           }
         }
-        .dz-success-mark, .dz-error-mark {
-          display: none;
-        }
+        .dz-success-mark, .dz-error-mark { display: none; }
         // 마우스 오버시 효과
         &:hover {
           z-index: $z-index-event;
@@ -87,25 +85,19 @@
         &.dz-image-preview {
           background: $white;
           .dz-details {
-            -webkit-transition: opacity 0.2s linear;
-            -moz-transition: opacity 0.2s linear;
-            -ms-transition: opacity 0.2s linear;
-            -o-transition: opacity 0.2s linear;
-            transition: opacity 0.2s linear;
+            @include transition(opacity 0.2s linear);
           }
         }
 
         .dz-details {
-          position: absolute;
+          @include absolute(0, null, null, 0);
           display: block;
           min-width: 100%;
           max-width: 100%;
           align-items: center;
           line-height: 150%;
-          top: 0;
-          left: 0;
           text-align: center;
-          color: rgba(0, 0, 0, 0.9);
+          color: hexToRGBA($black, 0.9);
           opacity: 0;
           z-index: $z-index-between-event-and-default;
 
@@ -115,30 +107,23 @@
             display: none;
           }
           .dz-remove {
+            @include absolute(0, 0, null, null);
             display: block;
             width: 1.125rem;
             height: 1.125rem;
-            background-color: rgba(255, 255, 255, 0.4);
-            position: absolute;
-            top: 0;
-            right: 0;
-            @include backgroundImage($icon-folder-path + 'icon_close.svg', 0.875rem, no-repeat, center, center, null); // 14px
+            @include backgroundImage($icon-folder-path + 'icon_close.svg', 0.875rem, no-repeat, center, center, hexToRGBA($white, 0.4)); // 14px
             cursor: pointer;
 
             &:hover {
-              background-color: rgba(255, 255, 255, 0.9);
+              background-color: hexToRGBA($white, 0.9);
             }
           }
         }
 
-        .dz-progress {
-          display: none;
-        }
+        .dz-progress { display: none; }
       }
 
-      &.dz-started .dz-message {
-        display: none;
-      }
+      &.dz-started .dz-message { display: none; }
     }
     // 상세 설명
     .avatar-description {
@@ -181,7 +166,7 @@
           }
 
           span {
-            font-size: 0.8125rem; // 13px
+            font-size: $avatar-sm-font-size;
           }
         }
       }
@@ -189,7 +174,7 @@
       .avatar-description {
         vertical-align: top;
         .avatar-text {
-          font-size: 0.8125rem; // 13px
+          font-size: $avatar-sm-font-size;
         }
       }
     }

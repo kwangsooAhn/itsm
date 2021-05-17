@@ -27,19 +27,18 @@
   }
 
   .tooltip-contents {
+    @include absolute($left: $tooltip-contents-left);
     visibility: hidden;
     background-color: $tooltip-contents-background;
     color: $tooltip-contents-color;
     width: $tooltip-contents-width;
     font-size: $tooltip-font-size;
-    border: $tooltip-contents-border solid $blue;
-    border-radius: $tooltip-contents-border;
+    border: 0.125rem solid $blue; // 2px
+    @include borderRadius(0.125rem); // 2px
     padding: $tooltip-contents-padding;
     margin: 0.25rem 0 0 0;
-    position: absolute;
-    left: $tooltip-contents-left;
     z-index: $z-index-tooltip;
-    box-shadow: $tooltip-contents-box-shadow;
+    @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA(#1e2f3f, 0.2)); // 5px
     span {
       color: $blue;
       word-break: keep-all;
@@ -60,16 +59,16 @@
 
 .header-tooltip {
   .tooltip-contents {
+    @include absolute();
     min-width: $tooltip-header-contents-width;
     visibility: hidden;
     background-color: map-get($blues, "hover");
     color: $white;
     text-align: center;
     font-size: $tooltip-header-contents-size;
-    border-radius: $tooltip-header-contents-border;
+    @include borderRadius(0.1875rem); // 3px
     padding: $tooltip-header-contents-padding;
     margin: $tooltip-header-contents-margin;
-    position: absolute;
     z-index: $z-index-tooltip;
     span {
       color: $white;

@@ -22,9 +22,9 @@
   }
 
   &-backdrop {
-    z-index: $z-index-alert;
     @include fixed(0, 0, 0, 0);
     background: hexToRGBA(#7493b3, 0.5);
+    z-index: $z-index-alert;
   }
 
   &-dialog {
@@ -32,13 +32,13 @@
     width: 100%;
     max-width: 26.875rem;
     line-height: 1;
-    padding: 1.5625rem;
+    padding: 1.5625rem; // 25px
     margin: 0 auto 2em auto;
     box-sizing: $alert-box-sizing;
-    box-shadow: $alert-box-shadow;
+    @include boxShadow(0, 0, 0.3125rem, 0.3125rem, hexToRGBA(#7493b3, 0.25)); // 5px
     border: $alert-border;
-    border-radius: $alert-border-size;
-    background: $white;
+    @include borderRadius(0.0625rem); // 1px
+    background: $alert-bg-color;
     z-index: $z-index-alert;
   }
 
@@ -62,7 +62,7 @@
     align-items: center;
     min-height: 3.5rem;       // 56px
     font-size: $alert-font-size;
-    font-weight: $font-weight-medium;
+    font-weight: $alert-font-weight;
     line-height: 1.7143;
   }
 
@@ -72,18 +72,11 @@
   }
 
   &-button {
-    display: inline-block;
-    color: #3F4B56;
     font-size: $alert-font-size;
-    font-weight: $font-weight-medium;
-    text-transform: uppercase;
-    text-decoration: none;
-    text-align: center;
+    font-weight: $alert-font-weight;
     margin: 0rem 0rem 0rem $alert-margin-size;
     padding: 0.4375rem 1.5rem;
     border: $alert-border;
-    @include borderRadius($btn-border-radius); // 3px
-    cursor: pointer;
   }
 
   &-icon {

@@ -12,7 +12,7 @@
 // modal
 .picker-modal {
   display: none;
-  position: fixed;
+  @include fixed();
   min-width: 23.375rem; // 374px
   font-family: inherit;
   font-size: $datepicker-font-size;
@@ -21,8 +21,8 @@
   color: $datepicker-font-color;
   background-color: $datepicker-bg-color;
   border: $datepicker-border;
-  border-radius: $datepicker-border-radius;
-  box-shadow: $datepicker-border-box-shadow;
+  @include borderRadius(0.0625rem); // 1px
+  @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
   text-align: center;
   z-index: $z-index-modal;
   // modal open
@@ -39,9 +39,8 @@
     padding: 1.125rem 0; // 17px 0
 
     .icon-close {
-      position: absolute;
+      @include absolute($right: 1.25rem); // 20px
       display: inline-block;
-      right: 1.25rem; // 20px
       cursor: pointer;
       @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $datepicker-icon-color); // 14px 14px
       // mouse over
@@ -119,13 +118,9 @@
           margin: 0.25rem 0.4375rem; // 4px 7px
           text-align: center;
 
-          &.calendar-title {
-            pointer-events: none;
-          }
+          &.calendar-title { pointer-events: none; }
 
-          &:not(.calendar-title) {
-            cursor: pointer;
-          }
+          &:not(.calendar-title) { cursor: pointer; }
 
           &.active { // 현재 월
             color: $datepicker-current-cell-font-color;
@@ -134,7 +129,7 @@
           &.selected {
             color: $datepicker-selected-cell-font-color;
             background-color: $datepicker-selected-cell-bg-color;
-            border-radius: 50%;
+            @include borderRadius(50%);
           }
         }
       }
@@ -181,7 +176,7 @@
           width: 3.75rem !important; // 60px
           height: 3.75rem; // 60px
           font-size: $datepicker-time-font-size;
-          font-weight: $font-weight-medium;
+          font-weight: $datepicker-time-font-weight;
           color: $datepicker-time-font-color;
           text-align: center;
           padding: 0;
@@ -200,7 +195,7 @@
         button {
           width: 3.75rem; // 60px
           height: 1.875rem; // 30px
-          border-radius: $datepicker-btn-border-radius;
+          @include borderRadius(0.0625rem);
           padding: 4px 14px;
         }
       }
@@ -211,7 +206,7 @@
         justify-content: center;
         width: 2.5rem; // 40px
         font-size: $datepicker-time-font-size;
-        font-weight: $font-weight-medium;
+        font-weight: $datepicker-time-font-weight;
         color: $datepicker-time-font-color;
       }
     }

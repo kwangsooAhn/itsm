@@ -86,7 +86,6 @@ $element-bg-color:                            $white;
 $element-border-color:                        map-get($grays, 'line');
 $element-border-width:                        0.0625rem; // 1px
 $element-border:                              $element-border-width solid $element-border-color;
-$element-border-radius:                       0.0625rem; // 1px
 $element-indent:                              0.625rem; // 10px 내부 들여쓰기
 
 // 사용자 미입력시 나올 문구 = placeholder
@@ -101,7 +100,6 @@ $element-focus-border:                        $element-focus-border-width solid 
 $element-hover-border-color:                  $blue;
 $element-hover-border-width:                  0.0625rem; // 1px
 $element-hover-border:                        $element-hover-border-width solid $element-hover-border-color;
-$element-hover-box-shadow:                    0 0 0.3125rem 0 hexToRGBA($blue, 0.2); // 불투명도 20%
 
 // element disabled시 사용하는 디자인 변수
 $element-disabled-font-color:                 $gray;
@@ -310,6 +308,7 @@ $file-uploader-view-font-weight:             $font-weight-regular;
 
 //////////////////////////////// avatar ////////////////////////////////
 $avatar-font-size:                           $font-size-base;
+$avatar-sm-font-size:                        0.8125rem; // 13px
 $avatar-font-color:                          map-get($blacks, 'light');
 $avatar-font-weight:                         $font-weight-medium;
 // drag and drop 영역
@@ -338,8 +337,6 @@ $datepicker-bg-color:                        $white;
 $datepicker-border-color:                    map-get($grays, 'line');
 $datepicker-border-width:                    0.0625rem; // 1px
 $datepicker-border:                          $datepicker-border-width solid $datepicker-border-color;
-$datepicker-border-radius:                   0.0625rem; // 1px
-$datepicker-border-box-shadow:               0 0 0.3125rem 0 map-get($grays, 'line'); // 0 0 5px 0 $line-gray
 $datepicker-hover-color:                     $blue;
 $datepicker-icon-color:                      map-get($grays, 'pressed');
 // focus
@@ -366,8 +363,6 @@ $datepicker-selected-cell-bg-color:          $blue;;
 $datepicker-time-font-size:                  1.75rem; // 28px
 $datepicker-time-font-color:                 map-get($blacks, 'light');
 $datepicker-time-font-weight:                $font-weight-medium;
-// toggle button
-$datepicker-btn-border-radius:               0.0625rem; // 1px
 
 ///////////////////////////////// text editor /////////////////////////////////
 $text-editor-font-size:                      $font-size-base;
@@ -381,7 +376,6 @@ $text-editor-border:                         $text-editor-border-width solid $te
 $text-editor-toolbar-font-size:              $font-size-base;
 $text-editor-toolbar-font-color:             map-get($blacks, 'light');
 $text-editor-toolbar-font-weight:            $font-weight-medium;
-$text-editor-toolbar-box-shadow:             0 0 0.3125rem 0 map-get($grays, 'line');
 // text editor의 hover와 pressec 는 동일한 디자인이다.
 $text-editor-toolbar-hover-font-color:       map-get($blacks, 'light');
 $text-editor-toolbar-hover-bg-color:         map-get($grays, 'line');
@@ -420,7 +414,6 @@ $modal-border-color:                         map-get($grays, 'line');
 $modal-bg-color:                             $white;
 $modal-border-width:                         0.0625rem; // 1px
 $modal-border:                               $modal-border-width solid $modal-border-color;
-$modal-box-shadow:                           0 0 0.3125rem 0 map-get($grays, 'line'); // 흐림 5px, $line-gray
 
 $modal-width:                                34.38rem; // 550px
 $modal-height:                               22.5rem; // 360px
@@ -435,12 +428,12 @@ $modal-header-font-weight:                   $font-weight-medium;
 $modal-bottom-height:                       5rem; // 80px
 
 ///////////////////////////////// alert //////////////////////////////
-$alert-font-size:                            1rem;
-$alert-border-size:                          0.0625rem;  // 1px
-$alert-border:                               solid $alert-border-size map-get($grays, 'line');  // 1px
+$alert-font-size:                            $font-size-base;
+$alert-font-weight:                          $font-weight-medium;
+$alert-border:                               solid 0.0625rem map-get($grays, 'line');  // 1px
 $alert-margin-size:                          0.3125rem;  // 5px
 $alert-box-sizing:                           border-box;
-$alert-box-shadow:                           0 0 $alert-margin-size $alert-margin-size hexToRGBA(#7493b3, 0.25);
+$alert-bg-color:                             $white;
 
 ///////////////////////////// color-picker ///////////////////////////
 $color-picker-color-size:                    1.75rem;    // 28px
@@ -457,8 +450,8 @@ $color-picker-colorchip-border:              0.375rem solid $white;      // 6px
 ////////////////////////////// thumbnail /////////////////////////////
 $thumbnail-asset-path:                       '../media/icons/thumbnail';
 $thumbnail-font-family:                      'Noto Sans KR';
-$thumbnail-font-size:                        1rem; // 16px;
-$thumbnail-font-weight:                      400; // regulalr
+$thumbnail-font-size:                        $font-size-base;
+$thumbnail-font-weight:                      $font-weight-regular;
 $thumbnail-font-color:                       $gray;
 
 $thumbnail-main-height:                      100%;
@@ -471,7 +464,6 @@ $thumbnail-border-width:                     0.0625rem; // 1px
 $thumbnail-border-color:                     map-get($grays, 'line');
 $thumbnail-border:                           $thumbnail-border-width solid $thumbnail-border-color;
 $thumbnail-bg-color:                         $white;
-$thumbnail-box-shadow:                       0 0 0.3125rem 0 map-get($grays, 'line'); // 흐림 5px, $line-gray
 
 $thumbnail-selected-border-width:            0.0625rem; // 1px
 $thumbnail-selected-border-color:            $blue;
@@ -490,13 +482,10 @@ $tooltip-contents-background:                $white;
 $tooltip-contents-color:                     $blue;
 $tooltip-contents-left:                      0;
 $tooltip-contents-width:                     100%;
-$tooltip-contents-border:                    0.125rem; // 2px
 $tooltip-contents-padding:                   1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
-$tooltip-contents-box-shadow:                0 0 0.3125rem 0 hexToRGBA(#1e2f3f, 0.2); // 5px
 
 $tooltip-header-contents-size:               1.125rem; // 18px
 $tooltip-header-contents-width:              3.75rem; // 60px
-$tooltip-header-contents-border:             0.1875rem; // 3px
 $tooltip-header-contents-padding:            0.6875rem 0.875rem; // 11px 14px 
 $tooltip-header-contents-margin:             1.3125rem 0 0 0; // 21px
 

@@ -17,7 +17,7 @@
     margin: 0.625rem; // 10px
     padding: 0;
     border: $thumbnail-border;
-    box-shadow:  $thumbnail-box-shadow;
+    @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line')); // 흐림 5px, $line-gray
     background-color: $thumbnail-bg-color;
     cursor: pointer;
     overflow: hidden;

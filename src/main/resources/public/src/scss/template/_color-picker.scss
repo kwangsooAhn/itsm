@@ -16,14 +16,14 @@
       width: $color-picker-color-size;
       height: $color-picker-color-size;
       margin: $color-picker-margin;
-      border: 0.1875rem solid transparent;;
+      border: 0.1875rem solid transparent; // 3px
       cursor: pointer;
       &-box {
         display: flex;
         width: $color-picker-box-size;
         height: $color-picker-box-size;
         margin-right: $color-picker-margin;
-        border: 0.0625rem solid map-get($grays, "line");
+        border: 0.0625rem solid map-get($grays, 'line');
         &:hover {
           border: 0.0625rem solid $blue; // 1px
         }
@@ -38,7 +38,7 @@
     width: $color-picker-palette-width;
     padding: $color-picker-palette-padding;
     margin-top: $color-picker-margin;
-    border: 0.0625rem solid map-get($grays, "line");
+    border: 0.0625rem solid map-get($grays, 'line');
     background-color: $white;
     // 컬러 팔레트 내부의 색상표 박스 디자인
     & div {
@@ -54,7 +54,7 @@
         outline: 0.0625rem solid $blue;
       }
 
-      &:last-child { border: 0.0625rem solid map-get($grays, "line"); }
+      &:last-child { border: 0.0625rem solid map-get($grays, 'line'); }
     }
   }
   // opacity palette
@@ -63,7 +63,7 @@
     width: 100%;
     height: 2.5rem; // 40px
     padding-left: 0.219rem; // 3.5px
-    border: 0.0625rem solid map-get($grays, "line"); // 1px
+    border: 0.0625rem solid map-get($grays, 'line'); // 1px
     border-top: none;
     background-color: $white;
 

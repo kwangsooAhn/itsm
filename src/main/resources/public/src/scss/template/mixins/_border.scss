@@ -4,9 +4,20 @@
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
 }
+// 그림자
+@mixin boxShadow($top, $left, $blur, $spread, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $spread $color;
+    -moz-box-shadow:inset $top $left $blur $spread $color;
+    box-shadow:inset $top $left $blur $spread $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $spread $color;
+    -moz-box-shadow: $top $left $blur $spread $color;
+    box-shadow: $top $left $blur $spread $color;
+  }
+}
 
-@mixin box-shadow($left, $top, $radius, $color) {
-  box-shadow: $left $top $radius $color;
-  -webkit-box-shadow: $left $top $radius $color;
-  -moz-box-shadow: $left $top $radius $color;
+// 내부 border
+@mixin insideBorder($thickness: 2px, $color: #ffffff) {
+  @include boxShadow(0, 0, 0, $thickness, $color, true);
 }

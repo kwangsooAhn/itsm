@@ -5,7 +5,7 @@
  * @author wdj
  * @version 1.0
  */
-// <a class="btn"></a>  or button
+// <a class='btn'></a>  or button
 .btn, 
 button {
   display: inline-block;
@@ -16,9 +16,10 @@ button {
   color: $btn-font-color;
   background-color: $btn-bg-color;
   border: $btn-border;
-  border-radius: $btn-border-radius;
+  @include borderRadius($btn-border-radius);
   opacity: 1;
   text-align: center;
+  text-decoration: none;
   user-select: none;
   white-space: nowrap;
   vertical-align: middle;
@@ -197,6 +198,7 @@ button {
 
   .btn,
   button {
+    flex: 1 1 auto;
     font-size: $btn-group-font-size;
     font-weight: $btn-group-font-weight;
     line-height: $btn-group-line-height;
@@ -204,7 +206,6 @@ button {
     background-color: $btn-group-toggle-bg-color;
     border: $btn-group-border; // 1px
     border-radius: $btn-group-border-radius;
-    flex: 1 1 auto;
     // if icon exist
     .icon {
       display: inline-block;

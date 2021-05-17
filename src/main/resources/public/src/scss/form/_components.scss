@@ -165,7 +165,7 @@
           padding: 0 $element-indent; // 10px
           white-space: nowrap;
           color: $custom-code-btn-font-color;
-          border-radius: $element-border-radius;
+          @include borderRadius(0.0625rem); // 1px
           margin-left: -$btn-border-width;
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;

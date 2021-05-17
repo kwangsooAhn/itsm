@@ -15,33 +15,27 @@ ul.tree {
   margin: 0;
   padding: 0;
   list-style-type: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  @include userSelect(none);
   cursor: default;
 
   li {
+    @include relative();
     display: block;
-    position: relative;
     line-height: $tree-line-height;
     padding-right: 0.125rem; // 2px
   }
   // Level 2
   // -------------------------
   ul {
-    position: relative;
+    @include relative();
     margin: 0 0 0 calc(#{$tree-toggle-icon-width} * 2.3);
     padding: 0;
     list-style-type: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    @include userSelect(none);
     // vertical line
     &:before {
       content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
+      @include absolute($top: 0, $bottom: 0);
       border-left: $tree-line;
     }
 
@@ -50,9 +44,7 @@ ul.tree {
       // horizontal line
       &:before {
         content: '';
-        position: absolute;
-        top: ($tree-line-height / 2); // half of line-height
-        left: 0;
+        @include absolute($top: ($tree-line-height / 2), $left: 0); // half of line-height
         width: $tree-indentation; 
         height: $tree-line-width; // 1px
         border-top: $tree-line;
@@ -102,7 +94,7 @@ span.node {
   border: $tree-selected-border-width solid transparent;
   &:hover {
     background-color: $tree-hover-bg-color;
-    border-radius: 0.125rem; // 2px
+    @include borderRadius(0.125rem); // 2px
   }
   label {
     padding-left: $tree-folder-margin-left;
@@ -125,9 +117,9 @@ span.modal_node_selected,{
 
 // 트리 전용 모달
 .tree-container {
+  @include relative();
   font-family: $font-family;
   margin: 1.875rem 2.5rem; // 30px 40px
-  position: relative;
 
   .tree-title {
     height: 2.5rem; // 40px
