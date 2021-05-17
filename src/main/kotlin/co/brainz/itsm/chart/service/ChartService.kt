@@ -10,7 +10,6 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartDto
-import co.brainz.itsm.chart.dto.ChartListDto
 import co.brainz.itsm.chart.dto.ChartListReturnDto
 import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.respository.ChartRepository
@@ -29,6 +28,7 @@ import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -51,11 +51,39 @@ class ChartService(
     /**
      * 단일 사용자 정의 차트 조회
      */
-    fun getChart(chartId: String): ChartDto {
-        val chart = chartRepository.getOne(chartId)
-        val targetTags = arrayListOf<String>()
-        val chartConfigJson = JsonParser().parse(chart.chartConfig).asJsonObject
+    fun getChart(chartId: String, chartPreviewDto: ChartDto?): ChartDto {
+        lateinit var chartDto: ChartDto
+        var chartEntity = chartRepository.findByIdOrNull(chartId)
 
+        if (chartPreviewDto == null) {
+            if (chartEntity != null) {
+                chartDto = ChartDto(
+                    chartId = chartEntity.chartId,
+                    chartType = chartEntity.chartType,
+                    chartName = chartEntity.chartName,
+                    chartDesc = chartEntity.chartDesc,
+                    chartConfig = chartEntity.chartConfig,
+                    createDt = chartEntity.createDt
+                )
+            }
+        } else {
+            // 미리보기인 경우
+            chartDto = ChartDto(
+                chartType = chartPreviewDto.chartType,
+                chartName = chartPreviewDto.chartName,
+                chartDesc = chartPreviewDto.chartDesc,
+                chartConfig = getChartConfig(chartPreviewDto)
+            )
+            if (chartEntity != null) {
+                chartDto.chartId = chartEntity.chartId
+                chartDto.createDt = chartEntity.createDt
+            } else {
+                chartDto.createDt = LocalDateTime.now()
+            }
+        }
+
+        val targetTags = arrayListOf<String>()
+        val chartConfigJson = JsonParser().parse(chartDto.chartConfig).asJsonObject
         chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asJsonArray.forEach { tag ->
             targetTags.add(tag.asString)
         }
@@ -65,24 +93,16 @@ class ChartService(
         val durationUnit =
             chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
 
-        val chartDto = ChartDto(
-            chartId = chart.chartId,
-            chartType = chart.chartType,
-            chartName = chart.chartName,
-            chartDesc = chart.chartDesc,
-            chartConfig = chart.chartConfig,
-            createDt = chart.createDt,
-            targetTags = targetTags,
-            operation = operation,
-            durationDigit = durationDigit.toLong(),
-            durationUnit = durationUnit
-        )
+        chartDto.targetTags = targetTags
+        chartDto.operation = operation
+        chartDto.durationDigit = durationDigit.toLong()
+        chartDto.durationUnit = durationUnit
 
-        when (chart.chartType) {
+        when (chartDto.chartType) {
             ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
                 chartDto.periodUnit =
                     chartConfigJson.get(ChartConstants.ObjProperty.PERIOD_UNIT.property).asString
-                if (chart.chartType == ChartConstants.Type.BASIC_LINE.code) {
+                if (chartDto.chartType == ChartConstants.Type.BASIC_LINE.code) {
                     chartDto.group = chartConfigJson.get(ChartConstants.ObjProperty.GROUP.property)?.asString
                 }
             }
@@ -445,51 +465,5 @@ class ChartService(
         }
 
         return chartConfigObj.toString()
-    }
-
-    fun getPreviewChart(chartId: String, chartPreviewDto: ChartDto): ChartDto {
-        var chart: ChartEntity
-        val targetTags = arrayListOf<String>()
-        val chartConfigJson = JsonParser().parse(getChartConfig(chartPreviewDto)).asJsonObject
-        chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asJsonArray.forEach { tag ->
-            targetTags.add(tag.asString)
-        }
-        val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
-        val durationDigit =
-            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
-        val durationUnit =
-            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
-
-        val chartDto = ChartDto(
-            chartType = chartPreviewDto.chartType,
-            chartName = chartPreviewDto.chartName,
-            chartDesc = chartPreviewDto.chartDesc,
-            chartConfig = getChartConfig(chartPreviewDto),
-            targetTags = targetTags,
-            operation = operation,
-            durationDigit = durationDigit.toLong(),
-            durationUnit = durationUnit
-        )
-
-        if (chartId != "undefined") {
-            chart = chartRepository.getOne(chartId)
-            chartDto.chartId = chart.chartId
-            chartDto.createDt = chart.createDt
-        } else {
-            chartDto.createDt = LocalDateTime.now()
-        }
-
-        when (chartDto.chartType) {
-            ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
-                chartDto.periodUnit =
-                    chartConfigJson.get(ChartConstants.ObjProperty.PERIOD_UNIT.property).asString
-                if (chartDto.chartType == ChartConstants.Type.BASIC_LINE.code) {
-                    chartDto.group = chartConfigJson.get(ChartConstants.ObjProperty.GROUP.property)?.asString
-                }
-            }
-        }
-        chartDto.propertyJson = getChartProperty(chartDto)
-
-        return chartDto
     }
 }
