@@ -60,9 +60,11 @@ class ChartService(
         }
         val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
         val durationDigit =
-            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property)
+                .asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
         val durationUnit =
-            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property)
+                .asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
 
         val chartDto = ChartDto(
             chartId = chart.chartId,
@@ -357,7 +359,8 @@ class ChartService(
                     for (day in startDays until lengthOfMonth + 1) {
                         for (hours in startHours until 25) {
                             dateFormatList.add(dateFormat + day + String.format("%02d", hours))
-                            if (hours == endDateTime!!.hour && day == endDateTime.dayOfMonth && startMonth == endDateTime.monthValue) {
+                            if (hours == endDateTime!!.hour && day == endDateTime.dayOfMonth
+                                && startMonth == endDateTime.monthValue) {
                                 break
                             }
                         }
@@ -455,9 +458,11 @@ class ChartService(
         }
         val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
         val durationDigit =
-            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property)
+                .asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
         val durationUnit =
-            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property)
+                .asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
 
         val chartDto = ChartDto(
             chartType = chartPreviewDto.chartType,
