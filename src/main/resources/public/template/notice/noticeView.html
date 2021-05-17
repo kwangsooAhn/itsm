@@ -12,7 +12,7 @@
         <div class="notice-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{notice.label.notice}"></h1>
-                <h6 class="description" th:text="#{notice.msg.viewDescription}"></h6>
+                <h6 class="description ml-2" th:text="#{notice.msg.viewDescription}"></h6>
             </div>
         </div>
         <div class="notice-content-view">
@@ -21,7 +21,7 @@
             </div>
             <div class="flex-column view-row">
                 <div class="view-sub-title flex-row justify-content-end">
-                    <span class="user-name" id="spanUserName" th:text="${notice?.aliceUserEntity.userName}"></span>
+                    <span class="user-name" id="spanUserName" th:text="${notice?.createUserName}"></span>
                     <span class="vertical-bar"></span>
                     <span id="spanCreateDt" th:text="${notice.createDt}"></span>
                 </div>
@@ -29,7 +29,7 @@
             <div class="horizontal-bar"></div>
             <div class="flex-column view-row">
                 <div class="view-content">
-                    <pre class="space-line">
+                    <pre>
                         <span class="view-text" th:text="${notice?.noticeContents}"/>
                     </pre>
                 </div>

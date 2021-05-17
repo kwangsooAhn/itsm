@@ -1,4 +1,5 @@
 // 스크롤은 동작하되 스크롤바는 숨김
+// @include scrollbarHidden;
 @mixin scrollbarHidden {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

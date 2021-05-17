@@ -1,0 +1,12 @@
+// 엘리먼트 요소관련 디자인 mixin
+
+// input type range
+// @include thumb(0.625rem, 0.625rem, 0.0625rem solid #c8ced8, 50%, $white);
+@mixin thumb($width, $height, $border, $borderRadius, $bgColor) {
+  width: $width;
+  height: $height;
+  border: $border;
+  border-radius: $borderRadius;
+  background: $bgColor;
+  cursor: pointer;
+}

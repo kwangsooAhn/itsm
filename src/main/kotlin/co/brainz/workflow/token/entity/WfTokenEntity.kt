@@ -30,6 +30,9 @@ data class WfTokenEntity(
     @Column(name = "token_status", length = 100)
     var tokenStatus: String,
 
+    @Column(name = "token_action", length = 100)
+    var tokenAction: String? = null,
+
     @Column(name = "token_start_dt", nullable = false)
     val tokenStartDt: LocalDateTime? = null,
 

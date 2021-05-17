@@ -18,12 +18,8 @@
     .os-scrollbar-handle {
       &:before {
         content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
+        @include absolute(-0.375rem, 0, -0.125rem, 0); // -6px 0 -2px 0
         display: block;
-        top: -0.375rem; // -6px
-        bottom: -0.125rem; // -2px
       }
     }
   }
@@ -38,12 +34,8 @@
     .os-scrollbar-handle {
       &:before {
         content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
+        @include absolute(0, -0.125rem, 0, -0.375rem); // 0 -2px 0 -6px
         display: block;
-        left: -0.375rem; // -6px
-        right: -0.125rem; // -2px
       }
     }
   }
@@ -57,9 +49,9 @@
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
       background: $scrollbar-bg-color;
-      border-radius: $scrollbar-border-radius;
+      @include borderRadius($scrollbar-border-radius);
       >.os-scrollbar-handle {
-        border-radius: $scrollbar-border-radius;
+        @include borderRadius($scrollbar-border-radius);
         background: $scrollbar-color;
       }
       >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
@@ -88,8 +80,7 @@
   >.os-scrollbar {
     >.os-scrollbar-track {
       >.os-scrollbar-handle {
-        -webkit-transition: background-color 0.3s;
-        transition: background-color 0.3s;
+        @include transition(background-color 0.3s);
       }
     }
   }
@@ -131,19 +122,19 @@
   line-height: $element-line-height;
   color: $element-font-color;
   background-color: $element-bg-color;
-  border: $element-border;
-  border-radius: $element-border-radius;
+  @include border($element-border-width, solid, $element-border-color, all);
+  @include borderRadius(0.0625rem); // 1px
   padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
   resize: vertical;
 
   &:focus-within { // focus 시
     outline: 0;
-    border: $element-focus-border;
+    @include border($element-focus-border-width, solid, $element-focus-border-color, all);
   }
   &:hover {
     outline: 0;
-    border: $element-hover-border;
-    box-shadow: $element-hover-box-shadow;
+    @include border($element-hover-border-width, solid, $element-hover-border-color, all);
+    @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
   }
 }
 // element 내부 scrollbar
@@ -159,12 +150,8 @@
     .os-scrollbar-handle {
       &:before {
         content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
+        @include absolute(-0.375rem, 0, -0.125rem, 0); // -6px 0 -2px 0;
         display: block;
-        top: -0.375rem; // -6px
-        bottom: -0.125rem; // -2px
       }
     }
   }
@@ -179,12 +166,8 @@
     .os-scrollbar-handle {
       &:before {
         content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
+        @include absolute(0, -0.125rem, 0,  -0.375rem); // 0 -2px 0 -6px
         display: block;
-        left: -0.375rem; // -6px
-        right: -0.125rem; // -2px
       }
     }
   }
@@ -198,9 +181,9 @@
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
       background: $scrollbar-bg-color;
-      border-radius: $scrollbar-border-radius; // scrollbar 배경 모서리 곡선
+      @include borderRadius($scrollbar-border-radius); // scrollbar 배경 모서리 곡선
       >.os-scrollbar-handle {
-        border-radius: $scrollbar-border-radius;
+        @include borderRadius($scrollbar-border-radius);
         background: $scrollbar-color;
       }
       >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
@@ -232,12 +215,8 @@
     .os-scrollbar-handle {
       &:before {
         content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
+        @include absolute(-0.375rem, 0, -0.125rem, 0); // -6px 0 -2px 0;
         display: block;
-        top: -0.375rem; // -6px
-        bottom: -0.125rem; // -2px
       }
     }
   }
@@ -252,12 +231,8 @@
     .os-scrollbar-handle {
       &:before {
         content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
+        @include absolute(0, -0.125rem, 0,  -0.375rem); // 0 -2px 0 -6px
         display: block;
-        left: -0.375rem; // -6px
-        right: -0.125rem; // -2px
       }
     }
   }
@@ -271,9 +246,9 @@
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
       background: $scrollbar-dark-bg-color;
-      border-radius: $scrollbar-border-radius; // scrollbar 배경 모서리 곡선
+      @include borderRadius($scrollbar-border-radius); // scrollbar 배경 모서리 곡선
       >.os-scrollbar-handle {
-        border-radius: $scrollbar-border-radius;
+        @include borderRadius($scrollbar-border-radius);
         background: $scrollbar-dark-color;
       }
       >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
@@ -342,7 +317,7 @@
     // background of the scrollbar
     &::-webkit-scrollbar-track {
       background-color: $scrollbar-bg-color;
-      border-radius: $scrollbar-border-radius;
+      @include borderRadius($scrollbar-border-radius);
     }
     // total width
     &::-webkit-scrollbar {
@@ -352,7 +327,7 @@
     // scrollbar
     &::-webkit-scrollbar-thumb {
       background-color: $scrollbar-color;
-      border-radius: $scrollbar-border-radius;
+      @include borderRadius($scrollbar-border-radius);
       &:hover {
         background-color: $scrollbar-hover-color;
       }

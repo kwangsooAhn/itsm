@@ -11,7 +11,7 @@
     <div class="faq-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{faq.label.faq}"></h1>
-            <h6 class="description" th:text="#{faq.msg.portalDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{faq.msg.portalDescription}"></h6>
         </div>
         <div class="faq-search">
             <select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="col-5 mr-2">
@@ -19,7 +19,7 @@
                 <option th:each="category:${faqs.faqCategory}"
                         th:text="#{|common.code.${category}|}" th:value="${category}"></option>
             </select>
-            <span id="spanTotalCount" class="txt-num"></span>
+            <span id="spanTotalCount" class="search-count"></span>
         </div>
     </div>
     <div class="faq-content">

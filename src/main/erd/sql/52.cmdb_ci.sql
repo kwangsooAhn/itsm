@@ -10,8 +10,6 @@ CREATE TABLE cmdb_ci
 	ci_name character varying(128) NOT NULL,
 	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
-	class_id character varying(128) NOT NULL,
-	ci_icon character varying(200),
 	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
 	instance_id character varying(128),
@@ -24,10 +22,7 @@ CREATE TABLE cmdb_ci
 	CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)
       REFERENCES cmdb_type (type_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_fk2 FOREIGN KEY (class_id)
-      REFERENCES cmdb_class (class_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT cmdb_ci_fk3 FOREIGN KEY (instance_id)
+    CONSTRAINT cmdb_ci_fk2 FOREIGN KEY (instance_id)
         REFERENCES wf_instance (instance_id) MATCH SIMPLE
         ON UPDATE NO ACTION ON DELETE NO ACTION
 );
@@ -38,8 +33,6 @@ COMMENT ON COLUMN cmdb_ci.ci_no IS '시퀀스';
 COMMENT ON COLUMN cmdb_ci.ci_name IS 'CI이름';
 COMMENT ON COLUMN cmdb_ci.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci.type_id IS '타입아이디';
-COMMENT ON COLUMN cmdb_ci.class_id IS '클래스아이디';
-COMMENT ON COLUMN cmdb_ci.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci.ci_desc IS 'CI설명';
 COMMENT ON COLUMN cmdb_ci.automatic IS '자동등록여부';
 COMMENT ON COLUMN cmdb_ci.instance_id IS '인스턴스ID';

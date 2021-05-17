@@ -11,6 +11,7 @@ CREATE TABLE wf_token
 	token_start_dt timestamp,
 	token_end_dt timestamp,
 	token_status varchar(100) NOT NULL,
+	token_action varchar(100),
 	assignee_id varchar(128),
 	CONSTRAINT wf_token_pk PRIMARY KEY (token_id),
 	CONSTRAINT wf_token_fk1 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id),
@@ -24,4 +25,5 @@ COMMENT ON COLUMN wf_token.element_id IS '엘리먼트아이디';
 COMMENT ON COLUMN wf_token.token_start_dt IS '토큰시작일시';
 COMMENT ON COLUMN wf_token.token_end_dt IS '토큰종료일시';
 COMMENT ON COLUMN wf_token.token_status IS '토큰상태';
+COMMENT ON COLUMN wf_token.token_action IS '토큰액션';
 COMMENT ON COLUMN wf_token.assignee_id IS '담당자아이디';

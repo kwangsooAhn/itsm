@@ -1,4 +1,5 @@
 // 구분선 mixin
+// include verticalBar(1.25rem, 1.25rem, 0.0625rem solid map-get($grays, "line"), 0.0625rem 0.9375rem 0.0625rem 0);
 @mixin verticalBar($width, $height, $border, $margin) {
   .vertical-bar {
     width: $width;
@@ -9,6 +10,7 @@
   }
 }
 
+// @include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, "line"));
 @mixin horizontalBar($height, $margin, $color) {
   .horizontal-bar {
     height: $height;

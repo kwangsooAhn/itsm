@@ -42,7 +42,7 @@ workflowUtil.compareJson = function(obj1, obj2) {
         return false;
     }
 
-    if (!Object.keys(obj2).every(function(key) { return obj1.hasOwnProperty(key); })) {
+    if (!Object.keys(obj2).every(function(key) { return Object.prototype.hasOwnProperty.call(obj1, key); })) {
         return false;
     }
     return Object.keys(obj1).every(function(key) {
@@ -82,18 +82,26 @@ workflowUtil.polyfill = function() {
  * @param data 데이터
  * @return {string} XML 문자열
  */
-workflowUtil.ObjectToXML = function(data) {
+workflowUtil.objectToXML = function(data) {
     let xml = '';
     Object.keys(data).forEach(function(key) {
+        // id는 속성으로 처리하고 나머지는 엘리먼트로 처리한다.
+        if (key === 'id') { return; }
         xml += Array.isArray(data[key]) ? '' : '<' + key + '>';
+
         if (data[key] && Array.isArray(data[key])) {
             Object.keys(data[key]).forEach(function (item) {
-                xml += '<' + key + '>';
-                xml += workflowUtil.ObjectToXML(data[key][item]);
+                // id가 존재하면 id를 속성으로 처리한다.
+                if (Object.prototype.hasOwnProperty.call(data[key][item], 'id')) {
+                    xml += '<' + key + ' id="' + data[key][item]['id'] + '">';
+                } else {
+                    xml += '<' + key + '>';
+                }
+                xml += workflowUtil.objectToXML(data[key][item]);
                 xml += '</' + key + '>';
             });
         } else if (data[key] && typeof data[key] === 'object') {
-            xml += workflowUtil.ObjectToXML(data[key]);
+            xml += workflowUtil.objectToXML(data[key]);
         } else {
             xml += '<![CDATA[' + data[key] + ']]>';
         }
@@ -127,13 +135,27 @@ workflowUtil.createFormXMLString = function(formData, version) {
         componentNode.setAttribute('type', componentProp.type);
         delete  componentProp.type;
         if (typeof componentProp === 'object') {
-            componentNode.innerHTML = workflowUtil.ObjectToXML(componentProp);
+            componentNode.innerHTML = workflowUtil.objectToXML(componentProp);
         }
         form.appendChild(componentNode);
     }
     definitions.appendChild(form);
     xmlDoc.appendChild(definitions);
     let serializer = new XMLSerializer();
+    return serializer.serializeToString(xmlDoc);
+};
+workflowUtil.createFormXMLStringWoo = function (formData, version) {
+    const serializer = new XMLSerializer();
+    const xmlDoc = document.implementation.createDocument('', '', null);
+    // 세부 정보
+    const definitions = xmlDoc.createElement('definitions');
+    const form = xmlDoc.createElement('form');
+    form.setAttribute('version', version); // 버전
+    form.setAttribute('id', formData.id);
+    form.innerHTML = workflowUtil.objectToXML(formData);
+    definitions.appendChild(form);
+
+    xmlDoc.appendChild(definitions);
     return serializer.serializeToString(xmlDoc);
 };
 
@@ -255,6 +277,32 @@ workflowUtil.export = function(id, type) {
         contentType: 'application/json; charset=utf-8'
     });
 };
+workflowUtil.exportWoo = function (id, type) {
+    // TODO: 가데이터 삭제 필요
+    //let exportUrl = '/rest/form/' + id + '/data';
+    //if (type === 'process') {
+    //    exportUrl = '/rest/process/' + id + '/data';
+    //}
+    //aliceJs.fetchJson({ method: 'GET', url: exportUrl })
+    aliceJs.fetchJson({
+        method: 'GET',
+        url: '/assets/js/formRefactoring/formDesigner/data_210320.json'
+    }).then((data) => {
+        // 버전 정보
+        aliceJs.fetchJson({
+            method: 'GET',
+            url: '/rest/codes/version.workflow'
+        }).then(codeData => {
+            let xmlString = '';
+            if (type === 'form') {
+                xmlString = workflowUtil.createFormXMLStringWoo(data, codeData.codeValue);
+            } else if (type === 'process') {
+                //xmlString = workflowUtil.createProcessXMLString(data, codeData.codeValue);
+            }
+            workflowUtil.downloadXML(id, type, xmlString);
+        });
+    });
+};
 
 /**
  * XML 파싱오류 확인.
@@ -326,6 +374,7 @@ workflowUtil.XMLToObject = function(data) {
         if (data.attributes.length > 0) { // 속성 정보도 object 데이터로 추가한다.
             for (let i = 0, len = data.attributes.length; i < len; i++) {
                 let attr = data.attributes.item(i);
+                if (attr.nodeName === 'version') { continue; } // xml 버전은 제외
                 obj[attr.nodeName] = attr.nodeValue;
             }
         }
@@ -418,6 +467,18 @@ workflowUtil.loadFormFromXML = function(data) {
         return comp.display.order = Number(comp.display.order);
     });
     return formData;
+};
+workflowUtil.loadFormFromXMLWoo = function (data) {
+    const parser = new DOMParser();
+    const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
+    const xmlDoc = parser.parseFromString(data, 'application/xml');
+    if (workflowUtil.isParseError(xmlDoc)) {
+        throw new Error('Error parsing XML');
+    }
+
+    const form = xmlDoc.evaluate('/definitions/form', xmlDoc, null, resultType, null);
+    const jsonData = workflowUtil.XMLToObject(form.singleNodeValue);
+    return jsonData;
 };
 
 /**
@@ -566,7 +627,9 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
             if (type === xmlFile.name.split('_')[0]) {
                 switch (type) {
                 case 'form':
+                    // TODO: 폼 리팩토링 완료 후, loadFormFromXMLWoo을 사용하도록 수정한다.
                     saveData = workflowUtil.loadFormFromXML(e.target.result);
+                    //saveData = workflowUtil.loadFormFromXMLWoo(e.target.result);
                     saveData.name = data.formName;
                     saveData.desc = data.formDesc;
                     break;
@@ -592,3 +655,4 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
         console.error(e);
     }
 };
+

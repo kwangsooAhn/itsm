@@ -3,16 +3,20 @@
   "name": "TEST",
   "desc": "",
   "status": "form.status.edit",
-  "width": "905",
-  "margin": "60 35 60 35",
-  "padding": "15 15 15 15",
   "category": "process",
-  "groups": [
+  "display": {
+    "width": 905,
+    "margin": "60 35 60 35",
+    "padding": "15 15 15 15"
+  },
+  "group": [
     {
       "id": "gc9180887846b12f017849afa9580000",
-      "displayOrder": "0",
-      "margin": "10 0 10 0",
-      "isAccordionUsed": true,
+      "display": {
+        "displayOrder": "0",
+        "margin": "10 0 10 0",
+        "isAccordionUsed": true
+      },
       "label": {
         "visibility": true,
         "fontSize": "16",
@@ -23,23 +27,27 @@
         "align": "left",
         "text": "GROUP LABEL#1"
       },
-      "rows": [
+      "row": [
         {
           "id": "rc9180887846b12f017849afa9580000",
-          "margin": "10 0 10 0",
-          "padding": "10 10 10 10",
-          "displayOrder": "0",
-          "components": [
+          "display": {
+            "margin": "10 0 10 0",
+            "padding": "10 10 10 10",
+            "displayOrder": "0"
+          },
+          "component": [
             {
               "id": "a1e3c506d25322950357753c2be3f674",
               "type": "inputBox",
-              "columnWidth": "12",
-              "displayOrder": "0",
               "isTopic": false,
               "mapId": "",
               "tags": [],
               "displayType": "editable",
               "value": "${default}",
+              "display": {
+                "columnWidth": "12",
+                "displayOrder": "0"
+              },
               "label": {
                 "position": "left",
                 "fontSize": "16",
@@ -64,13 +72,15 @@
             {
               "id": "a1e3c506d25322950357753c2be3f673",
               "type": "inputBox",
-              "columnWidth": "12",
-              "displayOrder": "1",
               "isTopic": false,
               "mapId": "",
               "tags": [],
               "displayType": "editable",
               "value": "${default}",
+              "display": {
+                "columnWidth": "12",
+                "displayOrder": "1"
+              },
               "label": {
                 "position": "left",
                 "fontSize": "16",
@@ -96,20 +106,24 @@
         },
         {
           "id": "ra9180887846b12f017849afa9580000",
-          "margin": "10 0 10 0",
-          "padding": "10 10 10 10",
-          "displayOrder": "0",
-          "components": [
+          "display": {
+            "margin": "10 0 10 0",
+            "padding": "10 10 10 10",
+            "displayOrder": "0"
+          },
+          "component": [
             {
               "id": "a2e3c506d25322953357753c2be3f674",
               "type": "inputBox",
-              "columnWidth": "12",
-              "displayOrder": "0",
               "isTopic": false,
               "mapId": "",
               "tags": [],
               "displayType": "editable",
               "value": "${default}",
+              "display": {
+                "columnWidth": "12",
+                "displayOrder": "0"
+              },
               "label": {
                 "position": "left",
                 "fontSize": "16",
@@ -137,9 +151,11 @@
     },
     {
       "id": "gc9180887846b12f017849afa9580001",
-      "displayOrder": "1",
-      "margin": "10 0 10 0",
-      "isAccordionUsed": false,
+      "display": {
+        "displayOrder": "1",
+        "margin": "10 0 10 0",
+        "isAccordionUsed": false
+      },
       "label": {
         "visibility": true,
         "fontSize": "16",
@@ -150,23 +166,27 @@
         "align": "left",
         "text": "GROUP LABEL#2"
       },
-      "rows": [
+      "row": [
         {
           "id": "rc9180887846b12f017849afa9580003",
-          "margin": "10 0 10 0",
-          "padding": "10 10 10 10",
-          "displayOrder": "0",
-          "components": [
+          "display": {
+            "margin": "10 0 10 0",
+            "padding": "10 10 10 10",
+            "displayOrder": "0"
+          },
+          "component": [
             {
               "id": "a1e3c506d25322950357753c2be3f675",
               "type": "inputBox",
-              "columnWidth": "12",
-              "displayOrder": "0",
               "isTopic": false,
               "mapId": "",
               "tags": [],
               "displayType": "editable",
               "value": "${default}",
+              "display": {
+                "columnWidth": "12",
+                "displayOrder": "0"
+              },
               "label": {
                 "position": "left",
                 "fontSize": "16",
@@ -194,9 +214,11 @@
     },
     {
       "id": "gc9180887846b12f017849afa9580003",
-      "displayOrder": "1",
-      "margin": "10 0 10 0",
-      "isAccordionUsed": true,
+      "display": {
+        "displayOrder": "1",
+        "margin": "10 0 10 0",
+        "isAccordionUsed": true
+      },
       "label": {
         "visibility": true,
         "fontSize": "20",
@@ -207,23 +229,27 @@
         "align": "left",
         "text": "GROUP LABEL#3"
       },
-      "rows": [
+      "row": [
         {
           "id": "rc9180887846b12f017849afa9580013",
-          "margin": "10 0 10 0",
-          "padding": "10 10 10 10",
-          "displayOrder": "0",
-          "components": [
+          "display": {
+            "margin": "10 0 10 0",
+            "padding": "10 10 10 10",
+            "displayOrder": "0"
+          },
+          "component": [
             {
               "id": "a1e3c506d25322950357753c2be3f975",
               "type": "inputBox",
-              "columnWidth": "12",
-              "displayOrder": "0",
               "isTopic": false,
               "mapId": "",
               "tags": [],
               "displayType": "editable",
               "value": "${default}",
+              "display": {
+                "columnWidth": "12",
+                "displayOrder": "0"
+              },
               "label": {
                 "position": "left",
                 "fontSize": "16",

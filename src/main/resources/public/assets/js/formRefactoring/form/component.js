@@ -7,24 +7,28 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-
-import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
 import { inputBoxMixin } from './component/inputBox.js';
 import { UIDiv } from '../lib/ui.js';
 
-const DEFAULT_LABEL_PROPERTY = {
-    position: 'left', // 라벨 위치 hidden | top | left
-    fontSize: '16',
-    fontColor: 'rgba(0,0,0,1)',
-    bold: false,
-    italic: false,
-    underline: false,
-    align: 'left',
-    text: 'COMPONENT LABEL'
+const DEFAULT_PROPERTY = {
+    label: {
+        position: 'left', // 라벨 위치 hidden | top | left
+        fontSize: '16',
+        fontColor: 'rgba(0,0,0,1)',
+        bold: false,
+        italic: false,
+        underline: false,
+        align: 'left',
+        text: 'COMPONENT LABEL'
+    },
+    display: {
+        displayOrder: 0,     // 표시 순서
+        columnWidth: '12'
+    }
 };
-Object.freeze(DEFAULT_LABEL_PROPERTY);
+Object.freeze(DEFAULT_PROPERTY);
 
 export default class Component {
     constructor(data = {}) {
@@ -32,26 +36,25 @@ export default class Component {
         this.id = data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
-        this.displayOrder = 0;     // 표시 순서
-        this.columnWidth = data.columnWidth || '12';
         this.displayType = data.displayType || 'editable'; // (readonly, editable, required, hidden)
         this.isTopic = data.isTopic || false;
         this.mapId = data.mapId || '';
         this.tags = data.tags || [];
         this.value = data.value || '${default}';
-        this.label = Object.assign({}, DEFAULT_LABEL_PROPERTY, data.label);
 
+        this.display = Object.assign({}, DEFAULT_PROPERTY.display, data.display);
+        this.label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);
         this.element = data.element || {};
         this.validate = data.validate || {};
 
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
+        aliceJs.importMixin(this, mixin.controlMixin);
         // 타입에 따른 Mixin import
-        util.importMixin(this, this.getMixinByType(this.type));
+        aliceJs.importMixin(this, this.getMixinByType(this.type));
         // 라벨 Mixin import
-        util.importMixin(this, mixin.componentLabelMixin);
+        aliceJs.importMixin(this, mixin.componentLabelMixin);
         // Tooltip Mixin import
-        util.importMixin(this, mixin.toolTipMenuMixin);
+        aliceJs.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }
@@ -61,7 +64,7 @@ export default class Component {
         this.initProperty();
         // 컴포넌트용 툴팁
         const componentTooltip = new UIComponentTooltip()
-            .setUIProperty('--data-column', this.columnWidth);
+            .setUIProperty('--data-column', this.display.columnWidth);
         // 컴포넌트 추가
         componentTooltip.UIComponent = new UIComponent()
             .setUIId(this.id)
@@ -160,13 +163,13 @@ export default class Component {
         return this.tags;
     }
 
-    setColumnWidth(width) {
-        this.columnWidth = width;
+    setDisplayColumnWidth(width) {
+        this.display.columnWidth = width;
         this.UIElement.setUIProperty('--data-column', width);
     }
 
-    getColumnWidth() {
-        return this.columnWidth;
+    getDisplayColumnWidth() {
+        return this.display.columnWidth;
     }
 
     setLabelPosition(value) {
@@ -258,8 +261,7 @@ export default class Component {
         this.type = source.type;
         this.parent = source.parent;
         this.children = source.children;
-        this.displayOrder = source.displayOrder;
-        this.columnWidth = source.columnWidth;
+        this.display = source.display;
         this.displayType = source.displayType;
         this.isTopic = source.isTopic;
         this.mapId = source.mapId;
@@ -278,8 +280,7 @@ export default class Component {
         return {
             id: this.id,
             type: this.type,
-            displayOrder: this.displayOrder,
-            columnWidth: this.columnWidth,
+            display: this.display,
             displayType: this.displayType,
             isTopic: this.isTopic,
             mapId: this.mapId,

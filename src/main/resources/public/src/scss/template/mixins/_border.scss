@@ -1,0 +1,40 @@
+// 테두리 둥글게
+@mixin borderRadius($radius) {
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+}
+// 그림자
+@mixin boxShadow($top, $left, $blur, $spread, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $spread $color;
+    -moz-box-shadow:inset $top $left $blur $spread $color;
+    box-shadow:inset $top $left $blur $spread $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $spread $color;
+    -moz-box-shadow: $top $left $blur $spread $color;
+    box-shadow: $top $left $blur $spread $color;
+  }
+}
+
+// 내부 border
+@mixin insideBorder($thickness: 2px, $color: #ffffff) {
+  @include boxShadow(0, 0, 0, $thickness, $color, true);
+}
+
+// border
+// 모든 border => @include border(5px,solid,#0080FF,all);
+// bottom을 제외한 모든 border => @include border(5px,solid,#0080FF,all,bottom);
+// only top border => @include border(5px,dashed,#0080FF,top);
+@mixin border($width: 1px, $pattern: solid, $color: transparent, $position: all, $clear: none) {
+  @if $position == all {
+    border: $width $pattern $color;
+  } @else {
+    border-#{$position}: $width $pattern $color;
+  }
+  @if $clear == none {
+    $position: all;
+  } @else {
+    border-#{$clear}: none;
+  }
+}

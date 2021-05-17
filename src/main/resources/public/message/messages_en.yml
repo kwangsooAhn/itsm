@@ -73,13 +73,9 @@ common:
   code:
     token:
       status:
-        cancel: "cancel"
         finish: "finish"
-        reject: "reject"
         running: "running"
-        terminate: "terminate"
         waiting: "waiting"
-        withdraw: "withdraw"
     faq:
       category:
         all: "All"
@@ -1129,6 +1125,7 @@ token:
     tagPlaceHolder: "#Tags"
     view: "Document View"
     write: "My Document"
+    process : "Process"
   msg:
     selectToken: "Check the related documents to be added."
     searchDescription: "View and search documents relating to me."
@@ -1138,6 +1135,12 @@ token:
     progress: "Document in progress"
     requested: "Application document"
     todo: "Document to process"
+  action:
+    withdraw: "withdraw"
+    reject: "reject"
+    cancel: "cancel"
+    terminate: "terminate"
+    finish: "finish"
 
 # WorkflowAdmin
 workflowAdmin:

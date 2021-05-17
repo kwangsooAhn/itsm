@@ -11,7 +11,7 @@ CREATE TABLE cmdb_type
 	type_desc character varying(512),
 	type_alias character varying(128),
 	type_level int,
-	default_class_id character varying(128) NOT NULL,
+	class_id character varying(128) NOT NULL,
 	type_icon character varying(200),
 	create_user_key character varying(128),
 	create_dt timestamp,
@@ -19,7 +19,7 @@ CREATE TABLE cmdb_type
 	update_dt timestamp,
 	CONSTRAINT cmdb_type_pk PRIMARY KEY (type_id),
 	CONSTRAINT cmdb_type_uk UNIQUE (type_id),
-	CONSTRAINT cmdb_type_fk FOREIGN KEY (default_class_id)
+	CONSTRAINT cmdb_type_fk FOREIGN KEY (class_id)
       REFERENCES cmdb_class (class_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
@@ -31,7 +31,7 @@ COMMENT ON COLUMN cmdb_type.type_name IS '타입이름';
 COMMENT ON COLUMN cmdb_type.type_desc IS '타입설명';
 COMMENT ON COLUMN cmdb_type.type_alias IS '타입식별자';
 COMMENT ON COLUMN cmdb_type.type_level IS '타입레벨';
-COMMENT ON COLUMN cmdb_type.default_class_id IS '기본클래스아이디';
+COMMENT ON COLUMN cmdb_type.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_type.type_icon IS '타입아이콘';
 COMMENT ON COLUMN cmdb_type.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';

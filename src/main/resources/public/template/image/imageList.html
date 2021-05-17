@@ -11,12 +11,12 @@
         <div class="image-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{image.label.list}"></h1>
-                <h6 class="description" th:text="#{image.msg.searchDescription}"></h6>
+                <h6 class="description ml-2" th:text="#{image.msg.searchDescription}"></h6>
             </div>
             <div class="header-search flex-row">
                 <input type="text" class="search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
                        th:placeholder="#{image.label.name}"/>
-                <span id="totalCount" class="txt-num"></span>
+                <span id="totalCount" class="search-count"></span>
             </div>
         </div>
         <div class="image-content-edit flex-fill">

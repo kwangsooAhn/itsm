@@ -95,8 +95,8 @@ table[id="documentDisplay"] {
 
   &-list {
     height: 13.5rem; // 216px
-    border: $element-border; // 1px
-    border-radius: $element-border-radius;
+    @include border($element-border-width, solid, $element-border-color, all);
+    @include borderRadius(0.0625rem); // 1px
     padding: 0.5rem 0.625rem; // 8px 10px
 
     .right {
@@ -110,9 +110,7 @@ table[id="documentDisplay"] {
       height: 1.5rem; // 24px
       font-weight: $font-weight-regular;
       color: map-get($grays, "dark");
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      @include ellipsis(list-item);
     }
   }
 }

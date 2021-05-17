@@ -11,7 +11,7 @@
     <div class="board-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{board.label.board}"></h1>
-            <h6 class="description" th:text="#{board.msg.searchDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{board.msg.searchDescription}"></h6>
         </div>
         <div class="header-search flex-row">
             <form id="searchFrm">
@@ -25,7 +25,7 @@
                 <span>~</span>
                 <input type="text" class="search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
                 <input type="hidden" class="search-date" id="toDt" name="toDt"/>
-                <span id="spanTotalCount" class="txt-num"></span>
+                <span id="spanTotalCount" class="search-count"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-fill" onclick="openBoardAdd()"

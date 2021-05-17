@@ -11,12 +11,12 @@
     <div class="cmdb-type-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{cmdb.type.label.management}"></h1>
-            <h6 class="description" th:text="#{cmdb.type.msg.searchDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{cmdb.type.msg.searchDescription}"></h6>
         </div>
         <div class="header-search flex-row">
             <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
-            <span id="totalCount" class="txt-num"></span>
+            <span id="totalCount" class="search-count"></span>
             <div class="ml-auto">
                 <button type="button" class="default-fill" id="btnCreate" name="btnCreate" onclick="onCreate();"
                         sec:authorize="hasAuthority('cmdb.type.create')" th:text="#{common.btn.add}"></button>
@@ -127,16 +127,16 @@
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('parentTypeName').setAttribute('disabled','');
-                        document.getElementById('parentTypeName').value = responseJson.ptypeName;
-                        document.getElementById('parentTypeId').value = responseJson.ptypeId;
+                        document.getElementById('parentTypeName').value = responseJson.pTypeName;
+                        document.getElementById('parentTypeId').value = responseJson.pTypeId;
                         document.getElementById('typeName').value = responseJson.typeName;
                         document.getElementById('typeId').value = responseJson.typeId;
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
                         document.getElementById('typeAlias').value = responseJson.typeAlias;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
-                        document.getElementById('typeClassId').value = responseJson.defaultClassId;
-                        document.getElementById('typeClass').value = responseJson.defaultClassName;
-                        if (responseJson.ptypeId !== null) {
+                        document.getElementById('typeClassId').value = responseJson.classId;
+                        document.getElementById('typeClass').value = responseJson.className;
+                        if (responseJson.pTypeId !== null) {
                             document.querySelector('#btnUpdate').removeAttribute('disabled');
                             document.querySelector('#btnDelete').removeAttribute('disabled');
                             document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
@@ -206,8 +206,8 @@
                 typeAlias: document.getElementById('typeAlias').value,
                 typeDesc: document.getElementById('typeDesc').value,
                 typeIcon: document.getElementById('typeIcon').value,
-                defaultClassId: document.getElementById('typeClassId').value,
-                defaultClassName: document.getElementById('typeClass').value,
+                classId: document.getElementById('typeClassId').value,
+                className: document.getElementById('typeClass').value,
                 typeLevel: document.getElementById('typeLevel').value
             };
             if (jsonData.pTypeId === null || jsonData.pTypeId.trim() === '') {

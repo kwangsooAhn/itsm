@@ -12,7 +12,7 @@
         <div class="faq-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{faq.label.faq}"></h1>
-                <h6 class="description" th:text="#{faq.msg.viewDescription}"></h6>
+                <h6 class="description ml-2" th:text="#{faq.msg.viewDescription}"></h6>
             </div>
         </div>
         <div class="faq-content-view">
@@ -29,8 +29,8 @@
             <div class="horizontal-bar"></div>
             <div class="flex-column view-row">
                 <div class="view-content">
-                    <pre class="space-line">
-                        <span class="view-text auto-break" th:text="${faq?.faqContent}"/>
+                    <pre>
+                        <span class="view-text" th:text="${faq?.faqContent}"/>
                     </pre>
                 </div>
             </div>

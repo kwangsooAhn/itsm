@@ -14,7 +14,6 @@ data class FaqListDto(
     var faqGroup: String = "",
     var faqTitle: String = "",
     var faqContent: String = "",
-    var totalCount: Long = 0,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = ""
 ) : Serializable

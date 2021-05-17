@@ -17,6 +17,7 @@ data class WfTokenDto(
     var elementId: String = "",
     var elementType: String = "",
     var tokenStatus: String? = null,
+    var tokenAction: String? = null,
     var assigneeId: String? = null,
     var data: List<WfTokenDataDto>? = null,
     var fileDataIds: String? = null,

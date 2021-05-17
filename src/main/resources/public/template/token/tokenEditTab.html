@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
 </head>
@@ -16,17 +15,18 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th width="45%" th:text="#{token.label.startDt}">시작일시</th>
-                <th width="40%" th:text="#{token.label.elementName}">업무</th>
-                <th width="15%" th:text="#{token.label.assignee}">담당자</th>
+                <th width="35%" th:text="#{token.label.startDt}"></th>
+                <th width="25%" th:text="#{token.label.elementName}"></th>
+                <th width="20%" th:text="#{token.label.assignee}"></th>
+                <th width="20%" th:text="#{token.label.process}"></th>
             </tr>
             </thead>
             <tbody id="history" class="list-wrap">
             <tr th:each="tokenHistory : ${instanceHistory}">
-                <td width="45%" class="user-date-time" th:name="tokenDt"
-                    th:text="${tokenHistory.tokenStartDt}"/>
-                <td width="40%" th:text="${tokenHistory.elementName}"></td>
-                <td width="15%" th:text="${tokenHistory.assigneeName}"></td>
+                <td width="35%" class="user-date-time" th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
+                <td width="25%" th:text="${tokenHistory.elementName}"></td>
+                <td width="20%" th:text="${tokenHistory.assigneeName}"></td>
+                <td width="20%" th:name="tokenAction" th:text="${tokenHistory.tokenAction}"></td>
             </tr>
             </tbody>
         </table>
@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="comment-row">
-                <span class="auto-break space-line" th:text="${comment.content}"></span>
+                <span th:text="${comment.content}"></span>
             </div>
         </div>
         <div id="comment-container" class="comment comment-input flex-row align-items-start"></div>

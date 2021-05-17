@@ -1,1 +1,10 @@
 // 공통으로 사용하고자 하는 함수들을 정의합니다.
+
+// 퍼센트 너비 반환
+@function getColumnPercentWidth($columns) {
+  @return (100% / $columns)
+}
+// hex와 alpha 값을 전달 받아서 rgba를 반환
+@function hexToRGBA($hexcolor, $opacity: 1) {
+  @return rgba($hexcolor, $opacity);
+}

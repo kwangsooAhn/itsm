@@ -9,8 +9,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-
-import * as util from '../lib/util.js';
 import * as mixin from '../lib/mixins.js';
 import { UIDiv } from '../lib/ui.js';
 import {CLASS_PREFIX, FORM, UNIT} from '../lib/constants.js';
@@ -21,14 +19,15 @@ export default class Row {
         this.id =  data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
-        this.displayOrder = 0;     // 표시 순서
-        this.margin = data.margin || '10 0 10 0'; // row 간 간격(위 오른쪽 아래 왼쪽)
-        this.padding = data.padding || '10 10 10 10'; // row 내부 여백(위 오른쪽 아래 왼쪽)
-
+        this.display = data.display || {
+            displayOrder: 0,     // 표시 순서
+            margin: '10 0 10 0', // row 간 간격(위 오른쪽 아래 왼쪽)
+            padding: '10 10 10 10' // row 내부 여백(위 오른쪽 아래 왼쪽)
+        }
         // Control Mixin import
-        util.importMixin(this, mixin.controlMixin);
+        aliceJs.importMixin(this, mixin.controlMixin);
         // Tooltip Mixin import
-        util.importMixin(this, mixin.toolTipMenuMixin);
+        aliceJs.importMixin(this, mixin.toolTipMenuMixin);
 
         this.init();
     }
@@ -36,10 +35,10 @@ export default class Row {
     init() {
         // row 용 툴팁
         const rowTooltip = new UIRowTooltip()
-            .setUICSSText(`margin:${this.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
+            .setUICSSText(`margin:${this.display.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
         // row
         rowTooltip.UIRow = new UIRow().setUIId(this.id)
-            .setUICSSText(`padding:${this.padding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
+            .setUICSSText(`padding:${this.display.padding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
 
         rowTooltip.addUI(rowTooltip.UIRow);
         // 툴팁
@@ -49,99 +48,99 @@ export default class Row {
         this.UIElement = rowTooltip;
     }
 
-    setMarginTop(top) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginTop(top) {
+        const margin = this.display.margin.split(' ');
         margin[0] = top;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginTop(top + UNIT.PX);
     }
 
-    getMarginTop() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginTop() {
+        const margin = this.display.margin.split(' ');
         return margin[0];
     }
 
-    setMarginRight(right) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginRight(right) {
+        const margin = this.display.margin.split(' ');
         margin[1] = right;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginRight(right + UNIT.PX);
     }
 
-    getMarginRight() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginRight() {
+        const margin = this.display.margin.split(' ');
         return margin[1];
     }
 
-    setMarginBottom(bottom) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginBottom(bottom) {
+        const margin = this.display.margin.split(' ');
         margin[2] = bottom;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
-    getMarginBottom() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginBottom() {
+        const margin = this.display.margin.split(' ');
         return margin[2];
     }
 
-    setMarginLeft(left) {
-        const margin = this.margin.split(' ');
+    setDisplayMarginLeft(left) {
+        const margin = this.display.margin.split(' ');
         margin[3] = left;
-        this.margin = margin.join(' ');
+        this.display.margin = margin.join(' ');
         this.UIElement.setUIMarginLeft(left + UNIT.PX);
     }
 
-    getMarginLeft() {
-        const margin = this.margin.split(' ');
+    getDisplayMarginLeft() {
+        const margin = this.display.margin.split(' ');
         return margin[3];
     }
 
-    setPaddingTop(top) {
-        const padding = this.padding.split(' ');
+    setDisplayPaddingTop(top) {
+        const padding = this.display.padding.split(' ');
         padding[0] = top;
-        this.padding = padding.join(' ');
+        this.display.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingTop(top + UNIT.PX);
     }
 
-    getPaddingTop() {
-        const padding = this.padding.split(' ');
+    getDisplayPaddingTop() {
+        const padding = this.display.padding.split(' ');
         return padding[0];
     }
 
-    setPaddingRight(right) {
-        const padding = this.padding.split(' ');
+    setDisplayPaddingRight(right) {
+        const padding = this.display.padding.split(' ');
         padding[1] = right;
-        this.padding = padding.join(' ');
+        this.display.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingRight(right + UNIT.PX);
     }
 
-    getPaddingRight() {
-        const padding = this.padding.split(' ');
+    getDisplayPaddingRight() {
+        const padding = this.display.padding.split(' ');
         return padding[1];
     }
 
-    setPaddingBottom(bottom) {
-        const padding = this.padding.split(' ');
+    setDisplayPaddingBottom(bottom) {
+        const padding = this.display.padding.split(' ');
         padding[2] = bottom;
-        this.padding = padding.join(' ');
+        this.display.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingBottom(bottom + UNIT.PX);
     }
 
-    getPaddingBottom() {
-        const padding = this.padding.split(' ');
+    getDisplayPaddingBottom() {
+        const padding = this.display.padding.split(' ');
         return padding[2];
     }
 
-    setPaddingLeft(left) {
-        const padding = this.padding.split(' ');
+    setDisplayPaddingLeft(left) {
+        const padding = this.display.padding.split(' ');
         padding[3] = left;
-        this.padding = padding.join(' ');
+        this.display.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingLeft(padding + UNIT.PX);
     }
 
-    getPaddingLeft() {
-        const padding = this.padding.split(' ');
+    getDisplayPaddingLeft() {
+        const padding = this.display.padding.split(' ');
         return padding[3];
     }
 
@@ -163,39 +162,58 @@ export default class Row {
                     'minLength': ''
                 }
             },
-            'margin': {
-                'name': 'form.properties.margin',
-                'type': 'input-box',
-                'unit': 'px',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': 'number',
-                    'max': '100',
-                    'min': '0',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'padding': {
-                'name': 'form.properties.padding',
-                'type': 'input-box',
-                'unit': 'px',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': 'number',
-                    'max': '100',
-                    'min': '0',
-                    'maxLength': '',
-                    'minLength': ''
+            'display': {
+                name: 'form.properties.display',
+                type: 'group',
+                children: {
+                    'margin': {
+                        'name': 'form.properties.margin',
+                        'type': 'input-box',
+                        'unit': 'px',
+                        'help': '',
+                        'columnWidth': '12',
+                        'validate': {
+                            'required': false,
+                            'type': 'number',
+                            'max': '100',
+                            'min': '0',
+                            'maxLength': '',
+                            'minLength': ''
+                        }
+                    },
+                    'padding': {
+                        'name': 'form.properties.padding',
+                        'type': 'input-box',
+                        'unit': 'px',
+                        'help': '',
+                        'columnWidth': '12',
+                        'validate': {
+                            'required': false,
+                            'type': 'number',
+                            'max': '100',
+                            'min': '0',
+                            'maxLength': '',
+                            'minLength': ''
+                        }
+                    }
                 }
             }
         };
         return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            property[key] = Object.assign(value, { 'value': this[key] });
+            if (value.type === 'group') {
+                const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
+                    const tempChildValue = { 'value': this[key][childKey] };
+                    if (childValue.type === 'button-toggle-icon') { // 토글 데이터
+                        tempChildValue.value = childValue.option.map((item) =>
+                            (this[key][item.value]) ? 'Y' : 'N').join('|');
+                    }
+                    child[childKey] = Object.assign(childValue, tempChildValue);
+                    return child;
+                }, {});
+                property[key] = Object.assign(value, { 'children': childProperties });
+            } else {
+                property[key] = Object.assign(value, { 'value': this[key] });
+            }
             return property;
         }, {});
     }
@@ -207,9 +225,7 @@ export default class Row {
      */
     copy(source, flag) {
         this.type = source.type;
-        this.displayOrder = source.displayOrder;
-        this.margin = source.margin;
-        this.padding = source.padding;
+        this.display = source.display;
         this.parent = source.parent;
         if (flag) { this.id = source.id; }
 
@@ -222,17 +238,15 @@ export default class Row {
     }
     // json 데이터 추출
     toJson() {
-        const components = [];
+        const component = [];
         for (let i = 0; i < this.children.length; i ++) {
             const child = this.children[i];
-            components.push(child.toJson());
+            component.push(child.toJson());
         }
         return {
             id: this.id,
-            displayOrder: this.displayOrder,
-            margin: this.margin,
-            padding: this.padding,
-            components: components
+            display: this.display,
+            component: component
         };
     }
 }

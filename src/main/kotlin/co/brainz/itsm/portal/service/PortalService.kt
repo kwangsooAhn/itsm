@@ -61,8 +61,12 @@ class PortalService(
         faqAll.forEach { faq ->
             faqList.add(
                 FaqListDto(
-                    faq.faqId, faq.faqGroup, faq.faqTitle, faq.faqContent,
-                    0, null, ""
+                    faqId = faq.faqId,
+                    faqGroup = faq.faqGroup,
+                    faqTitle = faq.faqTitle,
+                    faqContent = faq.faqContent,
+                    createDt = null,
+                    createUserName = ""
                 )
             )
         }

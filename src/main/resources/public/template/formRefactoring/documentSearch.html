@@ -129,7 +129,7 @@
     <div class="document-header">
         <div class="header-title flex-row align-items-baseline" id="header-title">
             <h1 th:text="#{document.label.document}"></h1>
-            <h6 class="description" th:text="#{document.msg.searchDescription}"></h6>
+            <h6 class="description ml-2" th:text="#{document.msg.searchDescription}"></h6>
         </div>
         <div class="header-search flex-row" id="header-search">
             <form id="searchDocumentsFrm">
@@ -141,7 +141,7 @@
                        th:placeholder="#{document.label.form}" class="search col-3 mr-2"/>
                 <input type="hidden" id="searchDocumentType" name="searchDocumentType"
                        value="application-form"/>
-                <span id="spanTotalCount" class="txt-num"></span>
+                <span id="spanTotalCount" class="search-count"></span>
             </form>
         </div>
     </div>

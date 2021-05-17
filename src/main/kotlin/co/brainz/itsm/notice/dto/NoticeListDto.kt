@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.notice.dto
 
 import java.io.Serializable
@@ -15,6 +21,5 @@ data class NoticeListDto(
     var popHeight: Int? = null,
     var topNoticeStrtDt: LocalDateTime? = null,
     var topNoticeEndDt: LocalDateTime? = null,
-    var totalCount: Long = 0,
     var createUserName: String? = ""
 ) : Serializable

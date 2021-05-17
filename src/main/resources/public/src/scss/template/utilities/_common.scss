@@ -7,8 +7,7 @@
  */
 // 밑줄
 .underline {
-  text-decoration: underline;
-  text-underline-position: under;
+  @include underline;
 }
 // 설명
 .description {
@@ -24,20 +23,8 @@
 }
 // 말줄임
 .text-ellipsis {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  @include ellipsis();
 }
-// 자동 줄바꿈
-.auto-break {
-  word-break: break-all;
-}
-// 공백 처리
-// 한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꿉니다.
-.space-line {
-  white-space: pre-line;
-}
-
 // 가로 선
 @include horizontalBar(0.0625rem, 0.9375rem 0, $element-border-color);
 // 세로 선

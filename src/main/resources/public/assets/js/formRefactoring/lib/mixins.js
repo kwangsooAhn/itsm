@@ -27,7 +27,7 @@ export const controlMixin = {
             object.parent.remove(object);
         }
         object.parent = this;
-        object.displayOrder = index;
+        object.display.displayOrder = index;
         this.children.splice(index, 0, object);
         // 재정렬
         this.sort((index + 1));
@@ -85,7 +85,7 @@ export const controlMixin = {
      */
     sort(index) {
         for (let i = index; i < this.children.length; i++) {
-            this.children[i].displayOrder = i;
+            this.children[i].display.displayOrder = i;
         }
     },
     /**
@@ -208,7 +208,7 @@ export const toolTipMenuMixin = {
             editor = this.parent.parent.parent.parent;
         }
         // 복사하여 바로 아래 추가
-        editor.makeDomElement(cloneData, this.parent, (this.displayOrder + 1));
+        editor.makeForm(cloneData, this.parent, (this.display.displayOrder + 1));
         const copyObject = this.parent.getById(cloneData.id);
         editor.history.save([{
             type: 'add',
@@ -251,8 +251,8 @@ export const toolTipMenuMixin = {
         // 이력 저장
         editor.history.save(histories.reverse());
         // 타입이 동일한 바로 이전 객체 선택, 하나도 존재하지 않으면 form 선택
-        if (parentObject.children[cloneObject.displayOrder - 1]) {
-            parentObject.children[cloneObject.displayOrder - 1].UIElement.domElement.dispatchEvent(new Event('click'));
+        if (parentObject.children[cloneObject.display.displayOrder - 1]) {
+            parentObject.children[cloneObject.display.displayOrder - 1].UIElement.domElement.dispatchEvent(new Event('click'));
         } else {
             editor.form.UIElement.domElement.dispatchEvent(new Event('click'));
         }

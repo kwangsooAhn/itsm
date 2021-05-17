@@ -6,7 +6,6 @@
 
 package co.brainz.cmdb.ci.entity
 
-import co.brainz.cmdb.ciClass.entity.CIClassEntity
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -41,13 +40,6 @@ data class CIEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     val ciTypeEntity: CITypeEntity,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "class_id")
-    val ciClassEntity: CIClassEntity,
-
-    @Column(name = "ci_icon", length = 200)
-    var ciIcon: String? = null,
 
     @Column(name = "ci_desc", length = 512)
     var ciDesc: String? = null,

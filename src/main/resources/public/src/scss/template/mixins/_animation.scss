@@ -16,37 +16,57 @@
   }
 }
 
-@mixin animation($delay, $duration, $name, $timing, $count:1) {
-  animation-delay: $delay;
-  animation-duration: $duration;
-  animation-name: $name;
-  animation-timing-function: $timing;
-  animation-iteration-count: $count;
+// @include animation (0s, 6s, pulse, linear, 1, reverse);
+@mixin animation($delay, $duration, $name, $timing, $count:1, $direction:normal) {
+  @each $prefix in -webkit-, -moz-, -o-, -ms-, '' {
+    #{$prefix}animation-delay: $delay;
+    #{$prefix}animation-duration: $duration;
+    #{$prefix}animation-name: $name;
+    #{$prefix}animation-timing-function: $timing;
+    #{$prefix}animation-iteration-count: $count;
+    #{$prefix}animation-direction: $direction;
+  }
 }
 
+// @include transform(translate(4px, 9px) scale(1))
 @mixin transform($transforms) {
-  -moz-transform: $transforms;
-  -o-transform: $transforms;
-  -ms-transform: $transforms;
-  -webkit-transform: $transforms;
-  transform: $transforms;
+  @each $prefix in -webkit-, -moz-, -o-, -ms-, '' {
+    #{$prefix}transform: $transforms;
+  }
 }
 
+// @include transformOrigin(50% 50%);
 @mixin transformOrigin ($origin) {
-  -webkit-transform-origin: $origin;
-  -moz-transform-origin: $origin;
-  -ms-transform-origin: $origin;
-  transform-origin: $origin;
+  @each $prefix in -webkit-, -moz-, -o-, -ms-, '' {
+    #{$prefix}transform-origin: $origin;
+  }
 }
 
+// @include rotate(-90);
 @mixin rotate($deg) {
   @include transform(rotate(#{$deg}deg));
 }
 
+// @include scale(1.2);
 @mixin scale($scale) {
   @include transform(scale($scale));
 }
 
+// @include translate(-150%, -50%);
 @mixin translate($x, $y) {
   @include transform(translate($x, $y));
+}
+
+// @include transition(visibility 0s ease 0.2s, opacity 0.2s ease, transform 0.3s ease);
+@mixin transition($transition) {
+  @each $prefix in -webkit-, -moz-, -o-, -ms-, '' {
+    #{$prefix}transition: $transition;
+  }
+}
+
+// include filter(blur(8px));
+@mixin filter($filter) {
+  @each $prefix in -webkit-, -moz-, -o-, -ms-, '' {
+    #{$prefix}filter: $filter;
+  }
 }

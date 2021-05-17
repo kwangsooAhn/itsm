@@ -1,0 +1,553 @@
+/* 태그 기능 디자인
+ * /default/_tag.scss
+ * @description 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
+ *              변수를 통해 중복되는 코드 제거 및 코드 컨벤션에 맞게 수정
+ * @author jy.lim
+ * @version 1.0
+ */
+// tag 동작 이벤트
+@include keyframe(tags--bump) {
+  30% {
+    transform: scale(1.2);
+  }
+}
+@include keyframe(rotateLoader) {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.tagify {
+  @include relative();
+  display: flex;
+  min-height: 2.5rem; // 40px
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 0 0 0 0.3125rem; // 0 0 0 5px
+  @include border(0.0625, solid, map-get($grays, 'line'), all); // 1px
+  line-height: 1.1;
+  cursor: text;
+  outline: 0;
+  @include transition(0.1s);
+  --tag-hide-transition: 0.3s;
+
+  &:hover {
+    @include border(0.0625rem, solid, map-get($blues, 'light'), all); // 1px
+  }
+
+  &.tagify--focus {
+    @include border(0.0625rem, solid, $blue, all); // 1px
+    @include transition(0s);
+  }
+
+  &[readonly] {
+    cursor: default;
+
+    > .tagify__input {
+      width: 0;
+      visibility: hidden;
+    }
+
+    .tagify__tag__removeBtn {
+      display: none;
+    }
+
+    .tagify__tag > div {
+      padding: 0.25rem 0.5rem; // 4px, 8px
+      color: $tagify-read-font-color;
+      pointer-events: none;
+
+      &::before {
+        background-color: $tagify-read-bg-color;
+        pointer-events: none;
+        box-shadow: none;
+      }
+    }
+  }
+
+  &:not(.tagify--mix) {
+    .tagify__input  {
+      * {
+        display: inline;
+        white-space: nowrap;
+      }
+
+      br {
+        display: none;
+      }
+    }
+  }
+  + input,
+  + textarea {
+    display: none !important;
+  }
+}
+
+.tagify--loading {
+  .tagify__input {
+    &::before {
+      content: none;
+    }
+    &::after {
+      width: 0.75rem; // 12px
+      height: 0.75rem; // 12px
+      margin: -0.125rem 0 -0.125rem 0.5rem; // -2px, 0, -2px, 8px
+      @include border(0.1875rem, solid, transparent, all); // 3px
+      @include borderRadius(50%);
+      content: '';
+      vertical-align: middle;
+      opacity: 1;
+      @include animation(0s, 0.4s, rotateLoader, linear, infinite);
+    }
+    &:empty::after {
+      margin-left: 0;
+    }
+  }
+}
+
+.tagify__tag {
+  @include relative();
+  display: inline-flex;
+  align-items: center;
+  margin: 0.3125rem 0 0.3125rem 0.3125rem; //5px 0 5px 5px
+  @include border(0.0625rem, solid, #E5F5FF, all); // 1px
+  @include borderRadius($tag-border-radius);
+  z-index: 1;
+  outline: 0;
+  cursor: default;
+  @include transition(0.13s ease-out);
+  // 태그 문구
+  > div {
+    max-width: 100%;
+    padding: 0.375rem 0.5rem; // 6px 8px
+    @include borderRadius($tag-border-radius);
+    vertical-align: top;
+    box-sizing: border-box;
+    color: $tag-font-color;
+    line-height: inherit;
+    @include userSelect(none);
+    @include transition(0.13s ease-out);
+
+    > * {
+      @include ellipsis(inline-block, max-content);
+      vertical-align: top;
+      min-width: 1ch;
+      @include transition(0.8s ease);
+    }
+
+    > [contenteditable] {
+      max-width: 21.88rem; // 350px
+      margin: -0.125rem; // -2px
+      padding: 0.125rem; // 2px
+      outline: 0;
+      @include userSelect(text);
+      cursor: text;
+    }
+
+    &::before {
+      content: '';
+      @include absolute(0, 0, 0, 0);
+      @include borderRadius(inherit);
+      z-index: -1;
+      pointer-events: none;
+      @include transition(120ms ease);
+      @include animation(0s, 0.3s, tags--bump, ease-out, 1);
+      @include insideBorder(1.25rem, $tag-bg-color);
+    }
+  }
+
+  &:hover:not([readonly]) {
+    border-color: $tag-hover-border-color;
+    div::before {
+      color: $tag-hover-font-color;
+      @include insideBorder(1.25rem, $tag-hover-bg-color);
+    }
+  }
+
+  &--loading {
+    pointer-events: none;
+
+    .tagify__tag__removeBtn {
+      display: none;
+    }
+
+    &::after {
+      content: '';
+      vertical-align: middle;
+      width: 0.688rem; // 11px
+      height: 0.688rem; // 11px
+      margin: 0 0.5rem 0 -0.063rem; // 8px, -1px
+      @include border(0.1875rem, solid, transparent, all); // 3px
+      @include borderRadius(50%);
+      opacity: 1;
+      @include animation(0s, 0.4s, rotateLoader, linear, infinite);
+    }
+  }
+
+  &.tagify--noAnim {
+    > div::before {
+      animation: none;
+    }
+  }
+
+  &.tagify--hide {
+    width: 0 !important;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    opacity: 0;
+    @include scale(0);
+    transition: var(--tag-hide-transition);
+    pointer-events: none;
+  }
+
+  &.tagify--mark {
+    div::before {
+      animation: none;
+    }
+  }
+
+  &.tagify--notAllowed {
+    &:not(.tagify__tag--editable) {
+      @include border(0.0625rem, solid, $tag-invalid-border-color, all); // 1px
+
+      div {
+        color: $tag-invalid-color;
+
+        > span {
+          opacity: 1; // 기존 0.5
+        }
+
+        &::before {
+          @include insideBorder(1.25rem, $tag-invalid-bg-color);
+          @include transition(0.2s);
+        }
+      }
+
+      // 삭제 버튼
+      .tagify__tag__removeBtn {
+        color: $tag-invalid-color;
+        pointer-events: none;
+      }
+
+      &:hover {
+        @include border(0.0625rem, solid, $tag-invalid-color, all); // 1px
+
+        .tagify__tag__removeBtn {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
+  &[readonly] {
+    .tagify__tag__removeBtn {
+      display: none;
+    }
+
+    > div::before {
+      background: linear-gradient(45deg, #e5e5e5 25%, transparent 25%, transparent 50%, #e5e5e5 50%, #e5e5e5 75%, transparent 75%, transparent) 0/5px 5px;
+      box-shadow: none;
+      @include filter(brightness(0.95));
+    }
+  }
+}
+
+.tagify__tag--editable {
+  > div {
+    color: black;
+
+    &::before {
+      box-shadow: 0 0 0 0.125rem #d3e2e2 inset !important; // 2px
+    }
+  }
+
+  &.tagify--invalid {
+    > div::before {
+      box-shadow: 0 0 0 0.125rem #d39494 inset !important; // 2px
+    }
+  }
+}
+
+.tagify__tag__removeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem; // 18px
+  height: 1.125rem; // 18px
+  margin: 0 0.25rem 0 0; // 0 4.66667px
+  @include transition(0.2s ease-out);
+  @include borderRadius(3.125rem); // 50px
+  order: 5;
+  cursor: pointer;
+  font-family: $font-family;
+  font-size: 1.25rem; // 20px
+  font-weight: $font-weight-bold;
+  color: $tag-btn-remove-color;
+  background: 0 0;
+
+  &::after {
+    height: 1.125rem; // 18px
+    line-height: 0.875rem; // 14px
+    content: '\00D7';
+  }
+
+  &:hover {
+    color: $tag-hover-btn-remove-color;
+    background: $tag-hover-btn-remove-bg-color;
+    + div {
+      > span {
+        opacity: 1; // 기존 0.5
+      }
+      &::before {
+        @include insideBorder(1.25rem, $tag-hover-bg-color);
+        @include transition(0.2s);
+      }
+    }
+  }
+}
+
+// 태그를 입력하세요 input box
+.tagify__input {
+  @include relative();
+  flex: 1;
+  display: block;
+  min-width: 6.875rem; // 110px
+  margin: 0.312rem; // 5px
+  padding: 0.3em 0.5em;
+  line-height: inherit;
+  @include wordWrap(break-word);
+  // 미 입력시, placeholder 투명도 조정 가능
+  &:empty::before {
+    @include transition(0.2s ease-out);
+    opacity: 0; // 기존 0.5
+    transform: none;
+    width: auto;
+  }
+
+  &:focus {
+    outline: 0;
+    &::before {
+      @include transition(0.2s ease-out);
+      opacity: 0;
+      @include translate(6px, 0); // 6px
+    }
+
+    &:empty::before {
+      @include transition(0.2s ease-out);
+      opacity: 0; // 기존 0.3
+      transform: none;
+    }
+  }
+
+  &::before {
+    display: inline-block;
+    @include absolute($top: 0, $bottom: 0);
+    width: 0;
+    height: 1em;
+    margin: auto 0;
+    content: attr(data-placeholder);
+    line-height: 1em;
+    z-index: 1;
+    color: $tag-input-font-color;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+
+  &::after {
+    content: attr(data-suggest);
+    display: inline-block;
+    max-width: 6.25rem; // 100px
+    white-space: pre;
+    color: $tag-input-font-color;
+    opacity: 0; // 기존 0.3
+    pointer-events: none;
+  }
+
+  .tagify__tag {
+    margin: 0;
+
+    > div {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+
+@supports (-moz-appearance:none) {
+  .tagify__input:empty {
+    display: flex;
+  }
+}
+
+@supports (-moz-appearance:none) {
+  .tagify__input:focus::before {
+    display: none;
+  }
+}
+
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+  .tagify__input:focus::before {
+    display: none;
+  }
+}
+
+@supports (-ms-ime-align:auto) {
+  .tagify__input:focus::before {
+    display: none;
+  }
+}
+@supports (-moz-appearance:none) {
+  .tagify__input:focus:empty::before {
+    display: inline-block;
+  }
+}
+
+.tagify--mix {
+  line-height: 1.7;
+
+  .tagify__input {
+    width: 100%;
+    height: 100%;
+    padding: 0.3125rem; // 5px
+    margin: 0;
+    line-height: inherit;
+    &::before {
+      position: static;
+      height: auto;
+      line-height: inherit;
+    }
+    &::after {
+      content: none;
+    }
+  }
+}
+
+.tagify--select {
+  &::after {
+    content: '>';
+    @include absolute(50%, 0, 0, null);
+    height: 0.5rem; // 8px
+    opacity: 0.5;
+    font-family: $font-family;
+    line-height: 0.5rem; // 8px
+    pointer-events: none;
+    @include transform(translate(-150%, -50%) scaleX(1.2) rotate(90deg));
+    @include transition(0.2s ease-in-out);
+  }
+
+  &[aria-expanded=true]::after {
+    @include transform(translate(-150%, -50%) rotate(270deg) scaleY(1.2));
+  }
+
+  .tagify__tag {
+    @include absolute(0, 1.8em, 0, null);
+    div {
+      display: none;
+    }
+  }
+
+  .tagify__input {
+    width: 100%;
+  }
+}
+
+.tagify--invalid {
+  border-color: $tag-invalid-border-color;
+}
+
+.tagify__dropdown {
+  @include absolute();
+  z-index: 9999;
+  transform: translateY(1px);
+  overflow: hidden;
+  margin-top: 0.3125rem; // 5px
+
+  &[placement=top] {
+    margin-top: 0;
+    @include translate(0, -2px);
+    .tagify__dropdown__wrapper {
+      border-top-width: .0625rem; // 1px
+      border-bottom-width: 0;
+    }
+  }
+
+  &--text {
+    @include boxShadow(0, 0, 0, 3px, hexToRGBA(#3595f6, 0.1));
+    font-size: 0.9em;
+
+    .tagify__dropdown__wrapper {
+      border-width: .0625rem; // 1px
+    }
+  }
+  // 자동 완성
+  &__wrapper {
+    max-height: 18.75rem;
+    padding: 0 0.25rem 0.5rem 0.25rem; // 0 4px 8px 4px
+    @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+    overflow: hidden;
+    background: white;
+    @include boxShadow(0.0625rem, 0.0625rem, 0.3125rem, 0, map-get($grays, 'pressed')); // 1px 1px 5px 0
+    @include transition(0.25s cubic-bezier(0, 1, 0.5, 1));
+
+    &:hover {
+      overflow: auto;
+    }
+  }
+
+  &--initial {
+    &[placement=top] .tagify__dropdown__wrapper {
+      @include translate(0, 2em);
+    }
+
+    .tagify__dropdown__wrapper {
+      max-height: 20px;
+      @include translate(0, -1em);
+    }
+  }
+
+  &__item {
+    @include relative();
+    box-sizing: inherit;
+    padding: 0.3em 0.5em;
+    margin: 0.0625rem;
+    @include borderRadius(0.125rem);
+    cursor: pointer;
+    outline: 0;
+
+    &:active {
+      @include filter(brightness(105%));
+    }
+
+    &--active {
+      color: white;
+      background: #3595f6;
+    }
+  }
+}
+
+// 테마
+.tags-look {
+  .tagify__dropdown__item {
+    display: inline-block;
+    @include borderRadius($tag-border-radius);
+    padding: 0.25rem 0.5rem; // 4px, 8px
+    @include border(0.0625rem, solid, #E5F5FF, all); // 1px
+    background: $tag-bg-color;
+    margin: 0.5rem 0.25rem 0 0.25rem; // 8px 4px 0 4px
+    color: $tag-font-color;
+    @include transition(0s);
+    &:hover {
+      background: $tag-hover-bg-color;
+      border-color: $tag-hover-border-color;
+    }
+  }
+
+  .tagify__dropdown__item--active {
+    color: $tag-hover-font-color;
+  }
+}

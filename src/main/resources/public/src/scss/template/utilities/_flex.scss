@@ -18,6 +18,16 @@ $flex-align-type: (row, column);
   display: inline-flex !important;
 }
 
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
 .justify-content-start {
   justify-content: flex-start !important;
 }
@@ -60,3 +70,4 @@ $flex-align-type: (row, column);
 .flex-fill {
   flex: 1 1 auto;
 }
+

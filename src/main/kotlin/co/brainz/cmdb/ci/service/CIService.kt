@@ -122,22 +122,22 @@ class CIService(
         if (ciEntity != null) {
             ciDetailDto.ciNo = ciEntity.ciNo
             ciDetailDto.ciName = ciEntity.ciName
-            ciDetailDto.ciIcon = ciEntity.ciIcon
-            ciDetailDto.ciIconData = ciEntity.ciIcon?.let { ciTypeService.getCITypeImageData(it) }
+            ciDetailDto.ciIcon = ciEntity.ciTypeEntity.typeIcon
+            ciDetailDto.ciIconData = ciEntity.ciTypeEntity.typeIcon?.let { ciTypeService.getCITypeImageData(it) }
             ciDetailDto.ciDesc = ciEntity.ciDesc
             ciDetailDto.ciStatus = ciEntity.ciStatus
             ciDetailDto.automatic = ciEntity.automatic
             ciDetailDto.typeId = ciEntity.ciTypeEntity.typeId
             ciDetailDto.typeName = ciEntity.ciTypeEntity.typeName
-            ciDetailDto.classId = ciEntity.ciClassEntity.classId
-            ciDetailDto.className = ciEntity.ciClassEntity.className
+            ciDetailDto.classId = ciEntity.ciTypeEntity.ciClass.classId
+            ciDetailDto.className = ciEntity.ciTypeEntity.ciClass.className
             ciDetailDto.createUserKey = ciEntity.createUser?.userKey
             ciDetailDto.createDt = ciEntity.createDt
             ciDetailDto.updateUserKey = ciEntity.updateUser?.userKey
             ciDetailDto.updateDt = ciEntity.updateDt
             ciDetailDto.ciTags = aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId)
             ciDetailDto.ciRelations = ciRelationRepository.selectByCiId(ciEntity.ciId)
-            ciDetailDto.classes = getAttributeValueAll(ciEntity.ciId, ciEntity.ciClassEntity.classId)
+            ciDetailDto.classes = getAttributeValueAll(ciEntity.ciId, ciEntity.ciTypeEntity.ciClass.classId)
         }
         return ciDetailDto
     }
@@ -191,7 +191,7 @@ class CIService(
                 // 추후 CIEntity 에서 class_id 를 삭제하는 경우
                 // 화면이나 워크플로우 엔진에서 먼저 삭제하는 동안 처리될 수 있도록 임시로 타입으로 찾는 로직.
                 val ciClassEntity = when (ciDto.classId.isNullOrEmpty()) {
-                    true -> ciTypeRepository.getOne(ciDto.typeId).defaultClass
+                    true -> ciTypeRepository.getOne(ciDto.typeId).ciClass
                     false -> ciClassRepository.getOne(ciDto.classId)
                 }
 
@@ -202,8 +202,6 @@ class CIService(
                     ciName = ciDto.ciName,
                     ciStatus = ciDto.ciStatus,
                     ciTypeEntity = ciTypeRepository.getOne(ciDto.typeId),
-                    ciClassEntity = ciClassEntity,
-                    ciIcon = ciDto.ciIcon,
                     ciDesc = ciDto.ciDesc,
                     automatic = ciDto.automatic,
                     instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) },
@@ -282,7 +280,7 @@ class CIService(
             ciDto.updateUserKey?.let { ciEntity.updateUser = aliceUserRepository.findAliceUserEntityByUserKey(it) }
             ciDto.ciName.let { ciEntity.ciName = ciDto.ciName }
             ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
-            ciDto.ciIcon?.let { ciEntity.ciIcon = ciDto.ciIcon }
+            ciDto.ciIcon?.let { ciEntity.ciTypeEntity.typeIcon = ciDto.ciIcon }
             ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
             ciDto.automatic?.let { ciEntity.automatic = ciDto.automatic }
             ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
@@ -392,9 +390,9 @@ class CIService(
             ciName = ciEntity.ciName,
             ciDesc = ciEntity.ciDesc,
             typeId = ciEntity.ciTypeEntity.typeId,
-            ciIcon = ciEntity.ciIcon,
+            ciIcon = ciEntity.ciTypeEntity.typeIcon,
             ciStatus = ciEntity.ciStatus,
-            classId = ciEntity.ciClassEntity.classId,
+            classId = ciEntity.ciTypeEntity.ciClass.classId,
             automatic = ciEntity.automatic,
             instance = ciEntity.instance,
             applyDt = ciEntity.updateDt

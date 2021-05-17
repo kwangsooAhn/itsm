@@ -643,6 +643,7 @@
         if (commentContainer !== null) {
 
             let commentBoxTextarea = document.createElement('textarea');
+            commentBoxTextarea.id = 'commentValue';
             commentBoxTextarea.setAttribute('placeholder', i18n.msg('comment.msg.enterComments'));
             commentBoxTextarea.className = 'textarea-scroll-wrapper';
             let commentButton = document.createElement('button');
@@ -650,6 +651,8 @@
             commentButton.innerText = i18n.msg('common.btn.register');
             commentButton.classList.add('default-line');
             commentButton.addEventListener('click', function () {
+                // 유효성 검증
+                if (isEmpty('commentValue', 'comment.msg.enterComments')) { return false; }
                 aliceDocument.saveComment(instanceId, commentBoxTextarea.value);
             });
 
@@ -881,7 +884,7 @@
     function onAddTag(tag) {
         const jsonData = {
             tagType: 'instance',
-            tagValue: tag.detail.data.value,
+            value: tag.detail.data.value,
             targetId: document.getElementById('instanceId').getAttribute('data-id')
         };
 
@@ -1001,6 +1004,10 @@
                 const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
                 document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
                 OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
+                const tokenActionEle = document.querySelectorAll('td[name=tokenAction]');
+                for (let i = 0; i < tokenActionEle.length; i++) {
+                    tokenActionEle[i].textContent = i18n.msg(tokenActionEle[i].textContent);
+                }
             }
         });
     }

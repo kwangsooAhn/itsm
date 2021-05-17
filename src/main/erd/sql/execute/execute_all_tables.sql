@@ -252,13 +252,9 @@ insert into awf_code values ('script.type.cmdb', 'script.type', 'script.type.cmd
 insert into awf_code values ('script.type.document.attachFile', 'script.type', 'script.type.document.attachFile', '[문서편집] 첨부파일', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token', 'root', null, '토큰 관련 코드', null, false, 1, 9, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status', 'token', null, '토큰 상태 코드', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.cancel', 'token.status', null, '취소', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.finish', 'token.status', null, '처리 완료', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.reject', 'token.status', null, '반려', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.running', 'token.status', null, '진행 중', null, false, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.terminate', 'token.status', null, '종료', null, false, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.waiting', 'token.status', null, '대기 중', null, false, 3, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('token.status.withdraw', 'token.status', null, '회수', null, false, 3, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('token.status.finish', 'token.status', null, '처리 완료', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('token.status.running', 'token.status', null, '진행 중', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('token.status.waiting', 'token.status', null, '대기 중', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('user', 'root', null, '사용자', null, false,1,10, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.id', 'user', null, '아이디', null, false,2,1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.name', 'user', null, '이름', null, false,2,2, '0509e09412534a6e98f04ca79abb6424', now(), null);
@@ -636,97 +632,135 @@ COMMENT ON COLUMN awf_menu_auth_map.menu_id IS '메뉴아이디';
 COMMENT ON COLUMN awf_menu_auth_map.auth_id IS '권한아이디';
 
 insert into awf_menu_auth_map values ('chart', 'chart.read');
+insert into awf_menu_auth_map values ('chart', 'chart.create');
+insert into awf_menu_auth_map values ('chart', 'chart.update');
+insert into awf_menu_auth_map values ('chart', 'chart.delete');
 insert into awf_menu_auth_map values ('config', 'user.read');
+insert into awf_menu_auth_map values ('config', 'user.create');
+insert into awf_menu_auth_map values ('config', 'user.update');
+insert into awf_menu_auth_map values ('config', 'user.delete');
 insert into awf_menu_auth_map values ('config.auth', 'auth.read');
-insert into awf_menu_auth_map values ('config.boardAdmin', 'board.admin.update');
-insert into awf_menu_auth_map values ('config.boardAdmin', 'board.admin.create');
+insert into awf_menu_auth_map values ('config.auth', 'auth.create');
+insert into awf_menu_auth_map values ('config.auth', 'auth.update');
+insert into awf_menu_auth_map values ('config.auth', 'auth.delete');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'board.admin.read');
+insert into awf_menu_auth_map values ('config.boardAdmin', 'board.admin.create');
+insert into awf_menu_auth_map values ('config.boardAdmin', 'board.admin.update');
 insert into awf_menu_auth_map values ('config.boardAdmin', 'board.admin.delete');
+insert into awf_menu_auth_map values ('config.code', 'code.read');
+insert into awf_menu_auth_map values ('config.code', 'code.create');
 insert into awf_menu_auth_map values ('config.code', 'code.update');
 insert into awf_menu_auth_map values ('config.code', 'code.delete');
-insert into awf_menu_auth_map values ('config.code', 'code.create');
-insert into awf_menu_auth_map values ('config.code', 'code.read');
 insert into awf_menu_auth_map values ('config.role', 'role.read');
+insert into awf_menu_auth_map values ('config.role', 'role.create');
+insert into awf_menu_auth_map values ('config.role', 'role.update');
+insert into awf_menu_auth_map values ('config.role', 'role.delete');
 insert into awf_menu_auth_map values ('config.user', 'user.read');
-insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.create');
-insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.delete');
+insert into awf_menu_auth_map values ('config.user', 'user.create');
+insert into awf_menu_auth_map values ('config.user', 'user.update');
+insert into awf_menu_auth_map values ('config.user', 'user.delete');
 insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.read');
+insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.create');
 insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.update');
+insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.delete');
 insert into awf_menu_auth_map values ('dashboard', 'document.read');
+insert into awf_menu_auth_map values ('dashboard', 'document.create');
+insert into awf_menu_auth_map values ('dashboard', 'document.update');
+insert into awf_menu_auth_map values ('dashboard', 'document.delete');
 insert into awf_menu_auth_map values ('document', 'document.read');
 insert into awf_menu_auth_map values ('document', 'document.create');
-insert into awf_menu_auth_map values ('token', 'token.create');
+insert into awf_menu_auth_map values ('document', 'document.update');
+insert into awf_menu_auth_map values ('document', 'document.delete');
 insert into awf_menu_auth_map values ('token', 'token.read');
-insert into awf_menu_auth_map values ('board', 'board.create');
+insert into awf_menu_auth_map values ('token', 'token.create');
 insert into awf_menu_auth_map values ('board', 'board.read');
+insert into awf_menu_auth_map values ('board', 'board.create');
 insert into awf_menu_auth_map values ('board', 'board.update');
 insert into awf_menu_auth_map values ('board', 'board.delete');
-insert into awf_menu_auth_map values ('download', 'download.delete');
-insert into awf_menu_auth_map values ('download', 'download.update');
 insert into awf_menu_auth_map values ('download', 'download.read');
 insert into awf_menu_auth_map values ('download', 'download.create');
-insert into awf_menu_auth_map values ('faq', 'faq.update');
+insert into awf_menu_auth_map values ('download', 'download.update');
+insert into awf_menu_auth_map values ('download', 'download.delete');
 insert into awf_menu_auth_map values ('faq', 'faq.read');
-insert into awf_menu_auth_map values ('faq', 'faq.delete');
 insert into awf_menu_auth_map values ('faq', 'faq.create');
-insert into awf_menu_auth_map values ('notice', 'notice.update');
-insert into awf_menu_auth_map values ('notice', 'notice.create');
+insert into awf_menu_auth_map values ('faq', 'faq.update');
+insert into awf_menu_auth_map values ('faq', 'faq.delete');
 insert into awf_menu_auth_map values ('notice', 'notice.read');
+insert into awf_menu_auth_map values ('notice', 'notice.create');
+insert into awf_menu_auth_map values ('notice', 'notice.update');
 insert into awf_menu_auth_map values ('notice', 'notice.delete');
-insert into awf_menu_auth_map values ('workflow', 'process.delete');
-insert into awf_menu_auth_map values ('workflow', 'process.update');
-insert into awf_menu_auth_map values ('workflow', 'custom.code.create');
-insert into awf_menu_auth_map values ('workflow', 'custom.code.delete');
 insert into awf_menu_auth_map values ('workflow', 'custom.code.read');
+insert into awf_menu_auth_map values ('workflow', 'custom.code.create');
 insert into awf_menu_auth_map values ('workflow', 'custom.code.update');
-insert into awf_menu_auth_map values ('workflow', 'document.admin.create');
-insert into awf_menu_auth_map values ('workflow', 'document.admin.delete');
+insert into awf_menu_auth_map values ('workflow', 'custom.code.delete');
 insert into awf_menu_auth_map values ('workflow', 'document.admin.read');
+insert into awf_menu_auth_map values ('workflow', 'document.admin.create');
 insert into awf_menu_auth_map values ('workflow', 'document.admin.update');
-insert into awf_menu_auth_map values ('workflow', 'form.create');
-insert into awf_menu_auth_map values ('workflow', 'form.delete');
+insert into awf_menu_auth_map values ('workflow', 'document.admin.delete');
 insert into awf_menu_auth_map values ('workflow', 'form.read');
+insert into awf_menu_auth_map values ('workflow', 'form.create');
 insert into awf_menu_auth_map values ('workflow', 'form.update');
-insert into awf_menu_auth_map values ('workflow', 'image.create');
-insert into awf_menu_auth_map values ('workflow', 'image.delete');
+insert into awf_menu_auth_map values ('workflow', 'form.delete');
 insert into awf_menu_auth_map values ('workflow', 'image.read');
+insert into awf_menu_auth_map values ('workflow', 'image.create');
 insert into awf_menu_auth_map values ('workflow', 'image.update');
-insert into awf_menu_auth_map values ('workflow', 'process.create');
+insert into awf_menu_auth_map values ('workflow', 'image.delete');
 insert into awf_menu_auth_map values ('workflow', 'process.read');
+insert into awf_menu_auth_map values ('workflow', 'process.create');
+insert into awf_menu_auth_map values ('workflow', 'process.update');
+insert into awf_menu_auth_map values ('workflow', 'process.delete');
 insert into awf_menu_auth_map values ('workflow.customCode', 'custom.code.read');
+insert into awf_menu_auth_map values ('workflow.customCode', 'custom.code.create');
 insert into awf_menu_auth_map values ('workflow.customCode', 'custom.code.update');
 insert into awf_menu_auth_map values ('workflow.customCode', 'custom.code.delete');
-insert into awf_menu_auth_map values ('workflow.customCode', 'custom.code.create');
+insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'document.admin.read');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'document.admin.create');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'document.admin.update');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'document.admin.delete');
-insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'document.admin.read');
-insert into awf_menu_auth_map values ('workflow.form', 'form.delete');
-insert into awf_menu_auth_map values ('workflow.form', 'form.create');
 insert into awf_menu_auth_map values ('workflow.form', 'form.read');
+insert into awf_menu_auth_map values ('workflow.form', 'form.create');
 insert into awf_menu_auth_map values ('workflow.form', 'form.update');
-insert into awf_menu_auth_map values ('workflow.image', 'image.delete');
-insert into awf_menu_auth_map values ('workflow.image', 'image.update');
+insert into awf_menu_auth_map values ('workflow.form', 'form.delete');
 insert into awf_menu_auth_map values ('workflow.image', 'image.read');
 insert into awf_menu_auth_map values ('workflow.image', 'image.create');
-insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.delete');
-insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.create');
+insert into awf_menu_auth_map values ('workflow.image', 'image.update');
+insert into awf_menu_auth_map values ('workflow.image', 'image.delete');
 insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.read');
+insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.create');
 insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.update');
-insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.delete');
-insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.create');
+insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.delete');
 insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.read');
+insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.create');
 insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.update');
-insert into awf_menu_auth_map values ('workflow.process', 'process.delete');
+insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.delete');
+insert into awf_menu_auth_map values ('workflow.process', 'process.read');
 insert into awf_menu_auth_map values ('workflow.process', 'process.create');
 insert into awf_menu_auth_map values ('workflow.process', 'process.update');
-insert into awf_menu_auth_map values ('workflow.process', 'process.read');
+insert into awf_menu_auth_map values ('workflow.process', 'process.delete');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.attribute.read');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.attribute.create');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.attribute.update');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.attribute.delete');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.type.read');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.type.create');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.type.update');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.type.delete');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.attribute.read');
+insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.attribute.create');
+insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.attribute.update');
+insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.attribute.delete');
 insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.ci.read');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.ci.create');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.ci.update');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.ci.delete');
 insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.class.read');
+insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.class.create');
+insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.class.update');
+insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.class.delete');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.read');
+insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.create');
+insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.update');
+insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.type.delete');
 
 /**
  * 알림
@@ -858,7 +892,7 @@ insert into awf_role values ('board.admin.manager', '게시판 관리자', '게�
 insert into awf_role values ('role.all', '역할 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('service.manager', '서비스요청 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('notice.all', '공지사항 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_role values ('users.general', '사용자일반', 'sdg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_role values ('users.general', '사용자일반', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('role.view', '역할 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('service.user', '서비스요청 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('notice.view', '공지사항 사용자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1364,7 +1398,6 @@ insert into awf_url values ('/cmdb/attributes/{id}/edit', 'get', 'CMDB Attribute
 insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute 보기 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
-insert into awf_url values ('/cmdb/types', 'get', 'CMDB Type 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
 insert into awf_url values ('/cmdb/cis', 'get', 'CMDB CI 조회 목록', 'TRUE');
 insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
@@ -1453,7 +1486,6 @@ insert into awf_url values ('/rest/charts', 'post', '사용자 정의 차트 등
 insert into awf_url values ('/rest/charts/{id}', 'put', '사용자 정의 차트 수정', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}', 'delete', '사용자 정의 차트 삭제', 'TRUE');
 insert into awf_url values ('/rest/charts/{id}/preview', 'post', '사용자 정의 차트 미리보기', 'TRUE');
-insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 관리 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
@@ -1549,6 +1581,7 @@ insert into awf_url values ('/rest/schedulers', 'post', '스케줄러 등록', '
 insert into awf_url values ('/rest/schedulers/{id}', 'delete', '스케줄러 삭제', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}', 'put', '스케줄러 수정', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}/execute', 'post', '스케줄러 실행', 'TRUE');
+insert into awf_url values ('/rest/tags/whitelist', 'get', 'Tag 추천 목록 조회', 'FALSE');
 insert into awf_url values ('/rest/tags', 'post', 'Tag 저장', 'FALSE');
 insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
 insert into awf_url values ('/rest/tokens/data', 'post', 'token 신규 등록', 'TRUE');
@@ -1570,9 +1603,9 @@ insert into awf_url values ('/schedulers/{id}/view', 'get', '스케줄러 상세
 insert into awf_url values ('/tokens', 'get', '처리할 문서 리스트 조회', 'FALSE');
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/documents', 'get', '관련문서 리스트', 'TRUE');
-insert into awf_url values ('/tokens/{id}/edit', 'get', 'NULL', 'TRUE');
+insert into awf_url values ('/tokens/{id}/edit', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/edit-tab', 'get', '문서 오른쪽 탭 정보', 'TRUE');
-insert into awf_url values ('/tokens/{id}/view', 'get', 'NULL', 'TRUE');
+insert into awf_url values ('/tokens/{id}/view', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view-tab', 'get', '문서 오른쪽 탭 정보', 'TRUE');
 insert into awf_url values ('/tokens/{id}/print', 'get', '처리할 문서 프린트 화면', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업 화면', 'TRUE');
@@ -1665,7 +1698,6 @@ insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', '
 insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'form.read');
-insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.delete');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.update');
@@ -1702,6 +1734,7 @@ insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.create');
+insert into awf_url_auth_map values ('/documents', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
 insert into awf_url_auth_map values ('/downloads', 'get', 'download.update');
@@ -1793,9 +1826,9 @@ insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'chart.update')
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'chart.delete');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.create');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.update');
-insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
@@ -1847,8 +1880,10 @@ insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'custom.code.d
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'custom.code.delete');
-insert into awf_url_auth_map values ('/rest/documents', 'get', 'process.update');
-insert into awf_url_auth_map values ('/rest/documents', 'get', 'process.create');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.create');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.update');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.read');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.delete');
 insert into awf_url_auth_map values ('/rest/workflows', 'post', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'document.admin.create');
@@ -3087,7 +3122,7 @@ insert into wf_component_data values ('a640301d7e67dc92c279f83bec7358be', 'displ
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"처리일시"}');
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'display', '{"column":"10","default":"now","order":20}');
 insert into wf_component_data values ('a661cc2ef029e637a72124a4b7c5f32f', 'validate', '{"datetimeMin":"","datetimeMax":""}');
-insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'display', '{"column":"10","customCode":"40288a19736b46fb01736b89e46c0008","default":"session|userName|이름","buttonText":"검색","order":9}');
+insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'display', '{"column":"10","customCode":"40288a19736b46fb01736b89e46c0008","default":"none","buttonText":"검색","order":9}');
 insert into wf_component_data values ('a7bc03e8abd70100a86e43338e308054', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"담당자"}');
 insert into wf_component_data values ('a7fb73ce3c61d3d600ab135d6a6a8684', 'validate', '{"lengthMin":"0","lengthMax":"500"}');
 insert into wf_component_data values ('a7fb73ce3c61d3d600ab135d6a6a8684', 'label', '{"position":"left","column":"2","size":"18","color":"rgb(63, 75, 86)","bold":"Y","italic":"N","underline":"N","align":"right","text":"요청내역"}');
@@ -9237,6 +9272,7 @@ CREATE TABLE wf_token
 	token_start_dt timestamp,
 	token_end_dt timestamp,
 	token_status varchar(100) NOT NULL,
+	token_action varchar(100),
 	assignee_id varchar(128),
 	CONSTRAINT wf_token_pk PRIMARY KEY (token_id),
 	CONSTRAINT wf_token_fk1 FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id),
@@ -9250,6 +9286,7 @@ COMMENT ON COLUMN wf_token.element_id IS '엘리먼트아이디';
 COMMENT ON COLUMN wf_token.token_start_dt IS '토큰시작일시';
 COMMENT ON COLUMN wf_token.token_end_dt IS '토큰종료일시';
 COMMENT ON COLUMN wf_token.token_status IS '토큰상태';
+COMMENT ON COLUMN wf_token.token_action IS '토큰액션';
 COMMENT ON COLUMN wf_token.assignee_id IS '담당자아이디';
 /**
  * 토큰데이터정보
@@ -9521,7 +9558,7 @@ CREATE TABLE cmdb_type
 	type_desc character varying(512),
 	type_alias character varying(128),
 	type_level int,
-	default_class_id character varying(128) NOT NULL,
+	class_id character varying(128) NOT NULL,
 	type_icon character varying(200),
 	create_user_key character varying(128),
 	create_dt timestamp,
@@ -9529,7 +9566,7 @@ CREATE TABLE cmdb_type
 	update_dt timestamp,
 	CONSTRAINT cmdb_type_pk PRIMARY KEY (type_id),
 	CONSTRAINT cmdb_type_uk UNIQUE (type_id),
-	CONSTRAINT cmdb_type_fk FOREIGN KEY (default_class_id)
+	CONSTRAINT cmdb_type_fk FOREIGN KEY (class_id)
       REFERENCES cmdb_class (class_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
@@ -9541,7 +9578,7 @@ COMMENT ON COLUMN cmdb_type.type_name IS '타입이름';
 COMMENT ON COLUMN cmdb_type.type_desc IS '타입설명';
 COMMENT ON COLUMN cmdb_type.type_alias IS '타입식별자';
 COMMENT ON COLUMN cmdb_type.type_level IS '타입레벨';
-COMMENT ON COLUMN cmdb_type.default_class_id IS '기본클래스아이디';
+COMMENT ON COLUMN cmdb_type.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_type.type_icon IS '타입아이콘';
 COMMENT ON COLUMN cmdb_type.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';
@@ -9612,8 +9649,6 @@ CREATE TABLE cmdb_ci
 	ci_name character varying(128) NOT NULL,
 	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
-	class_id character varying(128) NOT NULL,
-	ci_icon character varying(200),
 	ci_desc character varying(512),
 	automatic boolean DEFAULT 'false',
 	instance_id character varying(128),
@@ -9626,10 +9661,7 @@ CREATE TABLE cmdb_ci
 	CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)
       REFERENCES cmdb_type (type_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT cmdb_ci_fk2 FOREIGN KEY (class_id)
-      REFERENCES cmdb_class (class_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT cmdb_ci_fk3 FOREIGN KEY (instance_id)
+    CONSTRAINT cmdb_ci_fk2 FOREIGN KEY (instance_id)
         REFERENCES wf_instance (instance_id) MATCH SIMPLE
         ON UPDATE NO ACTION ON DELETE NO ACTION
 );
@@ -9640,8 +9672,6 @@ COMMENT ON COLUMN cmdb_ci.ci_no IS '시퀀스';
 COMMENT ON COLUMN cmdb_ci.ci_name IS 'CI이름';
 COMMENT ON COLUMN cmdb_ci.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci.type_id IS '타입아이디';
-COMMENT ON COLUMN cmdb_ci.class_id IS '클래스아이디';
-COMMENT ON COLUMN cmdb_ci.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci.ci_desc IS 'CI설명';
 COMMENT ON COLUMN cmdb_ci.automatic IS '자동등록여부';
 COMMENT ON COLUMN cmdb_ci.instance_id IS '인스턴스ID';
@@ -9916,7 +9946,7 @@ insert into cmdb_class_attribute_map values ('4028b88179210e1b0179217798830044',
 /**
  * CI 컴포넌트 - CI 세부 속성 임시 테이블
  */
-DROP TABLE IF EXISTS wf_component_ci_data;
+DROP TABLE IF EXISTS wf_component_ci_data cascade;
 
 CREATE TABLE wf_component_ci_data
 (

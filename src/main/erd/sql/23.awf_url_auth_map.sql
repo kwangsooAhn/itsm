@@ -81,7 +81,6 @@ insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', '
 insert into awf_url_auth_map values ('/cmdb/cis', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/search', 'get', 'cmdb.ci.read');
 insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'form.read');
-insert into awf_url_auth_map values ('/cmdb/types', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.type.read');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.delete');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.update');
@@ -118,6 +117,7 @@ insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.create');
+insert into awf_url_auth_map values ('/documents', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
 insert into awf_url_auth_map values ('/downloads', 'get', 'download.update');
@@ -209,9 +209,9 @@ insert into awf_url_auth_map values ('/rest/charts/{id}', 'put', 'chart.update')
 insert into awf_url_auth_map values ('/rest/charts/{id}', 'delete', 'chart.delete');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.create');
 insert into awf_url_auth_map values ('/rest/charts/{id}/preview', 'post', 'chart.update');
-insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'get', 'cmdb.attribute.read');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.attribute.create');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.attribute.update');
+insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.update');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.attribute.delete');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.read');
 insert into awf_url_auth_map values ('/rest/cmdb/classes', 'get', 'cmdb.class.create');
@@ -263,8 +263,10 @@ insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'custom.code.d
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'custom.code.delete');
-insert into awf_url_auth_map values ('/rest/documents', 'get', 'process.update');
-insert into awf_url_auth_map values ('/rest/documents', 'get', 'process.create');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.create');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.update');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.read');
+insert into awf_url_auth_map values ('/rest/documents', 'get', 'document.delete');
 insert into awf_url_auth_map values ('/rest/workflows', 'post', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'document.admin.create');

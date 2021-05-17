@@ -30,12 +30,12 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.pType.typeId,
                     ciType.pType.typeName,
                     ciType.typeIcon,
-                    ciType.defaultClass.classId,
-                    ciType.defaultClass.className
+                    ciType.ciClass.classId,
+                    ciType.ciClass.className
                 )
             )
             .rightJoin(ciType.pType, ciType).on(ciType.pType.typeId.eq(ciType.typeId))
-            .innerJoin(ciType.defaultClass)
+            .innerJoin(ciType.ciClass)
             .where(ciType.typeId.eq(typeId))
             .fetchOne()
     }
@@ -54,12 +54,12 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.pType.typeId,
                     ciType.pType.typeName,
                     ciType.typeIcon,
-                    ciType.defaultClass.classId,
-                    ciType.defaultClass.className
+                    ciType.ciClass.classId,
+                    ciType.ciClass.className
                 )
             )
             .rightJoin(ciType.pType, ciType).on(ciType.pType.typeId.eq(ciType.typeId))
-            .innerJoin(ciType.defaultClass)
+            .innerJoin(ciType.ciClass)
             .where(
                 super.like(
                     ciType.typeName, searchDto.search
