@@ -51,8 +51,8 @@ class ChartController(
         val searchTypeName = request.getParameter("searchTypeName")
         val offset = request.getParameter("offset") ?: "0"
         val result = chartService.getCharts(searchTypeName, offset)
-        model.addAttribute("chartList", result)
-        model.addAttribute("chartListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("chartList", result.data)
+        model.addAttribute("chartListCount", result.totalCount)
         return if (isScroll) chartListFragment else chartListPage
     }
 

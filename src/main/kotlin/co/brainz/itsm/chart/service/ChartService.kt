@@ -11,6 +11,7 @@ import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.dto.ChartListDto
+import co.brainz.itsm.chart.dto.ChartListReturnDto
 import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.document.constants.DocumentConstants
@@ -43,7 +44,7 @@ class ChartService(
     /**
      * 전체 사용자 정의 차트 조회
      */
-    fun getCharts(searchTypeName: String, offset: String): List<ChartListDto> {
+    fun getCharts(searchTypeName: String, offset: String): ChartListReturnDto {
         return chartRepository.findChartList(searchTypeName, offset.toLong())
     }
 
