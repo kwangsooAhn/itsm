@@ -2,6 +2,18 @@
   --data-column: 12;
   --data-row: 2;
 }
+/////////////////////////// color Set //////////////////////////
+$form-grays: (
+  'icon':                                         #A0A4A6,
+  'line':                                         #D7DBE0,
+  'fill':                                         #EBECED,
+  'focus':                                        #283238
+) !default;
+
+$form-blues: (
+  'focus':                                        #F7FCFF
+) !default;
+
 //////////////////////////// layout ////////////////////////////
 // header
 $layout-header-height:                             3.125rem; // 50px
@@ -51,7 +63,8 @@ $component-icon-hover-bg-color:                    rgba(235, 235, 235, 0.3);
 ////////////////////////////////////// icon//////////////////////////////////////////////
 $icon-arrow-left:                                  $icon-folder-path + "icon_arrow_left.svg";
 
-$icon-component-color:                             map-get($grays, "blue");
+$icon-component-color:                             map-get($form-grays, "icon");
+$icon-component-focus-color:                       map-get($form-grays, "focus");
 
 $icon-component-inputBox:                          $icon-folder-path + "form/context-menu/icon-inputbox.svg";
 $icon-component-textArea:                          $icon-folder-path + "form/context-menu/icon-textbox.svg";
@@ -78,23 +91,23 @@ $element-font-size:                                0.875rem; // 14px
 //////////////////////////// form ////////////////////////////
 $form-min-height:                                  56.25rem; // 900px
 $form-bg-color:                                    $white;
-$form-border:                                      0.0625rem solid map-get($grays, "line"); // 1px
 $form-box-shadow:                                  0 0 0.9375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
 
 //////////////////////////// group ///////////////////////////
 $group-accordion-bg-color:                         map-get($grays, "light");
-$group-accordion-border-color:                     map-get($grays, "line");
-$group-accordion-border:                           0.0625rem solid $group-accordion-border-color; // 1px
+$group-accordion-border-color:                     map-get($form-grays, "line");
 $group-selected-border-color:                      map-get($blues, "light");
-$group-selected-bg-color:                          hexToRGBA(map-get($blues, 'light'), 0.1);
+$group-selected-border-radius:                     0.125rem; // 2px
+$group-selected-bg-color:                          map-get($form-blues, "focus");
 
 //////////////////////////// row ///////////////////////////
 $row-selected-border-color:                        map-get($blues, "light");
-$row-selected-bg-color:                            hexToRGBA(map-get($blues, 'light'), 0.1);
+$row-selected-border-radius:                       0.125rem; // 2px
+$row-selected-bg-color:                            map-get($form-blues, "focus");
 
 ////////////////////////// components /////////////////////////
 $component-selected-border-color:                  map-get($blues, "light");
-$component-selected-bg-color:                      hexToRGBA(map-get($blues, 'light'), 0.1);
+$component-selected-bg-color:                      map-get($form-blues, "focus");
 
 // color-picker palette
 $color-picker-palette-width:                       100%;

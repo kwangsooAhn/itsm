@@ -160,7 +160,11 @@
           &:nth-child(even) {
             flex: 1 1 auto;
           }
-          &:hover { background-color: $component-icon-hover-bg-color; }
+          &:hover {
+            background-color: $component-icon-hover-bg-color;
+            > .icon { background: $icon-component-focus-color; }
+            > .component-name { color: $icon-component-focus-color; }
+          }
 
           .icon {
             display: inline-block;
