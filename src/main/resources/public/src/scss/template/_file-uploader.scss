@@ -46,7 +46,7 @@
     .dropzone {
       min-height: 6.25rem; // 100px
       background-color: $dropzone-bg-color;
-      border: $dropzone-border;
+      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
       padding: 0.625rem 0.625rem 0 0.625rem; // 10px
       // drag and drop 영역
       .dz-default {
@@ -87,7 +87,7 @@
         @include relative();
         height: $file-uploader-preview-height;
         background-color: $white;
-        border: $dropzone-border;
+        @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
         padding: 1rem 1.25rem 0.5rem 1.25rem; // 16px 20px 8px 20px
         margin-bottom: 0.625rem; // 10px
         vertical-align: top;
@@ -233,9 +233,7 @@
               @include absolute($top: -0.375rem, $left: 4rem); // -6px 64px
               width: 0;
               height: 0;
-              border-left: 0.375rem solid transparent;
-              border-right: 0.375rem solid transparent;
-              border-bottom: 0.375rem solid #be2626;
+              @include border(0.375rem, solid, #be2626, bottom);
             }
           }
 

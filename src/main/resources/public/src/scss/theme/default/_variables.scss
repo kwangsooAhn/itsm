@@ -98,7 +98,8 @@ $element-border-color:                        map-get($grays, 'line');
 $element-border-width:                        0.0625rem; // 1px
 
 //////////////////////////// Thumbnail /////////////////////////////
-$thumbnail-border:                            0.0625rem solid map-get($grays, 'line');
+$thumbnail-border-width:                      0.0625rem; // 1px
+$thumbnail-border-color:                      map-get($grays, 'line');
 $thumbnail-asset-path:                        '../../../media/icons/thumbnail';
 
 // 업무흐름 아이콘 선택

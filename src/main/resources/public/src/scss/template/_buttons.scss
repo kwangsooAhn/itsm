@@ -15,7 +15,7 @@ button {
   line-height: $btn-line-height;
   color: $btn-font-color;
   background-color: $btn-bg-color;
-  border: $btn-border;
+  @include border($btn-border-width, solid, $btn-border-color, all);
   @include borderRadius($btn-border-radius);
   opacity: 1;
   text-align: center;
@@ -104,8 +104,8 @@ button {
     line-height: $btn-group-line-height;
     color: $btn-group-font-color;
     background-color: $btn-group-bg-color;
-    border: $btn-group-border; // 1px
-    border-radius: $btn-group-border-radius;
+    @include border($btn-group-border-width, solid, $btn-group-border-color, all);
+    @include borderRadius($btn-group-border-radius); // 1px
     // if icon exist
     .icon {
       display: inline-block;
@@ -171,7 +171,7 @@ button {
     .btn,
     button {
       flex: 0 1 auto;
-      border-radius: $btn-group-border-radius;
+      @include borderRadius($btn-group-border-radius); // 1px
     }
 
     // Prevent double borders when buttons are next to each other
@@ -204,8 +204,8 @@ button {
     line-height: $btn-group-line-height;
     color: $btn-group-toggle-font-color;
     background-color: $btn-group-toggle-bg-color;
-    border: $btn-group-border; // 1px
-    border-radius: $btn-group-border-radius;
+    @include border($btn-group-border-width, solid, $btn-group-border-color, all);
+    @include borderRadius($btn-group-border-radius); // 1px
     // if icon exist
     .icon {
       display: inline-block;
@@ -272,7 +272,7 @@ button {
     .btn,
     button {
       flex: 0 1 auto;
-      border-radius: $btn-group-border-radius;
+      @include borderRadius($btn-group-border-radius); // 1px
     }
     // Prevent double borders when buttons are next to each other
     .btn:not(:first-child),

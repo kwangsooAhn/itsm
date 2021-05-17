@@ -36,7 +36,7 @@
     margin: 0 auto 2em auto;
     box-sizing: $alert-box-sizing;
     @include boxShadow(0, 0, 0.3125rem, 0.3125rem, hexToRGBA(#7493b3, 0.25)); // 5px
-    border: $alert-border;
+    @include border(0.0625rem, solid, map-get($grays, 'line'), all);
     @include borderRadius(0.0625rem); // 1px
     background: $alert-bg-color;
     z-index: $z-index-alert;
@@ -76,7 +76,7 @@
     font-weight: $alert-font-weight;
     margin: 0rem 0rem 0rem $alert-margin-size;
     padding: 0.4375rem 1.5rem;
-    border: $alert-border;
+    @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
   }
 
   &-icon {

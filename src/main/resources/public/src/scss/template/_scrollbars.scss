@@ -122,18 +122,18 @@
   line-height: $element-line-height;
   color: $element-font-color;
   background-color: $element-bg-color;
-  border: $element-border;
+  @include border($element-border-width, solid, $element-border-color, all);
   @include borderRadius(0.0625rem); // 1px
   padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
   resize: vertical;
 
   &:focus-within { // focus 시
     outline: 0;
-    border: $element-focus-border;
+    @include border($element-focus-border-width, solid, $element-focus-border-color, all);
   }
   &:hover {
     outline: 0;
-    border: $element-hover-border;
+    @include border($element-hover-border-width, solid, $element-hover-border-color, all);
     @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
   }
 }

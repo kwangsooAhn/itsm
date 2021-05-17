@@ -156,7 +156,6 @@ $btn-line-height:                             1.2;
 $btn-bg-color:                                transparent;
 $btn-border-color:                            transparent;
 $btn-border-width:                            0.0625rem; // 1px
-$btn-border:                                  $btn-border-width solid $btn-border-color;
 $btn-border-radius:                           0.1875rem; // 3px
 
 // button 테마
@@ -230,7 +229,6 @@ $btn-group-font-color:                       map-get($blacks, 'light');
 $btn-group-bg-color:                         $white;
 $btn-group-border-color:                     map-get($grays, 'line');
 $btn-group-border-width:                     0.0625rem; // 1px
-$btn-group-border:                           $btn-group-border-width solid $btn-group-border-color;
 $btn-group-border-radius:                    0.1875rem; // 3px
 
 // button-group hover 시 디자인 요소
@@ -290,7 +288,6 @@ $dropzone-font-size:                         $font-size-base;
 $dropzone-font-color:                        $gray;
 $dropzone-font-weight:                       $font-weight-regular;
 $dropzone-bg-color:                          map-get($grays, 'light');
-$dropzone-border:                            0.0625rem solid map-get($grays, 'line'); // 1px
 // browse click 버튼
 $dropzone-clickable-font-color:              $blue;
 // 미리보기
@@ -320,7 +317,6 @@ $avatar-dropzone-font-size:                  $font-size-base;
 $avatar-dropzone-font-color:                 $gray;
 $avatar-dropzone-font-weight:                $font-weight-regular;
 $avatar-dropzone-bg-color:                   map-get($grays, 'light');
-$avatar-dropzone-border:                     0.0625rem solid map-get($grays, 'line'); // 1px
 // browse click 버튼
 $avatar-dropzone-clickable-font-color:       $blue;
 // description
@@ -336,13 +332,11 @@ $datepicker-line-height:                     1.2;
 $datepicker-bg-color:                        $white;
 $datepicker-border-color:                    map-get($grays, 'line');
 $datepicker-border-width:                    0.0625rem; // 1px
-$datepicker-border:                          $datepicker-border-width solid $datepicker-border-color;
 $datepicker-hover-color:                     $blue;
 $datepicker-icon-color:                      map-get($grays, 'pressed');
 // focus
 $datepicker-focus-border-color:              $blue;
 $datepicker-focus-border-width:              0.0625rem; // 1px
-$datepicker-focus-border:                    $datepicker-focus-border-width solid $datepicker-focus-border-color;
 // title
 $datepicker-title-font-size:                 1.125rem; // 18px
 $datepicker-title-font-color:                map-get($blacks, 'light');
@@ -372,7 +366,6 @@ $text-editor-line-height:                    1.5;
 $text-editor-border-color:                   map-get($grays, 'line');
 $text-editor-bg-color:                       $white;
 $text-editor-border-width:                   0.0625rem; // 1px
-$text-editor-border:                         $text-editor-border-width solid $text-editor-border-color;
 $text-editor-toolbar-font-size:              $font-size-base;
 $text-editor-toolbar-font-color:             map-get($blacks, 'light');
 $text-editor-toolbar-font-weight:            $font-weight-medium;
@@ -391,7 +384,6 @@ $tree-line-height:                           1.875rem; // 30px
 $tree-bg-color:                              map-get($grays, 'light');
 $tree-line-color:                            map-get($grays, 'default');
 $tree-line-width:                            0.0625rem; // 1px
-$tree-line:                                  $tree-line-width solid $tree-line-color;
 // +, - icon
 $tree-toggle-icon-width:                     0.875rem; // 14px
 // folder icon
@@ -413,7 +405,6 @@ $modal-backdrop-bg-color:                    hexToRGBA(#7493b3, 0.5);
 $modal-border-color:                         map-get($grays, 'line');
 $modal-bg-color:                             $white;
 $modal-border-width:                         0.0625rem; // 1px
-$modal-border:                               $modal-border-width solid $modal-border-color;
 
 $modal-width:                                34.38rem; // 550px
 $modal-height:                               22.5rem; // 360px
@@ -430,7 +421,6 @@ $modal-bottom-height:                       5rem; // 80px
 ///////////////////////////////// alert //////////////////////////////
 $alert-font-size:                            $font-size-base;
 $alert-font-weight:                          $font-weight-medium;
-$alert-border:                               solid 0.0625rem map-get($grays, 'line');  // 1px
 $alert-margin-size:                          0.3125rem;  // 5px
 $alert-box-sizing:                           border-box;
 $alert-bg-color:                             $white;
@@ -445,7 +435,8 @@ $color-picker-palette-margin:                0.3125rem;  // 5px
 $color-picker-palette-padding:               1.25rem 0 0.625rem 1.25rem; // 20px 0 10px 20px;
 $color-picker-colorchip-size:                2.5rem;     // 40px
 $color-picker-colorchip-margin:              0.625rem;   // 10px
-$color-picker-colorchip-border:              0.375rem solid $white;      // 6px
+$color-picker-colorchip-border-width:        0.375rem;   // 6px
+$color-picker-colorchip-border-color:        $white;
 
 ////////////////////////////// thumbnail /////////////////////////////
 $thumbnail-asset-path:                       '../media/icons/thumbnail';
@@ -462,12 +453,10 @@ $thumbnail-width:                            14.06rem; // 225px
 $thumbnail-height:                           18.13rem; // 290px
 $thumbnail-border-width:                     0.0625rem; // 1px
 $thumbnail-border-color:                     map-get($grays, 'line');
-$thumbnail-border:                           $thumbnail-border-width solid $thumbnail-border-color;
 $thumbnail-bg-color:                         $white;
 
 $thumbnail-selected-border-width:            0.0625rem; // 1px
 $thumbnail-selected-border-color:            $blue;
-$thumbnail-selected-border:                  $thumbnail-selected-border-width solid $thumbnail-selected-border-color;
 $thumbnail-selected-bg-color:                hexToRGBA($blue, 0.05);
 
 // 썸네일 미리보기
@@ -512,19 +501,12 @@ $z-index-auto:                               auto;
 $z-index-hidden:                             -1;
 
 //////////////////////////// tag //////////////////////////////
-// tagify 영역 default
-$tagify-border:                              0.0625rem solid map-get($grays, 'line'); // 1px
-$tagify-hover-border:                        0.0625rem solid map-get($blues, 'light'); // 1px
-$tagify-focus-border:                        0.0625rem solid $blue; // 1px
 // tagify readonly
 $tagify-read-font-color:                     #586872;
 $tagify-read-bg-color:                       #F7F8F9;
-// tagify loading
-$tagify-load-border:                         0.1875rem solid transparent; // 3px
 // tag
 $tag-font-color:                             map-get($blues, 'pressed');
 $tag-bg-color:                               hexToRGBA($blue, 0.1); // $blue , 불투명도 10
-$tag-border:                                 0.0625rem solid #E5F5FF; // 1px
 $tag-border-radius:                          0.4375rem; // 7px
 // tag 삭제 버튼
 $tag-btn-remove-color:                       map-get($blues, 'pressed');
@@ -544,8 +526,3 @@ $tag-input-font-color:                       map-get($grays, 'dark');
 $tag-invalid-color:                          hexToRGBA($red, 0.7); // $red , 불투명도 70
 $tag-invalid-bg-color:                       hexToRGBA($red, 0.1); // $red , 불투명도 10
 $tag-invalid-border-color:                   #FFE2E6;
-$tag-invalid-border:                         0.0625rem solid $tag-invalid-border-color; // 1px
-$tag-invalid-hover-border:                   0.0625rem solid $tag-invalid-color; // 1px
-
-// 자동완성을 위한 검색 div
-$tag-dropdown-wrapper-border:                0.0625rem solid map-get($grays, 'line');

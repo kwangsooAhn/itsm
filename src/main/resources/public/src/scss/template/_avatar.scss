@@ -19,7 +19,7 @@
       width: $avatar-dropzone-width;
       height: $avatar-dropzone-height;
       background-color: $avatar-dropzone-bg-color;
-      border: $avatar-dropzone-border;
+      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
       padding: 0;
 
       // drag and drop 영역

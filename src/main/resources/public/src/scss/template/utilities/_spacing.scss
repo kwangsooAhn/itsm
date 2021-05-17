@@ -11,9 +11,9 @@
 @for $i from 1 through 5 {
   $padding: $i * 0.3125rem; // 5px 씩 증가
   .pt-#{$i} { padding-top: $padding; }
-  .pl-#{$i} { padding-left: $padding; }
-  .pb-#{$i} { padding-bottom: $padding; }
   .pr-#{$i} { padding-right: $padding; }
+  .pb-#{$i} { padding-bottom: $padding; }
+  .pl-#{$i} { padding-left: $padding; }
 }
 
 // margin
@@ -24,11 +24,11 @@
 @for $i from 1 through 5 {
   $margin: $i * 0.3125rem; // 5px 씩 증가
   .mt-#{$i} { margin-top: $margin; }
-  .ml-#{$i} { margin-left: $margin; }
-  .mb-#{$i} { margin-bottom: $margin; }
   .mr-#{$i} { margin-right: $margin; }
+  .mb-#{$i} { margin-bottom: $margin; }
+  .ml-#{$i} { margin-left: $margin; }
 }
 .mt-auto { margin-top: auto; }
-.ml-auto { margin-left: auto; }
-.mb-auto { margin-bottom: auto; }
 .mr-auto { margin-right: auto; }
+.mb-auto { margin-bottom: auto; }
+.ml-auto { margin-left: auto; }

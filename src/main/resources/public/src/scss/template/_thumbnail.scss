@@ -16,7 +16,7 @@
     height: $thumbnail-height;
     margin: 0.625rem; // 10px
     padding: 0;
-    border: $thumbnail-border;
+    @include border($thumbnail-border-width, solid, $thumbnail-border-color, all);
     @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line')); // 흐림 5px, $line-gray
     background-color: $thumbnail-bg-color;
     cursor: pointer;
@@ -24,7 +24,7 @@
 
     &.selected,
     &:hover {
-      border: $thumbnail-selected-border;
+      @include border($thumbnail-selected-border-width, solid, $thumbnail-selected-border-color, all);
       background-color: $thumbnail-selected-bg-color;
     }
     // 썸네일 이미지
@@ -72,7 +72,7 @@
     .thumbnail-bottom {
       height: 2.5rem; // 40px
       line-height: 2.5rem;
-      border-top: $thumbnail-border; // 1px
+      @include border($thumbnail-border-width, solid, $thumbnail-border-color, top);
       padding: 0 0.625rem 0 0.9375rem; // 0 10px 0 15px
 
       label {
@@ -102,14 +102,14 @@
     height: $thumbnail-height;
     margin: 0.625rem; // 10px
     padding: 5.625rem 0 0 0; // 90px
-    border: $thumbnail-border;
+    @include border($thumbnail-border-width, solid, $thumbnail-border-color, all);
     box-shadow: none;
     background-color: map-get($grays, "light");
     cursor: pointer;
     overflow: hidden;
 
     &:hover {
-      border: $thumbnail-selected-border;
+      @include border($thumbnail-selected-border-width, solid, $thumbnail-selected-border-color, all);
       background-color: $thumbnail-selected-bg-color;
     }
 

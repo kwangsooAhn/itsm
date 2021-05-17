@@ -24,7 +24,7 @@
   align-items: flex-start;
   flex-wrap: wrap;
   padding: 0 0 0 0.3125rem; // 0 0 0 5px
-  border: $tagify-border;
+  @include border(0.0625, solid, map-get($grays, 'line'), all); // 1px
   line-height: 1.1;
   cursor: text;
   outline: 0;
@@ -32,11 +32,11 @@
   --tag-hide-transition: 0.3s;
 
   &:hover {
-    border: $tagify-hover-border;
+    @include border(0.0625rem, solid, map-get($blues, 'light'), all); // 1px
   }
 
   &.tagify--focus {
-    border: $tagify-focus-border;
+    @include border(0.0625rem, solid, $blue, all); // 1px
     @include transition(0s);
   }
 
@@ -92,7 +92,7 @@
       width: 0.75rem; // 12px
       height: 0.75rem; // 12px
       margin: -0.125rem 0 -0.125rem 0.5rem; // -2px, 0, -2px, 8px
-      border: $tagify-load-border;
+      @include border(0.1875rem, solid, transparent, all); // 3px
       @include borderRadius(50%);
       content: '';
       vertical-align: middle;
@@ -110,7 +110,7 @@
   display: inline-flex;
   align-items: center;
   margin: 0.3125rem 0 0.3125rem 0.3125rem; //5px 0 5px 5px
-  border: $tag-border;
+  @include border(0.0625rem, solid, #E5F5FF, all); // 1px
   @include borderRadius($tag-border-radius);
   z-index: 1;
   outline: 0;
@@ -177,7 +177,7 @@
       width: 0.688rem; // 11px
       height: 0.688rem; // 11px
       margin: 0 0.5rem 0 -0.063rem; // 8px, -1px
-      border: $tagify-load-border;
+      @include border(0.1875rem, solid, transparent, all); // 3px
       @include borderRadius(50%);
       opacity: 1;
       @include animation(0s, 0.4s, rotateLoader, linear, infinite);
@@ -210,7 +210,7 @@
 
   &.tagify--notAllowed {
     &:not(.tagify__tag--editable) {
-      border: $tag-invalid-border;
+      @include border(0.0625rem, solid, $tag-invalid-border-color, all); // 1px
 
       div {
         color: $tag-invalid-color;
@@ -232,7 +232,7 @@
       }
 
       &:hover {
-        border: $tag-invalid-hover-border;
+        @include border(0.0625rem, solid, $tag-invalid-color, all); // 1px
 
         .tagify__tag__removeBtn {
           background-color: transparent;
@@ -488,7 +488,7 @@
   &__wrapper {
     max-height: 18.75rem;
     padding: 0 0.25rem 0.5rem 0.25rem; // 0 4px 8px 4px
-    border: $tag-dropdown-wrapper-border;
+    @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
     overflow: hidden;
     background: white;
     @include boxShadow(0.0625rem, 0.0625rem, 0.3125rem, 0, map-get($grays, 'pressed')); // 1px 1px 5px 0
@@ -536,7 +536,7 @@
     display: inline-block;
     @include borderRadius($tag-border-radius);
     padding: 0.25rem 0.5rem; // 4px, 8px
-    border: $tag-border;
+    @include border(0.0625rem, solid, #E5F5FF, all); // 1px
     background: $tag-bg-color;
     margin: 0.5rem 0.25rem 0 0.25rem; // 8px 4px 0 4px
     color: $tag-font-color;

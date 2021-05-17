@@ -20,7 +20,7 @@
   line-height: $datepicker-line-height;
   color: $datepicker-font-color;
   background-color: $datepicker-bg-color;
-  border: $datepicker-border;
+  @include border($datepicker-border-width, solid, $datepicker-border-color, all);
   @include borderRadius(0.0625rem); // 1px
   @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
   text-align: center;
@@ -35,7 +35,7 @@
     font-size: $datepicker-title-font-size;
     font-weight: $datepicker-title-font-weight;
     color: $datepicker-title-font-color;
-    border-bottom: $datepicker-border;
+    @include border($datepicker-border-width, solid, $datepicker-border-color, bottom);
     padding: 1.125rem 0; // 17px 0
 
     .icon-close {
@@ -55,14 +55,14 @@
     font-weight: $datepicker-sub-title-font-weight;
     color: $datepicker-sub-title-font-color;
     background-color: $datepicker-sub-title-bg-color;
-    border-bottom: $datepicker-border;
+    @include border($datepicker-border-width, solid, $datepicker-border-color, bottom);
     padding: 0.625rem 0; // 10px 0
   }
 
   &-content {
     display: flex;
     justify-content: center;
-    border-bottom: $datepicker-border;
+    @include border($datepicker-border-width, solid, $datepicker-border-color, bottom);
     padding: 1.25rem 0 0.9375rem 0; // 20px 0 15px 0
     
     &-date {
@@ -73,7 +73,7 @@
         display: inline-block;
 
         + div.active {
-          border-left: $datepicker-border;
+          @include border($datepicker-border-width, solid, $datepicker-border-color, left);
         }
       }
       // < month >
@@ -184,7 +184,7 @@
 
           &:focus {
             outline: none;
-            border: $datepicker-focus-border;
+            @include border($datepicker-focus-border-width, solid, $datepicker-focus-border-color, all);
           }
         }
       }

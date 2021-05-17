@@ -60,7 +60,7 @@ input {
   line-height: $element-line-height;
   color: $element-font-color;
   background-color: $element-bg-color;
-  border: $element-border;
+  @include border($element-border-width, solid, $element-border-color, all);
   @include borderRadius(0.0625rem); // 1px
   padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px
   vertical-align: middle;
@@ -133,7 +133,7 @@ textarea {
   line-height: $element-line-height;
   color: $element-font-color;
   background-color: $element-bg-color;
-  border: $element-border;
+  @include border($element-border-width, solid, $element-border-color, all);
   @include borderRadius(0.0625rem); // 1px
   padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
   resize: vertical;
@@ -185,7 +185,7 @@ table {
   font-weight: $element-font-weight;
   color: $element-font-color;
   background-color: transparent;
-  border: $element-border-width solid transparent;
+  @include border($element-border-width, solid, transparent, all);
 
   tr {
     height: 2.5rem; // 40px
@@ -196,7 +196,7 @@ table {
     }
 
     td, th {
-      border: $element-border-width solid transparent;
+      @include border($element-border-width, solid, transparent, all);
       @include ellipsis(table-cell);
     }
   }
@@ -210,7 +210,7 @@ select {
   line-height: $element-line-height;
   color: $element-font-color;
   background-color: $element-bg-color;
-  border: $element-border;
+  @include border($element-border-width, solid, $element-border-color, all);
   @include borderRadius(0.0625rem); // 1px
   padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px 0 10px
   vertical-align: middle;
@@ -254,7 +254,7 @@ select {
     padding: 0.5rem 0.625rem; // 8px 10px
     background-color: $element-bg-color;
     color: $element-font-color;
-    border: $element-border;
+    @include border($element-border-width, solid, $element-border-color, all);
     @include borderRadius(0.0625rem); // 1px
     font-family: inherit;
     font-size: $element-font-size;
@@ -314,7 +314,7 @@ select {
     color: $element-font-color;
     background-color: $element-bg-color;
     outline: 0;
-    border: $element-border;
+    @include border($element-border-width, solid, $element-border-color, all);
     overflow: auto;
     @include borderRadius(0.0625rem); // 1px
     @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
@@ -392,7 +392,7 @@ label {
         width: 1.125rem; // 18px
         height: 1.125rem; // 18px
         background-color: $element-bg-color;
-        border: $element-border;
+        @include border($element-border-width, solid, $element-border-color, all);
         @include borderRadius(50%);
         vertical-align: middle;
         text-align: center;
@@ -490,7 +490,7 @@ label {
         width: 1.125rem; // 18px
         height: 1.125rem; // 18px
         background-color: $element-bg-color;
-        border: $element-border;
+        @include border($element-border-width, solid, $element-border-color, all);
         @include borderRadius(0.0625rem); // 1px
         vertical-align: middle;
       }

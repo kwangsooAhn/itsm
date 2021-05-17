@@ -21,3 +21,20 @@
 @mixin insideBorder($thickness: 2px, $color: #ffffff) {
   @include boxShadow(0, 0, 0, $thickness, $color, true);
 }
+
+// border
+// 모든 border => @include border(5px,solid,#0080FF,all);
+// bottom을 제외한 모든 border => @include border(5px,solid,#0080FF,all,bottom);
+// only top border => @include border(5px,dashed,#0080FF,top);
+@mixin border($width: 1px, $pattern: solid, $color: transparent, $position: all, $clear: none) {
+  @if $position == all {
+    border: $width $pattern $color;
+  } @else {
+    border-#{$position}: $width $pattern $color;
+  }
+  @if $clear == none {
+    $position: all;
+  } @else {
+    border-#{$clear}: none;
+  }
+}

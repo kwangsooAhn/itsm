@@ -33,7 +33,7 @@
     color: $tooltip-contents-color;
     width: $tooltip-contents-width;
     font-size: $tooltip-font-size;
-    border: 0.125rem solid $blue; // 2px
+    @include border(0.125rem, solid, $blue, all); // 2xp
     @include borderRadius(0.125rem); // 2px
     padding: $tooltip-contents-padding;
     margin: 0.25rem 0 0 0;

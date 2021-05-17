@@ -102,7 +102,8 @@ $color-picker-palette-margin:                 0.1875rem;  // 3px
 $color-picker-palette-padding:                0.9375rem 0 0.9375rem 0.9375rem; // 15px 0 15px 15px
 $color-picker-colorchip-size:                 1rem; // 16px
 $color-picker-colorchip-margin:               0.1875rem; // 3px
-$color-picker-colorchip-border:               0.125rem solid $white; // 2px
+$color-picker-colorchip-border-width:         0.125rem;   // 2px
+$color-picker-colorchip-border-color:         $white;
 
 //////////////////////////// thumbnail //////////////////////////
 // 썸네일 모달

@@ -11,7 +11,7 @@
   }
   &.ql-snow {
     font-family: $font-family;
-    border: $text-editor-border;
+    @include border($text-editor-border-width, solid, $text-editor-border-color, all);
     background-color: $text-editor-bg-color;
     padding: 0;
 
@@ -236,7 +236,7 @@
     font-weight:  $text-editor-font-weight;
     line-height: $text-editor-line-height;
     color: $text-editor-font-color;
-    border: $text-editor-border;
+    @include border($text-editor-border-width, solid, $text-editor-border-color, all);
     background-color: $text-editor-bg-color;
     .ql-editor {
       padding: 0.625rem; // 10px
