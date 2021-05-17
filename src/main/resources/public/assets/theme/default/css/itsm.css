@@ -4590,7 +4590,7 @@ button .icon-plus {
 }
 
 .ql-container {
-  min-height: 12.5rem;
+  height: 12.5rem;
 }
 
 /* _tree.scss 
