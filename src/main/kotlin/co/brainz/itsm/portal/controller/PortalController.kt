@@ -7,6 +7,7 @@
 package co.brainz.itsm.portal.controller
 
 import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.constants.DownloadConstants
 import co.brainz.itsm.download.dto.DownloadSearchDto
 import co.brainz.itsm.download.service.DownloadService
@@ -92,10 +93,11 @@ class PortalController(
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(noticeSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
         val offset = noticeSearchDto.offset
-        val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset)
-        model.addAttribute("noticeList", result)
-        model.addAttribute("noticeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt))
+        val limit = ItsmConstants.SEARCH_DATA_COUNT
+        val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset, limit)
+        model.addAttribute("noticeList", result.data)
+        model.addAttribute("noticeCount", result.totalCount)
+        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt, limit))
         return if (noticeSearchDto.isScroll) portalNoticeListFragment else portalNoticeListPage
     }
 

@@ -228,7 +228,7 @@
               &-row {
                 color: map-get($grays, "dark");
                 margin-top: 0.625rem; // 10px
-                word-break: break-word;
+                @include wordWrap(break-word);
                 &-info {
                   .user-name { color: map-get($grays, "dark"); }
                   .user-date-time { 

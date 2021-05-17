@@ -11,7 +11,7 @@
   }
   &.ql-snow {
     font-family: $font-family;
-    border: $text-editor-border;
+    @include border($text-editor-border-width, solid, $text-editor-border-color, all);
     background-color: $text-editor-bg-color;
     padding: 0;
 
@@ -53,7 +53,7 @@
 
         .ql-picker-options {
           padding: 0;
-          box-shadow:  $text-editor-toolbar-box-shadow;
+          @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
           // 상대 크기
           .ql-picker-item[data-value="1"]::before { font-size: 2em; }
           .ql-picker-item[data-value="2"]::before { font-size: 1.5em; }
@@ -120,7 +120,7 @@
         }
 
         .ql-picker-options {
-          box-shadow: $text-editor-toolbar-box-shadow;
+          @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
         }
 
         &.ql-expanded {
@@ -176,7 +176,7 @@
 
         .ql-picker-options {
           min-width: 2.813rem; // 45px
-          box-shadow: $text-editor-toolbar-box-shadow;
+          @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
           padding: 0;
           .ql-icon-arrow {
             fill-opacity: 0;
@@ -215,7 +215,7 @@
         height: 2.5rem; // 40px
         padding: 0;
         margin: 0;
-        border-radius: 0;
+        @include borderRadius(0);
 
         svg { float: initial; }
 
@@ -236,7 +236,7 @@
     font-weight:  $text-editor-font-weight;
     line-height: $text-editor-line-height;
     color: $text-editor-font-color;
-    border: $text-editor-border;
+    @include border($text-editor-border-width, solid, $text-editor-border-color, all);
     background-color: $text-editor-bg-color;
     .ql-editor {
       padding: 0.625rem; // 10px

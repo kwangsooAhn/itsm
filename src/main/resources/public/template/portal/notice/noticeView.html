@@ -20,11 +20,13 @@
             <div class="view-sub-title flex-row justify-content-end">
                 <span id="spanCreateDt" th:text="${notice.createDt}"></span>
                 <span class="vertical-bar"></span>
-                <span th:text="${notice?.aliceUserEntity.userName}"></span>
+                <span th:text="${notice?.createUserName}"></span>
             </div>
             <div class="horizontal-bar"></div>
             <div class="view-content flex-row">
-                <span class="view-text auto-break space-line" th:text="${notice?.noticeContents}"/>
+                <pre>
+                    <span class="view-text" th:text="${notice?.noticeContents}"/>
+                </pre>
             </div>
             <div class="horizontal-bar"></div>
             <div class="file-uploader-view">

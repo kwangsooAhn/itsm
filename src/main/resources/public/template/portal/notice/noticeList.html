@@ -15,7 +15,7 @@
         <tr class="no-data-found-list" th:if="${#arrays.isEmpty(noticeList)}">
             <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
-        <tr class="tr-notice" th:each="topNotice, i: ${topNoticeList}"
+        <tr class="notice-pinned" th:each="topNotice, i: ${topNoticeList}"
             th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
             <td width="75%" class="align-left underline">
                 <a th:text="${topNotice.noticeTitle}"

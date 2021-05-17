@@ -11,12 +11,12 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqListDto
+import co.brainz.itsm.faq.dto.FaqListReturnDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -28,7 +28,7 @@ class FaqRepositoryImpl(
     /**
      * FAQ 목록을 조회한다.
      */
-    override fun findFaqs(searchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
+    override fun findFaqs(searchRequestDto: FaqSearchRequestDto): FaqListReturnDto {
         val faq = QFaqEntity.faqEntity
         val user = QAliceUserEntity.aliceUserEntity
         if (searchRequestDto.search?.isBlank() == false) {
@@ -44,7 +44,6 @@ class FaqRepositoryImpl(
                     faq.faqGroup,
                     faq.faqTitle,
                     faq.faqContent,
-                    Expressions.numberPath(Long::class.java, "0"),
                     faq.createDt,
                     faq.createUser.userName
                 )
@@ -58,13 +57,10 @@ class FaqRepositoryImpl(
             .offset(searchRequestDto.offset)
             .fetchResults()
 
-        val faqList = mutableListOf<FaqListDto>()
-        for (data in query.results) {
-            data.totalCount = query.total
-            faqList.add(data)
-        }
-
-        return faqList.toList()
+        return FaqListReturnDto(
+            data = query.results,
+            totalCount = query.total
+        )
     }
 
     override fun findFaqTopList(limit: Long): List<PortalTopDto> {
@@ -96,7 +92,6 @@ class FaqRepositoryImpl(
                     faq.faqGroup,
                     faq.faqTitle,
                     faq.faqContent,
-                    Expressions.numberPath(Long::class.java, "0"),
                     faq.createDt,
                     faq.createUser.userName
                 )

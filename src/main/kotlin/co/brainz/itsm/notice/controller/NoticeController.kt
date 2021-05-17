@@ -1,5 +1,12 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.notice.controller
 
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
 import java.time.LocalDateTime
@@ -41,10 +48,11 @@ class NoticeController(private val noticeService: NoticeService) {
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(noticeSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
         val offset = noticeSearchDto.offset
-        val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset)
-        model.addAttribute("noticeList", result)
-        model.addAttribute("noticeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt))
+        val limit = ItsmConstants.SEARCH_DATA_COUNT
+        val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset, limit)
+        model.addAttribute("noticeList", result.data)
+        model.addAttribute("noticeCount", result.totalCount)
+        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt, limit))
         return if (noticeSearchDto.isScroll) noticeListFragment else noticeListPage
     }
 

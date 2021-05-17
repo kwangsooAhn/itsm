@@ -5,7 +5,7 @@
  * @author wdj
  * @version 1.0
  */
-// <a class="btn"></a>  or button
+// <a class='btn'></a>  or button
 .btn, 
 button {
   display: inline-block;
@@ -15,10 +15,11 @@ button {
   line-height: $btn-line-height;
   color: $btn-font-color;
   background-color: $btn-bg-color;
-  border: $btn-border;
-  border-radius: $btn-border-radius;
+  @include border($btn-border-width, solid, $btn-border-color, all);
+  @include borderRadius($btn-border-radius);
   opacity: 1;
   text-align: center;
+  text-decoration: none;
   user-select: none;
   white-space: nowrap;
   vertical-align: middle;
@@ -103,8 +104,8 @@ button {
     line-height: $btn-group-line-height;
     color: $btn-group-font-color;
     background-color: $btn-group-bg-color;
-    border: $btn-group-border; // 1px
-    border-radius: $btn-group-border-radius;
+    @include border($btn-group-border-width, solid, $btn-group-border-color, all);
+    @include borderRadius($btn-group-border-radius); // 1px
     // if icon exist
     .icon {
       display: inline-block;
@@ -170,7 +171,7 @@ button {
     .btn,
     button {
       flex: 0 1 auto;
-      border-radius: $btn-group-border-radius;
+      @include borderRadius($btn-group-border-radius); // 1px
     }
 
     // Prevent double borders when buttons are next to each other
@@ -197,14 +198,14 @@ button {
 
   .btn,
   button {
+    flex: 1 1 auto;
     font-size: $btn-group-font-size;
     font-weight: $btn-group-font-weight;
     line-height: $btn-group-line-height;
     color: $btn-group-toggle-font-color;
     background-color: $btn-group-toggle-bg-color;
-    border: $btn-group-border; // 1px
-    border-radius: $btn-group-border-radius;
-    flex: 1 1 auto;
+    @include border($btn-group-border-width, solid, $btn-group-border-color, all);
+    @include borderRadius($btn-group-border-radius); // 1px
     // if icon exist
     .icon {
       display: inline-block;
@@ -271,7 +272,7 @@ button {
     .btn,
     button {
       flex: 0 1 auto;
-      border-radius: $btn-group-border-radius;
+      @include borderRadius($btn-group-border-radius); // 1px
     }
     // Prevent double borders when buttons are next to each other
     .btn:not(:first-child),

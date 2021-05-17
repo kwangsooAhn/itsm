@@ -55,6 +55,8 @@
       color: $view-content-font-color;
       min-height: 13.4375rem; // 215px
       padding: 0.3125rem 1.25rem; // 5px 20px
+      // 줄바꿈
+      pre { @include wordWrap(break-word); }
 
       .view-text { margin: 0; }
     }
@@ -110,6 +112,9 @@
       color: $view-content-font-color;
       min-height: 13.4375rem; // 215px
       padding: 0.3125rem 1.25rem; // 5px 20px
+
+      // 줄바꿈
+      pre { @include wordWrap(break-word); }
 
       .view-text { margin: 0; }
     }

@@ -8,6 +8,20 @@
   overflow: hidden;
   word-wrap: normal;
 }
+// 줄바꿈
+@mixin wordWrap($wrap: break-word) {
+  overflow-wrap: $wrap;
+  word-wrap: $wrap;
+
+  @if $wrap == break-word {
+    white-space: pre-line;      // CSS 3.0
+    white-space: -o-pre-wrap;   // Opera
+    white-space: -moz-pre-wrap; // Mozilla
+    word-break: break-all;
+  } @else {
+    word-break: $wrap;
+  }
+}
 
 // @include placeholder {
 //  color: red;
@@ -19,5 +33,18 @@
     &:#{$placeholder}-placeholder {
       @content;
     }
+  }
+}
+
+// 밑줄
+@mixin underline {
+  text-decoration: underline;
+  text-underline-position: under;
+}
+
+// 사용자 텍스트 선택 여부
+@mixin userSelect($select) {
+  @each $prefix in -webkit-, -moz-, -o-, -ms-, '' {
+    #{$prefix}user-select: $select;
   }
 }

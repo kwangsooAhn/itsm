@@ -159,8 +159,9 @@ class BoardService(
      * @param boardAdminId
      */
     @Transactional
-    fun deleteBoard(boardAdminId: String) {
+    fun deleteBoard(boardAdminId: String): Boolean {
         boardAdminRepository.deleteById(boardAdminId)
+        return !boardAdminRepository.existsById(boardAdminId)
     }
 
     /**
