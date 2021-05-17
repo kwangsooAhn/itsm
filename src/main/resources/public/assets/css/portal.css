@@ -1073,6 +1073,9 @@ input, button, select, optgroup, textarea {
 .portal-container .notice-content .list {
   height: 35.44rem;
 }
+.portal-container .notice-content .notice-pinned {
+  background-color: rgba(135, 206, 255, 0.15);
+}
 
 .slide-down {
   display: block;

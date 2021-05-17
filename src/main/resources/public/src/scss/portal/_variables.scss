@@ -33,6 +33,8 @@ $keyword-font-color:                         $blue;
 // list
 $layout-list-height:                         35.44rem; // 567px
 
+// 공지사항 상단 공지 (배경색 별도 처리)
+$notice-pinned-color:                         rgba(135, 206, 255, 0.15);
 
 // view
 $view-title-font-size:                1.125rem; // 18px

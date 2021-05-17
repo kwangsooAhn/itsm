@@ -280,6 +280,7 @@
       @include portalViewTemplate();
 
       .list { height: $layout-list-height }
+      .notice-pinned { background-color: $notice-pinned-color; }
     }
   }
 }
