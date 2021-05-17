@@ -41,8 +41,8 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
             query.limit(ItsmConstants.SEARCH_DATA_COUNT)
                 .offset(offset)
         }
-        val result = query.fetchResults()
 
+        val result = query.fetchResults()
         return ChartListReturnDto(
             data = result.results,
             totalCount = result.total
