@@ -67,7 +67,6 @@ class ChartService(
                 )
             }
         } else {
-            // 미리보기인 경우
             chartDto = ChartDto(
                 chartType = chartPreviewDto.chartType,
                 chartName = chartPreviewDto.chartName,
@@ -87,16 +86,12 @@ class ChartService(
         chartConfigJson.get(ChartConstants.ObjProperty.FROM.property).asJsonArray.forEach { tag ->
             targetTags.add(tag.asString)
         }
-        val operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
-        val durationDigit =
-            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString
-        val durationUnit =
-            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
-
         chartDto.targetTags = targetTags
-        chartDto.operation = operation
-        chartDto.durationDigit = durationDigit.toLong()
-        chartDto.durationUnit = durationUnit
+        chartDto.operation = chartConfigJson.get(ChartConstants.ObjProperty.OPERATION.property).asString
+        chartDto.durationDigit =
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.DIGIT.property).asString.toLong()
+        chartDto.durationUnit =
+            chartConfigJson.get(ChartConstants.ObjProperty.DURATION.property).asJsonObject.get(ChartConstants.ObjProperty.UNIT.property).asString
 
         when (chartDto.chartType) {
             ChartConstants.Type.STACKED_COLUMN.code, ChartConstants.Type.BASIC_LINE.code -> {
