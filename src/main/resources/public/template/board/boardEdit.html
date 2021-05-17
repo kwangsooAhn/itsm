@@ -255,7 +255,11 @@
                             location.href = '/boards/search';
                         });
                     } else {
-                        resultMsg = i18n.msg('board.msg.duplicateBoardAdminTitle');
+                        if (method == 'delete') {
+                            resultMsg = i18n.msg('common.msg.fail');
+                        } else {
+                            resultMsg = i18n.msg('board.msg.duplicateBoardAdminTitle');
+                        }
                         aliceAlert.alertWarning(resultMsg);
                     }
                 },
