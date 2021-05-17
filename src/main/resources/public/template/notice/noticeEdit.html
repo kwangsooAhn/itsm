@@ -34,7 +34,7 @@
                 </div>
                 <div class="flex-column edit-row">
                     <label th:text="#{common.label.writer}"></label>
-                    <input type="text" th:value="${notice?.aliceUserEntity?.userName} ? ${notice.aliceUserEntity.userName} : ${#authentication.details.userName}"
+                    <input type="text" th:value="${notice?.createUserName} ? ${notice.createUserName} : ${#authentication.details.userName}"
                            disabled/>
                 </div>
                 <div class="flex-column edit-row">
