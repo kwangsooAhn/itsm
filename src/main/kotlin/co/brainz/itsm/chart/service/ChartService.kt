@@ -372,7 +372,8 @@ class ChartService(
                     for (day in startDays until lengthOfMonth + 1) {
                         for (hours in startHours until 25) {
                             dateFormatList.add(dateFormat + day + String.format("%02d", hours))
-                            if (hours == endDateTime!!.hour && day == endDateTime.dayOfMonth && startMonth == endDateTime.monthValue) {
+                            if (hours == endDateTime!!.hour && day == endDateTime.dayOfMonth
+                                && startMonth == endDateTime.monthValue) {
                                 break
                             }
                         }
