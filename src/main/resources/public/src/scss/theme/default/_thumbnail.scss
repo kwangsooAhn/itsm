@@ -1,5 +1,10 @@
 @import "../../template/_thumbnail.scss";
 
+.thumbnail-main {
+  .thumbnail {
+    @include boxShadow(0, 0, 0.3125rem, 0.0625rem, $thumbnail-border-color); // 5px
+  }
+}
 // 썸네일 모달
 .modal-dialog {
   // thumnbnail > modal(type: icon) 관련 템플릿

@@ -95,8 +95,8 @@ table[id="documentDisplay"] {
 
   &-list {
     height: 13.5rem; // 216px
-    border: $element-border; // 1px
-    border-radius: $element-border-radius;
+    @include border($element-border-width, solid, $element-border-color, all);
+    @include borderRadius(0.0625rem); // 1px
     padding: 0.5rem 0.625rem; // 8px 10px
 
     .right {
