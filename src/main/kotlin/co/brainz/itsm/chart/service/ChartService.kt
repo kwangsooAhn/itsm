@@ -139,7 +139,10 @@ class ChartService(
      * 차트 생성 관련 JsonArray 생성
      */
     fun getChartProperty(chart: ChartDto): String {
-
+        val formIds = mutableListOf<String>()
+        val documentList = mutableListOf<WfDocumentEntity>()
+        val jsonObject = JsonObject()
+        val jsonObjectArray = JsonArray()
         val tagTargetIds = mutableListOf<String>()
         chart.targetTags?.let {
             aliceTagRepository.findByTagValueIn(AliceTagConstants.TagType.COMPONENT.code, it).forEach { tag ->
@@ -147,10 +150,6 @@ class ChartService(
             }
         }
 
-        val formIds = mutableListOf<String>()
-        val documentList = mutableListOf<WfDocumentEntity>()
-        val jsonObject = JsonObject()
-        val jsonObjectArray = JsonArray()
         val componentList = wfComponentRepository.findByComponentIdIn(tagTargetIds)
         componentList.forEach { component ->
             formIds.add(
