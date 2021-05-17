@@ -49,7 +49,7 @@ class ChartService(
     }
 
     /**
-     * 단일 사용자 정의 차트 조회
+     * 단일 사용자 정의 차트 조회 및 미리보기 조회
      */
     fun getChart(chartId: String, chartPreviewDto: ChartDto?): ChartDto {
         lateinit var chartDto: ChartDto
