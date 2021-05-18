@@ -548,6 +548,7 @@ aliceJs.thumbnail = function(options) {
             }
             targetElem.dispatchEvent(new Event('focusout'));
         }
+        aliceJs.inputButtonRemove();
         return true;
     };
 
@@ -1158,5 +1159,26 @@ function removeChar(event, rexg = integerReg, flag = 'g') {
     const keyID = (event.which) ? event.which : event.keyCode;
     if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
         event.target.value = event.target.value.replace(new RegExp(regToString, flag), '');
+    }
+}
+
+/**
+ * input+button 에 input value 초기화 x 버튼 출력
+ * @param target
+ */
+aliceJs.inputButtonRemove = function(target) {
+    let xTarget = target || document.querySelector('.input-button-remove-btn');
+    if (xTarget !== null) {
+        let inputValue = xTarget.previousElementSibling.value;
+        if (inputValue === null || inputValue === '') {
+            xTarget.classList.remove('active');
+        } else {
+            xTarget.classList.add('active');
+        }
+        xTarget.addEventListener('click', function (e) {
+            e.preventDefault();
+            this.previousElementSibling.value = null;
+            this.classList.remove('active');
+        })
     }
 }

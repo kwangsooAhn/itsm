@@ -1229,6 +1229,7 @@ label {
   margin: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  flex-basis: calc((100% * var(--data-column, 12)) / 12);
 }
 .input-button input[type=text]:focus, .input-button input[type=text]:hover {
   z-index: 25;
@@ -2540,6 +2541,94 @@ button .icon-plus {
 .numbering-rule-content-edit .edit-form .edit-row,
 .cmdb-type-content-edit .edit-form .edit-row {
   margin-top: 0.625rem;
+}
+.auth-content-edit .edit-form .edit-row .input-button-remove,
+.role-content-edit .edit-form .edit-row .input-button-remove,
+.code-content-edit .edit-form .edit-row .input-button-remove,
+.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove,
+.numbering-rule-content-edit .edit-form .edit-row .input-button-remove,
+.cmdb-type-content-edit .edit-form .edit-row .input-button-remove {
+  position: relative;
+}
+.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
+.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
+.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
+.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
+.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
+.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn {
+  position: absolute;
+  margin-top: 0.75rem;
+  margin-left: calc(100% - 108px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  -webkit-transition: 0.2s ease-out;
+  -moz-transition: 0.2s ease-out;
+  -o-transition: 0.2s ease-out;
+  -ms-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+  border-radius: 3.125rem;
+  -webkit-border-radius: 3.125rem;
+  -moz-border-radius: 3.125rem;
+  order: 5;
+  cursor: pointer;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #CCCED1;
+  background: 0 0;
+}
+.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
+.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
+.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
+.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
+.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
+.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after {
+  height: 1.125rem;
+  line-height: 0.875rem;
+  content: "×";
+}
+.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
+.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
+.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
+.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
+.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
+.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover {
+  color: #ffffff;
+  background: #CCCED1;
+}
+.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
+.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
+.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
+.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
+.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
+.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span {
+  opacity: 1;
+}
+.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
+.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
+.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
+.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
+.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
+.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before {
+  -webkit-box-shadow: inset 0 0 0 1.25rem rgba(0, 152, 255, 0.1);
+  -moz-box-shadow: inset 0 0 0 1.25rem rgba(0, 152, 255, 0.1);
+  box-shadow: inset 0 0 0 1.25rem rgba(0, 152, 255, 0.1);
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  -ms-transition: 0.2s;
+  transition: 0.2s;
+}
+.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
+.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
+.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
+.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
+.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
+.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active {
+  display: inline-flex;
 }
 
 .user-content-edit {

@@ -632,6 +632,7 @@ label {
     margin: 0; 
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    flex-basis: calc((100% * var(--data-column, 12)) / 12);
 
     &:focus,
     &:hover {
