@@ -37,7 +37,7 @@ export default class Panel {
         Object.entries(property).map(([key, value]) => {
             const propertyObject = this.makePropertyByType(key, value);
             // 라벨, 엘리먼트, 유효성 등 그룹에 포함될 경우
-            if (value.type === 'group') {
+            if (value.type === 'groupProperty') {
                 Object.entries(value.children).map(([childKey, childValue]) => {
                     const childKeyId = key + childKey.substr(0, 1).toUpperCase() +
                         childKey.substr(1, childKey.length);
@@ -95,7 +95,7 @@ export default class Panel {
     makePropertyByType(key, data) {
         let object = null;
         switch(data.type) {
-        case 'group':
+        case 'groupProperty':
             object = new UIDiv().setUIClass('property-group');
             object.UIGroupLabel = new UILabel().setUIClass('property-group-label').setUITextAlign('left');
             object.UIGroupLabel.UILabelText = new UISpan().setUIClass('property-group-label-text')
@@ -103,7 +103,7 @@ export default class Panel {
             object.UIGroupLabel.addUI(object.UIGroupLabel.UILabelText);
             object.addUI(object.UIGroupLabel);
             break;
-        case 'clipboard':
+        case 'clipboardProperty':
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
@@ -114,7 +114,7 @@ export default class Panel {
             object.UIClipboard.UIInput.setUIValue(data.value);
             object.addUI(object.UIClipboard);
             break;
-        case 'input':
+        case 'inputBoxProperty':
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
@@ -137,14 +137,14 @@ export default class Panel {
             }
             object.addUI(object.UIInput);
             break;
-        case 'input-box': // 박스 모델용
+        case 'boxModelProperty': // 박스 모델용
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
             object.UILabel = this.makeUILabel(data);
             object.addUI(object.UILabel);
 
-            object.UIBox = new UIDiv().setUIClass('input-box');
+            object.UIBox = new UIDiv().setUIClass('box-model');
             object.addUI(object.UIBox);
 
             // inputbox : top, right, bottom, left 박스 모델
@@ -168,7 +168,7 @@ export default class Panel {
                 object.UIBox.addUI(object.UIBox['UIInput' + item]);
             });
             break;
-        case 'textarea':
+        case 'textAreaProperty':
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
@@ -184,7 +184,7 @@ export default class Panel {
                 .onUIChange(this.updateProperty.bind(this));
             object.addUI(object.UITextArea);
             break;
-        case 'select':
+        case 'dropdownProperty':
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
@@ -200,7 +200,7 @@ export default class Panel {
                 .onUIChange(this.updateProperty.bind(this));
             object.addUI(object.UISelect);
             break;
-        case 'switch':
+        case 'switchProperty':
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             object.UISwitch = new UISwitch(data.value).setUIId(key).setUITextContent(i18n.msg(data.name));
@@ -217,7 +217,7 @@ export default class Panel {
             object.UISwitch.UICheckbox.onUIChange(this.updateProperty.bind(this));
             object.addUI(object.UISwitch);
             break;
-        case 'slider':
+        case 'sliderProperty':
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
@@ -229,8 +229,7 @@ export default class Panel {
             object.UISlider.UIInput.setUIId(key).onUIChange(this.updateProperty.bind(this));
             object.addUI(object.UISlider);
             break;
-        case 'rgb':
-        case 'rgba':
+        case 'colorPickerProperty':
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
@@ -239,7 +238,7 @@ export default class Panel {
 
             // color picker
             const colorPickerOption = {
-                isOpacity: (data.type === 'rgba'), // 불투명도 사용여부
+                isOpacity: (data.type === 'rgba'), // TODO: 불투명도 사용여부
                 data: {
                     isSelected: true, // 기존 색상 선택 여부
                     selectedClass: 'selected', // 기존 값 색상에 css 적용 (테두리)
@@ -250,7 +249,7 @@ export default class Panel {
             object.UIColorPicker.UIColor.UIInput.onUIChange(this.updateProperty.bind(this));
             object.addUI(object.UIColorPicker);
             break;
-        case 'button-switch-icon': // 정렬
+        case 'switchButtonProperty': // 정렬
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
@@ -274,7 +273,7 @@ export default class Panel {
             });
             object.addUI(object.UIButtonGroup);
             break;
-        case 'button-toggle-icon': // bold, italic, underline
+        case 'toggleButtonProperty': // bold, italic, underline
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨
@@ -300,7 +299,7 @@ export default class Panel {
             });
             object.addUI(object.UIButtonGroup);
             break;
-        case 'default-value-select': // inputBox - 기본값 타입
+        case 'defaultValueSelectProperty': // inputBox - 기본값 타입
             object = new UIDiv().setUIClass('property')
                 .setUIProperty('--data-column', data.columnWidth);
             // 라벨

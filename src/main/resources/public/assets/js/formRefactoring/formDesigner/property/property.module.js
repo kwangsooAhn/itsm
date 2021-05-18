@@ -15,7 +15,7 @@
  *
  * https://www.brainz.co.kr
  */
-import {MAX_COLUMN_COUNT} from "../lib/constants.js";
+import {MAX_COLUMN_COUNT} from '../../lib/constants.js';
 
 export default class Property {
     constructor(name, type) {
@@ -42,7 +42,7 @@ export default class Property {
             help: this._help,
             columnWidth: this._columnWidth,
             validate: this._validate
-        }
+        };
     }
 
     get unit() {

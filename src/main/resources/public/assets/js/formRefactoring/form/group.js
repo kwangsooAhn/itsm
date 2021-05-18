@@ -38,7 +38,7 @@ export default class Group {
             displayOrder: 0,     // 표시 순서
             isAccordionUsed: true,
             margin: '10 0 10 0' // 그룹 간 간격(위 오른쪽 아래 왼쪽)
-        }
+        };
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
         // Tooltip Mixin import
@@ -224,7 +224,7 @@ export default class Group {
         const PANEL_PROPERTIES = {
             'id': {
                 'name': 'form.properties.id',
-                'type': 'clipboard',
+                'type': 'clipboardProperty',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
@@ -238,12 +238,12 @@ export default class Group {
                 }
             },
             'display': {
-                name: 'form.properties.display',
-                type: 'group',
-                children: {
+                'name': 'form.properties.display',
+                'type': 'groupProperty',
+                'children': {
                     'isAccordionUsed': {
                         'name': 'form.properties.isAccordionUsed',
-                        'type': 'switch',
+                        'type': 'switchProperty',
                         'unit': '',
                         'help': '',
                         'columnWidth': '12',
@@ -258,7 +258,7 @@ export default class Group {
                     },
                     'margin': {
                         'name': 'form.properties.margin',
-                        'type': 'input-box',
+                        'type': 'boxModelProperty',
                         'unit': 'px',
                         'help': '',
                         'columnWidth': '12',
@@ -275,11 +275,11 @@ export default class Group {
             },
             'label': {
                 'name': 'form.properties.label',
-                'type': 'group',
+                'type': 'groupProperty',
                 'children': {
                     'visibility': {
                         'name': 'form.properties.visibility',
-                        'type': 'switch',
+                        'type': 'switchProperty',
                         'unit': '',
                         'help': '',
                         'columnWidth': '12',
@@ -294,13 +294,13 @@ export default class Group {
                     },
                     'fontColor': {
                         'name': 'form.properties.fontColor',
-                        'type': 'rgb',
+                        'type': 'colorPickerProperty',
                         'unit': '',
                         'help': '',
                         'columnWidth': '8',
                         'validate': {
                             'required': false,
-                            'type': 'rgb',
+                            'type': 'colorPickerProperty',
                             'max': '',
                             'min': '',
                             'maxLength': '25',
@@ -309,7 +309,7 @@ export default class Group {
                     },
                     'fontSize': {
                         'name': 'form.properties.fontSize',
-                        'type': 'input',
+                        'type': 'inputBoxProperty',
                         'unit': 'px',
                         'help': '',
                         'columnWidth': '3',
@@ -324,7 +324,7 @@ export default class Group {
                     },
                     'align' : {
                         'name': 'form.properties.align',
-                        'type': 'button-switch-icon',
+                        'type': 'switchButtonProperty',
                         'unit': '',
                         'help': '',
                         'columnWidth': '5',
@@ -344,7 +344,7 @@ export default class Group {
                     },
                     'fontOption' : {
                         'name': 'form.properties.option',
-                        'type': 'button-toggle-icon',
+                        'type': 'toggleButtonProperty',
                         'unit': '',
                         'help': '',
                         'columnWidth': '5',
@@ -364,7 +364,7 @@ export default class Group {
                     },
                     'text': {
                         'name': 'form.properties.text',
-                        'type': 'input',
+                        'type': 'inputBoxProperty',
                         'unit': '',
                         'help': '',
                         'columnWidth': '12',
@@ -381,10 +381,10 @@ export default class Group {
             }
         };
         return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            if (value.type === 'group') {
+            if (value.type === 'groupProperty') {
                 const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
                     const tempChildValue = { 'value': this[key][childKey] };
-                    if (childValue.type === 'button-toggle-icon') { // 토글 데이터
+                    if (childValue.type === 'toggleButtonProperty') { // 토글 데이터
                         tempChildValue.value = childValue.option.map((item) =>
                             (this[key][item.value]) ? 'Y' : 'N').join('|');
                     }
