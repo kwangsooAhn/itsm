@@ -672,9 +672,6 @@ class FormDesigner {
             params: JSON.stringify(saveData)
         }).then((formData) => {
             if (formData) {
-                // 2021-05-21 아래에서 이력은 왜 지우나? 다정과장에게 확인 하자.
-                // 이력 지우기
-                // this.history.reset();
                 this.setFormName(this.form.name);
                 // 팝업 닫기
                 if (boolean) {
