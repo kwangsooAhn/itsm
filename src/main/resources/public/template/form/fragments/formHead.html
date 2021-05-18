@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="formHead">
     <meta charset="utf-8">
     <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
@@ -8,6 +8,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/tagify/tagify.css}" rel="stylesheet"/>
     <link th:href="@{/assets/css/form.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/js/util/alert-alice.js}"></script>
