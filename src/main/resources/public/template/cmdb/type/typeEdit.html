@@ -56,8 +56,9 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
-                    <div class="flex-row input-button">
-                        <input class="col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
+                    <div class="flex-row input-button col-pct-12 input-button-remove">
+                        <input class="inherit" id="typeIcon" name="typeIcon" type="text" readonly>
+                        <x title='' class='input-button-remove-btn' role='button' aria-label='remove data'></x>
                         <button class="default-line" name="typeIconSelector" type="button" onclick="iconPopUp()" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
@@ -127,8 +128,8 @@
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('parentTypeName').setAttribute('disabled','');
-                        document.getElementById('parentTypeName').value = responseJson.pTypeName;
-                        document.getElementById('parentTypeId').value = responseJson.pTypeId;
+                        document.getElementById('parentTypeName').value = responseJson.ptypeName;
+                        document.getElementById('parentTypeId').value = responseJson.ptypeId;
                         document.getElementById('typeName').value = responseJson.typeName;
                         document.getElementById('typeId').value = responseJson.typeId;
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
@@ -150,6 +151,7 @@
                             document.querySelector('button[name=typeClassSelector]').disabled = true;
                         }
                         onEdit();
+                        aliceJs.inputButtonRemove();
                     }
                 };
                 aliceJs.sendXhr(opt);
