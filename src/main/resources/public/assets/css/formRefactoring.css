@@ -4579,6 +4579,8 @@ body.modal-active {
   background-color: #ffffff;
   border: 0.125rem solid #0098FF;
   border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
   text-align: center;
   padding: 0.313rem;
   z-index: 500;
@@ -4622,6 +4624,8 @@ body.modal-active {
   color: #0098FF;
   border: 0.125rem solid #0098FF;
   border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
   margin: 0.25rem 0 0 0;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
