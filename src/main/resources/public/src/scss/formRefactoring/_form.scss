@@ -151,7 +151,7 @@
     // inputBox
     .input {
       width: 100%;
-      @include border(0.0625rem, solid, $component-border-color, all); // 1px
+      @include border(0.0625rem, solid, transparent, all); // 1px
       @include borderRadius(0.0625rem); // 2px
     }
   }

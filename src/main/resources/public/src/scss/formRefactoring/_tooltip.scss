@@ -9,7 +9,7 @@
     color: $white;
     text-align: center;
     font-size: $tooltip-header-contents-size;
-    border-radius: $tooltip-header-contents-border;
+    @include borderRadius($tooltip-header-contents-border);
     padding: $tooltip-header-contents-padding;
     margin: $tooltip-header-contents-margin;
     position: absolute;
