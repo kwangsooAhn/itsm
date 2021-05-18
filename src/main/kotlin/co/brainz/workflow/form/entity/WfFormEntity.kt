@@ -3,6 +3,7 @@ package co.brainz.workflow.form.entity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
+import co.brainz.workflow.formGroup.entity.WfFormGroupEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.CascadeType
@@ -35,6 +36,12 @@ data class WfFormEntity(
     @Column(name = "form_status", length = 100)
     var formStatus: String? = null,
 
+    @Column(name = "form_display_option")
+    var formDisplayIOption: String? = null,
+
+    @Column(name = "form_category", length = 128)
+    var formCategory: String? = null,
+
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 
@@ -50,6 +57,9 @@ data class WfFormEntity(
     var updateUser: AliceUserEntity? = null
 
 ) : Serializable {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "form", cascade = [CascadeType.REMOVE])
+    val formGroups: MutableList<WfFormGroupEntity>? = mutableListOf()
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "form", cascade = [CascadeType.REMOVE])
     val components: MutableList<WfComponentEntity>? = mutableListOf()
 

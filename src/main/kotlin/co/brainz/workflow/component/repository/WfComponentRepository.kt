@@ -37,4 +37,9 @@ interface WfComponentRepository : JpaRepository<WfComponentEntity, String> {
     ): List<WfComponentEntity>
 
     fun findByComponentId(componentId: String): WfComponentEntity
+
+    @Query("select f from WfComponentEntity f where f.formRow.formRowId = :rowId")
+    fun findByRowId(rowId: String): List<WfComponentEntity>
+
+    fun deleteComponentEntityByComponentId(componentId: String)
 }
