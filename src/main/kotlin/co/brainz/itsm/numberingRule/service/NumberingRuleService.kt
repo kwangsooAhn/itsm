@@ -121,7 +121,7 @@ class NumberingRuleService(
             numberingRuleEntity.numberingRulePatternMapEntities.forEach {
                 numberingRulePatternMapRepository.deleteById(
                     NumberingRulePatternMapPk(
-                        numberingRuleEntity.numberingId,
+                        it.numberingRule.numberingId,
                         it.numberingPattern.patternId,
                         count
                     )
