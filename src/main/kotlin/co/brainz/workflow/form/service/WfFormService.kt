@@ -11,16 +11,29 @@ import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.workflow.component.entity.WfComponentDataEntity
 import co.brainz.workflow.component.entity.WfComponentEntity
+import co.brainz.workflow.component.entity.WfComponentPropertyEntity
 import co.brainz.workflow.component.repository.WfComponentDataRepository
+import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.mapper.WfFormMapper
 import co.brainz.workflow.form.repository.WfFormRepository
+import co.brainz.workflow.formGroup.entity.WfFormGroupEntity
+import co.brainz.workflow.formGroup.entity.WfFormGroupPropertyEntity
+import co.brainz.workflow.formGroup.repository.WfFormGroupPropertyRepository
+import co.brainz.workflow.formGroup.repository.WfFormGroupRepository
+import co.brainz.workflow.formRow.entity.WfFormRowEntity
+import co.brainz.workflow.formRow.repository.WfFormRowRepository
 import co.brainz.workflow.provider.dto.ComponentDetail
+import co.brainz.workflow.provider.dto.FormComponentDto
+import co.brainz.workflow.provider.dto.FormGroupDto
+import co.brainz.workflow.provider.dto.FormRowDto
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
+import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.dto.RestTemplateFormDtoFormRefactoring
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -38,7 +51,11 @@ class WfFormService(
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfDocumentRepository: WfDocumentRepository,
     private val aliceUserRepository: AliceUserRepository,
-    private val aliceTagRepository: AliceTagRepository
+    private val aliceTagRepository: AliceTagRepository,
+    private val wfFormGroupRepository: WfFormGroupRepository,
+    private val wfFormRowRepository: WfFormRowRepository,
+    private val wfComponentPropertyRepository: WfComponentPropertyRepository,
+    private val wfFormGroupPropertyRepository: WfFormGroupPropertyRepository
 ) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(
@@ -180,6 +197,96 @@ class WfFormService(
         )
     }
 
+    fun getFormComponentListFormRefactoring(formId: String): RestTemplateFormDataDto {
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
+        val linkedMapType = TypeFactory.defaultInstance()
+            .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
+
+        val formGroupList: MutableList<FormGroupDto> = mutableListOf()
+        val formGroupEntityList = wfFormGroupRepository.findByFormId(formId)
+        for (formGroup in formGroupEntityList) {
+
+            val rowListInGroup: MutableList<FormRowDto> = mutableListOf()
+            val formRowEntityList = wfFormRowRepository.findByGroupId(formGroup.formGroupId)
+            for (formRow in formRowEntityList) {
+
+                // 컴포넌트 구성
+                val componentDtoList: MutableList<FormComponentDto> = mutableListOf()
+                val componentEntityList = wfComponentRepository.findByRowId(formRow.formRowId)
+                for (componentEntity in componentEntityList) {
+                    // 기본 component dto
+                    val componentDto = FormComponentDto(
+                        id = componentEntity.componentId,
+                        type = componentEntity.componentType,
+                        isTopic = componentEntity.isTopic,
+                        mapId = componentEntity.mappingId,
+                        tags = aliceTagRepository.findByTargetId(
+                            AliceTagConstants.TagType.COMPONENT.code,
+                            componentEntity.componentId
+                        )
+                    )
+
+                    // component 속성 채우기
+                    val componentPropertyEntityList =
+                        wfComponentPropertyRepository.findByComponentId(componentEntity.componentId)
+                    for (componentPropertyEntity in componentPropertyEntityList) {
+                        val optionValue =
+                            objMapper.readValue(componentPropertyEntity.propertyOptions, LinkedHashMap::class.java)
+                        when (componentPropertyEntity.propertyType) {
+                            "display" -> componentDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                            "label" -> componentDto.label = objMapper.convertValue(optionValue, linkedMapType)
+                            "validate" -> componentDto.validate = objMapper.convertValue(optionValue, linkedMapType)
+                            "element" -> componentDto.element = objMapper.convertValue(optionValue, linkedMapType)
+                        }
+                    }
+                    componentDtoList.add(componentDto)
+                }
+
+                val optionValue = objMapper.readValue(formRow.rowDisplayOption, LinkedHashMap::class.java)
+                rowListInGroup.add(
+                    FormRowDto(
+                        id = formRow.formRowId,
+                        display = objMapper.convertValue(optionValue, linkedMapType),
+                        component = componentDtoList
+                    )
+                )
+            }
+
+            // 그룹 구성
+            val groupDto = FormGroupDto(
+                id = formGroup.formGroupId,
+                row = rowListInGroup
+            )
+
+            // 그룹 속성 채우기
+            val groupPropertyEntityList = wfFormGroupPropertyRepository.findByFormGroupId(formGroup.formGroupId)
+            for (groupPropertyEntity in groupPropertyEntityList) {
+                val optionValue = objMapper.readValue(groupPropertyEntity.propertyOptions, LinkedHashMap::class.java)
+                when (groupPropertyEntity.propertyType) {
+                    "display" -> groupDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                    "label" -> groupDto.label = objMapper.convertValue(optionValue, linkedMapType)
+                }
+            }
+            formGroupList.add(groupDto)
+        }
+
+        val optionValue = objMapper.readValue(formEntity.get().formDisplayIOption, LinkedHashMap::class.java)
+        return RestTemplateFormDataDto(
+            id = formId,
+            name = formEntity.get().formName,
+            status = formEntity.get().formStatus,
+            desc = formEntity.get().formDesc,
+            category = formEntity.get().formCategory ?: "", // 리팩토링이 끝나면 not null 로 수정하자.
+            updateDt = formEntity.get().updateDt,
+            updateUserKey = formEntity.get().updateUser?.userKey,
+            createDt = formEntity.get().createDt,
+            createUserKey = formEntity.get().createUser?.userKey,
+            group = formGroupList,
+            display = objMapper.convertValue(optionValue, linkedMapType)
+
+        )
+    }
+
     /**
      * Get component data.
      */
@@ -259,6 +366,59 @@ class WfFormService(
         }
 
         return wfComponentDataEntities
+    }
+
+    private fun getComponentDataFormRefactoring(
+        resultComponentEntity: WfComponentEntity,
+        component: FormComponentDto
+    ): MutableList<WfComponentPropertyEntity> {
+        val wfComponentPropertyEntities: MutableList<WfComponentPropertyEntity> = mutableListOf()
+
+        // wf_comp_data 저장
+        var componentPropertyEntity = WfComponentPropertyEntity(
+            componentId = resultComponentEntity.componentId,
+            propertyType = "display",
+            propertyOptions = objMapper.writeValueAsString(component.display),
+            properties = resultComponentEntity
+        )
+        wfComponentPropertyEntities.add(componentPropertyEntity)
+
+        component.validate?.let {
+            if (it.size > 0) {
+                componentPropertyEntity = WfComponentPropertyEntity(
+                    componentId = resultComponentEntity.componentId,
+                    propertyType = "validate",
+                    propertyOptions = objMapper.writeValueAsString(it),
+                    properties = resultComponentEntity
+                )
+                wfComponentPropertyEntities.add(componentPropertyEntity)
+            }
+        }
+
+        component.element?.let {
+            if (it.size > 0) {
+                componentPropertyEntity = WfComponentPropertyEntity(
+                    componentId = resultComponentEntity.componentId,
+                    propertyType = "element",
+                    propertyOptions = objMapper.writeValueAsString(it),
+                    properties = resultComponentEntity
+                )
+                wfComponentPropertyEntities.add(componentPropertyEntity)
+            }
+        }
+
+        component.label?.let {
+            if (it.size > 0) {
+                componentPropertyEntity = WfComponentPropertyEntity(
+                    componentId = resultComponentEntity.componentId,
+                    propertyType = "label",
+                    propertyOptions = objMapper.writeValueAsString(it),
+                    properties = resultComponentEntity
+                )
+                wfComponentPropertyEntities.add(componentPropertyEntity)
+            }
+        }
+        return wfComponentPropertyEntities
     }
 
     /**
@@ -358,6 +518,89 @@ class WfFormService(
     }
 
     /**
+     * Insert, Update Form Data.
+     *
+     * @param restTemplateFormComponentListDto
+     */
+    @Transactional
+    fun saveFormDataFromRefactoring(formData: RestTemplateFormDataDto): Boolean {
+
+        // Delete
+        val groupEntities = formData.id?.let { wfFormGroupRepository.findByFormId(it) }
+        groupEntities?.let {
+            for (group in groupEntities) {
+                val rowEntities = wfFormRowRepository.findByGroupId(group.formGroupId)
+                rowEntities.let {
+                    for (row in rowEntities) {
+                        val componentEntities = wfComponentRepository.findByRowId(row.formRowId)
+                        for (component in componentEntities) {
+                            wfComponentRepository.deleteComponentEntityByComponentId(component.componentId)
+                            aliceTagRepository.deleteByTargetId(
+                                AliceTagConstants.TagType.COMPONENT.code,
+                                component.componentId
+                            )
+                        }
+                        wfFormRowRepository.delete(row)
+                    }
+                }
+                wfFormGroupRepository.delete(group)
+            }
+        }
+
+        // Update Form
+        val resultFormEntity =
+            this.updateFormEntityFormRefactoring(wfFormMapper.toRestTemplateFormDtoFormRefactoring(formData))
+
+        // Insert component, attribute
+        for (group in formData.group) {
+            val wfFormGroupPropertyEntities: MutableList<WfFormGroupPropertyEntity> = mutableListOf()
+            val currentGroup = wfFormGroupRepository.save(
+                WfFormGroupEntity(
+                    formGroupId = group.id,
+                    form = resultFormEntity
+                )
+            )
+
+            wfFormGroupPropertyEntities.addAll(this.getFormGroupPropertyFormRefactoring(currentGroup, group))
+
+            if (wfFormGroupPropertyEntities.isNotEmpty()) {
+                wfFormGroupPropertyRepository.saveAll(wfFormGroupPropertyEntities)
+            }
+
+
+            group.row?.let {
+                for (row in it) {
+                    val currentRow = wfFormRowRepository.save(
+                        WfFormRowEntity(
+                            formRowId = row.id,
+                            formGroup = currentGroup,
+                            rowDisplayOption = objMapper.writeValueAsString(row.display)
+                        )
+                    )
+                    row.component?.let { components ->
+                        val wfComponentPropertyEntities: MutableList<WfComponentPropertyEntity> = mutableListOf()
+                        for (component in components) {
+                            val resultComponentEntity =
+                                this.saveComponentFormRefactoring(currentRow, resultFormEntity, component)
+                            wfComponentPropertyEntities.addAll(
+                                this.getComponentDataFormRefactoring(
+                                    resultComponentEntity,
+                                    component
+                                )
+                            )
+                        }
+                        if (wfComponentPropertyEntities.isNotEmpty()) {
+                            wfComponentPropertyRepository.saveAll(wfComponentPropertyEntities)
+                        }
+                    }
+                }
+            }
+        }
+
+        return true
+    }
+
+    /**
      * Save as Form.
      *
      * @param restTemplateFormComponentListDto
@@ -418,6 +661,20 @@ class WfFormService(
         return wfFormRepository.save(formEntity.get())
     }
 
+    private fun updateFormEntityFormRefactoring(restTemplateFormDto: RestTemplateFormDtoFormRefactoring): WfFormEntity {
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(restTemplateFormDto.id)
+        formEntity.get().formName = restTemplateFormDto.name
+        formEntity.get().formDesc = restTemplateFormDto.desc
+        formEntity.get().formStatus = restTemplateFormDto.status
+        formEntity.get().formCategory = restTemplateFormDto.category
+        formEntity.get().formDisplayIOption = objMapper.writeValueAsString(restTemplateFormDto.display)
+        formEntity.get().updateDt = restTemplateFormDto.updateDt
+        formEntity.get().updateUser = restTemplateFormDto.updateUserKey?.let {
+            aliceUserRepository.findAliceUserEntityByUserKey(it)
+        }
+        return wfFormRepository.save(formEntity.get())
+    }
+
     /**
      * Save component.
      */
@@ -457,5 +714,63 @@ class WfFormService(
         )
 
         return wfComponentRepository.save(componentEntity)
+    }
+
+    private fun saveComponentFormRefactoring(
+        currentRowEntity: WfFormRowEntity,
+        currentFormEntity: WfFormEntity,
+        component: FormComponentDto
+    ): WfComponentEntity {
+        val tagList = component.tags as ArrayList<LinkedHashMap<String, String>>
+        tagList.forEach { tag ->
+            tag["value"]?.let {
+                aliceTagRepository.save(
+                    AliceTagEntity(
+                        tagType = AliceTagConstants.TagType.COMPONENT.code,
+                        tagValue = it,
+                        targetId = component.id
+                    )
+                )
+            }
+        }
+
+        val componentEntity = WfComponentEntity(
+            componentId = component.id,
+            componentType = component.type,
+            mappingId = component.mapId,
+            isTopic = component.isTopic,
+            form = currentFormEntity, // 리팩토링 후 삭제 대상 필드
+            formRow = currentRowEntity
+        )
+
+        return wfComponentRepository.save(componentEntity)
+    }
+
+    private fun getFormGroupPropertyFormRefactoring(
+        formGroupEntity: WfFormGroupEntity,
+        group: FormGroupDto
+    ): MutableList<WfFormGroupPropertyEntity> {
+        val wfFormGroupPropertyEntities: MutableList<WfFormGroupPropertyEntity> = mutableListOf()
+
+        var formGroupPropertyEntity = WfFormGroupPropertyEntity(
+            formGroupId = formGroupEntity.formGroupId,
+            propertyType = "display",
+            propertyOptions = objMapper.writeValueAsString(group.display),
+            properties = formGroupEntity
+        )
+        wfFormGroupPropertyEntities.add(formGroupPropertyEntity)
+
+        group.label?.let {
+            if (it.size > 0) {
+                formGroupPropertyEntity = WfFormGroupPropertyEntity(
+                    formGroupId = formGroupEntity.formGroupId,
+                    propertyType = "label",
+                    propertyOptions = objMapper.writeValueAsString(it),
+                    properties = formGroupEntity
+                )
+                wfFormGroupPropertyEntities.add(formGroupPropertyEntity)
+            }
+        }
+        return wfFormGroupPropertyEntities
     }
 }

@@ -1,6 +1,11 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.component.entity
 
 import co.brainz.workflow.form.entity.WfFormEntity
+import co.brainz.workflow.formRow.entity.WfFormRowEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import java.io.Serializable
 import javax.persistence.CascadeType
@@ -32,11 +37,18 @@ data class WfComponentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
-    val form: WfFormEntity
+    val form: WfFormEntity,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "form_row_id")
+    val formRow: WfFormRowEntity? = null
 
 ) : Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "attributes", cascade = [CascadeType.REMOVE])
     val attributes: MutableList<WfComponentDataEntity>? = mutableListOf()
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "properties", cascade = [CascadeType.REMOVE])
+    val properties: MutableList<WfComponentPropertyEntity>? = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "component")
     val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
