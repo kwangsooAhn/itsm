@@ -1,5 +1,5 @@
 /**
- * SelectTypeProperty Class
+ * dropdown Property Class
  *
  * SELECT 형태의 속성항목 타입을 위한 클래스이다.
  * 실제 속성 값으로 선택할 수 있는 데이터를 options 필드에 추가한다.
@@ -11,15 +11,15 @@
  *
  * https://www.brainz.co.kr
  */
-import Property from "../property.js";
+import Property from '../property.module.js';
 
 const propertyExtends = {
     options : []
-}
+};
 
-export default class SelectTypeProperty {
+export default class DropdownProperty {
     constructor(name, options) {
-        this.property = new Property(name, 'select');
+        this.property = new Property(name, 'dropdownProperty');
         this.options = options;
     }
 

@@ -28,7 +28,7 @@ export default class Form {
             width: data.display.width || '905',
             margin: data.display.margin || '60 0 60 0',
             padding: data.display.padding || '15 15 15 15'
-        }
+        };
 
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
@@ -183,7 +183,7 @@ export default class Form {
         const PANEL_PROPERTIES = {
             'id': {
                 'name': 'form.properties.id',
-                'type': 'clipboard',
+                'type': 'clipboardProperty',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
@@ -198,7 +198,7 @@ export default class Form {
             },
             'name': {
                 'name': 'form.properties.name',
-                'type': 'input',
+                'type': 'inputBoxProperty',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
@@ -213,7 +213,7 @@ export default class Form {
             },
             'desc': {
                 'name': 'form.properties.desc',
-                'type': 'textarea',
+                'type': 'textAreaProperty',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
@@ -228,7 +228,7 @@ export default class Form {
             },
             'status': {
                 'name': 'form.properties.status',
-                'type': 'select',
+                'type': 'dropdownProperty',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
@@ -248,12 +248,12 @@ export default class Form {
                 ]
             },
             'display': {
-                name: 'form.properties.display',
-                type: 'group',
-                children: {
+                'name': 'form.properties.display',
+                'type': 'groupProperty',
+                'children': {
                     'width': {
                         'name': 'form.properties.width',
-                        'type': 'input',
+                        'type': 'inputBoxProperty',
                         'unit': 'px',
                         'help': '',
                         'columnWidth': '12',
@@ -268,7 +268,7 @@ export default class Form {
                     },
                     'margin': {
                         'name': 'form.properties.margin',
-                        'type': 'input-box',
+                        'type': 'boxModelProperty',
                         'unit': 'px',
                         'help': '',
                         'columnWidth': '12',
@@ -283,7 +283,7 @@ export default class Form {
                     },
                     'padding': {
                         'name': 'form.properties.padding',
-                        'type': 'input-box',
+                        'type': 'boxModelProperty',
                         'unit': 'px',
                         'help': '',
                         'columnWidth': '12',
@@ -300,10 +300,10 @@ export default class Form {
             },
         };
         return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            if (value.type === 'group') {
+            if (value.type === 'groupProperty') {
                 const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
                     const tempChildValue = {'value': this[key][childKey]};
-                    if (childValue.type === 'button-toggle-icon') { // 토글 데이터
+                    if (childValue.type === 'toggleButtonProperty') { // 토글 데이터
                         tempChildValue.value = childValue.option.map((item) =>
                             (this[key][item.value]) ? 'Y' : 'N').join('|');
                     }

@@ -1,7 +1,7 @@
 /**
- * RGB Class
+ * Textarea Property Class
  *
- * 색상을 선택하는 속성항목을 위한 클래스이다.
+ * Textarea 형태의 입력항목을 가지는 속성 타입을 위한 클래스이다.
  *
  * @author Jung Hee Chan <hcjung@brainz.co.kr>
  * @version 1.0
@@ -10,15 +10,15 @@
  *
  * https://www.brainz.co.kr
  */
-import Property from "../property.js";
+import Property from '../property.module.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */
-}
+};
 
-export default class RgbTypeProperty {
+export default class TextAreaProperty {
     constructor(name) {
-        this.property = new Property(name, 'rgb');
+        this.property = new Property(name, 'textAreaProperty');
     }
 
     getPropertyTypeConfig() {

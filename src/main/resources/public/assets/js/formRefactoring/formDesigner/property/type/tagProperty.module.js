@@ -1,24 +1,24 @@
 /**
- * RGBA Class
+ * Tag Property Class
  *
- * 색상 및 투명도를 선택하는 속성 항목을 위한 클래스이다.
+ * 태그를 추가하는 속성항목을 위한 클래스이다.
  *
- * @author Jung Hee Chan <hcjung@brainz.co.kr>
+ * @author woodajung wdj@brainz.co.kr
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
  *
  * https://www.brainz.co.kr
  */
-import Property from "../property.js";
+import Property from '../property.module.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */
-}
+};
 
-export default class RgbaTypeProperty {
+export default class TagProperty {
     constructor(name) {
-        this.property = new Property(name, 'rgba');
+        this.property = new Property(name, 'tagProperty');
     }
 
     getPropertyTypeConfig() {
