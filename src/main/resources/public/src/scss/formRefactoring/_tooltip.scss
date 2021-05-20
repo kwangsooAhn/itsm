@@ -1,5 +1,33 @@
 @import '../template/_tooltip.scss';
 
+// header
+.header-tooltip {
+  .tooltip-contents-reverse {
+    min-width: $tooltip-header-contents-width;
+    visibility: hidden;
+    background-color: map-get($blues, "hover");
+    color: $white;
+    text-align: center;
+    font-size: $tooltip-header-contents-size;
+    @include borderRadius($tooltip-header-contents-border);
+    padding: $tooltip-header-contents-padding;
+    margin: $tooltip-header-contents-margin;
+    position: absolute;
+    z-index: $z-index-tooltip;
+    span {
+      color: $white;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  &:hover {
+    .tooltip-contents {
+      visibility: visible;
+      @include animation (0s, 0.3s, fadeIn, ease-out);
+    }
+  }
+}
+
 // clipboard - 복사 용도
 .clipboard-tooltip {
   position: relative;
@@ -22,8 +50,8 @@
     font-weight: $clipboard-tooltip-font-weight;
     color: $clipboard-tooltip-font-color;
     background-color: $clipboard-tooltip-bg-color;
-    border: $clipboard-tooltip-border;
-    border-radius: $clipboard-tooltip-border-radius;
+    @include border($clipboard-tooltip-border-width, solid, $clipboard-tooltip-border-color, all);
+    @include borderRadius($clipboard-tooltip-border-radius);
     text-align: center;
     padding: 0.313rem; // 5px
     z-index: $z-index-tooltip;
@@ -61,8 +89,8 @@
     width: $tooltip-contents-width;
     font-size: $tooltip-font-size;
     color: $tooltip-contents-color;
-    border: $tooltip-contents-border;
-    border-radius: $tooltip-contents-border-radius;
+    @include border($tooltip-contents-border-width, solid, $tooltip-contents-border-color, all);
+    @include borderRadius($tooltip-contents-border-radius);
     padding: $tooltip-contents-padding;
     margin: 0.25rem 0 0 0;
     box-shadow: $tooltip-contents-box-shadow;
