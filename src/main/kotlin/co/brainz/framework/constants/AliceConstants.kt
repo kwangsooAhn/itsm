@@ -92,7 +92,8 @@ object AliceConstants {
      */
     enum class ScheduleTaskType(val code: String) {
         CLASS("class"),
-        QUERY("query")
+        QUERY("query"),
+        JAR("jar")
     }
 
     /**

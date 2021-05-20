@@ -52,7 +52,7 @@ class SchedulerRestController(
      * Scheduler 즉시 실행.
      */
     @PostMapping("/{taskId}/execute")
-    fun executeScheduler(@RequestBody schedulerDto: SchedulerDto): String {
-        return schedulerService.executeScheduler(schedulerDto)
+    fun immediateExecuteScheduler(@RequestBody schedulerDto: SchedulerDto): String {
+        return schedulerService.immediateExecuteScheduler(schedulerDto)
     }
 }

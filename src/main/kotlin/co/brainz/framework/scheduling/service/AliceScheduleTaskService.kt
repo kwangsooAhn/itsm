@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.scheduling.service
 
 import co.brainz.framework.constants.AliceConstants
@@ -5,6 +10,9 @@ import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.scheduling.repository.AliceScheduleHistoryRepository
 import co.brainz.framework.scheduling.repository.AliceScheduleTaskRepository
+import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeClass
+import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeJar
+import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
 import java.time.LocalDateTime
 import java.util.TimeZone
 import java.util.concurrent.ScheduledFuture
@@ -23,7 +31,10 @@ class AliceScheduleTaskService(
     private val scheduler: TaskScheduler,
     private val aliceScheduleTaskRepository: AliceScheduleTaskRepository,
     private val aliceScheduleHistoryRepository: AliceScheduleHistoryRepository,
-    private val jdbcTemplate: JdbcTemplate
+    private val jdbcTemplate: JdbcTemplate,
+    private val scheduleTaskTypeQuery: ScheduleTaskTypeQuery,
+    private val scheduleTaskTypeClass: ScheduleTaskTypeClass,
+    private val scheduleTaskTypeJar: ScheduleTaskTypeJar
 ) {
     private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
 
@@ -34,14 +45,52 @@ class AliceScheduleTaskService(
         jdbcTemplate.isResultsMapCaseInsensitive = true
     }
 
+    @EventListener(ContextRefreshedEvent::class)
+    fun contextRefreshedEvent() {
+        val scheduleTask: MutableList<AliceScheduleTaskEntity> = aliceScheduleTaskRepository.findByScheduleListByUse()
+        scheduleTask.forEach { list -> addTaskToScheduler(list) }
+    }
+
     /**
      * task 추가.
+     * 스케줄링 Task 정보로 Runnable 클래스를 생성하여 Task 추가 메소드를 호출한다.
+     *
+     * @param taskInfo TASK 정보
+     */
+    fun addTaskToScheduler(taskInfo: AliceScheduleTaskEntity) {
+        val task = when (taskInfo.taskType) {
+            AliceConstants.ScheduleTaskType.QUERY.code -> scheduleTaskTypeQuery.getRunnable(taskInfo)
+            AliceConstants.ScheduleTaskType.CLASS.code -> scheduleTaskTypeClass.getRunnable(taskInfo)
+            AliceConstants.ScheduleTaskType.JAR.code -> scheduleTaskTypeJar.getRunnable(taskInfo)
+            else -> null
+        }
+        if (task != null) {
+            this.executeScheduler(taskInfo.taskId, task, taskInfo)
+        }
+    }
+
+    /**
+     * task 삭제.
+     *
+     * @param id TASK ID
+     */
+    fun removeTaskFromScheduler(id: String) {
+        val scheduledTask: ScheduledFuture<*>? = taskMap[id]
+        if (scheduledTask != null) {
+            scheduledTask.cancel(true)
+            taskMap[id] = null
+            logger.info("The schedule task has been removed. (task_id: {})", id)
+        }
+    }
+
+    /**
+     * task 추가(실행).
      *
      * @param id TASK ID
      * @param task TASK
      * @param taskInfo TASK 정보
      */
-    fun addTaskToScheduler(id: String, task: Runnable, taskInfo: AliceScheduleTaskEntity) {
+    private fun executeScheduler(id: String, task: Runnable, taskInfo: AliceScheduleTaskEntity) {
         var scheduledTask: ScheduledFuture<*>? = null
         when (taskInfo.executeCycleType) {
             AliceConstants.ScheduleExecuteCycleType.FIXED_DELAY.code -> {
@@ -72,86 +121,5 @@ class AliceScheduleTaskService(
                 )
             }
         }
-    }
-
-    /**
-     * task 추가.
-     * 스케줄링 Task 정보로 Runnable 클래스를 생성하여 Task 추가 메소드를 호출한다.
-     *
-     * @param taskInfo TASK 정보
-     */
-    fun addTaskToScheduler(taskInfo: AliceScheduleTaskEntity) {
-        when (taskInfo.taskType) {
-            AliceConstants.ScheduleTaskType.QUERY.code -> {
-                addTaskToScheduler(
-                    taskInfo.taskId,
-                    Runnable {
-                        taskInfo.executeQuery?.let { executeQuery(it) }
-                    },
-                    taskInfo
-                )
-            }
-            AliceConstants.ScheduleTaskType.CLASS.code -> {
-                try {
-                    val taskClass = Class.forName(taskInfo.executeClass)
-                        .asSubclass(Runnable::class.java)
-                    val args = getArgs(taskInfo.args)
-                    val runnable: Runnable
-                    runnable = if (args.isEmpty()) {
-                        taskClass.getDeclaredConstructor().newInstance()
-                    } else {
-                        taskClass.getDeclaredConstructor(Any::class.java).newInstance(args)
-                    }
-                    addTaskToScheduler(
-                        taskInfo.taskId,
-                        runnable,
-                        taskInfo
-                    )
-                } catch (e: Exception) {
-                    logger.error("Failed to load class. [{}]", taskInfo.executeClass)
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
-
-    fun getArgs(args: String?): MutableList<Any> {
-        val argsList = mutableListOf<Any>()
-        if (args != null && args.isNotEmpty()) {
-            args.split(",").forEach {
-                argsList.add(it.trim())
-            }
-        }
-        return argsList
-    }
-
-    /**
-     * task 삭제.
-     *
-     * @param id TASK ID
-     */
-    fun removeTaskFromScheduler(id: String) {
-        val scheduledTask: ScheduledFuture<*>? = taskMap[id]
-        if (scheduledTask != null) {
-            scheduledTask.cancel(true)
-            taskMap[id] = null
-            logger.info("The schedule task has been removed. (task_id: {})", id)
-        }
-    }
-
-    @EventListener(ContextRefreshedEvent::class)
-    fun contextRefreshedEvent() {
-        val scheduleTask: MutableList<AliceScheduleTaskEntity> = aliceScheduleTaskRepository.findByScheduleListByUse()
-        scheduleTask.forEach { list -> addTaskToScheduler(list) }
-    }
-
-    /**
-     * 쿼리를 실행한다.
-     *
-     * @param executeQuery 실행쿼리
-     */
-    fun executeQuery(executeQuery: String) {
-        jdbcTemplate.execute(executeQuery)
-        logger.info("The query has been executed. [{}]", executeQuery)
     }
 }
