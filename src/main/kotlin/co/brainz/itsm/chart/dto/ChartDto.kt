@@ -16,10 +16,10 @@ data class ChartDto(
     val chartDesc: String? = null,
     var chartConfig: String? = null,
     var createDt: LocalDateTime? = null,
-    val targetTags: ArrayList<String>? = null,
-    val operation: String = "",
+    var targetTags: ArrayList<String>? = null,
+    var operation: String = "",
     var durationDigit: Long = 0,
-    val durationUnit: String = "",
+    var durationUnit: String = "",
     var periodUnit: String? = null,
     var group: String? = null,
     var propertyJson: String? = null
