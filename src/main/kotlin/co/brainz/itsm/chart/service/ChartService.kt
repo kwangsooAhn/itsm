@@ -53,7 +53,7 @@ class ChartService(
      */
     fun getChart(chartId: String, chartPreviewDto: ChartDto?): ChartDto {
         lateinit var chartDto: ChartDto
-        var chartEntity = chartRepository.findByIdOrNull(chartId)
+        val chartEntity = chartRepository.findByIdOrNull(chartId)
 
         if (chartPreviewDto == null) {
             if (chartEntity != null) {
@@ -222,32 +222,12 @@ class ChartService(
         chart: ChartDto,
         documentList: MutableList<WfDocumentEntity>
     ): JsonObject {
-        lateinit var startDateTime: LocalDateTime
+        val startDateTime = getStartDateTime(chart)
         val selectDocList = mutableListOf<WfDocumentEntity>()
         val endDateTime: LocalDateTime? = chart.createDt
         val jsonObject = JsonObject()
         val jsonDocListObject = JsonObject()
         val dateFormatList = mutableListOf<String>()
-
-        when (chart.durationUnit) {
-            ChartConstants.Unit.YEAR.code -> {
-                startDateTime = endDateTime!!.minusYears(chart.durationDigit)
-            }
-            ChartConstants.Unit.MONTH.code -> {
-                startDateTime = endDateTime!!.minusMonths(chart.durationDigit)
-            }
-            ChartConstants.Unit.DATE.code -> {
-                startDateTime = endDateTime!!.minusDays(chart.durationDigit)
-            }
-            ChartConstants.Unit.HOUR.code -> {
-                startDateTime = endDateTime!!.minusHours(chart.durationDigit)
-            }
-        }
-        var startYear = startDateTime.year
-        var startMonth = startDateTime.monthValue
-        var startDays = startDateTime.dayOfMonth
-        var startHours = startDateTime.hour
-        val period = ChronoUnit.MONTHS.between(startDateTime, endDateTime).toInt()
 
         documentList.forEach { document ->
             if (document.createDt!!.withNano(0) >= startDateTime) {
@@ -259,20 +239,19 @@ class ChartService(
             chart.periodUnit = chart.durationUnit
         }
 
+        var startYear = startDateTime.year
+        var startMonth = startDateTime.monthValue
+        var startDays = startDateTime.dayOfMonth
+        var startHours = startDateTime.hour
+        val period = ChronoUnit.MONTHS.between(startDateTime, endDateTime).toInt()
+
         when (chart.periodUnit) {
             ChartConstants.Unit.YEAR.code -> {
                 for (year in startDateTime.year until endDateTime!!.year + 1) {
-                    val jsonArray = JsonArray()
+                    var jsonArray = JsonArray()
                     documentList.forEach { document ->
-                        when (document.createDt!!.year) {
-                            year -> {
-                                val jsonDocObject = JsonObject()
-                                jsonDocObject.addProperty("documentId", document.documentId)
-                                jsonDocObject.addProperty("documentName", document.documentName)
-                                jsonDocObject.addProperty("createDt", document.createDt.toString())
-                                jsonArray.add(jsonDocObject)
-                            }
-                        }
+                        val docDateFormat = document.createDt!!.year
+                        getDateFormatData(docDateFormat, year, document, jsonArray)
                     }
                     jsonObject.add(year.toString(), jsonArray)
                 }
@@ -280,7 +259,7 @@ class ChartService(
             }
             ChartConstants.Unit.MONTH.code -> {
                 for (index in 0 until period + 1) {
-                    dateFormatList.add(startYear.toString() + String.format("%02d", startMonth))
+                    dateFormatList.add(startYear.toString() + addStringFormat(startMonth))
                     when (startMonth) {
                         12 -> {
                             startYear++
@@ -293,21 +272,12 @@ class ChartService(
                 }
 
                 for (dateFormat in dateFormatList) {
-                    val jsonArray = JsonArray()
+                    var jsonArray = JsonArray()
                     documentList.forEach { document ->
                         val docYear = document.createDt!!.year
                         val docMonth = document.createDt!!.monthValue
-                        val docDateFormat = docYear.toString() + String.format("%02d", docMonth)
-
-                        when (docDateFormat) {
-                            dateFormat -> {
-                                val jsonDocObject = JsonObject()
-                                jsonDocObject.addProperty("documentId", document.documentId)
-                                jsonDocObject.addProperty("documentName", document.documentName)
-                                jsonDocObject.addProperty("createDt", document.createDt.toString())
-                                jsonArray.add(jsonDocObject)
-                            }
-                        }
+                        val docDateFormat = docYear.toString() + addStringFormat(docMonth)
+                        getDateFormatData(docDateFormat, dateFormat, document, jsonArray)
                     }
                     jsonObject.add(dateFormat, jsonArray)
                 }
@@ -315,11 +285,11 @@ class ChartService(
             }
             ChartConstants.Unit.DATE.code -> {
                 for (index in 0 until period + 1) {
-                    val dateFormat = startYear.toString() + String.format("%02d", startMonth)
+                    val dateFormat = startYear.toString() + addStringFormat(startMonth)
                     val lengthOfMonth = YearMonth.from(startDateTime.plusMonths(index.toLong())).lengthOfMonth()
 
                     for (day in startDays until lengthOfMonth + 1) {
-                        dateFormatList.add(dateFormat + String.format("%02d", day))
+                        dateFormatList.add(dateFormat + addStringFormat(day))
 
                         if (day == endDateTime!!.dayOfMonth && startMonth == endDateTime.monthValue) {
                             break
@@ -339,26 +309,14 @@ class ChartService(
                 }
 
                 for (dateFormat in dateFormatList) {
-                    val jsonArray = JsonArray()
+                    var jsonArray = JsonArray()
                     documentList.forEach { document ->
                         val docYear = document.createDt!!.year
                         val docMonth = document.createDt!!.monthValue
                         val docDays = document.createDt!!.dayOfMonth
                         val docDateFormat =
-                            docYear.toString() + String.format("%02d", docMonth) + String.format(
-                                "%02d",
-                                docDays
-                            )
-
-                        when (docDateFormat) {
-                            dateFormat -> {
-                                val jsonDocObject = JsonObject()
-                                jsonDocObject.addProperty("documentId", document.documentId)
-                                jsonDocObject.addProperty("documentName", document.documentName)
-                                jsonDocObject.addProperty("createDt", document.createDt.toString())
-                                jsonArray.add(jsonDocObject)
-                            }
-                        }
+                            docYear.toString() + addStringFormat(docMonth) + addStringFormat(docDays)
+                        getDateFormatData(docDateFormat, dateFormat, document, jsonArray)
                     }
                     jsonObject.add(dateFormat, jsonArray)
                 }
@@ -366,12 +324,12 @@ class ChartService(
             }
             ChartConstants.Unit.HOUR.code -> {
                 for (index in 0 until period + 1) {
-                    val dateFormat = startYear.toString() + String.format("%02d", startMonth)
+                    val dateFormat = startYear.toString() + addStringFormat(startMonth)
                     val lengthOfMonth = YearMonth.from(startDateTime.plusMonths(index.toLong())).lengthOfMonth()
 
                     for (day in startDays until lengthOfMonth + 1) {
                         for (hours in startHours until 25) {
-                            dateFormatList.add(dateFormat + day + String.format("%02d", hours))
+                            dateFormatList.add(dateFormat + day + addStringFormat(hours))
                             if (hours == endDateTime!!.hour && day == endDateTime.dayOfMonth && startMonth == endDateTime.monthValue) {
                                 break
                             }
@@ -395,27 +353,15 @@ class ChartService(
                 }
 
                 for (dateFormat in dateFormatList) {
-                    val jsonArray = JsonArray()
+                    var jsonArray = JsonArray()
                     documentList.forEach { document ->
                         val docYear = document.createDt!!.year
                         val docMonth = document.createDt!!.monthValue
                         val docDays = document.createDt!!.dayOfMonth
                         val docHours = document.createDt!!.hour
                         val docDateFormat =
-                            docYear.toString() + String.format(
-                                "%02d",
-                                docMonth
-                            ) + docDays + String.format("%02d", docHours)
-
-                        when (docDateFormat) {
-                            dateFormat -> {
-                                val jsonDocObject = JsonObject()
-                                jsonDocObject.addProperty("documentId", document.documentId)
-                                jsonDocObject.addProperty("documentName", document.documentName)
-                                jsonDocObject.addProperty("createDt", document.createDt.toString())
-                                jsonArray.add(jsonDocObject)
-                            }
-                        }
+                            docYear.toString() + addStringFormat(docMonth) + docDays + addStringFormat(docHours)
+                        getDateFormatData(docDateFormat, dateFormat, document, jsonArray)
                     }
                     jsonObject.add(dateFormat, jsonArray)
                 }
@@ -459,5 +405,55 @@ class ChartService(
         }
 
         return chartConfigObj.toString()
+    }
+
+    /**
+     * 문서 분리에 기준이 되는 시작일을 구한다.
+     */
+    fun getStartDateTime(chart: ChartDto): LocalDateTime {
+        lateinit var startDateTime: LocalDateTime
+        val endDateTime: LocalDateTime? = chart.createDt
+
+        when (chart.durationUnit) {
+            ChartConstants.Unit.YEAR.code -> {
+                startDateTime = endDateTime!!.minusYears(chart.durationDigit)
+            }
+            ChartConstants.Unit.MONTH.code -> {
+                startDateTime = endDateTime!!.minusMonths(chart.durationDigit)
+            }
+            ChartConstants.Unit.DATE.code -> {
+                startDateTime = endDateTime!!.minusDays(chart.durationDigit)
+            }
+            ChartConstants.Unit.HOUR.code -> {
+                startDateTime = endDateTime!!.minusHours(chart.durationDigit)
+            }
+        }
+
+        return startDateTime
+    }
+
+    /**
+     * 문서에 대한 정보를 특정 dateFormat에 따라 분리하여 jsonArray에 저장한다.
+     */
+    fun getDateFormatData(
+        docDateFormat: Any,
+        dateFormat: Any,
+        document: WfDocumentEntity,
+        jsonArray: JsonArray
+    ): JsonArray {
+        when (docDateFormat) {
+            dateFormat -> {
+                val jsonDocObject = JsonObject()
+                jsonDocObject.addProperty("documentId", document.documentId)
+                jsonDocObject.addProperty("documentName", document.documentName)
+                jsonDocObject.addProperty("createDt", document.createDt.toString())
+                jsonArray.add(jsonDocObject)
+            }
+        }
+        return jsonArray
+    }
+
+    fun addStringFormat(target: Int): String {
+        return String.format("%02d", target)
     }
 }
