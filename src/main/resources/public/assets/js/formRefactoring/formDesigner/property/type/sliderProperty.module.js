@@ -13,17 +13,31 @@
  * https://www.brainz.co.kr
  */
 import Property from '../property.module.js';
+import {UIDiv, UISlider} from '../../../lib/ui.js';
+import { FORM } from '../../../lib/constants.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
 };
 
-export default class SliderProperty {
-    constructor(name) {
-        this.property = new Property(name, 'sliderProperty');
+export default class SliderProperty extends Property {
+    constructor(name, value) {
+        super(name, 'sliderProperty', value);
     }
 
-    getPropertyTypeConfig() {
-        return this.property.getPropertyConfig();
+    makeProperty(panel) {
+        this.UIElement = new UIDiv().setUIClass('property')
+            .setUIProperty('--data-column', this.columnWidth);
+        // 라벨
+        this.UIElement.UILabel = this.makeLabelProperty();
+        this.UIElement.addUI(this.UIElement.UILabel);
+
+        // slider
+        this.UIElement.UISlider = new UISlider(this.value).setUIMin(1).setUIMax(FORM.COLUMN);
+        this.UIElement.UISlider.UIInput.setUIId(this.getKeyId())
+            .onUIChange(panel.updateProperty.bind(panel));
+        this.UIElement.addUI(this.UIElement.UISlider);
+
+        return this.UIElement;
     }
 }

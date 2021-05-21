@@ -15,16 +15,18 @@
  *
  * https://www.brainz.co.kr
  */
-import {MAX_COLUMN_COUNT} from '../../lib/constants.js';
+import { MAX_COLUMN_COUNT } from '../../lib/constants.js';
+import { UIDiv, UILabel, UISpan } from '../../lib/ui.js';
 
 export default class Property {
-    constructor(name, type) {
+    constructor(name, type, value) {
         this._name = 'form.properties.' + name;
         this._type = type;
+        this._value = value;
         this._unit = '';
         this._help = '';
         this._columnWidth = MAX_COLUMN_COUNT;
-        this._validate = {
+        this._validation = {
             required: false,
             type: '',
             max: '',
@@ -32,17 +34,30 @@ export default class Property {
             maxLength: '',
             minLength: '128'
         };
-
     }
-    getPropertyConfig() {
-        return {
-            name: this._name,
-            type: this._type,
-            unit: this._unit,
-            help: this._help,
-            columnWidth: this._columnWidth,
-            validate: this._validate
-        };
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        this._name = 'form.properties.' + name;
+    }
+
+    get type() {
+        return this._type;
+    }
+
+    set type(type) {
+        this._type = type;
+    }
+
+    get value() {
+        return this._value;
+    }
+
+    set value(value) {
+        this._value = value;
     }
 
     get unit() {
@@ -73,11 +88,66 @@ export default class Property {
         }
     }
 
-    get validate() {
-        return this._validate;
+    get validation() {
+        return this._validation;
     }
 
-    set validate(data) {
-        this._validate = data;
+    set validation(data) {
+        this._validation = data;
+    }
+
+    setValidation(required, type, min, max, minLength, maxLength) {
+        this._validation.required = required;
+        this._validation.type = type;
+        this._validation.min = min;
+        this._validation.max = max;
+        this._validation.minLength = minLength;
+        this._validation.maxLength = maxLength;
+        return this;
+    }
+    /**
+     * 세부 속성 공통 라벨 생성
+     * @param data 세부 속성 데이터
+     */
+    makeLabelProperty() {
+        const label = new UILabel().setUIClass('property-label').setUITextAlign('left');
+        // 라벨 문구
+        label.addUI(new UISpan().setUIClass('property-label-text')
+            .setUITextContent(i18n.msg(this.name)));
+        // 필수 여부
+        if (this.validation.required) {
+            label.addUI(new UISpan().setUIClass('required'));
+        }
+        // 툴팁(도움말) 기능 추가
+        if (this.help !== '') {
+            label.UITooltip = new UIDiv().setUIClass('help-tooltip');
+            label.UITooltip.addUI(new UISpan().setUIClass('icon').addUIClass('help-tooltip-icon'));
+            label.UITooltip.UIContent = new UIDiv().setUIClass('tooltip-contents');
+            label.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(this.help)));
+            label.UITooltip.addUI(label.UITooltip.UIContent);
+            label.addUI(label.UITooltip);
+        }
+        return label;
+    }
+    /**
+     * 세부 속성 키 반환
+     */
+    getKeyId() {
+        const nameArray = this.name.split('.');
+        return (nameArray.length === 3) ? nameArray[2] :
+            nameArray[2] + nameArray[3].substr(0, 1).toUpperCase() +
+            nameArray[3].substr(1, nameArray[3].length);
+    }
+
+    getPropertyConfig() {
+        return {
+            name: this._name,
+            type: this._type,
+            value: this._value,
+            unit: this._unit,
+            help: this._help,
+            columnWidth: this._columnWidth,
+            validation: this._validation
+        };
     }
 }

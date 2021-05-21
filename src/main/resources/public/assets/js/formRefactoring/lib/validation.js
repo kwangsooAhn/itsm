@@ -357,7 +357,7 @@ class Validation {
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.getDOMElementValue(target).trim() !== '';
-            const requiredDOMElementName = target.getAttribute('data-validate-required-name');
+            const requiredDOMElementName = target.getAttribute('data-validation-required-name');
             const msg =  requiredDOMElementName ? i18n.msg('validation.msg.required', requiredDOMElementName) : i18n.msg('common.msg.requiredEnter');
             this.setDOMElementError(rtn, target, msg, callback);
         } else { // 변수이면 true인지 false인지만 반환

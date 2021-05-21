@@ -554,7 +554,7 @@ class FormDesigner {
         if (editor.selectedObject === this) { return false; }
 
         // 세부 속성 유효성 검증 실패시 동작을 중지함
-        if (!editor.panel.validateStatus) { return false; }
+        if (!editor.panel.validationStatus) { return false; }
 
         // 이전 선택된 객체 디자인 삭제
         if (editor.selectedObject !== null) {
@@ -612,7 +612,7 @@ class FormDesigner {
      */
     deSelectObject() {
         // 세부 속성 유효성 검증 실패시 동작을 중지함
-        if (!this.panel.validateStatus) { return false; }
+        if (!this.panel.validationStatus) { return false; }
 
         // 이전 선택된 객체 디자인 삭제
         if (this.selectedObject !== null) {
@@ -652,7 +652,7 @@ class FormDesigner {
      */
     saveForm(boolean) {
         // 세부 속성 유효성 검증 실패시 동작을 중지한다.
-        if (!this.panel.validateStatus) { return false; }
+        if (!this.panel.validationStatus) { return false; }
         // 발행, 사용 상태일 경우, 저장이 불가능하다.
         const deployableStatus = ['form.status.publish', 'form.status.use'];
         if (deployableStatus.includes(this.data.status)) {
@@ -694,7 +694,7 @@ class FormDesigner {
      * 다른이름으로 저장하기 모달 오픈
      */
     openSaveAsModal() {
-        if (!this.panel.validateStatus) { return false; }
+        if (!this.panel.validationStatus) { return false; }
 
         const saveAsModalTemplate = document.getElementById('saveAsModalTemplate');
         const saveAsModal = new modal({

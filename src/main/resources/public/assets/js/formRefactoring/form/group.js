@@ -12,6 +12,14 @@
 import * as mixin from '../lib/mixins.js';
 import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
 import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/ui.js';
+import ClipboardProperty from '../formDesigner/property/type/clipboardProperty.module.js';
+import InputBoxProperty from '../formDesigner/property/type/inputBoxProperty.module.js';
+import GroupProperty from '../formDesigner/property/type/groupProperty.module.js';
+import SwitchProperty from '../formDesigner/property/type/switchProperty.module.js';
+import BoxModelProperty from '../formDesigner/property/type/boxModelProperty.module.js';
+import SwitchButtonProperty from '../formDesigner/property/type/switchButtonProperty.module.js';
+import ToggleButtonProperty from '../formDesigner/property/type/toggleButtonProperty.module.js';
+import ColorPickerProperty from '../formDesigner/property/type/colorPickerProperty.module.js';
 
 const DEFAULT_GROUP_LABEL_PROPERTY = {
     // 그룹의 라벨은 아코디언 위에 표시되기 때문에 항상 top 위치이며 보여주거나 숨기는 기능을 설정 한다.
@@ -220,183 +228,58 @@ export default class Group {
 
     // 세부 속성
     getProperty() {
-        // 기존 데이터 속성과 패널에 표시되는 기본 속성을 merge 한 후, 조회한다.
-        const PANEL_PROPERTIES = {
-            'id': {
-                'name': 'form.properties.id',
-                'type': 'clipboardProperty',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'display': {
-                'name': 'form.properties.display',
-                'type': 'groupProperty',
-                'children': {
-                    'isAccordionUsed': {
-                        'name': 'form.properties.isAccordionUsed',
-                        'type': 'switchProperty',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    },
-                    'margin': {
-                        'name': 'form.properties.margin',
-                        'type': 'boxModelProperty',
-                        'unit': 'px',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': 'number',
-                            'max': '100',
-                            'min': '0',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    }
-                }
-            },
-            'label': {
-                'name': 'form.properties.label',
-                'type': 'groupProperty',
-                'children': {
-                    'visibility': {
-                        'name': 'form.properties.visibility',
-                        'type': 'switchProperty',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    },
-                    'fontColor': {
-                        'name': 'form.properties.fontColor',
-                        'type': 'colorPickerProperty',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '8',
-                        'validate': {
-                            'required': false,
-                            'type': 'colorPickerProperty',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '25',
-                            'minLength': ''
-                        }
-                    },
-                    'fontSize': {
-                        'name': 'form.properties.fontSize',
-                        'type': 'inputBoxProperty',
-                        'unit': 'px',
-                        'help': '',
-                        'columnWidth': '3',
-                        'validate': {
-                            'required': false,
-                            'type': 'number',
-                            'max': '100',
-                            'min': '10',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    },
-                    'align' : {
-                        'name': 'form.properties.align',
-                        'type': 'switchButtonProperty',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '5',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        },
-                        'option': [
-                            { 'name': 'icon-align-left', 'value': 'left' },
-                            { 'name': 'icon-align-center', 'value': 'center' },
-                            { 'name': 'icon-align-right', 'value': 'right' }
-                        ]
-                    },
-                    'fontOption' : {
-                        'name': 'form.properties.option',
-                        'type': 'toggleButtonProperty',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '5',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '',
-                            'minLength': ''
-                        },
-                        'option': [
-                            { 'name': 'icon-bold', 'value': 'bold'},
-                            { 'name': 'icon-italic', 'value': 'italic' },
-                            { 'name': 'icon-underline', 'value': 'underline' }
-                        ]
-                    },
-                    'text': {
-                        'name': 'form.properties.text',
-                        'type': 'inputBoxProperty',
-                        'unit': '',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': '',
-                            'max': '',
-                            'min': '',
-                            'maxLength': '128',
-                            'minLength': ''
-                        }
-                    },
-                }
-            }
-        };
-        return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            if (value.type === 'groupProperty') {
-                const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
-                    const tempChildValue = { 'value': this[key][childKey] };
-                    if (childValue.type === 'toggleButtonProperty') { // 토글 데이터
-                        tempChildValue.value = childValue.option.map((item) =>
-                            (this[key][item.value]) ? 'Y' : 'N').join('|');
-                    }
-                    child[childKey] = Object.assign(childValue, tempChildValue);
-                    return child;
-                }, {});
-                property[key] = Object.assign(value, { 'children': childProperties });
-            } else {
-                property[key] = Object.assign(value, { 'value': this[key] });
-            }
-            return property;
-        }, {});
+        // display 속성 - margin
+        const displayMarginProperty = new BoxModelProperty('display.margin', this.display.margin)
+            .setValidation(false, 'number', '0', '100', '', '');
+        displayMarginProperty.unit = 'px';
+
+        // labe - text
+        const labelTextProperty = new InputBoxProperty('label.text', this.label.text);
+        labelTextProperty.columnWidth = '8';
+
+        // label - fontSize
+        const labelFontSizeProperty = new InputBoxProperty('label.fontSize', this.label.fontSize)
+            .setValidation(false, 'number', '10', '100', '', '');
+        labelFontSizeProperty.unit = 'px';
+        labelFontSizeProperty.columnWidth = '3';
+
+        // label - align
+        const labelAlignProperty = new SwitchButtonProperty('label.align', this.label.align, [
+            { 'name': 'icon-align-left', 'value': 'left' },
+            { 'name': 'icon-align-center', 'value': 'center' },
+            { 'name': 'icon-align-right', 'value': 'right' }
+        ]);
+        labelAlignProperty.columnWidth = '5';
+
+        // label - fontOption
+        const labelFontOption = [
+            { 'name': 'icon-bold', 'value': 'bold'},
+            { 'name': 'icon-italic', 'value': 'italic' },
+            { 'name': 'icon-underline', 'value': 'underline' }
+        ];
+        const labelFontValue = labelFontOption.map((item) =>
+            (this.label[item.value]) ? 'Y' : 'N').join('|');
+        const labelFontOptionProperty = new ToggleButtonProperty('label.option', labelFontValue, labelFontOption);
+        labelFontOptionProperty.columnWidth = '5';
+
+        // label - fontColor
+        const labelFontColorProperty = new ColorPickerProperty('label.fontColor', this.label.fontColor, false)
+            .setValidation(false, 'rgb', '', '', '', '25');
+        labelFontColorProperty.columnWidth = '12';
+
+        return [
+            new ClipboardProperty('id', this.id),
+            new GroupProperty('group.display')
+                .addProperty(new SwitchProperty('display.isAccordionUsed', this.display.isAccordionUsed))
+                .addProperty(displayMarginProperty),
+            new GroupProperty('group.label')
+                .addProperty(new SwitchProperty('label.visibility', this.label.visibility))
+                .addProperty(labelTextProperty)
+                .addProperty(labelFontSizeProperty)
+                .addProperty(labelAlignProperty)
+                .addProperty(labelFontOptionProperty)
+                .addProperty(labelFontColorProperty)
+        ];
     }
 
     /**

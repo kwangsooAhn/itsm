@@ -12,20 +12,38 @@
  * https://www.brainz.co.kr
  */
 import Property from '../property.module.js';
+import { UIDiv, UISelect } from '../../../lib/ui.js';
 
 const propertyExtends = {
     options : []
 };
 
-export default class DropdownProperty {
-    constructor(name, options) {
-        this.property = new Property(name, 'dropdownProperty');
+export default class DropdownProperty extends Property {
+    constructor(name, value, options) {
+        super(name, 'dropdownProperty', value);
+
         this.options = options;
     }
 
-    getPropertyTypeConfig() {
-        let propertyTypeConfig = this.property.getPropertyConfig();
-        propertyTypeConfig.options = this.options;
-        return propertyTypeConfig;
+    makeProperty(panel) {
+        this.UIElement = new UIDiv().setUIClass('property')
+            .setUIProperty('--data-column', this.columnWidth);
+        // 라벨
+        this.UIElement.UILabel = this.makeLabelProperty();
+        this.UIElement.addUI(this.UIElement.UILabel);
+
+        // select box
+        const mergeOptions = this.options.reduce((result, option) => {
+            result[option.value] = i18n.msg(option.name);
+            return result;
+        }, {});
+        this.UIElement.UISelect = new UISelect()
+            .setUIId(this.getKeyId())
+            .setUIOptions(mergeOptions)
+            .setUIValue(this.value)
+            .onUIChange(panel.updateProperty.bind(panel));
+        this.UIElement.addUI(this.UIElement.UISelect);
+
+        return this.UIElement;
     }
 }

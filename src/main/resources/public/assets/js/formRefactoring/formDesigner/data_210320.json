@@ -5,7 +5,7 @@
   "status": "form.status.edit",
   "category": "process",
   "display": {
-    "width": 905,
+    "width": "905",
     "margin": "60 35 60 35",
     "padding": "15 15 15 15"
   },
@@ -63,10 +63,10 @@
                 "columnWidth": "10",
                 "defaultType": "input|"
               },
-              "validate": {
-                "validateType": "none",
-                "lengthMin": "0",
-                "lengthMax": "100"
+              "validation": {
+                "validationType": "none",
+                "minLength": "0",
+                "maxLength": "100"
               }
             },
             {
@@ -96,10 +96,10 @@
                 "columnWidth": "10",
                 "defaultType": "select|userKey"
               },
-              "validate": {
-                "validateType": "none",
-                "lengthMin": "0",
-                "lengthMax": "100"
+              "validation": {
+                "validationType": "none",
+                "minLength": "0",
+                "maxLength": "100"
               }
             }
           ]
@@ -139,10 +139,10 @@
                 "columnWidth": "10",
                 "defaultType": "input|"
               },
-              "validate": {
-                "validateType": "none",
-                "lengthMin": "0",
-                "lengthMax": "100"
+              "validation": {
+                "validationType": "none",
+                "minLength": "0",
+                "maxLength": "100"
               }
             }
           ]
@@ -202,10 +202,10 @@
                 "columnWidth": "10",
                 "defaultType": "select|userName"
               },
-              "validate": {
-                "validateType": "none",
-                "lengthMin": "0",
-                "lengthMax": "100"
+              "validation": {
+                "validationType": "none",
+                "minLength": "0",
+                "maxLength": "100"
               }
             }
           ]
@@ -265,10 +265,10 @@
                 "columnWidth": "10",
                 "defaultType": "select|userName"
               },
-              "validate": {
-                "validateType": "none",
-                "lengthMin": "0",
-                "lengthMax": "100"
+              "validation": {
+                "validationType": "none",
+                "minLength": "0",
+                "maxLength": "100"
               }
             }
           ]

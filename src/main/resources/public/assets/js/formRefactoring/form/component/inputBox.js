@@ -15,9 +15,10 @@
 
 import {SESSION, FORM, CLASS_PREFIX} from '../../lib/constants.js';
 import {UIDiv, UIInput} from '../../lib/ui.js';
-import {COMMON_PROPERTIES} from '../../formDesigner/property/type/commonPropertyPanel.js';
 import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.module.js';
+import GroupProperty from '../../formDesigner/property/type/groupProperty.module.js';
 import SliderProperty from '../../formDesigner/property/type/sliderProperty.module.js';
+import CommonProperty from '../../formDesigner/property/type/commonProperty.module.js';
 import DefaultValueSelectProperty from '../../formDesigner/property/type/defaultValueSelectProperty.module.js';
 import DropdownProperty from '../../formDesigner/property/type/dropdownProperty.module.js';
 
@@ -30,8 +31,8 @@ const DEFAULT_COMPONENT_PROPERTY = {
         columnWidth: '10',
         defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
     },
-    validate: {
-        validateType: 'none', // none | char | num | numchar | email | phone
+    validation: {
+        validationType: 'none', // none | char | num | numchar | email | phone
         minLength: '0',
         maxLength: '100'
     }
@@ -44,8 +45,7 @@ export const inputBoxMixin = {
     initProperty() {
         // 엘리먼트 property 초기화
         this.element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.element);
-        this.validate = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validate, this.validate);
-        this.propertyPanel = this.initPropertyPanel();
+        this.validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.validation);
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -56,10 +56,10 @@ export const inputBoxMixin = {
             .setUIRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
             .setUIReadOnly((this.displayType === FORM.DISPLAY_TYPE.READONLY))
             .setUIValue(this.getValue())
-            .setUIAttribute('data-validate-required', (this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
-            .setUIAttribute('data-validate-type', this.validate.validateType)
-            .setUIAttribute('data-validate-maxLength', this.validate.lengthMax)
-            .setUIAttribute('data-validate-minLength', this.validate.lengthMin)
+            .setUIAttribute('data-validation-required', (this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
+            .setUIAttribute('data-validation-type', this.validation.validationType)
+            .setUIAttribute('data-validation-maxLength', this.validation.maxLength)
+            .setUIAttribute('data-validation-minLength', this.validation.minLength)
             .onUIKeyUp(this.updateValue.bind(this))
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIInputbox);
@@ -88,26 +88,26 @@ export const inputBoxMixin = {
     getElementDefaultValueSelect() {
         return this.element.defaultValueSelect;
     },
-    setValidateValidateType(type) {
-        this.validate.validateType = type;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validate-type', type);
+    setValidationValidationType(type) {
+        this.validation.validationType = type;
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-type', type);
     },
-    getValidateValidateType() {
-        return this.validate.validateType;
+    getValidationValidationType() {
+        return this.validation.validationType;
     },
-    setValidateLengthMin(min) {
-        this.validate.lengthMin = min;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validate-minLength', min);
+    setValidationMinLength(min) {
+        this.validation.minLength = min;
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-minLength', min);
     },
-    getValidateLengthMin() {
-        return this.validate.lengthMin;
+    getValidationMinLength() {
+        return this.validation.minLength;
     },
-    setValidateLengthMax(max) {
-        this.validate.lengthMax = max;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validate-maxLength', max);
+    setValidationMaxLength(max) {
+        this.validation.maxLength = max;
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-maxLength', max);
     },
-    getValidateLengthMax() {
-        return this.validate.lengthMax;
+    getValidationMaxLength() {
+        return this.validation.maxLength;
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -147,57 +147,26 @@ export const inputBoxMixin = {
         }
     },
     getProperty() {
-        return this.propertyPanel;
-    },
-    // 세부 속성
-    initPropertyPanel() {
-        let PANEL_PROPERTIES = COMMON_PROPERTIES;
-        PANEL_PROPERTIES.element = {
-            name: 'form.properties.element',
-            type: 'groupProperty',
-            children: {}
-        };
+        // validation - validation Type
+        const validationTypeProperty = new DropdownProperty('validation.validationType', this.validation.validationType, [
+            {name: 'form.properties.none', value: 'none'},
+            {name: 'form.properties.char', value: 'char'},
+            {name: 'form.properties.number', value: 'number'},
+            {name: 'form.properties.email', value: 'email'},
+            {name: 'form.properties.phone', value: 'phone'}
+        ]);
 
-        PANEL_PROPERTIES.element.children.placeholder = new InputBoxProperty('placeholder').getPropertyTypeConfig();
-        PANEL_PROPERTIES.element.children.columnWidth = new SliderProperty('columnWidth').getPropertyTypeConfig();
-        PANEL_PROPERTIES.element.children.defaultValueSelect = new DefaultValueSelectProperty('defaultValueSelect').getPropertyTypeConfig();
-
-        PANEL_PROPERTIES.validate = {
-            name: 'form.properties.validate',
-            type: 'groupProperty',
-            children: {}
-        };
-
-        PANEL_PROPERTIES.validate.children.validateType = new DropdownProperty(
-            'validateType',
-            [
-                {name: 'form.properties.none', value: 'none'},
-                {name: 'form.properties.char', value: 'char'},
-                {name: 'form.properties.number', value: 'number'},
-                {name: 'form.properties.email', value: 'email'},
-                {name: 'form.properties.phone', value: 'phone'}
-            ]
-        );
-        PANEL_PROPERTIES.validate.children.minLength = new InputBoxProperty('minLength').getPropertyTypeConfig();
-        PANEL_PROPERTIES.validate.children.maxLength = new InputBoxProperty('maxLength').getPropertyTypeConfig();
-
-        return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            if (value.type === 'groupProperty') {
-                const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
-                    const tempChildValue = {'value': this[key][childKey]};
-                    if (childValue.type === 'toggleButtonProperty') { // 토글 데이터
-                        tempChildValue.value = childValue.option.map((item) =>
-                            (this[key][item.value]) ? 'Y' : 'N').join('|');
-                    }
-                    child[childKey] = Object.assign(childValue, tempChildValue);
-                    return child;
-                }, {});
-                property[key] = Object.assign(value, {'children': childProperties});
-            } else {
-                property[key] = Object.assign(value, {'value': this[key]});
-            }
-            return property;
-        }, {});
+        return [
+            ...new CommonProperty(this).getCommonProperty(),
+            new GroupProperty('group.element')
+                .addProperty(new InputBoxProperty('element.placeholder', this.element.placeholder))
+                .addProperty(new SliderProperty('element.columnWidth', this.element.columnWidth))
+                .addProperty(new DefaultValueSelectProperty('element.defaultValueSelect', this.element.defaultValueSelect)),
+            new GroupProperty('group.validation')
+                .addProperty(validationTypeProperty)
+                .addProperty(new InputBoxProperty('validation.minLength', this.validation.minLength))
+                .addProperty(new InputBoxProperty('validation.maxLength', this.validation.maxLength))
+        ];
     },
     /**
      * keyup 유효성 검증 이벤트 핸들러
@@ -205,9 +174,9 @@ export const inputBoxMixin = {
      */
     keyUpValidateCheck(element) {
         // type(number, char, email 등), min, max 체크
-        if (element.getAttribute('data-validate-type') &&
-            element.getAttribute('data-validate-type') !== '') {
-            return validation.emit(element.getAttribute('data-validate-type'), element);
+        if (element.getAttribute('data-validation-type') &&
+            element.getAttribute('data-validation-type') !== '') {
+            return validation.emit(element.getAttribute('data-validation-type'), element);
         }
         return true;
     },
@@ -217,17 +186,17 @@ export const inputBoxMixin = {
      */
     changeValidateCheck(element) {
         // 필수값, minLength, maxLength 체크
-        if (element.getAttribute('data-validate-required') &&
-            element.getAttribute('data-validate-required') !== 'false') {
+        if (element.getAttribute('data-validation-required') &&
+            element.getAttribute('data-validation-required') !== 'false') {
             return validation.emit('required', element);
         }
-        if (element.getAttribute('data-validate-minLength') &&
-            element.getAttribute('data-validate-minLength') !== '') {
-            return validation.emit('minLength', element, element.getAttribute('data-validate-minLength'));
+        if (element.getAttribute('data-validation-minLength') &&
+            element.getAttribute('data-validation-minLength') !== '') {
+            return validation.emit('minLength', element, element.getAttribute('data-validation-minLength'));
         }
-        if (element.getAttribute('data-validate-maxLength') &&
-            element.getAttribute('data-validate-maxLength') !== '') {
-            return validation.emit('maxLength', element, element.getAttribute('data-validate-maxLength'));
+        if (element.getAttribute('data-validation-maxLength') &&
+            element.getAttribute('data-validation-maxLength') !== '') {
+            return validation.emit('maxLength', element, element.getAttribute('data-validation-maxLength'));
         }
         return true;
     }

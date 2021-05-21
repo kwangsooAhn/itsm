@@ -12,17 +12,44 @@
  * https://www.brainz.co.kr
  */
 import Property from '../property.module.js';
+import {UIButton, UIDiv, UISpan} from '../../../lib/ui.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
 };
 
-export default class SwitchButtonProperty {
-    constructor(name) {
-        this.property = new Property(name, 'switchButtonProperty');
+export default class SwitchButtonProperty extends Property {
+    constructor(name, value, options) {
+        super(name, 'switchButtonProperty', value);
+
+        this.options = options;
     }
 
-    getPropertyTypeConfig() {
-        return this.property.getPropertyConfig();
+    makeProperty(panel) {
+        this.UIElement = new UIDiv().setUIClass('property')
+            .setUIProperty('--data-column', this.columnWidth);
+        // 라벨
+        this.UIElement.UILabel = this.makeLabelProperty();
+        this.UIElement.addUI(this.UIElement.UILabel);
+
+        // 버튼 그룹
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('btn-switch-group');
+        this.options.forEach((item) => {
+            const name = item.value.substr(0, 1).toUpperCase() +
+                item.value.substr(1, item.value.length);
+            this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
+                .setUIId(this.getKeyId())
+                .setUIAttribute('data-value', item.value)
+                .addUIClass('btn-switch').onUIClick(panel.updateButton.bind(panel));
+            this.UIElement.UIButtonGroup['UIButton' + name].addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
+
+            if (this.value === item.value) {
+                this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('active');
+            }
+            this.UIElement.UIButtonGroup.addUI(this.UIElement.UIButtonGroup['UIButton' + name]);
+        });
+        this.UIElement.addUI(this.UIElement.UIButtonGroup);
+
+        return this.UIElement;
     }
 }

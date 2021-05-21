@@ -13,17 +13,36 @@
  */
 
 import Property from '../property.module.js';
+import {UIDiv, UISpan, UISwitch} from '../../../lib/ui.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
 };
 
-export default class SwitchProperty {
-    constructor(name) {
-        this.property = new Property(name, 'switchProperty');
+export default class SwitchProperty extends Property {
+    constructor(name, value) {
+        super(name, 'switchProperty', value);
     }
 
-    getPropertyTypeConfig() {
-        return this.property.getPropertyConfig();
+    makeProperty(panel) {
+        this.UIElement = new UIDiv().setUIClass('property')
+            .setUIProperty('--data-column', this.columnWidth);
+        this.UIElement.UISwitch = new UISwitch(this.value)
+            .setUIId(this.getKeyId())
+            .setUITextContent(i18n.msg(this.name));
+        this.UIElement.UISwitch.UISpan.addUIClass('property-label');
+        // 툴팁(도움말) 기능 추가
+        if (this.help !== '') {
+            this.UIElement.UISwitch.UITooltip = new UIDiv().setUIClass('help-tooltip');
+            this.UIElement.UISwitch.UITooltip.addUI(new UISpan().setUIClass('icon').addUIClass('help-tooltip-icon'));
+            this.UIElement.UISwitch.UITooltip.UIContent = new UIDiv().setUIClass('tooltip-contents');
+            this.UIElement.UISwitch.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(this.help)));
+            this.UIElement.UISwitch.UITooltip.addUI(this.UIElement.UISwitch.UITooltip.UIContent);
+            this.UIElement.UISwitch.addUI(this.UIElement.UISwitch.UITooltip);
+        }
+        this.UIElement.UISwitch.UICheckbox.onUIChange(panel.updateProperty.bind(panel));
+        this.UIElement.addUI(this.UIElement.UISwitch);
+
+        return this.UIElement;
     }
 }

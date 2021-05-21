@@ -11,17 +11,39 @@
  * https://www.brainz.co.kr
  */
 import Property from '../property.module.js';
+import {UIColor, UIDiv} from '../../../lib/ui.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */
 };
 
-export default class ColorPickerProperty {
-    constructor(name) {
-        this.property = new Property(name, 'colorPickerProperty');
+export default class ColorPickerProperty extends Property {
+    constructor(name, value, isOpacityUsed = true) {
+        super(name, 'colorPickerProperty', value);
+
+        this.isOpacityUsed = isOpacityUsed;
     }
 
-    getPropertyTypeConfig() {
-        return this.property.getPropertyConfig();
+    makeProperty(panel) {
+        this.UIElement = new UIDiv().setUIClass('property')
+            .setUIProperty('--data-column', this.columnWidth);
+        // 라벨
+        this.UIElement.UILabel = this.makeLabelProperty();
+        this.UIElement.addUI(this.UIElement.UILabel);
+
+        // color picker
+        const colorPickerOption = {
+            isOpacity: (this.isOpacityUsed), // 불투명도 사용시
+            data: {
+                isSelected: true, // 기존 색상 선택 여부
+                selectedClass: 'selected', // 기존 값 색상에 css 적용 (테두리)
+                value: this.value // 기존 값
+            }
+        };
+        this.UIElement.UIColorPicker = new UIColor(colorPickerOption).setUIId(this.getKeyId());
+        this.UIElement.UIColorPicker.UIColor.UIInput.onUIChange(panel.updateProperty.bind(panel));
+        this.UIElement.addUI(this.UIElement.UIColorPicker);
+
+        return this.UIElement;
     }
 }
