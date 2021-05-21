@@ -20,8 +20,6 @@
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
     let dataForPrint = ''; // 프린트 출력용 저장 데이터
-    let tagify;
-    let controller;
 
     /**
      * get component target.
@@ -877,48 +875,6 @@
     }
 
     /**
-     * 태그 추가.
-     *
-     * @param tag 태그 정보
-     */
-    function onAddTag(tag) {
-        const jsonData = {
-            tagType: 'instance',
-            value: tag.detail.data.value,
-            targetId: document.getElementById('instanceId').getAttribute('data-id')
-        };
-
-        aliceJs.sendXhr({
-            method: 'POST',
-            url: '/rest/tags',
-            params: JSON.stringify(jsonData),
-            contentType: 'application/json',
-            showProgressbar: true,
-            callbackFunc: function (response) {
-                // DOM 에 tag id 값 추가하기.
-                document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', response.responseText)
-
-                // tagify 데이터에 tag id 값 추가하기.
-                let newId = { id: response.responseText };
-                tagify.tagData(tagify.getTagElmByValue(tag.detail.data.value), newId);
-            }
-        });
-    }
-
-    /**
-     * 태그 삭제.
-     *
-     * @param tag 태그 정보
-     */
-    function onRemoveTag(tag) {
-        aliceJs.sendXhr({
-            method: 'DELETE',
-            url: '/rest/tags/' + tag.detail.data.id,
-            showProgressbar: true
-        });
-    }
-
-    /**
      * 문서의 오른쪽 탭 정보를 조회한다.
      * @param data 탭 정보를 생성함에 있어 사용할 parameters.
      */
@@ -982,25 +938,12 @@
 
                 addCommentBox(instanceId);
 
-                tagify = new Tagify(document.querySelector('input[name=tags]'), {
-                    pattern: /^.{0,100}$/,
-                    whitelist: [],
-                    dropdown: {
-                        maxItems: 20,           // <- 서버에서 이미 20개로 지정하고 있음. 혹시 필요하면 바로 수정할 수 있도록 여기도 살려둠.
-                        classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
-                        enabled: 1,             // <- show suggestions on focus
-                        closeOnSelect: true    // <- do not hide the suggestions dropdown once an item has been selected
-                    },
-                    editTags: false,
-                    callbacks: {
-                        'add': onAddTag,
-                        'remove': onRemoveTag
-                    },
-                    placeholder: i18n.msg('token.msg.tag')
-                });
-
-                tagify.on('input', onInput)
-
+                new ZeniusTag(document.querySelector('input[name=tags]'),{
+                    suggestion: true,
+                    realtime: true,
+                    tagType: 'instance',
+                    targetId: document.getElementById('instanceId').getAttribute('data-id')
+                })
                 const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
                 document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
                 OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
@@ -1010,29 +953,6 @@
                 }
             }
         });
-    }
-
-    function onInput( e ){
-        let value = e.detail.value;
-        tagify.settings.whitelist.length = 0; // reset the whitelist
-
-        // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
-        controller && controller.abort();
-        controller = new AbortController();
-
-        // show loading animation and hide the suggestions dropdown
-        tagify.loading(true).dropdown.hide.call(tagify)
-
-        fetch('/rest/tags/whitelist?tagValue=' + value + '&tagType=' + 'instance', {signal:controller.signal})
-            .then(RES => RES.json())
-            .then(function(whitelist){
-                // update inwhitelist Array in-place
-                tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
-                tagify.loading(false).dropdown.show.call(tagify, value); // render the suggestions dropdown
-            })
-            .catch(e => {
-                console.log('whitelist canceled by user');
-            });
     }
 
     exports.init = init;

@@ -156,8 +156,9 @@ export default class Component {
         return this.isTopic;
     }
 
-    // TODO: 태그 기능 추후 구현 예정
-    setTags() {}
+    setTags(tags) {
+        this.tags = tags;
+    }
 
     getTags() {
         return this.tags;
@@ -277,6 +278,13 @@ export default class Component {
     }
     // json 데이터 추출
     toJson() {
+        let tagList = [];
+        let inputValue = document.getElementById('tags').value
+        if (inputValue !== '') {
+            JSON.parse(inputValue).forEach (tag => {
+                tagList.push(tag.value);
+            })
+        }
         return {
             id: this.id,
             type: this.type,
@@ -284,7 +292,7 @@ export default class Component {
             displayType: this.displayType,
             isTopic: this.isTopic,
             mapId: this.mapId,
-            tags: this.tags,
+            tags: tagList,
             value: this.value,
             label: this.label,
             element: this.element,

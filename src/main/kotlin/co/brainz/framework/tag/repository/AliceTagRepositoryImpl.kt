@@ -55,7 +55,7 @@ class AliceTagRepositoryImpl : QuerydslRepositorySupport(AliceTagEntity::class.j
             .fetch()
     }
 
-    override fun findSuggestionList(tagValue: String, tagType: String): List<String> {
+    override fun findSuggestionList(tagType: String, tagValue: String): List<String> {
         return from(tag).distinct()
             .select(
                 tag.tagValue

@@ -45,8 +45,8 @@ export const COMMON_PROPERTIES = {
             'minLength': ''
         }
     },
-    'tags': { // TODO: 태그 기능은 추구 구현 예정
-        'name': 'form.properties.tag',
+    'tags': {
+        'name': 'form.properties.tags',
         'type': 'tagProperty',
         'unit': '',
         'help': '',

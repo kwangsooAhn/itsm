@@ -35,9 +35,9 @@ class AliceTagRestController(
 
     @GetMapping("/whitelist")
     fun getSuggestionList(
-        @RequestParam(value = "tagValue", defaultValue = "") tagValue: String,
-        @RequestParam(value = "tagType", defaultValue = "") tagType: String
+        @RequestParam(value = "tagType", defaultValue = "") tagType: String,
+        @RequestParam(value = "tagValue", defaultValue = "") tagValue: String
     ): List<String> {
-        return aliceTagService.getSuggestionList(tagValue, tagType)
+        return aliceTagService.getSuggestionList(tagType, tagValue)
     }
 }

@@ -1,14 +1,23 @@
 /**
- * @projectDescription 태깅 기능 공통 Class
+ * @projectDescription 태깅 기능 공통 함수
  *
- * 내부적으로 tagify 라이브러리를 사용하고 있으며 필요한 기능을 정리하고 공통화하기 위한 Wrapper Class.
+ * 원래 클래스로 만들려고 했으나 태그를 동적으로 생성하는 JS 파일들이 모듈로 모두 변경해야 하는 이슈가 발생하여
+ * 함수로 작성하여 제공. 추후 언젠가 관련 JS 들이 ES6 Module 패턴을 지원하게 되면 같은 방식으로 수정 고려.
  *
  * Tagify example : https://yaireo.github.io/tagify/
  * Tagify source : https://github.com/yairEO/tagify
  *
  * 사용법
- * 1. HTML input 태그에 data-tag-type 이 지정되어 있어야 한다. (ci, component, instance 등등)
- * 2.
+ *  - ZeniusTag 클래스 선언 시 관련 파라미터 3가지
+ *   1) Tag 사용하는 input element
+ *   2) tagify 설정용 json 객체 -> 위의 사이트에서 조사. 기본값 존재.
+ *   3) zenius 설정용 json 객체
+ *      - suggestion : boolean (false)
+ *      - realtime : boolean (false)
+ *      - tagType : String (required)
+ *      - targetId : String (required)
+ *
+ *  NOTICE : zenius 설정은 tagify 설정보다 우선 적용된다.
  *
  * @author jung hee chan
  * @version 1.0
@@ -16,83 +25,95 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-const TAG_URL = '/rest/tags/';
+const TAG_URL = '/rest/tags';
+const DEFAULT_TAGIFY_SETTING = {
+    pattern: /^.{0,100}$/,
+    whitelist: [],
+    dropdown: {
+        maxItems: 20,
+        classname: "tags-look",
+        enabled: 1,             // <- show suggestions on focus
+        closeOnSelect: true     // <- do not hide the suggestions dropdown once an item has been selected
+    },
+    editTags: false,
+    placeholder: i18n.msg('token.msg.tag')
+}
+const TAG_TYPE = ['ci','instance','component']
+const TAG_ERROR_MSG = {
+    INVALID_TAG_TYPE: 'is invalid tag type. you can use tag type in [' + TAG_TYPE + ']'
+}
 
-class ZeniusTag {
-    constructor(inputElement, settings) {
-        this.tagType = inputElement.dataset.tagType;
-        this.tagging = new Tagify(inputElement, settings);
-        this.controller = new AbortController();
-        this.init();
+function ZeniusTag(inputElement, zeniusSettings, tagifySettings) {
+    // tag type validation check
+    if (!TAG_TYPE.includes(zeniusSettings.tagType)) {
+        console.error(zeniusSettings.tagType, TAG_ERROR_MSG.INVALID_TAG_TYPE);
+        return false;
     }
 
-    init() {
-        this.tagging.on('input', this.onInput);
-        this.tagging.on('add', this.onAddTag);
-        this.tagging.on('remove', this.onRemoveTag);
+    // tagify default setting
+    this.tagifyOptions = tagifySettings || DEFAULT_TAGIFY_SETTING;
+
+    this.tagifyOptions.targetId = zeniusSettings.targetId
+    this.tagifyOptions.tagType = zeniusSettings.tagType
+
+    let tagging = new Tagify(inputElement, this.tagifyOptions);
+
+    // 추천목록 사용인 경우 이벤트 등록
+    if (zeniusSettings.suggestion) {
+        let controller
+        tagging.on('input', (function (e) {
+            let value = e.detail.value;
+            let tag = e.detail.tagify;
+            tag.settings.whitelist.length = 0; // reset the whitelist
+
+            // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
+            controller && controller.abort();
+            controller = new AbortController();
+
+            // show loading animation and hide the suggestions dropdown
+            tag.loading(true).dropdown.hide.call(tag)
+
+            fetch(TAG_URL + '/whitelist?tagValue=' + value + '&tagType=' + tag.settings.tagType, {signal:controller.signal})
+                .then(RES => RES.json())
+                .then(function(whitelist){
+                    // update whitelist Array in-place
+                    tag.settings.whitelist.splice(0, whitelist.length, ...whitelist)
+                    tag.loading(false).dropdown.show.call(tag, value); // render the suggestions dropdown
+                })
+                .catch(() => {
+                    console.log('whitelist canceled by user');
+                });
+        }));
     }
 
-    onInput(e){
-        let value = e.detail.value;
-        this.tagging.settings.whitelist.length = 0; // reset the whitelist
+    // 화면 저장과 따로 실시간으로 저장/삭제하는 경우 이벤트 (ex: 처리할문서)
+    if (zeniusSettings.realtime) {
+        tagging.on('add', (function (tag) {
+            const jsonData = {
+                tagType: tag.detail.tagify.settings.tagType,
+                tagValue: tag.detail.data.value,
+                targetId: tag.detail.tagify.settings.targetId
+            };
 
-        // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
-        this.controller && this.controller.abort();
-        this.controller = new AbortController();
-
-        // show loading animation and hide the suggestions dropdown
-        this.tagging.loading(true).dropdown.hide.call(this.tagging)
-
-        fetch('/rest/tags/whitelist?tagValue=' + value + '&tagType=' + 'instance', {signal:this.controller.signal})
-            .then(RES => RES.json())
-            .then(function(whitelist){
-                // update whitelist Array in-place
-                this.tagging.settings.whitelist.splice(0, whitelist.length, ...whitelist)
-                this.tagging.loading(false).dropdown.show.call(this.tagging, value); // render the suggestions dropdown
+            fetch(TAG_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
             })
-            .catch(() => {
-                console.log('whitelist canceled by user');
-            });
-    }
-    /**
-     * 태그 추가.
-     *
-     * @param tag 태그 정보
-     */
-    onAddTag(tag) {
-        const jsonData = {
-            tagType: 'instance',
-            value: tag.detail.data.value,
-            targetId: document.getElementById('instanceId').getAttribute('data-id')
-        };
+                .then(response => {
+                    // DOM 에 tag id  값 추가하기.
+                    document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', response.responseText)
+                    // tagify 데이터에 tag id 값 추가하기.
+                    tag.detail.tagify.tagData(tag.detail.tagify.getTagElmByValue(tag.detail.data.value), { id: response.responseText });
+                })
+        }));
 
-        aliceJs.sendXhr({
-            method: 'POST',
-            url: TAG_URL,
-            params: JSON.stringify(jsonData),
-            contentType: 'application/json',
-            showProgressbar: true,
-            callbackFunc: function (response) {
-                // DOM 에 tag id 값 추가하기.
-                document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', response.responseText)
-
-                // tagify 데이터에 tag id 값 추가하기.
-                let newId = { id: response.responseText };
-                this.tagging.tagData(this.tagging.getTagElmByValue(tag.detail.data.value), newId);
-            }
-        });
-    }
-
-    /**
-     * 태그 삭제.
-     *
-     * @param tag 태그 정보
-     */
-    onRemoveTag(tag) {
-        aliceJs.sendXhr({
-            method: 'DELETE',
-            url: TAG_URL + tag.detail.data.id,
-            showProgressbar: true
-        });
+        tagging.on('remove', (function (tag) {
+            fetch(TAG_URL + '/' + tag.detail.data.id, {
+                method: 'DELETE'
+            }).then(response => console.log('tag deleted :', tag.detail.data.value, response.statusText))
+        }));
     }
 }

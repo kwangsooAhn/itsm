@@ -9,6 +9,7 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.repository.AliceTagRepository
+import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.workflow.component.entity.WfComponentDataEntity
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.entity.WfComponentPropertyEntity
@@ -55,7 +56,8 @@ class WfFormService(
     private val wfFormGroupRepository: WfFormGroupRepository,
     private val wfFormRowRepository: WfFormRowRepository,
     private val wfComponentPropertyRepository: WfComponentPropertyRepository,
-    private val wfFormGroupPropertyRepository: WfFormGroupPropertyRepository
+    private val wfFormGroupPropertyRepository: WfFormGroupPropertyRepository,
+    private val aliceTagService: AliceTagService
 ) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(
@@ -220,7 +222,7 @@ class WfFormService(
                         type = componentEntity.componentType,
                         isTopic = componentEntity.isTopic,
                         mapId = componentEntity.mappingId,
-                        tags = aliceTagRepository.findByTargetId(
+                        tags = aliceTagService.getTagValuesByTargetId(
                             AliceTagConstants.TagType.COMPONENT.code,
                             componentEntity.componentId
                         )
@@ -721,9 +723,9 @@ class WfFormService(
         currentFormEntity: WfFormEntity,
         component: FormComponentDto
     ): WfComponentEntity {
-        val tagList = component.tags as ArrayList<LinkedHashMap<String, String>>
-        tagList.forEach { tag ->
-            tag["value"]?.let {
+        val tagList = component.tags as List<String>
+        tagList.forEach { tagValue ->
+            tagValue?.let {
                 aliceTagRepository.save(
                     AliceTagEntity(
                         tagType = AliceTagConstants.TagType.COMPONENT.code,
