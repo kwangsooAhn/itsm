@@ -2,14 +2,12 @@
 
 // header button
 .btn-header {
-  width: 3.75rem; // 60px
+  width: 1.625rem; // 26px
   height: 3.125rem; // 50px
   padding: 0;
   border-radius: 0;
-
-  // 첫번째 버튼만 구분자를 가리기 위해 구분자 너비만큼 margin을 -1px 로 조정한다.
-  &:first-of-type {
-    margin-left: -0.063rem; // -1px
+  &:not(.btn-dropdown) {
+    width: 2rem; // 32px
   }
 
   // mouse over and pressed
@@ -21,23 +19,27 @@
 
   .icon-save {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_save.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white); // 20px 20px
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_save.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white); // 24px 24px
   }
   .icon-save-as {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_save_as.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_save_as.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
   }
   .icon-undo {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_undo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_undo.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
   }
   .icon-redo {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_redo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_redo.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
   }
   .icon-preview {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_preview.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_preview.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
+  }
+  .icon-dropdown {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_dropdown.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
   }
 }
 
@@ -78,22 +80,22 @@
       pointer-events: none;
 
       &.icon-align-left {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_left.svg', 20px, 18px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_left.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
       }
       &.icon-align-center {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_center.svg', 20px, 18px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_center.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
       }
       &.icon-align-right {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_right.svg', 20px, 18px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_right.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
       }
       &.icon-position-left {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_left.svg', 20px, 20px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_left.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
       }
       &.icon-position-top {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_top.svg', 20px, 20px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_top.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
       }
       &.icon-position-hidden {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_hidden.svg', 20px, 20px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_hidden.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
       }
     }
     // if text exist
@@ -167,13 +169,13 @@
       pointer-events: none;
 
       &.icon-bold {
-        @include maskImage('#{$icon-folder-path}form/property/icon_bold.svg', 16px, 20px, no-repeat, center, null, $btn-toggle-font-color); // 16px 20px
+        @include maskImage('#{$icon-folder-path}form/property/icon_bold.svg', 24px, 24px, no-repeat, center, null, $btn-toggle-font-color); // 16px 20px
       }
       &.icon-italic {
-        @include maskImage('#{$icon-folder-path}form/property/icon_italic.svg', 20px, 20px, no-repeat, center, null, $btn-toggle-font-color); // 20px 20px
+        @include maskImage('#{$icon-folder-path}form/property/icon_italic.svg', 24px, 24px, no-repeat, center, null, $btn-toggle-font-color); // 20px 20px
       }
       &.icon-underline {
-        @include maskImage('#{$icon-folder-path}form/property/icon_underline.svg', 20px, 20px, no-repeat, center, null, $btn-toggle-font-color); // 20px 20px
+        @include maskImage('#{$icon-folder-path}form/property/icon_underline.svg', 24px, 24px, no-repeat, center, null, $btn-toggle-font-color); // 20px 20px
       }
     }
     // if text exist

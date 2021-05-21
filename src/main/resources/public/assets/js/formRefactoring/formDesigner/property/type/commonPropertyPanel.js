@@ -1,72 +1,26 @@
-// TODO: #10641 폼 리팩토링 - 공통속성 정리 일감 처리 후 삭제 예정
 export const COMMON_PROPERTIES = {
     'id': {
-        'name': 'form.properties.id',
-        'type': 'clipboardProperty',
-        'unit': '',
-        'help': '',
-        'columnWidth': '12',
-        'validate': {
-            'required': false,
-            'type': '',
-            'max': '',
-            'min': '',
-            'maxLength': '',
-            'minLength': ''
-        }
-    },
-    'mapId': {
-        'name': 'form.properties.mapId',
-        'type': 'inputBoxProperty',
-        'unit': '',
-        'help': 'form.help.mapping-id',
-        'columnWidth': '12',
-        'validate': {
-            'required': false,
-            'type': '',
-            'max': '',
-            'min': '',
-            'maxLength': '128',
-            'minLength': ''
-        }
-    },
-    'isTopic': {
-        'name': 'form.properties.isTopic',
-        'type': 'switchProperty',
-        'unit': '',
-        'help': 'form.help.is-topic',
-        'columnWidth': '12',
-        'validate': {
-            'required': false,
-            'type': '',
-            'max': '',
-            'min': '',
-            'maxLength': '',
-            'minLength': ''
-        }
-    },
-    'tags': { // TODO: 태그 기능은 추구 구현 예정
-        'name': 'form.properties.tag',
-        'type': 'tagProperty',
-        'unit': '',
-        'help': '',
-        'columnWidth': '12',
-        'validate': {
-            'required': false,
-            'type': '',
-            'max': '',
-            'min': '',
-            'maxLength': '',
-            'minLength': ''
-        }
-    },
-    'display': {
-        name: 'form.properties.display',
-        type: 'group',
-        children: {
-            'columnWidth': {
-                'name': 'form.properties.columnWidth',
-                'type': 'sliderProperty',
+        'name': 'form.properties.dataAttribute',
+        'type': 'group',
+        'children': {
+            'mapId': {
+                'name': 'form.properties.mapId',
+                'type': 'input',
+                'unit': '',
+                'help': 'form.help.mapping-id',
+                'columnWidth': '12',
+                'validate': {
+                    'required': false,
+                    'type': '',
+                    'max': '',
+                    'min': '',
+                    'maxLength': '128',
+                    'minLength': ''
+                }
+            },
+            'tags': { // TODO: 태그 기능은 추구 구현 예정
+                'name': 'form.properties.tags',
+                'type': 'input',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
@@ -83,11 +37,41 @@ export const COMMON_PROPERTIES = {
     },
     'label': {
         'name': 'form.properties.label',
-        'type': 'groupProperty',
+        'type': 'group',
         'children': {
+            'text': {
+                'name': 'form.properties.text',
+                'type': 'input',
+                'unit': '',
+                'help': '',
+                'columnWidth': '8.5',
+                'validate': {
+                    'required': false,
+                    'type': '',
+                    'max': '',
+                    'min': '',
+                    'maxLength': '128',
+                    'minLength': ''
+                }
+            },
+            'fontSize': {
+                'name': 'form.properties.fontSize',
+                'type': 'input',
+                'unit': 'px',
+                'help': '',
+                'columnWidth': '3 ',
+                'validate': {
+                    'required': false,
+                    'type': 'number',
+                    'max': '100',
+                    'min': '10',
+                    'maxLength': '',
+                    'minLength': ''
+                }
+            },
             'position': {
                 'name': 'form.properties.visibility',
-                'type': 'switchButtonProperty',
+                'type': 'button-switch-icon',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
@@ -105,39 +89,9 @@ export const COMMON_PROPERTIES = {
                     {'name': 'icon-position-hidden', 'value': 'hidden'}
                 ]
             },
-            'fontColor': {
-                'name': 'form.properties.fontColor',
-                'type': 'colorPickerProperty',
-                'unit': '',
-                'help': '',
-                'columnWidth': '8',
-                'validate': {
-                    'required': false,
-                    'type': 'colorPickerProperty',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '25',
-                    'minLength': ''
-                }
-            },
-            'fontSize': {
-                'name': 'form.properties.fontSize',
-                'type': 'inputBoxProperty',
-                'unit': 'px',
-                'help': '',
-                'columnWidth': '3',
-                'validate': {
-                    'required': false,
-                    'type': 'number',
-                    'max': '100',
-                    'min': '10',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
             'align': {
                 'name': 'form.properties.align',
-                'type': 'switchButtonProperty',
+                'type': 'button-switch-icon',
                 'unit': '',
                 'help': '',
                 'columnWidth': '5',
@@ -157,7 +111,7 @@ export const COMMON_PROPERTIES = {
             },
             'fontOption': {
                 'name': 'form.properties.option',
-                'type': 'toggleButtonProperty',
+                'type': 'button-toggle-icon',
                 'unit': '',
                 'help': '',
                 'columnWidth': '5',
@@ -175,9 +129,45 @@ export const COMMON_PROPERTIES = {
                     {'name': 'icon-underline', 'value': 'underline'}
                 ]
             },
-            'text': {
-                'name': 'form.properties.text',
-                'type': 'inputBoxProperty',
+            'fontColor': {
+                'name': 'form.properties.fontColor',
+                'type': 'rgb',
+                'unit': '',
+                'help': '',
+                'columnWidth': '12',
+                'validate': {
+                    'required': false,
+                    'type': 'rgb',
+                    'max': '',
+                    'min': '',
+                    'maxLength': '25',
+                    'minLength': ''
+                }
+            },
+            'isTopic': {
+                'name': 'form.properties.isTopic',
+                'type': 'switch',
+                'unit': '',
+                'help': 'form.help.is-topic',
+                'columnWidth': '12',
+                'validate': {
+                    'required': false,
+                    'type': '',
+                    'max': '',
+                    'min': '',
+                    'maxLength': '',
+                    'minLength': ''
+                }
+            },
+        }
+    },
+    'display': {
+        name: 'form.properties.display',
+        type: 'group',
+        children: {
+            'columnWidth': {
+                'name': 'form.properties.columnWidth',
+                'type': 'slider',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
@@ -186,10 +176,10 @@ export const COMMON_PROPERTIES = {
                     'type': '',
                     'max': '',
                     'min': '',
-                    'maxLength': '128',
+                    'maxLength': '',
                     'minLength': ''
                 }
             }
         }
     }
-};
+}
