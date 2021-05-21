@@ -694,7 +694,7 @@ form:
     auto: "자동"
     char: "문자"
     common: "공통"
-    dataAttribute: "컴포넌트 속성"
+    dataAttribute: "데이터 속성"
     department: "부서"
     desc: "설명"
     direct: "직접"
