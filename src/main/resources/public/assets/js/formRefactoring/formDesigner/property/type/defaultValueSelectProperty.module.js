@@ -1,5 +1,5 @@
 /**
- * DefaultValueSelectTypeProperty Class
+ * Default Value Select Property Class
  *
  * 컴포넌트의 기본 값을 어떤 방식으로 제공할지 선택하는 속성항목이다.
  * 현재는 inputBox 에서만 사용되고 있으며 옵션들도 inputBox 용으로 맞추어져 있다.
@@ -11,7 +11,7 @@
  *
  * https://www.brainz.co.kr
  */
-import Property from "../property.js";
+import Property from '../property.module.js';
 
 const propertyExtends = {
     options : [
@@ -28,11 +28,11 @@ const propertyExtends = {
         {name: 'form.properties.officeNumber', value: 'officeNumber'},
         {name: 'form.properties.officeNumber', value: 'officeNumber'}
     ]
-}
+};
 
-export default class DefaultValueSelectTypeProperty {
+export default class DefaultValueSelectProperty {
     constructor(name) {
-        this.property = new Property(name, 'default-value-select');
+        this.property = new Property(name, 'defaultValueSelectProperty');
     }
 
     getPropertyTypeConfig() {

@@ -23,7 +23,7 @@ export default class Row {
             displayOrder: 0,     // 표시 순서
             margin: '10 0 10 0', // row 간 간격(위 오른쪽 아래 왼쪽)
             padding: '10 10 10 10' // row 내부 여백(위 오른쪽 아래 왼쪽)
-        }
+        };
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
         // Tooltip Mixin import
@@ -149,7 +149,7 @@ export default class Row {
         const PANEL_PROPERTIES = {
             'id': {
                 'name': 'form.properties.id',
-                'type': 'clipboard',
+                'type': 'clipboardProperty',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
@@ -164,11 +164,11 @@ export default class Row {
             },
             'display': {
                 name: 'form.properties.display',
-                type: 'group',
+                type: 'groupProperty',
                 children: {
                     'margin': {
                         'name': 'form.properties.margin',
-                        'type': 'input-box',
+                        'type': 'boxModelProperty',
                         'unit': 'px',
                         'help': '',
                         'columnWidth': '12',
@@ -183,7 +183,7 @@ export default class Row {
                     },
                     'padding': {
                         'name': 'form.properties.padding',
-                        'type': 'input-box',
+                        'type': 'boxModelProperty',
                         'unit': 'px',
                         'help': '',
                         'columnWidth': '12',
@@ -200,10 +200,10 @@ export default class Row {
             }
         };
         return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            if (value.type === 'group') {
+            if (value.type === 'groupProperty') {
                 const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
                     const tempChildValue = { 'value': this[key][childKey] };
-                    if (childValue.type === 'button-toggle-icon') { // 토글 데이터
+                    if (childValue.type === 'toggleButtonProperty') { // 토글 데이터
                         tempChildValue.value = childValue.option.map((item) =>
                             (this[key][item.value]) ? 'Y' : 'N').join('|');
                     }

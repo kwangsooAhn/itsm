@@ -4823,12 +4823,12 @@ body.modal-active {
   color: #8D9299;
   padding-bottom: 0.625rem;
 }
-.property .input-box {
+.property .box-model {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.property .input-box .input {
+.property .box-model .input {
   width: 4.375rem;
 }
 .property .input {

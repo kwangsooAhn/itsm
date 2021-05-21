@@ -15,11 +15,11 @@
 
 import {SESSION, FORM, CLASS_PREFIX} from '../../lib/constants.js';
 import {UIDiv, UIInput} from '../../lib/ui.js';
-import {COMMON_PROPERTIES} from "../../formDesigner/propertyType/commonPropertyPanel.js";
-import InputTypeProperty from "../../formDesigner/propertyType/inputTypeProperty.module.js";
-import SliderTypeProperty from "../../formDesigner/propertyType/sliderTypeProperty.module.js";
-import DefaultValueSelectTypeProperty from "../../formDesigner/propertyType/defaultValueSelectTypeProperty.module.js";
-import SelectTypeProperty from "../../formDesigner/propertyType/selectTypeProperty.module.js";
+import {COMMON_PROPERTIES} from '../../formDesigner/property/type/commonPropertyPanel.js';
+import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.module.js';
+import SliderProperty from '../../formDesigner/property/type/sliderProperty.module.js';
+import DefaultValueSelectProperty from '../../formDesigner/property/type/defaultValueSelectProperty.module.js';
+import DropdownProperty from '../../formDesigner/property/type/dropdownProperty.module.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -154,21 +154,21 @@ export const inputBoxMixin = {
         let PANEL_PROPERTIES = COMMON_PROPERTIES;
         PANEL_PROPERTIES.element = {
             name: 'form.properties.element',
-            type: 'group',
+            type: 'groupProperty',
             children: {}
-        }
+        };
 
-        PANEL_PROPERTIES.element.children.placeholder = new InputTypeProperty('placeholder').getPropertyTypeConfig();
-        PANEL_PROPERTIES.element.children.columnWidth = new SliderTypeProperty('columnWidth').getPropertyTypeConfig();
-        PANEL_PROPERTIES.element.children.defaultValueSelect = new DefaultValueSelectTypeProperty('defaultValueSelect').getPropertyTypeConfig();
+        PANEL_PROPERTIES.element.children.placeholder = new InputBoxProperty('placeholder').getPropertyTypeConfig();
+        PANEL_PROPERTIES.element.children.columnWidth = new SliderProperty('columnWidth').getPropertyTypeConfig();
+        PANEL_PROPERTIES.element.children.defaultValueSelect = new DefaultValueSelectProperty('defaultValueSelect').getPropertyTypeConfig();
 
-            PANEL_PROPERTIES.validate = {
+        PANEL_PROPERTIES.validate = {
             name: 'form.properties.validate',
-            type: 'group',
+            type: 'groupProperty',
             children: {}
-        }
+        };
 
-        PANEL_PROPERTIES.validate.children.validateType = new SelectTypeProperty(
+        PANEL_PROPERTIES.validate.children.validateType = new DropdownProperty(
             'validateType',
             [
                 {name: 'form.properties.none', value: 'none'},
@@ -178,14 +178,14 @@ export const inputBoxMixin = {
                 {name: 'form.properties.phone', value: 'phone'}
             ]
         );
-        PANEL_PROPERTIES.validate.children.minLength = new InputTypeProperty('minLength').getPropertyTypeConfig();
-        PANEL_PROPERTIES.validate.children.maxLength = new InputTypeProperty('maxLength').getPropertyTypeConfig();
+        PANEL_PROPERTIES.validate.children.minLength = new InputBoxProperty('minLength').getPropertyTypeConfig();
+        PANEL_PROPERTIES.validate.children.maxLength = new InputBoxProperty('maxLength').getPropertyTypeConfig();
 
         return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            if (value.type === 'group') {
+            if (value.type === 'groupProperty') {
                 const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
                     const tempChildValue = {'value': this[key][childKey]};
-                    if (childValue.type === 'button-toggle-icon') { // 토글 데이터
+                    if (childValue.type === 'toggleButtonProperty') { // 토글 데이터
                         tempChildValue.value = childValue.option.map((item) =>
                             (this[key][item.value]) ? 'Y' : 'N').join('|');
                     }
