@@ -1182,3 +1182,15 @@ aliceJs.inputButtonRemove = function(target) {
         })
     }
 }
+
+/**
+ * 특정 키를 눌렀을시 함수 실행
+ * @param event
+ * @param keyName
+ * @param callBackFunc
+ */
+function pressKeyForAction(event, keyName, callBackFunc) {
+    if (event.key === keyName) {
+        callBackFunc();
+    }
+}
