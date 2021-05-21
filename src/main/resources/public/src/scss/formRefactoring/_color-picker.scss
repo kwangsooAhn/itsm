@@ -1,1 +1,30 @@
 @import "../template/_color-picker.scss";
+
+.color-picker {
+  display: flex;
+  flex-direction: column;
+  // input box
+  .color-input {
+
+    .selected-color {
+      width: $color-picker-color-size;
+      height: $color-picker-color-size;
+      margin: $color-picker-margin;
+      @include border(0.1875rem, solid, transparent, all); // 3px
+      cursor: pointer;
+
+      &-box {
+        display: flex;
+        width: $color-picker-box-size;
+        height: $color-picker-box-size;
+        margin-right: $color-picker-margin;
+        @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+        &:hover {
+          border-color: $blue;
+        }
+      }
+
+      .input { width: 6.25rem; } // 100px
+    }
+  }
+}

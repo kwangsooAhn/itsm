@@ -5,12 +5,13 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: 1.25rem; // 20px
-  padding: 0.9375rem; // 15px;
-  border: $layout-properties-panel-border;
-  border-radius: 0.125rem; // 2px
+  padding: 0.625rem 0.75rem; // 10px 12px;
+  @include border(0.0625rem, solid, map-get($grays, "line"), bottom); // 1px
+  &:first-child { @include border(0.0625rem, solid, $layout-properties-panel-header-border-color, top); }
+
   // 라벨
   .property-group-label {
+    width: 100%;
     font-size: $property-group-label-font-size;
     color: $property-group-label-color;
   }
@@ -39,9 +40,10 @@
   }
   // input 엘리먼트
   .input {
-    padding: 0 0.625rem; // 0 10px
-    vertical-align: middle;
     width: 100%;
+    padding: 0 1rem; // 0 16px
+    font-size: $property-font-size;
+    vertical-align: middle;
     // clipboard
     &.copy {
       width: 18.38rem; // 294px
@@ -65,7 +67,16 @@
   }
   // column 너비 조정
   .slider {
-    .range { width : 75%; }
+    .range {
+      width : 75%;
+      height: 0.375rem; // 6px
+      @include borderRadius(0.25rem); // 4px
+      &:not(:disabled),
+      &:not(:read-only) {
+        &:focus { background: $blue; }
+        &:hover { background: $blue; }
+      }
+    }
     .input {
       width: 23%;
       text-align: center;

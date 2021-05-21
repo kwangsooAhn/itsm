@@ -696,7 +696,7 @@ form:
     char: "문자"
     columnWidth: "컬럼 너비"
     common: "공통"
-    dataAttribute: "컴포넌트 속성"
+    dataAttribute: "데이터 속성"
     defaultType: "기본값 타입"
     department: "부서"
     desc: "설명"

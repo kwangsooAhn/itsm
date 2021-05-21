@@ -20,6 +20,7 @@ import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.
 import SliderProperty from '../../formDesigner/property/type/sliderProperty.module.js';
 import DefaultValueSelectProperty from '../../formDesigner/property/type/defaultValueSelectProperty.module.js';
 import DropdownProperty from '../../formDesigner/property/type/dropdownProperty.module.js';
+import { validation } from '../../lib/validation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -152,6 +153,7 @@ export const inputBoxMixin = {
     // 세부 속성
     initPropertyPanel() {
         let PANEL_PROPERTIES = COMMON_PROPERTIES;
+        console.log(COMMON_PROPERTIES);
         PANEL_PROPERTIES.element = {
             name: 'form.properties.element',
             type: 'groupProperty',
