@@ -6,8 +6,8 @@
     <meta http-equiv="expire" content="-1"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
-    <th:block th:replace="formRefactoring/fragments/formHead :: formHead"></th:block>
     <link th:href="@{/assets/css/document2.css}" rel="stylesheet"/>
+    <th:block th:replace="formRefactoring/fragments/formHead :: formHead"></th:block>
     <script th:src="@{/assets/js/util/shortcut-alice.js}"></script>
     <script th:src="@{/assets/vendors/sortableJS/sortable.js}"></script>
     <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
@@ -53,49 +53,65 @@
     <form id="frm" name="frm">
         <div class="form-container">
             <!-- 상단 네비게이션 -->
-            <div class="form-header"  id="menuBar">
-                <img class="logo"  th:src="@{/assets/media/icons/icon_logo_white.svg}" width="152" height="26" alt="Zenius ITSM" />
-                <span class="name" th:text="#{form.label.title}"></span>
-                <span class="separator"></span>
-                <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
-                    <button type="button" id="btnSave" class="btn-header header-tooltip">
-                        <span class="icon-save"></span>
+            <div class="form-header" id="menuBar">
+                <img class="logo" th:src="@{/assets/media/icons/formRefactoring/topmenu/icon_form_designer.svg}" width="169" height="25" alt="Form Designer" />
+                <span class="name ml-auto mr-auto" id="formName"></span>
+                <!--버튼 영역-->
+                <div class="buttons flex-row">
+                    <!--실행 취소-->
+                    <th:block th:if="${#strings.isEmpty(isView)}">
+                        <button type="button" id="btnUndo" class="btn-header header-tooltip">
+                            <span class="icon-undo"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{form.label.undo}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <!--재실행(드롭다운)-->
+                    <th:block th:if="${#strings.isEmpty(isView)}">
+                        <button type="button" class="btn-header btn-dropdown">
+                            <span class="icon-dropdown"></span>
+                            <ul class="dropdown-content">
+                                <li class="dropdown-item align-left" id="btnUndo">
+                                    <span th:text="#{form.label.undo}"></span>
+                                </li>
+                                <li class="dropdown-item align-left" id="btnRedo">
+                                    <span th:text="#{form.label.redo}"></span>
+                                </li>
+                            </ul>
+                        </button>
+                    </th:block>
+                    <!--미리보기-->
+                    <button type="button" id="btnPreview" class="btn-header header-tooltip ml-auto">
+                        <span class="icon-preview"></span>
                         <div class="tooltip-contents">
-                            <span th:text="#{common.btn.save}"></span>
+                            <span th:text="#{form.label.preview}"></span>
                         </div>
                     </button>
-                </th:block>
-                <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                    <button type="button" id="btnSaveAs" class="btn-header header-tooltip">
-                        <span class="icon-save-as"></span>
-                        <div class="tooltip-contents">
-                            <span th:text="#{common.btn.saveAs}"></span>
-                        </div>
-                    </button>
-                </th:block>
-                <th:block th:if="${#strings.isEmpty(isView)}">
-                    <button type="button" id="btnUndo" class="btn-header header-tooltip">
-                        <span class="icon-undo"></span>
-                        <div class="tooltip-contents">
-                            <span th:text="#{form.label.undo}"></span>
-                        </div>
-                    </button>
-                </th:block>
-                <th:block th:if="${#strings.isEmpty(isView)}">
-                    <button type="button" id="btnRedo" class="btn-header header-tooltip">
-                        <span class="icon-redo"></span>
-                        <div class="tooltip-contents">
-                            <span th:text="#{form.label.redo}"></span>
-                        </div>
-                    </button>
-                </th:block>
-                <button type="button" id="btnPreview" class="btn-header header-tooltip">
-                    <span class="icon-preview"></span>
-                    <div class="tooltip-contents">
-                        <span th:text="#{form.label.preview}"></span>
-                    </div>
-                </button>
-                <span class="ml-auto" id="formName"></span>
+                    <!--저장하기-->
+                    <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
+                        <button type="button" id="btnSave" class="btn-header header-tooltip">
+                            <span class="icon-save"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{common.btn.save}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <!--다른 이름으로 저장(드롭다운)-->
+                    <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
+                        <button type="button" class="btn-header btn-dropdown">
+                            <span class="icon-dropdown"></span>
+                            <ul class="dropdown-content">
+                                <li class="dropdown-item align-left">
+                                    <span th:text="#{common.btn.save}" id="btnSave"></span>
+                                </li>
+                                <li class="dropdown-item align-left">
+                                    <span th:text="#{common.btn.saveAs}" id="btnSaveAs"></span>
+                                </li>
+                            </ul>
+                        </button>
+                    </th:block>
+                </div>
             </div>
             <!-- 컴포넌트 팔레트 -->
             <div class="form-component-palette" id="componentPalette">
