@@ -938,7 +938,7 @@
 
                 addCommentBox(instanceId);
 
-                new ZeniusTag(document.querySelector('input[name=tags]'),{
+                new zTag(document.querySelector('input[name=tags]'),{
                     suggestion: true,
                     realtime: true,
                     tagType: 'instance',

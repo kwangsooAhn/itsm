@@ -350,7 +350,7 @@ export default class Panel {
             
             object.addUI(object.UIGroup);
             break;
-            case 'tagProperty':
+            case 'tag':
                 object = new UIDiv().setUIClass('property')
                     .setUIProperty('--data-column', data.columnWidth);
                 // 라벨
@@ -367,7 +367,7 @@ export default class Panel {
                 // 패널 속성별로 그리는 부분을 각 속성파일로 옮기면 이런 것도 속성별로 필요에 따라 처리 가능할 것으로 보임.
                 this.domElement.appendChild(object.domElement);
                 if (this.editor.selectedObject.id) {
-                    new ZeniusTag(document.querySelector('input[id=tags]'),{
+                    new zTag(document.querySelector('input[id=tags]'),{
                         suggestion: true,
                         realtime: false,
                         tagType: 'component',

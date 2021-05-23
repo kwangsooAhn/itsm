@@ -43,7 +43,7 @@ const TAG_ERROR_MSG = {
     INVALID_TAG_TYPE: 'is invalid tag type. you can use tag type in [' + TAG_TYPE + ']'
 }
 
-function ZeniusTag(inputElement, zeniusSettings, tagifySettings) {
+function zTag(inputElement, zeniusSettings, tagifySettings) {
     // tag type validation check
     if (!TAG_TYPE.includes(zeniusSettings.tagType)) {
         console.error(zeniusSettings.tagType, TAG_ERROR_MSG.INVALID_TAG_TYPE);
