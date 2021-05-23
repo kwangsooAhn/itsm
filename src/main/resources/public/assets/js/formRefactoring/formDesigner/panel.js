@@ -59,6 +59,7 @@ export default class Panel {
         document.getElementById('propertyName').textContent = name;
     }
     /**
+     * TODO: defaultValueSelectProperty.module.js 로 소스 이동
      * inputBox 컴포넌트일 경우, 기본값 변경시 이벤트 핸들러
      * @param e 이벤트객체
      */
@@ -117,6 +118,7 @@ export default class Panel {
         }
     }
     /**
+     * TODO: switchButtonProperty.module.js / toggleButtonProperty.module.js 로 소스 이동
      * switch button / toggle button 변경시 이벤트 핸들러
      * @param e 이벤트객체
      */

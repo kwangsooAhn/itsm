@@ -18,7 +18,7 @@ const propertyExtends = {
 
 export default class GroupProperty {
     constructor(name) {
-        this._name = 'form.properties' + name;
+        this._name = 'form.properties.' + name;
         this._type = 'groupProperty';
         this.children = [];
     }
