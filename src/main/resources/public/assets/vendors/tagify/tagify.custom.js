@@ -37,29 +37,29 @@ const DEFAULT_TAGIFY_SETTING = {
     },
     editTags: false,
     placeholder: i18n.msg('token.msg.tag')
-}
-const TAG_TYPE = ['ci','instance','component']
+};
+const TAG_TYPE = ['ci', 'instance', 'component'];
 const TAG_ERROR_MSG = {
     INVALID_TAG_TYPE: 'is invalid tag type. you can use tag type in [' + TAG_TYPE + ']'
-}
+};
 
-function zTag(inputElement, zeniusSettings, tagifySettings) {
+function zTag(inputElement, usedSettings, tagifySettings) {
     // tag type validation check
-    if (!TAG_TYPE.includes(zeniusSettings.tagType)) {
-        console.error(zeniusSettings.tagType, TAG_ERROR_MSG.INVALID_TAG_TYPE);
+    if (!TAG_TYPE.includes(usedSettings.tagType)) {
+        console.error(usedSettings.tagType, TAG_ERROR_MSG.INVALID_TAG_TYPE);
         return false;
     }
 
     // tagify default setting
     this.tagifyOptions = tagifySettings || DEFAULT_TAGIFY_SETTING;
 
-    this.tagifyOptions.targetId = zeniusSettings.targetId
-    this.tagifyOptions.tagType = zeniusSettings.tagType
+    this.tagifyOptions.targetId = usedSettings.targetId
+    this.tagifyOptions.tagType = usedSettings.tagType
 
     let tagging = new Tagify(inputElement, this.tagifyOptions);
 
     // 추천목록 사용인 경우 이벤트 등록
-    if (zeniusSettings.suggestion) {
+    if (usedSettings.suggestion) {
         let controller
         tagging.on('input', (function (e) {
             let value = e.detail.value;
@@ -73,21 +73,21 @@ function zTag(inputElement, zeniusSettings, tagifySettings) {
             // show loading animation and hide the suggestions dropdown
             tag.loading(true).dropdown.hide.call(tag)
 
-            fetch(TAG_URL + '/whitelist?tagValue=' + value + '&tagType=' + tag.settings.tagType, {signal:controller.signal})
-                .then(RES => RES.json())
-                .then(function(whitelist){
+            fetch(TAG_URL + '/whitelist?tagValue=' + value + '&tagType=' + tag.settings.tagType,
+                {signal: controller.signal}
+            ).then(response => response.json())
+                .then(whitelist => {
                     // update whitelist Array in-place
                     tag.settings.whitelist.splice(0, whitelist.length, ...whitelist)
                     tag.loading(false).dropdown.show.call(tag, value); // render the suggestions dropdown
-                })
-                .catch(() => {
+                }).catch(() => {
                     console.log('whitelist canceled by user');
                 });
         }));
     }
 
     // 화면 저장과 따로 실시간으로 저장/삭제하는 경우 이벤트 (ex: 처리할문서)
-    if (zeniusSettings.realtime) {
+    if (usedSettings.realtime) {
         tagging.on('add', (function (tag) {
             const jsonData = {
                 tagType: tag.detail.tagify.settings.tagType,
@@ -101,13 +101,13 @@ function zTag(inputElement, zeniusSettings, tagifySettings) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(jsonData)
+            }).then(response => response.text())
+                .then(tagId => {
+                // DOM 에 tag id  값 추가하기.
+                document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', tagId)
+                // tagify 데이터에 tag id 값 추가하기.
+                tag.detail.tagify.tagData(tag.detail.tagify.getTagElmByValue(tag.detail.data.value), {id: tagId});
             })
-                .then(response => {
-                    // DOM 에 tag id  값 추가하기.
-                    document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', response.responseText)
-                    // tagify 데이터에 tag id 값 추가하기.
-                    tag.detail.tagify.tagData(tag.detail.tagify.getTagElmByValue(tag.detail.data.value), { id: response.responseText });
-                })
         }));
 
         tagging.on('remove', (function (tag) {
