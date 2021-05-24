@@ -73,8 +73,10 @@ class ProcessController(
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         model: Model
     ): String {
+        val result = fileProvider.getImageFileList(FileConstants.Type.IMAGE.code, searchValue)
         model.addAttribute("callback", callback)
-        model.addAttribute("imageList", fileProvider.getImageFileList(FileConstants.Type.IMAGE.code, searchValue))
+        model.addAttribute("imageList", result.data)
+        model.addAttribute("imageListCount", result.totalCount)
         return processAttachFileViewPage
     }
 }

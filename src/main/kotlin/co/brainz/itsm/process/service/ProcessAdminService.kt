@@ -9,6 +9,7 @@ import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -32,7 +33,7 @@ class ProcessAdminService(
     /**
      * 프로세스 데이터 목록 조회.
      */
-    fun getProcesses(params: LinkedHashMap<String, Any>): List<RestTemplateProcessViewDto> {
+    fun getProcesses(params: LinkedHashMap<String, Any>): RestTemplateProcessListReturnDto {
         return wfProcessService.getProcesses(params)
     }
 

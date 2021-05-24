@@ -25,8 +25,8 @@ class NumberingPatternRestController(private val numberingPatternService: Number
      * 패턴 리스트 조회.
      */
     @GetMapping("/", "")
-    fun getNumberingPatternList(search: String): MutableList<NumberingPatternListDto> {
-        return numberingPatternService.getNumberingPatternList(search)
+    fun getNumberingPatternList(search: String): List<NumberingPatternListDto> {
+        return numberingPatternService.getNumberingPatternList(search).data
     }
 
     /**

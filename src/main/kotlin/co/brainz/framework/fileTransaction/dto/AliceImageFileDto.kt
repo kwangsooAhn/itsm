@@ -10,6 +10,5 @@ data class AliceImageFileDto(
     var data: String,
     var width: Int,
     var height: Int,
-    var totalCount: Long = 0,
     var updateDt: LocalDateTime?
 )

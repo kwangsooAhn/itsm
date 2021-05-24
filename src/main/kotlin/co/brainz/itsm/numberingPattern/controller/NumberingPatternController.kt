@@ -36,7 +36,9 @@ class NumberingPatternController(
      */
     @GetMapping("")
     fun getNumberingPatternList(search: String, model: Model): String {
-        model.addAttribute("patternList", numberingPatternService.getNumberingPatternList(search))
+        val result = numberingPatternService.getNumberingPatternList(search)
+        model.addAttribute("patternList", result.data)
+        model.addAttribute("patternListCount", result.totalCount)
 
         return numberingPatternListPage
     }

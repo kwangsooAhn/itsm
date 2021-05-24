@@ -51,8 +51,8 @@ class FormsController(private val formAdminService: FormAdminService) {
         params["search"] = request.getParameter("search") ?: ""
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = formAdminService.findForms(params)
-        model.addAttribute("formList", result)
-        model.addAttribute("formListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("formList", result.data)
+        model.addAttribute("formListCount", result.totalCount)
         return if (isScroll) formListFragment else formListPage
     }
 }

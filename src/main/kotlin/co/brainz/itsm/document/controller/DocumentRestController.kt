@@ -39,6 +39,6 @@ class DocumentRestController(
     fun getDocuments(
         restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto
     ): List<RestTemplateDocumentListDto> {
-        return documentService.getDocumentList(restTemplateDocumentSearchListDto)
+        return documentService.getDocumentList(restTemplateDocumentSearchListDto).data
     }
 }

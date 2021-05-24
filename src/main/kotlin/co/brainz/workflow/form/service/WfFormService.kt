@@ -21,6 +21,7 @@ import co.brainz.workflow.form.repository.WfFormRepository
 import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.dto.RestTemplateFormListReturnDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -53,7 +54,7 @@ class WfFormService(
      * @param parameters
      * @return List<RestTemplateFormDto>
      */
-    fun forms(parameters: LinkedHashMap<String, Any>): List<RestTemplateFormDto> {
+    fun forms(parameters: LinkedHashMap<String, Any>): RestTemplateFormListReturnDto {
         var search = ""
         var status = listOf<String>()
         var offset: Long? = null
@@ -74,7 +75,10 @@ class WfFormService(
             formList.add(restTemplateDto)
         }
 
-        return formList
+        return RestTemplateFormListReturnDto(
+            data = formList,
+            totalCount = queryResult.total
+        )
     }
 
     /**

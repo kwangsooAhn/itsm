@@ -7,6 +7,7 @@ package co.brainz.framework.fileTransaction.provider
 
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
+import co.brainz.framework.fileTransaction.dto.AliceImageFileListReturnDto
 import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.util.AliceFileUtil
@@ -68,7 +69,7 @@ class AliceFileProvider(
         dir: String,
         searchValue: String,
         currentOffset: Int
-    ): List<AliceImageFileDto> {
+    ): AliceImageFileListReturnDto {
         var fileList = mutableListOf<Path>()
         val resourceURL = javaClass.classLoader.getResource(dir)
 
@@ -130,7 +131,6 @@ class AliceFileProvider(
                     ),
                     width = bufferedImage.width,
                     height = bufferedImage.height,
-                    totalCount = fileList.size.toLong(),
                     updateDt = LocalDateTime.ofInstant(
                         Instant.ofEpochMilli(0),
                         ZoneId.systemDefault()
@@ -138,14 +138,17 @@ class AliceFileProvider(
                 )
             )
         }
-        return imageList
+        return AliceImageFileListReturnDto(
+            data = imageList,
+            totalCount = fileList.size.toLong()
+        )
     }
 
     /**
      * 이미지리스트 전체 또는 offset 단위로 가져오기
      *
      */
-    fun getImageFileList(type: String, searchValue: String, currentOffset: Int = -1): List<AliceImageFileDto> {
+    fun getImageFileList(type: String, searchValue: String, currentOffset: Int = -1): AliceImageFileListReturnDto {
         val dir = when (type) {
             FileConstants.Type.ICON.code -> {
                 FileConstants.Path.ICON_DOCUMENT.path
@@ -185,7 +188,7 @@ class AliceFileProvider(
         dir: Path,
         searchValue: String,
         currentOffset: Int
-    ): List<AliceImageFileDto> {
+    ): AliceImageFileListReturnDto {
         val fileList = mutableListOf<Path>()
 
         if (Files.isDirectory(dir)) {
@@ -224,7 +227,6 @@ class AliceFileProvider(
                     data = super.encodeToString(resizedBufferedImage, file.extension),
                     width = bufferedImage.width,
                     height = bufferedImage.height,
-                    totalCount = fileList.size.toLong(),
                     updateDt = LocalDateTime.ofInstant(
                         Instant.ofEpochMilli(file.lastModified()),
                         ZoneId.systemDefault()
@@ -232,7 +234,10 @@ class AliceFileProvider(
                 )
             )
         }
-        return imageList
+        return AliceImageFileListReturnDto(
+            data = imageList,
+            totalCount = fileList.size.toLong()
+        )
     }
 
     /**

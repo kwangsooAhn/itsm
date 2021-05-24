@@ -11,6 +11,7 @@ import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -21,7 +22,7 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(RestTemplateDocumentSearchListDto::class.java), WfDocumentRepositoryCustom {
 
     override fun findByDocuments(searchDto: RestTemplateDocumentSearchListDto):
-            MutableList<RestTemplateDocumentListDto> {
+            RestTemplateDocumentListReturnDto {
         val document = QWfDocumentEntity.wfDocumentEntity
         val query = from(document)
             .select(
@@ -100,12 +101,14 @@ class WfDocumentRepositoryImpl :
                 createDt = data.createDt,
                 updateUserKey = data.updateUserKey,
                 updateDt = data.updateDt,
-                totalCount = result.total,
                 documentIcon = data.documentIcon
             )
             documentList.add(documentData)
         }
-        return documentList
+        return RestTemplateDocumentListReturnDto(
+            data = documentList,
+            totalCount = result.total
+        )
     }
 
     override fun findAllByDocuments(searchDto: RestTemplateDocumentSearchListDto):
