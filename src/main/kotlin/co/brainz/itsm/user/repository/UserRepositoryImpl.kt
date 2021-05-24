@@ -12,6 +12,7 @@ import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListDto
+import co.brainz.itsm.user.dto.UserListReturnDto
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -21,7 +22,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
     override fun findAliceUserEntityList(
         search: String,
         offset: Long
-    ): MutableList<UserListDto> {
+    ): UserListReturnDto {
         val user = QAliceUserEntity.aliceUserEntity
         val code = QCodeEntity.codeEntity
         val query = from(user)
@@ -69,11 +70,13 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                 avatarType = data.avatarType,
                 avatarValue = data.avatarValue,
                 uploaded = data.uploaded,
-                uploadedLocation = data.uploadedLocation,
-                totalCount = query.total
+                uploadedLocation = data.uploadedLocation
             )
             userList.add(userDto)
         }
-        return userList
+        return UserListReturnDto(
+            data = userList,
+            totalCount = query.total
+        )
     }
 }

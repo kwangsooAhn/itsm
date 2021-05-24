@@ -19,6 +19,8 @@ import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlRepository
 import co.brainz.itsm.auth.dto.AuthDto
+import co.brainz.itsm.auth.dto.AuthListDto
+import co.brainz.itsm.auth.dto.AuthListReturnDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.itsm.auth.dto.AuthUrlDto
 import co.brainz.itsm.auth.repository.AuthRepository
@@ -37,15 +39,19 @@ class AuthService(
     /**
      * 전체 권한 목록 조회
      */
-    fun getAuthList(): MutableList<AliceAuthEntity> {
-        return authRepository.findByOrderByAuthNameAsc()
+    fun getAuthList(): AuthListReturnDto {
+        val authList = authRepository.findAuthSearch("")
+        return AuthListReturnDto(
+            data = authList.results,
+            totalCount = authList.total
+        )
     }
 
     /**
      * 권한 정보 검색
      */
-    fun getAuthSearchList(search: String): MutableList<AliceAuthEntity> {
-        return authRepository.findAuthSearch(search)
+    fun getAuthSearchList(search: String): MutableList<AuthListDto> {
+        return authRepository.findAuthSearch(search).results
     }
 
     /**
