@@ -350,6 +350,32 @@ export default class Panel {
             
             object.addUI(object.UIGroup);
             break;
+            case 'tag':
+                object = new UIDiv().setUIClass('property')
+                    .setUIProperty('--data-column', data.columnWidth);
+                // 라벨
+                object.UILabel = this.makeUILabel(data);
+                object.addUI(object.UILabel);
+                // inputbox
+                object.UIInput = new UIInput().setUIId(key).setUIValue(data.value)
+                    .onUIKeyUp(this.updateProperty.bind(this))
+                    .onUIChange(this.updateProperty.bind(this));
+                object.addUI(object.UIInput);
+
+                // tag 는 실제 그려진 UI를 이용해서 tagify 적용이 필요함.
+                // 여기서 append 를 하고 리턴을 null.
+                // 패널 속성별로 그리는 부분을 각 속성파일로 옮기면 이런 것도 속성별로 필요에 따라 처리 가능할 것으로 보임.
+                this.domElement.appendChild(object.domElement);
+                if (this.editor.selectedObject.id) {
+                    new zTag(document.querySelector('input[id=tags]'),{
+                        suggestion: true,
+                        realtime: false,
+                        tagType: 'component',
+                        targetId: this.editor.selectedObject.id
+                    })
+                }
+                return null;
+                break;
         default:
             break;
         }

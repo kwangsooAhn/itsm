@@ -1,3 +1,4 @@
+// TODO: #10641 폼 리팩토링 - 공통속성 정리 일감 처리 후 삭제 예정
 export const COMMON_PROPERTIES = {
     'id': {
         'name': 'form.properties.dataAttribute',
@@ -18,9 +19,9 @@ export const COMMON_PROPERTIES = {
                     'minLength': ''
                 }
             },
-            'tags': { // TODO: 태그 기능은 추구 구현 예정
+            'tags': {
                 'name': 'form.properties.tags',
-                'type': 'input',
+                'type': 'tag',
                 'unit': '',
                 'help': '',
                 'columnWidth': '12',
