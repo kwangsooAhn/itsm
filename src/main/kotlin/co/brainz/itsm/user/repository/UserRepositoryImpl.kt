@@ -13,6 +13,7 @@ import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -38,6 +39,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.mobileNumber,
                     user.avatarType,
                     user.avatarValue,
+                    Expressions.asString(""),
                     user.uploaded,
                     user.uploadedLocation,
                     user.createDt
