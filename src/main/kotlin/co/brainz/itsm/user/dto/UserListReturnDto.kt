@@ -8,6 +8,6 @@ package co.brainz.itsm.user.dto
 import java.io.Serializable
 
 data class UserListReturnDto(
-    var data: List<UserListDto> = emptyList(),
+    var data: List<UserListDataDto> = emptyList(),
     val totalCount: Long = 0
 ) : Serializable
