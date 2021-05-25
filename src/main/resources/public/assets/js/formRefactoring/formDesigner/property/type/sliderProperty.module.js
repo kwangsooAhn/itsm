@@ -53,6 +53,6 @@ export default class SliderProperty extends Property {
             this.panel.validationStatus = false; // 유효성 검증 실패
             return false;
         }
-        this.panel.update.call(this, [e.target.id, e.target.value]);
+        this.panel.update.call(this.panel, e.target.id, e.target.value);
     }
 }

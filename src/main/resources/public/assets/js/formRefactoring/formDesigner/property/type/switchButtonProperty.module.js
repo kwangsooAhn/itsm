@@ -71,6 +71,6 @@ export default class SwitchButtonProperty extends Property {
         }
         e.target.classList.add('active');
 
-        this.panel.update.call(this, [e.target.id, e.target.getAttribute('data-value')]);
+        this.panel.update.call(this.panel, e.target.id, e.target.getAttribute('data-value'));
     }
 }

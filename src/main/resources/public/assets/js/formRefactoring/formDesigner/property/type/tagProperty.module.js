@@ -31,9 +31,7 @@ export default class TagProperty extends Property {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
         // inputbox
-        this.UIElement.UIInput = new UIInput().setUIId(this.getKeyId()).setUIValue(this.value)
-            .onUIKeyUp(this.updateProperty.bind(this))
-            .onUIChange(this.updateProperty.bind(this));
+        this.UIElement.UIInput = new UIInput().setUIId(this.getKeyId()).setUIValue(this.value);
         this.UIElement.addUI(this.UIElement.UIInput);
 
         // tag 는 실제 그려진 UI를 이용해서 tagify 적용이 필요함.
@@ -45,18 +43,19 @@ export default class TagProperty extends Property {
                 realtime: false,
                 tagType: 'component',
                 targetId: this.panel.editor.selectedObject.id
+            }, {
+                callbacks: {
+                    'add': (e) => {
+                        const inputElem = e.detail.tagify.DOM.originalInput;
+                        this.panel.update.call(this.panel, inputElem.id, inputElem.value);
+                    },
+                    'remove': (e) => {
+                        const inputElem = e.detail.tagify.DOM.originalInput;
+                        this.panel.update.call(this.panel, inputElem.id, inputElem.value);
+                    }
+                }
             });
         }
         return null;
-    }
-    // 속성 변경시 발생하는 이벤트 핸들러
-    updateProperty(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-        this.panel.update.call(this, [e.target.id, e.target.value]);
     }
 }

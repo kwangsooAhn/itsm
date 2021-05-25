@@ -31,8 +31,8 @@ export default class Property {
             type: '',
             max: '',
             min: '',
-            maxLength: '',
-            minLength: '128'
+            maxLength: '128',
+            minLength: ''
         };
     }
 
