@@ -122,7 +122,7 @@ class WfScriptTask(
                     AliceTagDto(
                         tagId = tag["id"] as String,
                         tagType = AliceTagConstants.TagType.CI.code,
-                        value = tag["value"] as String,
+                        tagValue = tag["value"] as String,
                         targetId = ciId
                     )
                 )

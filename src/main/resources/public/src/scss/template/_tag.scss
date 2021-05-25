@@ -24,7 +24,7 @@
   align-items: flex-start;
   flex-wrap: wrap;
   padding: 0 0 0 0.3125rem; // 0 0 0 5px
-  @include border(0.0625, solid, map-get($grays, 'line'), all); // 1px
+  @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
   line-height: 1.1;
   cursor: text;
   outline: 0;

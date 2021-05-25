@@ -6,7 +6,6 @@
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.FormComponentDto
@@ -240,7 +239,7 @@ class FormService(
                             id = component["id"] as String,
                             type = component["type"] as String,
                             isTopic = component["isTopic"] as Boolean,
-                            tags = component["tags"] as List<AliceTagDto>,
+                            tags = component["tags"] as List<String>,
                             value = null,
                             display = componentDisplay,
                             label = componentLabel,

@@ -31,7 +31,7 @@
                 <td style="width: 15%;" class="align-left" th:text="${ci.ciName}"></td>
                 <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}"></td>
                 <td style="width: 25%;" class="align-left">
-                    <span class="tag align-left text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag.value}"></span>
+                    <span class="tag align-left text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag.tagValue}"></span>
                 </td>
             </tr>
         </th:block>
