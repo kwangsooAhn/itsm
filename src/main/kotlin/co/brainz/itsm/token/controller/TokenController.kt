@@ -83,8 +83,8 @@ class TokenController(
     @GetMapping("")
     fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto, model: Model): String {
         val result = tokenService.getTokenList(restTemplateTokenSearchListDto)
-        model.addAttribute("tokenCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        model.addAttribute("tokenList", result)
+        model.addAttribute("tokenList", result.data)
+        model.addAttribute("tokenCount", result.totalCount)
         return if (restTemplateTokenSearchListDto.isScroll) tokenListFragment else tokenListPage
     }
 

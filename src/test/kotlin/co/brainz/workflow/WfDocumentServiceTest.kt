@@ -40,10 +40,10 @@ class WfDocumentServiceTest {
             offset = 1
         )
         val documentList = wfDocumentService.documents(searchListDto)
-        if (documentList.isNotEmpty()) {
-            assumeTrue(documentList[0].totalCount > documentList.size)
+        if (documentList.data.isNotEmpty()) {
+            assumeTrue(documentList.data[0].totalCount > documentList.data.size)
         } else {
-            assumeTrue(documentList.isEmpty())
+            assumeTrue(documentList.data.isEmpty())
         }
     }
 

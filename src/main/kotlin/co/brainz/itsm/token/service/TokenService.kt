@@ -14,7 +14,7 @@ import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
@@ -106,7 +106,7 @@ class TokenService(
      */
     fun getTokenList(
         restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto
-    ): List<RestTemplateInstanceViewDto> {
+    ): RestTemplateInstanceListReturnDto {
         val params = LinkedHashMap<String, Any>()
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         params["userKey"] = aliceUserDto.userKey

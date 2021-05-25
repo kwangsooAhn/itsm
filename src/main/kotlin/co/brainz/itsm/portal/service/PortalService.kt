@@ -10,7 +10,7 @@ import co.brainz.itsm.download.repository.DownloadRepository
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.repository.FaqRepository
 import co.brainz.itsm.notice.repository.NoticeRepository
-import co.brainz.itsm.portal.dto.PortalDto
+import co.brainz.itsm.portal.dto.PortalListReturnDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.dto.PortalTopDto
 import co.brainz.itsm.portal.repository.PortalRepository
@@ -29,7 +29,7 @@ class PortalService(
     /**
      * 포탈 리스트 , 포탈 검색 리스트
      */
-    fun findPortalListOrSearchList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
+    fun findPortalListOrSearchList(portalSearchDto: PortalSearchDto): PortalListReturnDto {
         return portalRepository.findPortalSearchList(
             portalSearchDto.searchValue, portalSearchDto.offset
         )
