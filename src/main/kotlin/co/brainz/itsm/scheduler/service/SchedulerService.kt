@@ -14,6 +14,7 @@ import co.brainz.framework.scheduling.repository.AliceScheduleHistoryRepository
 import co.brainz.framework.scheduling.repository.AliceScheduleTaskRepository
 import co.brainz.framework.scheduling.service.AliceScheduleTaskService
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeClass
+import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeJar
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.constants.ItsmConstants
@@ -36,7 +37,8 @@ class SchedulerService(
     private val aliceScheduleTaskService: AliceScheduleTaskService,
     private val scheduler: TaskScheduler,
     private val scheduleTaskTypeQuery: ScheduleTaskTypeQuery,
-    private val scheduleTaskTypeClass: ScheduleTaskTypeClass
+    private val scheduleTaskTypeClass: ScheduleTaskTypeClass,
+    private val scheduleTaskTypeJar: ScheduleTaskTypeJar
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -100,11 +102,13 @@ class SchedulerService(
                     taskType = schedulerDto.taskType,
                     executeClass = schedulerDto.executeClass,
                     executeQuery = schedulerDto.executeQuery,
+                    executeCommand = schedulerDto.executeCommand,
                     executeCycleType = schedulerDto.executeCycleType,
                     executeCyclePeriod = schedulerDto.executeCyclePeriod,
                     cronExpression = schedulerDto.cronExpression,
                     editable = true,
-                    args = schedulerDto.args
+                    args = schedulerDto.args,
+                    src = schedulerDto.src
                 )
                 scheduleTaskEntity = aliceScheduleTaskRepository.save(scheduleTaskEntity)
                 if (scheduleTaskEntity.useYn) {
@@ -138,10 +142,12 @@ class SchedulerService(
                 scheduleTaskEntity.useYn = schedulerDto.useYn
                 scheduleTaskEntity.executeClass = schedulerDto.executeClass
                 scheduleTaskEntity.executeQuery = schedulerDto.executeQuery
+                scheduleTaskEntity.executeCommand = schedulerDto.executeCommand
                 scheduleTaskEntity.executeCycleType = schedulerDto.executeCycleType
                 scheduleTaskEntity.executeCyclePeriod = schedulerDto.executeCyclePeriod
                 scheduleTaskEntity.cronExpression = schedulerDto.cronExpression
                 scheduleTaskEntity.args = schedulerDto.args
+                scheduleTaskEntity.src = schedulerDto.src
                 scheduleTaskEntity = aliceScheduleTaskRepository.save(scheduleTaskEntity)
                 aliceScheduleTaskService.removeTaskFromScheduler(scheduleTaskEntity.taskId)
                 if (scheduleTaskEntity.useYn) {
@@ -174,7 +180,9 @@ class SchedulerService(
             executeCycleType = schedulerDto.executeCycleType,
             executeCyclePeriod = schedulerDto.executeCyclePeriod,
             executeClass = schedulerDto.executeClass,
+            executeCommand = schedulerDto.executeCommand,
             args = schedulerDto.args,
+            src = schedulerDto.src,
             useYn = schedulerDto.useYn,
             editable = false
         )
@@ -210,7 +218,19 @@ class SchedulerService(
                 }
             }
             AliceConstants.ScheduleTaskType.JAR.code -> {
-                // TODO: JAR 파일 즉시 실행
+                try {
+                    val runnable = scheduleTaskTypeJar.getRunnable(taskInfo)
+                    if (runnable != null) {
+                        scheduler.schedule(runnable, Instant.now())
+                        history.result = true
+                    }
+                } catch (e: Exception) {
+                    logger.error("Failed to load jar. [{}]", schedulerDto.executeCommand)
+                    e.printStackTrace()
+                    returnValue = "3"
+                    history.result = false
+                    history.errorMessage = AliceUtil().printStackTraceToString(e)
+                }
             }
         }
         this.setSchedulerHistory(history)

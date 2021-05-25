@@ -26,8 +26,10 @@ data class AliceScheduleTaskEntity(
     var editable: Boolean,
     var executeClass: String?,
     var executeQuery: String?,
+    var executeCommand: String?,
     var executeCycleType: String,
     var executeCyclePeriod: Long?,
     var cronExpression: String?,
-    var args: String?
+    var args: String?,
+    var src: String?
 ) : Serializable
