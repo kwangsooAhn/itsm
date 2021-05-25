@@ -302,6 +302,16 @@ class WfInstanceService(
             wfInstanceRepository.save(it)
         }
     }
+    /**
+     * Instance Cancel.
+     */
+    fun cancelInstance(instanceId: String) {
+        wfInstanceRepository.findByInstanceId(instanceId)?.let {
+            it.instanceStatus = WfInstanceConstants.Status.CANCEL.code
+            it.instanceEndDt = LocalDateTime.now()
+            wfInstanceRepository.save(it)
+        }
+    }
 
     /**
      * Instance Status Count

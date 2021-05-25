@@ -132,6 +132,12 @@ class WfTokenManagerService(
     fun completeInstance(instanceId: String) {
         return wfInstanceService.completeInstance(instanceId)
     }
+    /**
+     * Cancel instance.
+     */
+    fun cancelInstance(instanceId: String) {
+        return wfInstanceService.cancelInstance(instanceId)
+    }
 
     /**
      * Get start element.
