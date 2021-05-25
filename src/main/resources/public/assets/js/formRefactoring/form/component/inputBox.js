@@ -13,7 +13,7 @@
  * https://www.brainz.co.kr
  */
 
-import {SESSION, FORM, CLASS_PREFIX} from '../../lib/constants.js';
+import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
 import {UIDiv, UIInput} from '../../lib/ui.js';
 import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.module.js';
 import GroupProperty from '../../formDesigner/property/type/groupProperty.module.js';
@@ -21,6 +21,7 @@ import SliderProperty from '../../formDesigner/property/type/sliderProperty.modu
 import CommonProperty from '../../formDesigner/property/type/commonProperty.module.js';
 import DefaultValueSelectProperty from '../../formDesigner/property/type/defaultValueSelectProperty.module.js';
 import DropdownProperty from '../../formDesigner/property/type/dropdownProperty.module.js';
+import { zValidation } from '../../lib/validation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -113,20 +114,21 @@ export const inputBoxMixin = {
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
-        // enter 입력시
-        if (e.key === 'Enter' || e.keyCode === 13) {
+        // enter, tab 입력시
+        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
             return false;
         }
         // 유효성 검증
-        let passValidate = true;
-        if (e.type === 'keyup') { // keyup 일 경우 type, min, max 체크
-            passValidate = this.keyUpValidateCheck(e.target);
-        } else if (e.type === 'change') { // change 일 경우 필수값, minLength, maxLength 체크
-            passValidate = this.changeValidateCheck(e.target);
+        // keyup 일 경우 type, min, max 체크
+        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
+            return false;
         }
-        if (passValidate) {
-            this.setValue(e.target.value);
+        // change 일 경우 minLength, maxLength 체크
+        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
+            return false;
         }
+
+        this.setValue(e.target.value);
     },
     // 기본 값 변경
     setValue(value) {
@@ -167,37 +169,5 @@ export const inputBoxMixin = {
                 .addProperty(new InputBoxProperty('validation.minLength', this.validation.minLength))
                 .addProperty(new InputBoxProperty('validation.maxLength', this.validation.maxLength))
         ];
-    },
-    /**
-     * keyup 유효성 검증 이벤트 핸들러
-     * @param e 이벤트객체
-     */
-    keyUpValidateCheck(element) {
-        // type(number, char, email 등), min, max 체크
-        if (element.getAttribute('data-validation-type') &&
-            element.getAttribute('data-validation-type') !== '') {
-            return validation.emit(element.getAttribute('data-validation-type'), element);
-        }
-        return true;
-    },
-    /**
-     * change 유효성 검증 이벤트 핸들러
-     * @param e 이벤트객체
-     */
-    changeValidateCheck(element) {
-        // 필수값, minLength, maxLength 체크
-        if (element.getAttribute('data-validation-required') &&
-            element.getAttribute('data-validation-required') !== 'false') {
-            return validation.emit('required', element);
-        }
-        if (element.getAttribute('data-validation-minLength') &&
-            element.getAttribute('data-validation-minLength') !== '') {
-            return validation.emit('minLength', element, element.getAttribute('data-validation-minLength'));
-        }
-        if (element.getAttribute('data-validation-maxLength') &&
-            element.getAttribute('data-validation-maxLength') !== '') {
-            return validation.emit('maxLength', element, element.getAttribute('data-validation-maxLength'));
-        }
-        return true;
     }
 };
