@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 import { FORM } from '../lib/constants.js';
-import { validation } from '../lib/validation.js';
+import { zValidation } from '../lib/validation.js';
 import { UIButton, UIDiv } from '../lib/ui.js';
 import Form from '../form/form.js';
 import Group from '../form/group.js';

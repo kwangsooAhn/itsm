@@ -138,16 +138,4 @@ export default class Property {
             nameArray[2] + nameArray[3].substr(0, 1).toUpperCase() +
             nameArray[3].substr(1, nameArray[3].length);
     }
-
-    getPropertyConfig() {
-        return {
-            name: this._name,
-            type: this._type,
-            value: this._value,
-            unit: this._unit,
-            help: this._help,
-            columnWidth: this._columnWidth,
-            validation: this._validation
-        };
-    }
 }

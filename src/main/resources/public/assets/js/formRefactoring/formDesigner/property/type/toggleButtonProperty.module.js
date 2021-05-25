@@ -24,8 +24,10 @@ export default class ToggleButtonProperty extends Property {
 
         this.options = options;
     }
-
+    // DOM Element 생성
     makeProperty(panel) {
+        this.panel = panel;
+
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
         // 라벨
@@ -42,7 +44,8 @@ export default class ToggleButtonProperty extends Property {
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
                 .setUIId(this.getKeyId() + name)
                 .setUIAttribute('data-value', (toggleValueArray[index] === 'Y'))
-                .addUIClass('btn-toggle').onUIClick(panel.updateButton.bind(panel));
+                .addUIClass('btn-toggle')
+                .onUIClick(this.updateProperty.bind(this));
             this.UIElement.UIButtonGroup['UIButton' + name]
                 .addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
 
@@ -54,5 +57,19 @@ export default class ToggleButtonProperty extends Property {
         this.UIElement.addUI(this.UIElement.UIButtonGroup);
 
         return this.UIElement;
+    }
+    // 속성 변경시 발생하는 이벤트 핸들러
+    updateProperty(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        // bold, italic 등 toggle button
+        if (e.target.classList.contains('active')) {
+            e.target.classList.remove('active');
+            e.target.setAttribute('data-value', false);
+        } else {
+            e.target.classList.add('active');
+            e.target.setAttribute('data-value', true);
+        }
+        this.panel.update.call(this, [e.target.id, e.target.getAttribute('data-value')]);
     }
 }

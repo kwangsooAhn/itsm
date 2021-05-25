@@ -24,8 +24,10 @@ export default class SwitchButtonProperty extends Property {
 
         this.options = options;
     }
-
+    // DOM Element 생성
     makeProperty(panel) {
+        this.panel = panel;
+
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
         // 라벨
@@ -40,7 +42,8 @@ export default class SwitchButtonProperty extends Property {
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
                 .setUIId(this.getKeyId())
                 .setUIAttribute('data-value', item.value)
-                .addUIClass('btn-switch').onUIClick(panel.updateButton.bind(panel));
+                .addUIClass('btn-switch')
+                .onUIClick(this.updateProperty.bind(this));
             this.UIElement.UIButtonGroup['UIButton' + name].addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
 
             if (this.value === item.value) {
@@ -51,5 +54,23 @@ export default class SwitchButtonProperty extends Property {
         this.UIElement.addUI(this.UIElement.UIButtonGroup);
 
         return this.UIElement;
+    }
+    // 속성 변경시 발생하는 이벤트 핸들러
+    updateProperty(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        // 정렬
+        if (e.target.classList.contains('active')) {return false;}
+
+        const buttonGroup = e.target.parentNode;
+        for (let i = 0, len = buttonGroup.childNodes.length; i < len; i++) {
+            let child = buttonGroup.childNodes[i];
+            if (child.classList.contains('active')) {
+                child.classList.remove('active');
+            }
+        }
+        e.target.classList.add('active');
+
+        this.panel.update.call(this, [e.target.id, e.target.getAttribute('data-value')]);
     }
 }

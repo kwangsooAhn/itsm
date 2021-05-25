@@ -23,7 +23,10 @@ export default class ClipboardProperty extends Property {
         super(name, 'clipboardProperty', value);
     }
 
+    // DOM Element 생성
     makeProperty(panel) {
+        this.panel = panel;
+
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
         // 라벨

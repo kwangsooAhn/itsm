@@ -40,6 +40,8 @@ export default class GroupProperty {
     }
 
     makeProperty(panel) {
+        this.panel = panel;
+
         this.UIElement = new UIDiv().setUIClass('property-group');
         // 라벨
         this.UIElement.UILabel = new UILabel().setUIClass('property-group-label')
@@ -58,18 +60,5 @@ export default class GroupProperty {
 
         this.children.push(object);
         return this;
-    }
-
-    getPropertyConfig() {
-        const children = [];
-        for (let i = 0; i < this.children.length; i ++) {
-            const child = this.children[i];
-            children.push(child.getPropertyConfig());
-        }
-        return {
-            name: this._name,
-            type: this._type,
-            children: children
-        };
     }
 }

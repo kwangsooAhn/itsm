@@ -15,6 +15,7 @@
 import Property from '../property.module.js';
 import {UIDiv, UISlider} from '../../../lib/ui.js';
 import { FORM } from '../../../lib/constants.js';
+import { zValidation } from '../../../lib/validation.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
@@ -24,8 +25,10 @@ export default class SliderProperty extends Property {
     constructor(name, value) {
         super(name, 'sliderProperty', value);
     }
-
+    // DOM Element 생성
     makeProperty(panel) {
+        this.panel = panel;
+
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
         // 라벨
@@ -35,9 +38,21 @@ export default class SliderProperty extends Property {
         // slider
         this.UIElement.UISlider = new UISlider(this.value).setUIMin(1).setUIMax(FORM.COLUMN);
         this.UIElement.UISlider.UIInput.setUIId(this.getKeyId())
-            .onUIChange(panel.updateProperty.bind(panel));
+            .onUIChange(this.updateProperty.bind(this));
         this.UIElement.addUI(this.UIElement.UISlider);
 
         return this.UIElement;
+    }
+    // 속성 변경시 발생하는 이벤트 핸들러
+    updateProperty(e, panel) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        // change 일 경우 minLength, maxLength 체크
+        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
+            this.panel.validationStatus = false; // 유효성 검증 실패
+            return false;
+        }
+        this.panel.update.call(this, [e.target.id, e.target.value]);
     }
 }

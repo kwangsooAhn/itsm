@@ -14,8 +14,8 @@ import Form from '../form/form.js';
 import Group, { UIGroupTooltip } from '../form/group.js';
 import Row, { UIRowTooltip } from '../form/row.js';
 import Component, { UIComponentTooltip } from '../form/component.js';
-import { validation } from '../lib/validation.js';
 import { documentEditor } from '../documentEditor/documentEditor.js';
+import { zValidation } from '../lib/validation.js';
 
 class FormDesigner {
     constructor() {
@@ -708,7 +708,7 @@ class FormDesigner {
                     bindKey: false,
                     callback: (modal) => {
                         const newFormName = document.getElementById('newFormName');
-                        if (validation.emit('required', newFormName)) {
+                        if (zValidation.emit('required', newFormName)) {
                             this.saveAsForm();
                             modal.hide();
                         }

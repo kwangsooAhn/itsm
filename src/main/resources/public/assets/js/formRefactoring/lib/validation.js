@@ -403,6 +403,49 @@ class Validation {
         }
         return rtn;
     }
+    /**
+     * keyup시 type(number, char, email 등), min, max 체크
+     * @param target
+     * @returns target 유효성 결과값
+     */
+    keyUpValidationCheck(target) {
+        if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
+
+        if (target.hasAttribute('data-validation-type') &&
+            target.getAttribute('data-validation-type') !== '') {
+            return this.emit(target.getAttribute('data-validation-type'), target);
+        }
+        if (target.hasAttribute('data-validation-min') &&
+            target.getAttribute('data-validation-min') !== '') {
+            return this.emit('min', target, target.getAttribute('data-validation-min'));
+        }
+        if (target.hasAttribute('data-validation-max') &&
+            target.getAttribute('data-validation-max') !== '') {
+            return this.emit('max', target, target.getAttribute('data-validation-max'));
+        }
+        return true;
+    }
+    /**
+     * change시 필수값, minLength, maxLength 체크
+     * @param target 이벤트객체
+     */
+    changeValidationCheck(target) {
+        if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
+
+        if (target.hasAttribute('data-validation-required') &&
+            target.getAttribute('data-validation-required') !== 'false') {
+            return this.emit('required', target);
+        }
+        if (target.hasAttribute('data-validation-minLength') &&
+            target.getAttribute('data-validation-minLength') !== '') {
+            return this.emit('minLength', target, target.getAttribute('data-validation-minLength'));
+        }
+        if (target.hasAttribute('data-validation-maxLength') &&
+            target.getAttribute('data-validation-maxLength') !== '') {
+            return this.emit('maxLength', target, target.getAttribute('data-validation-maxLength'));
+        }
+        return true;
+    }
 }
 
-export const validation = new Validation();
+export const zValidation = new Validation();
