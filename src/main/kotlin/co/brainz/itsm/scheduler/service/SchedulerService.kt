@@ -21,6 +21,7 @@ import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.scheduler.dto.SchedulerDto
 import co.brainz.itsm.scheduler.dto.SchedulerHistoryDto
 import co.brainz.itsm.scheduler.dto.SchedulerListDto
+import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
 import co.brainz.itsm.scheduler.dto.SchedulerSearchDto
 import java.time.Instant
 import java.time.LocalDateTime
@@ -46,7 +47,7 @@ class SchedulerService(
     /**
      * 스케줄 목록 조회.
      */
-    fun getSchedulers(schedulerSearchDto: SchedulerSearchDto): List<SchedulerListDto> {
+    fun getSchedulers(schedulerSearchDto: SchedulerSearchDto): SchedulerListReturnDto {
         val latelyHistory = aliceScheduleHistoryRepository.findScheduleLatelyHistory()
         val schedulers = aliceScheduleTaskRepository.findByScheduleList(schedulerSearchDto)
         val schedulerList = mutableListOf<SchedulerListDto>()
@@ -61,8 +62,7 @@ class SchedulerService(
                     executeQuery = scheduler.executeQuery,
                     executeCycleType = scheduler.executeCycleType,
                     executeCyclePeriod = scheduler.executeCyclePeriod,
-                    cronExpression = scheduler.cronExpression,
-                    totalCount = schedulers.total
+                    cronExpression = scheduler.cronExpression
                 )
                 latelyHistory.forEach { history ->
                     if (history.taskId == scheduler.taskId) {
@@ -73,7 +73,10 @@ class SchedulerService(
                 schedulerList.add(schedulerDto)
             }
         }
-        return schedulerList
+        return SchedulerListReturnDto(
+            data = schedulerList,
+            totalCount = schedulers?.total ?: 0
+        )
     }
 
     /**

@@ -46,8 +46,8 @@ class SchedulerController(
     @GetMapping("")
     fun getSchedulerList(schedulerSearchDto: SchedulerSearchDto, model: Model): String {
         val result = schedulerService.getSchedulers(schedulerSearchDto)
-        model.addAttribute("schedulerList", result)
-        model.addAttribute("schedulerListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("schedulerList", result.data)
+        model.addAttribute("schedulerListCount", result.totalCount)
         return if (schedulerSearchDto.isScroll) schedulerListFragment else schedulerListPage
     }
 

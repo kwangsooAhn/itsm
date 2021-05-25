@@ -15,6 +15,5 @@ data class ChartListDto(
     val chartName: String? = null,
     val chartDesc: String? = "",
     val createUserName: String? = null,
-    val createDt: LocalDateTime? = null,
-    var totalCount: Long = 0
+    val createDt: LocalDateTime? = null
 ) : Serializable

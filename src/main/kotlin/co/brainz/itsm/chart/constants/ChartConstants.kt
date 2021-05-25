@@ -9,19 +9,13 @@ package co.brainz.itsm.chart.constants
 object ChartConstants {
 
     /**
-     * chart group p_code.
+     * chart p_code
      */
-    const val CHART_TYPE_P_CODE = "chart.type"
-
-    /**
-     * chart operation p_code
-     */
-    const val CHART_OPERATION_P_CODE = "chart.operation"
-
-    /**
-     * chart unit p_code
-     */
-    const val CHART_UNIT_P_CODE = "chart.unit"
+    enum class PCode(val code: String) {
+        TYPE("chart.type"),
+        OPERATION("chart.operation"),
+        UNIT("chart.unit")
+    }
 
     /**
      * chart status
