@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.framework.fileTransaction.dto
 
 import java.time.LocalDateTime
@@ -10,6 +16,5 @@ data class AliceImageFileDto(
     var data: String,
     var width: Int,
     var height: Int,
-    var totalCount: Long = 0,
     var updateDt: LocalDateTime?
 )

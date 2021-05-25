@@ -8,7 +8,7 @@ package co.brainz.itsm.customCode.controller
 
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
-import co.brainz.itsm.customCode.dto.CustomCodeListDto
+import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
 import co.brainz.itsm.customCode.service.CustomCodeService
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -29,7 +29,7 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
      *
      */
     @GetMapping("")
-    fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): List<CustomCodeListDto> {
+    fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): CustomCodeListReturnDto {
         return customCodeService.getCustomCodeList(customCodeSearchDto)
     }
 

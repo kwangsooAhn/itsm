@@ -1,9 +1,16 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.numberingPattern.service
 
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternDetailDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternListDto
+import co.brainz.itsm.numberingPattern.dto.NumberingPatternListReturnDto
 import co.brainz.itsm.numberingPattern.entity.NumberingPatternEntity
 import co.brainz.itsm.numberingPattern.repository.NumberingPatternRepository
 import com.google.gson.JsonObject
@@ -21,7 +28,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     /**
      * 패턴 리스트 조회
      */
-    fun getNumberingPatternList(search: String): MutableList<NumberingPatternListDto> {
+    fun getNumberingPatternList(search: String): NumberingPatternListReturnDto {
 
         return numberingPatternRepository.findPatternSearch(search)
     }

@@ -50,8 +50,8 @@ class CustomCodeController(
     fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto, model: Model): String {
         val result = customCodeService.getCustomCodeList(customCodeSearchDto)
         model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE))
-        model.addAttribute("customCodeList", result)
-        model.addAttribute("customCodeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("customCodeList", result.data)
+        model.addAttribute("customCodeCount", result.totalCount)
         return if (customCodeSearchDto.isScroll) customCodeListFragment else customCodeListPage
     }
 

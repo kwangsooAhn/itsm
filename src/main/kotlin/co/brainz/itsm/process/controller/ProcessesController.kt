@@ -41,8 +41,8 @@ class ProcessesController(private val processAdminService: ProcessAdminService) 
         params["search"] = request.getParameter("search")
         params["offset"] = request.getParameter("offset") ?: "0"
         val result = processAdminService.getProcesses(params)
-        model.addAttribute("processList", result)
-        model.addAttribute("processListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("processList", result.data)
+        model.addAttribute("processListCount", result.totalCount)
         return if (isScroll) processListFragment else processListPage
     }
 }

@@ -38,7 +38,7 @@ import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.util.ArrayDeque
@@ -73,7 +73,7 @@ class WfDocumentService(
      *
      * @return List<RestTemplateDocumentDto>
      */
-    fun documents(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentListDto> {
+    fun documents(searchListDto: RestTemplateDocumentSearchListDto): RestTemplateDocumentListReturnDto {
         return wfDocumentRepository.findByDocuments(searchListDto)
     }
 

@@ -11,6 +11,7 @@ import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.dto.RestTemplateFormListReturnDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -31,7 +32,7 @@ class FormAdminService(
     /**
      * 문서양식 데이터 목록 조회.
      */
-    fun findForms(params: LinkedHashMap<String, Any>): List<RestTemplateFormDto> {
+    fun findForms(params: LinkedHashMap<String, Any>): RestTemplateFormListReturnDto {
         return wfFormService.forms(params)
     }
 

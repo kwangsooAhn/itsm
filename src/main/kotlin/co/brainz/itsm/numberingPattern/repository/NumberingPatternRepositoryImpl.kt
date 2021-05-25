@@ -1,7 +1,14 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.numberingPattern.repository
 
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternListDto
+import co.brainz.itsm.numberingPattern.dto.NumberingPatternListReturnDto
 import co.brainz.itsm.numberingPattern.entity.NumberingPatternEntity
 import co.brainz.itsm.numberingPattern.entity.QNumberingPatternEntity
 import co.brainz.itsm.numberingPattern.service.NumberingPatternService
@@ -14,7 +21,7 @@ class NumberingPatternRepositoryImpl(
     private val numberingPatternService: NumberingPatternService
 ) : QuerydslRepositorySupport(NumberingPatternEntity::class.java), NumberingPatternRepositoryCustom {
 
-    override fun findPatternSearch(search: String): MutableList<NumberingPatternListDto> {
+    override fun findPatternSearch(search: String): NumberingPatternListReturnDto {
         val pattern = QNumberingPatternEntity.numberingPatternEntity
         val query = from(pattern)
             .select(
@@ -56,6 +63,9 @@ class NumberingPatternRepositoryImpl(
             )
             numberingPatternList.add(numberingPatternListDto)
         }
-        return numberingPatternList
+        return NumberingPatternListReturnDto(
+            data = numberingPatternList,
+            totalCount = query.total
+        )
     }
 }

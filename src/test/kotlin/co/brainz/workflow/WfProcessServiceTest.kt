@@ -32,13 +32,13 @@ class WfProcessServiceTest {
         val params = LinkedHashMap<String, Any>()
         params["offset"] = 1
         val processList = wfProcessService.getProcesses(params)
-        if (processList.isNotEmpty()) {
-            processId = processList[0].id
+        if (processList.data.isNotEmpty()) {
+            processId = processList.data[0].id
         }
         if (processId.isNotEmpty()) {
             val process = wfProcessService.getProcess(processId)
-            assertEquals(processList[0].name, process.name)
-            assertEquals(processList[0].status, process.status)
+            assertEquals(processList.data[0].name, process.name)
+            assertEquals(processList.data[0].status, process.status)
         }
     }
 
@@ -51,8 +51,8 @@ class WfProcessServiceTest {
         params["offset"] = 1
         params["status"] = "process.status.use"
         val processList = wfProcessService.getProcesses(params)
-        if (processList.isNotEmpty()) {
-            processId = processList[0].id
+        if (processList.data.isNotEmpty()) {
+            processId = processList.data[0].id
         }
         if (processId.isNotEmpty()) {
             val reportDto = wfProcessService.getProcessSimulation(processId)

@@ -6,6 +6,7 @@
 package co.brainz.itsm.image.controller
 
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
+import co.brainz.framework.fileTransaction.dto.AliceImageFileListReturnDto
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.image.dto.ImageRenameDto
@@ -68,7 +69,7 @@ class ImageRestController(
         @RequestParam(value = "type", defaultValue = "") type: String,
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         @RequestParam(value = "offset", defaultValue = "-1") offset: String
-    ): List<AliceImageFileDto> {
+    ): AliceImageFileListReturnDto {
         return fileProvider.getImageFileList(type, searchValue, offset.toInt())
     }
 }

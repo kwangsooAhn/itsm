@@ -21,6 +21,7 @@ import co.brainz.workflow.process.service.simulation.WfProcessSimulator
 import co.brainz.workflow.provider.dto.RestTemplateElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -52,7 +53,7 @@ class WfProcessService(
     /**
      * 프로세스 목록 조회
      */
-    fun getProcesses(parameters: LinkedHashMap<String, Any>): MutableList<RestTemplateProcessViewDto> {
+    fun getProcesses(parameters: LinkedHashMap<String, Any>): RestTemplateProcessListReturnDto {
         var search = ""
         var status = listOf<String>()
         var offset: Long? = null
@@ -70,10 +71,12 @@ class WfProcessService(
             }
             val processViewDto = processMapper.toProcessViewDto(process)
             processViewDto.enabled = enabled
-            processViewDto.totalCount = queryResult.total
             processViewDtoList.add(processViewDto)
         }
-        return processViewDtoList
+        return RestTemplateProcessListReturnDto(
+            data = processViewDtoList,
+            totalCount = queryResult.total
+        )
     }
 
     /**

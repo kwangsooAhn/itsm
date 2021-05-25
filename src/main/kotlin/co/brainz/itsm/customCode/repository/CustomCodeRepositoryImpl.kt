@@ -11,6 +11,7 @@ import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
+import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
 import com.querydsl.core.types.Projections
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Repository
 class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     CustomCodeRepositoryCustom {
 
-    override fun findByCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): List<CustomCodeListDto> {
+    override fun findByCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): CustomCodeListReturnDto {
         val customCode = QCustomCodeEntity.customCodeEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(customCode)
@@ -58,7 +59,10 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             )
         }
 
-        return customCodeList
+        return CustomCodeListReturnDto(
+            data = customCodeList,
+            totalCount = result.total
+        )
     }
 
     override fun findByCustomCode(customCodeId: String): CustomCodeCoreDto {
