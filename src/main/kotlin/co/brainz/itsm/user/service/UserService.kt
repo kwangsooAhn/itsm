@@ -23,7 +23,7 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
-import co.brainz.itsm.user.dto.UserListDto
+import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -72,7 +72,7 @@ class UserService(
      */
     fun selectUserList(search: String, offset: Long): UserListReturnDto {
         val queryResult = userRepository.findAliceUserEntityList(search, offset)
-        val userList: MutableList<UserListDto> = mutableListOf()
+        val userList: MutableList<UserListDataDto> = mutableListOf()
 
         for (user in queryResult.data) {
             val avatarPath = userDetailsService.makeAvatarPath(user)

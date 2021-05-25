@@ -69,7 +69,7 @@ class SchedulerService(
         }
         return SchedulerListReturnDto(
             data = schedulerList,
-            totalCount = schedulers!!.total
+            totalCount = schedulers?.total ?: 0
         )
     }
 

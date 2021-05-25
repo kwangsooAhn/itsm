@@ -11,9 +11,9 @@ import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.user.dto.UserListDataDto
-import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserListReturnDto
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -39,6 +39,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                     user.mobileNumber,
                     user.avatarType,
                     user.avatarValue,
+                    Expressions.asString(""),
                     user.uploaded,
                     user.uploadedLocation,
                     user.createDt
@@ -56,26 +57,8 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
             .offset(offset)
             .fetchResults()
 
-        val userList = mutableListOf<UserListDto>()
-        for (data in query.results) {
-            val userDto = UserListDto(
-                userKey = data.userKey,
-                userId = data.userId,
-                userName = data.userName,
-                email = data.email,
-                position = data.position,
-                department = data.department,
-                officeNumber = data.officeNumber,
-                mobileNumber = data.mobileNumber,
-                avatarType = data.avatarType,
-                avatarValue = data.avatarValue,
-                uploaded = data.uploaded,
-                uploadedLocation = data.uploadedLocation
-            )
-            userList.add(userDto)
-        }
         return UserListReturnDto(
-            data = userList,
+            data = query.results,
             totalCount = query.total
         )
     }
