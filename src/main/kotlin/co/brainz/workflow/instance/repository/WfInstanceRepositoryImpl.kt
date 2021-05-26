@@ -157,7 +157,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.instance.instanceId.eq(instance.instanceId))
             )
         )
-
         builder.and(
             token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
                 .or(token.tokenAction.isNull)
