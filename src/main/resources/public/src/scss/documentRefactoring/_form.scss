@@ -8,12 +8,9 @@ $tooltip-type: (group, row, component);
 }
 
 .zenius-group {
-  // 아코디언 사용중일 경우
   &.accordion {
-    @include border(0.0625rem, solid, map-get($grays, "line"), bottom); // 1px
-    // 체크박스 선택 = 아코디언 펼침
     .zenius-group-accordion-checkBox:checked {
-      ~ .accordion:not(.off) {
+      ~ .zenius-row-tooltip:not(.off):last-child {
         @include border(0.0625rem, solid, map-get($grays, "line"), bottom); // 1px
       }
     }

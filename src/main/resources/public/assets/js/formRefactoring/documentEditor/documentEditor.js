@@ -49,9 +49,9 @@ class DocumentEditor {
     openDocument(documentId) {
         // TODO: 신청서 데이터 load. > 가데이터 삭제 필요
         //aliceJs.fetchJson({ method: 'GET', url: '/rest/documents/' + documentId + '/data' })
-        aliceJs.fetchJson({
+        aliceJs.fetchJson('/assets/js/formRefactoring/documentEditor/data_210430.json', {
             method: 'GET',
-            url: '/assets/js/formRefactoring/documentEditor/data_210430.json'
+            showProgressbar: false
         }).then((documentData) => {
             // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
             //this.data = aliceForm.reformatCalendarFormat('read', formData);

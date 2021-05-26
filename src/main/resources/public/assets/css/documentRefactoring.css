@@ -1549,10 +1549,7 @@ body.modal-active {
   border: 0.0625rem solid #ffffff;
 }
 
-.zenius-group.accordion {
-  border-bottom: 0.0625rem solid #EBEBEB;
-}
-.zenius-group.accordion .zenius-group-accordion-checkBox:checked ~ .accordion:not(.off) {
+.zenius-group.accordion .zenius-group-accordion-checkBox:checked ~ .zenius-row-tooltip:not(.off):last-child {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 
