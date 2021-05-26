@@ -72,17 +72,17 @@ function zTag(inputElement, userSettins, tagifySettings) {
 
             // show loading animation and hide the suggestions dropdown
             tag.loading(true).dropdown.hide.call(tag);
-
-            fetch(TAG_URL + '/whitelist?tagValue=' + value + '&tagType=' + tag.settings.tagType,
-                {signal: controller.signal}
-            ).then(response => response.json())
-                .then(whitelist => {
-                    // update whitelist Array in-place
-                    tag.settings.whitelist.splice(0, whitelist.length, ...whitelist);
-                    tag.loading(false).dropdown.show.call(tag, value); // render the suggestions dropdown
-                }).catch(() => {
-                    console.log('whitelist canceled by user');
-                });
+            aliceJs.fetchJson(TAG_URL + '/whitelist?tagValue=' + value + '&tagType=' + tag.settings.tagType, {
+                method: 'GET',
+                signal: controller.signal
+            }).then((whitelist) => {
+                // update whitelist Array in-place
+                tag.settings.whitelist.splice(0, whitelist.length, ...whitelist);
+                // render the suggestions dropdown
+                tag.loading(false).dropdown.show.call(tag, value);
+            }).catch((error) => {
+                console.log('whitelist canceled by user');
+            });
         }));
     }
 
@@ -94,26 +94,24 @@ function zTag(inputElement, userSettins, tagifySettings) {
                 tagValue: tag.detail.data.value,
                 targetId: tag.detail.tagify.settings.targetId
             };
-
-            fetch(TAG_URL, {
+            aliceJs.fetchText(TAG_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(jsonData)
-            }).then(response => response.text())
-                .then(tagId => {
+            }).then((tagId) => {
                 // DOM 에 tag id  값 추가하기.
-                    document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', tagId);
-                    // tagify 데이터에 tag id 값 추가하기.
-                    tag.detail.tagify.tagData(tag.detail.tagify.getTagElmByValue(tag.detail.data.value), {id: tagId});
-                });
+                document.querySelector('tag[value="' + tag.detail.data.value + '"]').setAttribute('id', tagId);
+                // tagify 데이터에 tag id 값 추가하기.
+                tag.detail.tagify.tagData(tag.detail.tagify.getTagElmByValue(tag.detail.data.value), {id: tagId});
+            });
         }));
 
         tagging.on('remove', (function (tag) {
-            fetch(TAG_URL + '/' + tag.detail.data.id, {
+            aliceJs.fetchText(TAG_URL + '/' + tag.detail.data.id, {
                 method: 'DELETE'
-            }).then(response => console.log('tag deleted :', tag.detail.data.value, response.statusText));
+            });
         }));
     }
 }
