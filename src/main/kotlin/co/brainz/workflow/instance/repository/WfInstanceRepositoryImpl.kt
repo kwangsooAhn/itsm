@@ -157,6 +157,10 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.instance.instanceId.eq(instance.instanceId))
             )
         )
+        builder.and(
+            token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
+                .or(token.tokenAction.isNull)
+        )
 
         val query = getInstancesQuery(tags)
         return query
@@ -196,6 +200,9 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .from(tokenSub)
                     .where(tokenSub.assigneeId.eq(userKey))
             )
+        )
+        builder.and(
+            token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
         )
 
         val query = getInstancesQuery(tags)
