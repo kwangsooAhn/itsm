@@ -7,14 +7,14 @@
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
     <link th:href="@{/assets/css/document2.css}" rel="stylesheet"/>
-    <th:block th:replace="formRefactoring/fragments/formHead :: formHead"></th:block>
+    <th:block th:replace="formDesigner/fragments/formHead :: formHead"></th:block>
     <script th:src="@{/assets/js/util/shortcut-alice.js}"></script>
     <script th:src="@{/assets/vendors/sortableJS/sortable.js}"></script>
     <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
     <script type="module">
         // 사용자 세션 정보 저장
-        import { SESSION } from '../../assets/js/formRefactoring/lib/constants.js';
-        import { formDesigner } from '../../assets/js/formRefactoring/formDesigner/formDesigner.js';
+        import { SESSION } from '../../assets/js/lib/constants.js';
+        import { formDesigner } from '../../assets/js/formDesigner/formDesigner.js';
 
         const userSession = {
             userKey : '[[${#authentication.details.userKey}]]',
@@ -54,7 +54,7 @@
         <div class="form-container">
             <!-- 상단 네비게이션 -->
             <div class="form-header" id="menuBar">
-                <img class="logo" th:src="@{/assets/media/icons/formRefactoring/topmenu/icon_form_designer.svg}" width="169" height="25" alt="Form Designer" />
+                <img class="logo" th:src="@{/assets/media/icons/formDesigner/topmenu/icon_form_designer.svg}" width="169" height="25" alt="Form Designer" />
                 <span class="name ml-auto mr-auto" id="formName"></span>
                 <!--버튼 영역-->
                 <div class="buttons flex-row">

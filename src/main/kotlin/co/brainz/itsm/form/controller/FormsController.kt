@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam
 @RequestMapping("/forms")
 class FormsController(private val formAdminService: FormAdminService) {
 
-    private val formSearchPage: String = "form/formSearch"
-    private val formListPage: String = "form/formList"
-    private val formListFragment: String = "form/formList :: list"
+    private val formSearchPage: String = "formDesigner/formSearch"
+    private val formListPage: String = "formDesigner/formList"
+    private val formListFragment: String = "formDesigner/formList :: list"
 
     /**
      * 폼 리스트 검색 호출 화면.

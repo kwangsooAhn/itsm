@@ -50,13 +50,13 @@
     }
 
     &.icon-unit-search {
-      background: url($icon-folder-path + "formRefactoring/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
+      background: url($icon-folder-path + "formDesigner/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
       background-color: $element-bg-color;
       padding-right: 1.875rem; // 30px
     }
 
     &.icon-unit-px {
-      background: url($icon-folder-path + "formRefactoring/unit/icon_unit_px.svg") no-repeat 100%-3 50%;
+      background: url($icon-folder-path + "formDesigner/unit/icon_unit_px.svg") no-repeat 100%-3 50%;
       background-color: $element-bg-color;
       padding-right: 1.875rem; // 30px
     }
