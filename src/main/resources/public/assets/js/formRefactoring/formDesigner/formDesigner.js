@@ -8,14 +8,14 @@
  * https://www.brainz.co.kr
  */
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
+import { documentEditor } from '../documentEditor/documentEditor.js';
+import { zValidation } from '../lib/validation.js';
 import History from './history.js';
 import Panel from './panel.js';
 import Form from '../form/form.js';
 import Group, { UIGroupTooltip } from '../form/group.js';
 import Row, { UIRowTooltip } from '../form/row.js';
 import Component, { UIComponentTooltip } from '../form/component.js';
-import { documentEditor } from '../documentEditor/documentEditor.js';
-import { zValidation } from '../lib/validation.js';
 
 class FormDesigner {
     constructor() {

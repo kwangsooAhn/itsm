@@ -7,8 +7,8 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import GroupProperty from './property/type/groupProperty.module.js';
 import { zValidation } from '../lib/validation.js ';
+import GroupProperty from './property/type/groupProperty.module.js';
 
 export default class Panel {
     constructor(editor) {

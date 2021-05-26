@@ -10,9 +10,9 @@
  *
  * https://www.brainz.co.kr
  */
-import Property from '../property.module.js';
 import { UIDiv, UITextArea } from '../../../lib/ui.js';
 import { zValidation } from '../../../lib/validation.js';
+import Property from '../property.module.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */

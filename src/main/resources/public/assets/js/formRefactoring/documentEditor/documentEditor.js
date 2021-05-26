@@ -116,12 +116,12 @@ class DocumentEditor {
      * @param data JSON 데이터
      */
     makeActionButton(data) {
-        if (!validation.isDefined(data)) { return false; }
+        if (!zValidation.isDefined(data)) { return false; }
         // 버튼 목록 생성
         const UIButtonGroup = new UIDiv().setUIClass('btn-list');
         // 동적버튼
         data.forEach( (btn) => {
-            if (validation.isEmpty(btn.name)) { return false; }
+            if (zValidation.isEmpty(btn.name)) { return false; }
             UIButtonGroup.addUI(new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
                 .addUIClass('default-fill')
                 .onUIClick(this[btn.value + 'Document'].bind(this)));

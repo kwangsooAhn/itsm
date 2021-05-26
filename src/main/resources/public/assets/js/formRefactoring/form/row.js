@@ -11,7 +11,7 @@
  */
 import * as mixin from '../lib/mixins.js';
 import { UIDiv } from '../lib/ui.js';
-import {CLASS_PREFIX, FORM, UNIT} from '../lib/constants.js';
+import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
 import ClipboardProperty from '../formDesigner/property/type/clipboardProperty.module.js';
 import GroupProperty from '../formDesigner/property/type/groupProperty.module.js';
 import BoxModelProperty from '../formDesigner/property/type/boxModelProperty.module.js';

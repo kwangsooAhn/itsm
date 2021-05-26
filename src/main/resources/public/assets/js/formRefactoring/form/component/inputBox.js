@@ -14,14 +14,14 @@
  */
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
-import {UIDiv, UIInput} from '../../lib/ui.js';
+import { zValidation } from '../../lib/validation.js';
+import { UIDiv, UIInput } from '../../lib/ui.js';
 import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.module.js';
 import GroupProperty from '../../formDesigner/property/type/groupProperty.module.js';
 import SliderProperty from '../../formDesigner/property/type/sliderProperty.module.js';
 import CommonProperty from '../../formDesigner/property/type/commonProperty.module.js';
 import DefaultValueSelectProperty from '../../formDesigner/property/type/defaultValueSelectProperty.module.js';
 import DropdownProperty from '../../formDesigner/property/type/dropdownProperty.module.js';
-import { zValidation } from '../../lib/validation.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
