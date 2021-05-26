@@ -42,7 +42,7 @@ class WfTokenAction(
      */
     private fun actionCancel(tokenDto: WfTokenDto) {
         val token = this.updateToken(tokenDto)
-        wfTokenManagerService.cancelInstance(token.instance.instanceId)
+        wfTokenManagerService.completeInstance(token.instance.instanceId)
     }
 
     /**

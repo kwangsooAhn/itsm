@@ -10,8 +10,7 @@ class WfInstanceConstants {
     enum class Status(val code: String) {
         RUNNING("running"),
         WAITING("waiting"),
-        FINISH("finish"),
-        CANCEL("cancel")
+        FINISH("finish")
     }
 
     companion object {
