@@ -177,8 +177,7 @@ class FormDesigner {
         this.formId = formId;
         aliceJs.fetchJson({
             method: 'GET',
-            url: '/assets/js/formRefactoring/formDesigner/data_210320.json'
-            //url: '/rest/form/' + this.formId + '/dataFormRefactoring', // TODO 리팩토링이 모두 끝나면 URL 정리 필요.
+            url: '/rest/form/' + this.formId + '/dataFormRefactoring'
         }).then((formData) => {
             // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
             //this.data = aliceForm.reformatCalendarFormat('read', response.json());
