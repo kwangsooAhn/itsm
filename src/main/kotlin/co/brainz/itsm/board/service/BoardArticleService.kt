@@ -10,7 +10,7 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.board.dto.BoardArticleCommentDto
-import co.brainz.itsm.board.dto.BoardArticleListDto
+import co.brainz.itsm.board.dto.BoardArticleListReturnDto
 import co.brainz.itsm.board.dto.BoardArticleSaveDto
 import co.brainz.itsm.board.dto.BoardArticleSearchDto
 import co.brainz.itsm.board.dto.BoardArticleViewDto
@@ -43,7 +43,7 @@ class BoardArticleService(
     /**
      * [boardArticleSearchDto]을 받아서 게시판 목록을 [List<BoardRestDto>]으로 반환 한다.
      */
-    fun getBoardArticleList(boardArticleSearchDto: BoardArticleSearchDto): List<BoardArticleListDto> {
+    fun getBoardArticleList(boardArticleSearchDto: BoardArticleSearchDto): BoardArticleListReturnDto {
         val fromDt = LocalDateTime.parse(boardArticleSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(boardArticleSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
         val offset = boardArticleSearchDto.offset

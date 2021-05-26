@@ -38,17 +38,15 @@ class PortalRestController(
     @GetMapping("")
     fun getPortalList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
         val portalResult = portalService.findPortalListOrSearchList(portalSearchDto)
-        val totalCount = if (portalResult.isNotEmpty()) portalResult[0].totalCount else 0
         val portalResultList = mutableListOf<PortalDto>()
-        for (data in portalResult) {
+        for (data in portalResult.data) {
             val portalDto = PortalDto(
                 portalId = data.portalId,
                 portalTitle = data.portalTitle,
                 portalContent = data.portalContent,
                 createDt = data.createDt,
                 updateDt = data.updateDt,
-                tableName = data.tableName,
-                totalCount = totalCount
+                tableName = data.tableName
             )
             portalResultList.add(portalDto)
         }

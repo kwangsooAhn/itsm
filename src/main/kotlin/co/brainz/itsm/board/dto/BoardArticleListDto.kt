@@ -18,7 +18,6 @@ data class BoardArticleListDto(
     var boardTitle: String = "",
     var replyCount: Long = 0,
     var readCount: Long = 0,
-    var totalCount: Long = 0,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = ""
 )

@@ -11,6 +11,7 @@ import co.brainz.framework.fileTransaction.entity.QAliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileOwnMapEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.dto.DownloadListDto
+import co.brainz.itsm.download.dto.DownloadListReturnDto
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.entity.QDownloadEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
@@ -29,7 +30,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
-    ): List<DownloadListDto> {
+    ): DownloadListReturnDto {
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
@@ -72,7 +73,10 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             data.totalCount = result.total
             downloadList.add(data)
         }
-        return downloadList.toList()
+        return DownloadListReturnDto(
+            data = downloadList,
+            totalCount = result.total
+        )
     }
 
     override fun findDownloadTopList(limit: Long): List<PortalTopDto> {

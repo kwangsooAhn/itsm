@@ -49,8 +49,8 @@ class DownloadController(
     @GetMapping("")
     fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
         val result = downloadService.getDownloadList(downloadSearchDto)
-        model.addAttribute("downloadList", result)
-        model.addAttribute("downloadCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("downloadList", result.data)
+        model.addAttribute("downloadCount", result.totalCount)
         return if (downloadSearchDto.isScroll) downloadListFragment else downloadListPage
     }
 

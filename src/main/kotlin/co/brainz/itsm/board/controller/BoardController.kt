@@ -132,8 +132,8 @@ class BoardController(
     @GetMapping("/articles")
     fun getBoardArticleList(boardArticleSearchDto: BoardArticleSearchDto, model: Model): String {
         val result = boardArticleService.getBoardArticleList(boardArticleSearchDto)
-        model.addAttribute("boardList", result)
-        model.addAttribute("boardCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("boardList", result.data)
+        model.addAttribute("boardCount", result.totalCount)
         return if (boardArticleSearchDto.isScroll) boardArticlesListFragment else boardArticlesListPage
     }
 
