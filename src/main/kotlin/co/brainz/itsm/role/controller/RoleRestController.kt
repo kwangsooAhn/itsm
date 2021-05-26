@@ -41,7 +41,7 @@ class RoleRestController(private val roleService: RoleService) {
      */
     @GetMapping("/{roleId}")
     fun getRoles(@PathVariable roleId: String): RoleDto {
-        return roleService.selectDetailRoles(roleId)
+        return roleService.getRoleDetail(roleId)
     }
 
     /**

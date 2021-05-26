@@ -74,7 +74,7 @@ class SchedulerController(
             "executeCycleTypeList",
             codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE)
         )
-        model.addAttribute("schedule", schedulerService.getScheduler(taskId))
+        model.addAttribute("schedule", schedulerService.getSchedulerDetail(taskId))
         return schedulerViewPage
     }
 
@@ -88,7 +88,7 @@ class SchedulerController(
             "executeCycleTypeList",
             codeService.selectCodeByParent(AliceConstants.SCHEDULE_EXECUTE_CYCLE_TYPE)
         )
-        model.addAttribute("schedule", schedulerService.getScheduler(taskId))
+        model.addAttribute("schedule", schedulerService.getSchedulerDetail(taskId))
         return schedulerEditPage
     }
 

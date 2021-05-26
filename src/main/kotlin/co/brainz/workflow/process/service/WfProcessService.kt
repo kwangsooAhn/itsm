@@ -82,7 +82,7 @@ class WfProcessService(
     /**
      * 프로세스 조회
      */
-    fun getProcess(processId: String): RestTemplateProcessViewDto {
+    fun getProcessDetail(processId: String): RestTemplateProcessViewDto {
         val wfProcessDto = wfProcessRepository.findByProcessId(processId)?.let { processMapper.toProcessViewDto(it) }
             ?: throw AliceException(
                 AliceErrorConstants.ERR_00005,

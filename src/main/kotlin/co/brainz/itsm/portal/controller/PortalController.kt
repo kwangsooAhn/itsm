@@ -154,7 +154,7 @@ class PortalController(
      */
     @GetMapping("/downloads/{downloadId}/view")
     fun getDownloadView(@PathVariable downloadId: String, model: Model): String {
-        model.addAttribute("download", downloadService.getDownload(downloadId, "view"))
+        model.addAttribute("download", downloadService.getDownloadDetail(downloadId, "view"))
         return portalDownloadViewPage
     }
 }
