@@ -1100,38 +1100,49 @@ aliceJs.moveObject = function (array, index1, index2) {
  * @param option 옵션
  * @return 비동기 통신 객체 = Promise 객체
  */
-
-aliceJs.doFetch = function(option) {
-    // TODO: Progressbar 추가/삭제
-    const fetchParam = { method: option.method.toUpperCase() || 'POST' };
-    if (fetchParam.method !== 'GET') {
-        fetchParam.headers = {
-            'Content-Type': option.contentType || 'application/x-www-form-urlencoded'
-        };
+aliceJs.doFetch = async function(url, option) {
+    const defaultFetchParam = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    // Progressbar 추가
+    const showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null) ? false : option.showProgressbar;
+    if (showProgressbar) {
+        showProgressBar();
     }
-    if (option.params) {
-        fetchParam.body = option.params;
+    if (option.showProgressbar) {
+        delete option.showProgressbar;
     }
-    return fetch(option.url, fetchParam);
+    const fetchParam = Object.assign({}, defaultFetchParam, option);
+    const response = await fetch(url, fetchParam);
+    // Progressbar 삭제
+    if (showProgressbar) {
+        hiddenProgressBar();
+    }
+    return response;
 };
 
 /**
  * 비동기 통신 후 Promise 형태로 Json 데이터를 반환하는 함수
+ * @param url url
  * @param option 옵션
  * @returns Promise 객체 반환값
  */
-aliceJs.fetchJson = function(option) {
-    return aliceJs.doFetch(option)
+aliceJs.fetchJson = function(url, option) {
+    return aliceJs.doFetch(url, option)
         .then(response => response.json());
 };
 
 /**
  * 비동기 통신 후 Promise 형태로 Text 데이터를 반환하는 함수
+ * @param url url
  * @param option 옵션
  * @returns Promise 객체 반환값
  */
-aliceJs.fetchText = function(option) {
-    return aliceJs.doFetch(option)
+aliceJs.fetchText = function(url, option) {
+    return aliceJs.doFetch(url, option)
         .then(response => response.text());
 };
 
