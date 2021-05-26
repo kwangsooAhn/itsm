@@ -12,17 +12,30 @@
  * https://www.brainz.co.kr
  */
 import Property from '../property.module.js';
+import { UIClipboard, UIDiv } from '../../../lib/ui.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */
 };
 
-export default class ClipboardProperty {
-    constructor(name) {
-        this.property = new Property(name, 'clipboardProperty');
+export default class ClipboardProperty extends Property {
+    constructor(name, value) {
+        super(name, 'clipboardProperty', value);
     }
 
-    getPropertyTypeConfig() {
-        return this.property.getPropertyConfig();
+    // DOM Element 생성
+    makeProperty(panel) {
+        this.panel = panel;
+
+        this.UIElement = new UIDiv().setUIClass('property')
+            .setUIProperty('--data-column', this.columnWidth);
+        // 라벨
+        this.UIElement.UILabel = this.makeLabelProperty();
+        this.UIElement.addUI(this.UIElement.UILabel);
+        // 클립보드
+        this.UIElement.UIClipboard = new UIClipboard();
+        this.UIElement.UIClipboard.UIInput.setUIValue(this.value);
+        this.UIElement.addUI(this.UIElement.UIClipboard);
+        return this.UIElement;
     }
 }

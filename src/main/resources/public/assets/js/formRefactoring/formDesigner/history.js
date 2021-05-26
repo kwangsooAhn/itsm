@@ -49,6 +49,7 @@ export default class History {
             let restoreData = this.undoList.pop();
             this.restore('undo', restoreData);
             this.save(restoreData, this.redoList, true);
+            this.editor.deSelectObject();
         }
     }
     /**
@@ -59,6 +60,7 @@ export default class History {
             let restoreData = this.redoList.pop();
             this.restore('redo', restoreData);
             this.save(restoreData, this.undoList, true);
+            this.editor.deSelectObject();
         }
     }
     /**

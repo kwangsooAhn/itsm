@@ -139,10 +139,10 @@ class FormAdminService(
                         componentLabel = mapper.convertValue(component["label"], linkedMapType)
                     }
                     // Validate in component
-                    var componentValidate: LinkedHashMap<String, Any> = linkedMapOf()
-                    component["validate"]?.let {
-                        componentValidate =
-                            mapper.convertValue(component["validate"], linkedMapType)
+                    var componentValidation: LinkedHashMap<String, Any> = linkedMapOf()
+                    component["validation"]?.let {
+                        componentValidation =
+                            mapper.convertValue(component["validation"], linkedMapType)
                     }
                     // element in component
                     var componentElement: LinkedHashMap<String, Any> = linkedMapOf()
@@ -160,7 +160,7 @@ class FormAdminService(
                             value = null,
                             display = componentDisplay,
                             label = componentLabel,
-                            validate = componentValidate,
+                            validation = componentValidation,
                             element = componentElement
                         )
                     )

@@ -357,7 +357,7 @@ class Validation {
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
             rtn = this.getDOMElementValue(target).trim() !== '';
-            const requiredDOMElementName = target.getAttribute('data-validate-required-name');
+            const requiredDOMElementName = target.getAttribute('data-validation-required-name');
             const msg =  requiredDOMElementName ? i18n.msg('validation.msg.required', requiredDOMElementName) : i18n.msg('common.msg.requiredEnter');
             this.setDOMElementError(rtn, target, msg, callback);
         } else { // 변수이면 true인지 false인지만 반환
@@ -403,6 +403,49 @@ class Validation {
         }
         return rtn;
     }
+    /**
+     * keyup시 type(number, char, email 등), min, max 체크
+     * @param target
+     * @returns target 유효성 결과값
+     */
+    keyUpValidationCheck(target) {
+        if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
+
+        if (target.hasAttribute('data-validation-type') &&
+            target.getAttribute('data-validation-type') !== '') {
+            return this.emit(target.getAttribute('data-validation-type'), target);
+        }
+        if (target.hasAttribute('data-validation-min') &&
+            target.getAttribute('data-validation-min') !== '') {
+            return this.emit('min', target, target.getAttribute('data-validation-min'));
+        }
+        if (target.hasAttribute('data-validation-max') &&
+            target.getAttribute('data-validation-max') !== '') {
+            return this.emit('max', target, target.getAttribute('data-validation-max'));
+        }
+        return true;
+    }
+    /**
+     * change시 필수값, minLength, maxLength 체크
+     * @param target 이벤트객체
+     */
+    changeValidationCheck(target) {
+        if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
+
+        if (target.hasAttribute('data-validation-required') &&
+            target.getAttribute('data-validation-required') !== 'false') {
+            return this.emit('required', target);
+        }
+        if (target.hasAttribute('data-validation-minLength') &&
+            target.getAttribute('data-validation-minLength') !== '') {
+            return this.emit('minLength', target, target.getAttribute('data-validation-minLength'));
+        }
+        if (target.hasAttribute('data-validation-maxLength') &&
+            target.getAttribute('data-validation-maxLength') !== '') {
+            return this.emit('maxLength', target, target.getAttribute('data-validation-maxLength'));
+        }
+        return true;
+    }
 }
 
-export const validation = new Validation();
+export const zValidation = new Validation();
