@@ -286,7 +286,7 @@ workflowUtil.exportWoo = function (id, type) {
     //aliceJs.fetchJson({ method: 'GET', url: exportUrl })
     aliceJs.fetchJson({
         method: 'GET',
-        url: '/assets/js/formRefactoring/formDesigner/data_210320.json'
+        url: '/assets/js/formDesigner/data_210320.json'
     }).then((data) => {
         // 버전 정보
         aliceJs.fetchJson({
