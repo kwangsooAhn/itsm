@@ -668,6 +668,9 @@ class FormDesigner {
         // 저장
         aliceJs.fetchJson('/rest/form/' + this.formId + '/dataFormRefactoring', {
             method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(saveData),
             showProgressbar: true
         }).then((formData) => {
@@ -751,6 +754,9 @@ class FormDesigner {
         // 저장
         aliceJs.fetchText('/rest/forms?saveType=saveas', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(saveData),
             showProgressbar: true
         }).then((formId) => {

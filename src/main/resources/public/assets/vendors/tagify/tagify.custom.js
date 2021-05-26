@@ -96,6 +96,9 @@ function zTag(inputElement, userSettins, tagifySettings) {
             };
             aliceJs.fetchText(TAG_URL, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(jsonData)
             }).then((tagId) => {
                 // DOM 에 tag id  값 추가하기.

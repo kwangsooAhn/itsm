@@ -1101,12 +1101,6 @@ aliceJs.moveObject = function (array, index1, index2) {
  * @return 비동기 통신 객체 = Promise 객체
  */
 aliceJs.doFetch = async function(url, option) {
-    const defaultFetchParam = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
     // Progressbar 추가
     const showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null) ? false : option.showProgressbar;
     if (showProgressbar) {
@@ -1115,7 +1109,7 @@ aliceJs.doFetch = async function(url, option) {
     if (option.showProgressbar) {
         delete option.showProgressbar;
     }
-    const fetchParam = Object.assign({}, defaultFetchParam, option);
+    const fetchParam = Object.assign({}, option);
     const response = await fetch(url, fetchParam);
     // Progressbar 삭제
     if (showProgressbar) {
