@@ -28,10 +28,11 @@ class FormDesigner {
         this.selectedObject = null;
 
         // 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
-        aliceJs.fetchJson({ method: 'GET', url: '/rest/custom-codes?viewType=editor' })
-            .then((customData) => {
-                FORM.CUSTOM_CODE = customData;
-            });
+        aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
+            method: 'GET'
+        }).then((customData) => {
+            FORM.CUSTOM_CODE = customData;
+        });
 
         // 초기화
         this.initMenuBar();
@@ -175,9 +176,9 @@ class FormDesigner {
      */
     initForm(formId) {
         this.formId = formId;
-        aliceJs.fetchJson({
+        aliceJs.fetchJson('/rest/form/' + this.formId + '/dataFormRefactoring', {
             method: 'GET',
-            url: '/rest/form/' + this.formId + '/dataFormRefactoring'
+            showProgressbar: true
         }).then((formData) => {
             // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
             //this.data = aliceForm.reformatCalendarFormat('read', response.json());
@@ -665,11 +666,13 @@ class FormDesigner {
         console.log(saveData);
 
         // 저장
-        aliceJs.fetchJson({
+        aliceJs.fetchJson('/rest/form/' + this.formId + '/dataFormRefactoring', {
             method: 'PUT',
-            url: '/rest/form/' + this.formId + '/dataFormRefactoring',
-            contentType: 'application/json',
-            params: JSON.stringify(saveData)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData),
+            showProgressbar: true
         }).then((formData) => {
             if (formData) {
                 this.setFormName(this.form.name);
@@ -749,11 +752,13 @@ class FormDesigner {
         // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
         console.log(saveData);
         // 저장
-        aliceJs.fetchText({
+        aliceJs.fetchText('/rest/forms?saveType=saveas', {
             method: 'POST',
-            url: '/rest/forms?saveType=saveas',
-            contentType: 'application/json',
-            params: JSON.stringify(saveData)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData),
+            showProgressbar: true
         }).then((formId) => {
             if (formId) {
                 aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
