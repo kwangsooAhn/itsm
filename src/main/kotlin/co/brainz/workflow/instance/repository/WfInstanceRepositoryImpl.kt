@@ -160,6 +160,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
         builder.and(
             token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
+                .or(token.tokenAction.isNull)
         )
 
         val query = getInstancesQuery(tags)
