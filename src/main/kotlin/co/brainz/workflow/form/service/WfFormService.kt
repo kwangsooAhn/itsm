@@ -235,10 +235,10 @@ class WfFormService(
                         val optionValue =
                             objMapper.readValue(componentPropertyEntity.propertyOptions, LinkedHashMap::class.java)
                         when (componentPropertyEntity.propertyType) {
-                            "display" -> componentDto.display = objMapper.convertValue(optionValue, linkedMapType)
-                            "label" -> componentDto.label = objMapper.convertValue(optionValue, linkedMapType)
-                            "validate" -> componentDto.validate = objMapper.convertValue(optionValue, linkedMapType)
-                            "element" -> componentDto.element = objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.DISPLAY.value -> componentDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.LABEL.value -> componentDto.label = objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.VALIDATE.value -> componentDto.validate = objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.ELEMENT.value -> componentDto.element = objMapper.convertValue(optionValue, linkedMapType)
                         }
                     }
                     componentDtoList.add(componentDto)
@@ -265,8 +265,8 @@ class WfFormService(
             for (groupPropertyEntity in groupPropertyEntityList) {
                 val optionValue = objMapper.readValue(groupPropertyEntity.propertyOptions, LinkedHashMap::class.java)
                 when (groupPropertyEntity.propertyType) {
-                    "display" -> groupDto.display = objMapper.convertValue(optionValue, linkedMapType)
-                    "label" -> groupDto.label = objMapper.convertValue(optionValue, linkedMapType)
+                    WfFormConstants.PropertyType.DISPLAY.value -> groupDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                    WfFormConstants.PropertyType.LABEL.value -> groupDto.label = objMapper.convertValue(optionValue, linkedMapType)
                 }
             }
             formGroupList.add(groupDto)
@@ -383,7 +383,7 @@ class WfFormService(
         // wf_comp_data 저장
         var componentPropertyEntity = WfComponentPropertyEntity(
             componentId = resultComponentEntity.componentId,
-            propertyType = "display",
+            propertyType = WfFormConstants.PropertyType.DISPLAY.value,
             propertyOptions = objMapper.writeValueAsString(component.display),
             properties = resultComponentEntity
         )
@@ -393,7 +393,7 @@ class WfFormService(
             if (it.size > 0) {
                 componentPropertyEntity = WfComponentPropertyEntity(
                     componentId = resultComponentEntity.componentId,
-                    propertyType = "validate",
+                    propertyType = WfFormConstants.PropertyType.VALIDATE.value,
                     propertyOptions = objMapper.writeValueAsString(it),
                     properties = resultComponentEntity
                 )
@@ -405,7 +405,7 @@ class WfFormService(
             if (it.size > 0) {
                 componentPropertyEntity = WfComponentPropertyEntity(
                     componentId = resultComponentEntity.componentId,
-                    propertyType = "element",
+                    propertyType = WfFormConstants.PropertyType.ELEMENT.value,
                     propertyOptions = objMapper.writeValueAsString(it),
                     properties = resultComponentEntity
                 )
@@ -416,7 +416,7 @@ class WfFormService(
         if (component.label.size > 0) {
             componentPropertyEntity = WfComponentPropertyEntity(
                 componentId = resultComponentEntity.componentId,
-                propertyType = "label",
+                propertyType = WfFormConstants.PropertyType.LABEL.value,
                 propertyOptions = objMapper.writeValueAsString(component.label),
                 properties = resultComponentEntity
             )
