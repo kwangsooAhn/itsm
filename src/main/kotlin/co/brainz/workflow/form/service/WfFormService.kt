@@ -235,10 +235,10 @@ class WfFormService(
                         val optionValue =
                             objMapper.readValue(componentPropertyEntity.propertyOptions, LinkedHashMap::class.java)
                         when (componentPropertyEntity.propertyType) {
-                            "display" -> componentDto.display = objMapper.convertValue(optionValue, linkedMapType)
-                            "label" -> componentDto.label = objMapper.convertValue(optionValue, linkedMapType)
-                            "validate" -> componentDto.validate = objMapper.convertValue(optionValue, linkedMapType)
-                            "element" -> componentDto.element = objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.DISPLAY.value -> componentDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.LABEL.value -> componentDto.label = objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.VALIDATE.value -> componentDto.validate = objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.ELEMENT.value -> componentDto.element = objMapper.convertValue(optionValue, linkedMapType)
                         }
                     }
                     componentDtoList.add(componentDto)
@@ -265,27 +265,31 @@ class WfFormService(
             for (groupPropertyEntity in groupPropertyEntityList) {
                 val optionValue = objMapper.readValue(groupPropertyEntity.propertyOptions, LinkedHashMap::class.java)
                 when (groupPropertyEntity.propertyType) {
-                    "display" -> groupDto.display = objMapper.convertValue(optionValue, linkedMapType)
-                    "label" -> groupDto.label = objMapper.convertValue(optionValue, linkedMapType)
+                    WfFormConstants.PropertyType.DISPLAY.value -> groupDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                    WfFormConstants.PropertyType.LABEL.value -> groupDto.label = objMapper.convertValue(optionValue, linkedMapType)
                 }
             }
             formGroupList.add(groupDto)
         }
 
-        val optionValue = objMapper.readValue(formEntity.get().formDisplayIOption, LinkedHashMap::class.java)
+        var displayOption: LinkedHashMap<String, Any> = LinkedHashMap()
+        formEntity.get().formDisplayOption?.let {
+            val displayOptionMap = objMapper.readValue(it, LinkedHashMap::class.java)
+            displayOption = objMapper.convertValue(displayOptionMap, linkedMapType)
+        }
+
         return RestTemplateFormDataDto(
             id = formId,
             name = formEntity.get().formName,
             status = formEntity.get().formStatus,
             desc = formEntity.get().formDesc,
-            category = formEntity.get().formCategory ?: "", // 리팩토링이 끝나면 not null 로 수정하자.
+            category = formEntity.get().formCategory ?: "",
             updateDt = formEntity.get().updateDt,
             updateUserKey = formEntity.get().updateUser?.userKey,
             createDt = formEntity.get().createDt,
             createUserKey = formEntity.get().createUser?.userKey,
             group = formGroupList,
-            display = objMapper.convertValue(optionValue, linkedMapType)
-
+            display = displayOption
         )
     }
 
@@ -379,7 +383,7 @@ class WfFormService(
         // wf_comp_data 저장
         var componentPropertyEntity = WfComponentPropertyEntity(
             componentId = resultComponentEntity.componentId,
-            propertyType = "display",
+            propertyType = WfFormConstants.PropertyType.DISPLAY.value,
             propertyOptions = objMapper.writeValueAsString(component.display),
             properties = resultComponentEntity
         )
@@ -389,7 +393,7 @@ class WfFormService(
             if (it.size > 0) {
                 componentPropertyEntity = WfComponentPropertyEntity(
                     componentId = resultComponentEntity.componentId,
-                    propertyType = "validate",
+                    propertyType = WfFormConstants.PropertyType.VALIDATE.value,
                     propertyOptions = objMapper.writeValueAsString(it),
                     properties = resultComponentEntity
                 )
@@ -401,7 +405,7 @@ class WfFormService(
             if (it.size > 0) {
                 componentPropertyEntity = WfComponentPropertyEntity(
                     componentId = resultComponentEntity.componentId,
-                    propertyType = "element",
+                    propertyType = WfFormConstants.PropertyType.ELEMENT.value,
                     propertyOptions = objMapper.writeValueAsString(it),
                     properties = resultComponentEntity
                 )
@@ -409,17 +413,16 @@ class WfFormService(
             }
         }
 
-        component.label?.let {
-            if (it.size > 0) {
-                componentPropertyEntity = WfComponentPropertyEntity(
-                    componentId = resultComponentEntity.componentId,
-                    propertyType = "label",
-                    propertyOptions = objMapper.writeValueAsString(it),
-                    properties = resultComponentEntity
-                )
-                wfComponentPropertyEntities.add(componentPropertyEntity)
-            }
+        if (component.label.size > 0) {
+            componentPropertyEntity = WfComponentPropertyEntity(
+                componentId = resultComponentEntity.componentId,
+                propertyType = WfFormConstants.PropertyType.LABEL.value,
+                propertyOptions = objMapper.writeValueAsString(component.label),
+                properties = resultComponentEntity
+            )
+            wfComponentPropertyEntities.add(componentPropertyEntity)
         }
+
         return wfComponentPropertyEntities
     }
 
@@ -522,10 +525,10 @@ class WfFormService(
     /**
      * Insert, Update Form Data.
      *
-     * @param restTemplateFormComponentListDto
+     * @param formData
      */
     @Transactional
-    fun saveFormDataFromRefactoring(formData: RestTemplateFormDataDto): Boolean {
+    fun saveFormDataFormRefactoring(formData: RestTemplateFormDataDto): Boolean {
 
         // Delete
         val groupEntities = formData.id?.let { wfFormGroupRepository.findByFormId(it) }
@@ -554,7 +557,7 @@ class WfFormService(
             this.updateFormEntityFormRefactoring(wfFormMapper.toRestTemplateFormDtoFormRefactoring(formData))
 
         // Insert component, attribute
-        for (group in formData.group) {
+        for (group in formData.group.orEmpty()) {
             val wfFormGroupPropertyEntities: MutableList<WfFormGroupPropertyEntity> = mutableListOf()
             val currentGroup = wfFormGroupRepository.save(
                 WfFormGroupEntity(
@@ -579,7 +582,7 @@ class WfFormService(
                             rowDisplayOption = objMapper.writeValueAsString(row.display)
                         )
                     )
-                    row.component?.let { components ->
+                    row.component.let { components ->
                         val wfComponentPropertyEntities: MutableList<WfComponentPropertyEntity> = mutableListOf()
                         for (component in components) {
                             val resultComponentEntity =
@@ -605,45 +608,35 @@ class WfFormService(
     /**
      * Save as Form.
      *
-     * @param restTemplateFormComponentListDto
+     * @param restTemplateFormDataDto
      * @return RestTemplateFormDto
      */
-    fun saveAsFormData(restTemplateFormComponentListDto: RestTemplateFormComponentListDto): RestTemplateFormDto {
+    fun saveAsFormData(restTemplateFormDataDto: RestTemplateFormDataDto): RestTemplateFormDto {
         val formDataDto = RestTemplateFormDto(
-            name = restTemplateFormComponentListDto.name,
-            status = restTemplateFormComponentListDto.status,
-            desc = restTemplateFormComponentListDto.desc,
+            name = restTemplateFormDataDto.name,
+            status = restTemplateFormDataDto.status,
+            desc = restTemplateFormDataDto.desc,
             editable = true,
-            createUserKey = restTemplateFormComponentListDto.createUserKey,
-            createDt = restTemplateFormComponentListDto.createDt
+            createUserKey = restTemplateFormDataDto.createUserKey,
+            createDt = restTemplateFormDataDto.createDt
         )
         val wfFormDto = createForm(formDataDto)
-        restTemplateFormComponentListDto.formId = wfFormDto.id
-        when (restTemplateFormComponentListDto.status) {
+        restTemplateFormDataDto.id = wfFormDto.id
+        when (restTemplateFormDataDto.status) {
             WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.editable =
                 false
         }
 
-        for ((idx, component) in restTemplateFormComponentListDto.components.withIndex()) {
-            val prevComponentId = component.componentId
-            val changeComponentId = UUID.randomUUID().toString().replace("-", "")
-            // 아코디언 컴포넌트
-            if (component.type == "accordion-start") {
-                for (i in idx until restTemplateFormComponentListDto.components.size) {
-                    val item = restTemplateFormComponentListDto.components[i]
-                    if (item.type == "accordion-end" && item.display["startId"] == prevComponentId) {
-                        item.display["startId"] = changeComponentId
-
-                        item.componentId = UUID.randomUUID().toString().replace("-", "")
-                        component.display["endId"] = item.componentId
-                    }
+        for (group in restTemplateFormDataDto.group.orEmpty()) {
+            group.id = UUID.randomUUID().toString().replace("-", "")
+            for (row in group.row.orEmpty()) {
+                row.id = UUID.randomUUID().toString().replace("-", "")
+                for (component in row.component) {
+                    component.id = UUID.randomUUID().toString().replace("-", "")
                 }
             }
-            if (component.type != "accordion-end") {
-                component.componentId = changeComponentId
-            }
         }
-        saveFormData(restTemplateFormComponentListDto)
+        saveFormDataFormRefactoring(restTemplateFormDataDto)
 
         return wfFormDto
     }
@@ -669,7 +662,7 @@ class WfFormService(
         formEntity.get().formDesc = restTemplateFormDto.desc
         formEntity.get().formStatus = restTemplateFormDto.status
         formEntity.get().formCategory = restTemplateFormDto.category
-        formEntity.get().formDisplayIOption = objMapper.writeValueAsString(restTemplateFormDto.display)
+        formEntity.get().formDisplayOption = objMapper.writeValueAsString(restTemplateFormDto.display)
         formEntity.get().updateDt = restTemplateFormDto.updateDt
         formEntity.get().updateUser = restTemplateFormDto.updateUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
@@ -725,15 +718,13 @@ class WfFormService(
     ): WfComponentEntity {
         val tagList = component.tags as List<String>
         tagList.forEach { tagValue ->
-            tagValue?.let {
-                aliceTagRepository.save(
-                    AliceTagEntity(
-                        tagType = AliceTagConstants.TagType.COMPONENT.code,
-                        tagValue = it,
-                        targetId = component.id
-                    )
+            aliceTagRepository.save(
+                AliceTagEntity(
+                    tagType = AliceTagConstants.TagType.COMPONENT.code,
+                    tagValue = tagValue,
+                    targetId = component.id
                 )
-            }
+            )
         }
 
         val componentEntity = WfComponentEntity(

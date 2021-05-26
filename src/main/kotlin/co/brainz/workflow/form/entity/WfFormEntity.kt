@@ -37,7 +37,7 @@ data class WfFormEntity(
     var formStatus: String? = null,
 
     @Column(name = "form_display_option")
-    var formDisplayIOption: String? = null,
+    var formDisplayOption: String? = null,
 
     @Column(name = "form_category", length = 128)
     var formCategory: String? = null,

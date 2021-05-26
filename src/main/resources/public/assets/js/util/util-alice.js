@@ -1126,6 +1126,16 @@ aliceJs.fetchJson = function(option) {
 };
 
 /**
+ * 비동기 통신 후 Promise 형태로 Text 데이터를 반환하는 함수
+ * @param option 옵션
+ * @returns Promise 객체 반환값
+ */
+aliceJs.fetchText = function(option) {
+    return aliceJs.doFetch(option)
+        .then(response => response.text());
+};
+
+/**
  * 믹스인을 추가하는 함수
  *
  * @param target 믹스인을 추가할 대상 객체의 prototype

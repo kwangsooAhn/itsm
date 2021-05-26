@@ -749,11 +749,11 @@ class FormDesigner {
         saveData.desc = document.getElementById('newFormDesc').value;
         // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
         console.log(saveData);
-        return false;
         // 저장
-        aliceJs.fetchJson({
+        aliceJs.fetchText({
             method: 'POST',
             url: '/rest/forms?saveType=saveas',
+            contentType: 'application/json',
             params: JSON.stringify(saveData)
         }).then((formId) => {
             if (formId) {
@@ -762,7 +762,7 @@ class FormDesigner {
                         opener.location.reload();
                     }
                     window.name = 'form_' + formId + '_edit';
-                    location.href = '/form/' + formId + '/edit2';
+                    location.href = '/form/' + formId + '/edit';
                 });
             } else {
                 aliceAlert.alertDanger(i18n.msg('common.label.fail'));

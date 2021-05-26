@@ -278,13 +278,6 @@ export default class Component {
     }
     // json 데이터 추출
     toJson() {
-        let tagList = [];
-        let inputValue = document.getElementById('tags').value
-        if (inputValue !== '') {
-            JSON.parse(inputValue).forEach (tag => {
-                tagList.push(tag.value);
-            })
-        }
         return {
             id: this.id,
             type: this.type,
@@ -292,7 +285,7 @@ export default class Component {
             displayType: this.displayType,
             isTopic: this.isTopic,
             mapId: this.mapId,
-            tags: tagList,
+            tags: this.tags,
             value: this.value,
             label: this.label,
             element: this.element,
