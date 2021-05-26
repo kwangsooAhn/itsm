@@ -283,15 +283,13 @@ workflowUtil.exportWoo = function (id, type) {
     //if (type === 'process') {
     //    exportUrl = '/rest/process/' + id + '/data';
     //}
-    //aliceJs.fetchJson({ method: 'GET', url: exportUrl })
-    aliceJs.fetchJson({
-        method: 'GET',
-        url: '/assets/js/formDesigner/data_210320.json'
+    //aliceJs.fetchJson(exportUrl, { method: 'GET' })
+    aliceJs.fetchJson('/assets/js/formDesigner/data_210320.json', {
+        method: 'GET'
     }).then((data) => {
         // 버전 정보
-        aliceJs.fetchJson({
-            method: 'GET',
-            url: '/rest/codes/version.workflow'
+        aliceJs.fetchJson('/rest/codes/version.workflow', {
+            method: 'GET'
         }).then(codeData => {
             let xmlString = '';
             if (type === 'form') {
