@@ -57,111 +57,9 @@ class FormService(
     }
 
     /**
-     * [formId], [formData]를 받아서 문서양식을 저장한다.
-     */
-    fun saveFormDataFormRefactoring(formId: String, formData: String): Boolean {
-        val formComponentListDto = makeFormComponentListDtoFromRefactoring(formData)
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        formComponentListDto.updateDt = LocalDateTime.now()
-        formComponentListDto.updateUserKey = aliceUserDto.userKey
-        return wfFormService.saveFormDataFormRefactoring(formComponentListDto)
-    }
-
-    /**
      * [formData]를 받아서 문서양식을 반환한다.
      */
-    private fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
-        val map = mapper.readValue(formData, LinkedHashMap::class.java)
-        val components: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
-            map["components"],
-            TypeFactory.defaultInstance().constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
-        )
-
-        val linkedMapType = TypeFactory.defaultInstance()
-            .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
-        val componentDetailList: MutableList<ComponentDetail> = mutableListOf()
-        for (component in components) {
-            var dataAttribute: LinkedHashMap<String, Any> = linkedMapOf()
-            component["dataAttribute"]?.let {
-                dataAttribute =
-                    mapper.convertValue(
-                        component["dataAttribute"],
-                        linkedMapType
-                    )
-            }
-
-            var display: LinkedHashMap<String, Any> = linkedMapOf()
-            component["display"]?.let {
-                display =
-                    mapper.convertValue(component["display"], linkedMapType)
-            }
-
-            var label: LinkedHashMap<String, Any> = linkedMapOf()
-            component["label"]?.let {
-                label = mapper.convertValue(component["label"], linkedMapType)
-            }
-
-            var validate: LinkedHashMap<String, Any> = linkedMapOf()
-            component["validate"]?.let {
-                validate =
-                    mapper.convertValue(component["validate"], linkedMapType)
-            }
-
-            var option: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-            component["option"]?.let {
-                option = mapper.convertValue(
-                    it, TypeFactory.defaultInstance()
-                        .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
-                )
-            }
-
-            var header: LinkedHashMap<String, Any> = linkedMapOf()
-            component["header"]?.let {
-                header = mapper.convertValue(component["header"], linkedMapType)
-            }
-
-            var drTableColumns: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-            component["drTableColumns"]?.let {
-                drTableColumns = mapper.convertValue(
-                    it, TypeFactory.defaultInstance()
-                        .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
-                )
-            }
-
-            componentDetailList.add(
-                ComponentDetail(
-                    componentId = component["componentId"] as String,
-                    type = component["type"] as String,
-                    value = null,
-                    dataAttribute = dataAttribute,
-                    display = display,
-                    label = label,
-                    validate = validate,
-                    option = option,
-                    header = header,
-                    drTableColumns = drTableColumns
-                )
-            )
-        }
-
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        return RestTemplateFormComponentListDto(
-            formId = (map["formId"] ?: "") as String,
-            name = map["name"] as String,
-            desc = map["desc"] as String,
-            status = (map["status"] ?: "") as String,
-            createDt = LocalDateTime.now(),
-            createUserKey = aliceUserDto.userKey,
-            updateDt = null,
-            updateUserKey = null,
-            components = componentDetailList
-        )
-    }
-
-    /**
-     * [formData]를 받아서 문서양식을 반환한다.
-     */
-    private fun makeFormComponentListDtoFromRefactoring(formData: String): RestTemplateFormDataDto {
+    private fun makeFormComponentListDto(formData: String): RestTemplateFormDataDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
         val linkedMapType = TypeFactory.defaultInstance()
             .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
@@ -276,7 +174,7 @@ class FormService(
             desc = map["desc"] as String,
             status = (map["status"] ?: "") as String,
             category = map["category"] as String,
-            display = map["display"] as LinkedHashMap<String, Any>,
+            displayOption = map["display"] as LinkedHashMap<String, Any>,
             createDt = LocalDateTime.now(),
             createUserKey = aliceUserDto.userKey,
             updateDt = null,

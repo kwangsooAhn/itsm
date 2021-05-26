@@ -47,16 +47,6 @@ class FormRestController(private val formService: FormService) {
     }
 
     /**
-     * 문서양식 저장.
-     * _formRefactoring 가 붙은 것들은 추후 원래 이름으로 적용 필요
-     *
-     */
-    @PutMapping("/{formId}/dataFormRefactoring")
-    fun saveFormDataFormRefactoring(@RequestBody formData: String, @PathVariable formId: String): Boolean {
-        return formService.saveFormDataFormRefactoring(formId, formData)
-    }
-
-    /**
      * 문서 삭제.
      */
     @DeleteMapping("/{formId}")

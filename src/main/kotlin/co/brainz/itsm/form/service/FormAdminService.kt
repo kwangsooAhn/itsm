@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
@@ -193,7 +193,7 @@ class FormAdminService(
             desc = map["desc"] as String,
             status = (map["status"] ?: "") as String,
             category = map["category"] as String,
-            display = map["display"] as LinkedHashMap<String, Any>,
+            displayOption = map["display"] as LinkedHashMap<String, Any>,
             createDt = LocalDateTime.now(),
             createUserKey = aliceUserDto.userKey,
             updateDt = null,
