@@ -56,7 +56,7 @@ class WfFormServiceTest {
         assertEquals(saveFormDto.name, this.formName + localDateTime)
     }
 
-/*    @Test
+    @Test
     @DisplayName("폼 삭제")
     @Order(2)
     fun deleteForm() {
@@ -66,5 +66,5 @@ class WfFormServiceTest {
         assumingThat(
             formDtoList.isNotEmpty()
         ) { assumeTrue(wfFormService.deleteForm(formDtoList[0].id)) }
-    }*/
+    }
 }
