@@ -57,7 +57,7 @@ class FormComponentDto(
     var display: LinkedHashMap<String, Any> = LinkedHashMap(),
     var label: LinkedHashMap<String, Any> = LinkedHashMap(),
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    var validate: LinkedHashMap<String, Any>? = null,
+    var validation: LinkedHashMap<String, Any>? = null,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var element: LinkedHashMap<String, Any>? = null
 ) : Serializable

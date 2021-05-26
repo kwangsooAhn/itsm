@@ -8,14 +8,14 @@
  * https://www.brainz.co.kr
  */
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
+import { documentEditor } from '../documentEditor/documentEditor.js';
+import { zValidation } from '../lib/validation.js';
 import History from './history.js';
 import Panel from './panel.js';
 import Form from '../form/form.js';
 import Group, { UIGroupTooltip } from '../form/group.js';
 import Row, { UIRowTooltip } from '../form/row.js';
 import Component, { UIComponentTooltip } from '../form/component.js';
-import { validation } from '../lib/validation.js';
-import { documentEditor } from '../documentEditor/documentEditor.js';
 
 class FormDesigner {
     constructor() {
@@ -177,7 +177,7 @@ class FormDesigner {
         this.formId = formId;
         aliceJs.fetchJson({
             method: 'GET',
-            url: '/rest/form/' + this.formId + '/dataFormRefactoring', // TODO 리팩토링이 모두 끝나면 URL 정리 필요.
+            url: '/rest/form/' + this.formId + '/dataFormRefactoring'
         }).then((formData) => {
             // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
             //this.data = aliceForm.reformatCalendarFormat('read', response.json());
@@ -554,7 +554,7 @@ class FormDesigner {
         if (editor.selectedObject === this) { return false; }
 
         // 세부 속성 유효성 검증 실패시 동작을 중지함
-        if (!editor.panel.validateStatus) { return false; }
+        if (!editor.panel.validationStatus) { return false; }
 
         // 이전 선택된 객체 디자인 삭제
         if (editor.selectedObject !== null) {
@@ -612,7 +612,7 @@ class FormDesigner {
      */
     deSelectObject() {
         // 세부 속성 유효성 검증 실패시 동작을 중지함
-        if (!this.panel.validateStatus) { return false; }
+        if (!this.panel.validationStatus) { return false; }
 
         // 이전 선택된 객체 디자인 삭제
         if (this.selectedObject !== null) {
@@ -652,7 +652,7 @@ class FormDesigner {
      */
     saveForm(boolean) {
         // 세부 속성 유효성 검증 실패시 동작을 중지한다.
-        if (!this.panel.validateStatus) { return false; }
+        if (!this.panel.validationStatus) { return false; }
         // 발행, 사용 상태일 경우, 저장이 불가능하다.
         const deployableStatus = ['form.status.publish', 'form.status.use'];
         if (deployableStatus.includes(this.data.status)) {
@@ -694,7 +694,7 @@ class FormDesigner {
      * 다른이름으로 저장하기 모달 오픈
      */
     openSaveAsModal() {
-        if (!this.panel.validateStatus) { return false; }
+        if (!this.panel.validationStatus) { return false; }
 
         const saveAsModalTemplate = document.getElementById('saveAsModalTemplate');
         const saveAsModal = new modal({
@@ -708,7 +708,7 @@ class FormDesigner {
                     bindKey: false,
                     callback: (modal) => {
                         const newFormName = document.getElementById('newFormName');
-                        if (validation.emit('required', newFormName)) {
+                        if (zValidation.emit('required', newFormName)) {
                             this.saveAsForm();
                             modal.hide();
                         }
