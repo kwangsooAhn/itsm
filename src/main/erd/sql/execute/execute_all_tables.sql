@@ -242,6 +242,7 @@ insert into awf_code values ('scheduler', 'root', null, '스케줄러', null, fa
 insert into awf_code values ('scheduler.taskType', 'scheduler', null, '작업 유형', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.taskType.class', 'scheduler.taskType', 'class', 'CLASS', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.taskType.query', 'scheduler.taskType', 'query', 'QUERY', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler.taskType.jar', 'scheduler.taskType', 'jar', 'JAR', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.executeCycleType', 'scheduler', null, '실행 유형', null, false, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.executeCycleType.fixedDelay', 'scheduler.executeCycleType', 'fixedDelay', 'FIXED_DELAY', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.executeCycleType.fixedRate', 'scheduler.executeCycleType', 'fixedRate', 'FIXED_RATE', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1206,10 +1207,12 @@ CREATE TABLE awf_scheduled_task_mst
 	editable boolean default true,
 	execute_class varchar(512),
 	execute_query varchar(1024),
+	execute_command varchar(1024),
 	execute_cycle_type varchar(100),
 	execute_cycle_period bigint,
 	cron_expression varchar(128),
     args varchar(128),
+    src varchar(512),
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -1226,10 +1229,12 @@ COMMENT ON COLUMN awf_scheduled_task_mst.use_yn IS '사용여부';
 COMMENT ON COLUMN awf_scheduled_task_mst.editable IS '수정가능여부';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_class IS '실행클래스';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_query IS '실행쿼리';
+COMMENT ON COLUMN awf_scheduled_task_mst.execute_command IS '실행명령어';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_cycle_type IS '실행주기유형';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_cycle_period IS '실행주기간격';
 COMMENT ON COLUMN awf_scheduled_task_mst.cron_expression IS '크론표현식';
 COMMENT ON COLUMN awf_scheduled_task_mst.args IS 'arguments';
+COMMENT ON COLUMN awf_scheduled_task_mst.src IS '경로';
 COMMENT ON COLUMN awf_scheduled_task_mst.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_scheduled_task_mst.create_dt IS '등록일';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_user_key IS '수정자';
