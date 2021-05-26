@@ -28,7 +28,7 @@
                         sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
                 <button type="button" class="default-fill" onclick="openFormRegister();"
                         sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
-                <button type="button" class="default-line" onclick="openFormDesigner('2c9180887846b12f017849afa9580000');">Form Refactoring</button>
+                <button type="button" class="default-line" onclick="openFormDesignerEdit('2c9180887846b12f017849afa9580000');">Form Refactoring</button>
             </div>
         </div>
     </div>
@@ -288,19 +288,6 @@
 
         // 폼 디자이너 편집화면 오픈
         function openFormDesignerEdit(formId) {
-            const _width = 1500,
-                  _height = 980;
-            // 중앙 배치
-            const _left = Math.ceil((window.screen.width - _width) / 2);
-            const _top = Math.ceil((window.screen.height - _height) / 4);
-            
-            let specs = 'left=' + _left + ',top=' + _top;
-            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/form/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
-        }
-
-        // 폼 리팩토링 > 폼 디자이너 편집화면 오픈
-        function openFormDesigner(formId) {
             const _width = 1800,
                 _height = 980;
             // 중앙 배치
@@ -309,7 +296,7 @@
 
             let specs = 'left=' + _left + ',top=' + _top;
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/form/' + formId + '/edit_woo', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
+            window.open('/form/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
         // 폼 디자이너 미리보기화면 오픈

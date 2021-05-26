@@ -11,7 +11,6 @@
  */
 package co.brainz.workflow.provider.dto
 
-import co.brainz.framework.tag.dto.AliceTagDto
 import com.fasterxml.jackson.annotation.JsonInclude
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -22,12 +21,12 @@ class RestTemplateFormDataDto(
     var status: String? = "",
     var desc: String? = "",
     var category: String = "",
-    var display: LinkedHashMap<String, Any> = LinkedHashMap(),
+    var display: LinkedHashMap<String, Any>? = LinkedHashMap(),
     var updateDt: LocalDateTime?,
     var updateUserKey: String? = "",
     var createDt: LocalDateTime?,
     var createUserKey: String? = "",
-    val group: MutableList<FormGroupDto> = mutableListOf()
+    val group: MutableList<FormGroupDto>? = mutableListOf()
 ) : Serializable
 
 class FormGroupDto(
@@ -54,11 +53,11 @@ class FormComponentDto(
     var value: String? = "",
     var isTopic: Boolean = false,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    var tags: List<AliceTagDto>? = null,
+    var tags: List<String>? = null,
     var display: LinkedHashMap<String, Any> = LinkedHashMap(),
     var label: LinkedHashMap<String, Any> = LinkedHashMap(),
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    var validate: LinkedHashMap<String, Any>? = null,
+    var validation: LinkedHashMap<String, Any>? = null,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var element: LinkedHashMap<String, Any>? = null
 ) : Serializable

@@ -25,9 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/form")
 class FormController(private val fileService: AliceFileService) {
 
-    private val formDesignerEditPage: String = "form/formDesignerEdit"
     private val formEditPreviewPage: String = "form/formEditPreview"
-    private val formDesignerEditPageWoo: String = "formRefactoring/formDesigner"
+    private val formDesignerEditPage: String = "formRefactoring/formDesigner"
 
     /**
      * 폼 디자이너 편집 화면.
@@ -36,14 +35,6 @@ class FormController(private val fileService: AliceFileService) {
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
         model.addAttribute("formId", formId)
         return formDesignerEditPage
-    }
-    /**
-     * 폼 디자이너 편집 화면.
-     */
-    @GetMapping("/{formId}/edit_woo")
-    fun getFormDesignerEditWoo(@PathVariable formId: String, model: Model): String {
-        model.addAttribute("formId", formId)
-        return formDesignerEditPageWoo
     }
 
     /**

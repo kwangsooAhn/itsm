@@ -12,6 +12,12 @@
 import * as mixin from '../lib/mixins.js';
 import { UIDiv } from '../lib/ui.js';
 import { CLASS_PREFIX, UNIT, FORM } from '../lib/constants.js';
+import ClipboardProperty from '../formDesigner/property/type/clipboardProperty.module.js';
+import InputBoxProperty from '../formDesigner/property/type/inputBoxProperty.module.js';
+import TextAreaProperty from '../formDesigner/property/type/textAreaProperty.module.js';
+import DropdownProperty from '../formDesigner/property/type/dropdownProperty.module.js';
+import GroupProperty from '../formDesigner/property/type/groupProperty.module.js';
+import BoxModelProperty from '../formDesigner/property/type/boxModelProperty.module.js';
 
 export default class Form {
     constructor(data = {}) {
@@ -179,143 +185,36 @@ export default class Form {
     }
     // 세부 속성
     getProperty() {
-        // 기존 데이터 속성과 패널에 표시되는 기본 속성을 merge 한 후, 조회한다.
-        const PANEL_PROPERTIES = {
-            'id': {
-                'name': 'form.properties.id',
-                'type': 'clipboardProperty',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'name': {
-                'name': 'form.properties.name',
-                'type': 'inputBoxProperty',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': true,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '128',
-                    'minLength': ''
-                }
-            },
-            'desc': {
-                'name': 'form.properties.desc',
-                'type': 'textAreaProperty',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '512',
-                    'minLength': ''
-                }
-            },
-            'status': {
-                'name': 'form.properties.status',
-                'type': 'dropdownProperty',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '',
-                    'minLength': ''
-                },
-                'option': [
-                    { 'name': 'form.status.edit', 'value': 'form.status.edit' },
-                    { 'name': 'form.status.publish', 'value': 'form.status.publish' },
-                    { 'name': 'form.status.use', 'value': 'form.status.use' },
-                    { 'name': 'form.status.destroy', 'value': 'form.status.destroy'}
-                ]
-            },
-            'display': {
-                'name': 'form.properties.display',
-                'type': 'groupProperty',
-                'children': {
-                    'width': {
-                        'name': 'form.properties.width',
-                        'type': 'inputBoxProperty',
-                        'unit': 'px',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': true,
-                            'type': 'number',
-                            'max': '8192',
-                            'min': '0',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    },
-                    'margin': {
-                        'name': 'form.properties.margin',
-                        'type': 'boxModelProperty',
-                        'unit': 'px',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': 'number',
-                            'max': '100',
-                            'min': '0',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    },
-                    'padding': {
-                        'name': 'form.properties.padding',
-                        'type': 'boxModelProperty',
-                        'unit': 'px',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': 'number',
-                            'max': '100',
-                            'min': '0',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    }
-                }
-            },
-        };
-        return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            if (value.type === 'groupProperty') {
-                const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
-                    const tempChildValue = {'value': this[key][childKey]};
-                    if (childValue.type === 'toggleButtonProperty') { // 토글 데이터
-                        tempChildValue.value = childValue.option.map((item) =>
-                            (this[key][item.value]) ? 'Y' : 'N').join('|');
-                    }
-                    child[childKey] = Object.assign(childValue, tempChildValue);
-                    return child;
-                }, {});
-                property[key] = Object.assign(value, {'children': childProperties});
-            } else {
-                property[key] = Object.assign(value, {'value': this[key]});
-            }
-            return property;
-        }, {});
+        // display 속성 - width
+        const displayWidthProperty = new InputBoxProperty('display.width', this.display.width)
+            .setValidation(true, 'number', '0', '8192', '', '');
+        displayWidthProperty.unit = 'px';
+
+        // display 속성 - margin
+        const displayMarginProperty = new BoxModelProperty('display.margin', this.display.margin)
+            .setValidation(false, 'number', '0', '100', '', '');
+        displayMarginProperty.unit = 'px';
+
+        // display 속성 - padding
+        const displayPaddingProperty = new BoxModelProperty('display.padding', this.display.padding)
+            .setValidation(false, 'number', '0', '100', '', '');
+        displayPaddingProperty.unit = 'px';
+
+        return [
+            new ClipboardProperty('id', this.id),
+            new InputBoxProperty('name', this.name).setValidation(true, '', '', '', '', '128'),
+            new TextAreaProperty('desc', this.desc).setValidation(false, '', '', '', '', '512'),
+            new DropdownProperty('status', this.status, [
+                { 'name': 'form.status.edit', 'value': 'form.status.edit' },
+                { 'name': 'form.status.publish', 'value': 'form.status.publish' },
+                { 'name': 'form.status.use', 'value': 'form.status.use' },
+                { 'name': 'form.status.destroy', 'value': 'form.status.destroy'}
+            ]),
+            new GroupProperty('group.display')
+                .addProperty(displayWidthProperty)
+                .addProperty(displayMarginProperty)
+                .addProperty(displayPaddingProperty)
+        ];
     }
 
     /**

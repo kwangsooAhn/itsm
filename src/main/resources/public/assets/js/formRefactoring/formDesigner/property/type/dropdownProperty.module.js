@@ -11,21 +11,54 @@
  *
  * https://www.brainz.co.kr
  */
+import { UIDiv, UISelect } from '../../../lib/ui.js';
+import { zValidation } from '../../../lib/validation.js';
 import Property from '../property.module.js';
 
 const propertyExtends = {
     options : []
 };
 
-export default class DropdownProperty {
-    constructor(name, options) {
-        this.property = new Property(name, 'dropdownProperty');
+export default class DropdownProperty extends Property {
+    constructor(name, value, options) {
+        super(name, 'dropdownProperty', value);
+
         this.options = options;
     }
+    // DOM Element 생성
+    makeProperty(panel) {
+        this.panel = panel;
 
-    getPropertyTypeConfig() {
-        let propertyTypeConfig = this.property.getPropertyConfig();
-        propertyTypeConfig.options = this.options;
-        return propertyTypeConfig;
+        this.UIElement = new UIDiv().setUIClass('property')
+            .setUIProperty('--data-column', this.columnWidth);
+        // 라벨
+        this.UIElement.UILabel = this.makeLabelProperty();
+        this.UIElement.addUI(this.UIElement.UILabel);
+
+        // select box
+        const mergeOptions = this.options.reduce((result, option) => {
+            result[option.value] = i18n.msg(option.name);
+            return result;
+        }, {});
+        this.UIElement.UISelect = new UISelect()
+            .setUIId(this.getKeyId())
+            .setUIOptions(mergeOptions)
+            .setUIValue(this.value)
+            .onUIChange(this.updateProperty.bind(this));
+        this.UIElement.addUI(this.UIElement.UISelect);
+
+        return this.UIElement;
+    }
+    // 속성 변경시 발생하는 이벤트 핸들러
+    updateProperty(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        // change 일 경우 minLength, maxLength 체크
+        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
+            this.panel.validationStatus = false; // 유효성 검증 실패
+            return false;
+        }
+        this.panel.update.call(this.panel, e.target.id, e.target.value);
     }
 }

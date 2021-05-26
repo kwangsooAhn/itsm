@@ -11,7 +11,10 @@
  */
 import * as mixin from '../lib/mixins.js';
 import { UIDiv } from '../lib/ui.js';
-import {CLASS_PREFIX, FORM, UNIT} from '../lib/constants.js';
+import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
+import ClipboardProperty from '../formDesigner/property/type/clipboardProperty.module.js';
+import GroupProperty from '../formDesigner/property/type/groupProperty.module.js';
+import BoxModelProperty from '../formDesigner/property/type/boxModelProperty.module.js';
 
 export default class Row {
     constructor(data = {}) {
@@ -146,76 +149,22 @@ export default class Row {
 
     // 세부 속성
     getProperty() {
-        const PANEL_PROPERTIES = {
-            'id': {
-                'name': 'form.properties.id',
-                'type': 'clipboardProperty',
-                'unit': '',
-                'help': '',
-                'columnWidth': '12',
-                'validate': {
-                    'required': false,
-                    'type': '',
-                    'max': '',
-                    'min': '',
-                    'maxLength': '',
-                    'minLength': ''
-                }
-            },
-            'display': {
-                name: 'form.properties.display',
-                type: 'groupProperty',
-                children: {
-                    'margin': {
-                        'name': 'form.properties.margin',
-                        'type': 'boxModelProperty',
-                        'unit': 'px',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': 'number',
-                            'max': '100',
-                            'min': '0',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    },
-                    'padding': {
-                        'name': 'form.properties.padding',
-                        'type': 'boxModelProperty',
-                        'unit': 'px',
-                        'help': '',
-                        'columnWidth': '12',
-                        'validate': {
-                            'required': false,
-                            'type': 'number',
-                            'max': '100',
-                            'min': '0',
-                            'maxLength': '',
-                            'minLength': ''
-                        }
-                    }
-                }
-            }
-        };
-        return Object.entries(PANEL_PROPERTIES).reduce((property, [key, value]) => {
-            if (value.type === 'groupProperty') {
-                const childProperties = Object.entries(value.children).reduce((child, [childKey, childValue]) => {
-                    const tempChildValue = { 'value': this[key][childKey] };
-                    if (childValue.type === 'toggleButtonProperty') { // 토글 데이터
-                        tempChildValue.value = childValue.option.map((item) =>
-                            (this[key][item.value]) ? 'Y' : 'N').join('|');
-                    }
-                    child[childKey] = Object.assign(childValue, tempChildValue);
-                    return child;
-                }, {});
-                property[key] = Object.assign(value, { 'children': childProperties });
-            } else {
-                property[key] = Object.assign(value, { 'value': this[key] });
-            }
-            return property;
-        }, {});
+        // display 속성 - margin
+        const displayMarginProperty = new BoxModelProperty('display.margin', this.display.margin)
+            .setValidation(false, 'number', '0', '100', '', '');
+        displayMarginProperty.unit = 'px';
+
+        // display 속성 - padding
+        const displayPaddingProperty = new BoxModelProperty('display.padding', this.display.padding)
+            .setValidation(false, 'number', '0', '100', '', '');
+        displayPaddingProperty.unit = 'px';
+
+        return [
+            new ClipboardProperty('id', this.id),
+            new GroupProperty('group.display')
+                .addProperty(displayMarginProperty)
+                .addProperty(displayPaddingProperty)
+        ];
     }
 
     /**

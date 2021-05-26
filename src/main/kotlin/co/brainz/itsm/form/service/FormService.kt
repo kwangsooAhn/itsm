@@ -6,7 +6,6 @@
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.FormComponentDto
@@ -65,7 +64,7 @@ class FormService(
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         formComponentListDto.updateDt = LocalDateTime.now()
         formComponentListDto.updateUserKey = aliceUserDto.userKey
-        return wfFormService.saveFormDataFromRefactoring(formComponentListDto)
+        return wfFormService.saveFormDataFormRefactoring(formComponentListDto)
     }
 
     /**
@@ -223,10 +222,10 @@ class FormService(
                         componentLabel = mapper.convertValue(component["label"], linkedMapType)
                     }
                     // Validate in component
-                    var componentValidate: LinkedHashMap<String, Any> = linkedMapOf()
-                    component["validate"]?.let {
-                        componentValidate =
-                            mapper.convertValue(component["validate"], linkedMapType)
+                    var componentValidation: LinkedHashMap<String, Any> = linkedMapOf()
+                    component["validation"]?.let {
+                        componentValidation =
+                            mapper.convertValue(component["validation"], linkedMapType)
                     }
                     // element in component
                     var componentElement: LinkedHashMap<String, Any> = linkedMapOf()
@@ -240,11 +239,11 @@ class FormService(
                             id = component["id"] as String,
                             type = component["type"] as String,
                             isTopic = component["isTopic"] as Boolean,
-                            tags = component["tags"] as List<AliceTagDto>,
+                            tags = component["tags"] as List<String>,
                             value = null,
                             display = componentDisplay,
                             label = componentLabel,
-                            validate = componentValidate,
+                            validation = componentValidation,
                             element = componentElement
                         )
                     )

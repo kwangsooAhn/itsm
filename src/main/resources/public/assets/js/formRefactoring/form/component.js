@@ -156,8 +156,9 @@ export default class Component {
         return this.isTopic;
     }
 
-    // TODO: 태그 기능 추후 구현 예정
-    setTags() {}
+    setTags(tags) {
+        this.tags = tags;
+    }
 
     getTags() {
         return this.tags;

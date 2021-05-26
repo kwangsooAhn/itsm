@@ -6002,7 +6002,7 @@ body.modal-active {
   align-items: flex-start;
   flex-wrap: wrap;
   padding: 0 0 0 0.3125rem;
-  border: 0.0625 solid #EBEBEB;
+  border: 0.0625rem solid #EBEBEB;
   line-height: 1.1;
   cursor: text;
   outline: 0;
