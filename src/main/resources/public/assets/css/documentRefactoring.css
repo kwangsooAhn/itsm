@@ -1535,3 +1535,23 @@ body.modal-active {
 .modal-wrapper .modal-dialog.tree .modal-content div li:last-child:before {
   background-color: #ffffff;
 }
+
+/* form, group, row, component 디자인 - document ver. */
+.zenius-group-tooltip {
+  border: 0.0625rem solid #ffffff;
+}
+
+.zenius-row-tooltip {
+  border: 0.0625rem solid #ffffff;
+}
+
+.zenius-component-tooltip {
+  border: 0.0625rem solid #ffffff;
+}
+
+.zenius-group.accordion {
+  border-bottom: 0.0625rem solid #EBEBEB;
+}
+.zenius-group.accordion .zenius-group-accordion-checkBox:checked ~ .accordion:not(.off) {
+  border-bottom: 0.0625rem solid #EBEBEB;
+}

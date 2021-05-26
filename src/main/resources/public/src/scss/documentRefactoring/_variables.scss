@@ -23,3 +23,11 @@ $cmdb-ci-attribute-bg-color:                 map-get($grays, 'light');
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                           40rem; // 640px
 $tree-modal-height:                          44.19rem; // 707px
+
+/////////////////////////// color Set //////////////////////////
+$grays: (
+  'icon':                                         #A0A4A6,
+  'line':                                         #D7DBE0,
+  'fill':                                         #EBECED,
+  'focus':                                        #283238
+) !default;
