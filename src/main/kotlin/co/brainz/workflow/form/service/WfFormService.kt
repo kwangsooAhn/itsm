@@ -237,7 +237,7 @@ class WfFormService(
                         when (componentPropertyEntity.propertyType) {
                             WfFormConstants.PropertyType.DISPLAY.value -> componentDto.display = objMapper.convertValue(optionValue, linkedMapType)
                             WfFormConstants.PropertyType.LABEL.value -> componentDto.label = objMapper.convertValue(optionValue, linkedMapType)
-                            WfFormConstants.PropertyType.VALIDATE.value -> componentDto.validate = objMapper.convertValue(optionValue, linkedMapType)
+                            WfFormConstants.PropertyType.VALIDATION.value -> componentDto.validation = objMapper.convertValue(optionValue, linkedMapType)
                             WfFormConstants.PropertyType.ELEMENT.value -> componentDto.element = objMapper.convertValue(optionValue, linkedMapType)
                         }
                     }
@@ -389,11 +389,11 @@ class WfFormService(
         )
         wfComponentPropertyEntities.add(componentPropertyEntity)
 
-        component.validate?.let {
+        component.validation?.let {
             if (it.size > 0) {
                 componentPropertyEntity = WfComponentPropertyEntity(
                     componentId = resultComponentEntity.componentId,
-                    propertyType = WfFormConstants.PropertyType.VALIDATE.value,
+                    propertyType = WfFormConstants.PropertyType.VALIDATION.value,
                     propertyOptions = objMapper.writeValueAsString(it),
                     properties = resultComponentEntity
                 )

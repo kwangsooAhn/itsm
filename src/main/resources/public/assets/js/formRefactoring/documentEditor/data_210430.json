@@ -63,10 +63,10 @@
                   "columnWidth": "10",
                   "defaultType": "input|"
                 },
-                "validate": {
-                  "validateType": "none",
-                  "lengthMin": "0",
-                  "lengthMax": "100"
+                "validation": {
+                  "validationType": "none",
+                  "minLength": "0",
+                  "maxLength": "100"
                 }
               },
               {
@@ -94,10 +94,10 @@
                   "columnWidth": "10",
                   "defaultType": "select|userKey"
                 },
-                "validate": {
-                  "validateType": "none",
-                  "lengthMin": "0",
-                  "lengthMax": "100"
+                "validation": {
+                  "validationType": "none",
+                  "minLength": "0",
+                  "maxLength": "100"
                 }
               }
             ]
@@ -133,10 +133,10 @@
                   "columnWidth": "10",
                   "defaultType": "input|"
                 },
-                "validate": {
-                  "validateType": "none",
-                  "lengthMin": "0",
-                  "lengthMax": "100"
+                "validation": {
+                  "validationType": "none",
+                  "minLength": "0",
+                  "maxLength": "100"
                 }
               }
             ]
@@ -190,10 +190,10 @@
                   "columnWidth": "10",
                   "defaultType": "select|userName"
                 },
-                "validate": {
-                  "validateType": "none",
-                  "lengthMin": "0",
-                  "lengthMax": "100"
+                "validation": {
+                  "validationType": "none",
+                  "minLength": "0",
+                  "maxLength": "100"
                 }
               }
             ]
@@ -247,10 +247,10 @@
                   "columnWidth": "10",
                   "defaultType": "select|userName"
                 },
-                "validate": {
-                  "validateType": "none",
-                  "lengthMin": "0",
-                  "lengthMax": "100"
+                "validation": {
+                  "validationType": "none",
+                  "minLength": "0",
+                  "maxLength": "100"
                 }
               }
             ]
