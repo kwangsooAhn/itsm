@@ -64,7 +64,7 @@ class FormService(
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         formComponentListDto.updateDt = LocalDateTime.now()
         formComponentListDto.updateUserKey = aliceUserDto.userKey
-        return wfFormService.saveFormDataFromRefactoring(formComponentListDto)
+        return wfFormService.saveFormDataFormRefactoring(formComponentListDto)
     }
 
     /**

@@ -30,4 +30,14 @@ object WfFormConstants {
     enum class FormSaveType(val value: String) {
         SAVE_AS("saveas")
     }
+
+    /**
+     * Component Property Type
+     */
+    enum class PropertyType(val value: String) {
+        LABEL("label"),
+        ELEMENT("element"),
+        VALIDATE("validate"),
+        DISPLAY("display")
+    }
 }

@@ -21,12 +21,12 @@ class RestTemplateFormDataDto(
     var status: String? = "",
     var desc: String? = "",
     var category: String = "",
-    var display: LinkedHashMap<String, Any> = LinkedHashMap(),
+    var display: LinkedHashMap<String, Any>? = LinkedHashMap(),
     var updateDt: LocalDateTime?,
     var updateUserKey: String? = "",
     var createDt: LocalDateTime?,
     var createUserKey: String? = "",
-    val group: MutableList<FormGroupDto> = mutableListOf()
+    val group: MutableList<FormGroupDto>? = mutableListOf()
 ) : Serializable
 
 class FormGroupDto(
