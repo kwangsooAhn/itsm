@@ -7,7 +7,6 @@ package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.workflow.form.service.WfFormService
-import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.FormComponentDto
 import co.brainz.workflow.provider.dto.FormGroupDto
 import co.brainz.workflow.provider.dto.FormRowDto

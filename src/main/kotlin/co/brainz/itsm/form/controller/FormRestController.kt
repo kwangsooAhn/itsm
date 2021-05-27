@@ -7,7 +7,6 @@
 package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.service.FormService
-import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,14 +21,6 @@ import org.springframework.web.bind.annotation.RestController
 class FormRestController(private val formService: FormService) {
 
     /**
-     * 문서양식 불러오기.
-     */
-    @GetMapping("/{formId}/data")
-    fun getFormData(@PathVariable formId: String): RestTemplateFormComponentListDto {
-        return formService.getFormData(formId)
-    }
-
-    /**
      * 문서양식 저장.
      */
     @PutMapping("/{formId}/data")
@@ -39,10 +30,9 @@ class FormRestController(private val formService: FormService) {
 
     /**
      * 문서양식 불러오기.
-     * _formRefactoring 가 붙은 것들은 추후 원래 이름으로 적용 필요
      */
-    @GetMapping("/{formId}/dataFormRefactoring")
-    fun getFormDataFormRefactoring(@PathVariable formId: String): RestTemplateFormDataDto {
+    @GetMapping("/{formId}/data")
+    fun getFormData(@PathVariable formId: String): RestTemplateFormDataDto {
         return formService.getFormDataFormRefactoring(formId)
     }
 

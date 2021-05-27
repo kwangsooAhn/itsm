@@ -52,7 +52,7 @@ class AliceTagServiceTest {
             targetId = this.instanceId
         )
 
-        assumeTrue(aliceTagService.insertTag(tagDto) != null)
+        assumeTrue(aliceTagService.insertTag(tagDto) != "")
     }
 
     @Test
