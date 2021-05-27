@@ -19,27 +19,27 @@
 
   .icon-save {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_save.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white); // 24px 24px
+    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_save.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white); // 24px 24px
   }
   .icon-save-as {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_save_as.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
+    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_save_as.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
   }
   .icon-undo {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_undo.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
+    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_undo.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
   }
   .icon-redo {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_redo.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
+    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_redo.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
   }
   .icon-preview {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_preview.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
+    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_preview.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
   }
   .icon-dropdown {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/topmenu/icon_dropdown.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
+    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_dropdown.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
   }
 }
 
@@ -51,7 +51,7 @@
 
   .icon-clipboard {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
+    @include maskImage('#{$icon-folder-path}formDesigner/property/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
   }
 }
 
@@ -80,22 +80,22 @@
       pointer-events: none;
 
       &.icon-align-left {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_left.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_left.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
       }
       &.icon-align-center {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_center.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_center.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
       }
       &.icon-align-right {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_align_right.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_right.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
       }
       &.icon-position-left {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_left.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_left.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
       }
       &.icon-position-top {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_top.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_top.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
       }
       &.icon-position-hidden {
-        @include maskImage('#{$icon-folder-path}formRefactoring/property/icon_label_position_hidden.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_hidden.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
       }
     }
     // if text exist

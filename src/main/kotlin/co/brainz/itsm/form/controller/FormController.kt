@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/form")
 class FormController(private val fileService: AliceFileService) {
 
-    private val formEditPreviewPage: String = "form/formEditPreview"
-    private val formDesignerEditPage: String = "formRefactoring/formDesigner"
+    private val formEditPreviewPage: String = "formDesigner/formEditPreview"
+    private val formDesignerEditPage: String = "formDesigner/formDesigner"
 
     /**
      * 폼 디자이너 편집 화면.
