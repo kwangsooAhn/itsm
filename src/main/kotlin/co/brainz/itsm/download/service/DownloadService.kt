@@ -71,7 +71,7 @@ class DownloadService(
      * @return DownloadDto
      */
     @Transactional
-    fun getDownload(downloadId: String, type: String): DownloadDto {
+    fun getDownloadDetail(downloadId: String, type: String): DownloadDto {
         var downloadEntity = downloadRepository.findDownload(downloadId)
         val sessionUser = SecurityContextHolder.getContext().authentication.principal as String
         if (type == "view" && downloadEntity.createUser?.userId != sessionUser) {

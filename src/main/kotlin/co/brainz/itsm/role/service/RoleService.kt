@@ -104,7 +104,7 @@ class RoleService(
     /**
      * 역할 상세 정보 조회
      */
-    fun selectDetailRoles(roleId: String): RoleDto {
+    fun getRoleDetail(roleId: String): RoleDto {
         val roleInfo = roleRepository.findByRoleId(roleId)
         val userRoleMapCount = userRoleMapRepository.countByRole(roleInfo)
         val roleIds = mutableSetOf<String>()

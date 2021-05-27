@@ -41,7 +41,7 @@ class ProcessAdminService(
      * [processId]를 받아서 프로세스 마스터 데이터 조회.
      */
     fun getProcessAdmin(processId: String): RestTemplateProcessViewDto {
-        return wfProcessService.getProcess(processId)
+        return wfProcessService.getProcessDetail(processId)
     }
 
     /**

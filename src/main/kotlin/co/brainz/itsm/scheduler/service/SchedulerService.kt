@@ -82,7 +82,7 @@ class SchedulerService(
     /**
      * 스케줄 조회.
      */
-    fun getScheduler(taskId: String): SchedulerDto? {
+    fun getSchedulerDetail(taskId: String): SchedulerDto? {
         return aliceScheduleTaskRepository.findBySchedule(taskId)
     }
 

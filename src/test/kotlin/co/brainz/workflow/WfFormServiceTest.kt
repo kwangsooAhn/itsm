@@ -62,7 +62,7 @@ class WfFormServiceTest {
     fun deleteForm() {
         val params = LinkedHashMap<String, Any>()
         params["search"] = this.formName
-        val formDtoList = wfFormService.forms(params)
+        val formDtoList = wfFormService.getForms(params)
         assumingThat(
             formDtoList.data.isNotEmpty()
         ) { assumeTrue(wfFormService.deleteForm(formDtoList.data[0].id)) }

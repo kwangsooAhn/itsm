@@ -47,7 +47,7 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
     /**
      * FAQ 데이터 상세 조회
      */
-    fun getFaq(faqId: String): FaqListDto? {
+    fun getFaqDetail(faqId: String): FaqListDto? {
         return faqRepository.findFaq(faqId)
     }
 

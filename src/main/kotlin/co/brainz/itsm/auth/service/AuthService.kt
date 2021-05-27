@@ -163,7 +163,7 @@ class AuthService(
     /**
      * 권한 상세 정보 조회
      */
-    fun getDetailAuths(authId: String): List<AuthDto> {
+    fun getAuthDetail(authId: String): List<AuthDto> {
         val dto = mutableListOf<AuthDto>()
         val authInfo = authRepository.findByAuthId(authId)
         val menuList = mutableListOf<AuthMenuDto>()

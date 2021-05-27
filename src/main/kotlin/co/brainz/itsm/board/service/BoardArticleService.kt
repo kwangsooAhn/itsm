@@ -115,7 +115,7 @@ class BoardArticleService(
      * @return BoardDto
      */
     @Transactional
-    fun getBoardArticle(boardId: String, type: String): BoardArticleViewDto {
+    fun getBoardArticleDetail(boardId: String, type: String): BoardArticleViewDto {
         val boardReadEntity = boardReadRepository.findById(boardId).orElse(PortalBoardReadEntity())
         if (type == "view") {
             boardReadEntity.boardId = boardId
@@ -144,7 +144,7 @@ class BoardArticleService(
      * @param boardAdminId
      * @return BoardAdminDto
      */
-    fun getBoardArticleInfo(boardAdminId: String): BoardDto {
+    fun getBoardArticleDetail(boardAdminId: String): BoardDto {
         val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         return BoardDto(
             boardAdminId = boardAdminEntity.boardAdminId,

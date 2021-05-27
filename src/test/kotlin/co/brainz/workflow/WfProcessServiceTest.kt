@@ -36,7 +36,7 @@ class WfProcessServiceTest {
             processId = processList.data[0].id
         }
         if (processId.isNotEmpty()) {
-            val process = wfProcessService.getProcess(processId)
+            val process = wfProcessService.getProcessDetail(processId)
             assertEquals(processList.data[0].name, process.name)
             assertEquals(processList.data[0].status, process.status)
         }

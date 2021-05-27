@@ -70,7 +70,7 @@ class CustomCodeService(
      * @param customCodeId
      * @return CustomCodeDto
      */
-    fun getCustomCode(customCodeId: String): CustomCodeDto {
+    fun getCustomCodeDetail(customCodeId: String): CustomCodeDto {
         val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
         val usedCustomCodeIdList = getUsedCustomCodeIdList()
         val customCodeDto = customCodeMapper.toCustomCodeDto(customCodeEntity)

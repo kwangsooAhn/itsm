@@ -54,7 +54,7 @@ class WfFormService(
      * @param parameters
      * @return List<RestTemplateFormDto>
      */
-    fun forms(parameters: LinkedHashMap<String, Any>): RestTemplateFormListReturnDto {
+    fun getForms(parameters: LinkedHashMap<String, Any>): RestTemplateFormListReturnDto {
         var search = ""
         var status = listOf<String>()
         var offset: Long? = null
@@ -87,7 +87,7 @@ class WfFormService(
      * @param formId
      * @return RestTemplateFormDto
      */
-    fun form(formId: String): RestTemplateFormDto {
+    fun getFormDetail(formId: String): RestTemplateFormDto {
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
         val restTemplateFormDto = wfFormMapper.toFormViewDto(formEntity)
         when (restTemplateFormDto.status) {

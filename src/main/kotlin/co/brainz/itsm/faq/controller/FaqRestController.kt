@@ -34,7 +34,7 @@ class FaqRestController(private val faqService: FaqService) {
      */
     @GetMapping("/{faqId}")
     fun getFaq(request: HttpServletRequest, @PathVariable faqId: String): FaqListDto? {
-        return faqService.getFaq(faqId)
+        return faqService.getFaqDetail(faqId)
     }
 
     /**

@@ -36,7 +36,7 @@ class AuthRestController(private val authService: AuthService) {
      */
     @GetMapping("/{authId}")
     fun getAuths(@PathVariable authId: String): List<AuthDto> {
-        return authService.getDetailAuths(authId)
+        return authService.getAuthDetail(authId)
     }
 
     /**
