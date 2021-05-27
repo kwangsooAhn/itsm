@@ -199,21 +199,21 @@ class FormDesigner {
     sortJson(data) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             data.group.sort((a, b) =>
-                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
+                a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
             data.group.forEach( (g) => {
                 this.sortJson(g);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             data.row.sort((a, b) =>
-                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
+                a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
             data.row.forEach( (r) => {
                 this.sortJson(r);
             });
         } else { // row
             data.component.sort((a, b) =>
-                a.display.displayOrder < b.display.displayOrder ? -1 : a.display.displayOrder > b.display.displayOrder ? 1 : 0
+                a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
         }
     }
@@ -591,8 +591,8 @@ class FormDesigner {
         if (this.selectedObject === null) { return false; }
 
         const parentObject = this.selectedObject.parent;
-        const selectIndex =  (this.selectedObject.display.displayOrder - 1) === -1 ?
-            parentObject.children.length -1 : (this.selectedObject.display.displayOrder - 1);
+        const selectIndex =  (this.selectedObject.displayDisplayOrder - 1) === -1 ?
+            parentObject.children.length -1 : (this.selectedObject.displayDisplayOrder - 1);
 
         parentObject.children[selectIndex].UIElement.domElement.dispatchEvent(new Event('click'));
     }
@@ -603,8 +603,8 @@ class FormDesigner {
         if (this.selectedObject === null) { return false; }
 
         const parentObject = this.selectedObject.parent;
-        const selectIndex =  (this.selectedObject.display.displayOrder + 1) === parentObject.children.length ?
-            0 : (this.selectedObject.display.displayOrder + 1);
+        const selectIndex =  (this.selectedObject.displayDisplayOrder + 1) === parentObject.children.length ?
+            0 : (this.selectedObject.displayDisplayOrder + 1);
 
         parentObject.children[selectIndex].UIElement.domElement.dispatchEvent(new Event('click'));
     }
@@ -785,7 +785,7 @@ class FormDesigner {
 
 export const formDesigner = new FormDesigner();
 
-/**                                                                                                                                                                                                                                                                bv
+/**
  * 마우스 좌클릭 이벤트 핸들러
  * @param e 이벤트객체
  */
