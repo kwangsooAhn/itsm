@@ -38,7 +38,7 @@ object WfFormConstants {
         LABEL("label"),
         ELEMENT("element"),
         VALIDATION("validation"),
-        VALIDATE("validate"), // TODO: 폼 리팩토링 후 삭제 필요
+        VALIDATE("validate"),
         DISPLAY("display")
     }
 }
