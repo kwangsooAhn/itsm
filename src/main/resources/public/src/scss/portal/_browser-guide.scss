@@ -17,7 +17,7 @@
   width: 22.5rem; // 360px
   height: 22.5rem; // 360px
   background-color: $browser-box-bg-color;
-  border: $browser-box-border;
+  @include border(0.0625rem, solid, $browser-box-border-color, all);
   margin-left: 0.8125rem; // 13px
 
   img {

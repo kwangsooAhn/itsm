@@ -4,9 +4,7 @@
  */
 .login {
   &-logo {
-    position: relative;
-    top: $login-logo-position-top;
-    left: $login-logo-position-left;
+    @include relative($top: $login-logo-position-top, $left: $login-logo-position-left);
   }
 
   &-background {

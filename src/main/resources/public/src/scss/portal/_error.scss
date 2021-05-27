@@ -11,8 +11,7 @@
   overflow: hidden;
 
   .logo {
-    position: relative;
-    top: -59.1875rem; // -947px
+    @include relative($top: -59.1875rem); // -947px
     margin: 5rem 0 0 5rem; // 80px 80px
   }
 }
@@ -20,7 +19,7 @@
 .error-form {
   width: 50vw;
   padding: 16.875rem 5.625rem; // 270px 90px
-  border-left: $error-border;
+  @include border(0.0625rem, solid, $error-border-color, left);
 
   h1 { line-height: 1.7; }
 

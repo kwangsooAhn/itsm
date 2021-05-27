@@ -74,7 +74,7 @@
     &-search {
       height: $main-search-height;
       background-color: $main-search-bg-color;
-      border-bottom: $main-header-border;
+      @include border(0.0625rem, solid, $main-header-border-color ,bottom);
       padding: 1.875rem 0; // 30px 0
 
       // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
@@ -95,7 +95,7 @@
         padding: 3.4375rem 13.75rem 0 13.75rem; // 55px 220px 0 220px
         .card {
           width: 30rem; // 480px
-          border: $card-border;
+          @include border(0.0625rem, solid, $card-border-color, all);
   
           &-header {
             padding-top: 3.4375rem; // 55px
@@ -114,7 +114,7 @@
               th, td {
                 padding: 0 1.25rem 0 1.25rem; // 20px
                 vertical-align: middle;
-                &:hover { background-color: hexToRGBA(#e6e8eb, 0.6); }
+                &:hover { background-color: hexToRGBA(#E6E8EB, 0.6); }
   
                 a { color: map-get($grays, "dark"); }
               }
@@ -129,7 +129,7 @@
   
         .row {
             width: 100%;
-            border-bottom: $list-bottom-border;
+            @include border(0.0625rem, solid, $list-bottom-border-color, bottom);
             padding: 0.8125rem 0; // 13px 0
             // 마지막 row
             &:last-child {
@@ -183,10 +183,10 @@
       .faq {
         // level 1
         &-group {
-          position: relative;
+          @include relative();
           min-height: 3.438rem; // 55px
-          border: $faq-group-border;
-          border-radius: 0.0625rem; // 1px
+          @include border($faq-group-border-width, solid, $faq-group-border-color, all);
+          @include borderRadius(0.0625rem); // 1px
           margin-bottom: 10px; // 10px
 
           &-title {
@@ -195,20 +195,18 @@
             font-weight: $faq-group-font-weight;
             color: $faq-group-font-color;
             padding: 1.25rem 0.9375rem; // 20px 15px
-            border-bottom: $faq-group-border-width solid transparent; // 1px
+            @include border($faq-group-border-width, solid, transparent, bottom); // 1px
             // 그룹일 경우 summary의 화살표 숨김
             &::-webkit-details-marker { display: none; }
             .icon-plus {
-              position: absolute;
-              right: 0.9375rem; // 15px
+              @include absolute($right: 0.9375rem); // 15px
               display: inline-block;
               opacity: 1;
               @include maskImage('#{$icon-folder-path}icon_plus.svg', 16px, 16px, no-repeat, center, 16px 16px, map-get($grays, "pressed"));
             }
   
             .icon-minus {
-              position: absolute;
-              right: 0.9375rem; // 15px
+              @include absolute($right: 0.9375rem); // 15px
               display: inline-block;
               opacity: 0;
               @include maskImage('#{$icon-folder-path}icon_minus.svg', 16px, 16px, no-repeat, center, 16px 16px, map-get($grays, "pressed"));
@@ -216,8 +214,8 @@
           }
 
           &[open] {
-            border: $faq-group-opened-border;
-            .faq-group-title { 
+            @include border($faq-group-opened-border-width, solid, $faq-group-opened-border-color, all); // 1px
+            .faq-group-title {
               color: $faq-group-opened-font-color; 
               border-bottom-color: $faq-group-opened-border-color;
               .icon-plus { opacity: 0; }
