@@ -10,22 +10,8 @@ $drawing-board-width:                        60rem; // 960px
 $drawing-board-bg-color:                     $white;
 $drawing-board-border:                       0.0625rem solid map-get($grays, 'line'); // 1px
 $drawing-board-box-shadow:                   0 0 0.9375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
-$drawing-board-margin:                       0 0 7.5rem 0; // 0 0 120px 0
 $drawing-board-padding:                      6.25rem 4.688rem; // 100px 75px;
 
-// properties
-$layout-properties-width:                    38.13rem; // 610px
-$layout-properties-bg-color:                 $white;
-$layout-properties-border:                   0.0625rem solid map-get($grays, 'line'); // 1px
-
-// properties > tab
-$tab-font-size:                              1.125rem; // 18px
-$tab-font-color:                             $gray;
-$tab-font-weight:                            $font-weight-medium;
-$tab-border:                                 0.125rem solid map-get($grays, 'default'); // 2px
-$tab-selected-font-color:                    map-get($blacks, 'light');
-$tab-selected-border:                        0.25rem solid $blue; // 4px
-$tab-content-height:                         43.75rem; // 700px
 
 //////////////////////////// CI 모달 /////////////////////////
 $cmdb-ci-modal-width:                        62.5rem; // 1000px
@@ -37,3 +23,11 @@ $cmdb-ci-attribute-bg-color:                 map-get($grays, 'light');
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                           40rem; // 640px
 $tree-modal-height:                          44.19rem; // 707px
+
+/////////////////////////// color Set //////////////////////////
+$grays: (
+  'icon':                                         #A0A4A6,
+  'line':                                         #D7DBE0,
+  'fill':                                         #EBECED,
+  'focus':                                        #283238
+) !default;
