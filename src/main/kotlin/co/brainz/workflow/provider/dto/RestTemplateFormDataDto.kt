@@ -1,13 +1,11 @@
-/*
- * Copyright 2020 Brainzcompany Co., Ltd.
- * https://www.brainz.co.kr
- */
-
 /**
  * 폼 디자이너와 주고 받는 폼 데이터 구조를 표현한 DTO.
  *
  * @author Jung Hee Chan
  * @since 2021-05-14
+ *
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
  */
 package co.brainz.workflow.provider.dto
 
@@ -21,7 +19,7 @@ class RestTemplateFormDataDto(
     var status: String? = "",
     var desc: String? = "",
     var category: String = "",
-    var display: LinkedHashMap<String, Any>? = LinkedHashMap(),
+    var displayOption: LinkedHashMap<String, Any>? = LinkedHashMap(),
     var updateDt: LocalDateTime?,
     var updateUserKey: String? = "",
     var createDt: LocalDateTime?,

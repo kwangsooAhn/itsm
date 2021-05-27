@@ -176,7 +176,7 @@ class FormDesigner {
      */
     initForm(formId) {
         this.formId = formId;
-        aliceJs.fetchJson('/rest/form/' + this.formId + '/dataFormRefactoring', {
+        aliceJs.fetchJson('/rest/form/' + this.formId + '/data', {
             method: 'GET',
             showProgressbar: true
         }).then((formData) => {
@@ -666,7 +666,7 @@ class FormDesigner {
         console.log(saveData);
 
         // 저장
-        aliceJs.fetchJson('/rest/form/' + this.formId + '/dataFormRefactoring', {
+        aliceJs.fetchJson('/rest/form/' + this.formId + '/data', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

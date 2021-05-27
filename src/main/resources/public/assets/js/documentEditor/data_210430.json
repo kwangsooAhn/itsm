@@ -13,9 +13,9 @@
     "status": "form.status.edit",
     "category": "process",
     "display": {
-      "width": "905",
+      "width": 900,
       "margin": "60 35 60 35",
-      "padding": "15 15 15 15"
+      "padding": "15 25 15 25"
     },
     "group": [
       {
