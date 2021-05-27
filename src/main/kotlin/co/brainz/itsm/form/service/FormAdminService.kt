@@ -33,14 +33,14 @@ class FormAdminService(
      * 문서양식 데이터 목록 조회.
      */
     fun findForms(params: LinkedHashMap<String, Any>): RestTemplateFormListReturnDto {
-        return wfFormService.getforms(params)
+        return wfFormService.getForms(params)
     }
 
     /**
      * [formId]를 받아서 문서양식 마스터 데이터 조회.
      */
     fun getFormAdmin(formId: String): RestTemplateFormDto {
-        return wfFormService.getformDetail(formId)
+        return wfFormService.getFormDetail(formId)
     }
 
     /**

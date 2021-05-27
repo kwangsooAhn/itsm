@@ -19,7 +19,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java), PortalRepositoryCustom {
+classPortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java), PortalRepositoryCustom {
 
     override fun findPortalSearchList(searchValue: String, offset: Long): PortalListReturnDto {
         val notice = QNoticeEntity.noticeEntity
