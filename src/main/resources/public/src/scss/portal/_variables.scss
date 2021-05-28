@@ -85,8 +85,6 @@ $no-data-found-bg-color:                     hexToRGBA(#E6E8EB, 0.6);
 $browser-guide-bg-color:                     map-get($grays, "light");
 $browser-box-bg-color:                       $white;
 $browser-box-border-color:                   map-get($grays, "line");
-$browser-hover-box-shadow:                   0 0 0.9375rem hexToRGBA(map-get($grays, 'pressed'), 0.3); // 15px;
-
 
 ////////////////////////// 로그인  //////////////////////////
 $login-bg-color:                             $blue;

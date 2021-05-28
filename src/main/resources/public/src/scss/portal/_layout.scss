@@ -43,17 +43,17 @@
   .header {
     @include fixedHeader;
     max-width: 120rem;
+    padding: 0 1.25rem; // 0 20px
+    margin: 0 auto;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
     background-color: $layout-header-bg-color;
-    padding: 0 1.25rem; // 0 20px
-    margin: 0 auto;
 
     // Technical Support 문구
     .name {
-      font-size: 1.125rem; // 18px
       padding: 0 0.9375rem; // 0 15px
+      font-size: 1.125rem; // 18px
     }
     // 로그인 링크
     a { color: $layout-header-font-color; }
@@ -160,10 +160,10 @@
             }
   
             .no-data {
-                margin: 4.375rem 0 0 0; //70px
+                display: flex;
                 width: 100%;
                 height: 100%;
-                display: flex;
+                margin: 4.375rem 0 0 0; //70px
                 justify-content: center;
                 align-items: center;
             }
@@ -191,11 +191,11 @@
 
           &-title {
             height: 3.438rem; // 55px
+            padding: 1.25rem 0.9375rem; // 20px 15px
+            @include border($faq-group-border-width, solid, transparent, bottom); // 1px
             font-size: $faq-group-font-size;
             font-weight: $faq-group-font-weight;
             color: $faq-group-font-color;
-            padding: 1.25rem 0.9375rem; // 20px 15px
-            @include border($faq-group-border-width, solid, transparent, bottom); // 1px
             // 그룹일 경우 summary의 화살표 숨김
             &::-webkit-details-marker { display: none; }
             .icon-plus {
@@ -240,16 +240,16 @@
           }
 
           &[open] {
-            .horizontal-bar { background-color: $faq-row-opened-border-color; }
+            @include horizontalBar(0.0625rem, 0.9375rem 0, $faq-row-opened-border-color);
           }
         }
         // level 3
         &-row-content {
+          margin-top: 20px; // 20px
+          margin-left: 17px; // 17px
           font-size: $faq-row-content-font-size;
           font-weight: $faq-row-content-font-weight;
           color: $faq-row-content-font-color;
-          margin-top: 20px; // 20px
-          margin-left: 17px; // 17px
         }
       }
     }
