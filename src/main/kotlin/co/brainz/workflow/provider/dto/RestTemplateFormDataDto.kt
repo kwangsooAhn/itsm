@@ -19,7 +19,7 @@ class RestTemplateFormDataDto(
     var status: String? = "",
     var desc: String? = "",
     var category: String = "",
-    var displayOption: LinkedHashMap<String, Any>? = LinkedHashMap(),
+    var display: LinkedHashMap<String, Any>? = LinkedHashMap(),
     var updateDt: LocalDateTime?,
     var updateUserKey: String? = "",
     var createDt: LocalDateTime?,

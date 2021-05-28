@@ -14,7 +14,7 @@ data class RestTemplateFormDto(
     var name: String = "",
     var status: String? = "",
     var desc: String? = null,
-    var displayOption: LinkedHashMap<String, Any>? = LinkedHashMap(),
+    var display: LinkedHashMap<String, Any>? = LinkedHashMap(),
     var category: String? = "",
     var editable: Boolean = false,
     var createUserKey: String? = null,
