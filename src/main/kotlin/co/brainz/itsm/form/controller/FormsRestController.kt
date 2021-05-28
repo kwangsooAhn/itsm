@@ -7,6 +7,7 @@
 package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.service.FormAdminService
+import co.brainz.itsm.form.service.FormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -24,7 +25,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/forms")
-class FormsRestController(private val formAdminService: FormAdminService) {
+class FormsRestController(
+    private val formAdminService: FormAdminService,
+    private val formService: FormService
+) {
 
     /**
      * 문서양식 등록, 새이름으로 저장
@@ -59,6 +63,6 @@ class FormsRestController(private val formAdminService: FormAdminService) {
      */
     @GetMapping("/{formId}/data")
     fun getForm(@PathVariable formId: String): RestTemplateFormDto {
-        return formAdminService.getFormAdmin(formId)
+        return formService.getFormInfo(formId)
     }
 }

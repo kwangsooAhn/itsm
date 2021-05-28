@@ -33,7 +33,7 @@ class FormGroupDto(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var label: LinkedHashMap<String, Any>? = null,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    var row: MutableList<FormRowDto>? = null
+    var row: MutableList<FormRowDto> = mutableListOf()
 ) : Serializable
 
 class FormRowDto(
@@ -50,6 +50,8 @@ class FormComponentDto(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var value: String? = "",
     var isTopic: Boolean = false,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    var displayType: String? = null,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var tags: List<String>? = null,
     var display: LinkedHashMap<String, Any> = LinkedHashMap(),
