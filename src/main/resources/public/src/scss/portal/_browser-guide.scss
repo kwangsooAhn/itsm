@@ -17,7 +17,7 @@
   width: 22.5rem; // 360px
   height: 22.5rem; // 360px
   background-color: $browser-box-bg-color;
-  border: $browser-box-border;
+  @include border(0.0625rem, solid, $browser-box-border-color, all);
   margin-left: 0.8125rem; // 13px
 
   img {
@@ -30,5 +30,7 @@
     margin-top: 1.25rem; // 20px
   }
 
-  &:hover { box-shadow: $browser-hover-box-shadow; }
+  &:hover {
+    @include boxShadow(0, 0, 0.9375rem, 0, hexToRGBA(map-get($grays, 'pressed'), 0.3), true);
+  }
 }

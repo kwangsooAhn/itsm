@@ -22,7 +22,7 @@
 @mixin portalHeader() {
   padding: 0 0 0 13.75rem; // 220px
   background-color: $main-header-bg-color;
-  border-bottom: $main-header-border;
+  @include border(0.0625rem, solid, map-get($grays, "line"), bottom);
   // 제목
   .header-title {
     height: 10.625rem; // 170px
@@ -198,8 +198,8 @@
       min-height: 12.5rem; // 200px
       margin: 1.25rem 1.25rem 0 0; // 20px 20px 0 0
       padding: 0;
-      border: $card-border;
-      border-radius: $card-border-radius;
+      @include border(0.0625rem, solid, map-get($grays, "line"), all);
+      @include borderRadius($card-border-radius);
       overflow: hidden;
       cursor: pointer;
       // 마우스 오버시
