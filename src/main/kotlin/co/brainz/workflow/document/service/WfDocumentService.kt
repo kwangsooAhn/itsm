@@ -125,16 +125,23 @@ class WfDocumentService(
     fun getInitDocument(documentId: String): RestTemplateRequestDocumentDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
 
-        val form = wfFormService.getFormComponentList(documentEntity.form.formId)
+        val form = wfFormService.getFormData(documentEntity.form.formId)
         val dummyTokenDto =
             WfTokenDto(elementId = wfElementService.getStartElement(documentEntity.process.processId).elementId)
         val firstElement = wfElementService.getNextElement(dummyTokenDto)
         val documentDisplayList =
             wfDocumentDisplayRepository.findByDocumentIdAndElementId(documentId, firstElement.elementId)
-        for (component in form.components) {
-            for (documentDisplay in documentDisplayList) {
-                if (component.componentId == documentDisplay.componentId) {
-                    component.dataAttribute["displayType"] = documentDisplay.display
+
+        form.group?.let {
+            for (group in form.group) {
+                for (row in group.row) {
+                    for (component in row.component) {
+                        for (documentDisplay in documentDisplayList) {
+                            if (component.id == documentDisplay.componentId) {
+                                component.displayType = documentDisplay.display
+                            }
+                        }
+                    }
                 }
             }
         }

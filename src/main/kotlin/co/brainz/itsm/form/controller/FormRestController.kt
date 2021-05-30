@@ -33,7 +33,7 @@ class FormRestController(private val formService: FormService) {
      */
     @GetMapping("/{formId}/data")
     fun getFormData(@PathVariable formId: String): RestTemplateFormDataDto {
-        return formService.getFormDataFormRefactoring(formId)
+        return formService.getFormData(formId)
     }
 
     /**

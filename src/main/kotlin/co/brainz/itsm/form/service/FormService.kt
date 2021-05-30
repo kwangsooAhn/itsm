@@ -10,8 +10,8 @@ import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.dto.FormComponentDto
 import co.brainz.workflow.provider.dto.FormGroupDto
 import co.brainz.workflow.provider.dto.FormRowDto
-import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
+import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -29,12 +29,8 @@ class FormService(
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    fun getFormData(formId: String): RestTemplateFormComponentListDto {
-        return wfFormService.getFormComponentList(formId)
-    }
-
-    fun getFormDataFormRefactoring(formId: String): RestTemplateFormDataDto {
-        return wfFormService.getFormComponentListFormRefactoring(formId)
+    fun getFormData(formId: String): RestTemplateFormDataDto {
+        return wfFormService.getFormData(formId)
     }
 
     /**
@@ -180,5 +176,17 @@ class FormService(
             updateUserKey = null,
             group = groupList
         )
+    }
+
+    /**
+     * Form Info.
+     *
+     * [formId]를 받아서 문서양식 자체에 대한 세부 데이터 조회.
+     *
+     * @param formId
+     * @return RestTemplateFormDto
+     */
+    fun getFormInfo(formId: String): RestTemplateFormDto {
+        return wfFormService.getFormInfo(formId)
     }
 }
