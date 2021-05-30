@@ -193,7 +193,7 @@ class FormAdminService(
             desc = map["desc"] as String,
             status = (map["status"] ?: "") as String,
             category = map["category"] as String,
-            displayOption = map["display"] as LinkedHashMap<String, Any>,
+            display = map["display"] as LinkedHashMap<String, Any>,
             createDt = LocalDateTime.now(),
             createUserKey = aliceUserDto.userKey,
             updateDt = null,

@@ -294,7 +294,7 @@ class WfFormService(
             createDt = formEntity.get().createDt,
             createUserKey = formEntity.get().createUser?.userKey,
             group = formGroupList,
-            displayOption = displayOption
+            display = displayOption
         )
     }
 
@@ -612,7 +612,7 @@ class WfFormService(
         formEntity.get().formName = restTemplateFormDto.name
         formEntity.get().formDesc = restTemplateFormDto.desc
         formEntity.get().formStatus = restTemplateFormDto.status
-        formEntity.get().formDisplayOption = objMapper.writeValueAsString(restTemplateFormDto.displayOption)
+        formEntity.get().formDisplayOption = objMapper.writeValueAsString(restTemplateFormDto.display)
         formEntity.get().formCategory = restTemplateFormDto.category
         formEntity.get().updateDt = restTemplateFormDto.updateDt
         formEntity.get().updateUser = restTemplateFormDto.updateUserKey?.let {
