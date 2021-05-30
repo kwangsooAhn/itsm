@@ -132,7 +132,7 @@ class WfDocumentService(
         val documentDisplayList =
             wfDocumentDisplayRepository.findByDocumentIdAndElementId(documentId, firstElement.elementId)
 
-        form.group?. let {
+        form.group?.let {
             for (group in form.group) {
                 for (row in group.row) {
                     for (component in row.component) {

@@ -12,7 +12,6 @@ import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.entity.WfComponentPropertyEntity
-import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -44,7 +43,6 @@ import org.springframework.stereotype.Service
 class WfFormService(
     private val wfFormRepository: WfFormRepository,
     private val wfComponentRepository: WfComponentRepository,
-    private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfDocumentRepository: WfDocumentRepository,
     private val aliceUserRepository: AliceUserRepository,
     private val aliceTagRepository: AliceTagRepository,
