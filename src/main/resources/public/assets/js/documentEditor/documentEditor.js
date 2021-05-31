@@ -234,8 +234,8 @@ class DocumentEditor {
      */
     saveDocument(actionType) {
         // 유효성 체크
-        let exceptionList = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
-        if ((exceptionList.indexOf(actionType) === -1) && zValidation.hasDOMElementError(this.domElement)) {
+        let validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
+        if ((validationUncheckActionType.indexOf(actionType) === -1) && zValidation.hasDOMElementError(this.domElement)) {
             return false;
         }
         
