@@ -217,9 +217,28 @@ class DocumentEditor {
         this.documentModal.hide();
     }
     /**
+     * 컴포넌트 value 데이터 조회
+     */
+    getComponentData(object, array) {
+        object.children.forEach((child) => {
+            if (child instanceof Component) {
+                array.push({ componentId: child.id, value: child.value });
+            } else {
+                this.getComponentData(child, array);
+            }
+        });
+        return array;
+    }
+    /**
      * TODO: 신청서 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
     saveDocument(actionType) {
+        // 유효성 체크
+        let exceptionList = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
+        if ((exceptionList.indexOf(actionType) === -1) && zValidation.hasDOMElementError(this.domElement)) {
+            return false;
+        }
+        
         const saveData = {
             'documentId': this.data.documentId,
             'instanceId': this.data.instanceId,
@@ -229,7 +248,10 @@ class DocumentEditor {
             'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''
         };
         // 컴포넌트 값
-        //saveData.componentData = getComponentData();
+        saveData.componentData = this.getComponentData(this.form, []);
+
+        console.log(saveData);
+        return false;
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
         const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
