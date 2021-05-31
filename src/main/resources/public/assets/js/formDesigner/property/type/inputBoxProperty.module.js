@@ -37,7 +37,7 @@ export default class InputBoxProperty extends Property {
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validation.required)
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIAttribute('data-validation-type', this.type)
+            .setUIAttribute('data-validation-type', this.validation.type)
             .setUIAttribute('data-validation-min', this.validation.min)
             .setUIAttribute('data-validation-max', this.validation.max)
             .setUIAttribute('data-validation-minLength', this.validation.minLength)

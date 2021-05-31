@@ -704,7 +704,6 @@ form:
       fontColor: "색상"
       fontOption: "옵션"
       fontSize: "크기"
-      option: "옵션"
       position: "위치"
       text: "내용"
       visibility: "표시 여부"

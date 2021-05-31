@@ -32,25 +32,23 @@ Object.freeze(DEFAULT_PROPERTY);
 
 export default class Component {
     constructor(data = {}) {
-        this.type = data.type || 'component';
-        this.id = data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
-        this.displayType = data.displayType || 'editable'; // (readonly, editable, required, hidden)
-        this.isTopic = data.isTopic || false;
-        this.mapId = data.mapId || '';
-        this.tags = data.tags || [];
-        this.value = data.value || '${default}';
-
-        this.display = Object.assign({}, DEFAULT_PROPERTY.display, data.display);
-        this.label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);
-        this.element = data.element || {};
-        this.validate = data.validate || {};
+        this.data = data;
+        this._type = data.type || 'component';
+        this._id = data.id || workflowUtil.generateUUID();
+        this._displayType = data.displayType || 'editable'; // (readonly, editable, required, hidden)
+        this._isTopic = data.isTopic || false;
+        this._mapId = data.mapId || '';
+        this._tags = data.tags || [];
+        this._value = data.value || '${default}';
+        this._display = Object.assign({}, DEFAULT_PROPERTY.display, data.display);
+        this._label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);
 
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
         // 타입에 따른 Mixin import
-        aliceJs.importMixin(this, this.getMixinByType(this.type));
+        aliceJs.importMixin(this, this.getMixinByType(this._type));
         // 라벨 Mixin import
         aliceJs.importMixin(this, mixin.componentLabelMixin);
         // Tooltip Mixin import
@@ -64,7 +62,7 @@ export default class Component {
         this.initProperty();
         // 컴포넌트용 툴팁
         const componentTooltip = new UIComponentTooltip()
-            .setUIProperty('--data-column', this.display.columnWidth);
+            .setUIProperty('--data-column', this.displayColumnWidth);
         // 컴포넌트 추가
         componentTooltip.UIComponent = new UIComponent()
             .setUIId(this.id)
@@ -85,6 +83,7 @@ export default class Component {
 
         this.UIElement = componentTooltip;
     }
+
     // 타입에 따른 믹스인 호출
     getMixinByType(type) {
         switch(type) {
@@ -140,41 +139,89 @@ export default class Component {
         }
     }
 
-    setMapId(id) {
-        this.mapId = id;
+    get type() {
+        return this._type;
     }
 
-    getMapId() {
-        return this.mapId;
+    set type(type) {
+        this._type = type;
     }
 
-    setIsTopic(boolean) {
-        this.isTopic = boolean;
+    get id() {
+        return this._id;
     }
 
-    getIsTopic() {
-        return this.isTopic;
+    set id(id) {
+        this._id = id;
     }
 
-    setTags(tags) {
-        this.tags = tags;
+    get displayType() {
+        return this._displayType;
     }
 
-    getTags() {
-        return this.tags;
+    set displayType(displayType) {
+        this._displayType = displayType;
     }
 
-    setDisplayColumnWidth(width) {
-        this.display.columnWidth = width;
+    set mapId(mapId) {
+        this._mapId = mapId;
+    }
+
+    get mapId() {
+        return this._mapId;
+    }
+
+    set isTopic(boolean) {
+        this._isTopic = boolean;
+    }
+
+    get isTopic() {
+        return this._isTopic;
+    }
+
+    set tags(tags) {
+        this._tags = tags;
+    }
+
+    get tags() {
+        return this._tags;
+    }
+
+    set display(display) {
+        this._display = display;
+    }
+
+    get display() {
+        return this._display;
+    }
+
+    set displayDisplayOrder(displayOrder) {
+        this._display.displayOrder = displayOrder;
+    }
+
+    get displayDisplayOrder() {
+        return this._display.displayOrder;
+    }
+
+    set displayColumnWidth(width) {
+        this._display.columnWidth = width;
         this.UIElement.setUIProperty('--data-column', width);
     }
 
-    getDisplayColumnWidth() {
-        return this.display.columnWidth;
+    get displayColumnWidth() {
+        return this._display.columnWidth;
     }
 
-    setLabelPosition(value) {
-        this.label.position = value;
+    set label(label) {
+        this._label = label;
+    }
+
+    get label() {
+        return this._label;
+    }
+
+    set labelPosition(value) {
+        this._label.position = value;
         if (value === FORM.LABEL.POSITION.HIDDEN) {
             this.UIElement.UIComponent.UILabel.removeUIClass('on').addUIClass('off');
         } else {
@@ -183,74 +230,74 @@ export default class Component {
         this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(value));
     }
 
-    getLabelPosition() {
-        return this.label.position;
+    get labelPosition() {
+        return this._label.position;
     }
 
-    setLabelFontColor(color) {
-        this.label.fontColor = color;
+    set labelFontColor(color) {
+        this._label.fontColor = color;
         this.UIElement.UIComponent.UILabel.UILabelText.setUIColor(color);
     }
 
-    getLabelFontColor() {
-        return this.label.fontColor;
+    get labelFontColor() {
+        return this._label.fontColor;
     }
 
-    setLabelFontSize(size) {
-        this.label.fontSize = size;
+    set labelFontSize(size) {
+        this._label.fontSize = size;
         this.UIElement.UIComponent.UILabel.UILabelText.setUIFontSize(size);
     }
 
-    getLabelFontSize() {
-        return this.label.fontSize;
+    get labelFontSize() {
+        return this._label.fontSize;
     }
 
-    setLabelAlign(value) {
-        this.label.align = value;
+    set labelAlign(value) {
+        this._label.align = value;
         this.UIElement.UIComponent.UILabel.setUITextAlign(value);
     }
 
-    getLabelAlign() {
-        return this.label.align;
+    get labelAlign() {
+        return this._label.align;
     }
 
-    setLabelFontOptionBold(boolean) {
-        this.label.bold = boolean;
+    set labelFontOptionBold(boolean) {
+        this._label.bold = boolean;
         this.UIElement.UIComponent.UILabel.UILabelText
             .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
     }
 
-    getLabelFontOptionBold() {
-        return this.label.bold;
+    get labelFontOptionBold() {
+        return this._label.bold;
     }
 
-    setLabelFontOptionItalic(boolean) {
+    set labelFontOptionItalic(boolean) {
         this.UIElement.UIComponent.UILabel.UILabelText
             .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
-        this.label.italic = boolean;
+        this._label.italic = boolean;
     }
 
-    getLabelFontOptionItalic() {
-        return this.label.italic;
+    get labelFontOptionItalic() {
+        return this._label.italic;
     }
 
-    setLabelFontOptionUnderline(boolean) {
-        this.label.underline = boolean;
+    set labelFontOptionUnderline(boolean) {
+        this._label.underline = boolean;
         this.UIElement.UIComponent.UILabel.UILabelText
             .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
     }
 
-    getLabelFontOptionUnderline() {
-        return this.label.underline;
+    get labelFontOptionUnderline() {
+        return this._label.underline;
     }
 
-    setLabelText(text) {
-        this.label.text = text;
+    set labelText(text) {
+        this._label.text = text;
         this.UIElement.UIComponent.UILabel.UILabelText.setUITextContent(text);
     }
 
-    getLabelText() {
-        return this.label.text;
+    get labelText() {
+        return this._label.text;
     }
 
     /**
@@ -259,38 +306,21 @@ export default class Component {
      * @param flag 객체의 키가 되는 id도 복제할지 여부 (true이면 id도 복제됨)
      */
     copy(source, flag) {
-        this.type = source.type;
         this.parent = source.parent;
         this.children = source.children;
-        this.display = source.display;
-        this.displayType = source.displayType;
-        this.isTopic = source.isTopic;
-        this.mapId = source.mapId;
-        this.tags = source.tags;
-        this.value = source.value;
-        this.label = source.label;
-        this.element = source.element;
-        this.validate = source.validate;
-        if (flag) { this.id = source.id; }
+        this.data = source.data;
+        this._type = source.type;
+        this._display = source.display;
+        this._displayType = source.displayType;
+        this._isTopic = source.isTopic;
+        this._mapId = source.mapId;
+        this._tags = source.tags;
+        this._value = source.value;
+        this._label = source.label;
+        if (flag) { this._id = source.id; }
 
         this.init();
         return this;
-    }
-    // json 데이터 추출
-    toJson() {
-        return {
-            id: this.id,
-            type: this.type,
-            display: this.display,
-            displayType: this.displayType,
-            isTopic: this.isTopic,
-            mapId: this.mapId,
-            tags: this.tags,
-            value: this.value,
-            label: this.label,
-            element: this.element,
-            validate: this.validate
-        };
     }
 }
 

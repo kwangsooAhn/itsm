@@ -18,11 +18,11 @@ import BoxModelProperty from '../formDesigner/property/type/boxModelProperty.mod
 
 export default class Row {
     constructor(data = {}) {
-        this.type = 'row';
-        this.id =  data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
-        this.display = data.display || {
+        this._type = 'row';
+        this._id =  data.id || workflowUtil.generateUUID();
+        this._display = data.display || {
             displayOrder: 0,     // 표시 순서
             margin: '4 0 4 0', // row 간 간격(위 오른쪽 아래 왼쪽)
             padding: '0 0 0 0' // row 내부 여백(위 오른쪽 아래 왼쪽)
@@ -38,10 +38,10 @@ export default class Row {
     init() {
         // row 용 툴팁
         const rowTooltip = new UIRowTooltip()
-            .setUICSSText(`margin:${this.display.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
+            .setUICSSText(`margin:${this.displayMargin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
         // row
         rowTooltip.UIRow = new UIRow().setUIId(this.id)
-            .setUICSSText(`padding:${this.display.padding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
+            .setUICSSText(`padding:${this.displayPadding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
 
         rowTooltip.addUI(rowTooltip.UIRow);
         // 툴팁
@@ -51,111 +51,159 @@ export default class Row {
         this.UIElement = rowTooltip;
     }
 
-    setDisplayMarginTop(top) {
-        const margin = this.display.margin.split(' ');
+    get type() {
+        return this._type;
+    }
+
+    set type(type) {
+        this._type = type;
+    }
+
+    get id() {
+        return this._id;
+    }
+
+    set id(id) {
+        this._id = id;
+    }
+
+    set display(display) {
+        this._display = display;
+    }
+
+    get display() {
+        return this._display;
+    }
+
+    set displayDisplayOrder(displayOrder) {
+        this._display.displayOrder = displayOrder;
+    }
+
+    get displayDisplayOrder() {
+        return this._display.displayOrder;
+    }
+
+    set displayMargin(margin) {
+        this._display.margin = margin;
+    }
+
+    get displayMargin() {
+        return this._display.margin;
+    }
+
+    set displayMarginTop(top) {
+        const margin = this._display.margin.split(' ');
         margin[0] = top;
-        this.display.margin = margin.join(' ');
+        this._display.margin = margin.join(' ');
         this.UIElement.setUIMarginTop(top + UNIT.PX);
     }
 
-    getDisplayMarginTop() {
-        const margin = this.display.margin.split(' ');
+    get displayMarginTop() {
+        const margin = this._display.margin.split(' ');
         return margin[0];
     }
 
-    setDisplayMarginRight(right) {
-        const margin = this.display.margin.split(' ');
+    set displayMarginRight(right) {
+        const margin = this._display.margin.split(' ');
         margin[1] = right;
-        this.display.margin = margin.join(' ');
+        this._display.margin = margin.join(' ');
         this.UIElement.setUIMarginRight(right + UNIT.PX);
     }
 
-    getDisplayMarginRight() {
-        const margin = this.display.margin.split(' ');
+    get displayMarginRight() {
+        const margin = this._display.margin.split(' ');
         return margin[1];
     }
 
-    setDisplayMarginBottom(bottom) {
-        const margin = this.display.margin.split(' ');
+    set displayMarginBottom(bottom) {
+        const margin = this._display.margin.split(' ');
         margin[2] = bottom;
-        this.display.margin = margin.join(' ');
+        this._display.margin = margin.join(' ');
         this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
-    getDisplayMarginBottom() {
-        const margin = this.display.margin.split(' ');
+    get displayMarginBottom() {
+        const margin = this._display.margin.split(' ');
         return margin[2];
     }
 
-    setDisplayMarginLeft(left) {
-        const margin = this.display.margin.split(' ');
+    set displayMarginLeft(left) {
+        const margin = this._display.margin.split(' ');
         margin[3] = left;
-        this.display.margin = margin.join(' ');
+        this._display.margin = margin.join(' ');
         this.UIElement.setUIMarginLeft(left + UNIT.PX);
     }
 
-    getDisplayMarginLeft() {
-        const margin = this.display.margin.split(' ');
+    get displayMarginLeft() {
+        const margin = this._display.margin.split(' ');
         return margin[3];
     }
 
-    setDisplayPaddingTop(top) {
-        const padding = this.display.padding.split(' ');
+    set displayPadding(padding) {
+        this._display.padding = padding;
+    }
+
+    get displayPadding() {
+        return this._display.padding;
+    }
+
+    set displayPaddingTop(top) {
+        const padding = this._display.padding.split(' ');
         padding[0] = top;
-        this.display.padding = padding.join(' ');
+        this._display.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingTop(top + UNIT.PX);
     }
 
-    getDisplayPaddingTop() {
-        const padding = this.display.padding.split(' ');
+    get displayPaddingTop() {
+        const padding = this._display.padding.split(' ');
         return padding[0];
     }
 
-    setDisplayPaddingRight(right) {
-        const padding = this.display.padding.split(' ');
+    set displayPaddingRight(right) {
+        const padding = this._display.padding.split(' ');
         padding[1] = right;
-        this.display.padding = padding.join(' ');
+        this._display.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingRight(right + UNIT.PX);
     }
 
-    getDisplayPaddingRight() {
-        const padding = this.display.padding.split(' ');
+    get displayPaddingRight() {
+        const padding = this._display.padding.split(' ');
         return padding[1];
     }
 
-    setDisplayPaddingBottom(bottom) {
-        const padding = this.display.padding.split(' ');
+    set displayPaddingBottom(bottom) {
+        const padding = this._display.padding.split(' ');
         padding[2] = bottom;
-        this.display.padding = padding.join(' ');
+        this._display.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingBottom(bottom + UNIT.PX);
     }
 
-    getDisplayPaddingBottom() {
-        const padding = this.display.padding.split(' ');
+    get displayPaddingBottom() {
+        const padding = this._display.padding.split(' ');
         return padding[2];
     }
 
-    setDisplayPaddingLeft(left) {
-        const padding = this.display.padding.split(' ');
+    set displayPaddingLeft(left) {
+        const padding = this._display.padding.split(' ');
         padding[3] = left;
-        this.display.padding = padding.join(' ');
+        this._display.padding = padding.join(' ');
         this.UIElement.UIRow.setUIPaddingLeft(padding + UNIT.PX);
     }
 
-    getDisplayPaddingLeft() {
-        const padding = this.display.padding.split(' ');
+    get displayPaddingLeft() {
+        const padding = this._display.padding.split(' ');
         return padding[3];
     }
 
     // 세부 속성
     getProperty() {
         // display 속성 - margin
-        const displayMarginProperty = new BoxModelProperty('display.margin', this.display.margin)
+        const displayMarginProperty = new BoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
         displayMarginProperty.unit = 'px';
 
         // display 속성 - padding
-        const displayPaddingProperty = new BoxModelProperty('display.padding', this.display.padding)
+        const displayPaddingProperty = new BoxModelProperty('display.padding', this.displayPadding)
             .setValidation(false, 'number', '0', '100', '', '');
         displayPaddingProperty.unit = 'px';
 
@@ -173,10 +221,10 @@ export default class Row {
      * @param flag 객체의 키가 되는 id도 복제할지 여부 (true이면 id도 복제됨)
      */
     copy(source, flag) {
-        this.type = source.type;
-        this.display = source.display;
         this.parent = source.parent;
-        if (flag) { this.id = source.id; }
+        this._type = source.type;
+        this._display = source.display;
+        if (flag) { this._id = source.id; }
 
         this.init();
 
@@ -193,8 +241,8 @@ export default class Row {
             component.push(child.toJson());
         }
         return {
-            id: this.id,
-            display: this.display,
+            id: this._id,
+            display: this._display,
             component: component
         };
     }

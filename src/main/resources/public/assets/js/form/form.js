@@ -21,16 +21,15 @@ import BoxModelProperty from '../formDesigner/property/type/boxModelProperty.mod
 
 export default class Form {
     constructor(data = {}) {
-        this.type = 'form';
-        this.id =  data.id || workflowUtil.generateUUID();
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
-        this.name = data.name || '';
-        this.desc = data.desc || '';
-        this.status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
-        this.category = data.category || 'process'; // process | cmdb
-
-        this.display = {
+        this._type = 'form';
+        this._id =  data.id || workflowUtil.generateUUID();
+        this._name = data.name || '';
+        this._desc = data.desc || '';
+        this._status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
+        this._category = data.category || 'process'; // process | cmdb
+        this._display = {
             width: data.display.width || '905',
             margin: data.display.margin || '60 0 60 0',
             padding: data.display.padding || '15 15 15 15'
@@ -41,162 +40,212 @@ export default class Form {
 
         this.init();
     }
+
     // 초기화
     init() {
-        const formCssText = `width:${this.display.width + UNIT.PX};` +
-            `margin:${this.display.margin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};` +
-            `padding:${this.display.padding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`;
+        const formCssText = `width:${this.displayWidth + UNIT.PX};` +
+            `margin:${this.displayMargin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};` +
+            `padding:${this.displayPadding.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`;
 
         this.UIElement = new UIForm()
             .setUIId(this.id)
             .setUICSSText(formCssText);
     }
 
-    setName(name) {
-        this.name = name;
+    get type() {
+        return this._type;
+    }
+
+    set type(type) {
+        this._type = type;
+    }
+
+    get id() {
+        return this._id;
+    }
+
+    set id(id) {
+        this._id = id;
+    }
+
+    set name(name) {
+        this._name = name;
+        // 폼 디자이너 상단 이름도 동일하게 변경
         if (typeof this.parent.setFormName === 'function') {
             this.parent.setFormName(name);
         }
     }
 
-    getName() {
-        return this.name;
+    get name() {
+        return this._name;
     }
 
-    setDesc(desc) {
-        this.desc = desc;
+    set desc(desc) {
+        this._desc = desc;
     }
 
-    getDesc() {
-        return this.desc;
+    get desc() {
+        return this._desc;
     }
 
-    setStatus(status) {
-        this.status = status;
+    set status(status) {
+        this._status = status;
     }
 
-    getStatus() {
-        return this.status;
+    get status() {
+        return this._status;
     }
 
-    setDisplayWidth(width) {
-        this.display.width = width;
-        this.UIElement.setUIWidth(this.display.width + UNIT.PX);
+    set category(category) {
+        this._category = category;
+    }
+    
+    get category() {
+        return this._category;
     }
 
-    getDisplayWidth() {
-        return this.display.width;
+    set display(display) {
+        this._display = display;
     }
 
-    setDisplayMarginTop(top) {
-        const margin = this.display.margin.split(' ');
+    get display() {
+        return this._display;
+    }
+
+    set displayWidth(width) {
+        this._display.width = width;
+        this.UIElement.setUIWidth(this._display.width + UNIT.PX);
+    }
+
+    get displayWidth() {
+        return this._display.width;
+    }
+
+    set displayMargin(margin) {
+        this._display.margin = margin;
+    }
+
+    get displayMargin() {
+        return this._display.margin;
+    }
+
+    set displayMarginTop(top) {
+        const margin = this._display.margin.split(' ');
         margin[0] = top;
-        this.display.margin = margin.join(' ');
+        this._display.margin = margin.join(' ');
         this.UIElement.setUIMarginTop(top + UNIT.PX);
     }
 
-    getDisplayMarginTop() {
-        const margin = this.display.margin.split(' ');
+    get displayMarginTop() {
+        const margin = this._display.margin.split(' ');
         return margin[0];
     }
 
-    setDisplayMarginRight(right) {
-        const margin = this.display.margin.split(' ');
+    set displayMarginRight(right) {
+        const margin = this._display.margin.split(' ');
         margin[1] = right;
-        this.display.margin = margin.join(' ');
+        this._display.margin = margin.join(' ');
         this.UIElement.setUIMarginRight(right + UNIT.PX);
     }
 
-    getDisplayMarginRight() {
-        const margin = this.display.margin.split(' ');
+    get displayMarginRight() {
+        const margin = this._display.margin.split(' ');
         return margin[1];
     }
 
-    setDisplayMarginBottom(bottom) {
-        const margin = this.display.margin.split(' ');
+    set displayMarginBottom(bottom) {
+        const margin = this._display.margin.split(' ');
         margin[2] = bottom;
-        this.display.margin = margin.join(' ');
+        this._display.margin = margin.join(' ');
         this.UIElement.setUIMarginBottom(bottom + UNIT.PX);
     }
 
-    getDisplayMarginBottom() {
-        const margin = this.display.margin.split(' ');
+    get displayMarginBottom() {
+        const margin = this._display.margin.split(' ');
         return margin[2];
     }
 
-    setDisplayMarginLeft(left) {
-        const margin = this.display.margin.split(' ');
+    set displayMarginLeft(left) {
+        const margin = this._display.margin.split(' ');
         margin[3] = left;
-        this.display.margin = margin.join(' ');
+        this._display.margin = margin.join(' ');
         this.UIElement.setUIMarginLeft(left + UNIT.PX);
     }
 
-    getDisplayMarginLeft() {
-        const margin = this.display.margin.split(' ');
+    get displayMarginLeft() {
+        const margin = this._display.margin.split(' ');
         return margin[3];
     }
 
-    setDisplayPaddingTop(top) {
-        const padding = this.display.padding.split(' ');
+    set displayPadding(padding) {
+        this._display.padding = padding;
+    }
+
+    get displayPadding() {
+        return this._display.padding;
+    }
+
+    set displayPaddingTop(top) {
+        const padding = this._display.padding.split(' ');
         padding[0] = top;
-        this.display.padding = padding.join(' ');
+        this._display.padding = padding.join(' ');
         this.UIElement.setUIPaddingTop(top + UNIT.PX);
     }
 
-    getDisplayPaddingTop() {
-        const padding = this.display.padding.split(' ');
+    get displayPaddingTop() {
+        const padding = this._display.padding.split(' ');
         return padding[0];
     }
 
-    setDisplayPaddingRight(right) {
-        const padding = this.display.padding.split(' ');
+    set displayPaddingRight(right) {
+        const padding = this._display.padding.split(' ');
         padding[1] = right;
-        this.display.padding = padding.join(' ');
+        this._display.padding = padding.join(' ');
         this.UIElement.setUIPaddingRight(right + UNIT.PX);
     }
 
-    getDisplayPaddingRight() {
-        const padding = this.display.padding.split(' ');
+    get displayPaddingRight() {
+        const padding = this._display.padding.split(' ');
         return padding[1];
     }
 
-    setDisplayPaddingBottom(bottom) {
-        const padding = this.display.padding.split(' ');
+    set displayPaddingBottom(bottom) {
+        const padding = this._display.padding.split(' ');
         padding[2] = bottom;
-        this.display.padding = padding.join(' ');
+        this._display.padding = padding.join(' ');
         this.UIElement.setUIPaddingBottom(bottom + UNIT.PX);
     }
 
-    getDisplayPaddingBottom() {
-        const padding = this.display.padding.split(' ');
+    get displayPaddingBottom() {
+        const padding = this._display.padding.split(' ');
         return padding[2];
     }
 
-    setDisplayPaddingLeft(left) {
-        const padding = this.display.padding.split(' ');
+    set displayPaddingLeft(left) {
+        const padding = this._display.padding.split(' ');
         padding[3] = left;
-        this.display.padding = padding.join(' ');
+        this._display.padding = padding.join(' ');
         this.UIElement.setUIPaddingLeft(padding + UNIT.PX);
     }
 
-    getDisplayPaddingLeft() {
-        const padding = this.display.padding.split(' ');
+    get displayPaddingLeft() {
+        const padding = this._display.padding.split(' ');
         return padding[3];
     }
     // 세부 속성
     getProperty() {
         // display 속성 - width
-        const displayWidthProperty = new InputBoxProperty('display.width', this.display.width)
+        const displayWidthProperty = new InputBoxProperty('display.width', this.displayWidth)
             .setValidation(true, 'number', '0', '8192', '', '');
         displayWidthProperty.unit = 'px';
 
         // display 속성 - margin
-        const displayMarginProperty = new BoxModelProperty('display.margin', this.display.margin)
+        const displayMarginProperty = new BoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
         displayMarginProperty.unit = 'px';
 
         // display 속성 - padding
-        const displayPaddingProperty = new BoxModelProperty('display.padding', this.display.padding)
+        const displayPaddingProperty = new BoxModelProperty('display.padding', this.displayPadding)
             .setValidation(false, 'number', '0', '100', '', '');
         displayPaddingProperty.unit = 'px';
 
@@ -210,7 +259,7 @@ export default class Form {
                 { 'name': 'form.status.use', 'value': 'form.status.use' },
                 { 'name': 'form.status.destroy', 'value': 'form.status.destroy'}
             ]),
-            new GroupProperty('group.display')
+            new GroupProperty('group._display')
                 .addProperty(displayWidthProperty)
                 .addProperty(displayMarginProperty)
                 .addProperty(displayPaddingProperty)
@@ -223,14 +272,14 @@ export default class Form {
      * @param flag 객체의 키가 되는 id도 복제할지 여부 (true이면 id도 복제됨)
      */
     copy(source, flag) {
-        this.type = source.type;
-        this.name = source.name;
-        this.desc = source.desc;
-        this.status = source.status;
-        this.display = source.display;
-        this.category = source.category;
         this.parent = source.parent;
-        if (flag) { this.id = source.id; }
+        this._type = source.type;
+        this._name = source.name;
+        this._desc = source.desc;
+        this._status = source.status;
+        this._category = source.category;
+        this._display = source._display;
+        if (flag) { this._id = source.id; }
 
         this.init();
 
@@ -247,12 +296,12 @@ export default class Form {
             group.push(child.toJson());
         }
         return {
-            id: this.id,
-            name: this.name,
-            desc: this.desc,
-            status: this.status,
-            display: this.display,
-            category: this.category,
+            id: this._id,
+            name: this._name,
+            desc: this._desc,
+            status: this._status,
+            category: this._category,
+            display: this._display,
             group: group
         };
     }

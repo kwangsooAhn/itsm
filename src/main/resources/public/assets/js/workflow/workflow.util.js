@@ -40,11 +40,13 @@ workflowUtil.compareJson = function(obj1, obj2) {
         return true;
     } else if (obj1 === null || obj2 === null) {
         return false;
+    } else if (typeof obj1 === 'boolean' && typeof obj2 === 'boolean') {
+        return (obj1 === obj2);
     }
-
     if (!Object.keys(obj2).every(function(key) { return Object.prototype.hasOwnProperty.call(obj1, key); })) {
         return false;
     }
+
     return Object.keys(obj1).every(function(key) {
         if ((typeof obj1[key] === 'object') && (typeof obj2[key] === 'object')) {
             return workflowUtil.compareJson(obj1[key], obj2[key]);

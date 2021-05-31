@@ -27,7 +27,7 @@ export const controlMixin = {
             object.parent.remove(object);
         }
         object.parent = this;
-        object.display.displayOrder = index;
+        object.displayDisplayOrder = index;
         this.children.splice(index, 0, object);
         // 재정렬
         this.sort((index + 1));
@@ -85,7 +85,7 @@ export const controlMixin = {
      */
     sort(index) {
         for (let i = index; i < this.children.length; i++) {
-            this.children[i].display.displayOrder = i;
+            this.children[i].displayDisplayOrder = i;
         }
     },
     /**
@@ -123,18 +123,18 @@ export const componentLabelMixin = {
     makeLabel() {
         const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
             .addUIClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
-            .setUICSSText(`text-align: ${this.label.align};`)
-            .setUIProperty('--data-column', this.getLabelColumnWidth(this.label.position));
+            .setUICSSText(`text-align: ${this.labelAlign};`)
+            .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
         // 라벨 문구
-        const labelCssText = `color:${this.label.fontColor};` +
-            `font-size:${this.label.fontSize + UNIT.PX};` +
-            `${this.label.bold ? 'font-weight:bold;' : ''}` +
-            `${this.label.italic ? 'font-style:italic;' : ''}` +
-            `${this.label.underline ? 'text-decoration:underline;' : ''}`;
+        const labelCssText = `color:${this.labelFontColor};` +
+            `font-size:${this.labelFontSize + UNIT.PX};` +
+            `${this.labelFontOptionBold ? 'font-weight:bold;' : ''}` +
+            `${this.labelFontOptionItalic ? 'font-style:italic;' : ''}` +
+            `${this.labelFontOptionItalic ? 'text-decoration:underline;' : ''}`;
 
         label.UILabelText = new UISpan().setUIClass(CLASS_PREFIX + 'component-label-text')
             .setUICSSText(labelCssText)
-            .setUITextContent(this.label.text);
+            .setUITextContent(this.labelText);
         label.addUI(label.UILabelText);
         // 필수 여부
         label.UIRequiredText = new UISpan().setUIClass('required');
@@ -208,7 +208,7 @@ export const toolTipMenuMixin = {
             editor = this.parent.parent.parent.parent;
         }
         // 복사하여 바로 아래 추가
-        editor.makeForm(cloneData, this.parent, (this.display.displayOrder + 1));
+        editor.makeForm(cloneData, this.parent, (this.displayDisplayOrder + 1));
         const copyObject = this.parent.getById(cloneData.id);
         editor.history.save([{
             type: 'add',
@@ -251,8 +251,8 @@ export const toolTipMenuMixin = {
         // 이력 저장
         editor.history.save(histories.reverse());
         // 타입이 동일한 바로 이전 객체 선택, 하나도 존재하지 않으면 form 선택
-        if (parentObject.children[cloneObject.display.displayOrder - 1]) {
-            parentObject.children[cloneObject.display.displayOrder - 1].UIElement.domElement.dispatchEvent(new Event('click'));
+        if (parentObject.children[cloneObject.displayDisplayOrder - 1]) {
+            parentObject.children[cloneObject.displayDisplayOrder - 1].UIElement.domElement.dispatchEvent(new Event('click'));
         } else {
             editor.form.UIElement.domElement.dispatchEvent(new Event('click'));
         }

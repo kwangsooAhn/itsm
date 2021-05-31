@@ -237,15 +237,12 @@ class UITextArea extends UIElement {
                 if (event.keyCode === 9) {
                     // TAB 일 경우
                     event.preventDefault();
-
-                    const cursor = this.domElement.selectionStart;
-                    this.domElement.value = this.domElement.value.substring(0, cursor) + '\t' + this.domElement.value.substring(cursor);
-                    this.domElement.selectionStart = cursor + 1;
-                    this.domElement.selectionEnd = this.domElement.selectionStart;
+                    const cursor = event.target.selectionStart;
+                    event.target.value = event.target.value.substring(0, cursor) + '\t' + event.target.value.substring(cursor);
+                    event.target.selectionStart = cursor + 1;
+                    event.target.selectionEnd = event.target.selectionStart;
                 }
-            },
-            false
-        );
+            }, false);
     }
 
     getUIValue() {

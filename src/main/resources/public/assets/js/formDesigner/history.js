@@ -78,7 +78,7 @@ export default class History {
             case 'add':
                 const toParent = this.editor.form.getById(data.to.id);
                 if (type === 'redo') { // 복제한 객체를 다시 추가
-                    this.editor.makeForm(data.to.clone, toParent, data.to.clone.displayOrder);
+                    this.editor.makeForm(data.to.clone, toParent, data.to.clone.displayDisplayOrder);
                     // 추가된 객체 선택
                     toParent.getById(data.to.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
                 } else { // 기존 추가한 객체를 삭제
@@ -92,7 +92,7 @@ export default class History {
                     const from = this.editor.form.getById(data.from.clone.id);
                     fromParent.remove(from);
                 } else { // 기존 삭제한 객체를 다시 추가
-                    this.editor.makeForm(data.from.clone, fromParent, data.from.clone.displayOrder);
+                    this.editor.makeForm(data.from.clone, fromParent, data.from.clone.displayDisplayOrder);
                     // 추가된 객체 선택
                     fromParent.getById(data.from.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
                 }
@@ -100,11 +100,11 @@ export default class History {
             case 'sort': // 정렬 변경시
                 const sortParent = this.editor.form.getById(data.from.id);
                 const sortTarget = sortParent.getById(data.from.clone.id);
-                let oldIndex = data.to.clone.displayOrder;
-                let newIndex = data.from.clone.displayOrder;
+                let oldIndex = data.to.clone.displayDisplayOrder;
+                let newIndex = data.from.clone.displayDisplayOrder;
                 if (type === 'redo') {
-                    oldIndex = data.from.clone.displayOrder;
-                    newIndex = data.to.clone.displayOrder;
+                    oldIndex = data.from.clone.displayDisplayOrder;
+                    newIndex = data.to.clone.displayDisplayOrder;
                 }
                 aliceJs.moveObject(sortParent.children, oldIndex, newIndex); // 객체 정렬
                 sortParent.sort(0);
@@ -116,9 +116,9 @@ export default class History {
             case 'change':
                 const changeTarget = this.editor.form.getById(data.id);
                 if (type === 'redo') {
-                    changeTarget[data.method].call(changeTarget, data.to);
+                    changeTarget[data.method] = data.to;
                 } else {
-                    changeTarget[data.method].call(changeTarget, data.from);
+                    changeTarget[data.method] = data.from;
                 }
                 break;
             default:
