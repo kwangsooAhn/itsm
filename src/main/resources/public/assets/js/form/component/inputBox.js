@@ -45,70 +45,101 @@ export const inputBoxMixin = {
     // 전달 받은 데이터와 기본 property merge
     initProperty() {
         // 엘리먼트 property 초기화
-        this.element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.element);
-        this.validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.validation);
+        this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
+        this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
     },
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
-            .setUIProperty('--data-column', this.element.columnWidth);
+            .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIInputbox = new UIInput().setUIPlaceholder(this.element.placeholder)
+        element.UIInputbox = new UIInput().setUIPlaceholder(this.elementPlaceholder)
             .setUIRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
             .setUIReadOnly((this.displayType === FORM.DISPLAY_TYPE.READONLY))
-            .setUIValue(this.getValue())
+            .setUIValue(this.value)
             .setUIAttribute('data-validation-required', (this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
-            .setUIAttribute('data-validation-type', this.validation.validationType)
-            .setUIAttribute('data-validation-maxLength', this.validation.maxLength)
-            .setUIAttribute('data-validation-minLength', this.validation.minLength)
+            .setUIAttribute('data-validation-type', this.validationValidationType)
+            .setUIAttribute('data-validation-maxLength', this.validationMaxLength)
+            .setUIAttribute('data-validation-minLength', this.validationMinLength)
             .onUIKeyUp(this.updateValue.bind(this))
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIInputbox);
         return element;
     },
-    setElementPlaceholder(placeholder) {
-        this.element.placeholder = placeholder;
+
+    set element(element) {
+        this._element = element;
+    },
+    get element() {
+        return this._element;
+    },
+    set elementPlaceholder(placeholder) {
+        this._element.placeholder = placeholder;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIPlaceholder(placeholder);
     },
-    getElementPlaceholder() {
-        return this.element.placeholder;
+    get elementPlaceholder() {
+        return this._element.placeholder;
     },
-    setElementColumnWidth(width) {
-        this.element.columnWidth = width;
+    set elementColumnWidth(width) {
+        this._element.columnWidth = width;
         this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
         this.UIElement.UIComponent.UILabel.setUIProperty('--data-column',
-            this.getLabelColumnWidth(this.label.position));
+            this.getLabelColumnWidth(this.labelPosition));
     },
-    getElementColumnWidth() {
-        return this.element.columnWidth;
+    get elementColumnWidth() {
+        return this._element.columnWidth;
     },
-    setElementDefaultValueSelect(value) {
-        this.element.defaultValueSelect = value;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.getValue());
+    set elementDefaultValueSelect(value) {
+        this._element.defaultValueSelect = value;
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.value);
     },
-    getElementDefaultValueSelect() {
-        return this.element.defaultValueSelect;
+    get elementDefaultValueSelect() {
+        return this._element.defaultValueSelect;
     },
-    setValidationValidationType(type) {
-        this.validation.validationType = type;
+    set validation(validation) {
+        this._validation = validation;
+    },
+    get validation() {
+        return this._validation;
+    },
+    set validationValidationType(type) {
+        this._validation.validationType = type;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-type', type);
     },
-    getValidationValidationType() {
-        return this.validation.validationType;
+    get validationValidationType() {
+        return this._validation.validationType;
     },
-    setValidationMinLength(min) {
-        this.validation.minLength = min;
+    set validationMinLength(min) {
+        this._validation.minLength = min;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-minLength', min);
     },
-    getValidationMinLength() {
-        return this.validation.minLength;
+    get validationMinLength() {
+        return this._validation.minLength;
     },
-    setValidationMaxLength(max) {
-        this.validation.maxLength = max;
+    set validationMaxLength(max) {
+        this._validation.maxLength = max;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-maxLength', max);
     },
-    getValidationMaxLength() {
-        return this.validation.maxLength;
+    get validationMaxLength() {
+        return this._validation.maxLength;
+    },
+    // 기본 값 변경
+    set value(value) {
+        this._value = value;
+    },
+    // 기본 값 조회
+    get value() {
+        if (this._value === '${default}') {
+            // 직접입력일 경우 : none|입력값
+            const defaultValues = this._element.defaultValueSelect.split('|');
+            if (defaultValues[0] === 'input') {
+                return defaultValues[1];
+            } else {  // 자동일경우 : select|userKey
+                return SESSION[defaultValues[1]] || '';
+            }
+        } else {
+            return this._value;
+        }
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -128,46 +159,46 @@ export const inputBoxMixin = {
             return false;
         }
 
-        this.setValue(e.target.value);
+        this.value = e.target.value;
     },
-    // 기본 값 변경
-    setValue(value) {
-        this.value = value;
-    },
-    // 기본 값 조회
-    getValue() {
-        if (this.value === '${default}') {
-            // 직접입력일 경우 : none|입력값
-            const defaultValues = this.element.defaultValueSelect.split('|');
-            if (defaultValues[0] === 'input') {
-                return defaultValues[1];
-            } else {  // 자동일경우 : select|userKey
-                return SESSION[defaultValues[1]] || '';
-            }
-        } else {
-            return this.value;
-        }
-    },
+
     getProperty() {
         // validation - validation Type
-        const validationTypeProperty = new DropdownProperty('validation.validationType', this.validation.validationType, [
-            {name: 'form.properties.none', value: 'none'},
-            {name: 'form.properties.char', value: 'char'},
-            {name: 'form.properties.number', value: 'number'},
-            {name: 'form.properties.email', value: 'email'},
-            {name: 'form.properties.phone', value: 'phone'}
-        ]);
+        const validationTypeProperty = new DropdownProperty('validation.validationType',
+            this.validationValidationType, [
+                {name: 'form.properties.none', value: 'none'},
+                {name: 'form.properties.char', value: 'char'},
+                {name: 'form.properties.number', value: 'number'},
+                {name: 'form.properties.email', value: 'email'},
+                {name: 'form.properties.phone', value: 'phone'}
+            ]);
 
         return [
             ...new CommonProperty(this).getCommonProperty(),
             new GroupProperty('group.element')
-                .addProperty(new InputBoxProperty('element.placeholder', this.element.placeholder))
-                .addProperty(new SliderProperty('element.columnWidth', this.element.columnWidth))
-                .addProperty(new DefaultValueSelectProperty('element.defaultValueSelect', this.element.defaultValueSelect)),
+                .addProperty(new InputBoxProperty('element.placeholder', this.elementPlaceholder))
+                .addProperty(new SliderProperty('element.columnWidth', this.elementColumnWidth))
+                .addProperty(new DefaultValueSelectProperty('element.defaultValueSelect', this.elementDefaultValueSelect)),
             new GroupProperty('group.validation')
                 .addProperty(validationTypeProperty)
-                .addProperty(new InputBoxProperty('validation.minLength', this.validation.minLength))
-                .addProperty(new InputBoxProperty('validation.maxLength', this.validation.maxLength))
+                .addProperty(new InputBoxProperty('validation.minLength', this.validationMinLength))
+                .addProperty(new InputBoxProperty('validation.maxLength', this.validationMaxLength))
         ];
+    },
+    // json 데이터 추출 (서버에 전달되는 json 데이터)
+    toJson() {
+        return {
+            id: this._id,
+            type: this._type,
+            display: this._display,
+            displayType: this._displayType,
+            isTopic: this._isTopic,
+            mapId: this._mapId,
+            tags: this._tags,
+            value: this._value,
+            label: this._label,
+            element: this._element,
+            validation: this._validation
+        };
     }
 };

@@ -704,7 +704,6 @@ form:
       fontColor: "Color"
       fontOption: "Option"
       fontSize: "Size"
-      option: "Option"
       position: "Position"
       text: "Content"
       visibility: "Visible"

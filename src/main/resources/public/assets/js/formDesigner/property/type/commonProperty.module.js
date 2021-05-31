@@ -27,24 +27,24 @@ export default class CommonProperty {
         const tagProperty = new TagProperty('tags', this.target.tags);
 
         // labe - text
-        const labelTextProperty = new InputBoxProperty('label.text', this.target.label.text);
+        const labelTextProperty = new InputBoxProperty('label.text', this.target.labelText);
         labelTextProperty.columnWidth = '8';
 
         // label - fontSize
-        const labelFontSizeProperty = new InputBoxProperty('label.fontSize', this.target.label.fontSize)
+        const labelFontSizeProperty = new InputBoxProperty('label.fontSize', this.target.labelFontSize)
             .setValidation(false, 'number', '10', '100', '', '');
         labelFontSizeProperty.unit = 'px';
         labelFontSizeProperty.columnWidth = '3';
 
         // label - position
-        const labelPositionProperty = new SwitchButtonProperty('label.position', this.target.label.position, [
+        const labelPositionProperty = new SwitchButtonProperty('label.position', this.target.labelPosition, [
             {'name': 'icon-position-left', 'value': 'left'},
             {'name': 'icon-position-top', 'value': 'top'},
             {'name': 'icon-position-hidden', 'value': 'hidden'}
         ]);
 
         // label - align
-        const labelAlignProperty = new SwitchButtonProperty('label.align', this.target.label.align, [
+        const labelAlignProperty = new SwitchButtonProperty('label.align', this.target.labelAlign, [
             { 'name': 'icon-align-left', 'value': 'left' },
             { 'name': 'icon-align-center', 'value': 'center' },
             { 'name': 'icon-align-right', 'value': 'right' }
@@ -57,13 +57,15 @@ export default class CommonProperty {
             { 'name': 'icon-italic', 'value': 'italic' },
             { 'name': 'icon-underline', 'value': 'underline' }
         ];
-        const labelFontValue = labelFontOption.map((item) =>
-            (this.target.label[item.value]) ? 'Y' : 'N').join('|');
-        const labelFontOptionProperty = new ToggleButtonProperty('label.option', labelFontValue, labelFontOption);
+        const labelFontValue = labelFontOption.map((item) => {
+            const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
+            return this.target['labelFontOption' + method] ? 'Y' : 'N';
+        }).join('|');
+        const labelFontOptionProperty = new ToggleButtonProperty('label.fontOption', labelFontValue, labelFontOption);
         labelFontOptionProperty.columnWidth = '5';
 
         // label - fontColor
-        const labelFontColorProperty = new ColorPickerProperty('label.fontColor', this.target.label.fontColor, false)
+        const labelFontColorProperty = new ColorPickerProperty('label.fontColor', this.target.labelFontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
         labelFontColorProperty.columnWidth = '12';
 
@@ -73,7 +75,7 @@ export default class CommonProperty {
             isTopicProperty,
             tagProperty,
             new GroupProperty('group.display')
-                .addProperty(new SliderProperty('display.columnWidth', this.target.display.columnWidth)),
+                .addProperty(new SliderProperty('display.columnWidth', this.target.displayColumnWidth)),
             new GroupProperty('group.label')
                 .addProperty(labelPositionProperty)
                 .addProperty(labelTextProperty)

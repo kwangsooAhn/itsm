@@ -114,6 +114,8 @@ class Validation {
             }
         } else if (element instanceof HTMLSelectElement) {
             element.value = value;
+        } else if (element instanceof HTMLTextAreaElement) {
+            element.value = value;
         }
     }
     /**
@@ -131,6 +133,8 @@ class Validation {
             }
         } else if (element instanceof HTMLSelectElement) {
             return element.options[element.selectedIndex].value;
+        } else if (element instanceof HTMLTextAreaElement) {
+            return element.value;
         }
     }
     /**
