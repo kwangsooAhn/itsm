@@ -43,3 +43,7 @@ export const FORM = {
 };
 // 프로세스
 export const PROCESS = {};
+// 문서
+export const DOCUMENT = {
+    ASSIGNEE_TYPE: 'assignee.type.assignee'
+};
