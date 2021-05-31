@@ -1,6 +1,6 @@
 /* form, group, row, component 디자인 */
 // 폼
-.zenius-form {
+.#{$common-prefix}form {
   display: inline-block;
   min-height: $form-min-height;
   background-color: $form-bg-color;
@@ -9,7 +9,7 @@
   & *:focus { outline: none !important; }
 }
 // 그룹 툴팁
-.zenius-group-tooltip {
+.#{$common-prefix}group-tooltip {
   position: relative;
   padding: 0.9375rem; // 15px
   @include border(0.0625rem, solid, #D7DBE0, all); // 1px
@@ -18,7 +18,7 @@
   &.selected {
     background-color: $group-selected-bg-color;
     border-color: $group-selected-border-color;
-    > .zenius-tooltip-menu { visibility: visible; }
+    > .#{$common-prefix}tooltip-menu { visibility: visible; }
   }
   &.focus {
     background-color: $group-selected-bg-color;
@@ -27,7 +27,7 @@
   &.off { display: none; }
 }
 // 그룹
-.zenius-group {
+.#{$common-prefix}group {
   // 체크 박스
   &-accordion-checkBox {
     position: absolute;
@@ -43,7 +43,7 @@
     margin: 0 0 0.9375rem 0; // 0 0 15px 0
     &.off { display: none; }
     // 라벨 문구
-    .zenius-group-label-text {
+    .#{$common-prefix}group-label-text {
       display: table-cell;
       vertical-align: middle;
       opacity: 1;
@@ -58,30 +58,30 @@
   // 아코디언 사용중일 경우
   &.accordion {
     // 체크박스 선택 = 아코디언 펼침
-    .zenius-group-accordion-checkBox:checked {
-      + .zenius-group-label {
+    .#{$common-prefix}group-accordion-checkBox:checked {
+      + .#{$common-prefix}group-label {
         .arrow-left {
           @include rotate(-90);
         }
       }
-      ~ .zenius-row-tooltip:not(.off) {
+      ~ .#{$common-prefix}row-tooltip:not(.off) {
         display: block;
       }
     }
     // 라벨
-    .zenius-group-label {
+    .#{$common-prefix}group-label {
       @include border(0.125rem, solid, $group-accordion-border-color, bottom);
       padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
       cursor: pointer;
 
       &.off {
         display: table;
-        .zenius-group-label-text {
+        .#{$common-prefix}group-label-text {
           opacity: 0;
         }
       }
 
-      .zenius-group-label-text {
+      .#{$common-prefix}group-label-text {
         padding-right: 0.625rem; // 10px
       }
 
@@ -91,14 +91,14 @@
     }
 
     // row
-    .zenius-row-tooltip {
+    .#{$common-prefix}row-tooltip {
       display: none;
       @include transition(all 0.25s ease-out);
     }
   }
 }
 // row 툴팁
-.zenius-row-tooltip {
+.#{$common-prefix}row-tooltip {
   position: relative;
   @include border(0.0625rem, solid, #D7DBE0, all); // 1px
   @include borderRadius($row-selected-border-radius);
@@ -106,7 +106,7 @@
   &.selected {
     border-color: $row-selected-border-color;
     background-color: $row-selected-bg-color;
-    > .zenius-tooltip-menu { visibility: visible; }
+    > .#{$common-prefix}tooltip-menu { visibility: visible; }
   }
   // displayType이 hidden일 경우
   &.off { display: none; }
@@ -114,7 +114,7 @@
 
 // component 툴팁
 // todo: 1 row 1 component 일 경우 dashed border 제거
-.zenius-component-tooltip {
+.#{$common-prefix}component-tooltip {
   position: relative;
   flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
   padding: 0.375rem 0.5rem; // 6px 8px
@@ -125,26 +125,26 @@
   &.selected {
     @include border(0.0625rem, solid, $component-selected-border-color, all); // 1px
     background-color: $component-selected-bg-color;
-    >.zenius-tooltip-menu { visibility: visible; }
+    >.#{$common-prefix}tooltip-menu { visibility: visible; }
   }
   // displayType이 hidden일 경우
   &.off { display: none; }
 }
 // component
-.zenius-component {
+.#{$common-prefix}component {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
   // label
-  .zenius-component-label {
+  .#{$common-prefix}component-label {
     flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
     padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
     &.on { display: block; }
     &.off { display: none; }
   }
   // element
-  .zenius-element {
+  .#{$common-prefix}element {
     flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
     padding: 0.4375rem 0; // 7px 0
 
@@ -157,13 +157,13 @@
   }
 }
 // label
-.zenius-component[data-displayType]:not([data-displayType="required"]) { // 필수값 숨김
-  .zenius-component-label {
+.#{$common-prefix}component[data-displayType]:not([data-displayType="required"]) { // 필수값 숨김
+  .#{$common-prefix}component-label {
     span[class="required"] { display: none; }
   }
 }
 // tooptip
-.zenius-tooltip-menu {
+.#{$common-prefix}tooltip-menu {
   visibility: hidden;
   position: absolute;
   background-color: $tooltip-menu-bg-color;
@@ -171,10 +171,10 @@
   box-shadow: 0 0 0 0.0625rem $tooltip-menu-border-color inset; // 1px
   bottom: 100%;
   right: -0.0625rem; // -1px
-  .zenius-tooltip-menu-items {
+  .#{$common-prefix}tooltip-menu-items {
     margin: 0 0.125rem; // 0 2px
     padding: 0.5625rem 0 0; // 9px 0 0 0
-    .zenius-tooltip-menu-item {
+    .#{$common-prefix}tooltip-menu-item {
       display: inline-block;
       margin: 0 0.25rem; // 0 4px
       padding: 0 0.5rem; // 0 8px

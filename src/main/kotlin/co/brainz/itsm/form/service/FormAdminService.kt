@@ -31,17 +31,10 @@ class FormAdminService(
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
-     * 문서양식 데이터 목록 조회.
+     * 문서양식 리스트 조회.
      */
     fun findForms(params: LinkedHashMap<String, Any>): List<RestTemplateFormDto> {
-        return wfFormService.forms(params)
-    }
-
-    /**
-     * [formId]를 받아서 문서양식 마스터 데이터 조회.
-     */
-    fun getFormAdmin(formId: String): RestTemplateFormDto {
-        return wfFormService.form(formId)
+        return wfFormService.getFormList(params)
     }
 
     /**

@@ -237,6 +237,6 @@
 
   // 문서 상태에 따라 편집을 막음
   &.edit {
-    .zenius-group-label { pointer-events: none; }
+    .#{$common-prefix}group-label { pointer-events: none; }
   }
 }

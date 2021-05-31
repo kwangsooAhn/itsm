@@ -1537,19 +1537,19 @@ body.modal-active {
 }
 
 /* form, group, row, component 디자인 - document ver. */
-.zenius-group-tooltip {
+.z-group-tooltip {
   border: 0.0625rem solid #ffffff;
 }
 
-.zenius-row-tooltip {
+.z-row-tooltip {
   border: 0.0625rem solid #ffffff;
 }
 
-.zenius-component-tooltip {
+.z-component-tooltip {
   border: 0.0625rem solid #ffffff;
 }
 
-.zenius-group.accordion .zenius-group-accordion-checkBox:checked ~ .zenius-row-tooltip:not(.off):last-child {
+.z-group.accordion .z-group-accordion-checkBox:checked ~ .z-row-tooltip:not(.off):last-child {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 

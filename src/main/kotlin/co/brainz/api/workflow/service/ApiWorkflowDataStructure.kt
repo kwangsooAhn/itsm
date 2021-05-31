@@ -32,13 +32,19 @@ class ApiWorkflowDataStructure {
             action = WfElementConstants.Action.PROGRESS.value
         )
         val componentData = mutableListOf<RestTemplateTokenDataDto>()
-        for (component in documentData.form.components) {
-            if (!apiExcludedComponentType.contains(component.type)) {
-                componentData.add(
-                    RestTemplateTokenDataDto(
-                        componentId = component.componentId
-                    )
-                )
+        documentData.form.group?.let {
+            for (group in documentData.form.group) {
+                for (row in group.row) {
+                    for (component in row.component) {
+                        if (!apiExcludedComponentType.contains(component.type)) {
+                            componentData.add(
+                                RestTemplateTokenDataDto(
+                                    componentId = component.id
+                                )
+                            )
+                        }
+                    }
+                }
             }
         }
 
