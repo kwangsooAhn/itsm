@@ -54,50 +54,8 @@ export const textAreaMixin = {
         element.addUI(element.UIText);
         return element;
     },
-    setElementPlaceholder(placeholder) {
-        this.element.placeholder = placeholder;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIPlaceholder(placeholder);
-    },
-    getElementPlaceholder() {
-        return this.element.placeholder;
-    },
-    setElementColumnWidth(width) {
-        this.element.columnWidth = width;
-        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
-        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column',
-            this.getLabelColumnWidth(this.label.position));
-    },
-    getElementColumnWidth() {
-        return this.element.columnWidth;
-    },
-    setElementDefaultValueSelect(value) {
-        this.element.defaultValueSelect = value;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.getValue());
-    },
-    getElementDefaultValueSelect() {
-        return this.element.defaultValueSelect;
-    },
-    setValidationValidationType(type) {
-        this.validation.validationType = type;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-type', type);
-    },
-    getValidationValidationType() {
-        return this.validation.validationType;
-    },
-    setValidationMinLength(min) {
-        this.validation.minLength = min;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-minLength', min);
-    },
-    getValidationMinLength() {
-        return this.validation.minLength;
-    },
-    setValidationMaxLength(max) {
-        this.validation.maxLength = max;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-maxLength', max);
-    },
-    getValidationMaxLength() {
-        return this.validation.maxLength;
-    },
+    // set, get
+
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
         e.stopPropagation();
