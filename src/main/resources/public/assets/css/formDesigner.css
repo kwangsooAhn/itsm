@@ -1104,7 +1104,7 @@ input, button, select, optgroup, textarea {
 .drawing-board .component-icon-drag-in .component-name {
   opacity: 0;
 }
-.drawing-board.edit .zenius-group-label {
+.drawing-board.edit .z-group-label {
   pointer-events: none;
 }
 
@@ -4774,18 +4774,18 @@ body.modal-active {
 }
 
 /* form, group, row, component 디자인 */
-.zenius-form {
+.z-form {
   display: inline-block;
   min-height: 56.25rem;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
 }
-.zenius-form *:focus {
+.z-form *:focus {
   outline: none !important;
 }
 
-.zenius-group-tooltip {
+.z-group-tooltip {
   position: relative;
   padding: 0.9375rem;
   border: 0.0625rem solid #D7DBE0;
@@ -4794,41 +4794,41 @@ body.modal-active {
   -moz-border-radius: 0.125rem;
   background-color: #ffffff;
 }
-.zenius-group-tooltip.selected {
+.z-group-tooltip.selected {
   background-color: #F7FCFF;
   border-color: #87CEFF;
 }
-.zenius-group-tooltip.selected > .zenius-tooltip-menu {
+.z-group-tooltip.selected > .z-tooltip-menu {
   visibility: visible;
 }
-.zenius-group-tooltip.focus {
+.z-group-tooltip.focus {
   background-color: #F7FCFF;
 }
-.zenius-group-tooltip.off {
+.z-group-tooltip.off {
   display: none;
 }
 
-.zenius-group-accordion-checkBox {
+.z-group-accordion-checkBox {
   position: absolute;
   opacity: 0;
   z-index: -1;
 }
-.zenius-group-label {
+.z-group-label {
   display: table;
   width: 100%;
   min-height: 2.5rem;
   padding: 0 0.625rem 0 0.625rem;
   margin: 0 0 0.9375rem 0;
 }
-.zenius-group-label.off {
+.z-group-label.off {
   display: none;
 }
-.zenius-group-label .zenius-group-label-text {
+.z-group-label .z-group-label-text {
   display: table-cell;
   vertical-align: middle;
   opacity: 1;
 }
-.zenius-group-label .arrow-left {
+.z-group-label .arrow-left {
   opacity: 0;
   display: table-cell;
   width: 0.75rem;
@@ -4841,34 +4841,34 @@ body.modal-active {
   mask-position: center;
   background: #929AA6;
 }
-.zenius-group.accordion .zenius-group-accordion-checkBox:checked + .zenius-group-label .arrow-left {
+.z-group.accordion .z-group-accordion-checkBox:checked + .z-group-label .arrow-left {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.zenius-group.accordion .zenius-group-accordion-checkBox:checked ~ .zenius-row-tooltip:not(.off) {
+.z-group.accordion .z-group-accordion-checkBox:checked ~ .z-row-tooltip:not(.off) {
   display: block;
 }
-.zenius-group.accordion .zenius-group-label {
+.z-group.accordion .z-group-label {
   border-bottom: 0.125rem solid #D7DBE0;
   padding: 0 1.125rem 0 0.625rem;
   cursor: pointer;
 }
-.zenius-group.accordion .zenius-group-label.off {
+.z-group.accordion .z-group-label.off {
   display: table;
 }
-.zenius-group.accordion .zenius-group-label.off .zenius-group-label-text {
+.z-group.accordion .z-group-label.off .z-group-label-text {
   opacity: 0;
 }
-.zenius-group.accordion .zenius-group-label .zenius-group-label-text {
+.z-group.accordion .z-group-label .z-group-label-text {
   padding-right: 0.625rem;
 }
-.zenius-group.accordion .zenius-group-label .arrow-left {
+.z-group.accordion .z-group-label .arrow-left {
   opacity: 1;
 }
-.zenius-group.accordion .zenius-row-tooltip {
+.z-group.accordion .z-row-tooltip {
   display: none;
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
@@ -4877,7 +4877,7 @@ body.modal-active {
   transition: all 0.25s ease-out;
 }
 
-.zenius-row-tooltip {
+.z-row-tooltip {
   position: relative;
   border: 0.0625rem solid #D7DBE0;
   border-radius: 0.125rem;
@@ -4885,18 +4885,18 @@ body.modal-active {
   -moz-border-radius: 0.125rem;
   background-color: transparent;
 }
-.zenius-row-tooltip.selected {
+.z-row-tooltip.selected {
   border-color: #87CEFF;
   background-color: #F7FCFF;
 }
-.zenius-row-tooltip.selected > .zenius-tooltip-menu {
+.z-row-tooltip.selected > .z-tooltip-menu {
   visibility: visible;
 }
-.zenius-row-tooltip.off {
+.z-row-tooltip.off {
   display: none;
 }
 
-.zenius-component-tooltip {
+.z-component-tooltip {
   position: relative;
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
   padding: 0.375rem 0.5rem;
@@ -4907,38 +4907,38 @@ body.modal-active {
   -moz-border-radius: 0.0625rem;
   background-color: transparent;
 }
-.zenius-component-tooltip.selected {
+.z-component-tooltip.selected {
   border: 0.0625rem solid #87CEFF;
   background-color: #F7FCFF;
 }
-.zenius-component-tooltip.selected > .zenius-tooltip-menu {
+.z-component-tooltip.selected > .z-tooltip-menu {
   visibility: visible;
 }
-.zenius-component-tooltip.off {
+.z-component-tooltip.off {
   display: none;
 }
 
-.zenius-component {
+.z-component {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
 }
-.zenius-component .zenius-component-label {
+.z-component .z-component-label {
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
   padding: 0.4375rem 0.938rem 0.4375rem 0;
 }
-.zenius-component .zenius-component-label.on {
+.z-component .z-component-label.on {
   display: block;
 }
-.zenius-component .zenius-component-label.off {
+.z-component .z-component-label.off {
   display: none;
 }
-.zenius-component .zenius-element {
+.z-component .z-element {
   flex-basis: calc((100% * var(--data-column, 12)) / 12);
   padding: 0.4375rem 0;
 }
-.zenius-component .zenius-element .input {
+.z-component .z-element .input {
   width: 100%;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
@@ -4946,11 +4946,11 @@ body.modal-active {
   -moz-border-radius: 0.0625rem;
 }
 
-.zenius-component[data-displayType]:not([data-displayType=required]) .zenius-component-label span[class=required] {
+.z-component[data-displayType]:not([data-displayType=required]) .z-component-label span[class=required] {
   display: none;
 }
 
-.zenius-tooltip-menu {
+.z-tooltip-menu {
   visibility: hidden;
   position: absolute;
   background-color: #ffffff;
@@ -4959,22 +4959,22 @@ body.modal-active {
   bottom: 100%;
   right: -0.0625rem;
 }
-.zenius-tooltip-menu .zenius-tooltip-menu-items {
+.z-tooltip-menu .z-tooltip-menu-items {
   margin: 0 0.125rem;
   padding: 0.5625rem 0 0;
 }
-.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item {
+.z-tooltip-menu .z-tooltip-menu-items .z-tooltip-menu-item {
   display: inline-block;
   margin: 0 0.25rem;
   padding: 0 0.5rem;
   cursor: pointer;
 }
-.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item .icon {
+.z-tooltip-menu .z-tooltip-menu-items .z-tooltip-menu-item .icon {
   display: inline-block;
   vertical-align: middle;
   pointer-events: none;
 }
-.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item .icon.icon-copy {
+.z-tooltip-menu .z-tooltip-menu-items .z-tooltip-menu-item .icon.icon-copy {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/formDesigner/tooltip/icon_copy.svg");
@@ -4985,7 +4985,7 @@ body.modal-active {
   mask-position: center;
   background: #87CEFF;
 }
-.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item .icon.icon-remove {
+.z-tooltip-menu .z-tooltip-menu-items .z-tooltip-menu-item .icon.icon-remove {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/formDesigner/tooltip/icon_remove.svg");
@@ -4996,7 +4996,7 @@ body.modal-active {
   mask-position: center;
   background: #87CEFF;
 }
-.zenius-tooltip-menu .zenius-tooltip-menu-items .zenius-tooltip-menu-item:hover .icon {
+.z-tooltip-menu .z-tooltip-menu-items .z-tooltip-menu-item:hover .icon {
   background: #0098FF;
 }
 
