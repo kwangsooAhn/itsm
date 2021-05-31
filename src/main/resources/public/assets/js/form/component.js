@@ -9,8 +9,23 @@
  */
 import * as mixin from '../lib/mixins.js';
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
-import { inputBoxMixin } from './component/inputBox.js';
 import { UIDiv } from '../lib/ui.js';
+import { inputBoxMixin } from './component/inputBox.js';
+import { textAreaMixin } from "./component/textArea.js";
+import { textEditorMixin } from "./component/textEditor.js";
+import { dropdownMixin } from "./component/dropdown.js";
+import { radioMixin } from "./component/radio.js";
+import { checkBoxMixin } from "./component/checkBox.js";
+import { labelMixin } from "./component/label.js";
+import { imageMixin } from "./component/image.js";
+import { dividerMixin } from "./component/divider.js";
+import { dateMixin } from "./component/date.js";
+import { timeMixin } from "./component/time.js";
+import { dataTimeMixin } from "./component/dateTime.js";
+import { fileUploadMixin } from "./component/fileUpload.js";
+import { customCodeMixin } from "./component/customCode.js";
+import { dynamicRowTableMixin } from "./component/dynamicRowTable.js";
+import { ciMixin } from "./component/ci.js";
 
 const DEFAULT_PROPERTY = {
     label: {
@@ -90,50 +105,35 @@ export default class Component {
         case 'inputBox':
             return inputBoxMixin;
         case 'textArea':
-            //object = new TextArea(data);
-            break;
+            return textAreaMixin;
         case 'textEditor':
-            //object = new TextEditor(data);
-            break;
+            return textEditorMixin;
         case 'dropdown':
-            //object = new Dropdown(data);
-            break;
+            return dropdownMixin;
         case 'radio':
-            //object = new Radio(data);
-            break;
+            return radioMixin;
         case 'checkBox':
-            //object = new CheckBox(data);
-            break;
+            return checkBoxMixin;
         case 'label':
-            //object = new Label(data);
-            break;
+            return labelMixin;
         case 'image':
-            //object = new ImageBox(data);
-            break;
+            return imageMixin;
         case 'divider':
-            //object = new Divider(data);
-            break;
+            return dividerMixin;
         case 'date':
-            //object = new Date(data);
-            break;
+            return dateMixin;
         case 'time':
-            //object = new Time(data);
-            break;
+            return timeMixin;
         case 'dateTime':
-            //object = new dataTime(data);
-            break;
+            return dataTimeMixin;
         case 'fileUpload':
-            //object = new FileUpload(data);
-            break;
+            return fileUploadMixin;
         case 'customCode':
-            //object = new CustomCode(data);
-            break;
+            return customCodeMixin;
         case 'dynamicRowTable':
-            //object = new DynamicRowTable(data);
-            break;
+            return dynamicRowTableMixin;
         case 'ci':
-            //object = new ConfigurationItem(data);
-            break;
+            return ciMixin;
         default:
             break;
         }
