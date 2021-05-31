@@ -116,9 +116,9 @@ export default class History {
             case 'change':
                 const changeTarget = this.editor.form.getById(data.id);
                 if (type === 'redo') {
-                    changeTarget[data.method].call(changeTarget, data.to);
+                    changeTarget[data.method] = data.to;
                 } else {
-                    changeTarget[data.method].call(changeTarget, data.from);
+                    changeTarget[data.method] = data.from;
                 }
                 break;
             default:

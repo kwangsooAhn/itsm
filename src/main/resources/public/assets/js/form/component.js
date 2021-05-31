@@ -42,14 +42,13 @@ export default class Component {
         this._mapId = data.mapId || '';
         this._tags = data.tags || [];
         this._value = data.value || '${default}';
-
         this._display = Object.assign({}, DEFAULT_PROPERTY.display, data.display);
         this._label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);
 
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
         // 타입에 따른 Mixin import
-        aliceJs.importMixin(this, this.getMixinByType(this.type));
+        aliceJs.importMixin(this, this.getMixinByType(this._type));
         // 라벨 Mixin import
         aliceJs.importMixin(this, mixin.componentLabelMixin);
         // Tooltip Mixin import

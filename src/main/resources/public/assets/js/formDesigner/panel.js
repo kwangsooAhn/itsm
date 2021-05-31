@@ -69,23 +69,18 @@ export default class Panel {
     update(key, value) {
         if (!zValidation.isDefined(this.editor.selectedObject)) { return false; }
         // 기존 값과 동일할 경우
-        //const method = key.substr(0, 1).toUpperCase() + key.substr(1, key.length);
-        //const prevValue = this.editor.selectedObject['get' + method].call(this.editor.selectedObject);
         const prevValue = this.editor.selectedObject[key];
         if (prevValue === value) { return false; }
-
         // 이력 저장
         this.editor.history.save([{
             type: 'change',
             id: this.editor.selectedObject.id,
-            //method: 'set' + method,
             method: key,
             from: prevValue,
             to: value
         }]);
         // 변경
         this.editor.selectedObject[key] = value;
-        //this.editor.selectedObject['set' + method].call(this.editor.selectedObject, value);
     }
     /**
      * 세부 속성 첫번째 inputbox 포커싱 - 단축키에서 사용

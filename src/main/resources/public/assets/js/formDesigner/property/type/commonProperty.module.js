@@ -61,7 +61,7 @@ export default class CommonProperty {
             const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             return this.target['labelFontOption' + method] ? 'Y' : 'N';
         }).join('|');
-        const labelFontOptionProperty = new ToggleButtonProperty('label.option', labelFontValue, labelFontOption);
+        const labelFontOptionProperty = new ToggleButtonProperty('label.fontOption', labelFontValue, labelFontOption);
         labelFontOptionProperty.columnWidth = '5';
 
         // label - fontColor

@@ -1150,7 +1150,8 @@ aliceJs.fetchText = function(url, option) {
 aliceJs.importMixin = function (target, source) {
     for (const key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
-            target[key] = source[key];
+            const descriptor = Object.getOwnPropertyDescriptor(source, key);
+            Object.defineProperty(target, key, descriptor);
         }
     }
     return target;
