@@ -249,7 +249,7 @@ class DocumentEditor {
         };
         // 컴포넌트 값
         saveData.componentData = this.getComponentData(this.form, []);
-
+        //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
         console.log(saveData);
         return false;
 
@@ -264,7 +264,7 @@ class DocumentEditor {
         }).then(rtn => {
             if (rtn === 'true') {
                 aliceAlert.alertSuccess(i18n.msg(actionMsg),  () => {
-                    if (opener !== null && opener !== undefined) {
+                    if (zValidation.isDefined(window.opener)) {
                         opener.location.reload();
                         window.close();
                     } else {
