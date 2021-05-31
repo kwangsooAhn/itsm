@@ -6,7 +6,7 @@
 
 package co.brainz.itsm.form.controller
 
-import co.brainz.itsm.form.service.FormAdminService
+import co.brainz.itsm.form.service.FormService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam
  */
 @Controller
 @RequestMapping("/forms")
-class FormsController(private val formAdminService: FormAdminService) {
+class FormsController(private val formService: FormService) {
 
     private val formSearchPage: String = "formDesigner/formSearch"
     private val formListPage: String = "formDesigner/formList"
@@ -50,7 +50,7 @@ class FormsController(private val formAdminService: FormAdminService) {
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search") ?: ""
         params["offset"] = request.getParameter("offset") ?: "0"
-        val result = formAdminService.findForms(params)
+        val result = formService.findForms(params)
         model.addAttribute("formList", result)
         model.addAttribute("formListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return if (isScroll) formListFragment else formListPage

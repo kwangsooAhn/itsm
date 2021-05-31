@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.form.controller
 
-import co.brainz.itsm.form.service.FormAdminService
 import co.brainz.itsm.form.service.FormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/forms")
 class FormsRestController(
-    private val formAdminService: FormAdminService,
     private val formService: FormService
 ) {
 
@@ -42,8 +40,8 @@ class FormsRestController(
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
             RestTemplateConstants.FormSaveType.SAVE_AS.code ->
-                formAdminService.saveAsForm(mapper.writeValueAsString(jsonData))
-            else -> formAdminService.createForm(mapper.convertValue(jsonData, RestTemplateFormDto::class.java))
+                formService.saveAsForm(mapper.writeValueAsString(jsonData))
+            else -> formService.createForm(mapper.convertValue(jsonData, RestTemplateFormDto::class.java))
         }
     }
 
@@ -55,7 +53,7 @@ class FormsRestController(
         @RequestBody restTemplateFormDto: RestTemplateFormDto,
         @PathVariable formId: String
     ): Boolean {
-        return formAdminService.updateFrom(formId, restTemplateFormDto)
+        return formService.updateFrom(formId, restTemplateFormDto)
     }
 
     /**
@@ -63,6 +61,6 @@ class FormsRestController(
      */
     @GetMapping("/{formId}/data")
     fun getForm(@PathVariable formId: String): RestTemplateFormDto {
-        return formService.getFormInfo(formId)
+        return formService.getForm(formId)
     }
 }
