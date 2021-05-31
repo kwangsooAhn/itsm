@@ -235,7 +235,7 @@ class DocumentEditor {
     saveDocument(actionType) {
         // 유효성 체크
         let validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
-        if ((validationUncheckActionType.indexOf(actionType) === -1) && zValidation.hasDOMElementError(this.domElement)) {
+        if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
             return false;
         }
         
