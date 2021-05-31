@@ -230,7 +230,7 @@ class DocumentEditor {
         return array;
     }
     /**
-     * TODO: 신청서 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
+     * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
     saveDocument(actionType) {
         // 유효성 체크
