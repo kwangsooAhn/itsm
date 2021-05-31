@@ -28,11 +28,6 @@ const DEFAULT_COMPONENT_PROPERTY = {
         placeholder: '',
         columnWidth: '10',
         defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
-    },
-    validation: {
-        validationType: 'none', // none | char | num | numchar | email | phone
-        minLength: '0',
-        maxLength: '100'
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
@@ -42,20 +37,26 @@ export const timeMixin = {
     // 전달 받은 데이터와 기본 property merge
     initProperty() {
         // 엘리먼트 property 초기화
-        this.element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.element);
-        this.validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.validation);
+        this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
     },
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
-            .setUIProperty('--data-column', this.element.columnWidth);
+            .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIText = new UIText('아직 구현되지 않았습니다. 얼렁 개발해주세요.')
+        element.UIText = new UIText('아직 구현되지 않았습니다. 얼렁 개발해주세요.');
         element.addUI(element.UIText);
         return element;
     },
     // set, get
-
+    set value(value) {
+        this._value = value;
+    },
+    get value() {
+        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
+        // 사용자 변경시 해당 값이 할당된다.
+        return this._value;
+    },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
         e.stopPropagation();
@@ -74,46 +75,9 @@ export const timeMixin = {
             return false;
         }
 
-        this.setValue(e.target.value);
-    },
-    // 기본 값 변경
-    setValue(value) {
-        this.value = value;
-    },
-    // 기본 값 조회
-    getValue() {
-        if (this.value === '${default}') {
-            // 직접입력일 경우 : none|입력값
-            const defaultValues = this.element.defaultValueSelect.split('|');
-            if (defaultValues[0] === 'input') {
-                return defaultValues[1];
-            } else {  // 자동일경우 : select|userKey
-                return SESSION[defaultValues[1]] || '';
-            }
-        } else {
-            return this.value;
-        }
+        this.value = e.target.value;
     },
     getProperty() {
-        // validation - validation Type
-        const validationTypeProperty = new DropdownProperty('validation.validationType', this.validation.validationType, [
-            {name: 'form.properties.none', value: 'none'},
-            {name: 'form.properties.char', value: 'char'},
-            {name: 'form.properties.number', value: 'number'},
-            {name: 'form.properties.email', value: 'email'},
-            {name: 'form.properties.phone', value: 'phone'}
-        ]);
-
-        return [
-            ...new CommonProperty(this).getCommonProperty(),
-            new GroupProperty('group.element')
-                .addProperty(new InputBoxProperty('element.placeholder', this.element.placeholder))
-                .addProperty(new SliderProperty('element.columnWidth', this.element.columnWidth))
-                .addProperty(new DefaultValueSelectProperty('element.defaultValueSelect', this.element.defaultValueSelect)),
-            new GroupProperty('group.validation')
-                .addProperty(validationTypeProperty)
-                .addProperty(new InputBoxProperty('validation.minLength', this.validation.minLength))
-                .addProperty(new InputBoxProperty('validation.maxLength', this.validation.maxLength))
-        ];
+        return [];
     }
 };
