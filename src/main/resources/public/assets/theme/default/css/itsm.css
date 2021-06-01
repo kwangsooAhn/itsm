@@ -2798,9 +2798,6 @@ button .icon-plus {
   line-height: 1.3rem;
 }
 .gnb .menu-area .gnb-area .gnb-link .arrow-right {
-  padding: 0 0.375rem 0 0;
-  margin-left: auto;
-  float: right;
   width: 0.75rem;
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_arrow_left.svg");
@@ -2810,11 +2807,11 @@ button .icon-plus {
   -webkit-mask-position: center;
   mask-position: center;
   background: #929AA6;
-}
-.gnb .menu-area .gnb-area .gnb-link .arrow-down {
   padding: 0 0.375rem 0 0;
   margin-left: auto;
   float: right;
+}
+.gnb .menu-area .gnb-area .gnb-link .arrow-down {
   width: 0.75rem;
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_arrow_bottom.svg");
@@ -2824,6 +2821,9 @@ button .icon-plus {
   -webkit-mask-position: center;
   mask-position: center;
   background: #929AA6;
+  padding: 0 0.375rem 0 0;
+  margin-left: auto;
+  float: right;
 }
 .gnb .menu-area .gnb-area .snb-group {
   display: none;
