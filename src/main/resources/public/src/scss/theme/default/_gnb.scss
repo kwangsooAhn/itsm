@@ -20,11 +20,10 @@
   width: $nav-width;
 
   .navigation {
+    @include fixed($bottom: 0);
     width: $nav-width;
     height: $nav-height;
     background-color: $nav-bg-color;
-    position: fixed;
-    bottom: 0;
     z-index: $z-index-gnb;
   
     .breadcrumb { display: none; }
@@ -32,14 +31,14 @@
     &-config {
       .notification {
         &-count {
-          position: absolute;
+          @include absolute();
+          margin: 0.3125rem 1rem; // 5px 16px
+          padding: 0.125rem 0.625rem; // 2px 10px
+          @include borderRadius(1.25rem); // 20px
+          line-height: inherit;
           font-size: 0.75rem; // 12px
           font-weight: $font-weight-bold;
           background-color: map-get($grays, "blue");
-          margin: 0.3125rem 1rem; // 5px 16px
-          padding: 0.125rem 0.625rem; // 2px 10px
-          border-radius: 1.25rem; // 20px
-          line-height: inherit;
         }
         &.active { // 알림이 존재할 경우
           .notification-round {  fill: $blue; }
@@ -64,9 +63,9 @@
           display: inline-block; 
           width: 1.688rem; // 27px
           height: 1.688rem;  // 27px
-          border-radius: 50%;
-          vertical-align: middle;
+          @include borderRadius(50%);
           margin-right: 0.625rem; // 10px
+          vertical-align: middle;
         }
       }
       .logout {
@@ -86,20 +85,19 @@
   }
   
   .logo {
-    position: fixed;
+    @include fixed();
     width: $logo-width;
     height: $logo-height;
+    padding: 0.9375rem 1.25rem 0.9375rem 1.25rem; // 15px 20px 15px 20px
     background-color: $menu-bg-color;
     z-index: $z-index-gnb;
-    padding: 0.9375rem 1.25rem 0.9375rem 1.25rem; // 15px 20px 15px 20px
   }
   
   .menu {
-    position: fixed;
+    @include fixed($top: $logo-height);
     width: $menu-width;
     height: $menu-height;
     background-color: $menu-bg-color;
-    top: $logo-height;
     z-index: $z-index-gnb;
     overflow: auto;
 
@@ -122,24 +120,24 @@
 
           .menu-name {
             display: inline-block;
+            padding-left: 1.1875rem; //19px
             font-weight: $font-weight-medium;
             color: $menu-color;
             line-height: 1.3rem;
-            padding-left: 1.1875rem; //19px
           }
           // 화살표 아이콘
           .arrow {
             &-right {
               @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 12px 20px
-              float: right;
               padding: 0 0.375rem 0 0; // 0 6px 0 0
               margin-left: auto;
+              float: right;
             }
             &-down {
               @include maskImage($icon-arrow-bottom, 0.75rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 12px 20px
-              float: right;
               padding: 0 0.375rem 0 0; // 0 6px 0 0
               margin-left: auto;
+              float: right;
             }
           }
         }
