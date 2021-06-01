@@ -1,4 +1,6 @@
+
 import java.io.File
+import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.attribute.BasicFileAttributes
@@ -13,21 +15,11 @@ class DeleteTempFile {
     private val oneDayAgo = LocalDateTime.now(ZoneId.of("UTC")).minusDays(1)
     private var props: Properties = Properties()
 
-    constructor()
-    constructor(args: Any) {
-        val params = args as List<*>
-        props.setProperty("dbType", params[0].toString())
-        props.setProperty("host", params[1].toString())
-        props.setProperty("port", params[2].toString())
-        props.setProperty("database", params[3].toString())
-        props.setProperty("username", params[4].toString())
-        props.setProperty("password", params[5].toString())
-        props.setProperty("fileUploadDir", params[6].toString())
-        props.setProperty("aliceImageTempDir", params[7].toString())
-        props.setProperty("tempDirectoryName", params[8].toString())
-    }
-
     fun run() {
+        val propertiesFile = "plugins/deleteTempFile/src/configuration.properties"
+        val inputStream = FileInputStream(propertiesFile)
+        props.load(inputStream)
+
         val fileRootDir = props.getProperty("fileUploadDir")
         val aliceImageTempDir = props.getProperty("aliceImageTempDir")
         val tempDirectoryName = props.getProperty("tempDirectoryName")
@@ -112,7 +104,8 @@ class DeleteTempFile {
     private fun getFileLocDeleteQuery(): String {
         val query = StringBuilder()
         query.append(" delete from awf_file_loc ")
-        query.append(" where uploaded = FALSE ")
+        query.append(" where uploaded = FALSE and create_dt < ")
+        query.append(oneDayAgo)
         return query.toString()
     }
 }
