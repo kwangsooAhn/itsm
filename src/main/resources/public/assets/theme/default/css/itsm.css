@@ -1353,6 +1353,8 @@ table[id=documentDisplay] td {
   max-width: 13.75rem;
   color: #0088E6;
   border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
   padding: 0.3125rem 0.9375rem;
   background-color: rgba(0, 152, 255, 0.1);
   margin: 0.3125rem;
@@ -1893,14 +1895,14 @@ button.btn-popup:hover {
 }
 .btn.plus,
 button.plus {
-  padding: 0;
   width: 1.625rem;
   height: 1.625rem;
+  padding: 0;
 }
 .btn.btn-delete,
 button.btn-delete {
-  padding: 0;
   height: 2.5rem;
+  padding: 0;
 }
 .btn .icon-search,
 button .icon-search {
@@ -2319,6 +2321,8 @@ button .icon-plus {
 
 .profile-photo {
   border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
   background-color: #F0F0F0;
 }
 
@@ -2335,6 +2339,8 @@ button .icon-plus {
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
   margin-right: 0.625rem;
   display: inline-block;
 }
@@ -2419,10 +2425,10 @@ button .icon-plus {
 .document-content .document-column .document-description {
   display: block;
   width: 20rem;
+  margin-top: 0.625rem;
   font-size: 1rem;
   font-weight: 400;
   color: #929AA6;
-  margin-top: 0.625rem;
 }
 
 .token-content,
@@ -2483,6 +2489,8 @@ button .icon-plus {
   width: 23.75rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.3125rem;
+  -webkit-border-radius: 0.3125rem;
+  -moz-border-radius: 0.3125rem;
   padding: 1.5625rem;
 }
 .token-content .statistic-info,
@@ -2544,8 +2552,8 @@ button .icon-plus {
 
 .user-content-edit {
   padding: 0 23.13rem 3.125rem 23.13rem;
-  background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
 }
 .user-content-edit .sub-title {
   margin-top: 2.5rem;
@@ -2564,8 +2572,8 @@ button .icon-plus {
 
 .board-admin-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
 }
 .board-admin-content-edit .edit-table {
   margin: 1.25rem 0 0 0;
@@ -2591,16 +2599,16 @@ button .icon-plus {
 
 .image-content-edit {
   padding: 3.125rem 3.75rem;
-  background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
 }
 
 .custom-code-content-edit,
 .cmdb-attribute-content-edit,
 .scheduler-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
 }
 .custom-code-content-edit .under-bar,
 .cmdb-attribute-content-edit .under-bar,
@@ -2656,8 +2664,8 @@ button .icon-plus {
 .board-content-view,
 .cmdb-attribute-content-view {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
 }
 
 .chart-content-view {
@@ -2669,11 +2677,11 @@ button .icon-plus {
   width: 13.75rem;
 }
 .gnb .navigation {
+  position: fixed;
+  bottom: 0;
   width: 13.75rem;
   height: 9.375rem;
   background-color: #333D47;
-  position: fixed;
-  bottom: 0;
   z-index: 100;
 }
 .gnb .navigation .breadcrumb {
@@ -2681,13 +2689,15 @@ button .icon-plus {
 }
 .gnb .navigation-config .notification-count {
   position: absolute;
-  font-size: 0.75rem;
-  font-weight: 700;
-  background-color: #929AA6;
   margin: 0.3125rem 1rem;
   padding: 0.125rem 0.625rem;
   border-radius: 1.25rem;
+  -webkit-border-radius: 1.25rem;
+  -moz-border-radius: 1.25rem;
   line-height: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: #929AA6;
 }
 .gnb .navigation-config .notification.active .notification-round {
   fill: #0098FF;
@@ -2715,8 +2725,10 @@ button .icon-plus {
   width: 1.688rem;
   height: 1.688rem;
   border-radius: 50%;
-  vertical-align: middle;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
   margin-right: 0.625rem;
+  vertical-align: middle;
 }
 .gnb .navigation-config .logout {
   height: 3.125rem;
@@ -2745,16 +2757,16 @@ button .icon-plus {
   position: fixed;
   width: 13.75rem;
   height: 3.75rem;
+  padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
   background-color: #333D47;
   z-index: 100;
-  padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
 }
 .gnb .menu {
   position: fixed;
+  top: 3.75rem;
   width: 13.75rem;
   height: calc(100vh - 9.375rem - 3.75rem);
   background-color: #333D47;
-  top: 3.75rem;
   z-index: 100;
   overflow: auto;
 }
@@ -2780,12 +2792,15 @@ button .icon-plus {
 }
 .gnb .menu-area .gnb-area .gnb-link .menu-name {
   display: inline-block;
+  padding-left: 1.1875rem;
   font-weight: 500;
   color: #929AA6;
   line-height: 1.3rem;
-  padding-left: 1.1875rem;
 }
 .gnb .menu-area .gnb-area .gnb-link .arrow-right {
+  padding: 0 0.375rem 0 0;
+  margin-left: auto;
+  float: right;
   width: 0.75rem;
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_arrow_left.svg");
@@ -2795,11 +2810,11 @@ button .icon-plus {
   -webkit-mask-position: center;
   mask-position: center;
   background: #929AA6;
-  float: right;
-  padding: 0 0.375rem 0 0;
-  margin-left: auto;
 }
 .gnb .menu-area .gnb-area .gnb-link .arrow-down {
+  padding: 0 0.375rem 0 0;
+  margin-left: auto;
+  float: right;
   width: 0.75rem;
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_arrow_bottom.svg");
@@ -2809,9 +2824,6 @@ button .icon-plus {
   -webkit-mask-position: center;
   mask-position: center;
   background: #929AA6;
-  float: right;
-  padding: 0 0.375rem 0 0;
-  margin-left: auto;
 }
 .gnb .menu-area .gnb-area .snb-group {
   display: none;
@@ -4932,8 +4944,8 @@ body.modal-active {
   width: 100%;
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set table .list-head tr {
-  color: #3F4B56;
   border-bottom: 0.125rem solid #E1E3E6;
+  color: #3F4B56;
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set table .list-body {
   display: block;
@@ -4950,8 +4962,8 @@ body.modal-active {
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set table .list-body .list-row > td {
   display: inline-block;
-  vertical-align: middle;
   max-width: 22.5rem;
+  vertical-align: middle;
 }
 .modal-dialog.tree {
   width: 40rem;
@@ -5154,6 +5166,8 @@ body.modal-active {
   padding: 0 1.25rem 1.25rem 1.25rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
   margin-bottom: 0.625rem;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view {
@@ -5173,6 +5187,8 @@ body.modal-active {
   padding: 0 1.25rem 1.25rem 1.25rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
   margin-bottom: 0.625rem;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .ci-list table {
@@ -5377,6 +5393,8 @@ body.modal-active {
   width: 10.31rem;
   height: 10.31rem;
   margin: 0.4375rem;
+  -webkit-box-shadow: 0 0 0 0.0625rem #EBEBEB;
+  -moz-box-shadow: 0 0 0 0.0625rem #EBEBEB;
   box-shadow: 0 0 0 0.0625rem #EBEBEB;
 }
 .modal-dialog.thumbnail-icon .modal-content .thumbnail-main .thumbnail .thumbnail-icon {
@@ -5391,6 +5409,8 @@ body.modal-active {
   width: 2.5rem;
   height: 2.5rem;
   margin: 0.4375rem;
+  -webkit-box-shadow: 0 0 0 0.0625rem #EBEBEB;
+  -moz-box-shadow: 0 0 0 0.0625rem #EBEBEB;
   box-shadow: 0 0 0 0.0625rem #EBEBEB;
 }
 .modal-dialog.thumbnail-cmdb-icon .thumbnail .thumbnail-icon {
@@ -5601,24 +5621,26 @@ body.modal-active {
 }
 .notification-panel {
   position: absolute;
-  width: 26.25rem;
   bottom: 0;
   left: calc(13.75rem + 0.3125rem);
+  width: 26.25rem;
+  border: 0.0625rem solid #EBEBEB all transparent;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   color: #3F4B56;
   background-color: #ffffff;
-  border: 0.0625rem solid #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   display: none;
 }
 .notification-panel.on {
   display: block;
 }
 .notification-header {
-  height: 2.5rem;
   display: flex;
+  height: 2.5rem;
+  padding: 0 0.938rem;
   align-items: baseline;
   background-color: #0098FF;
-  padding: 0 0.938rem;
 }
 .notification-header span {
   display: inline-block;
@@ -5668,19 +5690,21 @@ body.modal-active {
 }
 .notification-content .notification-checked {
   display: flex;
-  background-color: #ffffff;
   margin: 0;
+  background-color: #ffffff;
 }
 .notification-content .notification-checked input[type=checkbox] {
+  position: relative;
+  display: inline-block;
   width: 1.125rem;
   height: 1.125rem;
+  padding: 0.313rem;
+  margin: 0;
   border: 0.063rem solid #0098FF;
   border-radius: 0.063rem;
-  padding: 0.313rem;
-  display: inline-block;
-  position: relative;
+  -webkit-border-radius: 0.063rem;
+  -moz-border-radius: 0.063rem;
   -webkit-appearance: none;
-  margin: 0;
   cursor: pointer;
 }
 .notification-content .notification-checked input[type=checkbox]:checked {
@@ -5690,10 +5714,10 @@ body.modal-active {
 }
 .notification-content .notification-checked input[type=checkbox]:checked::after {
   content: "✔";
-  font-size: 1rem;
   position: absolute;
   top: -0.063rem;
   left: 0.063rem;
+  font-size: 1rem;
   color: #CCCED1;
 }
 .notification-content .icon-remove {
@@ -5709,12 +5733,12 @@ body.modal-active {
   background: #CCCED1;
 }
 .notification-content span.title {
+  max-width: 18.13rem;
+  margin-left: 0.625rem;
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.2;
   color: #3F4B56;
-  max-width: 18.13rem;
-  margin-left: 0.625rem;
 }
 .notification-content span.title.confirm {
   opacity: 0.75;
@@ -5724,30 +5748,34 @@ body.modal-active {
   text-decoration: underline;
 }
 .notification-content span.message {
-  font-weight: 400;
-  font-size: 1rem;
   display: block;
-  color: #586872;
   max-width: 22.5rem;
   min-height: 2.5rem;
   margin-left: 1.75rem;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #586872;
 }
 .notification-content span.message.confirm {
   color: #ACB4BF;
 }
 .notification-content span.date {
+  margin-left: 1.75rem;
   font-weight: 400;
   font-size: 0.875rem;
   color: #ACB4BF;
-  margin-left: 1.75rem;
 }
 
 .alice-toastify {
   height: 6.25rem;
-  background: #ffffff !important;
-  border-radius: 0.0625rem !important;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
   padding: 0 !important;
+  border-radius: 0.0625rem !important;
+  -webkit-border-radius: 0.0625rem !important;
+  -moz-border-radius: 0.0625rem !important;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
+  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
+  background: #ffffff !important;
 }
 .alice-toastify.toastify-right {
   right: 0.625rem;
@@ -5777,16 +5805,16 @@ body.modal-active {
   padding-bottom: 0.625rem;
 }
 .alice-toastify.toast-content .content div span.title {
+  max-width: 18.13rem;
   font-size: 1rem;
   font-weight: 500;
   color: #3F4B56;
-  max-width: 18.13rem;
 }
 .alice-toastify.toast-content .content div span.message {
+  max-width: 22.5rem;
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
-  max-width: 22.5rem;
 }
 .alice-toastify.toast-content .content div span.date {
   font-size: 0.875rem;
@@ -5795,9 +5823,9 @@ body.modal-active {
 }
 .alice-toastify .toast-close {
   position: absolute;
-  padding: 0;
   top: 0.688rem;
   right: 0.688rem;
+  padding: 0;
   width: 0.875rem;
   height: 0.875rem;
   -webkit-mask-image: url("../media/icons/icon_close.svg");
@@ -5819,9 +5847,9 @@ body.modal-active {
 }
 .reply-input-row {
   padding: 1.3125rem 1.25rem;
-  background-color: #F7F8F9;
   border-top: 0.0625rem solid #EBEBEB;
   border-bottom: 0.0625rem solid #EBEBEB;
+  background-color: #F7F8F9;
 }
 .reply-input-row .reply-input {
   width: 100%;
@@ -5856,9 +5884,9 @@ body.modal-active {
 }
 .reply-list .reply-comment {
   display: flex;
-  word-break: break-all;
   margin-top: 0.9375rem;
   margin-left: 3rem;
+  word-break: break-all;
 }
 .reply-list .reply-comment input {
   width: 100%;
@@ -5868,6 +5896,8 @@ body.modal-active {
   flex: none;
   margin: auto 0.9376rem auto 0;
   border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
   background-color: #F0F0F0;
 }
 .reply .icon-edit,
@@ -5883,12 +5913,12 @@ body.modal-active {
 .itsm-popup {
   width: 100%;
   height: 100vh;
-  background-color: #ffffff;
   padding: 1.875rem 2.5rem 1.25rem 2.5rem;
+  background-color: #ffffff;
 }
 .itsm-popup .popup-title {
-  color: #586872;
   margin-bottom: 1.75rem;
+  color: #586872;
 }
 .itsm-popup-btn-content {
   margin-top: 2rem;

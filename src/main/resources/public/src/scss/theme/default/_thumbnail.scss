@@ -23,7 +23,7 @@
           width: $thumbnail-size;
           height: $thumbnail-size;
           margin: 0.4375rem; // 7px
-          box-shadow: $thumbnail-icon-box-shadow;
+          @include boxShadow(0, 0, 0, 0.0625rem, $thumbnail-border-color);
     
           .thumbnail-icon {
             width: $thumbnail-icon-size;
@@ -42,7 +42,7 @@
       width: $thumbnail-cmdb-size;
       height: $thumbnail-cmdb-size;
       margin: $thumbnail-cmdb-margin;
-      box-shadow: $thumbnail-icon-box-shadow;
+      @include boxShadow(0, 0, 0, 0.0625rem, $thumbnail-border-color);
 
       .thumbnail-icon {
         width: $thumbnail-cmdb-icon-size;
