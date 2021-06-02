@@ -23,25 +23,23 @@
 
   // .notification hover 시 노출되는 영역 전반
   &-panel {
-    position: absolute;
+    @include absolute($left: calc(#{$nav-width} + 0.3125rem), $bottom: 0); // 좌측 간격 5px
     width: 26.25rem; // 420px
-    bottom: 0;
-    left: calc(#{$nav-width} + 0.3125rem); // 좌측 간격 5px
+    @include border(0.0625rem solid map-get($grays, 'line'), all); // 1px
+    @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line')); // 5px
     color: $notification-container-color;
     background-color: $notification-container-background;
-    border: $notification-container-border;
-    box-shadow: $notification-container-box-shadow;
     display: none;
     &.on { display: block; }
   }
 
   // notification 상단 영역 
   &-header {
-    height: 2.5rem; // 40px
     display: flex;
+    height: 2.5rem; // 40px
+    padding: 0 0.938rem; // 0 15px
     align-items: baseline;
     background-color: $notification-header-background;
-    padding: 0 0.938rem; // 0 15px
     span {
       display: inline-block;
       font-size: 0.875rem; // 14px
@@ -82,37 +80,35 @@
   &-content {
     height: 6.875rem; // 110px
     padding: 0.938rem;// 15px
-    border-bottom: 0.063rem solid map-get($grays, "line"); // 1px
+    @include border(0.063rem, solid, map-get($grays, "line"), bottom); // 1px
     &:hover {
       background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
     }
     // 체크 박스 영역
     .notification-checked {
       display: flex;
-      background-color: $white;
       margin: 0;
+      background-color: $white;
       input[type="checkbox"] {
+        @include relative();
+        display: inline-block;
         width: $notification-checkbox-size;
         height: $notification-checkbox-size;
-        border: $notification-checkbox-border-defualt;
-        border-radius: $notification-checkbox-border;
         padding: 0.313rem; // 5px
-        display: inline-block;
-        position: relative;
-        -webkit-appearance: none;
         margin: 0;
+        @include border($notification-checkbox-border, solid, $blue, all);
+        @include borderRadius($notification-checkbox-border);
+        -webkit-appearance: none;
         cursor: pointer;
         &:checked {
-          border: $notification-checkbox-border-checked;
+          @include border($notification-checkbox-border, solid, map-get($grays, 'line'), all);
           color: map-get($grays, "pressed");
           cursor: unset;
         }
         &:checked::after {
           content: '\2714';
+          @include absolute($top: -0.063rem, $left: 0.063rem); // -1px 1px
           font-size: 1rem; // 16px
-          position: absolute;
-          top: -0.063rem; // -1px
-          left: 0.063rem; // 1px
           color: map-get($grays, "pressed");
         }
       }
@@ -124,12 +120,12 @@
     }
     span {
       &.title {
+        max-width: 18.13rem; // 290px
+        margin-left: 0.625rem; // 10px
         font-weight: $font-weight-medium;
         font-size: 1rem; // 16px
         line-height: 1.2;
         color: map-get($blacks, "light");
-        max-width: 18.13rem; // 290px
-        margin-left: 0.625rem; // 10px
         &.confirm {
           opacity: 0.75;
         }
@@ -139,22 +135,22 @@
         }
       }
       &.message {
-        font-weight: $font-weight-regular;
-        font-size: 1rem; // 16px
         display: block;
-        color: map-get($grays, "dark");
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
         margin-left: 1.75rem; // 28px
+        font-weight: $font-weight-regular;
+        font-size: 1rem; // 16px
+        color: map-get($grays, "dark");
         &.confirm {
             color: $gray;
         }
       }
       &.date {
+        margin-left: 1.75rem; // 28px
         font-weight: $font-weight-regular;
         font-size: 0.875rem; // 14px
         color: $gray;
-        margin-left: 1.75rem; // 28px
       }
     }
   }
@@ -164,10 +160,10 @@
 // 전체 화면 우측 하단에서 지정한 시간동안만 노출되는 notification
 .alice-toastify {
   height: $toastify-height;
-  background: $toastify-background;
-  border-radius: $toastify-border-radius !important;
-  box-shadow: $toastify-box-shadow;
   padding: 0 !important;
+  @include borderRadius($toastify-border-radius !important);
+  @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line') !important);
+  background: $toastify-background;
   &.toastify-right {
     right: 0.625rem; // 10px
   }
@@ -181,7 +177,7 @@
       width: 23.13rem; // 370px
       height: 100%;
       padding: 0.938rem; // 15px
-      border: $toastify-border;
+      @include border($toastify-border-radius, solid, map-get($grays, 'line') !important, all);
       div {
         &.title {
           padding-bottom: 0.625rem; // 10px
@@ -192,16 +188,16 @@
         }
         span {
           &.title {
+            max-width: 18.13rem; // 290px
             font-size: 1rem; // 16px
             font-weight: $font-weight-medium;
             color: map-get($blacks, "light");
-            max-width: 18.13rem; // 290px
           }
           &.message {
+            max-width: 22.5rem; // 360px
             font-size: 1rem; // 16px
             font-weight: $font-weight-regular;
             color: map-get($grays, "dark");
-            max-width: 22.5rem; // 360px
           }
           &.date {
             font-size: 0.875rem; // 14px
@@ -213,10 +209,8 @@
     }
   }
   .toast-close {
-    position: absolute;
+    @include absolute($top: 0.688rem, $right: 0.688rem); // 11px 11px
     padding: 0;
-    top: 0.688rem; // 11px
-    right: 0.688rem; // 11px
     @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-color); // 14px
   }
 }

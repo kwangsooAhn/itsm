@@ -10,14 +10,14 @@ button {
   }
   // 커스텀 코드 + 버튼
   &.plus {
-    padding: 0;
     width: 1.625rem; // 26px
     height: 1.625rem; // 26px
+    padding: 0;
   }
   // CI Attribute 삭제 버튼
   &.btn-delete {
-    padding: 0;
     height: 2.5rem; // 40px
+    padding: 0;
   }
   // + 버튼
   // 돋보기 아이콘

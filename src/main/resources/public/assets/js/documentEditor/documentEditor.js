@@ -7,7 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { FORM } from '../lib/constants.js';
+import { FORM, DOCUMENT, SESSION } from '../lib/constants.js';
 import { zValidation } from '../lib/validation.js';
 import { UIButton, UIDiv } from '../lib/ui.js';
 import Form from '../form/form.js';
@@ -123,7 +123,10 @@ class DocumentEditor {
             if (zValidation.isEmpty(btn.name)) { return false; }
             UIButtonGroup.addUI(new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
                 .addUIClass('default-fill')
-                .onUIClick(this[btn.value + 'Document'].bind(this)));
+                .onUIClick((btn.value === 'close' || btn.value === 'print') ?
+                    this[btn.value + 'Document'].bind(this) :
+                    this.saveDocument.bind(this, btn.value)
+                ));
         });
         this.btnDomElement.appendChild(UIButtonGroup.domElement);
     }
@@ -214,13 +217,65 @@ class DocumentEditor {
         this.documentModal.hide();
     }
     /**
-     * TODO: 신청서 처리
+     * 컴포넌트 value 데이터 조회
      */
-    progressDocument() {}
+    getComponentData(object, array) {
+        object.children.forEach((child) => {
+            if (child instanceof Component) {
+                array.push({ componentId: child.id, value: child.value });
+            } else {
+                this.getComponentData(child, array);
+            }
+        });
+        return array;
+    }
     /**
-     * TODO: 신청서 저장
+     * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
-    saveDocument() {}
+    saveDocument(actionType) {
+        // 유효성 체크
+        let validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
+        if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
+            return false;
+        }
+        
+        const saveData = {
+            'documentId': this.data.documentId,
+            'instanceId': this.data.instanceId,
+            'tokenId': (zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : ''),
+            'isComplete': (actionType === 'save') ? false : true,
+            'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
+            'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''
+        };
+        // 컴포넌트 값
+        saveData.componentData = this.getComponentData(this.form, []);
+        //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
+        console.log(saveData);
+        return false;
+
+        const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
+        const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
+        aliceJs.fetchText(url, {
+            method: (saveData.tokenId === '') ? 'post' : 'put',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData)
+        }).then(rtn => {
+            if (rtn === 'true') {
+                aliceAlert.alertSuccess(i18n.msg(actionMsg),  () => {
+                    if (zValidation.isDefined(window.opener)) {
+                        opener.location.reload();
+                        window.close();
+                    } else {
+                        this.documentModal.hide();
+                    }
+                });
+            } else {
+                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+            }
+        });
+    }
     /**
      * TODO: 신청서 인쇄
      */

@@ -14,14 +14,13 @@
           width: 100%;
           .list-head {
             tr {
+              @include border(0.125rem, solid, map-get($grays, "default"), bottom);
               color: map-get($blacks, "light");
-              border-bottom: 0.125rem solid map-get($grays, "default");
             }
           }
           .list-body {
             display: block;
             width: 60rem; // 960px
-            //height: 32.8125rem; // 525px
             height: 21.75rem; // 348px
             color: map-get($grays, "dark");
             overflow-y: auto;
@@ -32,8 +31,8 @@
               line-height: 2.125rem; // 24px
               & > td {
                 display: inline-block; // 말줄임 적용을 위해 추가
-                vertical-align: middle;
                 max-width: 22.5rem; // 360px 에러 메시지 말줄임
+                vertical-align: middle;
               }
             }
           }
@@ -185,7 +184,7 @@
             .list-head {
               tr {
                 color: map-get($blacks, "light");
-                border-bottom: 0.125rem solid map-get($grays, "default");
+                @include border(0.125rem, solid, map-get($grays, "default"), bottom);
               }
             }
             .list-body {
@@ -249,15 +248,15 @@
         height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
         .edit-form { padding: 0 2.5rem; } // 40px
 
-        .edit-row {  margin-top: 0.625rem; } // 10px
+        .edit-row { margin-top: 0.625rem; } // 10px
         .field-label { margin: 0.625rem 0; } // 10px 0
 
         // 세부 속성
         .attribute-group {
           background-color: map-get($grays, "light");
           padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-          border: $cmdb-ci-attribute-border;
-          border-radius:  0.0625rem; // 1px
+          @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+          @include borderRadius(0.0625rem); // 1px
           margin-bottom: 0.625rem; // 10px
         }
       }
@@ -273,8 +272,8 @@
         .attribute-group {
           background-color: map-get($grays, "light");
           padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-          border: $cmdb-ci-attribute-border;
-          border-radius:  0.0625rem; // 1px
+          @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+          @include borderRadius(0.0625rem); // 1px
           margin-bottom: 0.625rem; // 10px
         }
 
@@ -285,7 +284,7 @@
             .list-head {
               tr {
                 color: map-get($blacks, "light");
-                border-bottom: 0.125rem solid map-get($grays, "default");
+                @include border(0.125rem, solid, map-get($grays, "default"), bottom);
               }
             }
             .list-body {
@@ -314,7 +313,7 @@
           .list-head {
             tr {
               color: map-get($blacks, "light");
-              border-bottom: 0.125rem solid map-get($grays, "default");
+              @include border(0.125rem, solid, map-get($grays, "default"), bottom);
             }
           }
           .list-body {

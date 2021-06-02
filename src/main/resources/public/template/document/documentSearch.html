@@ -33,7 +33,13 @@
             mobileNumber: '[[${#authentication.details.mobileNumber}]]'
         };
         if (userSession['department'] !== '') {
-            aliceJs.sendXhr({
+            aliceJs.fetchJson('/rest/codes/' + userSession['department'], {
+                method: 'GET'
+            }).then((codeData) => {
+                userSession['departmentName'] = codeData.codeName;
+                Object.assign(SESSION, userSession);
+            });
+            /*aliceJs.sendXhr({
                 method: 'GET',
                 async: false,
                 url: '/rest/codes/' + userSession['department'],
@@ -43,7 +49,7 @@
                     Object.assign(SESSION, userSession);
                 },
                 contentType: 'application/json; charset=utf-8'
-            });
+            });*/
         } else {
             Object.assign(SESSION, userSession);
         }

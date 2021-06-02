@@ -73,7 +73,7 @@
 }
 // 사용자 아이콘
 .profile-photo {
-  border-radius: 50%;
+  @include borderRadius(50%);
   background-color: $profile-photo-background;
 }
 
@@ -85,7 +85,7 @@
 .document-color-circle {
   width: $document-color-size;
   height:$document-color-size;
-  border-radius: 50%;
+  @include borderRadius(50%);
   margin-right: 0.625rem; // 10px
   display: inline-block;
 }
@@ -193,19 +193,17 @@
 
     // 신청서 > 아이콘
     .document-icon {
-      position: absolute;
-      top: 3.75rem; // 60px
-      left: 23.125rem; // 370px
+      @include absolute($top: 3.75rem,$left: 23.125rem); // 60px 370px
       overflow: hidden;
     }
     // 신청서 > 설명
     .document-description {
       display: block;
       width: 20rem; // 320px
+      margin-top: 0.625rem; // 10px
       font-size: 1rem; // 16px
       font-weight: $font-weight-regular;
       color: map-get($grays, "blue");
-      margin-top: 0.625rem; // 10px
     }
   }
 }
@@ -275,8 +273,8 @@
   .statistic {
     &-box {
       width: 23.75rem; // 380px
-      border: 0.0625rem solid map-get($grays, "line");
-      border-radius: 0.3125rem; // 5px
+      @include border(0.0625rem, solid, map-get($grays, "line"), all);
+      @include borderRadius(0.3125rem); // 5px
       padding: 1.5625rem; // 25px
     }
     &-info {
@@ -303,7 +301,7 @@
 .board-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   background-color: $white;
-  border-top: $layout-header-border;
+  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
 }
 // 역할, 권한, 코드, 패턴, 문서번호, CMDB Type
 .auth-content-edit,
@@ -318,14 +316,14 @@
   .edit-form {
     padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
 
-    .edit-row {  margin-top: 0.625rem; } // 10px
+    .edit-row { margin-top: 0.625rem; } // 10px
   }
 }
 // 시스템관리 > 사용자
 .user-content-edit {
   padding: 0 23.13rem 3.125rem 23.13rem; // 0 370px 50px 370px
+  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
   background-color: $white;
-  border-top: $layout-header-border;
 
   .sub-title { margin-top: 2.5rem; } // 40px
   // select box 크기 고정
@@ -344,8 +342,9 @@
 // 시스템관리 > 게시판
 .board-admin-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
   background-color: $white;
-  border-top: $layout-header-border;
+
   // 카테고리 테이블
   .edit-table {
     margin: 1.25rem 0 0 0; // 20px 0 0 0
@@ -353,11 +352,11 @@
       height: 2.5rem; // 40px
       line-height: 2.5rem;
       th {
-        border-bottom: 0.0625rem solid map-get($grays, "line"); // 1px
+        @include border(0.0625rem, solid, map-get($grays, 'line'), bottom); // 1px
       }
       td {
         padding: 0 0.9375rem; // 0 15px
-        border-bottom: 0.0625rem solid map-get($grays, "line"); // 1px
+        @include border(0.0625rem, solid, map-get($grays, 'line'), bottom); // 1px
       }
     }
     .tbody {
@@ -373,8 +372,8 @@
 // 업무흐름 관리 > 이미지 관리
 .image-content-edit {
   padding: 3.125rem 3.75rem; // 50px 60px
+  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
   background-color: $white;
-  border-top: $layout-header-border;
 }
 // 업무흐름 관리 > 커스텀 코드
 // CMDB > Attribute
@@ -382,8 +381,8 @@
 .cmdb-attribute-content-edit,
 .scheduler-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
   background-color: $white;
-  border-top: $layout-header-border;
 
   .under-bar {
     margin-top: 0.625rem; // 10px
@@ -430,8 +429,8 @@
 .board-content-view,
 .cmdb-attribute-content-view {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+  @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
   background-color: $white;
-  border-top: $layout-header-border;
 }
 
 .chart-content-view {

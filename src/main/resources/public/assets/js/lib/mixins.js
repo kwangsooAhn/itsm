@@ -150,7 +150,7 @@ export const componentLabelMixin = {
         if (position === FORM.LABEL.POSITION.HIDDEN) {
             labelColumnWidth = 0;
         } else if (position === FORM.LABEL.POSITION.LEFT) {
-            labelColumnWidth -= Number(this.element.columnWidth);
+            labelColumnWidth -= Number(this.elementColumnWidth);
         }
         return labelColumnWidth;
     }
