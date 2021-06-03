@@ -55,7 +55,7 @@ export default class Component {
         this._displayType = data.displayType || 'editable'; // (readonly, editable, required, hidden)
         this._isTopic = data.isTopic || false;
         this._mapId = data.mapId || '';
-        this._tags = data.tags || '';
+        this._tags = data.tags || [];
         this._value = data.value || '${default}';
         this._display = Object.assign({}, DEFAULT_PROPERTY.display, data.display);
         this._label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);

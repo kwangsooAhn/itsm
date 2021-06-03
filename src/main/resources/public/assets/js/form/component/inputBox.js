@@ -66,7 +66,6 @@ export const inputBoxMixin = {
         element.addUI(element.UIInputbox);
         return element;
     },
-
     set element(element) {
         this._element = element;
     },
