@@ -193,11 +193,12 @@ class FormService(
                     val componentElement = AliceUtil().convertStringToLinkedHashMap(component["element"])
 
                     formComponentList.add(
+                        @Suppress("UNCHECKED_CAST")
                         FormComponentDto(
                             id = component["id"] as String,
                             type = component["type"] as String,
                             isTopic = component["isTopic"] as Boolean,
-                            tags = ((component["tags"] ?: "") as String).split(",").map { it.trim() },
+                            tags = component["tags"] as List<String>,
                             value = component["value"] as String,
                             display = componentDisplay,
                             label = componentLabel,

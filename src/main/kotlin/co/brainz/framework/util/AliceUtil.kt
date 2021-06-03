@@ -157,13 +157,12 @@ class AliceUtil {
      *
      */
     fun convertStringToLinkedHashMap(srcString: Any?): LinkedHashMap<String, Any> {
+        val linkedMapType = TypeFactory.defaultInstance()
+            .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
         var resultLinkedHashMap: LinkedHashMap<String, Any> = linkedMapOf()
-        if (srcString is String && srcString.length > 0) {
-            val linkedMapType = TypeFactory.defaultInstance()
-                .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
 
+        srcString?.let {
             resultLinkedHashMap = mapper.convertValue(srcString, linkedMapType)
-
         }
         return resultLinkedHashMap
     }
