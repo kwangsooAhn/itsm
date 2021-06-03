@@ -1431,9 +1431,9 @@ insert into awf_url values ('/faqs/new', 'get', 'FAQ 등록', 'TRUE');
 insert into awf_url values ('/faqs/search', 'get', 'FAQ 검색 화면 호출', 'TRUE');
 insert into awf_url values ('/faqs/{id}/edit', 'get', 'FAQ 수정', 'TRUE');
 insert into awf_url values ('/faqs/{id}/view', 'get', 'FAQ 보기', 'TRUE');
-insert into awf_url values ('/form/{id}/edit', 'get', '폼 디자이너 편집화면', 'TRUE');
-insert into awf_url values ('/form/{id}/view', 'get', '폼 디자이너 상세화면', 'TRUE');
-insert into awf_url values ('/form/{id}/preview', 'get', '폼 디자이너 미리보기 화면', 'TRUE');
+insert into awf_url values ('/forms/{id}/edit', 'get', '폼 디자이너 편집화면', 'TRUE');
+insert into awf_url values ('/forms/{id}/view', 'get', '폼 디자이너 상세화면', 'TRUE');
+insert into awf_url values ('/forms/{id}/preview', 'get', '폼 디자이너 미리보기 화면', 'TRUE');
 insert into awf_url values ('/forms', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
 insert into awf_url values ('/images', 'get', '이미지 관리 화면', 'TRUE');
@@ -1532,9 +1532,9 @@ insert into awf_url values ('/rest/faqs/{id}', 'delete', 'FAQ 삭제 처리', 'T
 insert into awf_url values ('/rest/filenameextensions', 'get', '파일 확장자목록', 'FALSE');
 insert into awf_url values ('/rest/folders', 'post', '폴더 등록', 'FALSE');
 insert into awf_url values ('/rest/folders/{id}', 'delete', '폴더 삭제', 'FALSE');
-insert into awf_url values ('/rest/form/{id}', 'delete', '폼 디자이너 삭제', 'TRUE');
-insert into awf_url values ('/rest/form/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');
-insert into awf_url values ('/rest/form/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
+insert into awf_url values ('/rest/forms/{id}', 'delete', '폼 디자이너 삭제', 'TRUE');
+insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');
+insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
 insert into awf_url values ('/rest/forms', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'get', '문서양식 데이터조회', 'TRUE');
@@ -2608,8 +2608,10 @@ CREATE TABLE wf_component
 	mapping_id varchar(128),
 	is_topic boolean DEFAULT 'false',
 	form_row_id varchar(128),
+    form_id varchar(128),
 	CONSTRAINT wf_component_pk PRIMARY KEY (component_id),
-    CONSTRAINT wf_component_fk FOREIGN KEY (form_row_id) REFERENCES wf_form_row (form_row_id)
+    CONSTRAINT wf_component_fk FOREIGN KEY (form_row_id) REFERENCES wf_form_row (form_row_id),
+    CONSTRAINT wf_component_form_fk FOREIGN KEY (form_id) REFERENCES wf_form (form_id)
 );
 
 COMMENT ON TABLE wf_component IS '컴포넌트정보';
@@ -2618,6 +2620,7 @@ COMMENT ON COLUMN wf_component.form_row_id IS '문서양식 ROW 아이디';
 COMMENT ON COLUMN wf_component.component_type IS '컴포넌트종류';
 COMMENT ON COLUMN wf_component.mapping_id IS '매핑아이디';
 COMMENT ON COLUMN wf_component.is_topic IS '토픽여부';
+COMMENT ON COLUMN wf_component.form_id IS '폼 아이디';
 
 insert into wf_component values ('53dc0f34890f4c48a7ebd410169623b6','4028b25d787736640178773f645b0003','label','', FALSE);
 insert into wf_component values ('caaf208e3d6c4ea0a4ec4d1fa63fc81c','4028b25d787736640178773f645b0003','divider','', FALSE);
