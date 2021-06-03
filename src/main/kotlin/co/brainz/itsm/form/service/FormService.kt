@@ -197,8 +197,8 @@ class FormService(
                             id = component["id"] as String,
                             type = component["type"] as String,
                             isTopic = component["isTopic"] as Boolean,
-                            tags = (component["tag"] as String).split(",").map { it.trim() },
-                            value = null,
+                            tags = ((component["tags"] ?: "") as String).split(",").map { it.trim() },
+                            value = component["value"] as String,
                             display = componentDisplay,
                             label = componentLabel,
                             validation = componentValidation,
@@ -219,6 +219,7 @@ class FormService(
             groupList.add(
                 FormGroupDto(
                     id = formGroup["id"] as String,
+                    name = formGroup["name"] as String,
                     display = groupDisplay,
                     label = groupLabel,
                     row = formRowList

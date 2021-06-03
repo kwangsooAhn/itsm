@@ -371,7 +371,7 @@ class WfFormService(
             val currentGroup = wfFormGroupRepository.save(
                 WfFormGroupEntity(
                     formGroupId = group.id,
-                    formGroupName = group.name,
+                    formGroupName = group.name!!,
                     form = resultFormEntity
                 )
             )
