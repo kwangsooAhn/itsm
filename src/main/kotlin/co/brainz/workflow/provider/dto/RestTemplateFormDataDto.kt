@@ -29,6 +29,7 @@ class RestTemplateFormDataDto(
 
 class FormGroupDto(
     var id: String = "",
+    var name: String = "",
     var display: LinkedHashMap<String, Any> = LinkedHashMap(),
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var label: LinkedHashMap<String, Any>? = null,
