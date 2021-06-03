@@ -62,7 +62,7 @@
             } else {
                 offsetCount = 0;
             }
-            restSearchSubmit('GET', '/forms?search=' + search + '&offset=' + offsetCount + '&isScroll=' + isScroll, isScroll);
+            restSearchSubmit('GET', '/form?search=' + search + '&offset=' + offsetCount + '&isScroll=' + isScroll, isScroll);
         }
 
         // 유효성 검증
@@ -88,11 +88,11 @@
                     desc: document.getElementById('form_description').value
                 };
                 if (formId === undefined) { // 등록
-                    restSubmit('POST', '/rest/forms', formInfo);
+                    restSubmit('POST', '/rest/form', formInfo);
                 } else { // 수정
                     formInfo.id = formId;
                     formInfo.status = isDestroy ? STATUS_DESTROY : document.getElementById('form_status').value;
-                    isEditable ? restSubmit('PUT', '/rest/forms/' + formId, formInfo)
+                    isEditable ? restSubmit('PUT', '/rest/form/' + formId, formInfo)
                         : aliceAlert.alertWarning(i18n.msg('form.msg.failedDestroy'));
 
                 }
@@ -128,7 +128,7 @@
             if (formId !== undefined) { // 수정
                 aliceJs.sendXhr({
                     method: 'GET',
-                    url: '/rest/forms/' + formId + '/data',
+                    url: '/rest/form/' + formId + '/data',
                     callbackFunc: function(xhr) {
                         let responseObject = JSON.parse(xhr.responseText);
                         responseObject.isView = isView;

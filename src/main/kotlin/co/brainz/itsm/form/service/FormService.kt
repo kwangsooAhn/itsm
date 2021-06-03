@@ -62,13 +62,13 @@ class FormService(
      * @param restTemplateFormDto
      * @return Boolean
      */
-    fun updateFrom(formId: String, restTemplateFormDto: RestTemplateFormDto): Boolean {
+    fun saveForm(formId: String, restTemplateFormDto: RestTemplateFormDto): Boolean {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateFormDto.updateDt = LocalDateTime.now()
         restTemplateFormDto.updateUserKey = userDetails.userKey
 
         logger.info("update form : [{}]", formId)
-        return wfFormService.updateForm(restTemplateFormDto)
+        return wfFormService.saveForm(restTemplateFormDto)
     }
 
     /**
