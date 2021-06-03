@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
-@RequestMapping("/form")
+@RequestMapping("/forms")
 class FormController(private val formService: FormService) {
 
     private val formSearchPage: String = "formDesigner/formSearch"

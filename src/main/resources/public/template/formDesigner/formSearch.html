@@ -62,7 +62,7 @@
             } else {
                 offsetCount = 0;
             }
-            restSearchSubmit('GET', '/form?search=' + search + '&offset=' + offsetCount + '&isScroll=' + isScroll, isScroll);
+            restSearchSubmit('GET', '/forms?search=' + search + '&offset=' + offsetCount + '&isScroll=' + isScroll, isScroll);
         }
 
         // 유효성 검증
@@ -88,11 +88,11 @@
                     desc: document.getElementById('form_description').value
                 };
                 if (formId === undefined) { // 등록
-                    restSubmit('POST', '/rest/form', formInfo);
+                    restSubmit('POST', '/rest/forms', formInfo);
                 } else { // 수정
                     formInfo.id = formId;
                     formInfo.status = isDestroy ? STATUS_DESTROY : document.getElementById('form_status').value;
-                    isEditable ? restSubmit('PUT', '/rest/form/' + formId, formInfo)
+                    isEditable ? restSubmit('PUT', '/rest/forms/' + formId, formInfo)
                         : aliceAlert.alertWarning(i18n.msg('form.msg.failedDestroy'));
 
                 }
@@ -128,7 +128,7 @@
             if (formId !== undefined) { // 수정
                 aliceJs.sendXhr({
                     method: 'GET',
-                    url: '/rest/form/' + formId + '/data',
+                    url: '/rest/forms/' + formId + '/data',
                     callbackFunc: function(xhr) {
                         let responseObject = JSON.parse(xhr.responseText);
                         responseObject.isView = isView;
@@ -277,7 +277,7 @@
                         let formId = response.responseText;
                         let specs = 'left=' + _left + ',top=' + _top;
                         specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                        window.open('/form/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                        window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
                     }
                     location.reload();
                 }
@@ -295,7 +295,7 @@
 
             let specs = 'left=' + _left + ',top=' + _top;
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/form/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
+            window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
         // 폼 디자이너 미리보기화면 오픈
@@ -308,7 +308,7 @@
 
             let specs = 'left=' + _left + ',top=' + _top;
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/form/' + formId + '/view', 'form_' + formId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
+            window.open('/forms/' + formId + '/view', 'form_' + formId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
         //폼 IMPORT

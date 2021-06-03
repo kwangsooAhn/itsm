@@ -176,7 +176,7 @@ class FormDesigner {
      */
     initForm(formId) {
         this.formId = formId;
-        aliceJs.fetchJson('/rest/form/' + this.formId + '/data', {
+        aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'GET',
             showProgressbar: true
         }).then((formData) => {
@@ -666,7 +666,7 @@ class FormDesigner {
         console.log(saveData);
 
         // 저장
-        aliceJs.fetchJson('/rest/form/' + this.formId + '/data', {
+        aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -766,7 +766,7 @@ class FormDesigner {
                         opener.location.reload();
                     }
                     window.name = 'form_' + formId + '_edit';
-                    location.href = '/form/' + formId + '/edit';
+                    location.href = '/forms/' + formId + '/edit';
                 });
             } else {
                 aliceAlert.alertDanger(i18n.msg('common.label.fail'));
