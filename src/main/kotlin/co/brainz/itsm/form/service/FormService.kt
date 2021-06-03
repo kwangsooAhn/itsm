@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.JsonParser
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -193,11 +194,12 @@ class FormService(
                     val componentElement = AliceUtil().convertStringToLinkedHashMap(component["element"])
 
                     formComponentList.add(
+                        @Suppress("UNCHECKED_CAST")
                         FormComponentDto(
                             id = component["id"] as String,
                             type = component["type"] as String,
                             isTopic = component["isTopic"] as Boolean,
-                            tags = (component["tag"] as String).split(",").map { it.trim() },
+                            tags = component["tags"] as List<String>,
                             value = null,
                             display = componentDisplay,
                             label = componentLabel,
