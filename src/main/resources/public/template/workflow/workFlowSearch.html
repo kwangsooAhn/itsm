@@ -199,84 +199,82 @@
 
         // 업무흐름 등록 , 수정
         function openDocumentEdit(documentId) {
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new',
-                callbackFunc: function(xhr) {
-                    let modalOptions = {
-                        title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.register'),
-                        body: xhr.responseText,
-                        classes: 'document-edit',
-                        buttons: [{
-                            content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
-                            classes: "point-fill",
-                            bindKey: false,
-                            callback: function(modal) {
-                                let method = (documentId !== undefined) ? 'put' : 'post';
-                                saveDocument(method, documentId);
-                            }
-                        },{
-                            content: i18n.msg('common.btn.cancel'),
-                            classes: "default-line",
-                            bindKey: false,
-                            callback: function(modal) {
-                                modal.hide();
-                            }
-                        }],
-                        close: {
-                            closable: false,
-                        },
-                        onCreate: function(modal) {
-                            initColorPicker();
-                            // 신청서 상태 초기화
-                            const statusElem = document.getElementById('document-status');
-                            const prevStatus = document.getElementById('prev-document-status').value;
-                            switch (prevStatus) {
-                                case STATUS_TEMPORARY:
-                                    statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
-                                    break;
-                                case STATUS_USE:
-                                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                                    break;
-                                case STATUS_DESTROY:
-                                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                                    statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
-                                    break;
-                                default: // 신규 등록
-                            }
-
-                            // 스크롤바 추가
-                            OverlayScrollbars(document.querySelector('.workflow-content'), {className: 'scrollbar'});
-                            OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
-                                className: 'inner-scrollbar',
-                                resize: 'vertical',
-                                sizeAutoCapable: true,
-                                textarea: {
-                                    dynHeight: false,
-                                    dynWidth: false,
-                                    inheritedAttrs: "class"
-                                }
-                            });
+            const url = (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new';
+            aliceJs.fetchText(url, {
+                method: 'GET'
+            }).then((htmlData) => {
+                let modalOptions = {
+                    title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.register'),
+                    body: htmlData,
+                    classes: 'document-edit',
+                    buttons: [{
+                        content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
+                        classes: "point-fill",
+                        bindKey: false,
+                        callback: function(modal) {
+                            let method = (documentId !== undefined) ? 'put' : 'post';
+                            saveDocument(method, documentId);
                         }
-                    }
-                    // 수정일 경우 신청서 양식 편집 버튼 추가
-                    if (documentId !== undefined) {
-                        modalOptions.buttons.splice(1, 0, {
-                            content: i18n.msg('document.label.display'),
-                            classes: "point-line",
-                            bindKey: false,
-                            callback: function(modal) {
-                                openDocumentDisplay(documentId);
-                                modal.hide();
+                    },{
+                        content: i18n.msg('common.btn.cancel'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            modal.hide();
+                        }
+                    }],
+                    close: {
+                        closable: false,
+                    },
+                    onCreate: function(modal) {
+                        initColorPicker();
+                        // 신청서 상태 초기화
+                        const statusElem = document.getElementById('document-status');
+                        const prevStatus = document.getElementById('prev-document-status').value;
+                        switch (prevStatus) {
+                            case STATUS_TEMPORARY:
+                                statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
+                                break;
+                            case STATUS_USE:
+                                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                                break;
+                            case STATUS_DESTROY:
+                                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                                statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+                                break;
+                            default: // 신규 등록
+                        }
+
+                        // 스크롤바 추가
+                        OverlayScrollbars(document.querySelector('.workflow-content'), {className: 'scrollbar'});
+                        OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
+                            className: 'inner-scrollbar',
+                            resize: 'vertical',
+                            sizeAutoCapable: true,
+                            textarea: {
+                                dynHeight: false,
+                                dynWidth: false,
+                                inheritedAttrs: "class"
                             }
                         });
                     }
-                    // 모달 호출
-                    const documentAdminModal = new modal(modalOptions);
-                    documentAdminModal.show();
-                    document.querySelector('.modal-dialog .point-fill').focus();
-                },
-                contentType: 'application/json; charset=utf-8'
+                }
+                // 수정일 경우 신청서 양식 편집 버튼 추가
+                if (documentId !== undefined) {
+                    modalOptions.buttons.splice(1, 0, {
+                        content: i18n.msg('document.label.display'),
+                        classes: "point-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            openDocumentDisplay(documentId);
+                            modal.hide();
+                        }
+                    });
+                }
+                // 모달 호출
+                const documentAdminModal = new modal(modalOptions);
+                documentAdminModal.show();
+                document.querySelector('.modal-dialog .point-fill').focus();
             });
         }
 
@@ -294,7 +292,41 @@
 
         // 신청서 양식 편집 화면
         function openDocumentDisplay(documentId) {
-            aliceJs.sendXhr({
+            aliceJs.fetchText('/workflows/' + documentId + '/display', {
+                method: 'GET'
+            }).then((htmlData) => {
+                let modalOptions = {
+                    title: i18n.msg('document.label.display'),
+                    body: htmlData,
+                    classes: 'document-display',
+                    buttons: [{
+                        content: i18n.msg('common.btn.modify'),
+                        classes: "point-fill",
+                        bindKey: false,
+                        callback: function(modal) {
+                            saveDocumentDisplay(documentId);
+                        }
+                    },{
+                        content: i18n.msg('common.btn.cancel'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            modal.hide();
+                        }
+                    }],
+                    close: {
+                        closable: false,
+                    },
+                    onCreate: function(modal) {
+                        aliceJs.initDesignedSelectTag();
+
+                        OverlayScrollbars(document.querySelector('.document-display-content'), {className: 'scrollbar'});
+                    }
+                }
+                const documentDisplayModal = new modal(modalOptions);
+                documentDisplayModal.show();
+            });
+            /*aliceJs.sendXhr({
                 method: 'GET',
                 url: '/rest/workflows/' + documentId + '/display',
                 callbackFunc: function(xhr) {
@@ -364,7 +396,7 @@
                     documentDisplayModal.show();
                 },
                 contentType: 'application/json; charset=utf-8'
-            });
+            });*/
         }
 
         /* Display data setting */

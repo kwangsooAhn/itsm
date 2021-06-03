@@ -52,7 +52,7 @@ export default class Component {
         this.data = data;
         this._type = data.type || 'component';
         this._id = data.id || workflowUtil.generateUUID();
-        this._displayType = data.displayType || 'editable'; // (readonly, editable, required, hidden)
+        this._displayType = data.displayType || 'editable';
         this._isTopic = data.isTopic || false;
         this._mapId = data.mapId || '';
         this._tags = data.tags || [];
