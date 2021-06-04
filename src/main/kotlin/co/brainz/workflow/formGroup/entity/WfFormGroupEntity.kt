@@ -28,6 +28,9 @@ data class WfFormGroupEntity(
     @Column(name = "form_group_id", length = 128)
     var formGroupId: String = "",
 
+    @Column(name = "form_group_name", length = 256)
+    var formGroupName: String = "",
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "form_id")
     val form: WfFormEntity

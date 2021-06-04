@@ -168,16 +168,15 @@ class WfTokenService(
                                 componentEntity.value = resultValue
                             }
                         }
+                    }
+                }
+                // displayType 값이 존재하지 않을 경우 기본값을 readOnly 로 설정한다.
+                group.displayType = WfDocumentConstants.DisplayType.READONLY.value
 
-                        // displayType 값이 존재하지 않을 경우 기본값을 readOnly 로 설정한다.
-                        componentEntity.displayType = WfDocumentConstants.DisplayType.READONLY.value
-
-                        // displayType이 존재할 경우 기본값 할당
-                        for (documentDisplay in documentDisplayList) {
-                            if (componentEntity.id == documentDisplay.componentId) {
-                                componentEntity.displayType = documentDisplay.display
-                            }
-                        }
+                // displayType이 존재할 경우 기본값 할당
+                for (documentDisplay in documentDisplayList) {
+                    if (group.id == documentDisplay.formGroupId) {
+                        group.displayType = documentDisplay.display
                     }
                 }
             }

@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonParser
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -200,7 +199,7 @@ class FormService(
                             type = component["type"] as String,
                             isTopic = component["isTopic"] as Boolean,
                             tags = component["tags"] as List<String>,
-                            value = null,
+                            value = component["value"] as String,
                             display = componentDisplay,
                             label = componentLabel,
                             validation = componentValidation,
@@ -221,6 +220,7 @@ class FormService(
             groupList.add(
                 FormGroupDto(
                     id = formGroup["id"] as String,
+                    name = formGroup["name"] as String,
                     display = groupDisplay,
                     label = groupLabel,
                     row = formRowList

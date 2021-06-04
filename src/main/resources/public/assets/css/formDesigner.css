@@ -4946,8 +4946,11 @@ body.modal-active {
   -moz-border-radius: 0.0625rem;
 }
 
-.z-component[data-displayType]:not([data-displayType=required]) .z-component-label span[class=required] {
+.z-component .z-component-label span[class=required].off {
   display: none;
+}
+.z-component .z-component-label span[class=required].on {
+  display: inline;
 }
 
 .z-tooltip-menu {

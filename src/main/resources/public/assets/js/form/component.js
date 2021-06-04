@@ -11,21 +11,21 @@ import * as mixin from '../lib/mixins.js';
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
 import { UIDiv } from '../lib/ui.js';
 import { inputBoxMixin } from './component/inputBox.js';
-import { textAreaMixin } from "./component/textArea.js";
-import { textEditorMixin } from "./component/textEditor.js";
-import { dropdownMixin } from "./component/dropdown.js";
-import { radioMixin } from "./component/radio.js";
-import { checkBoxMixin } from "./component/checkBox.js";
-import { labelMixin } from "./component/label.js";
-import { imageMixin } from "./component/image.js";
-import { dividerMixin } from "./component/divider.js";
-import { dateMixin } from "./component/date.js";
-import { timeMixin } from "./component/time.js";
-import { dataTimeMixin } from "./component/dateTime.js";
-import { fileUploadMixin } from "./component/fileUpload.js";
-import { customCodeMixin } from "./component/customCode.js";
-import { dynamicRowTableMixin } from "./component/dynamicRowTable.js";
-import { ciMixin } from "./component/ci.js";
+import { textAreaMixin } from './component/textArea.js';
+import { textEditorMixin } from './component/textEditor.js';
+import { dropdownMixin } from './component/dropdown.js';
+import { radioMixin } from './component/radio.js';
+import { checkBoxMixin } from './component/checkBox.js';
+import { labelMixin } from './component/label.js';
+import { imageMixin } from './component/image.js';
+import { dividerMixin } from './component/divider.js';
+import { dateMixin } from './component/date.js';
+import { timeMixin } from './component/time.js';
+import { dataTimeMixin } from './component/dateTime.js';
+import { fileUploadMixin } from './component/fileUpload.js';
+import { customCodeMixin } from './component/customCode.js';
+import { dynamicRowTableMixin } from './component/dynamicRowTable.js';
+import { ciMixin } from './component/ci.js';
 
 const DEFAULT_PROPERTY = {
     label: {
@@ -52,7 +52,6 @@ export default class Component {
         this.data = data;
         this._type = data.type || 'component';
         this._id = data.id || workflowUtil.generateUUID();
-        this._displayType = data.displayType || 'editable'; // (readonly, editable, required, hidden)
         this._isTopic = data.isTopic || false;
         this._mapId = data.mapId || '';
         this._tags = data.tags || [];
@@ -81,8 +80,7 @@ export default class Component {
         // 컴포넌트 추가
         componentTooltip.UIComponent = new UIComponent()
             .setUIId(this.id)
-            .addUIClass(this.type)
-            .setUIAttribute('data-displayType', this.displayType);
+            .addUIClass(this.type);
         // 라벨 추가
         componentTooltip.UIComponent.UILabel = this.makeLabel();
         componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UILabel);
@@ -153,14 +151,6 @@ export default class Component {
 
     set id(id) {
         this._id = id;
-    }
-
-    get displayType() {
-        return this._displayType;
-    }
-
-    set displayType(displayType) {
-        this._displayType = displayType;
     }
 
     set mapId(mapId) {
@@ -311,7 +301,6 @@ export default class Component {
         this.data = source.data;
         this._type = source.type;
         this._display = source.display;
-        this._displayType = source.displayType;
         this._isTopic = source.isTopic;
         this._mapId = source.mapId;
         this._tags = source.tags;

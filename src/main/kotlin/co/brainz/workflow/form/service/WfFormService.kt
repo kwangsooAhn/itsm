@@ -182,6 +182,7 @@ class WfFormService(
             // 그룹 구성
             val groupDto = FormGroupDto(
                 id = formGroup.formGroupId,
+                name = formGroup.formGroupName,
                 row = rowListInGroup
             )
 
@@ -370,6 +371,7 @@ class WfFormService(
             val currentGroup = wfFormGroupRepository.save(
                 WfFormGroupEntity(
                     formGroupId = group.id,
+                    formGroupName = group.name!!,
                     form = resultFormEntity
                 )
             )

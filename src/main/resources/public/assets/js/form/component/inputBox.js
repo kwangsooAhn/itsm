@@ -22,6 +22,7 @@ import SliderProperty from '../../formDesigner/property/type/sliderProperty.modu
 import CommonProperty from '../../formDesigner/property/type/commonProperty.module.js';
 import DefaultValueSelectProperty from '../../formDesigner/property/type/defaultValueSelectProperty.module.js';
 import DropdownProperty from '../../formDesigner/property/type/dropdownProperty.module.js';
+import SwitchProperty from '../../formDesigner/property/type/switchProperty.module.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -34,6 +35,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
     },
     validation: {
         validationType: 'none', // none | char | num | numchar | email | phone
+        required: false, // 필수값 여부
         minLength: '0',
         maxLength: '100'
     }
@@ -52,12 +54,12 @@ export const inputBoxMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
-
         element.UIInputbox = new UIInput().setUIPlaceholder(this.elementPlaceholder)
-            .setUIRequired((this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
-            .setUIReadOnly((this.displayType === FORM.DISPLAY_TYPE.READONLY))
+            .setUIRequired(this.validationRequired)
+            // TODO: 처리할 문서 - 그룹의 displayType에 따라서 readonly 처리
+            //.setUIReadOnly((this.parent.parent.displayType === FORM.DISPLAY_TYPE.READONLY))
             .setUIValue(this.value)
-            .setUIAttribute('data-validation-required', (this.displayType === FORM.DISPLAY_TYPE.REQUIRED))
+            .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-type', this.validationValidationType)
             .setUIAttribute('data-validation-maxLength', this.validationMaxLength)
             .setUIAttribute('data-validation-minLength', this.validationMinLength)
@@ -66,7 +68,6 @@ export const inputBoxMixin = {
         element.addUI(element.UIInputbox);
         return element;
     },
-
     set element(element) {
         this._element = element;
     },
@@ -108,6 +109,18 @@ export const inputBoxMixin = {
     },
     get validationValidationType() {
         return this._validation.validationType;
+    },
+    set validationRequired(boolean) {
+        this._validation.required = boolean;
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-required', boolean);
+        if (boolean) {
+            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get validationRequired() {
+        return this._validation.required;
     },
     set validationMinLength(min) {
         this._validation.minLength = min;
@@ -181,6 +194,7 @@ export const inputBoxMixin = {
                 .addProperty(new DefaultValueSelectProperty('element.defaultValueSelect', this.elementDefaultValueSelect)),
             new GroupProperty('group.validation')
                 .addProperty(validationTypeProperty)
+                .addProperty(new SwitchProperty('validation.required', this.validationRequired))
                 .addProperty(new InputBoxProperty('validation.minLength', this.validationMinLength))
                 .addProperty(new InputBoxProperty('validation.maxLength', this.validationMaxLength))
         ];
@@ -191,7 +205,6 @@ export const inputBoxMixin = {
             id: this._id,
             type: this._type,
             display: this._display,
-            displayType: this._displayType,
             isTopic: this._isTopic,
             mapId: this._mapId,
             tags: this._tags,

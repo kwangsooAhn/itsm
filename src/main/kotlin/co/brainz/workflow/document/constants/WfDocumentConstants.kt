@@ -17,9 +17,8 @@ class WfDocumentConstants {
      *
      */
     enum class DisplayType(val value: String) {
-        EDITABLE("editable"),
-        EDITABLE_REQUIRED("editableRequired"),
-        READONLY("readonly"),
-        HIDDEN("hidden")
+        EDITABLE("document.displayType.editable"),
+        READONLY("document.displayType.readonly"),
+        HIDDEN("document.displayType.hidden")
     }
 }

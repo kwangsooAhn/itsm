@@ -41,6 +41,8 @@ export default class Group {
         this.children = [];        // 자식 객체
         this._type = 'group';
         this._id =  data.id || workflowUtil.generateUUID();
+        this._name = data.name || ''; // 신청서 양식에서 사용되는 이름
+        this._displayType = data.displayType || 'document.displayType.editable';
         this._label = Object.assign({}, DEFAULT_GROUP_LABEL_PROPERTY, data.label);
         this._display = data.display || {
             displayOrder: 0,     // 표시 순서
@@ -58,7 +60,8 @@ export default class Group {
     init() {
         // 그룹용 툴팁
         const groupTooltip = new UIGroupTooltip()
-            .setUICSSText(`margin:${this.displayMargin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`);
+            .setUICSSText(`margin:${this.displayMargin.split(' ').join(UNIT.PX + ' ') + UNIT.PX};`)
+            .setUIAttribute('data-displayType', this.displayType);
         // 그룹
         groupTooltip.UIGroup = new UIGroup(this.displayIsAccordionUsed).setUIId(this.id);
         // 아코디언용 체크박스
@@ -100,6 +103,22 @@ export default class Group {
 
     set id(id) {
         this._id = id;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        this._name = name;
+    }
+
+    get displayType() {
+        return this._displayType;
+    }
+
+    set displayType(displayType) {
+        this._displayType = displayType;
     }
 
     set display(display) {
@@ -319,6 +338,7 @@ export default class Group {
 
         return [
             new ClipboardProperty('id', this.id),
+            new InputBoxProperty('name', this.name),
             new GroupProperty('group.display')
                 .addProperty(new SwitchProperty('display.isAccordionUsed', this.displayIsAccordionUsed))
                 .addProperty(displayMarginProperty),
@@ -340,6 +360,8 @@ export default class Group {
     copy(source, flag) {
         this.parent = source.parent;
         this._type = source.type;
+        this._name = source.name;
+        this._displayType = source.displayType;
         this._display.displayOrder = source.displayDisplayOrder;
         this._display.isAccordionUsed = source.displayIsAccordionUsed;
         this._display.margin = source.displayMargin;
@@ -362,6 +384,7 @@ export default class Group {
         }
         return {
             id: this._id,
+            name: this._name,
             display: this._display,
             label: this._label,
             row: row

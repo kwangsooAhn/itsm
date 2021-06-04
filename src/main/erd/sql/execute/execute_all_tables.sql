@@ -215,6 +215,10 @@ insert into awf_code values ('document.status', 'document', null, '신청서 상
 insert into awf_code values ('document.status.temporary', 'document.status', '임시', '임시', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.use', 'document.status', '사용', '사용', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType', 'document', null, '신청서 프로세스별 그룹 출력 타입', null, false, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 가능', '수정 가능', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.readonly', 'document.displayType', '수정 불가', '수정 불가', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download', 'root', null, '자료실', null, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download.category', 'download', null, '자료실 카테고리', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download.category.companyPolicy', 'download.category', null, '회사규정', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1418,6 +1422,7 @@ insert into awf_url values ('/workflows', 'get', '업무흐름 리스트 화면'
 insert into awf_url values ('/workflows/new', 'get', '신청서 생성 화면', 'TRUE');
 insert into awf_url values ('/workflows/search', 'get', '업무흐름 데이터 + 목록화면', 'TRUE');
 insert into awf_url values ('/workflows/{id}/edit', 'get', '신청서 수정 화면', 'TRUE');
+insert into awf_url values ('/workflows/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
 insert into awf_url values ('/documents', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/print', 'get', '신청서 프린트 화면', 'TRUE');
@@ -1520,7 +1525,6 @@ insert into awf_url values ('/rest/workflows/{id}', 'delete', '신청서 삭제'
 insert into awf_url values ('/rest/workflows/{id}', 'get', '신청서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}', 'put', '신청서 수정', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}/display', 'put', '신청서 디스플레이 데이터 저장', 'TRUE');
-insert into awf_url values ('/rest/workflows/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
@@ -1734,6 +1738,8 @@ insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.create');
+insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'document.admin.create');
+insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/documents', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
@@ -1895,7 +1901,6 @@ insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'document
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'put', 'document.admin.delete');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'put', 'document.admin.create');
-insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'document.create');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.update');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'download.update');
@@ -2355,6 +2360,7 @@ COMMENT ON COLUMN portal_notice.update_dt IS '수정일';
 CREATE TABLE wf_form_group
 (
     form_group_id varchar(128) NULL,
+    form_group_name varchar(256) NULL,
     form_id varchar(128) NULL,
     CONSTRAINT wf_form_group_pk PRIMARY KEY (form_group_id),
     CONSTRAINT wf_form_group_fk FOREIGN KEY (form_id) REFERENCES wf_form (form_id)
@@ -2362,6 +2368,7 @@ CREATE TABLE wf_form_group
 
 COMMENT ON TABLE wf_form_group IS '문서양식 그룹정보';
 COMMENT ON COLUMN wf_form_group.form_group_id IS '문서양식 그룹아이디';
+COMMENT ON COLUMN wf_form_group.form_group_name IS '문서양식 그룹이름';
 COMMENT ON COLUMN wf_form_group.form_id IS '문서양식아이디';
 CREATE TABLE wf_form_group_property (
     form_group_id varchar(128) NOT NULL,
@@ -10139,6 +10146,9 @@ COMMENT ON COLUMN awf_code_lang.lang IS '언어';
 insert into awf_code_lang values ('document.status.temporary', 'temporary', 'en');
 insert into awf_code_lang values ('document.status.destroy', 'destroy', 'en');
 insert into awf_code_lang values ('document.status.use', 'use', 'en');
+insert into awf_code_lang values ('document.displayType.editable', 'Editable', 'en');
+insert into awf_code_lang values ('document.displayType.readonly', 'Readonly', 'en');
+insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en');
 insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');
 insert into awf_code_lang values ('servicedesk.inquiry', 'Simple Inquiry', 'en');
 insert into awf_code_lang values ('servicedesk.request', 'Service Request', 'en');
