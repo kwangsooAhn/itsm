@@ -12,7 +12,7 @@
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
 import { zValidation } from '../../lib/validation.js';
-import { UIDiv, UIText } from '../../lib/ui.js';
+import { UIDiv, UIText, UIDivider } from '../../lib/ui.js';
 import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.module.js';
 import GroupProperty from '../../formDesigner/property/type/groupProperty.module.js';
 import SliderProperty from '../../formDesigner/property/type/sliderProperty.module.js';
@@ -24,10 +24,12 @@ import DropdownProperty from '../../formDesigner/property/type/dropdownProperty.
  * 컴포넌트 별 기본 속성 값
  */
 const DEFAULT_COMPONENT_PROPERTY = {
+    // 출력 속성 : 굵기 색상 타입
     element: {
-        placeholder: '',
-        columnWidth: '10',
-        defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
+        columnWidth: '12',
+    },
+    validation: {
+        required: false, // 필수값 여부
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
@@ -44,8 +46,10 @@ export const dividerMixin = {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIText = new UIText('아직 구현되지 않았습니다. 얼렁 개발해주세요.');
-        element.addUI(element.UIText);
+        element.UIDivider = new UIDivider();
+        element.addUI(element.UIDivider);
+        // element.UIText = new UIText('아직 구현되지 않았습니다. 얼렁 개발해주세요.');
+        // element.addUI(element.UIText);
         return element;
     },
     // set, get
