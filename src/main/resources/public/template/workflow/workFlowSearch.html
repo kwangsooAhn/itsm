@@ -278,18 +278,6 @@
             });
         }
 
-        const createDialogContent = function() {
-            return `
-                <div class="document-display-content">
-                    <table id="documentDisplay">
-                        <thead>
-                            <tr id="documentElementRow"></tr>
-                        </thead>
-                    </table>
-                </div>
-                `
-        };
-
         // 신청서 양식 편집 화면
         function openDocumentDisplay(documentId) {
             aliceJs.fetchText('/workflows/' + documentId + '/display', {
@@ -326,100 +314,6 @@
                 const documentDisplayModal = new modal(modalOptions);
                 documentDisplayModal.show();
             });
-            /*aliceJs.sendXhr({
-                method: 'GET',
-                url: '/rest/workflows/' + documentId + '/display',
-                callbackFunc: function(xhr) {
-                    let modalOptions = {
-                        title: i18n.msg('document.label.display'),
-                        body: createDialogContent(),
-                        classes: 'document-display',
-                        buttons: [{
-                            content: i18n.msg('common.btn.modify'),
-                            classes: "point-fill",
-                            bindKey: false,
-                            callback: function(modal) {
-                                saveDocumentDisplay(documentId);
-                            }
-                        },{
-                            content: i18n.msg('common.btn.cancel'),
-                            classes: "default-line",
-                            bindKey: false,
-                            callback: function(modal) {
-                                modal.hide();
-                            }
-                        }],
-                        close: {
-                            closable: false,
-                        },
-                        onCreate: function(modal) {
-                            const responseJson = JSON.parse(xhr.responseText);
-                            // set element row
-                            const elements = responseJson.elements;
-                            const displayTable = document.getElementById('documentDisplay');
-                            const elementRow = document.getElementById('documentElementRow');
-                            elementRow.appendChild(document.createElement('th'));
-                            elements.forEach(function(element) {
-                                let elementData = document.createElement('th');
-                                elementData.className = 'column-title';
-                                elementData.id = element.elementId;
-                                elementData.innerHTML = element.elementName;
-                                elementRow.appendChild(elementData);
-                            });
-                            displayTable.appendChild(elementRow);
-
-                            // set component row
-                            const components = responseJson.components;
-                            const componentBody = document.createElement('tbody');
-                            components.forEach(function(component) {
-                                const componentRow = document.createElement('tr');
-                                componentBody.appendChild(componentRow);
-                                const componentData = document.createElement('th');
-                                componentData.id = component.componentId;
-                                componentData.innerHTML = component.attributeValue;
-                                componentRow.appendChild(componentData);
-                                // set display data
-                                const displayValue = component.displayValue;
-                                displayValue.forEach(function(value) {
-                                    const displayData = document.createElement('td');
-                                    setDisplaySelect(displayData, component.componentId, value);
-                                    componentRow.appendChild(displayData);
-                                });
-                                displayTable.appendChild(componentRow);
-                            });
-                            aliceJs.initDesignedSelectTag();
-
-                            OverlayScrollbars(document.querySelector('.document-display-content'), {className: 'scrollbar'});
-                        }
-                    }
-                    const documentDisplayModal = new modal(modalOptions);
-                    documentDisplayModal.show();
-                },
-                contentType: 'application/json; charset=utf-8'
-            });*/
-        }
-
-        /* Display data setting */
-        function setDisplaySelect(obj, componentId, displayData) {
-            const displaySelect = document.createElement('select');
-            const elementId = displayData.elementId;
-            const displayDetail = displayData.display;
-
-            let values = ['editable', 'editableRequired', 'readonly', 'hidden'];
-
-            for (let i = 0; i < values.length; i++) {
-                const option = document.createElement('option');
-                option.text = i18n.msg('document.display.' + values[i]);
-                option.value = values[i];
-                if (values[i] === displayDetail) {
-                    option.setAttribute('selected', 'true');
-                }
-                displaySelect.add(option);
-            }
-            displaySelect.setAttribute('id',componentId + '_' + elementId);
-            displaySelect.setAttribute('class', 'col-3');
-            displaySelect.setAttribute('name', 'displays');
-            obj.appendChild(displaySelect);
         }
 
         /* Display data save */
@@ -428,30 +322,28 @@
             Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
                 const objDisplay = {};
                 const strArr = item.id.split('_');
-                objDisplay.componentId = strArr[0];     // componentId
+                objDisplay.formGroupId = strArr[0];     // formGroupId
                 objDisplay.elementId = strArr[1];       // elementId
                 objDisplay.display = item.value;        // display
                 arrDisplay.push(objDisplay);
             });
 
-            const obj = {
+            const saveData = {
                 documentId: documentId,
                 displays: arrDisplay
             };
-            const displayJson = JSON.stringify(obj);
 
-            const opt = {
-                method: 'put',
-                url: '/rest/workflows/' + documentId + '/display',
-                params: displayJson,
-                contentType: 'application/json',
-                callbackFunc: function () {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
-                        location.reload();
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
+            aliceJs.fetchText('/rest/workflows/' + documentId + '/display', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(saveData)
+            }).then((rtn) => {
+                aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
+                    location.reload();
+                });
+            });
         }
 
         function deleteDocument(documentId) {

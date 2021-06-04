@@ -21,7 +21,6 @@ insert into awf_code_lang values ('document.status.temporary', 'temporary', 'en'
 insert into awf_code_lang values ('document.status.destroy', 'destroy', 'en');
 insert into awf_code_lang values ('document.status.use', 'use', 'en');
 insert into awf_code_lang values ('document.displayType.editable', 'Editable', 'en');
-insert into awf_code_lang values ('document.displayType.required', 'Required', 'en');
 insert into awf_code_lang values ('document.displayType.readonly', 'Readonly', 'en');
 insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en');
 insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');

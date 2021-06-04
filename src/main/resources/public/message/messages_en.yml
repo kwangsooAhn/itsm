@@ -725,6 +725,7 @@ form:
     userName: "User Name"
     validate: "Validate"
     validation:
+      required: "Required"
       maxLength: "Max Length"
       minLength: "Min Length"
       validationType: "Validation Type"

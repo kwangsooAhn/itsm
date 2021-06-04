@@ -157,9 +157,12 @@
   }
 }
 // label
-.#{$common-prefix}component[data-displayType]:not([data-displayType="required"]) { // 필수값 숨김
+.#{$common-prefix}component { // 필수값 숨김
   .#{$common-prefix}component-label {
-    span[class="required"] { display: none; }
+    span[class="required"] {
+      &.off { display: none; }
+      &.on { display: inline; }
+    }
   }
 }
 // tooptip

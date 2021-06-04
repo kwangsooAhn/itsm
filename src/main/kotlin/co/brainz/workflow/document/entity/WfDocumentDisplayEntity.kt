@@ -26,8 +26,8 @@ data class WfDocumentDisplayEntity(
     val documentId: String,
 
     @Id
-    @Column(name = "component_id")
-    val componentId: String,
+    @Column(name = "form_group_id")
+    val formGroupId: String,
 
     @Id
     @Column(name = "element_id")
@@ -44,6 +44,6 @@ data class WfDocumentDisplayEntity(
 
 data class WfDocumentDisplayPkey(
     var documentId: String = "",
-    var componentId: String = "",
+    var formGroupId: String = "",
     var elementId: String = ""
 ) : Serializable

@@ -217,9 +217,8 @@ insert into awf_code values ('document.status.destroy', 'document.status', '폐�
 insert into awf_code values ('document.status.use', 'document.status', '사용', '사용', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType', 'document', null, '신청서 프로세스별 그룹 출력 타입', null, false, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 가능', '수정 가능', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType.required', 'document.displayType', '수정 가능(필수값)', '수정 가능(필수값)', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType.readonly', 'document.displayType', '수정 불가', '수정 불가', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.readonly', 'document.displayType', '수정 불가', '수정 불가', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download', 'root', null, '자료실', null, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download.category', 'download', null, '자료실 카테고리', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download.category.companyPolicy', 'download.category', null, '회사규정', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -10148,7 +10147,6 @@ insert into awf_code_lang values ('document.status.temporary', 'temporary', 'en'
 insert into awf_code_lang values ('document.status.destroy', 'destroy', 'en');
 insert into awf_code_lang values ('document.status.use', 'use', 'en');
 insert into awf_code_lang values ('document.displayType.editable', 'Editable', 'en');
-insert into awf_code_lang values ('document.displayType.required', 'Required', 'en');
 insert into awf_code_lang values ('document.displayType.readonly', 'Readonly', 'en');
 insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en');
 insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');

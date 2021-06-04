@@ -122,7 +122,7 @@ export const componentLabelMixin = {
      */
     makeLabel() {
         const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
-            .addUIClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
+            .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
             .setUICSSText(`text-align: ${this.labelAlign};`)
             .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
         // 라벨 문구
@@ -137,8 +137,10 @@ export const componentLabelMixin = {
             .setUITextContent(this.labelText);
         label.addUI(label.UILabelText);
         // 필수 여부
-        label.UIRequiredText = new UISpan().setUIClass('required');
+        label.UIRequiredText = new UISpan().setUIClass('required')
+            .addUIClass((this.validationRequired ? 'on' : 'off'));
         label.addUI(label.UIRequiredText);
+
         return label;
     },
     /**
