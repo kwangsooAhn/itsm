@@ -119,7 +119,6 @@ class CIServiceTest {
         }
     }
 
-
     @Test
     @DisplayName("CI 수정")
     @Order(5)
