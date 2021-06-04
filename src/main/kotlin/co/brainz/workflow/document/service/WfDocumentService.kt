@@ -13,9 +13,6 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
-import co.brainz.workflow.component.entity.WfComponentEntity
-import co.brainz.workflow.component.repository.WfComponentDataRepository
-import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
@@ -60,8 +57,6 @@ class WfDocumentService(
     private val wfProcessRepository: WfProcessRepository,
     private val wfFormRepository: WfFormRepository,
     private val wfFormGroupRepository: WfFormGroupRepository,
-    private val wfComponentRepository: WfComponentRepository,
-    private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
     private val numberingRuleRepository: NumberingRuleRepository,
     private val aliceMessageSource: AliceMessageSource,
