@@ -11,7 +11,7 @@
  *
  * https://www.brainz.co.kr
  */
-import Property from '../property.module.js';
+import Property from '../property.js';
 import { UIClipboard, UIDiv } from '../../../lib/ui.js';
 
 const propertyExtends = {

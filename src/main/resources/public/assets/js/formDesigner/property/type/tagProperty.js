@@ -10,7 +10,7 @@
  *
  * https://www.brainz.co.kr
  */
-import Property from '../property.module.js';
+import Property from '../property.js';
 import { UIDiv, UIInput } from '../../../lib/ui.js';
 
 const propertyExtends = {

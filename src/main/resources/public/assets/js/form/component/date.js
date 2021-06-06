@@ -13,12 +13,12 @@
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
 import { zValidation } from '../../lib/validation.js';
 import { UIDiv, UIText } from '../../lib/ui.js';
-import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.module.js';
-import GroupProperty from '../../formDesigner/property/type/groupProperty.module.js';
-import SliderProperty from '../../formDesigner/property/type/sliderProperty.module.js';
-import CommonProperty from '../../formDesigner/property/type/commonProperty.module.js';
-import DefaultValueSelectProperty from '../../formDesigner/property/type/defaultValueSelectProperty.module.js';
-import DropdownProperty from '../../formDesigner/property/type/dropdownProperty.module.js';
+import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.js';
+import GroupProperty from '../../formDesigner/property/type/groupProperty.js';
+import SliderProperty from '../../formDesigner/property/type/sliderProperty.js';
+import CommonProperty from '../../formDesigner/property/type/commonProperty.js';
+import DefaultValueSelectProperty from '../../formDesigner/property/type/defaultValueSelectProperty.js';
+import DropdownProperty from '../../formDesigner/property/type/dropdownProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
