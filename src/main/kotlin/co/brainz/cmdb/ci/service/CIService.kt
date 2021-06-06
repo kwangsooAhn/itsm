@@ -43,6 +43,9 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.workflow.instance.repository.WfInstanceRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -468,6 +471,16 @@ class CIService(
      * CI 조회 결과 DTO 변경
      */
     private fun makeCIListDto(ci: CIsDto): CIListDto {
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        var tagList = mutableListOf<Map<String, String>>()
+        aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId)
+            .forEachIndexed { index, aliceTagDto ->
+                var tag = mutableMapOf("id" to "", "value" to "", "targetId" to "")
+                tag["id"] = aliceTagDto.tagId.toString()
+                tag["value"] = aliceTagDto.tagValue
+                tag["targetId"] = aliceTagDto.targetId
+                tagList.add(tag)
+            }
         return CIListDto(
             ciId = ci.ciId,
             ciNo = ci.ciNo,
@@ -481,7 +494,7 @@ class CIService(
             ciIconData = ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) },
             ciDesc = ci.ciDesc,
             automatic = ci.automatic,
-            tags = aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId),
+            tags = mapper.writeValueAsString(tagList),
             createUserKey = ci.createUserKey,
             createDt = ci.createDt,
             updateUserKey = ci.updateUserKey,

@@ -6,7 +6,6 @@
 
 package co.brainz.cmdb.dto
 
-import co.brainz.framework.tag.dto.AliceTagDto
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -27,5 +26,5 @@ data class CIListDto(
     var createDt: LocalDateTime? = null,
     val updateUserKey: String? = null,
     val updateDt: LocalDateTime? = null,
-    var tags: List<AliceTagDto>? = null
+    var tags: String? = null
 ) : Serializable
