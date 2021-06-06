@@ -73,7 +73,6 @@
             restSubmit('get', '/cmdb/cis?' + urlParam, isScroll);
             let ciListTags = document.querySelectorAll('input[name=ciListTags]');
             let ciIdList= (document.querySelectorAll('input[name=ciId]'));
-            console.log(ciIdList)
             for (let i = loopOffSet; i < ciListTags.length; i++) {
                 new zTag(ciListTags[i], {
                     suggestion: false,
