@@ -1,9 +1,8 @@
 /**
- * Slider Property Class
+ * dropdown Property Class
  *
- * 슬라이드 형식의 속성타입을 위한 클래스이다.
- * 예를 들어 컬럼 너비와 같은 항목은 슬라이를 드래그하면서 너비를 늘리거나 줄일 수 있다.
- * 이러한 형식의 속성 항목을 위한 클래스이다.
+ * SELECT 형태의 속성항목 타입을 위한 클래스이다.
+ * 실제 속성 값으로 선택할 수 있는 데이터를 options 필드에 추가한다.
  *
  * @author Jung Hee Chan <hcjung@brainz.co.kr>
  * @version 1.0
@@ -12,18 +11,19 @@
  *
  * https://www.brainz.co.kr
  */
-import {UIDiv, UISlider} from '../../../lib/ui.js';
-import { FORM } from '../../../lib/constants.js';
+import { UIDiv, UISelect } from '../../../lib/ui.js';
 import { zValidation } from '../../../lib/validation.js';
-import Property from '../property.module.js';
+import Property from '../property.js';
 
 const propertyExtends = {
-    /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
+    options : []
 };
 
-export default class SliderProperty extends Property {
-    constructor(name, value) {
-        super(name, 'sliderProperty', value);
+export default class DropdownProperty extends Property {
+    constructor(name, value, options) {
+        super(name, 'dropdownProperty', value);
+
+        this.options = options;
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -35,16 +35,22 @@ export default class SliderProperty extends Property {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
 
-        // slider
-        this.UIElement.UISlider = new UISlider(this.value).setUIMin(1).setUIMax(FORM.COLUMN);
-        this.UIElement.UISlider.UIInput.setUIId(this.getKeyId())
+        // select box
+        const mergeOptions = this.options.reduce((result, option) => {
+            result[option.value] = i18n.msg(option.name);
+            return result;
+        }, {});
+        this.UIElement.UISelect = new UISelect()
+            .setUIId(this.getKeyId())
+            .setUIOptions(mergeOptions)
+            .setUIValue(this.value)
             .onUIChange(this.updateProperty.bind(this));
-        this.UIElement.addUI(this.UIElement.UISlider);
+        this.UIElement.addUI(this.UIElement.UISelect);
 
         return this.UIElement;
     }
     // 속성 변경시 발생하는 이벤트 핸들러
-    updateProperty(e, panel) {
+    updateProperty(e) {
         e.stopPropagation();
         e.preventDefault();
 

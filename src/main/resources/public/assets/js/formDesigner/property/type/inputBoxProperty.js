@@ -12,7 +12,7 @@
  */
 import { UIDiv, UIInput } from '../../../lib/ui.js';
 import { zValidation } from '../../../lib/validation.js';
-import Property from '../property.module.js';
+import Property from '../property.js';
 
 const propertyExtends = {
     /* input box 속성 타입은 추가적인 설정이 없다. */

@@ -11,7 +11,7 @@
  * https://www.brainz.co.kr
  */
 import { zValidation } from '../../../lib/validation.js';
-import Property from '../property.module.js';
+import Property from '../property.js';
 import {UIColor, UIDiv} from '../../../lib/ui.js';
 
 const propertyExtends = {

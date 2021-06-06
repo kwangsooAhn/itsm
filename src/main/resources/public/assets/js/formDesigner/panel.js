@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 import { zValidation } from '../lib/validation.js ';
-import GroupProperty from './property/type/groupProperty.module.js';
+import GroupProperty from './property/type/groupProperty.js';
 
 export default class Panel {
     constructor(editor) {
