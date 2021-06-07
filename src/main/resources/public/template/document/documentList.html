@@ -13,7 +13,7 @@
     </div>
     <th:block th:fragment="list">
         <div class="card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
-             sec:authorize="hasAuthority('document.create')" th:onclick="documentEditor.openDocument([[${document.documentId}]])">
+             sec:authorize="hasAuthority('document.create')" th:onclick="zDocument.openDocument([[${document.documentId}]])">
             <div class="document-column">
                 <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
                 <label th:text="${document.documentDesc}" class="document-description text-ellipsis"></label>
