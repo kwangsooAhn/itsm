@@ -7,7 +7,6 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -70,16 +69,6 @@ class WorkFlowRestController(
         val params = LinkedHashMap<String, Any>()
         params["isDeleteData"] = isDeleteData
         return documentService.updateDocument(restTemplateDocumentDto, params)
-    }
-
-    /**
-     * 신청서 편집 데이터 조회.
-     *
-     * @param documentId
-     */
-    @GetMapping("/{documentId}/display")
-    fun getWorkFlowDisplay(@PathVariable documentId: String): RestTemplateDocumentDisplayViewDto {
-        return documentService.getDocumentDisplay(documentId)
     }
 
     /**

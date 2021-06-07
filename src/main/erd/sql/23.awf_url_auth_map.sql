@@ -117,6 +117,8 @@ insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.create');
+insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'document.admin.create');
+insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/documents', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
@@ -278,7 +280,6 @@ insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'document
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'put', 'document.admin.delete');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'put', 'document.admin.create');
-insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'document.create');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.update');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'download.update');

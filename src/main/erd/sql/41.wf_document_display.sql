@@ -6,21 +6,21 @@ DROP TABLE IF EXISTS wf_document_display cascade;
 CREATE TABLE wf_document_display
 (
 	document_id varchar(128) NOT NULL,
-	component_id varchar(128) NOT NULL,
+    form_group_id varchar(128) NOT NULL,
 	element_id varchar(256) NOT NULL,
-	display varchar(100) DEFAULT 'editable' NOT NULL,
-	CONSTRAINT wf_document_display_pk PRIMARY KEY (document_id, component_id, element_id),
+	display varchar(100) DEFAULT 'document.displayType.editable' NOT NULL,
+	CONSTRAINT wf_document_display_pk PRIMARY KEY (document_id, form_group_id, element_id),
 	CONSTRAINT wf_document_display_fk1 FOREIGN KEY (document_id) REFERENCES wf_document (document_id),
-	CONSTRAINT wf_document_display_fk2 FOREIGN KEY (component_id) REFERENCES wf_component (component_id),
+	CONSTRAINT wf_document_display_fk2 FOREIGN KEY (form_group_id) REFERENCES wf_form_group (form_group_id),
 	CONSTRAINT wf_document_display_fk3 FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
-);
+)
 
 COMMENT ON TABLE wf_document_display IS '문서출력정보';
 COMMENT ON COLUMN wf_document_display.document_id IS '신청서아이디';
-COMMENT ON COLUMN wf_document_display.component_id IS '컴포넌트아이디';
+COMMENT ON COLUMN wf_document_display.form_group_id IS '문서그룹아이디';
 COMMENT ON COLUMN wf_document_display.element_id IS '엘리먼트아이디';
 COMMENT ON COLUMN wf_document_display.display IS '엘리먼트별컴포넌트출력정보';
-
+/* TODO: 배포 파일 수정 */
 insert into wf_document_display values ('40288ab777f04ed90177f05f01d1000b', 'a0438d6ebeb3e76391de4ca2591b891d', '4f296c1468f3422b8c59c97151e2c476', 'editable');
 insert into wf_document_display values ('40288ab777f04ed90177f05f01d1000b', 'a0438d6ebeb3e76391de4ca2591b891d', 'a508191382c644b289c01cf32bed8722', 'readonly');
 insert into wf_document_display values ('40288ab777f04ed90177f05f01d1000b', 'a0438d6ebeb3e76391de4ca2591b891d', 'a34268ba767d48e7ab7db9e7297e7300', 'readonly');

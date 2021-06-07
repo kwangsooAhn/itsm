@@ -27,10 +27,9 @@ export const FORM = {
         COMPONENT: 'component'
     },
     DISPLAY_TYPE: {
-        EDITABLE: 'editable',
-        READONLY: 'readonly',
-        REQUIRED: 'required',
-        HIDDEN: 'hidden'
+        EDITABLE: 'document.displayType.editable',
+        READONLY: 'document.displayType.readonly',
+        HIDDEN: 'document.displayType.hidden'
     },
     LABEL: {
         POSITION: {

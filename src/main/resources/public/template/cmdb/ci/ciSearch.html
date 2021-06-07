@@ -35,10 +35,12 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
-    <script th:src="@{/assets/js/cmdb/attribute.js}"></script>
+    <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
+    <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
+        let loopOffSet = 0;
         window.onload = function () {
             document.getElementById('search').focus();
             document.getElementById('search').onkeyup = function() {
@@ -69,6 +71,17 @@
             }
             urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
             restSubmit('get', '/cmdb/cis?' + urlParam, isScroll);
+            let ciListTags = document.querySelectorAll('input[name=ciListTags]');
+            let ciIdList= (document.querySelectorAll('input[name=ciId]'));
+            for (let i = loopOffSet; i < ciListTags.length; i++) {
+                new zTag(ciListTags[i], {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'ci',
+                    targetId: ciIdList[i].value
+                });
+            }
+            loopOffSet = loopOffSet + aliceJs.searchDataCount;
         }
 
         function restSubmit(method, url, isScroll) {
@@ -122,7 +135,12 @@
                                             inheritedAttrs: "class"
                                         }
                                     });
-                                    new Tagify(document.querySelector('input[name=tags]'));
+                                    new zTag(document.querySelector('input[name=ciDetailTags]'),{
+                                        suggestion: false,
+                                        realtime: false,
+                                        tagType: 'ci',
+                                        targetId: document.getElementById('ciId').getAttribute('value')
+                                    });                                    
                                     // 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
                                     document.querySelectorAll('.date-time').forEach(dt => {
                                         dt.textContent = i18n.userDateTime(dt.textContent.trim());

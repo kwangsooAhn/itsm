@@ -33,4 +33,9 @@ object DocumentConstants {
     enum class DocumentViewType(val value: String) {
         ADMIN("admin")
     }
+
+    /**
+     * document displayType p_code.
+     */
+    const val DOCUMENT_DISPLAY_TYPE_P_CODE = "document.displayType"
 }

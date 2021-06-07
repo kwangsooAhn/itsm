@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- 신청서 양식 편집 모달 -->
+<div class="document-display-content">
+    <table id="documentDisplay">
+        <tr id="documentElementRow">
+            <th class="column-title"></th>
+            <th:block th:each="element : ${documentDisplayList.elements}">
+                <th class="column-title" th:id="${element.elementId}" th:text="${element.elementName}"/>
+            </th:block>
+        </tr>
+        <tr th:each="group : ${documentDisplayList.formGroups}">
+            <th th:id="${group.formGroupId}" th:text="${group.formGroupName}"/>
+            <th:block th:each="display : ${group.displayValue}">
+                <td>
+                    <select th:id="${group.formGroupId} + '_' + ${display.elementId}" name="displays" class="col-3">
+                        <option th:each="displayType :${documentDisplayTypeList}" th:text="${displayType.codeValue}"
+                                th:value="${displayType.code}" th:selected="${displayType.code} == ${display?.display}">
+                        </option>
+                    </select>
+                </td>
+            </th:block>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

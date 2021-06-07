@@ -28,7 +28,8 @@ class WorkFlowController(
     private val workFlowSearchPage: String = "workflow/workFlowSearch"
     private val workFlowListPage: String = "workflow/workFlowList"
     private val workFlowListFragment: String = "workflow/workFlowList :: list"
-    private val workFlowEditPage: String = "workflow/workFlowEdit"
+    private val workFlowEditModalPage: String = "workflow/workFlowEditModal"
+    private val documentDisplayModalPage: String = "workflow/documentDisplayModal"
 
     /**
      * 업무흐름 리스트 호출 화면.
@@ -71,7 +72,7 @@ class WorkFlowController(
         model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
-        return workFlowEditPage
+        return workFlowEditModalPage
     }
 
     /**
@@ -91,6 +92,18 @@ class WorkFlowController(
         model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
-        return workFlowEditPage
+        return workFlowEditModalPage
+    }
+
+    /**
+     * 신청서 양식 편집 화면.
+     *
+     * @param documentId
+     */
+    @GetMapping("/{documentId}/display")
+    fun getWorkFlowDisplay(@PathVariable documentId: String, model: Model): String {
+        model.addAttribute("documentDisplayTypeList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_DISPLAY_TYPE_P_CODE))
+        model.addAttribute("documentDisplayList", documentService.getDocumentDisplay(documentId))
+        return documentDisplayModalPage
     }
 }

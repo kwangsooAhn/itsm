@@ -29,6 +29,9 @@ class RestTemplateFormDataDto(
 
 class FormGroupDto(
     var id: String = "",
+    var name: String? = "",
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    var displayType: String? = null,
     var display: LinkedHashMap<String, Any> = LinkedHashMap(),
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var label: LinkedHashMap<String, Any>? = null,
@@ -50,8 +53,6 @@ class FormComponentDto(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var value: String? = "",
     var isTopic: Boolean = false,
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    var displayType: String? = null,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var tags: List<String>? = null,
     var display: LinkedHashMap<String, Any> = LinkedHashMap(),

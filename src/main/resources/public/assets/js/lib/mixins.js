@@ -9,9 +9,9 @@
  */
 import { CLASS_PREFIX, UNIT, FORM } from './constants.js';
 import { UIDiv, UILabel, UISpan, UIUl, UILi } from './ui.js';
-import { UIGroupTooltip } from '../form/group.js';
-import { UIRowTooltip } from '../form/row.js';
-import { UIComponentTooltip } from '../form/component.js';
+import { UIGroupTooltip } from '../form/zGroup.js';
+import { UIRowTooltip } from '../form/zRow.js';
+import { UIComponentTooltip } from '../form/zComponent.js';
 
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
 export const controlMixin = {
@@ -122,7 +122,7 @@ export const componentLabelMixin = {
      */
     makeLabel() {
         const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
-            .addUIClass((this.label.position === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
+            .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
             .setUICSSText(`text-align: ${this.labelAlign};`)
             .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
         // 라벨 문구
@@ -137,8 +137,10 @@ export const componentLabelMixin = {
             .setUITextContent(this.labelText);
         label.addUI(label.UILabelText);
         // 필수 여부
-        label.UIRequiredText = new UISpan().setUIClass('required');
+        label.UIRequiredText = new UISpan().setUIClass('required')
+            .addUIClass((this.validationRequired ? 'on' : 'off'));
         label.addUI(label.UIRequiredText);
+
         return label;
     },
     /**

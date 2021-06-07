@@ -732,6 +732,7 @@ form:
     userName: "사용자 이름"
     validate: "유효성"
     validation:
+      required: "필수 여부"
       maxLength: "최대 길이"
       minLength: "최소 길이"
       validationType: "유효성 타입"
