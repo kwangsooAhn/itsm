@@ -20,7 +20,7 @@
     <script type="module">
         // 사용자 세션 정보 저장
         import { SESSION } from '../../assets/js/lib/constants.js';
-        import { documentEditor } from '../../assets/js/documentEditor/documentEditor.js';
+        import { zDocument } from '../../assets/js/documentEditor/document.js';
 
         const userSession = {
             userKey : '[[${#authentication.details.userKey}]]',
@@ -54,8 +54,8 @@
             Object.assign(SESSION, userSession);
         }
         // 신청서 모듈 클래스
-        window.documentEditor = documentEditor;
-        console.log(documentEditor);
+        window.zDocument = zDocument;
+        console.log(zDocument);
 
         let offsetCount = 0;
         window.addEventListener('load', (e) => {

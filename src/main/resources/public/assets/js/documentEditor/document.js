@@ -15,7 +15,7 @@ import Group from '../form/group.js';
 import Row from '../form/row.js';
 import Component from '../form/component.js';
 
-class DocumentEditor {
+class Document {
     constructor() {
         // 초기화
         this.initDocumentModal();
@@ -282,4 +282,4 @@ class DocumentEditor {
     printDocument() {}
 }
 
-export const documentEditor = new DocumentEditor();
+export const zDocument = new Document();
