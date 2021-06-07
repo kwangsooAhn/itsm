@@ -7,9 +7,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { CLASS_PREFIX, FORM } from '../lib/constants.js';
+import { CLASS_PREFIX, FORM } from '../lib/zConstants.js';
 import { zDocument } from '../document/zDocument.js';
-import { zValidation } from '../lib/validation.js';
+import { zValidation } from '../lib/zValidation.js';
 import ZHistory from './zHistory.js';
 import ZPanel from './zPanel.js';
 import ZForm from '../form/zForm.js';

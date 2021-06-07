@@ -9,9 +9,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/mixins.js';
-import { UIDiv } from '../lib/ui.js';
-import { CLASS_PREFIX, UNIT, FORM } from '../lib/constants.js';
+import * as mixin from '../lib/zMixins.js';
+import { UIDiv } from '../lib/zUI.js';
+import { CLASS_PREFIX, UNIT, FORM } from '../lib/zConstants.js';
 import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
 import ZInputBoxProperty from '../formDesigner/property/type/zInputBoxProperty.js';
 import ZTextAreaProperty from '../formDesigner/property/type/zTextAreaProperty.js';

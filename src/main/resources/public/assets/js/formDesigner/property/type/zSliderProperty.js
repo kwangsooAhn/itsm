@@ -12,9 +12,9 @@
  *
  * https://www.brainz.co.kr
  */
-import {UIDiv, UISlider} from '../../../lib/ui.js';
-import { FORM } from '../../../lib/constants.js';
-import { zValidation } from '../../../lib/validation.js';
+import {UIDiv, UISlider} from '../../../lib/zUI.js';
+import { FORM } from '../../../lib/zConstants.js';
+import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
 
 const propertyExtends = {
