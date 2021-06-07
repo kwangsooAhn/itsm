@@ -10,9 +10,9 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
-import { zValidation } from '../../lib/validation.js';
-import { UIDiv, UIText } from '../../lib/ui.js';
+import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { zValidation } from '../../lib/zValidation.js';
+import { UIDiv, UIText } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';

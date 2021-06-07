@@ -12,7 +12,7 @@
  * https://www.brainz.co.kr
  */
 import ZProperty from '../zProperty.js';
-import { UIClipboard, UIDiv } from '../../../lib/ui.js';
+import { UIClipboard, UIDiv } from '../../../lib/zUI.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */

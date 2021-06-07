@@ -7,7 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { zValidation } from '../lib/validation.js ';
+import { zValidation } from '../lib/zValidation.js ';
 import ZGroupProperty from './property/type/zGroupProperty.js';
 
 export default class ZPanel {

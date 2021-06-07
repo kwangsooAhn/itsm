@@ -15,8 +15,8 @@
  *
  * https://www.brainz.co.kr
  */
-import { MAX_COLUMN_COUNT } from '../../lib/constants.js';
-import { UIDiv, UILabel, UISpan } from '../../lib/ui.js';
+import { MAX_COLUMN_COUNT } from '../../lib/zConstants.js';
+import { UIDiv, UILabel, UISpan } from '../../lib/zUI.js';
 
 export default class ZProperty {
     constructor(name, type, value) {

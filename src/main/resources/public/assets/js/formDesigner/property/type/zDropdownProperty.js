@@ -11,8 +11,8 @@
  *
  * https://www.brainz.co.kr
  */
-import { UIDiv, UISelect } from '../../../lib/ui.js';
-import { zValidation } from '../../../lib/validation.js';
+import { UIDiv, UISelect } from '../../../lib/zUI.js';
+import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
 
 const propertyExtends = {

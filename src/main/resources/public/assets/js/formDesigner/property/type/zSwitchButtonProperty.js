@@ -12,7 +12,7 @@
  * https://www.brainz.co.kr
  */
 import ZProperty from '../zProperty.js';
-import {UIButton, UIDiv, UISpan} from '../../../lib/ui.js';
+import {UIButton, UIDiv, UISpan} from '../../../lib/zUI.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
