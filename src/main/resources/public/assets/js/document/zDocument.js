@@ -10,10 +10,10 @@
 import { FORM, DOCUMENT, SESSION } from '../lib/constants.js';
 import { zValidation } from '../lib/validation.js';
 import { UIButton, UIDiv } from '../lib/ui.js';
-import Form from '../form/form.js';
-import Group from '../form/group.js';
-import Row from '../form/row.js';
-import Component from '../form/component.js';
+import ZForm from '../form/zForm.js';
+import ZGroup from '../form/zGroup.js';
+import ZRow from '../form/zRow.js';
+import ZComponent from '../form/zComponent.js';
 
 class ZDocument {
     constructor() {
@@ -190,16 +190,16 @@ class ZDocument {
 
         switch(type) {
         case FORM.LAYOUT.FORM:
-            addObject = new Form(data);
+            addObject = new ZForm(data);
             break;
         case FORM.LAYOUT.GROUP:
-            addObject = new Group(data);
+            addObject = new ZGroup(data);
             break;
         case FORM.LAYOUT.ROW:
-            addObject = new Row(data);
+            addObject = new ZRow(data);
             break;
         case FORM.LAYOUT.COMPONENT:
-            addObject = new Component(data);
+            addObject = new ZComponent(data);
             break;
         default:
             break;
@@ -221,7 +221,7 @@ class ZDocument {
      */
     getComponentData(object, array) {
         object.children.forEach((child) => {
-            if (child instanceof Component) {
+            if (child instanceof ZComponent) {
                 array.push({ componentId: child.id, value: child.value });
             } else {
                 this.getComponentData(child, array);
