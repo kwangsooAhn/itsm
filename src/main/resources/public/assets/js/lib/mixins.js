@@ -9,9 +9,9 @@
  */
 import { CLASS_PREFIX, UNIT, FORM } from './constants.js';
 import { UIDiv, UILabel, UISpan, UIUl, UILi } from './ui.js';
-import { UIGroupTooltip } from '../form/group.js';
-import { UIRowTooltip } from '../form/row.js';
-import { UIComponentTooltip } from '../form/component.js';
+import { UIGroupTooltip } from '../form/zGroup.js';
+import { UIRowTooltip } from '../form/zRow.js';
+import { UIComponentTooltip } from '../form/zComponent.js';
 
 // layout 공통 믹스인 ( 부모, 자식 계층 구조용)
 export const controlMixin = {
