@@ -10,7 +10,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { UIDiv, UILabel, UISpan } from '../../../lib/ui.js';
+import { UIDiv, UILabel, UISpan } from '../../../lib/zUI.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */

@@ -7,9 +7,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/mixins.js';
-import { CLASS_PREFIX, FORM } from '../lib/constants.js';
-import { UIDiv } from '../lib/ui.js';
+import * as mixin from '../lib/zMixins.js';
+import { CLASS_PREFIX, FORM } from '../lib/zConstants.js';
+import { UIDiv } from '../lib/zUI.js';
 import { inputBoxMixin } from './component/zInputBox.js';
 import { textAreaMixin } from './component/zTextArea.js';
 import { textEditorMixin } from './component/zTextEditor.js';
