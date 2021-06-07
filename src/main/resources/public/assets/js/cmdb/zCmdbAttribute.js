@@ -10,7 +10,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.attribute = global.attribute || {})));
+            (factory((global.zCmdbAttribute = global.zCmdbAttribute || {})));
 }(this, (function (exports) {
     'use strict';
 
