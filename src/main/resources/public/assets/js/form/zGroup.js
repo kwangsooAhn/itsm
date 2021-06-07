@@ -238,7 +238,7 @@ export default class ZGroup {
 
     set labelFontSize(size) {
         this._label.fontSize = size;
-        this.UIElement.UIGroup.UILabel.UILabelText.setUIFontSize(size);
+        this.UIElement.UIGroup.UILabel.UILabelText.setUIFontSize(size + UNIT.PX);
     }
 
     get labelFontSize() {

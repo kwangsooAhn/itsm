@@ -4927,6 +4927,9 @@ body.modal-active {
 .z-component-tooltip.selected > .z-tooltip-menu {
   visibility: visible;
 }
+.z-component-tooltip.selected .z-component .z-element .z-imagebox-placeholder {
+  background-color: #ffffff;
+}
 .z-component-tooltip.off {
   display: none;
 }
@@ -4990,10 +4993,10 @@ body.modal-active {
   display: block;
 }
 
-.z-component .z-component-label span[class=required].off {
+.z-component .z-component-label .required.off {
   display: none;
 }
-.z-component .z-component-label span[class=required].on {
+.z-component .z-component-label .required.on {
   display: inline;
 }
 

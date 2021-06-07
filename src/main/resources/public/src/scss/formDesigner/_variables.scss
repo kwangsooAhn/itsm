@@ -125,6 +125,7 @@ $component-imagebox-font-size:                     $font-size-base;
 $component-imagebox-font-weight:                   $font-weight-regular;
 $component-imagebox-font-color:                    $gray;
 $component-imagebox-bg-color:                      map-get($grays, "light");
+$component-selected-imagebox-bg-color:             $white;
 
 ///////////////////////// tooltip-menu /////////////////////////
 $tooltip-menu-bg-color:                            $white;

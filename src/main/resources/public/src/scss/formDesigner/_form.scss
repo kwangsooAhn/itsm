@@ -126,6 +126,17 @@
     @include border(0.0625rem, solid, $component-selected-border-color, all); // 1px
     background-color: $component-selected-bg-color;
     >.#{$common-prefix}tooltip-menu { visibility: visible; }
+
+    // component
+    .#{$common-prefix}component {
+      // element
+      .#{$common-prefix}element {
+        // image 컴포넌트
+        .#{$common-prefix}imagebox-placeholder {
+          background-color: $component-selected-imagebox-bg-color;
+        }
+      }
+    }
   }
   // displayType이 hidden일 경우
   &.off { display: none; }
@@ -183,7 +194,7 @@
 // label
 .#{$common-prefix}component { // 필수값 숨김
   .#{$common-prefix}component-label {
-    span[class="required"] {
+    .required {
       &.off { display: none; }
       &.on { display: inline; }
     }

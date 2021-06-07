@@ -12,7 +12,7 @@
 
 import { FORM, CLASS_PREFIX, UNIT } from '../../lib/constants.js';
 import { zValidation } from '../../lib/validation.js';
-import { UIDiv, UIText } from '../../lib/ui.js';
+import { UIDiv, UIImg, UISpan, UIText } from '../../lib/ui.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -26,9 +26,9 @@ import ZImageProperty from '../../formDesigner/property/type/zImageProperty.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
-        path: '', // 이미지 경로
-        width: '', // 이미지 너비
-        height: '', // 이미지 높이
+        path: '', // 이미지 경로0
+        width: '809', // 이미지 너비
+        height: '140', // 이미지 높이
         align: 'left'
     },
     validation: {
@@ -125,7 +125,7 @@ export const imageMixin = {
     },
     set elementAlign(align) {
         this._element.align = align;
-        this.UIElement.UIComponent.UIElement.setTextAlign(align);
+        this.UIElement.UIComponent.UIElement.setUITextAlign(align);
     },
     get elementAlign() {
         return this._element.align;
@@ -157,26 +157,26 @@ export const imageMixin = {
         return this._value;
     },
     getProperty() {
-        const elementWidthProperty = new InputBoxProperty('element.width', this.elementWidth)
+        const elementWidthProperty = new ZInputBoxProperty('element.width', this.elementWidth)
             .setValidation(false, 'number', '0', '', '', '');
         elementWidthProperty.unit = UNIT.PX;
 
-        const elementHeightProperty = new InputBoxProperty('element.height', this.elementHeight)
+        const elementHeightProperty = new ZInputBoxProperty('element.height', this.elementHeight)
             .setValidation(false, 'number', '0', '', '', '');
         elementHeightProperty.unit = UNIT.PX;
 
         // label - align
-        const elementAlignProperty = new SwitchButtonProperty('element.align', this.elementAlign, [
+        const elementAlignProperty = new ZSwitchButtonProperty('element.align', this.elementAlign, [
             { 'name': 'icon-align-left', 'value': 'left' },
             { 'name': 'icon-align-center', 'value': 'center' },
             { 'name': 'icon-align-right', 'value': 'right' }
         ]);
 
         return [
-            ...new CommonProperty(this).getCommonProperty(),
-            new GroupProperty('group.element')
-                .addProperty(new SliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ImageProperty('element.path', this.elementPath))
+            ...new ZCommonProperty(this).getCommonProperty(),
+            new ZGroupProperty('group.element')
+                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZImageProperty('element.path', this.elementPath))
                 .addProperty(elementWidthProperty)
                 .addProperty(elementHeightProperty)
                 .addProperty(elementAlignProperty)

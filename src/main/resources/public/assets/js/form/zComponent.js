@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 import * as mixin from '../lib/mixins.js';
-import { CLASS_PREFIX, FORM } from '../lib/constants.js';
+import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
 import { UIDiv } from '../lib/ui.js';
 import { inputBoxMixin } from './component/zInputBox.js';
 import { textAreaMixin } from './component/zTextArea.js';
@@ -233,7 +233,7 @@ export default class ZComponent {
 
     set labelFontSize(size) {
         this._label.fontSize = size;
-        this.UIElement.UIComponent.UILabel.UILabelText.setUIFontSize(size);
+        this.UIElement.UIComponent.UILabel.UILabelText.setUIFontSize(size + UNIT.PX);
     }
 
     get labelFontSize() {

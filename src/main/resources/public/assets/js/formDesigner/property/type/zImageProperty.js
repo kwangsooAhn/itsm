@@ -10,14 +10,14 @@
  *
  * https://www.brainz.co.kr
  */
-import Property from '../property.js';
+import ZProperty from '../zProperty.js';
 import { UIButton, UIDiv, UIInput, UISpan } from '../../../lib/ui.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */
 };
 
-export default class ImageProperty extends Property {
+export default class ZImageProperty extends ZProperty {
     constructor(name, value) {
         super(name, 'imageProperty', value);
     }
@@ -43,9 +43,7 @@ export default class ImageProperty extends Property {
 
         // button
         this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('btn').addUIClass('ghost-line').setUIId('imageUploadPopUp')
-            .onUIClick((e) => {
-                console.log(e);
-                console.log(this);
+            .onUIClick(() => {
                 aliceJs.thumbnail({
                     title: i18n.msg('image.label.popupTitle'),
                     targetId: this.getKeyId(),
