@@ -298,7 +298,7 @@ export default class Group {
         // display 속성 - margin
         const displayMarginProperty = new BoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayMarginProperty.unit = 'px';
+        displayMarginProperty.unit = UNIT.PX;
 
         // labe - text
         const labelTextProperty = new InputBoxProperty('label.text', this.labelText);
@@ -307,7 +307,7 @@ export default class Group {
         // label - fontSize
         const labelFontSizeProperty = new InputBoxProperty('label.fontSize', this.labelFontSize)
             .setValidation(false, 'number', '10', '100', '', '');
-        labelFontSizeProperty.unit = 'px';
+        labelFontSizeProperty.unit = UNIT.PX;
         labelFontSizeProperty.columnWidth = '3';
 
         // label - align

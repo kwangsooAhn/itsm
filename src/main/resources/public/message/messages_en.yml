@@ -740,6 +740,7 @@ image:
   label:
     name: "Image"
     list: "Image Management"
+    placeholder: "Select Your Image"
     popupTitle: "Select Image"
     upload: "Upload Your Image"
   msg:

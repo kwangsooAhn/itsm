@@ -237,17 +237,17 @@ export default class Form {
         // display 속성 - width
         const displayWidthProperty = new InputBoxProperty('display.width', this.displayWidth)
             .setValidation(true, 'number', '0', '8192', '', '');
-        displayWidthProperty.unit = 'px';
+        displayWidthProperty.unit = UNIT.PX;
 
         // display 속성 - margin
         const displayMarginProperty = new BoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayMarginProperty.unit = 'px';
+        displayMarginProperty.unit = UNIT.PX;
 
         // display 속성 - padding
         const displayPaddingProperty = new BoxModelProperty('display.padding', this.displayPadding)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayPaddingProperty.unit = 'px';
+        displayPaddingProperty.unit = UNIT.PX;
 
         return [
             new ClipboardProperty('id', this.id),

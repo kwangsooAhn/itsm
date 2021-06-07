@@ -75,26 +75,24 @@ export default class Component {
         // 내부 property 초기화
         this.initProperty();
         // 컴포넌트용 툴팁
-        const componentTooltip = new UIComponentTooltip()
+        this.UIElement = new UIComponentTooltip()
             .setUIProperty('--data-column', this.displayColumnWidth);
         // 컴포넌트 추가
-        componentTooltip.UIComponent = new UIComponent()
+        this.UIElement.UIComponent = new UIComponent()
             .setUIId(this.id)
             .addUIClass(this.type);
         // 라벨 추가
-        componentTooltip.UIComponent.UILabel = this.makeLabel();
-        componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UILabel);
+        this.UIElement.UIComponent.UILabel = this.makeLabel();
+        this.UIElement.UIComponent.addUI(this.UIElement.UIComponent.UILabel);
 
         // 엘리먼트 추가
-        componentTooltip.UIComponent.UIElement = this.makeElement();
-        componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UIElement);
+        this.UIElement.UIComponent.UIElement = this.makeElement();
+        this.UIElement.UIComponent.addUI(this.UIElement.UIComponent.UIElement);
 
-        componentTooltip.addUI(componentTooltip.UIComponent);
+        this.UIElement.addUI(this.UIElement.UIComponent);
         // 툴팁
-        componentTooltip.UITooltipMenu = this.makeTooltip();
-        componentTooltip.addUI(componentTooltip.UITooltipMenu);
-
-        this.UIElement = componentTooltip;
+        this.UIElement.UITooltipMenu = this.makeTooltip();
+        this.UIElement.addUI(this.UIElement.UITooltipMenu);
     }
 
     // 타입에 따른 믹스인 호출

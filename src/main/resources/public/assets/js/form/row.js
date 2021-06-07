@@ -200,12 +200,12 @@ export default class Row {
         // display 속성 - margin
         const displayMarginProperty = new BoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayMarginProperty.unit = 'px';
+        displayMarginProperty.unit = UNIT.PX;
 
         // display 속성 - padding
         const displayPaddingProperty = new BoxModelProperty('display.padding', this.displayPadding)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayPaddingProperty.unit = 'px';
+        displayPaddingProperty.unit = UNIT.PX;
 
         return [
             new ClipboardProperty('id', this.id),

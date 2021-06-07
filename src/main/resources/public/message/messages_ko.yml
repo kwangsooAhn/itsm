@@ -740,6 +740,7 @@ image:
   label:
     name: "이미지 명"
     list: "이미지 관리"
+    placeholder: "Select Your Image"
     popupTitle: "이미지 선택"
     upload: "이미지 업로드"
   msg:

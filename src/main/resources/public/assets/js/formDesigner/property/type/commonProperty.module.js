@@ -8,6 +8,7 @@ import ColorPickerProperty from './colorPickerProperty.module.js';
 import ClipboardProperty from './clipboardProperty.module.js';
 import GroupProperty from './groupProperty.module.js';
 import SliderProperty from './sliderProperty.module.js';
+import { UNIT } from '../../../lib/constants.js';
 
 export default class CommonProperty {
     constructor(target) {
@@ -33,7 +34,7 @@ export default class CommonProperty {
         // label - fontSize
         const labelFontSizeProperty = new InputBoxProperty('label.fontSize', this.target.labelFontSize)
             .setValidation(false, 'number', '10', '100', '', '');
-        labelFontSizeProperty.unit = 'px';
+        labelFontSizeProperty.unit = UNIT.PX;
         labelFontSizeProperty.columnWidth = '3';
 
         // label - position
