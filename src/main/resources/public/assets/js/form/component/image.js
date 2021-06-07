@@ -12,7 +12,7 @@
 
 import { FORM, CLASS_PREFIX, UNIT } from '../../lib/constants.js';
 import { zValidation } from '../../lib/validation.js';
-import { UIDiv, UIImg, UISpan } from '../../lib/ui.js';
+import { UIDiv, UIImg, UISpan, UIText } from '../../lib/ui.js';
 import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.js';
 import GroupProperty from '../../formDesigner/property/type/groupProperty.js';
 import SliderProperty from '../../formDesigner/property/type/sliderProperty.js';
@@ -25,7 +25,7 @@ import ImageProperty from '../../formDesigner/property/type/imageProperty.js';
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        columnWidth: '10',
+        columnWidth: '12',
         path: '', // 이미지 경로
         width: '', // 이미지 너비
         height: '', // 이미지 높이
@@ -54,7 +54,7 @@ export const imageMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth)
             .setUITextAlign(this.elementAlign);
 
-        element.UIImg = new UIImg().setUIClass('imagebox').setUIId('imagebox' + this.id)
+        element.UIImg = new UIImg().setUIClass(CLASS_PREFIX + 'imagebox').setUIId('imagebox' + this.id)
             .setUIAttribute('data-path', aliceJs.filterXSS(this.elementPath))
             .setUIWidth(this.elementWidth + UNIT.PX)
             .setUIHeight(this.elementHeight + UNIT.PX);
@@ -72,9 +72,10 @@ export const imageMixin = {
             }
         }
         // placeholder
-        element.UIDiv = new UIDiv().setUIClass('imagebox-placeholder')
+        element.UIDiv = new UIDiv().setUIClass(CLASS_PREFIX + 'imagebox-placeholder')
             .addUI(new UISpan().setUIClass('icon-no-image'))
-            .addUI(new UISpan().setUIInnerHTML(i18n.msg('image.label.placeholder')));
+            .addUI(new UIText().addUIClass('mt-4').setUIInnerHTML(i18n.msg('image.label.placeholder')));
+        element.addUI(element.UIDiv);
         return element;
     },
     // set, get
@@ -160,7 +161,7 @@ export const imageMixin = {
             .setValidation(false, 'number', '0', '', '', '');
         elementWidthProperty.unit = UNIT.PX;
 
-        const elementHeightProperty = new InputBoxProperty('element.height', this.elementWidth)
+        const elementHeightProperty = new InputBoxProperty('element.height', this.elementHeight)
             .setValidation(false, 'number', '0', '', '', '');
         elementHeightProperty.unit = UNIT.PX;
 
@@ -175,7 +176,7 @@ export const imageMixin = {
             ...new CommonProperty(this).getCommonProperty(),
             new GroupProperty('group.element')
                 .addProperty(new SliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ImageProperty('element.path', this.elementPlaceholder))
+                .addProperty(new ImageProperty('element.path', this.elementPath))
                 .addProperty(elementWidthProperty)
                 .addProperty(elementHeightProperty)
                 .addProperty(elementAlignProperty)

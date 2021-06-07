@@ -68,8 +68,8 @@ class FormDesigner {
             { 'keys': 'ctrl+z', 'command': 'formDesigner.history.undo();', 'force': false },                        //폼 편집 화면 작업 취소
             { 'keys': 'ctrl+shift+z', 'command': 'formDesigner.history.redo();', 'force': false },                  //폼 편집 화면 작업 재실행
             { 'keys': 'ctrl+e', 'command': 'formDesigner.preview();', 'force': false },                             //폼 양식 미리보기
-            { 'keys': 'insert', 'command': 'formDesigner.selectedObject.copyObject();', 'force': false },           //복사하여 바로 아래 추가
-            { 'keys': 'ctrl+x,delete', 'command': 'formDesigner.selectedObject.removeObject();', 'force': false },  //객체 삭제
+            { 'keys': 'insert', 'command': 'formDesigner.copyObject();', 'force': false },           //복사하여 바로 아래 추가
+            { 'keys': 'ctrl+x,delete', 'command': 'formDesigner.removeObject();', 'force': false },  //객체 삭제
             { 'keys': 'ctrl+home', 'command': 'formDesigner.selectFirstGroup();', 'force': false },                 //첫번째 그룹 선택
             { 'keys': 'ctrl+end', 'command': 'formDesigner.selectLastGroup();', 'force': false },                   //마지막 그룹 선택
             { 'keys': 'up', 'command': 'formDesigner.selectUpObject();', 'force': false },                          //바로 위 동일 타입 객체 선택
@@ -607,6 +607,22 @@ class FormDesigner {
             0 : (this.selectedObject.displayDisplayOrder + 1);
 
         parentObject.children[selectIndex].UIElement.domElement.dispatchEvent(new Event('click'));
+    }
+    /**
+     * group, row, component 객체 복제
+     */
+    copyObject() {
+        if (this.selectedObject === null) { return false; }
+
+        this.selectedObject.copyObject();
+    }
+    /**
+     * group, row, component 객체 삭제
+     */
+    removeObject() {
+        if (this.selectedObject === null) { return false; }
+
+        this.selectedObject.removeObject();
     }
     /**
      * 선택된 객체의 선택 해제

@@ -31,15 +31,18 @@ export default class ImageProperty extends Property {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
 
+        // input box + button
+        this.UIElement.UIDiv = new UIDiv().setUIClass('input-button').addUIClass('flex-row');
+
         // input box
-        this.UIElement.UIInput = new UIInput()
+        this.UIElement.UIDiv.UIInput = new UIInput()
             .setUIId(this.getKeyId()).setUIValue(this.value)
             .setUIReadOnly(true)
             .onUIFocusout(this.updateProperty.bind(this));
-        this.UIElement.addUI(this.UIElement.UIInput);
+        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIInput);
 
         // button
-        this.UIElement.UIButton = new UIButton().setUIClass('ghost-line').setUIId('imageUploadPopUp')
+        this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('btn').addUIClass('ghost-line').setUIId('imageUploadPopUp')
             .onUIClick((e) => {
                 console.log(e);
                 console.log(this);
@@ -53,8 +56,10 @@ export default class ImageProperty extends Property {
                     selectedPath: this.value
                 });
             });
-        this.UIElement.UIButton.addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
-        this.UIElement.addUI(this.UIElement.UIButton);
+        this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
+        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIButton);
+
+        this.UIElement.addUI(this.UIElement.UIDiv);
 
         return this.UIElement;
     }
@@ -63,10 +68,6 @@ export default class ImageProperty extends Property {
         e.stopPropagation();
         e.preventDefault();
 
-        console.log(this);
-        console.log(e.target.id);
-        console.log(e.target.value);
-
-        //this.panel.update.call(this.panel, e.target.id, e.target.value);
+        this.panel.update.call(this.panel, e.target.id, e.target.value);
     }
 }

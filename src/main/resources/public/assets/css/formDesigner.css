@@ -2653,6 +2653,19 @@ button.ghost-line:disabled .icon {
   border-bottom-right-radius: 0;
 }
 
+.icon-search {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_search.svg");
+  mask-image: url("../media/icons/icon_search.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+
 /* _alerts.scss 
  *
  * 파일 경로 : template/_alerts.scss
@@ -4426,7 +4439,7 @@ body.modal-active {
 }
 
 .modal-dialog.thumbnail-image {
-  width: 62.63rem;
+  width: 1040px;
   height: 48.44rem;
 }
 .modal-dialog.thumbnail-image .modal-content {
@@ -4945,6 +4958,37 @@ body.modal-active {
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
 }
+.z-component .z-element .z-imagebox-placeholder {
+  display: none;
+  height: 8.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #F7F8F9;
+  text-align: center;
+  padding: 1.875rem 0 0.625rem;
+}
+.z-component .z-element .z-imagebox-placeholder .icon-no-image {
+  display: inline-block;
+  width: 100%;
+  height: 2.813rem;
+  -webkit-mask-image: url("../media/icons/icon_image.svg");
+  mask-image: url("../media/icons/icon_image.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 2.813rem;
+  mask-size: 2.813rem;
+  background: #CCCED1;
+}
+.z-component .z-element .z-imagebox[src=""] {
+  display: none;
+}
+.z-component .z-element .z-imagebox[src=""] + .z-imagebox-placeholder {
+  display: block;
+}
 
 .z-component .z-component-label span[class=required].off {
   display: none;
@@ -5062,6 +5106,9 @@ body.modal-active {
 }
 .property .textArea {
   min-height: 7.5rem;
+}
+.property .input-button .btn {
+  height: 2.5rem;
 }
 .property .slider .range {
   width: 75%;

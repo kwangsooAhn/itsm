@@ -686,8 +686,12 @@ form:
       width: "너비"
     drTableColumns: "테이블 컬럼"
     element:
+      align: "정렬"
       columnWidth: "컬럼 너비"
       defaultValueSelect: "기본값 타입"
+      path: "경로"
+      width: "너비"
+      heigth: "높이"
     email: "Email"
     group:
       display: "출력속성"
