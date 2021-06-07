@@ -15,7 +15,7 @@ import Group from '../form/group.js';
 import Row from '../form/row.js';
 import Component from '../form/component.js';
 
-class DocumentEditor {
+class ZDocument {
     constructor() {
         // 초기화
         this.initDocumentModal();
@@ -49,7 +49,7 @@ class DocumentEditor {
     openDocument(documentId) {
         // TODO: 신청서 데이터 load. > 가데이터 삭제 필요
         //aliceJs.fetchJson('/rest/documents/' + documentId + '/data', { method: 'GET' })
-        aliceJs.fetchJson('/assets/js/documentEditor/data_210430.json', {
+        aliceJs.fetchJson('/assets/js/document/data_210430.json', {
             method: 'GET'
         }).then((documentData) => {
             // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
@@ -124,7 +124,7 @@ class DocumentEditor {
             UIButtonGroup.addUI(new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
                 .addUIClass('default-fill')
                 .onUIClick((btn.value === 'close' || btn.value === 'print') ?
-                    this[btn.value + 'Document'].bind(this) :
+                    this[btn.value + 'ZDocument'].bind(this) :
                     this.saveDocument.bind(this, btn.value)
                 ));
         });
@@ -282,4 +282,4 @@ class DocumentEditor {
     printDocument() {}
 }
 
-export const documentEditor = new DocumentEditor();
+export const zDocument = new ZDocument();
