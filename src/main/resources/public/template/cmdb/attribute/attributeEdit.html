@@ -72,11 +72,11 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
-    <script th:src="@{/assets/js/cmdb/core.js}"></script>
-    <script th:src="@{/assets/js/cmdb/attribute.js}"></script>
+    <script th:src="@{/assets/js/cmdb/zCmdbCore.js}"></script>
+    <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
     <script type="text/javascript">
         (function() {
-            cmdb.initSession(JSON.stringify({
+            zCmdbCore.initSession(JSON.stringify({
                 userKey : '[[${#authentication.details.userKey}]]',
                 userId : '[[${#authentication.details.userId}]]',
                 userName: '[[${#authentication.details.userName}]]',
@@ -97,10 +97,10 @@
         window.onload = function () {
             const attributeType = /*[[${attribute?.attributeType}]]*/ null;
             let attributeTypeObject = document.querySelector('#attributeType');
-            for (let i = 0; i < attribute.attributeTypeList.length; i++) {
+            for (let i = 0; i < zCmdbAttribute.attributeTypeList.length; i++) {
                 const option = document.createElement('option');
-                option.text = attribute.attributeTypeList[i].name
-                option.value = attribute.attributeTypeList[i].type
+                option.text = zCmdbAttribute.attributeTypeList[i].name
+                option.value = zCmdbAttribute.attributeTypeList[i].type
                 if (attributeType != null && option.value === attributeType) {
                     option.setAttribute('selected', 'true');
                 }
@@ -108,7 +108,7 @@
             }
 
             // Attribute Details
-            attribute.init(document.querySelector('#details'));
+            zCmdbAttribute.init(document.querySelector('#details'));
             changeType(attributeTypeObject, true);
 
             aliceJs.initDesignedSelectTag();
@@ -131,12 +131,12 @@
             if (isInit) {
                 data = JSON.parse(attributeData);
             }
-            attribute.makeDetails(object.value, data);
+            zCmdbAttribute.makeDetails(object.value, data);
         }
 
         function actionAttribute(method) {
             if (method === 'post' || method === 'put') {
-                if (isValidRequiredAll() && attribute.checkDuplicate(document.querySelector('#attributeType').value)) {
+                if (isValidRequiredAll() && zCmdbAttribute.checkDuplicate(document.querySelector('#attributeType').value)) {
                     let data = {
                         attributeId: '',
                         attributeName: document.querySelector('#attributeName').value,
@@ -149,7 +149,7 @@
                         url += '/' + /*[[${attribute?.attributeId}]]*/'';
                         data.attributeId = /*[[${attribute?.attributeId}]]*/'';
                     }
-                    data.attributeValue = attribute.setDetails(data.attributeType);
+                    data.attributeValue = zCmdbAttribute.setDetails(data.attributeType);
                     restSubmit(method, url, data);
                 }
             } else if (method === 'delete') {

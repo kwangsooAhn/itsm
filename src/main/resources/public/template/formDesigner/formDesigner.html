@@ -14,7 +14,7 @@
     <script type="module">
         // 사용자 세션 정보 저장
         import { SESSION } from '../../assets/js/lib/constants.js';
-        import { formDesigner } from '../../assets/js/formDesigner/formDesigner.js';
+        import { zFormDesigner } from '../../assets/js/formDesigner/zFormDesigner.js';
 
         const userSession = {
             userKey : '[[${#authentication.details.userKey}]]',
@@ -36,9 +36,9 @@
         } else {
             Object.assign(SESSION, userSession);
         }
-        formDesigner.initForm('[[${formId}]]');
-        window.formDesigner = formDesigner;
-        console.log(formDesigner);
+        zFormDesigner.initForm('[[${formId}]]');
+        window.zFormDesigner = zFormDesigner;
+        console.log(zFormDesigner);
 
         OverlayScrollbars(document.getElementById('formMain'), { className: 'scrollbar' });
     </script>
