@@ -12,7 +12,7 @@
  * https://www.brainz.co.kr
  */
 import { zValidation } from '../../../lib/validation.js';
-import Property from '../property.module.js';
+import Property from '../property.js';
 import { UIDiv, UIInput } from '../../../lib/ui.js';
 
 const propertyExtends = {

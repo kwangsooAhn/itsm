@@ -12,12 +12,12 @@
 
 import { FORM, CLASS_PREFIX, UNIT } from '../../lib/constants.js';
 import { zValidation } from '../../lib/validation.js';
-import {UIDiv, UIImg, UISpan} from '../../lib/ui.js';
-import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.module.js';
-import GroupProperty from '../../formDesigner/property/type/groupProperty.module.js';
-import SliderProperty from '../../formDesigner/property/type/sliderProperty.module.js';
-import CommonProperty from '../../formDesigner/property/type/commonProperty.module.js';
-import SwitchButtonProperty from '../../formDesigner/property/type/switchButtonProperty.module.js';
+import { UIDiv, UIImg, UISpan } from '../../lib/ui.js';
+import InputBoxProperty from '../../formDesigner/property/type/inputBoxProperty.js';
+import GroupProperty from '../../formDesigner/property/type/groupProperty.js';
+import SliderProperty from '../../formDesigner/property/type/sliderProperty.js';
+import CommonProperty from '../../formDesigner/property/type/commonProperty.js';
+import SwitchButtonProperty from '../../formDesigner/property/type/switchButtonProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값

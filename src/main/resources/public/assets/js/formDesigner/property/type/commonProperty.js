@@ -1,13 +1,12 @@
-// TODO: #10641 폼 리팩토링 - 공통속성 정리 일감 처리 후 삭제 예정
-import InputBoxProperty from './inputBoxProperty.module.js';
-import SwitchProperty from './switchProperty.module.js';
-import TagProperty from './tagProperty.module.js';
-import SwitchButtonProperty from './switchButtonProperty.module.js';
-import ToggleButtonProperty from './toggleButtonProperty.module.js';
-import ColorPickerProperty from './colorPickerProperty.module.js';
-import ClipboardProperty from './clipboardProperty.module.js';
-import GroupProperty from './groupProperty.module.js';
-import SliderProperty from './sliderProperty.module.js';
+import InputBoxProperty from './inputBoxProperty.js';
+import SwitchProperty from './switchProperty.js';
+import TagProperty from './tagProperty.js';
+import SwitchButtonProperty from './switchButtonProperty.js';
+import ToggleButtonProperty from './toggleButtonProperty.js';
+import ColorPickerProperty from './colorPickerProperty.js';
+import ClipboardProperty from './clipboardProperty.js';
+import GroupProperty from './groupProperty.js';
+import SliderProperty from './sliderProperty.js';
 import { UNIT } from '../../../lib/constants.js';
 
 export default class CommonProperty {

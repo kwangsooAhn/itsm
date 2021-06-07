@@ -1,7 +1,9 @@
 /**
- * Textarea Property Class
+ * Slider Property Class
  *
- * Textarea 형태의 입력항목을 가지는 속성 타입을 위한 클래스이다.
+ * 슬라이드 형식의 속성타입을 위한 클래스이다.
+ * 예를 들어 컬럼 너비와 같은 항목은 슬라이를 드래그하면서 너비를 늘리거나 줄일 수 있다.
+ * 이러한 형식의 속성 항목을 위한 클래스이다.
  *
  * @author Jung Hee Chan <hcjung@brainz.co.kr>
  * @version 1.0
@@ -10,17 +12,18 @@
  *
  * https://www.brainz.co.kr
  */
-import { UIDiv, UITextArea } from '../../../lib/ui.js';
+import {UIDiv, UISlider} from '../../../lib/ui.js';
+import { FORM } from '../../../lib/constants.js';
 import { zValidation } from '../../../lib/validation.js';
-import Property from '../property.module.js';
+import Property from '../property.js';
 
 const propertyExtends = {
-    /* 추가적인 설정이 없다. */
+    /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
 };
 
-export default class TextAreaProperty extends Property {
+export default class SliderProperty extends Property {
     constructor(name, value) {
-        super(name, 'textAreaProperty', value);
+        super(name, 'sliderProperty', value);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -31,22 +34,17 @@ export default class TextAreaProperty extends Property {
         // 라벨
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
-        // textarea
-        this.UIElement.UITextArea = new UITextArea()
-            .setUIId(this.getKeyId())
-            .addUIClass('textarea-scroll-wrapper')
-            .setUIValue(this.value)
-            .setUIAttribute('data-validation-required', this.validation.required)
-            .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIAttribute('data-validation-minLength', this.validation.minLength)
-            .setUIAttribute('data-validation-maxLength', this.validation.maxLength)
+
+        // slider
+        this.UIElement.UISlider = new UISlider(this.value).setUIMin(1).setUIMax(FORM.COLUMN);
+        this.UIElement.UISlider.UIInput.setUIId(this.getKeyId())
             .onUIChange(this.updateProperty.bind(this));
-        this.UIElement.addUI(this.UIElement.UITextArea);
+        this.UIElement.addUI(this.UIElement.UISlider);
 
         return this.UIElement;
     }
     // 속성 변경시 발생하는 이벤트 핸들러
-    updateProperty(e) {
+    updateProperty(e, panel) {
         e.stopPropagation();
         e.preventDefault();
 

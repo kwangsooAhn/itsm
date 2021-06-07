@@ -1,8 +1,8 @@
 /**
- * Switch Button Property Class
+ * Toggle Button Property Class
  *
- * 속성을 선택하는 아이콘들 중에서 1개만 선택할 수 있는 속성 타입을 위한 클래스이다.
- * 예를 들어 정렬 속성 같은 경우, 좌측, 중앙, 우측 정렬중 1개만 선택이 가능하다.
+ * 속성을 선택하는 아이콘들을 모임이며 중복선택이 가능한 속성 타입을 위한 클래스이다.
+ * 예를 들어 폰트 옵션의 경우 Bold, Italic 등의 중복 선택이 가능하다.
  *
  * @author Jung Hee Chan <hcjung@brainz.co.kr>
  * @version 1.0
@@ -11,16 +11,16 @@
  *
  * https://www.brainz.co.kr
  */
-import Property from '../property.module.js';
+import Property from '../property.js';
 import {UIButton, UIDiv, UISpan} from '../../../lib/ui.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
 };
 
-export default class SwitchButtonProperty extends Property {
+export default class ToggleButtonProperty extends Property {
     constructor(name, value, options) {
-        super(name, 'switchButtonProperty', value);
+        super(name, 'toggleButtonProperty', value);
 
         this.options = options;
     }
@@ -35,18 +35,21 @@ export default class SwitchButtonProperty extends Property {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // 버튼 그룹
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('btn-switch-group');
-        this.options.forEach((item) => {
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('btn-toggle-group');
+        const toggleValueArray = this.value.split('|');
+        this.options.forEach((item, index) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
-            this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
-                .setUIId(this.getKeyId())
-                .setUIAttribute('data-value', item.value)
-                .addUIClass('btn-switch')
-                .onUIClick(this.updateProperty.bind(this));
-            this.UIElement.UIButtonGroup['UIButton' + name].addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
 
-            if (this.value === item.value) {
+            this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
+                .setUIId(this.getKeyId() + name)
+                .setUIAttribute('data-value', (toggleValueArray[index] === 'Y'))
+                .addUIClass('btn-toggle')
+                .onUIClick(this.updateProperty.bind(this));
+            this.UIElement.UIButtonGroup['UIButton' + name]
+                .addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
+
+            if (toggleValueArray[index] === 'Y') {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('active');
             }
             this.UIElement.UIButtonGroup.addUI(this.UIElement.UIButtonGroup['UIButton' + name]);
@@ -59,18 +62,14 @@ export default class SwitchButtonProperty extends Property {
     updateProperty(e) {
         e.stopPropagation();
         e.preventDefault();
-        // 정렬
-        if (e.target.classList.contains('active')) {return false;}
-
-        const buttonGroup = e.target.parentNode;
-        for (let i = 0, len = buttonGroup.childNodes.length; i < len; i++) {
-            let child = buttonGroup.childNodes[i];
-            if (child.classList.contains('active')) {
-                child.classList.remove('active');
-            }
+        // bold, italic 등 toggle button
+        if (e.target.classList.contains('active')) {
+            e.target.classList.remove('active');
+            e.target.setAttribute('data-value', false);
+        } else {
+            e.target.classList.add('active');
+            e.target.setAttribute('data-value', true);
         }
-        e.target.classList.add('active');
-
         this.panel.update.call(this.panel, e.target.id, e.target.getAttribute('data-value'));
     }
 }

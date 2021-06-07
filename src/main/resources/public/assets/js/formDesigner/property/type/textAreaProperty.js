@@ -1,8 +1,7 @@
 /**
- * dropdown Property Class
+ * Textarea Property Class
  *
- * SELECT 형태의 속성항목 타입을 위한 클래스이다.
- * 실제 속성 값으로 선택할 수 있는 데이터를 options 필드에 추가한다.
+ * Textarea 형태의 입력항목을 가지는 속성 타입을 위한 클래스이다.
  *
  * @author Jung Hee Chan <hcjung@brainz.co.kr>
  * @version 1.0
@@ -11,19 +10,17 @@
  *
  * https://www.brainz.co.kr
  */
-import { UIDiv, UISelect } from '../../../lib/ui.js';
+import { UIDiv, UITextArea } from '../../../lib/ui.js';
 import { zValidation } from '../../../lib/validation.js';
-import Property from '../property.module.js';
+import Property from '../property.js';
 
 const propertyExtends = {
-    options : []
+    /* 추가적인 설정이 없다. */
 };
 
-export default class DropdownProperty extends Property {
-    constructor(name, value, options) {
-        super(name, 'dropdownProperty', value);
-
-        this.options = options;
+export default class TextAreaProperty extends Property {
+    constructor(name, value) {
+        super(name, 'textAreaProperty', value);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -34,18 +31,17 @@ export default class DropdownProperty extends Property {
         // 라벨
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
-
-        // select box
-        const mergeOptions = this.options.reduce((result, option) => {
-            result[option.value] = i18n.msg(option.name);
-            return result;
-        }, {});
-        this.UIElement.UISelect = new UISelect()
+        // textarea
+        this.UIElement.UITextArea = new UITextArea()
             .setUIId(this.getKeyId())
-            .setUIOptions(mergeOptions)
+            .addUIClass('textarea-scroll-wrapper')
             .setUIValue(this.value)
+            .setUIAttribute('data-validation-required', this.validation.required)
+            .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
+            .setUIAttribute('data-validation-minLength', this.validation.minLength)
+            .setUIAttribute('data-validation-maxLength', this.validation.maxLength)
             .onUIChange(this.updateProperty.bind(this));
-        this.UIElement.addUI(this.UIElement.UISelect);
+        this.UIElement.addUI(this.UIElement.UITextArea);
 
         return this.UIElement;
     }

@@ -13,7 +13,7 @@
  */
 import { UIButton, UIDiv, UIInput, UISelect, UISpan } from '../../../lib/ui.js';
 import { zValidation } from '../../../lib/validation.js';
-import Property from '../property.module.js';
+import Property from '../property.js';
 
 const propertyExtends = {
     options : [

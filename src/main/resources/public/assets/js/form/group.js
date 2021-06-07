@@ -12,14 +12,14 @@
 import * as mixin from '../lib/mixins.js';
 import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
 import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/ui.js';
-import ClipboardProperty from '../formDesigner/property/type/clipboardProperty.module.js';
-import InputBoxProperty from '../formDesigner/property/type/inputBoxProperty.module.js';
-import GroupProperty from '../formDesigner/property/type/groupProperty.module.js';
-import SwitchProperty from '../formDesigner/property/type/switchProperty.module.js';
-import BoxModelProperty from '../formDesigner/property/type/boxModelProperty.module.js';
-import SwitchButtonProperty from '../formDesigner/property/type/switchButtonProperty.module.js';
-import ToggleButtonProperty from '../formDesigner/property/type/toggleButtonProperty.module.js';
-import ColorPickerProperty from '../formDesigner/property/type/colorPickerProperty.module.js';
+import ClipboardProperty from '../formDesigner/property/type/clipboardProperty.js';
+import InputBoxProperty from '../formDesigner/property/type/inputBoxProperty.js';
+import GroupProperty from '../formDesigner/property/type/groupProperty.js';
+import SwitchProperty from '../formDesigner/property/type/switchProperty.js';
+import BoxModelProperty from '../formDesigner/property/type/boxModelProperty.js';
+import SwitchButtonProperty from '../formDesigner/property/type/switchButtonProperty.js';
+import ToggleButtonProperty from '../formDesigner/property/type/toggleButtonProperty.js';
+import ColorPickerProperty from '../formDesigner/property/type/colorPickerProperty.js';
 
 const DEFAULT_GROUP_LABEL_PROPERTY = {
     // 그룹의 라벨은 아코디언 위에 표시되기 때문에 항상 top 위치이며 보여주거나 숨기는 기능을 설정 한다.
