@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
-import { zDocument } from '../documentEditor/document.js';
+import { zDocument } from '../document/zDocument.js';
 import { zValidation } from '../lib/validation.js';
 import History from './history.js';
 import Panel from './panel.js';
