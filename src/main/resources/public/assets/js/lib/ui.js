@@ -123,7 +123,7 @@ properties.forEach(function (property) {
 });
 
 // events
-const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input'];
+const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input', 'Focusout'];
 events.forEach(function (event) {
     const method = 'onUI' + event;
     UIElement.prototype[method] = function (callback) {

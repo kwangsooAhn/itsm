@@ -18,6 +18,7 @@ import GroupProperty from '../../formDesigner/property/type/groupProperty.js';
 import SliderProperty from '../../formDesigner/property/type/sliderProperty.js';
 import CommonProperty from '../../formDesigner/property/type/commonProperty.js';
 import SwitchButtonProperty from '../../formDesigner/property/type/switchButtonProperty.js';
+import ImageProperty from '../../formDesigner/property/type/imageProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -154,26 +155,6 @@ export const imageMixin = {
         // 사용자 변경시 해당 값이 할당된다.
         return this._value;
     },
-    // input box 값 변경시 이벤트 핸들러
-    updateValue(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-        // 유효성 검증
-        // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
-            return false;
-        }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            return false;
-        }
-
-        this.value = e.target.value;
-    },
     getProperty() {
         const elementWidthProperty = new InputBoxProperty('element.width', this.elementWidth)
             .setValidation(false, 'number', '0', '', '', '');
@@ -194,7 +175,7 @@ export const imageMixin = {
             ...new CommonProperty(this).getCommonProperty(),
             new GroupProperty('group.element')
                 .addProperty(new SliderProperty('element.columnWidth', this.elementColumnWidth))
-                //.addProperty(new ImageProperty('element.path', this.elementPlaceholder))
+                .addProperty(new ImageProperty('element.path', this.elementPlaceholder))
                 .addProperty(elementWidthProperty)
                 .addProperty(elementHeightProperty)
                 .addProperty(elementAlignProperty)
