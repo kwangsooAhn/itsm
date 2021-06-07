@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 import { CLASS_PREFIX, FORM } from '../lib/constants.js';
-import { documentEditor } from '../documentEditor/documentEditor.js';
+import { zDocument } from '../document/zDocument.js';
 import { zValidation } from '../lib/validation.js';
 import History from './history.js';
 import Panel from './panel.js';
@@ -777,9 +777,9 @@ class FormDesigner {
      * TODO: 미리보기
      */
     preview() {
-        documentEditor.makeActionButton([{ 'name': 'common.btn.close', 'value': 'close', 'customYn': false }]);
-        documentEditor.makeDocument(this.form.toJson()); // Form 생성
-        documentEditor.documentModal.show(); // 모달 표시
+        zDocument.makeActionButton([{ 'name': 'common.btn.close', 'value': 'close', 'customYn': false }]);
+        zDocument.makeDocument(this.form.toJson()); // Form 생성
+        zDocument.documentModal.show(); // 모달 표시
     }
 }
 
