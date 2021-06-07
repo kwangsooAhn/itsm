@@ -436,6 +436,12 @@ class UIHorizontalRule extends UIElement {
     constructor() {
         super(document.createElement('hr'));
         this.domElement.className = 'HorizontalRule';
+        this.domElement.style.borderTop = '2px solid #3f4b56';
+    }
+
+    setUIAttribute(name, value) {
+        this.domElement.setAttribute(name, value);
+        return this;
     }
 }
 
@@ -487,7 +493,7 @@ class UIDivider extends UIElement {
     constructor() {
         super(document.createElement('hr'));
         this.domElement.className = 'divider';
-        this.domElement.style.borderTop = 'solid 2px rgba(63, 75, 86, 1)';
+        this.domElement.style.borderTop = '2px solid #3f4b56';
     }
 }
 

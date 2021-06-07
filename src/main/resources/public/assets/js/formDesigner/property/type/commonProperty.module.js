@@ -26,7 +26,7 @@ export default class CommonProperty {
         // tag
         const tagProperty = new TagProperty('tags', this.target.tags);
 
-        // labe - text
+        // label - text
         const labelTextProperty = new InputBoxProperty('label.text', this.target.labelText);
         labelTextProperty.columnWidth = '8';
 
