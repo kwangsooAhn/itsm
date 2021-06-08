@@ -8,7 +8,7 @@ import ZColorPickerProperty from './zColorPickerProperty.js';
 import ZClipboardProperty from './zClipboardProperty.js';
 import ZGroupProperty from './zGroupProperty.js';
 import ZSliderProperty from './zSliderProperty.js';
-import { UNIT } from '../../../lib/constants.js';
+import { UNIT } from '../../../lib/ZConstants.js';
 
 export default class ZCommonProperty {
     constructor(target) {
