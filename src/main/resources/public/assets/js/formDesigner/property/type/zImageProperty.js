@@ -11,7 +11,7 @@
  * https://www.brainz.co.kr
  */
 import ZProperty from '../zProperty.js';
-import { UIButton, UIDiv, UIInput, UISpan } from '../../../lib/ZUI.js';
+import { UIButton, UIDiv, UIInput, UISpan } from '../../../lib/zUI.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */
