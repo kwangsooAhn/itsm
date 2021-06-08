@@ -77,10 +77,10 @@ class ZFormDesigner {
             { 'keys': 'alt+e', 'command': 'zFormDesigner.panel.selectFirstProperty();', 'force': false }             //세부 속성 편집: 제일 처음으로 이동
         ];
 
-        shortcut.init();
+        zShortcut.init();
 
         for (let i = 0; i < shortcuts.length; i++) {
-            shortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
+            zShortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
         }
     }
     /**

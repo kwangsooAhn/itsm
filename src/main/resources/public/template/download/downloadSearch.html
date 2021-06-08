@@ -51,8 +51,8 @@
             document.getElementById('search').focus();
             document.getElementById('fromDt').value = searchFromDt;
             document.getElementById('searchToDt').value = searchToDt;
-            dateTimePicker.initDatePicker('fromDt', setDatePicker);
-            dateTimePicker.initDatePicker('searchToDt', setDatePicker);
+            zDateTimePicker.initDatePicker('fromDt', setDatePicker);
+            zDateTimePicker.initDatePicker('searchToDt', setDatePicker);
             document.getElementById('category').addEventListener('change', function() { getDownloadList(false); });
             document.getElementById('search').addEventListener('keyup', function() { getDownloadList(false); });
 

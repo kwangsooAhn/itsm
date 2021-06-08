@@ -165,7 +165,7 @@
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
             e.stopPropagation();
-            let rowId = workflowUtil.generateUUID();
+            let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
@@ -208,7 +208,7 @@
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
             e.stopPropagation();
-            let rowId = workflowUtil.generateUUID();
+            let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
@@ -251,7 +251,7 @@
         const addBtn = document.getElementById(objectId + '_add');
         addBtn.addEventListener('click', function (e) {
             e.stopPropagation();
-            let rowId = workflowUtil.generateUUID();
+            let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +

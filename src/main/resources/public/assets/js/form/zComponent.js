@@ -51,7 +51,7 @@ export default class ZComponent {
         this.children = [];        // 자식 객체
         this.data = data;
         this._type = data.type || 'component';
-        this._id = data.id || workflowUtil.generateUUID();
+        this._id = data.id || ZWorkflowUtil.generateUUID();
         this._isTopic = data.isTopic || false;
         this._mapId = data.mapId || '';
         this._tags = data.tags || [];

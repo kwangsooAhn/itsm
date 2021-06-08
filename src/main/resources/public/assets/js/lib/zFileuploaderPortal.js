@@ -9,7 +9,7 @@
  *        - param.extra.editor true, false 에 따라 업로드 기능을 영역을 컨트롤한다. (false 일 때 hide)
  *        - param.extra.clickable 파일 추가 버튼을 사용할 element class name
  */
-const portalFileUploader = (function () {
+const zFileUploaderPortal = (function () {
     'use strict';
 
     let extraParam,

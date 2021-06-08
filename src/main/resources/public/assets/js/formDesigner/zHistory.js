@@ -31,7 +31,7 @@ export default class ZHistory {
      */
     save(data, list, flag) {
         if (data.length === 0) { return false; }
-        if (data.length === 1 && workflowUtil.compareJson(data[0].from, data[0].to)) {
+        if (data.length === 1 && ZWorkflowUtil.compareJson(data[0].from, data[0].to)) {
             return false;
         }
 

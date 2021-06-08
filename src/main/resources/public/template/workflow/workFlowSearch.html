@@ -44,7 +44,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
+    <script th:src="@{/assets/js/util/zColorPalette.js}"></script>
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
@@ -160,14 +160,14 @@
             });
             let colorPaletteLayer = document.getElementById('color-palette-layer');
             let option = {
-                colors: colorPalette.getPaletteColors('basicPaletteColors'),
+                colors: zColorPalette.getPaletteColors('basicPaletteColors'),
                 data : {
                     isSelected: true,
                     selectedClass: 'selected',
                     value: elementObject.value
                 }
             }
-            colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
+            zColorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
         }
 
         // 신청서 아이콘 선택 팝업

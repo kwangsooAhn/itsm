@@ -124,7 +124,7 @@
                 if (!replyYn) {
                     ownId = boardId;
                 }
-                fileUploader.init({extra: {formId: 'boardForm', ownId: ownId, dropZoneMaxFileSize: attachFileSize}});
+                zFileUploader.init({extra: {formId: 'boardForm', ownId: ownId, dropZoneMaxFileSize: attachFileSize}});
             } else {
                 document.getElementById('divFile').style.display = 'none';
             }
@@ -218,7 +218,7 @@
             if (data.attachYn && divFile.style.display === 'none') {
                 document.getElementById('divFile').style.display = '';
                 if (document.getElementById('dropZoneFileUpload') === null) {
-                    fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, dropZoneMaxFileSize: attachFileSize}});
+                    zFileUploader.init({extra: {formId: 'boardForm', ownId: boardId, dropZoneMaxFileSize: attachFileSize}});
                 }
             } else if (!data.attachYn && divFile.style.display === '') {
                 document.getElementById('divFile').style.display = 'none';

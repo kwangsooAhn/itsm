@@ -24,7 +24,7 @@ export default class ZForm {
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
         this._type = 'form';
-        this._id =  data.id || workflowUtil.generateUUID();
+        this._id =  data.id || ZWorkflowUtil.generateUUID();
         this._name = data.name || '';
         this._desc = data.desc || '';
         this._status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
