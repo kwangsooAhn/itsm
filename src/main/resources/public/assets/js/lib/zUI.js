@@ -123,7 +123,7 @@ properties.forEach(function (property) {
 });
 
 // events
-const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input'];
+const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input', 'Focusout'];
 events.forEach(function (event) {
     const method = 'onUI' + event;
     UIElement.prototype[method] = function (callback) {
@@ -385,9 +385,9 @@ class UIColor extends UIElement {
         this.UIColorPalette.UIOpacity = new UIDiv().setUIClass('color-palette-opacity');
         this.UIColorPalette.addUI(this.UIColorPalette.UIOpacity);
         this.addUI(this.UIColorPalette);
-        
+
         // color picker 초기화
-        zColorPalette.initColorPalette(this.UIColorPalette.domElement,
+        colorPalette.initColorPalette(this.UIColorPalette.domElement,
             this.UIColor.UIBox.UISpan.domElement, this.UIColor.UIInput.domElement, option);
     }
 
@@ -495,8 +495,46 @@ class UILi extends UIElement {
     }
 }
 
+class UIImg extends UIElement {
+    constructor() {
+        super(document.createElement('img'));
+    }
+
+    setUISrc(value) {
+        this.domElement.src = value;
+        return this;
+    }
+}
+
+class UITable extends UIElement {
+    constructor() {
+        super(document.createElement('table'));
+        this.domElement.createTBody();
+    }
+
+    setUIHeaders(options) {
+        this.domElement.deleteTHead();
+
+        const header = this.domElement.createTHead();
+        const row = header.insertRow(0);
+        for (const key in options) {
+            const cell = row.insertCell(Number(key));
+            cell.innerHTML = options[key];
+        }
+        return this;
+    }
+
+    addUIRow() {
+        return this;
+    }
+
+    removeUIRow(index) {
+        this.domElement.deleteRow(index);
+        return this;
+    }
+}
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
-    UIHorizontalRule, UIButton, UISlider, UIUl, UILi
+    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable
 };
