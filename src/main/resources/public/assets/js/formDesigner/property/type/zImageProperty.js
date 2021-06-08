@@ -42,18 +42,9 @@ export default class ZImageProperty extends ZProperty {
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIInput);
 
         // button
-        this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('btn').addUIClass('ghost-line').setUIId('imageUploadPopUp')
-            .onUIClick(() => {
-                aliceJs.thumbnail({
-                    title: i18n.msg('image.label.popupTitle'),
-                    targetId: this.getKeyId(),
-                    type: 'image',
-                    isThumbnailInfo: true,
-                    isFilePrefix: true,
-                    thumbnailDoubleClickUse: true,
-                    selectedPath: this.value
-                });
-            });
+        this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('btn').addUIClass('ghost-line')
+            .setUIId('imageUploadPopUp')
+            .onUIClick(this.openThumbnailModal.bind(this));
         this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIButton);
 
@@ -67,5 +58,17 @@ export default class ZImageProperty extends ZProperty {
         e.preventDefault();
 
         this.panel.update.call(this.panel, e.target.id, e.target.value);
+    }
+
+    openThumbnailModal() {
+        aliceJs.thumbnail({
+            title: i18n.msg('image.label.popupTitle'),
+            targetId: this.getKeyId(),
+            type: 'image',
+            isThumbnailInfo: true,
+            isFilePrefix: true,
+            thumbnailDoubleClickUse: true,
+            selectedPath: this.value
+        });
     }
 }
