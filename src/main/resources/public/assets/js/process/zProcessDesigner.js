@@ -808,7 +808,7 @@
                 if (mousedownElement.node().id !== mouseoverElement.node().id) {
                     setDeselectedElement(mouseoverElement);
                     if (checkAvailableLink(mousedownElement, mouseoverElement)) {
-                        elements.links.push({id: workflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id, isDefault: 'N'});
+                        elements.links.push({id: ZWorkflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id, isDefault: 'N'});
                         selectedElement = null;
                         setConnectors();
                     }
@@ -1254,7 +1254,7 @@
         self.defaultType = zProcessDesigner.getElementDefaultType('task');
 
         self.nodeElement = elementContainer.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+            .attr('id', ZWorkflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -1302,7 +1302,7 @@
         self.defaultType = zProcessDesigner.getElementDefaultType('subprocess');
 
         self.nodeElement = elementContainer.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+            .attr('id', ZWorkflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -1350,7 +1350,7 @@
         self.defaultType = zProcessDesigner.getElementDefaultType('event');
 
         self.nodeElement = elementContainer.append('circle')
-            .attr('id', workflowUtil.generateUUID())
+            .attr('id', ZWorkflowUtil.generateUUID())
             .attr('r', radius)
             .attr('cx', x)
             .attr('cy', y)
@@ -1395,7 +1395,7 @@
         self.defaultType = zProcessDesigner.getElementDefaultType('gateway');
 
         self.nodeElement = elementContainer.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+            .attr('id', ZWorkflowUtil.generateUUID())
             .attr('width', size)
             .attr('height', size)
             .attr('x', x - (size / 2))
@@ -1450,7 +1450,7 @@
 
         let elementContainer = groupArtifactContainer.append('g').attr('class', 'element');
         self.nodeElement = elementContainer.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+            .attr('id', ZWorkflowUtil.generateUUID())
             .attr('width', self.width)
             .attr('height', self.height)
             .attr('x', calcX)
@@ -1569,7 +1569,7 @@
         self.defaultType = 'annotationArtifact';
 
         self.nodeElement = elementContainer.append('rect')
-            .attr('id', workflowUtil.generateUUID())
+            .attr('id', ZWorkflowUtil.generateUUID())
             .attr('width', width)
             .attr('height', height)
             .attr('min-height', height)
@@ -2043,7 +2043,7 @@
     function init(processId, flag) {
         console.info('process editor initialization. [PROCESS ID: ' + processId + ']');
         if (flag === 'true') { zProcessDesigner.isView = false; }
-        workflowUtil.polyfill();
+        ZWorkflowUtil.polyfill();
         initProcessEdit();
         addElementsEvent();
         zProcessDesigner.loadItems(processId);

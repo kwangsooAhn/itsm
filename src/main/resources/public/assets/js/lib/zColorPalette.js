@@ -1,4 +1,4 @@
-const colorPalette = (function() {
+const zColorPalette = (function() {
     'use strict';
 
     const basicPaletteColors = [

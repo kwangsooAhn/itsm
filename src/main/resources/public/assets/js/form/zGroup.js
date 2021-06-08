@@ -40,7 +40,7 @@ export default class ZGroup {
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
         this._type = 'group';
-        this._id =  data.id || workflowUtil.generateUUID();
+        this._id =  data.id || ZWorkflowUtil.generateUUID();
         this._name = data.name || ''; // 신청서 양식에서 사용되는 이름
         this._displayType = data.displayType || 'document.displayType.editable';
         this._label = Object.assign({}, DEFAULT_GROUP_LABEL_PROPERTY, data.label);
@@ -65,7 +65,7 @@ export default class ZGroup {
         // 그룹
         groupTooltip.UIGroup = new UIGroup(this.displayIsAccordionUsed).setUIId(this.id);
         // 아코디언용 체크박스
-        const accordionId = workflowUtil.generateUUID(); // 미리보기에서도 동작하도록 key를 동적으로 만듬
+        const accordionId = ZWorkflowUtil.generateUUID(); // 미리보기에서도 동작하도록 key를 동적으로 만듬
         groupTooltip.UIGroup.UICheckbox.setUIId('chk-' + accordionId)
             .setUIClass(CLASS_PREFIX + 'group-accordion-checkBox');
         // 라벨

@@ -779,7 +779,7 @@
 
             zProcessDesigner.removeElementSelected();
 
-            const connectorElementId = workflowUtil.generateUUID();
+            const connectorElementId = ZWorkflowUtil.generateUUID();
             zProcessDesigner.elements.links.push({id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N'});
             zProcessDesigner.setConnectors();
 
@@ -1914,7 +1914,7 @@
                     value: elemData[property.id]
                 }
             };
-            colorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
+            zColorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
             break;
         default:
             break;

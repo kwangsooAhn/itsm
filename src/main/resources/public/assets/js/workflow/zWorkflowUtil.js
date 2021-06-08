@@ -1,4 +1,4 @@
-const workflowUtil = {};
+const ZWorkflowUtil = {};
 
 /**
  * generate UUID.
@@ -11,7 +11,7 @@ const workflowUtil = {};
  *
  * @returns {string} UUID
  */
-workflowUtil.generateUUID = function() {
+ZWorkflowUtil.generateUUID = function() {
     let d = new Date().getTime(); //Timestamp
     //Time in microseconds since page-load or 0 if unsupported
     let d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
@@ -35,7 +35,7 @@ workflowUtil.generateUUID = function() {
  * @param obj2 비교 대상 JSON 데이터 2
  * @return {boolean} 데이터 일치 여부 (true: 일치, false: 불일치)
  */
-workflowUtil.compareJson = function(obj1, obj2) {
+ZWorkflowUtil.compareJson = function(obj1, obj2) {
     if (obj1 === null && obj2 === null) {
         return true;
     } else if (obj1 === null || obj2 === null) {
@@ -49,7 +49,7 @@ workflowUtil.compareJson = function(obj1, obj2) {
 
     return Object.keys(obj1).every(function(key) {
         if ((typeof obj1[key] === 'object') && (typeof obj2[key] === 'object')) {
-            return workflowUtil.compareJson(obj1[key], obj2[key]);
+            return ZWorkflowUtil.compareJson(obj1[key], obj2[key]);
         } else {
             return obj1[key] === obj2[key];
         }
@@ -59,7 +59,7 @@ workflowUtil.compareJson = function(obj1, obj2) {
 /**
  * polyfill.
  */
-workflowUtil.polyfill = function() {
+ZWorkflowUtil.polyfill = function() {
     if (!Math.hypot) {
         Math.hypot = function (x, y) {
             // https://bugzilla.mozilla.org/show_bug.cgi?id=896264#c28
@@ -84,7 +84,7 @@ workflowUtil.polyfill = function() {
  * @param data 데이터
  * @return {string} XML 문자열
  */
-workflowUtil.objectToXML = function(data) {
+ZWorkflowUtil.objectToXML = function(data) {
     let xml = '';
     Object.keys(data).forEach(function(key) {
         // id는 속성으로 처리하고 나머지는 엘리먼트로 처리한다.
@@ -99,11 +99,11 @@ workflowUtil.objectToXML = function(data) {
                 } else {
                     xml += '<' + key + '>';
                 }
-                xml += workflowUtil.objectToXML(data[key][item]);
+                xml += ZWorkflowUtil.objectToXML(data[key][item]);
                 xml += '</' + key + '>';
             });
         } else if (data[key] && typeof data[key] === 'object') {
-            xml += workflowUtil.objectToXML(data[key]);
+            xml += ZWorkflowUtil.objectToXML(data[key]);
         } else {
             xml += '<![CDATA[' + data[key] + ']]>';
         }
@@ -120,7 +120,7 @@ workflowUtil.objectToXML = function(data) {
  * @param version workflow version
  * @return {string} XML 문자열
  */
-workflowUtil.createFormXMLString = function(formData, version) {
+ZWorkflowUtil.createFormXMLString = function(formData, version) {
     const xmlDoc = document.implementation.createDocument('', '', null);
     let definitions = xmlDoc.createElement('definitions');
     let form = xmlDoc.createElement('form');
@@ -137,7 +137,7 @@ workflowUtil.createFormXMLString = function(formData, version) {
         componentNode.setAttribute('type', componentProp.type);
         delete  componentProp.type;
         if (typeof componentProp === 'object') {
-            componentNode.innerHTML = workflowUtil.objectToXML(componentProp);
+            componentNode.innerHTML = ZWorkflowUtil.objectToXML(componentProp);
         }
         form.appendChild(componentNode);
     }
@@ -146,7 +146,7 @@ workflowUtil.createFormXMLString = function(formData, version) {
     let serializer = new XMLSerializer();
     return serializer.serializeToString(xmlDoc);
 };
-workflowUtil.createFormXMLStringWoo = function (formData, version) {
+ZWorkflowUtil.createFormXMLStringWoo = function (formData, version) {
     const serializer = new XMLSerializer();
     const xmlDoc = document.implementation.createDocument('', '', null);
     // 세부 정보
@@ -154,7 +154,7 @@ workflowUtil.createFormXMLStringWoo = function (formData, version) {
     const form = xmlDoc.createElement('form');
     form.setAttribute('version', version); // 버전
     form.setAttribute('id', formData.id);
-    form.innerHTML = workflowUtil.objectToXML(formData);
+    form.innerHTML = ZWorkflowUtil.objectToXML(formData);
     definitions.appendChild(form);
 
     xmlDoc.appendChild(definitions);
@@ -168,7 +168,7 @@ workflowUtil.createFormXMLStringWoo = function (formData, version) {
  * @param version workflow version
  * @return {string} XML 문자열
  */
-workflowUtil.createProcessXMLString = function(processData, version) {
+ZWorkflowUtil.createProcessXMLString = function(processData, version) {
     const xmlDoc = document.implementation.createDocument('', '', null);
     let definitions = xmlDoc.createElement('definitions');
     let process = xmlDoc.createElement('process');
@@ -231,7 +231,7 @@ workflowUtil.createProcessXMLString = function(processData, version) {
  * @param suffix 구분자
  * @param xmlString XML string
  */
-workflowUtil.downloadXML = function(id, suffix,  xmlString) {
+ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
     const fileName = suffix + '_' + id + '.xml';
     let pom = document.createElement('a');
     let bb = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + xmlString], {type: 'text/plain'});
@@ -248,7 +248,7 @@ workflowUtil.downloadXML = function(id, suffix,  xmlString) {
  * @param id form/process ID
  * @param type form/process
  */
-workflowUtil.export = function(id, type) {
+ZWorkflowUtil.export = function(id, type) {
     let exportUrl = '/rest/form/' + id + '/data';
     if (type === 'process') {
         exportUrl = '/rest/process/' + id + '/data';
@@ -266,11 +266,11 @@ workflowUtil.export = function(id, type) {
                     let versionInfo = JSON.parse(xhr.responseText);
                     let xmlString = '';
                     if (type === 'form') {
-                        xmlString = workflowUtil.createFormXMLString(data, versionInfo.codeValue);
+                        xmlString = ZWorkflowUtil.createFormXMLString(data, versionInfo.codeValue);
                     } else if (type === 'process') {
-                        xmlString = workflowUtil.createProcessXMLString(data, versionInfo.codeValue);
+                        xmlString = ZWorkflowUtil.createProcessXMLString(data, versionInfo.codeValue);
                     }
-                    workflowUtil.downloadXML(id, type, xmlString);
+                    ZWorkflowUtil.downloadXML(id, type, xmlString);
                 },
                 contentType: 'application/json; charset=utf-8',
                 showProgressbar: false
@@ -279,7 +279,7 @@ workflowUtil.export = function(id, type) {
         contentType: 'application/json; charset=utf-8'
     });
 };
-workflowUtil.exportWoo = function (id, type) {
+ZWorkflowUtil.exportWoo = function (id, type) {
     // TODO: 가데이터 삭제 필요
     //let exportUrl = '/rest/form/' + id + '/data';
     //if (type === 'process') {
@@ -295,11 +295,11 @@ workflowUtil.exportWoo = function (id, type) {
         }).then(codeData => {
             let xmlString = '';
             if (type === 'form') {
-                xmlString = workflowUtil.createFormXMLStringWoo(data, codeData.codeValue);
+                xmlString = ZWorkflowUtil.createFormXMLStringWoo(data, codeData.codeValue);
             } else if (type === 'process') {
-                //xmlString = workflowUtil.createProcessXMLString(data, codeData.codeValue);
+                //xmlString = ZWorkflowUtil.createProcessXMLString(data, codeData.codeValue);
             }
-            workflowUtil.downloadXML(id, type, xmlString);
+            ZWorkflowUtil.downloadXML(id, type, xmlString);
         });
     });
 };
@@ -310,7 +310,7 @@ workflowUtil.exportWoo = function (id, type) {
  * @param parsedDocument
  * @return {boolean} 파싱오류 여부
  */
-workflowUtil.isParseError = function(parsedDocument) {
+ZWorkflowUtil.isParseError = function(parsedDocument) {
     let parser = new DOMParser(),
         errorneousParse = parser.parseFromString('<', 'text/xml'),
         parsererrorNS = errorneousParse.getElementsByTagName('parsererror')[0].namespaceURI;
@@ -325,7 +325,7 @@ workflowUtil.isParseError = function(parsedDocument) {
  *
  * @param processData 프로세스 데이터
  */
-workflowUtil.addRequiredProcessAttribute = function(processData) {
+ZWorkflowUtil.addRequiredProcessAttribute = function(processData) {
     aliceJs.sendXhr({
         method: 'GET',
         async: false,
@@ -367,7 +367,7 @@ workflowUtil.addRequiredProcessAttribute = function(processData) {
  * @param data XML 파일 데이터
  * @return string 데이터
  */
-workflowUtil.XMLToObject = function(data) {
+ZWorkflowUtil.XMLToObject = function(data) {
     let obj = '';
     if (data.nodeType === Node.ELEMENT_NODE) { // element
         obj = {};
@@ -387,14 +387,14 @@ workflowUtil.XMLToObject = function(data) {
             if (item.nodeType === Node.ELEMENT_NODE) {
                 let nodeName = item.nodeName;
                 if (typeof (obj[nodeName]) === 'undefined') {
-                    obj[nodeName] = workflowUtil.XMLToObject(item);
+                    obj[nodeName] = ZWorkflowUtil.XMLToObject(item);
                 } else {
                     if (typeof (obj[nodeName].push) === 'undefined') {
                         let arr = obj[nodeName];
                         obj[nodeName] = [];
                         obj[nodeName].push(arr);
                     }
-                    obj[nodeName].push(workflowUtil.XMLToObject(item));
+                    obj[nodeName].push(ZWorkflowUtil.XMLToObject(item));
                 }
             } else if (item.nodeType === Node.CDATA_SECTION_NODE) {
                 if (item.nodeValue === 'false' || item.nodeValue === 'true') { //boolean 값
@@ -434,11 +434,11 @@ workflowUtil.XMLToObject = function(data) {
  * <definitions>
  * @returns {{components: []}}
  */
-workflowUtil.loadFormFromXML = function(data) {
+ZWorkflowUtil.loadFormFromXML = function(data) {
     const parser = new DOMParser();
     const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
     const xmlDoc = parser.parseFromString(data, 'text/xml');
-    if (workflowUtil.isParseError(xmlDoc)) {
+    if (ZWorkflowUtil.isParseError(xmlDoc)) {
         throw new Error('Error parsing XML');
     }
     
@@ -448,7 +448,7 @@ workflowUtil.loadFormFromXML = function(data) {
     for (let i = 0, len = formNodeList.length; i < len; i++) {
         let componentNode = formNodeList[i];
         if (componentNode.nodeType === Node.ELEMENT_NODE) {
-            let componentData = workflowUtil.XMLToObject(componentNode);
+            let componentData = ZWorkflowUtil.XMLToObject(componentNode);
             Object.defineProperty(componentData, 'componentId', Object.getOwnPropertyDescriptor(componentData, 'id'));
             delete componentData['id'];
             // 옵션이 배열이 아닐 경우 배열에 넣어준다.
@@ -468,16 +468,16 @@ workflowUtil.loadFormFromXML = function(data) {
     });
     return formData;
 };
-workflowUtil.loadFormFromXMLWoo = function (data) {
+ZWorkflowUtil.loadFormFromXMLWoo = function (data) {
     const parser = new DOMParser();
     const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
     const xmlDoc = parser.parseFromString(data, 'application/xml');
-    if (workflowUtil.isParseError(xmlDoc)) {
+    if (ZWorkflowUtil.isParseError(xmlDoc)) {
         throw new Error('Error parsing XML');
     }
 
     const form = xmlDoc.evaluate('/definitions/form', xmlDoc, null, resultType, null);
-    const jsonData = workflowUtil.XMLToObject(form.singleNodeValue);
+    const jsonData = ZWorkflowUtil.XMLToObject(form.singleNodeValue);
     return jsonData;
 };
 
@@ -498,11 +498,11 @@ workflowUtil.loadFormFromXMLWoo = function (data) {
  * <definitions>
  * @return {{elements: []}}
  */
-workflowUtil.loadProcessFromXML = function(data) {
+ZWorkflowUtil.loadProcessFromXML = function(data) {
     const parser = new DOMParser();
     const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
     const xmlDoc = parser.parseFromString(data, 'text/xml');
-    if (workflowUtil.isParseError(xmlDoc)) {
+    if (ZWorkflowUtil.isParseError(xmlDoc)) {
         throw new Error('Error parsing XML');
     }
 
@@ -585,7 +585,7 @@ workflowUtil.loadProcessFromXML = function(data) {
  * @param type form/process
  * @param data form/process 데이터
  */
-workflowUtil.saveImportData = function(type, data) {
+ZWorkflowUtil.saveImportData = function(type, data) {
     let result = false;
     let saveUrl = '/rest/forms' + '?saveType=saveas';
     if (type === 'process') {
@@ -619,7 +619,7 @@ workflowUtil.saveImportData = function(type, data) {
  * @param type form/process
  * @param callbackFunc IMPORT 처리 후 호출될 function
  */
-workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
+ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
     try {
         const reader = new FileReader();
         reader.addEventListener('load', function(e) {
@@ -628,20 +628,20 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                 switch (type) {
                 case 'form':
                     // TODO: 폼 리팩토링 완료 후, loadFormFromXMLWoo을 사용하도록 수정한다.
-                    saveData = workflowUtil.loadFormFromXML(e.target.result);
-                    //saveData = workflowUtil.loadFormFromXMLWoo(e.target.result);
+                    saveData = ZWorkflowUtil.loadFormFromXML(e.target.result);
+                    //saveData = ZWorkflowUtil.loadFormFromXMLWoo(e.target.result);
                     saveData.name = data.formName;
                     saveData.desc = data.formDesc;
                     break;
                 case 'process':
-                    saveData = workflowUtil.loadProcessFromXML(e.target.result);
+                    saveData = ZWorkflowUtil.loadProcessFromXML(e.target.result);
                     saveData.process = {name: data.processName, description: data.processDesc};
-                    workflowUtil.addRequiredProcessAttribute(saveData);
+                    ZWorkflowUtil.addRequiredProcessAttribute(saveData);
                     break;
                 default: //none
                 }
                 console.debug(saveData);
-                let result = workflowUtil.saveImportData(type, saveData);
+                let result = ZWorkflowUtil.saveImportData(type, saveData);
                 if (typeof callbackFunc === 'function') {
                     callbackFunc(result);
                 }

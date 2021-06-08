@@ -25,7 +25,7 @@
         undo_list: [],
         saveHistory: function (data, list, keep_redo) {
             data = data.filter(function (d) { // data check
-                return !workflowUtil.compareJson(d[0], d[1]);
+                return !ZWorkflowUtil.compareJson(d[0], d[1]);
             });
             if (data.length === 0) {
                 return;
@@ -44,7 +44,7 @@
                 return a.id < b.id ? -1 : 1;
             });
 
-            isEdited = !workflowUtil.compareJson(zProcessDesigner.data, savedData);
+            isEdited = !ZWorkflowUtil.compareJson(zProcessDesigner.data, savedData);
             changeProcessName();
             setProcessMinimap();
         },
@@ -730,7 +730,7 @@
      * set shortcut.
      */
     function setShortcut() {
-        shortcut.init();
+        zShortcut.init();
 
         const shortcuts = [
             {'keys': 'ctrl+s', 'command': 'zProcessDesigner.utils.save();', 'force': true},             // 저장
@@ -744,7 +744,7 @@
         ];
 
         for (let i = 0; i < shortcuts.length; i++) {
-            shortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
+            zShortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
         }
     }
 

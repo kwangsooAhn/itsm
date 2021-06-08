@@ -387,7 +387,7 @@ class UIColor extends UIElement {
         this.addUI(this.UIColorPalette);
         
         // color picker 초기화
-        colorPalette.initColorPalette(this.UIColorPalette.domElement,
+        zColorPalette.initColorPalette(this.UIColorPalette.domElement,
             this.UIColor.UIBox.UISpan.domElement, this.UIColor.UIInput.domElement, option);
     }
 
