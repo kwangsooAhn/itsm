@@ -7,8 +7,8 @@
     <title>파일을 업로드해보자 ~</title>
     <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
     <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
-    <script th:src="@{/assets/js/util/zUtil.js}"></script>
-    <script type="text/javascript" th:src="@{/assets/js/util/zFileuploader.js}" th:inline="javascript"></script>
+    <script th:src="@{/assets/js/lib/zUtil.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/lib/zFileuploader.js}" th:inline="javascript"></script>
     <script th:inline="javascript">
         window.onload = function() {
             zFileUploader.init({extra: {formId: 'mainFrm', task: 'Test'}});
