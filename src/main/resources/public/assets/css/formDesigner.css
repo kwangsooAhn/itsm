@@ -4986,6 +4986,10 @@ body.modal-active {
   mask-size: 2.813rem;
   background: #CCCED1;
 }
+.z-component .z-element .z-imagebox {
+  width: 100%;
+  height: 100%;
+}
 .z-component .z-element .z-imagebox[src=""] {
   display: none;
 }

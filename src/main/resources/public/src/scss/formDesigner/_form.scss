@@ -182,6 +182,8 @@
       }
     }
     .#{$common-prefix}imagebox {
+      width: 100%;
+      height: 100%;
       &[src=''] {
         display: none;
         + .#{$common-prefix}imagebox-placeholder {

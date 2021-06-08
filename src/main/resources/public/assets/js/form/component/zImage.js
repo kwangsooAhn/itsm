@@ -27,8 +27,8 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
         path: '', // 이미지 경로0
-        width: '809', // 이미지 너비
-        height: '140', // 이미지 높이
+        width: '', // 이미지 너비
+        height: '', // 이미지 높이
         align: 'left'
     },
     validation: {
