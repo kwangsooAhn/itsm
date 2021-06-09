@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { CLASS_PREFIX } from '../../lib/constants.js';
+import { FORM, CLASS_PREFIX } from '../../lib/constants.js';
 import { zValidation } from '../../lib/validation.js';
 import { UIDiv, UIHorizontalRule } from '../../lib/ui.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -18,7 +18,6 @@ import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxPropert
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
 import ZColorPickerProperty from '../../formDesigner/property/type/zColorPickerProperty.js';
-import {FORM} from '../../lib/zConstants';
 
 /**
  * 컴포넌트 별 기본 속성 값
