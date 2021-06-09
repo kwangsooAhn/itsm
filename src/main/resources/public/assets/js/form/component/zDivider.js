@@ -10,16 +10,15 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
+import { CLASS_PREFIX } from '../../lib/constants.js';
 import { zValidation } from '../../lib/validation.js';
 import { UIDiv, UIHorizontalRule } from '../../lib/ui.js';
-import zInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
-import zGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import zDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
-import zClipboardProperty from '../../formDesigner/property/type/zClipboardProperty.js';
-import zSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
-import zTagProperty from '../../formDesigner/property/type/zTagProperty.js';
-import zColorPickerProperty from "../../formDesigner/property/type/zColorPickerProperty.js";
+import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZColorPickerProperty from '../../formDesigner/property/type/zColorPickerProperty.js';
+import {FORM} from '../../lib/zConstants';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -47,13 +46,16 @@ export const dividerMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
+        // label 숨김 처리
+        this.labelPosition = FORM.LABEL.POSITION.HIDDEN;
+        
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', 12);
 
         element.UIHorizontalRule = new UIHorizontalRule()
             .setUIAttribute('element-line-thickness', this.elementLineThickness)
             .setUIAttribute('element-line-color', this.elementLineColor)
-            .setUIAttribute('element-line-type', this.elementLineType)
+            .setUIAttribute('element-line-type', this.elementLineType);
 
         element.addUI(element.UIHorizontalRule);
         return element;
@@ -74,10 +76,28 @@ export const dividerMixin = {
     },
     set elementLineType(type) {
         this._element.lineType = type;
-        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIAttribute('element-line-type',type);
+        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIAttribute('element-line-type', type);
     },
     get elementLineType() {
         return this._element.lineType;
+    },
+    set validation(validation) {
+        this._validation = validation;
+    },
+    get validation() {
+        return this._validation;
+    },
+    set validationRequired(boolean) {
+        this._validation.required = boolean;
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-required', boolean);
+        if (boolean) {
+            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get validationRequired() {
+        return this._validation.required;
     },
     // 기본 값 변경
     set value(value) {
@@ -111,43 +131,29 @@ export const dividerMixin = {
     },
 
     getProperty() {
-        // mapId
-        const mapIdProperty = new zInputBoxProperty('mapId', this.mapId);
-        mapIdProperty.help = 'form.help.mapping-id';
-
-        // is topic
-        const isTopicProperty = new zSwitchProperty('isTopic', this.isTopic);
-        isTopicProperty.help = 'form.help.is-topic';
-
-        // tag
-        const tagProperty = new zTagProperty('tags', this.tags);
-
         // element - thickness
-        const lineThicknessProperty = new zInputBoxProperty('display.thickness', this.elementLineThickness)
+        const lineThicknessProperty = new ZInputBoxProperty('element.lineThickness', this.elementLineThickness)
             .setValidation(false, 'number', '', '', '1', '100');
         lineThicknessProperty.unit = 'px';
         lineThicknessProperty.columnWidth = '12';
 
         // element - color
-        const lineColorProperty = new zColorPickerProperty('display.color', this.elementLineColor, false)
+        const lineColorProperty = new ZColorPickerProperty('element.lineColor', this.elementLineColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
         lineColorProperty.columnWidth = '12';
 
         // element - Type
-        const lineTypeProperty = new zDropdownProperty('display.type',
+        const lineTypeProperty = new ZDropdownProperty('element.lineType',
             this.elementLineType, [
-                {name: 'form.properties.lineType.line', value: 'solid'},
-                {name: 'form.properties.lineType.dot', value: 'dotted'},
-                {name: 'form.properties.lineType.dash', value: 'dashed'},
+                { name: 'form.properties.lineType.line', value: 'solid' },
+                { name: 'form.properties.lineType.dot', value: 'dotted' },
+                { name: 'form.properties.lineType.dash', value: 'dashed' },
             ]);
         lineTypeProperty.columnWidth = '12';
 
         return [
-            new zClipboardProperty('id', this.id),
-            mapIdProperty,
-            isTopicProperty,
-            tagProperty,
-            new zGroupProperty('group.element')
+            ...new ZCommonProperty(this).getCommonProperty(),
+            new ZGroupProperty('group.element')
                 .addProperty(lineThicknessProperty)
                 .addProperty(lineColorProperty)
                 .addProperty(lineTypeProperty)
@@ -155,7 +161,6 @@ export const dividerMixin = {
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {
-        console.log(this);
         return {
             id: this._id,
             type: this._type,
