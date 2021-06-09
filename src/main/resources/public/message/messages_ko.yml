@@ -736,6 +736,10 @@ form:
       validationType: "유효성 타입"
       maxDate: "최대 날짜"
       minDate: "최소 날짜"
+    option:
+      none: "없음"
+      now: "현재"
+      date: "{0}일 후"
   status:
     destroy: "폐기"
     edit: "편집"

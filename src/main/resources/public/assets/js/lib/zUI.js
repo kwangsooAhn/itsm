@@ -319,6 +319,27 @@ class UICheckbox extends UIElement {
         return this;
     }
 }
+
+class UIRadioButton extends UIElement {
+    constructor(boolean) {
+        super(document.createElement('input'));
+        this.domElement.className = 'radio';
+        this.domElement.type = 'radio';
+        this.setUIValue(boolean);
+    }
+
+    getUIValue() {
+        return this.domElement.checked;
+    }
+
+    setUIValue(value) {
+        if (value !== undefined) {
+            this.domElement.checked = value;
+        }
+
+        return this;
+    }
+}
 // 공통으로 사용되는 복사용 inputbox + button
 class UIClipboard extends UIElement {
     constructor() {
@@ -509,5 +530,5 @@ class UIImg extends UIElement {
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
-    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg
+    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UIRadioButton
 };

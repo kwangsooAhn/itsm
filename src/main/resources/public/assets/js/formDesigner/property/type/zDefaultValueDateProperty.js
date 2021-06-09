@@ -1,4 +1,4 @@
-import { UIDiv, UIInput } from "../../../lib/zUI.js";
+import {UIDiv, UIInput, UIRadioButton, UISpan} from "../../../lib/zUI.js";
 import ZProperty from '../zProperty.js';
 
 const propertyExtends = {
@@ -18,11 +18,35 @@ export default class ZDefaultValueDateProperty extends ZProperty {
         // 라벨
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
+
+        // 기본값
         // 없음
-        this.UIElement.UILabel
+        this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
+        this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
+        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
+            .setUITextContent(i18n.msg('form.properties.option.none')));
+        this.UIElement.addUI(this.UIElement.UIDiv);
+
         // 현재
+        this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
+        this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
+        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
+            .setUITextContent(i18n.msg('form.properties.option.now')));
+        this.UIElement.addUI(this.UIElement.UIDiv);
+
         // 일 후
-        // 달력 컴포넌트
+        this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
+        this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
+        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
+            .setUITextContent(i18n.msg('form.properties.option.date')));
+        this.UIElement.addUI(this.UIElement.UIDiv);
+
+        // 달력
+        this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
+        this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
+        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
+            .setUITextContent(i18n.msg('form.properties.none')));
+        this.UIElement.addUI(this.UIElement.UIDiv);
 
         return this.UIElement;
     }
