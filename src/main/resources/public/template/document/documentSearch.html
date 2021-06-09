@@ -14,12 +14,12 @@
 <th:block layout:fragment="scriptLink">
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
     <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
-    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
-    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
+    <script th:src="@{/assets/js/lib/zColorPalette.js}"></script>
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
     <script type="module">
         // 사용자 세션 정보 저장
-        import { SESSION } from '../../assets/js/lib/constants.js';
+        import { SESSION } from '../../assets/js/lib/zConstants.js';
         import { zDocument } from '../../assets/js/document/zDocument.js';
 
         const userSession = {

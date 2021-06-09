@@ -2,7 +2,7 @@
  * @projectDescription DatePicker Library
  *
  * - luxon.js 를 기본으로 datepicker를 그려주므로 반드시 함께 import 한다.
- * - i18n-alice.js 의 사용자 설정에 따른 타임존, 날짜시간 포맷, 언어 등을 사용하므로 반드시 함께 import 한다.
+ * - zI18n.js 의 사용자 설정에 따른 타임존, 날짜시간 포맷, 언어 등을 사용하므로 반드시 함께 import 한다.
  *
  * @author woodajung
  * @version 1.0
@@ -13,7 +13,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.dateTimePicker = global.dateTimePicker || {})));
+            (factory((global.zDateTimePicker = global.zDateTimePicker || {})));
 }(this, (function (exports) {
     'use strict';
 

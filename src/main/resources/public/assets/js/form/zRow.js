@@ -9,9 +9,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/mixins.js';
-import { UIDiv } from '../lib/ui.js';
-import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
+import * as mixin from '../lib/zMixins.js';
+import { UIDiv } from '../lib/zUI.js';
+import { CLASS_PREFIX, FORM, UNIT } from '../lib/zConstants.js';
 import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
 import ZGroupProperty from '../formDesigner/property/type/zGroupProperty.js';
 import ZBoxModelProperty from '../formDesigner/property/type/zBoxModelProperty.js';
@@ -21,7 +21,7 @@ export default class ZRow {
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
         this._type = 'row';
-        this._id =  data.id || workflowUtil.generateUUID();
+        this._id =  data.id || ZWorkflowUtil.generateUUID();
         this._display = data.display || {
             displayOrder: 0,     // 표시 순서
             margin: '4 0 4 0', // row 간 간격(위 오른쪽 아래 왼쪽)
@@ -200,12 +200,12 @@ export default class ZRow {
         // display 속성 - margin
         const displayMarginProperty = new ZBoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayMarginProperty.unit = 'px';
+        displayMarginProperty.unit = UNIT.PX;
 
         // display 속성 - padding
         const displayPaddingProperty = new ZBoxModelProperty('display.padding', this.displayPadding)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayPaddingProperty.unit = 'px';
+        displayPaddingProperty.unit = UNIT.PX;
 
         return [
             new ZClipboardProperty('id', this.id),

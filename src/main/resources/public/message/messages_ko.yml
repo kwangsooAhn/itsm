@@ -689,8 +689,12 @@ form:
       width: "너비"
     drTableColumns: "테이블 컬럼"
     element:
+      align: "정렬"
       columnWidth: "컬럼 너비"
       defaultValueSelect: "기본값 타입"
+      path: "경로"
+      width: "너비"
+      heigth: "높이"
     email: "Email"
     group:
       display: "출력속성"
@@ -747,6 +751,7 @@ image:
   label:
     name: "이미지 명"
     list: "이미지 관리"
+    placeholder: "Select Your Image"
     popupTitle: "이미지 선택"
     upload: "이미지 업로드"
   msg:

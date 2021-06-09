@@ -7,9 +7,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/mixins.js';
-import { CLASS_PREFIX, FORM } from '../lib/constants.js';
-import { UIDiv } from '../lib/ui.js';
+import * as mixin from '../lib/zMixins.js';
+import { CLASS_PREFIX, FORM, UNIT } from '../lib/zConstants.js';
+import { UIDiv } from '../lib/zUI.js';
 import { inputBoxMixin } from './component/zInputBox.js';
 import { textAreaMixin } from './component/zTextArea.js';
 import { textEditorMixin } from './component/zTextEditor.js';
@@ -51,7 +51,7 @@ export default class ZComponent {
         this.children = [];        // 자식 객체
         this.data = data;
         this._type = data.type || 'component';
-        this._id = data.id || workflowUtil.generateUUID();
+        this._id = data.id || ZWorkflowUtil.generateUUID();
         this._isTopic = data.isTopic || false;
         this._mapId = data.mapId || '';
         this._tags = data.tags || [];
@@ -75,26 +75,24 @@ export default class ZComponent {
         // 내부 property 초기화
         this.initProperty();
         // 컴포넌트용 툴팁
-        const componentTooltip = new UIComponentTooltip()
+        this.UIElement = new UIComponentTooltip()
             .setUIProperty('--data-column', this.displayColumnWidth);
         // 컴포넌트 추가
-        componentTooltip.UIComponent = new UIComponent()
+        this.UIElement.UIComponent = new UIComponent()
             .setUIId(this.id)
             .addUIClass(this.type);
         // 라벨 추가
-        componentTooltip.UIComponent.UILabel = this.makeLabel();
-        componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UILabel);
+        this.UIElement.UIComponent.UILabel = this.makeLabel();
+        this.UIElement.UIComponent.addUI(this.UIElement.UIComponent.UILabel);
 
         // 엘리먼트 추가
-        componentTooltip.UIComponent.UIElement = this.makeElement();
-        componentTooltip.UIComponent.addUI(componentTooltip.UIComponent.UIElement);
+        this.UIElement.UIComponent.UIElement = this.makeElement();
+        this.UIElement.UIComponent.addUI(this.UIElement.UIComponent.UIElement);
 
-        componentTooltip.addUI(componentTooltip.UIComponent);
+        this.UIElement.addUI(this.UIElement.UIComponent);
         // 툴팁
-        componentTooltip.UITooltipMenu = this.makeTooltip();
-        componentTooltip.addUI(componentTooltip.UITooltipMenu);
-
-        this.UIElement = componentTooltip;
+        this.UIElement.UITooltipMenu = this.makeTooltip();
+        this.UIElement.addUI(this.UIElement.UITooltipMenu);
     }
 
     // 타입에 따른 믹스인 호출
@@ -235,7 +233,7 @@ export default class ZComponent {
 
     set labelFontSize(size) {
         this._label.fontSize = size;
-        this.UIElement.UIComponent.UILabel.UILabelText.setUIFontSize(size);
+        this.UIElement.UIComponent.UILabel.UILabelText.setUIFontSize(size + UNIT.PX);
     }
 
     get labelFontSize() {

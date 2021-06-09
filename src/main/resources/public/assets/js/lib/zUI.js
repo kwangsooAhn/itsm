@@ -123,7 +123,7 @@ properties.forEach(function (property) {
 });
 
 // events
-const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input'];
+const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input', 'Focusout'];
 events.forEach(function (event) {
     const method = 'onUI' + event;
     UIElement.prototype[method] = function (callback) {
@@ -387,7 +387,7 @@ class UIColor extends UIElement {
         this.addUI(this.UIColorPalette);
         
         // color picker 초기화
-        colorPalette.initColorPalette(this.UIColorPalette.domElement,
+        zColorPalette.initColorPalette(this.UIColorPalette.domElement,
             this.UIColor.UIBox.UISpan.domElement, this.UIColor.UIInput.domElement, option);
     }
 
@@ -500,8 +500,19 @@ class UILi extends UIElement {
     }
 }
 
+class UIImg extends UIElement {
+    constructor() {
+        super(document.createElement('img'));
+    }
+
+    setUISrc(value) {
+        this.domElement.src = value;
+        return this;
+    }
+}
+
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
-    UIHorizontalRule, UIButton, UISlider, UIUl, UILi
+    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg
 };

@@ -679,6 +679,10 @@ aliceJs.thumbnail = function(options) {
                 }],
                 close: {
                     closable: false,
+                },
+                onCreate: function (modal) {
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.thumbnail-main'), {className: 'scrollbar'});
                 }
             };
 

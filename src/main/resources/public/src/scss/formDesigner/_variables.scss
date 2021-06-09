@@ -120,6 +120,13 @@ $color-picker-colorchip-margin:                    0.1875rem; // 3px
 $color-picker-colorchip-border-width:              0.125rem;   // 2px
 $color-picker-colorchip-border-color:              $white;
 
+///////////////////////// image 컴포넌트 ////////////////////////////
+$component-imagebox-font-size:                     $font-size-base;
+$component-imagebox-font-weight:                   $font-weight-regular;
+$component-imagebox-font-color:                    $gray;
+$component-imagebox-bg-color:                      map-get($grays, "light");
+$component-selected-imagebox-bg-color:             $white;
+
 ///////////////////////// tooltip-menu /////////////////////////
 $tooltip-menu-bg-color:                            $white;
 $tooltip-menu-border-color:                        map-get($blues, "light");
@@ -127,7 +134,7 @@ $tooltip-menu-focus-bg-color:                      $blue;
 $tooltip-menu-icon-color:                          map-get($blues, "light");
 //////////////////////////// thumbnail //////////////////////////
 // 썸네일 모달
-$thumbnail-modal-width:                            62.63rem; // 1002px
+$thumbnail-modal-width:                            1040px; // 1040px
 $thumbnail-modal-height:                           48.44rem; // 775px
 $thumbnail-main-padding:                           0.625rem; // 10px
 

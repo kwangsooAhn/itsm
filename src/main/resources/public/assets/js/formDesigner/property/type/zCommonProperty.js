@@ -8,6 +8,7 @@ import ZColorPickerProperty from './zColorPickerProperty.js';
 import ZClipboardProperty from './zClipboardProperty.js';
 import ZGroupProperty from './zGroupProperty.js';
 import ZSliderProperty from './zSliderProperty.js';
+import { UNIT } from '../../../lib/ZConstants.js';
 
 export default class ZCommonProperty {
     constructor(target) {
@@ -33,7 +34,7 @@ export default class ZCommonProperty {
         // label - fontSize
         const labelFontSizeProperty = new ZInputBoxProperty('label.fontSize', this.target.labelFontSize)
             .setValidation(false, 'number', '10', '100', '', '');
-        labelFontSizeProperty.unit = 'px';
+        labelFontSizeProperty.unit = UNIT.PX;
         labelFontSizeProperty.columnWidth = '3';
 
         // label - position

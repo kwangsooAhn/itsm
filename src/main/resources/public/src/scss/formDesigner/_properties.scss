@@ -65,6 +65,12 @@
   .textArea {
     min-height: 7.5rem; // 120px
   }
+  // input + button
+  .input-button {
+    .btn {
+      height: 2.5rem; // 40px
+    }
+  }
   // column 너비 조정
   .slider {
     .range {

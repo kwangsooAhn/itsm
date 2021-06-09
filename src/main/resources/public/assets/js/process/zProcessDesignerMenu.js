@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.aliceProcessEditor = global.aliceProcessEditor || {})));
+            (factory((global.zProcessDesigner = global.zProcessDesigner || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -208,7 +208,7 @@
      */
     function editElementType(element, type) {
         const elementId = element.node().id,
-            elements = aliceProcessEditor.data.elements;
+            elements = zProcessDesigner.data.elements;
         const elementData = elements.filter(function(elem) { return elem.id === elementId; });
         if (elementData.length) {
             if (elementData[0].type === type) {
@@ -235,7 +235,7 @@
 
             d3.select('g.alice-tooltip').remove();
             changeElementType(element, type, true);
-            aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
+            zProcessDesigner.utils.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
         }
     }
 
@@ -294,13 +294,13 @@
         }
 
         const elementId = elem.node().id,
-            elements = aliceProcessEditor.data.elements;
+            elements = zProcessDesigner.data.elements;
         let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
             return;
         }
 
-        const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem);
+        const bbox = zProcessDesigner.utils.getBoundingBoxCenter(elem);
         const elemData = { id: elementId };
         if (elem.classed('node')) {
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
@@ -337,10 +337,10 @@
             elemData.required = getAttributeRequired('connector', 'arrowConnector');
         }
         if (elemData.name) {
-            aliceProcessEditor.changeTextToElement(elementId, elemData.name);
+            zProcessDesigner.changeTextToElement(elementId, elemData.name);
         }
         elements.push(elemData);
-        aliceProcessEditor.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+        zProcessDesigner.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
     }
 
     /**
@@ -423,7 +423,7 @@
             let isSuggest = true,
                 isEdit = true;
             let elementId = elem.node().id;
-            let connectors = aliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+            let connectors = zProcessDesigner.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
             connectors.forEach(function(c) {
                 let connectorNode = document.getElementById(c.id);
                 if (connectorNode) {
@@ -489,7 +489,7 @@
                 d.action(elem);
             });
 
-        const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem),
+        const bbox = zProcessDesigner.utils.getBoundingBoxCenter(elem),
             gTransform = d3.zoomTransform(d3.select('g.element-container').node());
 
         let targetX = (bbox.x + bbox.width + gTransform.x) - containerWidth,
@@ -505,9 +505,9 @@
                 targetY = bbox.cy + gTransform.y - containerHeight - 10;
             }
         } else if (elem.classed('gateway')) {
-            const gatewayDist = aliceProcessEditor.utils.calcDist(
+            const gatewayDist = zProcessDesigner.utils.calcDist(
                 [0, 0],
-                [aliceProcessEditor.displayOptions.gatewaySize, aliceProcessEditor.displayOptions.gatewaySize]
+                [zProcessDesigner.displayOptions.gatewaySize, zProcessDesigner.displayOptions.gatewaySize]
             );
             targetX = bbox.cx + (gatewayDist / 2) + gTransform.x - containerWidth;
             targetY = bbox.cy + gTransform.y - (gatewayDist / 2) - containerHeight - itemMargin;
@@ -556,7 +556,7 @@
             const elementId = elem.node().id;
             let isSourceConnected = false,
                 isTargetConnected = false;
-            let connectors = aliceProcessEditor.data.elements.filter(function(e) { return e.type === 'arrowConnector'; });
+            let connectors = zProcessDesigner.data.elements.filter(function(e) { return e.type === 'arrowConnector'; });
             connectors.forEach(function(c) {
                 if (c.data['start-id'] === elementId) {
                     isSourceConnected = true;
@@ -587,7 +587,7 @@
      */
     function getElementData(elem) {
         const elementId = elem.node().id,
-            elements = aliceProcessEditor.data.elements;
+            elements = zProcessDesigner.data.elements;
         return elements.filter(function(e) { return e.id === elementId; })[0];
     }
 
@@ -598,10 +598,10 @@
         const containerTransform = d3.zoomTransform(d3.select('g.element-container').node());
         console.debug('container transform : x(%s), y(%s)', containerTransform.x, containerTransform.y);
         if (containerTransform.x !== 0 || containerTransform.y !== 0) {
-            aliceProcessEditor.data.elements.forEach(function(elem) {
+            zProcessDesigner.data.elements.forEach(function(elem) {
                 const nodeElement = d3.select(document.getElementById(elem.id));
                 if (elem.type !== 'arrowConnector') {
-                    const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
+                    const bbox = zProcessDesigner.utils.getBoundingBoxCenter(nodeElement);
                     elem.display['position-x'] = bbox.cx + containerTransform.x;
                     elem.display['position-y'] = bbox.cy + containerTransform.y;
                 } else {
@@ -633,7 +633,7 @@
             let history = deleteElement(d3.select(node));
             histories = [].concat(history, histories);
         });
-        aliceProcessEditor.utils.history.saveHistory(histories);
+        zProcessDesigner.utils.history.saveHistory(histories);
     }
 
     /**
@@ -645,7 +645,7 @@
         const histories = [];
         d3.select('g.alice-tooltip').remove();
         const elementId = elem.node().id,
-            elements = aliceProcessEditor.data.elements;
+            elements = zProcessDesigner.data.elements;
 
 
         elements.forEach(function(e, i) {
@@ -656,7 +656,7 @@
             }
         });
 
-        let links = aliceProcessEditor.elements.links;
+        let links = zProcessDesigner.elements.links;
         if (!elem.classed('connector')) {
             // delete the connector connected to the target element.
             for (let i = elements.length - 1; i >= 0; i--) {
@@ -665,7 +665,7 @@
                         for (let j = 0, len = links.length; j < len; j++) {
                             if (elements[i].id === links[j].id) {
                                 links.splice(j, 1);
-                                aliceProcessEditor.setConnectors(true);
+                                zProcessDesigner.setConnectors(true);
                                 break;
                             }
                         }
@@ -682,12 +682,12 @@
             for (let i = 0, len = links.length; i < len; i++) {
                 if (links[i].id === elementId) {
                     links.splice(i, 1);
-                    aliceProcessEditor.setConnectors(true);
+                    zProcessDesigner.setConnectors(true);
                     break;
                 }
             }
         }
-        aliceProcessEditor.setElementMenu();
+        zProcessDesigner.setElementMenu();
         return histories;
     }
 
@@ -702,14 +702,14 @@
         let elemData = JSON.parse(JSON.stringify(targetElementData));
         elemData.display['position-x'] = elemData.display['position-x'] + 10;
         elemData.display['position-y'] = elemData.display['position-y'] + 10;
-        let node = aliceProcessEditor.addElement(elemData);
+        let node = zProcessDesigner.addElement(elemData);
         if (node) {
             elemData.id = node.nodeElement.attr('id');
-            aliceProcessEditor.data.elements.push(elemData);
+            zProcessDesigner.data.elements.push(elemData);
 
-            aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
-            aliceProcessEditor.setElementMenu();
+            zProcessDesigner.removeElementSelected();
+            zProcessDesigner.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+            zProcessDesigner.setElementMenu();
         }
     }
 
@@ -722,7 +722,7 @@
     function suggestElement(elem, type) {
         d3.select('g.alice-tooltip').remove();
 
-        const targetBbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem);
+        const targetBbox = zProcessDesigner.utils.getBoundingBoxCenter(elem);
         let category = getElementCategory(type);
         let attributeData = getAttributeData(category, type);
         const elemData = { type: type };
@@ -739,7 +739,7 @@
             break;
         case 'exclusiveGateway':
             let gatewaySize = Math.sqrt(
-                Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2) + Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2)
+                Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2) + Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2)
             );
             addElemWidth = gatewaySize;
             addElemHeight = gatewaySize;
@@ -758,9 +758,9 @@
         if (elem.classed('gateway')) {
             const distance = 10;
             let bottom = targetBbox.cy - distance - (addElemHeight / 2);
-            aliceProcessEditor.elements.links.forEach(function(e) {
+            zProcessDesigner.elements.links.forEach(function(e) {
                 if (e.sourceId === elem.node().id) {
-                    const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(document.getElementById(e.targetId)));
+                    const bbox = zProcessDesigner.utils.getBoundingBoxCenter(d3.select(document.getElementById(e.targetId)));
                     bottom = Math.max(bottom, (bbox.y + bbox.height));
                 }
             });
@@ -769,23 +769,23 @@
 
         elemData.required = getAttributeRequired(category, type);
 
-        let node = aliceProcessEditor.addElement(elemData);
+        let node = zProcessDesigner.addElement(elemData);
         if (node) {
             elemData.id = node.nodeElement.attr('id');
-            const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(node.nodeElement);
+            const bbox = zProcessDesigner.utils.getBoundingBoxCenter(node.nodeElement);
             elemData.display.width = bbox.width;
             elemData.display.height = bbox.height;
-            aliceProcessEditor.data.elements.push(elemData);
+            zProcessDesigner.data.elements.push(elemData);
 
-            aliceProcessEditor.removeElementSelected();
+            zProcessDesigner.removeElementSelected();
 
-            const connectorElementId = workflowUtil.generateUUID();
-            aliceProcessEditor.elements.links.push({id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N'});
-            aliceProcessEditor.setConnectors();
+            const connectorElementId = ZWorkflowUtil.generateUUID();
+            zProcessDesigner.elements.links.push({id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N'});
+            zProcessDesigner.setConnectors();
 
-            const connectorElementData = aliceProcessEditor.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
-            aliceProcessEditor.utils.history.undo_list.pop(); // remove add connector history.
-            aliceProcessEditor.utils.history.saveHistory([
+            const connectorElementData = zProcessDesigner.data.elements.filter(function(elem) { return elem.id === connectorElementId; })[0];
+            zProcessDesigner.utils.history.undo_list.pop(); // remove add connector history.
+            zProcessDesigner.utils.history.saveHistory([
                 {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
                 {0: {}, 1: JSON.parse(JSON.stringify(connectorElementData))}
             ]);
@@ -810,7 +810,7 @@
             containerWidth = itemSize + (itemMargin * 2),
             containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
-        const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
+        const bbox = zProcessDesigner.utils.getBoundingBoxCenter(actionTooltipContainer),
             x = bbox.x + bbox.width + itemMargin,
             y = bbox.y;
 
@@ -846,7 +846,7 @@
     function setProperties(elem) {
         if (typeof elem !== 'undefined') { // show element properties
             const elementId = elem.node().id;
-            const elements = aliceProcessEditor.data.elements;
+            const elements = zProcessDesigner.data.elements;
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
                     let property = JSON.parse(JSON.stringify(elements.filter(function(attr) { return attr.id === elementId; })[0]));
@@ -868,8 +868,8 @@
                 }
             }
         } else { // show process properties
-            if (!aliceProcessEditor.data.process) { return; }
-            makePropertiesItem(aliceProcessEditor.data.process.id, processProperties, aliceProcessEditor.data.process);
+            if (!zProcessDesigner.data.process) { return; }
+            makePropertiesItem(zProcessDesigner.data.process.id, processProperties, zProcessDesigner.data.process);
         }
         // for designed select
         // 속성창을 그린 후 designed select 초기화.
@@ -884,7 +884,7 @@
      * @return {{0: JSON, 1: JSON}} 이력정보
      */
     function changeDisplayValue(id, isSaveHistory) {
-        let elementData = aliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
+        let elementData = zProcessDesigner.data.elements.filter(function(attr) { return attr.id === id; });
         if (elementData.length) {
             const originElementData = JSON.parse(JSON.stringify(elementData[0])),
                 nodeElement = d3.select(document.getElementById(id));
@@ -913,13 +913,13 @@
                     elementData[0].display['text-point'] = linkData.textPoint;
                 }
             } else {
-                const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(nodeElement);
+                const bbox = zProcessDesigner.utils.getBoundingBoxCenter(nodeElement);
                 elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
             }
 
             let historyData = {0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))};
             if (isSaveHistory !== false) {
-                aliceProcessEditor.utils.history.saveHistory([historyData]);
+                zProcessDesigner.utils.history.saveHistory([historyData]);
             }
             return historyData;
         }
@@ -933,15 +933,15 @@
     function changePropertiesDataValue(id) {
         const container = document.querySelector('.process-properties'),
             propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
-        if (id === aliceProcessEditor.data.process.id) {
-            const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
+        if (id === zProcessDesigner.data.process.id) {
+            const originProcessData = JSON.parse(JSON.stringify(zProcessDesigner.data.process));
             for (let i = 0, len = propertyObjects.length; i < len; i++) {
                 let propertyObject = propertyObjects[i];
-                aliceProcessEditor.data.process[propertyObject.name] = propertyObject.value;
+                zProcessDesigner.data.process[propertyObject.name] = propertyObject.value;
             }
-            aliceProcessEditor.utils.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(aliceProcessEditor.data.process))}]);
+            zProcessDesigner.utils.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(zProcessDesigner.data.process))}]);
         } else {
-            let elementData = aliceProcessEditor.data.elements.filter(function(attr) { return attr.id === id; });
+            let elementData = zProcessDesigner.data.elements.filter(function(attr) { return attr.id === id; });
             if (elementData.length) {
                 const originElementData = JSON.parse(JSON.stringify(elementData[0]));
                 elementData[0].data = {};
@@ -972,10 +972,10 @@
                 }
 
                 const changeElementData = JSON.parse(JSON.stringify(elementData[0]));
-                aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: changeElementData}]);
+                zProcessDesigner.utils.history.saveHistory([{0: originElementData, 1: changeElementData}]);
 
                 if (originElementData.name !== changeElementData.name) {
-                    let connectors = aliceProcessEditor.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
+                    let connectors = zProcessDesigner.data.elements.filter(function(attr) { return attr.type === 'arrowConnector'; });
                     for (let i = 0, len = connectors.length; i < len; i++) {
                         if (connectors[i].data['start-id'] === id) {
                             connectors[i].data['start-name'] = elementData[0].name;
@@ -1485,7 +1485,7 @@
         elementContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
         let propertiesPanelTitle = i18n.msg(i18nMsgPrefix + 'process');
-        if (id !== aliceProcessEditor.data.process.id) {
+        if (id !== zProcessDesigner.data.process.id) {
             propertiesPanelTitle = i18n.msg(i18nMsgPrefix + properties.type);
         }
         document.getElementById('properties-name').innerHTML = propertiesPanelTitle;
@@ -1577,7 +1577,7 @@
                             connectorConditionChangeHandler(this, id);
                         }
                     };
-                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id === 'name')) {
+                    if (property.id !== 'id' && !(id === zProcessDesigner.data.process.id && property.id === 'name')) {
                         elementObject.addEventListener('change', changeEventHandler);
                     }
 
@@ -1585,9 +1585,9 @@
                     switch (property.id) {
                     case 'name':
                         let keyupHandler = function() {
-                            aliceProcessEditor.changeTextToElement(id, this.value);
+                            zProcessDesigner.changeTextToElement(id, this.value);
                         };
-                        if (id === aliceProcessEditor.data.process.id) {
+                        if (id === zProcessDesigner.data.process.id) {
                             keyupHandler = changeEventHandler;
                         }
                         elementObject.addEventListener('keyup', keyupHandler);
@@ -1595,7 +1595,7 @@
                     case 'reject-id':
                         const addRejectClass = function(e) {
                             e.stopPropagation();
-                            const elementData = aliceProcessEditor.data.elements.filter(function(elem) { return elem.id === e.target.value; });
+                            const elementData = zProcessDesigner.data.elements.filter(function(elem) { return elem.id === e.target.value; });
                             if (elementData.length) {
                                 d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
                             } else {
@@ -1621,7 +1621,7 @@
                 }
             }
         }
-        if (id !== aliceProcessEditor.data.process.id) {
+        if (id !== zProcessDesigner.data.process.id) {
             addSpecialProperties(id, elemData);
         } else {
             const temp = document.getElementById('process-info');
@@ -1652,8 +1652,8 @@
             let actionFieldset = elementContainer.querySelector('fieldset[name=action]');
             let conditionFieldset = elementContainer.querySelector('fieldset[name=condition]');
             if (actionFieldset && conditionFieldset) {
-                let element = aliceProcessEditor.data.elements.filter(function(e) { return e.id === id; })[0];
-                let sourceElement = aliceProcessEditor.data.elements.filter(function(e) { return e.id === element.data['start-id']; })[0];
+                let element = zProcessDesigner.data.elements.filter(function(e) { return e.id === id; })[0];
+                let sourceElement = zProcessDesigner.data.elements.filter(function(e) { return e.id === element.data['start-id']; })[0];
 
                 let enableFieldset = actionFieldset;
                 let disabledFieldset = conditionFieldset;
@@ -1914,7 +1914,7 @@
                     value: elemData[property.id]
                 }
             };
-            colorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
+            zColorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
             break;
         default:
             break;
@@ -1932,17 +1932,17 @@
     function connectorIsDefaultChangeHandler(target, id) {
         d3.select(document.getElementById(id)).classed('is-default', target.checked);
         let sourceId;
-        aliceProcessEditor.elements.links.forEach(function(l) {
+        zProcessDesigner.elements.links.forEach(function(l) {
             if (l.id === id) {
                 l.isDefault = target.checked ? 'Y' : 'N';
                 sourceId = l.sourceId;
             }
         });
-        aliceProcessEditor.elements.links.forEach(function(l) {
+        zProcessDesigner.elements.links.forEach(function(l) {
             if (l.sourceId === sourceId && l.id !== id && l.isDefault === 'Y') {
                 d3.select(document.getElementById(l.id)).classed('is-default', false);
                 l.isDefault = 'N';
-                aliceProcessEditor.data.elements.forEach(function(e) {
+                zProcessDesigner.data.elements.forEach(function(e) {
                     if (e.id === l.id) {
                         e.data['is-default'] = 'N';
                     }
@@ -1958,7 +1958,7 @@
      * @param id element ID
      */
     function connectorConditionChangeHandler(target, id) {
-        let arrowConnectors = aliceProcessEditor.data.elements.filter(function(e) {
+        let arrowConnectors = zProcessDesigner.data.elements.filter(function(e) {
             return e.type === 'arrowConnector' && e.data['start-id'] === id;
         });
         for (let i = 0, len = arrowConnectors.length; i < len; i++) {
@@ -1969,7 +1969,7 @@
             } else {
                 if (connectorData['is-default'] === 'Y') {
                     connectorData['is-default'] = 'N';
-                    let targetConnector = aliceProcessEditor.elements.links.filter(function(l) {
+                    let targetConnector = zProcessDesigner.elements.links.filter(function(l) {
                         return l.id === arrowConnectors[i].id;
                     })[0];
                     d3.select(document.getElementById(targetConnector.id)).classed('is-default', false);
@@ -1981,10 +1981,10 @@
     }
 
     function setProcessInformation() {
-        const elements = aliceProcessEditor.data.elements;
+        const elements = zProcessDesigner.data.elements;
         let categories = [];
         elements.forEach(function(elem) {
-            categories.push(aliceProcessEditor.getElementCategory(elem.type));
+            categories.push(zProcessDesigner.getElementCategory(elem.type));
         });
 
         let uniqList =  categories.reduce(function(a, b) {
@@ -2038,15 +2038,15 @@
                 url: '/rest/process/' + processId + '/data',
                 contentType: 'application/json; charset=utf-8',
                 callbackFunc: function(xhr) {
-                    aliceProcessEditor.data = JSON.parse(xhr.responseText);
-                    const elements = aliceProcessEditor.data.elements;
-                    initialStatus = aliceProcessEditor.data.process.status;
+                    zProcessDesigner.data = JSON.parse(xhr.responseText);
+                    const elements = zProcessDesigner.data.elements;
+                    initialStatus = zProcessDesigner.data.process.status;
                     elements.forEach(function(element) {
                         const category = getElementCategory(element.type);
                         element.required = getAttributeRequired(category, element.type);
                     });
                     setElementMenu();
-                    aliceProcessEditor.drawProcess(processId, elements);
+                    zProcessDesigner.drawProcess(processId, elements);
                     exports.initialStatus = initialStatus;
                 }
             });

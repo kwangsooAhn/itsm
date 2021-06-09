@@ -97,19 +97,19 @@
 <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
 <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
-<script th:src="@{/assets/js/util/i18n-alice.js}"></script>
-<script th:src="@{/assets/js/util/alert-alice.js}"></script>
-<script th:src="@{/assets/js/util/validation-alice.js}"></script>
-<script th:src="@{/assets/js/util/util-alice.js}"></script>
+<script th:src="@{/assets/js/lib/zI18n.js}"></script>
+<script th:src="@{/assets/js/lib/zAlert.js}"></script>
+<script th:src="@{/assets/js/lib/zValidation.legacy.js}"></script>
+<script th:src="@{/assets/js/lib/zUtil.js}"></script>
 <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
-<script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
+<script th:src="@{/assets/js/lib/zFileuploader.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function() {
         i18n.init();
         hiddenProgressBar();
         document.getElementById('userId').focus();
-        fileUploader.avatar({
+        zFileUploader.avatar({
             extra: {
                 dropZoneFilesId: 'avatarDropZone',
                 type: 'avatar',

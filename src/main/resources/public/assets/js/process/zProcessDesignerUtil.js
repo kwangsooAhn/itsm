@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.aliceProcessEditor = global.aliceProcessEditor || {})));
+            (factory((global.zProcessDesigner = global.zProcessDesigner || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -25,7 +25,7 @@
         undo_list: [],
         saveHistory: function (data, list, keep_redo) {
             data = data.filter(function (d) { // data check
-                return !workflowUtil.compareJson(d[0], d[1]);
+                return !ZWorkflowUtil.compareJson(d[0], d[1]);
             });
             if (data.length === 0) {
                 return;
@@ -37,20 +37,20 @@
             (list || this.undo_list).push(data);
 
             // 엘리먼트 정렬
-            aliceProcessEditor.data.elements.sort(function (a, b) {
+            zProcessDesigner.data.elements.sort(function (a, b) {
                 return a.id < b.id ? -1 : 1;
             });
             savedData.elements.sort(function (a, b) {
                 return a.id < b.id ? -1 : 1;
             });
 
-            isEdited = !workflowUtil.compareJson(aliceProcessEditor.data, savedData);
+            isEdited = !ZWorkflowUtil.compareJson(zProcessDesigner.data, savedData);
             changeProcessName();
             setProcessMinimap();
         },
         undo: function () {
-            aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.setElementMenu();
+            zProcessDesigner.removeElementSelected();
+            zProcessDesigner.setElementMenu();
             if (this.undo_list.length) {
                 let restoreData = this.undo_list.pop();
                 redrawProcess(restoreData, 'undo');
@@ -58,8 +58,8 @@
             }
         },
         redo: function () {
-            aliceProcessEditor.removeElementSelected();
-            aliceProcessEditor.setElementMenu();
+            zProcessDesigner.removeElementSelected();
+            zProcessDesigner.setElementMenu();
             if (this.redo_list.length) {
                 let restoreData = this.redo_list.pop();
                 redrawProcess(restoreData, 'redo');
@@ -119,7 +119,7 @@
      * 프로세스명 변경
      */
     function changeProcessName() {
-        document.getElementById('process-name').textContent = (isEdited ? '*' : '') + aliceProcessEditor.data.process.name;
+        document.getElementById('process-name').textContent = (isEdited ? '*' : '') + zProcessDesigner.data.process.name;
     }
 
     /**
@@ -130,12 +130,12 @@
      */
     function redrawProcess(restoreData, type) {
         const restoreProcess = function (originData, changeData) {
-            let links = aliceProcessEditor.elements.links;
+            let links = zProcessDesigner.elements.links;
             if (!Object.keys(originData).length || !Object.keys(changeData).length) {
                 if (!Object.keys(changeData).length) { // delete element
-                    aliceProcessEditor.data.elements.forEach(function (elem, i) {
+                    zProcessDesigner.data.elements.forEach(function (elem, i) {
                         if (originData.id === elem.id) {
-                            aliceProcessEditor.data.elements.splice(i, 1);
+                            zProcessDesigner.data.elements.splice(i, 1);
                         }
                     });
                     if (originData.type !== 'arrowConnector') {
@@ -144,17 +144,17 @@
                     } else {
                         for (let i = 0, len = links.length; i < len; i++) {
                             if (links[i].id === originData.id) {
-                                aliceProcessEditor.elements.links.splice(i, 1);
+                                zProcessDesigner.elements.links.splice(i, 1);
                                 break;
                             }
                         }
                     }
                 } else { // add element
                     if (changeData.type !== 'arrowConnector') {
-                        let node = aliceProcessEditor.addElement(changeData);
+                        let node = zProcessDesigner.addElement(changeData);
                         if (node) {
                             node.nodeElement.attr('id', changeData.id);
-                            aliceProcessEditor.data.elements.push(changeData);
+                            zProcessDesigner.data.elements.push(changeData);
                         }
                     } else {
                         let link = {
@@ -175,22 +175,22 @@
                             link.textPoint = changeData.display['text-point'];
                         }
                         links.push(link);
-                        aliceProcessEditor.data.elements.push(changeData);
+                        zProcessDesigner.data.elements.push(changeData);
                     }
                 }
             } else if (typeof changeData.type === 'undefined') { // modify process data
-                aliceProcessEditor.data.process = changeData;
+                zProcessDesigner.data.process = changeData;
                 if (originData.name !== changeData.name) { // modify name
                     changeProcessName();
                 }
-                aliceProcessEditor.setElementMenu();
+                zProcessDesigner.setElementMenu();
             } else { // modify element
                 let element = d3.select(document.getElementById(changeData.id));
                 if (originData.type !== changeData.type) { // modify type
-                    aliceProcessEditor.changeElementType(element, changeData.type);
+                    zProcessDesigner.changeElementType(element, changeData.type);
                 }
                 if (originData.name !== changeData.name) { // modify name
-                    aliceProcessEditor.changeTextToElement(changeData.id, changeData.name);
+                    zProcessDesigner.changeTextToElement(changeData.id, changeData.name);
                 }
                 if (changeData.type !== 'arrowConnector') {
                     if (originData.display['position-x'] !== changeData.display['position-x']
@@ -199,7 +199,7 @@
                         || originData.display.height !== changeData.display.height
                         || originData.data['line-color'] !== changeData.data['line-color']
                         || originData.data['background-color'] !== changeData.data['background-color']) { // modify position or size or group color
-                        let node = aliceProcessEditor.addElement(changeData);
+                        let node = zProcessDesigner.addElement(changeData);
                         if (node) {
                             d3.select(element.node().parentNode).remove();
                             node.nodeElement.attr('id', changeData.id);
@@ -235,9 +235,9 @@
                         }
                     }
                 }
-                for (let i = 0, len = aliceProcessEditor.data.elements.length; i < len; i++) {
-                    if (aliceProcessEditor.data.elements[i].id === changeData.id) {
-                        aliceProcessEditor.data.elements[i] = changeData;
+                for (let i = 0, len = zProcessDesigner.data.elements.length; i < len; i++) {
+                    if (zProcessDesigner.data.elements[i].id === changeData.id) {
+                        zProcessDesigner.data.elements[i] = changeData;
                         break;
                     }
                 }
@@ -252,7 +252,7 @@
             }
             restoreProcess(originData, changeData);
         });
-        aliceProcessEditor.setConnectors(true);
+        zProcessDesigner.setConnectors(true);
     }
 
     /**
@@ -260,7 +260,7 @@
      */
     function saveProcess() {
         if(!valdationCheck()) return false;
-        aliceProcessEditor.resetElementPosition();
+        zProcessDesigner.resetElementPosition();
         save(function (response) {
             let resultCode = response.responseText;
             switch (resultCode) {
@@ -273,13 +273,13 @@
                 default:
                     aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
                     isEdited = false;
-                    savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+                    savedData = JSON.parse(JSON.stringify(zProcessDesigner.data));
                     if (savedData.process.status === 'process.status.publish' ||
                         savedData.process.status === 'process.status.use') {
                         uploadProcessFile();
                     }
                     changeProcessName();
-                    aliceProcessEditor.initialStatus = savedData.process.status;
+                    zProcessDesigner.initialStatus = savedData.process.status;
             }
         });
     }
@@ -291,7 +291,7 @@
         save(function (xhr) {
             if (xhr.responseText === RESPONSE_SUCCESS) {
                 isEdited = false;
-                savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+                savedData = JSON.parse(JSON.stringify(zProcessDesigner.data));
                 changeProcessName();
             }
         });
@@ -305,9 +305,9 @@
     function save(callbackFunc) {
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/process/' + aliceProcessEditor.data.process.id + '/data',
+            url: '/rest/process/' + zProcessDesigner.data.process.id + '/data',
             contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(aliceProcessEditor.data),
+            params: JSON.stringify(zProcessDesigner.data),
             callbackFunc: callbackFunc
         });
     }
@@ -353,7 +353,7 @@
          * 저장처리.
          */
         const saveAs = function () {
-            const saveAsProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+            const saveAsProcessData = JSON.parse(JSON.stringify(zProcessDesigner.data));
             let processData = saveAsProcessData.process;
             processData.name = document.getElementById('process_name').value;
             processData.description = document.getElementById('process_description').value;
@@ -448,7 +448,7 @@
     function simulationProcess() {
         aliceJs.sendXhr({
             method: 'put',
-            url: '/rest/process/' + aliceProcessEditor.data.process.id + '/simulation',
+            url: '/rest/process/' + zProcessDesigner.data.process.id + '/simulation',
             callbackFunc: function (xhr) {
                 if (document.querySelectorAll('.simulation-report-contents-main .details div').length > 0) {
                     document.querySelectorAll('.simulation-report-contents-main .details div').forEach((element) => element.parentElement.removeChild(element));
@@ -518,7 +518,7 @@
                 OverlayScrollbars(document.querySelector('.simulation-report-contents-main'), { className: 'scrollbar' });
             },
             contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(aliceProcessEditor.data)
+            params: JSON.stringify(zProcessDesigner.data)
         });
     }
 
@@ -556,7 +556,7 @@
 
                 let canvasData = canvas.toDataURL('image/png');
                 const a = document.createElement('a');
-                a.download = aliceProcessEditor.data.process.name + '_' + aliceProcessEditor.data.process.id + '.png';
+                a.download = zProcessDesigner.data.process.name + '_' + zProcessDesigner.data.process.id + '.png';
                 a.href = canvasData;
                 a.click();
                 svgNode = null;
@@ -577,7 +577,7 @@
             let xmlString = createProcessXMLString(viewBox, svgString);
             let formData = new FormData();
             let blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + xmlString], {type: 'text/plain'});
-            formData.append('file', blob, aliceProcessEditor.data.process.id + '.xml');
+            formData.append('file', blob, zProcessDesigner.data.process.id + '.xml');
 
             let xhr = new XMLHttpRequest();
             xhr.open('POST', '/fileupload?target=process');
@@ -599,9 +599,9 @@
     function createProcessXMLString(viewBox, svgString) {
         const xmlDoc = document.implementation.createDocument('', '', null);
         let processNode = xmlDoc.createElement('process');
-        processNode.setAttribute('id', aliceProcessEditor.data.process.id);
-        processNode.setAttribute('name', aliceProcessEditor.data.process.name);
-        processNode.setAttribute('description', aliceProcessEditor.data.process.description);
+        processNode.setAttribute('id', zProcessDesigner.data.process.id);
+        processNode.setAttribute('name', zProcessDesigner.data.process.name);
+        processNode.setAttribute('description', zProcessDesigner.data.process.description);
 
         let imageNode = xmlDoc.createElement('image');
         imageNode.setAttribute('left', viewBox[0]);
@@ -614,7 +614,7 @@
 
         let displayNode = xmlDoc.createElement('display');
         const excludeElementTypes = ['annotation', 'group', 'arrowConnector'];
-        const elements = aliceProcessEditor.data.elements.filter(elem => excludeElementTypes.indexOf(elem.type) === -1);
+        const elements = zProcessDesigner.data.elements.filter(elem => excludeElementTypes.indexOf(elem.type) === -1);
         elements.forEach(function (element) {
             let elementNode = xmlDoc.createElement('element');
             elementNode.setAttribute('id', element.id);
@@ -650,7 +650,7 @@
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
         svg.selectAll('.node.selected').nodes().forEach(function (node) {
-            aliceProcessEditor.setDeselectedElement(d3.select(node));
+            zProcessDesigner.setDeselectedElement(d3.select(node));
         });
         svg.selectAll('.selected').classed('selected', false);
         svg.selectAll('.reject-element').classed('reject-element', false);
@@ -730,21 +730,21 @@
      * set shortcut.
      */
     function setShortcut() {
-        shortcut.init();
+        zShortcut.init();
 
         const shortcuts = [
-            {'keys': 'ctrl+s', 'command': 'aliceProcessEditor.utils.save();', 'force': true},             // 저장
-            {'keys': 'ctrl+shift+s', 'command': 'aliceProcessEditor.utils.saveAs();', 'force': true},     // 다른 이름으로 저장
-            {'keys': 'ctrl+z', 'command': 'aliceProcessEditor.utils.undo();', 'force': false},            // 작업 취소
-            {'keys': 'ctrl+shift+z', 'command': 'aliceProcessEditor.utils.redo();', 'force': false},      // 작업 재실행
-            {'keys': 'ctrl+e', 'command': 'aliceProcessEditor.utils.simulation();', 'force': false},      // 미리보기(시뮬레이션)
-            {'keys': 'ctrl+d', 'command': 'aliceProcessEditor.utils.download();', 'force': false},        // 이미지 다운로드
-            {'keys': 'ctrl+x,delete', 'command': 'aliceProcessEditor.deleteElements();', 'force': false}, // 엘리먼트 삭제
-            {'keys': 'alt+e', 'command': 'aliceProcessEditor.utils.focus();', 'force': false}             // 세부 속성 편집: 제일 처음으로 이동
+            {'keys': 'ctrl+s', 'command': 'zProcessDesigner.utils.save();', 'force': true},             // 저장
+            {'keys': 'ctrl+shift+s', 'command': 'zProcessDesigner.utils.saveAs();', 'force': true},     // 다른 이름으로 저장
+            {'keys': 'ctrl+z', 'command': 'zProcessDesigner.utils.undo();', 'force': false},            // 작업 취소
+            {'keys': 'ctrl+shift+z', 'command': 'zProcessDesigner.utils.redo();', 'force': false},      // 작업 재실행
+            {'keys': 'ctrl+e', 'command': 'zProcessDesigner.utils.simulation();', 'force': false},      // 미리보기(시뮬레이션)
+            {'keys': 'ctrl+d', 'command': 'zProcessDesigner.utils.download();', 'force': false},        // 이미지 다운로드
+            {'keys': 'ctrl+x,delete', 'command': 'zProcessDesigner.deleteElements();', 'force': false}, // 엘리먼트 삭제
+            {'keys': 'alt+e', 'command': 'zProcessDesigner.utils.focus();', 'force': false}             // 세부 속성 편집: 제일 처음으로 이동
         ];
 
         for (let i = 0; i < shortcuts.length; i++) {
-            shortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
+            zShortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
         }
     }
 
@@ -778,7 +778,7 @@
         });
         minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
         minimapSvg.selectAll('.node.selected').nodes().forEach(function (node) {
-            aliceProcessEditor.setDeselectedElement(d3.select(node));
+            zProcessDesigner.setDeselectedElement(d3.select(node));
         });
         minimapSvg.selectAll('.selected').classed('selected', false);
         minimapSvg.selectAll('.reject-element').classed('reject-element', false);
@@ -816,7 +816,7 @@
             nodeLeftArray = [];
         const nodes = minimapSvg.selectAll('g.element, g.connector').nodes();
         nodes.forEach(function (node) {
-            let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
+            let nodeBBox = zProcessDesigner.utils.getBoundingBoxCenter(d3.select(node));
             nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
             nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
             nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
@@ -963,7 +963,7 @@
         initializeButtonOnDrawingBoard();
         // start observer
         isEdited = false;
-        savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+        savedData = JSON.parse(JSON.stringify(zProcessDesigner.data));
         setShortcut();
         changeProcessName();
     }
@@ -977,17 +977,17 @@
 function valdationCheck() {
     let typeList = ['commonStart', `timerStart`, 'signalSend', 'manualTask', 'userTask', 'scriptTask', 'arrowConnector',
         'exclusiveGateway', 'inclusiveGateway', 'parallelGateway', 'groupArtifact', 'annotationArtifact', 'commonEnd'];
-    let totalElements = aliceProcessEditor.data.elements;
+    let totalElements = zProcessDesigner.data.elements;
     let requiredList = [];
     let deployableStatus = ['process.status.publish', 'process.status.use'];
-    let nowStatus = aliceProcessEditor.data.process.status;
+    let nowStatus = zProcessDesigner.data.process.status;
 
-    if (deployableStatus.indexOf(aliceProcessEditor.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
+    if (deployableStatus.indexOf(zProcessDesigner.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
         aliceJs.alertWarning(i18n.msg("common.msg.onlySaveInEdit"));
         return false;
     }
-    if (aliceProcessEditor.isView) return false;
-    if (aliceProcessEditor.data.process.name.toString().trim() === '') {
+    if (zProcessDesigner.isView) return false;
+    if (zProcessDesigner.data.process.name.toString().trim() === '') {
         aliceAlert.alertWarning(i18n.msg("process.msg.enterProcessName"));
         return false;
     }
@@ -1002,8 +1002,8 @@ function valdationCheck() {
                             const errorElem = document.getElementById(totalElements[i].id);
                             aliceAlert.alertWarning(i18n.msg("process.msg.enterRequired",
                                 i18n.msg("process.designer.attribute." + totalElements[i].type)));
-                            aliceProcessEditor.setSelectedElement(d3.select(errorElem));
-                            aliceProcessEditor.setElementMenu(d3.select(errorElem));
+                            zProcessDesigner.setSelectedElement(d3.select(errorElem));
+                            zProcessDesigner.setElementMenu(d3.select(errorElem));
                             return false;
                         }
                     }
@@ -1015,8 +1015,8 @@ function valdationCheck() {
                                 const errorElem = document.getElementById(totalElements[i].id);
                                 aliceAlert.alertWarning(i18n.msg("process.msg.enterRequired",
                                     i18n.msg("process.designer.attribute." + totalElements[i].type)));
-                                aliceProcessEditor.setSelectedElement(d3.select(errorElem));
-                                aliceProcessEditor.setElementMenu(d3.select(errorElem));
+                                zProcessDesigner.setSelectedElement(d3.select(errorElem));
+                                zProcessDesigner.setElementMenu(d3.select(errorElem));
                                 return false;
                             }
                         }

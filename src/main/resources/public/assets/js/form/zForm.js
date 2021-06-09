@@ -9,9 +9,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/mixins.js';
-import { UIDiv } from '../lib/ui.js';
-import { CLASS_PREFIX, UNIT, FORM } from '../lib/constants.js';
+import * as mixin from '../lib/zMixins.js';
+import { UIDiv } from '../lib/zUI.js';
+import { CLASS_PREFIX, UNIT, FORM } from '../lib/zConstants.js';
 import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
 import ZInputBoxProperty from '../formDesigner/property/type/zInputBoxProperty.js';
 import ZTextAreaProperty from '../formDesigner/property/type/zTextAreaProperty.js';
@@ -24,7 +24,7 @@ export default class ZForm {
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
         this._type = 'form';
-        this._id =  data.id || workflowUtil.generateUUID();
+        this._id =  data.id || ZWorkflowUtil.generateUUID();
         this._name = data.name || '';
         this._desc = data.desc || '';
         this._status = data.status || 'form.status.edit'; // 문서 상태 : 편집, 발생, 사용, 폐기
@@ -237,17 +237,17 @@ export default class ZForm {
         // display 속성 - width
         const displayWidthProperty = new ZInputBoxProperty('display.width', this.displayWidth)
             .setValidation(true, 'number', '0', '8192', '', '');
-        displayWidthProperty.unit = 'px';
+        displayWidthProperty.unit = UNIT.PX;
 
         // display 속성 - margin
         const displayMarginProperty = new ZBoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayMarginProperty.unit = 'px';
+        displayMarginProperty.unit = UNIT.PX;
 
         // display 속성 - padding
         const displayPaddingProperty = new ZBoxModelProperty('display.padding', this.displayPadding)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayPaddingProperty.unit = 'px';
+        displayPaddingProperty.unit = UNIT.PX;
 
         return [
             new ZClipboardProperty('id', this.id),

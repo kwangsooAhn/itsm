@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 
-class Validation {
+class ZValidation {
     constructor(options = { alert: true }) {
         // 알림창 사용 여부가 false일 경우 DOM을 검색하여 'error-msg' class를 찾아서 에러 메시지를 표기한다.
         this.alert = options.alert; // 알림창 사용여부
@@ -465,4 +465,4 @@ class Validation {
     }
 }
 
-export const zValidation = new Validation();
+export const zValidation = new ZValidation();

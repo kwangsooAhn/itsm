@@ -689,8 +689,12 @@ form:
       width: "Width"
     drTableColumns: "Table Column"
     element:
+      align: "Align"
       columnWidth: "Column Width"
       defaultValueSelect: "Default Value Type"
+      path: "Path"
+      width: "Width"
+      heigth: "Height"
     email: "Email"
     group:
       display: "Display"
@@ -747,6 +751,7 @@ image:
   label:
     name: "Image"
     list: "Image Management"
+    placeholder: "Select Your Image"
     popupTitle: "Select Image"
     upload: "Upload Your Image"
   msg:

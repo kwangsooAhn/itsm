@@ -9,9 +9,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import * as mixin from '../lib/mixins.js';
-import { CLASS_PREFIX, FORM, UNIT } from '../lib/constants.js';
-import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/ui.js';
+import * as mixin from '../lib/zMixins.js';
+import { CLASS_PREFIX, FORM, UNIT } from '../lib/zConstants.js';
+import { UICheckbox, UIDiv, UILabel, UISpan } from '../lib/zUI.js';
 import ZClipboardProperty from '../formDesigner/property/type/zClipboardProperty.js';
 import ZInputBoxProperty from '../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../formDesigner/property/type/zGroupProperty.js';
@@ -40,7 +40,7 @@ export default class ZGroup {
         this.parent = null;        // 부모 객체
         this.children = [];        // 자식 객체
         this._type = 'group';
-        this._id =  data.id || workflowUtil.generateUUID();
+        this._id =  data.id || ZWorkflowUtil.generateUUID();
         this._name = data.name || ''; // 신청서 양식에서 사용되는 이름
         this._displayType = data.displayType || 'document.displayType.editable';
         this._label = Object.assign({}, DEFAULT_GROUP_LABEL_PROPERTY, data.label);
@@ -65,7 +65,7 @@ export default class ZGroup {
         // 그룹
         groupTooltip.UIGroup = new UIGroup(this.displayIsAccordionUsed).setUIId(this.id);
         // 아코디언용 체크박스
-        const accordionId = workflowUtil.generateUUID(); // 미리보기에서도 동작하도록 key를 동적으로 만듬
+        const accordionId = ZWorkflowUtil.generateUUID(); // 미리보기에서도 동작하도록 key를 동적으로 만듬
         groupTooltip.UIGroup.UICheckbox.setUIId('chk-' + accordionId)
             .setUIClass(CLASS_PREFIX + 'group-accordion-checkBox');
         // 라벨
@@ -238,7 +238,7 @@ export default class ZGroup {
 
     set labelFontSize(size) {
         this._label.fontSize = size;
-        this.UIElement.UIGroup.UILabel.UILabelText.setUIFontSize(size);
+        this.UIElement.UIGroup.UILabel.UILabelText.setUIFontSize(size + UNIT.PX);
     }
 
     get labelFontSize() {
@@ -298,7 +298,7 @@ export default class ZGroup {
         // display 속성 - margin
         const displayMarginProperty = new ZBoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayMarginProperty.unit = 'px';
+        displayMarginProperty.unit = UNIT.PX;
 
         // labe - text
         const labelTextProperty = new ZInputBoxProperty('label.text', this.labelText);
@@ -307,7 +307,7 @@ export default class ZGroup {
         // label - fontSize
         const labelFontSizeProperty = new ZInputBoxProperty('label.fontSize', this.labelFontSize)
             .setValidation(false, 'number', '10', '100', '', '');
-        labelFontSizeProperty.unit = 'px';
+        labelFontSizeProperty.unit = UNIT.PX;
         labelFontSizeProperty.columnWidth = '3';
 
         // label - align
