@@ -223,3 +223,9 @@
     border-bottom-right-radius: 0;
   }
 }
+
+// button search
+.icon-search {
+  display: inline-block;
+  @include maskImage('#{$icon-folder-path}icon_search.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
+}
