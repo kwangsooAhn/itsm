@@ -687,6 +687,7 @@ form:
     drTableColumns: "Table Column"
     element:
       columnWidth: "Column Width"
+      defaultValue: "Default Value"
       defaultValueSelect: "Default Value Type"
     email: "Email"
     group:

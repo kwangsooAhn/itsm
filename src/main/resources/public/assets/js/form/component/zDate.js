@@ -17,8 +17,8 @@ import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxPropert
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZDefaultValueDateProperty from '../../formDesigner/property/type/zDefaultValueDateProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -27,8 +27,8 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         placeholder: '',
         columnWidth: '10',
-        defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
-     },
+        defaultValueDate: 'YYYY-MM-DD ',
+    },
     validation: {
         required: false,
         minDate: '',
@@ -82,12 +82,12 @@ export const dateMixin = {
     get elementColumnWidth() {
         return this._element.columnWidth;
     },
-    set elementDefaultValueSelect(value) {
-        this._element.defaultValueSelect = value;
+    set elementDefaultValueDate(value) {
+        this._element.defaultValueDate = value;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.value);
     },
-    get elementDefaultValueSelect() {
-        return this._element.defaultValueSelect;
+    get elementDefaultValueDate() {
+        return this._element.defaultValueDate
     },
     set validationRequired(boolean) {
         this._validation.required = boolean;
@@ -120,18 +120,7 @@ export const dateMixin = {
         this._value = value;
     },
     get value() {
-        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
-        if (this._value === '${default}') {
-            // 직접입력일 경우 : none|입력값
-            const defaultValues = this._element.defaultValueSelect.split('|');
-            if (defaultValues[0] === 'input') {
-                return defaultValues[1];
-            } else {  // 자동일경우 : select|userKey
-                return SESSION[defaultValues[1]] || '';
-            }
-        } else {
-            return this._value;
-        }
+        return this._value;
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -157,8 +146,8 @@ export const dateMixin = {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZInputBoxProperty('element.placeholder', this.elementPlaceholder))
-                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth)),
+                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZDefaultValueDateProperty('element.defaultValue', this.elementDefaultValueDate)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
                 .addProperty(new ZInputBoxProperty('validation.minDate', this.validationMinDate))

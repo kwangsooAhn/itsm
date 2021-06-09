@@ -687,6 +687,7 @@ form:
     drTableColumns: "테이블 컬럼"
     element:
       columnWidth: "컬럼 너비"
+      defaultValue: "기본값"
       defaultValueSelect: "기본값 타입"
     email: "Email"
     group:
