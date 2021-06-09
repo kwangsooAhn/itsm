@@ -126,6 +126,17 @@
     @include border(0.0625rem, solid, $component-selected-border-color, all); // 1px
     background-color: $component-selected-bg-color;
     >.#{$common-prefix}tooltip-menu { visibility: visible; }
+
+    // component
+    .#{$common-prefix}component {
+      // element
+      .#{$common-prefix}element {
+        // image 컴포넌트
+        .#{$common-prefix}imagebox-placeholder {
+          background-color: $component-selected-imagebox-bg-color;
+        }
+      }
+    }
   }
   // displayType이 hidden일 경우
   &.off { display: none; }
@@ -151,15 +162,41 @@
     // inputBox
     .input {
       width: 100%;
-      @include border(0.0625rem, solid, map-get($grays, "line"), all); // 1px
+      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
       @include borderRadius(0.0625rem); // 2px
+    }
+    // image 컴포넌트
+    .#{$common-prefix}imagebox-placeholder {
+      display: none;
+      height: 8.75rem; // 140px
+      font-size: $component-imagebox-font-size;
+      font-weight: $component-imagebox-font-weight;
+      color: $component-imagebox-font-color;
+      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+      background-color: $component-imagebox-bg-color;
+      text-align: center;
+      padding: 1.875rem 0 0.625rem; // 30px 0 10px 0
+      .icon-no-image {
+        display: inline-block;
+        @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, map-get($grays, 'pressed')); // 45px
+      }
+    }
+    .#{$common-prefix}imagebox {
+      width: 100%;
+      height: 100%;
+      &[src=''] {
+        display: none;
+        + .#{$common-prefix}imagebox-placeholder {
+          display: block;
+        }
+      }
     }
   }
 }
 // label
 .#{$common-prefix}component { // 필수값 숨김
   .#{$common-prefix}component-label {
-    span[class="required"] {
+    .required {
       &.off { display: none; }
       &.on { display: inline; }
     }

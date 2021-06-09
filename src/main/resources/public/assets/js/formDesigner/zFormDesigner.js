@@ -63,18 +63,18 @@ class ZFormDesigner {
      */
     initShortcut() {
         const shortcuts = [
-            { 'keys': 'ctrl+s', 'command': 'formDesigner.saveForm(false);', 'force': true },                        //폼 양식 저장
-            { 'keys': 'ctrl+shift+s', 'command': 'formDesigner.openSaveAsModal();', 'force': true },                //폼 양식 다른이름으로 저장
-            { 'keys': 'ctrl+z', 'command': 'formDesigner.history.undo();', 'force': false },                        //폼 편집 화면 작업 취소
-            { 'keys': 'ctrl+shift+z', 'command': 'formDesigner.history.redo();', 'force': false },                  //폼 편집 화면 작업 재실행
-            { 'keys': 'ctrl+e', 'command': 'formDesigner.preview();', 'force': false },                             //폼 양식 미리보기
-            { 'keys': 'insert', 'command': 'formDesigner.selectedObject.copyObject();', 'force': false },           //복사하여 바로 아래 추가
-            { 'keys': 'ctrl+x,delete', 'command': 'formDesigner.selectedObject.removeObject();', 'force': false },  //객체 삭제
-            { 'keys': 'ctrl+home', 'command': 'formDesigner.selectFirstGroup();', 'force': false },                 //첫번째 그룹 선택
-            { 'keys': 'ctrl+end', 'command': 'formDesigner.selectLastGroup();', 'force': false },                   //마지막 그룹 선택
-            { 'keys': 'up', 'command': 'formDesigner.selectUpObject();', 'force': false },                          //바로 위 동일 타입 객체 선택
-            { 'keys': 'down', 'command': 'formDesigner.selectDownObject();', 'force': false },                      //바로 아래 동일 타입 객체 선택
-            { 'keys': 'alt+e', 'command': 'formDesigner.panel.selectFirstProperty();', 'force': false }             //세부 속성 편집: 제일 처음으로 이동
+            { 'keys': 'ctrl+s', 'command': 'zFormDesigner.saveForm(false);', 'force': true },                        //폼 양식 저장
+            { 'keys': 'ctrl+shift+s', 'command': 'zFormDesigner.openSaveAsModal();', 'force': true },                //폼 양식 다른이름으로 저장
+            { 'keys': 'ctrl+z', 'command': 'zFormDesigner.history.undo();', 'force': false },                        //폼 편집 화면 작업 취소
+            { 'keys': 'ctrl+shift+z', 'command': 'zFormDesigner.history.redo();', 'force': false },                  //폼 편집 화면 작업 재실행
+            { 'keys': 'ctrl+e', 'command': 'zFormDesigner.preview();', 'force': false },                             //폼 양식 미리보기
+            { 'keys': 'insert', 'command': 'zFormDesigner.copyObject();', 'force': false },           //복사하여 바로 아래 추가
+            { 'keys': 'ctrl+x,delete', 'command': 'zFormDesigner.removeObject();', 'force': false },  //객체 삭제
+            { 'keys': 'ctrl+home', 'command': 'zFormDesigner.selectFirstGroup();', 'force': false },                 //첫번째 그룹 선택
+            { 'keys': 'ctrl+end', 'command': 'zFormDesigner.selectLastGroup();', 'force': false },                   //마지막 그룹 선택
+            { 'keys': 'up', 'command': 'zFormDesigner.selectUpObject();', 'force': false },                          //바로 위 동일 타입 객체 선택
+            { 'keys': 'down', 'command': 'zFormDesigner.selectDownObject();', 'force': false },                      //바로 아래 동일 타입 객체 선택
+            { 'keys': 'alt+e', 'command': 'zFormDesigner.panel.selectFirstProperty();', 'force': false }             //세부 속성 편집: 제일 처음으로 이동
         ];
 
         zShortcut.init();
@@ -607,6 +607,22 @@ class ZFormDesigner {
             0 : (this.selectedObject.displayDisplayOrder + 1);
 
         parentObject.children[selectIndex].UIElement.domElement.dispatchEvent(new Event('click'));
+    }
+    /**
+     * group, row, component 객체 복제
+     */
+    copyObject() {
+        if (this.selectedObject === null) { return false; }
+
+        this.selectedObject.copyObject();
+    }
+    /**
+     * group, row, component 객체 삭제
+     */
+    removeObject() {
+        if (this.selectedObject === null) { return false; }
+
+        this.selectedObject.removeObject();
     }
     /**
      * 선택된 객체의 선택 해제
