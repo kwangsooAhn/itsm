@@ -438,21 +438,13 @@ class UIHorizontalRule extends UIElement {
         this.domElement.className = 'HorizontalRule';
     }
 
-    setUIAttribute(name, value) {
-        this.domElement.setAttribute(name, value);
-        return this;
-    }
-
     setUIThickness(value) {
         this.domElement.style.borderTopWidth = value;
     }
 
-    setUIColor(value) {
-        this.domElement.style.borderTopColor = value;
-    }
-
-    setUIType(value) {
-        this.domElement.style.borderTopStyle = value;
+    setUIStyle(color, type) {
+        this.domElement.style.borderTopColor = color;
+        this.domElement.style.borderTopStyle = type;
     }
 }
 

@@ -77,14 +77,14 @@ export const dividerMixin = {
     },
     set elementColor(color) {
         this._element.color = color;
-        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIColor(color);
+        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIStyle(color, this._element.type);
     },
     get elementColor() {
         return this._element.color;
     },
     set elementType(type) {
         this._element.type = type;
-        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIType(type);
+        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIStyle(this._element.color, type);
     },
     get elementType() {
         return this._element.type;
