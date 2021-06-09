@@ -67,6 +67,10 @@ class UIElement {
         return this;
     }
 
+    hasUIClass(name) {
+        return this.domElement.classList.contains(name);
+    }
+
     setUIAttribute(name, value) {
         this.domElement.setAttribute(name, value);
         return this;
@@ -97,10 +101,6 @@ class UIElement {
     setUITextContent(value) {
         this.domElement.textContent = value;
         return this;
-    }
-
-    getUIIndexOfChild(element) {
-        return Array.prototype.indexOf.call(this.domElement.children, element.domElement);
     }
 }
 
@@ -203,6 +203,11 @@ class UIInput extends UIElement {
 
     setUIValue(value) {
         this.domElement.value = value;
+        return this;
+    }
+
+    setUIType(type) {
+        this.domElement.type = type;
         return this;
     }
 
@@ -509,32 +514,74 @@ class UIImg extends UIElement {
 class UITable extends UIElement {
     constructor() {
         super(document.createElement('table'));
-        this.domElement.createTBody();
+        this.rows = [];
     }
 
-    setUIHeaders(options) {
-        this.domElement.deleteTHead();
+    addUIRow(row) {
+        this.rows.push(row);
+        this.addUI(row);
+        return this;
+    }
 
-        const header = this.domElement.createTHead();
-        const row = header.insertRow(0);
-        for (const key in options) {
-            const cell = row.insertCell(Number(key));
-            cell.innerHTML = options[key];
+    removeUIRow(row) {
+        const index = this.rows.indexOf(row);
+        if (index !== -1) {
+            this.removeUI(row);
+            row.parent = null;
+            this.rows.splice(index, 1);
         }
         return this;
     }
+}
 
-    addUIRow() {
+class UIRow extends UIElement {
+    constructor(table) {
+        super(document.createElement('row'));
+
+        this.parent = table;
+        this.cells = [];
+    }
+
+    addUICell(cell) {
+        this.cells.push(cell);
+        this.addUI(cell);
         return this;
     }
 
-    removeUIRow(index) {
-        this.domElement.deleteRow(index);
+    removeUICell(cell) {
+        const index = this.cells.indexOf(cell);
+        if (index !== -1) {
+            this.removeUI(cell);
+            cell.parent = null;
+            this.cells.splice(index, 1);
+        }
+        return this;
+    }
+    getUIIndex() {
+        return this.domElement.rowIndex;
+    }
+}
+
+class UICell extends UIElement {
+    constructor(row) {
+        super(document.createElement('td'));
+
+        this.parent = row;
+    }
+
+    setRowspan(value) {
+        this.domElement.setAttribute('rowspan', value);
+        return this;
+    }
+
+    setColspan(value) {
+        this.domElement.setAttribute('colspan', value);
         return this;
     }
 }
+
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
-    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable
+    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable, UIRow, UICell
 };

@@ -10,14 +10,13 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX, CI } from '../../lib/zConstants.js';
+import {FORM, CLASS_PREFIX, CI, UNIT} from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import {UIButton, UIDiv, UITable} from '../../lib/zUI.js';
+import {UIButton, UIDiv, UITable, UIRow, UICell, UIImg, UISpan, UIInput} from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
 import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
 
 /**
@@ -44,6 +43,18 @@ export const ciMixin = {
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
 
         // CI 데이터 초기화
+        /*this._value ={
+            actionType: 'delete',
+            ciIcon: 'image_server.png',
+            ciIconData: 'data:image/png;base64,',
+            ciId: '5',
+            ciName: 'update test CI',
+            ciNo: '5',
+            ciStatus: 'use',
+            classId: 'df562114ab87c066adeaea79b2e4a8a2',
+            typeId: '587b4557275bcce81664db9e12485ae2',
+            typeName: '서버'
+        };*/
         if (this._value !== '${default}') {
             this.value = JSON.parse(this.data.value);
         }
@@ -63,64 +74,6 @@ export const ciMixin = {
         element.addUI(element.UITable);
 
         return element;
-    },
-    makeCIButton() {
-        const buttonGroup = new UIDiv().setUIClass('btn-list');
-        if (this.elementIsEditable) {
-            // 등록
-            const registerButton = new UIButton(i18n.msg('cmdb.ci.label.new') + ' ' + i18n.msg('cmdb.ci.label.register'))
-                .addUIClass('default-line')
-                .setUIAttribute('data-actionType', CI.ACTION_TYPE.REGISTER)
-                .onUIClick(this.openRegisterModal.bind(this));
-            buttonGroup.addUI(registerButton);
-
-            // 수정
-            const updateButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.update'))
-                .addUIClass('default-line')
-                .setUIAttribute('data-actionType', CI.ACTION_TYPE.MODIFY)
-                .onUIClick(this.openSelectModal.bind(this));
-            buttonGroup.addUI(updateButton);
-
-            // 삭제
-            const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.delete'))
-                .addUIClass('default-line')
-                .setUIAttribute('data-actionType', CI.ACTION_TYPE.DELETE)
-                .onUIClick(this.openSelectModal.bind(this));
-            buttonGroup.addUI(deleteButton);
-        } else {
-            // 조회
-            const selectButton = new UIButton(i18n.msg('cmdb.ci.label.select'))
-                .addUIClass('default-line')
-                .setUIAttribute('data-actionType', CI.ACTION_TYPE.READ)
-                .onUIClick(this.openSelectModal.bind(this));
-            buttonGroup.addUI(selectButton);
-        }
-
-        return buttonGroup;
-    },
-    makeCITable() {
-        // 테이블 제목
-        const tableHeaderOption = this.getCITableData().reduce((result, option, index) => {
-            const thWidth = (Number(option.columnWidth) / FORM.COLUMN) * 100;
-            result[index] = `<th class="${opt.class}" ` +
-                `style="width: ${thWidth}%; border-color: ${this.elementBorderColor};" >` +
-                `${option.name !== '' ? i18n.msg(option.name) : ''}` +
-                `</th>`;
-            return result;
-        }, {});
-        // 테이블
-        const table = new UITable()
-            .setUIClass(CLASS_PREFIX + 'ci-table')
-            .setUIId('ciTable' + this.id)
-            .setUIHeaders(tableHeaderOption);
-
-        if (Array.isArray(this.value)) {
-            this.value.forEach((CIData) => {
-                console.log(CIData);
-                //this.addCITableRow(CIData);
-            });
-        }
-        return table;
     },
     // set, get
     set element(element) {
@@ -194,42 +147,198 @@ export const ciMixin = {
 
         this.value = e.target.value;
     },
+    makeCIButton() {
+        const buttonGroup = new UIDiv().setUIClass('btn-list');
+        if (this.elementIsEditable) {
+            // 등록
+            const registerButton = new UIButton(i18n.msg('cmdb.ci.label.new') + ' ' + i18n.msg('cmdb.ci.label.register'))
+                .addUIClass('default-line')
+                .setUIAttribute('data-actionType', CI.ACTION_TYPE.REGISTER)
+                .onUIClick(this.openRegisterModal.bind(this));
+            buttonGroup.addUI(registerButton);
+
+            // 수정
+            const updateButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.update'))
+                .addUIClass('default-line')
+                .setUIAttribute('data-actionType', CI.ACTION_TYPE.MODIFY)
+                .onUIClick(this.openSelectModal.bind(this));
+            buttonGroup.addUI(updateButton);
+
+            // 삭제
+            const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.delete'))
+                .addUIClass('default-line')
+                .setUIAttribute('data-actionType', CI.ACTION_TYPE.DELETE)
+                .onUIClick(this.openSelectModal.bind(this));
+            buttonGroup.addUI(deleteButton);
+        } else {
+            // 조회
+            const selectButton = new UIButton(i18n.msg('cmdb.ci.label.select'))
+                .addUIClass('default-line')
+                .setUIAttribute('data-actionType', CI.ACTION_TYPE.READ)
+                .onUIClick(this.openSelectModal.bind(this));
+            buttonGroup.addUI(selectButton);
+        }
+
+        return buttonGroup;
+    },
+    makeCITable() {
+        // 테이블
+        const table = new UITable()
+            .setUIClass(CLASS_PREFIX + 'ci-table')
+            .setUIId('ciTable' + this.id);
+
+        // 테이블 제목
+        const row = new UIRow(table).setUIClass(CLASS_PREFIX + 'ci-table-header');
+        table.addUIRow(row);
+
+        this.getCITableData().forEach((option) => {
+            const tdWidth = (Number(option.columnWidth) / FORM.COLUMN) * 100;
+            const tdClassName = (option.type === 'hidden' ? '' : 'on') + ' ' + option.class;
+            const td = new UICell(row).setUIClass(tdClassName)
+                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUITextContent((option.name !== '' ? i18n.msg(option.name) : ''));
+            row.addUICell(td);
+        });
+
+        if (Array.isArray(this.value)) {
+            this.value.forEach((CIData) => {
+                this.addCITableRow(table, CIData);
+            });
+        } else {
+            this.setEmptyCITable(table);
+        }
+        return table;
+    },
     getCITableData() {
         if (this.elementIsEditable) {
             // CI 컴포넌트 편집 가능여부가 true 일때 = 구분, CI 아이콘, CI Type, CI 이름, CI 설명, 편집 아이콘,  row 삭제 아이콘  7개
             return [
-                { id: 'actionType', type: 'readonly', columnWidth: '1', name: 'form.label.actionType', class: 'align-left first-column' },
-                { id: 'ciId',       type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'ciNo',       type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'ciIcon',     type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'ciIconData', type: 'image',    columnWidth: '1', name: '', class:'align-left' },
-                { id: 'typeId',     type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'typeName',   type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left' },
-                { id: 'ciName',     type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.name', class: 'align-left' },
-                { id: 'ciDesc',     type: 'editable', columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left' },
-                { id: 'classId',    type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'editIcon',   type: 'icon',     columnWidth: '1', name: '', class: 'align-center' },
-                { id: 'deleteIcon', type: 'icon',     columnWidth: '1', name: '', class: 'align-center last-column' }
+                { id: 'actionType', type: 'readonly',    columnWidth: '1', name: 'form.label.actionType', class: 'align-left first-column' },
+                { id: 'ciId',       type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'ciNo',       type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'ciIcon',     type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'ciIconData', type: 'image',       columnWidth: '1', name: '', class:'align-left' },
+                { id: 'typeId',     type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'typeName',   type: 'editable',    columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left' },
+                { id: 'ciName',     type: 'editable',    columnWidth: '3', name: 'cmdb.ci.label.name', class: 'align-left' },
+                { id: 'ciDesc',     type: 'editable',    columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left' },
+                { id: 'classId',    type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'editIcon',   type: 'icon-edit',   columnWidth: '1', name: '', class: 'align-center' },
+                { id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column' }
             ];
         } else {
             // CI 컴포넌트 편집 가능여부가 false 일때 =  CI 아이콘, CI Type , CI 이름, 세부 정보 조회 아이콘, row 삭제 아이콘  5개
             return [
-                { id: 'actionType', type: 'hidden',   columnWidth: '0', name: 'form.label.actionType', class: '' },
-                { id: 'ciId',       type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'ciNo',       type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'ciIcon',     type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'ciIconData', type: 'image',    columnWidth: '1', name: '', class: 'align-left  first-column' },
-                { id: 'typeId',     type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'typeName',   type: 'editable', columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left' },
-                { id: 'ciName',     type: 'editable', columnWidth: '4', name: 'cmdb.ci.label.name', class: 'align-left' },
-                { id: 'ciDesc',     type: 'editable', columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left' },
-                { id: 'classId',    type: 'hidden',   columnWidth: '0', name: '', class: '' },
-                { id: 'searchIcon', type: 'icon',     columnWidth: '1', name: '', class: 'align-center' },
-                { id: 'deleteIcon', type: 'icon',     columnWidth: '1', name: '', class: 'align-center last-column' }
+                { id: 'actionType', type: 'hidden',      columnWidth: '0', name: 'form.label.actionType', class: '' },
+                { id: 'ciId',       type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'ciNo',       type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'ciIcon',     type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'ciIconData', type: 'image',       columnWidth: '1', name: '', class: 'align-left  first-column' },
+                { id: 'typeId',     type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'typeName',   type: 'editable',    columnWidth: '3', name: 'cmdb.ci.label.type', class: 'align-left' },
+                { id: 'ciName',     type: 'editable',    columnWidth: '4', name: 'cmdb.ci.label.name', class: 'align-left' },
+                { id: 'ciDesc',     type: 'editable',    columnWidth: '4', name: 'cmdb.ci.label.description', class: 'align-left' },
+                { id: 'classId',    type: 'hidden',      columnWidth: '0', name: '', class: '' },
+                { id: 'searchIcon', type: 'icon-search', columnWidth: '1', name: '', class: 'align-center' },
+                { id: 'deleteIcon', type: 'icon-delete', columnWidth: '1', name: '', class: 'align-center last-column' }
             ];
         }
     },
+    getCITableDataToCell(row, option, data) {
+        const tdWidth = (Number(option.columnWidth) / FORM.COLUMN) * 100;
+        const tdClassName = (option.type === 'hidden' ? '' : 'on') + ' ' + option.class;
+
+        switch (option.type) {
+        case 'editable':
+            return new UICell(row).setUIClass(tdClassName)
+                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUITextContent((typeof data[option.id] !== 'undefined') ? data[option.id] : '');
+        case 'readonly':
+            return new UICell(row).setUIClass(tdClassName)
+                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUITextContent(i18n.msg('cmdb.ci.actionType.' + data.actionType));
+        case 'image':
+            return new UICell(row).setUIClass(tdClassName)
+                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .addUI(new UIImg().setUISrc(data[option.id]).setUIWidth('20' + UNIT.PX).setUIHeight('20' + UNIT.PX));
+        case 'icon-edit': // CI 등록 / 수정
+            if (data.actionType === CI.ACTION_TYPE.DELETE) {
+                const viewButton = new UIButton()
+                    .setUIAttribute('data-type', data.actionType)
+                    .onUIClick(this.openViewModal.bind(this))
+                    .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
+
+                return new UICell(row).setUIClass(tdClassName)
+                    .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                    .addUI(viewButton);
+            } else {
+                const editButton = new UIButton()
+                    .setUIAttribute('data-type', data.actionType)
+                    .onUIClick(this.openUpdateModal.bind(this))
+                    .addUI(new UISpan().setUIClass('icon').addUIClass('icon-edit'));
+
+                return new UICell(row).setUIClass(tdClassName)
+                    .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                    .addUI(editButton);
+            }
+        case 'icon-search': // CI 상세 조회
+            const searchButton = new UIButton()
+                .setUIAttribute('data-type', data.actionType)
+                .onUIClick(this.openViewModal.bind(this))
+                .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
+
+            return new UICell(row).setUIClass(tdClassName)
+                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .addUI(searchButton);
+        case 'icon-delete': // Row 삭제
+            const deleteButton = new UIButton()
+                .setUIAttribute('data-type', data.actionType)
+                .onUIClick(this.removeCITableRow.bind(this, row.parent, row.getUIIndex()))
+                .addUI(new UISpan().setUIClass('icon').addUIClass('icon-delete'));
+
+            return new UICell(row).setUIClass(tdClassName)
+                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .addUI(deleteButton);
+        default: // hidden
+            return new UICell(row).setUIClass(tdClassName)
+                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .addUI(new UIInput(data[option.id]).setUIType('hidden'));
+        }
+    },
+    addCITableRow(targetTable, data) {
+        // 데이터가 없을 경우
+        if (targetTable.rows.length === 2 && targetTable.rows[1].hasUIClass('no-data-found-list')) {
+            this.removeCITableRow(targetTable, 1);
+        }
+        // row 추가
+        const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'ci-table-row');
+        targetTable.addUIRow(row);
+        // td 추가
+        this.getCITableData().forEach((option) => {
+            row.addUICell(this.getCITableDataToCell(row, option, data));
+        });
+    },
+    removeCITableRow(targetTable, index) {
+        targetTable.removeUIRow(targetTable.rows[index]);
+    },
+    // 데이터가 없을때
+    setEmptyCITable(targetTable) {
+        const row = new UIRow(targetTable).setUIClass('no-data-found-list');
+        targetTable.addUIRow(row);
+
+        const td = new UICell(row).setUIClass('on align-center first-column last-column')
+            .setColspan(12)
+            .setUICSSText(`border-color: ${this.elementBorderColor};`)
+            .setUITextContent(i18n.msg('common.msg.noData'));
+        row.addUICell(td);
+    },
+    openViewModal(e) {
+
+    },
     openRegisterModal(e) {
+
+    },
+    openUpdateModal(e) {
 
     },
     openSelectModal(e) {
