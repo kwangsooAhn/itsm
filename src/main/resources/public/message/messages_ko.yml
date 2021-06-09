@@ -729,6 +729,8 @@ form:
       maxLength: "최대 길이"
       minLength: "최소 길이"
       validationType: "유효성 타입"
+      maxDate: "최대 날짜"
+      minDate: "최소 날짜"
   status:
     destroy: "폐기"
     edit: "편집"

@@ -1,3 +1,4 @@
+
 /**
  * Inputbox Mixin
  *
@@ -195,6 +196,7 @@ export const inputBoxMixin = {
             new ZGroupProperty('group.validation')
                 .addProperty(validationTypeProperty)
                 .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
+                .addProperty(new ZInputBoxProperty('validation.minDate', this.validationMinLength))
                 .addProperty(new ZInputBoxProperty('validation.minLength', this.validationMinLength))
                 .addProperty(new ZInputBoxProperty('validation.maxLength', this.validationMaxLength))
         ];
