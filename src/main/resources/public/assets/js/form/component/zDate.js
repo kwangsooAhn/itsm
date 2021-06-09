@@ -158,12 +158,11 @@ export const dateMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZInputBoxProperty('element.placeholder', this.elementPlaceholder))
-                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZDefaultValueSelectProperty('element.defaultValueSelect', this.elementDefaultValueSelect)),
+                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
-                .addProperty(new ZInputBoxProperty('validation.min', this.validationMinDate))
-                .addProperty(new ZInputBoxProperty('validation.max', this.validationMaxDate))
+                .addProperty(new ZInputBoxProperty('validation.minDate', this.validationMinDate))
+                .addProperty(new ZInputBoxProperty('validation.maxDate', this.validationMaxDate))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
