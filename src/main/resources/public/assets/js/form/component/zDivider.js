@@ -13,16 +13,13 @@
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/constants.js';
 import { zValidation } from '../../lib/validation.js';
 import { UIDiv, UIHorizontalRule } from '../../lib/ui.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
-import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
-import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
-import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
-import ZClipboardProperty from '../../formDesigner/property/type/zClipboardProperty.module.js';
-import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.module.js';
-import ZTagProperty from '../../formDesigner/property/type/zTagProperty.module.js';
-import ZColorPickerProperty from "../../formDesigner/property/type/zColorPickerProperty.module.js";
+import zInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import zGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
+import zDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import zClipboardProperty from '../../formDesigner/property/type/zClipboardProperty.js';
+import zSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import zTagProperty from '../../formDesigner/property/type/zTagProperty.js';
+import zColorPickerProperty from "../../formDesigner/property/type/zColorPickerProperty.js";
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -54,10 +51,9 @@ export const dividerMixin = {
             .setUIProperty('--data-column', 12);
 
         element.UIHorizontalRule = new UIHorizontalRule()
+            .setUIAttribute('element-line-thickness', this.elementLineThickness)
+            .setUIAttribute('element-line-color', this.elementLineColor)
             .setUIAttribute('element-line-type', this.elementLineType)
-            .setUIStyle('borderTopWidth', this._element.lineThickness)
-            .setUIStyle('borderTopColor', this._element.lineColor)
-            .setUIStyle('borderTopStyle', this.elementLineType);
 
         element.addUI(element.UIHorizontalRule);
         return element;
@@ -116,29 +112,29 @@ export const dividerMixin = {
 
     getProperty() {
         // mapId
-        const mapIdProperty = new InputBoxProperty('mapId', this.mapId);
+        const mapIdProperty = new zInputBoxProperty('mapId', this.mapId);
         mapIdProperty.help = 'form.help.mapping-id';
 
         // is topic
-        const isTopicProperty = new SwitchProperty('isTopic', this.isTopic);
+        const isTopicProperty = new zSwitchProperty('isTopic', this.isTopic);
         isTopicProperty.help = 'form.help.is-topic';
 
         // tag
-        const tagProperty = new TagProperty('tags', this.tags);
+        const tagProperty = new zTagProperty('tags', this.tags);
 
         // element - thickness
-        const lineThicknessProperty = new InputBoxProperty('display.thickness', this.elementLineThickness)
+        const lineThicknessProperty = new zInputBoxProperty('display.thickness', this.elementLineThickness)
             .setValidation(false, 'number', '', '', '1', '100');
         lineThicknessProperty.unit = 'px';
         lineThicknessProperty.columnWidth = '12';
 
         // element - color
-        const lineColorProperty = new ColorPickerProperty('display.color', this.elementLineColor, false)
+        const lineColorProperty = new zColorPickerProperty('display.color', this.elementLineColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
         lineColorProperty.columnWidth = '12';
 
         // element - Type
-        const lineTypeProperty = new DropdownProperty('display.type',
+        const lineTypeProperty = new zDropdownProperty('display.type',
             this.elementLineType, [
                 {name: 'form.properties.lineType.line', value: 'solid'},
                 {name: 'form.properties.lineType.dot', value: 'dotted'},
@@ -147,11 +143,11 @@ export const dividerMixin = {
         lineTypeProperty.columnWidth = '12';
 
         return [
-            new ClipboardProperty('id', this.id),
+            new zClipboardProperty('id', this.id),
             mapIdProperty,
             isTopicProperty,
             tagProperty,
-            new GroupProperty('group.element')
+            new zGroupProperty('group.element')
                 .addProperty(lineThicknessProperty)
                 .addProperty(lineColorProperty)
                 .addProperty(lineTypeProperty)

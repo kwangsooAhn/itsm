@@ -436,7 +436,6 @@ class UIHorizontalRule extends UIElement {
     constructor() {
         super(document.createElement('hr'));
         this.domElement.className = 'HorizontalRule';
-        this.domElement.style.borderTop = '2px solid #3f4b56';
     }
 
     setUIAttribute(name, value) {
@@ -489,14 +488,6 @@ class UISlider extends UIElement {
     }
 }
 
-class UIDivider extends UIElement {
-    constructor() {
-        super(document.createElement('hr'));
-        this.domElement.className = 'divider';
-        this.domElement.style.borderTop = '2px solid #3f4b56';
-    }
-}
-
 class UIUl extends UIElement {
     constructor() {
         super(document.createElement('ul'));
@@ -512,5 +503,5 @@ class UILi extends UIElement {
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
-    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIDivider
+    UIHorizontalRule, UIButton, UISlider, UIUl, UILi
 };
