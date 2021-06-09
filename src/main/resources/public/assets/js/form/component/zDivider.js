@@ -10,9 +10,9 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX } from '../../lib/constants.js';
-import { zValidation } from '../../lib/validation.js';
-import { UIDiv, UIHorizontalRule } from '../../lib/ui.js';
+import { FORM, CLASS_PREFIX, UNIT } from '../../lib/zConstants.js';
+import { zValidation } from '../../lib/zValidation.js';
+import { UIDiv, UIHorizontalRule } from '../../lib/zUI.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -25,9 +25,9 @@ import ZColorPickerProperty from '../../formDesigner/property/type/zColorPickerP
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
-        lineThickness: '1',
-        lineColor: '#3f4b56',
-        lineType: 'solid', // solid | dotted | dashed
+        thickness: '1',
+        color: '#3f4b56',
+        type: 'solid', // solid | dotted | dashed
     },
     validation: {
         required: false, // 필수값 여부
@@ -47,38 +47,47 @@ export const dividerMixin = {
     makeElement() {
         // label 숨김 처리
         this.labelPosition = FORM.LABEL.POSITION.HIDDEN;
-        
+
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
-            .setUIProperty('--data-column', 12);
+            .setUIProperty('--data-column', this.elementColumnWidth)
 
-        element.UIHorizontalRule = new UIHorizontalRule()
-            .setUIAttribute('element-line-thickness', this.elementLineThickness)
-            .setUIAttribute('element-line-color', this.elementLineColor)
-            .setUIAttribute('element-line-type', this.elementLineType);
-
+        element.UIHorizontalRule = new UIHorizontalRule().setUIClass(CLASS_PREFIX + 'divider').setUIId('divider' + this.id)
         element.addUI(element.UIHorizontalRule);
         return element;
     },
-    set elementLineThickness(value) {
-        this._element.lineThickness = value;
-        // this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIThickness(value);
+    set element(element) {
+        this._element = element;
     },
-    get elementLineThickness() {
-        return this._element.lineThickness;
+    get element() {
+        return this._element;
     },
-    set elementLineColor(color) {
-        this._element.lineColor = color;
-        // this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIColor(color);
+    set elementColumnWidth(width) {
+        this._element.columnWidth = width;
+        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
     },
-    get elementLineColor() {
-        return this._element.lineColor;
+    get elementColumnWidth() {
+        return this._element.columnWidth;
     },
-    set elementLineType(type) {
-        this._element.lineType = type;
-        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIAttribute('element-line-type', type);
+    set elementThickness(value) {
+        this._element.thickness = value;
+        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIThickness(value + UNIT.PX);
     },
-    get elementLineType() {
-        return this._element.lineType;
+    get elementThickness() {
+        return this._element.thickness;
+    },
+    set elementColor(color) {
+        this._element.color = color;
+        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIColor(color);
+    },
+    get elementColor() {
+        return this._element.color;
+    },
+    set elementType(type) {
+        this._element.type = type;
+        this.UIElement.UIComponent.UIElement.UIHorizontalRule.setUIType(type);
+    },
+    get elementType() {
+        return this._element.type;
     },
     set validation(validation) {
         this._validation = validation;
@@ -108,54 +117,30 @@ export const dividerMixin = {
         // 사용자 변경시 해당 값이 할당된다.
         return this._value;
     },
-    // 값 변경시 이벤트 핸들러
-    updateValue(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-        // 유효성 검증
-        // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
-            return false;
-        }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            return false;
-        }
-
-        this.value = e.target.value;
-    },
-
     getProperty() {
         // element - thickness
-        const lineThicknessProperty = new ZInputBoxProperty('element.lineThickness', this.elementLineThickness)
-            .setValidation(false, 'number', '', '', '1', '100');
-        lineThicknessProperty.unit = 'px';
-        lineThicknessProperty.columnWidth = '12';
+        const thicknessProperty = new ZInputBoxProperty('element.thickness', this.elementThickness)
+            .setValidation(false, 'number', '0', '', '', '');
+        thicknessProperty.unit = UNIT.PX;
 
         // element - color
-        const lineColorProperty = new ZColorPickerProperty('element.lineColor', this.elementLineColor, false)
-            .setValidation(false, 'rgb', '', '', '', '25');
-        lineColorProperty.columnWidth = '12';
+        const colorProperty = new ZColorPickerProperty('element.color', this.elementColor, false)
+            .setValidation(false, 'hex', '', '', '', '25');
 
         // element - Type
-        const lineTypeProperty = new ZDropdownProperty('element.lineType',
-            this.elementLineType, [
+        const typeProperty = new ZDropdownProperty('element.type',
+            this.elementType, [
                 { name: 'form.properties.lineType.line', value: 'solid' },
                 { name: 'form.properties.lineType.dot', value: 'dotted' },
                 { name: 'form.properties.lineType.dash', value: 'dashed' },
             ]);
-        lineTypeProperty.columnWidth = '12';
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(lineThicknessProperty)
-                .addProperty(lineColorProperty)
-                .addProperty(lineTypeProperty)
+                .addProperty(thicknessProperty)
+                .addProperty(colorProperty)
+                .addProperty(typeProperty)
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)

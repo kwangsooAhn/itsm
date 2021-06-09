@@ -442,6 +442,18 @@ class UIHorizontalRule extends UIElement {
         this.domElement.setAttribute(name, value);
         return this;
     }
+
+    setUIThickness(value) {
+        this.domElement.style.borderTopWidth = value;
+    }
+
+    setUIColor(value) {
+        this.domElement.style.borderTopColor = value;
+    }
+
+    setUIType(value) {
+        this.domElement.style.borderTopStyle = value;
+    }
 }
 
 class UIButton extends UIElement {
