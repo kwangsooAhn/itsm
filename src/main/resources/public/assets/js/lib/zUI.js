@@ -123,7 +123,7 @@ properties.forEach(function (property) {
 });
 
 // events
-const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input'];
+const events = ['KeyUp', 'KeyDown', 'MouseOver', 'MouseOut', 'Click', 'DblClick', 'Change', 'Input', 'Focusout'];
 events.forEach(function (event) {
     const method = 'onUI' + event;
     UIElement.prototype[method] = function (callback) {
@@ -495,8 +495,19 @@ class UILi extends UIElement {
     }
 }
 
+class UIImg extends UIElement {
+    constructor() {
+        super(document.createElement('img'));
+    }
+
+    setUISrc(value) {
+        this.domElement.src = value;
+        return this;
+    }
+}
+
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
-    UIHorizontalRule, UIButton, UISlider, UIUl, UILi
+    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg
 };

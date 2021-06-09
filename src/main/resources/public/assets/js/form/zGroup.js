@@ -238,7 +238,7 @@ export default class ZGroup {
 
     set labelFontSize(size) {
         this._label.fontSize = size;
-        this.UIElement.UIGroup.UILabel.UILabelText.setUIFontSize(size);
+        this.UIElement.UIGroup.UILabel.UILabelText.setUIFontSize(size + UNIT.PX);
     }
 
     get labelFontSize() {
@@ -298,7 +298,7 @@ export default class ZGroup {
         // display 속성 - margin
         const displayMarginProperty = new ZBoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayMarginProperty.unit = 'px';
+        displayMarginProperty.unit = UNIT.PX;
 
         // labe - text
         const labelTextProperty = new ZInputBoxProperty('label.text', this.labelText);
@@ -307,7 +307,7 @@ export default class ZGroup {
         // label - fontSize
         const labelFontSizeProperty = new ZInputBoxProperty('label.fontSize', this.labelFontSize)
             .setValidation(false, 'number', '10', '100', '', '');
-        labelFontSizeProperty.unit = 'px';
+        labelFontSizeProperty.unit = UNIT.PX;
         labelFontSizeProperty.columnWidth = '3';
 
         // label - align

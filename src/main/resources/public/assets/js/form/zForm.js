@@ -237,17 +237,17 @@ export default class ZForm {
         // display 속성 - width
         const displayWidthProperty = new ZInputBoxProperty('display.width', this.displayWidth)
             .setValidation(true, 'number', '0', '8192', '', '');
-        displayWidthProperty.unit = 'px';
+        displayWidthProperty.unit = UNIT.PX;
 
         // display 속성 - margin
         const displayMarginProperty = new ZBoxModelProperty('display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayMarginProperty.unit = 'px';
+        displayMarginProperty.unit = UNIT.PX;
 
         // display 속성 - padding
         const displayPaddingProperty = new ZBoxModelProperty('display.padding', this.displayPadding)
             .setValidation(false, 'number', '0', '100', '', '');
-        displayPaddingProperty.unit = 'px';
+        displayPaddingProperty.unit = UNIT.PX;
 
         return [
             new ZClipboardProperty('id', this.id),
