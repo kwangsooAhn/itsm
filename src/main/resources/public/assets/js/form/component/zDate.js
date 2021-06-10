@@ -49,7 +49,7 @@ export const dateMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
-        element.UIDate = new UIInput().setUIPlaceholder(this.elementPlaceholder)
+        element.UIDate = new UIInput().setUIClass('input datepicker').setUIPlaceholder(this.elementPlaceholder)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validationRequired)

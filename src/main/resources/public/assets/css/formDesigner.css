@@ -4996,6 +4996,13 @@ body.modal-active {
 .z-component .z-element .z-imagebox[src=""] + .z-imagebox-placeholder {
   display: block;
 }
+.z-component .z-element .datepicker,
+.z-component .z-element .datetimepicker {
+  background: #ffffff url("../media/icons/icon_calendar.svg") no-repeat 98% 50%;
+}
+.z-component .z-element .timepicker {
+  background: #ffffff url("../media/icons/icon_clock.svg") no-repeat 98% 50%;
+}
 
 .z-component .z-component-label .required.off {
   display: none;
