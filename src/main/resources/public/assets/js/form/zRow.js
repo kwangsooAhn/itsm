@@ -27,6 +27,7 @@ export default class ZRow {
             margin: '4 0 4 0', // row 간 간격(위 오른쪽 아래 왼쪽)
             padding: '0 0 0 0' // row 내부 여백(위 오른쪽 아래 왼쪽)
         };
+        this._propertyName = 'form.row' || ''; // i18n message name
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
         // Tooltip Mixin import
@@ -195,6 +196,14 @@ export default class ZRow {
         return padding[3];
     }
 
+    set propertyName(name) {
+        this._propertyName = name;
+    }
+
+    get propertyName() {
+        return this._propertyName;
+    }
+
     // 세부 속성
     getProperty() {
         // display 속성 - margin
@@ -224,6 +233,7 @@ export default class ZRow {
         this.parent = source.parent;
         this._type = source.type;
         this._display = source.display;
+        this._propertyName = source.propertyName;
         if (flag) { this._id = source.id; }
 
         this.init();

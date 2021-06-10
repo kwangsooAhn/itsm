@@ -191,6 +191,40 @@
         }
       }
     }
+
+    // CI 컴포넌트
+    .#{$common-prefix}ci-table {
+      width: 100%;
+      background-color: $component-ciTable-bg-color;
+      tr {
+        td {
+          display: none;
+          padding: $element-indent;
+          @include border(0.0625rem, solid, $component-ciTable-border-color, top, left);
+          @include border(0.0625rem, solid, $component-ciTable-border-color, bottom, right);
+
+          &.on { display: table-cell; }
+          //&.first-column { @include border(0.0625rem, solid, transparent, left); }
+          //&.last-column { @include border(0.0625rem, solid, transparent, right); }
+          .btn { padding: 0; }
+        }
+      }
+      // 제목
+      .#{$common-prefix}ci-table-header {
+        background-color: $component-ciTable-header-bg-color;
+        td {
+          color: $component-ciTable-header-font-color;
+          font-weight: $component-ciTable-header-font-weight;
+        }
+      }
+      // 데이터 없음
+      .no-data-found-list {
+        color: $component-ciTable-noData-font-color;
+        background-color: $component-ciTable-noData-bg-color;
+        pointer-events: none;
+      }
+    }
+
     // time, date, datepicker 컴포넌트
     .datepicker,
     .datetimepicker {

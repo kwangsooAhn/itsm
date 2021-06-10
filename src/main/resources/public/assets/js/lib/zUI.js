@@ -67,6 +67,10 @@ class UIElement {
         return this;
     }
 
+    hasUIClass(name) {
+        return this.domElement.classList.contains(name);
+    }
+
     setUIAttribute(name, value) {
         this.domElement.setAttribute(name, value);
         return this;
@@ -203,6 +207,11 @@ class UIInput extends UIElement {
 
     setUIValue(value) {
         this.domElement.value = value;
+        return this;
+    }
+
+    setUIType(type) {
+        this.domElement.type = type;
         return this;
     }
 
@@ -458,6 +467,15 @@ class UIHorizontalRule extends UIElement {
         super(document.createElement('hr'));
         this.domElement.className = 'HorizontalRule';
     }
+
+    setUIThickness(value) {
+        this.domElement.style.borderTopWidth = value;
+    }
+
+    setUIStyle(color, type) {
+        this.domElement.style.borderTopColor = color;
+        this.domElement.style.borderTopStyle = type;
+    }
 }
 
 class UIButton extends UIElement {
@@ -527,8 +545,78 @@ class UIImg extends UIElement {
     }
 }
 
+class UITable extends UIElement {
+    constructor() {
+        super(document.createElement('table'));
+        this.rows = [];
+    }
+
+    addUIRow(row) {
+        this.rows.push(row);
+        this.addUI(row);
+        return this;
+    }
+
+    removeUIRow(row) {
+        const index = this.rows.indexOf(row);
+        if (index !== -1) {
+            this.removeUI(row);
+            row.parent = null;
+            this.rows.splice(index, 1);
+        }
+        return this;
+    }
+}
+
+class UIRow extends UIElement {
+    constructor(table) {
+        super(document.createElement('tr'));
+
+        this.parent = table;
+        this.cells = [];
+    }
+
+    addUICell(cell) {
+        this.cells.push(cell);
+        this.addUI(cell);
+        return this;
+    }
+
+    removeUICell(cell) {
+        const index = this.cells.indexOf(cell);
+        if (index !== -1) {
+            this.removeUI(cell);
+            cell.parent = null;
+            this.cells.splice(index, 1);
+        }
+        return this;
+    }
+    getUIIndex() {
+        return this.domElement.rowIndex;
+    }
+}
+
+class UICell extends UIElement {
+    constructor(row) {
+        super(document.createElement('td'));
+
+        this.parent = row;
+    }
+
+    setRowspan(value) {
+        this.domElement.setAttribute('rowspan', value);
+        return this;
+    }
+
+    setColspan(value) {
+        this.domElement.setAttribute('colspan', value);
+        return this;
+    }
+}
+
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
-    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UIRadioButton
+    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable,
+    UIRow, UICell, UIRadioButton
 };

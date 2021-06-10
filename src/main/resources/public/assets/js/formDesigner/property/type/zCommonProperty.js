@@ -27,7 +27,7 @@ export default class ZCommonProperty {
         // tag
         const tagProperty = new ZTagProperty('tags', this.target.tags);
 
-        // labe - text
+        // label - text
         const labelTextProperty = new ZInputBoxProperty('label.text', this.target.labelText);
         labelTextProperty.columnWidth = '8';
 
