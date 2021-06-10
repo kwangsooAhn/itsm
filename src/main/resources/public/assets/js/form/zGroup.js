@@ -49,6 +49,7 @@ export default class ZGroup {
             isAccordionUsed: true,
             margin: '10 0 10 0' // 그룹 간 간격(위 오른쪽 아래 왼쪽)
         };
+        this._propertyName = 'form.group' || ''; // i18n message name
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
         // Tooltip Mixin import
@@ -293,6 +294,14 @@ export default class ZGroup {
         return this._label.text;
     }
 
+    set propertyName(name) {
+        this._propertyName = name;
+    }
+
+    get propertyName() {
+        return this._propertyName;
+    }
+
     // 세부 속성
     getProperty() {
         // display 속성 - margin
@@ -366,6 +375,7 @@ export default class ZGroup {
         this._display.isAccordionUsed = source.displayIsAccordionUsed;
         this._display.margin = source.displayMargin;
         this._label = source.label;
+        this._propertyName = source.propertyName;
         if (flag) { this._id = source.id; }
 
         this.init();

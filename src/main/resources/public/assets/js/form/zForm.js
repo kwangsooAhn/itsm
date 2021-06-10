@@ -34,6 +34,7 @@ export default class ZForm {
             margin: data.display.margin || '60 0 60 0',
             padding: data.display.padding || '15 15 15 15'
         };
+        this._propertyName = 'form.form' || ''; // i18n message name
 
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
@@ -232,6 +233,14 @@ export default class ZForm {
         const padding = this._display.padding.split(' ');
         return padding[3];
     }
+
+    set propertyName(name) {
+        this._propertyName = name;
+    }
+
+    get propertyName() {
+        return this._propertyName;
+    }
     // 세부 속성
     getProperty() {
         // display 속성 - width
@@ -278,7 +287,8 @@ export default class ZForm {
         this._desc = source.desc;
         this._status = source.status;
         this._category = source.category;
-        this._display = source._display;
+        this._display = source.display;
+        this._propertyName = source.propertyName;
         if (flag) { this._id = source.id; }
 
         this.init();
