@@ -39,6 +39,13 @@
                        th:value="${attribute?.attributeText}"/>
             </div>
             <div class="flex-column edit-row">
+                <label for="mappingId">
+                    <span th:text="#{cmdb.attribute.label.mappingId}"></span>
+                </label>
+                <input type="text" id="mappingId" maxlength="100"
+                       th:value="${attribute?.mappingId}"/>
+            </div>
+            <div class="flex-column edit-row">
                 <label for="attributeType">
                     <span th:text="#{cmdb.attribute.label.type}"></span>
                     <span class="required"></span>
@@ -142,6 +149,7 @@
                         attributeName: document.querySelector('#attributeName').value,
                         attributeType: document.querySelector('#attributeType').value,
                         attributeText: document.querySelector('#attributeText').value,
+                        mappingId: document.querySelector('#mappingId').value,
                         attributeDesc: document.querySelector('#attributeDesc').value
                     }
                     let url = '/rest/cmdb/attributes';
