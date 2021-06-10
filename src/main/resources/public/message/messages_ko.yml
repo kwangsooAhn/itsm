@@ -689,6 +689,7 @@ form:
       align: "정렬"
       columnWidth: "컬럼 너비"
       defaultValueSelect: "기본값 타입"
+      isEditable: "편집가능 여부"
       path: "경로"
       width: "너비"
       heigth: "높이"

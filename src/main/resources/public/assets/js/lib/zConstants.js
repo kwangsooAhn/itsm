@@ -46,3 +46,16 @@ export const PROCESS = {};
 export const DOCUMENT = {
     ASSIGNEE_TYPE: 'assignee.type.assignee'
 };
+// CI
+export const CI = {
+    ACTION_TYPE: {
+        REGISTER: 'register',
+        DELETE: 'delete',
+        MODIFY: 'modify',
+        READ: 'read'
+    },
+    STATUS: {
+        USE: 'use',
+        DELETE: 'delete'
+    }
+};

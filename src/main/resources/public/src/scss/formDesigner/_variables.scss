@@ -127,6 +127,15 @@ $component-imagebox-font-color:                    $gray;
 $component-imagebox-bg-color:                      map-get($grays, "light");
 $component-selected-imagebox-bg-color:             $white;
 
+//////////////////////// CI 컴포넌트 /////////////////////////////
+$component-ciTable-bg-color:                       $white;
+$component-ciTable-border-color:                   map-get($grays, 'line');
+$component-ciTable-header-font-weight:             $font-weight-bold;
+$component-ciTable-header-font-color:              map-get($grays, 'dark');
+$component-ciTable-header-bg-color:                map-get($grays, "light");
+$component-ciTable-noData-font-color:              $gray;
+$component-ciTable-noData-bg-color:                $white;
+
 ///////////////////////// tooltip-menu /////////////////////////
 $tooltip-menu-bg-color:                            $white;
 $tooltip-menu-border-color:                        map-get($blues, "light");

@@ -689,6 +689,7 @@ form:
       align: "Align"
       columnWidth: "Column Width"
       defaultValueSelect: "Default Value Type"
+      isEditable: "Editable"
       path: "Path"
       width: "Width"
       heigth: "Height"
