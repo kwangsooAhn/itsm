@@ -23,11 +23,9 @@ export default class ZPanel {
      * 세부 속성 출력
      */
     on() {
-        if (!this.editor.selectedObject) {
-            return false;
-        }
+        if (!this.editor.selectedObject) { return false; }
         // 세부 속성 이름 출력
-        this.setPropertyName(this.editor.selectedObject.type);
+        this.setPropertyName(this.editor.selectedObject.propertyName);
 
         // 세부 속성 표시
         const property = this.editor.selectedObject.getProperty();
@@ -60,7 +58,8 @@ export default class ZPanel {
      */
     setPropertyName(name) {
         // TODO: Breadcrumb 기능 추가
-        document.getElementById('propertyName').textContent = name;
+        console.log(name);
+        document.getElementById('propertyName').textContent = i18n.msg(name);
     }
     /**
      * 세부 속성 변경시 이벤트 핸들러

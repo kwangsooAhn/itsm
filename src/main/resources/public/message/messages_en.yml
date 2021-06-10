@@ -642,6 +642,9 @@ form:
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
     unique: "Duplicate data cannot be included."
+  form: "Form"
+  group: "Group"
+  row: "Row"
   component:
     checkBox: "Checkbox"
     customCode: "Custom Code"
