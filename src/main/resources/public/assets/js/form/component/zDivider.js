@@ -49,9 +49,9 @@ export const dividerMixin = {
         this.labelPosition = FORM.LABEL.POSITION.HIDDEN;
 
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
-            .setUIProperty('--data-column', this.elementColumnWidth)
+            .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIHorizontalRule = new UIHorizontalRule().setUIClass(CLASS_PREFIX + 'divider').setUIId('divider' + this.id)
+        element.UIHorizontalRule = new UIHorizontalRule().setUIClass(CLASS_PREFIX + 'divider').setUIId('divider' + this.id);
         element.addUI(element.UIHorizontalRule);
         return element;
     },
@@ -99,9 +99,10 @@ export const dividerMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+
         }
     },
     get validationRequired() {
@@ -120,7 +121,7 @@ export const dividerMixin = {
     getProperty() {
         // element - thickness
         const thicknessProperty = new ZInputBoxProperty('element.thickness', this.elementThickness)
-            .setValidation(false, 'number', '0', '', '', '');
+            .setValidation(false, 'number', '0', '20', '', '');
         thicknessProperty.unit = UNIT.PX;
 
         // element - color
