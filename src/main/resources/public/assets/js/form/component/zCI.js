@@ -10,14 +10,13 @@
  * https://www.brainz.co.kr
  */
 
-import {FORM, CLASS_PREFIX, CI, UNIT} from '../../lib/zConstants.js';
+import { FORM, CLASS_PREFIX, CI, UNIT } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import {UIButton, UIDiv, UITable, UIRow, UICell, UIImg, UISpan, UIInput} from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import { UIButton, UIDiv, UITable, UIRow, UICell, UIImg, UISpan, UIInput } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -25,8 +24,7 @@ import ZDropdownProperty from '../../formDesigner/property/type/zDropdownPropert
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
-        isEditable: true,
-        borderColor: 'rgba(235, 235, 235, 1)'
+        isEditable: false
     },
     validation: {
         required: false // 필수값 여부
@@ -43,18 +41,6 @@ export const ciMixin = {
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
 
         // CI 데이터 초기화
-        /*this._value ={
-            actionType: 'delete',
-            ciIcon: 'image_server.png',
-            ciIconData: 'data:image/png;base64,',
-            ciId: '5',
-            ciName: 'update test CI',
-            ciNo: '5',
-            ciStatus: 'use',
-            classId: 'df562114ab87c066adeaea79b2e4a8a2',
-            typeId: '587b4557275bcce81664db9e12485ae2',
-            typeName: '서버'
-        };*/
         if (this._value !== '${default}') {
             this.value = JSON.parse(this.data.value);
         }
@@ -64,7 +50,7 @@ export const ciMixin = {
         // label 상단 처리
         this.labelPosition = FORM.LABEL.POSITION.TOP;
 
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         // 버튼 목록
         element.UIButtonGroup = this.makeCIButton();
@@ -93,15 +79,17 @@ export const ciMixin = {
     },
     set elementIsEditable(boolean) {
         this._element.isEditable = boolean;
+
+        this.UIElement.UIComponent.UIElement.clearUI();
+        // 버튼 목록
+        this.UIElement.UIComponent.UIElement.UIButtonGroup = this.makeCIButton();
+        this.UIElement.UIComponent.UIElement.addUI(this.UIElement.UIComponent.UIElement.UIButtonGroup);
+        // 테이블
+        this.UIElement.UIComponent.UIElement.UITable = this.makeCITable();
+        this.UIElement.UIComponent.UIElement.addUI(this.UIElement.UIComponent.UIElement.UITable);
     },
     get elementIsEditable() {
         return this._element.isEditable;
-    },
-    set elementBorderColor(borderColor) {
-        this._element.borderColor = borderColor;
-    },
-    get elementBorderColor() {
-        return this._element.borderColor;
     },
     set validation(validation) {
         this._validation = validation;
@@ -111,11 +99,11 @@ export const ciMixin = {
     },
     set validationRequired(boolean) {
         this._validation.required = boolean;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-required', boolean);
+        this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
         }
     },
     get validationRequired() {
@@ -126,26 +114,6 @@ export const ciMixin = {
     },
     get value() {
         return this._value;
-    },
-    // input box 값 변경시 이벤트 핸들러
-    updateValue(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-        // 유효성 검증
-        // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
-            return false;
-        }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            return false;
-        }
-
-        this.value = e.target.value;
     },
     makeCIButton() {
         const buttonGroup = new UIDiv().setUIClass('btn-list');
@@ -185,7 +153,9 @@ export const ciMixin = {
         // 테이블
         const table = new UITable()
             .setUIClass(CLASS_PREFIX + 'ci-table')
-            .setUIId('ciTable' + this.id);
+            .addUIClass('mt-2')
+            .setUIId('ciTable' + this.id)
+            .setUIAttribute('data-validation-required', this.validationRequired);
 
         // 테이블 제목
         const row = new UIRow(table).setUIClass(CLASS_PREFIX + 'ci-table-header');
@@ -195,7 +165,7 @@ export const ciMixin = {
             const tdWidth = (Number(option.columnWidth) / FORM.COLUMN) * 100;
             const tdClassName = (option.type === 'hidden' ? '' : 'on') + ' ' + option.class;
             const td = new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUICSSText(`width:${tdWidth}%;`)
                 .setUITextContent((option.name !== '' ? i18n.msg(option.name) : ''));
             row.addUICell(td);
         });
@@ -244,22 +214,23 @@ export const ciMixin = {
             ];
         }
     },
+    // CI 테이블 각 cell 반환
     getCITableDataToCell(row, option, data) {
         const tdWidth = (Number(option.columnWidth) / FORM.COLUMN) * 100;
-        const tdClassName = (option.type === 'hidden' ? '' : 'on') + ' ' + option.class;
+        const tdClassName = (option.type === 'hidden' ? '' : 'on ') + option.class;
 
         switch (option.type) {
         case 'editable':
             return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUICSSText(`width:${tdWidth}%;`)
                 .setUITextContent((typeof data[option.id] !== 'undefined') ? data[option.id] : '');
         case 'readonly':
             return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUICSSText(`width:${tdWidth}%;`)
                 .setUITextContent(i18n.msg('cmdb.ci.actionType.' + data.actionType));
         case 'image':
             return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUICSSText(`width:${tdWidth}%;`)
                 .addUI(new UIImg().setUISrc(data[option.id]).setUIWidth('20' + UNIT.PX).setUIHeight('20' + UNIT.PX));
         case 'icon-edit': // CI 등록 / 수정
             if (data.actionType === CI.ACTION_TYPE.DELETE) {
@@ -269,7 +240,7 @@ export const ciMixin = {
                     .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
 
                 return new UICell(row).setUIClass(tdClassName)
-                    .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                    .setUICSSText(`width:${tdWidth}%;`)
                     .addUI(viewButton);
             } else {
                 const editButton = new UIButton()
@@ -278,7 +249,7 @@ export const ciMixin = {
                     .addUI(new UISpan().setUIClass('icon').addUIClass('icon-edit'));
 
                 return new UICell(row).setUIClass(tdClassName)
-                    .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                    .setUICSSText(`width:${tdWidth}%;`)
                     .addUI(editButton);
             }
         case 'icon-search': // CI 상세 조회
@@ -288,7 +259,7 @@ export const ciMixin = {
                 .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
 
             return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUICSSText(`width:${tdWidth}%;`)
                 .addUI(searchButton);
         case 'icon-delete': // Row 삭제
             const deleteButton = new UIButton()
@@ -297,14 +268,15 @@ export const ciMixin = {
                 .addUI(new UISpan().setUIClass('icon').addUIClass('icon-delete'));
 
             return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUICSSText(`width:${tdWidth}%;`)
                 .addUI(deleteButton);
         default: // hidden
             return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%; border-color: ${this.elementBorderColor};`)
+                .setUICSSText(`width:${tdWidth}%;`)
                 .addUI(new UIInput(data[option.id]).setUIType('hidden'));
         }
     },
+    // CI 테이블 row 추가
     addCITableRow(targetTable, data) {
         // 데이터가 없을 경우
         if (targetTable.rows.length === 2 && targetTable.rows[1].hasUIClass('no-data-found-list')) {
@@ -318,6 +290,7 @@ export const ciMixin = {
             row.addUICell(this.getCITableDataToCell(row, option, data));
         });
     },
+    // CI 테이블 row 삭제
     removeCITableRow(targetTable, index) {
         targetTable.removeUIRow(targetTable.rows[index]);
     },
@@ -328,23 +301,48 @@ export const ciMixin = {
 
         const td = new UICell(row).setUIClass('on align-center first-column last-column')
             .setColspan(12)
-            .setUICSSText(`border-color: ${this.elementBorderColor};`)
             .setUITextContent(i18n.msg('common.msg.noData'));
         row.addUICell(td);
     },
+    // 기존 CI 상세 조회 모달
     openViewModal(e) {
 
     },
+    // 신규 CI 등록 모달
     openRegisterModal(e) {
 
     },
+    // 기존 CI 변경 모달
     openUpdateModal(e) {
 
     },
+    // 기존 CI 조회 모달
     openSelectModal(e) {
 
     },
     getProperty() {
-        return [];
+        return [
+            ...new ZCommonProperty(this).getCommonProperty(),
+            new ZGroupProperty('group.element')
+                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZSwitchProperty('element.isEditable', this.elementIsEditable)),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
+        ];
+    },
+    // json 데이터 추출 (서버에 전달되는 json 데이터)
+    toJson() {
+        return {
+            id: this._id,
+            type: this._type,
+            display: this._display,
+            isTopic: this._isTopic,
+            mapId: this._mapId,
+            tags: this._tags,
+            value: this._value,
+            label: this._label,
+            element: this._element,
+            validation: this._validation
+        };
     }
 };

@@ -229,3 +229,13 @@
   display: inline-block;
   @include maskImage('#{$icon-folder-path}icon_search.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
 }
+// button edit
+.icon-edit {
+  display: inline-block;
+  @include maskImage('#{$icon-folder-path}icon_edit.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
+}
+// icon delete
+.icon-delete {
+  display: inline-block;
+  @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
+}

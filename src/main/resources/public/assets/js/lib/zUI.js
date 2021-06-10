@@ -102,6 +102,10 @@ class UIElement {
         this.domElement.textContent = value;
         return this;
     }
+
+    getUIIndexOfChild(element) {
+        return Array.prototype.indexOf.call(this.domElement.children, element.domElement);
+    }
 }
 
 // properties
@@ -536,7 +540,7 @@ class UITable extends UIElement {
 
 class UIRow extends UIElement {
     constructor(table) {
-        super(document.createElement('row'));
+        super(document.createElement('tr'));
 
         this.parent = table;
         this.cells = [];

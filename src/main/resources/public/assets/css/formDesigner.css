@@ -2666,6 +2666,32 @@ button.ghost-line:disabled .icon {
   background: #CCCED1;
 }
 
+.icon-edit {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_edit.svg");
+  mask-image: url("../media/icons/icon_edit.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+
+.icon-delete {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/form/tooltip/icon_delete.svg");
+  mask-image: url("../media/icons/form/tooltip/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+
 /* _alerts.scss 
  *
  * 파일 경로 : template/_alerts.scss
@@ -4995,6 +5021,36 @@ body.modal-active {
 }
 .z-component .z-element .z-imagebox[src=""] + .z-imagebox-placeholder {
   display: block;
+}
+.z-component .z-element .z-ci-table {
+  width: 100%;
+  background-color: #ffffff;
+}
+.z-component .z-element .z-ci-table tr td {
+  display: none;
+  padding: 0.625rem;
+  border-top: 0.0625rem solid #EBEBEB;
+  border-left: none;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  border-right: none;
+}
+.z-component .z-element .z-ci-table tr td.on {
+  display: table-cell;
+}
+.z-component .z-element .z-ci-table tr td .btn {
+  padding: 0;
+}
+.z-component .z-element .z-ci-table .z-ci-table-header {
+  background-color: #F7F8F9;
+}
+.z-component .z-element .z-ci-table .z-ci-table-header td {
+  color: #586872;
+  font-weight: 700;
+}
+.z-component .z-element .z-ci-table .no-data-found-list {
+  color: #ACB4BF;
+  background-color: #ffffff;
+  pointer-events: none;
 }
 
 .z-component .z-component-label .required.off {

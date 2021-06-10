@@ -124,7 +124,7 @@ class ZDocument {
             UIButtonGroup.addUI(new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
                 .addUIClass('default-fill')
                 .onUIClick((btn.value === 'close' || btn.value === 'print') ?
-                    this[btn.value + 'ZDocument'].bind(this) :
+                    this[btn.value + 'Document'].bind(this) :
                     this.saveDocument.bind(this, btn.value)
                 ));
         });
