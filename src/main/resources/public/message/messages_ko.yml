@@ -679,6 +679,7 @@ form:
     desc: "설명"
     direct: "직접"
     display:
+      color: "색상"
       columnWidth: "컬럼 너비"
       isAccordionUsed: "아코디언 사용 여부"
       margin: "Margin"
@@ -688,9 +689,12 @@ form:
     element:
       align: "정렬"
       columnWidth: "컬럼 너비"
+      color: "색상"
       defaultValueSelect: "기본값 타입"
       isEditable: "편집가능 여부"
       path: "경로"
+      thickness: "굵기"
+      type: "Type"
       width: "너비"
       heigth: "높이"
     email: "Email"
@@ -714,6 +718,10 @@ form:
       visibility: "표시 여부"
     lengthMax: "최대길이"
     lengthMin: "최소길이"
+    lineType:
+      dash: "dash"
+      dot: "dot"
+      line: "line"
     mapId: "매핑 아이디"
     mobileNumber: "핸드폰 번호"
     name: "이름"

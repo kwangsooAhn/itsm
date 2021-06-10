@@ -679,6 +679,7 @@ form:
     desc: "Description"
     direct: "Direct"
     display:
+      color: "color"
       columnWidth: "Column Width"
       isAccordionUsed: "Accordion Use"
       margin: "Margin"
@@ -688,9 +689,12 @@ form:
     element:
       align: "Align"
       columnWidth: "Column Width"
+      color: "color"
       defaultValueSelect: "Default Value Type"
       isEditable: "Editable"
       path: "Path"
+      thickness: "Thickness"
+      type: "Type"
       width: "Width"
       heigth: "Height"
     email: "Email"
@@ -714,6 +718,10 @@ form:
       visibility: "Visible"
     lengthMax: "Max Length"
     lengthMin: "Min Length"
+    lineType:
+      dash: "dash"
+      dot: "dot"
+      line: "line"
     mapId: "Mapping Id"
     mobileNumber: "Mobile Number"
     name: "Name"
