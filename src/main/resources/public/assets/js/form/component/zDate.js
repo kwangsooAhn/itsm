@@ -49,7 +49,7 @@ export const dateMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
-        element.UIDate = new UIInput().setUIClass('input datepicker').setUIPlaceholder(this.elementPlaceholder)
+        element.UIDate = new UIInput().addUIClass('datepicker').setUIPlaceholder(this.elementPlaceholder)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validationRequired)
@@ -150,8 +150,8 @@ export const dateMixin = {
                 .addProperty(new ZDefaultValueDateProperty('element.defaultValue', this.elementDefaultValueDate)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
-                .addProperty(new ZInputBoxProperty('validation.minDate', this.validationMinDate))
-                .addProperty(new ZInputBoxProperty('validation.maxDate', this.validationMaxDate))
+                .addProperty(new ZDefaultValueDateProperty('validation.minDate', this.validationMinDate))
+                .addProperty(new ZDefaultValueDateProperty('validation.maxDate', this.validationMaxDate))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)

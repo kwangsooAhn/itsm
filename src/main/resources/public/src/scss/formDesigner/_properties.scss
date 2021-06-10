@@ -110,4 +110,13 @@
       &.off { display: none; }
     }
   }
+
+  // time, date, datepicker
+  .datepicker,
+  .datetimepicker {
+    background: $white url("#{$icon-folder-path}icon_calendar.svg") no-repeat 98% 50%;
+  }
+  .timepicker {
+    background: $white url("#{$icon-folder-path}icon_clock.svg") no-repeat 98% 50%;
+  }
 }

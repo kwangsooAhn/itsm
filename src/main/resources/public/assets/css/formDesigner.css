@@ -5222,3 +5222,10 @@ body.modal-active {
 .property .default-type .select.off {
   display: none;
 }
+.property .datepicker,
+.property .datetimepicker {
+  background: #ffffff url("../media/icons/icon_calendar.svg") no-repeat 98% 50%;
+}
+.property .timepicker {
+  background: #ffffff url("../media/icons/icon_clock.svg") no-repeat 98% 50%;
+}

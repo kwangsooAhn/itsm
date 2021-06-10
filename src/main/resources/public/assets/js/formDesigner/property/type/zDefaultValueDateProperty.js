@@ -19,37 +19,55 @@ export default class ZDefaultValueDateProperty extends ZProperty {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
 
-        // 기본값
-        // 없음
-        this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
-        this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
-        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
-            .setUITextContent(i18n.msg('form.properties.option.none')))
-            .onUIChange(this.updateProperty.bind(this));
-        this.UIElement.addUI(this.UIElement.UIDiv);
+        switch(this.name) {
+            case 'form.properties.element.defaultValue':
+                // 기본값
+                // 없음
+                this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
+                this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
+                this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
+                    .setUITextContent(i18n.msg('form.properties.option.none')))
+                    .onUIChange(this.updateProperty.bind(this));
+                this.UIElement.addUI(this.UIElement.UIDiv);
 
-        // 현재
-        this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
-        this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
-        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
-            .setUITextContent(i18n.msg('form.properties.option.now')))
-            .onUIChange(this.updateProperty.bind(this));
-        this.UIElement.addUI(this.UIElement.UIDiv);
+                // 현재
+                this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
+                this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
+                this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
+                    .setUITextContent(i18n.msg('form.properties.option.now')))
+                    .onUIChange(this.updateProperty.bind(this));
+                this.UIElement.addUI(this.UIElement.UIDiv);
 
-        // 일 후
-        this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
-        this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
-        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
-            .setUITextContent(i18n.msg('form.properties.option.date')))
-            .onUIChange(this.updateProperty.bind(this));
-        this.UIElement.addUI(this.UIElement.UIDiv);
+                // 일 후
+                this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
+                this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
+                this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UISpan().setUIClass('text')
+                    .setUITextContent(i18n.msg('form.properties.option.date')))
+                    .onUIChange(this.updateProperty.bind(this));
+                this.UIElement.addUI(this.UIElement.UIDiv);
 
-        // 달력
-        this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
-        this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
-        this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UIInput)
-            .onUIChange(this.updateProperty.bind(this));
-        this.UIElement.addUI(this.UIElement.UIDiv);
+                // 달력
+                this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
+                this.UIElement.UIDiv.UICheckbox = new UIRadioButton();
+                this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UICheckbox).addUI(new UIInput()
+                    .setUIId(this.getKeyId())
+                    .setUIValue(this.value)
+                    .addUIClass('datepicker')
+                    .onUIChange(this.updateProperty.bind(this)));
+                this.UIElement.addUI(this.UIElement.UIDiv);
+                break;
+            case 'form.properties.validation.minDate':
+            case 'form.properties.validation.maxDate':
+                this.UIElement.UIInput = new UIInput()
+                    .setUIId(this.getKeyId())
+                    .setUIValue(this.value)
+                    .addUIClass('datepicker')
+                    .onUIChange(this.updateProperty.bind(this));
+                this.UIElement.addUI(this.UIElement.UIInput);
+                break;
+            default:
+                break;
+        }
 
         return this.UIElement;
     }
@@ -94,6 +112,14 @@ export default class ZDefaultValueDateProperty extends ZProperty {
         } else {
             let changePropertiesArr = parentEl.id.split('-');
             changePropertiesValue(el.value, changePropertiesArr[0], changePropertiesArr[1]);
+        }
+    }
+
+    initDatePicket() {
+        const datepickerElems = this.panel.querySelectorAll('.datepicker');
+        let i, len;
+        for (i = 0, len = datepickerElems.length; i < len; i++) {
+            dateTimePicker.initDatePicker(datepickerElems[i].id, setDateFormat);
         }
     }
 }
