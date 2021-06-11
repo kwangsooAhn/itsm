@@ -13,7 +13,6 @@
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UIInput, UIText } from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -47,6 +46,7 @@ export const dateMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
+        console.log('makeElement');
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().addUIClass('datepicker').setUIPlaceholder(this.elementPlaceholder)
@@ -151,12 +151,11 @@ export const dateMixin = {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
                 .addProperty(new ZDefaultValueDateProperty('validation.minDate', this.validationMinDate))
-                .addProperty(new ZDefaultValueDateProperty('validation.maxDate', this.validationMaxDate))
+                .addProperty(new ZDefaultValueDateProperty('validation.maxDate', this.validationMaxDate).initDatePicker("test"))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {
-        console.log("toJson");
         return {
             id: this._id,
             type: this._type,
@@ -169,5 +168,9 @@ export const dateMixin = {
             element: this._element,
             validation: this._validation
         };
+    }
+
+    initDatePicker(targetId) {
+        zDateTimePicker.initDatePicker(targetId)
     }
 };

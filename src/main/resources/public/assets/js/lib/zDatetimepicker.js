@@ -642,13 +642,8 @@
      */
     function initDatePicker(targetId, callback) {
         let options = JSON.parse(JSON.stringify(defaultOptions));
-
-        let picker = initPicker(targetId, options);
-        picker.target.addEventListener('changed', function() {
-            if (typeof callback === 'function') {
-                callback(picker.target, picker);
-            }
-        });
+        console.log('initDatePicker');
+        console.log(targetId);
     }
 
     /**
