@@ -151,7 +151,7 @@ export const dateMixin = {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
                 .addProperty(new ZDefaultValueDateProperty('validation.minDate', this.validationMinDate))
-                .addProperty(new ZDefaultValueDateProperty('validation.maxDate', this.validationMaxDate).initDatePicker("test"))
+                .addProperty(new ZDefaultValueDateProperty('validation.maxDate', this.validationMaxDate))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
@@ -168,9 +168,5 @@ export const dateMixin = {
             element: this._element,
             validation: this._validation
         };
-    }
-
-    initDatePicker(targetId) {
-        zDateTimePicker.initDatePicker(targetId)
     }
 };

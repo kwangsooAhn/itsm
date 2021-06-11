@@ -53,6 +53,7 @@ export default class ZDefaultValueDateProperty extends ZProperty {
                     .setUIId(this.getKeyId())
                     .setUIValue(this.value)
                     .addUIClass('datepicker')
+                    .onUIClick(this.updateProperty.bind(this))
                     .onUIChange(this.updateProperty.bind(this)));
                 this.UIElement.addUI(this.UIElement.UIDiv);
                 break;
@@ -62,6 +63,7 @@ export default class ZDefaultValueDateProperty extends ZProperty {
                     .setUIId(this.getKeyId())
                     .setUIValue(this.value)
                     .addUIClass('datepicker')
+                    .onUIClick(this.updateProperty.bind(this))
                     .onUIChange(this.updateProperty.bind(this));
                 this.UIElement.addUI(this.UIElement.UIInput);
                 break;
@@ -80,6 +82,37 @@ export default class ZDefaultValueDateProperty extends ZProperty {
             console.log('change Event');
             return false;
         }
+        if (e.type === 'click' && e.target.classList.contains('datepicker')) {
+            zDateTimePicker.initDatePicker(e.target.id, this.setDateFormat);
+            return false;
+        }
         this.panel.update.call(this.panel, e.target.id, e.target.value);
+    }
+
+    setDateFormat(e) {
+        let el = e.target || e;
+        let parentEl = el.parentNode.parentNode;
+        let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
+        if (checkedRadio !== null) { // radio 버튼 존재시
+            if (parentEl.querySelector('input[type=radio]').id !== checkedRadio.id) { return false; }
+            let checkedPropertiesArr = checkedRadio.name.split('-');
+            let changeValue = checkedRadio.value;
+            if (changeValue === 'none' || changeValue === 'now') {
+                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+            } else {
+                let inputCells = parentEl.querySelectorAll('input[type=text]');
+                if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
+                    changeValue += ('|' + inputCells[0].value);
+                } else {
+                    for (let i = 0, len = inputCells.length; i < len; i++ ) {
+                        changeValue += ('|' + inputCells[i].value);
+                    }
+                }
+                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+            }
+        } else {
+            let changePropertiesArr = parentEl.id.split('-');
+            changePropertiesValue(el.value, changePropertiesArr[0], changePropertiesArr[1]);
+        }
     }
 }

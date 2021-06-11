@@ -1,4 +1,3 @@
-
 /**
  * InputBox Property Class
  *
