@@ -9329,6 +9329,7 @@ CREATE TABLE cmdb_attribute
 	create_dt timestamp,
 	update_user_key character varying(128),
 	update_dt timestamp,
+	mapping_id character varying(128),
 	CONSTRAINT cmdb_attribute_pk PRIMARY KEY (attribute_id),
 	CONSTRAINT cmdb_attribute_uk UNIQUE (attribute_id)
 );
@@ -9344,6 +9345,7 @@ COMMENT ON COLUMN cmdb_attribute.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_attribute.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_attribute.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_attribute.update_dt IS '수정일시';
+COMMENT ON COLUMN cmdb_attribute.mapping_id IS '매핑아이디';
 
 insert into cmdb_attribute values ('4028b25d791b75ac01791bb574a70005', 'Asset Importance', '자산보안등급정보', 'inputbox', '자산중요도', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_attribute values ('77b6112b3013a6808aeb04f80dd75360', 'Confidentiality', '자산보안등급정보', 'dropdown', '기밀성', '{"option":[{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}', '0509e09412534a6e98f04ca79abb6424', now());
@@ -9661,6 +9663,7 @@ CREATE TABLE cmdb_ci
 	create_dt timestamp,
 	update_user_key character varying(128),
 	update_dt timestamp,
+	mapping_id character varying(128),
 	CONSTRAINT cmdb_ci_pk PRIMARY KEY (ci_id),
 	CONSTRAINT cmdb_ci_uk UNIQUE (ci_id),
 	CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)
@@ -9684,6 +9687,7 @@ COMMENT ON COLUMN cmdb_ci.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_ci.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_ci.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_ci.update_dt IS '수정일시';
+COMMENT ON COLUMN cmdb_ci.mapping_id IS '매핑아이디';
 
 /**
  * CMDB CI 데이터

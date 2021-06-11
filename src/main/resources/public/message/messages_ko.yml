@@ -273,6 +273,7 @@ cmdb:
       export: "내보내기"
       label: "라벨"
       management: "Attribute 관리"
+      mappingId: "매핑 아이디"
       name: "Attribute 명"
       option:
         check: "Check"
