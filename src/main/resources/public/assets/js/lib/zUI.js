@@ -269,7 +269,6 @@ class UISelect extends UIElement {
         super(document.createElement('select'));
         this.domElement.className = 'select';
         this.domElement.style.padding = '0 2px';
-        this.domElement.style.width = '100%';
     }
 
     setUIMultiple(boolean) {
@@ -283,10 +282,10 @@ class UISelect extends UIElement {
             this.domElement.removeChild(this.domElement.firstChild);
         }
 
-        for (const index in options) {
+        for (const key in options) {
             const option = document.createElement('option');
-            option.value = options[index].value;
-            option.innerHTML = options[index].name;
+            option.value = key;
+            option.innerHTML = options[key];
             this.domElement.appendChild(option);
         }
         this.domElement.value = selected;
