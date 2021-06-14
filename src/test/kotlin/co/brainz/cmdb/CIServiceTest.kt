@@ -9,11 +9,8 @@ package co.brainz.cmdb
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIDto
-import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.AliceUtil
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.JsonArray
 import javax.transaction.Transactional
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -74,7 +71,7 @@ class CIServiceTest {
             ciIcon = "",
             ciDataList = mutableListOf(),
             ciRelations = mutableListOf(),
-            ciTags = mutableListOf()
+            ciTags = JsonArray()
         )
         val returnDto = ciService.createCI(ciDto)
         assertEquals(returnDto.code, "0")
@@ -124,14 +121,13 @@ class CIServiceTest {
     @Order(5)
     fun updateCI() {
         val params = LinkedHashMap<String, Any>()
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         params["search"] = this.ciName
         val ciDtoList = ciService.getCIs(params)
         assumingThat(
             ciDtoList.data.isNotEmpty()
         ) {
             for (ciDto in ciDtoList.data) {
-                val tags = mutableListOf(mapper.readValue(ciDto.tags, AliceTagDto::class.java))
+                //val tags = mreadValue(ciDto.tags)
                 if (ciDto.ciId != null) {
                     val updateCiDto = CIDto(
                         ciId = ciDto.ciId.toString(),
@@ -140,7 +136,7 @@ class CIServiceTest {
                         ciDesc = "Update Test 1",
                         typeId = ciDto.typeId.toString(),
                         classId = ciDto.classId,
-                        ciTags = tags,
+                        ciTags = ciDto.tags,
                         ciIcon = ciDto.ciIcon
                     )
                     assertTrue(ciService.updateCI(updateCiDto).status)

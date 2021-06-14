@@ -536,6 +536,16 @@ class UITable extends UIElement {
         }
         return this;
     }
+
+    updateUIRow(index, row) {
+        if (index !== -1) {
+            const updateRow = this.rows[index];
+            this.domElement.insertBefore(row.domElement, updateRow.domElement);
+            this.removeUIRow(updateRow);
+            this.rows.splice(index, 1, row);
+        }
+        return this;
+    }
 }
 
 class UIRow extends UIElement {
