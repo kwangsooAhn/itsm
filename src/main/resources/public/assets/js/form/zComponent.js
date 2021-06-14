@@ -58,6 +58,7 @@ export default class ZComponent {
         this._value = data.value || '${default}';
         this._display = Object.assign({}, DEFAULT_PROPERTY.display, data.display);
         this._label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);
+        this._propertyName = 'form.component.' + data.type || ''; // i18n message name
 
         // Control Mixin import
         aliceJs.importMixin(this, mixin.controlMixin);
@@ -288,6 +289,14 @@ export default class ZComponent {
         return this._label.text;
     }
 
+    set propertyName(name) {
+        this._propertyName = name;
+    }
+
+    get propertyName() {
+        return this._propertyName;
+    }
+
     /**
      * 현재 객체를 대상이 되는 객체로 변경 (복사) 하여 반환한다
      * @param source 대상 객체
@@ -304,6 +313,7 @@ export default class ZComponent {
         this._tags = source.tags;
         this._value = source.value;
         this._label = source.label;
+        this._propertyName = source.propertyName;
         if (flag) { this._id = source.id; }
 
         this.init();
