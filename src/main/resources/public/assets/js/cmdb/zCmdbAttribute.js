@@ -169,7 +169,7 @@
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input type="text" maxlength="50" required="true" required data-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
+                `<div class="flex-column col-5 mr-4"><input type="text" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
@@ -212,7 +212,7 @@
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input type="text" maxlength="50" required="true" data-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
+                `<div class="flex-column col-5 mr-4"><input type="text" maxlength="50" required="true" data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
@@ -255,7 +255,7 @@
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-4 mr-4"><input type="text" maxlength="50" required="true" required data-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
+                `<div class="flex-column col-4 mr-4"><input type="text" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-4 mr-4"><input type="text" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label></div>` +
@@ -496,7 +496,7 @@
      * @param target 표시할 대상 element
      * @param attributeData 세부 데이터
      */
-    function drawEditDetails(target, attributeData) {
+    function drawEditDetails(target, attributeData, userInfo) {
         target.removeAttribute('onclick');
         target.innerHTML = '';
 
@@ -527,7 +527,8 @@
                     if (attributeValue !== '') {
                         if (attributeValue.required === 'true') {
                             inputElem.required = true;
-                            inputElem.setAttribute('data-required-name', attributes.attributeText);
+                            inputElem.setAttribute('data-validation-required', 'true');
+                            inputElem.setAttribute('data-validation-required-name', attributes.attributeText);
                             labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                         }
                         // 유효성 검증
@@ -676,11 +677,11 @@
                             switch (attributeValue.default.type) {
                             case 'session':
                                 if (attributeValue.default.value === 'userName') {
-                                    customData = aliceForm.session.userKey + '|' + aliceForm.session['userName'];
-                                    defaultValue = aliceForm.session['userName'];
+                                    customData = userInfo.userKey + '|' + userInfo.userName;
+                                    defaultValue = userInfo.userName;
                                 } else if (attributeValue.default.value === 'department') {
-                                    customData = aliceForm.session.department + '|' + aliceForm.session['departmentName'];
-                                    defaultValue = aliceForm.session['departmentName'];
+                                    customData = userInfo.department + '|' + userInfo.departmentName;
+                                    defaultValue = userInfo.departmentName;
                                 }
                                 break;
                             case 'code':
@@ -757,7 +758,8 @@
                     if (attributeValue !== '') {
                         if (attributeValue.required === 'true') {
                             inputElem.required = true;
-                            inputElem.setAttribute('data-required-name', attributes.attributeText);
+                            inputElem.setAttribute('data-validation-required', 'true');
+                            inputElem.setAttribute('data-validation-required-name', attributes.attributeText);
                             labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                         }
                     }

@@ -21,7 +21,7 @@
                     <span th:text="#{cmdb.attribute.label.name}"></span>
                     <span class="required"></span>
                 </label>
-                <input type="text" id="attributeName" required="true" maxlength="100" th:attr="data-required-name=#{cmdb.attribute.label.name}"
+                <input type="text" id="attributeName" required="true" maxlength="100" th:attr="data-validation-required-name=#{cmdb.attribute.label.name}"
                        th:value="${attribute?.attributeName}"/>
             </div>
             <div class="flex-column edit-row">

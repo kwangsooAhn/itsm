@@ -4107,6 +4107,11 @@ button.ghost-line:disabled .icon {
   border-color: transparent;
 }
 
+.ql-container.error {
+  color: #ff405a !important;
+  border: 0.0625rem solid #ff405a !important;
+}
+
 /* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss
@@ -4987,6 +4992,9 @@ body.modal-active {
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
+}
+.z-component .z-element .z-text-editor {
+  height: calc(2.5rem * var(--data-row));
 }
 .z-component .z-element .z-imagebox-placeholder {
   display: none;
