@@ -699,6 +699,8 @@ form:
       fontOption: "Option"
       isEditable: "Editable"
       path: "Path"
+      placeholder: "Placeholder"
+      rows: "Rows"
       text": "Content"
       thickness: "Thickness"
       type: "Type"

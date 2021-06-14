@@ -165,6 +165,10 @@
       @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
       @include borderRadius(0.0625rem); // 2px
     }
+    // text editor
+    .#{$common-prefix}text-editor {
+      height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
+    }
     // image 컴포넌트
     .#{$common-prefix}imagebox-placeholder {
       display: none;

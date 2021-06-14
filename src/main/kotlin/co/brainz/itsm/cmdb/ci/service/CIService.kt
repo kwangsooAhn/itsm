@@ -13,7 +13,6 @@ import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.tag.constants.AliceTagConstants
-import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -24,6 +23,8 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -97,7 +98,7 @@ class CIService(
             // 임시 테이블의 CI 세부 데이터가 존재할 경우 합치기
             val ciComponentData =
                 ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
-            val tagDataList = mutableListOf<AliceTagDto>()
+            val tagDataList = JsonArray()
             val relationList = mutableListOf<CIRelationDto>()
             val ciClasses = ciClassService.getCIClassAttributes(map["classId"] as String)
             if (ciComponentData != null) {
@@ -108,14 +109,12 @@ class CIService(
                     mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
                 ciTags.forEach { tag ->
                     if (tag["id"] != null && tag["value"] != null) {
-                        tagDataList.add(
-                            AliceTagDto(
-                                tagId = tag["id"] as String,
-                                tagType = AliceTagConstants.TagType.CI.code,
-                                tagValue = tag["value"] as String,
-                                targetId = ciId
-                            )
-                        )
+                        val ciTag = JsonObject()
+                        ciTag.addProperty("id", tag["id"] as String)
+                        //ciTag.addProperty("tagType", AliceTagConstants.TagType.CI.code)
+                        ciTag.addProperty("value", tag["value"] as String)
+                        //ciTag.addProperty("targetId", ciId)
+                        tagDataList.add(ciTag)
                     }
                 }
 

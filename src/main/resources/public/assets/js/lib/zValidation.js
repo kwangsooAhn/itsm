@@ -198,9 +198,9 @@ class ZValidation {
      * 빈값 체크
      */
     isEmpty(target) {
-        if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
         if (typeof target === 'function') { return false; } // 함수이면 false 반환
-        if (typeof target === 'string') { this.regex.blank.test(target); } // 빈값 체크
+        if (typeof target === 'string') { return this.regex.blank.test(target); } // 빈값 체크
+        if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
         if (this.isArray(target)) { return target.length === 0; } // 배열이면 1개라도 값이 존재하는지 체크
         if (target === Object(target)) { // 객체이면 property가 1개라도 존재하는지 체크
             for (const prop in target) {

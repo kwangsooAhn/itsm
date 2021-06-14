@@ -6,6 +6,7 @@
 
 package co.brainz.cmdb.dto
 
+import com.google.gson.JsonArray
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -26,5 +27,5 @@ data class CIListDto(
     var createDt: LocalDateTime? = null,
     val updateUserKey: String? = null,
     val updateDt: LocalDateTime? = null,
-    var tags: String? = null
+    var tags: JsonArray? = null
 ) : Serializable

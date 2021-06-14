@@ -699,6 +699,8 @@ form:
       fontOption: "옵션"
       isEditable: "편집가능 여부"
       path: "경로"
+      placeholder: "Placeholder"
+      rows: "입력 행 수"
       text: "내용"
       thickness: "굵기"
       type: "Type"
