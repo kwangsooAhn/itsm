@@ -2692,7 +2692,7 @@ button.ghost-line:disabled .icon {
   background: #CCCED1;
 }
 
-/* _alerts.scss
+/* _alerts.scss 
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
@@ -3621,6 +3621,7 @@ button.ghost-line:disabled .icon {
  * @version 1.0
  */
 .picker-wrapper-date {
+  width: 100%;
   display: inline-block;
 }
 

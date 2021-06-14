@@ -78,18 +78,15 @@ export default class ZDefaultValueDateProperty extends ZProperty {
         e.stopPropagation();
         e.preventDefault();
 
-        if (e.type === 'change') {
-            console.log('change Event');
-            return false;
-        }
-        if (e.type === 'click' && e.target.classList.contains('datepicker')) {
-            zDateTimePicker.initDatePicker(e.target.id, this.setDateFormat);
-            return false;
+        if (e.type === 'click') {
+            if (e.target.classList.contains('datepicker')) {
+                if (!e.target.classList.contains('picker-main')) {
+                    zDateTimePicker.initDatePicker(e.target.id, '');
+                    e.target.click();
+                }
+            }
         }
         this.panel.update.call(this.panel, e.target.id, e.target.value);
     }
 
-    setDateFormat(e) {
-        console.log('setDateFormat');
-    }
 }

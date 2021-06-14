@@ -26,7 +26,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         placeholder: '',
         columnWidth: '10',
-        defaultValueDate: 'YYYY-MM-DD ',
+        defaultValueDate: '',
     },
     validation: {
         required: false,
@@ -46,7 +46,6 @@ export const dateMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        console.log('makeElement');
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().addUIClass('datepicker').setUIPlaceholder(this.elementPlaceholder)
