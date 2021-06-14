@@ -127,7 +127,6 @@ class CIServiceTest {
             ciDtoList.data.isNotEmpty()
         ) {
             for (ciDto in ciDtoList.data) {
-                //val tags = mreadValue(ciDto.tags)
                 if (ciDto.ciId != null) {
                     val updateCiDto = CIDto(
                         ciId = ciDto.ciId.toString(),
