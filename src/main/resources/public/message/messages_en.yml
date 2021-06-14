@@ -696,6 +696,8 @@ form:
       defaultValueSelect: "Default Value Type"
       isEditable: "Editable"
       path: "Path"
+      placeholder: "Placeholder"
+      rows: "Rows"
       thickness: "Thickness"
       type: "Type"
       width: "Width"

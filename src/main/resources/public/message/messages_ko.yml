@@ -696,6 +696,8 @@ form:
       defaultValueSelect: "기본값 타입"
       isEditable: "편집가능 여부"
       path: "경로"
+      placeholder: "Placeholder"
+      rows: "입력 행 수"
       thickness: "굵기"
       type: "Type"
       width: "너비"
