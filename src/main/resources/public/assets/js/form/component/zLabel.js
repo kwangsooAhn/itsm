@@ -91,14 +91,14 @@ export const labelMixin = {
             this.getLabelColumnWidth(this.labelPosition));
     },
     get elementLabelWidth() {
-        return this._element.labelWidth
+        return this._element.labelWidth;
     },
     set elementText(text) {
         this._element.text = text;
         this.UIElement.UIComponent.UIElement.UILabel.setUITextContent(text);
     },
     get elementText() {
-        return this._element.text
+        return this._element.text;
     },
     set elementFontSize(size) {
         this._element.fontSize = size;
