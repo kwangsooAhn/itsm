@@ -157,26 +157,6 @@ export const labelMixin = {
     get value() {
         return this._value;
     },
-    // input box 값 변경시 이벤트 핸들러
-    updateValue(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-        // 유효성 검증
-        // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
-            return false;
-        }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            return false;
-        }
-
-        this.value = e.target.value;
-    },
     getProperty() {
 
         // element - text
@@ -235,7 +215,8 @@ export const labelMixin = {
             tags: this._tags,
             value: this._value,
             label: this._label,
-            element: this._element
+            element: this._element,
+            validation: this._validation
         };
     }
 };
