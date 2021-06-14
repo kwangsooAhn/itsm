@@ -10,9 +10,9 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIInput, UIText } from '../../lib/zUI.js';
+import {CLASS_PREFIX, SESSION} from '../../lib/zConstants.js';
+import {zValidation} from '../../lib/zValidation.js';
+import {UIDiv, UIElement, UIInput} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -24,9 +24,9 @@ import ZDefaultValueDateProperty from '../../formDesigner/property/type/zDefault
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        placeholder: '',
+        placeholder: 'yyyy-MM-dd',
         columnWidth: '10',
-        defaultValueDate: '',
+        defaultValueDate: 'yyyy-MM-dd',
     },
     validation: {
         required: false,
@@ -48,12 +48,12 @@ export const dateMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
-        element.UIDate = new UIInput().addUIClass('datepicker').setUIPlaceholder(this.elementPlaceholder)
+        element.UIDate = new UIInput().setUIPlaceholder(this.elementPlaceholder)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validationRequired)
-            .setUIAttribute('data-validation-maxDate', this.validationMaxDate)
-            .setUIAttribute('data-validation-minDate', this.validationMinDate)
+            .setUIAttribute('data-validation-maxLength', this.validationMaxDate)
+            .setUIAttribute('data-validation-minLength', this.validationMinDate)
             .onUIKeyUp(this.updateValue.bind(this))
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDate);
@@ -67,7 +67,7 @@ export const dateMixin = {
     },
     set elementPlaceholder(placeholder) {
         this._element.placeholder = placeholder;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIPlaceholder(placeholder);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIPlaceholder(placeholder);
     },
     get elementPlaceholder() {
         return this._element.placeholder;
@@ -83,18 +83,18 @@ export const dateMixin = {
     },
     set elementDefaultValueDate(value) {
         this._element.defaultValueDate = value;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.value);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.value);
     },
     get elementDefaultValueDate() {
         return this._element.defaultValueDate
     },
     set validationRequired(boolean) {
         this._validation.required = boolean;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-required', boolean);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UIElement.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
         }
     },
     get validationRequired() {
@@ -102,14 +102,14 @@ export const dateMixin = {
     },
     set validationMinDate(min) {
         this._validation.minDate = min;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-minDate', min);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-minLength', min);
     },
     get validationMinDate() {
         return this._validation.minDate;
     },
     set validationMaxDate(max) {
         this._validation.maxDate = max;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-maxDate', max);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-maxLength', max);
     },
     get validationMaxDate() {
         return this._validation.maxDate;
@@ -119,7 +119,11 @@ export const dateMixin = {
         this._value = value;
     },
     get value() {
-        return this._value;
+        if (this._value === '${default}') {
+            return '';
+        } else {
+            return this._value;
+        }
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
