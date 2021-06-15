@@ -16,9 +16,9 @@ import { UIDiv, UISelect } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZOptionListProperty from "../../formDesigner/property/type/zOptionListProperty.js";
-import ZLabelProperty from "../../formDesigner/property/type/zLabelProperty.js";
-import ZSwitchProperty from "../../formDesigner/property/type/zSwitchProperty.js";
+import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -48,11 +48,13 @@ export const dropdownMixin = {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        const selectOptionValue = this.element.options[0].value
-        element.UIDropdown = new UISelect().setUIOptions(this.element.options).setUIValue(selectOptionValue)
+        const selectOptionValue = this._value || this.element.options[0].value;
+        element.UIDropdown = new UISelect().setUIOptions(this.element.options).setUIValue(selectOptionValue);
         element.addUI(element.UIDropdown);
         return element;
     },
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {},
     // set, get
     set element(element) {
         this._element = element;
@@ -71,7 +73,7 @@ export const dropdownMixin = {
     },
     set elementOptions(options) {
         this._element.options = options;
-        this.UIElement.UIComponent.UIElement.UIDropdown.setUIOptions(options)
+        this.UIElement.UIComponent.UIElement.UIDropdown.setUIOptions(options);
 
     },
     get elementOptions() {
