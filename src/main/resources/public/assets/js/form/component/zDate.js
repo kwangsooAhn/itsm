@@ -26,7 +26,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         placeholder: 'yyyy-MM-dd',
         columnWidth: '10',
-        defaultValueDate: 'yyyy-MM-dd',
+        defaultValueDate: '',
     },
     validation: {
         required: false,
