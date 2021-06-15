@@ -138,19 +138,23 @@
                 if (viewId === 'popTab') {
                     const popStrtDtVal = /*[[${notice?.popStrtDt}]]*/;
                     const popEndDtVal = /*[[${notice?.popEndDt}]]*/;
+                    const popStrtDtElement = document.getElementById('popStrtDt');
+                    const popEndDtElement = document.getElementById('popEndDt');
                     document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
                     document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
-                    document.getElementById('popStrtDt').value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
-                    document.getElementById('popEndDt').value = popEndDtVal ? i18n.userDateTime(popEndDtVal) : i18n.getDateTime({'days':30});
-                    zDateTimePicker.initDateTimePicker('popStrtDt');
-                    zDateTimePicker.initDateTimePicker('popEndDt');
+                    popStrtDtElement.value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
+                    popEndDtElement.value = popEndDtVal ? i18n.userDateTime(popEndDtVal) : i18n.getDateTime({'days':30});
+                    zDateTimePicker.initDateTimePicker(popStrtDtElement);
+                    zDateTimePicker.initDateTimePicker(popEndDtElement);
                 } else if (viewId === 'topNoticeTab') {
                     const topNoticeStrtDtVal = /*[[${notice?.topNoticeStrtDt}]]*/;
                     const topNoticeEndDtVal = /*[[${notice?.topNoticeEndDt}]]*/;
-                    document.getElementById('topNoticeStrtDt').value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
-                    document.getElementById('topNoticeEndDt').value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
-                    zDateTimePicker.initDateTimePicker('topNoticeStrtDt');
-                    zDateTimePicker.initDateTimePicker('topNoticeEndDt');
+                    const topNoticeStrtDtElement = document.getElementById('topNoticeStrtDt');
+                    const topNoticeEndDtElement = document.getElementById('topNoticeEndDt');
+                    topNoticeStrtDtElement.value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
+                    topNoticeEndDtElement.value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
+                    zDateTimePicker.initDateTimePicker(topNoticeStrtDtElement);
+                    zDateTimePicker.initDateTimePicker(topNoticeEndDtElement);
                 }
                 document.getElementById(viewId).style.display = 'block';
             } else {

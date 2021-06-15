@@ -58,7 +58,15 @@ export const textEditorMixin = {
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UIDiv);
 
-        this.editor = new Quill(element.UIDiv.domElement, {
+        if (this._value !== '${default}') {
+            this.value = JSON.parse(this.value);
+            this.editor.setContents(this.value);
+        }
+        return element;
+    },
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {
+        this.editor = new Quill(this.UIElement.UIComponent.UIElement.UIDiv.domElement, {
             modules: {
                 toolbar: [
                     [{'header': [1, 2, 3, 4, false]}],
@@ -98,12 +106,6 @@ export const textEditorMixin = {
                 this.value = this.editor.getContents();
             }
         });
-
-        if (this._value !== '${default}') {
-            this.value = JSON.parse(this.value);
-            this.editor.setContents(this.value);
-        }
-        return element;
     },
     // set, get
     set element(element) {
