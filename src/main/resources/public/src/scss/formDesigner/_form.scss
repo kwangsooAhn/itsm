@@ -165,6 +165,11 @@
       @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
       @include borderRadius(0.0625rem); // 2px
     }
+    // textArea
+    .textArea {
+      width: 100%;
+      height: calc(2.5rem * var(--data-row));
+    }
     // text editor
     .#{$common-prefix}text-editor {
       height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
