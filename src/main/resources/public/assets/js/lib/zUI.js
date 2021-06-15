@@ -262,6 +262,11 @@ class UITextArea extends UIElement {
         this.domElement.value = value;
         return this;
     }
+
+    setUIPlaceholder(value) {
+        this.domElement.placeholder = value;
+        return this;
+    }
 }
 // TODO: 디자인용 selectbox로 변경
 class UISelect extends UIElement {

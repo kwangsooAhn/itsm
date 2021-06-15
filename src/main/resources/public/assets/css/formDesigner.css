@@ -5019,6 +5019,10 @@ body.modal-active {
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
 }
+.z-component .z-element .textArea {
+  width: 100%;
+  height: calc(2.5rem * var(--data-row));
+}
 .z-component .z-element .z-text-editor {
   height: calc(2.5rem * var(--data-row));
 }
