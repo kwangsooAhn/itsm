@@ -12,22 +12,27 @@
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIText } from '../../lib/zUI.js';
+import { UIDiv, UITextArea } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        placeholder: '',
-        columnWidth: '10',
-        defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
+        columnWidth: '12',
+        rows: '2',
+        placeholder: ''
+    },
+    validation: {
+        required: false,
+        minLength: '0',
+        maxLength: '512'
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
@@ -38,28 +43,95 @@ export const textAreaMixin = {
     initProperty() {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
+        this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
     },
     // component 엘리먼트 생성
     makeElement() {
+        // label 숨김 처리
+        this.labelPosition = FORM.LABEL.POSITION.HIDDEN;
+
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIText = new UIText('아직 구현되지 않았습니다. 얼렁 개발해주세요.');
-        element.addUI(element.UIText);
+        element.UITextArea = new UITextArea().setUIPlaceholder(this.elementPlaceholder)
+            .setUIProperty('--data-row', this.elementRows)
+            .setUIAttribute('data-validation-required', this.validationRequired)
+            .onUIKeyUp(this.updateValue.bind(this))
+            .onUIChange(this.updateValue.bind(this));
+        element.addUI(element.UITextArea);
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {},
     // set, get
+    set element(element) {
+        this._element = element;
+    },
+    get element() {
+        return this._element;
+    },
+    set elementColumnWidth(width) {
+        this._element.columnWidth = width;
+        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column',
+            this.getLabelColumnWidth(this.labelPosition));
+    },
+    get elementColumnWidth() {
+        return this._element.columnWidth;
+    },
+    set elementRows(rows) {
+        this._element.rows = rows;
+        this.UIElement.UIComponent.UIElement.UITextArea.setUIProperty('--data-row', rows);
+    },
+    get elementRows() {
+        return this._element.rows;
+    },
+    set elementPlaceholder(placeholder) {
+        this._element.placeholder = placeholder;
+        this.UIElement.UIComponent.UIElement.UITextArea.setUIPlaceholder(placeholder);
+    },
+    get elementPlaceholder() {
+        return this._element.placeholder;
+    },
+    set validation(validation) {
+        return this._validation = validation;
+    },
+    get validation() {
+        return this._validation;
+    },
+    set validationRequired(boolean) {
+        this._validation.required = boolean;
+        this.UIElement.UIComponent.UIElement.UITextArea.setUIAttribute('data-validation-required', boolean);
+        if (boolean) {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get validationRequired() {
+        return this._validation.required;
+    },
+    set validationMinLength(min) {
+        this._validation.minLength = min;
+        this.UIElement.UIComponent.UIElement.UITextArea.setUIAttribute('data-validation-minLength', min);
+    },
+    get validationMinLength() {
+        return this._validation.minLength;
+    },
+    set validationMaxLength(max) {
+        this._validation.maxLength = max;
+        this.UIElement.UIComponent.UIElement.UITextArea.setUIAttribute('data-validation-maxLength', max);
+    },
+    get validationMaxLength() {
+        return this._validation.maxLength;
+    },
     set value(value) {
         this._value = value;
     },
     get value() {
-        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
-        // 사용자 변경시 해당 값이 할당된다.
         return this._value;
     },
-    // input box 값 변경시 이벤트 핸들러
+    // 값 변경시 이벤트 핸들러
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
@@ -73,13 +145,38 @@ export const textAreaMixin = {
             return false;
         }
         // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
+        if (e.type === 'keyup' && !zValidation.changeValidationCheck(e.target)) {
             return false;
         }
 
         this.value = e.target.value;
     },
     getProperty() {
-        return [];
+        return [
+            ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
+            new ZGroupProperty('group.element')
+                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZInputBoxProperty('element.rows', this.elementRows))
+                .addProperty(new ZInputBoxProperty('element.placeholder', this.elementPlaceholder)),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
+                .addProperty(new ZInputBoxProperty('validation.minLength', this.validationMinLength))
+                .addProperty(new ZInputBoxProperty('validation.maxLength', this.validationMaxLength))
+        ];
+    },
+    toJson() {
+        return {
+            id: this._id,
+            type: this._type,
+            display: this._display,
+            isTopic: this._isTopic,
+            mapId: this._mapId,
+            tags: this._tags,
+            value: this._value,
+            label: this._label,
+            element: this._element,
+            validation: this._validation
+        };
     }
 };
