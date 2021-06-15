@@ -11,15 +11,11 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import {UIDiv, UISelect, UIText} from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import { CLASS_PREFIX, FORM } from '../../lib/zConstants.js';
+import { UIDiv, UISelect } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
 import ZOptionListProperty from "../../formDesigner/property/type/zOptionListProperty.js";
 
 /**
@@ -28,10 +24,7 @@ import ZOptionListProperty from "../../formDesigner/property/type/zOptionListPro
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        options: [
-            {name: "항목 1", value: "실제 값 1"},
-            {name: "항목 2", value: "실제 값 2"}
-        ]
+        options: [ FORM.DEFAULT_OPTION_ROW ]
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
@@ -48,7 +41,7 @@ export const dropdownMixin = {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIDropdown = new UISelect().setUIOptions(this._element.options)
+        element.UIDropdown = new UISelect().setUIOptions(this.element.options)
         element.addUI(element.UIDropdown);
         return element;
     },
@@ -70,8 +63,10 @@ export const dropdownMixin = {
     },
     set elementOptions(options) {
         this._element.options = options;
+        this.UIElement.UIComponent.UIElement.UIDropdown.setUIOptions(options)
+
     },
-    get options() {
+    get elementOptions() {
         return this._element.options;
     },
     set value(value) {
@@ -84,20 +79,6 @@ export const dropdownMixin = {
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-        // 유효성 검증
-        // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
-            return false;
-        }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            return false;
-        }
-
         this.value = e.target.value;
     },
     getProperty() {
@@ -105,7 +86,7 @@ export const dropdownMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZOptionListProperty('options.list', this._value, this._element.options))
+                .addProperty(new ZOptionListProperty('element.options', this.elementOptions))
         ];
     },
     toJson() {

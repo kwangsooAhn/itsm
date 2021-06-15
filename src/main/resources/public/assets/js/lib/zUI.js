@@ -268,8 +268,6 @@ class UISelect extends UIElement {
     constructor() {
         super(document.createElement('select'));
         this.domElement.className = 'select';
-        this.domElement.style.padding = '0 2px';
-        this.domElement.style.width = '100%';
     }
 
     setUIMultiple(boolean) {

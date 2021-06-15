@@ -239,3 +239,14 @@
   display: inline-block;
   @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
 }
+// 옵션 추가/삭제 버튼. 디자인 확정되면 변경의 여지가 있음.
+.btn-option {
+  .icon-plus {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white);
+  }
+  .icon-minus {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_minus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white);
+  }
+}

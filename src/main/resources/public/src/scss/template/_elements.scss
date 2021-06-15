@@ -243,6 +243,8 @@ select {
   display: inline-block;
   font-size: $element-font-size;
   height: 2.5rem; // 40px
+  width: 100%;
+  padding: 0 2px;
 
   .select-hidden {
     visibility: hidden;
