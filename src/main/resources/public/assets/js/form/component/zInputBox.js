@@ -23,6 +23,7 @@ import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js
 import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
 import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -188,6 +189,7 @@ export const inputBoxMixin = {
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZInputBoxProperty('element.placeholder', this.elementPlaceholder))
                 .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))

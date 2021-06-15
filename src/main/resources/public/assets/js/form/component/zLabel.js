@@ -26,7 +26,7 @@ import {UNIT} from '../../lib/zConstants.js';
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        columnWidth: '12',
+        columnWidth: '0',
         labelWidth: '10',
         text: '',
         fontSize: '12',
@@ -35,7 +35,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
         fontOptionBold: 'N',
         fontOptionItalic: 'N',
         fontOptionUnderline: 'N',
-        fontColor: '',
+        fontColor: 'rgba(0,0,0,1)',
     },
     validation: {
         required: false, // 필수값 여부
@@ -54,18 +54,7 @@ export const labelMixin = {
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
-            .setUIProperty('--data-column', this.elementColumnWidth)
-            .setUITextAlign(this.elementAlign);
-
-        const elementCssText = `color:${this.elementFontColor};` +
-            `font-size:${this.elementFontSize + UNIT.PX};` +
-            `${this.elementFontOptionBold ? 'font-weight:bold;' : ''}` +
-            `${this.elementFontOptionItalic ? 'font-style:italic;' : ''}` +
-            `${this.elementFontOptionItalic ? 'text-decoration:underline;' : ''}`;
-
-        element.UILabel = new UILabel().setUICSSText(elementCssText)
-            .setUITextContent(this.elementText);
-        element.addUI(element.UILabel);
+            .setUIProperty('--data-column', this.elementColumnWidth);
 
         return element;
     },
@@ -84,72 +73,22 @@ export const labelMixin = {
     get elementColumnWidth() {
         return this._element.columnWidth;
     },
-    set elementLabelWidth(width) {
-        this._element.labelWidth = width;
-        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
-        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column',
-            this.getLabelColumnWidth(this.labelPosition));
+    set validation(validation) {
+        this._validation = validation;
     },
-    get elementLabelWidth() {
-        return this._element.labelWidth;
+    get validation() {
+        return this._validation;
     },
-    set elementText(text) {
-        this._element.text = text;
-        this.UIElement.UIComponent.UIElement.UILabel.setUITextContent(text);
+    set validationRequired(boolean) {
+        this._validation.required = boolean;
+        if (boolean) {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+        }
     },
-    get elementText() {
-        return this._element.text;
-    },
-    set elementFontSize(size) {
-        this._element.fontSize = size;
-        this.UIElement.UIComponent.UIElement.UILabel.setUIFontSize(size + UNIT.PX);
-    },
-    get elementFontSize() {
-        return this._element.fontSize;
-    },
-    set elementAlign(align) {
-        this._element.align = align;
-        this.UIElement.UIComponent.UIElement.setUITextAlign(align);
-    },
-    get elementAlign() {
-        return this._element.align;
-    },
-    set elementFontOption(option) {
-        this._element.fontOption = option;
-    },
-    get elementFontOption() {
-        return this._element.fontOption;
-    },
-    set elementFontOptionBold(boolean) {
-        this._label.bold = boolean;
-        this.UIElement.UIComponent.UIElement.UILabel
-            .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
-    },
-    get elementFontOptionBold() {
-        return this._label.bold;
-    },
-    set elementFontOptionItalic(boolean) {
-        this._label.italic = boolean;
-        this.UIElement.UIComponent.UIElement.UILabel
-            .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
-    },
-    get elementFontOptionItalic() {
-        return this._label.italic;
-    },
-    set elementFontOptionUnderline(boolean) {
-        this._label.underline = boolean;
-        this.UIElement.UIComponent.UIElement.UILabel
-            .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
-    },
-    get elementFontOptionUnderline() {
-        return this._label.underline;
-    },
-    set elementFontColor(color) {
-        this._element.fontColor = color;
-        this.UIElement.UIComponent.UIElement.UILabel.setUIColor(color);
-    },
-    get elementFontColor() {
-        return this._element.fontColor;
+    get validationRequired() {
+        return this._validation.required;
     },
     set value(value) {
         this._value = value;
@@ -158,51 +97,50 @@ export const labelMixin = {
         return this._value;
     },
     getProperty() {
+        // label - text
+        const labelTextProperty = new ZInputBoxProperty('label.text', this.labelText);
+        labelTextProperty.columnWidth = '8';
 
-        // element - text
-        const elementTextProperty = new ZInputBoxProperty('element.text', this.elementText);
-        elementTextProperty.columnWidth = '8';
-
-        // element - fontSize
-        const elementFontSizeProperty = new ZInputBoxProperty('element.fontSize', this.elementFontSize)
+        // label - fontSize
+        const labelFontSizeProperty = new ZInputBoxProperty('label.fontSize', this.labelFontSize)
             .setValidation(false, 'number', '10', '100', '', '');
-        elementFontSizeProperty.unit = UNIT.PX;
-        elementFontSizeProperty.columnWidth = '3';
+        labelFontSizeProperty.unit = UNIT.PX;
+        labelFontSizeProperty.columnWidth = '3';
 
-        // element - align
-        const elementAlignProperty = new ZSwitchButtonProperty('element.align', this.elementAlign, [
+        // label - align
+        const labelAlignProperty = new ZSwitchButtonProperty('label.align', this.labelAlign, [
             { 'name': 'icon-align-left', 'value': 'left' },
             { 'name': 'icon-align-center', 'value': 'center' },
             { 'name': 'icon-align-right', 'value': 'right' }
         ]);
-        elementAlignProperty.columnWidth = '5';
+        labelAlignProperty.columnWidth = '5';
 
-        // element - fontOption
-        const elementFontOption = [
-            { 'name': 'icon-bold', 'value': 'bold' },
+        // label - fontOption
+        const labelFontOption = [
+            { 'name': 'icon-bold', 'value': 'bold'},
             { 'name': 'icon-italic', 'value': 'italic' },
             { 'name': 'icon-underline', 'value': 'underline' }
         ];
-        const elementFontValue = elementFontOption.map((item) => {
+        const labelFontValue = labelFontOption.map((item) => {
             const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
-            return this['elementFontOption' + method] ? 'Y' : 'N';
+            return this['labelFontOption' + method] ? 'Y' : 'N';
         }).join('|');
-        const elementFontOptionProperty = new ZToggleButtonProperty('element.fontOption', elementFontValue, elementFontOption);
-        elementFontOptionProperty.columnWidth = '5';
+        const labelFontOptionProperty = new ZToggleButtonProperty('label.fontOption', labelFontValue, labelFontOption);
+        labelFontOptionProperty.columnWidth = '5';
 
-        // element - fontColor
-        const elementFontColorProperty = new ZColorPickerProperty('element.fontColor', this.elementFontColor, false)
+        // label - fontColor
+        const labelFontColorProperty = new ZColorPickerProperty('label.fontColor', this.labelFontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
-        elementFontColorProperty.columnWidth = '12';
+        labelFontColorProperty.columnWidth = '12';
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(elementTextProperty)
-                .addProperty(elementFontSizeProperty)
-                .addProperty(elementAlignProperty)
-                .addProperty(elementFontOptionProperty)
-                .addProperty(elementFontColorProperty)
+                .addProperty(labelTextProperty)
+                .addProperty(labelFontSizeProperty)
+                .addProperty(labelAlignProperty)
+                .addProperty(labelFontOptionProperty)
+                .addProperty(labelFontColorProperty)
         ];
     },
     toJson() {
