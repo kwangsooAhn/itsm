@@ -37,9 +37,10 @@ export default class ZDropdownProperty extends ZProperty {
 
         // select box
         const mergeOptions = this.options.reduce((result, option) => {
-            result[option.value] = i18n.msg(option.name);
+            option.name = i18n.msg(option.name);
+            result.push(option)
             return result;
-        }, {});
+        }, []);
         this.UIElement.UISelect = new UISelect()
             .setUIId(this.getKeyId())
             .setUIOptions(mergeOptions)

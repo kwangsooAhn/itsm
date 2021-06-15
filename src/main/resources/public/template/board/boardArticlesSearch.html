@@ -51,10 +51,13 @@
             if (boardAdminId !== null) {
                 document.getElementById('boardAdminId').value = boardAdminId;
             }
-            document.getElementById('fromDt').value = searchFromDt;
-            document.getElementById('searchToDt').value = searchToDt;
-            zDateTimePicker.initDatePicker('fromDt', setDatePicker);
-            zDateTimePicker.initDatePicker('searchToDt', setDatePicker);
+            const fromDtElement = document.getElementById('fromDt');
+            const searchToDtElement = document.getElementById('searchToDt');
+            fromDtElement.value = searchFromDt;
+            searchToDtElement.value = searchToDt;
+            zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
+            zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
+
             document.getElementById('boardAdminId').addEventListener('change', function() { getBoardList(false); });
             document.getElementById('search').addEventListener('keyup', function() { getBoardList(false); });
             getBoardList(false);
