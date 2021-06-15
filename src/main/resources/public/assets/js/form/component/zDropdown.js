@@ -47,7 +47,8 @@ export const dropdownMixin = {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIDropdown = new UISelect().setUIOptions(this.element.options)
+        const selectOptionValue = this.value ? this.value : this.element.options[0].value
+        element.UIDropdown = new UISelect().setUIOptions(this.element.options).setUIValue(selectOptionValue)
         element.addUI(element.UIDropdown);
         return element;
     },

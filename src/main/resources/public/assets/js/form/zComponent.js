@@ -55,7 +55,7 @@ export default class ZComponent {
         this._isTopic = data.isTopic || false;
         this._mapId = data.mapId || '';
         this._tags = data.tags || [];
-        this._value = data.value || '${default}';
+        this._value = data.value || '';
         this._display = Object.assign({}, DEFAULT_PROPERTY.display, data.display);
         this._label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);
         this._propertyName = 'form.component.' + data.type || ''; // i18n message name
