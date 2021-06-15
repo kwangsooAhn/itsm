@@ -26,7 +26,10 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         placeholder: 'yyyy-MM-dd',
         columnWidth: '10',
-        defaultValueDate: '',
+        none: false,
+        current: true,
+        date: '',
+        dateInput: '',
     },
     validation: {
         required: false,
@@ -81,13 +84,6 @@ export const dateMixin = {
     get elementColumnWidth() {
         return this._element.columnWidth;
     },
-    set elementDefaultValueDate(value) {
-        this._element.defaultValueDate = value;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.value);
-    },
-    get elementDefaultValueDate() {
-        return this._element.defaultValueDate
-    },
     set validationRequired(boolean) {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-required', boolean);
@@ -117,6 +113,48 @@ export const dateMixin = {
     // set, get
     set value(value) {
         this._value = value;
+    },
+    set elementNone(boolean) {
+        if (boolean === true) {
+            this._element.none = true;
+            this.UIElement.UIComponent.UIElement.UIDate.setUIValue('');
+            this.UIElement.UIComponent.UIElement.UIDate.setUITextContent('');
+        } else {
+            this._element.none = false;
+        }
+    },
+    get elementNone() {
+        return this._element.none;
+    },
+    set elementCurrent(boolean) {
+        if (boolean === true) {
+            this._element.current = true;
+            this.UIElement.UIComponent.UIElement.UIDate.setUIValue(i18n.getDate());
+            this.UIElement.UIComponent.UIElement.UIDate.setUITextContent(i18n.getDate());
+        } else {
+            this._element.current = false;
+        }
+    },
+    get elementCurrent() {
+        return this._element.current;
+    },
+    set elementDate(value) {
+        if (value = 'on') {
+            this._element.date = value;
+            this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.elementDate);
+            this.UIElement.UIComponent.UIElement.UIDate.setUITextContent(this.elementDate);
+        }
+    },
+    get elementDate() {
+        return this._element.date;
+    },
+    set elementDatepicker(value) {
+        this._element.datepicker = value;
+        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.elementDatepicker);
+        this.UIElement.UIComponent.UIElement.UIDate.setUITextContent(this.elementDatepicker);
+    },
+    get elementDatepicker() {
+        return this._element.datepicker;
     },
     get value() {
         if (this._value === '${default}') {
@@ -150,7 +188,10 @@ export const dateMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZDefaultValueDateProperty('element.defaultValue', this.elementDefaultValueDate)),
+                .addProperty(new ZDefaultValueDateProperty('element.none', this.elementNone))
+                .addProperty(new ZDefaultValueDateProperty('element.current', this.elementCurrent))
+                .addProperty(new ZDefaultValueDateProperty('element.date', this.elementDate))
+                .addProperty(new ZDefaultValueDateProperty('element.datepicker', this.elementDatepicker)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
                 .addProperty(new ZDefaultValueDateProperty('validation.minDate', this.validationMinDate))
