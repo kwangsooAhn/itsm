@@ -17,6 +17,8 @@ import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZOptionListProperty from "../../formDesigner/property/type/zOptionListProperty.js";
+import ZLabelProperty from "../../formDesigner/property/type/zLabelProperty.js";
+import ZSwitchProperty from "../../formDesigner/property/type/zSwitchProperty.js";
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -25,6 +27,9 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
         options: [ FORM.DEFAULT_OPTION_ROW ]
+    },
+    validation: {
+        required: false, // 필수값 여부
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
@@ -35,6 +40,7 @@ export const dropdownMixin = {
     initProperty() {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
+        this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -69,6 +75,23 @@ export const dropdownMixin = {
     get elementOptions() {
         return this._element.options;
     },
+    set validation(validation) {
+        this._validation = validation;
+    },
+    get validation() {
+        return this._validation;
+    },
+    set validationRequired(boolean) {
+        this._validation.required = boolean;
+        if (boolean) {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get validationRequired() {
+        return this._validation.required;
+    },
     set value(value) {
         this._value = value;
     },
@@ -84,9 +107,12 @@ export const dropdownMixin = {
     getProperty() {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZOptionListProperty('element.options', this.elementOptions))
+                .addProperty(new ZOptionListProperty('element.options', this.elementOptions)),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
         ];
     },
     toJson() {
@@ -99,7 +125,8 @@ export const dropdownMixin = {
             tags: this._tags,
             value: this._value,
             label: this._label,
-            element: this._element
+            element: this._element,
+            validation: this._validation
         };
     }
 };
