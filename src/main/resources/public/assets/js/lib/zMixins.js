@@ -157,8 +157,8 @@ export const toolTipMenuMixin = {
             return false;
         }
         // 복사본 생성
-        const cloneObject = this.clone(false, { type: this.type });
-        const cloneData = cloneObject.toJson();
+        const cloneData = JSON.parse(JSON.stringify(this.toJson()));
+        cloneData.id = ZWorkflowUtil.generateUUID();
 
         let editor = this.parent;
         if (this.UIElement instanceof UIGroupTooltip) {
