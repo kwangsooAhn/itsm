@@ -1351,6 +1351,8 @@ select:disabled {
   display: inline-block;
   font-size: 0.875rem;
   height: 2.5rem;
+  width: 100%;
+  padding: 0 2px;
 }
 .select .select-hidden {
   visibility: hidden;
@@ -2690,6 +2692,31 @@ button.ghost-line:disabled .icon {
   -webkit-mask-position: center;
   mask-position: center;
   background: #CCCED1;
+}
+
+.btn-option .icon-plus {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_plus.svg");
+  mask-image: url("../media/icons/icon_plus.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ffffff;
+}
+.btn-option .icon-minus {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_minus.svg");
+  mask-image: url("../media/icons/icon_minus.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ffffff;
 }
 
 /* _alerts.scss 
