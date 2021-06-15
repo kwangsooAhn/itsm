@@ -9,7 +9,7 @@
  */
 import * as mixin from '../lib/zMixins.js';
 import { CLASS_PREFIX, FORM, UNIT } from '../lib/zConstants.js';
-import { UIDiv } from '../lib/zUI.js';
+import { UIDiv, UILabel, UISpan } from '../lib/zUI.js';
 import { inputBoxMixin } from './component/zInputBox.js';
 import { textAreaMixin } from './component/zTextArea.js';
 import { textEditorMixin } from './component/zTextEditor.js';
@@ -64,8 +64,6 @@ export default class ZComponent {
         aliceJs.importMixin(this, mixin.controlMixin);
         // 타입에 따른 Mixin import
         aliceJs.importMixin(this, this.getMixinByType(this._type));
-        // 라벨 Mixin import
-        aliceJs.importMixin(this, mixin.componentLabelMixin);
         // Tooltip Mixin import
         aliceJs.importMixin(this, mixin.toolTipMenuMixin);
 
@@ -295,6 +293,47 @@ export default class ZComponent {
 
     get propertyName() {
         return this._propertyName;
+    }
+
+    /**
+     * 라벨 DOM 객체 생성
+     */
+    makeLabel() {
+        const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
+            .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
+            .setUICSSText(`text-align: ${this.labelAlign};`)
+            .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
+        // 라벨 문구
+        const labelCssText = `color:${this.labelFontColor};` +
+            `font-size:${this.labelFontSize + UNIT.PX};` +
+            `${this.labelFontOptionBold ? 'font-weight:bold;' : ''}` +
+            `${this.labelFontOptionItalic ? 'font-style:italic;' : ''}` +
+            `${this.labelFontOptionItalic ? 'text-decoration:underline;' : ''}`;
+
+        label.UILabelText = new UISpan().setUIClass(CLASS_PREFIX + 'component-label-text')
+            .setUICSSText(labelCssText)
+            .setUITextContent(this.labelText);
+        label.addUI(label.UILabelText);
+        // 필수 여부
+        label.UIRequiredText = new UISpan().setUIClass('required')
+            .addUIClass((this.validationRequired ? 'on' : 'off'));
+        label.addUI(label.UIRequiredText);
+
+        return label;
+    }
+
+    /**
+     * 라벨 너비 계산
+     * @param position 위치
+     */
+    getLabelColumnWidth(position) {
+        let labelColumnWidth = FORM.COLUMN; // 12
+        if (position === FORM.LABEL.POSITION.HIDDEN) {
+            labelColumnWidth = 0;
+        } else if (position === FORM.LABEL.POSITION.LEFT) {
+            labelColumnWidth -= Number(this.elementColumnWidth);
+        }
+        return labelColumnWidth;
     }
 
     /**
