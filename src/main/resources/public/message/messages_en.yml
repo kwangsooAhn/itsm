@@ -702,6 +702,7 @@ form:
       type: "Type"
       width: "Width"
       heigth: "Height"
+      options: "Option List"
     email: "Email"
     group:
       display: "Display"

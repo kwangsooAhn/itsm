@@ -702,6 +702,7 @@ form:
       type: "Type"
       width: "너비"
       heigth: "높이"
+      options: "옵션 목록"
     email: "Email"
     group:
       display: "출력속성"
