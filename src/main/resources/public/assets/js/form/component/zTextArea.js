@@ -145,7 +145,7 @@ export const textAreaMixin = {
             return false;
         }
         // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'keyup' && !zValidation.changeValidationCheck(e.target)) {
+        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
             return false;
         }
 
