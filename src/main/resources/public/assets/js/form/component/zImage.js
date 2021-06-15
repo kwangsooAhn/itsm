@@ -19,6 +19,7 @@ import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZSwitchButtonProperty from '../../formDesigner/property/type/zSwitchButtonProperty.js';
 import ZImageProperty from '../../formDesigner/property/type/zImageProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -176,6 +177,7 @@ export const imageMixin = {
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZImageProperty('element.path', this.elementPath))

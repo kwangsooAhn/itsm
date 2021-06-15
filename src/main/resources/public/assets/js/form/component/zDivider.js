@@ -11,13 +11,13 @@
  */
 
 import { FORM, CLASS_PREFIX, UNIT } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UIHorizontalRule } from '../../lib/zUI.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
 import ZColorPickerProperty from '../../formDesigner/property/type/zColorPickerProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -116,8 +116,6 @@ export const dividerMixin = {
     },
     // 기본 값 조회
     get value() {
-        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
-        // 사용자 변경시 해당 값이 할당된다.
         return this._value;
     },
     getProperty() {
@@ -140,6 +138,7 @@ export const dividerMixin = {
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(thicknessProperty)
                 .addProperty(colorProperty)
