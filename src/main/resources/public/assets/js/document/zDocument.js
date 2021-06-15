@@ -48,8 +48,7 @@ class ZDocument {
      */
     openDocument(documentId) {
         // TODO: 신청서 데이터 load. > 가데이터 삭제 필요
-        //aliceJs.fetchJson('/rest/documents/' + documentId + '/data', { method: 'GET' })
-        aliceJs.fetchJson('/assets/js/document/data_210430.json', {
+        aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
             method: 'GET'
         }).then((documentData) => {
             // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
@@ -222,7 +221,7 @@ class ZDocument {
     getComponentData(object, array) {
         object.children.forEach((child) => {
             if (child instanceof ZComponent) {
-                array.push({ componentId: child.id, value: child.value });
+                array.push({ componentId: child.id, value: (Array.isArray(this.value) ? JSON.stringify(child.value) : child.value) });
             } else {
                 this.getComponentData(child, array);
             }
@@ -238,6 +237,7 @@ class ZDocument {
         if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
             return false;
         }
+        // TODO: DR 테이블, CI 테이블 필수값 체크
         
         const saveData = {
             'documentId': this.data.documentId,

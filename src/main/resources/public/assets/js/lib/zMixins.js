@@ -7,8 +7,8 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { CLASS_PREFIX, UNIT, FORM } from './zConstants.js';
-import { UIDiv, UILabel, UISpan, UIUl, UILi } from './zUI.js';
+import { CLASS_PREFIX, FORM } from './zConstants.js';
+import { UIDiv, UISpan, UIUl, UILi } from './zUI.js';
 import { UIGroupTooltip } from '../form/zGroup.js';
 import { UIRowTooltip } from '../form/zRow.js';
 import { UIComponentTooltip } from '../form/zComponent.js';
@@ -115,48 +115,7 @@ export const controlMixin = {
         return undefined;
     }
 };
-// label 공통 믹스인
-export const componentLabelMixin = {
-    /**
-     * 라벨 DOM 객체 생성
-     */
-    makeLabel() {
-        const label = new UILabel().setUIClass(CLASS_PREFIX + 'component-label')
-            .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
-            .setUICSSText(`text-align: ${this.labelAlign};`)
-            .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
-        // 라벨 문구
-        const labelCssText = `color:${this.labelFontColor};` +
-            `font-size:${this.labelFontSize + UNIT.PX};` +
-            `${this.labelFontOptionBold ? 'font-weight:bold;' : ''}` +
-            `${this.labelFontOptionItalic ? 'font-style:italic;' : ''}` +
-            `${this.labelFontOptionItalic ? 'text-decoration:underline;' : ''}`;
 
-        label.UILabelText = new UISpan().setUIClass(CLASS_PREFIX + 'component-label-text')
-            .setUICSSText(labelCssText)
-            .setUITextContent(this.labelText);
-        label.addUI(label.UILabelText);
-        // 필수 여부
-        label.UIRequiredText = new UISpan().setUIClass('required')
-            .addUIClass((this.validationRequired ? 'on' : 'off'));
-        label.addUI(label.UIRequiredText);
-
-        return label;
-    },
-    /**
-     * 라벨 너비 계산
-     * @param position 위치
-     */
-    getLabelColumnWidth(position) {
-        let labelColumnWidth = FORM.COLUMN; // 12
-        if (position === FORM.LABEL.POSITION.HIDDEN) {
-            labelColumnWidth = 0;
-        } else if (position === FORM.LABEL.POSITION.LEFT) {
-            labelColumnWidth -= Number(this.elementColumnWidth);
-        }
-        return labelColumnWidth;
-    }
-};
 // tooltip menu 공통 믹스인
 export const toolTipMenuMixin = {
     /**

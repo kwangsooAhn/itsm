@@ -49,7 +49,7 @@ function isNull(elementId, messageId, callbackFunc) {
 function isNotNull(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
     if (elem !== null) {
-         if (elem.value !== null) {
+        if (elem.value !== null) {
             if (messageId !== undefined) {
                 aliceAlert.alertWarning(i18n.msg(messageId), callbackFunc);
             }
@@ -558,7 +558,7 @@ function isValidRequired(elementId, isMessage, callbackFunc) {
     if (elem !== null) {
         if (elem.required && elem.value.trim() === '') {
             if (isMessage) {
-                const requiredElemName = elem.getAttribute('data-required-name');
+                const requiredElemName = elem.getAttribute('data-validation-required-name');
                 let requiredMsg = (requiredElemName !== null) ? i18n.msg('common.msg.required', requiredElemName) : i18n.msg('common.msg.requiredEnter');
                 aliceAlert.alertWarning(requiredMsg, function () {
                     elem.focus();
@@ -594,7 +594,7 @@ function isValidRequiredAll(modal) {
     }
     for (let i = 0, len = requiredElems.length; i < len; i++) {
         const requiredElem = requiredElems[i];
-        const requiredElemName = requiredElem.getAttribute('data-required-name');
+        const requiredElemName = requiredElem.getAttribute('data-validation-required-name');
         if (requiredElem.value.trim() === '') {
             requiredElem.classList.add(errorClass);
             let requiredMsg = (requiredElemName !== null) ? i18n.msg('common.msg.required', requiredElemName) : i18n.msg('common.msg.requiredEnter');
@@ -664,7 +664,7 @@ function ipAccessCheck(ipList, clientIp, Separator) {
  * @returns {boolean}
  */
 function isScrollbarBottom(scrollHeight, scrollTop, clientHeight) {
-    return scrollHeight - scrollTop === clientHeight
+    return scrollHeight - scrollTop === clientHeight;
 }
 
 /**

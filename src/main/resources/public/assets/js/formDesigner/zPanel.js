@@ -58,7 +58,6 @@ export default class ZPanel {
      */
     setPropertyName(name) {
         // TODO: Breadcrumb 기능 추가
-        console.log(name);
         document.getElementById('propertyName').textContent = i18n.msg(name);
     }
     /**
