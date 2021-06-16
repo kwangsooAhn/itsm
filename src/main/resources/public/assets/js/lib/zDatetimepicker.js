@@ -585,11 +585,10 @@
     /**
      * Picker 컨테이너 생성 및 초기화 처리.
      *
-     * @param targetId Target element id
+     * @param targetElement Target element
      * @param options picker options
      */
-    function initPicker(targetId, options) {
-        let targetElement = document.getElementById(targetId);
+    function initPicker(targetElement, options) {
         // 이벤트 동작 막음
         targetElement.setAttribute('oncontextmenu', 'return false;');
         targetElement.setAttribute('onkeypress', 'return false;');
@@ -619,7 +618,7 @@
         targetElement.classList.add('picker-main');
 
         // create picker container
-        const pickerId = 'picker-' + targetId;
+        const pickerId = 'picker-' + targetElement.id;
         options.id = pickerId;
         let pickerContainer = document.createElement('div');
         pickerContainer.id = pickerId;
@@ -637,13 +636,15 @@
     /**
      * DatePicker 초기화 시 호출(Date Only).
      *
-     * @param targetId Target element id
+     * @param targetElement Target element
      * @param callback 콜백 함수
      */
-    function initDatePicker(targetId, callback) {
+    function initDatePicker(targetElement, callback) {
+        if (targetElement === null) { return false; }
+
         let options = JSON.parse(JSON.stringify(defaultOptions));
 
-        let picker = initPicker(targetId, options);
+        let picker = initPicker(targetElement, options);
         picker.target.addEventListener('changed', function() {
             if (typeof callback === 'function') {
                 callback(picker.target, picker);
@@ -654,15 +655,17 @@
     /**
      * DateTimePicker 초기화 시 호출(include time).
      *
-     * @param targetId Target element id
+     * @param targetElement Target element
      * @param callback 콜백 함수
      */
-    function initDateTimePicker(targetId, callback) {
+    function initDateTimePicker(targetElement, callback) {
+        if (targetElement === null) { return false; }
+
         let options = JSON.parse(JSON.stringify(defaultOptions));
         options.type = 'DATEHOUR';
         options.title = 'datepicker.label.datetime';
 
-        let picker = initPicker(targetId, options);
+        let picker = initPicker(targetElement, options);
         picker.target.addEventListener('changed', function() {
             if (typeof callback === 'function') {
                 callback(picker.target, picker);
@@ -673,15 +676,17 @@
     /**
      * TimePicker 초기화 시 호출(time only).
      *
-     * @param targetId Target element id
+     * @param targetElement Target element
      * @param callback 콜백 함수
      */
-    function initTimePicker(targetId, callback) {
+    function initTimePicker(targetElement, callback) {
+        if (targetElement === null) { return false; }
+
         let options = JSON.parse(JSON.stringify(defaultOptions));
         options.type = 'HOUR';
         options.title = 'datepicker.label.hour';
 
-        let picker = initPicker(targetId, options);
+        let picker = initPicker(targetElement, options);
         picker.target.addEventListener('changed', function() {
             if (typeof callback === 'function') {
                 callback(picker.target, picker);

@@ -70,6 +70,8 @@ export const inputBoxMixin = {
         element.addUI(element.UIInputbox);
         return element;
     },
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {},
     set element(element) {
         this._element = element;
     },

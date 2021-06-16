@@ -49,6 +49,8 @@ export const dataTimeMixin = {
         element.addUI(element.UIText);
         return element;
     },
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {},
     // set, get
     set value(value) {
         this._value = value;
