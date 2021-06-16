@@ -17,7 +17,8 @@ import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
-import ZDefaultValueDateProperty from '../../formDesigner/property/type/zDefaultValueDateProperty.js';
+import ZDefaultValueRadioProperty from '../../formDesigner/property/type/zDefaultValueDateProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -26,12 +27,14 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         placeholder: 'yyyy-MM-dd',
         columnWidth: '10',
-        none: false,
-        current: true,
-        date: false,
-        datepicker: false,
-        dateInput: '',
-        datepickerInput: '',
+        defaultValueRadio: 'none',
+
+        //none: false,
+        //current: true,
+        //date: false,
+        //datepicker: false,
+        //dateInput: '',
+        //datepickerInput: '',
     },
     validation: {
         required: false,
@@ -57,13 +60,18 @@ export const dateMixin = {
             .setUIRequired(this.validationRequired)
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validationRequired)
-            .setUIAttribute('data-validation-maxLength', this.validationMaxDate)
-            .setUIAttribute('data-validation-minLength', this.validationMinDate)
-            .onUIKeyUp(this.updateValue.bind(this))
-            .onUIChange(this.updateValue.bind(this));
+            .setUIAttribute('data-validation-maxdate', this.validationMaxDate)
+            .setUIAttribute('data-validation-mindate', this.validationMinDate);
+        //.onUIKeyUp(this.updateValue.bind(this))
+        //.onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDate);
         return element;
     },
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {
+        zDateTimePicker.initDatePicker(this.UIElement.UIComponent.UIElement.UIDate.domElement, this.updateValue.bind(this));
+    },
+    // set, get
     set element(element) {
         this._element = element;
     },
@@ -85,6 +93,12 @@ export const dateMixin = {
     },
     get elementColumnWidth() {
         return this._element.columnWidth;
+    },
+    set elementDefaultValueRadio(value) {
+        this._element.defaultValueRadio = value;
+    },
+    get elementDefaultValueRadio() {
+        return this._element.defaultValueRadio;
     },
     set validationRequired(boolean) {
         this._validation.required = boolean;
@@ -112,14 +126,7 @@ export const dateMixin = {
     get validationMaxDate() {
         return this._validation.maxDate;
     },
-    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {
-    },
-    // set, get
-    set value(value) {
-        this._value = value;
-    },
-    set elementNone(boolean) {
+    /*set elementNone(boolean) {
         if (boolean === true) {
             this._element.none = true;
             this.UIElement.UIComponent.UIElement.UIDate.setUIValue('');
@@ -190,17 +197,21 @@ export const dateMixin = {
     },
     get elementDatepickerInput() {
         return this._element.datepickerInput;
+    },*/
+    set value(value) {
+        this._value = value;
     },
     get value() {
         if (this._value === '${default}') {
-            return '';
-        } else {
+            return ''; // 기본값 반환
+        } else { // 저장된 값 반환
             return this._value;
         }
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
-        e.stopPropagation();
+        console.log(e);
+        /* e.stopPropagation();
         e.preventDefault();
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
@@ -216,26 +227,28 @@ export const dateMixin = {
             return false;
         }
 
-        this.value = e.target.value;
+        this.value = e.target.value;*/
     },
     getProperty() {
-        const elementDateProperty = new ZDefaultValueDateProperty('element.date', this.elementDate);
-        elementDateProperty.bindValue = this.elementDateInput;
-        const elementDatePickerProperty = new ZDefaultValueDateProperty('element.datepicker', this.elementDatepicker);
-        elementDatePickerProperty.bindValue = this.elementDatepickerInput;
+        //const elementDateProperty = new ZDefaultValueDateProperty('element.date', this.elementDate);
+        //elementDateProperty.bindValue = this.elementDateInput;
+        //const elementDatePickerProperty = new ZDefaultValueDateProperty('element.datepicker', this.elementDatepicker);
+        //elementDatePickerProperty.bindValue = this.elementDatepickerInput;
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZDefaultValueDateProperty('element.none', this.elementNone))
-                .addProperty(new ZDefaultValueDateProperty('element.current', this.elementCurrent))
-                .addProperty(elementDateProperty)
-                .addProperty(elementDatePickerProperty),
+                .addProperty(new ZDefaultValueRadioProperty('element.defaultValueRadio', this.defaultValueRadio)),
+            //.addProperty(new ZDefaultValueDateProperty('element.none', this.elementNone))
+            //.addProperty(new ZDefaultValueDateProperty('element.current', this.elementCurrent))
+            //.addProperty(elementDateProperty)
+            //.addProperty(elementDatePickerProperty),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
-                .addProperty(new ZDefaultValueDateProperty('validation.minDate', this.validationMinDate))
-                .addProperty(new ZDefaultValueDateProperty('validation.maxDate', this.validationMaxDate))
+                //.addProperty(new ZDefaultValueRadioProperty('validation.minDate', this.validationMinDate))
+                //.addProperty(new ZDefaultValueRadioProperty('validation.maxDate', this.validationMaxDate))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
