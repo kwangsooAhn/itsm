@@ -70,6 +70,6 @@ export default class ZToggleButtonProperty extends ZProperty {
             e.target.classList.add('active');
             e.target.setAttribute('data-value', true);
         }
-        this.panel.update.call(this.panel, e.target.id, e.target.getAttribute('data-value'));
+        this.panel.update.call(this.panel, e.target.id, e.target.getAttribute('data-value') === 'true');
     }
 }

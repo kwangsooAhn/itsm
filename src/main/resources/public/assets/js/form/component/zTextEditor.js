@@ -60,7 +60,7 @@ export const textEditorMixin = {
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UIDiv);
 
-        if (this._value !== '${default}') {
+        if (this._value !== '' && typeof this._value === 'string') {
             this.value = JSON.parse(this.value);
             this.editor.setContents(this.value);
         }
@@ -85,27 +85,29 @@ export const textEditorMixin = {
 
         this.editor.on('text-change', (delta, oldDelta, source) => {
             if (source === 'user') {
-                // 유효성 검증 - min length
-                let isValidationPass = true;
-                if (!zValidation.isEmpty(this.validationMinLength)) {
-                    isValidationPass = this.editor.getLength() > Number(this.validationMinLength);
-                    zValidation.setDOMElementError(isValidationPass, this.editor.container, i18n.msg('validation.msg.minLength', this.validationMinLength));
-                    if (!isValidationPass) {
+                setTimeout(() => {
+                    // 유효성 검증 - min length
+                    let isValidationPass = true;
+                    if (!zValidation.isEmpty(this.validationMinLength)) {
+                        // quill editor에서 space를 기본값으로 처리하므로 아무 입력이 없을시 길이가 1이 나온다.
+                        isValidationPass = this.editor.getLength() > Number(this.validationMinLength);
+                        zValidation.setDOMElementError(isValidationPass, this.editor.container,
+                            i18n.msg('validation.msg.minLength', this.validationMinLength), () => {
+                                this.editor.focus();
+                            });
+                    }
+                    // 유효성 검증 - max length
+                    if (isValidationPass && !zValidation.isEmpty(this.validationMaxLength)) {
+                        isValidationPass = this.editor.getLength() <= Number(this.validationMaxLength) + 1;
+                        zValidation.setDOMElementError(isValidationPass, this.editor.container,
+                            i18n.msg('validation.msg.maxLength', this.validationMaxLength), () => {
+                                this.editor.focus();
+                            });
+                    }
+                    if (isValidationPass) {
                         this.value = this.editor.getContents();
-                        return false;
                     }
-                }
-                // 유효성 검증 - max length
-                if (!zValidation.isEmpty(this.validationMaxLength)) {
-                    isValidationPass = this.editor.getLength() < Number(this.validationMaxLength);
-                    zValidation.setDOMElementError(isValidationPass, this.editor.container, i18n.msg('validation.msg.maxLength', this.validationMaxLength));
-                    if (!isValidationPass) {
-                        this.editor.deleteText(Number(this.validationMaxLength), this.editor.getLength());
-                        this.value = oldDelta;
-                        return false;
-                    }
-                }
-                this.value = this.editor.getContents();
+                }, 100);
             }
         });
     },

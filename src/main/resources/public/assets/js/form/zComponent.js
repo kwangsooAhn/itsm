@@ -250,7 +250,7 @@ export default class ZComponent {
     set labelFontOptionBold(boolean) {
         this._label.bold = boolean;
         this.UIElement.UIComponent.UILabel.UILabelText
-            .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
+            .setUIFontWeight((boolean ? 'bold' : ''));
     }
 
     get labelFontOptionBold() {
@@ -258,9 +258,9 @@ export default class ZComponent {
     }
 
     set labelFontOptionItalic(boolean) {
-        this.UIElement.UIComponent.UILabel.UILabelText
-            .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
         this._label.italic = boolean;
+        this.UIElement.UIComponent.UILabel.UILabelText
+            .setUIFontStyle((boolean ? 'italic' : ''));
     }
 
     get labelFontOptionItalic() {
@@ -270,7 +270,7 @@ export default class ZComponent {
     set labelFontOptionUnderline(boolean) {
         this._label.underline = boolean;
         this.UIElement.UIComponent.UILabel.UILabelText
-            .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
+            .setUITextDecoration((boolean ? 'underline' : ''));
     }
 
     get labelFontOptionUnderline() {

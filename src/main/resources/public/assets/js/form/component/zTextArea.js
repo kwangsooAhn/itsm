@@ -114,14 +114,14 @@ export const textAreaMixin = {
     },
     set validationMinLength(min) {
         this._validation.minLength = min;
-        this.UIElement.UIComponent.UIElement.UITextArea.setUIAttribute('data-validation-minLength', min);
+        this.UIElement.UIComponent.UIElement.UITextArea.setUIAttribute('data-validation-minlength', min);
     },
     get validationMinLength() {
         return this._validation.minLength;
     },
     set validationMaxLength(max) {
         this._validation.maxLength = max;
-        this.UIElement.UIComponent.UIElement.UITextArea.setUIAttribute('data-validation-maxLength', max);
+        this.UIElement.UIComponent.UIElement.UITextArea.setUIAttribute('data-validation-maxlength', max);
     },
     get validationMaxLength() {
         return this._validation.maxLength;
