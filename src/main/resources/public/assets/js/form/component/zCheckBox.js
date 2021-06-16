@@ -38,6 +38,7 @@ export const checkBoxMixin = {
     initProperty() {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
+        this._value = this.data.value || '';
     },
     // component 엘리먼트 생성
     makeElement() {

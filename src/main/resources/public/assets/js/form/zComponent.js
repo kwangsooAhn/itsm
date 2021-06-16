@@ -55,7 +55,6 @@ export default class ZComponent {
         this._isTopic = data.isTopic || false;
         this._mapId = data.mapId || '';
         this._tags = data.tags || [];
-        this._value = data.value || '${default}';
         this._display = Object.assign({}, DEFAULT_PROPERTY.display, data.display);
         this._label = Object.assign({}, DEFAULT_PROPERTY.label, data.label);
         this._propertyName = 'form.component.' + data.type || ''; // i18n message name
@@ -251,7 +250,7 @@ export default class ZComponent {
     set labelFontOptionBold(boolean) {
         this._label.bold = boolean;
         this.UIElement.UIComponent.UILabel.UILabelText
-            .setUIFontWeight((boolean === 'true' ? 'bold' : ''));
+            .setUIFontWeight((boolean ? 'bold' : ''));
     }
 
     get labelFontOptionBold() {
@@ -259,9 +258,9 @@ export default class ZComponent {
     }
 
     set labelFontOptionItalic(boolean) {
-        this.UIElement.UIComponent.UILabel.UILabelText
-            .setUIFontStyle((boolean === 'true' ? 'italic' : ''));
         this._label.italic = boolean;
+        this.UIElement.UIComponent.UILabel.UILabelText
+            .setUIFontStyle((boolean ? 'italic' : ''));
     }
 
     get labelFontOptionItalic() {
@@ -271,7 +270,7 @@ export default class ZComponent {
     set labelFontOptionUnderline(boolean) {
         this._label.underline = boolean;
         this.UIElement.UIComponent.UILabel.UILabelText
-            .setUITextDecoration((boolean === 'true' ? 'underline' : ''));
+            .setUITextDecoration((boolean ? 'underline' : ''));
     }
 
     get labelFontOptionUnderline() {

@@ -591,6 +591,7 @@ class ZFormDesigner {
      */
     selectUpObject() {
         if (this.selectedObject === null) { return false; }
+        if (this.selectedObject instanceof ZForm) { return false; }
 
         const parentObject = this.selectedObject.parent;
         const selectIndex =  (this.selectedObject.displayDisplayOrder - 1) === -1 ?
@@ -603,6 +604,7 @@ class ZFormDesigner {
      */
     selectDownObject() {
         if (this.selectedObject === null) { return false; }
+        if (this.selectedObject instanceof ZForm) { return false; }
 
         const parentObject = this.selectedObject.parent;
         const selectIndex =  (this.selectedObject.displayDisplayOrder + 1) === parentObject.children.length ?
@@ -615,6 +617,7 @@ class ZFormDesigner {
      */
     copyObject() {
         if (this.selectedObject === null) { return false; }
+        if (this.selectedObject instanceof ZForm) { return false; }
 
         this.selectedObject.copyObject();
     }
@@ -623,6 +626,7 @@ class ZFormDesigner {
      */
     removeObject() {
         if (this.selectedObject === null) { return false; }
+        if (this.selectedObject instanceof ZForm) { return false; }
 
         this.selectedObject.removeObject();
     }

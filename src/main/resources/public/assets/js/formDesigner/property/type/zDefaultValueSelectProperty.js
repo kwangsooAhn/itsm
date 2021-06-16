@@ -73,8 +73,8 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         this.UIElement.UIGroup.UIInput = new UIInput().setUIId(this.getKeyId())
             .addUIClass((defaultTypeValueArray[0] === 'input') ? 'on' : 'off')
             .setUIValue((defaultTypeValueArray[0] === 'input') ? defaultTypeValueArray[1] : '')
-            .setUIAttribute('data-validation-minLength', this.validation.minLength)
-            .setUIAttribute('data-validation-maxLength', this.validation.maxLength)
+            .setUIAttribute('data-validation-minlength', this.validation.minLength)
+            .setUIAttribute('data-validation-maxlength', this.validation.maxLength)
             .onUIKeyUp(this.updateProperty.bind(this))
             .onUIChange(this.updateProperty.bind(this));
         this.UIElement.UIGroup.addUI(this.UIElement.UIGroup.UIInput);
@@ -83,7 +83,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         const selectOptionValue = (defaultTypeValueArray[0] === 'select') ? defaultTypeValueArray[1] : this.selectOptions[0].value;
         const selectOption = this.selectOptions.reduce((result, option) => {
             option.name = i18n.msg(option.name);
-            result.push(option)
+            result.push(option);
             return result;
         }, []);
         this.UIElement.UIGroup.UISelect = new UISelect().setUIId(this.getKeyId())
