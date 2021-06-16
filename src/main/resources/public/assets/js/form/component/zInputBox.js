@@ -62,8 +62,8 @@ export const inputBoxMixin = {
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-type', this.validationValidationType)
-            .setUIAttribute('data-validation-maxLength', this.validationMaxLength)
-            .setUIAttribute('data-validation-minLength', this.validationMinLength)
+            .setUIAttribute('data-validation-maxlength', this.validationMaxLength)
+            .setUIAttribute('data-validation-minlength', this.validationMinLength)
             .onUIKeyUp(this.updateValue.bind(this))
             .onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIInputbox);
@@ -127,14 +127,14 @@ export const inputBoxMixin = {
     },
     set validationMinLength(min) {
         this._validation.minLength = min;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-minLength', min);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-minlength', min);
     },
     get validationMinLength() {
         return this._validation.minLength;
     },
     set validationMaxLength(max) {
         this._validation.maxLength = max;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-maxLength', max);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-maxlength', max);
     },
     get validationMaxLength() {
         return this._validation.maxLength;
