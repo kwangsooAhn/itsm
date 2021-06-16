@@ -23,6 +23,7 @@ export default class ZProperty {
         this._name = 'form.properties.' + name;
         this._type = type;
         this._value = value;
+        this._bindValue = '';
         this._unit = '';
         this._help = '';
         this._columnWidth = MAX_COLUMN_COUNT;
@@ -58,6 +59,14 @@ export default class ZProperty {
 
     set value(value) {
         this._value = value;
+    }
+
+    get bindValue() {
+        return this._bindValue;
+    }
+
+    set bindValue(value) {
+        this._bindValue = value;
     }
 
     get unit() {

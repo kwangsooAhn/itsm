@@ -10,9 +10,9 @@
  * https://www.brainz.co.kr
  */
 
-import {CLASS_PREFIX, SESSION} from '../../lib/zConstants.js';
-import {zValidation} from '../../lib/zValidation.js';
-import {UIDiv, UIElement, UIInput} from '../../lib/zUI.js';
+import { CLASS_PREFIX } from '../../lib/zConstants.js';
+import { zValidation } from '../../lib/zValidation.js';
+import {UIDiv, UIInput} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -28,8 +28,10 @@ const DEFAULT_COMPONENT_PROPERTY = {
         columnWidth: '10',
         none: false,
         current: true,
-        date: '',
+        date: false,
+        datepicker: false,
         dateInput: '',
+        datepickerInput: '',
     },
     validation: {
         required: false,
@@ -111,7 +113,8 @@ export const dateMixin = {
         return this._validation.maxDate;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+    },
     // set, get
     set value(value) {
         this._value = value;
@@ -140,23 +143,53 @@ export const dateMixin = {
     get elementCurrent() {
         return this._element.current;
     },
-    set elementDate(value) {
-        if (value = 'on') {
-            this._element.date = value;
-            this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.elementDate);
-            this.UIElement.UIComponent.UIElement.UIDate.setUITextContent(this.elementDate);
+    set elementDate(boolean) {
+        if (boolean === true) {
+            let offset = {};
+            offset.days = this._element.dateInput;
+            this.UIElement.UIComponent.UIElement.UIDate.setUIValue(i18n.getDate(offset));
+            this.UIElement.UIComponent.UIElement.UIDate.setUITextContent(i18n.getDate(offset));
+            this._element.date = true;
+        } else {
+            this._element.date = false;
         }
     },
     get elementDate() {
         return this._element.date;
     },
-    set elementDatepicker(value) {
-        this._element.datepicker = value;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.elementDatepicker);
-        this.UIElement.UIComponent.UIElement.UIDate.setUITextContent(this.elementDatepicker);
+    set elementDateInput(value) {
+        let offset = {};
+        offset.days = value;
+        if (this._element.date === true) {
+            this.UIElement.UIComponent.UIElement.UIDate.setUIValue(i18n.getDate(offset));
+            this.UIElement.UIComponent.UIElement.UIDate.setUITextContent(i18n.getDate(offset));
+        }
+        this._element.dateInput = value;
+    },
+    get elementDateInput() {
+        return this._element.dateInput;
+    },
+    set elementDatepicker(boolean) {
+        if (boolean === true) {
+            this._element.datepicker = true;
+            this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this._element.datepickerInput);
+            this.UIElement.UIComponent.UIElement.UIDate.setUITextContent(this._element.datepickerInput);
+        } else {
+            this._element.datepicker = false;
+        }
     },
     get elementDatepicker() {
         return this._element.datepicker;
+    },
+    set elementDatepickerInput(value) {
+        if (this._element.datepicker === true) {
+            this.UIElement.UIComponent.UIElement.UIDate.setUIValue(value);
+            this.UIElement.UIComponent.UIElement.UIDate.setUITextContent(value);
+        }
+        this._element.datepickerInput = value;
+    },
+    get elementDatepickerInput() {
+        return this._element.datepickerInput;
     },
     get value() {
         if (this._value === '${default}') {
@@ -186,14 +219,19 @@ export const dateMixin = {
         this.value = e.target.value;
     },
     getProperty() {
+        const elementDateProperty = new ZDefaultValueDateProperty('element.date', this.elementDate);
+        elementDateProperty.bindValue = this.elementDateInput;
+        const elementDatePickerProperty = new ZDefaultValueDateProperty('element.datepicker', this.elementDatepicker);
+        elementDatePickerProperty.bindValue = this.elementDatepickerInput;
+
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZDefaultValueDateProperty('element.none', this.elementNone))
                 .addProperty(new ZDefaultValueDateProperty('element.current', this.elementCurrent))
-                .addProperty(new ZDefaultValueDateProperty('element.date', this.elementDate))
-                .addProperty(new ZDefaultValueDateProperty('element.datepicker', this.elementDatepicker)),
+                .addProperty(elementDateProperty)
+                .addProperty(elementDatePickerProperty),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
                 .addProperty(new ZDefaultValueDateProperty('validation.minDate', this.validationMinDate))

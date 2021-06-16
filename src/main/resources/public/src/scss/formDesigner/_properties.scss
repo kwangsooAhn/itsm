@@ -29,6 +29,10 @@
     color: $property-label-color;
     padding-bottom: 0.625rem; // 10px
   }
+  .property-value {
+    width: 2.813rem !important; // 45px
+    margin: 0 0.3125rem 0 0; // 0 5px 0 0
+  }
   // margin / padding 박스 모델
   .box-model {
     display: flex;

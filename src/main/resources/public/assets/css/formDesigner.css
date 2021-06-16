@@ -5187,6 +5187,10 @@ body.modal-active {
   color: #8D9299;
   padding-bottom: 0.625rem;
 }
+.property .property-value {
+  width: 2.813rem !important;
+  margin: 0 0.3125rem 0 0;
+}
 .property .box-model {
   display: flex;
   flex-direction: row;

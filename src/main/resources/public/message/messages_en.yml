@@ -751,6 +751,10 @@ form:
       validationType: "Validation Type"
       maxDate: "Max Date"
       minDate: "Min Date"
+    option:
+      none: "None"
+      now: "Now"
+      date: "Date"
   status:
     destroy: "Destroy"
     edit: "Edit"
