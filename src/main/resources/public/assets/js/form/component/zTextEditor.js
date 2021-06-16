@@ -18,6 +18,7 @@ import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -58,7 +59,15 @@ export const textEditorMixin = {
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UIDiv);
 
-        this.editor = new Quill(element.UIDiv.domElement, {
+        if (this._value !== '${default}') {
+            this.value = JSON.parse(this.value);
+            this.editor.setContents(this.value);
+        }
+        return element;
+    },
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {
+        this.editor = new Quill(this.UIElement.UIComponent.UIElement.UIDiv.domElement, {
             modules: {
                 toolbar: [
                     [{'header': [1, 2, 3, 4, false]}],
@@ -98,12 +107,6 @@ export const textEditorMixin = {
                 this.value = this.editor.getContents();
             }
         });
-
-        if (this._value !== '${default}') {
-            this.value = JSON.parse(this.value);
-            this.editor.setContents(this.value);
-        }
-        return element;
     },
     // set, get
     set element(element) {
@@ -174,6 +177,7 @@ export const textEditorMixin = {
     getProperty() {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZInputBoxProperty('element.rows', this.elementRows))

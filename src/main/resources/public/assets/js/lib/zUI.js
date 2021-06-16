@@ -262,13 +262,17 @@ class UITextArea extends UIElement {
         this.domElement.value = value;
         return this;
     }
+
+    setUIPlaceholder(value) {
+        this.domElement.placeholder = value;
+        return this;
+    }
 }
 // TODO: 디자인용 selectbox로 변경
 class UISelect extends UIElement {
     constructor() {
         super(document.createElement('select'));
         this.domElement.className = 'select';
-        this.domElement.style.padding = '0 2px';
     }
 
     setUIMultiple(boolean) {
@@ -282,10 +286,10 @@ class UISelect extends UIElement {
             this.domElement.removeChild(this.domElement.firstChild);
         }
 
-        for (const key in options) {
+        for (const index in options) {
             const option = document.createElement('option');
-            option.value = key;
-            option.innerHTML = options[key];
+            option.value = options[index].value;
+            option.innerHTML = options[index].name;
             this.domElement.appendChild(option);
         }
         this.domElement.value = selected;

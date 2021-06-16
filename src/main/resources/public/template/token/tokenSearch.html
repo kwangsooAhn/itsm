@@ -54,10 +54,12 @@
         window.onload = function () {
             document.getElementById('searchValue').focus();
             // date picker 초기화
-            document.getElementById('searchFromDt').value = searchFromDt;
-            document.getElementById('toDt').value = searchToDt;
-            zDateTimePicker.initDatePicker('searchFromDt', setDatePicker);
-            zDateTimePicker.initDatePicker('toDt', setDatePicker);
+            const searchFromDtElement = document.getElementById('searchFromDt');
+            const toDtElement = document.getElementById('toDt');
+            searchFromDtElement.value = searchFromDt;
+            toDtElement.value = searchToDt;
+            zDateTimePicker.initDatePicker(searchFromDtElement, setDatePicker);
+            zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
 
             // 검색 이벤트 핸들러 셋업
             document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {

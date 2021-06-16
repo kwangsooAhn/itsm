@@ -235,6 +235,7 @@ class ZFormDesigner {
             this.form = this.addObjectByType(FORM.LAYOUT.FORM, data);
             this.form.parent = parent;
             this.domElement.appendChild(this.form.UIElement.domElement);
+            this.form.afterEvent();
 
             data.group.forEach( (g, gIndex) => {
                 this.makeForm(g, this.form, gIndex);
@@ -510,6 +511,7 @@ class ZFormDesigner {
 
         if (parent !== undefined) {
             parent.add(addObject, index);
+            addObject.afterEvent();
         }
 
         return addObject;
