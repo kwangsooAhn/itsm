@@ -694,6 +694,7 @@ form:
       columnWidth: "컬럼 너비"
       color: "색상"
       defaultValue: "기본값"
+      defaultValueRadio: "기본값"
       defaultValueSelect: "기본값 타입"
       isEditable: "편집가능 여부"
       path: "경로"

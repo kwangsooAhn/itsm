@@ -114,13 +114,28 @@
       &.off { display: none; }
     }
   }
+  // time, date, datepicker - 기본값 속성
+  .default-type-radio {
+    position: relative;
+    display: block;
 
-  // time, date, datepicker
-  .datepicker,
-  .datetimepicker {
-    background: $white url("#{$icon-folder-path}icon_calendar.svg") no-repeat 98% 50%;
-  }
-  .timepicker {
-    background: $white url("#{$icon-folder-path}icon_clock.svg") no-repeat 98% 50%;
+    .radio-property-group {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 0.3125rem 0; // 5px 0
+
+      .picker-wrapper-date {
+        display: inline-block;
+        width: auto;
+        [class*="timepicker"],
+        [class*="datepicker"],
+        [class*="datetimepicker"] {
+          width: 13.13rem; // 210px
+          margin: 0;
+        }
+      }
+    }
   }
 }

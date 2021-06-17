@@ -694,6 +694,7 @@ form:
       columnWidth: "Column Width"
       color: "color"
       defaultValue: "Default Value"
+      defaultValueRadio: "Default Value"
       defaultValueSelect: "Default Value Type"
       isEditable: "Editable"
       path: "Path"

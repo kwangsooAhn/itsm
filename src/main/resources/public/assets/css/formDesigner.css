@@ -1808,6 +1808,15 @@ label {
   border-color: #0098FF;
 }
 
+.datepicker,
+.datetimepicker {
+  background: #ffffff url("../media/icons/icon_calendar.svg") no-repeat 98% 50%;
+}
+
+.timepicker {
+  background: #ffffff url("../media/icons/icon_clock.svg") no-repeat 98% 50%;
+}
+
 /* _buttons.scss 
  *
  * 파일 경로 : template/_buttons.scss
@@ -5266,10 +5275,24 @@ body.modal-active {
 .property .default-type .select.off {
   display: none;
 }
-.property .datepicker,
-.property .datetimepicker {
-  background: #ffffff url("../media/icons/icon_calendar.svg") no-repeat 98% 50%;
+.property .default-type-radio {
+  position: relative;
+  display: block;
 }
-.property .timepicker {
-  background: #ffffff url("../media/icons/icon_clock.svg") no-repeat 98% 50%;
+.property .default-type-radio .radio-property-group {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0.3125rem 0;
+}
+.property .default-type-radio .radio-property-group .picker-wrapper-date {
+  display: inline-block;
+  width: auto;
+}
+.property .default-type-radio .radio-property-group .picker-wrapper-date [class*=timepicker],
+.property .default-type-radio .radio-property-group .picker-wrapper-date [class*=datepicker],
+.property .default-type-radio .radio-property-group .picker-wrapper-date [class*=datetimepicker] {
+  width: 13.13rem;
+  margin: 0;
 }

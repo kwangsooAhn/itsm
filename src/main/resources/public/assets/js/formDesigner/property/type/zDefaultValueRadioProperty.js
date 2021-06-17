@@ -1,108 +1,108 @@
-import {UIDiv, UIInput, UIRadioButton, UISpan} from '../../../lib/zUI.js';
+/**
+ * Default Value Radio Property Class
+ *
+ * 컴포넌트의 기본 값을 어떤 방식으로 제공할지 선택하는 속성항목이다.
+ * 현재는 date, time, datTime 에서 사용되고 있으며 옵션들도 date, time, datTime 용으로 맞추어져 있다.
+ *
+ * @author Woo Da Jung <wdj@brainz.co.kr>
+ * @version 1.0
+ *
+ * Copyright 2021 Brainzcompany Co., Ltd.
+ *
+ * https://www.brainz.co.kr
+ */
+
+import {UIDiv, UIInput, UILabel, UIRadioButton, UISpan} from '../../../lib/zUI.js';
 import ZProperty from '../zProperty.js';
 
 const propertyExtends = {
-    /* date 속성 타입은 추가적인 설정이 없다. */
+    /* 추가적인 설정이 없다. */
 };
 
 export default class ZDefaultValueRadioProperty extends ZProperty {
-    constructor(name, value) {
+    constructor(name, value, options) {
         super(name, 'defaultValueDateProperty', value);
+
+        this.options = options;
     }
 
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
-        switch (this.name) {
-        case 'form.properties.element.none':
-            // none Property
-            this.UIElement = new UIDiv().setUIClass('property')
-                .setUIProperty('--data-column', this.columnWidth);
 
-            this.UIElement.UILabel = this.makeLabelProperty('form.properties.element.defaultValue');
-            this.UIElement.addUI(this.UIElement.UILabel);
-            this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
-            this.UIElement.UIDiv.UIRadioButton = new UIRadioButton(this.value).setUIId(this.getKeyId()).onUIClick(this.updateProperty.bind(this));
-            this.UIElement.UIDiv.UISpan = new UISpan().setUIClass('text').setUITextContent(i18n.msg('form.properties.option.none'));
-            this.UIElement.UIDiv
-                .addUI(this.UIElement.UIDiv.UIRadioButton)
-                .addUI(this.UIElement.UIDiv.UISpan);
-            this.UIElement.addUI(this.UIElement.UIDiv);
-            break;
-        case 'form.properties.element.current':
-            // current Property
-            this.UIElement = new UIDiv().setUIClass('property');
-            this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
-            this.UIElement.UIDiv.UIRadioButton = new UIRadioButton(this.value)
-                .setUIId(this.getKeyId())
-                .onUIClick(this.updateProperty.bind(this));
-            this.UIElement.UIDiv.UISpan = new UISpan()
-                .setUIClass('text')
-                .setUITextContent(i18n.msg('form.properties.option.now'));
-            this.UIElement.UIDiv
-                .addUI(this.UIElement.UIDiv.UIRadioButton)
-                .addUI(this.UIElement.UIDiv.UISpan);
-            this.UIElement.addUI(this.UIElement.UIDiv);
-            break;
-        case 'form.properties.element.date':
-            // date Property
-            this.UIElement = new UIDiv().setUIClass('property');
-            this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
-            this.UIElement.UIDiv.UIRadioButton = new UIRadioButton(this.value)
-                .setUIId(this.getKeyId())
-                .onUIClick(this.updateProperty.bind(this));
-            this.UIElement.UIDiv.UIInput = new UIInput()
-                .setUIId('elementDateInput')
-                .setUIValue(this.bindValue)
-                .addUIClass('property-value')
-                .onUIKeyUp(this.updateProperty.bind(this));
-            this.UIElement.UIDiv.UISpan = new UISpan().setUIClass('text').setUITextContent(i18n.msg('form.properties.option.date'));
-            this.UIElement.UIDiv
-                .addUI(this.UIElement.UIDiv.UIRadioButton)
-                .addUI(this.UIElement.UIDiv.UIInput)
-                .addUI(this.UIElement.UIDiv.UISpan);
-            this.UIElement.addUI(this.UIElement.UIDiv);
-            break;
-        case 'form.properties.element.datepicker':
-            // datePicker Property
-            this.UIElement = new UIDiv().setUIClass('property');
-            this.UIElement.UIDiv = new UIDiv().setUIClass('flex-row');
-            this.UIElement.UIDiv.UIRadioButton = new UIRadioButton(this.value)
-                .setUIId(this.getKeyId())
-                .onUIClick(this.updateProperty.bind(this));
-            this.UIElement.UIDiv.UIInput = new UIInput()
-                .setUIId('elementDatepickerInput')
-                .setUIValue(this.bindValue)
-                .addUIClass('datepicker')
-                .onUIClick(this.updateProperty.bind(this));
-            this.UIElement.UIDiv
-                .addUI(this.UIElement.UIDiv.UIRadioButton)
-                .addUI(this.UIElement.UIDiv.UIInput);
-            this.UIElement.addUI(this.UIElement.UIDiv);
-            break;
-        case 'form.properties.validation.minDate':
-        case 'form.properties.validation.maxDate':
-            // minDate, maxDate 속성
-            this.UIElement = new UIDiv().setUIClass('property')
-                .setUIProperty('--data-column', this.columnWidth);
-            this.UIElement.UILabel = this.makeLabelProperty();
-            this.UIElement.addUI(this.UIElement.UILabel);
-            this.UIElement.UIInput = new UIInput()
-                .setUIId(this.getKeyId())
-                .setUIValue(this.value)
-                .addUIClass('datepicker')
-                .onUIClick(this.updateProperty.bind(this));
-            this.UIElement.addUI(this.UIElement.UIInput);
-            break;
-        default:
-            break;
-        }
+        this.UIElement = new UIDiv().setUIClass('property')
+            .setUIProperty('--data-column', this.columnWidth);
+
+        // 라벨
+        this.UIElement.UILabel = this.makeLabelProperty();
+        this.UIElement.addUI(this.UIElement.UILabel);
+        // 그룹
+        this.UIElement.UIGroup = new UIDiv().setUIClass('default-type-radio');
+        this.UIElement.addUI(this.UIElement.UIGroup);
+
+        const defaultValueArray = this.value.split('|'); // none, now, date|-3, time|2, datetime|7|0 등
+        console.log(defaultValueArray);
+        this.options.forEach((item) => {
+            const radioGroup = new UIDiv().setUIClass('radio-property-group').addUIClass('vertical');
+            // 라벨
+            radioGroup.UILabel = new UILabel().setUIClass('radio').setUIFor('radio-property-' + item.value);
+            radioGroup.addUI(radioGroup.UILabel);
+            // 라디오 버튼
+            console.log(item.name + ' :  '+ defaultValueArray[0] === item.value);
+            radioGroup.UILabel.UIRadio = new UIRadioButton(defaultValueArray[0] === item.value)
+                .setUIId('radio-property-' + item.value)
+                .setUIAttribute('name', this.getKeyId())
+                .setUIClass('hidden-radio')
+                .setUIValue(item.value);
+            radioGroup.UILabel.addUI(radioGroup.UILabel.UIRadio);
+            radioGroup.UILabel.addUI(new UISpan());
+            if (item.name !== '') {
+                radioGroup.UILabel.addUI(new UISpan().setUIClass('label').setUIInnerHTML(i18n.msg(item.name)));
+            }
+
+            switch (item.value) {
+            case 'date':
+                radioGroup.UIDiv = new UIDiv().setUIClass('radio-item');
+                radioGroup.addUI(radioGroup.UIDiv);
+
+                radioGroup.UIDiv.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
+                    .setUIAttribute('name', this.getKeyId())
+                    .setUIAttribute('data-validation-type', 'number')
+                    .setUIAttribute('data-validation-max', '1000')
+                    .onUIKeyUp(this.updateProperty.bind(this));
+                radioGroup.UIDiv.addUI(radioGroup.UIDiv.UIInput);
+                radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.date')));
+                break;
+            case 'datepicker':
+                radioGroup.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
+                    .setUIClass(item.value)
+                    .setUIId('date-property')
+                    .setUIAttribute('name', this.getKeyId());
+                radioGroup.addUI(radioGroup.UIInput);
+
+                zDateTimePicker.initDatePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
+                break;
+            case 'time':
+                break;
+            case 'timepicker':
+                break;
+            case 'datetime':
+                break;
+            case 'datetimepicker':
+                break;
+            }
+
+            this.UIElement.UIGroup.addUI(radioGroup);
+        });
 
         return this.UIElement;
     }
 
     // 속성 변경 시, 발생하는 이벤트 핸들러
     updateProperty(e) {
+        console.log(e);
+
+        return false;
         // date 속성 입력 시, 기본값 처리
         if (e.type === 'keyup') {
             e.stopPropagation();
