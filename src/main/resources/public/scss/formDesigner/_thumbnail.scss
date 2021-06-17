@@ -1,0 +1,13 @@
+@import '../template/thumbnail';
+
+// 썸네일 모달
+.modal-dialog {
+  &.thumbnail-image {
+    width: $thumbnail-modal-width;
+    height: $thumbnail-modal-height;
+    
+    .modal-content {
+      height: calc(#{$thumbnail-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+    }
+  }
+}

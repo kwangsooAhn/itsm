@@ -1,0 +1,214 @@
+@import "../template/elements";
+
+input:read-only {
+  color: $element-readonly-font-color;
+  background-color: $element-readonly-bg-color;
+  border-color: $element-readonly-border-color;
+  pointer-events: none;
+  cursor: default;
+}
+
+textarea {
+  min-height: 7.5rem; // 120px
+  resize: vertical;
+}
+
+label {
+  display: inline-block;
+  margin-top: 0.25rem;
+}
+
+input:not([type=checkbox]),
+textarea,
+table,
+select { width: 100%; }
+
+// for designed select
+.select { width: 100%; }
+
+svg {
+  // element 들이 그려지는 영역
+  g.element-container {
+    g.element {
+      .node {
+        fill: $white;
+        opacity: 1;
+        stroke-width: $node-width;
+      }
+
+      .element-type.task,
+      .element-type.subprocess {
+        stroke-width: $node-width;
+        stroke-dasharray: 0, 40, 40, 40;
+      }
+      // userTask
+      .node.task.userTask,
+      .element-type.task.userTask { stroke: $userTask-color; }
+      // manualTask
+      .node.task.manualTask,
+      .element-type.task.manualTask { stroke: $manualTask-color; }
+      // scriptTask
+      .node.task.scriptTask,
+      .element-type.task.scriptTask { stroke: $scriptTask-color; }
+      // 서브 프로세스
+      .node.subprocess,
+      .element-type.subprocess { stroke: $subprocess-color; }
+      // 게이트웨이
+      .node.gateway { stroke: $gateway-color; }
+      // 이벤트
+      .node.event { stroke: $event-color; }
+      
+      .node.event.commonEnd,
+      .node.event.messageEnd { stroke-width: $node-selected-width; }
+
+      .node.selected {
+        stroke: $node-selected-color !important;
+        stroke-width: $node-selected-width !important;
+
+        &.error {
+          stroke: $red !important;
+        }
+      }
+
+      .node.reject-element {
+        stroke: $reject-color !important;
+        stroke-width: $node-selected-width !important;
+      }
+
+      .annotation {
+        stroke: $annotation-color;
+        fill-opacity: 0;
+        stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
+      }
+
+      text {
+        font-size: $node-font-size;
+        font-weight: $node-font-weight;
+        fill: $node-font-color;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        user-select: none;
+      }
+      // 선택시
+      &.selected {
+        .node,
+        .element-type.task,
+        .element-type.subprocess {
+          stroke: $node-selected-color !important;
+          stroke-width: $node-selected-width !important;
+        }
+
+        &.error { stroke: $red !important; }
+      }
+    }
+  }
+  // group
+  g.group-artifact-container {
+    g.element {
+      .group {
+        stroke: #000000;
+        fill-opacity: 0;
+        stroke-dasharray: 5, 5;
+      }
+
+      .node.selected {
+        stroke: $node-selected-color !important;
+        stroke-width: $node-selected-width !important;
+
+        &.error { stroke: $red !important; }
+      }
+
+      text {
+        font-size: $node-font-size;
+        font-weight: $node-font-weight;
+        fill: $node-font-color;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        user-select: none;
+      }
+    }
+  }
+  // 선
+  g.connector-container {
+    g.connector {
+      path.connector {
+        fill: none;
+        stroke: $connector-color;
+        stroke-width: $connector-width;
+        cursor: default;
+      }
+
+      path.connector.selected {
+        stroke-dasharray: 10, 2;
+        stroke-width: $connector-selected-width;
+
+        &.error {
+          stroke: $red !important;
+        }
+      }
+
+      path.connector.is-default {
+        stroke-width: 3;
+      }
+
+      path.connector.hidden {
+        stroke-width: 0;
+      }
+
+      path.painted-connector {
+        fill: none;
+        stroke: none;
+        stroke-width: 20;
+        pointer-events: stroke;
+      }
+
+      text {
+        font-size: $node-font-size;
+        font-weight: $node-font-weight;
+        fill: $node-font-color;
+        dominant-baseline: text-before-edge;
+        user-select: none;
+
+        &.selected {
+          fill: $node-selected-color;
+        }
+      }
+
+      circle.pointer {
+        fill: $connector-pointer-color;
+        cursor: move;
+        &.move { fill: $connector-pointer-color; }
+      }
+    }
+  }
+
+  defs marker path { fill: #596f7a; }
+  // 툴팁
+  g.alice-tooltip {
+    rect.tooltip-container {
+      fill: $tooltip-bg-color;
+      stroke: $tooltip-border-color;
+      stroke-width: $tooltip-border-width;
+    }
+
+    rect.action-tooltip-item:hover,
+    rect.element-tooltip-item:hover {
+      cursor: pointer;
+    }
+  }
+  // 가이드 라인
+  g.guides-container {
+    line.guides-line {
+      stroke: $guides-line-color;
+      stroke-width: 0;
+    }
+  }
+  // 미연결 선
+  path.connector {
+    fill: none;
+    stroke: $connector-color;
+    stroke-width: $connector-width;
+    &.drag-line { pointer-events: none; }
+    &.hidden { stroke-width: 0; }
+  }
+}

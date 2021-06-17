@@ -1,0 +1,8 @@
+@import "../template/text-editor";
+
+.ql-container {
+  &.error {
+    color: $element-error-font-color;
+    border: $element-error-border;
+  }
+}

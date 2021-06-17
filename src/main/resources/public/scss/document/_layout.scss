@@ -1,0 +1,32 @@
+@import '../template/layout';
+
+/* 신청서 / 처리할 문서 양식 layout
+ * document-container
+ *                - document-main : 문서양식 메인
+ *                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
+ *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > form/_component.scss )
+ *                - token-properties : 문서이력, 관련문서, 의견, 태그
+ */
+
+// 신청서, 문서함 공통
+.document-container {
+  @include container;
+
+  .document-main {
+    @include fixedContainer;
+    background-color: $layout-main-bg-color;
+    @include scrollbarHidden;
+
+    // 미리보기 화면
+    &.preview {
+      .input { pointer-events: none; }
+    }
+
+    // 버튼 그려지는 영역
+    .document-main-header {
+      width: $drawing-board-width;
+      max-width: $drawing-board-width;
+      padding: 8.438rem 0 0.9375rem 0; // 135px 0 15px 0
+    }
+  }
+}

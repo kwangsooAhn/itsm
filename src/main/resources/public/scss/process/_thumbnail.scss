@@ -1,0 +1,13 @@
+@import '../template/thumbnail';
+
+// 파일 선택 모달
+.modal-dialog {
+  &.thumbnail-file {
+    width: $thumbnail-modal-width;
+    height: $thumbnail-modal-height;
+    
+    .modal-content {
+      height: calc(#{$thumbnail-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+    }
+  }
+}
