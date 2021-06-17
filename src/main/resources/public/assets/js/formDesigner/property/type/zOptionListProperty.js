@@ -50,7 +50,7 @@ export default class ZOptionListProperty extends ZProperty {
             .addUIClass('ghost-line')
             .addUIClass('btn-option')
             .onUIClick(this.addRow.bind(this));
-        const plusIcon = new UISpan().addUIClass('icon').addUIClass('icon-plus')
+        const plusIcon = new UISpan().addUIClass('icon').addUIClass('icon-plus');
         addButton.addUI(plusIcon);
 
         // 옵션 삭제 버튼
@@ -58,7 +58,7 @@ export default class ZOptionListProperty extends ZProperty {
             .addUIClass('ghost-line')
             .addUIClass('btn-option')
             .onUIClick(this.removeRow.bind(this));
-        const minusIcon = new UISpan().addUIClass('icon').addUIClass('icon-minus')
+        const minusIcon = new UISpan().addUIClass('icon').addUIClass('icon-minus');
         removeButton.addUI(minusIcon);
 
         optionButtonGroup.addUI(addButton);
@@ -70,7 +70,7 @@ export default class ZOptionListProperty extends ZProperty {
         const optionTable = new UITable()
             .setUIClass(CLASS_PREFIX + 'option-table')
             .addUIClass('mt-2')
-            .setUICSSText('border: 1px solid #000; border-collapse: collapse')
+            .setUICSSText('border: 1px solid #000; border-collapse: collapse');
 
         const header = new UIRow(optionTable).setUIClass(CLASS_PREFIX + 'option-table-header');
         optionTable.addUIRow(header);
@@ -129,7 +129,7 @@ export default class ZOptionListProperty extends ZProperty {
         const optionTable = this.UIElement.UIOptionTable;
         const optionRow = new UIRow(optionTable).setUIClass(CLASS_PREFIX + 'option-table-row');
         optionTable.addUIRow(this.makeRow(optionRow, FORM.DEFAULT_OPTION_ROW));
-        this.panel.update.call(this.panel, this.getKeyId(), this.getPropertyValue(e.target.parentNode.nextSibling));
+        this.panel.update.call(this.panel, this.getKeyId(), this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
     }
 
     // 옵션 삭제 버튼 클릭 이벤트
@@ -137,9 +137,9 @@ export default class ZOptionListProperty extends ZProperty {
         e.stopPropagation();
         e.preventDefault();
 
-        const optionTable = e.target.parentNode.nextSibling;
+        const optionTable = this.UIElement.UIOptionTable.domElement;
         for (let row of optionTable.rows) {
-            const tdList = row.cells
+            const tdList = row.cells;
             if (row.sectionRowIndex > 0 && tdList[0].children[0].checked) {
                 this.UIElement.UIOptionTable.removeUIRow(this.UIElement.UIOptionTable.rows[row.sectionRowIndex]);
             }
@@ -152,7 +152,7 @@ export default class ZOptionListProperty extends ZProperty {
     getPropertyValue(optionTable) {
         const propertyValue = [];
         for (let row of optionTable.rows) {
-            const tdList = row.cells
+            const tdList = row.cells;
             if (row.sectionRowIndex > 0) {
                 propertyValue.push({name: tdList[1].children[0].value, value: tdList[2].children[0].value});
             }
