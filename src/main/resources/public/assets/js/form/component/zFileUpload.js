@@ -16,14 +16,14 @@ import { UIDiv } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZLabelProperty from "../../formDesigner/property/type/zLabelProperty";
+import ZLabelProperty from "../../formDesigner/property/type/zLabelProperty.js";
 
 /**
  * 컴포넌트 별 기본 속성 값
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        columnWidth: '10',
+        columnWidth: '12',
         align: 'left',
     },
     validation: {
