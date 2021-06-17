@@ -235,12 +235,10 @@
     }
 
     // time, date, datepicker 컴포넌트
-    .datepicker,
-    .datetimepicker {
-      background: $white url("#{$icon-folder-path}icon_calendar.svg") no-repeat 98% 50%;
-    }
-    .timepicker {
-      background: $white url("#{$icon-folder-path}icon_clock.svg") no-repeat 98% 50%;
+    .picker-wrapper-date {
+      .datepicker {
+        width: 100%;
+      }
     }
   }
 }

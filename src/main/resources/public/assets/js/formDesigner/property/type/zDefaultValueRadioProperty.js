@@ -12,7 +12,8 @@
  * https://www.brainz.co.kr
  */
 
-import {UIDiv, UIInput, UILabel, UIRadioButton, UISpan} from '../../../lib/zUI.js';
+import { UIDiv, UIInput, UILabel, UIRadioButton, UISpan } from '../../../lib/zUI.js';
+import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
 
 const propertyExtends = {
@@ -41,7 +42,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UIGroup);
 
         const defaultValueArray = this.value.split('|'); // none, now, date|-3, time|2, datetime|7|0 등
-        console.log(defaultValueArray);
+
         this.options.forEach((item) => {
             const radioGroup = new UIDiv().setUIClass('radio-property-group').addUIClass('vertical');
             const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
@@ -50,10 +51,11 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             radioGroup.addUI(radioGroup.UILabel);
             // 라디오 버튼
             radioGroup.UILabel.UIRadio = new UIRadioButton(defaultValueArray[0] === item.value)
-                .setUIId('radioProperty-' + radioId)
+                .setUIId('radioProperty' + radioId)
                 .setUIAttribute('name', this.getKeyId())
                 .setUIClass('hidden-radio')
-                .setUIAttribute('data-value', item.value);
+                .setUIAttribute('data-value', item.value)
+                .onUIChange(this.updateProperty.bind(this));
             radioGroup.UILabel.addUI(radioGroup.UILabel.UIRadio);
             radioGroup.UILabel.addUI(new UISpan());
             if (item.name !== '') {
@@ -76,7 +78,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             case 'datepicker':
                 radioGroup.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
                     .setUIClass(item.value)
-                    .setUIId('date-property')
+                    .setUIId('dateProperty')
                     .setUIAttribute('name', this.getKeyId());
                 radioGroup.addUI(radioGroup.UIInput);
 
@@ -99,42 +101,41 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
     }
 
     // 속성 변경 시, 발생하는 이벤트 핸들러
+    // 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.
     updateProperty(e) {
-        console.log(e);
-
-        return false;
-        // date 속성 입력 시, 기본값 처리
-        if (e.type === 'keyup') {
-            e.stopPropagation();
+        if (e.preventDefault) {
             e.preventDefault();
-            if (e.target.value === undefined || e.target.value === '') {
-                e.target.value = 0;
-            }
-            this.panel.update.call(this.panel, e.target.id, e.target.value);
+        }
+        // enter, tab 입력시
+        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
+            return false;
         }
 
-        // datePicker 초기화
-        if (e.type === 'click' && e.target.type === 'text' && e.target.classList.contains('datepicker')) {
-            e.stopPropagation();
-            e.preventDefault();
-            if (!e.target.classList.contains('picker-main')) {
-                zDateTimePicker.initDatePicker(e.target, undefined);
-                e.target.click();
-            }
-            this.panel.update.call(this.panel, e.target.id, e.target.value);
+        const elem = e.target || e;
+        // 유효성 검증
+        if (elem.type === 'text' && !zValidation.keyUpValidationCheck(e.target)) {
+            return false;
         }
 
-        // 라디오 버튼 선택 이벤트
-        if (e.type === 'click' && e.target.type === 'radio') {
-            e.target.parentNode.parentNode.parentNode.parentNode.querySelectorAll('input[type=radio]').forEach((property) => {
-                if (e.target === property) {
-                    e.target.checked = true;
-                    this.panel.update.call(this.panel, e.target.id, e.target.checked);
-                } else {
-                    property.checked = false;
-                    this.panel.update.call(this.panel, property.id, property.checked);
-                }
+        const parentElem = elem.parentNode.parentNode;
+        const curRadioElem = parentElem.querySelector('input[type=radio]');
+        // 변경된 값의 radio 버튼이 선택되지 않았다면 값을 처리하지 않는다.
+        if (!curRadioElem.checked) { return false; }
+
+        // radio 변경시
+        const defaultValue = curRadioElem.getAttribute('data-value'); // none, now, date, datepicker 등
+        if (defaultValue === 'date') {
+            const inputElems = parentElem.querySelectorAll('input[type=text]');
+            let changeValue = '';
+            inputElems.forEach((cell) => {
+                changeValue += ('|' + cell.value);
             });
+            this.panel.update.call(this.panel, elem.name, defaultValue + changeValue);
+        } else if (defaultValue === 'datepicker') {
+            const  datepickerElem = parentElem.querySelector('.datepicker');
+            this.panel.update.call(this.panel, elem.name, defaultValue + '|' + datepickerElem.value);
+        } else {
+            this.panel.update.call(this.panel, elem.name, defaultValue);
         }
     }
 }

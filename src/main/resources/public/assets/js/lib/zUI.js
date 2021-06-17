@@ -346,7 +346,6 @@ class UIRadioButton extends UIElement {
     }
 
     setUIValue(value) {
-        console.log(value);
         if (value !== undefined) {
             this.domElement.checked = value;
         }

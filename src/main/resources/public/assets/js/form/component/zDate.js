@@ -51,14 +51,12 @@ export const dateMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(this.elementPlaceholder)
             .setUIClass('datepicker')
-            .setUIId('date-' + this.id)
+            .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-maxdate', this.validationMaxDate)
             .setUIAttribute('data-validation-mindate', this.validationMinDate);
-        //.onUIKeyUp(this.updateValue.bind(this))
-        //.onUIChange(this.updateValue.bind(this));
         element.addUI(element.UIDate);
         return element;
     },
@@ -90,7 +88,9 @@ export const dateMixin = {
         return this._element.columnWidth;
     },
     set elementDefaultValueRadio(value) {
+        // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         this._element.defaultValueRadio = value;
+
     },
     get elementDefaultValueRadio() {
         return this._element.defaultValueRadio;

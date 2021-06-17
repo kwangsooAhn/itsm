@@ -126,6 +126,13 @@
       flex-wrap: wrap;
       margin: 0.3125rem 0; // 5px 0
 
+      .radio-item {
+        .input {
+          width: 2.813rem; // 45px
+          margin: 0 0.3125rem 0 0; // 5px
+        }
+      }
+
       .picker-wrapper-date {
         display: inline-block;
         width: auto;
