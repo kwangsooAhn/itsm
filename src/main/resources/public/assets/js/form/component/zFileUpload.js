@@ -10,12 +10,13 @@
  * https://www.brainz.co.kr
  */
 
-import { CLASS_PREFIX } from '../../lib/zConstants.js';
+import {CLASS_PREFIX, FORM} from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
+import ZLabelProperty from "../../formDesigner/property/type/zLabelProperty";
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -42,6 +43,9 @@ export const fileUploadMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
+        // label 상단 처리
+        this.labelPosition = FORM.LABEL.POSITION.TOP;
+
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
@@ -146,6 +150,7 @@ export const fileUploadMixin = {
     getProperty() {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
         ];
