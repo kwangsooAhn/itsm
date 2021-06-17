@@ -1108,6 +1108,15 @@ input, button, select, optgroup, textarea {
   pointer-events: none;
 }
 
+.vertical {
+  display: block;
+}
+
+.horizontal {
+  display: inline-block;
+  margin-right: 0.3125rem;
+}
+
 /* _elements.scss 
  *
  * 파일 경로 : template/_elements.scss
@@ -2526,6 +2535,28 @@ button.ghost-line:disabled .icon {
   height: 24px;
   -webkit-mask-image: url("../media/icons/formDesigner/property/icon_label_position_hidden.svg");
   mask-image: url("../media/icons/formDesigner/property/icon_label_position_hidden.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #3F4B56;
+}
+.btn-switch-group .btn-switch .icon.icon-display-position-left {
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_display_left.svg");
+  mask-image: url("../media/icons/formDesigner/property/icon_display_left.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #3F4B56;
+}
+.btn-switch-group .btn-switch .icon.icon-display-position-right {
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_display_right.svg");
+  mask-image: url("../media/icons/formDesigner/property/icon_display_right.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;

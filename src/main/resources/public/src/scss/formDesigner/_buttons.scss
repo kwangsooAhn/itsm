@@ -97,6 +97,12 @@
       &.icon-position-hidden {
         @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_hidden.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
       }
+      &.icon-display-position-left {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_display_left.svg', 20px, 20px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+      }
+      &.icon-display-position-right {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_display_right.svg', 20px, 20px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+      }
     }
     // if text exist
     .text { pointer-events: none; }

@@ -80,16 +80,16 @@ class ZValidation {
      * @param target 호출 대상
      */
     emit(type, ...args) {
-        if (typeof this.events[type] === 'undefined') {
-            return false;
-        }
+        if (typeof this.events[type] !== 'undefined') {
+            const events = this.events[type].slice();
 
-        const events = this.events[type].slice();
-
-        for (const event of events) {
-            if (event && event.callback) {
-                return event.callback.apply(this, [...args, ...event.args]);
+            for (const event of events) {
+                if (event && event.callback) {
+                    return event.callback.apply(this, [...args, ...event.args]);
+                }
             }
+        } else {
+            return true;
         }
     }
     /**
@@ -154,6 +154,22 @@ class ZValidation {
         }
     }
     /**
+     * DOM 엘리먼트 에러 제거
+     * @param element 엘리먼트
+     */
+    removeDOMElementError(element) {
+        element.classList.remove(this.errorClassName);
+    }
+
+    /**
+     * DOM 엘리먼트 에러 추가
+     * @param element 엘리먼트
+     */
+    addDOMElementError(element) {
+        element.classList.add(this.errorClassName);
+        element.focus();
+    }
+    /**
      * DOM 엘리먼트 에러 표시
      * @param isValid 유효성 통과 여부
      * @param element 엘리먼트
@@ -163,21 +179,19 @@ class ZValidation {
     setDOMElementError(isValid, element, message, callback) {
         // 유효성 검증 성공시
         if (isValid) {
-            element.classList.remove(this.errorClassName);
+            this.removeDOMElementError(element);
             return true;
         }
         //유효성 검증 실패시
         if (this.alert) { // 알림창 사용시
             aliceAlert.alertWarning(message, () => {
-                element.classList.add(this.errorClassName);
-                element.focus();
+                this.addDOMElementError(element);
                 if (typeof callback === 'function') {
                     callback();
                 }
             });
         } else { // 알림창 미사용시
-            element.classList.add(this.errorClassName);
-            element.focus();
+            this.addDOMElementError(element);
 
             if (typeof callback === 'function') { callback(); }
         }
@@ -312,14 +326,14 @@ class ZValidation {
                 console.error('The DOM Element is incorrect. Please check the DOM Element.');
                 return true;
             }
-            rtn = targetValue > Number(minValue);
+            rtn = targetValue >= Number(minValue);
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.min', minValue), callback);
         } else { // 변수이면 true인지 false인지만 반환
             if (!this.isNumber(Number(target))) {
                 console.error('The variable is incorrect. Please check the variable.');
                 return true;
             }
-            rtn = Number(target) > Number(minValue);
+            rtn = Number(target) >= Number(minValue);
         }
         return rtn;
     }
@@ -341,14 +355,14 @@ class ZValidation {
                 console.error('The DOM Element is incorrect. Please check the DOM Element.');
                 return true;
             }
-            rtn = targetValue < Number(maxValue);
+            rtn = targetValue <= Number(maxValue);
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.max', maxValue), callback);
         } else { // 변수이면 true인지 false인지만 반환
             if (!this.isNumber(Number(target))) {
                 console.error('The variable is incorrect. Please check the variable.');
                 return true;
             }
-            rtn = Number(target) < Number(maxValue);
+            rtn = Number(target) <= Number(maxValue);
         }
         return rtn;
     }
@@ -381,10 +395,10 @@ class ZValidation {
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.getDOMElementValue(target).length > Number(minLength);
+            rtn = this.getDOMElementValue(target).length >= Number(minLength);
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.minLength', minLength), callback);
         } else { // 변수이면 true인지 false인지만 반환
-            rtn = target.length > Number(minLength);
+            rtn = target.length >= Number(minLength);
         }
         return rtn;
     }
@@ -400,55 +414,61 @@ class ZValidation {
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
-            rtn = this.getDOMElementValue(target).length < Number(maxLength);
+            rtn = this.getDOMElementValue(target).length <= Number(maxLength);
             this.setDOMElementError(rtn, target, i18n.msg('validation.msg.maxLength', maxLength), callback);
         } else { // 변수이면 true인지 false인지만 반환
-            rtn = target.length < Number(maxLength);
+            rtn = target.length <= Number(maxLength);
         }
         return rtn;
     }
     /**
-     * keyup시 type(number, char, email 등), min, max 체크
+     * keyup시 type(number, char, email 등), min, max, minLength, maxLength 체크
      * @param target
      * @returns target 유효성 결과값
      */
     keyUpValidationCheck(target) {
         if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
 
+        let rtn = true;
+
         if (target.hasAttribute('data-validation-type') &&
             target.getAttribute('data-validation-type') !== '') {
-            return this.emit(target.getAttribute('data-validation-type'), target);
+            rtn = this.emit(target.getAttribute('data-validation-type'), target);
         }
-        if (target.hasAttribute('data-validation-min') &&
+        if (rtn && target.hasAttribute('data-validation-min') &&
             target.getAttribute('data-validation-min') !== '') {
-            return this.emit('min', target, target.getAttribute('data-validation-min'));
+            rtn = this.emit('min', target, target.getAttribute('data-validation-min'));
         }
-        if (target.hasAttribute('data-validation-max') &&
+        if (rtn && target.hasAttribute('data-validation-max') &&
             target.getAttribute('data-validation-max') !== '') {
-            return this.emit('max', target, target.getAttribute('data-validation-max'));
+            rtn = this.emit('max', target, target.getAttribute('data-validation-max'));
         }
-        return true;
+
+        if (rtn && target.hasAttribute('data-validation-minlength') &&
+            target.getAttribute('data-validation-minlength') !== '') {
+            rtn = this.emit('minLength', target, target.getAttribute('data-validation-minlength'));
+        }
+
+        if (rtn && target.hasAttribute('data-validation-maxlength') &&
+            target.getAttribute('data-validation-maxlength') !== '') {
+            rtn = this.emit('maxLength', target, target.getAttribute('data-validation-maxlength'));
+        }
+        return rtn;
     }
     /**
-     * change시 필수값, minLength, maxLength 체크
+     * change시 필수값
      * @param target 이벤트객체
      */
     changeValidationCheck(target) {
         if (!this.isDefined(target)) { return true; } // 정의된 값인지 체크
 
+        let rtn = true;
+
         if (target.hasAttribute('data-validation-required') &&
             target.getAttribute('data-validation-required') !== 'false') {
-            return this.emit('required', target);
+            rtn = this.emit('required', target);
         }
-        if (target.hasAttribute('data-validation-minLength') &&
-            target.getAttribute('data-validation-minLength') !== '') {
-            return this.emit('minLength', target, target.getAttribute('data-validation-minLength'));
-        }
-        if (target.hasAttribute('data-validation-maxLength') &&
-            target.getAttribute('data-validation-maxLength') !== '') {
-            return this.emit('maxLength', target, target.getAttribute('data-validation-maxLength'));
-        }
-        return true;
+        return rtn;
     }
 
     /**

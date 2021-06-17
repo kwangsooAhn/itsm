@@ -41,13 +41,15 @@ export const dropdownMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
+        this._value = this.data.value || '';
     },
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIDropdown = new UISelect().setUIOptions(this.element.options);
+        const selectOptionValue = this._value || this.element.options[0].value;
+        element.UIDropdown = new UISelect().setUIOptions(this.element.options).setUIValue(selectOptionValue);
         element.addUI(element.UIDropdown);
         return element;
     },

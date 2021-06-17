@@ -41,10 +41,10 @@ export const ciMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-
+        this._value = this.data.value || '';
         // CI 데이터 초기화
-        if (this._value !== '${default}') {
-            this.value = JSON.parse(this.data.value);
+        if (this._value !== '') {
+            this.value = JSON.parse(this._value);
         }
     },
     // component 엘리먼트 생성

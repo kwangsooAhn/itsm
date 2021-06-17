@@ -674,6 +674,9 @@ form:
     text-default: "You can directly enter the default values displayed on the component, or choose between automatic input. In case of automatic input, one of user's session information can be selected."
     time-default: "You can set the default value displayed on the component.<br/>'Now' prints the current time.<br/>'hours later' means +, -hour from current time.<br/>The last item is used to show a specific time as fixed."
   properties:
+    align:
+      vertical: "Vertical"
+      horizontal: "Horizontal"
     auto: "Auto"
     char: "Character"
     common: "Common"
