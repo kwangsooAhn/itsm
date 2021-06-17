@@ -297,7 +297,7 @@ const zFileUploader = (function () {
                     dropzone.removeFile(dropzone.files[0]);
                 }
                 extraParam.fileName = createUid();
-                document.querySelector('#avatarUUID').value = extraParam.fileName;
+                document.getElementById('avatarUUID').value = extraParam.fileName;
             } else {
                 dropzone.removeFile(file);
                 aliceAlert.alert(i18n.msg('fileupload.msg.maxFileCount', extraParam.dropZoneMaxFiles));
@@ -310,8 +310,8 @@ const zFileUploader = (function () {
      */
     const createFileUploader = function () {
         // 드랍존 영역 가져오기.
-        const dropZoneFiles = document.querySelector('#' + extraParam.dropZoneFilesId);
-        const dropZoneUploadedFiles = document.querySelector('#' + extraParam.dropZoneUploadedFilesId);
+        const dropZoneFiles = document.getElementById(extraParam.dropZoneFilesId);
+        const dropZoneUploadedFiles = document.getElementById(extraParam.dropZoneUploadedFilesId);
 
         createDragAndDropZone(dropZoneFiles);
 
@@ -528,7 +528,7 @@ const zFileUploader = (function () {
                     this.on('complete', function (file) {
                         if (extraParam.isDropzoneUnder) {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
-                            document.querySelector('#' + dragAndDropZoneId).appendChild(dropzoneMessage);
+                            document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
                             dropzoneMessage.style.display = 'block';
                         }
                     });
@@ -550,7 +550,7 @@ const zFileUploader = (function () {
      */
     const createAvatarUploader = function () {
         // 드랍존 영역 가져오기.
-        const dropZoneFiles = document.querySelector('#' + extraParam.dropZoneFilesId);
+        const dropZoneFiles = document.getElementById(extraParam.dropZoneFilesId);
 
         createDragAndDropZone(dropZoneFiles);
 
@@ -598,7 +598,7 @@ const zFileUploader = (function () {
                         isNew: false
                     };
                     extraParam.fileName = extraParam.avatar.id;
-                    document.querySelector('#avatarUUID').value = extraParam.fileName;
+                    document.getElementById('avatarUUID').value = extraParam.fileName;
                     _this.files.push(mockFile);
                     _this.emit('addedfile', mockFile);
                     _this.createThumbnailFromUrl(mockFile,
@@ -612,14 +612,14 @@ const zFileUploader = (function () {
 
                 this.on('addedfile', function (file) {
                     extraParam.fileName = createUid();
-                    document.querySelector('#avatarUUID').value = extraParam.fileName;
+                    document.getElementById('avatarUUID').value = extraParam.fileName;
                     validation(this, file, 'avatarUploader');
                     exportFile = file;
                 });
 
                 this.on('removedfile', function (file) {
                     extraParam.fileName = '';
-                    document.querySelector('#avatarUUID').value = extraParam.fileName;
+                    document.getElementById('avatarUUID').value = extraParam.fileName;
                 });
 
                 this.on('success', function (file, response) {
