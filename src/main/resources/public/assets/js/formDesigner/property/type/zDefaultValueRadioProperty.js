@@ -44,16 +44,16 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
         console.log(defaultValueArray);
         this.options.forEach((item) => {
             const radioGroup = new UIDiv().setUIClass('radio-property-group').addUIClass('vertical');
+            const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             // 라벨
-            radioGroup.UILabel = new UILabel().setUIClass('radio').setUIFor('radio-property-' + item.value);
+            radioGroup.UILabel = new UILabel().setUIClass('radio').setUIFor('radioProperty' + radioId);
             radioGroup.addUI(radioGroup.UILabel);
             // 라디오 버튼
-            console.log(item.name + ' :  '+ defaultValueArray[0] === item.value);
             radioGroup.UILabel.UIRadio = new UIRadioButton(defaultValueArray[0] === item.value)
-                .setUIId('radio-property-' + item.value)
+                .setUIId('radioProperty-' + radioId)
                 .setUIAttribute('name', this.getKeyId())
                 .setUIClass('hidden-radio')
-                .setUIValue(item.value);
+                .setUIAttribute('data-value', item.value);
             radioGroup.UILabel.addUI(radioGroup.UILabel.UIRadio);
             radioGroup.UILabel.addUI(new UISpan());
             if (item.name !== '') {
