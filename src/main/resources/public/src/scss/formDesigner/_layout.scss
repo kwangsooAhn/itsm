@@ -240,3 +240,11 @@
     .#{$common-prefix}group-label { pointer-events: none; }
   }
 }
+.vertical {
+  display: block;
+}
+
+.horizontal {
+  display: inline-block;
+  margin-right: 0.3125rem;
+}
