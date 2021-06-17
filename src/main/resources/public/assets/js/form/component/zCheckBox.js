@@ -2,7 +2,7 @@
  * Check Box Mixin
  *
  *
- * @author
+ * @author Ahn kwangsoo <ks.ahn@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -10,24 +10,29 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIText } from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import {FORM, CLASS_PREFIX} from '../../lib/zConstants.js';
+import {UIDiv, UILabel, UICheckbox, UISpan} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
+import ZSwitchButtonProperty from '../../formDesigner/property/type/zSwitchButtonProperty.js';
 import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZOptionListProperty from '../../formDesigner/property/type/zOptionListProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        placeholder: '',
-        columnWidth: '10',
-        defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
+        position: 'left',
+        columnWidth: 10,
+        align: 'horizontal',
+        options: [FORM.DEFAULT_OPTION_ROW]
+    },
+    validation: {
+        required: false, // 필수값 여부
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
@@ -38,19 +43,24 @@ export const checkBoxMixin = {
     initProperty() {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
-        this._value = this.data.value || '';
+        this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv()
+            .setUIClass(CLASS_PREFIX + 'element')
+            .addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
-
-        element.UIText = new UIText('아직 구현되지 않았습니다. 얼렁 개발해주세요.');
-        element.addUI(element.UIText);
-        return element;
+        return this.makeCheckbox(element);
     },
-    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+    },
+    set element(element) {
+        this._element = element;
+    },
+    get element() {
+        return this._element;
+    },
     // set, get
     set value(value) {
         this._value = value;
@@ -60,19 +70,119 @@ export const checkBoxMixin = {
         // 사용자 변경시 해당 값이 할당된다.
         return this._value;
     },
-    // input box 값 변경시 이벤트 핸들러
+    set elementColumnWidth(width) {
+        this._element.columnWidth = width;
+        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column',
+            this.getLabelColumnWidth(this.labelPosition));
+    },
+    get elementColumnWidth() {
+        return this._element.columnWidth;
+    },
+    set elementAlign(align) {
+        this._element.align = align;
+        this.UIElement.UIComponent.UIElement.clearUI();
+        this.makeCheckbox(this.UIElement.UIComponent.UIElement);
+    },
+    get elementAlign() {
+        return this._element.align;
+    },
+    set elementPosition(position) {
+        this._element.position = position;
+        this.UIElement.UIComponent.UIElement.clearUI();
+        this.makeCheckbox(this.UIElement.UIComponent.UIElement);
+    },
+    get elementPosition() {
+        return this._element.position;
+    },
+    set elementOptions(options) {
+        this._element.options = options;
+        this.UIElement.UIComponent.UIElement.clearUI();
+        this.makeCheckbox(this.UIElement.UIComponent.UIElement);
+    },
+    get elementOptions() {
+        return this._element.options;
+    },
+    set validation(validation) {
+        this._validation = validation;
+    },
+    get validation() {
+        return this._validation;
+    },
+    set validationRequired(boolean) {
+        this._validation.required = boolean;
+        if (boolean) {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get validationRequired() {
+        return this._validation.required;
+    },
+    makeCheckbox(object) {
+        for (let i = 0; i < this.element.options.length; i++) {
+            const checkboxId = 'checkbox'
+                + this.id.substr(0, 1).toUpperCase()
+                + this.id.substr(1, this.id.length)
+                + (i + 1);
+            object.UILabel = new UILabel()
+                .setUIAttribute('for', checkboxId)
+                .setUIClass(this.element.align);
+            object.UILabel.UICheckbox = new UICheckbox(false).setUIId(checkboxId)
+            object.UILabel.UISpan = new UISpan().setUITextContent(this.element.options[i].name);
+
+            if (this.element.position == 'right') {
+                object.UILabel.addUI(new UISpan());
+                object.UILabel.addUI(object.UILabel.UISpan);
+                object.UILabel.addUI(object.UILabel.UICheckbox);
+                object.addUI(object.UILabel);
+            } else {
+                object.UILabel.addUI(object.UILabel.UICheckbox);
+                object.UILabel.addUI(object.UILabel.UISpan);
+                object.UILabel.addUI(new UISpan());
+                object.addUI(object.UILabel);
+            }
+        }
+        return object;
+    },
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-
         this.value = e.target.checked;
     },
     // 세부 속성 조회
     getProperty() {
-        return [];
+        return [...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
+            new ZGroupProperty('group.element')
+                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZDropdownProperty('element.align', this._element.align, [
+                    {name: 'form.properties.align.horizontal', value: 'horizontal'},
+                    {name: 'form.properties.align.vertical', value: 'vertical'}
+                ]))
+                .addProperty(new ZSwitchButtonProperty('element.position', this._element.position, [
+                    {'name': 'icon-display-position-left', 'value': 'left'},
+                    {'name': 'icon-display-position-right', 'value': 'right'},
+                ]))
+                .addProperty(new ZOptionListProperty('element.options', this.elementOptions)),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
+        ];
+    },
+    toJson() {
+        return {
+            id: this._id,
+            type: this._type,
+            display: this._display,
+            displayType: this._displayType,
+            isTopic: this._isTopic,
+            mapId: this._mapId,
+            tags: this._tags,
+            value: this._value,
+            label: this._label,
+            element: this._element,
+            validation: this._validation
+        };
     }
 };
