@@ -38,6 +38,16 @@ export const FORM = {
             LEFT: 'left'
         }
     },
+    DATE_TYPE: {
+        NONE: 'none',
+        NOW: 'now',
+        DATE: 'date',
+        TIME: 'time',
+        DATETIME: 'datetime',
+        DATE_PICKER: 'datepicker',
+        TIME_PICKER: 'timepicker',
+        DATETIME_PICKER: 'datetimepicker'
+    },
     CUSTOM_CODE: [],
     // 옵션 속성에 추가되는 기본 값
     DEFAULT_OPTION_ROW: {name: 'name', value: 'value'}

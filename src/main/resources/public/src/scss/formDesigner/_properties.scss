@@ -114,6 +114,13 @@
       &.off { display: none; }
     }
   }
+  .picker-wrapper-date {
+    .datepicker,
+    .timepicker,
+    .datetimepicker {
+      width: 100%;
+    }
+  }
   // time, date, datepicker - 기본값 속성
   .default-type-radio {
     position: relative;
@@ -136,10 +143,10 @@
       .picker-wrapper-date {
         display: inline-block;
         width: auto;
-        [class*="timepicker"],
-        [class*="datepicker"],
-        [class*="datetimepicker"] {
-          width: 13.13rem; // 210px
+        .datepicker,
+        .timepicker,
+        .datetimepicker {
+          width: 260px; // 260px
           margin: 0;
         }
       }

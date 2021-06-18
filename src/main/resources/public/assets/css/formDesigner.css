@@ -5302,6 +5302,11 @@ body.modal-active {
 .property .default-type .select.off {
   display: none;
 }
+.property .picker-wrapper-date .datepicker,
+.property .picker-wrapper-date .timepicker,
+.property .picker-wrapper-date .datetimepicker {
+  width: 100%;
+}
 .property .default-type-radio {
   position: relative;
   display: block;
@@ -5321,9 +5326,9 @@ body.modal-active {
   display: inline-block;
   width: auto;
 }
-.property .default-type-radio .radio-property-group .picker-wrapper-date [class*=timepicker],
-.property .default-type-radio .radio-property-group .picker-wrapper-date [class*=datepicker],
-.property .default-type-radio .radio-property-group .picker-wrapper-date [class*=datetimepicker] {
-  width: 13.13rem;
+.property .default-type-radio .radio-property-group .picker-wrapper-date .datepicker,
+.property .default-type-radio .radio-property-group .picker-wrapper-date .timepicker,
+.property .default-type-radio .radio-property-group .picker-wrapper-date .datetimepicker {
+  width: 260px;
   margin: 0;
 }
