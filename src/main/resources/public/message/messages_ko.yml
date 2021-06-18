@@ -696,6 +696,8 @@ form:
       align: "정렬"
       columnWidth: "컬럼 너비"
       color: "색상"
+      defaultValue: "기본값"
+      defaultValueRadio: "기본값"
       defaultValueSelect: "기본값 타입"
       isEditable: "편집가능 여부"
       path: "경로"
@@ -751,6 +753,12 @@ form:
       maxLength: "최대 길이"
       minLength: "최소 길이"
       validationType: "유효성 타입"
+      maxDate: "최대 날짜"
+      minDate: "최소 날짜"
+    option:
+      none: "없음"
+      now: "현재"
+      days: "일 후"
   status:
     destroy: "폐기"
     edit: "편집"

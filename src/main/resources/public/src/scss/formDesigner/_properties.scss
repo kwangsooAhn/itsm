@@ -29,6 +29,10 @@
     color: $property-label-color;
     padding-bottom: 0.625rem; // 10px
   }
+  .property-value {
+    width: 2.813rem !important; // 45px
+    margin: 0 0.3125rem 0 0; // 0 5px 0 0
+  }
   // margin / padding 박스 모델
   .box-model {
     display: flex;
@@ -108,6 +112,44 @@
       display: block;
       margin-left: 0.625rem; // 10px
       &.off { display: none; }
+    }
+  }
+  .picker-wrapper-date {
+    .datepicker,
+    .timepicker,
+    .datetimepicker {
+      width: 100%;
+    }
+  }
+  // time, date, datepicker - 기본값 속성
+  .default-type-radio {
+    position: relative;
+    display: block;
+
+    .radio-property-group {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 0.3125rem 0; // 5px 0
+
+      .radio-item {
+        .input {
+          width: 2.813rem; // 45px
+          margin: 0 0.3125rem 0 0; // 5px
+        }
+      }
+
+      .picker-wrapper-date {
+        display: inline-block;
+        width: auto;
+        .datepicker,
+        .timepicker,
+        .datetimepicker {
+          width: 260px; // 260px
+          margin: 0;
+        }
+      }
     }
   }
 }

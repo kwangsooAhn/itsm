@@ -233,6 +233,13 @@
         pointer-events: none;
       }
     }
+
+    // time, date, datepicker 컴포넌트
+    .picker-wrapper-date {
+      .datepicker {
+        width: 100%;
+      }
+    }
   }
 }
 // label

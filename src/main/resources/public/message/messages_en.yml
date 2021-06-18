@@ -696,6 +696,8 @@ form:
       align: "Align"
       columnWidth: "Column Width"
       color: "color"
+      defaultValue: "Default Value"
+      defaultValueRadio: "Default Value"
       defaultValueSelect: "Default Value Type"
       isEditable: "Editable"
       path: "Path"
@@ -751,6 +753,12 @@ form:
       maxLength: "Max Length"
       minLength: "Min Length"
       validationType: "Validation Type"
+      maxDate: "Max Date"
+      minDate: "Min Date"
+    option:
+      none: "None"
+      now: "Now"
+      days: "Date"
   status:
     destroy: "Destroy"
     edit: "Edit"

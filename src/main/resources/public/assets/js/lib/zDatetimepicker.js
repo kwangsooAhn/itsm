@@ -85,9 +85,8 @@
         this.displayLuxon = this.selectLuxon.plus({ days: 0});
 
         // 객체 초기화
-        let el = document.getElementById(this.id);
-        if (el === null) { return; }
-        this.el = el;
+        if (options.el === null) { return; }
+        this.el = options.el;
 
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
@@ -103,7 +102,7 @@
         let pickerTitle = document.createElement('div');
         pickerTitle.className = 'picker-modal-title';
         pickerTitle.textContent = i18n.msg(options.title);
-        el.appendChild(pickerTitle);
+        this.el.appendChild(pickerTitle);
 
         // create title > close icon
         const spanClose = document.createElement('span');
@@ -114,13 +113,13 @@
         // create sub title > 시간 날짜 표시
         let pickerSubTitle = document.createElement('div');
         pickerSubTitle.className = 'picker-modal-sub-title';
-        el.appendChild(pickerSubTitle);
+        this.el.appendChild(pickerSubTitle);
         this.changeDisplay();
 
         // create content
         let pickerContent = document.createElement('div');
         pickerContent.className = 'picker-modal-content';
-        el.appendChild(pickerContent);
+        this.el.appendChild(pickerContent);
 
         // create content > date
         let pickerContentDate = document.createElement('div');
@@ -143,7 +142,7 @@
         // create button
         let pickerButton = document.createElement('div');
         pickerButton.className = 'btn-list picker-modal-button';
-        el.appendChild(pickerButton);
+        this.el.appendChild(pickerButton);
 
         // create button > confirm
         let buttonConfirm = document.createElement('button');
@@ -624,6 +623,7 @@
         pickerContainer.id = pickerId;
         pickerContainer.className = 'picker-modal';
         targetContainer.appendChild(pickerContainer);
+        options.el = pickerContainer;
 
         // initialization picker
         let picker = new Picker(options);
