@@ -754,11 +754,14 @@ form:
       minLength: "Min Length"
       validationType: "Validation Type"
       maxDate: "Max Date"
+      maxTime: "Max Time"
       minDate: "Min Date"
+      minTime: "Min Time"
     option:
       none: "None"
       now: "Now"
-      date: "Date"
+      date: "days after"
+      time: "hours after"
   status:
     destroy: "Destroy"
     edit: "Edit"

@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { CLASS_PREFIX, FORM } from '../../lib/zConstants.js';
+import {CLASS_PREFIX, FORM} from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import {UIDiv, UIInput} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -26,7 +26,6 @@ import ZDateTimePickerProperty from '../../formDesigner/property/type/zDateTimeP
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        placeholder: 'yyyy-MM-dd',
         columnWidth: '10',
         defaultValueRadio: 'none'
     },
@@ -51,7 +50,7 @@ export const dateMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
-        element.UIDate = new UIInput().setUIPlaceholder(this.elementPlaceholder)
+        element.UIDate = new UIInput().setUIPlaceholder(i18n.dateFormat)
             .setUIClass(FORM.DATE_TYPE.DATE_PICKER)
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
@@ -72,13 +71,6 @@ export const dateMixin = {
     },
     get element() {
         return this._element;
-    },
-    set elementPlaceholder(placeholder) {
-        this._element.placeholder = placeholder;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIPlaceholder(placeholder);
-    },
-    get elementPlaceholder() {
-        return this._element.placeholder;
     },
     set elementColumnWidth(width) {
         this._element.columnWidth = width;
