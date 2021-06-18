@@ -1,8 +1,7 @@
 /**
- * Date picker Property Class
+ * Date Time picker Property Class
  *
- * 컴포넌트의 기본 값을 어떤 방식으로 제공할지 선택하는 속성항목이다.
- * 현재는 inputBox 에서만 사용되고 있으며 옵션들도 inputBox 용으로 맞추어져 있다.
+ * zDateTimePicker 라이브러리를 사용하는 속성항목이다.
  *
  * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
@@ -13,7 +12,6 @@
  */
 import { FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../../lib/zUI.js';
-import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
 
 const propertyExtends = {

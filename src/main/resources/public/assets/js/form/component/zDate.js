@@ -84,7 +84,7 @@ export const dateMixin = {
     set elementDefaultValueRadio(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         this._element.defaultValueRadio = value;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.getDefaultValue(value));
+        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.makeDefaultValue(value));
     },
     get elementDefaultValueRadio() {
         return this._element.defaultValueRadio;
@@ -126,13 +126,13 @@ export const dateMixin = {
     },
     get value() {
         if (this._value === '${default}') {
-            return this.getDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
+            return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
         } else { // 저장된 값 반환
             return this._value;
         }
     },
     // 기본값 조회
-    getDefaultValue(value) {
+    makeDefaultValue(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         const defaultValueArray = value.split('|');
         switch (defaultValueArray[0]) {
@@ -140,7 +140,7 @@ export const dateMixin = {
             return '';
         case FORM.DATE_TYPE.NOW:
             return i18n.getDate();
-        case FORM.DATE_TYPE.DATE:
+        case FORM.DATE_TYPE.DAYS:
             const offset = {
                 days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
                     0 : Number(defaultValueArray[1])
@@ -171,7 +171,7 @@ export const dateMixin = {
             [
                 { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
                 { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },
-                { name: '', value: FORM.DATE_TYPE.DATE },
+                { name: '', value: FORM.DATE_TYPE.DAYS },
                 { name: '', value: FORM.DATE_TYPE.DATE_PICKER }
             ]);
         return [

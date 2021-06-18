@@ -760,7 +760,7 @@ form:
     option:
       none: "None"
       now: "Now"
-      date: "days after"
+      days: "days after"
       time: "hours after"
   status:
     destroy: "Destroy"
