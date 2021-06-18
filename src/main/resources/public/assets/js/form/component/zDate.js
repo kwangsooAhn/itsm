@@ -92,7 +92,7 @@ export const dateMixin = {
     set elementDefaultValueRadio(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         this._element.defaultValueRadio = value;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.getDefaultValue(value));
+        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.makeDefaultValue(value));
     },
     get elementDefaultValueRadio() {
         return this._element.defaultValueRadio;
@@ -134,13 +134,13 @@ export const dateMixin = {
     },
     get value() {
         if (this._value === '${default}') {
-            return this.getDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
+            return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
         } else { // 저장된 값 반환
             return this._value;
         }
     },
     // 기본값 조회
-    getDefaultValue(value) {
+    makeDefaultValue(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         const defaultValueArray = value.split('|');
         switch (defaultValueArray[0]) {
