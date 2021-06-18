@@ -13,7 +13,6 @@
  */
 import { FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../../lib/zUI.js';
-import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
 
 const propertyExtends = {
