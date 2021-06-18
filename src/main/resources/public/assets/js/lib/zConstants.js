@@ -41,7 +41,7 @@ export const FORM = {
     DATE_TYPE: {
         NONE: 'none',
         NOW: 'now',
-        DATE: 'date',
+        DAYS: 'date',
         TIME: 'time',
         DATETIME: 'datetime',
         DATE_PICKER: 'datepicker',

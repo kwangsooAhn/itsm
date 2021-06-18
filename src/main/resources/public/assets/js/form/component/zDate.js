@@ -148,7 +148,7 @@ export const dateMixin = {
             return '';
         case FORM.DATE_TYPE.NOW:
             return i18n.getDate();
-        case FORM.DATE_TYPE.DATE:
+        case FORM.DATE_TYPE.DAYS:
             const offset = {
                 days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
                     0 : Number(defaultValueArray[1])
@@ -179,7 +179,7 @@ export const dateMixin = {
             [
                 { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
                 { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },
-                { name: '', value: FORM.DATE_TYPE.DATE },
+                { name: '', value: FORM.DATE_TYPE.DAYS },
                 { name: '', value: FORM.DATE_TYPE.DATE_PICKER }
             ]);
         return [

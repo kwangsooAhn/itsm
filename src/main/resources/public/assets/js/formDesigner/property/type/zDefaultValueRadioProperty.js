@@ -2,7 +2,7 @@
  * Default Value Radio Property Class
  *
  * 컴포넌트의 기본 값을 어떤 방식으로 제공할지 선택하는 속성항목이다.
- * 현재는 date, time, datTime 에서 사용되고 있으며 옵션들도 date, time, datTime 용으로 맞추어져 있다.
+ * 현재는 date, time, datTime 에서 사용되고 있으며 옵션들도 date, time, dateTime 용으로 맞추어져 있다.
  *
  * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
@@ -63,7 +63,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             }
 
             switch (item.value) {
-            case FORM.DATE_TYPE.DATE:
+            case FORM.DATE_TYPE.DAYS:
                 radioGroup.UIDiv = new UIDiv().setUIClass('radio-item');
                 radioGroup.addUI(radioGroup.UIDiv);
 
@@ -74,7 +74,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     .onUIKeyUp(this.updateProperty.bind(this))
                     .onUIChange(this.updateProperty.bind(this));
                 radioGroup.UIDiv.addUI(radioGroup.UIDiv.UIInput);
-                radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.date')));
+                radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.days')));
                 break;
             case FORM.DATE_TYPE.DATE_PICKER:
                 radioGroup.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
@@ -125,7 +125,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
 
         // radio 변경시
         const defaultValue = curRadioElem.getAttribute('data-value'); // none, now, date, datepicker 등
-        if (defaultValue === FORM.DATE_TYPE.DATE || defaultValue === FORM.DATE_TYPE.TIME ||
+        if (defaultValue === FORM.DATE_TYPE.DAYS || defaultValue === FORM.DATE_TYPE.TIME ||
             defaultValue === FORM.DATE_TYPE.DATETIME) {
             const inputElems = parentElem.querySelectorAll('input[type=text]');
             let changeValue = '';
@@ -136,7 +136,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
         } else if (defaultValue === FORM.DATE_TYPE.DATE_PICKER ||
             defaultValue === FORM.DATE_TYPE.TIME_PICKER ||
             defaultValue === FORM.DATE_TYPE.DATETIME_PICKER) {
-            const  datepickerElem = parentElem.querySelector('.datepicker');
+            const datepickerElem = parentElem.querySelector('.datepicker');
             this.panel.update.call(this.panel, elem.name, defaultValue + '|' + datepickerElem.value);
         } else {
             this.panel.update.call(this.panel, elem.name, defaultValue);

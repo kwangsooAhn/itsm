@@ -758,7 +758,7 @@ form:
     option:
       none: "없음"
       now: "현재"
-      date: "일 후"
+      days: "일 후"
   status:
     destroy: "폐기"
     edit: "편집"

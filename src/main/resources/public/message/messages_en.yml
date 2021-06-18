@@ -758,7 +758,7 @@ form:
     option:
       none: "None"
       now: "Now"
-      date: "Date"
+      days: "Date"
   status:
     destroy: "Destroy"
     edit: "Edit"
