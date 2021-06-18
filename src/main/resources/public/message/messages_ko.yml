@@ -761,7 +761,7 @@ form:
       none: "없음"
       now: "현재"
       days: "일 후"
-      time: "시간 후"
+      hours: "시간 후"
   status:
     destroy: "폐기"
     edit: "편집"

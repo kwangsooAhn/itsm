@@ -761,7 +761,7 @@ form:
       none: "None"
       now: "Now"
       days: "days after"
-      time: "hours after"
+      hours: "hours after"
   status:
     destroy: "Destroy"
     edit: "Edit"

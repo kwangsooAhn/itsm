@@ -140,7 +140,7 @@ export const timeMixin = {
             return '';
         case FORM.DATE_TYPE.NOW:
             return i18n.getTime();
-        case FORM.DATE_TYPE.TIME:
+        case FORM.DATE_TYPE.HOURS:
             const offset = {
                 hours: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
                     0 : Number(defaultValueArray[1])
@@ -171,7 +171,7 @@ export const timeMixin = {
             [
                 { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
                 { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },
-                { name: '', value: FORM.DATE_TYPE.TIME },
+                { name: '', value: FORM.DATE_TYPE.HOURS },
                 { name: '', value: FORM.DATE_TYPE.TIME_PICKER }
             ]);
         return [
