@@ -50,7 +50,35 @@ export const FORM = {
     },
     CUSTOM_CODE: [],
     // 옵션 속성에 추가되는 기본 값
-    DEFAULT_OPTION_ROW: {name: 'name', value: 'value'}
+    DEFAULT_OPTION_ROW: { name: 'name', value: 'value' },
+    DYNAMIC_ROW_TABLE: {
+        MAX_COLUMN: 6, // 6개 column 제한
+        COLUMN_TYPE_OPTION: [ // input, date, time, datetime, radio, checkbox, select 등
+            { name: 'input', value: 'input' }
+        ],
+        DEFAULT_OPTION_COLUMN: {
+            columnName: 'COLUMN',
+            columnType: 'input', // input, date, time, datetime, radio, checkbox, select 등
+            columnWidth: '12',
+            columnHeadFontSize: '14',
+            columnHeadFontColor: 'rgba(141, 146, 153, 1)',
+            columnHeadBold: true,
+            columnHeadItalic: false,
+            columnHeadUnderline: false,
+            columnAlign: 'left',
+            columnBodyFontSize: '14',
+            columnBodyFontColor: 'rgba(50, 50, 51, 1)',
+            columnBodyBold: false,
+            columnBodyItalic: false,
+            columnBodyUnderline: false
+        },
+        COLUMN_INPUT: {
+            columnPlaceholder: '',
+            columnValidationType: 'none', // none | char | num | numchar | email | phone
+            columnMinLength: '0',
+            columnMaxLength: '100'
+        }
+    }
 };
 // 프로세스
 export const PROCESS = {};

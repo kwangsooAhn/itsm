@@ -30,8 +30,8 @@ import { ciMixin } from './component/zCI.js';
 const DEFAULT_PROPERTY = {
     label: {
         position: 'left', // 라벨 위치 hidden | top | left
-        fontSize: '16',
-        fontColor: 'rgba(0,0,0,1)',
+        fontSize: '14',
+        fontColor: 'rgba(141, 146, 153, 1)',
         bold: false,
         italic: false,
         underline: false,
