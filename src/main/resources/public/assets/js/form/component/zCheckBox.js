@@ -26,9 +26,9 @@ import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        position: 'left',
+        position: FORM.LABEL.POSITION.LEFT,
         columnWidth: 10,
-        align: 'horizontal',
+        align: FORM.ALIGN.HORIZONTAL,
         options: [FORM.DEFAULT_OPTION_ROW]
     },
     validation: {
@@ -122,12 +122,7 @@ export const checkBoxMixin = {
         return this._validation.required;
     },
     makeCheckbox(object) {
-        let checkedValueList = [];
-        if (this._value.indexOf('|') !== -1) {
-            this._value.split('|').forEach((value) => {
-                checkedValueList.push(value)
-            });
-        }
+        const checkedValueList = this.value.split('|');
         for (let i = 0; i < this.element.options.length; i++) {
             let checkedYn = false;
             if (this.element.options[i].value !== '') {
@@ -138,7 +133,7 @@ export const checkBoxMixin = {
                 + this.id.substr(1, this.id.length)
                 + (i + 1);
             object.UILabel = new UILabel()
-                .setUIAttribute('for', checkboxId)
+                .setUIFor(checkboxId)
                 .setUIClass(this.element.align)
                 .addUIClass('checkbox');
             object.UILabel.UICheckbox = new UICheckbox(checkedYn)
@@ -147,7 +142,7 @@ export const checkBoxMixin = {
                 .onUIClick(this.updateValue.bind(this));
             object.UILabel.UISpan = new UISpan().setUITextContent(this.element.options[i].name);
 
-            if (this.element.position === 'right') {
+            if (this.element.position === FORM.LABEL.POSITION.RIGHT) {
                 object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(object.UILabel.UICheckbox);
                 object.UILabel.addUI(new UISpan());
@@ -165,7 +160,7 @@ export const checkBoxMixin = {
         e.stopPropagation();
         this.value = '';
         e.target.parentNode.parentNode.querySelectorAll('input[type=checkbox]').forEach((element) => {
-            if (element.checked === true) {
+            if (element.checked) {
                 this.value += element.value + '|';
             }
         });

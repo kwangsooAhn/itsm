@@ -35,8 +35,13 @@ export const FORM = {
         POSITION: {
             HIDDEN: 'hidden',
             TOP: 'top',
-            LEFT: 'left'
+            LEFT: 'left',
+            RIGHT: 'right'
         }
+    },
+    ALIGN: {
+      VERTICAL: 'vertical',
+      HORIZONTAL: 'horizontal'
     },
     DATE_TYPE: {
         NONE: 'none',

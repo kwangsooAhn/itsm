@@ -26,9 +26,9 @@ import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        position: 'left',
+        position: FORM.LABEL.POSITION.LEFT,
         columnWidth: 10,
-        align: 'horizontal',
+        align: FORM.ALIGN.HORIZONTAL,
         options: [FORM.DEFAULT_OPTION_ROW]
     },
     validation: {
@@ -136,7 +136,7 @@ export const radioMixin = {
                 + this.id.substr(1, this.id.length)
                 + (i + 1);
             object.UILabel = new UILabel()
-                .setUIAttribute('for', radioId)
+                .setUIFor(radioId)
                 .setUIClass(this.element.align)
                 .addUIClass('radio');
             object.UILabel.UIRadio = new UIRadioButton(checkedYn)
@@ -146,7 +146,7 @@ export const radioMixin = {
                 .onUIClick(this.updateValue.bind(this));
             object.UILabel.UISpan = new UISpan().setUITextContent(this.element.options[i].name);
 
-            if (this.element.position === 'right') {
+            if (this.element.position === FORM.LABEL.POSITION.RIGHT) {
                 object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(object.UILabel.UIRadio);
                 object.UILabel.addUI(new UISpan());
