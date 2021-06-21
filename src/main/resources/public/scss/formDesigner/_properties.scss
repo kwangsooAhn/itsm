@@ -21,8 +21,8 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  flex-basis: getFlexBasis(100%, 44px, 12, 4px);
   margin: 0.9375rem 0 0 0; // 15px 0 0 0
-  flex-basis: calc((100% * var(--data-column, 12)) / 12);
   // 라벨
   .property-label {
     font-size: $property-label-font-size;

@@ -116,9 +116,8 @@
 // todo: 1 row 1 component 일 경우 dashed border 제거
 .#{$common-prefix}component-tooltip {
   position: relative;
-  flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
   padding: 0.375rem 0.5rem; // 6px 8px
-  margin: 0.375rem; // 6px
+  margin: $component-buffer;
   @include border(0.0625rem, dashed, #D7DBE0, all); // 1px
   @include borderRadius(0.0625rem); // 2px
   background-color: transparent;
@@ -149,14 +148,14 @@
   width: 100%;
   // label
   .#{$common-prefix}component-label {
-    flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+    flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
     &.on { display: block; }
     &.off { display: none; }
   }
   // element
   .#{$common-prefix}element {
-    flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+    flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0; // 7px 0
 
     // inputBox

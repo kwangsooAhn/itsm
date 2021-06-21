@@ -8,3 +8,9 @@
 @function hexToRGBA($hexcolor, $opacity: 1) {
   @return rgba($hexcolor, $opacity);
 }
+
+// flex display에서 column / gutter 설정
+@function getFlexBasis($base: 100%, $margin: 0px, $column_row: 12, $gutter_size: 0px) {
+  @return calc(((#{$base} - #{$margin}) * var(--data-column, #{$column_row})) / #{$column_row}
+          + (var(--data-column) - 1) * #{$gutter_size});
+}
