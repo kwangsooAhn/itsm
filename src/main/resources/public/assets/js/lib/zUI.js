@@ -196,7 +196,7 @@ class UIInput extends UIElement {
             'keydown',
             function (event) { event.stopPropagation(); },
             false
-        );
+            );
 
         this.setUIValue(text);
     }
@@ -349,10 +349,10 @@ class UIRadioButton extends UIElement {
         if (value !== undefined) {
             this.domElement.checked = value;
         }
+
         return this;
     }
 }
-
 // 공통으로 사용되는 복사용 inputbox + button
 class UIClipboard extends UIElement {
     constructor() {
@@ -419,7 +419,7 @@ class UIColor extends UIElement {
         this.UIColorPalette.UIOpacity = new UIDiv().setUIClass('color-palette-opacity');
         this.UIColorPalette.addUI(this.UIColorPalette.UIOpacity);
         this.addUI(this.UIColorPalette);
-        
+
         // color picker 초기화
         zColorPalette.initColorPalette(this.UIColorPalette.domElement,
             this.UIColor.UIBox.UISpan.domElement, this.UIColor.UIInput.domElement, option);
@@ -631,5 +631,6 @@ class UICell extends UIElement {
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
-    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable, UIRow, UICell,UIRadioButton
+    UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable,
+    UIRow, UICell, UIRadioButton
 };
