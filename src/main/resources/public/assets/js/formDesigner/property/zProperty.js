@@ -109,11 +109,11 @@ export default class ZProperty {
      * 세부 속성 공통 라벨 생성
      * @param data 세부 속성 데이터
      */
-    makeLabelProperty() {
+    makeLabelProperty(name) {
         const label = new UILabel().setUIClass('property-label').setUITextAlign('left');
         // 라벨 문구
         label.addUI(new UISpan().setUIClass('property-label-text')
-            .setUITextContent(i18n.msg(this.name)));
+            .setUITextContent(i18n.msg(name === undefined ? this.name : name)));
         // 필수 여부
         if (this.validation.required) {
             label.addUI(new UISpan().setUIClass('required'));

@@ -228,6 +228,8 @@ class ZValidation {
      * 숫자인지 체크
      */
     isNumber(target, callback) {
+        if (this.isEmpty(target)) { return true; }
+
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
@@ -242,6 +244,8 @@ class ZValidation {
      * 정수인지 체크
      */
     isInteger(target, callback) {
+        if (this.isEmpty(target)) { return true; }
+
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
@@ -256,6 +260,8 @@ class ZValidation {
      * 문자인지 체크
      */
     isChar(target, callback) {
+        if (this.isEmpty(target)) { return true; }
+
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
@@ -270,6 +276,8 @@ class ZValidation {
      * 특수문자인지 체크
      */
     isSpecialChar(target, callback) {
+        if (this.isEmpty(target)) { return true; }
+
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
@@ -284,6 +292,8 @@ class ZValidation {
      * 이메일 체크
      */
     isEmail(target, callback) {
+        if (this.isEmpty(target)) { return true; }
+
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
@@ -298,6 +308,8 @@ class ZValidation {
      * rgb 체크
      */
     isRgb(target, callback) {
+        if (this.isEmpty(target)) { return true; }
+
         let rtn = true;
         // 유효성 검증
         if (this.isDOMElement(target)) { // DOM 엘리먼트이면 알림창 및 알림메시지 표기
