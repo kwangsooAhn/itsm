@@ -44,6 +44,7 @@ export default class ZDateTimePickerProperty extends ZProperty {
             zDateTimePicker.initDatePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
             break;
         case FORM.DATE_TYPE.TIME_PICKER:
+            zDateTimePicker.initTimePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
             break;
         case FORM.DATE_TYPE.DATETIME_PICKER:
             break;

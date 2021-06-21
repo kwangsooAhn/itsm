@@ -79,15 +79,35 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             case FORM.DATE_TYPE.DATE_PICKER:
                 radioGroup.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
                     .setUIClass(item.value)
+                    .addUIClass('picker')
                     .setUIId('dateProperty')
                     .setUIAttribute('name', this.getKeyId());
                 radioGroup.addUI(radioGroup.UIInput);
 
                 zDateTimePicker.initDatePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
                 break;
-            case FORM.DATE_TYPE.TIME:
+            case FORM.DATE_TYPE.HOURS:
+                radioGroup.UIDiv = new UIDiv().setUIClass('radio-item');
+                radioGroup.addUI(radioGroup.UIDiv);
+
+                radioGroup.UIDiv.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
+                    .setUIAttribute('name', this.getKeyId())
+                    .setUIAttribute('data-validation-type', 'number')
+                    .setUIAttribute('data-validation-max', '1000')
+                    .onUIKeyUp(this.updateProperty.bind(this))
+                    .onUIChange(this.updateProperty.bind(this));
+                radioGroup.UIDiv.addUI(radioGroup.UIDiv.UIInput);
+                radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.hours')));
                 break;
             case FORM.DATE_TYPE.TIME_PICKER:
+                radioGroup.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
+                    .setUIClass(item.value)
+                    .addUIClass('picker')
+                    .setUIId('timeProperty')
+                    .setUIAttribute('name', this.getKeyId());
+                radioGroup.addUI(radioGroup.UIInput);
+
+                zDateTimePicker.initTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
                 break;
             case FORM.DATE_TYPE.DATETIME:
                 break;
@@ -125,7 +145,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
 
         // radio 변경시
         const defaultValue = curRadioElem.getAttribute('data-value'); // none, now, date, datepicker 등
-        if (defaultValue === FORM.DATE_TYPE.DAYS || defaultValue === FORM.DATE_TYPE.TIME ||
+        if (defaultValue === FORM.DATE_TYPE.DAYS || defaultValue === FORM.DATE_TYPE.HOURS ||
             defaultValue === FORM.DATE_TYPE.DATETIME) {
             const inputElems = parentElem.querySelectorAll('input[type=text]');
             let changeValue = '';
@@ -136,7 +156,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
         } else if (defaultValue === FORM.DATE_TYPE.DATE_PICKER ||
             defaultValue === FORM.DATE_TYPE.TIME_PICKER ||
             defaultValue === FORM.DATE_TYPE.DATETIME_PICKER) {
-            const datepickerElem = parentElem.querySelector('.datepicker');
+            const datepickerElem = parentElem.querySelector('.picker');
             this.panel.update.call(this.panel, elem.name, defaultValue + '|' + datepickerElem.value);
         } else {
             this.panel.update.call(this.panel, elem.name, defaultValue);

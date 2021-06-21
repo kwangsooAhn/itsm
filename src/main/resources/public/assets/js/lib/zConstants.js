@@ -42,7 +42,7 @@ export const FORM = {
         NONE: 'none',
         NOW: 'now',
         DAYS: 'date',
-        TIME: 'time',
+        HOURS: 'time',
         DATETIME: 'datetime',
         DATE_PICKER: 'datepicker',
         TIME_PICKER: 'timepicker',
