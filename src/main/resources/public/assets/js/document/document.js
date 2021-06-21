@@ -98,17 +98,17 @@
             const nodeValue = attribute.nodeValue;
             if (nodeValue !== '') {
                 switch (attribute.nodeName) {
-                case 'minlength':
-                case 'maxlength':
+                case 'min-length':
+                case 'max-length':
                     let length = 0;
                     if (element.classList.contains('editor-container')) { // editor
                         length = Quill.find(element).getLength() - 1;
                     } else {
                         length = element.value.length;
                     }
-                    if (attribute.nodeName === 'minlength' && length < Number(nodeValue)) {
+                    if (attribute.nodeName === 'min-length' && length < Number(nodeValue)) {
                         message = i18n.msg('document.msg.lengthMin', nodeValue);
-                    } else if (attribute.nodeName === 'maxlength' && length > Number(nodeValue)) {
+                    } else if (attribute.nodeName === 'max-length' && length > Number(nodeValue)) {
                         message = i18n.msg('document.msg.lengthMax', nodeValue);
                     }
                     break;
