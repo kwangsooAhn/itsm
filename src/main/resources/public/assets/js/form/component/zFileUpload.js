@@ -16,7 +16,7 @@ import { UIDiv } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZLabelProperty from "../../formDesigner/property/type/zLabelProperty.js";
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -75,12 +75,12 @@ export const fileUploadMixin = {
                 isView: false,
                 isForm: true
             }
-        }
+        };
         // 미리보기 시 dropzone 중복을 방지하기 위해 id 재구성
         let validateElem = document.querySelectorAll('#dropZoneFiles-' + this.id);
         if (validateElem.length > 1) {
-            let docDropZoneId = 'dropZoneFiles-' + this.id + '-document'
-            validateElem.item(1).setAttribute('id',docDropZoneId);
+            let docDropZoneId = 'dropZoneFiles-' + this.id + '-document';
+            validateElem.item(1).setAttribute('id', docDropZoneId);
             fileOptions.extra.dropZoneFilesId = docDropZoneId;
         }
         zFileUploader.init(fileOptions);
