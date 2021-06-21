@@ -116,6 +116,7 @@
 // todo: 1 row 1 component 일 경우 dashed border 제거
 .#{$common-prefix}component-tooltip {
   position: relative;
+  flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
   padding: 0.375rem 0.5rem; // 6px 8px
   margin: $component-buffer;
   @include border(0.0625rem, dashed, #D7DBE0, all); // 1px
