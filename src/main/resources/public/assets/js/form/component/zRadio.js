@@ -127,24 +127,26 @@ export const radioMixin = {
     },
     makeRadioButton(object) {
         for (let i = 0; i < this.element.options.length; i++) {
+            let checkedYn = false;
+            if(this._value !== '' && this.element.options[i].value !== '') {
+                checkedYn = this._value === this.element.options[i].value;
+            }
             const radioId = 'radio'
                 + this.id.substr(0, 1).toUpperCase()
                 + this.id.substr(1, this.id.length)
                 + (i + 1);
             object.UILabel = new UILabel()
                 .setUIAttribute('for', radioId)
-                .setUIClass(this.element.align);
-            if (this.element.align == 'vertical' && i != 0) {
-                object.UILabel.addUIClass('mt-5');
-            }
-            object.UILabel.UIRadio = new UIRadioButton()
+                .setUIClass(this.element.align)
+                .addUIClass('radio');
+            object.UILabel.UIRadio = new UIRadioButton(checkedYn)
                 .setUIId(radioId)
                 .setUIAttribute('value', this.element.options[i].value)
                 .setUIAttribute('name', this.id)
                 .onUIClick(this.updateValue.bind(this));
             object.UILabel.UISpan = new UISpan().setUITextContent(this.element.options[i].name);
 
-            if (this.element.position == 'right') {
+            if (this.element.position === 'right') {
                 object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(object.UILabel.UIRadio);
                 object.UILabel.addUI(new UISpan());

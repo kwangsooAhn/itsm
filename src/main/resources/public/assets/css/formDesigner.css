@@ -1110,11 +1110,15 @@ input, button, select, optgroup, textarea {
 
 .vertical {
   display: block;
+  margin-top: 0.625rem;
+}
+.vertical:first-of-type {
+  margin-top: 0;
 }
 
 .horizontal {
   display: inline-block;
-  margin-right: 0.3125rem;
+  margin-right: 0.625rem;
 }
 
 /* _elements.scss 

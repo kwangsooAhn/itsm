@@ -122,21 +122,32 @@ export const checkBoxMixin = {
         return this._validation.required;
     },
     makeCheckbox(object) {
+        let checkedValueList = [];
+        if (this._value.indexOf('|') !== -1) {
+            this._value.split('|').forEach((value) => {
+                checkedValueList.push(value)
+            });
+        }
         for (let i = 0; i < this.element.options.length; i++) {
+            let checkedYn = false;
+            if (this.element.options[i].value !== '') {
+                checkedYn = checkedValueList.indexOf(this.element.options[i].value) !== -1 ? true : false;
+            }
             const checkboxId = 'checkbox'
                 + this.id.substr(0, 1).toUpperCase()
                 + this.id.substr(1, this.id.length)
                 + (i + 1);
             object.UILabel = new UILabel()
                 .setUIAttribute('for', checkboxId)
-                .setUIClass(this.element.align);
-            object.UILabel.UICheckbox = new UICheckbox(false)
+                .setUIClass(this.element.align)
+                .addUIClass('checkbox');
+            object.UILabel.UICheckbox = new UICheckbox(checkedYn)
                 .setUIId(checkboxId)
                 .setUIAttribute('value', this.element.options[i].value)
                 .onUIClick(this.updateValue.bind(this));
             object.UILabel.UISpan = new UISpan().setUITextContent(this.element.options[i].name);
 
-            if (this.element.position == 'right') {
+            if (this.element.position === 'right') {
                 object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(object.UILabel.UICheckbox);
                 object.UILabel.addUI(new UISpan());
@@ -152,14 +163,14 @@ export const checkBoxMixin = {
     },
     updateValue(e) {
         e.stopPropagation();
-        this.value= '';
+        this.value = '';
         e.target.parentNode.parentNode.querySelectorAll('input[type=checkbox]').forEach((element) => {
-            if(element.checked == true){
+            if (element.checked === true) {
                 this.value += element.value + '|';
             }
         });
-        if(this.value.length > 0) {
-            this.value = this.value.substr(0, this.value.length-1);
+        if (this.value.length > 0) {
+            this.value = this.value.substr(0, this.value.length - 1);
         }
     },
     // 세부 속성 조회
