@@ -22,7 +22,7 @@ const propertyExtends = {
 
 export default class ZDefaultValueRadioProperty extends ZProperty {
     constructor(name, value, options) {
-        super(name, 'defaultValueDateProperty', value);
+        super(name, 'defaultValueRadioProperty', value);
 
         this.options = options;
     }

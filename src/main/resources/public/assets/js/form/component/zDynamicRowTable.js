@@ -10,15 +10,15 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import {UIDiv, UITable, UIText} from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import {UIDiv, UITable} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZColumnProperty from '../../formDesigner/property/type/zColumnProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -135,6 +135,29 @@ export const dynamicRowTableMixin = {
         this.value = e.target.value;
     },
     getProperty() {
-        return [];
+        return [
+            ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
+            new ZGroupProperty('group.element')
+                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZColumnProperty('element.options', this.elementOptions)),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
+        ];
+    },
+    // json 데이터 추출 (서버에 전달되는 json 데이터)
+    toJson() {
+        return {
+            id: this._id,
+            type: this._type,
+            display: this._display,
+            isTopic: this._isTopic,
+            mapId: this._mapId,
+            tags: this._tags,
+            value: this._value,
+            label: this._label,
+            element: this._element,
+            validation: this._validation
+        };
     }
 };
