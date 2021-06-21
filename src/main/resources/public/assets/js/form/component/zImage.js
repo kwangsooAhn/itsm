@@ -61,18 +61,7 @@ export const imageMixin = {
             .setUIWidth(this.elementWidth + UNIT.PX)
             .setUIHeight(this.elementHeight + UNIT.PX);
         element.addUI(element.UIImg);
-        // path 추가
-        if (!zValidation.isEmpty(this.elementPath)) {
-            if (this.elementPath.startsWith('file:///')) {
-                aliceJs.fetchJson('/rest/images/' + this.elementPath.split('file:///')[1], {
-                    method: 'GET'
-                }).then((imageData) => {
-                    element.UIImg.setUISrc('data:image/' + imageData.extension + ';base64,' + imageData.data);
-                });
-            } else {
-                element.UIImg.setUISrc(this.elementPath);
-            }
-        }
+
         // placeholder
         element.UIDiv = new UIDiv().setUIClass(CLASS_PREFIX + 'imagebox-placeholder')
             .addUI(new UISpan().setUIClass('icon-no-image'))
@@ -81,7 +70,18 @@ export const imageMixin = {
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+        // path 추가
+        if (!zValidation.isEmpty(this.elementPath) && this.elementPath.startsWith('file:///')) {
+            aliceJs.fetchJson('/rest/images/' + this.elementPath.split('file:///')[1], {
+                method: 'GET'
+            }).then((imageData) => {
+                this.UIElement.UIComponent.UIElement.UIImg.setUISrc('data:image/' + imageData.extension + ';base64,' + imageData.data);
+            });
+        } else {
+            this.UIElement.UIComponent.UIElement.UIImg.setUISrc(this.elementPath);
+        }
+    },
     // set, get
     set element(element) {
         this._element = element;
