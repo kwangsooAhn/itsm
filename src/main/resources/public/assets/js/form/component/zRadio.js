@@ -2,7 +2,7 @@
  * Radio Mixin
  *
  *
- * @author
+ * @author Ahn kwangsoo <ks.ahn@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -121,18 +121,9 @@ export const radioMixin = {
     get validationRequired() {
         return this._validation.required;
     },
-    updateProperty(e) {
+    updateValue(e) {
         e.stopPropagation();
-        e.preventDefault();
-        e.target.parentNode.querySelectorAll('input[type=radio]').forEach((element) => {
-            if (e.target.id == element.id) {
-                console.log(element.id);
-                e.target.checked = true;
-                this.value = e.target.value;
-            } else {
-                element.checked = false;
-            }
-        })
+        this.value = e.target.value;
     },
     makeRadioButton(object) {
         for (let i = 0; i < this.element.options.length; i++) {
@@ -143,19 +134,24 @@ export const radioMixin = {
             object.UILabel = new UILabel()
                 .setUIAttribute('for', radioId)
                 .setUIClass(this.element.align);
+            if (this.element.align == 'vertical' && i != 0) {
+                object.UILabel.addUIClass('mt-5');
+            }
             object.UILabel.UIRadio = new UIRadioButton()
                 .setUIId(radioId)
                 .setUIAttribute('value', this.element.options[i].value)
-                .onUIClick(this.updateProperty.bind(this));
-            object.UILabel.UIRadio.domElement.checked = true;
+                .setUIAttribute('name', this.id)
+                .onUIClick(this.updateValue.bind(this));
             object.UILabel.UISpan = new UISpan().setUITextContent(this.element.options[i].name);
 
             if (this.element.position == 'right') {
                 object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(object.UILabel.UIRadio);
+                object.UILabel.addUI(new UISpan());
                 object.addUI(object.UILabel);
             } else {
                 object.UILabel.addUI(object.UILabel.UIRadio);
+                object.UILabel.addUI(new UISpan());
                 object.UILabel.addUI(object.UILabel.UISpan);
                 object.addUI(object.UILabel);
             }

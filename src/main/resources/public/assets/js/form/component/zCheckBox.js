@@ -130,22 +130,37 @@ export const checkBoxMixin = {
             object.UILabel = new UILabel()
                 .setUIAttribute('for', checkboxId)
                 .setUIClass(this.element.align);
-            object.UILabel.UICheckbox = new UICheckbox(false).setUIId(checkboxId)
+            object.UILabel.UICheckbox = new UICheckbox(false)
+                .setUIId(checkboxId)
+                .setUIAttribute('value', this.element.options[i].value)
+                .onUIClick(this.updateValue.bind(this));
             object.UILabel.UISpan = new UISpan().setUITextContent(this.element.options[i].name);
 
             if (this.element.position == 'right') {
-                object.UILabel.addUI(new UISpan());
                 object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(object.UILabel.UICheckbox);
+                object.UILabel.addUI(new UISpan());
                 object.addUI(object.UILabel);
             } else {
                 object.UILabel.addUI(object.UILabel.UICheckbox);
-                object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(new UISpan());
+                object.UILabel.addUI(object.UILabel.UISpan);
                 object.addUI(object.UILabel);
             }
         }
         return object;
+    },
+    updateValue(e) {
+        e.stopPropagation();
+        this.value= '';
+        e.target.parentNode.parentNode.querySelectorAll('input[type=checkbox]').forEach((element) => {
+            if(element.checked == true){
+                this.value += element.value + '|';
+            }
+        });
+        if(this.value.length > 0) {
+            this.value = this.value.substr(0, this.value.length-1);
+        }
     },
     // 세부 속성 조회
     getProperty() {
