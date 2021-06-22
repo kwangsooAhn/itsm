@@ -6,23 +6,23 @@
  */
 @charset 'utf-8';
 
-@import '../template/reset'; // 상속 불가
-@import '../template/functions'; // 상속 불가
-@import '../template/variables'; // 상속 불가
-@import '../template/mixins'; // 상속 불가
-@import '../template/utilities'; // 상속 불가
-@import 'variables';
-@import 'layout';
-@import 'elements';
-@import 'buttons';
-@import 'alerts';
-@import 'scrollbars';
-@import 'file-uploader';
-@import 'date-picker';
-@import 'text-editor';
-@import 'color-picker';
-@import 'modal';
-@import 'thumbnail';
-@import 'tooltip';
-@import 'form';
-@import 'properties';
+@import '../template/_reset.scss'; // 상속 불가
+@import '../template/_functions.scss'; // 상속 불가
+@import '../template/_variables.scss'; // 상속 불가
+@import '../template/_mixins.scss'; // 상속 불가
+@import '../template/_utilities.scss'; // 상속 불가
+@import '_variables.scss';
+@import '_layout.scss';
+@import '_elements.scss';
+@import '_buttons.scss';
+@import '_alerts.scss';
+@import '_scrollbars.scss';
+@import '_file-uploader.scss';
+@import '_date-picker.scss';
+@import '_text-editor.scss';
+@import '_color-picker.scss';
+@import '_modal.scss';
+@import '_thumbnail.scss';
+@import '_tooltip.scss';
+@import '_form.scss';
+@import '_properties.scss';

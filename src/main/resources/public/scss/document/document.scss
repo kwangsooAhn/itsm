@@ -6,15 +6,15 @@
  */
 @charset "utf-8";
 
-@import '../template/reset';          // 상속 불가
-@import '../template/functions';      // 상속 불가
-@import '../template/variables';      // 상속 불가
-@import '../template/mixins';         // 상속 불가
-@import '../template/utilities';      // 상속 불가
-@import 'variables';
-@import 'layout';
-@import 'elements';
-@import 'print';
-@import 'modal';
-@import 'form';
-@import 'tag';
+@import '../template/_reset.scss';          // 상속 불가
+@import '../template/_functions.scss';      // 상속 불가
+@import '../template/_variables.scss';      // 상속 불가
+@import '../template/_mixins.scss';         // 상속 불가
+@import '../template/_utilities.scss';      // 상속 불가
+@import '_variables.scss';
+@import '_layout.scss';
+@import '_elements.scss';
+@import '_print.scss';
+@import '_modal.scss';
+@import '_form.scss';
+@import '_tag.scss';
