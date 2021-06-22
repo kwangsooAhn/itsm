@@ -862,6 +862,8 @@ select:disabled {
   display: inline-block;
   font-size: 1rem;
   height: 2.5rem;
+  width: 100%;
+  padding: 0 2px;
 }
 .select .select-hidden {
   visibility: hidden;
