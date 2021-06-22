@@ -22,23 +22,23 @@ export default class ZCommonProperty {
 
     getCommonProperty() {
         // mapId
-        const mapIdProperty = new ZInputBoxProperty('mapId', this.target.mapId);
+        const mapIdProperty = new ZInputBoxProperty('mapId', 'mapId', this.target.mapId);
         mapIdProperty.help = 'form.help.mapping-id';
 
         // is topic
-        const isTopicProperty = new ZSwitchProperty('isTopic', this.target.isTopic);
+        const isTopicProperty = new ZSwitchProperty('isTopic', 'isTopic', this.target.isTopic);
         isTopicProperty.help = 'form.help.is-topic';
 
         // tag
-        const tagProperty = new ZTagProperty('tags', this.target.tags);
+        const tagProperty = new ZTagProperty('tags', 'tags', this.target.tags);
 
         return [
-            new ZClipboardProperty('id', this.target.id),
+            new ZClipboardProperty('id', 'id', this.target.id),
             mapIdProperty,
             isTopicProperty,
             tagProperty,
             new ZGroupProperty('group.display')
-                .addProperty(new ZSliderProperty('display.columnWidth', this.target.displayColumnWidth))
+                .addProperty(new ZSliderProperty('displayColumnWidth', 'display.columnWidth', this.target.displayColumnWidth))
         ];
     }
 }

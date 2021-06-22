@@ -21,8 +21,8 @@ const propertyExtends = {
 };
 
 export default class ZDefaultValueRadioProperty extends ZProperty {
-    constructor(name, value, options) {
-        super(name, 'defaultValueRadioProperty', value);
+    constructor(key, name, value, options) {
+        super(key, name, 'defaultValueRadioProperty', value);
 
         this.options = options;
     }
@@ -52,7 +52,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             // 라디오 버튼
             radioGroup.UILabel.UIRadio = new UIRadioButton(defaultValueArray[0] === item.value)
                 .setUIId('radioProperty' + radioId)
-                .setUIAttribute('name', this.getKeyId())
+                .setUIAttribute('name', this.key)
                 .setUIClass('hidden-radio')
                 .setUIAttribute('data-value', item.value)
                 .onUIChange(this.updateProperty.bind(this));
@@ -68,7 +68,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 radioGroup.addUI(radioGroup.UIDiv);
 
                 radioGroup.UIDiv.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
-                    .setUIAttribute('name', this.getKeyId())
+                    .setUIAttribute('name', this.key)
                     .setUIAttribute('data-validation-type', 'number')
                     .setUIAttribute('data-validation-max', '1000')
                     .onUIKeyUp(this.updateProperty.bind(this))
@@ -81,7 +81,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     .setUIClass(item.value)
                     .addUIClass('picker')
                     .setUIId('dateProperty')
-                    .setUIAttribute('name', this.getKeyId());
+                    .setUIAttribute('name', this.key);
                 radioGroup.addUI(radioGroup.UIInput);
 
                 zDateTimePicker.initDatePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
@@ -91,7 +91,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 radioGroup.addUI(radioGroup.UIDiv);
 
                 radioGroup.UIDiv.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
-                    .setUIAttribute('name', this.getKeyId())
+                    .setUIAttribute('name', this.key)
                     .setUIAttribute('data-validation-type', 'number')
                     .setUIAttribute('data-validation-max', '1000')
                     .onUIKeyUp(this.updateProperty.bind(this))
@@ -104,7 +104,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     .setUIClass(item.value)
                     .addUIClass('picker')
                     .setUIId('timeProperty')
-                    .setUIAttribute('name', this.getKeyId());
+                    .setUIAttribute('name', this.key);
                 radioGroup.addUI(radioGroup.UIInput);
 
                 zDateTimePicker.initTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));

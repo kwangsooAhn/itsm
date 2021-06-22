@@ -1098,6 +1098,39 @@ aliceJs.moveObject = function (array, index1, index2) {
     array.splice(index2, 0, array.splice(index1, 1)[0]);
 };
 
+aliceJs.getNodeIndex = function (elem) {
+    let index = 0;
+
+    if (!elem || !elem.parentNode) {
+        return -1;
+    }
+
+    // eslint-disable-next-line no-cond-assign
+    while (elem = elem.previousElementSibling) {
+        if (elem.nodeName.toUpperCase() !== 'TEMPLATE') {
+            index++;
+        }
+    }
+    return index;
+};
+
+aliceJs.swapNode = function (node1, node2) {
+    let p1 = node1.parentNode,
+        p2 = node2.parentNode,
+        i1, i2;
+
+    if (!p1 || !p2 || p1.isEqualNode(node2) || p2.isEqualNode(node1)) return;
+
+    i1 = aliceJs.getNodeIndex(node1);
+    i2 = aliceJs.getNodeIndex(node2);
+
+    if (p1.isEqualNode(p2) && i1 < i2) {
+        i2++;
+    }
+    p1.insertBefore(node2, p1.children[i1]);
+    p2.insertBefore(node1, p2.children[i2]);
+};
+
 /**
  * 비동기 통신 후 Promise 형태로 반환되는 함수
  *

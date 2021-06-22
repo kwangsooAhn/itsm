@@ -165,18 +165,18 @@ export const radioMixin = {
         return [...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZDropdownProperty('element.align', this._element.align, [
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZDropdownProperty('elementAlign', 'element.align', this._element.align, [
                     {name: 'form.properties.align.horizontal', value: 'horizontal'},
                     {name: 'form.properties.align.vertical', value: 'vertical'}
                 ]))
-                .addProperty(new ZSwitchButtonProperty('element.position', this._element.position, [
+                .addProperty(new ZSwitchButtonProperty('elementPosition', 'element.position', this._element.position, [
                     {'name': 'icon-display-position-left', 'value': 'left'},
                     {'name': 'icon-display-position-right', 'value': 'right'},
                 ]))
-                .addProperty(new ZOptionListProperty('element.options', this.elementOptions)),
+                .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions)),
             new ZGroupProperty('group.validation')
-                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
     },
     toJson() {

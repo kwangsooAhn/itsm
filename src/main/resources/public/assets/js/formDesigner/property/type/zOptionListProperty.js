@@ -15,15 +15,15 @@
  */
 import ZProperty from '../zProperty.js';
 import { UIButton, UICell, UICheckbox, UIDiv, UIInput, UIRow, UISpan, UITable } from '../../../lib/zUI.js';
-import { CLASS_PREFIX, FORM } from "../../../lib/zConstants.js";
+import { CLASS_PREFIX, FORM } from '../../../lib/zConstants.js';
 
 const propertyExtends = {
     /* 추가되는 기본 속성외에 속성이 없음 */
 };
 
 export default class ZOptionListProperty extends ZProperty {
-    constructor(name, value) {
-        super(name, 'optionListProperty', value);
+    constructor(key, name, value) {
+        super(key, name, 'optionListProperty', value);
     }
 
     /**
@@ -46,7 +46,7 @@ export default class ZOptionListProperty extends ZProperty {
 
         const optionButtonGroup = new UIDiv().setUIClass('btn-list');
         // 옵션 추가 버튼
-        const addButton = new UIButton() //.setUIId(this.getKeyId())
+        const addButton = new UIButton()
             .addUIClass('ghost-line')
             .addUIClass('btn-option')
             .onUIClick(this.addRow.bind(this));
@@ -54,7 +54,7 @@ export default class ZOptionListProperty extends ZProperty {
         addButton.addUI(plusIcon);
 
         // 옵션 삭제 버튼
-        const removeButton = new UIButton() //.setUIId(this.getKeyId())
+        const removeButton = new UIButton()
             .addUIClass('ghost-line')
             .addUIClass('btn-option')
             .onUIClick(this.removeRow.bind(this));
@@ -118,7 +118,7 @@ export default class ZOptionListProperty extends ZProperty {
         e.preventDefault();
 
         const optionTable = e.target.parentNode.parentNode.parentNode;
-        this.panel.update.call(this.panel, this.getKeyId(), this.getPropertyValue(optionTable));
+        this.panel.update.call(this.panel, this.key, this.getPropertyValue(optionTable));
     }
 
     // 옵션 추가 버튼 클릭 이벤트
@@ -129,7 +129,7 @@ export default class ZOptionListProperty extends ZProperty {
         const optionTable = this.UIElement.UIOptionTable;
         const optionRow = new UIRow(optionTable).setUIClass(CLASS_PREFIX + 'option-table-row');
         optionTable.addUIRow(this.makeRow(optionRow, FORM.DEFAULT_OPTION_ROW));
-        this.panel.update.call(this.panel, this.getKeyId(), this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
+        this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
     }
 
     // 옵션 삭제 버튼 클릭 이벤트
@@ -145,7 +145,7 @@ export default class ZOptionListProperty extends ZProperty {
             }
         }
 
-        this.panel.update.call(this.panel, this.getKeyId(), this.getPropertyValue(optionTable));
+        this.panel.update.call(this.panel, this.key, this.getPropertyValue(optionTable));
     }
 
     // table DOM을 받아서 입력된 옵션 명과 옵션 값을 리스트로 반환

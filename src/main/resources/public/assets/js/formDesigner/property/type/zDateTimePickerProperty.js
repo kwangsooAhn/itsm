@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZDateTimePickerProperty extends ZProperty {
-    constructor(name, value, pickerType) {
-        super(name, 'dateTimePickerProperty', value);
+    constructor(key, name, value, pickerType) {
+        super(key, name, 'dateTimePickerProperty', value);
         this.pickerType = pickerType;
     }
     // DOM Element 생성
@@ -34,7 +34,7 @@ export default class ZDateTimePickerProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
         // inputbox
         this.UIElement.UIInput = new UIInput(this.value)
-            .setUIId(this.getKeyId())
+            .setUIId(this.key)
             .setUIClass(this.pickerType);
 
         this.UIElement.addUI(this.UIElement.UIInput);

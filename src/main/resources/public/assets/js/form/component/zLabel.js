@@ -101,17 +101,17 @@ export const labelMixin = {
     },
     getProperty() {
         // label - text
-        const labelTextProperty = new ZInputBoxProperty('label.text', this.labelText);
+        const labelTextProperty = new ZInputBoxProperty('labelText', 'label.text', this.labelText);
         labelTextProperty.columnWidth = '8';
 
         // label - fontSize
-        const labelFontSizeProperty = new ZInputBoxProperty('label.fontSize', this.labelFontSize)
+        const labelFontSizeProperty = new ZInputBoxProperty('labelFontSize', 'label.fontSize', this.labelFontSize)
             .setValidation(false, 'number', '10', '100', '', '');
         labelFontSizeProperty.unit = UNIT.PX;
         labelFontSizeProperty.columnWidth = '3';
 
         // label - align
-        const labelAlignProperty = new ZSwitchButtonProperty('label.align', this.labelAlign, [
+        const labelAlignProperty = new ZSwitchButtonProperty('labelAlign', 'label.align', this.labelAlign, [
             { 'name': 'icon-align-left', 'value': 'left' },
             { 'name': 'icon-align-center', 'value': 'center' },
             { 'name': 'icon-align-right', 'value': 'right' }
@@ -128,11 +128,11 @@ export const labelMixin = {
             const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             return this['labelFontOption' + method] ? 'Y' : 'N';
         }).join('|');
-        const labelFontOptionProperty = new ZToggleButtonProperty('label.fontOption', labelFontValue, labelFontOption);
+        const labelFontOptionProperty = new ZToggleButtonProperty('labelFontOption', 'label.fontOption', labelFontValue, labelFontOption);
         labelFontOptionProperty.columnWidth = '5';
 
         // label - fontColor
-        const labelFontColorProperty = new ZColorPickerProperty('label.fontColor', this.labelFontColor, false)
+        const labelFontColorProperty = new ZColorPickerProperty('labelFontColor', 'label.fontColor', this.labelFontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
         labelFontColorProperty.columnWidth = '12';
 

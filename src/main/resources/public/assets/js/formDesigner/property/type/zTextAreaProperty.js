@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZTextAreaProperty extends ZProperty {
-    constructor(name, value) {
-        super(name, 'textAreaProperty', value);
+    constructor(key, name, value) {
+        super(key, name, 'textAreaProperty', value);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -33,7 +33,7 @@ export default class ZTextAreaProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
         // textarea
         this.UIElement.UITextArea = new UITextArea()
-            .setUIId(this.getKeyId())
+            .setUIId(this.key)
             .addUIClass('textarea-scroll-wrapper')
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validation.required)

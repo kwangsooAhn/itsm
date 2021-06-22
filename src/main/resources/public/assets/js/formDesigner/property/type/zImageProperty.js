@@ -18,8 +18,8 @@ const propertyExtends = {
 };
 
 export default class ZImageProperty extends ZProperty {
-    constructor(name, value) {
-        super(name, 'imageProperty', value);
+    constructor(key, name, value) {
+        super(key, name, 'imageProperty', value);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -36,7 +36,7 @@ export default class ZImageProperty extends ZProperty {
 
         // input box
         this.UIElement.UIDiv.UIInput = new UIInput()
-            .setUIId(this.getKeyId()).setUIValue(this.value)
+            .setUIId(this.key).setUIValue(this.value)
             .setUIReadOnly(true)
             .onUIFocusout(this.updateProperty.bind(this));
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIInput);
@@ -63,7 +63,7 @@ export default class ZImageProperty extends ZProperty {
     openThumbnailModal() {
         aliceJs.thumbnail({
             title: i18n.msg('image.label.popupTitle'),
-            targetId: this.getKeyId(),
+            targetId: this.key,
             type: 'image',
             isThumbnailInfo: true,
             isFilePrefix: true,

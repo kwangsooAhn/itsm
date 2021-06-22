@@ -196,7 +196,7 @@ class UIInput extends UIElement {
             'keydown',
             function (event) { event.stopPropagation(); },
             false
-            );
+        );
 
         this.setUIValue(text);
     }
@@ -693,31 +693,19 @@ class UITabPanel extends UIElement {
         return this;
     }
 
-    addUITab(id, tabItem, panelItems, index) {
+    addUITab(id, tabItem, panelItem) {
         const tab = new UITab(tabItem, this);
         tab.setUIId(id);
-        if (index === undefined) {
-            this.tabs.push(tab);
-            this.tabsDiv.addUI(tab);
-        } else {
-            this.tabs.splice(index, 0, tab);
-            const nextSibling = this.tabs[index + 1].UIElement.domElement;
-            this.tabsDiv.domElement.insertBefore(this.tab.domElement, nextSibling);
-        }
+        this.tabs.push(tab);
+        this.tabsDiv.addUI(tab);
 
         const panel = new UIDiv();
         panel.setUIId(id);
-        panel.addUI(panelItems);
+        panel.addUI(panelItem);
         panel.setUIDisplay('none');
 
-        if (index === undefined) {
-            this.panels.push(panel);
-            this.panelsDiv.addUI(panel);
-        } else {
-            this.panels.splice(index, 0, panel);
-            const nextSibling = this.panels[index + 1].UIElement.domElement;
-            this.panelsDiv.domElement.insertBefore(this.panel.domElement, nextSibling);
-        }
+        this.panels.push(panel);
+        this.panelsDiv.addUI(panel);
 
         this.selectUITab(id);
     }

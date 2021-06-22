@@ -161,16 +161,16 @@ export const imageMixin = {
         return this._value;
     },
     getProperty() {
-        const elementWidthProperty = new ZInputBoxProperty('element.width', this.elementWidth)
+        const elementWidthProperty = new ZInputBoxProperty('elementWidth', 'element.width', this.elementWidth)
             .setValidation(false, 'number', '0', '', '', '');
         elementWidthProperty.unit = UNIT.PX;
 
-        const elementHeightProperty = new ZInputBoxProperty('element.height', this.elementHeight)
+        const elementHeightProperty = new ZInputBoxProperty('elementHeight', 'element.height', this.elementHeight)
             .setValidation(false, 'number', '0', '', '', '');
         elementHeightProperty.unit = UNIT.PX;
 
         // label - align
-        const elementAlignProperty = new ZSwitchButtonProperty('element.align', this.elementAlign, [
+        const elementAlignProperty = new ZSwitchButtonProperty('elementAlign', 'element.align', this.elementAlign, [
             { 'name': 'icon-align-left', 'value': 'left' },
             { 'name': 'icon-align-center', 'value': 'center' },
             { 'name': 'icon-align-right', 'value': 'right' }
@@ -180,8 +180,8 @@ export const imageMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZImageProperty('element.path', this.elementPath))
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZImageProperty('elementPath', 'element.path', this.elementPath))
                 .addProperty(elementWidthProperty)
                 .addProperty(elementHeightProperty)
                 .addProperty(elementAlignProperty)

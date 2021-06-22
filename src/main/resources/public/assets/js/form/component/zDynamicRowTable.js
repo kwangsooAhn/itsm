@@ -26,7 +26,7 @@ import ZColumnProperty from '../../formDesigner/property/type/zColumnProperty.js
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        options: []
+        columns: []
     },
     validation: {
         required: false // 필수값 여부
@@ -74,11 +74,11 @@ export const dynamicRowTableMixin = {
     get elementColumnWidth() {
         return this._element.columnWidth;
     },
-    set elementOptions(options) {
-        this._element.options = options;
+    set elementColumns(columns) {
+        this._element.columns = columns;
     },
-    get elementOptions() {
-        return this._element.options;
+    get elementColumns() {
+        return this._element.columns;
     },
     set validation(validation) {
         this._validation = validation;
@@ -139,10 +139,10 @@ export const dynamicRowTableMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZColumnProperty('element.options', this.elementOptions)),
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZColumnProperty('elementColumns', 'element.columns', this.elementColumns)),
             new ZGroupProperty('group.validation')
-                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)

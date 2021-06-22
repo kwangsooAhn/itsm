@@ -181,7 +181,7 @@ export const inputBoxMixin = {
 
     getProperty() {
         // validation - validation Type
-        const validationTypeProperty = new ZDropdownProperty('validation.validationType',
+        const validationTypeProperty = new ZDropdownProperty('validationValidationType', 'validation.validationType',
             this.validationValidationType, [
                 {name: 'form.properties.none', value: 'none'},
                 {name: 'form.properties.char', value: 'char'},
@@ -194,14 +194,14 @@ export const inputBoxMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZInputBoxProperty('element.placeholder', this.elementPlaceholder))
-                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZDefaultValueSelectProperty('element.defaultValueSelect', this.elementDefaultValueSelect)),
+                .addProperty(new ZInputBoxProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder))
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZDefaultValueSelectProperty('elementDefaultValueSelect', 'element.defaultValueSelect', this.elementDefaultValueSelect)),
             new ZGroupProperty('group.validation')
                 .addProperty(validationTypeProperty)
-                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
-                .addProperty(new ZInputBoxProperty('validation.minLength', this.validationMinLength))
-                .addProperty(new ZInputBoxProperty('validation.maxLength', this.validationMaxLength))
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
+                .addProperty(new ZInputBoxProperty('validationMinLength', 'validation.minLength', this.validationMinLength))
+                .addProperty(new ZInputBoxProperty('validationMaxLength', 'validation.maxLength', this.validationMaxLength))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)

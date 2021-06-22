@@ -19,7 +19,8 @@ import { MAX_COLUMN_COUNT } from '../../lib/zConstants.js';
 import { UIDiv, UILabel, UISpan } from '../../lib/zUI.js';
 
 export default class ZProperty {
-    constructor(name, type, value) {
+    constructor(key, name, type, value) {
+        this._key = key;
         this._name = 'form.properties.' + name;
         this._type = type;
         this._value = value;
@@ -34,6 +35,13 @@ export default class ZProperty {
             maxLength: '128',
             minLength: ''
         };
+    }
+    get key() {
+        return this._key;
+    }
+
+    set key(key) {
+        this._key = key;
     }
 
     get name() {
@@ -128,14 +136,5 @@ export default class ZProperty {
             label.addUI(label.UITooltip);
         }
         return label;
-    }
-    /**
-     * 세부 속성 키 반환
-     */
-    getKeyId() {
-        const nameArray = this.name.split('.');
-        return (nameArray.length === 3) ? nameArray[2] :
-            nameArray[2] + nameArray[3].substr(0, 1).toUpperCase() +
-            nameArray[3].substr(1, nameArray[3].length);
     }
 }

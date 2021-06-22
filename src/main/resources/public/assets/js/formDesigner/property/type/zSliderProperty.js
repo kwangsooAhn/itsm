@@ -22,8 +22,8 @@ const propertyExtends = {
 };
 
 export default class ZSliderProperty extends ZProperty {
-    constructor(name, value) {
-        super(name, 'sliderProperty', value);
+    constructor(key, name, value) {
+        super(key, name, 'sliderProperty', value);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -37,14 +37,14 @@ export default class ZSliderProperty extends ZProperty {
 
         // slider
         this.UIElement.UISlider = new UISlider(this.value).setUIMin(1).setUIMax(FORM.COLUMN);
-        this.UIElement.UISlider.UIInput.setUIId(this.getKeyId())
+        this.UIElement.UISlider.UIInput.setUIId(this.key)
             .onUIChange(this.updateProperty.bind(this));
         this.UIElement.addUI(this.UIElement.UISlider);
 
         return this.UIElement;
     }
     // 속성 변경시 발생하는 이벤트 핸들러
-    updateProperty(e, panel) {
+    updateProperty(e) {
         e.stopPropagation();
         e.preventDefault();
 
