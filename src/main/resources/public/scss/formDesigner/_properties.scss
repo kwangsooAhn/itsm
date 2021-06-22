@@ -47,7 +47,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    &.copy { width: 100% }
+    .input {
+      width: 100%
+    }
   }
   // input 엘리먼트
   .input {

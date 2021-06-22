@@ -5250,7 +5250,7 @@ body.modal-active {
   flex-direction: row;
   justify-content: space-between;
 }
-.property .clipboard.copy {
+.property .clipboard .input {
   width: 100%;
 }
 .property .input {

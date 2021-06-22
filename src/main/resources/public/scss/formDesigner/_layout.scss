@@ -102,8 +102,12 @@
     overflow-x: hidden;
     overflow-y: auto;
     @include scrollbarHidden;
-    &:not(:empty){ @include border(0.0625rem, solid, $layout-properties-panel-header-border-color, top); }
-    & > .property { padding: 0 0.75rem; }
+    &:not(:empty){
+      @include border(0.0625rem, solid, $layout-properties-panel-header-border-color, top);
+    }
+    & > .property {
+      padding: 0 0.75rem;
+    }
   }
 }
 // 아코디언
