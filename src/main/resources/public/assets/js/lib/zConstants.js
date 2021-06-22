@@ -35,7 +35,7 @@ export const FORM = {
         POSITION: {
             HIDDEN: 'hidden',
             TOP: 'top',
-            LEFT: 'left',
+            LEFT: 'left'
         }
     },
     ELEMENT: {
