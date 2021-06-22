@@ -40,8 +40,8 @@ export default class ZInputBoxProperty extends ZProperty {
             .setUIAttribute('data-validation-type', this.validation.type)
             .setUIAttribute('data-validation-min', this.validation.min)
             .setUIAttribute('data-validation-max', this.validation.max)
-            .setUIAttribute('data-validation-minlength', this.validation.minLength)
-            .setUIAttribute('data-validation-maxlength', this.validation.maxLength)
+            .setUIAttribute('data-validation-min-length', this.validation.minLength)
+            .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .onUIKeyUp(this.updateProperty.bind(this))
             .onUIChange(this.updateProperty.bind(this));
         // 단위 추가

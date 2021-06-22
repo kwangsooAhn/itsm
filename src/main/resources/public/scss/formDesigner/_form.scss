@@ -1,0 +1,289 @@
+/* form, group, row, component 디자인 */
+// 폼
+.#{$common-prefix}form {
+  display: inline-block;
+  min-height: $form-min-height;
+  background-color: $form-bg-color;
+  @include border(0.0625rem, solid, map-get($grays, "line"), all); // 1px
+  box-shadow: $form-box-shadow;
+  & *:focus { outline: none !important; }
+}
+// 그룹 툴팁
+.#{$common-prefix}group-tooltip {
+  position: relative;
+  padding: 0.9375rem; // 15px
+  @include border(0.0625rem, solid, #D7DBE0, all); // 1px
+  @include borderRadius($group-selected-border-radius); // 2px
+  background-color: $white;
+  &.selected {
+    background-color: $group-selected-bg-color;
+    border-color: $group-selected-border-color;
+    > .#{$common-prefix}tooltip-menu { visibility: visible; }
+  }
+  &.focus {
+    background-color: $group-selected-bg-color;
+  }
+  // displayType이 hidden일 경우
+  &.off { display: none; }
+}
+// 그룹
+.#{$common-prefix}group {
+  // 체크 박스
+  &-accordion-checkBox {
+    position: absolute;
+    opacity: 0;
+    z-index: $z-index-hidden;
+  }
+  // 라벨
+  &-label {
+    display: table;
+    width: 100%;
+    min-height: 2.5rem; // 40px
+    padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
+    margin: 0 0 0.9375rem 0; // 0 0 15px 0
+    &.off { display: none; }
+    // 라벨 문구
+    .#{$common-prefix}group-label-text {
+      display: table-cell;
+      vertical-align: middle;
+      opacity: 1;
+    }
+    // 화살표 아이콘
+    .arrow-left {
+      opacity: 0;
+      display: table-cell;
+      @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, map-get($grays, "blue")); // 12px 20px
+    }
+  }
+  // 아코디언 사용중일 경우
+  &.accordion {
+    // 체크박스 선택 = 아코디언 펼침
+    .#{$common-prefix}group-accordion-checkBox:checked {
+      + .#{$common-prefix}group-label {
+        .arrow-left {
+          @include rotate(-90);
+        }
+      }
+      ~ .#{$common-prefix}row-tooltip:not(.off) {
+        display: block;
+      }
+    }
+    // 라벨
+    .#{$common-prefix}group-label {
+      @include border(0.125rem, solid, $group-accordion-border-color, bottom);
+      padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
+      cursor: pointer;
+
+      &.off {
+        display: table;
+        .#{$common-prefix}group-label-text {
+          opacity: 0;
+        }
+      }
+
+      .#{$common-prefix}group-label-text {
+        padding-right: 0.625rem; // 10px
+      }
+
+      .arrow-left {
+        opacity: 1;
+      }
+    }
+
+    // row
+    .#{$common-prefix}row-tooltip {
+      display: none;
+      @include transition(all 0.25s ease-out);
+    }
+  }
+}
+// row 툴팁
+.#{$common-prefix}row-tooltip {
+  position: relative;
+  @include border(0.0625rem, solid, #D7DBE0, all); // 1px
+  @include borderRadius($row-selected-border-radius);
+  background-color: transparent;
+  &.selected {
+    border-color: $row-selected-border-color;
+    background-color: $row-selected-bg-color;
+    > .#{$common-prefix}tooltip-menu { visibility: visible; }
+  }
+  // displayType이 hidden일 경우
+  &.off { display: none; }
+}
+
+// component 툴팁
+// todo: 1 row 1 component 일 경우 dashed border 제거
+.#{$common-prefix}component-tooltip {
+  position: relative;
+  flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
+  padding: 0.375rem 0.5rem; // 6px 8px
+  margin: $component-gutter;
+  @include border(0.0625rem, dashed, #D7DBE0, all); // 1px
+  @include borderRadius(0.0625rem); // 2px
+  background-color: transparent;
+  &.selected {
+    @include border(0.0625rem, solid, $component-selected-border-color, all); // 1px
+    background-color: $component-selected-bg-color;
+    >.#{$common-prefix}tooltip-menu { visibility: visible; }
+
+    // component
+    .#{$common-prefix}component {
+      // element
+      .#{$common-prefix}element {
+        // image 컴포넌트
+        .#{$common-prefix}imagebox-placeholder {
+          background-color: $component-selected-imagebox-bg-color;
+        }
+      }
+    }
+  }
+  // displayType이 hidden일 경우
+  &.off { display: none; }
+}
+// component
+.#{$common-prefix}component {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  // label
+  .#{$common-prefix}component-label {
+    flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
+    padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
+    &.on { display: block; }
+    &.off { display: none; }
+  }
+  // element
+  .#{$common-prefix}element {
+    flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
+    padding: 0.4375rem 0; // 7px 0
+
+    // inputBox
+    .input {
+      width: 100%;
+      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+      @include borderRadius(0.0625rem); // 2px
+    }
+    // textArea
+    .textArea {
+      width: 100%;
+      height: calc(2.5rem * var(--data-row));
+    }
+    // text editor
+    .#{$common-prefix}text-editor {
+      height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
+    }
+    // image 컴포넌트
+    .#{$common-prefix}imagebox-placeholder {
+      display: none;
+      height: 8.75rem; // 140px
+      font-size: $component-imagebox-font-size;
+      font-weight: $component-imagebox-font-weight;
+      color: $component-imagebox-font-color;
+      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+      background-color: $component-imagebox-bg-color;
+      text-align: center;
+      padding: 1.875rem 0 0.625rem; // 30px 0 10px 0
+      .icon-no-image {
+        display: inline-block;
+        @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, map-get($grays, 'pressed')); // 45px
+      }
+    }
+    .#{$common-prefix}imagebox {
+      width: 100%;
+      height: 100%;
+      &[src=''] {
+        display: none;
+        + .#{$common-prefix}imagebox-placeholder {
+          display: block;
+        }
+      }
+    }
+
+    // CI 컴포넌트
+    .#{$common-prefix}ci-table {
+      width: 100%;
+      background-color: $component-ciTable-bg-color;
+      tr {
+        td {
+          display: none;
+          padding: $element-indent;
+          @include border(0.0625rem, solid, $component-ciTable-border-color, top, left);
+          @include border(0.0625rem, solid, $component-ciTable-border-color, bottom, right);
+
+          &.on { display: table-cell; }
+          //&.first-column { @include border(0.0625rem, solid, transparent, left); }
+          //&.last-column { @include border(0.0625rem, solid, transparent, right); }
+          .btn { padding: 0; }
+        }
+      }
+      // 제목
+      .#{$common-prefix}ci-table-header {
+        background-color: $component-ciTable-header-bg-color;
+        td {
+          color: $component-ciTable-header-font-color;
+          font-weight: $component-ciTable-header-font-weight;
+        }
+      }
+      // 데이터 없음
+      .no-data-found-list {
+        color: $component-ciTable-noData-font-color;
+        background-color: $component-ciTable-noData-bg-color;
+        pointer-events: none;
+      }
+    }
+
+    // time, date, datepicker 컴포넌트
+    .picker-wrapper-date {
+      .datepicker {
+        width: 100%;
+      }
+    }
+  }
+}
+// label
+.#{$common-prefix}component { // 필수값 숨김
+  .#{$common-prefix}component-label {
+    .required {
+      &.off { display: none; }
+      &.on { display: inline; }
+    }
+  }
+}
+// tooptip
+.#{$common-prefix}tooltip-menu {
+  visibility: hidden;
+  position: absolute;
+  background-color: $tooltip-menu-bg-color;
+  height: 2.5rem; // 40px;
+  box-shadow: 0 0 0 0.0625rem $tooltip-menu-border-color inset; // 1px
+  bottom: 100%;
+  right: -0.0625rem; // -1px
+  .#{$common-prefix}tooltip-menu-items {
+    margin: 0 0.125rem; // 0 2px
+    padding: 0.5625rem 0 0; // 9px 0 0 0
+    .#{$common-prefix}tooltip-menu-item {
+      display: inline-block;
+      margin: 0 0.25rem; // 0 4px
+      padding: 0 0.5rem; // 0 8px
+      cursor: pointer;
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        pointer-events: none;
+        &.icon-copy {
+          @include maskImage('#{$icon-folder-path}formDesigner/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center, null, $tooltip-menu-icon-color); // 20px 20px
+        }
+        &.icon-remove {
+          @include maskImage('#{$icon-folder-path}formDesigner/tooltip/icon_remove.svg', 1.25rem, 1.25rem, no-repeat, center, null, $tooltip-menu-icon-color); // 20px 20px
+        }
+      }
+      &:hover {
+        .icon {
+          background: $tooltip-menu-focus-bg-color;
+        }
+      }
+    }
+  }
+}

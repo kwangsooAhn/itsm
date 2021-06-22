@@ -56,8 +56,8 @@ export const dateMixin = {
             .setUIRequired(this.validationRequired)
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validationRequired)
-            .setUIAttribute('data-validation-maxdate', this.validationMaxDate)
-            .setUIAttribute('data-validation-mindate', this.validationMinDate);
+            .setUIAttribute('data-validation-max-date', this.validationMaxDate)
+            .setUIAttribute('data-validation-min-date', this.validationMinDate);
         element.addUI(element.UIDate);
         return element;
     },
@@ -109,14 +109,14 @@ export const dateMixin = {
     },
     set validationMinDate(min) {
         this._validation.minDate = min;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-mindate', min);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-min-date', min);
     },
     get validationMinDate() {
         return this._validation.minDate;
     },
     set validationMaxDate(max) {
         this._validation.maxDate = max;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-maxdate', max);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-max-date', max);
     },
     get validationMaxDate() {
         return this._validation.maxDate;

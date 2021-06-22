@@ -456,14 +456,14 @@ class ZValidation {
             rtn = this.emit('max', target, target.getAttribute('data-validation-max'));
         }
 
-        if (rtn && target.hasAttribute('data-validation-minlength') &&
-            target.getAttribute('data-validation-minlength') !== '') {
-            rtn = this.emit('minLength', target, target.getAttribute('data-validation-minlength'));
+        if (rtn && target.hasAttribute('data-validation-min-length') &&
+            target.getAttribute('data-validation-min-length') !== '') {
+            rtn = this.emit('minLength', target, target.getAttribute('data-validation-min-length'));
         }
 
-        if (rtn && target.hasAttribute('data-validation-maxlength') &&
-            target.getAttribute('data-validation-maxlength') !== '') {
-            rtn = this.emit('maxLength', target, target.getAttribute('data-validation-maxlength'));
+        if (rtn && target.hasAttribute('data-validation-max-length') &&
+            target.getAttribute('data-validation-max-length') !== '') {
+            rtn = this.emit('maxLength', target, target.getAttribute('data-validation-max-length'));
         }
         return rtn;
     }

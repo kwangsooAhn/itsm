@@ -38,8 +38,8 @@ export default class ZTextAreaProperty extends ZProperty {
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validation.required)
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))
-            .setUIAttribute('data-validation-minlength', this.validation.minLength)
-            .setUIAttribute('data-validation-maxlength', this.validation.maxLength)
+            .setUIAttribute('data-validation-min-length', this.validation.minLength)
+            .setUIAttribute('data-validation-max-length', this.validation.maxLength)
             .onUIChange(this.updateProperty.bind(this));
         this.UIElement.addUI(this.UIElement.UITextArea);
 

@@ -26,9 +26,9 @@ import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        position: 'left',
+        position: FORM.ELEMENT.POSITION.LEFT,
         columnWidth: 10,
-        align: 'horizontal',
+        align: FORM.ELEMENT.ALIGN.HORIZONTAL,
         options: [FORM.DEFAULT_OPTION_ROW]
     },
     validation: {
@@ -122,30 +122,48 @@ export const checkBoxMixin = {
         return this._validation.required;
     },
     makeCheckbox(object) {
+        const checkedValueList = this.value.split('|');
         for (let i = 0; i < this.element.options.length; i++) {
+            let checkedYn = false;
+            if (this.element.options[i].value !== '') {
+                checkedYn = checkedValueList.indexOf(this.element.options[i].value) !== -1 ? true : false;
+            }
             const checkboxId = 'checkbox'
                 + this.id.substr(0, 1).toUpperCase()
                 + this.id.substr(1, this.id.length)
                 + (i + 1);
             object.UILabel = new UILabel()
-                .setUIAttribute('for', checkboxId)
-                .setUIClass(this.element.align);
-            object.UILabel.UICheckbox = new UICheckbox(false).setUIId(checkboxId)
+                .setUIFor(checkboxId)
+                .setUIClass(this.element.align)
+                .addUIClass('checkbox');
+            object.UILabel.UICheckbox = new UICheckbox(checkedYn)
+                .setUIId(checkboxId)
+                .setUIAttribute('value', this.element.options[i].value)
+                .onUIClick(this.updateValue.bind(this));
             object.UILabel.UISpan = new UISpan().setUITextContent(this.element.options[i].name);
 
-            if (this.element.position == 'right') {
-                object.UILabel.addUI(new UISpan());
+            if (this.element.position === FORM.ELEMENT.POSITION.RIGHT) {
                 object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(object.UILabel.UICheckbox);
+                object.UILabel.addUI(new UISpan());
                 object.addUI(object.UILabel);
             } else {
                 object.UILabel.addUI(object.UILabel.UICheckbox);
-                object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(new UISpan());
+                object.UILabel.addUI(object.UILabel.UISpan);
                 object.addUI(object.UILabel);
             }
         }
         return object;
+    },
+    updateValue(e) {
+        e.stopPropagation();
+        this.value = '';
+        e.target.parentNode.parentNode.querySelectorAll('input[type=checkbox]').forEach((element) => {
+            if (element.checked) {
+                this.value += (this.value === '' ? '' : '|') + element.value;
+            }
+        });
     },
     // 세부 속성 조회
     getProperty() {

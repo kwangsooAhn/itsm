@@ -1,0 +1,340 @@
+@import '../../template/modal';
+
+.modal-dialog {
+  &.scheduler-list-modal {
+    width: $scheduler-modal-width;
+    height: $scheduler-modal-height;
+    .modal-content {
+      height: calc(#{$scheduler-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 1.25rem; // 20px
+
+      .table-set {
+        margin-top: 2.188rem; // 35px
+        table {
+          width: 100%;
+          .list-head {
+            tr {
+              @include border(0.125rem, solid, map-get($grays, "default"), bottom);
+              color: map-get($blacks, "light");
+            }
+          }
+          .list-body {
+            display: block;
+            width: 60rem; // 960px
+            height: 21.75rem; // 348px
+            color: map-get($grays, "dark");
+            overflow-y: auto;
+            .list-row {
+              display: table;
+              width: 100%;
+              height: 2.125rem; // 34px
+              line-height: 2.125rem; // 24px
+              & > td {
+                display: inline-block; // 말줄임 적용을 위해 추가
+                max-width: 22.5rem; // 360px 에러 메시지 말줄임
+                vertical-align: middle;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 트리 모달
+  &.tree {
+    width: $tree-modal-width;
+    height: $tree-modal-height;
+
+    .modal-content {
+      height: calc(#{$tree-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 1.125rem 0 0 1.25rem;
+      div {
+        height: 100%;
+        label {
+          font-weight: $font-weight-regular;
+        }
+        li {
+          &:last-child:before {
+            background-color: $modal-bg-color;
+          }
+        }
+      }
+    }
+  }
+  // 폼 / 프로세스 IMPORT 모달
+  &.form-import, &.process-import {
+    width: $import-modal-width;
+    height: $import-modal-height;
+
+    .modal-content {
+      height: calc(#{$import-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
+    }
+  }
+  // 폼 / 프로세스 등록 / 수정 모달
+  &.form-edit, &.process-edit {
+    width: $modal-edit-width;
+    height: $modal-edit-height;
+
+    .modal-content {
+      height: calc(#{$modal-edit-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+    }
+  }
+
+  // 업무 흐름 등록 / 수정 모달
+  &.document-edit {
+    width: $document-edit-modal-width;
+    height: $document-edit-modal-height;
+
+    .modal-content {
+      height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 1.25rem; // 20px
+      overflow: hidden;
+
+      .workflow-content {
+        width: calc(#{$document-edit-modal-width} - 2.5rem); // 너비에서 여백만큼 빼준다.
+        height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 2.5rem); // 높이에서 여백만큼 빼준다.
+        padding: 0 1.25rem; // 0 20px
+        overflow-y: auto;
+      }
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
+      // 신청서 아이콘
+      .document-icon-content {
+        display: none;
+
+        &.on { display: block; }
+      }
+    }
+  }
+
+  // 업무 흐름 신청서 양식 편집 모달
+  &.document-display {
+    width: $document-display-modal-width;
+    height: $document-display-modal-height;
+
+    .modal-content {
+      height: calc(#{$document-display-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 1.25rem; // 20px
+      overflow: hidden;
+
+      .document-display-content {
+        width: calc(#{$document-display-modal-width} - 2.5rem); // 너비에서 여백만큼 빼준다.
+        height: calc(#{$document-display-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 2.5rem); // 높이에서 여백만큼 빼준다.
+        padding: 0 1.25rem; // 0 20px
+        overflow-y: auto;
+
+        table {
+          tr {
+            th, td {
+              font-weight: $font-weight-regular;
+              font-size: 1rem; // 16px
+              padding: 0 1.5rem 0.625rem 0; // 0 24px 10px 0
+            }
+            th {
+              &.column-title {
+                vertical-align: bottom;
+                padding-bottom: 0.625rem; // 10px
+              }
+              width: 6.25rem; // 100px
+              min-width: 6.25rem; // 100px
+            }
+          }
+        }
+      }
+    }
+  }
+  // 관련문서 모달
+  // CMDB > Class > AttributeList 모달
+  &.cmdb-class-attribute-modal,
+  &.token-list {
+    width: $token-list-modal-width;
+    height: $token-list-modal-height;
+
+    .modal-content {
+      height: calc(#{$token-list-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+
+      // 관련문서 목록
+      // CMDB > Class > AttributeList 목록
+      .cmdb-class-attribute-list,
+      .related-instance-list {
+        margin-top: 0.9375rem; // 15px
+        .table-set {
+          margin-top: 2.188rem; // 35px
+          table {
+            width: 100%;
+            .list-head {
+              tr {
+                color: map-get($blacks, "light");
+                @include border(0.125rem, solid, map-get($grays, "default"), bottom);
+              }
+            }
+            .list-body {
+              display: block;
+              width: 60rem; // 960px
+              height: 32.8125rem; // 525px
+              color: map-get($grays, "dark");
+              overflow-y: auto;
+              .attribute-list,
+              .instance-list {
+                display: table;
+                width: 100%;
+                height: 3.125rem; // 50px
+                line-height: 3.125rem; // 50px
+                & > td {
+                  display: inline-block; // 말줄임 적용을 위해 추가
+                  vertical-align: middle;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  // 사용자 정의 차트 모달
+  &.chart-edit-modal {
+    width: $chart-edit-modal-width;
+    height: $chart-edit-modal-height;
+    .modal-content {
+      height: calc(#{$chart-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+      overflow: hidden;
+
+      .chart-edit-content {
+        width: calc(#{$chart-edit-modal-width} - 2.5rem); // 너비에서 여백만큼 빼준다.
+        height: calc(#{$chart-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 높이에서 여백만큼 빼준다.
+        padding: 0 1.25rem; // 0 20px
+        overflow-y: auto;
+      }
+    }
+  }
+  // 사용자 정의 차트 미리보기
+  &.chart-view-modal {
+    width: $token-list-modal-width;
+    .modal-content {
+      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+      height: auto;
+    }
+  }
+  // CI 조회 CI 상세보기
+  &.cmdb-ci-view-modal {
+    width: $cmdb-ci-modal-width;
+    height: $cmdb-ci-modal-height;
+
+    .modal-content {
+      height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 1.25rem; // 20px
+
+      .cmdb-ci-content-edit {
+        height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
+        .edit-form { padding: 0 2.5rem; } // 40px
+
+        .edit-row { margin-top: 0.625rem; } // 10px
+        .field-label { margin: 0.625rem 0; } // 10px 0
+
+        // 세부 속성
+        .attribute-group {
+          background-color: map-get($grays, "light");
+          padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
+          @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+          @include borderRadius(0.0625rem); // 1px
+          margin-bottom: 0.625rem; // 10px
+        }
+      }
+      // TODO: UX팀 디자인 작업 후 변경 예정
+      .cmdb-ci-content-view {
+        height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
+        .view-form { padding: 0 2.5rem; } // 40px
+
+        .view-row {  margin-top: 0.625rem; } // 10px
+        .field-label { margin: 0.625rem 0; } // 10px 0
+
+        // 세부 속성
+        .attribute-group {
+          background-color: map-get($grays, "light");
+          padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
+          @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+          @include borderRadius(0.0625rem); // 1px
+          margin-bottom: 0.625rem; // 10px
+        }
+
+        // todo: 변경 이력 임시 디자인(##10126)
+        .ci-list {
+          table {
+            width: 100%;
+            .list-head {
+              tr {
+                color: map-get($blacks, "light");
+                @include border(0.125rem, solid, map-get($grays, "default"), bottom);
+              }
+            }
+            .list-body {
+              display: block;
+              color: map-get($grays, "dark");
+              overflow-y: auto;
+              .list-row {
+                display: table;
+                width: 100%;
+                height: 3.125rem; // 50px
+                line-height: 3.125rem; // 50px
+                & > td {
+                  display: inline-block; // 말줄임 적용을 위해 추가
+                  vertical-align: middle;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .table-set {
+        margin-top: 2.188rem; // 35px
+        table {
+          width: 100%;
+          .list-head {
+            tr {
+              color: map-get($blacks, "light");
+              @include border(0.125rem, solid, map-get($grays, "default"), bottom);
+            }
+          }
+          .list-body {
+            display: block;
+            width: 60rem; // 960px
+            height: 32.8125rem; // 525px
+            color: map-get($grays, "dark");
+            overflow-y: auto;
+            .list-row {
+              display: table;
+              width: 100%;
+              height: 3.125rem; // 50px
+              line-height: 3.125rem; // 50px
+              & > td {
+                display: inline-block; // 말줄임 적용을 위해 추가
+                vertical-align: middle;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
