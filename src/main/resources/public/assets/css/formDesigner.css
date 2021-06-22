@@ -765,6 +765,12 @@ input, button, select, optgroup, textarea {
   display: none;
   /* Chrome, Safari, Opera*/
 }
+.form-properties-panel:not(:empty) {
+  border-top: 0.0625rem solid #D7DBE0;
+}
+.form-properties-panel > .property {
+  padding: 0 0.75rem;
+}
 
 .component-accordion-box .component-accordion {
   width: 100%;
@@ -5239,14 +5245,19 @@ body.modal-active {
 .property .box-model .input {
   width: 4.375rem;
 }
+.property .clipboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.property .clipboard.copy {
+  width: 100%;
+}
 .property .input {
   width: 100%;
   padding: 0 1rem;
   font-size: 0.875rem;
   vertical-align: middle;
-}
-.property .input.copy {
-  width: 18.38rem;
 }
 .property .input.icon-unit-search {
   background: url("../media/icons/formDesigner/unit/icon_unit_search.svg") no-repeat 97% 50%;

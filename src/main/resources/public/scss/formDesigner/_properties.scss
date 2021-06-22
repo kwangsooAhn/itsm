@@ -42,16 +42,19 @@
       width: 4.375rem; // 70px
     }
   }
+  // clipboard 엘리먼트
+  .clipboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    &.copy { width: 100% }
+  }
   // input 엘리먼트
   .input {
     width: 100%;
     padding: 0 1rem; // 0 16px
     font-size: $property-font-size;
     vertical-align: middle;
-    // clipboard
-    &.copy {
-      width: 18.38rem; // 294px
-    }
 
     &.icon-unit-search {
       background: url($icon-folder-path + "formDesigner/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
