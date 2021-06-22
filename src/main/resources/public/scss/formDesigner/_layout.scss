@@ -9,7 +9,7 @@
  *                - form-properties-panel : 세부속성
  */
 // 폼 양식
-.form {
+.#{$common-prefix}form {
   &-container {
     @include container;
   }

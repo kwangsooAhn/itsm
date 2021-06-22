@@ -646,11 +646,11 @@ input, button, select, optgroup, textarea {
  *                - form-properties-panel-header: 세부 속성 제목
  *                - form-properties-panel : 세부속성
  */
-.form-container {
+.z-form-container {
   max-width: 120rem;
   margin: 0 auto;
 }
-.form-header {
+.z-form-header {
   position: fixed;
   top: 0;
   right: 0;
@@ -664,18 +664,18 @@ input, button, select, optgroup, textarea {
   background-color: #0098FF;
   z-index: 100;
 }
-.form-header .logo {
+.z-form-header .logo {
   width: 12.5rem;
   padding: 0 0.75rem;
 }
-.form-header .name {
+.z-form-header .name {
   font-size: 1.125rem;
 }
-.form-header .buttons {
+.z-form-header .buttons {
   width: 20rem;
   padding: 0 0.75rem;
 }
-.form-header .buttons .dropdown-content {
+.z-form-header .buttons .dropdown-content {
   visibility: hidden;
   background-color: white;
   color: #33ADFF;
@@ -686,20 +686,20 @@ input, button, select, optgroup, textarea {
   z-index: 500;
   box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.5);
 }
-.form-header .buttons .dropdown-item {
+.z-form-header .buttons .dropdown-item {
   padding: 0.6875rem 0.875rem;
 }
-.form-header .buttons .dropdown-item:hover {
+.z-form-header .buttons .dropdown-item:hover {
   background-color: rgba(235, 235, 235, 0.3);
 }
-.form-header .buttons .btn-dropdown:hover > .dropdown-content {
+.z-form-header .buttons .btn-dropdown:hover > .dropdown-content {
   visibility: visible;
   display: block;
 }
-.form-header .buttons .btn-dropdown:hover:last-child > .dropdown-content {
+.z-form-header .buttons .btn-dropdown:hover:last-child > .dropdown-content {
   right: 0.75rem;
 }
-.form-component-palette {
+.z-form-component-palette {
   position: fixed;
   top: 3.125rem;
   left: 0;
@@ -710,7 +710,7 @@ input, button, select, optgroup, textarea {
   box-shadow: 0.0625rem 0 0.4375rem 0 rgba(204, 206, 209, 0.15);
   overflow: hidden;
 }
-.form-main {
+.z-form-main {
   position: fixed;
   top: 3.125rem;
   right: 18.75rem;
@@ -725,11 +725,11 @@ input, button, select, optgroup, textarea {
   scrollbar-width: none;
   /* Firefox */
 }
-.form-main::-webkit-scrollbar {
+.z-form-main::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
-.form-properties-panel-header {
+.z-form-properties-panel-header {
   position: fixed;
   top: 3.125rem;
   right: 0;
@@ -741,7 +741,7 @@ input, button, select, optgroup, textarea {
   background-color: #ffffff;
   padding: 0.625rem 0.75rem;
 }
-.form-properties-panel {
+.z-form-properties-panel {
   position: fixed;
   top: calc(3.125rem + 2.5rem);
   right: 0;
@@ -761,14 +761,14 @@ input, button, select, optgroup, textarea {
   scrollbar-width: none;
   /* Firefox */
 }
-.form-properties-panel::-webkit-scrollbar {
+.z-form-properties-panel::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
-.form-properties-panel:not(:empty) {
+.z-form-properties-panel:not(:empty) {
   border-top: 0.0625rem solid #D7DBE0;
 }
-.form-properties-panel > .property {
+.z-form-properties-panel > .property {
   padding: 0 0.75rem;
 }
 
