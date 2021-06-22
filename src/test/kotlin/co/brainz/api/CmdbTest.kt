@@ -26,7 +26,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("API Token Test")
