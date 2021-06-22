@@ -108,7 +108,7 @@ $row-selected-border-radius:                       0.125rem; // 2px
 $row-selected-bg-color:                            map-get($form-blues, "focus");
 
 ////////////////////////// components /////////////////////////
-$component-buffer:                                 0.5rem; // 8px
+$component-gutter:                                 0.5rem; // 8px
 $component-selected-border-color:                  map-get($blues, "light");
 $component-selected-bg-color:                      map-get($form-blues, "focus");
 

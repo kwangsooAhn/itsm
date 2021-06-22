@@ -118,7 +118,7 @@
   position: relative;
   flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
   padding: 0.375rem 0.5rem; // 6px 8px
-  margin: $component-buffer;
+  margin: $component-gutter;
   @include border(0.0625rem, dashed, #D7DBE0, all); // 1px
   @include borderRadius(0.0625rem); // 2px
   background-color: transparent;
