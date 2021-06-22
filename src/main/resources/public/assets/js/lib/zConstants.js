@@ -38,6 +38,16 @@ export const FORM = {
             LEFT: 'left'
         }
     },
+    ELEMENT: {
+        ALIGN: {
+            VERTICAL: 'vertical',
+            HORIZONTAL: 'horizontal'
+        },
+        POSITION: {
+            LEFT: 'left',
+            RIGHT: 'right'
+        }
+    },
     DATE_TYPE: {
         NONE: 'none',
         NOW: 'now',
