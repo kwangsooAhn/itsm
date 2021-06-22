@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZSwitchButtonProperty extends ZProperty {
-    constructor(name, value, options) {
-        super(name, 'switchButtonProperty', value);
+    constructor(key, name, value, options) {
+        super(key, name, 'switchButtonProperty', value);
 
         this.options = options;
     }
@@ -40,7 +40,7 @@ export default class ZSwitchButtonProperty extends ZProperty {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
-                .setUIId(this.getKeyId())
+                .setUIId(this.key)
                 .setUIAttribute('data-value', item.value)
                 .addUIClass('btn-switch')
                 .onUIClick(this.updateProperty.bind(this));

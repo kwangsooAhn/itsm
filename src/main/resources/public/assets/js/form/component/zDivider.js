@@ -121,16 +121,16 @@ export const dividerMixin = {
     },
     getProperty() {
         // element - thickness
-        const thicknessProperty = new ZInputBoxProperty('element.thickness', this.elementThickness)
+        const thicknessProperty = new ZInputBoxProperty('elementThickness', 'element.thickness', this.elementThickness)
             .setValidation(false, 'number', '0', '20', '', '');
         thicknessProperty.unit = UNIT.PX;
 
         // element - color
-        const colorProperty = new ZColorPickerProperty('element.color', this.elementColor, false)
+        const colorProperty = new ZColorPickerProperty('elementColor', 'element.color', this.elementColor, false)
             .setValidation(false, 'hex', '', '', '', '25');
 
         // element - Type
-        const typeProperty = new ZDropdownProperty('element.type',
+        const typeProperty = new ZDropdownProperty('elementType', 'element.type',
             this.elementType, [
                 { name: 'form.properties.lineType.line', value: 'solid' },
                 { name: 'form.properties.lineType.dot', value: 'dotted' },

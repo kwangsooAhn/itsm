@@ -166,7 +166,7 @@ export const timeMixin = {
         this.value = e.value;
     },
     getProperty() {
-        const defaultValueRadioProperty = new ZDefaultValueRadioProperty('element.defaultValueRadio',
+        const defaultValueRadioProperty = new ZDefaultValueRadioProperty('elementDefaultValueRadio', 'element.defaultValueRadio',
             this.elementDefaultValueRadio,
             [
                 { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
@@ -178,12 +178,12 @@ export const timeMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(defaultValueRadioProperty),
             new ZGroupProperty('group.validation')
-                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
-                .addProperty(new ZDateTimePickerProperty('validation.minTime', this.validationMinTime, FORM.DATE_TYPE.TIME_PICKER))
-                .addProperty(new ZDateTimePickerProperty('validation.maxTime', this.validationMaxTime, FORM.DATE_TYPE.TIME_PICKER))
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
+                .addProperty(new ZDateTimePickerProperty('validationMinTime', 'validation.minTime', this.validationMinTime, FORM.DATE_TYPE.TIME_PICKER))
+                .addProperty(new ZDateTimePickerProperty('validationMaxTime', 'validation.maxTime', this.validationMaxTime, FORM.DATE_TYPE.TIME_PICKER))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)

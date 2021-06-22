@@ -247,31 +247,31 @@ export default class ZForm {
     // 세부 속성
     getProperty() {
         // display 속성 - width
-        const displayWidthProperty = new ZInputBoxProperty('display.width', this.displayWidth)
+        const displayWidthProperty = new ZInputBoxProperty('displayWidth', 'display.width', this.displayWidth)
             .setValidation(true, 'number', '0', '8192', '', '');
         displayWidthProperty.unit = UNIT.PX;
 
         // display 속성 - margin
-        const displayMarginProperty = new ZBoxModelProperty('display.margin', this.displayMargin)
+        const displayMarginProperty = new ZBoxModelProperty('displayMargin', 'display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
         displayMarginProperty.unit = UNIT.PX;
 
         // display 속성 - padding
-        const displayPaddingProperty = new ZBoxModelProperty('display.padding', this.displayPadding)
+        const displayPaddingProperty = new ZBoxModelProperty('displayPadding', 'display.padding', this.displayPadding)
             .setValidation(false, 'number', '0', '100', '', '');
         displayPaddingProperty.unit = UNIT.PX;
 
         return [
-            new ZClipboardProperty('id', this.id),
-            new ZInputBoxProperty('name', this.name).setValidation(true, '', '', '', '', '128'),
-            new ZTextAreaProperty('desc', this.desc).setValidation(false, '', '', '', '', '512'),
-            new ZDropdownProperty('status', this.status, [
+            new ZClipboardProperty('id', 'id', this.id),
+            new ZInputBoxProperty('name', 'name', this.name).setValidation(true, '', '', '', '', '128'),
+            new ZTextAreaProperty('desc', 'desc', this.desc).setValidation(false, '', '', '', '', '512'),
+            new ZDropdownProperty('status', 'status', this.status, [
                 { 'name': 'form.status.edit', 'value': 'form.status.edit' },
                 { 'name': 'form.status.publish', 'value': 'form.status.publish' },
                 { 'name': 'form.status.use', 'value': 'form.status.use' },
                 { 'name': 'form.status.destroy', 'value': 'form.status.destroy'}
             ]),
-            new ZGroupProperty('group._display')
+            new ZGroupProperty('group.display')
                 .addProperty(displayWidthProperty)
                 .addProperty(displayMarginProperty)
                 .addProperty(displayPaddingProperty)

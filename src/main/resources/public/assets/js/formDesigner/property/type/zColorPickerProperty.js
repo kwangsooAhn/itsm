@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZColorPickerProperty extends ZProperty {
-    constructor(name, value, isOpacityUsed = true) {
-        super(name, 'colorPickerProperty', value);
+    constructor(key, name, value, isOpacityUsed = true) {
+        super(key, name, 'colorPickerProperty', value);
 
         this.isOpacityUsed = isOpacityUsed;
     }
@@ -43,7 +43,7 @@ export default class ZColorPickerProperty extends ZProperty {
                 value: this.value // 기존 값
             }
         };
-        this.UIElement.UIColorPicker = new UIColor(colorPickerOption).setUIId(this.getKeyId());
+        this.UIElement.UIColorPicker = new UIColor(colorPickerOption).setUIId(this.key);
         this.UIElement.UIColorPicker.UIColor.UIInput.onUIChange(this.updateProperty.bind(this));
         this.UIElement.addUI(this.UIElement.UIColorPicker);
 

@@ -33,8 +33,8 @@ const propertyExtends = {
 };
 
 export default class ZDefaultValueSelectProperty extends ZProperty {
-    constructor(name, value) {
-        super(name, 'defaultValueSelectProperty', value);
+    constructor(key, name, value) {
+        super(key, name, 'defaultValueSelectProperty', value);
 
         this.options = propertyExtends.options;
         this.selectOptions = propertyExtends.selectOptions;
@@ -56,7 +56,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
-            this.UIElement.UIGroup.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(this.getKeyId())
+            this.UIElement.UIGroup.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(this.key)
                 .setUIAttribute('data-type', item.value)
                 .addUIClass('btn-switch').onUIClick(this.updateProperty.bind(this));
             this.UIElement.UIGroup.UIButtonGroup['UIButton' + name].addUI(new UISpan().setUIClass('text')
@@ -70,7 +70,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         this.UIElement.UIGroup.addUI(this.UIElement.UIGroup.UIButtonGroup);
 
         // input
-        this.UIElement.UIGroup.UIInput = new UIInput().setUIId(this.getKeyId())
+        this.UIElement.UIGroup.UIInput = new UIInput().setUIId(this.key)
             .addUIClass((defaultTypeValueArray[0] === 'input') ? 'on' : 'off')
             .setUIValue((defaultTypeValueArray[0] === 'input') ? defaultTypeValueArray[1] : '')
             .setUIAttribute('data-validation-min-length', this.validation.minLength)
@@ -86,7 +86,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
             result.push(option);
             return result;
         }, []);
-        this.UIElement.UIGroup.UISelect = new UISelect().setUIId(this.getKeyId())
+        this.UIElement.UIGroup.UISelect = new UISelect().setUIId(this.key)
             .addUIClass((defaultTypeValueArray[0] === 'select') ? 'on' : 'off')
             .setUIOptions(selectOption).setUIValue(selectOptionValue)
             .onUIChange(this.updateProperty.bind(this));

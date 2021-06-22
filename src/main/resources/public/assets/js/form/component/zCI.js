@@ -809,10 +809,10 @@ export const ciMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZSwitchProperty('element.isEditable', this.elementIsEditable)),
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZSwitchProperty('elementIsEditable', 'element.isEditable', this.elementIsEditable)),
             new ZGroupProperty('group.validation')
-                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)

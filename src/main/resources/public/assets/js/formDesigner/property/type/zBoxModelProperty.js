@@ -20,8 +20,8 @@ const propertyExtends = {
 };
 
 export default class ZBoxModelProperty extends ZProperty {
-    constructor(name, value) {
-        super(name, 'boxModelProperty', value);
+    constructor(key, name, value) {
+        super(key, name, 'boxModelProperty', value);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -40,7 +40,7 @@ export default class ZBoxModelProperty extends ZProperty {
         const boxValueArray = this.value.split(' ');
         ['Top', 'Left', 'Bottom', 'Right'].forEach((item, index) => {
             this.UIElement.UIBox['UIInput' + item] = new UIInput()
-                .setUIId(this.getKeyId() + item)
+                .setUIId(this.key + item)
                 .setUIValue(boxValueArray[index])
                 .setUIAttribute('data-validation-required', this.validation.required)
                 .setUIAttribute('data-validation-required-name', i18n.msg(this.name))

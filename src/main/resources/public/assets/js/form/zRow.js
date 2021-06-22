@@ -210,17 +210,17 @@ export default class ZRow {
     // 세부 속성
     getProperty() {
         // display 속성 - margin
-        const displayMarginProperty = new ZBoxModelProperty('display.margin', this.displayMargin)
+        const displayMarginProperty = new ZBoxModelProperty('displayMargin', 'display.margin', this.displayMargin)
             .setValidation(false, 'number', '0', '100', '', '');
         displayMarginProperty.unit = UNIT.PX;
 
         // display 속성 - padding
-        const displayPaddingProperty = new ZBoxModelProperty('display.padding', this.displayPadding)
+        const displayPaddingProperty = new ZBoxModelProperty('displayPadding', 'display.padding', this.displayPadding)
             .setValidation(false, 'number', '0', '100', '', '');
         displayPaddingProperty.unit = UNIT.PX;
 
         return [
-            new ZClipboardProperty('id', this.id),
+            new ZClipboardProperty('id', 'id', this.id),
             new ZGroupProperty('group.display')
                 .addProperty(displayMarginProperty)
                 .addProperty(displayPaddingProperty)
