@@ -110,6 +110,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     /**
      * 패턴 정보 삭제
      */
+    @Transactional
     fun deleteNumberingPattern(patternId: String): String {
         var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
 
