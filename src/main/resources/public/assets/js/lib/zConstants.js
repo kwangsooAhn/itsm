@@ -38,13 +38,15 @@ export const FORM = {
             LEFT: 'left',
         }
     },
-    ALIGN: {
-      VERTICAL: 'vertical',
-      HORIZONTAL: 'horizontal'
-    },
-    ELEMENTPOSITION: {
-        LEFT: 'left',
-        RIGHT: 'right'
+    ELEMENT: {
+        ALIGN: {
+            VERTICAL: 'vertical',
+            HORIZONTAL: 'horizontal'
+        },
+        POSITION: {
+            LEFT: 'left',
+            RIGHT: 'right'
+        }
     },
     DATE_TYPE: {
         NONE: 'none',

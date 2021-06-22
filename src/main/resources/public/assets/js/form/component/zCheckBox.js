@@ -26,9 +26,9 @@ import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        position: FORM.ELEMENTPOSITION.LEFT,
+        position: FORM.ELEMENT.POSITION.LEFT,
         columnWidth: 10,
-        align: FORM.ALIGN.HORIZONTAL,
+        align: FORM.ELEMENT.ALIGN.HORIZONTAL,
         options: [FORM.DEFAULT_OPTION_ROW]
     },
     validation: {
@@ -142,7 +142,7 @@ export const checkBoxMixin = {
                 .onUIClick(this.updateValue.bind(this));
             object.UILabel.UISpan = new UISpan().setUITextContent(this.element.options[i].name);
 
-            if (this.element.position === FORM.ELEMENTPOSITION.RIGHT) {
+            if (this.element.position === FORM.ELEMENT.POSITION.RIGHT) {
                 object.UILabel.addUI(object.UILabel.UISpan);
                 object.UILabel.addUI(object.UILabel.UICheckbox);
                 object.UILabel.addUI(new UISpan());
@@ -161,12 +161,9 @@ export const checkBoxMixin = {
         this.value = '';
         e.target.parentNode.parentNode.querySelectorAll('input[type=checkbox]').forEach((element) => {
             if (element.checked) {
-                this.value += element.value + '|';
+                this.value += (this.value === '' ? '' : '|') + element.value;
             }
         });
-        if (this.value.length > 0) {
-            this.value = this.value.substr(0, this.value.length - 1);
-        }
     },
     // 세부 속성 조회
     getProperty() {
