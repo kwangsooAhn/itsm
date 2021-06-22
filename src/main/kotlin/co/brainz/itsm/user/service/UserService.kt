@@ -40,6 +40,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 
@@ -100,6 +101,7 @@ class UserService(
     /**
      * 사용자 KEY로 정보를 수정한다.
      */
+    @Transactional
     fun updateUser(userUpdateDto: UserUpdateDto): AliceUserEntity {
         val targetEntity = updateDataInput(userUpdateDto)
         return userRepository.save(targetEntity)
@@ -117,6 +119,7 @@ class UserService(
      *
      * @param userEditType
      */
+    @Transactional
     fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): String {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
@@ -264,6 +267,7 @@ class UserService(
     /**
      * 사용자의 비밀번호를 초기화한다.
      */
+    @Transactional
     fun resetPassword(userKey: String, password: String): String {
         val publicKey = aliceCryptoRsa.getPublicKey()
         val encryptPassword = aliceCryptoRsa.encrypt(publicKey, password)
