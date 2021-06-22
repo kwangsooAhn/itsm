@@ -52,6 +52,8 @@ const propertyExtends = {
 export default class ZColumnProperty extends ZProperty {
     constructor(key, name, value) {
         super(key, name, 'columnProperty', value);
+
+        this.validationStatus = true;
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -95,8 +97,10 @@ export default class ZColumnProperty extends ZProperty {
         console.log(columnOption);
         console.log(index);
 
+        const columnDiv = new UIDiv();
+
         // 컬럼 세부 속성 표시
-        /*const property = this.getPropertyInColumnType(columnOption);
+        const property = this.getPropertyInColumnType(columnOption);
         property.map(propertyObject => {
             const propertyObjectElement = propertyObject.makeProperty(this);
 
@@ -109,14 +113,18 @@ export default class ZColumnProperty extends ZProperty {
                     propertyObjectElement.addUI(childPropertyObjectElement);
                 });
             }
-            this.domElement.appendChild(propertyObjectElement.domElement);
-        });*/
-
-        /* parent.addUITab(
+            columnDiv.addUI(propertyObjectElement);
+        });
+        // 탭 추가
+        parent.addUITab(
             'column' + index,
             new UISpan().addUIClass('icon').addUIClass('icon-checkbox'),
-            this.getPropertyInColumn(columnOption)
-        );*/
+            columnDiv
+        );
+        // 옵션 추가
+        console.log(this.key);
+        console.log(this.value);
+        // this.panel.update.call(this.panel, e.target.id, e.target.value);
     }
     // 컬럼 삭제
     removeColumn() {
@@ -127,7 +135,7 @@ export default class ZColumnProperty extends ZProperty {
     getPropertyInColumnCommon(option, index) {
         return [
             new ZGroupProperty('group.column')
-                .addProperty(new ZInputBoxProperty('element.columns[' + index + '].columnName', option.columnName))
+                .addProperty(new ZInputBoxProperty(index + '|columnName', 'element.columnName', option.columnName))
         ];
     }
     // 컬럼입력유형에 따른 속성 조회
@@ -137,10 +145,16 @@ export default class ZColumnProperty extends ZProperty {
             return [
                 ...this.getPropertyInColumnCommon(option, index),
                 new ZGroupProperty('group.columnElement')
-                    .addProperty(new ZInputBoxProperty('element.columns[' + index + '].columnElement.placeholder', option.columnElement.placeholder))
+                    .addProperty(new ZInputBoxProperty(index + '|columnElement|placeholder', 'element.placeholder', option.columnElement.placeholder))
             ];
         }
     }
+    
+    // 컬럼 세부 속성 변경시 호출되는 이벤트 핸들러
+    update(key, value) {
+        console.log(key, value);
+    }
+
     // 속성 변경시 발생하는 이벤트 핸들러
     updateProperty(e) {
         e.stopPropagation();
