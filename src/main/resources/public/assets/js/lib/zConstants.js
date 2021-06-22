@@ -36,12 +36,15 @@ export const FORM = {
             HIDDEN: 'hidden',
             TOP: 'top',
             LEFT: 'left',
-            RIGHT: 'right'
         }
     },
     ALIGN: {
       VERTICAL: 'vertical',
       HORIZONTAL: 'horizontal'
+    },
+    ELEMENTPOSITION: {
+        LEFT: 'left',
+        RIGHT: 'right'
     },
     DATE_TYPE: {
         NONE: 'none',
