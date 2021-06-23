@@ -31,7 +31,7 @@ export default class ZForm {
         this._category = data.category || 'process'; // process | cmdb
         this._display = {
             width: data.display.width || '905',
-            margin: data.display.margin || '60 0 60 0',
+            margin: data.display.margin || '0 0 60 0',
             padding: data.display.padding || '15 15 15 15'
         };
         this._propertyName = 'form.form' || ''; // i18n message name
