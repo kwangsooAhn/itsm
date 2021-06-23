@@ -258,7 +258,7 @@ class WfDocumentService(
                 wfInstanceRepository.deleteInstances(instances)
             }
         }
-        throw IllegalArgumentException("예외")
+
         return true
     }
 
