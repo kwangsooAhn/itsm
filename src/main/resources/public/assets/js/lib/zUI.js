@@ -681,7 +681,7 @@ class UITabPanel extends UIElement {
         });
 
         if (tab) {
-            tab.addClass('selected');
+            tab.addUIClass('selected');
         }
 
         if (panel) {
@@ -725,7 +725,7 @@ class UITab extends UIButton {
 
         const scope = this;
         this.domElement.addEventListener( 'click', function () {
-            scope.parent.select( scope.domElement.id );
+            scope.parent.selectUITab( scope.domElement.id );
         } );
     }
 }

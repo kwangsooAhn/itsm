@@ -2,7 +2,7 @@
  * Dynamic Row Table Mixin
  *
  *
- * @author
+ * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
