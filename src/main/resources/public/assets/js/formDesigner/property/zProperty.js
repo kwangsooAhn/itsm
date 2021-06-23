@@ -23,7 +23,7 @@ export default class ZProperty {
         this._key = key;
         this._name = 'form.properties.' + name;
         this._type = type;
-        this._value = value;
+        this._value = JSON.parse(JSON.stringify(value));
         this._unit = '';
         this._help = '';
         this._columnWidth = MAX_COLUMN_COUNT;

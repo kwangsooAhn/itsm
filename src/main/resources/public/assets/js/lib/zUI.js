@@ -699,7 +699,7 @@ class UITabPanel extends UIElement {
         this.tabs.push(tab);
         this.tabsDiv.addUI(tab);
 
-        const panel = new UIDiv();
+        const panel = new UIDiv().setUIClass('panel');
         panel.setUIId(id);
         panel.addUI(panelItem);
         panel.setUIDisplay('none');

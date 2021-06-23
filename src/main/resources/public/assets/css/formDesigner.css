@@ -5356,3 +5356,41 @@ body.modal-active {
   width: 260px;
   margin: 0;
 }
+.property .tabPanel .tabs button {
+  display: inline-block;
+}
+.property .tabPanel .tabs button.off {
+  display: none;
+}
+.property .tabPanel .tabs button .icon-checkbox {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_bottom.svg");
+  mask-image: url("../media/icons/icon_arrow_bottom.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ffffff;
+}
+.property .tabPanel .tabs button .icon-plus {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_plus.svg");
+  mask-image: url("../media/icons/icon_plus.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #0098FF;
+}
+.property .tabPanel .tabs button.selected {
+  background: #0098FF;
+}
+.property .tabPanel .panels .panel {
+  margin-top: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  border: 0.0625rem solid #EBEBEB;
+}

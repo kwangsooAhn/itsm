@@ -10,9 +10,9 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import {FORM, CLASS_PREFIX, UNIT} from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import {UIDiv, UITable} from '../../lib/zUI.js';
+import {UIDiv, UIElement as UICell, UIElement as UIRow, UITable} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -52,9 +52,7 @@ export const dynamicRowTableMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         // 테이블
-        element.UITable = this.makeDRTable();
-        element.addUI(element.UITable);
-        return element;
+        return this.makeTable(element);
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {},
@@ -76,6 +74,8 @@ export const dynamicRowTableMixin = {
     },
     set elementColumns(columns) {
         this._element.columns = columns;
+        this.UIElement.UIComponent.UIElement.clearUI();
+        this.makeTable(this.UIElement.UIComponent.UIElement);
     },
     get elementColumns() {
         return this._element.columns;
@@ -104,15 +104,82 @@ export const dynamicRowTableMixin = {
     get value() {
         return this._value;
     },
-    makeDRTable() {
+    makeTable(object) {
         // 테이블
-        const table = new UITable()
+        object.UITable = new UITable()
             .setUIClass(CLASS_PREFIX + 'dr-table')
             .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
+        
+        // 테이블 제목
+        const row = new UIRow(object.UITable).setUIClass(CLASS_PREFIX + 'dr-table-header');
+        object.UITable.addUIRow(row);
+        
+        this.elementColumns.forEach((column) => {
+            const tdWidth = (Number(column.columnWidth) / FORM.COLUMN) * 100;
+            const tdCssText = `width:${tdWidth}%;` +
+                `color:${column.columnHead.fontSize};` +
+                `font-size:${column.columnHead.fontColor + UNIT.PX};` +
+                `${column.columnHead.bold ? 'font-weight:bold;' : ''}` +
+                `${column.columnHead.italic ? 'font-style:italic;' : ''}` +
+                `${column.columnHead.underline ? 'text-decoration:underline;' : ''}`;
+            const td = new UICell(row)
+                .addUIClass('align-' + column.columnHead.align)
+                .setUICSSText(tdCssText)
+                .setUITextContent((column.columnName !== '' ? i18n.msg(column.columnName) : ''));
+            row.addUICell(td);
+        });
 
-        return table;
+        if (Array.isArray(this.value) && this.value.length > 0) {
+            this.value.forEach((rowData) => {
+                this.addTableRow(object.UITable, rowData);
+            });
+        } else {
+            this.setEmptyTable(object.UITable);
+        }
+        return object;
+    },
+    // 데이터가 없을때
+    setEmptyTable(targetTable) {
+        const row = new UIRow(targetTable).setUIClass('no-data-found-list');
+        targetTable.addUIRow(row);
+
+        const td = new UICell(row).setUIClass('on align-center first-column last-column')
+            .setColspan(12)
+            .setUITextContent(i18n.msg('common.msg.noData'));
+        row.addUICell(td);
+    },
+    // 테이블 row 추가
+    addTableRow(targetTable, data) {
+        // 데이터가 없을 경우
+        if (targetTable.rows.length === 2 && targetTable.rows[1].hasUIClass('no-data-found-list')) {
+            this.removeTableRow(targetTable, 1);
+        }
+        // row 추가
+        const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'dr-table-row');
+        targetTable.addUIRow(row);
+        // td 추가
+        this.elementColumns.forEach((column) => {
+            row.addUICell(this.getCellInColumnType(row, column, data));
+        });
+    },
+    // TODO: column Type 에 따른 cell 반환
+    getCellInColumnType(row, column, data) {
+
+    },
+    // 테이블 row 삭제
+    removeTableRow(targetTable, rowIndex) {
+        targetTable.removeUIRow(targetTable.rows[rowIndex]);
+
+        const newValue = JSON.parse(JSON.stringify(this.value));
+        newValue.splice(rowIndex - 1, 1);
+        this.value = newValue;
+
+        // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
+        if (Array.isArray(this.value) && this.value.length === 0) {
+            this.setEmptyTable(targetTable);
+        }
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {

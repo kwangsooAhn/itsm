@@ -157,4 +157,35 @@
       }
     }
   }
+  // tab
+  .tabPanel {
+    .tabs {
+      button {
+        display: inline-block;
+        // 버튼 안보이게 처리
+        &.off {
+          display: none;
+        }
+        .icon-checkbox {
+          display: inline-block;
+          @include maskImage('#{$icon-folder-path}icon_arrow_bottom.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white);
+        }
+        .icon-plus {
+          display: inline-block;
+          @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $blue);
+        }
+        // 선택된 tab은 체크 아이콘 표시
+        &.selected {
+          background: $blue;
+        }
+      }
+    }
+    .panels {
+      .panel {
+        margin-top: 0.625rem;
+        padding: 0.625rem 0.75rem;
+        @include border(0.0625rem, solid, map-get($grays, "line"), all); // 1px
+      }
+    }
+  }
 }

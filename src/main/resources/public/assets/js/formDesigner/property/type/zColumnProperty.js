@@ -26,7 +26,7 @@ import ZColorPickerProperty from './zColorPickerProperty.js';
 const propertyExtends = {
     columnCommon: {
         columnName: 'COLUMN', // 컬럼명
-        columnType: 'input', // input, date, time, datetime, radio, checkbox, select 등 입력 유형
+        columnType: 'input', // input, dropdown, date, time, datetime, customCode 등 입력 유형
         columnWidth: '12', // 컬럼 너비
         columnHead: {
             fontSize: '14',
@@ -81,24 +81,23 @@ export default class ZColumnProperty extends ZProperty {
 
         // this.value 에 따라서 tab 추가
         this.value.forEach((item, index) => {
-            this.addColumn(this.UIElement.UITabPanel, item, index);
+            this.addColumn(item, index);
         });
 
         // 추가 버튼
-        // 최대값을 넘어가는 순간 버튼을 숨긴다.
         this.UIElement.UITabPanel.tabsDiv.UIButton = new UIButton()
             .addUIClass('ghost-line')
-            .addUIClass((this.value > FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
+            .addUIClass((this.value.length > FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
             .addUI(new UISpan().addUIClass('icon').addUIClass('icon-plus'))
-            .onUIClick(this.addColumn.bind(this, this.UIElement.UITabPanel, { columnType: 'input' },
-                this.value.length));
+            .onUIClick(this.addColumn.bind(this, { columnType: 'input' }, -1));
         this.UIElement.UITabPanel.tabsDiv.addUI(this.UIElement.UITabPanel.tabsDiv.UIButton);
 
         return this.UIElement;
     }
     // 컬럼 추가
-    addColumn(parent, option, index) {
-        console.log(index);
+    addColumn(option, index) {
+        if (index === -1 ) { index = this.value.length; }
+
         // 옵션
         const columnOption = Object.assign({}, propertyExtends.columnCommon, option);
         // 열 속성 기본 값 조회
@@ -123,20 +122,23 @@ export default class ZColumnProperty extends ZProperty {
             }
             columnPropertyGroup.addUI(propertyObjectElement);
         });
-        parent.addUITab(
+        this.UIElement.UITabPanel.addUITab(
             'column' + index,
             new UISpan().addUIClass('icon').addUIClass('icon-checkbox'),
             columnPropertyGroup
         );
-        parent.tabs[index].addUIClass('ghost-line');
+        this.UIElement.UITabPanel.tabs[index].addUIClass('ghost-line');
 
         // 옵션 신규 추가
         if (this.value.length <= index) {
             this.value.push(columnOption);
-            this.panel.update.call(this.panel, this.key, this.value);
-
             // 신규 추가일 경우 + 추가 버튼과 위치를 변경한다. (재정렬)
-            //aliceJs.swapNode(this.UIElement.UITabPanel.tabsDiv.UIButton.domElement, parent.tabs[index].domElement);
+            aliceJs.swapNode(this.UIElement.UITabPanel.tabsDiv.UIButton.domElement, this.UIElement.UITabPanel.tabs[index].domElement);
+            // 최대값을 넘어가는 순간 추가 버튼을 숨긴다.
+            if (index === FORM.MAX_COLUMN_IN_TABLE) {
+                this.UIElement.UITabPanel.tabsDiv.UIButton.removeUIClass('on').addUIClass('off');
+            }
+            this.panel.update.call(this.panel, this.key, this.value);
         }
     }
     // 컬럼 삭제
@@ -148,14 +150,13 @@ export default class ZColumnProperty extends ZProperty {
     getPropertyInColumnCommon(option, index) {
         // 입력 유형
         const columnTypeProperty = new ZDropdownProperty(index + '|columnType', 'element.columnType',
-            option.columnType, [
-                {name: 'form.columnType.input', value: 'input'},
-                {name: 'form.columnType.radio', value: 'radio'},
-                {name: 'form.columnType.checkbox', value: 'checkbox'},
-                {name: 'form.columnType.select', value: 'select'},
-                {name: 'form.columnType.date', value: 'date'},
-                {name: 'form.columnType.time', value: 'time'},
-                {name: 'form.columnType.datetime', value: 'datetime'}
+            option.columnType, [ // input, dropdown, date, time, datetime, customCode
+                {name: 'form.properties.columnType.input', value: 'input'},
+                {name: 'form.properties.columnType.dropdown', value: 'dropdown'},
+                {name: 'form.properties.columnType.date', value: 'date'},
+                {name: 'form.properties.columnType.time', value: 'time'},
+                {name: 'form.properties.columnType.datetime', value: 'datetime'},
+                {name: 'form.properties.columnType.customCode', value: 'customCode'},
             ]);
 
         // head - fontColor
@@ -274,6 +275,7 @@ export default class ZColumnProperty extends ZProperty {
             lastPropertyName.substr(1, lastPropertyName.length);
 
         changeColumnOption[method] = value;
+
         this.panel.update.call(this.panel, this.key, this.value);
     }
 }
