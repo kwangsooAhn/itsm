@@ -24,6 +24,7 @@ import co.brainz.itsm.auth.dto.AuthListReturnDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.itsm.auth.dto.AuthUrlDto
 import co.brainz.itsm.auth.repository.AuthRepository
+import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
@@ -71,6 +72,7 @@ class AuthService(
     /**
      * 권한 정보 삭제
      */
+    @Transactional
     fun deleteAuth(authId: String): String {
         val authInfo = authRepository.findByAuthId(authId)
         val menuAuthMapCount = menuAuthMapRepository.findByAuth(authInfo).count()
@@ -94,6 +96,7 @@ class AuthService(
     /**
      * 권한 정보 등록
      */
+    @Transactional
     fun createAuth(authInfo: AuthDto): String {
         val auth = AliceAuthEntity(
             authId = authInfo.authId.toString(),
@@ -124,6 +127,7 @@ class AuthService(
     /**
      * 권한 정보 수정
      */
+    @Transactional
     fun updateAuth(authInfo: AuthDto): String {
         val auth = AliceAuthEntity(
             authId = authInfo.authId.toString(),
