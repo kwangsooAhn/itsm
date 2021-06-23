@@ -126,7 +126,6 @@ class BoardService(
      * @param boardAdminId
      * @return BoardAdminDto
      */
-    @Transactional
     fun getBoardDetail(boardAdminId: String): BoardDto {
         val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         var enabled = true
