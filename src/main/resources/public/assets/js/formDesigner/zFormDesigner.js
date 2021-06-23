@@ -707,6 +707,10 @@ class ZFormDesigner {
                         window.close();
                     });
                 } else {
+                    const date = new Date();
+                    document.getElementById('saveInfo').innerText = i18n.msg('form.msg.saveInfo'
+                        , i18n.userDateTime(date.toISOString()));
+
                     aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
                 }
             } else {
