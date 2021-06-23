@@ -271,6 +271,7 @@ class WfFormService(
      * @param restTemplateFormDto
      * @return RestTemplateFormDto
      */
+    @Transactional
     fun createForm(restTemplateFormDto: RestTemplateFormDto): RestTemplateFormDto {
         val formEntity = WfFormEntity(
             formId = restTemplateFormDto.id,
@@ -315,6 +316,7 @@ class WfFormService(
      * @param restTemplateFormDto
      * @return Boolean
      */
+    @Transactional
     fun updateForm(restTemplateFormDto: RestTemplateFormDto): Boolean {
         this.updateFormEntity(restTemplateFormDto)
         return true

@@ -131,6 +131,7 @@ class WfProcessService(
     /**
      * 프로세스 신규 등록
      */
+    @Transactional
     fun insertProcess(restTemplateProcessDto: RestTemplateProcessDto): RestTemplateProcessDto {
         val processEntity = processMapper.toProcessEntity(restTemplateProcessDto)
         processEntity.createUser = restTemplateProcessDto.createUserKey?.let {
@@ -152,6 +153,7 @@ class WfProcessService(
     /**
      * 프로세스 1건 데이터 삭제.
      */
+    @Transactional
     fun deleteProcess(processId: String): Boolean {
         val processEntity = wfProcessRepository.findByProcessId(processId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
@@ -170,6 +172,7 @@ class WfProcessService(
     /**
      * 프로세스 변경.
      */
+    @Transactional
     fun updateProcess(restTemplateProcessDto: RestTemplateProcessDto): Boolean {
         val processEntity =
             wfProcessRepository.findByProcessId(restTemplateProcessDto.processId) ?: throw AliceException(
@@ -190,6 +193,7 @@ class WfProcessService(
     /**
      * 프로세스 정보 변경.
      */
+    @Transactional
     fun updateProcessData(restTemplateProcessElementDto: RestTemplateProcessElementDto): Boolean {
         // 클라이언트에서 요청한 프로세스 정보.
         val wfJsonProcessDto = restTemplateProcessElementDto.process
@@ -350,6 +354,7 @@ class WfProcessService(
     /**
      * 프로세스 다음 이름 저장.
      */
+    @Transactional
     fun saveAsProcess(restTemplateProcessElementDto: RestTemplateProcessElementDto): RestTemplateProcessDto {
         val processDataDto = RestTemplateProcessDto(
             processName = restTemplateProcessElementDto.process?.name.toString(),
