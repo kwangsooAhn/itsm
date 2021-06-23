@@ -639,6 +639,7 @@ form:
     minLength: "Please enter at least {0} characters."
     number: "Please enter only numbers."
     required: "Please enter the required item."
+    saveInfo: "Saved at {0}"
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
     unique: "Duplicate data cannot be included."

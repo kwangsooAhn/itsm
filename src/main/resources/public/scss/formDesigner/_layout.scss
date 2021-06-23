@@ -258,3 +258,12 @@
   display: inline-block;
   margin-right: 0.625rem;
 }
+
+.save-info {
+  height: 2.188rem; //35px
+  margin-top: 1.5625rem; // 25px
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  color: $element-font-color;
+  text-align: center;
+}
