@@ -105,6 +105,7 @@ class NumberingRuleService(
     /**
      * 문서 번호 등록, 수정
      */
+    @Transactional
     fun saveNumberingRule(numberingRuleDto: NumberingRuleDto): String {
         val status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
         var count = 0
@@ -167,6 +168,7 @@ class NumberingRuleService(
     /**
      * 문서 번호 생성
      */
+    @Transactional
     fun getNewNumbering(numberingId: String): String {
         val numberingRuleEntity = numberingRuleRepository.findById(numberingId)
         var newNumbering = ""

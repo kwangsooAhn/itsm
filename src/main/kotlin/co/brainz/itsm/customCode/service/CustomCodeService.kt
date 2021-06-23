@@ -38,6 +38,7 @@ import javax.persistence.Column
 import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CustomCodeService(
@@ -100,6 +101,7 @@ class CustomCodeService(
      * @param customCodeDto
      * @return String
      */
+    @Transactional
     fun saveCustomCode(customCodeDto: CustomCodeDto): String {
         var code = customCodeEditValid(customCodeDto)
         when (code) {
@@ -117,6 +119,7 @@ class CustomCodeService(
      * @param customCodeId
      * @return String
      */
+    @Transactional
     fun deleteCustomCode(customCodeId: String): String {
         return if (getUsedCustomCodeIdList().indexOf(customCodeId) != -1) {
             CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
