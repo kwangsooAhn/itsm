@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
+import javax.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -161,6 +162,7 @@ class CodeService(
     /**
      * 코드 데이터 저장
      */
+    @Transactional
     fun createCode(codeDetailDto: CodeDetailDto): String {
         var status = CodeConstants.Status.STATUS_SUCCESS.code
         val codeEntity = CodeEntity(
@@ -207,6 +209,7 @@ class CodeService(
     /**
      * 코드 데이터 수정
      */
+    @Transactional
     fun updateCode(codeDetailDto: CodeDetailDto): String {
         var status = CodeConstants.Status.STATUS_SUCCESS_EDIT_CODE.code
         val codeEntity = CodeEntity(
@@ -264,6 +267,7 @@ class CodeService(
     /**
      * 코드 데이터 삭제
      */
+    @Transactional
     fun deleteCode(code: String): String {
         var status = CodeConstants.Status.STATUS_SUCCESS.code
         val codeLangList = codeLangRepository.findByCodeLangList(code)
