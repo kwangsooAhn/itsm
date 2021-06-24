@@ -369,6 +369,7 @@ class WfFormService(
      * @param restTemplateFormComponentListDto
      * @return RestTemplateFormDto
      */
+    @Transactional
     fun saveAsFormData(restTemplateFormComponentListDto: RestTemplateFormComponentListDto): RestTemplateFormDto {
         val formDataDto = RestTemplateFormDto(
             name = restTemplateFormComponentListDto.name,
