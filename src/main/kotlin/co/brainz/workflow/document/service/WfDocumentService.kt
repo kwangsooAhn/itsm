@@ -153,6 +153,7 @@ class WfDocumentService(
      * @param restTemplateDocumentDto
      * @return RestTemplateDocumentDto
      */
+    @Transactional
     fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): RestTemplateDocumentDto {
         val formId = restTemplateDocumentDto.formId
         val processId = restTemplateDocumentDto.processId
@@ -211,6 +212,7 @@ class WfDocumentService(
      * @param restTemplateDocumentDto
      * @return Boolean
      */
+    @Transactional
     fun updateDocument(
         restTemplateDocumentDto: RestTemplateDocumentDto,
         params: LinkedHashMap<String, Any>
@@ -290,6 +292,7 @@ class WfDocumentService(
      * @param documentId
      * @return Boolean
      */
+    @Transactional
     fun deleteDocument(documentId: String): Boolean {
         val selectedDocument = wfDocumentRepository.getOne(documentId)
         val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
@@ -447,6 +450,7 @@ class WfDocumentService(
      * @param restTemplateDocumentDisplaySaveDto
      * @return Boolean
      */
+    @Transactional
     fun updateDocumentDisplay(restTemplateDocumentDisplaySaveDto: RestTemplateDocumentDisplaySaveDto): Boolean {
         val documentId = restTemplateDocumentDisplaySaveDto.documentId
         wfDocumentDisplayRepository.deleteByDocumentId(documentId)
