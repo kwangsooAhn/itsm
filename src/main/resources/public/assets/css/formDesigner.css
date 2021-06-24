@@ -1127,7 +1127,7 @@ input, button, select, optgroup, textarea {
   margin-right: 0.625rem;
 }
 
-/* _elements.scss 
+/* _elements.scss
  *
  * 파일 경로 : template/_elements.scss
  * @description HTML element 디자인
@@ -1836,7 +1836,7 @@ label {
   background: #ffffff url("../media/icons/icon_clock.svg") no-repeat 98% 50%;
 }
 
-/* _buttons.scss 
+/* _buttons.scss
  *
  * 파일 경로 : template/_buttons.scss
  * @description 버튼 디자인
@@ -2769,7 +2769,7 @@ button.ghost-line:disabled .icon {
   background: #ffffff;
 }
 
-/* _alerts.scss 
+/* _alerts.scss
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
@@ -2905,7 +2905,7 @@ button.ghost-line:disabled .icon {
     margin: 0.5em;
   }
 }
-/* _scrollbars.scss 
+/* _scrollbars.scss
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -3199,7 +3199,7 @@ button.ghost-line:disabled .icon {
   background-color: #CCCED1;
 }
 
-/* _file-uploader.scss 
+/* _file-uploader.scss
  *
  * 파일 경로 : template/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -3690,7 +3690,7 @@ button.ghost-line:disabled .icon {
   display: none;
 }
 
-/* _date-picker.scss 
+/* _date-picker.scss
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
@@ -3940,7 +3940,7 @@ button.ghost-line:disabled .icon {
   margin: 1.25rem 1.25rem 1.25rem 0;
 }
 
-/* _text-editor.scss 
+/* _text-editor.scss
  *
  * 파일 경로 : template/_text-editor.scss
  * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
@@ -4189,7 +4189,7 @@ button.ghost-line:disabled .icon {
   border: 0.0625rem solid #ff405a !important;
 }
 
-/* _color-picker.scss 
+/* _color-picker.scss
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -4328,7 +4328,7 @@ button.ghost-line:disabled .icon {
   width: 6.25rem;
 }
 
-/* _modal.scss 
+/* _modal.scss
  *
  * 파일 경로 : template/_modal.scss
  * @description 모달 디자인
@@ -4417,7 +4417,7 @@ body.modal-active {
   resize: none;
 }
 
-/* _thumbnail.scss 
+/* _thumbnail.scss
  *
  * 파일 경로 : template/_thumbnail.scss
  * @description 썸네일 디자인
@@ -4555,7 +4555,7 @@ body.modal-active {
   height: calc(48.44rem - 3.375rem - 5rem);
 }
 
-/* _tooltip.scss 
+/* _tooltip.scss
  *
  * 파일 경로 : template/_tooltip.scss
  * @description 툴팁 디자인

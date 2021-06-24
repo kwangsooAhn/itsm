@@ -12,7 +12,7 @@
         <h1 class="title align-center" th:text="#{portal.label.topPhrase}"></h1>
     </div>
     <div id="main-search" class="main-search align-center">
-        <input type="text" class="col-8 icon-search mr-2" id="searchValue" name="searchValue"
+        <input type="text" class="col-8 z-input icon-search mr-2" id="searchValue" name="searchValue"
                th:value="${portalSearchDto?.searchValue}"
                th:placeholder="#{common.label.searchWord}" maxlength="100"/>
         <span id="spanTotalCount" class="search-count"></span>
