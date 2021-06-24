@@ -196,7 +196,7 @@ class UIInput extends UIElement {
             'keydown',
             function (event) { event.stopPropagation(); },
             false
-            );
+        );
 
         this.setUIValue(text);
     }
@@ -628,9 +628,111 @@ class UICell extends UIElement {
     }
 }
 
+class UITabPanel extends UIElement {
+    constructor() {
+        super(document.createElement('div'));
+        this.domElement.className = 'tabPanel';
+
+        this.tabs = [];
+        this.panels = [];
+
+        this.tabsDiv = new UIDiv();
+        this.tabsDiv.setUIClass('tabs');
+        this.addUI(this.tabsDiv);
+
+        this.panelsDiv = new UIDiv();
+        this.panelsDiv.setUIClass('panels');
+        this.addUI(this.panelsDiv);
+
+        this.selected = '';
+    }
+
+    selectUITab(id) {
+        let tab;
+        let panel;
+        const scope = this;
+
+        // Deselect current selection
+        if (this.selected && this.selected.length) {
+            tab = this.tabs.find(function(item) {
+                return item.domElement.id === scope.selected;
+            });
+
+            panel = this.panels.find(function(item) {
+                return item.domElement.id === scope.selected;
+            });
+
+            if (tab) {
+                tab.removeUIClass('selected');
+            }
+
+            if ( panel ) {
+                panel.setUIDisplay('none');
+            }
+
+        }
+
+        tab = this.tabs.find(function (item) {
+            return item.domElement.id === id;
+        });
+
+        panel = this.panels.find(function (item) {
+            return item.domElement.id === id;
+        });
+
+        if (tab) {
+            tab.addClass('selected');
+        }
+
+        if (panel) {
+            panel.setUIDisplay('');
+        }
+
+        this.selected = id;
+
+        return this;
+    }
+
+    addUITab(id, tabItem, panelItem) {
+        const tab = new UITab(tabItem, this);
+        tab.setUIId(id);
+        this.tabs.push(tab);
+        this.tabsDiv.addUI(tab);
+
+        const panel = new UIDiv();
+        panel.setUIId(id);
+        panel.addUI(panelItem);
+        panel.setUIDisplay('none');
+
+        this.panels.push(panel);
+        this.panelsDiv.addUI(panel);
+
+        this.selectUITab(id);
+    }
+
+    removeUITab() {
+
+    }
+}
+
+class UITab extends UIButton {
+    constructor(item, parent) {
+        super('');
+        this.domElement.className = 'tab';
+        this.parent = parent;
+
+        this.addUI(item);
+
+        const scope = this;
+        this.domElement.addEventListener( 'click', function () {
+            scope.parent.select( scope.domElement.id );
+        } );
+    }
+}
+
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
     UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable,
-    UIRow, UICell, UIRadioButton
+    UIRow, UICell, UIRadioButton, UITabPanel, UITab
 };

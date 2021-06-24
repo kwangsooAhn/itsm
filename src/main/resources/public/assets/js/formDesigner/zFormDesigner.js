@@ -707,6 +707,10 @@ class ZFormDesigner {
                         window.close();
                     });
                 } else {
+                    const date = new Date();
+                    document.getElementById('saveInfo').innerText = i18n.msg('form.msg.saveInfo'
+                        , i18n.userDateTime(date.toISOString()));
+
                     aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
                 }
             } else {
@@ -813,8 +817,8 @@ export const zFormDesigner = new ZFormDesigner();
  */
 function onLeftClickHandler(e) {
     // 폼 내부를 선택한게 아니라면, 기존 선택된 항목을 초기화한다.
-    if (aliceJs.clickInsideElement(e, 'form-properties-panel-header') ||
-        aliceJs.clickInsideElement(e, 'form-properties-panel')) {
+    if (aliceJs.clickInsideElement(e, CLASS_PREFIX + 'form-properties-panel-header') ||
+        aliceJs.clickInsideElement(e, CLASS_PREFIX + 'form-properties-panel')) {
         return false;
     }
 }

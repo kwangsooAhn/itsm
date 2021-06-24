@@ -20,8 +20,8 @@ const propertyExtends = {
 };
 
 export default class ZSwitchProperty extends ZProperty {
-    constructor(name, value) {
-        super(name, 'switchProperty', value);
+    constructor(key, name, value) {
+        super(key, name, 'switchProperty', value);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -30,7 +30,7 @@ export default class ZSwitchProperty extends ZProperty {
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
         this.UIElement.UISwitch = new UISwitch(this.value)
-            .setUIId(this.getKeyId())
+            .setUIId(this.key)
             .setUITextContent(i18n.msg(this.name));
         this.UIElement.UISwitch.UISpan.addUIClass('property-label');
         // 툴팁(도움말) 기능 추가

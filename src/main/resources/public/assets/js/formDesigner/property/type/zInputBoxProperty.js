@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZInputBoxProperty extends ZProperty {
-    constructor(name, value) {
-        super(name, 'inputBoxProperty', value);
+    constructor(key, name, value) {
+        super(key, name, 'inputBoxProperty', value);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -33,7 +33,7 @@ export default class ZInputBoxProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
         // inputbox
         this.UIElement.UIInput = new UIInput()
-            .setUIId(this.getKeyId())
+            .setUIId(this.key)
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validation.required)
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))

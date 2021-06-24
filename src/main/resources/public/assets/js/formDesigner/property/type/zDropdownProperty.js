@@ -20,8 +20,8 @@ const propertyExtends = {
 };
 
 export default class ZDropdownProperty extends ZProperty {
-    constructor(name, value, options) {
-        super(name, 'dropdownProperty', value);
+    constructor(key, name, value, options) {
+        super(key, name, 'dropdownProperty', value);
 
         this.options = options;
     }
@@ -38,11 +38,11 @@ export default class ZDropdownProperty extends ZProperty {
         // select box
         const mergeOptions = this.options.reduce((result, option) => {
             option.name = i18n.msg(option.name);
-            result.push(option)
+            result.push(option);
             return result;
         }, []);
         this.UIElement.UISelect = new UISelect()
-            .setUIId(this.getKeyId())
+            .setUIId(this.key)
             .setUIOptions(mergeOptions)
             .setUIValue(this.value)
             .onUIChange(this.updateProperty.bind(this));

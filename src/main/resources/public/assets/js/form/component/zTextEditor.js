@@ -182,13 +182,13 @@ export const textEditorMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZSliderProperty('element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZInputBoxProperty('element.rows', this.elementRows))
-                .addProperty(new ZInputBoxProperty('element.placeholder', this.elementPlaceholder)),
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZInputBoxProperty('elementRows', 'element.rows', this.elementRows))
+                .addProperty(new ZInputBoxProperty('elementPlaceholder', 'element.placeholder', this.elementPlaceholder)),
             new ZGroupProperty('group.validation')
-                .addProperty(new ZSwitchProperty('validation.required', this.validationRequired))
-                .addProperty(new ZInputBoxProperty('validation.minLength', this.validationMinLength))
-                .addProperty(new ZInputBoxProperty('validation.maxLength', this.validationMaxLength))
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
+                .addProperty(new ZInputBoxProperty('validationMinLength', 'validation.minLength', this.validationMinLength))
+                .addProperty(new ZInputBoxProperty('validationMaxLength', 'validation.maxLength', this.validationMaxLength))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)

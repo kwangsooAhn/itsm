@@ -10,24 +10,26 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIText } from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import {UIDiv, UITable} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZColumnProperty from '../../formDesigner/property/type/zColumnProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        placeholder: '',
         columnWidth: '10',
-        defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
+        columns: []
+    },
+    validation: {
+        required: false // 필수값 여부
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
@@ -38,27 +40,79 @@ export const dynamicRowTableMixin = {
     initProperty() {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
-        this._value = this.data.value || '';
+        this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
+        this._value = this.data.value || [];
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        // label 상단 처리
+        this.labelPosition = FORM.LABEL.POSITION.TOP;
+
+        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIText = new UIText('아직 구현되지 않았습니다. 얼렁 개발해주세요.');
-        element.addUI(element.UIText);
+        // 테이블
+        element.UITable = this.makeDRTable();
+        element.addUI(element.UITable);
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {},
     // set, get
+    set element(element) {
+        this._element = element;
+    },
+    get element() {
+        return this._element;
+    },
+    set elementColumnWidth(width) {
+        this._element.columnWidth = width;
+        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column',
+            this.getLabelColumnWidth(this.labelPosition));
+    },
+    get elementColumnWidth() {
+        return this._element.columnWidth;
+    },
+    set elementColumns(columns) {
+        this._element.columns = columns;
+    },
+    get elementColumns() {
+        return this._element.columns;
+    },
+    set validation(validation) {
+        this._validation = validation;
+    },
+    get validation() {
+        return this._validation;
+    },
+    set validationRequired(boolean) {
+        this._validation.required = boolean;
+        this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-required', boolean);
+        if (boolean) {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get validationRequired() {
+        return this._validation.required;
+    },
     set value(value) {
         this._value = value;
     },
     get value() {
-        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
-        // 사용자 변경시 해당 값이 할당된다.
         return this._value;
+    },
+    makeDRTable() {
+        // 테이블
+        const table = new UITable()
+            .setUIClass(CLASS_PREFIX + 'dr-table')
+            .addUIClass('mt-2')
+            .setUIId('drTable' + this.id)
+            .setUIAttribute('data-validation-required', this.validationRequired);
+
+        return table;
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -81,6 +135,29 @@ export const dynamicRowTableMixin = {
         this.value = e.target.value;
     },
     getProperty() {
-        return [];
+        return [
+            ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
+            new ZGroupProperty('group.element')
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZColumnProperty('elementColumns', 'element.columns', this.elementColumns)),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
+        ];
+    },
+    // json 데이터 추출 (서버에 전달되는 json 데이터)
+    toJson() {
+        return {
+            id: this._id,
+            type: this._type,
+            display: this._display,
+            isTopic: this._isTopic,
+            mapId: this._mapId,
+            tags: this._tags,
+            value: this._value,
+            label: this._label,
+            element: this._element,
+            validation: this._validation
+        };
     }
 };

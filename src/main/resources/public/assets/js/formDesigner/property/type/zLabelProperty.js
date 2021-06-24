@@ -22,24 +22,24 @@ export default class ZLabelProperty {
 
     getLabelProperty() {
         // label - text
-        const labelTextProperty = new ZInputBoxProperty('label.text', this.target.labelText);
+        const labelTextProperty = new ZInputBoxProperty('labelText', 'label.text', this.target.labelText);
         labelTextProperty.columnWidth = '8';
 
         // label - fontSize
-        const labelFontSizeProperty = new ZInputBoxProperty('label.fontSize', this.target.labelFontSize)
+        const labelFontSizeProperty = new ZInputBoxProperty('labelFontSize', 'label.fontSize', this.target.labelFontSize)
             .setValidation(false, 'number', '10', '100', '', '');
         labelFontSizeProperty.unit = UNIT.PX;
         labelFontSizeProperty.columnWidth = '3';
 
         // label - position
-        const labelPositionProperty = new ZSwitchButtonProperty('label.position', this.target.labelPosition, [
+        const labelPositionProperty = new ZSwitchButtonProperty('labelPosition', 'label.position', this.target.labelPosition, [
             {'name': 'icon-position-left', 'value': 'left'},
             {'name': 'icon-position-top', 'value': 'top'},
             {'name': 'icon-position-hidden', 'value': 'hidden'}
         ]);
 
         // label - align
-        const labelAlignProperty = new ZSwitchButtonProperty('label.align', this.target.labelAlign, [
+        const labelAlignProperty = new ZSwitchButtonProperty('labelAlign', 'label.align', this.target.labelAlign, [
             { 'name': 'icon-align-left', 'value': 'left' },
             { 'name': 'icon-align-center', 'value': 'center' },
             { 'name': 'icon-align-right', 'value': 'right' }
@@ -56,11 +56,11 @@ export default class ZLabelProperty {
             const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             return this.target['labelFontOption' + method] ? 'Y' : 'N';
         }).join('|');
-        const labelFontOptionProperty = new ZToggleButtonProperty('label.fontOption', labelFontValue, labelFontOption);
+        const labelFontOptionProperty = new ZToggleButtonProperty('labelFontOption', 'label.fontOption', labelFontValue, labelFontOption);
         labelFontOptionProperty.columnWidth = '5';
 
         // label - fontColor
-        const labelFontColorProperty = new ZColorPickerProperty('label.fontColor', this.target.labelFontColor, false)
+        const labelFontColorProperty = new ZColorPickerProperty('labelFontColor', 'label.fontColor', this.target.labelFontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
         labelFontColorProperty.columnWidth = '12';
 

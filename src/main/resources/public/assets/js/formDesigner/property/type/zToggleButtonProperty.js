@@ -19,8 +19,8 @@ const propertyExtends = {
 };
 
 export default class ZToggleButtonProperty extends ZProperty {
-    constructor(name, value, options) {
-        super(name, 'toggleButtonProperty', value);
+    constructor(key, name, value, options) {
+        super(key, name, 'toggleButtonProperty', value);
 
         this.options = options;
     }
@@ -42,7 +42,7 @@ export default class ZToggleButtonProperty extends ZProperty {
                 item.value.substr(1, item.value.length);
 
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
-                .setUIId(this.getKeyId() + name)
+                .setUIId(this.key + name)
                 .setUIAttribute('data-value', (toggleValueArray[index] === 'Y'))
                 .addUIClass('btn-toggle')
                 .onUIClick(this.updateProperty.bind(this));
