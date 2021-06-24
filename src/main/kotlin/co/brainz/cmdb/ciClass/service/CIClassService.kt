@@ -26,6 +26,7 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
 import com.querydsl.core.QueryResults
+import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -201,6 +202,7 @@ class CIClassService(
     /**
      * CMDB CI Class 저장
      */
+    @Transactional
     fun createCIClass(ciClassDto: CIClassDto): Boolean {
         var order = 1
         val ciClassEntity = CIClassEntity(
@@ -238,6 +240,7 @@ class CIClassService(
     /**
      * CMDB CI Class 수정
      */
+    @Transactional
     fun updateCIClass(ciClassDto: CIClassDto): Boolean {
         var order = 1
         val ciClassEntity = ciClassRepository.findByIdOrNull(ciClassDto.classId) ?: throw AliceException(
@@ -283,6 +286,7 @@ class CIClassService(
     /**
      * CMDB CI Class 삭제
      */
+    @Transactional
     fun deleteCIClass(classId: String): Boolean {
         val classEntity = ciClassRepository.findByIdOrNull(classId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
