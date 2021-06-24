@@ -226,99 +226,99 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 .col-1 {
-  width: 5rem;
+  width: 5rem !important;
 }
 
 .col-2 {
-  width: 10rem;
+  width: 10rem !important;
 }
 
 .col-3 {
-  width: 15rem;
+  width: 15rem !important;
 }
 
 .col-4 {
-  width: 20rem;
+  width: 20rem !important;
 }
 
 .col-5 {
-  width: 25rem;
+  width: 25rem !important;
 }
 
 .col-6 {
-  width: 30rem;
+  width: 30rem !important;
 }
 
 .col-7 {
-  width: 35rem;
+  width: 35rem !important;
 }
 
 .col-8 {
-  width: 40rem;
+  width: 40rem !important;
 }
 
 .col-9 {
-  width: 45rem;
+  width: 45rem !important;
 }
 
 .col-10 {
-  width: 50rem;
+  width: 50rem !important;
 }
 
 .col-11 {
-  width: 55rem;
+  width: 55rem !important;
 }
 
 .col-12 {
-  width: 60rem;
+  width: 60rem !important;
 }
 
 .col-pct-1 {
-  width: 8.3333333333%;
+  width: 8.3333333333% !important;
 }
 
 .col-pct-2 {
-  width: 16.6666666667%;
+  width: 16.6666666667% !important;
 }
 
 .col-pct-3 {
-  width: 25%;
+  width: 25% !important;
 }
 
 .col-pct-4 {
-  width: 33.3333333333%;
+  width: 33.3333333333% !important;
 }
 
 .col-pct-5 {
-  width: 41.6666666667%;
+  width: 41.6666666667% !important;
 }
 
 .col-pct-6 {
-  width: 50%;
+  width: 50% !important;
 }
 
 .col-pct-7 {
-  width: 58.3333333333%;
+  width: 58.3333333333% !important;
 }
 
 .col-pct-8 {
-  width: 66.6666666667%;
+  width: 66.6666666667% !important;
 }
 
 .col-pct-9 {
-  width: 75%;
+  width: 75% !important;
 }
 
 .col-pct-10 {
-  width: 83.3333333333%;
+  width: 83.3333333333% !important;
 }
 
 .col-pct-11 {
-  width: 91.6666666667%;
+  width: 91.6666666667% !important;
 }
 
 .col-pct-12 {
-  width: 100%;
+  width: 100% !important;
 }
 
 /* _spacing.scss
@@ -4174,7 +4174,6 @@ button .icon-plus {
  * @version 1.0
  */
 .picker-wrapper-date {
-  width: 100%;
   display: inline-block;
 }
 
