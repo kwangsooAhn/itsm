@@ -17,8 +17,6 @@ import ZComponent from '../form/zComponent.js';
 
 class ZDocument {
     constructor() {
-        // 초기화
-        this.initDocumentModal();
     }
 
     /**
