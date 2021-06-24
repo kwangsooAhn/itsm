@@ -1127,6 +1127,15 @@ input, button, select, optgroup, textarea {
   margin-right: 0.625rem;
 }
 
+.save-info {
+  height: 2.188rem;
+  margin-top: 1.5625rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #586872;
+  text-align: center;
+}
+
 /* _elements.scss
  *
  * 파일 경로 : template/_elements.scss
