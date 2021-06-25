@@ -10,9 +10,9 @@
  * https://www.brainz.co.kr
  */
 
-import {FORM, CLASS_PREFIX, UNIT, CI} from '../../lib/zConstants.js';
+import { FORM, CLASS_PREFIX, UNIT } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import {UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton} from '../../lib/zUI.js';
+import { UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -67,11 +67,11 @@ export const dynamicRowTableMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        // 데이터 : "value" : [{0: "1행 1열", 1: "1행 2열", 2:"", 3:"", 4:"" ...}, {0: "", 1: "", 2:"", 3:"", 4:"" ...} ... ]
+        // 데이터 : "value" :[['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
         this._value = this.data.value || '';
         // 데이터 초기화
-        if (this._value !== '') {
-            this.value = JSON.parse(this._value);
+        if (!zValidation.isEmpty(this._value)) {
+            this._value = JSON.parse(this._value);
         }
     },
     // component 엘리먼트 생성
@@ -178,7 +178,6 @@ export const dynamicRowTableMixin = {
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX);
         row.addUICell(td);
-
         if (Array.isArray(this.value) && this.value.length > 0) {
             this.value.forEach((rowData) => {
                 this.addTableRow(table, rowData);
@@ -209,9 +208,9 @@ export const dynamicRowTableMixin = {
         // row 추가
         const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'dr-table-row');
         // td 추가
-        const columnData = {};
+        const columnData = [];
         this.elementColumns.forEach((column, index) => {
-            columnData[index] = zValidation.isEmpty(data[index]) ? '' : data[index];
+            columnData.push(zValidation.isEmpty(data[index]) ? '' : data[index]);
             const tdWidth = (Number(column.columnWidth) / FORM.COLUMN) * 100;
             const tdCssText = `width:${tdWidth}%;` +
                 `color:${column.columnContent.fontColor};` +

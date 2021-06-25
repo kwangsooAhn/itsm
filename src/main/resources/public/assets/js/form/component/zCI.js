@@ -43,8 +43,8 @@ export const ciMixin = {
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this.data.value || '';
         // CI 데이터 초기화
-        if (this._value !== '') {
-            this.value = JSON.parse(this._value);
+        if (!zValidation.isEmpty(this._value)) {
+            this._value = JSON.parse(this._value);
         }
     },
     // component 엘리먼트 생성

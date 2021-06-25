@@ -13,7 +13,7 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { SESSION, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';

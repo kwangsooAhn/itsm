@@ -118,7 +118,7 @@ export default class ZColumnProperty extends ZProperty {
         );
 
         // 컬럼 세부 속성 Tab 추가
-        const property = this.getPropertyInColumnType(columnOption, 'column' + index);
+        const property = this.getPropertyByColumnType(columnOption, 'column' + index);
         property.map(propertyObject => {
             const propertyObjectElement = propertyObject.makeProperty(this);
 
@@ -189,7 +189,7 @@ export default class ZColumnProperty extends ZProperty {
     }
 
     // 컬럼공통 속성 조회
-    getPropertyInColumnCommon(option, id) {
+    getPropertyByColumnCommon(option, id) {
         // 입력 유형
         const columnTypeProperty = new ZDropdownProperty(id + '|columnType', 'element.columnType',
             option.columnType, [ // input, dropdown, date, time, datetime, customCode
@@ -277,7 +277,7 @@ export default class ZColumnProperty extends ZProperty {
         ];
     }
     // 컬럼입력유형에 따른 속성 조회
-    getPropertyInColumnType(option, id) {
+    getPropertyByColumnType(option, id) {
         switch (option.columnType) {
         case 'input':
             // validation Type
@@ -290,7 +290,7 @@ export default class ZColumnProperty extends ZProperty {
                     {name: 'form.properties.phone', value: 'phone'}
                 ]);
             return [
-                ...this.getPropertyInColumnCommon(option, id),
+                ...this.getPropertyByColumnCommon(option, id),
                 new ZGroupProperty('group.columnElement')
                     .addProperty(new ZInputBoxProperty(id + '|columnElement.placeholder', 'element.placeholder', option.columnElement.placeholder))
                     .addProperty(validationTypeProperty)
