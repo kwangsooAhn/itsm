@@ -46,9 +46,6 @@ const propertyExtends = {
         },
         columnElement: {} // 타입별 세부 속성
     },
-    columnType: [
-        { name: 'input', value: 'input' }
-    ],
     columnElement: {
         input: {
             placeholder: '',
@@ -97,7 +94,6 @@ export default class ZColumnProperty extends ZProperty {
     // 컬럼 추가
     addColumn(option, index) {
         if (index === -1 ) { index = this.value.length; }
-
         // 옵션
         const columnOption = Object.assign({}, propertyExtends.columnCommon, option);
         // 열 속성 기본 값 조회
@@ -105,9 +101,24 @@ export default class ZColumnProperty extends ZProperty {
             Object.assign(columnOption.columnElement, propertyExtends.columnElement[columnOption.columnType]);
         }
         const columnPropertyGroup = new UIDiv();
+        // 순서 변경 버튼 추가
+        const arrowLeftButton = new UIButton().addUI(new UISpan().setUIClass('icon').addUIClass('icon-arrow-left'))
+            .onUIClick(this.swapColumn.bind(this, 'column' + index, - 1));
+        const arrowRightButton = new UIButton().addUI(new UISpan().setUIClass('icon').addUIClass('icon-arrow-right'))
+            .onUIClick(this.swapColumn.bind(this, 'column' + index, + 1));
+        // 패널 삭제 버튼 추가
+        const deleteButton = new UIButton().addUIClass('panel-delete-button').addUI(new UISpan().setUIClass('icon').addUIClass('icon-delete'))
+            .onUIClick(this.removeColumn.bind(this, 'column' + index));
+
+        columnPropertyGroup.addUI(
+            new UISpan().setUIClass('panel-name').setUIInnerHTML(i18n.msg('form.properties.element.columnOrder')),
+            arrowLeftButton,
+            arrowRightButton,
+            deleteButton
+        );
 
         // 컬럼 세부 속성 Tab 추가
-        const property = this.getPropertyInColumnType(columnOption, index);
+        const property = this.getPropertyInColumnType(columnOption, 'column' + index);
         property.map(propertyObject => {
             const propertyObjectElement = propertyObject.makeProperty(this);
 
@@ -135,21 +146,52 @@ export default class ZColumnProperty extends ZProperty {
             // 신규 추가일 경우 + 추가 버튼과 위치를 변경한다. (재정렬)
             aliceJs.swapNode(this.UIElement.UITabPanel.tabsDiv.UIButton.domElement, this.UIElement.UITabPanel.tabs[index].domElement);
             // 최대값을 넘어가는 순간 추가 버튼을 숨긴다.
-            if (index === FORM.MAX_COLUMN_IN_TABLE) {
+            if ((index + 1 ) === FORM.MAX_COLUMN_IN_TABLE) {
                 this.UIElement.UITabPanel.tabsDiv.UIButton.removeUIClass('on').addUIClass('off');
             }
-            this.panel.update.call(this.panel, this.key, this.value);
+            this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
         }
     }
     // 컬럼 삭제
-    removeColumn() {
+    removeColumn(id) {
+        const index = this.UIElement.UITabPanel.tabs.findIndex((tab) => tab.domElement.id === id);
 
+        if (this.value.length === 1) {
+            aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'));
+        } else {
+            this.UIElement.UITabPanel.removeUITab('column' + index);
+            this.value.splice(index, 1);
+            // 이전 탭 선택
+            const prevTab = this.UIElement.UITabPanel.tabs[index - 1];
+            this.UIElement.UITabPanel.selectUITab(prevTab.domElement.id);
+
+            this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
+        }
+    }
+    // 컬럼 순서 변경
+    swapColumn(id, offset) {
+        const curIndex = this.UIElement.UITabPanel.tabs.findIndex((tab) => tab.domElement.id === id);
+        const changeIndex = curIndex + offset;
+        if (changeIndex === -1 || changeIndex === this.value.length) { return false; }
+
+        aliceJs.swapNode(this.UIElement.UITabPanel.tabs[curIndex].domElement, this.UIElement.UITabPanel.tabs[changeIndex].domElement);
+
+        [this.UIElement.UITabPanel.tabs[curIndex], this.UIElement.UITabPanel.tabs[changeIndex]] =
+            [this.UIElement.UITabPanel.tabs[changeIndex], this.UIElement.UITabPanel.tabs[curIndex]];
+
+        aliceJs.swapNode(this.UIElement.UITabPanel.panels[curIndex].domElement, this.UIElement.UITabPanel.panels[changeIndex].domElement);
+
+        [this.UIElement.UITabPanel.panels[curIndex], this.UIElement.UITabPanel.panels[changeIndex]] =
+            [this.UIElement.UITabPanel.panels[changeIndex], this.UIElement.UITabPanel.panels[curIndex]];
+
+        [this.value[curIndex], this.value[changeIndex]] = [this.value[changeIndex], this.value[curIndex]];
+        this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
     }
 
     // 컬럼공통 속성 조회
-    getPropertyInColumnCommon(option, index) {
+    getPropertyInColumnCommon(option, id) {
         // 입력 유형
-        const columnTypeProperty = new ZDropdownProperty(index + '|columnType', 'element.columnType',
+        const columnTypeProperty = new ZDropdownProperty(id + '|columnType', 'element.columnType',
             option.columnType, [ // input, dropdown, date, time, datetime, customCode
                 {name: 'form.properties.columnType.input', value: 'input'},
                 {name: 'form.properties.columnType.dropdown', value: 'dropdown'},
@@ -160,18 +202,18 @@ export default class ZColumnProperty extends ZProperty {
             ]);
 
         // head - fontColor
-        const columnHeadColorProperty = new ZColorPickerProperty(index + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor, false)
+        const columnHeadColorProperty = new ZColorPickerProperty(id + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
         columnHeadColorProperty.columnWidth = '9';
 
         // head - fontSize
-        const columnHeadFontSizeProperty = new ZInputBoxProperty(index + '|columnHead.fontSize', 'columnHead.fontSize', option.columnHead.fontSize)
+        const columnHeadFontSizeProperty = new ZInputBoxProperty(id + '|columnHead.fontSize', 'columnHead.fontSize', option.columnHead.fontSize)
             .setValidation(false, 'number', '10', '100', '', '');
         columnHeadFontSizeProperty.unit = UNIT.PX;
         columnHeadFontSizeProperty.columnWidth = '3';
 
         // head - align
-        const columnHeadAlignProperty = new ZSwitchButtonProperty(index + '|columnHead.align', 'columnHead.align', option.columnHead.align, [
+        const columnHeadAlignProperty = new ZSwitchButtonProperty(id + '|columnHead.align', 'columnHead.align', option.columnHead.align, [
             { 'name': 'icon-align-left', 'value': 'left' },
             { 'name': 'icon-align-center', 'value': 'center' },
             { 'name': 'icon-align-right', 'value': 'right' }
@@ -185,22 +227,22 @@ export default class ZColumnProperty extends ZProperty {
             { 'name': 'icon-underline', 'value': 'underline' }
         ];
         const columnHeadFontValue = columnHeadFontOption.map((item) => option.columnHead[item.value] ? 'Y' : 'N').join('|');
-        const columnHeadFontOptionProperty = new ZToggleButtonProperty(index + '|columnHead.', 'columnHead.fontOption', columnHeadFontValue, columnHeadFontOption);
+        const columnHeadFontOptionProperty = new ZToggleButtonProperty(id + '|columnHead.', 'columnHead.fontOption', columnHeadFontValue, columnHeadFontOption);
         columnHeadFontOptionProperty.columnWidth = '6';
 
         // content - fontColor
-        const columnContentColorProperty = new ZColorPickerProperty(index + '|columnContent.fontColor', 'columnContent.fontColor', option.columnContent.fontColor, false)
+        const columnContentColorProperty = new ZColorPickerProperty(id + '|columnContent.fontColor', 'columnContent.fontColor', option.columnContent.fontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
         columnContentColorProperty.columnWidth = '9';
 
         // content - fontSize
-        const columnContentFontSizeProperty = new ZInputBoxProperty(index + '|columnContent.fontSize', 'columnContent.fontSize', option.columnContent.fontSize)
+        const columnContentFontSizeProperty = new ZInputBoxProperty(id + '|columnContent.fontSize', 'columnContent.fontSize', option.columnContent.fontSize)
             .setValidation(false, 'number', '10', '100', '', '');
         columnContentFontSizeProperty.unit = UNIT.PX;
         columnContentFontSizeProperty.columnWidth = '3';
 
         // content - align
-        const columnContentAlignProperty = new ZSwitchButtonProperty(index + '|columnContent.align', 'columnContent.align', option.columnContent.align, [
+        const columnContentAlignProperty = new ZSwitchButtonProperty(id + '|columnContent.align', 'columnContent.align', option.columnContent.align, [
             { 'name': 'icon-align-left', 'value': 'left' },
             { 'name': 'icon-align-center', 'value': 'center' },
             { 'name': 'icon-align-right', 'value': 'right' }
@@ -214,13 +256,13 @@ export default class ZColumnProperty extends ZProperty {
             { 'name': 'icon-underline', 'value': 'underline' }
         ];
         const columnContentFontValue = columnContentFontOption.map((item) => option.columnContent[item.value] ? 'Y' : 'N').join('|');
-        const columnContentFontOptionProperty = new ZToggleButtonProperty(index + '|columnContent.', 'columnContent.fontOption', columnContentFontValue, columnContentFontOption);
+        const columnContentFontOptionProperty = new ZToggleButtonProperty(id + '|columnContent.', 'columnContent.fontOption', columnContentFontValue, columnContentFontOption);
         columnContentFontOptionProperty.columnWidth = '6';
 
         return [
-            new ZInputBoxProperty(index + '|columnName', 'element.columnName', option.columnName),
+            new ZInputBoxProperty(id + '|columnName', 'element.columnName', option.columnName),
             columnTypeProperty,
-            new ZSliderProperty(index + '|columnWidth', 'element.columnWidth', option.columnWidth),
+            new ZSliderProperty(id + '|columnWidth', 'element.columnWidth', option.columnWidth),
             new ZGroupProperty('group.columnHead')
                 .addProperty(columnHeadColorProperty)
                 .addProperty(columnHeadFontSizeProperty)
@@ -235,11 +277,11 @@ export default class ZColumnProperty extends ZProperty {
         ];
     }
     // 컬럼입력유형에 따른 속성 조회
-    getPropertyInColumnType(option, index) {
+    getPropertyInColumnType(option, id) {
         switch (option.columnType) {
         case 'input':
             // validation Type
-            const validationTypeProperty = new ZDropdownProperty(index + '|columnElement.validationType', 'validation.validationType',
+            const validationTypeProperty = new ZDropdownProperty(id + '|columnElement.validationType', 'validation.validationType',
                 option.columnElement.validationType, [
                     {name: 'form.properties.none', value: 'none'},
                     {name: 'form.properties.char', value: 'char'},
@@ -248,12 +290,12 @@ export default class ZColumnProperty extends ZProperty {
                     {name: 'form.properties.phone', value: 'phone'}
                 ]);
             return [
-                ...this.getPropertyInColumnCommon(option, index),
+                ...this.getPropertyInColumnCommon(option, id),
                 new ZGroupProperty('group.columnElement')
-                    .addProperty(new ZInputBoxProperty(index + '|columnElement.placeholder', 'element.placeholder', option.columnElement.placeholder))
+                    .addProperty(new ZInputBoxProperty(id + '|columnElement.placeholder', 'element.placeholder', option.columnElement.placeholder))
                     .addProperty(validationTypeProperty)
-                    .addProperty(new ZInputBoxProperty(index + '|columnElement.minLength', 'validation.minLength', option.columnElement.minLength))
-                    .addProperty(new ZInputBoxProperty(index + '|columnElement.maxLength', 'validation.maxLength', option.columnElement.maxLength))
+                    .addProperty(new ZInputBoxProperty(id + '|columnElement.minLength', 'validation.minLength', option.columnElement.minLength))
+                    .addProperty(new ZInputBoxProperty(id + '|columnElement.maxLength', 'validation.maxLength', option.columnElement.maxLength))
             ];
         default:
             return [];
@@ -262,20 +304,22 @@ export default class ZColumnProperty extends ZProperty {
     
     // 컬럼 세부 속성 변경시 호출되는 이벤트 핸들러
     update(key, value) {
-        // 0|key.key 속성 형태로 값이 전달되며 첫번째는 column 순서 즉 index를 의미한다.
+        // id|key.key 속성 형태로 값이 전달되며 첫번째는 column 순서 즉 index를 의미한다.
         const keyArray = key.split('|');
+        const curIndex = this.UIElement.UITabPanel.tabs.findIndex((tab) => tab.domElement.id === keyArray[0]);
+        const changeValue = JSON.parse(JSON.stringify(this.value));
         // property 검색
         const propertyNameArray =  keyArray[1].split('.');
-        let changeColumnOption = this.value[keyArray[0]];
+        let changeColumnOption = changeValue[curIndex];
         for (let i = 0; i < propertyNameArray.length - 1; i++) {
             changeColumnOption = changeColumnOption[propertyNameArray[i]];
         }
         const lastPropertyName = propertyNameArray[propertyNameArray.length - 1];
         const method = lastPropertyName.substr(0, 1).toLowerCase() +
             lastPropertyName.substr(1, lastPropertyName.length);
-
         changeColumnOption[method] = value;
 
-        this.panel.update.call(this.panel, this.key, this.value);
+        this.value = changeValue;
+        this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
     }
 }

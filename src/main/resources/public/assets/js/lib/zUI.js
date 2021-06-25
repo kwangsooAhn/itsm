@@ -571,6 +571,11 @@ class UITable extends UIElement {
         return this;
     }
 
+    clearUIRow() {
+        this.rows = [];
+        return this;
+    }
+
     updateUIRow(index, row) {
         if (index !== -1) {
             const updateRow = this.rows[index];
@@ -579,6 +584,10 @@ class UITable extends UIElement {
             this.rows.splice(index, 1, row);
         }
         return this;
+    }
+
+    getIndexUIRow(row) {
+        return this.rows.indexOf(row);
     }
 }
 
@@ -666,10 +675,9 @@ class UITabPanel extends UIElement {
                 tab.removeUIClass('selected');
             }
 
-            if ( panel ) {
+            if (panel) {
                 panel.setUIDisplay('none');
             }
-
         }
 
         tab = this.tabs.find(function (item) {
@@ -701,8 +709,8 @@ class UITabPanel extends UIElement {
 
         const panel = new UIDiv().setUIClass('panel');
         panel.setUIId(id);
-        panel.addUI(panelItem);
         panel.setUIDisplay('none');
+        panel.addUI(panelItem);
 
         this.panels.push(panel);
         this.panelsDiv.addUI(panel);
@@ -710,8 +718,18 @@ class UITabPanel extends UIElement {
         this.selectUITab(id);
     }
 
-    removeUITab() {
+    removeUITab(id) {
+        const index = this.tabs.findIndex((tab) => tab.domElement.id === id);
 
+        if (index !== -1) {
+            this.tabs[index].parent = null;
+            this.tabsDiv.removeUI(this.tabs[index]);
+            this.tabs.splice(index, 1);
+
+            this.panels[index].parent = null;
+            this.panelsDiv.removeUI(this.panels[index]);
+            this.panels.splice(index, 1);
+        }
     }
 }
 

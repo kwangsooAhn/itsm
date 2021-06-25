@@ -716,6 +716,7 @@ form:
       color: "color"
       columns: "Column"
       columnName: "Column Name"
+      columnOrder: "Column Order"
       columnType: "Column Type"
       defaultValue: "Default Value"
       defaultValueRadio: "Default Value"
