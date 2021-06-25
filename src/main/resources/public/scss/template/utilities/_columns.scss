@@ -8,7 +8,7 @@
 // col-1 ~ col-12
 @for $i from 1 through $column-count {
   .col-#{$i} {
-    width: $column-init * $i;
+    width: $column-init * $i !important;
   }
 }
 
@@ -16,7 +16,7 @@
 $i: 1;
 @while $i <= $column-count {
   .col-pct-#{$i} {
-    width: getColumnPercentWidth($column-count) * $i;
+    width: getColumnPercentWidth($column-count) * $i !important;
   }
   $i: $i + 1;
 }
