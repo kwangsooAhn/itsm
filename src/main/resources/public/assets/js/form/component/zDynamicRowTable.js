@@ -221,7 +221,7 @@ export const dynamicRowTableMixin = {
 
             const td = new UICell(row)
                 .setUICSSText(tdCssText)
-                .addUI(this.getCellInColumnType(column, columnData[index]));
+                .addUI(this.getTableRowCell(column, columnData[index]));
             row.addUICell(td);
         });
         // 데이터 추가
@@ -240,19 +240,23 @@ export const dynamicRowTableMixin = {
         targetTable.addUIRow(row);
     },
     // column Type 에 따른 cell 반환
-    getCellInColumnType(column, cellValue) {
+    getTableRowCell(column, cellValue) {
         switch (column.columnType) {
         case 'input':
-            return new UIInput().setUIPlaceholder(column.columnElement.placeholder)
-                .setUIValue(cellValue)
-                .setUIAttribute('data-validation-type', column.columnElement.validationType)
-                .setUIAttribute('data-validation-max-length', column.columnElement.maxLength)
-                .setUIAttribute('data-validation-min-length', column.columnElement.minLength)
-                .onUIKeyUp(this.updateValue.bind(this))
-                .onUIChange(this.updateValue.bind(this));
+            return this.getCellByColumnTypeInput(column, cellValue);
         default:
             return new UISpan().setUIInnerHTML(cellValue);
         }
+    },
+    //column Type - input
+    getCellByColumnTypeInput(column, cellValue) {
+        return new UIInput().setUIPlaceholder(column.columnElement.placeholder)
+            .setUIValue(cellValue)
+            .setUIAttribute('data-validation-type', column.columnElement.validationType)
+            .setUIAttribute('data-validation-max-length', column.columnElement.maxLength)
+            .setUIAttribute('data-validation-min-length', column.columnElement.minLength)
+            .onUIKeyUp(this.updateValue.bind(this))
+            .onUIChange(this.updateValue.bind(this));
     },
     // 테이블 row 삭제
     removeTableRow(targetTable, row) {
