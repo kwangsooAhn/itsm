@@ -10,11 +10,11 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import {FORM} from '../lib/zConstants.js';
+import ZComponent from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
 import ZGroup from '../form/zGroup.js';
 import ZRow from '../form/zRow.js';
-import ZComponent from '../form/zComponent.js';
+import { FORM } from '../lib/zConstants.js';
 
 class ZFormToken {
     constructor() {
@@ -147,9 +147,8 @@ class ZFormToken {
     /**
      * 컴포넌트 value 데이터 조회
      */
-    getComponentData() {
-        let array = [];
-        this.form.children.forEach((child) => {
+    getComponentData(object, array) {
+        object.children.forEach((child) => {
             if (child instanceof ZComponent) {
                 array.push({ componentId: child.id, value: (Array.isArray(this.value) ? JSON.stringify(child.value) : child.value) });
             } else {

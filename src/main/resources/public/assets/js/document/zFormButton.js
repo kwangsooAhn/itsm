@@ -10,9 +10,9 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import {DOCUMENT, SESSION} from '../lib/zConstants.js';
-import {zValidation} from "../lib/zValidation.js";
-import {UIButton, UIDiv} from "../lib/zUI.js";
+import { DOCUMENT, SESSION } from '../lib/zConstants.js';
+import { UIButton, UIDiv } from "../lib/zUI.js";
+import { zValidation } from "../lib/zValidation.js";
 
 class ZFormButton {
     constructor() {
@@ -21,12 +21,14 @@ class ZFormButton {
      * 클래스 초기화
      *
      * @param domElement Form 그리고자 하는 대상 DOM Element
-     * @param actions FromType 에 따라 Form 정보 조회 대상이 다르며 FormId, DocumentId, TokenId 값이 올 수 있다.
+     * @param formData FromType 에 따라 Form 정보 조회 대상이 다르며 FormId, DocumentId, TokenId 값이 올 수 있다.
+     * @param zForm
      */
-    init(domElement, actions, zForm) {
-        this.zForm = zForm;
+    init(domElement, formData, zForm) {
         this.domElement = domElement;
-        this.makeActionButton(actions);
+        this.formData = formData;
+        this.zForm = zForm;
+        this.makeActionButton(this.formData.actions);
         this.makeDefaultButton();
     }
     /**
@@ -53,24 +55,26 @@ class ZFormButton {
      * 신청서 상단 동적 버튼 목록 추가 및 이벤트 생성
      * 저장과 취소 버튼은 기본적으로 생성된다.
      * 버튼은 ['접수' , '반려', '처리'], '저장', '닫기' 순으로 표기한다.
-     * @param data JSON 데이터
+     * @param actions JSON 데이터
      */
-    makeActionButton(data) {
-        if (!zValidation.isDefined(data)) { return false; }
+    makeActionButton(actions) {
+        if (!zValidation.isDefined(actions)) { return false; }
         // 버튼 목록 생성
         const UIButtonGroup = new UIDiv().setUIClass('btn-list');
         // 동적버튼
-        data.forEach( (btn) => {
+        actions.forEach( (btn) => {
             if (zValidation.isEmpty(btn.name)) { return false; }
-            UIButtonGroup.addUI(new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name)).addUIClass('default-line'));
+            let UIActionButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
+                .addUIClass('default-line')
 
             switch(btn.value) {
                 case 'close':
-                    this.closeForm.bind(this);
+                    UIActionButton.onUIClick(this.closeForm.bind(this));
                     break;
                 default :
-                    this.updateToken.bind(this, btn.value);
+                    UIActionButton.onUIClick(this.updateToken.bind(this, btn.value));
             }
+            UIButtonGroup.addUI(UIActionButton);
         });
         this.domElement.appendChild(UIButtonGroup.domElement);
     }
@@ -86,15 +90,16 @@ class ZFormButton {
         // TODO: DR 테이블, CI 테이블 필수값 체크
 
         const saveData = {
-            'documentId': this.data.documentId,
-            'instanceId': this.data.instanceId,
-            'tokenId': (zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : ''),
+            'documentId': this.formData.documentId,
+            'instanceId': this.formData.instanceId,
+            'tokenId': (zValidation.isDefined(this.formData.tokenId) ? this.formData.tokenId : ''),
             'isComplete': (actionType !== 'save'),
             'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
             'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''
         };
         // 컴포넌트 값
-        saveData.componentData = this.zForm.getComponentData();
+        saveData.componentData = this.zForm.getComponentData(this.zForm.form, []);
+
         //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
         console.log(saveData);
         return false;
@@ -126,7 +131,7 @@ class ZFormButton {
      * TODO: 인쇄
      */
     printForm() {}
-    closeForm() {}
+    closeForm() { window.close();}
 
     openProcessStatusPopUp() {
         window.open('/process/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');

@@ -32,20 +32,106 @@
         /*<![CDATA[*/
 
         import { zFormToken } from "../../assets/js/document/zFormToken.js";
-        import {zFormButton} from "../../assets/js/document/zFormButton.js";
+        import { zFormButton } from "../../assets/js/document/zFormButton.js";
+        import { SESSION } from '../../assets/js/lib/zConstants.js';
+        const userSession = {
+            userKey : '[[${#authentication.details.userKey}]]',
+            userId : '[[${#authentication.details.userId}]]',
+            userName: '[[${#authentication.details.userName}]]',
+            email: '[[${#authentication.details.email}]]',
+            position: '[[${#authentication.details.position}]]',
+            department: '[[${#authentication.details.department}]]',
+            officeNumber: '[[${#authentication.details.officeNumber}]]',
+            mobileNumber: '[[${#authentication.details.mobileNumber}]]'
+        };
+        Object.assign(SESSION, userSession);
         let tokenListModal;
         window.onload = function () {
-            // 아래 URL 은 추후에 '/rest/tokens/' + [[${tokenId}]] + '/data' 로 수정해야 함.
+            // 아래 URL 은 추후에 '/rest/tokens/' + '[[${tokenId}]]' + '/data' 로 수정해야 함.
             aliceJs.fetchJson('/assets/js/document/token_test.json', {
                 method: 'GET'
             }).then((formData) => {
-                this.formDataJson = formData.form;
-                this.actionDataJson = formData.actions;
-                zFormToken.init(document.getElementById('document-panel'), this.formDataJson);
-                zFormButton.init(document.getElementById('btn-area'), this.actionDataJson);
+                zFormToken.init(document.getElementById('document-panel'), formData);
+                zFormButton.init(document.getElementById('btn-area'), formData, zFormToken);
+                this.instanceId = zForm
             });
 
             OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
+
+            let instanceId = document.getElementById('instanceId').getAttribute('data-id');
+            let tokenId = document.getElementById('tokenId').getAttribute('data-id');
+            // 프린트 페이지일 경우,
+            if (document.querySelector('.token-properties') === null) { return false; }
+
+            // 탭 정보들 조회하여 셋팅.
+            aliceJs.sendXhr({
+                method: 'GET',
+                url: '/tokens/' + '[[${tokenId}]]' + '/edit-tab',
+                async: false,
+                showProgressbar: true,
+                callbackFunc: function (response) {
+                    if (document.querySelector('.token-properties').children) {
+                        document.querySelector('.token-properties').remove();
+                        let tokenInfo = document.createElement('div');
+                        tokenInfo.className = 'token-properties';
+                        document.querySelector('.document-container').append(tokenInfo);
+                    }
+                    document.querySelector('.token-properties').innerHTML = response.responseText;
+
+                    // 탭 정보에 이벤트를 등록
+                    document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {
+                        ele.addEventListener('click', (e) => {
+                            // 탭 동작
+                            Array.prototype.filter.call(e.target.parentNode.children, function (child) {
+                                return child !== e.target;
+                            }).forEach((sblingEle) => {
+                                sblingEle.classList.remove('active');
+                            });
+                            e.target.classList.add('active');
+                            // 컨텐츠 내용 동작
+                            let targetElement = document.querySelector('.' + e.target.dataset.targetContents);
+                            if (targetElement != null) {
+                                Array.prototype.filter.call(targetElement.parentNode.children, function (child) {
+                                    return child !== targetElement;
+                                }).forEach((sblingEle) => {
+                                    sblingEle.style.display = 'none';
+                                });
+                                targetElement.style.display = 'block';
+                            }
+                            // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
+                            sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
+
+                            if (e.target.dataset.targetContents === 'token-tag') {
+                                document.querySelector('span[contenteditable]').focus();
+                            }
+                        });
+                    });
+
+                    // userDate 변환
+                    document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
+                        element.textContent = dateFormatFromNow(element.textContent);
+                    });
+                    document.querySelectorAll('.user-date-time').forEach((element) => {
+                        element.textContent = i18n.userDateTime(element.textContent);
+                    });
+
+                    addCommentBox(instanceId);
+
+                    new zTag(document.querySelector('input[name=tags]'),{
+                        suggestion: true,
+                        realtime: true,
+                        tagType: 'instance',
+                        targetId: document.getElementById('instanceId').getAttribute('data-id')
+                    })
+                    const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
+                    document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
+                    OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
+                    const tokenActionEle = document.querySelectorAll('td[name=tokenAction]');
+                    for (let i = 0; i < tokenActionEle.length; i++) {
+                        tokenActionEle[i].textContent = i18n.msg(tokenActionEle[i].textContent);
+                    }
+                }
+            });
         };
 
         function getInstanceList(search, showProgressbar) {
