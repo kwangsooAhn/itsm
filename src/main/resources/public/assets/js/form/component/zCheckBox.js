@@ -172,8 +172,8 @@ export const checkBoxMixin = {
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(new ZDropdownProperty('elementAlign', 'element.align', this._element.align, [
-                    {name: 'form.properties.align.horizontal', value: 'horizontal'},
-                    {name: 'form.properties.align.vertical', value: 'vertical'}
+                    {name: i18n.msg('form.properties.align.horizontal'), value: 'horizontal'},
+                    {name: i18n.msg('form.properties.align.vertical'), value: 'vertical'}
                 ]))
                 .addProperty(new ZSwitchButtonProperty('elementPosition', 'element.position', this._element.position, [
                     {'name': 'icon-display-position-left', 'value': 'left'},
