@@ -118,7 +118,7 @@ export default class ZColumnProperty extends ZProperty {
         );
 
         // 컬럼 세부 속성 Tab 추가
-        const property = this.getPropertyByColumnType(columnOption, 'column' + index);
+        const property = this.getProperty(columnOption, 'column' + index);
         property.map(propertyObject => {
             const propertyObjectElement = propertyObject.makeProperty(this);
 
@@ -187,8 +187,19 @@ export default class ZColumnProperty extends ZProperty {
         [this.value[curIndex], this.value[changeIndex]] = [this.value[changeIndex], this.value[curIndex]];
         this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
     }
-
-    // 컬럼공통 속성 조회
+    // 컬럼입력유형에 따른 속성 조회
+    getProperty(option, id) {
+        switch (option.columnType) {
+        case 'input':
+            return [
+                ...this.getPropertyByColumnCommon(option, id),
+                ...this.getPropertyByColumnTypeInput(option, id)
+            ];
+        default:
+            return [];
+        }
+    }
+    // 컬럼 세부 속성 - 공통
     getPropertyByColumnCommon(option, id) {
         // 입력 유형
         const columnTypeProperty = new ZDropdownProperty(id + '|columnType', 'element.columnType',
@@ -276,32 +287,24 @@ export default class ZColumnProperty extends ZProperty {
 
         ];
     }
-    // 컬럼입력유형에 따른 속성 조회
-    getPropertyByColumnType(option, id) {
-        switch (option.columnType) {
-        case 'input':
-            // validation Type
-            const validationTypeProperty = new ZDropdownProperty(id + '|columnElement.validationType', 'validation.validationType',
-                option.columnElement.validationType, [
-                    {name: 'form.properties.none', value: 'none'},
-                    {name: 'form.properties.char', value: 'char'},
-                    {name: 'form.properties.number', value: 'number'},
-                    {name: 'form.properties.email', value: 'email'},
-                    {name: 'form.properties.phone', value: 'phone'}
-                ]);
-            return [
-                ...this.getPropertyByColumnCommon(option, id),
-                new ZGroupProperty('group.columnElement')
-                    .addProperty(new ZInputBoxProperty(id + '|columnElement.placeholder', 'element.placeholder', option.columnElement.placeholder))
-                    .addProperty(validationTypeProperty)
-                    .addProperty(new ZInputBoxProperty(id + '|columnElement.minLength', 'validation.minLength', option.columnElement.minLength))
-                    .addProperty(new ZInputBoxProperty(id + '|columnElement.maxLength', 'validation.maxLength', option.columnElement.maxLength))
-            ];
-        default:
-            return [];
-        }
+    // 컬럼 세부 속성 - input
+    getPropertyByColumnTypeInput(option, id) {
+        const validationTypeProperty = new ZDropdownProperty(id + '|columnElement.validationType', 'validation.validationType',
+            option.columnElement.validationType, [
+                {name: 'form.properties.none', value: 'none'},
+                {name: 'form.properties.char', value: 'char'},
+                {name: 'form.properties.number', value: 'number'},
+                {name: 'form.properties.email', value: 'email'},
+                {name: 'form.properties.phone', value: 'phone'}
+            ]);
+        return [
+            new ZGroupProperty('group.columnElement')
+                .addProperty(new ZInputBoxProperty(id + '|columnElement.placeholder', 'element.placeholder', option.columnElement.placeholder))
+                .addProperty(validationTypeProperty)
+                .addProperty(new ZInputBoxProperty(id + '|columnElement.minLength', 'validation.minLength', option.columnElement.minLength))
+                .addProperty(new ZInputBoxProperty(id + '|columnElement.maxLength', 'validation.maxLength', option.columnElement.maxLength))
+        ];
     }
-    
     // 컬럼 세부 속성 변경시 호출되는 이벤트 핸들러
     update(key, value) {
         // id|key.key 속성 형태로 값이 전달되며 첫번째는 column 순서 즉 index를 의미한다.
