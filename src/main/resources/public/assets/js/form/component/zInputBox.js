@@ -183,11 +183,11 @@ export const inputBoxMixin = {
         // validation - validation Type
         const validationTypeProperty = new ZDropdownProperty('validationValidationType', 'validation.validationType',
             this.validationValidationType, [
-                {name: 'form.properties.none', value: 'none'},
-                {name: 'form.properties.char', value: 'char'},
-                {name: 'form.properties.number', value: 'number'},
-                {name: 'form.properties.email', value: 'email'},
-                {name: 'form.properties.phone', value: 'phone'}
+                {name: i18n.msg('form.properties.none'), value: 'none'},
+                {name: i18n.msg('form.properties.char'), value: 'char'},
+                {name: i18n.msg('form.properties.number'), value: 'number'},
+                {name: i18n.msg('form.properties.email'), value: 'email'},
+                {name: i18n.msg('form.properties.phone'), value: 'phone'}
             ]);
 
         return [
