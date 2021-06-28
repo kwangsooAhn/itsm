@@ -29,7 +29,7 @@ class ZFormToken {
         this.domElement = domElement;
         this.formDataJson = formDataJson.form;
         this.sortFormObject(this.formDataJson);
-        this.composeForm(this.formDataJson);
+        this.makeForm(this.formDataJson);
     }
     /**
      * Form 의 구성요소 3가지(Group, Row, Component)를 출력 순서로 정렬한다.
@@ -63,7 +63,7 @@ class ZFormToken {
      * @param parent 부모 객체
      * @param index 추가될 객체의 index
      */
-    composeForm(data, parent, index) {
+    makeForm(data, parent, index) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             this.form = this.addObjectByType(FORM.LAYOUT.FORM, data);
             this.form.parent = parent;
@@ -71,7 +71,7 @@ class ZFormToken {
             this.form.afterEvent();
 
             data.group.forEach( (g, gIndex) => {
-                this.composeForm(g, this.form, gIndex);
+                this.makeForm(g, this.form, gIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
@@ -83,7 +83,7 @@ class ZFormToken {
                 group.UIElement.addUIClass('off');
             }
             data.row.forEach( (r, rIndex) => {
-                this.composeForm(r, group, rIndex);
+                this.makeForm(r, group, rIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
@@ -95,7 +95,7 @@ class ZFormToken {
                 row.UIElement.addUIClass('off');
             }
             data.component.forEach( (c, cIndex) => {
-                this.composeForm(c, row, cIndex);
+                this.makeForm(c, row, cIndex);
             });
         } else { // component
             const component = this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);

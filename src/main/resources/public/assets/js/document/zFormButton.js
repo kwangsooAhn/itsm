@@ -1,8 +1,9 @@
 /**
- * 문서함 폼 그리기 Class
+ * 문서함 버튼 그리기 Class
  *
- * 폼은 폼 디자이너, 신청서, 문서함등에서 그려지며, 약간씩 차이가 있다.
- * 여기서는 문서함에서 열게 되는 처리할 문서, 진행중 문서, 완료된 문서등을 대상으로 폼을 그린다.
+ * 문서함에서 열리는 폼에는 문서의 상태나 사용자 권한과 무관하게 기본적으로 제공하는 버튼들과
+ * 문서 상태와 사용자 권한에 따라 선택적으로 출력되는 버튼들이 있다.
+ * 여기서는 그러한 버튼들의 출력과 동작을 정의한다.
  *
  * @author jung hee chan (hcjung@brainz.co.kr)
  * @version 1.0
@@ -11,8 +12,8 @@
  * https://www.brainz.co.kr
  */
 import { DOCUMENT, SESSION } from '../lib/zConstants.js';
-import { UIButton, UIDiv } from "../lib/zUI.js";
-import { zValidation } from "../lib/zValidation.js";
+import { UIButton, UIDiv } from '../lib/zUI.js';
+import { zValidation } from '../lib/zValidation.js';
 
 class ZFormButton {
     constructor() {
