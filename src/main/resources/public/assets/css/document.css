@@ -1337,6 +1337,7 @@ label {
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
+  background-color: #FFFFFF;
   pointer-events: none;
   cursor: default;
 }
@@ -1354,6 +1355,13 @@ label {
   border: 0.0625rem solid #76BD26;
 }
 .z-input-clear {
+  position: relative;
+  display: inline-block;
+}
+.z-input-clear input {
+  width: 100%;
+}
+.z-input-clear .clear-button {
   position: absolute;
   right: 0rem;
   padding: 1.125rem 0.875rem;
@@ -1369,6 +1377,7 @@ label {
 }
 .z-input-button {
   position: relative;
+  display: inherit;
   height: 2.25rem;
 }
 .z-input-button input[type=text] {
@@ -1387,7 +1396,7 @@ label {
 .z-input-button button:focus, .z-input-button button:hover, .z-input-button button:active {
   z-index: 25;
 }
-.z-input-button .z-input-clear {
+.z-input-button .clear-button {
   position: absolute;
   right: calc(0rem + 5rem);
 }

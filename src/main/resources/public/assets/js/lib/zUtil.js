@@ -1213,3 +1213,14 @@ function removeChar(event, rexg = integerReg, flag = 'g') {
         event.target.value = event.target.value.replace(new RegExp(regToString, flag), '');
     }
 }
+
+/**
+ * input 엘리먼트 내부의 X 버튼을 클릭했을 때, 같은 레벨의 input value를 clear한다.
+ * @param req
+ */
+function clearText(req) {
+    let target = req.parentElement.getElementsByTagName('input');
+    for (let i = 0; i < target.length; i++) {
+        target[i].value = '';
+    }
+}
