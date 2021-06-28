@@ -76,8 +76,10 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 radioGroup.UIDiv.addUI(radioGroup.UIDiv.UIInput);
                 radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.days')));
                 break;
-            case FORM.DATE_TYPE.DATE_PICKER:
-                radioGroup.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
+                case FORM.DATE_TYPE.DATE_PICKER:
+                radioGroup.UIInput = new UIInput((
+                    aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'date',
+                        defaultValueArray[0] === item.value ? defaultValueArray[1] : '')))
                     .setUIClass(item.value)
                     .addUIClass('picker')
                     .setUIId('dateProperty')
@@ -157,7 +159,10 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             defaultValue === FORM.DATE_TYPE.TIME_PICKER ||
             defaultValue === FORM.DATE_TYPE.DATETIME_PICKER) {
             const datepickerElem = parentElem.querySelector('.picker');
-            this.panel.update.call(this.panel, elem.name, defaultValue + '|' + datepickerElem.value);
+            this.panel.update.call(this.panel
+                , elem.name
+                , defaultValue + '|'
+            + aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, defaultValue.replace('picker', ''), datepickerElem.value));
         } else {
             this.panel.update.call(this.panel, elem.name, defaultValue);
         }
