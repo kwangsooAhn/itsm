@@ -132,9 +132,9 @@ export const dividerMixin = {
         // element - Type
         const typeProperty = new ZDropdownProperty('elementType', 'element.type',
             this.elementType, [
-                { name: 'form.properties.lineType.line', value: 'solid' },
-                { name: 'form.properties.lineType.dot', value: 'dotted' },
-                { name: 'form.properties.lineType.dash', value: 'dashed' },
+                { name: i18n.msg('form.properties.lineType.line'), value: 'solid' },
+                { name: i18n.msg('form.properties.lineType.dot'), value: 'dotted' },
+                { name: i18n.msg('form.properties.lineType.dash'), value: 'dashed' },
             ]);
 
         return [
