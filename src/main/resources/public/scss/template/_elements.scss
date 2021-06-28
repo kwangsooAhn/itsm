@@ -630,6 +630,8 @@ label {
 }
 // input box + button
 .input-button {
+  position: relative;
+
   input[type='text'] {
     margin: 0;
     border-top-right-radius: 0;
@@ -721,4 +723,41 @@ label {
     @include border($element-border-width, solid, $green500, all);
   }
 
+  &-clear {
+    @include absolute($right: $input-clear-right);
+    padding: 1.125rem 0.875rem; // 18px 14px
+    @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $gray500); // 10px 10px
+  }
+
+  // todo: 임시로 추가. 추후 z-input 모두 적용 시 제거 예정.
+  &-button {
+    position: relative;
+    height: 2.25rem; // 36px
+
+    input[type='text'] {
+      margin: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+
+      &:focus,
+      &:hover {
+        z-index: $z-index-event;
+      }
+    }
+    button {
+      margin-left: -0.0625rem;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+
+      &:focus,
+      &:hover,
+      &:active {
+        z-index: $z-index-event;
+      }
+    }
+
+    .z-input-clear {
+      @include absolute($right: calc(#{$input-clear-right} + 5rem));
+    }
+  }
 }
