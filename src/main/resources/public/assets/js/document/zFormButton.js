@@ -22,7 +22,7 @@ class ZFormButton {
      * 클래스 초기화
      *
      * @param domElement Form 그리고자 하는 대상 DOM Element
-     * @param formDataJson FromType 에 따라 Form 정보 조회 대상이 다르며 FormId, DocumentId, TokenId 값들이 들어 있을 수 있다.
+     * @param formDataJson FormType 에 따라 Form 정보 조회 대상이 다르며 FormId, DocumentId, TokenId 값들이 들어 있을 수 있다.
      * @param zForm 버튼의 대상이 되는 Form Class 를 나타낸다. 해당 폼의 값을 이용하기 위해서 필요하다.
      */
     init(domElement, formDataJson, zForm) {
