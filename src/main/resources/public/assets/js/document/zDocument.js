@@ -251,9 +251,7 @@ class ZDocument {
         };
         // 컴포넌트 값
         saveData.componentData = this.getComponentData(this.form, []);
-        //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
-        console.log(saveData);
-        return false;
+        saveData.action = actionType;
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
         const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
