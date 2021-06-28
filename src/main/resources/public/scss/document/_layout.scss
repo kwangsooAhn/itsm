@@ -29,4 +29,239 @@
       padding: 8.438rem 0 0.9375rem 0; // 135px 0 15px 0
     }
   }
+
+  // TODO: 문서함에서 문서속성 탭쪽 디자인
+  // 2021-06-26 Jung Hee Chan
+  // 신청서 디자인은 되었는데 문서함쪽은 고려가 안되어 있는 것 같아 일단 붙여 놓음.
+  // 디자인 적용 작업 시 신청서 + 문서함 부분과 나눠지는 부분에 대한 고려가 필요함.
+  .token-properties {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 38.13rem;
+    background-color: #ffffff;
+    border-left: 0.0625rem solid #EBEBEB;
+    padding: 0 4.0625rem;
+    overflow-y: auto;
+
+    .token-info-tab {
+      display: flex;
+      margin-top: 7.8125rem;
+
+      h4 {
+        font-size: 1.125rem;
+        font-weight: 500;
+        color: #ACB4BF;
+        flex: 1;
+        padding-bottom: 0.625rem;
+        border-bottom: 0.125rem solid #E1E3E6;
+        cursor: pointer;
+      }
+      // 선택된 탭일 경우
+      .active {
+        color: #3F4B56;
+        border-bottom: 0.25rem solid #0098FF;
+      }
+    }
+    // 탭 내용
+    .token-info-contents {
+      height: 43.75rem;
+      overflow-y: auto;
+
+      .token {
+        // 태그
+        &-tag {
+          display: none;
+          margin-top: 1.25rem; // 20px
+        }
+
+        // 처리 이력
+        &-history {
+          height: 100%;
+
+          .table {
+            width: 100%;
+
+            thead {
+              border-bottom: 0.0625rem solid map-get($grays, "default"); // 1px
+              tr {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                height: 3.438rem; // 55px
+              }
+            }
+
+            th, td {
+              @include ellipsis(table-cell);
+            }
+
+            th {
+              color: map-get($blacks, "light");
+            }
+
+            td {
+              color: map-get($grays, "dark");
+            }
+
+            tbody {
+              width: 100%;
+              height: 37.5rem; // 600px;
+              overflow-y: auto;
+
+              tr {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+              }
+            }
+          }
+        }
+
+        // 관련 문서
+        &-related {
+          display: none;
+          padding-top: 0.625rem; // 10px
+
+          .list-item {
+            height: 11.5625rem; // 185px
+            margin: 0.625rem 0.625rem 0 0; // 10px 10px 0 0
+            // 추가된 관련 문서
+            .document {
+              &-color {
+                width: 0.625rem; // 10px
+              }
+
+              &-row {
+                flex: 1;
+                border: 0.0625rem solid map-get($grays, "line"); // 1px
+                padding: 1.25rem 2.5rem; // 20px 40px
+                &-content {
+                  a {
+                    width: 100%;
+
+                    .document-title {
+                      word-break: break-word;
+
+                      h5 {
+                        &:first-child {
+                          font-weight: $font-weight-medium;
+                          color: map-get($blacks, "light");
+                        }
+
+                        &:last-child {
+                          font-weight: $font-weight-regular;
+                          color: $gray;
+                          margin-left: 0.3125rem; // 5px
+                        }
+                      }
+                    }
+                  }
+
+                  button {
+                    padding: 0;
+
+                    .icon-delete {
+                      background: map-get($grays, "pressed");
+                    }
+                  }
+                }
+
+                &-topic {
+                  height: 100%;
+                  color: map-get($grays, "dark");
+
+                  h5 {
+                    font-weight: $font-weight-regular;
+                  }
+                }
+
+                &-info {
+                  h5 {
+                    color: map-get($grays, "dark");
+                    font-weight: $font-weight-regular
+                  }
+                }
+              }
+            }
+          }
+
+          // 추가
+          .related-add {
+            height: 11.5625rem; // 185px
+            border: 0.0625rem solid map-get($grays, "line"); // 1px
+            background-color: map-get($grays, "light");
+            margin: 0.625rem 0.625rem 0 0; // 10px 10px 0 0
+            display: flex;
+          }
+        }
+
+        // 댓글
+        &-comment {
+          display: none;
+          padding-top: 0.625rem; // 10px
+
+          .list-item {
+            padding: 1.25rem 1.5625rem; // 20px 25px
+            margin: 0.625rem 0.625rem 0 0; // 10px 10px 0 0
+            border: 0.0625rem solid map-get($grays, "line"); // 1px
+            border-radius: 0.1875rem; // 3px
+            background-color: map-get($grays, "light");
+
+            .comment {
+              &-row {
+                color: map-get($grays, "dark");
+                margin-top: 0.625rem; // 10px
+                @include wordWrap(break-word);
+
+                &-info {
+                  .user-name {
+                    color: map-get($grays, "dark");
+                  }
+
+                  .user-date-time {
+                    color: $gray;
+                    margin-left: 0.625rem; // 10px
+                  }
+
+                  button {
+                    padding: 0;
+
+                    .icon-delete {
+                      background: map-get($grays, "pressed");
+                    }
+                  }
+
+                  div:last-child {
+                    margin-left: auto;
+                  }
+                }
+              }
+            }
+          }
+
+          .comment-input {
+            margin-top: 0.625rem; // 10px
+            padding: 0;
+
+            textarea {
+              flex: 1;
+              min-height: 4.063rem; // 65px
+              padding: 0.625rem 1.563rem; // 10px 25px
+              margin-right: 0.3125rem; // 5px
+              border-radius: 0.1875rem; // 3px
+            }
+
+            .textarea-scroll-wrapper {
+              width: 24.6875rem; // 395px
+              height: 4.0625rem; // 65px
+              margin-right: 0.3125rem; // 5px
+            }
+          }
+        }
+      }
+    }
+  }
 }

@@ -21,14 +21,14 @@ class ZFormButton {
      * 클래스 초기화
      *
      * @param domElement Form 그리고자 하는 대상 DOM Element
-     * @param formData FromType 에 따라 Form 정보 조회 대상이 다르며 FormId, DocumentId, TokenId 값이 올 수 있다.
-     * @param zForm
+     * @param formDataJson FromType 에 따라 Form 정보 조회 대상이 다르며 FormId, DocumentId, TokenId 값들이 들어 있을 수 있다.
+     * @param zForm 버튼의 대상이 되는 Form Class 를 나타낸다. 해당 폼의 값을 이용하기 위해서 필요하다.
      */
-    init(domElement, formData, zForm) {
+    init(domElement, formDataJson, zForm) {
         this.domElement = domElement;
-        this.formData = formData;
+        this.formDataJson = formDataJson;
         this.zForm = zForm;
-        this.makeActionButton(this.formData.actions);
+        this.makeActionButton(this.formDataJson.actions);
         this.makeDefaultButton();
     }
     /**
@@ -90,9 +90,9 @@ class ZFormButton {
         // TODO: DR 테이블, CI 테이블 필수값 체크
 
         const saveData = {
-            'documentId': this.formData.documentId,
-            'instanceId': this.formData.instanceId,
-            'tokenId': (zValidation.isDefined(this.formData.tokenId) ? this.formData.tokenId : ''),
+            'documentId': this.formDataJson.documentId,
+            'instanceId': this.formDataJson.instanceId,
+            'tokenId': (zValidation.isDefined(this.formDataJson.tokenId) ? this.formDataJson.tokenId : ''),
             'isComplete': (actionType !== 'save'),
             'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
             'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''

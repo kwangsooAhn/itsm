@@ -23,18 +23,13 @@ class ZFormToken {
      * 클래스 초기화
      *
      * @param domElement Form 그리고자 하는 대상 DOM Element
-     * @param formData
+     * @param formDataJson 그리고자 하는 폼에 대한 JSON 데이터
      */
-    init(domElement, formData) {
+    init(domElement, formDataJson) {
         this.domElement = domElement;
-        // 아래 URL 은 추후에 '/rest/tokens/' + formOption.targetTokenId + '/data' 로 수정해야 함.
-        aliceJs.fetchJson('/assets/js/document/token_test.json', {
-            method: 'GET'
-        }).then((formData) => {
-            this.formDataJson = formData.form;
-            this.sortFormObject(this.formDataJson);
-            this.composeForm(this.formDataJson);
-        });
+        this.formDataJson = formDataJson.form;
+        this.sortFormObject(this.formDataJson);
+        this.composeForm(this.formDataJson);
     }
     /**
      * Form 의 구성요소 3가지(Group, Row, Component)를 출력 순서로 정렬한다.
