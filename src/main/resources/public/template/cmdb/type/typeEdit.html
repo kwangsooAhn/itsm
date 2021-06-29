@@ -47,7 +47,7 @@
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
                     <input class="z-input" id="typeAlias" name="typeAlias" type="text" maxlength="16"
-                           onkeyup="removeChar(event, regularCharacterReg, 'gi')"  />
+                           onkeyup="aliceJs.removeChar(event, regularCharacterReg, 'gi')"  />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
@@ -58,7 +58,7 @@
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
                     <div class="flex-row z-input-button z-input-clear">
                         <input class="z-input col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
-                        <button class="clear-button" name="clearIcon" type="button" onclick="clearText(this);"  tabindex="-1"></button>
+                        <button class="clear-button" name="clearIcon" type="button" onclick="aliceJs.clearText(this);"  tabindex="-1"></button>
                         <button class="default-line" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <div class="flex-row z-input-button z-input-clear">
                         <input class="z-input col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
                         <input id="typeClassId" name="typeClassId" type="hidden"/>
-                        <button class="clear-button" name="clearClass" type="button" onclick="clearText(this);" tabindex="-1" ></button>
+                        <button class="clear-button" name="clearClass" type="button" onclick="aliceJs.clearText(this);" tabindex="-1" ></button>
                         <button class="default-line" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>

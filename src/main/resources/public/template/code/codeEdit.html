@@ -59,7 +59,7 @@
                 <div class="edit-row flex-column">
                     <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
                     <input id="txtSeqNum" name="txtSeqNum" type="text" th:value="${codeDetail?.seqNum}"
-                           onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="5"/>
+                           onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
                 </div>
                 <div class="edit-row flex-column">
                     <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>

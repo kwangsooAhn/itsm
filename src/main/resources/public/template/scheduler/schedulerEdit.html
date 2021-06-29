@@ -110,7 +110,7 @@
                     <span class="required"></span>
                 </label>
                 <input type="text" id="executeCyclePeriod" required="required" maxlength="6"
-                       th:value="${schedule?.executeCyclePeriod}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"/>
+                       th:value="${schedule?.executeCyclePeriod}" onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"/>
             </div>
             <div class="flex-row justify-content-end edit-row">
                 <div class="btn-list">

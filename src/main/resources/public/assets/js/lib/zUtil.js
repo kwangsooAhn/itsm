@@ -1200,7 +1200,7 @@ aliceJs.importMixin = function (target, source) {
  * @param rexg
  * @param flag
  */
-function removeChar(event, rexg = integerReg, flag = 'g') {
+aliceJs.removeChar = function (event, rexg = integerReg, flag = 'g') {
     event = event || window.event;
     let regToString = '[' + rexg.toString()
         .replaceAll('/', '')
@@ -1218,7 +1218,7 @@ function removeChar(event, rexg = integerReg, flag = 'g') {
  * input 엘리먼트 내부의 X 버튼을 클릭했을 때, 같은 레벨의 input value를 clear한다.
  * @param req
  */
-function clearText(req) {
+aliceJs.clearText = function (req) {
     let target = req.parentElement.getElementsByTagName('input');
     for (let i = 0; i < target.length; i++) {
         target[i].value = '';
