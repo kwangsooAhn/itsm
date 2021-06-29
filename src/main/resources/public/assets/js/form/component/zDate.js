@@ -54,7 +54,7 @@ export const dateMixin = {
             .setUIClass(FORM.DATE_TYPE.DATE_PICKER)
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
-            .setUIValue(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this.value))
+            .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-max-date', this.validationMaxDate)
             .setUIAttribute('data-validation-min-date', this.validationMinDate);
@@ -131,7 +131,7 @@ export const dateMixin = {
         if (this._value === '${default}') {
             return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
         } else { // 저장된 값 반환
-            return this._value;
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._value);
         }
 
     },
@@ -154,10 +154,10 @@ export const dateMixin = {
                 date = i18n.getDate(offset);
                 break;
             case FORM.DATE_TYPE.DATE_PICKER:
-                date = zValidation.isEmpty(defaultValueArray[1]) ? '' :  defaultValueArray[1];
+                date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
                 break;
         }
-        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, date);
+        return date;
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
