@@ -645,7 +645,7 @@ export const ciMixin = {
                                 }
                             });
                             this.addCITableRow(this.UIElement.UIComponent.UIElement.UITable, ci);
-                            if (this.value === '${default}') { this.value = []; }
+                            if (zValidation.isEmpty(this._value)) { this.value = []; }
                             this.value.push(ci);
                         }
                     });
