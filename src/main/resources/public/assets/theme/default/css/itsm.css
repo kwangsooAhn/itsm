@@ -1310,7 +1310,7 @@ label {
 .z-input-clear input {
   width: 100%;
 }
-.z-input-clear .clear-button {
+.z-input-clear .z-button-clear {
   position: absolute;
   right: 0rem;
   padding: 1.125rem 0.875rem;
@@ -1345,9 +1345,19 @@ label {
 .z-input-button button:focus, .z-input-button button:hover, .z-input-button button:active {
   z-index: 25;
 }
-.z-input-button .clear-button {
+.z-input-button .z-button-clear {
   position: absolute;
   right: calc(0rem + 5rem);
+  padding: 1.125rem 0.875rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  -webkit-mask-image: url("../media/icons/icon_clear.svg");
+  mask-image: url("../media/icons/icon_clear.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
 }
 
 h6 {

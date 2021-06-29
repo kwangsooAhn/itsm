@@ -730,7 +730,7 @@ label {
 
     input { width: 100%; }
 
-    .clear-button {
+    .z-button-clear {
       @include absolute($right: $input-clear-right);
       padding: 1.125rem 0.875rem; // 18px 14px
       @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $gray500); // 10px 10px
@@ -765,8 +765,10 @@ label {
       }
     }
 
-    .clear-button {
+    .z-button-clear {
       @include absolute($right: calc(#{$input-clear-right} + 5rem));
+      padding: 1.125rem 0.875rem; // 18px 14px
+      @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $gray500); // 10px 10px
     }
   }
 }
