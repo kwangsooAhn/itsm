@@ -5265,7 +5265,7 @@ body.modal-active {
 }
 .z-component .z-element .z-dr-table {
   width: 100%;
-  background-color: #ffffff;
+  background-color: #FFFFFF;
 }
 .z-component .z-element .z-dr-table tr td {
   padding: 0.625rem 0;
@@ -5300,7 +5300,7 @@ body.modal-active {
 }
 .z-component .z-element .z-dr-table .no-data-found-list {
   color: #ACB4BF;
-  background-color: #ffffff;
+  background-color: #FFFFFF;
   pointer-events: none;
 }
 .z-component .z-element .z-dr-table-button-group {
@@ -5545,7 +5545,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #ffffff;
+  background: #FFFFFF;
 }
 .property .tabPanel .tabs button .icon-plus {
   display: inline-block;

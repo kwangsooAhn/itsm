@@ -630,7 +630,7 @@ label {
 }
 // input box + button
 .input-button {
-  position: relative;
+  @include relative();
 
   input[type='text'] {
     margin: 0;
@@ -725,7 +725,7 @@ label {
   }
 
   &-clear {
-    position: relative;
+    @include relative();
     display: inline-block;
 
     input { width: 100%; }
@@ -739,7 +739,7 @@ label {
 
   // todo: 임시로 추가. 추후 z-input 모두 적용 시 제거 예정.
   &-button {
-    position: relative;
+    @include relative();
     display: inherit;
     height: 2.25rem; // 36px
 
