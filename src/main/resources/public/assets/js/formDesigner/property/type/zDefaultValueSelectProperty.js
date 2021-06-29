@@ -108,6 +108,8 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
             this.panel.validationStatus = false; // 유효성 검증 실패
             return false;
         }
+        console.log(e);
+        console.log(this.getPropertyValue(e.type, e.target));
         this.panel.update.call(this.panel, e.target.id, this.getPropertyValue(e.type, e.target));
     }
 
@@ -121,7 +123,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         case 'keyup': // input
             return 'input|' + element.value;
         case 'change': // select box, input
-            return ((element.type === 'input') ? 'input|' : 'select|') + element.value;
+            return ((element.type === 'text') ? 'input|' : 'select|') + element.value;
         case 'click': // button
             const buttonGroup = element.parentNode;
             // 초기화

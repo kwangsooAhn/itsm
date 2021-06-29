@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX, UNIT } from '../../lib/zConstants.js';
+import { FORM, CLASS_PREFIX, UNIT, SESSION } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -27,31 +27,8 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
         columns: [{
-            columnName: 'COLUMN',
-            columnType: 'input', // input, dropdown, date, time, datetime, customCode 등 입력 유형
-            columnWidth: '12', // 컬럼 너비
-            columnHead: {
-                fontSize: '14',
-                fontColor: 'rgba(141, 146, 153, 1)',
-                align: 'left',
-                bold: true,
-                italic: false,
-                underline: false
-            },
-            columnContent: {
-                fontSize: '14',
-                fontColor: 'rgba(50, 50, 51, 1)',
-                align: 'left',
-                bold: true,
-                italic: false,
-                underline: false
-            },
-            columnElement: {  // 타입별 세부 속성
-                placeholder: '',
-                validationType: 'none', // none | char | num | numchar | email | phone 등 유효성
-                minLength: '0',
-                maxLength: '100'
-            }
+            ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.COMMON,
+            ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.INPUT
         }]
     },
     validation: {
@@ -203,14 +180,14 @@ export const dynamicRowTableMixin = {
             targetTable.removeUIRow(targetTable.rows[1]);
         }
         // value가 문자일 경우 배열로 변환
-        if (this.value === '') { this.value = []; }
+        if (zValidation.isEmpty(this._value)) { this.value = []; }
         
         // row 추가
         const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'dr-table-row');
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
-            columnData.push(zValidation.isEmpty(data[index]) ? '' : data[index]);
+            columnData.push(zValidation.isEmpty(data[index]) ? '${default}' : data[index]);
             const tdWidth = (Number(column.columnWidth) / FORM.COLUMN) * 100;
             const tdCssText = `width:${tdWidth}%;` +
                 `color:${column.columnContent.fontColor};` +
@@ -221,7 +198,7 @@ export const dynamicRowTableMixin = {
 
             const td = new UICell(row)
                 .setUICSSText(tdCssText)
-                .addUI(this.getTableRowCell(column, columnData[index]));
+                .addUI(this.getElementByColumnType(column, columnData[index]));
             row.addUICell(td);
         });
         // 데이터 추가
@@ -240,21 +217,31 @@ export const dynamicRowTableMixin = {
         targetTable.addUIRow(row);
     },
     // column Type 에 따른 cell 반환
-    getTableRowCell(column, cellValue) {
+    getElementByColumnType(column, cellValue) {
         switch (column.columnType) {
         case 'input':
-            return this.getCellByColumnTypeInput(column, cellValue);
+            return this.getInputBoxForColumn(column, cellValue);
         default:
             return new UISpan().setUIInnerHTML(cellValue);
         }
     },
     //column Type - input
-    getCellByColumnTypeInput(column, cellValue) {
+    getInputBoxForColumn(column, cellValue) {
+        let defaultValue = cellValue;
+        if (cellValue === '${default}') {
+            // 직접입력일 경우 : none|입력값
+            const defaultValues = column.columnElement.defaultValueSelect.split('|');
+            if (defaultValues[0] === 'input') {
+                defaultValue = defaultValues[1];
+            } else {  // 자동일경우 : select|userKey
+                defaultValue = SESSION[defaultValues[1]] || '';
+            }
+        }
         return new UIInput().setUIPlaceholder(column.columnElement.placeholder)
-            .setUIValue(cellValue)
-            .setUIAttribute('data-validation-type', column.columnElement.validationType)
-            .setUIAttribute('data-validation-max-length', column.columnElement.maxLength)
-            .setUIAttribute('data-validation-min-length', column.columnElement.minLength)
+            .setUIValue(defaultValue)
+            .setUIAttribute('data-validation-type', column.columnValidation.validationType)
+            .setUIAttribute('data-validation-max-length', column.columnValidation.maxLength)
+            .setUIAttribute('data-validation-min-length', column.columnValidation.minLength)
             .onUIKeyUp(this.updateValue.bind(this))
             .onUIChange(this.updateValue.bind(this));
     },

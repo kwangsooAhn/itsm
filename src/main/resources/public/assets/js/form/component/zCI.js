@@ -469,7 +469,7 @@ export const ciMixin = {
                         // 테이블 row 추가
                         this.addCITableRow(this.UIElement.UIComponent.UIElement.UITable, ciData);
                         // value 추가
-                        if (this.value === '') { this.value = []; }
+                        if (zValidation.isEmpty(this._value)) { this.value = []; }
 
                         const newValue = JSON.parse(JSON.stringify(this.value));
                         newValue.push(ciData);

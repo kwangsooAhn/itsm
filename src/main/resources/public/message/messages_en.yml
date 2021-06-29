@@ -735,6 +735,7 @@ form:
       columnContent: "Column Content"
       columnElement: "Column Type Element"
       columnHead: "Column Head"
+      columnValidation: "Column Type Element Validation"
       display: "Display"
       element: "Element"
       label: "Label"
