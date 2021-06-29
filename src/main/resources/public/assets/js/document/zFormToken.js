@@ -14,7 +14,8 @@ import ZComponent from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
 import ZGroup from '../form/zGroup.js';
 import ZRow from '../form/zRow.js';
-import { FORM } from '../lib/zConstants.js';
+import { DOCUMENT, FORM, SESSION } from '../lib/zConstants.js';
+import { zValidation } from '../lib/zValidation.js';
 
 class ZFormToken {
     constructor() {
@@ -153,9 +154,65 @@ class ZFormToken {
         return array;
     }
     /**
+     * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
+     */
+    processAction(actionType) {
+        // 유효성 체크
+        let validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
+        if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
+            return false;
+        }
+        // TODO: DR 테이블, CI 테이블 필수값 체크
+
+        const saveData = {
+            'documentId': this.formDataJson.documentId,
+            'instanceId': this.formDataJson.instanceId,
+            'tokenId': (zValidation.isDefined(this.formDataJson.tokenId) ? this.formDataJson.tokenId : ''),
+            'isComplete': (actionType !== 'save'),
+            'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
+            'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''
+        };
+        // 컴포넌트 값
+        saveData.componentData = this.zForm.getComponentData(this.zForm.form, []);
+
+        //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
+        console.log(saveData);
+        return false;
+
+        const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
+        const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
+        aliceJs.fetchText(url, {
+            method: (saveData.tokenId === '') ? 'post' : 'put',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData)
+        }).then(rtn => {
+            if (rtn === 'true') {
+                aliceAlert.alertSuccess(i18n.msg(actionMsg),  () => {
+                    if (zValidation.isDefined(window.opener)) {
+                        opener.location.reload();
+                        window.close();
+                    } else {
+                        this.documentModal.hide();
+                    }
+                });
+            } else {
+                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+            }
+        });
+    }
+    openProcessStatusPopUp() {
+        window.open('/process/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');
+    }
+    /**
+     * TODO: 문서 인쇄
+     */
+    print() {}
+    /**
      * 문서 닫기
      */
-    closeDocument() {
+    close() {
         window.close();
     }
 }
