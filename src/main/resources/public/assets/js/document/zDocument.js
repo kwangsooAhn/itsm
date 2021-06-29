@@ -206,14 +206,12 @@ class ZDocument {
             'instanceId': this.data.instanceId,
             'tokenId': (zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : ''),
             'isComplete': (actionType === 'save') ? false : true,
-            'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
-            'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''
+            'assigneeId': (actionType === 'save') ? SESSION['userKey'] : '',
+            'assigneeType': (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : '',
+            'action': actionType
         };
         // 컴포넌트 값
         saveData.componentData = this.getComponentData(this.form, []);
-        //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
-        console.log(saveData);
-        return false;
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
         const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
