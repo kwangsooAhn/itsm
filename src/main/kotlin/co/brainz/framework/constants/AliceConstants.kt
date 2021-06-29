@@ -102,6 +102,16 @@ object AliceConstants {
     }
 
     /**
+     * 플러그인 VM 옵션 log 경로
+     */
+    const val PLUGINS_VM_OPTIONS_LOG_HOME = "-Dlog.home"
+
+    /**
+     * 플러그인 VM 옵션 log 설정파일
+     */
+    const val PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE = "-Dlogback.configurationFile"
+
+    /**
      * 세션 만료시 로그인 페이지 자동 이동 시간.
      */
     const val SESSION_INVALID_AUTO_REDIRECT_TIME = 3
