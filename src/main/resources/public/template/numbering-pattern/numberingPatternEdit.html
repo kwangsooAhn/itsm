@@ -153,6 +153,7 @@
             const opt = {
                 method: 'get',
                 url: '/rest/numberingPatterns/' + encodeURIComponent(patternName),
+                showProgressbar: false,
                 callbackFunc: function (response) {
                     let responseJson = JSON.parse(response.responseText);
                     document.getElementById('txtPatternId').value = responseJson.patternId;

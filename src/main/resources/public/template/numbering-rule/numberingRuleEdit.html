@@ -177,6 +177,7 @@
             const opt = {
                 method: 'get',
                 url: '/rest/numberingRules/' + encodeURIComponent(ruleName),
+                showProgressbar: false,
                 callbackFunc: function (response) {
                     count = 2;
                     let responseJson = JSON.parse(response.responseText);

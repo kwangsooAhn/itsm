@@ -115,6 +115,7 @@
                 const opt = {
                     method: 'get',
                     url: '/rest/cmdb/classes/' + encodeURIComponent(ciClassId),
+                    showProgressbar: false,
                     callbackFunc: function (response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('txtClassId').value = responseJson.classId;
