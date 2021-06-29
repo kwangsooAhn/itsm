@@ -240,6 +240,55 @@
         width: 100%;
       }
     }
+
+    // DR 테이블 컴포넌트
+    .#{$common-prefix}dr-table {
+      width: 100%;
+      background-color: $component-drTable-bg-color;
+      tr {
+        td {
+          padding: $element-indent 0;
+          @include border(0.0625rem, solid, $component-drTable-border-color, top, left);
+          @include border(0.0625rem, solid, $component-drTable-border-color, bottom, right);
+
+          &.on { display: table-cell; }
+          .btn {
+            padding: 0;
+            .icon-close {
+              display: inline-block;
+              @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, map-get($grays, "pressed")); // 14px
+            }
+          }
+        }
+      }
+      // 제목
+      .#{$common-prefix}dr-table-header {
+        background-color: $component-drTable-header-bg-color;
+        .#{$common-prefix}dr-table-header-cell {
+          padding: $element-indent;
+        }
+      }
+      // 데이터 없음
+      .no-data-found-list {
+        color: $component-drTable-noData-font-color;
+        background-color: $component-drTable-noData-bg-color;
+        pointer-events: none;
+      }
+    }
+    .#{$common-prefix}dr-table-button-group {
+      display: inline-block;
+      @include absolute($top: 0, $right: 0.8125rem); // 0 13px
+      height: 2.5rem;
+      line-height: 2rem;
+      padding-top: 0.625rem;
+      .btn {
+        padding: 0;
+        .icon-plus {
+          display: inline-block;
+          @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $blue);
+        }
+      }
+    }
   }
 }
 // label

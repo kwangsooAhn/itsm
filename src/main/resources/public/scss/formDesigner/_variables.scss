@@ -137,6 +137,13 @@ $component-ciTable-header-bg-color:                map-get($grays, "light");
 $component-ciTable-noData-font-color:              $gray;
 $component-ciTable-noData-bg-color:                $white;
 
+//////////////////////// DR Table 컴포넌트 /////////////////////////
+$component-drTable-bg-color:                       $white;
+$component-drTable-border-color:                   map-get($grays, 'line');
+$component-drTable-header-bg-color:                map-get($grays, "light");
+$component-drTable-noData-font-color:              $gray;
+$component-drTable-noData-bg-color:                $white;
+
 ///////////////////////// tooltip-menu /////////////////////////
 $tooltip-menu-bg-color:                            $white;
 $tooltip-menu-border-color:                        map-get($blues, "light");

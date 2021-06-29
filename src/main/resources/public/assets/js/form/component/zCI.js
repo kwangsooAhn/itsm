@@ -43,8 +43,8 @@ export const ciMixin = {
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this.data.value || '';
         // CI 데이터 초기화
-        if (this._value !== '') {
-            this.value = JSON.parse(this._value);
+        if (!zValidation.isEmpty(this._value)) {
+            this._value = JSON.parse(this._value);
         }
     },
     // component 엘리먼트 생성
@@ -469,7 +469,7 @@ export const ciMixin = {
                         // 테이블 row 추가
                         this.addCITableRow(this.UIElement.UIComponent.UIElement.UITable, ciData);
                         // value 추가
-                        if (this.value === '${default}') { this.value = []; }
+                        if (zValidation.isEmpty(this._value)) { this.value = []; }
 
                         const newValue = JSON.parse(JSON.stringify(this.value));
                         newValue.push(ciData);
@@ -645,7 +645,7 @@ export const ciMixin = {
                                 }
                             });
                             this.addCITableRow(this.UIElement.UIComponent.UIElement.UITable, ci);
-                            if (this.value === '${default}') { this.value = []; }
+                            if (zValidation.isEmpty(this._value)) { this.value = []; }
                             this.value.push(ci);
                         }
                     });

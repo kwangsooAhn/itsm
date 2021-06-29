@@ -5213,6 +5213,70 @@ body.modal-active {
 .z-component .z-element .picker-wrapper-date .datepicker {
   width: 100%;
 }
+.z-component .z-element .z-dr-table {
+  width: 100%;
+  background-color: #ffffff;
+}
+.z-component .z-element .z-dr-table tr td {
+  padding: 0.625rem 0;
+  border-top: 0.0625rem solid #EBEBEB;
+  border-left: none;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  border-right: none;
+}
+.z-component .z-element .z-dr-table tr td.on {
+  display: table-cell;
+}
+.z-component .z-element .z-dr-table tr td .btn {
+  padding: 0;
+}
+.z-component .z-element .z-dr-table tr td .btn .icon-close {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_close.svg");
+  mask-image: url("../media/icons/icon_close.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+.z-component .z-element .z-dr-table .z-dr-table-header {
+  background-color: #F7F8F9;
+}
+.z-component .z-element .z-dr-table .z-dr-table-header .z-dr-table-header-cell {
+  padding: 0.625rem;
+}
+.z-component .z-element .z-dr-table .no-data-found-list {
+  color: #ACB4BF;
+  background-color: #ffffff;
+  pointer-events: none;
+}
+.z-component .z-element .z-dr-table-button-group {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0.8125rem;
+  height: 2.5rem;
+  line-height: 2rem;
+  padding-top: 0.625rem;
+}
+.z-component .z-element .z-dr-table-button-group .btn {
+  padding: 0;
+}
+.z-component .z-element .z-dr-table-button-group .btn .icon-plus {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_plus.svg");
+  mask-image: url("../media/icons/icon_plus.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #0098FF;
+}
 
 .z-component .z-component-label .required.off {
   display: none;
@@ -5414,4 +5478,86 @@ body.modal-active {
 .property .default-type-radio .radio-property-group .picker-wrapper-date .datetimepicker {
   width: 260px;
   margin: 0;
+}
+.property .tabPanel .tabs button {
+  display: inline-block;
+}
+.property .tabPanel .tabs button.off {
+  display: none;
+}
+.property .tabPanel .tabs button .icon-checkbox {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_bottom.svg");
+  mask-image: url("../media/icons/icon_arrow_bottom.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ffffff;
+}
+.property .tabPanel .tabs button .icon-plus {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_plus.svg");
+  mask-image: url("../media/icons/icon_plus.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #0098FF;
+}
+.property .tabPanel .tabs button.selected {
+  background: #0098FF;
+}
+.property .tabPanel .panels .panel {
+  position: relative;
+  margin-top: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  border: 0.0625rem solid #EBEBEB;
+}
+.property .tabPanel .panels .panel .panel-delete-button {
+  position: absolute;
+  right: 0.625rem;
+}
+.property .tabPanel .panels .panel .btn {
+  padding: 0;
+}
+.property .tabPanel .panels .panel .btn .icon-arrow-left {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_left.svg");
+  mask-image: url("../media/icons/icon_arrow_left.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+.property .tabPanel .panels .panel .btn .icon-arrow-right {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_right.svg");
+  mask-image: url("../media/icons/icon_arrow_right.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+.property .tabPanel .panels .panel .btn .icon-delete {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
 }
