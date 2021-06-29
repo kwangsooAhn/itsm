@@ -157,6 +157,7 @@
             const opt = {
                 method: 'get',
                 url: '/rest/roles/' +  encodeURIComponent(roleId),
+                showProgressbar: false,
                 callbackFunc: function(response) {
                     let responseJson = JSON.parse(response.responseText);
                     document.getElementById('txtRoleId').value = responseJson.roleId;
