@@ -84,7 +84,8 @@ export const dateMixin = {
     set elementDefaultValueRadio(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         this._element.defaultValueRadio = value;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.makeDefaultValue(value));
+        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(
+            aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this.makeDefaultValue(value)));
     },
     get elementDefaultValueRadio() {
         return this._element.defaultValueRadio;
@@ -108,18 +109,20 @@ export const dateMixin = {
         return this._validation.required;
     },
     set validationMinDate(min) {
-        this._validation.minDate = min;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-min-date', min);
+        this._validation.minDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, min);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-min-date'
+            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, min));
     },
     get validationMinDate() {
-        return this._validation.minDate;
+        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._validation.minDate);
     },
     set validationMaxDate(max) {
-        this._validation.maxDate = max;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-max-date', max);
+        this._validation.maxDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, max);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-max-date'
+            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, max));
     },
     get validationMaxDate() {
-        return this._validation.maxDate;
+        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._validation.maxDate);
     },
     set value(value) {
         this._value = value;
@@ -128,27 +131,33 @@ export const dateMixin = {
         if (this._value === '${default}') {
             return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
         } else { // 저장된 값 반환
-            return this._value;
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._value);
         }
+
     },
     // 기본값 조회
     makeDefaultValue(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         const defaultValueArray = value.split('|');
+        let date = '';
         switch (defaultValueArray[0]) {
-        case FORM.DATE_TYPE.NONE:
-            return '';
-        case FORM.DATE_TYPE.NOW:
-            return i18n.getDate();
-        case FORM.DATE_TYPE.DAYS:
-            const offset = {
-                days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
-                    0 : Number(defaultValueArray[1])
-            };
-            return i18n.getDate(offset);
-        case FORM.DATE_TYPE.DATE_PICKER:
-            return zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1];
+            case FORM.DATE_TYPE.NONE:
+                break;
+            case FORM.DATE_TYPE.NOW:
+                date = i18n.getDate();
+                break;
+            case FORM.DATE_TYPE.DAYS:
+                const offset = {
+                    days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
+                        0 : Number(defaultValueArray[1])
+                };
+                date = i18n.getDate(offset);
+                break;
+            case FORM.DATE_TYPE.DATE_PICKER:
+                date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                break;
         }
+        return date;
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -162,8 +171,7 @@ export const dateMixin = {
             isValidationPass = i18n.compareSystemDate(e.value, this.validationMaxDate);
             zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectBeforeDate', this.validationMaxDate));
         }
-
-        this.value = e.value;
+        this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, e.value);
     },
     getProperty() {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty('elementDefaultValueRadio', 'element.defaultValueRadio',

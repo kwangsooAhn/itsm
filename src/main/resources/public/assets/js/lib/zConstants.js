@@ -56,7 +56,12 @@ export const FORM = {
         DATETIME: 'datetime',
         DATE_PICKER: 'datepicker',
         TIME_PICKER: 'timepicker',
-        DATETIME_PICKER: 'datetimepicker'
+        DATETIME_PICKER: 'datetimepicker',
+        FORMAT: {
+            SYSTEMFORMAT: 'systemFormat',
+            USERFORMAT: 'userFormat'
+
+        }
     },
     CUSTOM_CODE: [],
     // 옵션 속성에 추가되는 기본 값
