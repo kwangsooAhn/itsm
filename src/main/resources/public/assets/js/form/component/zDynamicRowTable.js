@@ -279,11 +279,10 @@ export const dynamicRowTableMixin = {
             return false;
         }
         const newValue = JSON.parse(JSON.stringify(this.value));
-        if (e.target instanceof HTMLInputElement) {
-            const rowIndex = e.target.parentNode.parentNode.rowIndex - 1; // 헤더 제외
-            const cellIndex = e.target.parentNode.cellIndex;
-            newValue[rowIndex][cellIndex] = e.target.value;
-        }
+        const rowIndex = e.target.parentNode.parentNode.rowIndex - 1; // 헤더 제외
+        const cellIndex = e.target.parentNode.cellIndex;
+        newValue[rowIndex][cellIndex] = e.target.value;
+
         this.value = newValue;
     },
     getProperty() {

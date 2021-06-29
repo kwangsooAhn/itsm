@@ -108,8 +108,6 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
             this.panel.validationStatus = false; // 유효성 검증 실패
             return false;
         }
-        console.log(e);
-        console.log(this.getPropertyValue(e.type, e.target));
         this.panel.update.call(this.panel, e.target.id, this.getPropertyValue(e.type, e.target));
     }
 
