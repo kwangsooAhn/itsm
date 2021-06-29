@@ -14,11 +14,10 @@ import ZForm from '../form/zForm.js';
 import ZGroup from '../form/zGroup.js';
 import ZRow from '../form/zRow.js';
 import ZComponent from '../form/zComponent.js';
+import { zFormButton } from './zFormButton.js';
 
 class ZDocument {
     constructor() {
-        // 초기화
-        this.initDocumentModal();
     }
 
     /**
@@ -60,8 +59,7 @@ class ZDocument {
             const documentMainHeader =  document.getElementById('documentMainHeader');
             documentMainHeader.innerHTML = '';
 
-            this.makeButton();
-            this.makeActionButton(this.data.actions);
+            zFormButton.init(documentMainHeader, documentData, this)
             this.makeDocument(this.data.form); // Form 생성
             this.documentModal.show(); // 모달 표시
         });
@@ -90,44 +88,6 @@ class ZDocument {
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
         }
-    }
-    /**
-     * 신청서 상단 프로세스맵, 인쇄 버튼 추가
-     * 버튼은 '프로세스맵', '인쇄' 순으로 표기한다.
-     * @param data JSON 데이터
-     */
-    makeButton() {
-        // TODO: 인쇄 버튼 추가
-        // 버튼 목록 생성
-        const UIButtonGroup = new UIDiv().setUIClass('btn-list');
-        // 인쇄 버튼
-        const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('default-line')
-            .onUIClick(this.printDocument.bind(this));
-        UIButtonGroup.addUI(UIPrintButton);
-
-        this.btnDomElement.appendChild(UIButtonGroup.domElement);
-    }
-    /**
-     * 신청서 상단 동적 버튼 목록 추가 및 이벤트 생성
-     * 저장과 취소 버튼은 기본적으로 생성된다.
-     * 버튼은 ['접수' , '반려', '처리'], '저장', '닫기' 순으로 표기한다.
-     * @param data JSON 데이터
-     */
-    makeActionButton(data) {
-        if (!zValidation.isDefined(data)) { return false; }
-        // 버튼 목록 생성
-        const UIButtonGroup = new UIDiv().setUIClass('btn-list');
-        // 동적버튼
-        data.forEach( (btn) => {
-            if (zValidation.isEmpty(btn.name)) { return false; }
-            UIButtonGroup.addUI(new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
-                .addUIClass('default-fill')
-                .onUIClick((btn.value === 'close' || btn.value === 'print') ?
-                    this[btn.value + 'Document'].bind(this) :
-                    this.saveDocument.bind(this, btn.value)
-                ));
-        });
-        this.btnDomElement.appendChild(UIButtonGroup.domElement);
     }
     /**
      * FORM 생성 (Recursive)
