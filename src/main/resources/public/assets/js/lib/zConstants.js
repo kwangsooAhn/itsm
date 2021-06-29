@@ -56,13 +56,52 @@ export const FORM = {
         DATETIME: 'datetime',
         DATE_PICKER: 'datepicker',
         TIME_PICKER: 'timepicker',
-        DATETIME_PICKER: 'datetimepicker'
+        DATETIME_PICKER: 'datetimepicker',
+        FORMAT: {
+            SYSTEMFORMAT: 'systemFormat',
+            USERFORMAT: 'userFormat'
+
+        }
     },
     CUSTOM_CODE: [],
     // 옵션 속성에 추가되는 기본 값
     DEFAULT_OPTION_ROW: { name: 'name', value: 'value' },
     // 6개 column 제한 (dynamic table)
-    MAX_COLUMN_IN_TABLE: 6
+    MAX_COLUMN_IN_TABLE: 6,
+    DEFAULT_DYNAMIC_ROW_TABLE_COLUMN: {
+        COMMON: {
+            columnName: 'COLUMN',
+            columnType: 'input', // input, dropdown, date, time, datetime, customCode 등 입력 유형
+            columnWidth: '12', // 컬럼 너비
+            columnHead: {
+                fontSize: '14',
+                fontColor: 'rgba(141, 146, 153, 1)',
+                align: 'left',
+                bold: true,
+                italic: false,
+                underline: false
+            },
+            columnContent: {
+                fontSize: '14',
+                fontColor: 'rgba(50, 50, 51, 1)',
+                align: 'left',
+                bold: true,
+                italic: false,
+                underline: false
+            }
+        },
+        INPUT: {
+            columnElement: {
+                placeholder: '',
+                defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
+            },
+            columnValidation: {
+                validationType: 'none', // none | char | num | numchar | email | phone
+                minLength: '0',
+                maxLength: '100'
+            }
+        }
+    }
 };
 // 프로세스
 export const PROCESS = {};

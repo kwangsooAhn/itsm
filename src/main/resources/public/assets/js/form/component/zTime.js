@@ -108,18 +108,20 @@ export const timeMixin = {
         return this._validation.required;
     },
     set validationMinTime(min) {
-        this._validation.minTime = min;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-mintime', min);
+        this._validation.minTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, min);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-mintime'
+            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, min));
     },
     get validationMinTime() {
-        return this._validation.minTime;
+        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._validation.minTime);
     },
     set validationMaxTime(max) {
-        this._validation.maxTime = max;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-maxtime', max);
+        this._validation.maxTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, max);
+        this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-maxtime'
+            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, max));
     },
     get validationMaxTime() {
-        return this._validation.maxTime;
+        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._validation.maxTime);
     },
     set value(value) {
         this._value = value;
@@ -128,27 +130,32 @@ export const timeMixin = {
         if (this._value === '${default}') {
             return this.getDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
         } else { // 저장된 값 반환
-            return this._value;
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._value);
         }
     },
     // 기본값 조회
     getDefaultValue(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         const defaultValueArray = value.split('|');
+        let time = '';
         switch (defaultValueArray[0]) {
-        case FORM.DATE_TYPE.NONE:
-            return '';
-        case FORM.DATE_TYPE.NOW:
-            return i18n.getTime();
-        case FORM.DATE_TYPE.HOURS:
-            const offset = {
-                hours: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
-                    0 : Number(defaultValueArray[1])
-            };
-            return i18n.getTime(offset);
-        case FORM.DATE_TYPE.TIME_PICKER:
-            return zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1];
+            case FORM.DATE_TYPE.NONE:
+                break;
+            case FORM.DATE_TYPE.NOW:
+                time = i18n.getTime();
+                break;
+            case FORM.DATE_TYPE.HOURS:
+                const offset = {
+                    hours: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
+                        0 : Number(defaultValueArray[1])
+                };
+                time = i18n.getTime(offset);
+                break;
+            case FORM.DATE_TYPE.TIME_PICKER:
+                time = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                break;
         }
+        return time;
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -162,8 +169,7 @@ export const timeMixin = {
             isValidationPass = i18n.compareSystemTime(e.value, this.validationMaxTime);
             zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectBeforeTime', this.validationMaxTime));
         }
-
-        this.value = e.value;
+        this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, e.value);
     },
     getProperty() {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty('elementDefaultValueRadio', 'element.defaultValueRadio',

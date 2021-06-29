@@ -2,7 +2,7 @@
  * Dynamic Row Table Mixin
  *
  *
- * @author
+ * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -10,9 +10,9 @@
  * https://www.brainz.co.kr
  */
 
-import { FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { FORM, CLASS_PREFIX, UNIT, SESSION } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import {UIDiv, UITable} from '../../lib/zUI.js';
+import { UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -25,8 +25,11 @@ import ZColumnProperty from '../../formDesigner/property/type/zColumnProperty.js
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        columnWidth: '10',
-        columns: []
+        columnWidth: '12',
+        columns: [{
+            ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.COMMON,
+            ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.INPUT
+        }]
     },
     validation: {
         required: false // 필수값 여부
@@ -41,7 +44,12 @@ export const dynamicRowTableMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        this._value = this.data.value || [];
+        // 데이터 : "value" :[['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
+        this._value = this.data.value || '';
+        // 데이터 초기화
+        if (!zValidation.isEmpty(this._value)) {
+            this._value = JSON.parse(this._value);
+        }
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -52,8 +60,24 @@ export const dynamicRowTableMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         // 테이블
-        element.UITable = this.makeDRTable();
+        element.UITable = new UITable()
+            .setUIClass(CLASS_PREFIX + 'dr-table')
+            .addUIClass('mt-2')
+            .setUIId('drTable' + this.id)
+            .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UITable);
+
+        this.makeTable(element.UITable);
+
+        // 추가 버튼
+        element.UIDiv = new UIDiv().setUIClass(CLASS_PREFIX + 'dr-table-button-group');
+        element.addUI(element.UIDiv);
+
+        element.UIDiv.addUIButton = new UIButton()
+            .onUIClick(this.addTableRow.bind(this, element.UITable, {}))
+            .addUI(new UISpan().addUIClass('icon').addUIClass('icon-plus'));
+        element.UIDiv.addUI(element.UIDiv.addUIButton);
+
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
@@ -76,6 +100,9 @@ export const dynamicRowTableMixin = {
     },
     set elementColumns(columns) {
         this._element.columns = columns;
+        this.UIElement.UIComponent.UIElement.UITable.clearUIRow().clearUI();
+
+        this.makeTable(this.UIElement.UIComponent.UIElement.UITable);
     },
     get elementColumns() {
         return this._element.columns;
@@ -104,20 +131,140 @@ export const dynamicRowTableMixin = {
     get value() {
         return this._value;
     },
-    makeDRTable() {
-        // 테이블
-        const table = new UITable()
-            .setUIClass(CLASS_PREFIX + 'dr-table')
-            .addUIClass('mt-2')
-            .setUIId('drTable' + this.id)
-            .setUIAttribute('data-validation-required', this.validationRequired);
+    makeTable(table) {
+        // 테이블 제목
+        const row = new UIRow(table).setUIClass(CLASS_PREFIX + 'dr-table-header');
+        table.addUIRow(row);
 
-        return table;
+        this.elementColumns.forEach((column) => {
+            const tdWidth = (Number(column.columnWidth) / FORM.COLUMN) * 100;
+            const tdCssText = `width:${tdWidth}%;` +
+                `color:${column.columnHead.fontColor};` +
+                `font-size:${column.columnHead.fontSize + UNIT.PX};` +
+                `${column.columnHead.bold ? 'font-weight:bold;' : ''}` +
+                `${column.columnHead.italic ? 'font-style:italic;' : ''}` +
+                `${column.columnHead.underline ? 'text-decoration:underline;' : ''}`;
+            const td = new UICell(row)
+                .addUIClass('align-' + column.columnHead.align)
+                .setUICSSText(tdCssText)
+                .addUI(new UISpan().addUIClass(CLASS_PREFIX + 'dr-table-header-cell').setUIInnerHTML(column.columnName));
+            row.addUICell(td);
+        });
+        // row 삭제 버튼 영역
+        const td = new UICell(row)
+            .addUIClass('align-center')
+            .setUICSSText('width:35' + UNIT.PX);
+        row.addUICell(td);
+        if (Array.isArray(this.value) && this.value.length > 0) {
+            this.value.forEach((rowData) => {
+                this.addTableRow(table, rowData);
+            });
+        } else {
+            this.setEmptyTable(table);
+        }
     },
-    // input box 값 변경시 이벤트 핸들러
+    // 데이터가 없을때
+    setEmptyTable(targetTable) {
+        const row = new UIRow(targetTable).setUIClass('no-data-found-list');
+        targetTable.addUIRow(row);
+
+        const td = new UICell(row).setUIClass('on align-center first-column last-column')
+            .setColspan(this.elementColumns.length + 1)
+            .setUITextContent(i18n.msg('common.msg.noData'));
+        row.addUICell(td);
+    },
+    // 테이블 row 추가
+    addTableRow(targetTable, data) {
+        // 데이터가 없을 경우 삭제
+        if (targetTable.rows.length === 2 && targetTable.rows[1].hasUIClass('no-data-found-list')) {
+            targetTable.removeUIRow(targetTable.rows[1]);
+        }
+        // value가 문자일 경우 배열로 변환
+        if (zValidation.isEmpty(this._value)) { this.value = []; }
+        
+        // row 추가
+        const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'dr-table-row');
+        // td 추가
+        const columnData = [];
+        this.elementColumns.forEach((column, index) => {
+            columnData.push(zValidation.isEmpty(data[index]) ? '${default}' : data[index]);
+            const tdWidth = (Number(column.columnWidth) / FORM.COLUMN) * 100;
+            const tdCssText = `width:${tdWidth}%;` +
+                `color:${column.columnContent.fontColor};` +
+                `font-size:${column.columnContent.fontSize + UNIT.PX};` +
+                `${column.columnContent.bold ? 'font-weight:bold;' : ''}` +
+                `${column.columnContent.italic ? 'font-style:italic;' : ''}` +
+                `${column.columnContent.underline ? 'text-decoration:underline;' : ''}`;
+
+            const td = new UICell(row)
+                .setUICSSText(tdCssText)
+                .addUI(this.getElementByColumnType(column, columnData[index]));
+            row.addUICell(td);
+        });
+        // 데이터 추가
+        if (zValidation.isEmpty(data)) {
+            this.value[targetTable.rows.length - 1] = columnData;
+        }
+        // 삭제 버튼
+        const removeButton = new UIButton()
+            .onUIClick(this.removeTableRow.bind(this, targetTable, row))
+            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-close'));
+        const td = new UICell(row)
+            .addUIClass('align-center')
+            .setUICSSText('width:35' + UNIT.PX)
+            .addUI(removeButton);
+        row.addUICell(td);
+        targetTable.addUIRow(row);
+    },
+    // column Type 에 따른 cell 반환
+    getElementByColumnType(column, cellValue) {
+        switch (column.columnType) {
+        case 'input':
+            return this.getInputBoxForColumn(column, cellValue);
+        default:
+            return new UISpan().setUIInnerHTML(cellValue);
+        }
+    },
+    //column Type - input
+    getInputBoxForColumn(column, cellValue) {
+        let defaultValue = cellValue;
+        if (cellValue === '${default}') {
+            // 직접입력일 경우 : none|입력값
+            const defaultValues = column.columnElement.defaultValueSelect.split('|');
+            if (defaultValues[0] === 'input') {
+                defaultValue = defaultValues[1];
+            } else {  // 자동일경우 : select|userKey
+                defaultValue = SESSION[defaultValues[1]] || '';
+            }
+        }
+        return new UIInput().setUIPlaceholder(column.columnElement.placeholder)
+            .setUIValue(defaultValue)
+            .setUIAttribute('data-validation-type', column.columnValidation.validationType)
+            .setUIAttribute('data-validation-max-length', column.columnValidation.maxLength)
+            .setUIAttribute('data-validation-min-length', column.columnValidation.minLength)
+            .onUIKeyUp(this.updateValue.bind(this))
+            .onUIChange(this.updateValue.bind(this));
+    },
+    // 테이블 row 삭제
+    removeTableRow(targetTable, row) {
+        const removeIndex = targetTable.getIndexUIRow(row);
+        targetTable.removeUIRow(row);
+
+        const newValue = JSON.parse(JSON.stringify(this.value));
+        newValue.splice(removeIndex - 1, 1);
+        this.value = newValue;
+
+        // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
+        if (Array.isArray(this.value) && this.value.length === 0) {
+            this.setEmptyTable(targetTable);
+        }
+    },
+    // 신청서, 처리할문서에서 row에 값 변경시 이벤트 핸들러
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
+        // input, dropdown, date, time, datetime, customCode 등 여러 타입의 값을 처리
+
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
             return false;
@@ -131,8 +278,12 @@ export const dynamicRowTableMixin = {
         if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
             return false;
         }
+        const newValue = JSON.parse(JSON.stringify(this.value));
+        const rowIndex = e.target.parentNode.parentNode.rowIndex - 1; // 헤더 제외
+        const cellIndex = e.target.parentNode.cellIndex;
+        newValue[rowIndex][cellIndex] = e.target.value;
 
-        this.value = e.target.value;
+        this.value = newValue;
     },
     getProperty() {
         return [

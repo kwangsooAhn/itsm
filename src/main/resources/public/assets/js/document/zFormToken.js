@@ -1,89 +1,59 @@
 /**
- * @projectDescription 신청서 Library.
+ * 문서함 폼 그리기 Class
  *
- * @author woodajung
+ * 폼은 폼 디자이너, 신청서, 문서함등에서 그려지며, 약간씩 차이가 있다.
+ * 여기서는 문서함에서 열게 되는 처리할 문서, 진행중 문서, 완료된 문서등을 대상으로 폼을 그린다.
+ *
+ * @author jung hee chan (hcjung@brainz.co.kr)
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { FORM, DOCUMENT, SESSION } from '../lib/zConstants.js';
-import { zValidation } from '../lib/zValidation.js';
+import ZComponent from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
 import ZGroup from '../form/zGroup.js';
 import ZRow from '../form/zRow.js';
-import ZComponent from '../form/zComponent.js';
-import { zFormButton } from './zFormButton.js';
+import { DOCUMENT, FORM, SESSION } from '../lib/zConstants.js';
+import { zValidation } from '../lib/zValidation.js';
 
-class ZDocument {
+class ZFormToken {
     constructor() {
     }
-
     /**
-     * 신청서를 표시하는 모달 생성
+     * 클래스 초기화
+     *
+     * @param domElement Form 그리고자 하는 대상 DOM Element
+     * @param formDataJson 그리고자 하는 폼에 대한 JSON 데이터
      */
-    initDocumentModal() {
-        const documentModalTemplate = document.getElementById('documentModalTemplate');
-        this.documentModal = new modal({
-            title: '',
-            body: documentModalTemplate.content.cloneNode(true),
-            classes: 'document-modal-dialog document-container',
-            buttons:[],
-            close: { closable: false },
-            onCreate: () => {
-                this.domElement = document.getElementById('documentDrawingBoard');
-                this.btnDomElement = document.getElementById('documentMainHeader');
-            },
-            onHide: () => {
-                this.domElement.innerHTML = '';
-                this.btnDomElement.innerHTML = '';
-            }
-        });
+    init(domElement, formDataJson) {
+        this.domElement = domElement;
+        this.formDataJson = formDataJson.form;
+        this.sortFormObject(this.formDataJson);
+        this.makeForm(this.formDataJson);
     }
     /**
-     * 신청서 데이터 조회 후 모달 오픈
-     * @param documentId 신청서 아이디
+     * Form 의 구성요소 3가지(Group, Row, Component)를 출력 순서로 정렬한다.
+     *
+     * @param formObject JSON 데이터
      */
-    openDocument(documentId) {
-        // TODO: 신청서 데이터 load. > 가데이터 삭제 필요
-        aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
-            method: 'GET'
-        }).then((documentData) => {
-            // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
-            //this.data = aliceForm.reformatCalendarFormat('read', formData);
-            // 정렬 (기준 : displayOrder)
-            this.sortJson(documentData.form);
-            this.data = documentData;
-
-            const documentMainHeader =  document.getElementById('documentMainHeader');
-            documentMainHeader.innerHTML = '';
-
-            zFormButton.init(documentMainHeader, documentData, this)
-            this.makeDocument(this.data.form); // Form 생성
-            this.documentModal.show(); // 모달 표시
-        });
-    }
-    /**
-     * JSON 데이터 정렬 (Recursive)
-     * @param data JSON 데이터
-     */
-    sortJson(data) {
-        if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
-            data.group.sort((a, b) =>
+    sortFormObject(formObject) {
+        if (Object.prototype.hasOwnProperty.call(formObject, 'group')) {
+            formObject.group.sort((a, b) =>
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
-            data.group.forEach( (g) => {
-                this.sortJson(g);
+            formObject.group.forEach( (g) => {
+                this.sortFormObject(g);
             });
-        } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
-            data.row.sort((a, b) =>
+        } else if (Object.prototype.hasOwnProperty.call(formObject, 'row')) {
+            formObject.row.sort((a, b) =>
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
-            data.row.forEach( (r) => {
-                this.sortJson(r);
+            formObject.row.forEach( (r) => {
+                this.sortFormObject(r);
             });
-        } else { // row
-            data.component.sort((a, b) =>
+        } else {
+            formObject.component.sort((a, b) =>
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
         }
@@ -94,7 +64,7 @@ class ZDocument {
      * @param parent 부모 객체
      * @param index 추가될 객체의 index
      */
-    makeDocument(data, parent, index) {
+    makeForm(data, parent, index) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             this.form = this.addObjectByType(FORM.LAYOUT.FORM, data);
             this.form.parent = parent;
@@ -102,36 +72,36 @@ class ZDocument {
             this.form.afterEvent();
 
             data.group.forEach( (g, gIndex) => {
-                this.makeDocument(g, this.form, gIndex);
+                this.makeForm(g, this.form, gIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
             // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
-            // row 에 포함된 component displayType이 모두 hidden이면 group도 숨긴다.
+            // row 에 포함된 component displayType 이 모두 hidden 이면 group 도 숨긴다.
             const checkDisplay = data.row.some( (row) => row.component.some((component) =>
                 component.displayType !== FORM.DISPLAY_TYPE.HIDDEN));
             if (!checkDisplay) {
                 group.UIElement.addUIClass('off');
             }
             data.row.forEach( (r, rIndex) => {
-                this.makeDocument(r, group, rIndex);
+                this.makeForm(r, group, rIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
             // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
-            // component displayType 이 모두 hidden이면 row도 숨긴다.
+            // component displayType 이 모두 hidden 이면 row 도 숨긴다.
             const checkDisplay = data.component.some((component) =>
                 component.displayType !== FORM.DISPLAY_TYPE.HIDDEN);
             if (!checkDisplay) {
                 row.UIElement.addUIClass('off');
             }
             data.component.forEach( (c, cIndex) => {
-                this.makeDocument(c, row, cIndex);
+                this.makeForm(c, row, cIndex);
             });
         } else { // component
             const component = this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);
             // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
-            // component displayType 이 hidden이면 component를 숨긴다.
+            // component displayType 이 hidden 이면 component 를 숨긴다.
             if (data.displayType === FORM.DISPLAY_TYPE.HIDDEN) {
                 component.UIElement.addUIClass('off');
             }
@@ -163,18 +133,12 @@ class ZDocument {
         default:
             break;
         }
-        if (parent !== undefined) {
+        if (parent && addObject) {
             parent.add(addObject, index);
             addObject.afterEvent();
         }
 
         return addObject;
-    }
-    /**
-     * 신청서 닫기
-     */
-    close() {
-        this.documentModal.hide();
     }
     /**
      * 컴포넌트 value 데이터 조회
@@ -199,18 +163,21 @@ class ZDocument {
             return false;
         }
         // TODO: DR 테이블, CI 테이블 필수값 체크
-        
+
         const saveData = {
-            'documentId': this.data.documentId,
-            'instanceId': this.data.instanceId,
-            'tokenId': (zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : ''),
+            'documentId': this.formDataJson.documentId,
+            'instanceId': this.formDataJson.instanceId,
+            'tokenId': (zValidation.isDefined(this.formDataJson.tokenId) ? this.formDataJson.tokenId : ''),
             'isComplete': (actionType !== 'save'),
-            'assigneeId': (actionType === 'save') ? SESSION['userKey'] : '',
-            'assigneeType': (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : '',
-            'action': actionType
+            'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
+            'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''
         };
         // 컴포넌트 값
-        saveData.componentData = this.getComponentData(this.form, []);
+        saveData.componentData = this.zForm.getComponentData(this.zForm.form, []);
+
+        //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
+        console.log(saveData);
+        return false;
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
         const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
@@ -235,10 +202,19 @@ class ZDocument {
             }
         });
     }
+    openProcessStatusPopUp() {
+        window.open('/process/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');
+    }
     /**
-     * TODO: 신청서 인쇄
+     * TODO: 문서 인쇄
      */
     print() {}
+    /**
+     * 문서 닫기
+     */
+    close() {
+        window.close();
+    }
 }
 
-export const zDocument = new ZDocument();
+export const zFormToken = new ZFormToken();

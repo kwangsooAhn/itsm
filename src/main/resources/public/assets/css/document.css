@@ -669,6 +669,190 @@ input, button, select, optgroup, textarea {
   max-width: 60rem;
   padding: 8.438rem 0 0.9375rem 0;
 }
+.document-container .token-properties {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 38.13rem;
+  background-color: #ffffff;
+  border-left: 0.0625rem solid #EBEBEB;
+  padding: 0 4.0625rem;
+  overflow-y: auto;
+}
+.document-container .token-properties .token-info-tab {
+  display: flex;
+  margin-top: 7.8125rem;
+}
+.document-container .token-properties .token-info-tab h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #ACB4BF;
+  flex: 1;
+  padding-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+  cursor: pointer;
+}
+.document-container .token-properties .token-info-tab .active {
+  color: #3F4B56;
+  border-bottom: 0.25rem solid #0098FF;
+}
+.document-container .token-properties .token-info-contents {
+  height: 43.75rem;
+  overflow-y: auto;
+}
+.document-container .token-properties .token-info-contents .token-tag {
+  display: none;
+  margin-top: 1.25rem;
+}
+.document-container .token-properties .token-info-contents .token-history {
+  height: 100%;
+}
+.document-container .token-properties .token-info-contents .token-history .table {
+  width: 100%;
+}
+.document-container .token-properties .token-info-contents .token-history .table thead {
+  border-bottom: 0.0625rem solid #E1E3E6;
+}
+.document-container .token-properties .token-info-contents .token-history .table thead tr {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 3.438rem;
+}
+.document-container .token-properties .token-info-contents .token-history .table th, .document-container .token-properties .token-info-contents .token-history .table td {
+  display: table-cell;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+}
+.document-container .token-properties .token-info-contents .token-history .table th {
+  color: #3F4B56;
+}
+.document-container .token-properties .token-info-contents .token-history .table td {
+  color: #586872;
+}
+.document-container .token-properties .token-info-contents .token-history .table tbody {
+  width: 100%;
+  height: 37.5rem;
+  overflow-y: auto;
+}
+.document-container .token-properties .token-info-contents .token-history .table tbody tr {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+.document-container .token-properties .token-info-contents .token-related {
+  display: none;
+  padding-top: 0.625rem;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item {
+  height: 11.5625rem;
+  margin: 0.625rem 0.625rem 0 0;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-color {
+  width: 0.625rem;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row {
+  flex: 1;
+  border: 0.0625rem solid #EBEBEB;
+  padding: 1.25rem 2.5rem;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a {
+  width: 100%;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title {
+  word-break: break-word;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
+  font-weight: 500;
+  color: #3F4B56;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
+  font-weight: 400;
+  color: #ACB4BF;
+  margin-left: 0.3125rem;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content button {
+  padding: 0;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content button .icon-delete {
+  background: #CCCED1;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-topic {
+  height: 100%;
+  color: #586872;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-topic h5 {
+  font-weight: 400;
+}
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-info h5 {
+  color: #586872;
+  font-weight: 400;
+}
+.document-container .token-properties .token-info-contents .token-related .related-add {
+  height: 11.5625rem;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #F7F8F9;
+  margin: 0.625rem 0.625rem 0 0;
+  display: flex;
+}
+.document-container .token-properties .token-info-contents .token-comment {
+  display: none;
+  padding-top: 0.625rem;
+}
+.document-container .token-properties .token-info-contents .token-comment .list-item {
+  padding: 1.25rem 1.5625rem;
+  margin: 0.625rem 0.625rem 0 0;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.1875rem;
+  background-color: #F7F8F9;
+}
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row {
+  color: #586872;
+  margin-top: 0.625rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-break: break-all;
+}
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-name {
+  color: #586872;
+}
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-date-time {
+  color: #ACB4BF;
+  margin-left: 0.625rem;
+}
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button {
+  padding: 0;
+}
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button .icon-delete {
+  background: #CCCED1;
+}
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
+  margin-left: auto;
+}
+.document-container .token-properties .token-info-contents .token-comment .comment-input {
+  margin-top: 0.625rem;
+  padding: 0;
+}
+.document-container .token-properties .token-info-contents .token-comment .comment-input textarea {
+  flex: 1;
+  min-height: 4.063rem;
+  padding: 0.625rem 1.563rem;
+  margin-right: 0.3125rem;
+  border-radius: 0.1875rem;
+}
+.document-container .token-properties .token-info-contents .token-comment .comment-input .textarea-scroll-wrapper {
+  width: 24.6875rem;
+  height: 4.0625rem;
+  margin-right: 0.3125rem;
+}
 
 /* _elements.scss
  *
