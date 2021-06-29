@@ -1242,8 +1242,6 @@ aliceJs.convertDateFormat = function (format, type, date) {
                 reformatDate = i18n.userTime(date);
                 break;
         }
-    } else {
-        reformatDate = false;
     }
     return reformatDate
 }
