@@ -266,10 +266,10 @@ export default class ZForm {
             new ZInputBoxProperty('name', 'name', this.name).setValidation(true, '', '', '', '', '128'),
             new ZTextAreaProperty('desc', 'desc', this.desc).setValidation(false, '', '', '', '', '512'),
             new ZDropdownProperty('status', 'status', this.status, [
-                { 'name': 'form.status.edit', 'value': 'form.status.edit' },
-                { 'name': 'form.status.publish', 'value': 'form.status.publish' },
-                { 'name': 'form.status.use', 'value': 'form.status.use' },
-                { 'name': 'form.status.destroy', 'value': 'form.status.destroy'}
+                { 'name': i18n.msg('form.status.edit'), 'value': 'form.status.edit' },
+                { 'name': i18n.msg('form.status.publish'), 'value': 'form.status.publish' },
+                { 'name': i18n.msg('form.status.use'), 'value': 'form.status.use' },
+                { 'name': i18n.msg('form.status.destroy'), 'value': 'form.status.destroy'}
             ]),
             new ZGroupProperty('group.display')
                 .addProperty(displayWidthProperty)

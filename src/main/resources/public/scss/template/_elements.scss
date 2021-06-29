@@ -1,4 +1,4 @@
-/* _elements.scss 
+/* _elements.scss
  *
  * 파일 경로 : template/_elements.scss
  * @description HTML element 디자인
@@ -22,23 +22,23 @@ h1, h2, h3, h4, h5, h6 {
   color: $headings-font-color;
 }
 
-h1 { 
+h1 {
   font-size: $h1-font-size;
   font-weight: $font-weight-bold;
 }
-h2 { 
+h2 {
   font-size: $h2-font-size;
 }
-h3 { 
+h3 {
   font-size: $h3-font-size;
 }
-h4 { 
+h4 {
   font-size: $h4-font-size;
 }
-h5 { 
+h5 {
   font-size: $h5-font-size;
 }
-h6 { 
+h6 {
   font-family: 'Malgun Gothic'; // h6 만 기본 값이 맑은 고딕.
   font-size: $h6-font-size;
 }
@@ -75,7 +75,7 @@ input {
       outline: 0;
       border: $element-focus-border;
     }
-  
+
     &:hover {
       outline: 0;
       border: $element-hover-border;
@@ -376,7 +376,7 @@ label {
   font-weight: $element-font-weight;
   color: $element-font-color;
   outline: none;
-  
+
   > span:first-of-type {
     padding-right: $element-indent;
   }
@@ -630,8 +630,8 @@ label {
 }
 // input box + button
 .input-button {
-  input[type='text'] { 
-    margin: 0; 
+  input[type='text'] {
+    margin: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 
@@ -640,7 +640,7 @@ label {
       z-index: $z-index-event;
     }
   }
-  button { 
+  button {
     margin-left: -0.0625rem;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -651,4 +651,74 @@ label {
       z-index: $z-index-event;
     }
   }
+}
+
+/////////////////////////////////////////////////// UI 컴포넌트 추가  ////////////////////////////////////////////////////
+
+// todo:
+//  1. 추후 bz-colors.scss를 사용하여 variable 수정 필요.
+//     참고를 위헤 이전 variables는 주석으로 남김.
+//  2. z-element 모두 구성된 후에 _element.scss로 overwrite 할 것.
+
+// input
+.#{$common-prefix}input {
+  height: 2.25rem; // 36px
+  font-family: inherit;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $neutral900; // $element-font-color
+  background-color: $element-bg-color;
+  @include border($element-border-width, solid, $gray300, all); // $element-border-width, $element-border-color
+  @include borderRadius(0.125rem); // 2px
+  padding: 0 0.9375rem; // 들여쓰기 0 15px / 0 $element-indent
+  vertical-align: middle;
+
+  &::placeholder {
+    color: $gray400; // $element-placeholder-font-color
+  }
+
+  &:not(:disabled),
+  &:not(:read-only) {
+    &:hover {
+      outline: 0;
+      border-color: $blue400; // $element-hover-border
+    }
+
+    &:focus {
+      outline: 0;
+      border-color: $blue600; // $element-focus-border
+      @include boxShadow(0, 0, 0.125rem, 0, hexToRGBA($blue600, 1)); // 2px
+    }
+
+    &:active {
+      outline: 0;
+      @include border($element-border-width, solid, $blue500, all); // $element-hover-border
+    }
+  }
+
+  &:read-only {
+    border-color: $gray400;
+    border-style: none none none solid;
+    @include borderRadius(0);
+    pointer-events: none;
+    cursor: default;
+  }
+
+  &:disabled {
+    color: $gray400; // $element-disabled-font-color
+    background-color: $neutral200; // $element-disabled-bg-color
+    border-color: $gray300; // $element-disabled-border-color
+    pointer-events: none;
+    cursor: default;
+  }
+
+  &.error {
+    @include border($element-border-width, solid, $red500, all); // $element-error-border
+  }
+
+  &.success {
+    @include border($element-border-width, solid, $green500, all);
+  }
+
 }

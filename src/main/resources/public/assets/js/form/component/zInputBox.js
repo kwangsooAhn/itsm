@@ -50,7 +50,7 @@ export const inputBoxMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        this._value = this._value || '${default}';
+        this._value = this.data.value || '${default}';
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -183,11 +183,11 @@ export const inputBoxMixin = {
         // validation - validation Type
         const validationTypeProperty = new ZDropdownProperty('validationValidationType', 'validation.validationType',
             this.validationValidationType, [
-                {name: 'form.properties.none', value: 'none'},
-                {name: 'form.properties.char', value: 'char'},
-                {name: 'form.properties.number', value: 'number'},
-                {name: 'form.properties.email', value: 'email'},
-                {name: 'form.properties.phone', value: 'phone'}
+                {name: i18n.msg('form.properties.none'), value: 'none'},
+                {name: i18n.msg('form.properties.char'), value: 'char'},
+                {name: i18n.msg('form.properties.number'), value: 'number'},
+                {name: i18n.msg('form.properties.email'), value: 'email'},
+                {name: i18n.msg('form.properties.phone'), value: 'phone'}
             ]);
 
         return [

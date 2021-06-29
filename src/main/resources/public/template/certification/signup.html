@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="text" id="userId" name="userId" maxlength="100" required="required">
+                        <input type="text" id="userId" name="userId" class="z-input" maxlength="100" required="required">
                         <div>
                             <label href="#password-guide" tabindex="-1">
                                 <span th:text="#{user.label.password}"></span>
@@ -50,24 +50,24 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="password" id="password" name="password" maxlength="100" required="required">
+                        <input type="password" id="password" name="password" class="z-input" maxlength="100" required="required">
                         <label href="#password-guide" tabindex="-1">
                             <span th:text="#{user.label.rePassword}"></span>
                             <span class="required"></span>
                         </label>
-                        <input type="password" id="rePassword" name="rePassword" maxlength="100" required="required">
+                        <input type="password" id="rePassword" name="rePassword" class="z-input" maxlength="100" required="required">
                         <label>
                             <span th:text="#{user.label.name}"></span>
                             <span class="required"></span>
                         </label>
-                        <input type="text" id="userName" name="userName" maxlength="100" required="required">
+                        <input type="text" id="userName" name="userName" class="z-input" maxlength="100" required="required">
                         <label>
                             <span th:text="#{user.label.email}"></span>
                             <span class="required"></span>
                         </label>
-                        <input type="text" id="email" name="email" maxlength="100" required="required">
+                        <input type="text" id="email" name="email" class="z-input" maxlength="100" required="required">
                         <label th:text="#{user.label.mobileNumber}"></label>
-                        <input id="mobileNumber" name="mobileNumber" maxlength="100"
+                        <input id="mobileNumber" name="mobileNumber" class="z-input" maxlength="100"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
                         <label th:text="#{user.label.avatar}"></label>
                         <div class="flex-column avatar-edit">

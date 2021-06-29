@@ -24,9 +24,9 @@
                 </form>
                 <div class="login-base-form flex-column">
                     <label th:text="#{user.label.id}"></label>
-                    <input type="text" id="uid" name="uid" maxlength="100" required="required">
+                    <input type="text" id="uid" name="uid" class="z-input" maxlength="100" required="required">
                     <label tabindex="-1" th:text="#{user.label.password}"></label>
-                    <input type="password" id="upasswd" name="upasswd" maxlength="100" required="required">
+                    <input type="password" id="upasswd" name="upasswd" class="z-input" maxlength="100" required="required">
                 </div>
                 <button class="point-fill login-submit" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
             </div>

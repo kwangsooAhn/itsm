@@ -1,3 +1,6 @@
+// design-system color
+@import 'bz-colors.scss';
+
 // template / 하위 SCSS에서 사용하는 변수 모음
 // font family
 $font-face-map: (
@@ -529,3 +532,4 @@ $tag-input-font-color:                       map-get($grays, 'dark');
 $tag-invalid-color:                          hexToRGBA($red, 0.7); // $red , 불투명도 70
 $tag-invalid-bg-color:                       hexToRGBA($red, 0.1); // $red , 불투명도 10
 $tag-invalid-border-color:                   #FFE2E6;
+
