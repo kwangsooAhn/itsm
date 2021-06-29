@@ -68,7 +68,7 @@
                         <input type="text" id="email" name="email" class="z-input" maxlength="100" required="required">
                         <label th:text="#{user.label.mobileNumber}"></label>
                         <input id="mobileNumber" name="mobileNumber" class="z-input" maxlength="100"
-                               onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
+                               onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)">
                         <label th:text="#{user.label.avatar}"></label>
                         <div class="flex-column avatar-edit">
                             <div class="avatar-sm">

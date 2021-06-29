@@ -349,12 +349,12 @@
                 document.getElementById('type-input-pattern').style.display = '';
                 document.getElementById('type-select-pattern').style.display = 'none';
                 document.getElementById('txtPatternValue').removeEventListener('keydown', onlyNumber);
-                document.getElementById('txtPatternValue').removeEventListener('keyup', removeChar);
+                document.getElementById('txtPatternValue').removeEventListener('keyup', aliceJs.removeChar);
             } else if (type === 'numbering.pattern.sequence') {
                 document.getElementById('type-input-pattern').style.display = '';
                 document.getElementById('type-select-pattern').style.display = 'none';
                 document.getElementById('txtPatternValue').addEventListener('keydown', onlyNumber);
-                document.getElementById('txtPatternValue').addEventListener('keyup', removeChar);
+                document.getElementById('txtPatternValue').addEventListener('keyup', aliceJs.removeChar);
             } else {
                 document.querySelector('.designed-select').textContent = document.querySelector('.designed-options').firstElementChild.textContent;
                 document.getElementById('selectPatternDateValue')[0].selected = true;
