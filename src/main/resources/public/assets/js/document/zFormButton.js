@@ -11,7 +11,6 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { DOCUMENT, SESSION } from '../lib/zConstants.js';
 import { UIButton, UIDiv } from '../lib/zUI.js';
 import { zValidation } from '../lib/zValidation.js';
 
@@ -44,13 +43,13 @@ class ZFormButton {
         // 문서함에서 출력되는 경우 프로세스 맵 버튼도 출력
         if (this.isToken) {
             const UIProcessMapButton = new UIButton(i18n.msg('process.label.processMap')).addUIClass('default-line')
-                .onUIClick(this.openProcessStatusPopUp.bind(this));
+                .onUIClick(this.zForm.openProcessStatusPopUp.bind(this.zForm));
             UIButtonGroup.addUI(UIProcessMapButton);
         }
 
         // 인쇄 버튼
         const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('default-line')
-            .onUIClick(this.printForm.bind(this));
+            .onUIClick(this.zForm.print.bind(this.zForm));
         UIButtonGroup.addUI(UIPrintButton);
 
         this.domElement.appendChild(UIButtonGroup.domElement);
@@ -73,74 +72,14 @@ class ZFormButton {
 
             switch(btn.value) {
                 case 'close':
-                    UIActionButton.onUIClick(this.closeForm.bind(this));
+                    UIActionButton.onUIClick(this.zForm.close.bind(this.zForm));
                     break;
                 default :
-                    UIActionButton.onUIClick(this.updateToken.bind(this, btn.value));
+                    UIActionButton.onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
             }
             UIButtonGroup.addUI(UIActionButton);
         });
         this.domElement.appendChild(UIButtonGroup.domElement);
-    }
-    /**
-     * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
-     */
-    updateToken(actionType) {
-        // 유효성 체크
-        let validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
-        if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
-            return false;
-        }
-        // TODO: DR 테이블, CI 테이블 필수값 체크
-
-        const saveData = {
-            'documentId': this.formDataJson.documentId,
-            'instanceId': this.formDataJson.instanceId,
-            'tokenId': (zValidation.isDefined(this.formDataJson.tokenId) ? this.formDataJson.tokenId : ''),
-            'isComplete': (actionType !== 'save'),
-            'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
-            'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''
-        };
-        // 컴포넌트 값
-        saveData.componentData = this.zForm.getComponentData(this.zForm.form, []);
-
-        //TODO: #10547 폼 리팩토링 - 신청서 저장 - 서버 진행 후 return false 제거
-        console.log(saveData);
-        return false;
-
-        const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
-        const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
-        aliceJs.fetchText(url, {
-            method: (saveData.tokenId === '') ? 'post' : 'put',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(saveData)
-        }).then(rtn => {
-            if (rtn === 'true') {
-                aliceAlert.alertSuccess(i18n.msg(actionMsg),  () => {
-                    if (zValidation.isDefined(window.opener)) {
-                        opener.location.reload();
-                        window.close();
-                    } else {
-                        this.documentModal.hide();
-                    }
-                });
-            } else {
-                aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-            }
-        });
-    }
-    /**
-     * TODO: 인쇄
-     */
-    printForm() {}
-    closeForm() {
-        this.zForm.closeDocument();
-    }
-
-    openProcessStatusPopUp() {
-        window.open('/process/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');
     }
 }
 

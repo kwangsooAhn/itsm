@@ -9,7 +9,6 @@
  */
 import { FORM, DOCUMENT, SESSION } from '../lib/zConstants.js';
 import { zValidation } from '../lib/zValidation.js';
-import { UIButton, UIDiv } from '../lib/zUI.js';
 import ZForm from '../form/zForm.js';
 import ZGroup from '../form/zGroup.js';
 import ZRow from '../form/zRow.js';
@@ -174,7 +173,7 @@ class ZDocument {
     /**
      * 신청서 닫기
      */
-    closeDocument() {
+    close() {
         this.documentModal.hide();
     }
     /**
@@ -193,7 +192,7 @@ class ZDocument {
     /**
      * 신청서 저장, 처리, 취소, 회수, 즉시 종료 등 동적 버튼 클릭시 호출됨
      */
-    saveDocument(actionType) {
+    processAction(actionType) {
         // 유효성 체크
         let validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw'];
         if (!validationUncheckActionType.includes(actionType) && zValidation.hasDOMElementError(this.domElement)) {
@@ -205,7 +204,7 @@ class ZDocument {
             'documentId': this.data.documentId,
             'instanceId': this.data.instanceId,
             'tokenId': (zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : ''),
-            'isComplete': (actionType === 'save') ? false : true,
+            'isComplete': (actionType !== 'save'),
             'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
             'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''
         };
@@ -241,7 +240,7 @@ class ZDocument {
     /**
      * TODO: 신청서 인쇄
      */
-    printDocument() {}
+    print() {}
 }
 
 export const zDocument = new ZDocument();
