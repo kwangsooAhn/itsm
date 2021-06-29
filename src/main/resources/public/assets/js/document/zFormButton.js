@@ -26,6 +26,7 @@ class ZFormButton {
      * @param zForm 버튼의 대상이 되는 Form Class 를 나타낸다. 해당 폼의 값을 이용하기 위해서 필요하다.
      */
     init(domElement, formDataJson, zForm) {
+        this.isToken = !!(formDataJson.tokenId);
         this.domElement = domElement;
         this.formDataJson = formDataJson;
         this.zForm = zForm;
@@ -40,14 +41,16 @@ class ZFormButton {
         // 버튼 목록 생성
         const UIButtonGroup = new UIDiv().setUIClass('btn-list');
 
-        const UIProcessMapButton = new UIButton(i18n.msg('process.label.processMap')).addUIClass('default-line')
-            .onUIClick(this.openProcessStatusPopUp.bind(this));
+        // 문서함에서 출력되는 경우 프로세스 맵 버튼도 출력
+        if (this.isToken) {
+            const UIProcessMapButton = new UIButton(i18n.msg('process.label.processMap')).addUIClass('default-line')
+                .onUIClick(this.openProcessStatusPopUp.bind(this));
+            UIButtonGroup.addUI(UIProcessMapButton);
+        }
 
         // 인쇄 버튼
         const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('default-line')
             .onUIClick(this.printForm.bind(this));
-
-        UIButtonGroup.addUI(UIProcessMapButton);
         UIButtonGroup.addUI(UIPrintButton);
 
         this.domElement.appendChild(UIButtonGroup.domElement);
@@ -66,7 +69,7 @@ class ZFormButton {
         actions.forEach( (btn) => {
             if (zValidation.isEmpty(btn.name)) { return false; }
             let UIActionButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
-                .addUIClass('default-line')
+                .addUIClass('default-fill')
 
             switch(btn.value) {
                 case 'close':
@@ -132,7 +135,9 @@ class ZFormButton {
      * TODO: 인쇄
      */
     printForm() {}
-    closeForm() { window.close();}
+    closeForm() {
+        this.zForm.closeDocument();
+    }
 
     openProcessStatusPopUp() {
         window.open('/process/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');

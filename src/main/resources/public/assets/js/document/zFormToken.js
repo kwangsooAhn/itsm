@@ -152,6 +152,12 @@ class ZFormToken {
         });
         return array;
     }
+    /**
+     * 문서 닫기
+     */
+    closeDocument() {
+        window.close();
+    }
 }
 
 export const zFormToken = new ZFormToken();
