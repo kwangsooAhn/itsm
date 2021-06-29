@@ -10,9 +10,9 @@
  * https://www.brainz.co.kr
  */
 
-import {FORM, CLASS_PREFIX, UNIT, CI} from '../../lib/zConstants.js';
+import { FORM, CLASS_PREFIX, UNIT, SESSION } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import {UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton} from '../../lib/zUI.js';
+import { UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -27,31 +27,8 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
         columns: [{
-            columnName: 'COLUMN',
-            columnType: 'input', // input, dropdown, date, time, datetime, customCode 등 입력 유형
-            columnWidth: '12', // 컬럼 너비
-            columnHead: {
-                fontSize: '14',
-                fontColor: 'rgba(141, 146, 153, 1)',
-                align: 'left',
-                bold: true,
-                italic: false,
-                underline: false
-            },
-            columnContent: {
-                fontSize: '14',
-                fontColor: 'rgba(50, 50, 51, 1)',
-                align: 'left',
-                bold: true,
-                italic: false,
-                underline: false
-            },
-            columnElement: {  // 타입별 세부 속성
-                placeholder: '',
-                validationType: 'none', // none | char | num | numchar | email | phone 등 유효성
-                minLength: '0',
-                maxLength: '100'
-            }
+            ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.COMMON,
+            ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.INPUT
         }]
     },
     validation: {
@@ -67,11 +44,11 @@ export const dynamicRowTableMixin = {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
-        // 데이터 : "value" : [{0: "1행 1열", 1: "1행 2열", 2:"", 3:"", 4:"" ...}, {0: "", 1: "", 2:"", 3:"", 4:"" ...} ... ]
+        // 데이터 : "value" :[['1행 1열', '1행 2열', '1행 3열'], ['2행 1열', '2행 2열', '2행 2열']]
         this._value = this.data.value || '';
         // 데이터 초기화
-        if (this._value !== '') {
-            this.value = JSON.parse(this._value);
+        if (!zValidation.isEmpty(this._value)) {
+            this._value = JSON.parse(this._value);
         }
     },
     // component 엘리먼트 생성
@@ -178,7 +155,6 @@ export const dynamicRowTableMixin = {
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX);
         row.addUICell(td);
-
         if (Array.isArray(this.value) && this.value.length > 0) {
             this.value.forEach((rowData) => {
                 this.addTableRow(table, rowData);
@@ -204,14 +180,14 @@ export const dynamicRowTableMixin = {
             targetTable.removeUIRow(targetTable.rows[1]);
         }
         // value가 문자일 경우 배열로 변환
-        if (this.value === '') { this.value = []; }
+        if (zValidation.isEmpty(this._value)) { this.value = []; }
         
         // row 추가
         const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'dr-table-row');
         // td 추가
-        const columnData = {};
+        const columnData = [];
         this.elementColumns.forEach((column, index) => {
-            columnData[index] = zValidation.isEmpty(data[index]) ? '' : data[index];
+            columnData.push(zValidation.isEmpty(data[index]) ? '${default}' : data[index]);
             const tdWidth = (Number(column.columnWidth) / FORM.COLUMN) * 100;
             const tdCssText = `width:${tdWidth}%;` +
                 `color:${column.columnContent.fontColor};` +
@@ -222,7 +198,7 @@ export const dynamicRowTableMixin = {
 
             const td = new UICell(row)
                 .setUICSSText(tdCssText)
-                .addUI(this.getCellInColumnType(column, columnData[index]));
+                .addUI(this.getElementByColumnType(column, columnData[index]));
             row.addUICell(td);
         });
         // 데이터 추가
@@ -241,19 +217,33 @@ export const dynamicRowTableMixin = {
         targetTable.addUIRow(row);
     },
     // column Type 에 따른 cell 반환
-    getCellInColumnType(column, cellValue) {
+    getElementByColumnType(column, cellValue) {
         switch (column.columnType) {
         case 'input':
-            return new UIInput().setUIPlaceholder(column.columnElement.placeholder)
-                .setUIValue(cellValue)
-                .setUIAttribute('data-validation-type', column.columnElement.validationType)
-                .setUIAttribute('data-validation-max-length', column.columnElement.maxLength)
-                .setUIAttribute('data-validation-min-length', column.columnElement.minLength)
-                .onUIKeyUp(this.updateValue.bind(this))
-                .onUIChange(this.updateValue.bind(this));
+            return this.getInputBoxForColumn(column, cellValue);
         default:
             return new UISpan().setUIInnerHTML(cellValue);
         }
+    },
+    //column Type - input
+    getInputBoxForColumn(column, cellValue) {
+        let defaultValue = cellValue;
+        if (cellValue === '${default}') {
+            // 직접입력일 경우 : none|입력값
+            const defaultValues = column.columnElement.defaultValueSelect.split('|');
+            if (defaultValues[0] === 'input') {
+                defaultValue = defaultValues[1];
+            } else {  // 자동일경우 : select|userKey
+                defaultValue = SESSION[defaultValues[1]] || '';
+            }
+        }
+        return new UIInput().setUIPlaceholder(column.columnElement.placeholder)
+            .setUIValue(defaultValue)
+            .setUIAttribute('data-validation-type', column.columnValidation.validationType)
+            .setUIAttribute('data-validation-max-length', column.columnValidation.maxLength)
+            .setUIAttribute('data-validation-min-length', column.columnValidation.minLength)
+            .onUIKeyUp(this.updateValue.bind(this))
+            .onUIChange(this.updateValue.bind(this));
     },
     // 테이블 row 삭제
     removeTableRow(targetTable, row) {
@@ -289,11 +279,10 @@ export const dynamicRowTableMixin = {
             return false;
         }
         const newValue = JSON.parse(JSON.stringify(this.value));
-        if (e.target instanceof HTMLInputElement) {
-            const rowIndex = e.target.parentNode.parentNode.rowIndex - 1; // 헤더 제외
-            const cellIndex = e.target.parentNode.cellIndex;
-            newValue[rowIndex][cellIndex] = e.target.value;
-        }
+        const rowIndex = e.target.parentNode.parentNode.rowIndex - 1; // 헤더 제외
+        const cellIndex = e.target.parentNode.cellIndex;
+        newValue[rowIndex][cellIndex] = e.target.value;
+
         this.value = newValue;
     },
     getProperty() {

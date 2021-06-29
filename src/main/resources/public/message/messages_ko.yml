@@ -735,6 +735,7 @@ form:
       columnContent: "컬럼 내용"
       columnElement: "입력 유형 엘리먼트"
       columnHead: "컬럼 제목"
+      columnValidation: "입력 유형 엘리먼트 유효성"
       display: "출력속성"
       element: "엘리먼트"
       label: "라벨"

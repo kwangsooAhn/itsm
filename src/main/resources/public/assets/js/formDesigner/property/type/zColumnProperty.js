@@ -11,7 +11,7 @@
  *
  * https://www.brainz.co.kr
  */
-import {FORM, UNIT} from '../../../lib/zConstants.js';
+import { FORM, UNIT } from '../../../lib/zConstants.js';
 import { UIButton, UIDiv, UISpan, UITabPanel } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
@@ -22,37 +22,14 @@ import ZSliderProperty from './zSliderProperty.js';
 import ZSwitchButtonProperty from './zSwitchButtonProperty.js';
 import ZToggleButtonProperty from './zToggleButtonProperty.js';
 import ZColorPickerProperty from './zColorPickerProperty.js';
+import ZDefaultValueSelectProperty from './zDefaultValueSelectProperty.js';
 
 const propertyExtends = {
     columnCommon: {
-        columnName: 'COLUMN', // 컬럼명
-        columnType: 'input', // input, dropdown, date, time, datetime, customCode 등 입력 유형
-        columnWidth: '12', // 컬럼 너비
-        columnHead: {
-            fontSize: '14',
-            fontColor: 'rgba(141, 146, 153, 1)',
-            align: 'left',
-            bold: true,
-            italic: false,
-            underline: false
-        },
-        columnContent: {
-            fontSize: '14',
-            fontColor: 'rgba(50, 50, 51, 1)',
-            align: 'left',
-            bold: true,
-            italic: false,
-            underline: false
-        },
-        columnElement: {} // 타입별 세부 속성
+        ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.COMMON
     },
-    columnElement: {
-        input: {
-            placeholder: '',
-            validationType: 'none', // none | char | num | numchar | email | phone 등 유효성
-            minLength: '0',
-            maxLength: '100'
-        }
+    input: {
+        ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.INPUT
     }
 };
 
@@ -98,7 +75,7 @@ export default class ZColumnProperty extends ZProperty {
         const columnOption = Object.assign({}, propertyExtends.columnCommon, option);
         // 열 속성 기본 값 조회
         if (zValidation.isEmpty(columnOption.columnElement)) {
-            Object.assign(columnOption.columnElement, propertyExtends.columnElement[columnOption.columnType]);
+            Object.assign(columnOption, propertyExtends[columnOption.columnType]);
         }
         const columnPropertyGroup = new UIDiv();
         // 순서 변경 버튼 추가
@@ -118,7 +95,7 @@ export default class ZColumnProperty extends ZProperty {
         );
 
         // 컬럼 세부 속성 Tab 추가
-        const property = this.getPropertyInColumnType(columnOption, 'column' + index);
+        const property = this.getProperty(columnOption, 'column' + index);
         property.map(propertyObject => {
             const propertyObjectElement = propertyObject.makeProperty(this);
 
@@ -187,9 +164,20 @@ export default class ZColumnProperty extends ZProperty {
         [this.value[curIndex], this.value[changeIndex]] = [this.value[changeIndex], this.value[curIndex]];
         this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
     }
-
-    // 컬럼공통 속성 조회
-    getPropertyInColumnCommon(option, id) {
+    // 컬럼입력유형에 따른 속성 조회
+    getProperty(option, id) {
+        switch (option.columnType) {
+        case 'input':
+            return [
+                ...this.getPropertyForColumnCommon(option, id),
+                ...this.getPropertyForColumnTypeInput(option, id)
+            ];
+        default:
+            return [];
+        }
+    }
+    // 컬럼 세부 속성 - 공통
+    getPropertyForColumnCommon(option, id) {
         // 입력 유형
         const columnTypeProperty = new ZDropdownProperty(id + '|columnType', 'element.columnType',
             option.columnType, [ // input, dropdown, date, time, datetime, customCode
@@ -276,32 +264,26 @@ export default class ZColumnProperty extends ZProperty {
 
         ];
     }
-    // 컬럼입력유형에 따른 속성 조회
-    getPropertyInColumnType(option, id) {
-        switch (option.columnType) {
-        case 'input':
-            // validation Type
-            const validationTypeProperty = new ZDropdownProperty(id + '|columnElement.validationType', 'validation.validationType',
-                option.columnElement.validationType, [
-                    {name: 'form.properties.none', value: 'none'},
-                    {name: 'form.properties.char', value: 'char'},
-                    {name: 'form.properties.number', value: 'number'},
-                    {name: 'form.properties.email', value: 'email'},
-                    {name: 'form.properties.phone', value: 'phone'}
-                ]);
-            return [
-                ...this.getPropertyInColumnCommon(option, id),
-                new ZGroupProperty('group.columnElement')
-                    .addProperty(new ZInputBoxProperty(id + '|columnElement.placeholder', 'element.placeholder', option.columnElement.placeholder))
-                    .addProperty(validationTypeProperty)
-                    .addProperty(new ZInputBoxProperty(id + '|columnElement.minLength', 'validation.minLength', option.columnElement.minLength))
-                    .addProperty(new ZInputBoxProperty(id + '|columnElement.maxLength', 'validation.maxLength', option.columnElement.maxLength))
-            ];
-        default:
-            return [];
-        }
+    // 컬럼 세부 속성 - input
+    getPropertyForColumnTypeInput(option, id) {
+        const validationTypeProperty = new ZDropdownProperty(id + '|columnValidation.validationType', 'validation.validationType',
+            option.columnValidation.validationType, [
+                {name: 'form.properties.none', value: 'none'},
+                {name: 'form.properties.char', value: 'char'},
+                {name: 'form.properties.number', value: 'number'},
+                {name: 'form.properties.email', value: 'email'},
+                {name: 'form.properties.phone', value: 'phone'}
+            ]);
+        return [
+            new ZGroupProperty('group.columnElement')
+                .addProperty(new ZInputBoxProperty(id + '|columnElement.placeholder', 'element.placeholder', option.columnElement.placeholder))
+                .addProperty(new ZDefaultValueSelectProperty(id + '|columnElement.defaultValueSelect', 'element.defaultValueSelect', option.columnElement.defaultValueSelect)),
+            new ZGroupProperty('group.columnValidation')
+                .addProperty(validationTypeProperty)
+                .addProperty(new ZInputBoxProperty(id + '|columnValidation.minLength', 'validation.minLength', option.columnValidation.minLength))
+                .addProperty(new ZInputBoxProperty(id + '|columnValidation.maxLength', 'validation.maxLength', option.columnValidation.maxLength))
+        ];
     }
-    
     // 컬럼 세부 속성 변경시 호출되는 이벤트 핸들러
     update(key, value) {
         // id|key.key 속성 형태로 값이 전달되며 첫번째는 column 순서 즉 index를 의미한다.

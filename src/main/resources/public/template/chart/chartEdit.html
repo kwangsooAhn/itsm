@@ -54,7 +54,7 @@
             <label class="field-label required" th:text="#{chart.label.duration}"/>
             <div>
                 <input type="text" id="durationDigit" name="durationDigit" th:value="${chart?.durationDigit}"
-                       onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"
+                       onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100"
                        class="align-right col-2"/>
                 <select id="durationUnitSelectBox" name="durationUnitSelectBox" class="col-2">
                     <option th:each="unit:${unitList}" th:value="${unit.codeValue}"

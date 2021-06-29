@@ -68,12 +68,12 @@
                         <div class="flex-column edit-row">
                             <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
                             <input id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
-                                   onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
+                                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
                         </div>
                         <div class="flex-column edit-row">
                             <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
                             <input id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
-                                   onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
+                                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
                         </div>
                     </div>
                     <div class="flex-column avatar-edit ml-4">
