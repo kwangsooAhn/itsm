@@ -119,7 +119,7 @@
                 }
 
                 if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
-                    aliceAlert.confirmIcon(
+                    aliceAlert.confirm(
                         i18n.msg('document.msg.changeStatusEnabled'),
                         () => restSubmit(method, url + '?isDeleteData=true', documentInfo, function(result) {
                             aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
@@ -347,7 +347,7 @@
         }
 
         function deleteDocument(documentId) {
-            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/workflows/' +
+            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/workflows/' +
                 documentId, {}, function(result) {
                 if (JSON.parse(result)) {
                     aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
