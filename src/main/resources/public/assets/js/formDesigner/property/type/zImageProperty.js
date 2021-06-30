@@ -42,7 +42,7 @@ export default class ZImageProperty extends ZProperty {
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIInput);
 
         // button
-        this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('btn').addUIClass('ghost-line')
+        this.UIElement.UIDiv.UIButton = new UIButton().addUIClass('ghost-line')
             .setUIId('imageUploadPopUp')
             .onUIClick(this.openThumbnailModal.bind(this));
         this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));

@@ -8,6 +8,8 @@
  * https://www.brainz.co.kr
  */
 
+import { CLASS_PREFIX } from './zConstants.js';
+
 class UIElement {
     constructor(domElement) {
         this.domElement = domElement;
@@ -485,7 +487,7 @@ class UIHorizontalRule extends UIElement {
 class UIButton extends UIElement {
     constructor(value) {
         super(document.createElement('button'));
-        this.domElement.className = 'btn';
+        this.domElement.className = CLASS_PREFIX + 'button';
         this.domElement.type = 'button';
         this.domElement.textContent = value;
     }
@@ -640,17 +642,17 @@ class UICell extends UIElement {
 class UITabPanel extends UIElement {
     constructor() {
         super(document.createElement('div'));
-        this.domElement.className = 'tabPanel';
+        this.domElement.className = CLASS_PREFIX + 'tab-panel';
 
         this.tabs = [];
         this.panels = [];
 
         this.tabsDiv = new UIDiv();
-        this.tabsDiv.setUIClass('tabs');
+        this.tabsDiv.setUIClass(CLASS_PREFIX + 'tabs');
         this.addUI(this.tabsDiv);
 
         this.panelsDiv = new UIDiv();
-        this.panelsDiv.setUIClass('panels');
+        this.panelsDiv.setUIClass(CLASS_PREFIX + 'panels');
         this.addUI(this.panelsDiv);
 
         this.selected = '';
@@ -707,7 +709,7 @@ class UITabPanel extends UIElement {
         this.tabs.push(tab);
         this.tabsDiv.addUI(tab);
 
-        const panel = new UIDiv().setUIClass('panel');
+        const panel = new UIDiv().setUIClass(CLASS_PREFIX + 'panel');
         panel.setUIId(id);
         panel.setUIDisplay('none');
         panel.addUI(panelItem);
@@ -736,7 +738,7 @@ class UITabPanel extends UIElement {
 class UITab extends UIButton {
     constructor(item, parent) {
         super('');
-        this.domElement.className = 'tab';
+        this.domElement.className = CLASS_PREFIX + 'tab';
         this.parent = parent;
 
         this.addUI(item);
