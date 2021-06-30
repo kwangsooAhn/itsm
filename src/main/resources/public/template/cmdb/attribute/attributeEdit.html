@@ -153,7 +153,7 @@
                     restSubmit(method, url, data);
                 }
             } else if (method === 'delete') {
-                aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'');
+                aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'');
             }
         }
 

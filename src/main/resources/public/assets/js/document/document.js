@@ -703,7 +703,7 @@
      * @param commentId
      */
     function deleteComment(commentId) {
-        aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
+        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/comments/' + commentId,
@@ -726,7 +726,7 @@
      * @param dataForDeletion
      */
     function deleteRelatedDoc(dataForDeletion) {
-        aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
+        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/folders/' + dataForDeletion.folderId,
@@ -938,12 +938,12 @@
 
                 addCommentBox(instanceId);
 
-                new zTag(document.querySelector('input[name=tags]'),{
+                new zTag(document.querySelector('input[name=tags]'), {
                     suggestion: true,
                     realtime: true,
                     tagType: 'instance',
                     targetId: document.getElementById('instanceId').getAttribute('data-id')
-                })
+                });
                 const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
                 document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
                 OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
