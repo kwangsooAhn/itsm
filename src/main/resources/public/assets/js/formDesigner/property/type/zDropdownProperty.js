@@ -35,9 +35,6 @@ export default class ZDropdownProperty extends ZProperty {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
 
-        console.log('명충아~~~~');
-        console.log(this.key);
-        console.log(this.value);
         // select box
         this.UIElement.UISelect = new UISelect()
             .setUIId(this.key)

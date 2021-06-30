@@ -12,7 +12,7 @@
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIInputButton } from '../../lib/zUI.js';
+import {UIButton, UIDiv, UIInput, UIInputButton} from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -28,12 +28,14 @@ import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/ZD
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
+        defaultDropDownValue: '',
         defaultValueRadio: 'none|', // none|없음  session|세션값  code|코드값
     },
     validation: {
         required: false // 필수값 여부
     }
 };
+
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 
 export const customCodeMixin = {
@@ -49,13 +51,17 @@ export const customCodeMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
-        element.UIInputButton = new UIInputButton(this.value, this.buttonText)
-            .setUIId('customcode' + this.id)
+        return this.makeCustomCode(element);
+    },
+    makeCustomCode(object) {
+        object.UIInputButton = new UIInputButton()
             .setUIRequired(this.validationRequired)
+            .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
-
-        element.addUI(element.UIInputButton);
-        return element;
+        object.UIInput = new UIInput(this.value).setUIReadOnly(true).setUIClass('input');
+        object.UIButton = new UIButton(this.buttonText).setUIClass('button default-line');
+        object.addUI(object.UIInputButton.addUI(object.UIInput).addUI(object.UIButton));
+        return object;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
@@ -118,12 +124,24 @@ export const customCodeMixin = {
     get elementDefaultValueRadio() {
         return this._element.defaultValueRadio;
     },
+    set defaultDropDownValue(value) {
+        this._element.defaultDropDownValue = value;
+        this.UIElement.UIComponent.UIInputButton.UIButton.onUIClick(this.updateProperty.bind(this));
+    },
+    get defaultDropDownValue() {
+        if (this._value === '${default}') {
+            return FORM.CUSTOM_CODE[0].customCodeId;
+        } else {
+            return this._element.defaultDropDownValue;
+        }
+
+    },
     get buttonText() {
         return this._buttonText;
     },
     set buttonText(text) {
         this._buttonText = text;
-        this.UIElement.UIComponent.UIElement.UIInputButton.setUITextContent(text);
+        this.UIElement.UIComponent.UIElement.UIButton.setUITextContent(text);
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -131,15 +149,6 @@ export const customCodeMixin = {
         e.preventDefault();
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-        // 유효성 검증
-        // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
-            return false;
-        }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
             return false;
         }
 
@@ -161,40 +170,33 @@ export const customCodeMixin = {
     getProperty() {
         let customCode = [];
         let customCodeChild = [];
-
         FORM.CUSTOM_CODE.forEach(function(data){
             let dropDownOption = new Object();
             dropDownOption.name = data.customCodeName;
             dropDownOption.value = data.customCodeId;
             customCode.push(dropDownOption);
         });
-
         FORM.CUSTOM_CODE_CHILD.forEach(function(data){
             let dropDownOption = new Object();
             dropDownOption.name = data.value;
             dropDownOption.value = data.key;
             customCodeChild.push(dropDownOption);
         });
-
-        const dropdownProperty = new ZDropdownProperty('elementCustomCode', 'customCode', customCode[0].value, customCode);
-        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueRadio', 'element.defaultValueRadio',
-            this.elementDefaultValueRadio,
+        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementCustomCode', 'element.defaultValueRadio',
+            this.defaultDropDownValue, this.elementDefaultValueRadio, customCode,
             [
                 { name: 'form.properties.option.none', value: FORM.CUSTOM.NONE },
                 { name: 'form.properties.default.session', value: FORM.CUSTOM.SESSION },
                 { name: 'form.properties.default.code', value: FORM.CUSTOM.CODE }
             ], customCodeChild);
-
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(dropdownProperty)
                 .addProperty(customCodeProperty)
                 .addProperty(new ZInputBoxProperty('buttonText', 'buttonText', this.buttonText)
                     .setValidation(false, '', '', '', '', '128')),
-            //label.buttonText
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];

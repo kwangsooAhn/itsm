@@ -20,20 +20,36 @@ const propertyExtends = {
 };
 
 export default class ZDefaultValueCustomCodeProperty extends ZProperty {
-    constructor(key, name, value, options, optionValue) {
-        super(key, name, 'defaultValueCustomCodeProperty', value);
+    constructor(key, name, dropDownValue, customCodeValue, dropDownOptions, customCodeOptions, customCodeOptionValue) {
+        super(key, name, 'defaultValueCustomCodeProperty', dropDownValue, customCodeValue);
 
-        this.options = options;
-        this.optionValue = optionValue;
+        this.dropDownOptions = dropDownOptions;
+        this.customCodeOptions = customCodeOptions;
+        this.customCodeOptionValue = customCodeOptionValue;
     }
 
     // DOM Element 생성
     makeProperty(panel) {
         this.panel = panel;
 
+        //커스텀 코드
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
+        // 라벨
+        this.UIElement.UILabel = this.makeLabelProperty('form.properties.customCode');
+        this.UIElement.addUI(this.UIElement.UILabel);
 
+        // select box
+        this.UIElement.UISelect = new UISelect()
+            .setUIId('customCode')
+            .setUIAttribute('name', this.key)
+            .setUIOptions(JSON.parse(JSON.stringify(this.dropDownOptions)))
+            .setUIValue(this.value)
+            .setUIAttribute('data-value', 'customCode')
+            .onUIChange(this.updateProperty.bind(this));
+        this.UIElement.addUI(this.UIElement.UISelect);
+
+        // 기본 값
         // 라벨
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
@@ -43,7 +59,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
         const defaultValueArray = this.value.split('|'); // none, now, date|-3, time|2, datetime|7|0 등
 
-        this.options.forEach((item) => {
+        this.customCodeOptions.forEach((item) => {
             const radioGroup = new UIDiv().setUIClass('radio-property-group').addUIClass('vertical');
             const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             // 라벨
@@ -72,7 +88,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                 radioGroup.addUI(radioGroup.UISelect);
                 break;
             case FORM.CUSTOM.CODE:
-                radioGroup.UISelect = new UISelect().setUIId('code').setUIOptions(this.optionValue);
+                radioGroup.UISelect = new UISelect().setUIId('code').setUIOptions(this.customCodeOptionValue);
                 radioGroup.addUI(radioGroup.UISelect);
                 break;
             }
@@ -95,36 +111,21 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         }
 
         const elem = e.target || e;
-        // 유효성 검증
-        if (elem.type === 'text' && e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
-            return false;
-        }
+        const elemName = elem.getAttribute('data-value');
 
-        const parentElem = elem.parentNode.parentNode;
-        const curRadioElem = parentElem.querySelector('input[type=radio]');
-        // 변경된 값의 radio 버튼이 선택되지 않았다면 값을 처리하지 않는다.
-        if (!curRadioElem.checked) { return false; }
-
-        // radio 변경시
-        const defaultValue = curRadioElem.getAttribute('data-value'); // none, now, date, datepicker 등
-        if (defaultValue === FORM.DATE_TYPE.DAYS || defaultValue === FORM.DATE_TYPE.HOURS ||
-            defaultValue === FORM.DATE_TYPE.DATETIME) {
-            const inputElems = parentElem.querySelectorAll('input[type=text]');
-            let changeValue = '';
-            inputElems.forEach((cell) => {
-                changeValue += ('|' + cell.value);
-            });
-            this.panel.update.call(this.panel, elem.name, defaultValue + changeValue);
-        } else if (defaultValue === FORM.DATE_TYPE.DATE_PICKER ||
-            defaultValue === FORM.DATE_TYPE.TIME_PICKER ||
-            defaultValue === FORM.DATE_TYPE.DATETIME_PICKER) {
-            const datepickerElem = parentElem.querySelector('.picker');
-            this.panel.update.call(this.panel
-                , elem.name
-                , defaultValue + '|'
-            + aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, defaultValue.replace('picker', ''), datepickerElem.value));
-        } else {
-            this.panel.update.call(this.panel, elem.name, defaultValue);
+        switch (elemName) {
+        case 'customCode':
+            this.panel.update.call(this.panel, e.target.id, e.target.value);
+            break;
+        case 'none':
+            this.panel.update.call(this.panel, elem.name, '');
+            break;
+        case 'session':
+            this.panel.update.call(this.panel, elem.name, 'session');
+            break;
+        case 'code':
+            this.panel.update.call(this.panel, elem.name, 'code');
+            break;
         }
     }
 }

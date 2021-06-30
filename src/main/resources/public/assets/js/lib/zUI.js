@@ -749,39 +749,10 @@ class UITab extends UIButton {
 }
 
 class UIInputButton extends UIElement {
-    constructor(value, text) {
+    constructor() {
         super(document.createElement('div'));
         this.domElement.className = 'z-input-button';
-
-        // input
-        this.UIInput = new UIInput(value).setUIReadOnly(true).setUIClass('input');
-        this.addUI(this.UIInput);
-
-        // button
-        this.UIButton = new UIButton(text).setUIClass('button default-line');
-        this.addUI(this.UIButton);
-
-        //this.setUIButtonText(text);
-        //this.setUIValue(value);
     }
-
-    /*getUIValue() {
-        return this.UIInput.domElement.textContent;
-    }
-
-    setUIValue(value) {
-        this.UIInput.domElement.value = value;
-    }
-
-    setUIRequired(boolean) {
-        this.UIInput.domElement.required = boolean;
-        return this;
-    }
-
-    setUIAttribute(name, value) {
-        this.UIInput.domElement.setAttribute(name, value);
-        return this;
-    }*/
 
     getUIValue() {
         return this.UIInput.domElement.textContent;
@@ -791,10 +762,6 @@ class UIInputButton extends UIElement {
         this.UIInput.domElement.value = value;
         return this;
     }
-
-    /*getUITextContent() {
-        return this.UIButton.domElement.textContent;
-    }*/
 
     setUITextContent(text) {
         this.UIButton.domElement.textContent = text;
