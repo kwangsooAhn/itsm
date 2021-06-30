@@ -129,8 +129,8 @@
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('parentTypeName').setAttribute('readonly','');
-                        document.getElementById('parentTypeName').value = responseJson.pTypeName;
-                        document.getElementById('parentTypeId').value = responseJson.pTypeId;
+                        document.getElementById('parentTypeName').value = responseJson.ptypeName;
+                        document.getElementById('parentTypeId').value = responseJson.ptypeId;
                         document.getElementById('typeName').value = responseJson.typeName;
                         document.getElementById('typeId').value = responseJson.typeId;
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
