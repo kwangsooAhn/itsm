@@ -32,7 +32,28 @@ class ScheduleTaskTypeJar(
         // command list
         val commands = taskInfo.executeCommand?.split(" ")
         val command = mutableListOf<String>()
+
+        var logbackConfigurationFile = ""
+        var logHome = ""
         commands?.forEach {
+            if (it.contains(AliceConstants.PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE)) {
+                logbackConfigurationFile = it.split("=")[1]
+            }
+            if (it.contains(AliceConstants.PLUGINS_VM_OPTIONS_LOG_HOME)) {
+                logHome = it.split("=")[1]
+            }
+        }
+
+        val moduleHome = File(jarDir).absolutePath
+        commands?.forEach {
+            if (it == "-jar") {
+                if (logbackConfigurationFile.isEmpty()) {
+                    command.add("${AliceConstants.PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE}=${moduleHome}/logback.xml")
+                }
+                if (logHome.isEmpty()) {
+                    command.add("${AliceConstants.PLUGINS_VM_OPTIONS_LOG_HOME}=${moduleHome}/logs")
+                }
+            }
             command.add(it.trim())
         }
         runnable = Runnable {
