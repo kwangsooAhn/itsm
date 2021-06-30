@@ -2,7 +2,7 @@
  * Custom Code Mixin
  *
  *
- * @author
+ * @author Kim Sung Min <ksm00@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -12,53 +12,118 @@
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIText } from '../../lib/zUI.js';
+import { UIDiv, UIInputButton } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/ZDefaultValueCustomCodeProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        placeholder: '',
         columnWidth: '10',
-        defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
+        defaultValueRadio: 'none|', // none|없음  session|세션값  code|코드값
+    },
+    validation: {
+        required: false // 필수값 여부
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 
 export const customCodeMixin = {
-
     // 전달 받은 데이터와 기본 property merge
     initProperty() {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
+        this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this._value || '${default}';
+        this._buttonText = 'button';
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
+        element.UIInputButton = new UIInputButton(this.value, this.buttonText)
+            .setUIId('customcode' + this.id)
+            .setUIRequired(this.validationRequired)
+            .setUIAttribute('data-validation-required', this.validationRequired);
 
-        element.UIText = new UIText('아직 구현되지 않았습니다. 얼렁 개발해주세요.');
-        element.addUI(element.UIText);
+        element.addUI(element.UIInputButton);
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+        //여기에 버튼 이벤트가 생겨야 할 것 같아. 아니면 dropdown이벤트를 같아 걸어야 하나?
+    },
     // set, get
     set value(value) {
         this._value = value;
     },
     get value() {
-        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
-        // 사용자 변경시 해당 값이 할당된다.
-        return this._value;
+        if (this._value === '${default}') {
+            return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
+        } else { // 저장된 값 반환
+            return this._value;
+        }
+    },
+    set validation(validation) {
+        this._validation = validation;
+    },
+    get validation() {
+        return this._validation;
+    },
+    set validationRequired(boolean) {
+        this._validation.required = boolean;
+        if (boolean) {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get validationRequired() {
+        return this._validation.required;
+    },
+    set elementColumnWidth(width) {
+        this._element.columnWidth = width;
+        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
+    },
+    get elementColumnWidth() {
+        return this._element.columnWidth;
+    },
+    set elementDefaultValueSelect(value) {
+        this._element.defaultValueSelect = value;
+        this.UIElement.UIComponent.UIInputButton.setUIValue(this.value);
+    },
+    get elementDefaultValueSelect() {
+        return this._element.defaultValueSelect;
+    },
+    set status(status) {
+        this._status = status;
+    },
+    get status() {
+        return this._status;
+    },
+    set elementDefaultValueRadio(value) {
+        // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
+        this._element.defaultValueRadio = value;
+        this.UIElement.UIComponent.UIInputButton.setUIValue(this.makeDefaultValue(value));
+    },
+    get elementDefaultValueRadio() {
+        return this._element.defaultValueRadio;
+    },
+    get buttonText() {
+        return this._buttonText;
+    },
+    set buttonText(text) {
+        this._buttonText = text;
+        this.UIElement.UIComponent.UIElement.UIInputButton.setUITextContent(text);
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -80,7 +145,72 @@ export const customCodeMixin = {
 
         this.value = e.target.value;
     },
+    // 기본값 조회
+    makeDefaultValue(value) {
+        // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
+        const defaultValueArray = value.split('|');
+        switch (defaultValueArray[0]) {
+        case FORM.CUSTOM.NONE:
+            return '';
+        case FORM.CUSTOM.SESSION:
+            return 'username';
+        case FORM.CUSTOM.CODE:
+            return 'code|1';
+        }
+    },
     getProperty() {
-        return [];
+        let customCode = [];
+        let customCodeChild = [];
+
+        FORM.CUSTOM_CODE.forEach(function(data){
+            let dropDownOption = new Object();
+            dropDownOption.name = data.customCodeName;
+            dropDownOption.value = data.customCodeId;
+            customCode.push(dropDownOption);
+        });
+
+        FORM.CUSTOM_CODE_CHILD.forEach(function(data){
+            let dropDownOption = new Object();
+            dropDownOption.name = data.value;
+            dropDownOption.value = data.key;
+            customCodeChild.push(dropDownOption);
+        });
+
+        const dropdownProperty = new ZDropdownProperty('elementCustomCode', 'customCode', customCode[0].value, customCode);
+        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueRadio', 'element.defaultValueRadio',
+            this.elementDefaultValueRadio,
+            [
+                { name: 'form.properties.option.none', value: FORM.CUSTOM.NONE },
+                { name: 'form.properties.default.session', value: FORM.CUSTOM.SESSION },
+                { name: 'form.properties.default.code', value: FORM.CUSTOM.CODE }
+            ], customCodeChild);
+
+        return [
+            ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
+            new ZGroupProperty('group.element')
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(dropdownProperty)
+                .addProperty(customCodeProperty)
+                .addProperty(new ZInputBoxProperty('buttonText', 'buttonText', this.buttonText)
+                    .setValidation(false, '', '', '', '', '128')),
+            //label.buttonText
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
+        ];
+    },
+    // json 데이터 추출 (서버에 전달되는 json 데이터)
+    toJson() {
+        return {
+            id: this._id,
+            type: this._type,
+            display: this._display,
+            isTopic: this._isTopic,
+            mapId: this._mapId,
+            tags: this._tags,
+            value: this._value,
+            label: this._label,
+            element: this._element
+        };
     }
 };

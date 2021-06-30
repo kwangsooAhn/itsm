@@ -63,7 +63,13 @@ export const FORM = {
 
         }
     },
+    CUSTOM: {
+        NONE: 'none',
+        SESSION: 'session',
+        CODE: 'code'
+    },
     CUSTOM_CODE: [],
+    CUSTOM_CODE_CHILD: [],
     // 옵션 속성에 추가되는 기본 값
     DEFAULT_OPTION_ROW: { name: 'name', value: 'value' },
     // 6개 column 제한 (dynamic table)

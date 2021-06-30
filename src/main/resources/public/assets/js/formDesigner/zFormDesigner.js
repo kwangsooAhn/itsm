@@ -28,10 +28,24 @@ class ZFormDesigner {
         this.selectedObject = null;
 
         // 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
-        aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
+        //aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
+        aliceJs.fetchJson('/rest/custom-codes', {
             method: 'GET'
         }).then((customData) => {
-            FORM.CUSTOM_CODE = customData;
+            if (customData.length > 0) {
+                FORM.CUSTOM_CODE = customData;
+            }
+        }).then((customData) => {
+            if (customData !=='') {
+                //aliceJs.fetchJson('/rest/custom-codes/'+FORM.CUSTOM_CODE[0].customCodeId, {
+                aliceJs.fetchJson('/rest/custom-codes/40288a91729bb5be01729bba9e130001', {
+                    method: 'GET'
+                }).then((customDataChild) => {
+                    if (customDataChild.length > 0) {
+                        FORM.CUSTOM_CODE_CHILD = customDataChild;
+                    }
+                });
+            }
         });
 
         // 초기화

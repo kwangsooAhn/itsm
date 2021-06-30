@@ -5240,6 +5240,19 @@ body.modal-active {
 .z-component .z-element .z-imagebox[src=""] + .z-imagebox-placeholder {
   display: block;
 }
+.z-component .z-element .z-input-button {
+  width: 100%;
+}
+.z-component .z-element .z-input-button .input {
+  width: 80%;
+}
+.z-component .z-element .z-input-button .button {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  width: 20%;
+  overflow: hidden;
+}
 .z-component .z-element .z-ci-table {
   width: 100%;
   background-color: #FFFFFF;

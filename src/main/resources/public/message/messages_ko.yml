@@ -679,6 +679,7 @@ form:
       vertical: "Vertical"
       horizontal: "Horizontal"
     auto: "자동"
+    buttonText: "버튼 텍스트"
     char: "문자"
     common: "공통"
     columnContent:
@@ -698,8 +699,12 @@ form:
       dateTime: "DateTime"
       input: "InputBox"
       time: "Time"
+    customCode: "커스텀 코드"
     dataAttribute: "데이터 속성"
     department: "부서"
+    default:
+      session: "세션"
+      code: "코드"
     desc: "설명"
     direct: "직접"
     display:

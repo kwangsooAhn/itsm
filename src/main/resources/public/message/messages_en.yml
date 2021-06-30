@@ -679,6 +679,7 @@ form:
       vertical: "Vertical"
       horizontal: "Horizontal"
     auto: "Auto"
+    buttonText: "Button Text"
     char: "Character"
     common: "Common"
     columnContent:
@@ -698,8 +699,12 @@ form:
       dropdown: "DropDown"
       input: "InputBox"
       time: "Time"
+    customCode: "Custom Code"
     dataAttribute: "Data Attribute"
     department: "Department"
+    default:
+      session: "Session"
+      code: "Code"
     desc: "Description"
     direct: "Direct"
     display:
