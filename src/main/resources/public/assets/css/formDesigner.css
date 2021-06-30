@@ -5255,7 +5255,7 @@ body.modal-active {
 .z-component .z-element .z-ci-table tr td.on {
   display: table-cell;
 }
-.z-component .z-element .z-ci-table tr td .btn {
+.z-component .z-element .z-ci-table tr td .z-button {
   padding: 0;
 }
 .z-component .z-element .z-ci-table .z-ci-table-header {
@@ -5287,10 +5287,10 @@ body.modal-active {
 .z-component .z-element .z-dr-table tr td.on {
   display: table-cell;
 }
-.z-component .z-element .z-dr-table tr td .btn {
+.z-component .z-element .z-dr-table tr td .z-button {
   padding: 0;
 }
-.z-component .z-element .z-dr-table tr td .btn .icon-close {
+.z-component .z-element .z-dr-table tr td .z-button .icon-close {
   display: inline-block;
   width: 0.875rem;
   height: 0.875rem;
@@ -5322,10 +5322,10 @@ body.modal-active {
   line-height: 2rem;
   padding-top: 0.625rem;
 }
-.z-component .z-element .z-dr-table-button-group .btn {
+.z-component .z-element .z-dr-table-button-group .z-button {
   padding: 0;
 }
-.z-component .z-element .z-dr-table-button-group .btn .icon-plus {
+.z-component .z-element .z-dr-table-button-group .z-button .icon-plus {
   display: inline-block;
   width: 0.875rem;
   height: 0.875rem;
@@ -5464,7 +5464,7 @@ body.modal-active {
 .property .textArea {
   min-height: 7.5rem;
 }
-.property .input-button .btn {
+.property .input-button .z-button {
   height: 2.5rem;
 }
 .property .slider .range {
@@ -5539,13 +5539,17 @@ body.modal-active {
   width: 260px;
   margin: 0;
 }
-.property .tabPanel .tabs button {
+.property .z-tab-panel .z-tabs button {
   display: inline-block;
+  padding: 10px 14px 9px 14px;
 }
-.property .tabPanel .tabs button.off {
+.property .z-tab-panel .z-tabs button:not(:last-child) {
+  margin-right: 0.3125rem;
+}
+.property .z-tab-panel .z-tabs button.off {
   display: none;
 }
-.property .tabPanel .tabs button .icon-checkbox {
+.property .z-tab-panel .z-tabs button .icon-checkbox {
   display: inline-block;
   width: 0.875rem;
   height: 0.875rem;
@@ -5557,7 +5561,7 @@ body.modal-active {
   mask-position: center;
   background: #FFFFFF;
 }
-.property .tabPanel .tabs button .icon-plus {
+.property .z-tab-panel .z-tabs button .icon-plus {
   display: inline-block;
   width: 0.875rem;
   height: 0.875rem;
@@ -5569,23 +5573,23 @@ body.modal-active {
   mask-position: center;
   background: #0098FF;
 }
-.property .tabPanel .tabs button.selected {
+.property .z-tab-panel .z-tabs button.selected .icon-checkbox {
   background: #0098FF;
 }
-.property .tabPanel .panels .panel {
+.property .z-tab-panel .z-panels .z-panel {
   position: relative;
   margin-top: 0.625rem;
   padding: 0.625rem 0.75rem;
   border: 0.0625rem solid #EBEBEB;
 }
-.property .tabPanel .panels .panel .panel-delete-button {
+.property .z-tab-panel .z-panels .z-panel .panel-delete-button {
   position: absolute;
   right: 0.625rem;
 }
-.property .tabPanel .panels .panel .btn {
+.property .z-tab-panel .z-panels .z-panel .z-button {
   padding: 0;
 }
-.property .tabPanel .panels .panel .btn .icon-arrow-left {
+.property .z-tab-panel .z-panels .z-panel .z-button .icon-arrow-left {
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
@@ -5595,9 +5599,9 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #0098FF;
 }
-.property .tabPanel .panels .panel .btn .icon-arrow-right {
+.property .z-tab-panel .z-panels .z-panel .z-button .icon-arrow-right {
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
@@ -5607,9 +5611,9 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #0098FF;
 }
-.property .tabPanel .panels .panel .btn .icon-delete {
+.property .z-tab-panel .z-panels .z-panel .z-button .icon-delete {
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
@@ -5619,5 +5623,5 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #0098FF;
 }

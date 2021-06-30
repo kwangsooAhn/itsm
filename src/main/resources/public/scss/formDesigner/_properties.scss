@@ -76,7 +76,7 @@
   }
   // input + button
   .input-button {
-    .btn {
+    .#{$common-prefix}button {
       height: 2.5rem; // 40px
     }
   }
@@ -158,10 +158,15 @@
     }
   }
   // tab
-  .tabPanel {
-    .tabs {
+  .#{$common-prefix}tab-panel {
+    .#{$common-prefix}tabs {
       button {
         display: inline-block;
+        padding: 10px 14px 9px 14px;
+
+        &:not(:last-child) {
+          margin-right: 0.3125rem; // 5px
+        }
         // 버튼 안보이게 처리
         &.off {
           display: none;
@@ -176,12 +181,14 @@
         }
         // 선택된 tab은 체크 아이콘 표시
         &.selected {
-          background: $blue;
+          .icon-checkbox {
+            background: $blue;
+          }
         }
       }
     }
-    .panels {
-      .panel {
+    .#{$common-prefix}panels {
+      .#{$common-prefix}panel {
         @include relative();
         margin-top: 0.625rem;
         padding: 0.625rem 0.75rem;
@@ -191,19 +198,19 @@
           @include absolute($right: 0.625rem); // 10px
         }
 
-        .btn {
+        .#{$common-prefix}button {
           padding: 0;
           .icon-arrow-left {
             display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 1.5rem, 01.5rem, no-repeat, center, null, map-get($grays, "pressed"));
+            @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 1.5rem, 01.5rem, no-repeat, center, null, $blue);
           }
           .icon-arrow-right {
             display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 1.5rem, 1.5rem, no-repeat, center, null, map-get($grays, "pressed"));
+            @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 1.5rem, 1.5rem, no-repeat, center, null, $blue);
           }
           .icon-delete {
             display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.5rem, 1.5rem, no-repeat, center, null, map-get($grays, "pressed"));
+            @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.5rem, 1.5rem, no-repeat, center, null, $blue);
           }
         }
       }
