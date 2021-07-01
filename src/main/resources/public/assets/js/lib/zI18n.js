@@ -49,8 +49,6 @@
         if (offset === undefined) {
             offset = { 'days' : 0 };
         }
-        console.log('i18n');
-        console.log(offset);
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(i18n.dateTimeFormat);
     }
 

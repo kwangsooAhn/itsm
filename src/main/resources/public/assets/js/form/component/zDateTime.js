@@ -108,20 +108,20 @@ export const dataTimeMixin = {
         return this._validation.required;
     },
     set validationMinDateTime(min) {
-        this._validation.minDateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, 'datetime', min);
+        this._validation.minDateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, min);
         this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-minDateTime'
-            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', min));
+            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, min));
     },
     get validationMinDateTime() {
-        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', this._validation.minDateTime);
+        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._validation.minDateTime);
     },
     set validationMaxDateTime(max) {
-        this._validation.maxDateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, 'datetime', max);
+        this._validation.maxDateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, max);
         this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-maxDateTime'
-            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'd', max));
+            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, max));
     },
     get validationMaxDateTime() {
-        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', this._validation.maxDateTime);
+        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._validation.maxDateTime);
     },
     set value(value) {
         this._value = value;
@@ -130,7 +130,7 @@ export const dataTimeMixin = {
         if (this._value === '${default}') {
             return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
         } else { // 저장된 값 반환
-            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', this._value);
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._value);
         }
     },
     // 기본값 조회
@@ -154,7 +154,7 @@ export const dataTimeMixin = {
                 dateTime = i18n.getDateTime(offset);
                 break;
             case FORM.DATE_TYPE.DATETIME_PICKER:
-                dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'dateTime', zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
                 break;
         }
         return dateTime;
@@ -171,7 +171,7 @@ export const dataTimeMixin = {
             isValidationPass = i18n.compareSystemTime(e.value, this.validationMaxTime);
             zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectBeforeTime', this.validationMaxTime));
         }
-        this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, 'datetime', e.value);
+        this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, e.value);
     },
     getProperty() {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty('elementDefaultValueRadio', 'element.defaultValueRadio',
