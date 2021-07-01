@@ -19,7 +19,6 @@ import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
 import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/ZDefaultValueCustomCodeProperty.js';
 
 /**
@@ -29,7 +28,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
         defaultDropDownValue: '',
-        defaultValueRadio: 'none|', // none|없음  session|세션값  code|코드값
+        defaultValueRadio: 'none', // none|없음  session|세션값  code|코드값
     },
     validation: {
         required: false // 필수값 여부
@@ -64,9 +63,7 @@ export const customCodeMixin = {
         return object;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {
-        //여기에 버튼 이벤트가 생겨야 할 것 같아. 아니면 dropdown이벤트를 같아 걸어야 하나?
-    },
+    afterEvent() {},
     // set, get
     set value(value) {
         this._value = value;
@@ -119,14 +116,14 @@ export const customCodeMixin = {
     set elementDefaultValueRadio(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         this._element.defaultValueRadio = value;
-        this.UIElement.UIComponent.UIInputButton.setUIValue(this.makeDefaultValue(value));
+        //this.UIElement.UIComponent.UIInputButton.setUIValue(this.makeDefaultValue(value));
     },
     get elementDefaultValueRadio() {
         return this._element.defaultValueRadio;
     },
     set defaultDropDownValue(value) {
         this._element.defaultDropDownValue = value;
-        this.UIElement.UIComponent.UIInputButton.UIButton.onUIClick(this.updateProperty.bind(this));
+        //this.UIElement.UIComponent.UIInputButton.UIButton.onUIClick(this.updateProperty.bind(this));
     },
     get defaultDropDownValue() {
         if (this._value === '${default}') {
@@ -134,7 +131,6 @@ export const customCodeMixin = {
         } else {
             return this._element.defaultDropDownValue;
         }
-
     },
     get buttonText() {
         return this._buttonText;

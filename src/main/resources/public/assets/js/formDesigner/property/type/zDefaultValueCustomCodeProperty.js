@@ -21,11 +21,12 @@ const propertyExtends = {
 
 export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     constructor(key, name, dropDownValue, customCodeValue, dropDownOptions, customCodeOptions, customCodeOptionValue) {
-        super(key, name, 'defaultValueCustomCodeProperty', dropDownValue, customCodeValue);
+        super(key, name, 'defaultValueCustomCodeProperty', dropDownValue);
 
         this.dropDownOptions = dropDownOptions;
         this.customCodeOptions = customCodeOptions;
         this.customCodeOptionValue = customCodeOptionValue;
+        this.customCodeValue = customCodeValue;
     }
 
     // DOM Element 생성
@@ -113,9 +114,16 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         const elem = e.target || e;
         const elemName = elem.getAttribute('data-value');
 
+        console.log('elemName=========');
+
         switch (elemName) {
         case 'customCode':
-            this.panel.update.call(this.panel, e.target.id, e.target.value);
+            console.log(elemName);
+            console.log(this.panel);
+            console.log(elem.name);
+            console.log(e.target.value);
+
+            this.panel.update.call(this.panel, elem.name, e.target.value);
             break;
         case 'none':
             this.panel.update.call(this.panel, elem.name, '');
