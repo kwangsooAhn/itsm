@@ -1217,10 +1217,9 @@ aliceJs.removeChar = function (event, rexg = integerReg, flag = 'g') {
 
 aliceJs.convertDateFormat = function (format, type, date) {
     let reformatDate = date;
-
     if (format === 'systemFormat') { //  ISO8601 규격 포멧으로 서버에 데이터 전달할때 사용 ex> 2021-06-29T15:00:00.000Z
         switch (type) {
-            case 'datetime':
+            case 'dateTime':
                 reformatDate = i18n.systemDateTime(date);
                 break;
             case 'date':
@@ -1232,7 +1231,7 @@ aliceJs.convertDateFormat = function (format, type, date) {
         }
     } else if (format === 'userFormat') {  //화면에 뿌려질 양식으로 서버에서 받은 데이터를 화면에 뿌려줄때 사용됨ex> 2021-06-21-15:30
         switch (type) {
-            case 'datetime':
+            case 'dateTime':
                 reformatDate = i18n.userDateTime(date);
                 break;
             case 'date':

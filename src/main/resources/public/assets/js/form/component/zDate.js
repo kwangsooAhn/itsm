@@ -51,7 +51,7 @@ export const dateMixin = {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass(FORM.DATE_TYPE.DATE_PICKER)
+            .setUIClass('datepicker')
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.value)
