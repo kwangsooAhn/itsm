@@ -786,6 +786,7 @@ form:
     option:
       none: "없음"
       now: "현재"
+      day: "일"
       days: "일 후"
       hours: "시간 후"
   status:

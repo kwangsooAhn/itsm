@@ -112,8 +112,28 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     zDateTimePicker.initTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
                     break;
                 case FORM.DATE_TYPE.DATETIME:
+                    radioGroup.UIDiv = new UIDiv().setUIClass('radio-item');
+                    radioGroup.addUI(radioGroup.UIDiv);
+
+                    radioGroup.UIDiv.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
+                        .setUIAttribute('name', this.key)
+                        .setUIAttribute('data-validation-type', 'number')
+                        .setUIAttribute('data-validation-max', '1000')
+                        .onUIKeyUp(this.updateProperty.bind(this))
+                        .onUIChange(this.updateProperty.bind(this));
+                    radioGroup.UIDiv.addUI(radioGroup.UIDiv.UIInput);
+                    radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.day')));
+                    radioGroup.UIDiv.addUI(new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : '')));
+                    radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.hours')));
                     break;
                 case FORM.DATE_TYPE.DATETIME_PICKER:
+                    radioGroup.UIInput = new UIInput(defaultValueArray[0] === item.value ? defaultValueArray[2] : '')
+                        .setUIClass(item.value)
+                        .addUIClass('picker')
+                        .setUIId('timeProperty')
+                        .setUIAttribute('name', this.key);
+                    radioGroup.addUI(radioGroup.UIInput);
+                    zDateTimePicker.initDateTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
                     break;
             }
 
