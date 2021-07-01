@@ -37,8 +37,8 @@ class ZFormDesigner {
             }
         }).then((customData) => {
             if (customData !=='') {
-                //aliceJs.fetchJson('/rest/custom-codes/'+FORM.CUSTOM_CODE[0].customCodeId, {
-                aliceJs.fetchJson('/rest/custom-codes/40288a91729bb5be01729bba9e130001', {
+                //aliceJs.fetchJson('/rest/custom-codes/40288a91729bb5be01729bba9e130001', {
+                aliceJs.fetchJson('/rest/custom-codes/'+FORM.CUSTOM_CODE[0].customCodeId, {
                     method: 'GET'
                 }).then((customDataChild) => {
                     if (customDataChild.length > 0) {
