@@ -230,7 +230,7 @@
           &.on { display: table-cell; }
           //&.first-column { @include border(0.0625rem, solid, transparent, left); }
           //&.last-column { @include border(0.0625rem, solid, transparent, right); }
-          .btn { padding: 0; }
+          .#{$common-prefix}button { padding: 0; }
         }
       }
       // 제목
@@ -267,7 +267,7 @@
           @include border(0.0625rem, solid, $component-drTable-border-color, bottom, right);
 
           &.on { display: table-cell; }
-          .btn {
+          .#{$common-prefix}button {
             padding: 0;
             .icon-close {
               display: inline-block;
@@ -296,7 +296,7 @@
       height: 2.5rem;
       line-height: 2rem;
       padding-top: 0.625rem;
-      .btn {
+      .#{$common-prefix}button {
         padding: 0;
         .icon-plus {
           display: inline-block;

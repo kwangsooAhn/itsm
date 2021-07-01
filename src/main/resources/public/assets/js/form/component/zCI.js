@@ -310,7 +310,7 @@ export const ciMixin = {
         if (!zValidation.isEmpty(ciData)) {
             const alertMsg = (ciData.actionType === CI.ACTION_TYPE.REGISTER || ciData.actionType === CI.ACTION_TYPE.MODIFY) ?
                 'cmdb.ci.msg.deleteEditableCI' : 'cmdb.ci.msg.deleteReadableCI';
-            aliceAlert.confirmIcon(i18n.msg(alertMsg),  () => {
+            aliceAlert.confirm(i18n.msg(alertMsg),  () => {
                 if (ciData.actionType === CI.ACTION_TYPE.REGISTER || ciData.actionType === CI.ACTION_TYPE.MODIFY) {
                     // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
                     aliceJs.fetchText('/rest/cmdb/cis/data?ciId=' + ciData.ciId + '&componentId=' + this.id, {
@@ -485,7 +485,7 @@ export const ciMixin = {
                     classes: 'default-line',
                     bindKey: false,
                     callback: (modal) => {
-                        aliceAlert.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                        aliceAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
                             modal.hide();
                         });
                     }
@@ -563,7 +563,7 @@ export const ciMixin = {
                     classes: 'default-line',
                     bindKey: false,
                     callback:  (modal) => {
-                        aliceAlert.confirmIcon(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
+                        aliceAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
                             modal.hide();
                         });
                     }

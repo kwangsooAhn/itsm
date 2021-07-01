@@ -83,7 +83,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('cmdb.type.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -129,8 +129,8 @@
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('parentTypeName').setAttribute('readonly','');
-                        document.getElementById('parentTypeName').value = responseJson.pTypeName;
-                        document.getElementById('parentTypeId').value = responseJson.pTypeId;
+                        document.getElementById('parentTypeName').value = responseJson.ptypeName;
+                        document.getElementById('parentTypeId').value = responseJson.ptypeId;
                         document.getElementById('typeName').value = responseJson.typeName;
                         document.getElementById('typeId').value = responseJson.typeId;
                         document.getElementById('typeDesc').value = responseJson.typeDesc;

@@ -232,7 +232,7 @@
             deleteIcon.classList.add('icon-delete-gray', 'ml-1');
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
-                aliceAlert.confirmIcon(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
+                aliceAlert.confirm(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
                     const row = deleteBtn.parentNode;
                     const conditionElems = document.querySelectorAll('input[name=conditionValue]');
                     if (conditionElems.length === 0) {
@@ -328,7 +328,7 @@
                     restSubmit(method, '/rest/custom-codes', data);
                 }
             } else if (method === 'delete') {
-                aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
+                aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
             }
         }
 

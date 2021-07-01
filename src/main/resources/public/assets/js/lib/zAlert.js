@@ -405,7 +405,7 @@ aliceAlert.alertDanger = function(message, callbackFunc) {
  * @param cancelCallbackFunc cancel 시 callback function
  * @param params okCallbackFunc 에 전달하는 param
  */
-aliceAlert.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
+aliceAlert.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
     let params = Array.prototype.slice.call(arguments, 3);
 
     const myModal = new gModal({
