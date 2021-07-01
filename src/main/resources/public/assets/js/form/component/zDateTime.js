@@ -11,7 +11,7 @@
  */
 
 import {CLASS_PREFIX, FORM} from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
+import {zValidation} from '../../lib/zValidation.js';
 import {UIDiv, UIInput} from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -51,7 +51,7 @@ export const dataTimeMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
             .setUIClass(FORM.DATE_TYPE.DATETIME_PICKER)
-            .addUIClass()
+            .setUICSSText('width: 100%')
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.value)
@@ -108,20 +108,20 @@ export const dataTimeMixin = {
         return this._validation.required;
     },
     set validationMinDateTime(min) {
-        this._validation.minDateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, min);
+        this._validation.minDateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, 'datetime', min);
         this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-minDateTime'
-            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, min));
+            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', min));
     },
     get validationMinDateTime() {
-        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._validation.minDateTime);
+        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', this._validation.minDateTime);
     },
     set validationMaxDateTime(max) {
-        this._validation.maxDateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, max);
+        this._validation.maxDateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, 'datetime', max);
         this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-maxDateTime'
-            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, max));
+            , aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'd', max));
     },
     get validationMaxDateTime() {
-        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._validation.maxDateTime);
+        return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', this._validation.maxDateTime);
     },
     set value(value) {
         this._value = value;
@@ -130,32 +130,34 @@ export const dataTimeMixin = {
         if (this._value === '${default}') {
             return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
         } else { // 저장된 값 반환
-            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._value);
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', this._value);
         }
     },
     // 기본값 조회
     makeDefaultValue(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         const defaultValueArray = value.split('|');
-        let time = '';
+        let dateTime = '';
         switch (defaultValueArray[0]) {
             case FORM.DATE_TYPE.NONE:
                 break;
             case FORM.DATE_TYPE.NOW:
-                time = i18n.getDateTime();
+                dateTime = i18n.getDateTime();
                 break;
-            case FORM.DATE_TYPE.HOURS:
+            case FORM.DATE_TYPE.DATETIME:
                 const offset = {
-                    hours: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
-                        0 : Number(defaultValueArray[1])
+                    days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
+                        0 : Number(defaultValueArray[1]),
+                    hours: zValidation.isEmpty(defaultValueArray[2]) || isNaN(Number(defaultValueArray[2])) ?
+                        0 : Number(defaultValueArray[2])
                 };
-                time = i18n.getDateTime(offset);
+                dateTime = i18n.getDateTime(offset);
                 break;
-            case FORM.DATE_TYPE.TIME_PICKER:
-                time = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+            case FORM.DATE_TYPE.DATETIME_PICKER:
+                dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'datetime', zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
                 break;
         }
-        return time;
+        return dateTime;
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -169,16 +171,16 @@ export const dataTimeMixin = {
             isValidationPass = i18n.compareSystemTime(e.value, this.validationMaxTime);
             zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectBeforeTime', this.validationMaxTime));
         }
-        this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, e.value);
+        this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, 'datetime', e.value);
     },
     getProperty() {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty('elementDefaultValueRadio', 'element.defaultValueRadio',
             this.elementDefaultValueRadio,
             [
-                { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
-                { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },
-                { name: '', value: FORM.DATE_TYPE.DATETIME},
-                { name: '', value: FORM.DATE_TYPE.DATETIME_PICKER }
+                {name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE},
+                {name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW},
+                {name: '', value: FORM.DATE_TYPE.DATETIME},
+                {name: '', value: FORM.DATE_TYPE.DATETIME_PICKER}
             ]);
         return [
             ...new ZCommonProperty(this).getCommonProperty(),

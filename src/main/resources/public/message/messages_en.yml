@@ -786,6 +786,7 @@ form:
     option:
       none: "None"
       now: "Now"
+      day: "Day"
       days: "days after"
       hours: "hours after"
   status:

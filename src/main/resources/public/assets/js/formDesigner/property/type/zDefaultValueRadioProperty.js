@@ -114,20 +114,24 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 case FORM.DATE_TYPE.DATETIME:
                     radioGroup.UIDiv = new UIDiv().setUIClass('radio-item');
                     radioGroup.addUI(radioGroup.UIDiv);
-
-                    radioGroup.UIDiv.UIInput = new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
+                    radioGroup.UIDiv.addUI(new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
                         .setUIAttribute('name', this.key)
                         .setUIAttribute('data-validation-type', 'number')
                         .setUIAttribute('data-validation-max', '1000')
                         .onUIKeyUp(this.updateProperty.bind(this))
-                        .onUIChange(this.updateProperty.bind(this));
-                    radioGroup.UIDiv.addUI(radioGroup.UIDiv.UIInput);
+                        .onUIChange(this.updateProperty.bind(this)));
                     radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.day')));
-                    radioGroup.UIDiv.addUI(new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : '')));
+                    radioGroup.UIDiv.addUI(new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[2] : ''))
+                        .setUIAttribute('name', this.key)
+                        .setUIAttribute('data-validation-type', 'number')
+                        .setUIAttribute('data-validation-max', '1000')
+                        .onUIKeyUp(this.updateProperty.bind(this))
+                        .onUIChange(this.updateProperty.bind(this)));
                     radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.hours')));
                     break;
                 case FORM.DATE_TYPE.DATETIME_PICKER:
-                    radioGroup.UIInput = new UIInput(defaultValueArray[0] === item.value ? defaultValueArray[2] : '')
+                    radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT,'datetime',
+                        defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
                         .setUIClass(item.value)
                         .addUIClass('picker')
                         .setUIId('timeProperty')
