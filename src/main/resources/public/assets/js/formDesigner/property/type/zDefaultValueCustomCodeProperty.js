@@ -114,25 +114,18 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         const elem = e.target || e;
         const elemName = elem.getAttribute('data-value');
 
-        console.log('elemName=========');
-
         switch (elemName) {
         case 'customCode':
-            console.log(elemName);
-            console.log(this.panel);
-            console.log(elem.name);
-            console.log(e.target.value);
-
-            this.panel.update.call(this.panel, elem.name, e.target.value);
+            this.panel.update.call(this.panel, this.key, 'customCode|'+ e.target.value);
             break;
         case 'none':
-            this.panel.update.call(this.panel, elem.name, '');
+            this.panel.update.call(this.panel, this.key, 'none||');
             break;
         case 'session':
-            this.panel.update.call(this.panel, elem.name, 'session');
+            this.panel.update.call(this.panel, this.key, 'session|'+ e.target.value);
             break;
         case 'code':
-            this.panel.update.call(this.panel, elem.name, 'code');
+            this.panel.update.call(this.panel, this.key, 'code|'+ e.target.value);
             break;
         }
     }

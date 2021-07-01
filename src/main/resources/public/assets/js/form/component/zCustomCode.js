@@ -27,6 +27,7 @@ import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/ZD
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
+        elementCustomCode: '',
         defaultDropDownValue: '',
         defaultValueRadio: 'none', // none|없음  session|세션값  code|코드값
     },
@@ -44,7 +45,7 @@ export const customCodeMixin = {
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this._value || '${default}';
-        this._buttonText = 'button';
+        this._buttonText = this._buttonText || '${default}';
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -107,12 +108,6 @@ export const customCodeMixin = {
     get elementDefaultValueSelect() {
         return this._element.defaultValueSelect;
     },
-    set status(status) {
-        this._status = status;
-    },
-    get status() {
-        return this._status;
-    },
     set elementDefaultValueRadio(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         this._element.defaultValueRadio = value;
@@ -132,12 +127,22 @@ export const customCodeMixin = {
             return this._element.defaultDropDownValue;
         }
     },
-    get buttonText() {
-        return this._buttonText;
+    get elementCustomCode() {
+        return this._element.elementCustomCode;
     },
-    set buttonText(text) {
-        this._buttonText = text;
-        this.UIElement.UIComponent.UIElement.UIButton.setUITextContent(text);
+    set elementCustomCode(value) {
+        this.makeCustomCode(value);
+    },
+    get buttonText() {
+        if (this._buttonText === '${default}') {
+            return 'BUTTON';
+        } else {
+            return this._buttonText;
+        }
+    },
+    set buttonText(value) {
+        this._buttonText = value;
+        this.UIElement.UIComponent.UIElement.UIButton.setUITextContent(value);
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
