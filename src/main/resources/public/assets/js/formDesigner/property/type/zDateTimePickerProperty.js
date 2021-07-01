@@ -35,7 +35,7 @@ export default class ZDateTimePickerProperty extends ZProperty {
         // inputbox
         this.UIElement.UIInput = new UIInput(this.value)
             .setUIId(this.key)
-            .setUIClass(this.pickerType);
+            .setUIClass('datepicker');
 
         this.UIElement.addUI(this.UIElement.UIInput);
 

@@ -53,10 +53,10 @@ export const FORM = {
         NOW: 'now',
         DAYS: 'date',
         HOURS: 'time',
-        DATETIME: 'datetime',
-        DATE_PICKER: 'datepicker',
-        TIME_PICKER: 'timepicker',
-        DATETIME_PICKER: 'datetimepicker',
+        DATETIME: 'dateTime',
+        DATE_PICKER: 'datePicker',
+        TIME_PICKER: 'timePicker',
+        DATETIME_PICKER: 'dateTimePicker',
         FORMAT: {
             SYSTEMFORMAT: 'systemFormat',
             USERFORMAT: 'userFormat'
