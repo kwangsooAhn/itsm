@@ -2,7 +2,7 @@
  * Date Time Mixin
  *
  *
- * @author
+ * @author 안광수 ks.ahn@brainz.co.kr
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -154,7 +154,7 @@ export const dataTimeMixin = {
                 dateTime = i18n.getDateTime(offset);
                 break;
             case FORM.DATE_TYPE.DATETIME_PICKER:
-                dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, 'dateTime', zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
                 break;
         }
         return dateTime;
@@ -163,13 +163,13 @@ export const dataTimeMixin = {
     updateValue(e) {
         // 유효성 검증
         let isValidationPass = true;
-        if (!zValidation.isEmpty(this.validationMinTime)) {
-            isValidationPass = i18n.compareSystemTime(this.validationMinTime, e.value);
-            zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectAfterTime', this.validationMinTime));
+        if (!zValidation.isEmpty(this.validationMinDateTime)) {
+            isValidationPass = i18n.compareSystemDateTime(this.validationMinDateTime, e.value);
+            zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectAfterDateTime', this.validationMinDateTime));
         }
-        if (isValidationPass && !zValidation.isEmpty(this.validationMaxTime)) {
-            isValidationPass = i18n.compareSystemTime(e.value, this.validationMaxTime);
-            zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectBeforeTime', this.validationMaxTime));
+        if (isValidationPass && !zValidation.isEmpty(this.validationMaxDateTime)) {
+            isValidationPass = i18n.compareSystemDateTime(e.value, this.validationMaxDateTime);
+            zValidation.setDOMElementError(isValidationPass, e, i18n.msg('common.msg.selectAfterDateTime', this.validationMaxDateTime));
         }
         this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, e.value);
     },
