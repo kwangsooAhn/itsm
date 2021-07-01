@@ -989,7 +989,7 @@ a:active {
 input {
   height: 2.5rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1063,7 +1063,7 @@ input[type=range]::-moz-range-thumb {
 
 textarea {
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1111,7 +1111,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #586872;
   background-color: transparent;
@@ -1137,7 +1137,7 @@ table tr td, table tr th {
 select {
   height: 2.5rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1170,7 +1170,7 @@ select:disabled {
 .select {
   position: relative;
   display: inline-block;
-  font-size: 1rem;
+  font-size: 0.875rem;
   height: 2.5rem;
   width: 100%;
   padding: 0 2px;
@@ -1193,7 +1193,7 @@ select:disabled {
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   display: flex;
@@ -1307,14 +1307,14 @@ span {
 label {
   font-family: inherit;
   color: #3F4B56;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
 .radio {
   position: relative;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #586872;
   outline: none;
@@ -1399,7 +1399,7 @@ label {
 
 .checkbox {
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1471,7 +1471,7 @@ label {
   position: relative;
   height: 2.188rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1560,7 +1560,7 @@ label {
 .z-input {
   height: 2.25rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #212121;
@@ -1869,7 +1869,7 @@ svg path.connector.hidden {
 button {
   display: inline-block;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.2;
   color: #3F4B56;
@@ -2189,7 +2189,7 @@ button.ghost-line:disabled .icon {
 .btn-group .btn,
 .btn-group button {
   flex: 1 1 auto;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.2;
   color: #3F4B56;
@@ -2284,7 +2284,7 @@ button.ghost-line:disabled .icon {
 .btn-group-toggle .btn,
 .btn-group-toggle button {
   flex: 1 1 auto;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.2;
   color: #ACB4BF;
@@ -2795,7 +2795,7 @@ button .icon-delete {
 }
 .gmodal-title {
   padding: 1em;
-  font-size: 1rem;
+  font-size: 0.875rem;
   box-sizing: border-box;
   text-align: center;
 }
@@ -2810,7 +2810,7 @@ button .icon-delete {
   display: flex;
   align-items: center;
   min-height: 3.5rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.7143;
 }
@@ -2819,7 +2819,7 @@ button .icon-delete {
   text-align: right;
 }
 .gmodal-button {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   margin: 0rem 0rem 0rem 0.3125rem;
   padding: 0.4375rem 1.5rem;
@@ -2974,7 +2974,7 @@ button .icon-delete {
 
 .textarea-scroll-wrapper {
   display: block;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -3469,7 +3469,7 @@ button .icon-delete {
   visibility: hidden;
   position: absolute;
   width: 9.375rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #0098FF;
   background-color: #FFFFFF;
@@ -3631,7 +3631,7 @@ body.modal-active {
 }
 .thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text label {
   display: block;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #ACB4BF;
 }
@@ -3653,7 +3653,7 @@ body.modal-active {
   padding: 0 0.625rem 0 0.9375rem;
 }
 .thumbnail-main .thumbnail .thumbnail-bottom label {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #ACB4BF;
 }
@@ -3699,7 +3699,7 @@ body.modal-active {
   content: url("../media/icons/thumbnail/icon_image.png");
 }
 .thumbnail-main .thumbnail-upload .thumbnail-upload-text {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #ACB4BF;
   margin-top: 1.25rem;

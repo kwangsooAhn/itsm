@@ -1,7 +1,6 @@
 // design-system color
 @import 'bz-colors.scss';
 
-// template / 하위 SCSS에서 사용하는 변수 모음
 // font family
 $font-face-map: (
     'NotoSansKR-Thin.otf':                    100,
@@ -11,19 +10,31 @@ $font-face-map: (
     'NotoSansKR-Bold.otf':                    700,
     'NotoSansKR-Black.otf':                   900
 );
+// 폰트는 맑은고딕, Noto Sans KR을 사용합니다. 14px 이하는 맑은고딕 폰트를 사용하고, 16px 이상은 Noto Sans KR 폰트 사용
 // 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (') 사용
-$font-family:                                 'Noto Sans KR', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif; 
+$font-family-m:                               'Noto Sans KR', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif;
+$font-family-s:                               '맑은고딕', 'Malgun Gothic', 'Noto Sans KR', dotum, gulim, sans-serif;
 
 // font size
-$font-size-base:                              1rem !default;  // 16px
+$font-size-xxl:                               2.5rem !default;   // 45px
+$font-size-xl:                                2rem !default;     // 32px
+$font-size-l:                                 1.5rem !default;   // 24px
+$font-size-m:                                 1.125rem !default; // 18px
+$font-size-s:                                 1rem !default;     // 16px
+$font-size-xs:                                0.875rem !default; // 14px
+$font-size-xxs:                               0.75rem !default;  // 12px
 
 // font weight
+// 맑은 고딕은 300 = semilight , 500 = reqular, 700 = bold
 $font-weight-thin:                            100 !default;
+$font-weight-extralight:                      200 !default;
 $font-weight-light:                           300 !default;
 $font-weight-regular:                         400 !default;
 $font-weight-medium:                          500 !default;
+$font-weight-semibold:                        600 !default;
 $font-weight-bold:                            700 !default;
-$font-weight-bolder:                          900 !default;
+$font-weight-extrabold:                       800 !default;
+$font-weight-black:                           900 !default;
 
 // asset path
 $font-folder-path:                            '../fonts';
@@ -84,7 +95,7 @@ $oranges: (
 $common-prefix:                               'z-';
 
 // element default
-$element-font-size:                           $font-size-base;
+$element-font-size:                           $font-size-xs;
 $element-font-color:                          map-get($grays, 'dark');
 $element-font-weight:                         $font-weight-regular;
 $element-line-height:                         1.2;
@@ -134,12 +145,12 @@ $element-error-border-width:                  0.0625rem; // 1px
 $element-error-border:                        $element-error-border-width solid $element-error-border-color !important;
 
 // headings
-$h1-font-size:                                $font-size-base * 2.25; // 36px
-$h2-font-size:                                $font-size-base * 1.75; // 28px
-$h3-font-size:                                $font-size-base * 1.5;  // 24px
-$h4-font-size:                                $font-size-base * 1.25; // 20px
-$h5-font-size:                                $font-size-base;
-$h6-font-size:                                $font-size-base * 0.875; // 14px
+$h1-font-size:                                $font-size-s * 2.25; // 36px
+$h2-font-size:                                $font-size-s * 1.75; // 28px
+$h3-font-size:                                $font-size-s * 1.5;  // 24px
+$h4-font-size:                                $font-size-s * 1.25; // 20px
+$h5-font-size:                                $font-size-s;
+$h6-font-size:                                $font-size-s * 0.875; // 14px
 
 $headings-font-color:                         map-get($blacks, 'light');
 $headings-font-weight:                        $font-weight-medium;
@@ -147,7 +158,7 @@ $headings-line-height:                        1.2;
 
 // label
 $label-font-color:                            map-get($blacks, 'light');
-$label-font-size:                             $font-size-base;
+$label-font-size:                             $font-size-xs;
 $label-font-weight:                           $font-weight-medium;
 
 // table
@@ -155,7 +166,7 @@ $table-th-font-size:                          1.125rem; // 18px
 $table-th-font-weight:                        $font-weight-medium;
 
 // button, a
-$btn-font-size:                               $font-size-base;
+$btn-font-size:                               $font-size-xs;
 $btn-font-color:                              map-get($blacks, 'light');
 $btn-font-weight:                             $font-weight-medium;
 $btn-line-height:                             1.2;
@@ -227,7 +238,7 @@ $btn-kakao-disabled-border-color:            #EBCC00;
 $btn-kakao-disabled-bg-color:                #FFDE00;
 
 // button-group 디자인 요소
-$btn-group-font-size:                        $font-size-base;
+$btn-group-font-size:                        $font-size-xs;
 $btn-group-font-color:                       map-get($blacks, 'light');
 $btn-group-font-weight:                      $font-weight-medium;
 $btn-group-line-height:                      1.2;
@@ -285,12 +296,12 @@ $column-count: 12;
 $column-init: 5rem; // 80px
 
 //////////////////////////////// fileuploader ////////////////////////////////
-$file-uploader-font-size:                    $font-size-base;
+$file-uploader-font-size:                    $font-size-xs;
 $file-uploader-font-color:                   map-get($grays, 'dark');
 $file-uploader-font-weight:                  $font-weight-medium;
 $file-uploader-icon-color:                   map-get($grays, 'pressed');
 // drag and drop 영역
-$dropzone-font-size:                         $font-size-base;
+$dropzone-font-size:                         $font-size-xs;
 $dropzone-font-color:                        $gray;
 $dropzone-font-weight:                       $font-weight-regular;
 $dropzone-bg-color:                          map-get($grays, 'light');
@@ -305,12 +316,12 @@ $file-uploader-filesize-font-color:          $gray;
 // 파일 미존재시
 $file-uploader-no-date-font-color:           $gray;
 // view 모드
-$file-uploader-view-font-size:               $font-size-base;
+$file-uploader-view-font-size:               $font-size-xs;
 $file-uploader-view-font-color:              map-get($grays, 'dark');
 $file-uploader-view-font-weight:             $font-weight-regular;
 
 //////////////////////////////// avatar ////////////////////////////////
-$avatar-font-size:                           $font-size-base;
+$avatar-font-size:                           $font-size-xs;
 $avatar-sm-font-size:                        0.8125rem; // 13px
 $avatar-font-color:                          map-get($blacks, 'light');
 $avatar-font-weight:                         $font-weight-medium;
@@ -319,19 +330,19 @@ $avatar-dropzone-width:                      20.63rem; // 330px
 $avatar-dropzone-height:                     20.63rem; // 330px
 $avatar-dropzone-sm-width:                   9.375rem; // 150px
 $avatar-dropzone-sm-height:                  9.375rem; // 150px
-$avatar-dropzone-font-size:                  $font-size-base;
+$avatar-dropzone-font-size:                  $font-size-xs;
 $avatar-dropzone-font-color:                 $gray;
 $avatar-dropzone-font-weight:                $font-weight-regular;
 $avatar-dropzone-bg-color:                   map-get($grays, 'light');
 // browse click 버튼
 $avatar-dropzone-clickable-font-color:       $blue;
 // description
-$avatar-desc-font-size:                      $font-size-base;
+$avatar-desc-font-size:                      $font-size-xs;
 $avatar-desc-font-color:                     $gray;
 $avatar-desc-font-weight:                    $font-weight-regular;
 
 ///////////////////////////////// date picker /////////////////////////////////
-$datepicker-font-size:                       $font-size-base;
+$datepicker-font-size:                       $font-size-xs;
 $datepicker-font-color:                      map-get($grays, 'dark');
 $datepicker-font-weight:                     $font-weight-regular;
 $datepicker-line-height:                     1.2;
@@ -348,7 +359,7 @@ $datepicker-title-font-size:                 1.125rem; // 18px
 $datepicker-title-font-color:                map-get($blacks, 'light');
 $datepicker-title-font-weight:               $font-weight-medium;
 // sub title
-$datepicker-sub-title-font-size:             $font-size-base;
+$datepicker-sub-title-font-size:             $font-size-xs;
 $datepicker-sub-title-font-color:            map-get($grays, 'dark');
 $datepicker-sub-title-font-weight:           $font-weight-regular;
 $datepicker-sub-title-bg-color:              map-get($grays, 'light');
@@ -365,14 +376,14 @@ $datepicker-time-font-color:                 map-get($blacks, 'light');
 $datepicker-time-font-weight:                $font-weight-medium;
 
 ///////////////////////////////// text editor /////////////////////////////////
-$text-editor-font-size:                      $font-size-base;
+$text-editor-font-size:                      $font-size-xs;
 $text-editor-font-color:                     map-get($grays, 'dark');
 $text-editor-font-weight:                    $font-weight-regular;
 $text-editor-line-height:                    1.5;
 $text-editor-border-color:                   map-get($grays, 'line');
 $text-editor-bg-color:                       $white;
 $text-editor-border-width:                   0.0625rem; // 1px
-$text-editor-toolbar-font-size:              $font-size-base;
+$text-editor-toolbar-font-size:              $font-size-xs;
 $text-editor-toolbar-font-color:             map-get($blacks, 'light');
 $text-editor-toolbar-font-weight:            $font-weight-medium;
 // text editor의 hover와 pressec 는 동일한 디자인이다.
@@ -382,7 +393,7 @@ $text-editor-toolbar-selected-font-color:    $blue;
 
 ///////////////////////////////// tree /////////////////////////////////
 $tree-folder-path:                           '/../media/icons/tree';
-$tree-font-size:                             $font-size-base;
+$tree-font-size:                             $font-size-xs;
 $tree-font-color:                            map-get($blacks, 'light');
 $tree-font-weight:                           $font-weight-medium;
 // tree 간격
@@ -425,7 +436,7 @@ $modal-header-font-weight:                   $font-weight-medium;
 $modal-bottom-height:                       5rem; // 80px
 
 ///////////////////////////////// alert //////////////////////////////
-$alert-font-size:                            $font-size-base;
+$alert-font-size:                            $font-size-xs;
 $alert-font-weight:                          $font-weight-medium;
 $alert-margin-size:                          0.3125rem;  // 5px
 $alert-box-sizing:                           border-box;
@@ -447,7 +458,7 @@ $color-picker-colorchip-border-color:        $white;
 ////////////////////////////// thumbnail /////////////////////////////
 $thumbnail-asset-path:                       '../media/icons/thumbnail';
 $thumbnail-font-family:                      'Noto Sans KR';
-$thumbnail-font-size:                        $font-size-base;
+$thumbnail-font-size:                        $font-size-xs;
 $thumbnail-font-weight:                      $font-weight-regular;
 $thumbnail-font-color:                       $gray;
 

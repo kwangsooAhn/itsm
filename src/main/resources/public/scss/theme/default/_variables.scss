@@ -57,11 +57,11 @@ $view-title-font-size:                        1.125rem; // 18px
 $view-title-font-weight:                      $font-weight-medium;
 $view-title-font-color:                       map-get($blacks, 'light');
 
-$view-sub-title-font-size:                    $font-size-base; // 16px
+$view-sub-title-font-size:                    $font-size-s; // 16px
 $view-sub-title-font-weight:                  $font-weight-regular;
 $view-sub-title-font-color:                   map-get($grays, 'dark');
 
-$view-content-font-size:                      $font-size-base; // 16px
+$view-content-font-size:                      $font-size-s; // 16px
 $view-content-font-weight:                    $font-weight-regular;
 $view-content-font-color:                     map-get($grays, 'dark');
 
