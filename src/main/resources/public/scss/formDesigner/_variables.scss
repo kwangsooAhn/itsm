@@ -19,7 +19,7 @@ $form-blues: (
 // header
 $layout-header-height:                             3.125rem; // 50px
 $layout-header-padding:                            0.75rem; // 12px
-$layout-header-font-size:                          $font-size-base * 1.125; // 18px
+$layout-header-font-size:                          $font-size-s * 1.125; // 18px
 $layout-header-font-color:                         $white;
 $layout-header-font-weight:                        $font-weight-medium;
 $layout-header-bg-color:                           $blue;
@@ -35,7 +35,7 @@ $layout-component-palette-box-shadow:              0.0625rem 0 0.4375rem 0 hexTo
 
 // properties header
 $layout-properties-panel-header-height:            2.5rem; // 40px
-$layout-properties-panel-header-font-size:         $font-size-base;
+$layout-properties-panel-header-font-size:         $font-size-s;
 $layout-properties-panel-header-font-color:        map-get($form-blues, "dark");
 $layout-properties-panel-header-font-weight:       $font-weight-bold;
 $layout-properties-panel-header-bg-color:          $white;
@@ -55,7 +55,7 @@ $accordion-height:                                 3.125rem; // 50px
 $accordion-border-width:                           0.0625rem; // 1px
 $accordion-border-color:                           map-get($grays, "line");
 $accordion-border:                                 $accordion-border-width solid $accordion-border-color;
-$accordion-font-size:                              $font-size-base;
+$accordion-font-size:                              $font-size-s;
 $accordion-font-color:                             map-get($grays, "blue");
 $accordion-font-weight:                            $font-weight-medium;
 $component-icon-width:                             6.25rem; // 100px
@@ -88,7 +88,6 @@ $icon-component-divider:                           $icon-folder-path + "form/con
 
 ///////////////////////////// common /////////////////////////
 $column-row:                                       12;  // 폼을 나누는 갯수
-$element-font-size:                                0.875rem; // 14px
 
 //////////////////////////// form ////////////////////////////
 $form-min-height:                                  56.25rem; // 900px
@@ -122,7 +121,7 @@ $color-picker-colorchip-border-width:              0.125rem;   // 2px
 $color-picker-colorchip-border-color:              $white;
 
 ///////////////////////// image 컴포넌트 ////////////////////////////
-$component-imagebox-font-size:                     $font-size-base;
+$component-imagebox-font-size:                     $font-size-s;
 $component-imagebox-font-weight:                   $font-weight-regular;
 $component-imagebox-font-color:                    $gray;
 $component-imagebox-bg-color:                      map-get($grays, "light");

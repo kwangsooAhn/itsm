@@ -80,7 +80,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     radioGroup.UIInput = new UIInput((
                         aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DAYS,
                             defaultValueArray[0] === item.value ? defaultValueArray[1] : '')))
-                        .setUIClass(item.value)
+                        .setUIClass('datepicker')
                         .addUIClass('picker')
                         .setUIId('dateProperty')
                         .setUIAttribute('name', this.key);
@@ -104,7 +104,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 case FORM.DATE_TYPE.TIME_PICKER:
                     radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.HOURS,
                         defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
-                        .setUIClass(item.value)
+                        .setUIClass('datepicker')
                         .addUIClass('picker')
                         .setUIId('timeProperty')
                         .setUIAttribute('name', this.key);
@@ -112,8 +112,32 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     zDateTimePicker.initTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
                     break;
                 case FORM.DATE_TYPE.DATETIME:
+                    radioGroup.UIDiv = new UIDiv().setUIClass('radio-item');
+                    radioGroup.addUI(radioGroup.UIDiv);
+                    radioGroup.UIDiv.addUI(new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
+                        .setUIAttribute('name', this.key)
+                        .setUIAttribute('data-validation-type', 'number')
+                        .setUIAttribute('data-validation-max', '1000')
+                        .onUIKeyUp(this.updateProperty.bind(this))
+                        .onUIChange(this.updateProperty.bind(this)));
+                    radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.day')));
+                    radioGroup.UIDiv.addUI(new UIInput((defaultValueArray[0] === item.value ? defaultValueArray[2] : ''))
+                        .setUIAttribute('name', this.key)
+                        .setUIAttribute('data-validation-type', 'number')
+                        .setUIAttribute('data-validation-max', '1000')
+                        .onUIKeyUp(this.updateProperty.bind(this))
+                        .onUIChange(this.updateProperty.bind(this)));
+                    radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.hours')));
                     break;
                 case FORM.DATE_TYPE.DATETIME_PICKER:
+                    radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT,FORM.DATE_TYPE.DATETIME,
+                        defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
+                        .setUIClass('datepicker')
+                        .addUIClass('picker')
+                        .setUIId('timeProperty')
+                        .setUIAttribute('name', this.key);
+                    radioGroup.addUI(radioGroup.UIInput);
+                    zDateTimePicker.initDateTimePicker(radioGroup.UIInput.domElement, this.updateProperty.bind(this));
                     break;
             }
 
@@ -162,7 +186,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             this.panel.update.call(this.panel
                 , elem.name
                 , defaultValue + '|'
-            + aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, defaultValue.replace('picker', ''), datepickerElem.value));
+            + aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, defaultValue.replace('Picker', ''), datepickerElem.value));
         } else {
             this.panel.update.call(this.panel, elem.name, defaultValue);
         }

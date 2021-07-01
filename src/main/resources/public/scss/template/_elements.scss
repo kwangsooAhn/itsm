@@ -9,7 +9,7 @@
 // 기본 글꼴 설정.
 // 모바일 기기 회전시에 사용자가 확대하지 않아도 글씨 크기가 재조정되는 것을 예방.
 body {
-  font-family: $font-family;
+  font-family: $font-family-m;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }

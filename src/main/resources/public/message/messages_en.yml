@@ -63,10 +63,10 @@ common:
     requiredSelect: "Please select a required item."
     save: "Saved."
     selectAfterDate: "Please select after {0} date."
-    selectAfterDateTime: "Please select after {0} datetime."
+    selectAfterDateTime: "Please select after {0}."
     selectAfterTime: "Please select after {0} time."
     selectBeforeDate: "Please select before {0} date."
-    selectBeforeDateTime: "Please select before {0} datetime."
+    selectBeforeDateTime: "Please select before {0}."
     selectBeforeTime: "Please select before {0} time."
     success: "Successful."
     update: "Changed."
@@ -791,6 +791,7 @@ form:
     option:
       none: "None"
       now: "Now"
+      day: "Day"
       days: "days after"
       hours: "hours after"
   status:
