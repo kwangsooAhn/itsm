@@ -58,7 +58,8 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 .onUIChange(this.updateProperty.bind(this));
             radioGroup.UILabel.addUI(radioGroup.UILabel.UIRadio);
             radioGroup.UILabel.addUI(new UISpan());
-            if (item.name !== '') {
+            
+            if (!zValidation.isEmpty(item.name)) {
                 radioGroup.UILabel.addUI(new UISpan().setUIClass('label').setUIInnerHTML(i18n.msg(item.name)));
             }
 
@@ -130,7 +131,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     radioGroup.UIDiv.addUI(new UISpan().setUITextContent(i18n.msg('form.properties.option.hours')));
                     break;
                 case FORM.DATE_TYPE.DATETIME_PICKER:
-                    radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT,FORM.DATE_TYPE.DATETIME,
+                    radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DATETIME,
                         defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
                         .setUIClass('datepicker')
                         .addUIClass('picker')

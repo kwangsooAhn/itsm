@@ -87,8 +87,6 @@ class ZFormDesigner {
      * 컴포넌트 팔레트 초기화 및 이벤트 추가
      */
     initComponentPalette() {
-        // TODO: 커스텀 컴포넌트 load
-
         // drag & drop 이벤트 추가
         const componentIconBoxes = document.querySelectorAll('.component-icon-box');
         componentIconBoxes.forEach(icon => {

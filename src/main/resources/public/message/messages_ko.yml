@@ -700,6 +700,9 @@ form:
       time: "Time"
     dataAttribute: "데이터 속성"
     department: "부서"
+    default:
+      session: "세션"
+      code: "코드"
     desc: "설명"
     direct: "직접"
     display:
@@ -712,6 +715,7 @@ form:
     drTableColumns: "테이블 컬럼"
     element:
       align: "정렬"
+      buttonText: "버튼 텍스트"
       columnWidth: "컬럼 너비"
       color: "색상"
       columns: "컬럼 설정"
@@ -719,6 +723,7 @@ form:
       columnOrder: "순서"
       columnType: "입력 유형"
       defaultValue: "기본값"
+      DefaultValueCustomCode: "Custom Code"
       defaultValueRadio: "기본값"
       defaultValueSelect: "기본값 타입"
       isEditable: "편집가능 여부"

@@ -2,7 +2,7 @@
  * Custom Code Mixin
  *
  *
- * @author
+ * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -12,75 +12,175 @@
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UIText } from '../../lib/zUI.js';
+import { UIButton, UIDiv, UIInput, UIInputButton } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
-import ZDefaultValueSelectProperty from '../../formDesigner/property/type/zDefaultValueSelectProperty.js';
-import ZDropdownProperty from '../../formDesigner/property/type/zDropdownProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
+import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/ZDefaultValueCustomCodeProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        placeholder: '',
         columnWidth: '10',
-        defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
+        defaultValueCustomCode: '',
+        buttonText: 'BUTTON'
+    },
+    validation: {
+        required: false // 필수값 여부
     }
 };
+
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
 
 export const customCodeMixin = {
-
     // 전달 받은 데이터와 기본 property merge
     initProperty() {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
+        this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this._value || '${default}';
+
+        // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
+        if (zValidation.isEmpty(this._element.defaultValueCustomCode)) {
+            this._element.defaultValueCustomCode = FORM.CUSTOM_CODE[0].customCodeId + '|' + FORM.CUSTOM.NONE + '|';
+        }
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
+        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
+        element.UIInputButton = new UIInputButton()
+            .setUIRequired(this.validationRequired)
+            .setUIId('customcode' + this.id)
+            .setUIAttribute('data-validation-required', this.validationRequired);
+        element.UIInput = new UIInput(this.value)
+            .setUIReadOnly(true)
+            .setUIAttribute('data-custom-data', this.elementDefaultValueCustomCode)
+            .onUIChange(this.updateValue.bind(this));
+        element.UIButton = new UIButton(this.elementButtonText)
+            .addUIClass('default-line')
+            .onUIClick(this.openCustomCodePopup.bind(this));
 
-        element.UIText = new UIText('아직 구현되지 않았습니다. 얼렁 개발해주세요.');
-        element.addUI(element.UIText);
+        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
+
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {},
     // set, get
+    set elementColumnWidth(width) {
+        this._element.columnWidth = width;
+        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
+    },
+    get elementColumnWidth() {
+        return this._element.columnWidth;
+    },
+    set elementDefaultValueCustomCode(value) {
+        this._element.defaultValueCustomCode = value;
+        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(this.value).setUIAttribute('data-custom-data', value);
+    },
+    get elementDefaultValueCustomCode() {
+        return this._element.defaultValueCustomCode;
+    },
+    get elementButtonText() {
+        return this._element.buttonText;
+    },
+    set elementButtonText(text) {
+        this._element.buttonText = text;
+        this.UIElement.UIComponent.UIElement.UIButton.setUITextContent(text);
+    },
+    set validation(validation) {
+        this._validation = validation;
+    },
+    get validation() {
+        return this._validation;
+    },
+    set validationRequired(boolean) {
+        this._validation.required = boolean;
+        if (boolean) {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+        } else {
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+        }
+    },
+    get validationRequired() {
+        return this._validation.required;
+    },
     set value(value) {
         this._value = value;
     },
     get value() {
-        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
-        // 사용자 변경시 해당 값이 할당된다.
-        return this._value;
+        if (this._value === '${default}') {
+            return this.getDefaultValue(); // 기본값 반환
+        } else { // 저장된 값 반환
+            return this._value;
+        }
+    },
+    // 기본값 조회
+    getDefaultValue() {
+        const defaultValues = this.elementDefaultValueCustomCode.split('|');
+        switch (defaultValues[1]) {
+            case FORM.CUSTOM.NONE:
+                return '';
+            case FORM.CUSTOM.SESSION:
+                return SESSION[defaultValues[2]] || '';
+            case FORM.CUSTOM.CODE:
+                return defaultValues[3];
+        }
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-        // 유효성 검증
-        // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
-            return false;
-        }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            return false;
-        }
 
         this.value = e.target.value;
     },
     getProperty() {
-        return [];
+        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.DefaultValueCustomCode',
+            this.elementDefaultValueCustomCode);
+        return [
+            ...new ZCommonProperty(this).getCommonProperty(),
+            ...new ZLabelProperty(this).getLabelProperty(),
+            new ZGroupProperty('group.element')
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(customCodeProperty)
+                .addProperty(new ZInputBoxProperty('elementButtonText', 'element.buttonText', this.elementButtonText)),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
+        ];
+    },
+    // TODO: #10252 커스텀 코드 모달로 변경시 일감 처리 예정
+    openCustomCodePopup(e) {
+        e.stopPropagation();
+        const defaultValues = this.elementDefaultValueCustomCode.split('|');
+        let customCodeData = {
+            componentId: this.id,
+            componentValue: this.elementDefaultValueCustomCode
+        };
+        const storageName = 'alice_custom-codes-search-' + this.id;
+        sessionStorage.setItem(storageName, JSON.stringify(customCodeData));
+        let url = '/custom-codes/' + defaultValues[0] + '/search';
+        window.open(url, storageName, 'width=640, height=866');
+    },
+    // json 데이터 추출 (서버에 전달되는 json 데이터)
+    toJson() {
+        return {
+            id: this._id,
+            type: this._type,
+            display: this._display,
+            isTopic: this._isTopic,
+            mapId: this._mapId,
+            tags: this._tags,
+            value: this._value,
+            label: this._label,
+            element: this._element,
+            validation: this._validation
+        };
     }
 };

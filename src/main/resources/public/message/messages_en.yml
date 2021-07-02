@@ -700,6 +700,9 @@ form:
       time: "Time"
     dataAttribute: "Data Attribute"
     department: "Department"
+    default:
+      session: "Session"
+      code: "Code"
     desc: "Description"
     direct: "Direct"
     display:
@@ -712,6 +715,7 @@ form:
     drTableColumns: "Table Column"
     element:
       align: "Align"
+      buttonText: "Button Text"
       columnWidth: "Column Width"
       color: "color"
       columns: "Column"
@@ -719,6 +723,7 @@ form:
       columnOrder: "Column Order"
       columnType: "Column Type"
       defaultValue: "Default Value"
+      DefaultValueCustomCode: "Custom Code"
       defaultValueRadio: "Default Value"
       defaultValueSelect: "Default Value Type"
       isEditable: "Editable"

@@ -201,6 +201,21 @@
       }
     }
 
+    // Custom-code 컴포넌트
+    .#{$common-prefix}input-button {
+      width: 100%;
+      .input {
+        width: 80%;
+      }
+      .button {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        width: 20%;
+        overflow: hidden;
+      }
+    }
+
     // CI 컴포넌트
     .#{$common-prefix}ci-table {
       width: 100%;

@@ -63,6 +63,11 @@ export const FORM = {
 
         }
     },
+    CUSTOM: {
+        NONE: 'none',
+        SESSION: 'session',
+        CODE: 'code'
+    },
     CUSTOM_CODE: [],
     // 옵션 속성에 추가되는 기본 값
     DEFAULT_OPTION_ROW: { name: 'name', value: 'value' },
