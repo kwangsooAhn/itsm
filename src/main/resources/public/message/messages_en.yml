@@ -698,7 +698,6 @@ form:
       dropdown: "DropDown"
       input: "InputBox"
       time: "Time"
-    customCode: "Custom Code"
     dataAttribute: "Data Attribute"
     department: "Department"
     default:

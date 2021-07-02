@@ -698,7 +698,6 @@ form:
       dateTime: "DateTime"
       input: "InputBox"
       time: "Time"
-    customCode: "커스텀 코드"
     dataAttribute: "데이터 속성"
     department: "부서"
     default:

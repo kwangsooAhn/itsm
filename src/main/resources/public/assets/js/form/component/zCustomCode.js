@@ -45,27 +45,30 @@ export const customCodeMixin = {
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this._value || '${default}';
 
-        // customCode|none|없음  customCode|session|세션값  customCode|code|코드값
+        // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
         if (zValidation.isEmpty(this._element.defaultValueCustomCode)) {
-            this._element.defaultValueCustomCode = FORM.CUSTOM_CODE[0].customCodeId + '|' + 'none|';
+            this._element.defaultValueCustomCode = FORM.CUSTOM_CODE[0].customCodeId + '|' + FORM.CUSTOM.NONE + '|';
         }
     },
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
-
-        return this.makeCustomCode(element);
-    },
-    makeCustomCode(object) {
-        object.UIInputButton = new UIInputButton()
+        element.UIInputButton = new UIInputButton()
             .setUIRequired(this.validationRequired)
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
-        object.UIInput = new UIInput(this.value).setUIReadOnly(true).setUIClass('input');
-        object.UIButton = new UIButton(this.elementButtonText).setUIClass('button default-line');
-        object.addUI(object.UIInputButton.addUI(object.UIInput).addUI(object.UIButton));
-        return object;
+        element.UIInput = new UIInput(this.value)
+            .setUIReadOnly(true)
+            .setUIAttribute('data-custom-data', this.elementDefaultValueCustomCode)
+            .onUIChange(this.updateValue.bind(this));
+        element.UIButton = new UIButton(this.elementButtonText)
+            .addUIClass('default-line')
+            .onUIClick(this.openCustomCodePopup.bind(this));
+
+        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
+
+        return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {},
@@ -80,7 +83,7 @@ export const customCodeMixin = {
     },
     set elementDefaultValueCustomCode(value) {
         this._element.defaultValueCustomCode = value;
-        // customCode|none|없음  customCode|session|세션값  customCode|code|코드값
+        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(this.value).setUIAttribute('data-custom-data', value);
     },
     get elementDefaultValueCustomCode() {
         return this._element.defaultValueCustomCode;
@@ -114,36 +117,29 @@ export const customCodeMixin = {
     },
     get value() {
         if (this._value === '${default}') {
-            return '';
-            //return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
+            return this.getDefaultValue(); // 기본값 반환
         } else { // 저장된 값 반환
             return this._value;
         }
     },
-
+    // 기본값 조회
+    getDefaultValue() {
+        const defaultValues = this.elementDefaultValueCustomCode.split('|');
+        switch (defaultValues[1]) {
+        case FORM.CUSTOM.NONE:
+            return '';
+        case FORM.CUSTOM.SESSION:
+            return SESSION[defaultValues[2]] || '';
+        case FORM.CUSTOM.CODE:
+            return defaultValues[3];
+        }
+    },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
 
         this.value = e.target.value;
-    },
-    // 기본값 조회
-    makeDefaultValue(value) {
-        // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
-        const defaultValueArray = value.split('|');
-        switch (defaultValueArray[0]) {
-        case FORM.CUSTOM.NONE:
-            return '';
-        case FORM.CUSTOM.SESSION:
-            return 'username';
-        case FORM.CUSTOM.CODE:
-            return 'code|1';
-        }
     },
     getProperty() {
         const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.DefaultValueCustomCode',
@@ -158,6 +154,19 @@ export const customCodeMixin = {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
+    },
+    // TODO: #10252 커스텀 코드 모달로 변경시 일감 처리 예정
+    openCustomCodePopup(e) {
+        e.stopPropagation();
+        const defaultValues = this.elementDefaultValueCustomCode.split('|');
+        let customCodeData = {
+            componentId: this.id,
+            componentValue: this.elementDefaultValueCustomCode
+        };
+        const storageName = 'alice_custom-codes-search-' + this.id;
+        sessionStorage.setItem(storageName, JSON.stringify(customCodeData));
+        let url = '/custom-codes/' + defaultValues[0] + '/search';
+        window.open(url, storageName, 'width=640, height=866');
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {
