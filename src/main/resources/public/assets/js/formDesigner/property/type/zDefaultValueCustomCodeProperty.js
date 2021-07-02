@@ -28,7 +28,6 @@ const propertyExtends = {
         { name: 'form.properties.email', value: 'email' },
         { name: 'form.properties.jobPosition', value: 'position' },
         { name: 'form.properties.department', value: 'department' },
-        { name: 'form.properties.officeNumber', value: 'officeNumber' },
         { name: 'form.properties.officeNumber', value: 'officeNumber' }
     ]
 };
@@ -126,7 +125,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     this.UIElement.UIGroup.UIDiv = radioGroup;
 
                     const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
-                    this.makeCustomCodeDate(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue);
+                    this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue);
                     break;
             }
             this.UIElement.UIGroup.addUI(radioGroup);
@@ -135,7 +134,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         return this.UIElement;
     }
     // 커스텀 코드 데이터 select box 생성
-    makeCustomCodeDate(UISelect, customCodeId, customCodeValue) {
+    makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
         aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
             method: 'GET'
         }).then((customCodeData) => {

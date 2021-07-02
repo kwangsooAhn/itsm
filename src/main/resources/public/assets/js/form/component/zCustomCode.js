@@ -12,7 +12,7 @@
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import {UIButton, UIDiv, UIInput, UIInputButton} from '../../lib/zUI.js';
+import { UIButton, UIDiv, UIInput, UIInputButton } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
@@ -126,12 +126,12 @@ export const customCodeMixin = {
     getDefaultValue() {
         const defaultValues = this.elementDefaultValueCustomCode.split('|');
         switch (defaultValues[1]) {
-        case FORM.CUSTOM.NONE:
-            return '';
-        case FORM.CUSTOM.SESSION:
-            return SESSION[defaultValues[2]] || '';
-        case FORM.CUSTOM.CODE:
-            return defaultValues[3];
+            case FORM.CUSTOM.NONE:
+                return '';
+            case FORM.CUSTOM.SESSION:
+                return SESSION[defaultValues[2]] || '';
+            case FORM.CUSTOM.CODE:
+                return defaultValues[3];
         }
     },
     // input box 값 변경시 이벤트 핸들러

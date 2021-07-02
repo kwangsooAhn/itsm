@@ -27,7 +27,6 @@ const propertyExtends = {
         { name: 'form.properties.email', value: 'email' },
         { name: 'form.properties.jobPosition', value: 'position' },
         { name: 'form.properties.department', value: 'department' },
-        { name: 'form.properties.officeNumber', value: 'officeNumber' },
         { name: 'form.properties.officeNumber', value: 'officeNumber' }
     ]
 };
@@ -118,36 +117,36 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
      */
     getPropertyValue(evtType, element) {
         switch (evtType) {
-        case 'keyup': // input
-            return 'input|' + element.value;
-        case 'change': // select box, input
-            return ((element.type === 'text') ? 'input|' : 'select|') + element.value;
-        case 'click': // button
-            const buttonGroup = element.parentNode;
-            // 초기화
-            for (let i = 0, len = buttonGroup.childNodes.length ; i< len; i++) {
-                let child = buttonGroup.childNodes[i];
-                if (child.classList.contains('active')) {
-                    child.classList.remove('active');
+            case 'keyup': // input
+                return 'input|' + element.value;
+            case 'change': // select box, input
+                return ((element.type === 'text') ? 'input|' : 'select|') + element.value;
+            case 'click': // button
+                const buttonGroup = element.parentNode;
+                // 초기화
+                for (let i = 0, len = buttonGroup.childNodes.length ; i< len; i++) {
+                    let child = buttonGroup.childNodes[i];
+                    if (child.classList.contains('active')) {
+                        child.classList.remove('active');
+                    }
                 }
-            }
-            element.classList.add('active');
+                element.classList.add('active');
 
-            const defaultTypeGroup = buttonGroup.parentNode;
-            const input = defaultTypeGroup.querySelector('.input');
-            const select = defaultTypeGroup.querySelector('.select');
-            if (element.getAttribute('data-type') === 'input') { // input 활성화
-                input.classList.remove('off');
-                select.classList.add('off');
-                return 'input|';
-            } else { // select 활성화
-                select.classList.remove('off');
-                input.classList.add('off');
-                select.selectedIndex = 0;
-                return 'select|' + select.options[0].value;
-            }
-        default:
-            return '';
+                const defaultTypeGroup = buttonGroup.parentNode;
+                const input = defaultTypeGroup.querySelector('.input');
+                const select = defaultTypeGroup.querySelector('.select');
+                if (element.getAttribute('data-type') === 'input') { // input 활성화
+                    input.classList.remove('off');
+                    select.classList.add('off');
+                    return 'input|';
+                } else { // select 활성화
+                    select.classList.remove('off');
+                    input.classList.add('off');
+                    select.selectedIndex = 0;
+                    return 'select|' + select.options[0].value;
+                }
+            default:
+                return '';
         }
     }
 }
