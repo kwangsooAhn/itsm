@@ -100,34 +100,34 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             }
 
             switch (item.value) {
-            case FORM.CUSTOM.SESSION:
-                const sessionSelectOption = this.selectOptions.reduce((result, option) => {
-                    option.name = i18n.msg(option.name);
-                    result.push(option);
-                    return result;
-                }, []);
-                const sessionSelectOptionValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : this.selectOptions[0].value;
-                radioGroup.UISelect = new UISelect()
-                    .addUIClass('mt-1')
-                    .setUIId('session')
-                    .setUIOptions(sessionSelectOption)
-                    .setUIValue(sessionSelectOptionValue)
-                    .setUIAttribute('data-value', item.value)
-                    .onUIChange(this.updateProperty.bind(this));
-                radioGroup.addUI(radioGroup.UISelect);
-                break;
-            case FORM.CUSTOM.CODE:
-                radioGroup.UISelect = new UISelect()
-                    .addUIClass('mt-1')
-                    .setUIId('code')
-                    .setUIAttribute('data-value', item.value)
-                    .onUIChange(this.updateProperty.bind(this));
-                radioGroup.addUI(radioGroup.UISelect);
-                this.UIElement.UIGroup.UIDiv = radioGroup;
+                case FORM.CUSTOM.SESSION:
+                    const sessionSelectOption = this.selectOptions.reduce((result, option) => {
+                        option.name = i18n.msg(option.name);
+                        result.push(option);
+                        return result;
+                    }, []);
+                    const sessionSelectOptionValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : this.selectOptions[0].value;
+                    radioGroup.UISelect = new UISelect()
+                        .addUIClass('mt-1')
+                        .setUIId('session')
+                        .setUIOptions(sessionSelectOption)
+                        .setUIValue(sessionSelectOptionValue)
+                        .setUIAttribute('data-value', item.value)
+                        .onUIChange(this.updateProperty.bind(this));
+                    radioGroup.addUI(radioGroup.UISelect);
+                    break;
+                case FORM.CUSTOM.CODE:
+                    radioGroup.UISelect = new UISelect()
+                        .addUIClass('mt-1')
+                        .setUIId('code')
+                        .setUIAttribute('data-value', item.value)
+                        .onUIChange(this.updateProperty.bind(this));
+                    radioGroup.addUI(radioGroup.UISelect);
+                    this.UIElement.UIGroup.UIDiv = radioGroup;
 
-                const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
-                this.makeCustomCodeDate(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue);
-                break;
+                    const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
+                    this.makeCustomCodeDate(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue);
+                    break;
             }
             this.UIElement.UIGroup.addUI(radioGroup);
         });
@@ -174,16 +174,16 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         const radioType = checkedRadio.getAttribute('data-value');
 
         switch (radioType) {
-        case FORM.CUSTOM.NONE:
-            this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|');
-            break;
-        case FORM.CUSTOM.SESSION:
-            this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|' + selectElem.value);
-            break;
-        case FORM.CUSTOM.CODE:
-            const selectText = selectElem.options[selectElem.selectedIndex].text;
-            this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|' + selectElem.value + '|' + selectText);
-            break;
+            case FORM.CUSTOM.NONE:
+                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|');
+                break;
+            case FORM.CUSTOM.SESSION:
+                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|' + selectElem.value);
+                break;
+            case FORM.CUSTOM.CODE:
+                const selectText = selectElem.options[selectElem.selectedIndex].text;
+                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|' + selectElem.value + '|' + selectText);
+                break;
         }
     }
 }
