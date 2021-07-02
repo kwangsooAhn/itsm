@@ -17,18 +17,18 @@ import ZProperty from '../zProperty.js';
 
 const propertyExtends = {
     options : [
-        {name: 'form.properties.direct', value: 'input'},
-        {name: 'form.properties.auto', value: 'select'}
+        { name: 'form.properties.direct', value: 'input' },
+        { name: 'form.properties.auto', value: 'select' }
     ],
     selectOptions : [
-        {name: 'form.properties.userKey', value: 'userKey'},
-        {name: 'form.properties.userId', value: 'userId'},
-        {name: 'form.properties.userName', value: 'userName'},
-        {name: 'form.properties.email', value: 'email'},
-        {name: 'form.properties.jobPosition', value: 'position'},
-        {name: 'form.properties.department', value: 'department'},
-        {name: 'form.properties.officeNumber', value: 'officeNumber'},
-        {name: 'form.properties.officeNumber', value: 'officeNumber'}
+        { name: 'form.properties.userKey', value: 'userKey' },
+        { name: 'form.properties.userId', value: 'userId' },
+        { name: 'form.properties.userName', value: 'userName' },
+        { name: 'form.properties.email', value: 'email' },
+        { name: 'form.properties.jobPosition', value: 'position' },
+        { name: 'form.properties.department', value: 'department' },
+        { name: 'form.properties.officeNumber', value: 'officeNumber' },
+        { name: 'form.properties.officeNumber', value: 'officeNumber' }
     ]
 };
 

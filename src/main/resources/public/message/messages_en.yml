@@ -679,7 +679,6 @@ form:
       vertical: "Vertical"
       horizontal: "Horizontal"
     auto: "Auto"
-    buttonText: "Button Text"
     char: "Character"
     common: "Common"
     columnContent:
@@ -717,6 +716,7 @@ form:
     drTableColumns: "Table Column"
     element:
       align: "Align"
+      buttonText: "Button Text"
       columnWidth: "Column Width"
       color: "color"
       columns: "Column"
@@ -724,6 +724,7 @@ form:
       columnOrder: "Column Order"
       columnType: "Column Type"
       defaultValue: "Default Value"
+      DefaultValueCustomCode: "Custom Code"
       defaultValueRadio: "Default Value"
       defaultValueSelect: "Default Value Type"
       isEditable: "Editable"

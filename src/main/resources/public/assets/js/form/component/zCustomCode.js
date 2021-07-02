@@ -2,7 +2,7 @@
  * Custom Code Mixin
  *
  *
- * @author Kim Sung Min <ksm00@brainz.co.kr>
+ * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -27,9 +27,8 @@ import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/ZD
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        elementCustomCode: '',
-        defaultDropDownValue: '',
-        defaultValueRadio: 'none', // none|없음  session|세션값  code|코드값
+        defaultValueCustomCode: '',
+        buttonText: 'BUTTON'
     },
     validation: {
         required: false // 필수값 여부
@@ -45,12 +44,17 @@ export const customCodeMixin = {
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this._value || '${default}';
-        this._buttonText = this._buttonText || '${default}';
+
+        // customCode|none|없음  customCode|session|세션값  customCode|code|코드값
+        if (zValidation.isEmpty(this._element.defaultValueCustomCode)) {
+            this._element.defaultValueCustomCode = FORM.CUSTOM_CODE[0].customCodeId + '|' + 'none|';
+        }
     },
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
+
         return this.makeCustomCode(element);
     },
     makeCustomCode(object) {
@@ -59,22 +63,34 @@ export const customCodeMixin = {
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
         object.UIInput = new UIInput(this.value).setUIReadOnly(true).setUIClass('input');
-        object.UIButton = new UIButton(this.buttonText).setUIClass('button default-line');
+        object.UIButton = new UIButton(this.elementButtonText).setUIClass('button default-line');
         object.addUI(object.UIInputButton.addUI(object.UIInput).addUI(object.UIButton));
         return object;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {},
     // set, get
-    set value(value) {
-        this._value = value;
+    set elementColumnWidth(width) {
+        this._element.columnWidth = width;
+        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
+        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
     },
-    get value() {
-        if (this._value === '${default}') {
-            return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
-        } else { // 저장된 값 반환
-            return this._value;
-        }
+    get elementColumnWidth() {
+        return this._element.columnWidth;
+    },
+    set elementDefaultValueCustomCode(value) {
+        this._element.defaultValueCustomCode = value;
+        // customCode|none|없음  customCode|session|세션값  customCode|code|코드값
+    },
+    get elementDefaultValueCustomCode() {
+        return this._element.defaultValueCustomCode;
+    },
+    get elementButtonText() {
+        return this._element.buttonText;
+    },
+    set elementButtonText(text) {
+        this._element.buttonText = text;
+        this.UIElement.UIComponent.UIElement.UIButton.setUITextContent(text);
     },
     set validation(validation) {
         this._validation = validation;
@@ -93,57 +109,18 @@ export const customCodeMixin = {
     get validationRequired() {
         return this._validation.required;
     },
-    set elementColumnWidth(width) {
-        this._element.columnWidth = width;
-        this.UIElement.UIComponent.UIElement.setUIProperty('--data-column', width);
-        this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
+    set value(value) {
+        this._value = value;
     },
-    get elementColumnWidth() {
-        return this._element.columnWidth;
-    },
-    set elementDefaultValueSelect(value) {
-        this._element.defaultValueSelect = value;
-        this.UIElement.UIComponent.UIInputButton.setUIValue(this.value);
-    },
-    get elementDefaultValueSelect() {
-        return this._element.defaultValueSelect;
-    },
-    set elementDefaultValueRadio(value) {
-        // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
-        this._element.defaultValueRadio = value;
-        //this.UIElement.UIComponent.UIInputButton.setUIValue(this.makeDefaultValue(value));
-    },
-    get elementDefaultValueRadio() {
-        return this._element.defaultValueRadio;
-    },
-    set defaultDropDownValue(value) {
-        this._element.defaultDropDownValue = value;
-        //this.UIElement.UIComponent.UIInputButton.UIButton.onUIClick(this.updateProperty.bind(this));
-    },
-    get defaultDropDownValue() {
+    get value() {
         if (this._value === '${default}') {
-            return FORM.CUSTOM_CODE[0].customCodeId;
-        } else {
-            return this._element.defaultDropDownValue;
+            return '';
+            //return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
+        } else { // 저장된 값 반환
+            return this._value;
         }
     },
-    get elementCustomCode() {
-        return this._element.elementCustomCode;
-    },
-    set elementCustomCode(value) {
-        this.makeCustomCode(value);
-    },
-    get buttonText() {
-        if (this._buttonText === '${default}') {
-            return 'BUTTON';
-        } else {
-            return this._buttonText;
-        }
-    },
-    set buttonText(value) {
-        this._buttonText = value;
-        this.UIElement.UIComponent.UIElement.UIButton.setUITextContent(value);
-    },
+
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
         e.stopPropagation();
@@ -169,35 +146,15 @@ export const customCodeMixin = {
         }
     },
     getProperty() {
-        let customCode = [];
-        let customCodeChild = [];
-        FORM.CUSTOM_CODE.forEach(function(data){
-            let dropDownOption = new Object();
-            dropDownOption.name = data.customCodeName;
-            dropDownOption.value = data.customCodeId;
-            customCode.push(dropDownOption);
-        });
-        FORM.CUSTOM_CODE_CHILD.forEach(function(data){
-            let dropDownOption = new Object();
-            dropDownOption.name = data.value;
-            dropDownOption.value = data.key;
-            customCodeChild.push(dropDownOption);
-        });
-        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementCustomCode', 'element.defaultValueRadio',
-            this.defaultDropDownValue, this.elementDefaultValueRadio, customCode,
-            [
-                { name: 'form.properties.option.none', value: FORM.CUSTOM.NONE },
-                { name: 'form.properties.default.session', value: FORM.CUSTOM.SESSION },
-                { name: 'form.properties.default.code', value: FORM.CUSTOM.CODE }
-            ], customCodeChild);
+        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.DefaultValueCustomCode',
+            this.elementDefaultValueCustomCode);
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
                 .addProperty(customCodeProperty)
-                .addProperty(new ZInputBoxProperty('buttonText', 'buttonText', this.buttonText)
-                    .setValidation(false, '', '', '', '', '128')),
+                .addProperty(new ZInputBoxProperty('elementButtonText', 'element.buttonText', this.elementButtonText)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
@@ -213,7 +170,8 @@ export const customCodeMixin = {
             tags: this._tags,
             value: this._value,
             label: this._label,
-            element: this._element
+            element: this._element,
+            validation: this._validation
         };
     }
 };
