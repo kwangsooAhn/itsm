@@ -60,6 +60,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             result.push(option);
             return result;
         }, []);
+
         this.UIElement.UISelect = new UISelect()
             .setUIId('customCode')
             .setUIAttribute('name', this.key)
