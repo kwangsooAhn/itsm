@@ -27,6 +27,7 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
@@ -78,7 +79,7 @@ class WfInstanceService(
     /**
      * Search Instances.
      */
-    fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
+    fun instances(parameters: LinkedHashMap<String, Any>): RestTemplateInstanceListReturnDto {
         // String tags -> Set<String>
         parameters["tags"] = this.stringToSet(parameters["tags"].toString())
 
@@ -178,13 +179,15 @@ class WfInstanceService(
                     documentId = instance.documentEntity.documentId,
                     documentNo = instance.instanceEntity.documentNo,
                     documentColor = instance.documentEntity.documentColor,
-                    avatarPath = avatarPath,
-                    totalCount = queryResults.total
+                    avatarPath = avatarPath
                 )
             )
         }
 
-        return tokens
+        return RestTemplateInstanceListReturnDto(
+            data = tokens,
+            totalCount = queryResults.total
+        )
     }
 
     /**

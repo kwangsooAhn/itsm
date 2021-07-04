@@ -12,6 +12,7 @@ import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
 import co.brainz.itsm.portal.dto.PortalDto
+import co.brainz.itsm.portal.dto.PortalListReturnDto
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java), PortalRepositoryCustom {
 
-    override fun findPortalSearchList(searchValue: String, offset: Long): MutableList<PortalDto> {
+    override fun findPortalSearchList(searchValue: String, offset: Long): PortalListReturnDto {
         val notice = QNoticeEntity.noticeEntity
         val faq = QFaqEntity.faqEntity
         val download = QDownloadEntity.downloadEntity
@@ -35,8 +36,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         notice.noticeContents,
                         notice.createDt,
                         notice.updateDt,
-                        Expressions.asString("notice"),
-                        Expressions.asNumber(0)
+                        Expressions.asString("notice")
                     )
                 )
                 .where(super.like(notice.noticeTitle, searchValue))
@@ -52,8 +52,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         faq.faqContent,
                         faq.createDt,
                         faq.updateDt,
-                        Expressions.asString("faq"),
-                        Expressions.asNumber(0)
+                        Expressions.asString("faq")
                     )
                 )
                 .where(super.like(faq.faqTitle, searchValue))
@@ -69,8 +68,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                         download.downloadCategory,
                         download.createDt,
                         download.updateDt,
-                        Expressions.asString("download"),
-                        Expressions.asNumber(0)
+                        Expressions.asString("download")
                     )
                 )
                 .where(super.like(download.downloadTitle, searchValue))
@@ -102,10 +100,9 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
             list = list.subList(fromRow, toRow)
         }
 
-        list.forEach { data ->
-            data.totalCount = totalSize
-        }
-
-        return list
+        return PortalListReturnDto(
+            data = list,
+            totalCount = totalSize.toLong()
+        )
     }
 }

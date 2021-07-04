@@ -64,7 +64,7 @@ class WfFormServiceTest {
         params["search"] = this.formName
         val formDtoList = wfFormService.getFormList(params)
         assumingThat(
-            formDtoList.isNotEmpty()
-        ) { assumeTrue(wfFormService.deleteForm(formDtoList[0].id)) }
+            formDtoList.data.isNotEmpty()
+        ) { assumeTrue(wfFormService.deleteForm(formDtoList.data[0].id)) }
     }
 }

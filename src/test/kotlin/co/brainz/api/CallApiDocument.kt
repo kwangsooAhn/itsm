@@ -208,9 +208,9 @@ class CallApiDocument {
         params["tags"] = ""
         val instances = wfInstanceService.instances(params)
         assumingThat(
-            !instances.isNullOrEmpty()
+            !instances.data.isNullOrEmpty()
         ) {
-            val instanceId = instances[0].instanceId
+            val instanceId = instances.data[0].instanceId
             mvc.perform(get("/api/wf/$instanceId/history").headers(this.setAccessToken()))
                 .andExpect(status().isOk)
                 .andDo(print())

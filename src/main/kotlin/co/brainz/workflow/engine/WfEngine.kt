@@ -13,6 +13,7 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenAction
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -26,6 +27,7 @@ class WfEngine(
     /**
      * Start workflow.
      */
+    @Transactional
     fun startWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.info("Start Workflow : {}", tokenDto.documentName)
 
@@ -49,6 +51,7 @@ class WfEngine(
     /**
      * Progress workflow.
      */
+    @Transactional
     fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Progress Token")
 

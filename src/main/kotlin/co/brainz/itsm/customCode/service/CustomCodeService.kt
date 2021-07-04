@@ -14,7 +14,7 @@ import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
-import co.brainz.itsm.customCode.dto.CustomCodeListDto
+import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
 import co.brainz.itsm.customCode.entity.CustomCodeColumnEntity
@@ -38,6 +38,7 @@ import javax.persistence.Column
 import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CustomCodeService(
@@ -60,7 +61,7 @@ class CustomCodeService(
      *
      * @return MutableList<CustomCodeDto>
      */
-    fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): List<CustomCodeListDto> {
+    fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): CustomCodeListReturnDto {
         return customCodeRepository.findByCustomCodeList(customCodeSearchDto)
     }
 
@@ -70,7 +71,7 @@ class CustomCodeService(
      * @param customCodeId
      * @return CustomCodeDto
      */
-    fun getCustomCode(customCodeId: String): CustomCodeDto {
+    fun getCustomCodeDetail(customCodeId: String): CustomCodeDto {
         val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
         val usedCustomCodeIdList = getUsedCustomCodeIdList()
         val customCodeDto = customCodeMapper.toCustomCodeDto(customCodeEntity)
@@ -100,6 +101,7 @@ class CustomCodeService(
      * @param customCodeDto
      * @return String
      */
+    @Transactional
     fun saveCustomCode(customCodeDto: CustomCodeDto): String {
         var code = customCodeEditValid(customCodeDto)
         when (code) {
@@ -117,6 +119,7 @@ class CustomCodeService(
      * @param customCodeId
      * @return String
      */
+    @Transactional
     fun deleteCustomCode(customCodeId: String): String {
         return if (getUsedCustomCodeIdList().indexOf(customCodeId) != -1) {
             CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code

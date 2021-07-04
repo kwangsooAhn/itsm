@@ -4,9 +4,7 @@
  */
 .signup {
   &-logo {
-    position: relative;
-    top: $signup-logo-position-top;
-    left: $signup-logo-position-left;
+    @include relative($top: $signup-logo-position-top, $left: $signup-logo-position-left);
   }
 
   &-background {
@@ -40,7 +38,7 @@
       margin-bottom: 0.625rem; // 10px
     }
     .signup-base-form {
-      position: relative; // tooltip 영역 지정 용도
+      @include relative(); // tooltip 영역 지정 용도
     }
   }
 }

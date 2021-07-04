@@ -21,6 +21,7 @@ import co.brainz.workflow.process.service.simulation.WfProcessSimulator
 import co.brainz.workflow.provider.dto.RestTemplateElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
+import co.brainz.workflow.provider.dto.RestTemplateProcessListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -52,7 +53,7 @@ class WfProcessService(
     /**
      * 프로세스 목록 조회
      */
-    fun getProcesses(parameters: LinkedHashMap<String, Any>): MutableList<RestTemplateProcessViewDto> {
+    fun getProcesses(parameters: LinkedHashMap<String, Any>): RestTemplateProcessListReturnDto {
         var search = ""
         var status = listOf<String>()
         var offset: Long? = null
@@ -70,16 +71,18 @@ class WfProcessService(
             }
             val processViewDto = processMapper.toProcessViewDto(process)
             processViewDto.enabled = enabled
-            processViewDto.totalCount = queryResult.total
             processViewDtoList.add(processViewDto)
         }
-        return processViewDtoList
+        return RestTemplateProcessListReturnDto(
+            data = processViewDtoList,
+            totalCount = queryResult.total
+        )
     }
 
     /**
      * 프로세스 조회
      */
-    fun getProcess(processId: String): RestTemplateProcessViewDto {
+    fun getProcessDetail(processId: String): RestTemplateProcessViewDto {
         val wfProcessDto = wfProcessRepository.findByProcessId(processId)?.let { processMapper.toProcessViewDto(it) }
             ?: throw AliceException(
                 AliceErrorConstants.ERR_00005,
@@ -128,6 +131,7 @@ class WfProcessService(
     /**
      * 프로세스 신규 등록
      */
+    @Transactional
     fun insertProcess(restTemplateProcessDto: RestTemplateProcessDto): RestTemplateProcessDto {
         val processEntity = processMapper.toProcessEntity(restTemplateProcessDto)
         processEntity.createUser = restTemplateProcessDto.createUserKey?.let {
@@ -149,6 +153,7 @@ class WfProcessService(
     /**
      * 프로세스 1건 데이터 삭제.
      */
+    @Transactional
     fun deleteProcess(processId: String): Boolean {
         val processEntity = wfProcessRepository.findByProcessId(processId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
@@ -167,6 +172,7 @@ class WfProcessService(
     /**
      * 프로세스 변경.
      */
+    @Transactional
     fun updateProcess(restTemplateProcessDto: RestTemplateProcessDto): Boolean {
         val processEntity =
             wfProcessRepository.findByProcessId(restTemplateProcessDto.processId) ?: throw AliceException(
@@ -187,6 +193,7 @@ class WfProcessService(
     /**
      * 프로세스 정보 변경.
      */
+    @Transactional
     fun updateProcessData(restTemplateProcessElementDto: RestTemplateProcessElementDto): Boolean {
         // 클라이언트에서 요청한 프로세스 정보.
         val wfJsonProcessDto = restTemplateProcessElementDto.process
@@ -347,6 +354,7 @@ class WfProcessService(
     /**
      * 프로세스 다음 이름 저장.
      */
+    @Transactional
     fun saveAsProcess(restTemplateProcessElementDto: RestTemplateProcessElementDto): RestTemplateProcessDto {
         val processDataDto = RestTemplateProcessDto(
             processName = restTemplateProcessElementDto.process?.name.toString(),

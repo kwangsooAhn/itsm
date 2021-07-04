@@ -35,7 +35,7 @@ class ChartController(
      */
     @GetMapping("/search")
     fun getChartSearch(model: Model): String {
-        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE))
+        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.PCode.TYPE.code))
         return chartSearchPage
     }
 
@@ -51,8 +51,8 @@ class ChartController(
         val searchTypeName = request.getParameter("searchTypeName")
         val offset = request.getParameter("offset") ?: "0"
         val result = chartService.getCharts(searchTypeName, offset)
-        model.addAttribute("chartList", result)
-        model.addAttribute("chartListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("chartList", result.data)
+        model.addAttribute("chartListCount", result.totalCount)
         return if (isScroll) chartListFragment else chartListPage
     }
 
@@ -61,9 +61,9 @@ class ChartController(
      */
     @GetMapping("/new")
     fun getChartNew(model: Model): String {
-        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE))
-        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.CHART_OPERATION_P_CODE))
-        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.CHART_UNIT_P_CODE))
+        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.PCode.TYPE.code))
+        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.PCode.OPERATION.code))
+        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.PCode.UNIT.code))
         return chartEditPage
     }
 
@@ -72,10 +72,10 @@ class ChartController(
      */
     @GetMapping("/{chartId}/edit")
     fun getChartEdit(@PathVariable chartId: String, model: Model): String {
-        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.CHART_TYPE_P_CODE))
-        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.CHART_OPERATION_P_CODE))
-        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.CHART_UNIT_P_CODE))
-        model.addAttribute("chart", chartService.getChart(chartId))
+        model.addAttribute("typeList", codeService.selectCodeByParent(ChartConstants.PCode.TYPE.code))
+        model.addAttribute("operationList", codeService.selectCodeByParent(ChartConstants.PCode.OPERATION.code))
+        model.addAttribute("unitList", codeService.selectCodeByParent(ChartConstants.PCode.UNIT.code))
+        model.addAttribute("chart", chartService.getChartDetail(chartId, null))
         return chartEditPage
     }
 
@@ -84,7 +84,7 @@ class ChartController(
      */
     @GetMapping("/{chartId}/view")
     fun getChartView(@PathVariable chartId: String, model: Model): String {
-        model.addAttribute("chart", chartService.getChart(chartId))
+        model.addAttribute("chart", chartService.getChartDetail(chartId, null))
         return chartViewPage
     }
 }

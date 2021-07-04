@@ -52,11 +52,13 @@ class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleT
                     schedule.useYn,
                     schedule.executeClass,
                     schedule.executeQuery,
+                    schedule.executeCommand,
                     schedule.executeCycleType,
                     schedule.executeCyclePeriod,
                     schedule.cronExpression,
                     schedule.editable,
-                    schedule.args
+                    schedule.args,
+                    schedule.src
                 )
             )
             .where(schedule.taskId.eq(taskId))

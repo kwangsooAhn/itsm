@@ -8,6 +8,7 @@ package co.brainz.itsm.board.repository.querydsl
 
 import co.brainz.itsm.board.dto.BoardArticleDto
 import co.brainz.itsm.board.dto.BoardArticleListDto
+import co.brainz.itsm.board.dto.BoardArticleListReturnDto
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import co.brainz.itsm.board.entity.PortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardCategoryEntity
@@ -31,7 +32,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
-    ): List<BoardArticleListDto> {
+    ): BoardArticleListReturnDto {
         val board = QPortalBoardEntity.portalBoardEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
@@ -84,13 +85,15 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                 boardTitle = data.boardTitle,
                 replyCount = data.replyCount,
                 readCount = data.readCount,
-                totalCount = query.total,
                 createDt = data.createDt,
                 createUserName = data.createUser?.userName
             )
             boardList.add(boardListDto)
         }
-        return boardList.toList()
+        return BoardArticleListReturnDto(
+            data = boardList,
+            totalCount = query.total
+        )
     }
 
     override fun findByBoardId(boardId: String): BoardArticleViewDto {

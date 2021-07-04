@@ -50,8 +50,8 @@ class CustomCodeController(
     fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto, model: Model): String {
         val result = customCodeService.getCustomCodeList(customCodeSearchDto)
         model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE))
-        model.addAttribute("customCodeList", result)
-        model.addAttribute("customCodeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("customCodeList", result.data)
+        model.addAttribute("customCodeCount", result.totalCount)
         return if (customCodeSearchDto.isScroll) customCodeListFragment else customCodeListPage
     }
 
@@ -77,7 +77,7 @@ class CustomCodeController(
      */
     @GetMapping("/{customCodeId}/view")
     fun getCustomCodeView(@PathVariable customCodeId: String, model: Model): String {
-        val customCodeDto = customCodeService.getCustomCode(customCodeId)
+        val customCodeDto = customCodeService.getCustomCodeDetail(customCodeId)
         model.addAttribute("customCode", customCodeDto)
         if (customCodeDto.type == CustomCodeConstants.Type.TABLE.code) {
             model.addAttribute(
@@ -97,7 +97,7 @@ class CustomCodeController(
      */
     @GetMapping("/{customCodeId}/edit")
     fun getCustomCodeEdit(@PathVariable customCodeId: String, model: Model): String {
-        model.addAttribute("customCode", customCodeService.getCustomCode(customCodeId))
+        model.addAttribute("customCode", customCodeService.getCustomCodeDetail(customCodeId))
         model.addAttribute("customCodeTableList", customCodeService.getCustomCodeTableList())
         model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
         return customCodeEditPage

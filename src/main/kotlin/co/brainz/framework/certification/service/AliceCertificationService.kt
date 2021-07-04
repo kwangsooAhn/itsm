@@ -57,6 +57,7 @@ class AliceCertificationService(
         return roleList
     }
 
+    @Transactional
     fun createUser(aliceSignUpDto: AliceSignUpDto, target: String?): String {
         var code: String = signUpValid(aliceSignUpDto)
         when (code) {
@@ -191,7 +192,8 @@ class AliceCertificationService(
     /**
      * 사용자 상세정보(역할 저장)
      */
-    private fun setUserDetail(aliceSignUpDto: AliceSignUpDto, user: AliceUserEntity, target: String?) {
+    @Transactional
+    fun setUserDetail(aliceSignUpDto: AliceSignUpDto, user: AliceUserEntity, target: String?) {
         when (target) {
             AliceUserConstants.USER_ID -> {
                 getDefaultUserRoleList(AliceUserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach { role ->

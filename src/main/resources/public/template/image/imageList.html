@@ -54,8 +54,10 @@
             // 썸네일 표시
             document.getElementById('searchValue').focus();
             document.getElementById('searchValue').addEventListener('keyup', function () {
-                document.querySelector('.thumbnail-main').innerHTML = '';
-                 getImages(false);
+                pressKeyForAction(event, 'Enter', function () {
+                    document.querySelector('.thumbnail-main').innerHTML = '';
+                    getImages(false);
+                });
             });
         }
 
@@ -90,10 +92,10 @@
                             });
                         }
                     } else {
-                        let count = imageList.toString() === '' ? 0 : JSON.stringify(imageList[0].totalCount)
+                        let count = JSON.stringify(imageList.totalCount)
                         aliceJs.showTotalCount(count, 'totalCount');
                         document.getElementById('totalCount').value = count;
-                        imageList.forEach(function (image) {
+                        imageList.data.forEach(function (image) {
                             addThumbnail(image);
                         });
                         OverlayScrollbars(document.querySelector('.image-content-edit'), {

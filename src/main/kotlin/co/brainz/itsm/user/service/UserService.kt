@@ -23,7 +23,8 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
-import co.brainz.itsm.user.dto.UserListDto
+import co.brainz.itsm.user.dto.UserListDataDto
+import co.brainz.itsm.user.dto.UserListReturnDto
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.mapper.UserMapper
@@ -39,6 +40,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 
@@ -69,16 +71,17 @@ class UserService(
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(search: String, offset: Long): MutableList<UserListDto> {
+    fun selectUserList(search: String, offset: Long): UserListReturnDto {
         val queryResult = userRepository.findAliceUserEntityList(search, offset)
-        val userList: MutableList<UserListDto> = mutableListOf()
+        val userList: MutableList<UserListDataDto> = mutableListOf()
 
-        for (user in queryResult) {
+        for (user in queryResult.data) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
             userList.add(user)
         }
-        return userList
+        queryResult.data = userList
+        return queryResult
     }
 
     /**
@@ -98,6 +101,7 @@ class UserService(
     /**
      * 사용자 KEY로 정보를 수정한다.
      */
+    @Transactional
     fun updateUser(userUpdateDto: UserUpdateDto): AliceUserEntity {
         val targetEntity = updateDataInput(userUpdateDto)
         return userRepository.save(targetEntity)
@@ -115,6 +119,7 @@ class UserService(
      *
      * @param userEditType
      */
+    @Transactional
     fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): String {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
@@ -262,6 +267,7 @@ class UserService(
     /**
      * 사용자의 비밀번호를 초기화한다.
      */
+    @Transactional
     fun resetPassword(userKey: String, password: String): String {
         val publicKey = aliceCryptoRsa.getPublicKey()
         val encryptPassword = aliceCryptoRsa.encrypt(publicKey, password)

@@ -18,6 +18,7 @@ import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.dto.RoleListReturnDto
 import co.brainz.itsm.role.repository.RoleRepository
+import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
@@ -48,6 +49,7 @@ class RoleService(
     /**
      * 역할 삭제 한다.
      */
+    @Transactional
     fun deleteRole(roleId: String): String {
         val roleInfo = roleRepository.findByRoleId(roleId)
         val userRoleMapCount = userRoleMapRepository.findByRole(roleInfo).count()
@@ -65,6 +67,7 @@ class RoleService(
     /**
      * 역할 정보 등록 한다.
      */
+    @Transactional
     fun insertRole(roleInfo: RoleDto): String {
         val role = AliceRoleEntity(
             roleId = roleInfo.roleId.toString(),
@@ -83,6 +86,7 @@ class RoleService(
     /**
      * 역할 정보 수정 한다.
      */
+    @Transactional
     fun updateRole(roleInfo: RoleDto): String {
         val role = AliceRoleEntity(
             roleId = roleInfo.roleId.toString(),
@@ -104,7 +108,7 @@ class RoleService(
     /**
      * 역할 상세 정보 조회
      */
-    fun selectDetailRoles(roleId: String): RoleDto {
+    fun getRoleDetail(roleId: String): RoleDto {
         val roleInfo = roleRepository.findByRoleId(roleId)
         val userRoleMapCount = userRoleMapRepository.countByRole(roleInfo)
         val roleIds = mutableSetOf<String>()

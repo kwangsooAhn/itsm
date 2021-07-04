@@ -10,8 +10,7 @@
   overflow: hidden;
 
   .logo {
-    position: relative;
-    top: -59.1875rem; // -947px
+    @include relative($top: -59.1875rem); // -947px
     margin: 5rem 0 0 5rem; // 80px 80x
   }
 }
@@ -19,7 +18,7 @@
 .email-certificate-form {
   width: 50vw;
   padding: 21.5625rem 6.25rem; // 345px 100px
-  border-left: $semail-certificate-border;
+  @include border(0.0625rem, solid, $email-certificate-border-color, left);
 
   h1 { line-height: 1.7; }
   h3 { 

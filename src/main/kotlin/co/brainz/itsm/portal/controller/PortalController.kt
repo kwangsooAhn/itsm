@@ -66,8 +66,8 @@ class PortalController(
     fun getPortalList(portalSearchDto: PortalSearchDto, model: Model): String {
         model.addAttribute("portalSearchValue", portalSearchDto.searchValue)
         val portalList = portalService.findPortalListOrSearchList(portalSearchDto)
-        model.addAttribute("portalList", portalList)
-        model.addAttribute("totalCount", if (portalList.isNotEmpty()) portalList[0].totalCount else 0)
+        model.addAttribute("portalList", portalList.data)
+        model.addAttribute("totalCount", portalList.totalCount)
         return portalListPage
     }
 
@@ -144,8 +144,8 @@ class PortalController(
     @GetMapping("/downloads")
     fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
         val result = downloadService.getDownloadList(downloadSearchDto)
-        model.addAttribute("downloadList", result)
-        model.addAttribute("downloadCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("downloadList", result.data)
+        model.addAttribute("downloadCount", result.totalCount)
         return if (downloadSearchDto.isScroll) portalDownloadListFragment else portalDownloadListPage
     }
 
@@ -154,7 +154,7 @@ class PortalController(
      */
     @GetMapping("/downloads/{downloadId}/view")
     fun getDownloadView(@PathVariable downloadId: String, model: Model): String {
-        model.addAttribute("download", downloadService.getDownload(downloadId, "view"))
+        model.addAttribute("download", downloadService.getDownloadDetail(downloadId, "view"))
         return portalDownloadViewPage
     }
 }

@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
@@ -19,6 +25,5 @@ data class RestTemplateInstanceViewDto(
     val documentId: String,
     val documentNo: String? = null,
     val documentColor: String?,
-    val avatarPath: String? = "",
-    val totalCount: Long
+    val avatarPath: String? = ""
 ) : Serializable

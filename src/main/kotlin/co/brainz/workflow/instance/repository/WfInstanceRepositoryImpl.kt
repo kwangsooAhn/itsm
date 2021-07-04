@@ -47,6 +47,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
     val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
     val token: QWfTokenEntity = QWfTokenEntity.wfTokenEntity
+    val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
     val tokenData: QWfTokenDataEntity = QWfTokenDataEntity.wfTokenDataEntity
     val comment: QWfCommentEntity = QWfCommentEntity.wfCommentEntity
     val tag: QAliceTagEntity = QAliceTagEntity.aliceTagEntity
@@ -157,6 +158,10 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .where(tokenSub.instance.instanceId.eq(instance.instanceId))
             )
         )
+        builder.and(
+            token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
+                .or(token.tokenAction.isNull)
+        )
 
         val query = getInstancesQuery(tags)
         return query
@@ -196,6 +201,9 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     .from(tokenSub)
                     .where(tokenSub.assigneeId.eq(userKey))
             )
+        )
+        builder.and(
+            token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
         )
 
         val query = getInstancesQuery(tags)
@@ -324,7 +332,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     }
 
     override fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto> {
-        val user = QAliceUserEntity.aliceUserEntity
         val elementTypes = listOf(
             InstanceConstants.ElementListForHistoryViewing.USER_TASK.value,
             InstanceConstants.ElementListForHistoryViewing.SCRIPT_TASK.value,
@@ -376,9 +383,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         instanceId: String,
         searchValue: String
     ): MutableList<RestTemplateInstanceListDto> {
-        val instance = QWfInstanceEntity.wfInstanceEntity
-        val user = QAliceUserEntity.aliceUserEntity
-
         val query = from(instance)
             .select(
                 Projections.constructor(
@@ -396,7 +400,16 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             .distinct()
             .innerJoin(document).on(document.documentId.eq(instance.document.documentId))
             .leftJoin(user).on(user.userKey.eq(instance.instanceCreateUser.userKey))
-            .where(instance.instanceId.notIn(instanceId))
+            .where(
+                instance.instanceId.notIn(instanceId).and(
+                    instance.instanceId.notIn(
+                        JPAExpressions
+                            .select(token.instance.instanceId)
+                            .from(token)
+                            .where(token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code))
+                    )
+                )
+            )
         if (searchValue.isNotEmpty()) {
             query.where(
                 document.documentName.likeIgnoreCase("%" + searchValue + "%")

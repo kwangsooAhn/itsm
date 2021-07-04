@@ -548,6 +548,7 @@ aliceJs.thumbnail = function(options) {
             }
             targetElem.dispatchEvent(new Event('focusout'));
         }
+        aliceJs.inputButtonRemove();
         return true;
     };
 
@@ -679,10 +680,6 @@ aliceJs.thumbnail = function(options) {
                 }],
                 close: {
                     closable: false,
-                },
-                onCreate: function (modal) {
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.thumbnail-main'), {className: 'scrollbar'});
                 }
             };
 
@@ -1253,5 +1250,38 @@ aliceJs.clearText = function (req) {
     let target = req.parentElement.getElementsByTagName('input');
     for (let i = 0; i < target.length; i++) {
         target[i].value = '';
+    }
+}
+
+/**
+ * input+button 에 input value 초기화 x 버튼 출력
+ * @param target
+ */
+aliceJs.inputButtonRemove = function(target) {
+    let xTarget = target || document.querySelector('.input-button-remove-btn');
+    if (xTarget !== null) {
+        let inputValue = xTarget.previousElementSibling.value;
+        if (inputValue === null || inputValue === '') {
+            xTarget.classList.remove('active');
+        } else {
+            xTarget.classList.add('active');
+        }
+        xTarget.addEventListener('click', function (e) {
+            e.preventDefault();
+            this.previousElementSibling.value = null;
+            this.classList.remove('active');
+        })
+    }
+}
+
+/**
+ * 특정 키를 눌렀을시 함수 실행
+ * @param event
+ * @param keyName
+ * @param callBackFunc
+ */
+function pressKeyForAction(event, keyName, callBackFunc) {
+    if (event.key === keyName) {
+        callBackFunc();
     }
 }

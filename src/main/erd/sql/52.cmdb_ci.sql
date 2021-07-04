@@ -17,6 +17,7 @@ CREATE TABLE cmdb_ci
 	create_dt timestamp,
 	update_user_key character varying(128),
 	update_dt timestamp,
+	mapping_id character varying(128),
 	CONSTRAINT cmdb_ci_pk PRIMARY KEY (ci_id),
 	CONSTRAINT cmdb_ci_uk UNIQUE (ci_id),
 	CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)
@@ -40,3 +41,4 @@ COMMENT ON COLUMN cmdb_ci.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_ci.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_ci.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_ci.update_dt IS '수정일시';
+COMMENT ON COLUMN cmdb_ci.mapping_id IS '매핑아이디';

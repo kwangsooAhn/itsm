@@ -1,4 +1,4 @@
-@import "../../template/layout";
+@import "../../template/_layout.scss";
 
 // layout 이벤트
 @include keyframe (slideDown) {
@@ -204,6 +204,7 @@
       font-size: 1rem; // 16px
       font-weight: $font-weight-regular;
       color: map-get($grays, "blue");
+      margin-top: 0.625rem; // 10px
     }
   }
 }
@@ -316,7 +317,55 @@
   .edit-form {
     padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
 
-    .edit-row { margin-top: 0.625rem; } // 10px
+    .edit-row {
+      margin-top: 0.625rem; // 10px
+      //임시
+      .input-button-remove {
+        @include relative();
+        .input-button-remove-btn {
+          position: absolute;
+          margin-top: 0.75rem; // 12px
+          margin-left: calc(100% - 108px);
+          display: none;
+          align-items: center;
+          justify-content: center;
+          width: 1.125rem; // 18px
+          height: 1.125rem; // 18px
+          @include transition(0.2s ease-out);
+          @include borderRadius(3.125rem); // 50px
+          order: 5;
+          cursor: pointer;
+          font-family: $font-family;
+          font-size: 1.25rem; // 20px
+          font-weight: $font-weight-bold;
+          color: map-get($grays, "pressed");
+          background: 0 0;
+
+          &::after {
+            height: 1.125rem; // 18px
+            line-height: 0.875rem; // 14px
+            content: '\00D7';
+          }
+
+          &:hover {
+            color: $tag-hover-btn-remove-color;
+            background: map-get($grays, "pressed");
+            + div {
+              > span {
+                opacity: 1; // 기존 0.5
+              }
+              &::before {
+                @include insideBorder(1.25rem, $tag-hover-bg-color);
+                @include transition(0.2s);
+              }
+            }
+          }
+          &.active {
+            display: inline-flex;
+          }
+        }
+      }
+    }
   }
 }
 // 시스템관리 > 사용자
@@ -374,6 +423,7 @@
   padding: 3.125rem 3.75rem; // 50px 60px
   @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
   background-color: $white;
+  border-top: $layout-header-border;
 }
 // 업무흐름 관리 > 커스텀 코드
 // CMDB > Attribute

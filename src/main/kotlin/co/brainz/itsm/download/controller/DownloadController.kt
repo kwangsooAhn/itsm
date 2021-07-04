@@ -49,8 +49,8 @@ class DownloadController(
     @GetMapping("")
     fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
         val result = downloadService.getDownloadList(downloadSearchDto)
-        model.addAttribute("downloadList", result)
-        model.addAttribute("downloadCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("downloadList", result.data)
+        model.addAttribute("downloadCount", result.totalCount)
         return if (downloadSearchDto.isScroll) downloadListFragment else downloadListPage
     }
 
@@ -76,7 +76,7 @@ class DownloadController(
      */
     @GetMapping("/{downloadId}/view")
     fun getDownloadView(@PathVariable downloadId: String, model: Model): String {
-        model.addAttribute("download", downloadService.getDownload(downloadId, "view"))
+        model.addAttribute("download", downloadService.getDownloadDetail(downloadId, "view"))
         return downloadViewPage
     }
 
@@ -89,7 +89,7 @@ class DownloadController(
      */
     @GetMapping("/{downloadId}/edit")
     fun getDownloadEdit(@PathVariable downloadId: String, model: Model): String {
-        model.addAttribute("download", downloadService.getDownload(downloadId, "edit"))
+        model.addAttribute("download", downloadService.getDownloadDetail(downloadId, "edit"))
         model.addAttribute(
             "categoryList",
             codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)

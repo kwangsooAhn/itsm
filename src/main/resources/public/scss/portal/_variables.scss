@@ -24,9 +24,9 @@ $main-search-bg-color:                       map-get($grays, "light");
 $content-list-height:                        647px; // 647px
 
 // card
-$card-border:                                0.0625rem solid map-get($grays, "line"); // 1px
+$card-border-color:                          map-get($grays, "line");
 // 검색 결과 목록 
-$list-bottom-border:                         0.0625rem solid map-get($grays, "line"); // 1px
+$list-bottom-border-color:                   map-get($grays, "line");
 // 검색 키워드 색상
 $keyword-font-color:                         $blue;
 
@@ -34,20 +34,20 @@ $keyword-font-color:                         $blue;
 $layout-list-height:                         35.44rem; // 567px
 
 // 공지사항 상단 공지 (배경색 별도 처리)
-$notice-pinned-color:                         rgba(135, 206, 255, 0.15);
+$notice-pinned-color:                        hexToRGBA(map-get($blues, "light"), 0.15);
 
 // view
-$view-title-font-size:                1.125rem; // 18px
-$view-title-font-weight:              $font-weight-medium;
-$view-title-font-color:               map-get($blacks, "light");
+$view-title-font-size:                       1.125rem; // 18px
+$view-title-font-weight:                     $font-weight-medium;
+$view-title-font-color:                      map-get($blacks, "light");
 
-$view-sub-title-font-size:            $font-size-s; // 16px
-$view-sub-title-font-weight:          $font-weight-regular;
-$view-sub-title-font-color:           map-get($grays, "dark");
+$view-sub-title-font-size:                   $font-size-s; // 16px
+$view-sub-title-font-weight:                 $font-weight-regular;
+$view-sub-title-font-color:                  map-get($grays, "dark");
 
-$view-content-font-size:              $font-size-s; // 16px
-$view-content-font-weight:            $font-weight-regular;
-$view-content-font-color:             map-get($grays, "dark");
+$view-content-font-size:                     $font-size-s; // 16px
+$view-content-font-weight:                   $font-weight-regular;
+$view-content-font-color:                    map-get($grays, "dark");
 //////////////////////////// faq ////////////////////////////
 // faq > faq group
 $faq-group-font-size:                        1.125rem; // 18px
@@ -55,11 +55,9 @@ $faq-group-font-weight:                      $font-weight-medium;
 $faq-group-font-color:                       map-get($blacks, "light");
 $faq-group-border-width:                     0.0625rem; // 1px
 $faq-group-border-color:                     map-get($grays, "line");
-$faq-group-border:                           $faq-group-border-width solid $faq-group-border-color;
 $faq-group-opened-border-width:              0.0625rem; // 1px
 $faq-group-opened-border-color:              $blue;
 $faq-group-opened-font-color:                $blue;
-$faq-group-opened-border:                    $faq-group-opened-border-width solid $faq-group-opened-border-color; // 1px
 // faq > faq group > faq row
 $faq-row-font-size:                          1rem; // 16px
 $faq-row-font-weight:                        $font-weight-medium;
@@ -78,17 +76,15 @@ $table-th-font-color:                        map-get($blacks, "light");
 $table-td-font-size:                         1rem; // 16px
 $table-td-font-weight:                       $font-weight-regular;
 $table-td-font-color:                        map-get($grays, "dark");
-$table-row-hover-bg-color:                   rgba(230, 232, 235, 0.6);
+$table-row-hover-bg-color:                   hexToRGBA(#E6E8EB, 0.6);
 
 // 데이터 없을때
-$no-data-found-bg-color:                     rgba(230, 232, 235, 0.6);
+$no-data-found-bg-color:                     hexToRGBA(#E6E8EB, 0.6);
 
 ////////////////////////// 브라우저 가이드 //////////////////////////
 $browser-guide-bg-color:                     map-get($grays, "light");
 $browser-box-bg-color:                       $white;
-$browser-box-border:                         0.0625rem solid map-get($grays, "line");
-$browser-hover-box-shadow:                   0 0 0.9375rem hexToRGBA(map-get($grays, 'pressed'), 0.3); // 15px;
-
+$browser-box-border-color:                   map-get($grays, "line");
 
 ////////////////////////// 로그인  //////////////////////////
 $login-bg-color:                             $blue;
@@ -112,12 +108,12 @@ $signup-form-font-color:                     map-get($grays, "dark");
 
 ////////////////////////// 세션 만료  //////////////////////////
 $session-invalid-bg-color:                   #F2F5F9;
-$session-invalid-border:                     0.0625rem solid map-get($grays, "line");
+$session-invalid-border-color:               map-get($grays, "line");
 
 ////////////////////////// 에러  //////////////////////////
 $error-bg-color:                             #F2F5F9;
-$error-border:                               0.0625rem solid map-get($grays, "line");
+$error-border-color:                         map-get($grays, "line");
 
 ///////////////////////// 메일 인증 ////////////////////////////
 $email-certificate-bg-color:                 #F2F5F9;
-$semail-certificate-border:                  0.0625rem solid map-get($grays, "line");
+$email-certificate-border-color:            map-get($grays, "line");

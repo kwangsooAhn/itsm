@@ -77,13 +77,13 @@
         restSubmitNotification('get', '/notifications', function (result) {
             notificationDiv.innerHTML = result;
             const count = document.getElementById('count');
-            const noConfirmNotification = notificationDiv.querySelectorAll('div[is-confirm=false]'); // 확인 안된 알림
+            const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
             count.innerText = noConfirmNotification.length.toString();
             if (noConfirmNotification.length !== 0 && !notificationDiv.parentNode.classList.contains('active')) {
                 notificationDiv.parentNode.classList.add('active');
             }
             document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
-                notificationDiv.querySelectorAll('div.notification:not(.noData)').length + ')';
+                notificationDiv.querySelectorAll('div[is-display=true]').length + ')';
             
             if (isShow) {
                 const noDisplayNotification = notificationDiv.querySelectorAll('div[is-display=false]');

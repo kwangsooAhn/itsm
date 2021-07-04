@@ -246,6 +246,7 @@ insert into awf_code values ('scheduler', 'root', null, '스케줄러', null, fa
 insert into awf_code values ('scheduler.taskType', 'scheduler', null, '작업 유형', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.taskType.class', 'scheduler.taskType', 'class', 'CLASS', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.taskType.query', 'scheduler.taskType', 'query', 'QUERY', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('scheduler.taskType.jar', 'scheduler.taskType', 'jar', 'JAR', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.executeCycleType', 'scheduler', null, '실행 유형', null, false, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.executeCycleType.fixedDelay', 'scheduler.executeCycleType', 'fixedDelay', 'FIXED_DELAY', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('scheduler.executeCycleType.fixedRate', 'scheduler.executeCycleType', 'fixedRate', 'FIXED_RATE', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1210,10 +1211,12 @@ CREATE TABLE awf_scheduled_task_mst
 	editable boolean default true,
 	execute_class varchar(512),
 	execute_query varchar(1024),
+	execute_command varchar(1024),
 	execute_cycle_type varchar(100),
 	execute_cycle_period bigint,
 	cron_expression varchar(128),
     args varchar(128),
+    src varchar(512),
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -1230,10 +1233,12 @@ COMMENT ON COLUMN awf_scheduled_task_mst.use_yn IS '사용여부';
 COMMENT ON COLUMN awf_scheduled_task_mst.editable IS '수정가능여부';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_class IS '실행클래스';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_query IS '실행쿼리';
+COMMENT ON COLUMN awf_scheduled_task_mst.execute_command IS '실행명령어';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_cycle_type IS '실행주기유형';
 COMMENT ON COLUMN awf_scheduled_task_mst.execute_cycle_period IS '실행주기간격';
 COMMENT ON COLUMN awf_scheduled_task_mst.cron_expression IS '크론표현식';
 COMMENT ON COLUMN awf_scheduled_task_mst.args IS 'arguments';
+COMMENT ON COLUMN awf_scheduled_task_mst.src IS '경로';
 COMMENT ON COLUMN awf_scheduled_task_mst.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_scheduled_task_mst.create_dt IS '등록일';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_user_key IS '수정자';
@@ -9383,6 +9388,7 @@ CREATE TABLE cmdb_attribute
 	create_dt timestamp,
 	update_user_key character varying(128),
 	update_dt timestamp,
+	mapping_id character varying(128),
 	CONSTRAINT cmdb_attribute_pk PRIMARY KEY (attribute_id),
 	CONSTRAINT cmdb_attribute_uk UNIQUE (attribute_id)
 );
@@ -9398,6 +9404,7 @@ COMMENT ON COLUMN cmdb_attribute.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_attribute.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_attribute.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_attribute.update_dt IS '수정일시';
+COMMENT ON COLUMN cmdb_attribute.mapping_id IS '매핑아이디';
 
 insert into cmdb_attribute values ('4028b25d791b75ac01791bb574a70005', 'Asset Importance', '자산보안등급정보', 'inputbox', '자산중요도', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
 insert into cmdb_attribute values ('77b6112b3013a6808aeb04f80dd75360', 'Confidentiality', '자산보안등급정보', 'dropdown', '기밀성', '{"option":[{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}', '0509e09412534a6e98f04ca79abb6424', now());
@@ -9715,6 +9722,7 @@ CREATE TABLE cmdb_ci
 	create_dt timestamp,
 	update_user_key character varying(128),
 	update_dt timestamp,
+	mapping_id character varying(128),
 	CONSTRAINT cmdb_ci_pk PRIMARY KEY (ci_id),
 	CONSTRAINT cmdb_ci_uk UNIQUE (ci_id),
 	CONSTRAINT cmdb_ci_fk1 FOREIGN KEY (type_id)
@@ -9738,6 +9746,7 @@ COMMENT ON COLUMN cmdb_ci.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_ci.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_ci.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_ci.update_dt IS '수정일시';
+COMMENT ON COLUMN cmdb_ci.mapping_id IS '매핑아이디';
 
 /**
  * CMDB CI 데이터

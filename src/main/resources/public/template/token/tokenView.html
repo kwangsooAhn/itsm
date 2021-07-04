@@ -234,6 +234,84 @@
             window.open('/tokens/' + tokenId + '/view', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150) + ', left=' + _left + ', top=' + _top);
         }
 
+        function getInstanceList(search, showProgressbar) {
+            restSubmit('get', '/tokens/view-pop/documents?searchValue=' + search.trim() + '&tokenId=' + '[[${tokenId}]]', function(result) {
+                document.getElementById('instanceList').innerHTML = result;
+                aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
+                let instanceDtEle = document.querySelectorAll('td[name=instanceDt]');
+                for (let i = 0; i < instanceDtEle.length; i++) {
+                    if (instanceDtEle[i].textContent !== '') {
+                        instanceDtEle[i].textContent = i18n.userDateTime(instanceDtEle[i].textContent);
+                    }
+                }
+                // 스크롤바
+                OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
+            }, null, showProgressbar);
+        }
+
+        // 관련문서 모달
+        function openRelatedToken(tokenId, search) {
+            tokenListModal = new modal({
+                title: i18n.msg('token.label.relatedInstance'),
+                body: createModalContent(),
+                classes: 'token-list',
+                buttons: [{
+                    content: i18n.msg('common.btn.select'),
+                    classes: "point-fill",
+                    bindKey: false,
+                    callback: function(modal) {
+                        saveTokenList();
+                    }
+                },{
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: "default-line",
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function(modal) {
+                    document.getElementById('search').addEventListener('keyup', function() {
+                        getInstanceList(this.value, false);
+                    });
+                    getInstanceList(document.getElementById('search').value, true);
+                }
+            });
+            tokenListModal.show();
+        }
+
+        // 관련문서 추가
+        function saveTokenList() {
+            let checked = document.querySelectorAll('input[name=chk]:checked');
+            if (checked.length === 0) {
+                aliceAlert.alertWarning(i18n.msg('token.msg.selectToken'));
+                return;
+            } else {
+                let jsonArray = new Array();
+                for (let i = 0; i < checked.length; i++) {
+                    let jsonObject = new Object();
+                    jsonObject.folderId = '[[${folderId}]]';
+                    jsonObject.instanceId = checked[i].value;
+                    jsonArray.push(jsonObject);
+                }
+                restSubmit('POST', '/rest/folders', function() {
+                    aliceDocument.createTokenInfoTab();
+                    tokenListModal.hide();
+                }, jsonArray, true);
+            }
+        }
+
+        // 관련 문서 모달 내부 Template
+        function createModalContent(data) {
+            return `<div class="related-instance-list">` +
+                `<input class="search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('token.label.relatedInstancePlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
+                `<div class="table-set" id="instanceList"></div>` +
+                `</div>`;
+        }
+
         function restSubmit(method, url, result, data, showProgressbar) {
             const opt = {
                 method: method,

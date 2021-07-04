@@ -132,8 +132,8 @@ class BoardController(
     @GetMapping("/articles")
     fun getBoardArticleList(boardArticleSearchDto: BoardArticleSearchDto, model: Model): String {
         val result = boardArticleService.getBoardArticleList(boardArticleSearchDto)
-        model.addAttribute("boardList", result)
-        model.addAttribute("boardCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("boardList", result.data)
+        model.addAttribute("boardCount", result.totalCount)
         return if (boardArticleSearchDto.isScroll) boardArticlesListFragment else boardArticlesListPage
     }
 
@@ -146,7 +146,7 @@ class BoardController(
      */
     @GetMapping("/articles/{boardId}/view")
     fun getBoardArticleView(@PathVariable boardId: String, model: Model): String {
-        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticle(boardId, "view")
+        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticleDetail(boardId, "view")
         model.addAttribute("boardInfo", boardArticleDtoInfo)
         model.addAttribute("boardAdminInfo", boardArticleDtoInfo.boardAdmin)
         return boardArticlesViewPage
@@ -161,7 +161,7 @@ class BoardController(
      */
     @GetMapping("/articles/{boardAdminId}/new")
     fun getBoardArticleNew(@PathVariable boardAdminId: String, model: Model): String {
-        val boardInfo: BoardDto = boardArticleService.getBoardArticleInfo(boardAdminId)
+        val boardInfo: BoardDto = boardArticleService.getBoardArticleDetail(boardAdminId)
         if (boardInfo.categoryYn) {
             model.addAttribute(
                 "boardCategoryInfo",
@@ -183,7 +183,7 @@ class BoardController(
      */
     @GetMapping("/articles/{boardId}/edit")
     fun getBoardArticleEdit(@PathVariable boardId: String, model: Model): String {
-        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticle(boardId, "edit")
+        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticleDetail(boardId, "edit")
         if (boardArticleDtoInfo.boardAdmin.categoryYn) {
             model.addAttribute("boardCategoryInfo", boardArticleDtoInfo.boardAdmin.category)
         }
@@ -216,7 +216,7 @@ class BoardController(
      */
     @GetMapping("/articles/{boardId}/reply/edit")
     fun getBoardArticleReplyEdit(@PathVariable boardId: String, model: Model): String {
-        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticle(boardId, "reply")
+        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticleDetail(boardId, "reply")
         if (boardArticleDtoInfo.boardAdmin.categoryYn) {
             model.addAttribute(
                 "boardCategoryInfo",

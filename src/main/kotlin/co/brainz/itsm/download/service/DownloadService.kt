@@ -9,7 +9,7 @@ package co.brainz.itsm.download.service
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.download.dto.DownloadDto
-import co.brainz.itsm.download.dto.DownloadListDto
+import co.brainz.itsm.download.dto.DownloadListReturnDto
 import co.brainz.itsm.download.dto.DownloadSearchDto
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
@@ -32,7 +32,7 @@ class DownloadService(
      * [downloadSearchDto]를 받아서 자료실 목록를 [List<DownloadListDto>] 반환한다.
      *
      */
-    fun getDownloadList(downloadSearchDto: DownloadSearchDto): List<DownloadListDto> {
+    fun getDownloadList(downloadSearchDto: DownloadSearchDto): DownloadListReturnDto {
         val fromDt = LocalDateTime.parse(downloadSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(downloadSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
         val offset = downloadSearchDto.offset
@@ -71,7 +71,7 @@ class DownloadService(
      * @return DownloadDto
      */
     @Transactional
-    fun getDownload(downloadId: String, type: String): DownloadDto {
+    fun getDownloadDetail(downloadId: String, type: String): DownloadDto {
         var downloadEntity = downloadRepository.findDownload(downloadId)
         val sessionUser = SecurityContextHolder.getContext().authentication.principal as String
         if (type == "view" && downloadEntity.createUser?.userId != sessionUser) {

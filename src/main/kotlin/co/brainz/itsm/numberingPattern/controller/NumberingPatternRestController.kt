@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.numberingPattern.controller
 
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternDetailDto
@@ -25,8 +31,8 @@ class NumberingPatternRestController(private val numberingPatternService: Number
      * 패턴 리스트 조회.
      */
     @GetMapping("/", "")
-    fun getNumberingPatternList(search: String): MutableList<NumberingPatternListDto> {
-        return numberingPatternService.getNumberingPatternList(search)
+    fun getNumberingPatternList(search: String): List<NumberingPatternListDto> {
+        return numberingPatternService.getNumberingPatternList(search).data
     }
 
     /**

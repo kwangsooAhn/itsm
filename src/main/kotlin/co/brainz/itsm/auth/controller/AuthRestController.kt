@@ -1,7 +1,7 @@
 package co.brainz.itsm.auth.controller
 
-import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.itsm.auth.dto.AuthDto
+import co.brainz.itsm.auth.dto.AuthListReturnDto
 import co.brainz.itsm.auth.service.AuthService
 import javax.validation.Valid
 import org.slf4j.LoggerFactory
@@ -27,7 +27,7 @@ class AuthRestController(private val authService: AuthService) {
      * 권한 전체 목록 조회
      */
     @GetMapping("/", "")
-    fun getAuths(): MutableList<AliceAuthEntity> {
+    fun getAuths(): AuthListReturnDto {
         return authService.getAuthList()
     }
 
@@ -36,7 +36,7 @@ class AuthRestController(private val authService: AuthService) {
      */
     @GetMapping("/{authId}")
     fun getAuths(@PathVariable authId: String): List<AuthDto> {
-        return authService.getDetailAuths(authId)
+        return authService.getAuthDetail(authId)
     }
 
     /**

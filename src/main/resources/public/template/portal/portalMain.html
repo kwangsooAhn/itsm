@@ -159,12 +159,12 @@
                 callbackFunc: function (response) {
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
-                        if (dataList.length > 0) {
-                            aliceJs.showTotalCount(dataList[0].totalCount);
-                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                        if (dataList.data.length > 0) {
+                            aliceJs.showTotalCount(dataList.totalCount);
+                            document.getElementById('totalCount').value = dataList.totalCount;
                             if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
-                                dataList.forEach(function(data) {
+                                dataList.data.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
                             }

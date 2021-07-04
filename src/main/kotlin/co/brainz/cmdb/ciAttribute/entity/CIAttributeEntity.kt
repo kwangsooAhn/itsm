@@ -42,6 +42,9 @@ data class CIAttributeEntity(
     @Column(name = "attribute_value")
     var attributeValue: String? = "",
 
+    @Column(name = "mapping_id")
+    var mappingId: String? = null,
+
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 

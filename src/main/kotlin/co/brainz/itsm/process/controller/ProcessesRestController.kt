@@ -85,6 +85,6 @@ class ProcessesRestController(
     ): List<RestTemplateProcessViewDto> {
         val params = LinkedHashMap<String, Any>()
         params["status"] = status
-        return processAdminService.getProcesses(params)
+        return processAdminService.getProcesses(params).data
     }
 }

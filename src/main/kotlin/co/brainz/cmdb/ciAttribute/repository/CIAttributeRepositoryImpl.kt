@@ -90,6 +90,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.attributeText,
                     ciAttribute.attributeType,
                     ciAttribute.attributeValue,
+                    ciAttribute.mappingId,
                     ciAttribute.createUser.userKey,
                     ciAttribute.createDt,
                     ciAttribute.updateUser.userKey,

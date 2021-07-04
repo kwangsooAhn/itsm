@@ -51,10 +51,10 @@ class WfInstanceServiceTest {
         params["toDt"] = LocalDateTime.now()
         params["tags"] = ""
         val instanceDtoList = wfInstanceService.instances(params)
-        for (instanceDto in instanceDtoList) {
+        for (instanceDto in instanceDtoList.data) {
             instanceDto.tokenId
         }
-        val instances = instanceDtoList.filter {
+        val instances = instanceDtoList.data.filter {
             it.documentId == tokenDto.documentId
         }
         assumingThat(

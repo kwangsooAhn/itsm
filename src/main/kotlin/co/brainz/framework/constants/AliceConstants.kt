@@ -79,6 +79,11 @@ object AliceConstants {
     const val SCHEDULE_EXECUTE_CYCLE_TYPE = "scheduler.executeCycleType"
 
     /**
+     * 작업 스케줄러 플러그인 홈.
+     */
+    const val SCHEDULE_PLUGINS_HOME = "plugins"
+
+    /**
      * 작업 스케줄러 실행 사이클 타입.
      */
     enum class ScheduleExecuteCycleType(val code: String) {
@@ -92,8 +97,19 @@ object AliceConstants {
      */
     enum class ScheduleTaskType(val code: String) {
         CLASS("class"),
-        QUERY("query")
+        QUERY("query"),
+        JAR("jar")
     }
+
+    /**
+     * 플러그인 VM 옵션 log 경로
+     */
+    const val PLUGINS_VM_OPTIONS_LOG_HOME = "-Dlog.home"
+
+    /**
+     * 플러그인 VM 옵션 log 설정파일
+     */
+    const val PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE = "-Dlogback.configurationFile"
 
     /**
      * 세션 만료시 로그인 페이지 자동 이동 시간.

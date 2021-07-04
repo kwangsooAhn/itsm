@@ -19,9 +19,12 @@ import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlRepository
 import co.brainz.itsm.auth.dto.AuthDto
+import co.brainz.itsm.auth.dto.AuthListDto
+import co.brainz.itsm.auth.dto.AuthListReturnDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.itsm.auth.dto.AuthUrlDto
 import co.brainz.itsm.auth.repository.AuthRepository
+import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
@@ -37,15 +40,19 @@ class AuthService(
     /**
      * 전체 권한 목록 조회
      */
-    fun getAuthList(): MutableList<AliceAuthEntity> {
-        return authRepository.findByOrderByAuthNameAsc()
+    fun getAuthList(): AuthListReturnDto {
+        val authList = authRepository.findAuthSearch("")
+        return AuthListReturnDto(
+            data = authList.results,
+            totalCount = authList.total
+        )
     }
 
     /**
      * 권한 정보 검색
      */
-    fun getAuthSearchList(search: String): MutableList<AliceAuthEntity> {
-        return authRepository.findAuthSearch(search)
+    fun getAuthSearchList(search: String): MutableList<AuthListDto> {
+        return authRepository.findAuthSearch(search).results
     }
 
     /**
@@ -65,6 +72,7 @@ class AuthService(
     /**
      * 권한 정보 삭제
      */
+    @Transactional
     fun deleteAuth(authId: String): String {
         val authInfo = authRepository.findByAuthId(authId)
         val menuAuthMapCount = menuAuthMapRepository.findByAuth(authInfo).count()
@@ -88,6 +96,7 @@ class AuthService(
     /**
      * 권한 정보 등록
      */
+    @Transactional
     fun createAuth(authInfo: AuthDto): String {
         val auth = AliceAuthEntity(
             authId = authInfo.authId.toString(),
@@ -118,6 +127,7 @@ class AuthService(
     /**
      * 권한 정보 수정
      */
+    @Transactional
     fun updateAuth(authInfo: AuthDto): String {
         val auth = AliceAuthEntity(
             authId = authInfo.authId.toString(),
@@ -157,7 +167,7 @@ class AuthService(
     /**
      * 권한 상세 정보 조회
      */
-    fun getDetailAuths(authId: String): List<AuthDto> {
+    fun getAuthDetail(authId: String): List<AuthDto> {
         val dto = mutableListOf<AuthDto>()
         val authInfo = authRepository.findByAuthId(authId)
         val menuList = mutableListOf<AuthMenuDto>()

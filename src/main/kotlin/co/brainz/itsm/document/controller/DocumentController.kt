@@ -47,8 +47,8 @@ class DocumentController(
     @GetMapping("")
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
         val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
-        model.addAttribute("documentList", result)
-        model.addAttribute("totalCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("documentList", result.data)
+        model.addAttribute("totalCount", result.totalCount)
         return if (restTemplateDocumentSearchListDto.isScroll) documentListFragment else documentListPage
     }
 

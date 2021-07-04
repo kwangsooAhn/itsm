@@ -740,16 +740,16 @@ input, button, select, optgroup, textarea {
   align-items: center;
   height: 3.125rem;
   max-width: 120rem;
+  padding: 0 1.25rem;
+  margin: 0 auto;
   font-size: 1rem;
   font-weight: 500;
   color: #FFFFFF;
   background-color: #0098FF;
-  padding: 0 1.25rem;
-  margin: 0 auto;
 }
 .portal-container .header .name {
-  font-size: 1.125rem;
   padding: 0 0.9375rem;
+  font-size: 1.125rem;
 }
 .portal-container .header a {
   color: #FFFFFF;
@@ -852,10 +852,10 @@ input, button, select, optgroup, textarea {
   color: #0098FF;
 }
 .portal-container .main-content .list .row .no-data {
-  margin: 4.375rem 0 0 0;
+  display: flex;
   width: 100%;
   height: 100%;
-  display: flex;
+  margin: 4.375rem 0 0 0;
   justify-content: center;
   align-items: center;
 }
@@ -879,15 +879,17 @@ input, button, select, optgroup, textarea {
   min-height: 3.438rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
   margin-bottom: 10px;
 }
 .portal-container .faq-content .faq-group-title {
   height: 3.438rem;
+  padding: 1.25rem 0.9375rem;
+  border-bottom: 0.0625rem solid transparent;
   font-size: 1.125rem;
   font-weight: 500;
   color: #3F4B56;
-  padding: 1.25rem 0.9375rem;
-  border-bottom: 0.0625rem solid transparent;
 }
 .portal-container .faq-content .faq-group-title::-webkit-details-marker {
   display: none;
@@ -958,14 +960,16 @@ input, button, select, optgroup, textarea {
   color: #3F4B56;
 }
 .portal-container .faq-content .faq-row[open] .horizontal-bar {
+  height: 0.0625rem;
+  margin: 0.9375rem 0;
   background-color: #0098FF;
 }
 .portal-container .faq-content .faq-row-content {
+  margin-top: 20px;
+  margin-left: 17px;
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
-  margin-top: 20px;
-  margin-left: 17px;
 }
 .portal-container .download-header {
   padding: 0 0 0 13.75rem;
@@ -1759,6 +1763,7 @@ label {
   margin: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  flex-basis: calc((100% * var(--data-column, 12)) / 12);
 }
 .input-button input[type=text]:focus, .input-button input[type=text]:hover {
   z-index: 25;
@@ -4132,23 +4137,23 @@ button.ghost-line:disabled .icon {
 }
 .login-divide {
   flex-basis: 100%;
+  margin: 4rem 0 4rem 0;
   color: #ACB4BF;
   font-size: 1rem;
-  margin: 4rem 0 4rem 0;
 }
 .login-divide::before {
   content: "";
   flex-grow: 1;
-  background: #EBEBEB;
   height: 0.063rem;
   margin-right: 1rem;
+  background: #EBEBEB;
 }
 .login-divide::after {
   content: "";
   flex-grow: 1;
-  background: #EBEBEB;
   height: 0.063rem;
   margin-left: 1rem;
+  background: #EBEBEB;
 }
 .login-platform button {
   margin-bottom: 1rem;
@@ -4158,10 +4163,10 @@ button.ghost-line:disabled .icon {
 }
 .login-other {
   height: 1.063rem;
+  margin-top: 6.188rem;
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
-  margin-top: 6.188rem;
 }
 .login-other .vertical-bar {
   width: 1.25rem;
@@ -4309,7 +4314,9 @@ button.ghost-line:disabled .icon {
   margin-top: 1.25rem;
 }
 .browser-box:hover {
-  box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.3);
+  -webkit-box-shadow: inset 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+  -moz-box-shadow: inset 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+  box-shadow: inset 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
 }
 
 /*

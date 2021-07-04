@@ -16,7 +16,7 @@ import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
@@ -43,7 +43,7 @@ class DocumentService(
      * @return List<RestTemplateDocumentListDto>
      */
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
-            List<RestTemplateDocumentListDto> {
+            RestTemplateDocumentListReturnDto {
         // 업무흐름을 관리하는 사용자라면 신청서 상태가 임시, 사용을 볼 수가 있다.
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         if (aliceUserDto.grantedAuthorises != null) {
@@ -55,7 +55,7 @@ class DocumentService(
         }
         val documentList = wfDocumentService.documents(restTemplateDocumentSearchListDto)
 
-        for (document in documentList) {
+        for (document in documentList.data) {
             if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
             document.documentIcon =
                 aliceFileProvider.getDataUriSchema(FileConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon)
@@ -164,7 +164,7 @@ class DocumentService(
         processStatus.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
         processStatus.add(RestTemplateConstants.ProcessStatus.USE.value)
         processParams["status"] = processStatus.joinToString(",")
-        return processAdminService.getProcesses(processParams)
+        return processAdminService.getProcesses(processParams).data
     }
 
     /**

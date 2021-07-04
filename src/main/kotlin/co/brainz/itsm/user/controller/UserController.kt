@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.user.controller
 
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
@@ -59,9 +65,9 @@ class UserController(
         @RequestParam(value = "isScroll", defaultValue = "false") isScroll: Boolean,
         model: Model
     ): String {
-        val userList = userService.selectUserList(search, offset.toLong())
-        model.addAttribute("userList", userList)
-        model.addAttribute("userListCount", if (userList.isNotEmpty()) userList[0].totalCount else 0)
+        val result = userService.selectUserList(search, offset.toLong())
+        model.addAttribute("userList", result.data)
+        model.addAttribute("userListCount", result.totalCount)
         return if (isScroll) userListFragment else userListPage
     }
 

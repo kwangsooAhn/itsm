@@ -4,9 +4,7 @@
  */
 .login {
   &-logo {
-    position: relative;
-    top: $login-logo-position-top;
-    left: $login-logo-position-left;
+    @include relative($top: $login-logo-position-top, $left: $login-logo-position-left);
   }
 
   &-background {
@@ -35,24 +33,24 @@
 
   &-divide {
     flex-basis: 100%;
+    margin: 4rem 0 4rem 0; // 64px 0 64px 0
     color: $gray;
     font-size: $login-form-font-size;
-    margin: 4rem 0 4rem 0; // 64px 0 64px 0
 
     &::before {
       content: '';
       flex-grow: 1;
-      background: map-get($grays, "line");
       height: 0.063rem; // 1px
       margin-right: 1rem; // 16px
+      background: map-get($grays, "line");
     }
 
     &::after {
       content: '';
       flex-grow: 1;
-      background: map-get($grays, "line");
       height: 0.063rem; // 1px
       margin-left: 1rem; // 16px
+      background: map-get($grays, "line");
     }
   }
 
@@ -66,10 +64,10 @@
 
   &-other {
     height: 1.063rem; // 17px
+    margin-top: 6.188rem; // 99px
     font-size: $login-form-font-size;
     font-weight: $login-form-font-weight;
     color: $login-form-font-color;
-    margin-top: 6.188rem; // 99px
 
     @include verticalBar(1.25rem, 2.5rem, 0.0625rem solid map-get($grays, "line"), 0 1.875rem 0 0); // 30px,  40px
 

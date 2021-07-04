@@ -19,6 +19,7 @@ data class UserListDataDto(
     var mobileNumber: String? = null,
     var avatarType: String = "",
     var avatarValue: String = "",
+    var avatarPath: String? = null,
     var uploaded: Boolean = false,
     var uploadedLocation: String = "",
     var createDt: LocalDateTime? = null

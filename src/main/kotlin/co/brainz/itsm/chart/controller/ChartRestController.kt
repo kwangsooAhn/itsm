@@ -49,6 +49,6 @@ class ChartRestController(private val chartService: ChartService) {
      */
     @PostMapping("/{chartId}/preview")
     fun getPreviewChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): ChartDto {
-        return chartService.getPreviewChart(chartId, chartDto)
+        return chartService.getChartDetail(chartId, chartDto)
     }
 }

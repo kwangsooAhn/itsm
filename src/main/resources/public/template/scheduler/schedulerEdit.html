@@ -54,7 +54,7 @@
                 </select>
             </div>
             <div id="details"></div>
-            <!-- 타입: class-->
+            <!-- 타입: class -->
             <div id="type-class-container"
                  th:style="${schedule?.taskType == null || schedule?.taskType == 'class' ? '' : 'display: none'}">
                 <div class="flex-column edit-row">
@@ -70,6 +70,24 @@
                         <span th:text="#{scheduler.label.args}"></span>
                     </label>
                     <input type="text" id="args" maxlength="100" th:value="${schedule?.args}"/>
+                </div>
+            </div>
+            <!-- 타입: jar -->
+            <div id="type-jar-container" th:style="${schedule?.taskType == 'jar' ? '' : 'display: none'}">
+                <div class="flex-column edit-row">
+                    <label>
+                        <span th:text="#{scheduler.label.src}"></span>
+                        <span class="required"></span>
+                    </label>
+                    <input type="text" id="src" maxlength="250" required="required" th:value="${schedule?.src}"/>
+                </div>
+                <div class="flex-column edit-row">
+                    <label>
+                        <span th:text="#{scheduler.label.command}"></span>
+                        <span class="required"></span>
+                    </label>
+                    <input type="text" id="executeCommand" required="required" maxlength="500"
+                           th:value="${schedule?.executeCommand}"/>
                 </div>
             </div>
             <!-- 타입: query -->
@@ -149,11 +167,17 @@
         /** 작업 유형, 실행 유형에 따른 입력 화면 출력 **/
         function changeContainer(type) {
             if (type === 'class') {
-                document.getElementById('type-class-container').style.display = '';
                 document.getElementById('type-query-container').style.display = 'none';
+                document.getElementById('type-jar-container').style.display = 'none';
+                document.getElementById('type-class-container').style.display = '';
             } else if (type === 'query') {
                 document.getElementById('type-class-container').style.display = 'none';
+                document.getElementById('type-jar-container').style.display = 'none';
                 document.getElementById('type-query-container').style.display = '';
+            } else if (type === 'jar') {
+                document.getElementById('type-class-container').style.display = 'none';
+                document.getElementById('type-query-container').style.display = 'none';
+                document.getElementById('type-jar-container').style.display = '';
             } else if (type === 'cron') {
                 document.getElementById('executeCycleType-cron-container').style.display = '';
                 document.getElementById('executeCycleType-fixed-container').style.display = 'none';
@@ -227,6 +251,9 @@
                     if (taskType === 'class') {
                         data.executeClass = document.getElementById('executeClass').value;
                         data.args = document.getElementById('args').value;
+                    } else if (taskType === 'jar') {
+                        data.executeCommand = document.getElementById('executeCommand').value;
+                        data.src = document.getElementById('src').value;
                     } else {
                         data.executeQuery = document.getElementById('executeQuery').value;
                     }
@@ -257,7 +284,13 @@
             if (isEmpty('taskType', 'common.msg.requiredEnter')) { return false; }
             const taskType = document.getElementById('taskType').value;
             if (taskType === 'class') {
-                if (isEmpty('executeClass', 'common.msg.requiredEnter')) { return false; }
+                if (isEmpty('executeClass', 'common.msg.requiredEnter')) {
+                    return false;
+                }
+            } else if (taskType === 'jar') {
+                if (isEmpty('src', 'common.msg.requiredEnter') || isEmpty('executeCommand', 'common.msg.requiredEnter')) {
+                    return false;
+                }
             } else { // query
                 if (isEmpty('executeQuery', 'common.msg.requiredEnter')) { return false; }
             }

@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.numberingPattern.controller
 
 import co.brainz.itsm.code.service.CodeService
@@ -36,7 +42,9 @@ class NumberingPatternController(
      */
     @GetMapping("")
     fun getNumberingPatternList(search: String, model: Model): String {
-        model.addAttribute("patternList", numberingPatternService.getNumberingPatternList(search))
+        val result = numberingPatternService.getNumberingPatternList(search)
+        model.addAttribute("patternList", result.data)
+        model.addAttribute("patternListCount", result.totalCount)
 
         return numberingPatternListPage
     }

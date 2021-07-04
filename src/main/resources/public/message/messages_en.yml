@@ -273,6 +273,7 @@ cmdb:
       export: "Export"
       label: "Label"
       management: "Attribute Management"
+      mappingId: "Mapping ID"
       name: "Attribute Name"
       option:
         check: "Check"
@@ -1082,6 +1083,7 @@ scheduler:
   label:
     args: "Arguments"
     class: "Class"
+    command: "Command"
     cronExpression: "Cron Expression"
     description: "Description"
     edit: "Schedule Modify"
@@ -1100,6 +1102,7 @@ scheduler:
     schedule: "Schedule"
     scheduler: "Scheduler"
     searchPlaceholder: "Schedule Name / Execution Type / Class / Task Type"
+    src: Src
     status: "Status"
     taskType: "Task Type"
   msg:
