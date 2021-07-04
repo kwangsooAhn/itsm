@@ -15,7 +15,7 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.util.AliceUtil
-import co.brainz.itsm.user.dto.UserListDto
+import co.brainz.itsm.user.dto.UserListDataDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -93,7 +93,7 @@ class AliceUserDetailsService(
                 uploaded = user.uploaded
                 uploadedLocation = user.uploadedLocation
             }
-            is UserListDto -> {
+            is UserListDataDto -> {
                 avatarType = user.avatarType
                 avatarValue = user.avatarValue
                 uploaded = user.uploaded
