@@ -1,3 +1,8 @@
+/**
+ * 문서양식 그룹 세부정보
+ */
+DROP TABLE IF EXISTS wf_form_group_property cascade;
+
 CREATE TABLE wf_form_group_property (
     form_group_id varchar(128) NOT NULL,
     property_type varchar(100) NOT NULL,

@@ -5,11 +5,11 @@ DROP TABLE IF EXISTS awf_url cascade;
 
 CREATE TABLE awf_url
 (
-    url varchar(512) NOT NULL,
-    method varchar(16) NOT NULL,
-    url_desc varchar(256),
-    is_required_auth boolean DEFAULT 'true',
-    CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
+	url varchar(512) NOT NULL,
+	method varchar(16) NOT NULL,
+	url_desc varchar(256),
+	is_required_auth boolean DEFAULT 'true',
+	CONSTRAINT awf_url_pk PRIMARY KEY (url, method)
 );
 
 COMMENT ON TABLE awf_url IS 'URL별메소드명';
@@ -190,7 +190,6 @@ insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 �
 insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
 insert into awf_url values ('/rest/forms', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
-insert into awf_url values ('/rest/forms/{id}/data', 'get', '문서양식 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/images', 'post', '이미지 업로드', 'TRUE');
 insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE');
 insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');

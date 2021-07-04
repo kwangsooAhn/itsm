@@ -295,7 +295,7 @@ insert into awf_url_auth_map values ('/rest/faqs/{id}', 'put', 'faq.update');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'faq.read');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'delete', 'faq.delete');
 insert into awf_url_auth_map values ('/rest/filenameextensions', 'get', 'file.read');
-insert into awf_url_auth_map values ('/rest/form/{id}', 'delete', 'form.delete');
+insert into awf_url_auth_map values ('/rest/forms/{id}', 'delete', 'form.delete');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'form.create');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'form.delete');
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'put', 'form.update');
