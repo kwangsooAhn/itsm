@@ -100,7 +100,7 @@
         window.onload = function () {
             boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
             if (attachYn) {
-                fileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false, isView: true}});
+                zFileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false, isView: true}});
             }
             if (boardId !== null && commentYn) {
                 getBoardCommentList();
@@ -130,7 +130,7 @@
 
         //게시판 삭제
         function deleteBoard(method) {
-            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete',
+            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete',
                 '/rest/boards/articles/' + boardId);
         }
 

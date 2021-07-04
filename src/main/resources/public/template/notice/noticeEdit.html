@@ -51,14 +51,14 @@
                             <label th:text="#{notice.label.height}" for="popHeight"></label>
                             <input type="text" id="popHeight" name="popHeight" class="px"
                                    th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
-                                   onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"
+                                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
                                    oninput="maxLengthCheck(this)"/>
                         </div>
                         <div class="flex-column col-6">
                             <label th:text="#{notice.label.width}" for="popWidth"></label>
                             <input type="text" id="popWidth" name="popWidth" class="px"
                                    th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
-                                   onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"
+                                   onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
                                    oninput="maxLengthCheck(this)" />
                         </div>
                     </div>
@@ -119,7 +119,7 @@
             document.getElementById('noticeTitle').focus();
             setDisplay('popTab',document.getElementById('popYn'));
             setDisplay('topNoticeTab',document.getElementById('topNoticeYn'));
-            fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
+            zFileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
             OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('#noticeContents'), {
                 className: 'scrollbar',
@@ -138,19 +138,23 @@
                 if (viewId === 'popTab') {
                     const popStrtDtVal = /*[[${notice?.popStrtDt}]]*/;
                     const popEndDtVal = /*[[${notice?.popEndDt}]]*/;
+                    const popStrtDtElement = document.getElementById('popStrtDt');
+                    const popEndDtElement = document.getElementById('popEndDt');
                     document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
                     document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
-                    document.getElementById('popStrtDt').value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
-                    document.getElementById('popEndDt').value = popEndDtVal ? i18n.userDateTime(popEndDtVal) : i18n.getDateTime({'days':30});
-                    dateTimePicker.initDateTimePicker('popStrtDt');
-                    dateTimePicker.initDateTimePicker('popEndDt');
+                    popStrtDtElement.value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
+                    popEndDtElement.value = popEndDtVal ? i18n.userDateTime(popEndDtVal) : i18n.getDateTime({'days':30});
+                    zDateTimePicker.initDateTimePicker(popStrtDtElement);
+                    zDateTimePicker.initDateTimePicker(popEndDtElement);
                 } else if (viewId === 'topNoticeTab') {
                     const topNoticeStrtDtVal = /*[[${notice?.topNoticeStrtDt}]]*/;
                     const topNoticeEndDtVal = /*[[${notice?.topNoticeEndDt}]]*/;
-                    document.getElementById('topNoticeStrtDt').value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
-                    document.getElementById('topNoticeEndDt').value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
-                    dateTimePicker.initDateTimePicker('topNoticeStrtDt');
-                    dateTimePicker.initDateTimePicker('topNoticeEndDt');
+                    const topNoticeStrtDtElement = document.getElementById('topNoticeStrtDt');
+                    const topNoticeEndDtElement = document.getElementById('topNoticeEndDt');
+                    topNoticeStrtDtElement.value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
+                    topNoticeEndDtElement.value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
+                    zDateTimePicker.initDateTimePicker(topNoticeStrtDtElement);
+                    zDateTimePicker.initDateTimePicker(topNoticeEndDtElement);
                 }
                 document.getElementById(viewId).style.display = 'block';
             } else {
@@ -231,7 +235,7 @@
         }
 
         function deleteNotice() {
-            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/notices/' + [[${notice?.noticeNo}]]);
+            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/notices/' + [[${notice?.noticeNo}]]);
         }
 
         function restSubmit(method, url, data) {

@@ -1,3 +1,9 @@
+/**
+ * Form 기본 DTO
+ *
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
@@ -8,6 +14,8 @@ data class RestTemplateFormDto(
     var name: String = "",
     var status: String? = "",
     var desc: String? = null,
+    var display: LinkedHashMap<String, Any>? = LinkedHashMap(),
+    var category: String? = "",
     var editable: Boolean = false,
     var createUserKey: String? = null,
     var createUserName: String? = null,

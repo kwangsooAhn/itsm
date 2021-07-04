@@ -32,13 +32,13 @@ class AliceTagServiceTest {
     @Autowired
     private lateinit var wfInstanceService: WfInstanceService
 
-    lateinit var tagContent: String
+    lateinit var tagValue: String
     lateinit var instanceId: String
 
     @BeforeEach
     fun init() {
         this.instanceId = "4028b26774af76bb0174af84a63d000a"
-        this.tagContent = "Test Tag 1"
+        this.tagValue = "Test Tag 1"
     }
 
     @Test
@@ -48,11 +48,11 @@ class AliceTagServiceTest {
         val tagDto = AliceTagDto(
             tagId = "",
             tagType = AliceTagConstants.TagType.INSTANCE.code,
-            value = this.tagContent,
+            tagValue = this.tagValue,
             targetId = this.instanceId
         )
 
-        assumeTrue(aliceTagService.insertTag(tagDto) != null)
+        assumeTrue(aliceTagService.insertTag(tagDto) != "")
     }
 
     @Test
@@ -66,14 +66,14 @@ class AliceTagServiceTest {
             val instanceTagList =
                 aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.INSTANCE.code, instanceDto.instanceId)
             for (instanceTag in instanceTagList) {
-                instanceTag.value
+                instanceTag.tagValue
             }
-            val tagDto = instanceTagList.filter {
-                it.value == this.tagContent
+            val tempTagValue = instanceTagList.filter {
+                it.tagValue == this.tagValue
             }[0]
-            assertEquals(tagDto.value, this.tagContent)
+            assertEquals(tempTagValue.tagValue, this.tagValue)
 
-            tagDto.tagId?.let { aliceTagService.deleteTag(it) }
+            tempTagValue.tagId?.let { aliceTagService.deleteTag(it) }
         }
     }
 }

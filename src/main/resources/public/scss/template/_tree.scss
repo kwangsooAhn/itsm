@@ -1,0 +1,146 @@
+/* _tree.scss 
+ *
+ * 파일 경로 : template/_tree.scss
+ * @description 트리 구조 디자인
+ * @author wdj
+ * @version 1.0
+ */
+// Level 1
+// -------------------------
+ul.tree {
+  font-family: $font-family-m;
+  font-size:  $tree-font-size;
+  font-weight:  $tree-font-weight;
+  color: $tree-font-color;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  @include userSelect(none);
+  cursor: default;
+
+  li {
+    @include relative();
+    display: block;
+    line-height: $tree-line-height;
+    padding-right: 0.125rem; // 2px
+  }
+  // Level 2
+  // -------------------------
+  ul {
+    @include relative();
+    margin: 0 0 0 calc(#{$tree-toggle-icon-width} * 2.3);
+    padding: 0;
+    list-style-type: none;
+    @include userSelect(none);
+    // vertical line
+    &:before {
+      content: '';
+      @include absolute($top: 0, $bottom: 0);
+      @include border($tree-line-width, solid, $tree-line-color, left);
+    }
+
+    li {
+      padding-left: $tree-indentation;
+      // horizontal line
+      &:before {
+        content: '';
+        @include absolute($top: ($tree-line-height / 2), $left: 0); // half of line-height
+        width: $tree-indentation; 
+        height: $tree-line-width; // 1px
+        @include border($tree-line-width, solid, $tree-line-color, top);
+      }
+       // cover the excess line
+       &:last-child:before {
+        background-color: $tree-bg-color;
+        height: auto;
+        top: ($tree-line-height / 2);
+        bottom: 0;
+      }
+
+      // Level 3+
+      // -------------------------
+      ul {
+      }
+    }
+  }
+}
+// +, - 아이콘
+img.exp_col {
+  cursor: pointer;
+}
+
+img.exp_col_empty {
+  width: 1rem; // 16px
+  cursor: pointer;
+}
+// 폴더 아이콘
+img.icon_tree {
+  vertical-align: middle;
+  padding-left: 0.188rem; // 3px
+  margin-top: -0.188rem; // 3px
+}
+
+// +, - 아이콘 출력 간격
+img.on {
+  display: inline-block;
+}
+
+img.off {
+  display: none;
+}
+
+span.node {
+  padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
+  @include border($tree-selected-border-width, solid, transparent, all);
+  &:hover {
+    background-color: $tree-hover-bg-color;
+    @include borderRadius(0.125rem); // 2px
+  }
+  label {
+    padding-left: $tree-folder-margin-left;
+    cursor: pointer;
+  }
+  cursor: pointer;
+}
+// 노드 선택시
+span.node_selected,
+span.modal_node_selected,{
+  padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
+  background-color: map-get($blues, "light");
+  label {
+    padding-left: $tree-folder-margin-left;
+    color: map-get($blues, "dark");
+    cursor: pointer;
+  }
+  cursor: pointer;
+}
+
+// 트리 전용 모달
+.tree-container {
+  @include relative();
+  font-family: $font-family-m;
+  margin: 1.875rem 2.5rem; // 30px 40px
+
+  .tree-title {
+    height: 2.5rem; // 40px
+    font-size:  $modal-header-font-size;
+    font-weight:  $modal-header-font-weight;
+    color: $modal-header-font-color;
+    @include border($modal-border-width, solid, $modal-border-color, bottom);
+  }
+
+  .tree-list {
+    margin-top: 0.625rem; // 10px
+    height: 32.5rem; // 520px
+  }
+
+  .tree-nodata {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: $tree-font-size;
+    font-weight: $tree-font-weight;
+    color: $tree-font-color;
+  }
+}

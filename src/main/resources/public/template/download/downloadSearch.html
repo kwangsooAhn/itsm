@@ -49,10 +49,14 @@
 
         window.onload = function () {
             document.getElementById('search').focus();
-            document.getElementById('fromDt').value = searchFromDt;
-            document.getElementById('searchToDt').value = searchToDt;
-            dateTimePicker.initDatePicker('fromDt', setDatePicker);
-            dateTimePicker.initDatePicker('searchToDt', setDatePicker);
+
+            const fromDtElement = document.getElementById('fromDt');
+            const searchToDtElement = document.getElementById('searchToDt');
+            fromDtElement.value = searchFromDt;
+            searchToDtElement.value = searchToDt;
+            zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
+            zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
+
             document.getElementById('category').addEventListener('change', function() { getDownloadList(false); });
             document.getElementById('search').addEventListener('keyup', function() { getDownloadList(false); });
 

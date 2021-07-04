@@ -14,6 +14,6 @@ import java.io.Serializable
 class RestTemplateRequestDocumentDto(
     var documentId: String = "",
     var instanceId: String? = "",
-    val form: RestTemplateFormComponentListDto,
+    val form: RestTemplateFormDataDto,
     var actions: MutableList<RestTemplateActionDto>? = mutableListOf()
 ) : Serializable

@@ -10,10 +10,16 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.configuration.AliceApplicationRunner
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.code.dto.CodeDto
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.type.TypeFactory
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.util.UUID
 import javax.servlet.http.HttpServletRequest
 
 class AliceUtil {
+
+    private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * URL Required Auth Check.
@@ -77,9 +83,9 @@ class AliceUtil {
     }
 
     /**
-     * 로그인시에 받은 사용자 정보[AliceUserAuthDto]를 받아서 url, menu, avatarPath를 더해서 [AliceUserDto]를 반환한다.
+     * 로그인시에 받은 사용자 정보[AliceUserAuthDto]를 받아서 url, menu, avatar Path 를 더해서 [AliceUserDto]를 반환한다.
      */
-    fun setUserDetails(aliceUser: AliceUserAuthDto): AliceUserDto? {
+    fun setUserDetails(aliceUser: AliceUserAuthDto): AliceUserDto {
         return AliceUserDto(
             aliceUser.userKey,
             aliceUser.userId,
@@ -129,7 +135,7 @@ class AliceUtil {
     /**
      * 에러를 문자열로 변환.
      */
-    fun printStackTraceToString(throwable: Throwable): String? {
+    fun printStackTraceToString(throwable: Throwable): String {
         val sb = StringBuffer()
         try {
             sb.append(throwable.toString())
@@ -144,5 +150,20 @@ class AliceUtil {
             return throwable.toString()
         }
         return sb.toString()
+    }
+
+    /**
+     * String -> LinkedHashMap 변환
+     *
+     */
+    fun convertStringToLinkedHashMap(srcString: Any?): LinkedHashMap<String, Any> {
+        val linkedMapType = TypeFactory.defaultInstance()
+            .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
+        var resultLinkedHashMap: LinkedHashMap<String, Any> = linkedMapOf()
+
+        srcString?.let {
+            resultLinkedHashMap = mapper.convertValue(srcString, linkedMapType)
+        }
+        return resultLinkedHashMap
     }
 }

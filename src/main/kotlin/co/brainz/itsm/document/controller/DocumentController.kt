@@ -24,7 +24,6 @@ class DocumentController(
 ) {
 
     private val documentSearchPage: String = "document/documentSearch"
-    private val documentSearchPageWoo: String = "formRefactoring/documentSearch"
     private val documentListPage: String = "document/documentList"
     private val documentListFragment: String = "document/documentList :: list"
     private val documentPrintPage: String = "document/documentPrint"
@@ -37,16 +36,6 @@ class DocumentController(
     @GetMapping("/search")
     fun getDocumentSearch(): String {
         return documentSearchPage
-    }
-
-    /**
-     * TODO: 폼 리팩토링 - 신청서 리스트 호출 화면.
-     *
-     * @return String
-     */
-    @GetMapping("/search_woo")
-    fun getDocumentSearchWoo(): String {
-        return documentSearchPageWoo
     }
 
     /**

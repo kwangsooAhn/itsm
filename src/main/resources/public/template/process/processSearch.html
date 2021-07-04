@@ -5,7 +5,7 @@
       layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{process.label.process}"></title>
-    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -103,7 +103,7 @@
 
         // 프로세스 삭제
         function deleteProcess(processId) {
-            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
+            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
                 aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
                     window.close();
                 });
@@ -162,7 +162,7 @@
                                 classes: "point-fill",
                                 bindKey: false,
                                 callback: function(modal) {
-                                    workflowUtil.export(responseObject.id, 'process');
+                                    ZWorkflowUtil.export(responseObject.id, 'process');
                                 }
                             });
                             // 수정
@@ -190,7 +190,7 @@
                                 classes: "point-fill",
                                 bindKey: false,
                                 callback: function(modal) {
-                                    workflowUtil.export(responseObject.id, 'process');
+                                    ZWorkflowUtil.export(responseObject.id, 'process');
                                 }
                             });
                             // 폐기
@@ -344,13 +344,13 @@
         // 프로세스 IMPORT
         function importProcess() {
             if (checkValidation()) {
-                let fileList = fileUploader.getFile();
+                let fileList = zFileUploader.getFile();
                 const processInfo = {
                     processName: document.getElementById('process_name').value,
                     processDesc: document.getElementById('process_description').value
                 };
 
-                workflowUtil.import(fileList, processInfo, 'process', function (resultCode) {
+                ZWorkflowUtil.import(fileList, processInfo, 'process', function (resultCode) {
                     switch (resultCode.toString()) {
                         case RESPONSE_DUPLICATION:
                             aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
@@ -413,7 +413,7 @@
                 },
                 onCreate: function(modal) {
                     // 파일 업로드 추가
-                    fileUploader.init({
+                    zFileUploader.init({
                         extra: {
                             formId: 'importProcess',
                             dropZoneMaxFiles: 1,

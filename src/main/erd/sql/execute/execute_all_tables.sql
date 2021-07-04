@@ -215,6 +215,10 @@ insert into awf_code values ('document.status', 'document', null, '신청서 상
 insert into awf_code values ('document.status.temporary', 'document.status', '임시', '임시', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.use', 'document.status', '사용', '사용', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType', 'document', null, '신청서 프로세스별 그룹 출력 타입', null, false, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 가능', '수정 가능', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.readonly', 'document.displayType', '수정 불가', '수정 불가', null, false, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download', 'root', null, '자료실', null, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download.category', 'download', null, '자료실 카테고리', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('download.category.companyPolicy', 'download.category', null, '회사규정', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1423,6 +1427,7 @@ insert into awf_url values ('/workflows', 'get', '업무흐름 리스트 화면'
 insert into awf_url values ('/workflows/new', 'get', '신청서 생성 화면', 'TRUE');
 insert into awf_url values ('/workflows/search', 'get', '업무흐름 데이터 + 목록화면', 'TRUE');
 insert into awf_url values ('/workflows/{id}/edit', 'get', '신청서 수정 화면', 'TRUE');
+insert into awf_url values ('/workflows/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
 insert into awf_url values ('/documents', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/print', 'get', '신청서 프린트 화면', 'TRUE');
@@ -1436,9 +1441,9 @@ insert into awf_url values ('/faqs/new', 'get', 'FAQ 등록', 'TRUE');
 insert into awf_url values ('/faqs/search', 'get', 'FAQ 검색 화면 호출', 'TRUE');
 insert into awf_url values ('/faqs/{id}/edit', 'get', 'FAQ 수정', 'TRUE');
 insert into awf_url values ('/faqs/{id}/view', 'get', 'FAQ 보기', 'TRUE');
-insert into awf_url values ('/form/{id}/edit', 'get', '폼 디자이너 편집화면', 'TRUE');
-insert into awf_url values ('/form/{id}/view', 'get', '폼 디자이너 상세화면', 'TRUE');
-insert into awf_url values ('/form/{id}/preview', 'get', '폼 디자이너 미리보기 화면', 'TRUE');
+insert into awf_url values ('/forms/{id}/edit', 'get', '폼 디자이너 편집화면', 'TRUE');
+insert into awf_url values ('/forms/{id}/view', 'get', '폼 디자이너 상세화면', 'TRUE');
+insert into awf_url values ('/forms/{id}/preview', 'get', '폼 디자이너 미리보기 화면', 'TRUE');
 insert into awf_url values ('/forms', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
 insert into awf_url values ('/images', 'get', '이미지 관리 화면', 'TRUE');
@@ -1525,7 +1530,6 @@ insert into awf_url values ('/rest/workflows/{id}', 'delete', '신청서 삭제'
 insert into awf_url values ('/rest/workflows/{id}', 'get', '신청서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}', 'put', '신청서 수정', 'TRUE');
 insert into awf_url values ('/rest/workflows/{id}/display', 'put', '신청서 디스플레이 데이터 저장', 'TRUE');
-insert into awf_url values ('/rest/workflows/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
@@ -1537,9 +1541,9 @@ insert into awf_url values ('/rest/faqs/{id}', 'delete', 'FAQ 삭제 처리', 'T
 insert into awf_url values ('/rest/filenameextensions', 'get', '파일 확장자목록', 'FALSE');
 insert into awf_url values ('/rest/folders', 'post', '폴더 등록', 'FALSE');
 insert into awf_url values ('/rest/folders/{id}', 'delete', '폴더 삭제', 'FALSE');
-insert into awf_url values ('/rest/form/{id}', 'delete', '폼 디자이너 삭제', 'TRUE');
-insert into awf_url values ('/rest/form/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');
-insert into awf_url values ('/rest/form/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
+insert into awf_url values ('/rest/forms/{id}', 'delete', '폼 디자이너 삭제', 'TRUE');
+insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');
+insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
 insert into awf_url values ('/rest/forms', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'get', '문서양식 데이터조회', 'TRUE');
@@ -1739,6 +1743,8 @@ insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.create');
+insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'document.admin.create');
+insert into awf_url_auth_map values ('/workflows/{id}/display', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/documents', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
@@ -1764,9 +1770,9 @@ insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.update');
 insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.delete');
 insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.create');
 insert into awf_url_auth_map values ('/faqs/{id}/view', 'get', 'faq.read');
-insert into awf_url_auth_map values ('/form/{id}/edit', 'get', 'form.read');
-insert into awf_url_auth_map values ('/form/{id}/preview', 'get', 'form.read');
-insert into awf_url_auth_map values ('/form/{id}/view', 'get', 'form.read');
+insert into awf_url_auth_map values ('/forms/{id}/edit', 'get', 'form.read');
+insert into awf_url_auth_map values ('/forms/{id}/preview', 'get', 'form.read');
+insert into awf_url_auth_map values ('/forms/{id}/view', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms/search', 'get', 'form.read');
 insert into awf_url_auth_map values ('/images', 'get', 'image.read');
@@ -1900,7 +1906,6 @@ insert into awf_url_auth_map values ('/rest/workflows/{id}', 'delete', 'document
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'put', 'document.admin.delete');
 insert into awf_url_auth_map values ('/rest/workflows/{id}', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'put', 'document.admin.create');
-insert into awf_url_auth_map values ('/rest/workflows/{id}/display', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'document.create');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.update');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'download.update');
@@ -1917,16 +1922,13 @@ insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'faq.read');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'delete', 'faq.delete');
 insert into awf_url_auth_map values ('/rest/filenameextensions', 'get', 'file.read');
 insert into awf_url_auth_map values ('/rest/form/{id}', 'delete', 'form.delete');
-insert into awf_url_auth_map values ('/rest/form/{id}/data', 'get', 'form.read');
-insert into awf_url_auth_map values ('/rest/form/{id}/data', 'get', 'form.create');
-insert into awf_url_auth_map values ('/rest/form/{id}/data', 'get', 'form.update');
-insert into awf_url_auth_map values ('/rest/form/{id}/data', 'put', 'form.create');
-insert into awf_url_auth_map values ('/rest/form/{id}/data', 'put', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'form.create');
 insert into awf_url_auth_map values ('/rest/forms', 'post', 'form.delete');
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'put', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.create');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.update');
+insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.create');
+insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.update');
 insert into awf_url_auth_map values ('/rest/images', 'put', 'image.update');
 insert into awf_url_auth_map values ('/rest/images', 'post', 'image.create');
 insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'image.delete');
@@ -2357,6 +2359,43 @@ COMMENT ON COLUMN portal_notice.create_dt IS '등록일';
 COMMENT ON COLUMN portal_notice.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_notice.update_dt IS '수정일';
 
+CREATE TABLE wf_form_group
+(
+    form_group_id varchar(128) NULL,
+    form_group_name varchar(256) NULL,
+    form_id varchar(128) NULL,
+    CONSTRAINT wf_form_group_pk PRIMARY KEY (form_group_id),
+    CONSTRAINT wf_form_group_fk FOREIGN KEY (form_id) REFERENCES wf_form (form_id)
+);
+
+COMMENT ON TABLE wf_form_group IS '문서양식 그룹정보';
+COMMENT ON COLUMN wf_form_group.form_group_id IS '문서양식 그룹아이디';
+COMMENT ON COLUMN wf_form_group.form_group_name IS '문서양식 그룹이름';
+COMMENT ON COLUMN wf_form_group.form_id IS '문서양식아이디';
+CREATE TABLE wf_form_group_property (
+    form_group_id varchar(128) NOT NULL,
+    property_type varchar(100) NOT NULL,
+    property_options text NULL,
+    CONSTRAINT wf_form_group_property_pk PRIMARY KEY (form_group_id, property_type),
+    CONSTRAINT wf_form_group_property_fk FOREIGN KEY (form_group_id) REFERENCES wf_form_group(form_group_id)
+);
+
+COMMENT ON TABLE wf_form_group_property IS '문서양식 그룹 세부정보';
+COMMENT ON COLUMN wf_form_group_property.form_group_id IS '문서양식 그룹아이디';
+COMMENT ON COLUMN wf_form_group_property.property_type IS '속성 타입';
+COMMENT ON COLUMN wf_form_group_property.property_options IS '속성 값';
+CREATE TABLE wf_form_row (
+     form_row_id varchar(128) NULL,
+     form_group_id varchar(128) NULL,
+     row_display_option text NULL,
+     CONSTRAINT wf_form_row_pk PRIMARY KEY (form_row_id),
+     CONSTRAINT wf_form_row_fk FOREIGN KEY (form_group_id) REFERENCES wf_form_group(form_group_id)
+);
+
+COMMENT ON TABLE wf_form_row IS '문서양식 ROW 정보';
+COMMENT ON COLUMN wf_form_row.form_row_id IS '문서양식 ROW 아이디';
+COMMENT ON COLUMN wf_form_row.form_group_id IS '문서양식 그룹아이디';
+COMMENT ON COLUMN wf_form_row.row_display_option IS 'ROW 출력용 속성';
 /**
  * 문서양식정보
  */
@@ -2368,6 +2407,8 @@ CREATE TABLE wf_form
 	form_name varchar(256) NOT NULL,
 	form_desc varchar(256),
 	form_status varchar(100) DEFAULT 'form.status.edit' NOT NULL,
+    form_display_option text,
+    form_category varchar(128),
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -2552,6 +2593,18 @@ COMMENT ON COLUMN wf_comment.content IS '내용';
 COMMENT ON COLUMN wf_comment.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_comment.create_dt IS '생성일시';
 
+CREATE TABLE wf_component_property (
+    component_id varchar(128) NULL,
+    property_type varchar(100) NULL,
+    property_options text NULL,
+    CONSTRAINT wf_component_property_pk PRIMARY KEY (component_id,property_type),
+    CONSTRAINT wf_component_property_fk FOREIGN KEY (component_id) REFERENCES wf_component(component_id)
+);
+
+COMMENT ON TABLE wf_component_property IS '컴포넌트 세부속성';
+COMMENT ON COLUMN wf_component_property.component_id IS '컴포넌트 아이디';
+COMMENT ON COLUMN wf_component_property.property_type IS '속성 타입';
+COMMENT ON COLUMN wf_component_property.property_options IS '속성 값';
 /**
  * 컴포넌트정보
  */
@@ -2560,20 +2613,23 @@ DROP TABLE IF EXISTS wf_component cascade;
 CREATE TABLE wf_component
 (
 	component_id varchar(128) NOT NULL,
-	form_id varchar(128) NOT NULL,
 	component_type varchar(100) NOT NULL,
 	mapping_id varchar(128),
 	is_topic boolean DEFAULT 'false',
+	form_row_id varchar(128),
+    form_id varchar(128),
 	CONSTRAINT wf_component_pk PRIMARY KEY (component_id),
-	CONSTRAINT wf_component_fk FOREIGN KEY (form_id) REFERENCES wf_form (form_id)
+    CONSTRAINT wf_component_fk FOREIGN KEY (form_row_id) REFERENCES wf_form_row (form_row_id),
+    CONSTRAINT wf_component_form_fk FOREIGN KEY (form_id) REFERENCES wf_form (form_id)
 );
 
 COMMENT ON TABLE wf_component IS '컴포넌트정보';
 COMMENT ON COLUMN wf_component.component_id IS '컴포넌트아이디';
-COMMENT ON COLUMN wf_component.form_id IS '문서양식아이디';
+COMMENT ON COLUMN wf_component.form_row_id IS '문서양식 ROW 아이디';
 COMMENT ON COLUMN wf_component.component_type IS '컴포넌트종류';
 COMMENT ON COLUMN wf_component.mapping_id IS '매핑아이디';
 COMMENT ON COLUMN wf_component.is_topic IS '토픽여부';
+COMMENT ON COLUMN wf_component.form_id IS '폼 아이디';
 
 insert into wf_component values ('53dc0f34890f4c48a7ebd410169623b6','4028b25d787736640178773f645b0003','label','', FALSE);
 insert into wf_component values ('caaf208e3d6c4ea0a4ec4d1fa63fc81c','4028b25d787736640178773f645b0003','divider','', FALSE);
@@ -10096,6 +10152,9 @@ COMMENT ON COLUMN awf_code_lang.lang IS '언어';
 insert into awf_code_lang values ('document.status.temporary', 'temporary', 'en');
 insert into awf_code_lang values ('document.status.destroy', 'destroy', 'en');
 insert into awf_code_lang values ('document.status.use', 'use', 'en');
+insert into awf_code_lang values ('document.displayType.editable', 'Editable', 'en');
+insert into awf_code_lang values ('document.displayType.readonly', 'Readonly', 'en');
+insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en');
 insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');
 insert into awf_code_lang values ('servicedesk.inquiry', 'Simple Inquiry', 'en');
 insert into awf_code_lang values ('servicedesk.request', 'Service Request', 'en');

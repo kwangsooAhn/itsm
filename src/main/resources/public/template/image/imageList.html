@@ -155,7 +155,7 @@
         }
 
         function removeImage(imgObj) {
-            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
                 aliceJs.sendXhr({
                     url: '/rest/images/' + imgObj.dataset.name,
                     method: 'delete',
@@ -245,7 +245,7 @@
                         location.reload();
                     });
                 } else {
-                    aliceAlert.confirmIcon(
+                    aliceAlert.confirm(
                         i18n.msg('image.msg.existNotAllowedExtension'),
                         uploadImage, // OK 시 업로드
                         () => document.getElementById('image-upload-file').value = ''  // CANCEL 시 file object 값 비움 처리

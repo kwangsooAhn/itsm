@@ -20,8 +20,8 @@
                 </label>
                 <div class="flex-row input-button">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
-                    <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}" readonly required="true" th:attr="data-required-name=#{cmdb.ci.label.type}"/>
-                    <button class="default-line" id="typeSelectBtn" type="button" disabled th:onclick="CI.openSelectTypeModal([[${ciData?.typeId}]]);" th:text="#{common.btn.select}"></button>
+                    <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}" readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
+                    <button class="default-line" id="typeSelectBtn" type="button" disabled th:text="#{common.btn.select}"></button>
                 </div>
             </div>
             <!-- 아이콘 -->
@@ -39,7 +39,7 @@
                     <span th:text="#{cmdb.ci.label.name}"></span>
                     <span class="required"></span>
                 </label>
-                <input id="ciName" type="text" maxlength="100" th:value="${ciData?.ciName}" readonly required="true" th:attr="data-required-name=#{cmdb.ci.label.name}"/>
+                <input id="ciName" type="text" maxlength="100" th:value="${ciData?.ciName}" readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.name}"/>
             </div>
             <!--CI 설명 -->
             <div class="flex-column view-row">
@@ -55,20 +55,20 @@
                     <span class="required"></span>
                 </label>
                 <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
-                <input id="className" type="text" maxlength="100" th:value="${ciData?.className}" readonly required="true" th:attr="data-required-name=#{cmdb.type.label.class}"/>
+                <input id="className" type="text" maxlength="100" th:value="${ciData?.className}" readonly required="true" th:attr="data-validation-required-name=#{cmdb.type.label.class}"/>
             </div>
             <!-- CI 태그 -->
             <div class="flex-column view-row">
                 <label class="field-label">
                     <span th:text="#{cmdb.ci.label.tag}"></span>
                 </label>
-                <input type="text" id="tags" name="tags" class="col-pct-12 inherit" th:value="|${tags}|" readonly/>
+                <input type="text" id="tags" name="ciDetailTags" class="col-pct-12 inherit" th:value="|${ciData.tags}|" readonly/>
             </div>
             <!-- 세부속성 -->
             <div class="flex-column view-row">
                 <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
             </div>
-            <div id="ciAttributes" th:onclick="attribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
+            <div id="ciAttributes" th:onclick="zCmdbAttribute.drawViewDetails(this, [[${ciData?.classes}]], [[${userInfo}]]);">
             </div>
             <!-- 변경 이력 -->
             <div class="flex-column view-row">

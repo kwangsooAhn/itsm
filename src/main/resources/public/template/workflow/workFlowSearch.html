@@ -44,7 +44,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
+    <script th:src="@{/assets/js/lib/zColorPalette.js}"></script>
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
@@ -119,7 +119,7 @@
                 }
 
                 if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
-                    aliceAlert.confirmIcon(
+                    aliceAlert.confirm(
                         i18n.msg('document.msg.changeStatusEnabled'),
                         () => restSubmit(method, url + '?isDeleteData=true', documentInfo, function(result) {
                             aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
@@ -160,14 +160,14 @@
             });
             let colorPaletteLayer = document.getElementById('color-palette-layer');
             let option = {
-                colors: colorPalette.getPaletteColors('basicPaletteColors'),
+                colors: zColorPalette.getPaletteColors('basicPaletteColors'),
                 data : {
                     isSelected: true,
                     selectedClass: 'selected',
                     value: elementObject.value
                 }
             }
-            colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
+            zColorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
         }
 
         // 신청서 아이콘 선택 팝업
@@ -199,195 +199,121 @@
 
         // 업무흐름 등록 , 수정
         function openDocumentEdit(documentId) {
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new',
-                callbackFunc: function(xhr) {
-                    let modalOptions = {
-                        title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.register'),
-                        body: xhr.responseText,
-                        classes: 'document-edit',
-                        buttons: [{
-                            content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
-                            classes: "point-fill",
-                            bindKey: false,
-                            callback: function(modal) {
-                                let method = (documentId !== undefined) ? 'put' : 'post';
-                                saveDocument(method, documentId);
-                            }
-                        },{
-                            content: i18n.msg('common.btn.cancel'),
-                            classes: "default-line",
-                            bindKey: false,
-                            callback: function(modal) {
-                                modal.hide();
-                            }
-                        }],
-                        close: {
-                            closable: false,
-                        },
-                        onCreate: function(modal) {
-                            initColorPicker();
-                            // 신청서 상태 초기화
-                            const statusElem = document.getElementById('document-status');
-                            const prevStatus = document.getElementById('prev-document-status').value;
-                            switch (prevStatus) {
-                                case STATUS_TEMPORARY:
-                                    statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
-                                    break;
-                                case STATUS_USE:
-                                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                                    break;
-                                case STATUS_DESTROY:
-                                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                                    statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
-                                    break;
-                                default: // 신규 등록
-                            }
-
-                            // 스크롤바 추가
-                            OverlayScrollbars(document.querySelector('.workflow-content'), {className: 'scrollbar'});
-                            OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
-                                className: 'inner-scrollbar',
-                                resize: 'vertical',
-                                sizeAutoCapable: true,
-                                textarea: {
-                                    dynHeight: false,
-                                    dynWidth: false,
-                                    inheritedAttrs: "class"
-                                }
-                            });
+            const url = (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new';
+            aliceJs.fetchText(url, {
+                method: 'GET'
+            }).then((htmlData) => {
+                let modalOptions = {
+                    title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.register'),
+                    body: htmlData,
+                    classes: 'document-edit',
+                    buttons: [{
+                        content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
+                        classes: "point-fill",
+                        bindKey: false,
+                        callback: function(modal) {
+                            let method = (documentId !== undefined) ? 'put' : 'post';
+                            saveDocument(method, documentId);
                         }
-                    }
-                    // 수정일 경우 신청서 양식 편집 버튼 추가
-                    if (documentId !== undefined) {
-                        modalOptions.buttons.splice(1, 0, {
-                            content: i18n.msg('document.label.display'),
-                            classes: "point-line",
-                            bindKey: false,
-                            callback: function(modal) {
-                                openDocumentDisplay(documentId);
-                                modal.hide();
+                    },{
+                        content: i18n.msg('common.btn.cancel'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            modal.hide();
+                        }
+                    }],
+                    close: {
+                        closable: false,
+                    },
+                    onCreate: function(modal) {
+                        initColorPicker();
+                        // 신청서 상태 초기화
+                        const statusElem = document.getElementById('document-status');
+                        const prevStatus = document.getElementById('prev-document-status').value;
+                        switch (prevStatus) {
+                            case STATUS_TEMPORARY:
+                                statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
+                                break;
+                            case STATUS_USE:
+                                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                                break;
+                            case STATUS_DESTROY:
+                                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                                statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+                                break;
+                            default: // 신규 등록
+                        }
+
+                        // 스크롤바 추가
+                        OverlayScrollbars(document.querySelector('.workflow-content'), {className: 'scrollbar'});
+                        OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
+                            className: 'inner-scrollbar',
+                            resize: 'vertical',
+                            sizeAutoCapable: true,
+                            textarea: {
+                                dynHeight: false,
+                                dynWidth: false,
+                                inheritedAttrs: "class"
                             }
                         });
                     }
-                    // 모달 호출
-                    const documentAdminModal = new modal(modalOptions);
-                    documentAdminModal.show();
-                    document.querySelector('.modal-dialog .point-fill').focus();
-                },
-                contentType: 'application/json; charset=utf-8'
+                }
+                // 수정일 경우 신청서 양식 편집 버튼 추가
+                if (documentId !== undefined) {
+                    modalOptions.buttons.splice(1, 0, {
+                        content: i18n.msg('document.label.display'),
+                        classes: "point-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            openDocumentDisplay(documentId);
+                            modal.hide();
+                        }
+                    });
+                }
+                // 모달 호출
+                const documentAdminModal = new modal(modalOptions);
+                documentAdminModal.show();
+                document.querySelector('.modal-dialog .point-fill').focus();
             });
         }
-
-        const createDialogContent = function() {
-            return `
-                <div class="document-display-content">
-                    <table id="documentDisplay">
-                        <thead>
-                            <tr id="documentElementRow"></tr>
-                        </thead>
-                    </table>
-                </div>
-                `
-        };
 
         // 신청서 양식 편집 화면
         function openDocumentDisplay(documentId) {
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/rest/workflows/' + documentId + '/display',
-                callbackFunc: function(xhr) {
-                    let modalOptions = {
-                        title: i18n.msg('document.label.display'),
-                        body: createDialogContent(),
-                        classes: 'document-display',
-                        buttons: [{
-                            content: i18n.msg('common.btn.modify'),
-                            classes: "point-fill",
-                            bindKey: false,
-                            callback: function(modal) {
-                                saveDocumentDisplay(documentId);
-                            }
-                        },{
-                            content: i18n.msg('common.btn.cancel'),
-                            classes: "default-line",
-                            bindKey: false,
-                            callback: function(modal) {
-                                modal.hide();
-                            }
-                        }],
-                        close: {
-                            closable: false,
-                        },
-                        onCreate: function(modal) {
-                            const responseJson = JSON.parse(xhr.responseText);
-                            // set element row
-                            const elements = responseJson.elements;
-                            const displayTable = document.getElementById('documentDisplay');
-                            const elementRow = document.getElementById('documentElementRow');
-                            elementRow.appendChild(document.createElement('th'));
-                            elements.forEach(function(element) {
-                                let elementData = document.createElement('th');
-                                elementData.className = 'column-title';
-                                elementData.id = element.elementId;
-                                elementData.innerHTML = element.elementName;
-                                elementRow.appendChild(elementData);
-                            });
-                            displayTable.appendChild(elementRow);
-
-                            // set component row
-                            const components = responseJson.components;
-                            const componentBody = document.createElement('tbody');
-                            components.forEach(function(component) {
-                                const componentRow = document.createElement('tr');
-                                componentBody.appendChild(componentRow);
-                                const componentData = document.createElement('th');
-                                componentData.id = component.componentId;
-                                componentData.innerHTML = component.attributeValue;
-                                componentRow.appendChild(componentData);
-                                // set display data
-                                const displayValue = component.displayValue;
-                                displayValue.forEach(function(value) {
-                                    const displayData = document.createElement('td');
-                                    setDisplaySelect(displayData, component.componentId, value);
-                                    componentRow.appendChild(displayData);
-                                });
-                                displayTable.appendChild(componentRow);
-                            });
-                            aliceJs.initDesignedSelectTag();
-
-                            OverlayScrollbars(document.querySelector('.document-display-content'), {className: 'scrollbar'});
+            aliceJs.fetchText('/workflows/' + documentId + '/display', {
+                method: 'GET'
+            }).then((htmlData) => {
+                let modalOptions = {
+                    title: i18n.msg('document.label.display'),
+                    body: htmlData,
+                    classes: 'document-display',
+                    buttons: [{
+                        content: i18n.msg('common.btn.modify'),
+                        classes: "point-fill",
+                        bindKey: false,
+                        callback: function(modal) {
+                            saveDocumentDisplay(documentId);
                         }
+                    },{
+                        content: i18n.msg('common.btn.cancel'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            modal.hide();
+                        }
+                    }],
+                    close: {
+                        closable: false,
+                    },
+                    onCreate: function(modal) {
+                        aliceJs.initDesignedSelectTag();
+
+                        OverlayScrollbars(document.querySelector('.document-display-content'), {className: 'scrollbar'});
                     }
-                    const documentDisplayModal = new modal(modalOptions);
-                    documentDisplayModal.show();
-                },
-                contentType: 'application/json; charset=utf-8'
-            });
-        }
-
-        /* Display data setting */
-        function setDisplaySelect(obj, componentId, displayData) {
-            const displaySelect = document.createElement('select');
-            const elementId = displayData.elementId;
-            const displayDetail = displayData.display;
-
-            let values = ['editable', 'editableRequired', 'readonly', 'hidden'];
-
-            for (let i = 0; i < values.length; i++) {
-                const option = document.createElement('option');
-                option.text = i18n.msg('document.display.' + values[i]);
-                option.value = values[i];
-                if (values[i] === displayDetail) {
-                    option.setAttribute('selected', 'true');
                 }
-                displaySelect.add(option);
-            }
-            displaySelect.setAttribute('id',componentId + '_' + elementId);
-            displaySelect.setAttribute('class', 'col-3');
-            displaySelect.setAttribute('name', 'displays');
-            obj.appendChild(displaySelect);
+                const documentDisplayModal = new modal(modalOptions);
+                documentDisplayModal.show();
+            });
         }
 
         /* Display data save */
@@ -396,34 +322,32 @@
             Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
                 const objDisplay = {};
                 const strArr = item.id.split('_');
-                objDisplay.componentId = strArr[0];     // componentId
+                objDisplay.formGroupId = strArr[0];     // formGroupId
                 objDisplay.elementId = strArr[1];       // elementId
                 objDisplay.display = item.value;        // display
                 arrDisplay.push(objDisplay);
             });
 
-            const obj = {
+            const saveData = {
                 documentId: documentId,
                 displays: arrDisplay
             };
-            const displayJson = JSON.stringify(obj);
 
-            const opt = {
-                method: 'put',
-                url: '/rest/workflows/' + documentId + '/display',
-                params: displayJson,
-                contentType: 'application/json',
-                callbackFunc: function () {
-                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
-                        location.reload();
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
+            aliceJs.fetchText('/rest/workflows/' + documentId + '/display', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(saveData)
+            }).then((rtn) => {
+                aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
+                    location.reload();
+                });
+            });
         }
 
         function deleteDocument(documentId) {
-            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/workflows/' +
+            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/workflows/' +
                 documentId, {}, function(result) {
                 if (JSON.parse(result)) {
                     aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {

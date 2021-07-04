@@ -73,7 +73,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('cmdb.class.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
         </div>
@@ -302,7 +302,7 @@
             deleteIcon.classList.add('icon-delete-gray', 'ml-1');
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
-                aliceAlert.confirmIcon(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
+                aliceAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), function () {
                     const row = deleteBtn.parentNode;
                     classAttributeMap.delete(inputElem.id);
                     row.remove();

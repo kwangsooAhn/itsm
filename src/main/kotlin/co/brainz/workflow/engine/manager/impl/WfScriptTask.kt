@@ -26,6 +26,8 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
@@ -112,20 +114,18 @@ class WfScriptTask(
     /**
      * [ciTags] 를 CIDto 에 저장하기 위한 List 형태로 추출.
      */
-    private fun getCiTags(ciId: String, ciComponentDataValue: Map<String, Any>): MutableList<AliceTagDto> {
-        val tagDataList = mutableListOf<AliceTagDto>()
+    private fun getCiTags(ciId: String, ciComponentDataValue: Map<String, Any>): JsonArray {
+        val tagDataList = JsonArray()
         val ciTags: List<Map<String, Any>> =
             mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
         ciTags.forEach { tag ->
             if (tag["id"] != null && tag["value"] != null) {
-                tagDataList.add(
-                    AliceTagDto(
-                        tagId = tag["id"] as String,
-                        tagType = AliceTagConstants.TagType.CI.code,
-                        value = tag["value"] as String,
-                        targetId = ciId
-                    )
-                )
+                val ciTag = JsonObject()
+                ciTag.addProperty("tagId", tag["id"] as String)
+                ciTag.addProperty("tagType", AliceTagConstants.TagType.CI.code)
+                ciTag.addProperty("tagValue", tag["value"] as String)
+                ciTag.addProperty("targetId", ciId)
+                tagDataList.add(ciTag)
             }
         }
         return tagDataList

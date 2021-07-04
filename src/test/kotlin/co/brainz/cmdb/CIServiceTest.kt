@@ -10,6 +10,7 @@ import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.util.AliceUtil
+import com.google.gson.JsonArray
 import javax.transaction.Transactional
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -70,7 +71,7 @@ class CIServiceTest {
             ciIcon = "",
             ciDataList = mutableListOf(),
             ciRelations = mutableListOf(),
-            ciTags = mutableListOf()
+            ciTags = JsonArray()
         )
         val returnDto = ciService.createCI(ciDto)
         assertEquals(returnDto.code, "0")

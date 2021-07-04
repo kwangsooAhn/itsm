@@ -1,0 +1,362 @@
+/* _file-uploader.scss 
+ *
+ * 파일 경로 : template/_file-uploader.scss
+ * @description 파일 업로드 관련 디자인
+ * @author wdj
+ * @version 1.0
+ */
+@include keyframe(slide-in) {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@include keyframe(pulse) {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.1);
+  }
+  20% {
+    transform: scale(1);
+  }
+}
+
+@include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, "line"));
+
+.file-uploader {
+  // edit 모드
+  &-edit {
+    display: flex;
+    flex-direction: column;
+    // 제목
+    .file-uploader-title {
+      font-size: $file-uploader-font-size;
+      font-weight: $file-uploader-font-weight;
+      color: $file-uploader-font-color;
+      margin: 0.5625rem 0 0.5625rem 0; // 9px 0 9px 0
+    }
+    // dropzone
+    .dropzone {
+      min-height: 6.25rem; // 100px
+      background-color: $dropzone-bg-color;
+      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+      padding: 0.625rem 0.625rem 0 0.625rem; // 10px
+      // drag and drop 영역
+      .dz-default {
+        margin: 1.875rem 0;
+        // Drop files here to upload or browse 문구
+        &.dz-message {
+          font-size: $dropzone-font-size;
+          font-weight: $dropzone-font-weight;
+          color: $dropzone-font-color;
+          text-align: center;
+          // 아이콘
+          .icon-no-file {
+            display: block;
+            height: 2.813rem; // 45px
+            @include backgroundImage($icon-folder-path + 'icon-no-file.svg', 2.438rem 2.813rem, no-repeat, center, center, null); // 39px 45px
+            margin-bottom: 1.25rem; // 20px
+          }
+          // or brows 영역
+          .add-file-button-wrap {
+            margin-top: 0.5rem;
+            // browse 버튼
+            // todo: 클릭가능할 떄만 포인트 컬러가 보이게 할지 확인 필요.
+            .dz-clickable {
+              color: $dropzone-clickable-font-color;
+              cursor: pointer;
+            }
+          }
+        }
+
+        &.dz-drag-hover {
+         border-style: solid;
+          .dz-message {
+            opacity: 0.5;
+          }
+        }
+      }
+      // 업로드된 파일 미리보기
+      .dz-preview {
+        @include relative();
+        height: $file-uploader-preview-height;
+        background-color: $white;
+        @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+        padding: 1rem 1.25rem 0.5rem 1.25rem; // 16px 20px 8px 20px
+        margin-bottom: 0.625rem; // 10px
+        vertical-align: top;
+        // 마우스 오버시 효과
+        &:hover {
+          z-index: $z-index-event;
+          .dz-details {
+            opacity: 1;
+          }
+          .dz-image {
+            img {
+              @include scale(1.05);
+              @include filter(blur(8px));
+            }
+          }
+        }
+        // 미리보기 내부
+        &.dz-file-preview {
+          .dz-image {
+            @include borderRadius(1.25rem); // 20px
+            background: #999999;
+            background: linear-gradient(to bottom, #eee, #ddd);
+          }
+
+          .dz-details { opacity: 1; }
+        }
+        &.dz-image-preview {
+          background: $white;
+          .dz-details {
+            @include transition(opacity 0.2s linear);
+          }
+        }
+        .dz-details {
+          display: grid;
+          grid-template-columns: 2.563rem auto 1.25rem 1.25rem 1.125rem; // 41px auto 20px 20px 18px
+          min-width: 100%;
+          max-width: 100%;
+          align-items: center;
+          line-height: 150%;
+          top: 0;
+          left: 0;
+          text-align: center;
+          color: hexToRGBA($black, 0.9);
+          opacity: 0;
+          z-index: $z-index-between-event-and-default;
+          // 파일 아이콘
+          .dz-file-type {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+          }
+          // 파일명
+          .dz-filename {
+            @include ellipsis();
+            padding: 0 20px; // 0 20px
+            text-align: left;
+            grid-column: 2;
+
+            span {
+              color: $file-uploader-filename-font-color;
+            }
+          }
+          // 파일 크기
+          .dz-size {
+            text-align: left;
+            padding: 0 1.25rem; // 20px
+            grid-column: 2;
+
+            span {
+              color: $file-uploader-filesize-font-color;
+            }
+          }
+        }
+        //파일 다운로드 아이콘
+        .dz-download {
+          display: block;
+          height: 100%;
+          grid-column: 3;
+          grid-row: 1 / span 2;
+          border: none;
+          text-align: center;
+          cursor: pointer;
+          .icon-download {
+            display: inline-block;
+            @include maskImage('#{$icon-folder-path}icon_download.svg', 1.25rem, 3rem, no-repeat, center, 1.25rem, $file-uploader-icon-color); // 20px 48px, 아이콘 크기 20px
+            cursor: pointer;
+            &:hover {
+              background: map-get($grays, "dark");
+            }
+          }
+        }
+        // 파일 삭제 아이콘
+        .dz-remove {
+          display: block;
+          height: 100%;
+          grid-column: 5;
+          grid-row: 1 / span 2;
+          border: none;
+          text-align: center;
+          cursor: pointer;
+
+          .icon-delete {
+            display: inline-block;
+            @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $file-uploader-icon-color); // 18px 48px, 아이콘 크기 19px 20px
+            cursor: pointer;
+            &:hover {
+              background: map-get($grays, "dark");
+            }
+          }
+        }
+        // 이미지 디자인상 보이지 않음
+        .dz-image {
+          display: block;
+          @include relative();
+          overflow: hidden;
+          z-index: $z-index-between-event-and-default;
+          img {
+            display: block;
+          }
+        }
+        // 파일업로드 성공 및 실패 메시지는 디자인상 보이지 않음
+        .dz-success-mark, .dz-error-mark {
+          display: none;
+        }
+
+        &.dz-error {
+          border-color: $red;
+          // 툴팁
+          .dz-error-message {
+            display: block;
+            @include absolute($top: 8.75rem, $left: -0.625rem); // 140px -10px
+            width: 8.75rem; // 140px
+            color: $white;
+            background: linear-gradient(to bottom, #be2626, #a92222);
+            @include borderRadius(0.5rem); // 8px
+            padding: 0.5em 1.2em;
+            opacity: 0;
+            @include transition(opacity 0.3s ease);
+            z-index: $z-index-tooltip;
+            pointer-events: none;
+
+            &:after {
+              content: '';
+              @include absolute($top: -0.375rem, $left: 4rem); // -6px 64px
+              width: 0;
+              height: 0;
+              @include border(0.375rem, solid, #be2626, bottom);
+            }
+          }
+
+          &:hover .dz-error-message {
+            opacity: 1;
+            pointer-events: auto;
+          }
+          // 삭제 아이콘
+          .dz-remove {
+            .icon-delete {
+              @include maskImage('#{$icon-folder-path}icon_close.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $red); // 18px 48px, 아이콘 크기 19px 20px
+            }
+          }
+        }
+        // progress
+        &.dz-processing .dz-progress {
+          opacity: 1;
+          @include transition(all 0.2s linear);
+        }
+
+        &.dz-complete .dz-progress {
+          opacity: 0;
+          @include transition(opacity 0.4s ease-in);
+        }
+
+        &:not(.dz-processing) .dz-progress {
+          @include animation (0s, 6s, pulse, ease, infinite);
+        }
+
+        .dz-progress {
+          @include relative($top: -1.563rem, $left: 0.9375rem); // -25px 15px
+          height: 0.1875rem; // 3px
+          width: 90%;
+          background: $file-uploader-progress-bg-color;
+          @include borderRadius(0.5rem); // 8px
+          margin: 0 5%;
+          @include scale(1);
+          opacity: 1;
+          z-index: $z-index-between-modal-gnb;
+          overflow: hidden;
+          pointer-events: none;
+
+          .dz-upload {
+            @include absolute(0, 0, 0, 0);
+            background: linear-gradient(to bottom, $file-uploader-progress-color, $file-uploader-progress-color);
+            @include transition(width 300ms ease-in-out);
+          }
+        }
+      }
+    }
+  }
+  // view 모드
+  &-view {
+    display: flex;
+    min-height: 3.125rem; // 50px
+    padding: 0.125rem 1.25rem; // 2px 20px
+    // 제목
+    .file-uploader-title {
+      font-size: $file-uploader-view-font-size;
+      font-weight: $file-uploader-view-font-weight;
+      color: $file-uploader-view-font-color;
+      margin: auto 0;
+    }
+    // 첨부파일 리스트
+    .file-uploader-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      // 첨부 파일 미존재시
+      .text-no-file {
+        color: $file-uploader-no-date-font-color;
+      }
+    }
+    // dropzone
+    .dropzone {
+      &.dz-uploaded {
+        min-height: auto;
+        background-color: transparent;
+        border: 0;
+        padding: 0;
+        
+        .dz-preview {
+          height: auto;
+          border: none;
+          padding: 0;
+          margin-bottom: 0;
+          margin-top: 0.625rem;
+            
+          &:first-child {
+            margin-top: 0;
+          }
+
+          .dz-details {
+            display: inline-flex;
+            font-size: $file-uploader-view-font-size;
+            font-weight: $file-uploader-view-font-weight;
+
+            .dz-file-type {
+              width: 1.125rem; // 18px
+              height:  1.25rem; // 20px
+            }
+
+            .dz-filename {
+              color: $file-uploader-filename-font-color;
+              padding: 0 0.625rem 0 0.9375rem;  // 0 10px 0 15px
+              @include underline;
+            }
+
+            .dz-size {
+              color: $file-uploader-filesize-font-color;
+              padding: 0;
+            }
+            
+            .dz-download, 
+            .dz-remove {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

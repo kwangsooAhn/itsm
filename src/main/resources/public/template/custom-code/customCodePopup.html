@@ -6,7 +6,7 @@
 <head>
     <title th:text="#{form.label.customCodeTarget}"></title>
     <th:block layout:fragment="scriptLink">
-        <script th:src="@{/assets/js/document/document.js}"></script>
+        <script th:src="@{/assets/js/document/zDocument.js}"></script>
     </th:block>
 </head>
 <body>
@@ -50,23 +50,25 @@
         let componentData = {};
         function customCodeDataSave() {
             let checkElem = document.querySelector('li:not([style*="display: none"]) input:checked');
-            let componentDataValue = checkElem.id + '|' + checkElem.value;
+            let compDataMap = componentData.componentValue.split('|');
+            let componentDataValue = compDataMap[0] + '|code|' + checkElem.id + '|' + checkElem.value;
             let componentValue = checkElem.value;
             if (window.opener && !window.opener.closed) {
                 let component = window.opener.document.getElementById(componentData.componentId);
                 let componentChild =  component.querySelector('input[type="text"]');
                 componentChild.value = componentValue;
-                componentChild.setAttribute('custom-data', componentDataValue);
-                aliceDocument.checkValidate(componentChild);
+                componentChild.setAttribute('data-custom-data', componentDataValue);
+                componentChild.dispatchEvent(new Event('change'));
                 window.close();
             }
         }
+
         window.onload = function() {
             const customCodeData = sessionStorage.getItem(window.name);
             componentData = JSON.parse(customCodeData);
             let compDataMap = componentData.componentValue.split('|');
-            let radioElem = document.querySelector('input[id="' + compDataMap[0] + '"]');
-            if (radioElem) {
+            let radioElem = document.querySelector('input[id="' + compDataMap[2] + '"]');
+            if (compDataMap[1] === 'code' && radioElem) {
                 radioElem.checked = true;
             }
             document.getElementById('search').addEventListener('keyup', function () {

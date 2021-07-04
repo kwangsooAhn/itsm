@@ -25,13 +25,15 @@
                 <td style="width: 4%;">
                     <img th:src="${ci.ciIconData}"/>
                 </td>
+                <input type="hidden" name="ciId" th:value="${ci.ciId}">
                 <td style="width: 21%;" class="align-left underline pointer" th:text="${ci.ciNo}"
                     th:onclick="openCIDetailModal([[${ci.ciId}]]);"></td>
                 <td style="width: 10%;" class="align-left" th:text="${ci.typeName}"></td>
                 <td style="width: 15%;" class="align-left" th:text="${ci.ciName}"></td>
                 <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}"></td>
                 <td style="width: 25%;" class="align-left">
-                    <span class="tag align-left text-ellipsis" th:each="tag: ${ci.tags}" th:text="${tag.value}"></span>
+                    <input type="text" name="ciListTags" class="align-left text-ellipsis" th:value="${ci.tags}"
+                           readonly></input>
                 </td>
             </tr>
         </th:block>

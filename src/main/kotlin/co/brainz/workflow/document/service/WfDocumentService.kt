@@ -13,9 +13,6 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
-import co.brainz.workflow.component.entity.WfComponentEntity
-import co.brainz.workflow.component.repository.WfComponentDataRepository
-import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
@@ -31,6 +28,8 @@ import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.repository.WfFormRepository
 import co.brainz.workflow.form.service.WfFormService
+import co.brainz.workflow.formGroup.entity.WfFormGroupEntity
+import co.brainz.workflow.formGroup.repository.WfFormGroupRepository
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.entity.WfProcessEntity
@@ -57,8 +56,7 @@ class WfDocumentService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfProcessRepository: WfProcessRepository,
     private val wfFormRepository: WfFormRepository,
-    private val wfComponentRepository: WfComponentRepository,
-    private val wfComponentDataRepository: WfComponentDataRepository,
+    private val wfFormGroupRepository: WfFormGroupRepository,
     private val wfElementRepository: WfElementRepository,
     private val numberingRuleRepository: NumberingRuleRepository,
     private val aliceMessageSource: AliceMessageSource,
@@ -125,16 +123,19 @@ class WfDocumentService(
     fun getInitDocument(documentId: String): RestTemplateRequestDocumentDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
 
-        val form = wfFormService.getFormComponentList(documentEntity.form.formId)
+        val form = wfFormService.getFormData(documentEntity.form.formId)
         val dummyTokenDto =
             WfTokenDto(elementId = wfElementService.getStartElement(documentEntity.process.processId).elementId)
         val firstElement = wfElementService.getNextElement(dummyTokenDto)
         val documentDisplayList =
             wfDocumentDisplayRepository.findByDocumentIdAndElementId(documentId, firstElement.elementId)
-        for (component in form.components) {
-            for (documentDisplay in documentDisplayList) {
-                if (component.componentId == documentDisplay.componentId) {
-                    component.dataAttribute["displayType"] = documentDisplay.display
+
+        form.group?.let {
+            for (group in form.group) {
+                for (documentDisplay in documentDisplayList) {
+                    if (group.id == documentDisplay.formGroupId) {
+                        group.displayType = documentDisplay.display
+                    }
                 }
             }
         }
@@ -316,13 +317,13 @@ class WfDocumentService(
      */
     private fun createDocumentDisplay(documentEntity: WfDocumentEntity) {
         val wfDocumentDisplayEntities: MutableList<WfDocumentDisplayEntity> = mutableListOf()
-        val componentEntities = wfComponentRepository.findByFormId(documentEntity.form.formId)
+        val formGroupEntities = wfFormGroupRepository.findByFormId(documentEntity.form.formId)
         val elementEntities = wfElementRepository.findUserTaskByProcessId(documentEntity.process.processId)
-        for (component in componentEntities) {
+        for (formGroup in formGroupEntities) {
             for (element in elementEntities) {
                 val documentDisplayEntity = WfDocumentDisplayEntity(
                     documentId = documentEntity.documentId,
-                    componentId = component.componentId,
+                    formGroupId = formGroup.formGroupId,
                     elementId = element.elementId
                 )
                 wfDocumentDisplayEntities.add(documentDisplayEntity)
@@ -380,16 +381,16 @@ class WfDocumentService(
     /**
      * 컴포넌트의 display 정보 설정
      */
-    private fun getDisplayComponent(
+    private fun getDisplayGroup(
         userTasks: List<Map<String, Any>>,
         displayList: List<WfDocumentDisplayEntity>,
-        component: WfComponentEntity
+        formGroup: WfFormGroupEntity
     ): LinkedHashMap<String, Any> {
         var isDisplay = false
         val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (elementEntity in userTasks) {
             for (display in displayList) {
-                if (display.componentId == component.componentId && display.elementId == elementEntity["elementId"].toString()) {
+                if (display.formGroupId == formGroup.formGroupId && display.elementId == elementEntity["elementId"].toString()) {
                     val displayMap = LinkedHashMap<String, Any>()
                     displayMap["elementId"] = display.elementId
                     displayMap["display"] = display.display
@@ -406,20 +407,11 @@ class WfDocumentService(
                 isDisplay = false
             }
         }
-        val componentMap = LinkedHashMap<String, Any>()
-        val componentData =
-            wfComponentDataRepository.findByComponentIdAndAttributeId(component.componentId, "label")
-        val attributeValue = if (componentData.isNotEmpty()) {
-            // 화면에 표시하기 위한 컴포넌트의 이름속성만 분리
-            componentData[0].attributeValue.split("\"text\":\"")[1].split("\"}")[0]
-        } else {
-            // 컴포넌트 라벨 속성이 없는 경우, 컴포넌트 타입을 화면에 표시한다.
-            component.componentType
-        }
-        componentMap["componentId"] = component.componentId
-        componentMap["attributeValue"] = attributeValue
-        componentMap["displayValue"] = displayValue
-        return componentMap
+        val formGroupMap = LinkedHashMap<String, Any>()
+        formGroupMap["formGroupId"] = formGroup.formGroupId
+        formGroupMap["formGroupName"] = formGroup.formGroupName
+        formGroupMap["displayValue"] = displayValue
+        return formGroupMap
     }
 
     /**
@@ -431,16 +423,15 @@ class WfDocumentService(
     fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
         val userTasks = this.makeSortedUserTasks(documentEntity.process.elementEntities)
-        val componentEntities =
-            wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
-        val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-        for (component in componentEntities) {
-            components.add(this.getDisplayComponent(userTasks, documentEntity.display, component))
+        val formGroupEntities = wfFormGroupRepository.findByFormId(documentEntity.form.formId)
+        val formGroups: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+        for (formGroup in formGroupEntities) {
+            formGroups.add(this.getDisplayGroup(userTasks, documentEntity.display, formGroup))
         }
         return RestTemplateDocumentDisplayViewDto(
             documentId = documentId,
             elements = userTasks,
-            components = components
+            formGroups = formGroups
         )
     }
 
@@ -459,7 +450,7 @@ class WfDocumentService(
             wfDocumentDisplayRepository.save(
                 WfDocumentDisplayEntity(
                     documentId = documentId,
-                    componentId = it.getValue("componentId").toString(),
+                    formGroupId = it.getValue("formGroupId").toString(),
                     elementId = it.getValue("elementId").toString(),
                     display = it.getValue("display").toString()
                 )

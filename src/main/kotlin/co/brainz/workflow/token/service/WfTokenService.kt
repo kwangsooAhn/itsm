@@ -124,55 +124,60 @@ class WfTokenService(
         // FormComponent
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val formId = tokenEntity.get().instance.document.form.formId
-        val formData = wfFormService.getFormComponentList(formId)
+        val formData = wfFormService.getFormData(formId)
         val documentDisplayList =
             wfDocumentDisplayRepository.findByDocumentIdAndElementId(
                 tokenEntity.get().instance.document.documentId,
                 tokenEntity.get().element.elementId
             )
 
-        for (componentEntity in formData.components) {
-            // value
-            val tokenDataEntities = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(tokenId)
-            for (tokenDataEntity in tokenDataEntities) {
-                if (tokenDataEntity.component.componentId == componentEntity.componentId) {
-                    var resultValue = tokenDataEntity.value
-                    // CI 컴포넌트 - 세부 데이터 조회
-                    if (resultValue.isNotEmpty() && componentEntity.type ==
-                        WfComponentConstants.ComponentType.CI.code
-                    ) {
-                        val ciJsonArray = Gson().fromJson(resultValue, JsonArray::class.java)
-                        ciJsonArray.forEach {
-                            val ciJsonData = it.asJsonObject
-                            val actionType = ciJsonData.get("actionType").asString
-                            if (actionType == CIConstants.ActionType.DELETE.code ||
-                                actionType == CIConstants.ActionType.READ.code
-                            ) {
-                                val ciData = ciService.getCI(ciJsonData.get("ciId").asString)
-                                ciJsonData.addProperty("ciNo", ciData.ciNo)
-                                ciJsonData.addProperty("ciName", ciData.ciName)
-                                ciJsonData.addProperty("typeId", ciData.typeId)
-                                ciJsonData.addProperty("typeName", ciData.typeName)
-                                ciJsonData.addProperty("ciDesc", ciData.ciDesc)
-                                ciJsonData.addProperty("ciStatus", ciData.ciStatus)
-                                ciJsonData.addProperty("ciIcon", ciData.ciIcon)
-                                ciJsonData.addProperty("ciIconData", ciData.ciIconData)
-                                ciJsonData.addProperty("classId", ciData.classId)
+        formData.group?. let {
+            for (group in formData.group) {
+                for (row in group.row) {
+                    for (componentEntity in row.component) {
+                        // value
+                        val tokenDataEntities = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(tokenId)
+                        for (tokenDataEntity in tokenDataEntities) {
+                            if (tokenDataEntity.component.componentId == componentEntity.id) {
+                                var resultValue = tokenDataEntity.value
+                                // CI 컴포넌트 - 세부 데이터 조회
+                                if (resultValue.isNotEmpty() && componentEntity.type ==
+                                    WfComponentConstants.ComponentType.CI.code
+                                ) {
+                                    val ciJsonArray = Gson().fromJson(resultValue, JsonArray::class.java)
+                                    ciJsonArray.forEach {
+                                        val ciJsonData = it.asJsonObject
+                                        val actionType = ciJsonData.get("actionType").asString
+                                        if (actionType == CIConstants.ActionType.DELETE.code ||
+                                            actionType == CIConstants.ActionType.READ.code
+                                        ) {
+                                            val ciData = ciService.getCI(ciJsonData.get("ciId").asString)
+                                            ciJsonData.addProperty("ciNo", ciData.ciNo)
+                                            ciJsonData.addProperty("ciName", ciData.ciName)
+                                            ciJsonData.addProperty("typeId", ciData.typeId)
+                                            ciJsonData.addProperty("typeName", ciData.typeName)
+                                            ciJsonData.addProperty("ciDesc", ciData.ciDesc)
+                                            ciJsonData.addProperty("ciStatus", ciData.ciStatus)
+                                            ciJsonData.addProperty("ciIcon", ciData.ciIcon)
+                                            ciJsonData.addProperty("ciIconData", ciData.ciIconData)
+                                            ciJsonData.addProperty("classId", ciData.classId)
+                                        }
+                                    }
+                                    resultValue = Gson().toJson(ciJsonArray)
+                                }
+                                componentEntity.value = resultValue
                             }
                         }
-                        resultValue = Gson().toJson(ciJsonArray)
                     }
-                    componentEntity.value = resultValue
                 }
-            }
+                // displayType 값이 존재하지 않을 경우 기본값을 readOnly 로 설정한다.
+                group.displayType = WfDocumentConstants.DisplayType.READONLY.value
 
-            // displayType 값이 존재하지 않을 경우 기본값을 readOnly 로 설정한다.
-            componentEntity.dataAttribute["displayType"] = WfDocumentConstants.DisplayType.READONLY.value
-
-            // displayType이 존재할 경우 기본값 할당
-            for (documentDisplay in documentDisplayList) {
-                if (componentEntity.componentId == documentDisplay.componentId) {
-                    componentEntity.dataAttribute["displayType"] = documentDisplay.display
+                // displayType이 존재할 경우 기본값 할당
+                for (documentDisplay in documentDisplayList) {
+                    if (group.id == documentDisplay.formGroupId) {
+                        group.displayType = documentDisplay.display
+                    }
                 }
             }
         }

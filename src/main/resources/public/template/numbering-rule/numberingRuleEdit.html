@@ -94,7 +94,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.rule.delete')"
                         id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
         </div>

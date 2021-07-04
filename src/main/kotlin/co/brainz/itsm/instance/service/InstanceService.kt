@@ -67,7 +67,7 @@ class InstanceService(
         restTemplateTags.forEach {
             val tagData = JsonObject()
             tagData.addProperty("id", it.tagId.toString())
-            tagData.addProperty("value", it.value)
+            tagData.addProperty("value", it.tagValue)
             tagBasicList.add(tagData)
         }
         return tagBasicList.toString()

@@ -343,7 +343,7 @@
          * chart 삭제
          */
         function deleteChart(chartId) {
-            aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
+            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
                 chartId, {}, function (result) {
                 switch (result) {
                     case STATUS_SUCCESS:

@@ -14,7 +14,7 @@
             <h6 class="description ml-2" th:text="#{cmdb.type.msg.searchDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
+            <input type="text" class="z-input search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
             <span id="totalCount" class="search-count"></span>
             <div class="ml-auto">
@@ -35,19 +35,19 @@
             <div class="edit-form">
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.parentType}" for="parentTypeName"></label>
-                    <input id="parentTypeName" name="parentTypeName" type="text" maxlength="100" readonly/>
+                    <input class="z-input" id="parentTypeName" name="parentTypeName" type="text" maxlength="100" readonly/>
                     <input id="parentTypeId" name="parentTypeId" type="hidden"/>
                 </div>
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.name}" for="typeName"></label>
-                    <input id="typeName" name="typeName" type="text" maxlength="100"/>
+                    <input class="z-input" id="typeName" name="typeName" type="text" maxlength="100"/>
                     <input id="typeId" name="typeId" type="hidden"/>
                     <input id="typeLevel" name="typeLevel" type="hidden"/>
                 </div>
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
-                    <input id="typeAlias" name="typeAlias" type="text" maxlength="16"
-                           onkeyup="removeChar(event, regularCharacterReg, 'gi')"  />
+                    <input class="z-input" id="typeAlias" name="typeAlias" type="text" maxlength="16"
+                           onkeyup="aliceJs.removeChar(event, regularCharacterReg, 'gi')"  />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
@@ -56,18 +56,19 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
-                    <div class="flex-row input-button col-pct-12 input-button-remove">
-                        <input class="inherit" id="typeIcon" name="typeIcon" type="text" readonly>
-                        <x title='' class='input-button-remove-btn' role='button' aria-label='remove data'></x>
-                        <button class="default-line" name="typeIconSelector" type="button" onclick="iconPopUp()" th:text="#{common.btn.select}"></button>
+                    <div class="flex-row z-input-button">
+                        <input class="z-input col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
+                        <button class="z-button-clear" name="clearIcon" type="button" onclick="aliceJs.clearText(this);"  tabindex="-1"></button>
+                        <button class="z-button-search default-line" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.class}" for="typeClass"></label>
-                    <div class="flex-row input-button">
-                        <input class="col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
+                    <div class="flex-row z-input-button">
+                        <input class="z-input col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
                         <input id="typeClassId" name="typeClassId" type="hidden"/>
-                        <button class="default-line" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
+                        <button class="z-button-clear" name="clearClass" type="button" onclick="aliceJs.clearText(this);" tabindex="-1" ></button>
+                        <button class="z-button-search default-line" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
             </div>
@@ -82,7 +83,7 @@
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('cmdb.type.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceAlert.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -127,7 +128,7 @@
                     showProgressbar: false,
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
-                        document.getElementById('parentTypeName').setAttribute('disabled','');
+                        document.getElementById('parentTypeName').setAttribute('readonly','');
                         document.getElementById('parentTypeName').value = responseJson.ptypeName;
                         document.getElementById('parentTypeId').value = responseJson.ptypeId;
                         document.getElementById('typeName').value = responseJson.typeName;
@@ -142,7 +143,7 @@
                             document.querySelector('#btnDelete').removeAttribute('disabled');
                             document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
                             document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
-                            document.getElementById('typeAlias').disabled = true;
+                            document.getElementById('typeAlias').readOnly = true;
                         } else {
                             document.getElementById('btnUpdate').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
@@ -151,7 +152,6 @@
                             document.querySelector('button[name=typeClassSelector]').disabled = true;
                         }
                         onEdit();
-                        aliceJs.inputButtonRemove();
                     }
                 };
                 aliceJs.sendXhr(opt);
@@ -184,7 +184,7 @@
                 object.value = '';
             });
             document.querySelector('textarea').value = '';
-            document.querySelector('input[name=typeAlias]').removeAttribute('disabled');
+            document.querySelector('input[name=typeAlias]').removeAttribute('readOnly');
 
             let selectedNode = tree.getTreeSelectNode();
             if (selectedNode !== null) {

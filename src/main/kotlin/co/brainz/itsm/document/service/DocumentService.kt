@@ -9,7 +9,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.itsm.document.constants.DocumentConstants
-import co.brainz.itsm.form.service.FormAdminService
+import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class DocumentService(
-    private val formAdminService: FormAdminService,
+    private val formService: FormService,
     private val processAdminService: ProcessAdminService,
     private val wfDocumentService: WfDocumentService,
     private val aliceFileProvider: AliceFileProvider
@@ -150,7 +150,7 @@ class DocumentService(
         formStatus.add(RestTemplateConstants.FormStatus.PUBLISH.value)
         formStatus.add(RestTemplateConstants.FormStatus.USE.value)
         formParams["status"] = formStatus.joinToString(",")
-        return formAdminService.findForms(formParams).data
+        return formService.findForms(formParams)
     }
 
     /**

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title th:text="#{form.label.title}"></title>
+    <meta http-equiv="expire" content="-1"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
+    <th:block th:replace="formDesigner/fragments/formHead :: formHead"></th:block>
+    <script th:src="@{/assets/js/lib/zShortcut.js}"></script>
+    <script th:src="@{/assets/vendors/sortableJS/sortable.js}"></script>
+    <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
+    <script type="module">
+        // 사용자 세션 정보 저장
+        import { SESSION } from '../../assets/js/lib/zConstants.js';
+        import { zFormDesigner } from '../../assets/js/formDesigner/zFormDesigner.js';
+
+        const userSession = {
+            userKey : '[[${#authentication.details.userKey}]]',
+            userId : '[[${#authentication.details.userId}]]',
+            userName: '[[${#authentication.details.userName}]]',
+            email: '[[${#authentication.details.email}]]',
+            position: '[[${#authentication.details.position}]]',
+            department: '[[${#authentication.details.department}]]',
+            officeNumber: '[[${#authentication.details.officeNumber}]]',
+            mobileNumber: '[[${#authentication.details.mobileNumber}]]'
+        };
+        if (userSession['department'] !== '') {
+            aliceJs.fetchJson('/rest/codes/' + userSession['department'], {
+                method: 'GET'
+            }).then((codeData) => {
+                userSession['departmentName'] = codeData.codeName;
+                Object.assign(SESSION, userSession);
+            });
+        } else {
+            Object.assign(SESSION, userSession);
+        }
+        zFormDesigner.initForm('[[${formId}]]');
+        window.zFormDesigner = zFormDesigner;
+        console.log(zFormDesigner);
+
+        OverlayScrollbars(document.getElementById('formMain'), { className: 'scrollbar' });
+    </script>
+</head>
+<body>
+<div class="alice-wrapper">
+    <form id="frm" name="frm">
+        <div class="z-form-container">
+            <!-- 상단 네비게이션 -->
+            <div class="z-form-header" id="menuBar">
+                <img class="logo" th:src="@{/assets/media/icons/formDesigner/topmenu/icon_form_designer.svg}" width="169" height="25" alt="Form Designer" />
+                <span class="name ml-auto mr-auto" id="formName"></span>
+                <!--버튼 영역-->
+                <div class="buttons flex-row">
+                    <!--실행 취소-->
+                    <th:block th:if="${#strings.isEmpty(isView)}">
+                        <button type="button" id="btnUndo" class="btn-header header-tooltip">
+                            <span class="icon-undo"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{form.label.undo}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <!--재실행(드롭다운)-->
+                    <th:block th:if="${#strings.isEmpty(isView)}">
+                        <button type="button" class="btn-header btn-dropdown">
+                            <span class="icon-dropdown"></span>
+                            <ul class="dropdown-content">
+                                <li class="dropdown-item align-left" id="btnUndo">
+                                    <span th:text="#{form.label.undo}"></span>
+                                </li>
+                                <li class="dropdown-item align-left" id="btnRedo">
+                                    <span th:text="#{form.label.redo}"></span>
+                                </li>
+                            </ul>
+                        </button>
+                    </th:block>
+                    <!--미리보기-->
+                    <button type="button" id="btnPreview" class="btn-header header-tooltip ml-auto">
+                        <span class="icon-preview"></span>
+                        <div class="tooltip-contents">
+                            <span th:text="#{form.label.preview}"></span>
+                        </div>
+                    </button>
+                    <!--저장하기-->
+                    <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
+                        <button type="button" id="btnSave" class="btn-header header-tooltip">
+                            <span class="icon-save"></span>
+                            <div class="tooltip-contents">
+                                <span th:text="#{common.btn.save}"></span>
+                            </div>
+                        </button>
+                    </th:block>
+                    <!--다른 이름으로 저장(드롭다운)-->
+                    <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
+                        <button type="button" class="btn-header btn-dropdown">
+                            <span class="icon-dropdown"></span>
+                            <ul class="dropdown-content">
+                                <li class="dropdown-item align-left">
+                                    <span th:text="#{common.btn.save}" id="btnSave"></span>
+                                </li>
+                                <li class="dropdown-item align-left">
+                                    <span th:text="#{common.btn.saveAs}" id="btnSaveAs"></span>
+                                </li>
+                            </ul>
+                        </button>
+                    </th:block>
+                </div>
+            </div>
+            <!-- 컴포넌트 팔레트 -->
+            <div class="z-form-component-palette" id="componentPalette">
+                <div class="component-accordion-box" id="componentList">
+                    <!-- inputs: 일반적인 입력 항목 -->
+                    <div class="component-accordion">
+                        <input type="radio" id="inputs" name="accordion-type" checked="true">
+                        <label class="flex-row justify-content-between accordion-label" for="inputs">
+                            <span class="type-name">Inputs</span>
+                            <span class="arrow-left"></span>
+                        </label>
+                        <div class="accordion-content">
+                            <!-- sortablejs 라이브러리에서 사용하니 list-group, list-group-item 은 삭제하지 마세요. -->
+                            <div class="component-icon-box list-group">
+                                <div class="component-icon inputBox list-group-item" id="inputBox">
+                                    <span class="icon icon-inputBox"></span>
+                                    <span class="component-name" th:text="#{form.component.inputBox}"></span>
+                                </div>
+                                <div class="component-icon textArea list-group-item" id="textArea">
+                                    <span class="icon icon-textArea"></span>
+                                    <span class="component-name" th:text="#{form.component.textArea}"></span>
+                                </div>
+                                <div class="component-icon textEditor list-group-item" id="textEditor">
+                                    <span class="icon icon-textEditor"></span>
+                                    <span class="component-name" th:text="#{form.component.textEditor}"></span>
+                                </div>
+                                <div class="component-icon dropdown list-group-item" id="dropdown">
+                                    <span class="icon icon-dropdown"></span>
+                                    <span class="component-name" th:text="#{form.component.dropdown}"></span>
+                                </div>
+                                <div class="component-icon radio list-group-item" id="radio">
+                                    <span class="icon icon-radio"></span>
+                                    <span class="component-name" th:text="#{form.component.radio}"></span>
+                                </div>
+                                <div class="component-icon checkBox list-group-item" id="checkBox">
+                                    <span class="icon icon-checkBox"></span>
+                                    <span class="component-name" th:text="#{form.component.checkBox}"></span>
+                                </div>
+                                <div class="component-icon date list-group-item" id="date">
+                                    <span class="icon icon-date"></span>
+                                    <span class="component-name" th:text="#{form.component.date}"></span>
+                                </div>
+                                <div class="component-icon time list-group-item" id="time">
+                                    <span class="icon icon-time"></span>
+                                    <span class="component-name" th:text="#{form.component.time}"></span>
+                                </div>
+                                <div class="component-icon dateTime list-group-item" id="dateTime">
+                                    <span class="icon icon-dateTime"></span>
+                                    <span class="component-name" th:text="#{form.component.dateTime}"></span>
+                                </div>
+                                <div class="component-icon fileUpload list-group-item" id="fileUpload">
+                                    <span class="icon icon-fileUpload"></span>
+                                    <span class="component-name" th:text="#{form.component.fileUpload}"></span>
+                                </div>
+                                <div class="component-icon customCode list-group-item" id="customCode">
+                                    <span class="icon icon-customCode"></span>
+                                    <span class="component-name" th:text="#{form.component.customCode}"></span>
+                                </div>
+                                <div class="component-icon dynamicRowTable list-group-item" id="dynamicRowTable">
+                                    <span class="icon icon-dynamicRowTable"></span>
+                                    <span class="component-name" th:text="#{form.component.dynamicRowTable}"></span>
+                                </div>
+                                <div class="component-icon ci list-group-item" id="ci">
+                                    <span class="icon icon-ci"></span>
+                                    <span class="component-name" th:text="#{form.component.ci}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- format:가로선, 이미지, 라벨 등 꾸미기 항목 -->
+                    <div class="component-accordion">
+                        <input type="radio" id="format" name="accordion-type">
+                        <label class="flex-row justify-content-between accordion-label" for="format">
+                            <span class="type-name">Format</span>
+                            <span class="arrow-left"></span>
+                        </label>
+                        <div class="accordion-content">
+                            <div class="component-icon-box list-group">
+                                <div class="component-icon label list-group-item" id="label">
+                                    <span class="icon icon-label"></span>
+                                    <span class="component-name" th:text="#{form.component.label}"></span>
+                                </div>
+                                <div class="component-icon image list-group-item" id="image">
+                                    <span class="icon icon-image"></span>
+                                    <span class="component-name" th:text="#{form.component.image}"></span>
+                                </div>
+                                <div class="component-icon divider list-group-item" id="divider">
+                                    <span class="icon icon-divider"></span>
+                                    <span class="component-name" th:text="#{form.component.divider}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- visual: video, html, map, chart 등 추후 구현 -->
+                    <div class="component-accordion">
+                        <input type="radio" id="visual" name="accordion-type">
+                        <label class="flex-row justify-content-between accordion-label" for="visual">
+                            <span class="type-name">Visual</span>
+                            <span class="arrow-left"></span>
+                        </label>
+                        <div class="accordion-content">
+                            <div class="component-icon-box list-group">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- custom: 고객 설정 컴포넌트 -->
+                    <div class="component-accordion">
+                        <input type="radio" id="custom" name="accordion-type">
+                        <label class="flex-row justify-content-between accordion-label" for="custom">
+                            <span class="type-name">Custom</span>
+                            <span class="arrow-left"></span>
+                        </label>
+                        <div class="accordion-content" id="customComponentList">
+                            <div class="component-icon-box list-group">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 폼 -->
+            <div class="z-form-main" id="formMain">
+                <div id="saveInfo" class="save-info"></div>
+                <div class="align-center drawing-board" id="formDrawingBoard"></div>
+            </div>
+            <!-- 속성 패널 -->
+            <div class="z-form-properties-panel-header breadcrumb">
+                <span id="propertyName"></span>
+            </div>
+            <div class="z-form-properties-panel" id="propertyPanel"></div>
+        </div>
+    </form>
+</div>
+<template id="saveAsModalTemplate">
+    <div class="save-as-main flex-column">
+        <label class="field-label" for="newFormName">
+            <span th:text="#{form.label.name}"></span>
+            <span class="required"></span>
+        </label>
+        <input type="text" id="newFormName" data-validation-required="true">
+        <label class="field-label" for="newFormDesc" th:text="#{form.label.description}"></label>
+        <textarea class="textarea-scroll-wrapper" id="newFormDesc" rows="3" ></textarea>
+    </div>
+</template>
+<template id="documentModalTemplate">
+    <div class="document-main preview flex-column align-items-center">
+        <div class="document-main-header flex-row justify-content-end align-items-center" id="documentMainHeader"></div>
+        <div class="drawing-board" id="documentDrawingBoard"></div>
+    </div>
+</template>
+</body>
+</html>

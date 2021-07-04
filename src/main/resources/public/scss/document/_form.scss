@@ -1,0 +1,18 @@
+/* form, group, row, component 디자인 - document ver. */
+// 툴팁 border 초기화
+$tooltip-type: (group, row, component);
+@each $type in $tooltip-type {
+  .#{$common-prefix}#{$type}-tooltip {
+    @include border(0.0625rem, solid, $drawing-board-bg-color, all); // 1px
+  }
+}
+
+.#{$common-prefix}group {
+  &.accordion {
+    .#{$common-prefix}group-accordion-checkBox:checked {
+      ~ .#{$common-prefix}row-tooltip:not(.off):last-child {
+        @include border(0.0625rem, solid, map-get($grays, "line"), bottom); // 1px
+      }
+    }
+  }
+}

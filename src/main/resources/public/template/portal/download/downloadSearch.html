@@ -19,11 +19,12 @@
                     <option value="" th:text="#{download.category.all}"></option>
                     <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
                 </select>
-                <input type="text" id="search" name="search" class="search col-5" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
-                <input type="text" id="fromDt" name="fromDt" class="search-date icon-date col-3"/>
+                <input type="text" id="search" name="search" class="z-input search col-5" maxlength="100"
+                       th:placeholder="#{download.label.searchPlaceholder}"/>
+                <input type="text" id="fromDt" name="fromDt" class="z-input search-date icon-date col-3"/>
                 <span>~</span>
-                <input class="search-date icon-date col-3 mr-2" type="text" id="searchToDt" name="searchToDt"/>
-                <input class="search-date icon-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
+                <input type="text" id="searchToDt" name="searchToDt" class="z-input search-date icon-date col-3 mr-2"/>
+                <input type="hidden" id="toDt" name="toDt" readonly="readonly" class="search-date icon-date"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
         </div>
@@ -42,10 +43,12 @@
 
         window.onload = function () {
             document.getElementById('search').focus();
-            document.getElementById('fromDt').value = searchFromDt;
-            document.getElementById('searchToDt').value = searchToDt;
-            dateTimePicker.initDatePicker('fromDt', setDatePicker);
-            dateTimePicker.initDatePicker('searchToDt', setDatePicker);
+            const fromDtElement = document.getElementById('fromDt');
+            const searchToDtElement = document.getElementById('searchToDt');
+            fromDtElement.value = searchFromDt;
+            searchToDtElement.value = searchToDt;
+            zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
+            zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
             document.getElementById('category').addEventListener('change', function() { getDownloadList(false); });
             document.getElementById('search').addEventListener('keyup', function() { getDownloadList(false); });
 
