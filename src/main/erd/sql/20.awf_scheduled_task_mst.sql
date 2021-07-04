@@ -17,8 +17,8 @@ CREATE TABLE awf_scheduled_task_mst
 	execute_cycle_type varchar(100),
 	execute_cycle_period bigint,
 	cron_expression varchar(128),
-    args varchar(128),
-    src varchar(512),
+	args varchar(128),
+	src varchar(512),
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -46,5 +46,5 @@ COMMENT ON COLUMN awf_scheduled_task_mst.create_dt IS '등록일';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_dt IS '수정일';
 
-insert into awf_scheduled_task_mst values ('4021c26175cd53df0175bb545fb30000', '임시 첨부 파일 삭제', 'class', null, 'TRUE', 'FALSE', 'co.brainz.framework.scheduling.task.DeleteTempFile', null, 'cron', 0, '0 0 12 * * *', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_scheduled_task_mst values ('4142d16273df21de0175be515fc20000', 'CMDB CI 임시데이터 삭제', 'class', null, 'TRUE', 'FALSE', 'co.brainz.framework.scheduling.task.DeleteTempCIData', null, 'cron', 0, '0 0 12 * * *', 'postgresql, 10.0.10.175, 32784, itsm, itsm, itsm123', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_scheduled_task_mst values ('4021c26175cd53df0175bb545fb30000', '임시 첨부 파일 삭제', 'class', null, 'TRUE', 'FALSE', 'co.brainz.framework.scheduling.task.DeleteTempFile', null, null, 'cron', 0, '0 0 12 * * *', null, null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_scheduled_task_mst values ('4142d16273df21de0175be515fc20000', 'CMDB CI 임시데이터 삭제', 'class', null, 'TRUE', 'FALSE', 'co.brainz.framework.scheduling.task.DeleteTempCIData', null, null, 'cron', 0, '0 0 12 * * *', 'postgresql, 10.0.10.175, 32784, itsm, itsm, itsm123', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);

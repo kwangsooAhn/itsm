@@ -1,3 +1,8 @@
+/**
+ * 문서양식 그룹정보
+ */
+DROP TABLE IF EXISTS wf_form_group cascade;
+
 CREATE TABLE wf_form_group
 (
     form_group_id varchar(128) NULL,

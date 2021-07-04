@@ -1,3 +1,8 @@
+/**
+ * 컴포넌트 세부속성
+ */
+DROP TABLE IF EXISTS wf_component_property cascade;
+
 CREATE TABLE wf_component_property (
     component_id varchar(128) NULL,
     property_type varchar(100) NULL,
