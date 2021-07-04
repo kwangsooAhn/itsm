@@ -12,7 +12,6 @@ import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -111,9 +110,9 @@ class CIService(
                     if (tag["id"] != null && tag["value"] != null) {
                         val ciTag = JsonObject()
                         ciTag.addProperty("id", tag["id"] as String)
-                        //ciTag.addProperty("tagType", AliceTagConstants.TagType.CI.code)
+                        // ciTag.addProperty("tagType", AliceTagConstants.TagType.CI.code)
                         ciTag.addProperty("value", tag["value"] as String)
-                        //ciTag.addProperty("targetId", ciId)
+                        // ciTag.addProperty("targetId", ciId)
                         tagDataList.add(ciTag)
                     }
                 }

@@ -142,7 +142,7 @@ class CIService(
             ciDetailDto.updateDt = ciEntity.updateDt
             // 태그
             var ciTagList = JsonArray()
-            aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId).forEach{ tag ->
+            aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId).forEach { tag ->
                 val ciTag = JsonObject()
                 ciTag.addProperty("id", tag.tagId)
                 ciTag.addProperty("value", tag.tagValue)
