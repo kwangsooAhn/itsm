@@ -330,7 +330,7 @@ class WfFormService(
      * @return Boolean
      */
     @Transactional
-    fun updateForm(restTemplateFormDto: RestTemplateFormDto): Boolean {
+    fun saveForm(restTemplateFormDto: RestTemplateFormDto): Boolean {
         this.updateFormEntity(restTemplateFormDto)
         return true
     }
