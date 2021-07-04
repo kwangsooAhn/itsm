@@ -582,9 +582,9 @@ aliceJs.thumbnail = function(options) {
         const container = document.createElement('div');
         container.className = 'thumbnail-main';
 
-        if (files.length > 0) {
-            for (let i = 0, len = files.length; i < len; i++) {
-                let file = files[i];
+        if (files.data.length > 0) {
+            for (let i = 0, len = files.data.length; i < len; i++) {
+                let file = files.data[i];
 
                 const thumbnail = document.createElement('div');
                 thumbnail.className = 'thumbnail';
@@ -1209,38 +1209,38 @@ aliceJs.removeChar = function (event, rexg = integerReg, flag = 'g') {
     if (!(keyID === 8 || keyID === 9 || keyID === 46 || keyID === 37 || keyID === 39)) {
         event.target.value = event.target.value.replace(new RegExp(regToString, flag), '');
     }
-}
+};
 
 
 aliceJs.convertDateFormat = function (format, type, date) {
     let reformatDate = date;
     if (format === 'systemFormat') { //  ISO8601 규격 포멧으로 서버에 데이터 전달할때 사용 ex> 2021-06-29T15:00:00.000Z
         switch (type) {
-            case 'dateTime':
-                reformatDate = i18n.systemDateTime(date);
-                break;
-            case 'date':
-                reformatDate = i18n.systemDate(date);
-                break;
-            case 'time':
-                reformatDate = i18n.systemTime(date);
-                break;
+        case 'dateTime':
+            reformatDate = i18n.systemDateTime(date);
+            break;
+        case 'date':
+            reformatDate = i18n.systemDate(date);
+            break;
+        case 'time':
+            reformatDate = i18n.systemTime(date);
+            break;
         }
     } else if (format === 'userFormat') {  //화면에 뿌려질 양식으로 서버에서 받은 데이터를 화면에 뿌려줄때 사용됨ex> 2021-06-21-15:30
         switch (type) {
-            case 'dateTime':
-                reformatDate = i18n.userDateTime(date);
-                break;
-            case 'date':
-                reformatDate = i18n.userDate(date);
-                break;
-            case 'time':
-                reformatDate = i18n.userTime(date);
-                break;
+        case 'dateTime':
+            reformatDate = i18n.userDateTime(date);
+            break;
+        case 'date':
+            reformatDate = i18n.userDate(date);
+            break;
+        case 'time':
+            reformatDate = i18n.userTime(date);
+            break;
         }
     }
-    return reformatDate
-}
+    return reformatDate;
+};
 
 /**
  * input 엘리먼트 내부의 X 버튼을 클릭했을 때, 같은 레벨의 input value를 clear한다.
@@ -1251,7 +1251,7 @@ aliceJs.clearText = function (req) {
     for (let i = 0; i < target.length; i++) {
         target[i].value = '';
     }
-}
+};
 
 /**
  * input+button 에 input value 초기화 x 버튼 출력
@@ -1270,9 +1270,9 @@ aliceJs.inputButtonRemove = function(target) {
             e.preventDefault();
             this.previousElementSibling.value = null;
             this.classList.remove('active');
-        })
+        });
     }
-}
+};
 
 /**
  * 특정 키를 눌렀을시 함수 실행
