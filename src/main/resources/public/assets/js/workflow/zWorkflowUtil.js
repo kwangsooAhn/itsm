@@ -249,7 +249,7 @@ ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
  * @param type form/process
  */
 ZWorkflowUtil.export = function(id, type) {
-    let exportUrl = '/rest/form/' + id + '/data';
+    let exportUrl = '/rest/forms/' + id + '/data';
     if (type === 'process') {
         exportUrl = '/rest/process/' + id + '/data';
     }
@@ -626,19 +626,19 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
             let saveData = {};
             if (type === xmlFile.name.split('_')[0]) {
                 switch (type) {
-                case 'form':
+                    case 'form':
                     // TODO: 폼 리팩토링 완료 후, loadFormFromXMLWoo을 사용하도록 수정한다.
-                    saveData = ZWorkflowUtil.loadFormFromXML(e.target.result);
-                    //saveData = ZWorkflowUtil.loadFormFromXMLWoo(e.target.result);
-                    saveData.name = data.formName;
-                    saveData.desc = data.formDesc;
-                    break;
-                case 'process':
-                    saveData = ZWorkflowUtil.loadProcessFromXML(e.target.result);
-                    saveData.process = {name: data.processName, description: data.processDesc};
-                    ZWorkflowUtil.addRequiredProcessAttribute(saveData);
-                    break;
-                default: //none
+                        saveData = ZWorkflowUtil.loadFormFromXML(e.target.result);
+                        //saveData = ZWorkflowUtil.loadFormFromXMLWoo(e.target.result);
+                        saveData.name = data.formName;
+                        saveData.desc = data.formDesc;
+                        break;
+                    case 'process':
+                        saveData = ZWorkflowUtil.loadProcessFromXML(e.target.result);
+                        saveData.process = {name: data.processName, description: data.processDesc};
+                        ZWorkflowUtil.addRequiredProcessAttribute(saveData);
+                        break;
+                    default: //none
                 }
                 console.debug(saveData);
                 let result = ZWorkflowUtil.saveImportData(type, saveData);
