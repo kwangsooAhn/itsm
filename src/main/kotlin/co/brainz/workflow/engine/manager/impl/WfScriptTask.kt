@@ -11,7 +11,6 @@ import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
-import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
