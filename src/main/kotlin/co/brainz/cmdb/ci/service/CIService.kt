@@ -46,8 +46,6 @@ import co.brainz.workflow.instance.repository.WfInstanceRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -69,6 +67,7 @@ class CIService(
     private val aliceTagRepository: AliceTagRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * CI 목록 조회.
@@ -141,15 +140,15 @@ class CIService(
             ciDetailDto.updateUserKey = ciEntity.updateUser?.userKey
             ciDetailDto.updateDt = ciEntity.updateDt
             // 태그
-            var ciTagList = JsonArray()
+            val ciTagList = mutableListOf<Map<String, String>>()
             aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ciEntity.ciId).forEach { tag ->
-                val ciTag = JsonObject()
-                ciTag.addProperty("id", tag.tagId)
-                ciTag.addProperty("value", tag.tagValue)
-                ciTag.addProperty("targetId", tag.targetId)
+                val ciTag = HashMap<String, String>()
+                ciTag["id"] = tag.tagId!!
+                ciTag["value"] = tag.tagValue
+                ciTag["targetId"] = tag.targetId
                 ciTagList.add(ciTag)
             }
-            ciDetailDto.ciTags = ciTagList
+            ciDetailDto.ciTags = mapper.writeValueAsString(ciTagList)
             ciDetailDto.ciRelations = ciRelationRepository.selectByCiId(ciEntity.ciId)
             ciDetailDto.classes = getAttributeValueAll(ciEntity.ciId, ciEntity.ciTypeEntity.ciClass.classId)
         }
@@ -173,7 +172,7 @@ class CIService(
         var targetClassId: String = classId
 
         while (targetClassId != CIClassConstants.CI_CLASS_ROOT_ID) {
-            var resultCiClass = ciClassRepository.findById(targetClassId)
+            val resultCiClass = ciClassRepository.findById(targetClassId)
             if (!resultCiClass.isEmpty) {
                 targetClass = resultCiClass.get()
                 classList.add(targetClass.classId) // 리스트에 더하기
@@ -484,15 +483,14 @@ class CIService(
      * CI 조회 결과 DTO 변경
      */
     private fun makeCIListDto(ci: CIsDto): CIListDto {
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        var tagList = JsonArray()
+        val tagList = mutableListOf<Map<String, String>>()
         aliceTagRepository.findByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId)
             .forEachIndexed { index, aliceTagDto ->
-                val tag = JsonObject()
-                tag.addProperty("id", aliceTagDto.tagId)
-                tag.addProperty("value", aliceTagDto.tagValue)
-                tag.addProperty("targetId", aliceTagDto.targetId)
-                tagList.add(tag)
+                val tagMap = HashMap<String, String>()
+                tagMap["id"] = aliceTagDto.tagId!!
+                tagMap["value"] = aliceTagDto.tagValue
+                tagMap["targetId"] = aliceTagDto.targetId
+                tagList.add(tagMap)
             }
         return CIListDto(
             ciId = ci.ciId,
@@ -507,7 +505,7 @@ class CIService(
             ciIconData = ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) },
             ciDesc = ci.ciDesc,
             automatic = ci.automatic,
-            tags = tagList,
+            ciTags = mapper.writeValueAsString(tagList),
             createUserKey = ci.createUserKey,
             createDt = ci.createDt,
             updateUserKey = ci.updateUserKey,
