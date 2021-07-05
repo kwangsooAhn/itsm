@@ -48,10 +48,10 @@ class ScheduleTaskTypeJar(
         commands?.forEach {
             if (it == "-jar") {
                 if (logbackConfigurationFile.isEmpty()) {
-                    command.add("${AliceConstants.PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE}=${moduleHome}/logback.xml")
+                    command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE + "=" + moduleHome + "/logback.xml")
                 }
                 if (logHome.isEmpty()) {
-                    command.add("${AliceConstants.PLUGINS_VM_OPTIONS_LOG_HOME}=${moduleHome}/logs")
+                    command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_HOME + "=" + moduleHome + "/logs")
                 }
             }
             command.add(it.trim())

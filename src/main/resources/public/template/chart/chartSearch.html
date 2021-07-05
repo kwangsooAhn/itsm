@@ -278,14 +278,14 @@
                         document.getElementById('getChart').innerHTML = response.responseText;
                         if (target === 'edit') {
                             setDisplay(document.getElementById('typeSelectBox').value);
+                            let targetTags = document.getElementById('targetTags').value
+                            document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
                         } else {
                             setChart(chartType);
                         }
                         if (chartId !== undefined) {
                             parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
                         }
-                        let targetTags = document.getElementById('targetTags').value
-                        document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
                     }
                     let tagify = new Tagify(document.querySelector('input[id=targetTags]'), {
                         pattern: /^.{0,100}$/,
