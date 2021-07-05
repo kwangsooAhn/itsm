@@ -140,11 +140,11 @@
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label></div>` +
-            `<div class="flex-column col-9"><input type="text" id="${objectId}-maxLength" maxlength="100" value="${maxLengthValue}"></div>` +
+            `<div class="flex-column col-9"><input type="text" class="z-input" id="${objectId}-maxLength" maxlength="100" value="${maxLengthValue}"></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label></div>` +
-            `<div class="flex-column col-9"><input type="text" id="${objectId}-minLength" maxlength="100" value="${minLengthValue}"></div>` +
+            `<div class="flex-column col-9"><input type="text" class="z-input" id="${objectId}-minLength" maxlength="100" value="${minLengthValue}"></div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
     }
@@ -169,9 +169,9 @@
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input type="text" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
+                `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
-                `<div class="flex-column col-5"><input type="text" maxlength="50"></div>` +
+                `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
@@ -212,9 +212,9 @@
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-5 mr-4"><input type="text" maxlength="50" required="true" data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
+                `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
-                `<div class="flex-column col-5"><input type="text" maxlength="50"></div>` +
+                `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
@@ -255,9 +255,9 @@
             let rowElement =
                 `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-1"><label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span><span class="required"></span></label></div>` +
-                `<div class="flex-column col-4 mr-4"><input type="text" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
+                `<div class="flex-column col-4 mr-4"><input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
-                `<div class="flex-column col-4 mr-4"><input type="text" maxlength="50"></div>` +
+                `<div class="flex-column col-4 mr-4"><input type="text" class="z-input" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label></div>` +
                 `<div class="flex-column col-1"><input type="checkbox"></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
@@ -335,7 +335,7 @@
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label></div>` +
-            `<div class="flex-column col-9"><input type="text" id="${objectId}-button" maxlength="100" value="${buttonText}"></div>` +
+            `<div class="flex-column col-9"><input type="text" class="z-input" id="${objectId}-button" maxlength="100" value="${buttonText}"></div>` +
             `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -522,6 +522,7 @@
                 case 'inputbox':
                     const inputElem = document.createElement('input');
                     inputElem.type = 'text';
+                    inputElem.className = 'z-input';
                     inputElem.id = attributes.attributeId;
                     inputElem.value = attributes.value;
                     if (attributeValue !== '') {
@@ -658,7 +659,7 @@
 
                     const customInputElem = document.createElement('input');
                     customInputElem.type = 'text';
-                    customInputElem.className = 'col-pct-12 inherit';
+                    customInputElem.className = 'z-input col-pct-12 inherit';
                     customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                     customInputElem.readOnly = true;
                     inputButtonElem.appendChild(customInputElem);
@@ -752,6 +753,7 @@
                 case 'inputbox':
                     const inputElem = document.createElement('input');
                     inputElem.type = 'text';
+                    inputElem.className = 'z-input';
                     inputElem.id = attributes.attributeId;
                     inputElem.value = attributes.value;
                     inputElem.readOnly = true;
@@ -874,7 +876,7 @@
 
                     const customInputElem = document.createElement('input');
                     customInputElem.type = 'text';
-                    customInputElem.className = 'col-pct-12 inherit';
+                    customInputElem.className = 'z-input col-pct-12 inherit';
                     customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                     customInputElem.readOnly = true;
                     inputButtonElem.appendChild(customInputElem);

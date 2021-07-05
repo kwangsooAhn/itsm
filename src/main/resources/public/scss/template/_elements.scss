@@ -636,7 +636,6 @@ label {
     margin: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    flex-basis: calc((100% * var(--data-column, 12)) / 12);
 
     &:focus,
     &:hover {
@@ -774,3 +773,63 @@ label {
   }
 }
 
+// text area
+.#{$common-prefix}textarea {
+  font-family: inherit;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $neutral900; // $element-font-color
+  background-color: $element-bg-color;
+  @include border($element-border-width, solid, $gray300, all); // $element-border-width, $element-border-color
+  @include borderRadius(0.125rem); // 2px
+  padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
+  resize: vertical;
+
+  &::placeholder {
+    color: $gray400;
+  }
+
+  &:not(:disabled),
+  &:not(:read-only) {
+    &:focus {
+      outline: 0;
+      border-color: $blue600;
+      @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+    }
+
+    &:hover {
+      outline: 0;
+      border-color: $blue400;
+    }
+
+    &:active {
+      outline: 0;
+      border-color: $blue500;
+    }
+  }
+
+  &:disabled {
+    color: $gray400;
+    background-color: $neutral200;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  &:read-only {
+    border-color: $gray400;
+    border-style: none none none solid;
+    @include borderRadius(0);
+    background-color: $white;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  &.error {
+    @include border($element-border-width, solid, $red500, all);
+  }
+  
+  &.success {
+    @include border($element-border-width, solid, $green500, all);
+  }
+}

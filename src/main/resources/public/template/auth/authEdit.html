@@ -14,7 +14,7 @@
             <h6 class="description ml-2" th:text="#{auth.msg.editDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input type="text" class="search col-5 mr-2" id="search" name="search"  maxlength="100"
+            <input type="text" class="z-input search col-5 mr-2" id="search" name="search"  maxlength="100"
                    th:placeholder="#{auth.msg.searchPlaceholder}"/>
             <span id="totalCount" class="search-count"></span>
             <div class="ml-auto">
@@ -33,11 +33,11 @@
             <div class="edit-form">
                 <div class="edit-row flex-column">
                     <label th:text="#{auth.label.authId}" class="required"></label>
-                    <input id="txtAuthId" name="txtAuthId" type="text" maxlength="100">
+                    <input id="txtAuthId" name="txtAuthId" class="z-input" type="text" maxlength="100">
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{auth.label.authName}" class="required"></label>
-                    <input id="txtAuthName" name="txtAuthName" type="text" maxlength="100">
+                    <input id="txtAuthName" name="txtAuthName" class="z-input" type="text" maxlength="100">
                     <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
                 </div>
                 <div class="edit-row flex-column">
@@ -77,7 +77,7 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{auth.label.referenceCount}"></label>
-                    <input id="roleAuthMapCount" name="roleAuthMapCount" type="text" disabled>
+                    <input id="roleAuthMapCount" name="roleAuthMapCount" class="z-input" type="text" disabled>
                 </div>
             </div>
         </div>

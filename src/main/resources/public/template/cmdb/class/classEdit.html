@@ -14,7 +14,7 @@
             <h6 class="description ml-2" th:text="#{cmdb.class.msg.editDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
+            <input type="text" class="z-input search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
             <span id="totalCount" class="search-count"></span>
             <div class="ml-auto">
@@ -37,11 +37,11 @@
                 <input type="hidden" id="txtPClassId" name="txtPClassId"/>
                 <div class="edit-row flex-column">
                     <label class="form-title" th:text="#{cmdb.class.label.pClassName}" for="txtPClassName"></label>
-                    <input type="text" id="txtPClassName" name="txtPClassName" maxlength="128" readonly/>
+                    <input type="text" class="z-input" id="txtPClassName" name="txtPClassName" maxlength="128" readonly/>
                 </div>
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.class.label.name}" for="txtClassName"></label>
-                    <input type="text" id="txtClassName" name="txtClassName" maxlength="100"/>
+                    <input type="text" class="z-input" id="txtClassName" name="txtClassName" maxlength="100"/>
                 </div>
                 <div class="edit-row flex-column">
                     <label class="form-title" th:text="#{cmdb.class.label.description}" for="txtClassDesc"></label>
@@ -293,7 +293,7 @@
             inputElem.id = param.key;
             inputElem.name = target;
             inputElem.value = (typeof param !== 'undefined') ? param.value : '';
-            inputElem.classList.add('attribute');
+            inputElem.classList.add('z-input', 'attribute');
             inputElem.readOnly = true;
 
             const deleteBtn = document.createElement('button');

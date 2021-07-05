@@ -74,7 +74,7 @@
     &-search {
       height: $main-search-height;
       background-color: $main-search-bg-color;
-      @include border(0.0625rem, solid, $main-header-border-color ,bottom);
+      @include border(0.0625rem, solid, map-get($grays, 'line') ,bottom);
       padding: 1.875rem 0; // 30px 0
 
       // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨

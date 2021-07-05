@@ -22,7 +22,7 @@
                     <span class="required"></span>
                 </label>
                 <input type="text" id="boardAdminTitle" maxlength="70" th:value="${boardAdmin?.boardAdminTitle}"
-                       required="required"/>
+                       class="z-input" required="required"/>
             </div>
             <div class="flex-column edit-row">
                 <label class="switch">
@@ -34,7 +34,7 @@
             </div>
             <div class="flex-column edit-row">
                 <label th:text="#{board.label.order}" for="boardAdminSort"></label>
-                <input class="col-6" id="boardAdminSort" name="boardAdminSort" type="text"
+                <input class="z-input col-6" id="boardAdminSort" name="boardAdminSort" type="text"
                        th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
                        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>
@@ -74,11 +74,12 @@
                                 <span th:text="#{board.label.categoryName}"></span>
                                 <span class="required"></span>
                             </label>
-                            <input type="text" id="boardCategoryName" maxlength="100" required="required"/>
+                            <input type="text" id="boardCategoryName" class="z-input" maxlength="100" required="required"/>
                         </div>
                         <div class="flex-column col-5 mr-2">
                             <label th:text="#{board.label.order}" for="boardCategorySort"></label>
-                            <input type="text" id="boardCategorySort" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                            <input type="text" id="boardCategorySort" class="z-input" maxlength="2"
+                                   onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
                         </div>
                         <div class="flex-column justify-content-end col-1">
                             <button class="point-fill" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
@@ -126,7 +127,7 @@
             </div>
             <div class="flex-column edit-row">
                 <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
-                <input class="col-6 mb" id="attachFileSize" name="attachFileSize" type="text"
+                <input class="z-input col-6 mb" id="attachFileSize" name="attachFileSize" type="text"
                        th:value="${boardAdmin?.attachFileSize}" maxlength="4"
                        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>

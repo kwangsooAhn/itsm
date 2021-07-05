@@ -19,7 +19,7 @@
         <div class="header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
             <form id="searchFrm">
-                <input type="text" id="search" name="search" class="search col-5 mr-2" maxlength="100"
+                <input type="text" id="search" name="search" class="z-input search col-5 mr-2" maxlength="100"
                        th:placeholder="#{form.label.searchPlaceholder}"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
@@ -117,7 +117,7 @@
             return `<div class="flex-column">` +
                        `<input type="hidden" id="form_status" value="${data !== undefined ? data.status : ''}" />` +
                        `<label class="field-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>` +
-                       `<input type="text" id="form_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
+                       `<input type="text" id="form_name" class="z-input" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
                        `<label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>` +
                        `<textarea rows="3" class="textarea-scroll-wrapper" id="form_description" maxlength="256" ${data !== undefined && data.isView ? 'readonly' : ''}>${data !== undefined ? data.desc : ''}</textarea>` +
                     `</div>`;
@@ -339,7 +339,7 @@
         function createImportModalContent() {
             return `<div class="import-main flex-column">` +
                        `<label class="field-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>` +
-                       `<input type="text" id="form_name" id="form_name" maxlength="50">` +
+                       `<input type="text" id="form_name" class="z-input" maxlength="50">` +
                        `<label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>` +
                        `<textarea rows="3" class="textarea-scroll-wrapper" id="form_description" maxlength="256"></textarea>` +
                        `<div class="file-uploader-edit">` +

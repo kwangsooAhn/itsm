@@ -1595,6 +1595,61 @@ label {
   background: #8B9094;
 }
 
+.z-textarea {
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #212121;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  padding: 0.5rem 0.625rem 0.5rem 0.625rem;
+  resize: vertical;
+}
+.z-textarea::placeholder {
+  color: #ABB0B5;
+}
+.z-textarea:not(:disabled):focus, .z-textarea:not(:read-only):focus {
+  outline: 0;
+  border-color: #2578CE;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
+}
+.z-textarea:not(:disabled):hover, .z-textarea:not(:read-only):hover {
+  outline: 0;
+  border-color: #64BBF6;
+}
+.z-textarea:not(:disabled):active, .z-textarea:not(:read-only):active {
+  outline: 0;
+  border-color: #339AF0;
+}
+.z-textarea:disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  pointer-events: none;
+  cursor: default;
+}
+.z-textarea:read-only {
+  border-color: #ABB0B5;
+  border-style: none none none solid;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  background-color: #FFFFFF;
+  pointer-events: none;
+  cursor: default;
+}
+.z-textarea.error {
+  border: 0.0625rem solid #F52525;
+}
+.z-textarea.success {
+  border: 0.0625rem solid #76BD26;
+}
+
 /* _print.scss 
  *
  * 파일 경로 : document/_print.scss
