@@ -59,6 +59,7 @@ class CmdbTest {
     @Test
     @DisplayName("CI 목록 조회")
     @Order(1)
+    @Disabled
     fun getCIs() {
         val headers = HttpHeaders()
         headers.set("Authorization", "Bearer $accessToken")
