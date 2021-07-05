@@ -22,13 +22,13 @@
                     <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
                 </select>
                 <label for="searchDocuments"></label>
-                <input type="text" class="search" maxlength="100" id="searchDocuments"
+                <input type="text" class="z-input search" maxlength="100" id="searchDocuments"
                        name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}"/>
                 <label for="searchProcessName"></label>
-                <input type="text" class="search" maxlength="100" id="searchProcessName"
+                <input type="text" class="z-input search" maxlength="100" id="searchProcessName"
                        name="searchProcessName" th:placeholder="#{document.label.process}"/>
                 <label for="searchFormName"></label>
-                <input type="text" class="search mr-2" maxlength="100" id="searchFormName"
+                <input type="text" class="z-input search mr-2" maxlength="100" id="searchFormName"
                        name="searchFormName" th:placeholder="#{document.label.form}"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>

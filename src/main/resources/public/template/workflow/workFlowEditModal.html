@@ -18,7 +18,7 @@
                 <span th:text="#{document.label.name}"></span>
                 <span class="required"></span>
             </label>
-            <input id="document-name" type="text" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
+            <input type="text" class="z-input" id="document-name" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
             <!-- 설명 -->
             <label class="field-label" th:text="#{document.label.description}" for="document-desc"></label>
             <textarea id="document-desc" class="textarea-scroll-wrapper" rows="7" maxlength="128" th:text="${documentData?.documentDesc}"></textarea>
@@ -88,7 +88,8 @@
                     <div class="selected-color-box">
                         <div id="selected-color" name="selected-color" class="selected-color"></div>
                     </div>
-                    <input type="text" id="document-color" name="document-color" th:value="${documentData?.documentColor}" readonly/>
+                    <input type="text" class="z-input" id="document-color" name="document-color"
+                           th:value="${documentData?.documentColor}" readonly/>
                 </div>
                 <div id="color-palette-layer">
                     <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
@@ -99,7 +100,7 @@
             <div id="document-icon-content" class="document-icon-content" th:classappend="${documentData?.documentType != 'workflow'} ? 'on'">
                 <label class="field-label" for="document-icon" th:text="#{document.label.icon}"></label>
                 <div class="flex-row input-button">
-                    <input type="text" id="document-icon" class="col-5" th:value="${documentData?.documentIcon}" readonly />
+                    <input type="text" id="document-icon" class="z-input col-5" th:value="${documentData?.documentIcon}" readonly />
                     <button type="button" class="default-line" th:text="#{common.btn.select}" th:onclick="openIcon();"></button>
                 </div>
             </div>

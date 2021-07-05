@@ -35,8 +35,8 @@
                                     </div>
                                 </div>
                             </label>
-                            <input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}"
-                                   required="required"/>
+                            <input type="text" class="z-input" id="userId" name="userId" th:value="${users?.userId}"
+                                   maxlength="100" required="required"/>
                         </div>
                         <div class="flex-column edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                             <label for="password">
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                             </label>
-                            <input type="password" id="password" name="password" maxlength="100"
+                            <input type="password" class="z-input" id="password" name="password" maxlength="100"
                                    autocomplete="new-password" required="required"/>
                         </div>
                         <div class="flex-column edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
@@ -57,7 +57,7 @@
                                 <span th:text="#{user.label.rePassword}"></span>
                                 <span class="required"></span>
                             </label>
-                            <input type="password" id="rePassword" name="rePassword" maxlength="100"
+                            <input type="password" class="z-input" id="rePassword" name="rePassword" maxlength="100"
                                    autocomplete="new-password" required="required"/>
                         </div>
                         <div class="flex-column edit-row">
@@ -65,8 +65,8 @@
                                 <span th:text="#{user.label.name}"></span>
                                 <span class="required"></span>
                             </label>
-                            <input id="userName" name="userName" th:value="${users?.userName}" maxlength="100"
-                                   required="required"/>
+                            <input type="text" class="z-input" id="userName" name="userName" th:value="${users?.userName}"
+                                   maxlength="100" required="required"/>
                         </div>
                         <div class="flex-column edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                             <label for="email">
@@ -74,29 +74,29 @@
                                 <span class="required"></span>
                             </label>
                             <span th:text="#{user.msg.emailAlert}" hidden></span>
-                            <input id="email" name="email" th:value="${users?.email}" maxlength="100"
-                                   required="required">
+                            <input type="text" class="z-input" id="email" name="email" th:value="${users?.email}"
+                                   maxlength="100" required="required">
                         </div>
                         <div class="flex-column edit-row">
                             <label th:text="#{user.label.position}" for="position"></label>
-                            <input id="position" name="position" th:value="${users?.position}" maxlength="100">
+                            <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}" maxlength="100">
                         </div>
                         <div class="flex-column edit-row">
                             <label th:text="#{user.label.department}" for="department"></label>
                             <div class="flex-row input-button">
                                 <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
-                                <input type="text" class="col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
+                                <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
                                 <button type="button" class="default-line" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
                             </div>
                         </div>
                         <div class="flex-column edit-row">
                             <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
-                            <input id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
+                            <input type="text" class="z-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
                                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
                         </div>
                         <div class="flex-column edit-row">
                             <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
-                            <input id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
+                            <input type="text" class="z-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
                         </div>
                     </div>

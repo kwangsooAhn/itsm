@@ -17,7 +17,7 @@
         <div class="header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>
             <form id="searchFrm">
-                <input type="text" id="search" name="search" class="search col-5 mr-2"  maxlength="100"
+                <input type="text" id="search" name="search" class="z-input search col-5 mr-2"  maxlength="100"
                        th:placeholder="#{process.label.searchPlaceholder}"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
@@ -115,7 +115,7 @@
             return `<div class="flex-column">` +
                        `<input type="hidden" id="process_status" value="${data !== undefined ? data.status : ''}" />` +
                        `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
-                       `<input type="text" id="process_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
+                       `<input type="text" class="z-input" id="process_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
                        `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
                        `<textarea rows="3" class="textarea-scroll-wrapper" id="process_description" maxlength="256" ${data !== undefined && data.isView ? 'readonly' : ''}>${data !== undefined ? data.description : ''}</textarea>` +
                     `</div>`;
@@ -373,7 +373,7 @@
         function createImportModalContent() {
             return `<div class="import-main flex-column">` +
                        `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
-                       `<input type="text" id="process_name" id="process_name" maxlength="50">` +
+                       `<input type="text" class="z-input" id="process_name" maxlength="50">` +
                        `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
                        `<textarea rows="3" class="textarea-scroll-wrapper" id="process_description" maxlength="256"></textarea>` +
                        `<div class="file-uploader-edit">` +
