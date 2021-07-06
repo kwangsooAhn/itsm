@@ -6,7 +6,6 @@
 
 package co.brainz.cmdb.dto
 
-import com.google.gson.JsonArray
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -25,7 +24,7 @@ data class CIDetailDto(
     var className: String? = null,
     var classes: List<CIClassDetailValueDto>? = null,
     var ciRelations: MutableList<CIRelationDto>? = null,
-    var ciTags: JsonArray? = null,
+    var ciTags: String? = null,
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,

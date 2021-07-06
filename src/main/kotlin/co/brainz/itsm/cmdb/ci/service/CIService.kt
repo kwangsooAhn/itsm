@@ -22,8 +22,6 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
@@ -97,25 +95,14 @@ class CIService(
             // 임시 테이블의 CI 세부 데이터가 존재할 경우 합치기
             val ciComponentData =
                 ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
-            val tagDataList = JsonArray()
+            val tagDataList = mutableListOf<Map<String, String>>()
             val relationList = mutableListOf<CIRelationDto>()
             val ciClasses = ciClassService.getCIClassAttributes(map["classId"] as String)
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
                     mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
                 // 태그
-                val ciTags: List<Map<String, Any>> =
-                    mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType)
-                ciTags.forEach { tag ->
-                    if (tag["id"] != null && tag["value"] != null) {
-                        val ciTag = JsonObject()
-                        ciTag.addProperty("id", tag["id"] as String)
-                        // ciTag.addProperty("tagType", AliceTagConstants.TagType.CI.code)
-                        ciTag.addProperty("value", tag["value"] as String)
-                        // ciTag.addProperty("targetId", ciId)
-                        tagDataList.add(ciTag)
-                    }
-                }
+                tagDataList.addAll(mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType))
 
                 // TODO : 연관 관계
 
@@ -137,7 +124,7 @@ class CIService(
                     }
                 }
             }
-            ciDetailDto.ciTags = tagDataList
+            ciDetailDto.ciTags = mapper.writeValueAsString(tagDataList)
             ciDetailDto.ciRelations = relationList
             ciDetailDto.classes = ciClasses
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
