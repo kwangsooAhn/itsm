@@ -2,7 +2,7 @@
  * Image Mixin
  *
  *
- * @author
+ * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -156,10 +156,9 @@ export const imageMixin = {
         this._value = value;
     },
     get value() {
-        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
-        // 사용자 변경시 해당 값이 할당된다.
         return this._value;
     },
+    // 세부 속성 조회
     getProperty() {
         const elementWidthProperty = new ZInputBoxProperty('elementWidth', 'element.width', this.elementWidth)
             .setValidation(false, 'number', '0', '', '', '');

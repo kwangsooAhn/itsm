@@ -106,8 +106,10 @@ export const dropdownMixin = {
     updateValue(e) {
         e.stopPropagation();
         e.preventDefault();
+        
         this.value = e.target.value;
     },
+    // 세부 속성 조회
     getProperty() {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
@@ -119,6 +121,7 @@ export const dropdownMixin = {
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
     },
+    // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {
         return {
             id: this._id,

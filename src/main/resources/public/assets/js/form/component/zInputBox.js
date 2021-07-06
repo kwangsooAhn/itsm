@@ -60,7 +60,7 @@ export const inputBoxMixin = {
             .setUIRequired(this.validationRequired)
             // TODO: 처리할 문서 - 그룹의 displayType에 따라서 readonly 처리
             //.setUIReadOnly((this.parent.parent.displayType === FORM.DISPLAY_TYPE.READONLY))
-            .setUIValue(this.value)
+            .setUIValue(this.getDefaultValue())
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-type', this.validationValidationType)
             .setUIAttribute('data-validation-max-length', this.validationMaxLength)
@@ -96,7 +96,7 @@ export const inputBoxMixin = {
     },
     set elementDefaultValueSelect(value) {
         this._element.defaultValueSelect = value;
-        this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.value);
+        this.UIElement.UIComponent.UIElement.UIInputbox.setUIValue(this.getDefaultValue());
     },
     get elementDefaultValueSelect() {
         return this._element.defaultValueSelect;
@@ -146,16 +146,20 @@ export const inputBoxMixin = {
     },
     // 기본 값 조회
     get value() {
-        if (this._value === '${default}') {
+        return this._value;
+    },
+    // input에 표시되는 기본 값 조회
+    getDefaultValue() {
+        if (this.value === '${default}') {
             // 직접입력일 경우 : none|입력값
-            const defaultValues = this._element.defaultValueSelect.split('|');
+            const defaultValues = this.elementDefaultValueSelect.split('|');
             if (defaultValues[0] === 'input') {
                 return defaultValues[1];
             } else {  // 자동일경우 : select|userKey
                 return SESSION[defaultValues[1]] || '';
             }
         } else {
-            return this._value;
+            return this.value;
         }
     },
     // input box 값 변경시 이벤트 핸들러
@@ -178,7 +182,7 @@ export const inputBoxMixin = {
 
         this.value = e.target.value;
     },
-
+    // 세부 속성 조회
     getProperty() {
         // validation - validation Type
         const validationTypeProperty = new ZDropdownProperty('validationValidationType', 'validation.validationType',

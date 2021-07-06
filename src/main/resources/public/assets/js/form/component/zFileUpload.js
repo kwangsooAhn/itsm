@@ -2,7 +2,7 @@
  * File Upload Mixin
  *
  *
- * @author
+ * @author jy.lim <jy.lim@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -43,8 +43,8 @@ export const fileUploadMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        // label 상단 처리
-        this.labelPosition = FORM.LABEL.POSITION.TOP;
+        // label 숨김 처리
+        this.labelPosition = FORM.LABEL.POSITION.HIDDEN;
 
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
@@ -123,29 +123,7 @@ export const fileUploadMixin = {
         this._value = value;
     },
     get value() {
-        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
-        // 사용자 변경시 해당 값이 할당된다.
         return this._value;
-    },
-    // input box 값 변경시 이벤트 핸들러
-    updateValue(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        // enter, tab 입력시
-        if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
-            return false;
-        }
-        // 유효성 검증
-        // keyup 일 경우 type, min, max 체크
-        if (e.type === 'keyup' && !zValidation.keyUpValidationCheck(e.target)) {
-            return false;
-        }
-        // change 일 경우 minLength, maxLength 체크
-        if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
-            return false;
-        }
-
-        this.value = e.target.value;
     },
     getProperty() {
         return [

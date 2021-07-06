@@ -31,7 +31,7 @@ class ZFormDesigner {
         aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
             method: 'GET'
         }).then((customData) => {
-            FORM.CUSTOM_CODE = customData;
+            FORM.CUSTOM_CODE = customData.data;
         });
 
         // 초기화
@@ -46,6 +46,7 @@ class ZFormDesigner {
         //상단 메뉴 버튼 액션 추가
         document.getElementById('btnSave').addEventListener('click', this.saveForm.bind(this, false), false);
         document.getElementById('btnSaveAs').addEventListener('click', this.openSaveAsModal.bind(this), false);
+
         document.getElementById('btnUndo').addEventListener('click', this.history.undo.bind(this.history), false);
         document.getElementById('btnRedo').addEventListener('click', this.history.redo.bind(this.history), false);
         document.getElementById('btnPreview').addEventListener('click', this.preview.bind(this), false);
@@ -178,8 +179,6 @@ class ZFormDesigner {
             method: 'GET',
             showProgressbar: true
         }).then((formData) => {
-            // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
-            //this.data = aliceForm.reformatCalendarFormat('read', response.json());
             // displayOrder 로 정렬
             this.sortJson(formData);
             this.data = formData;
@@ -219,8 +218,9 @@ class ZFormDesigner {
      * 폼 디자이너 상단 이름 출력
      */
     setFormName(name) {
+        const changeName = name || this.form.name;
         document.getElementById('formName').textContent =
-            (this.history.status ? '*' : '') + name;
+            (this.history.status ? '*' : '') + changeName;
     }
     /**
      * FORM 생성 (Recursive)
@@ -263,246 +263,246 @@ class ZFormDesigner {
         let addObject = null; // 추가된 객체
 
         switch(type) {
-        case FORM.LAYOUT.FORM:
-            addObject = new ZForm(data);
+            case FORM.LAYOUT.FORM:
+                addObject = new ZForm(data);
 
-            // drag & drop 이벤트 추가
-            addObject.UIElement.addUIClass('list-group');
-            new Sortable(addObject.UIElement.domElement, {
-                group: {
-                    name: 'form',
-                    pull: false,
-                    put: ['palette', 'group', 'row']
-                },
-                animation: 150,
-                sort: true,
-                chosenClass: 'drag-in',
-                editor: this,
-                draggable: '.list-group-item',
-                fallbackOnBody: true,
-                swapThreshold: 0.65,
-                filter: '.' + CLASS_PREFIX + 'tooltip-menu',
-                preventOnFilter: true,
-                onChoose: function () {
-                    this.options.editor.deSelectObject();
-                },
-                onEnd: function (evt) {
-                    const editor = this.options.editor;
-                    const swapObject = editor.swapObject(editor.form, evt.oldDraggableIndex, evt.newDraggableIndex);
-                    if (swapObject) {
-                        swapObject.UIElement.domElement.dispatchEvent(new Event('click'));
-                    }
-                }
-            });
-            break;
-        case FORM.LAYOUT.GROUP:
-            addObject = new ZGroup(data);
-
-            // drag & drop 이벤트 추가
-            addObject.UIElement.addUIClass('list-group-item');
-            addObject.UIElement.UIGroup.addUIClass('list-group');
-            new Sortable(addObject.UIElement.UIGroup.domElement, {
-                group: {
-                    name: 'group',
-                    pull: 'clone',
-                    put: ['palette', 'group', 'row']
-                },
-                animation: 150,
-                sort: true,
-                chosenClass: 'drag-in',
-                editor: this,
-                draggable: '.list-group-item',
-                fallbackOnBody: true,
-                swapThreshold: 0.65,
-                filter: '.' + CLASS_PREFIX + 'tooltip-menu',
-                preventOnFilter: true,
-                onChoose: function () {
-                    this.options.editor.deSelectObject();
-                },
-                onClone: function (evt) {
-                    // clone 대상이되는 엘리먼트 디자인 변경
-                    evt.clone.classList.add('drag-ghost');
-                },
-                onEnd: function (evt) {
-                    evt.clone.classList.remove('drag-ghost');
-
-                    const editor = this.options.editor;
-                    const fromObject = editor.form.getById(evt.from.id);
-
-                    if (evt.from.id === evt.to.id) {
-                        const swapObject = editor.swapObject(fromObject, evt.oldDraggableIndex, evt.newDraggableIndex);
+                // drag & drop 이벤트 추가
+                addObject.UIElement.addUIClass('list-group');
+                new Sortable(addObject.UIElement.domElement, {
+                    group: {
+                        name: 'form',
+                        pull: false,
+                        put: ['palette', 'group', 'row']
+                    },
+                    animation: 150,
+                    sort: true,
+                    chosenClass: 'drag-in',
+                    editor: this,
+                    draggable: '.list-group-item',
+                    fallbackOnBody: true,
+                    swapThreshold: 0.65,
+                    filter: '.' + CLASS_PREFIX + 'tooltip-menu',
+                    preventOnFilter: true,
+                    onChoose: function () {
+                        this.options.editor.deSelectObject();
+                    },
+                    onEnd: function (evt) {
+                        const editor = this.options.editor;
+                        const swapObject = editor.swapObject(editor.form, evt.oldDraggableIndex, evt.newDraggableIndex);
                         if (swapObject) {
                             swapObject.UIElement.domElement.dispatchEvent(new Event('click'));
                         }
-                    } else { // 다른 위치로 이동
-                        const histories = [];  // 이력 저장용
-                        const toObject = editor.form.getById(evt.to.id);
-                        const sortObject = fromObject.children[evt.oldDraggableIndex];
-                        // 이력 추가
-                        histories.push({
-                            type: 'remove',
-                            from: { id: sortObject.parent.id, clone: sortObject.clone(true).toJson() },
-                            to: { id: '', clone: null }
-                        });
+                    }
+                });
+                break;
+            case FORM.LAYOUT.GROUP:
+                addObject = new ZGroup(data);
 
-                        if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.FORM)) {
-                            // form 내에 신규 group 추가
-                            const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject, evt.newDraggableIndex);
-                            group.add(sortObject, 0);
+                // drag & drop 이벤트 추가
+                addObject.UIElement.addUIClass('list-group-item');
+                addObject.UIElement.UIGroup.addUIClass('list-group');
+                new Sortable(addObject.UIElement.UIGroup.domElement, {
+                    group: {
+                        name: 'group',
+                        pull: 'clone',
+                        put: ['palette', 'group', 'row']
+                    },
+                    animation: 150,
+                    sort: true,
+                    chosenClass: 'drag-in',
+                    editor: this,
+                    draggable: '.list-group-item',
+                    fallbackOnBody: true,
+                    swapThreshold: 0.65,
+                    filter: '.' + CLASS_PREFIX + 'tooltip-menu',
+                    preventOnFilter: true,
+                    onChoose: function () {
+                        this.options.editor.deSelectObject();
+                    },
+                    onClone: function (evt) {
+                    // clone 대상이되는 엘리먼트 디자인 변경
+                        evt.clone.classList.add('drag-ghost');
+                    },
+                    onEnd: function (evt) {
+                        evt.clone.classList.remove('drag-ghost');
+
+                        const editor = this.options.editor;
+                        const fromObject = editor.form.getById(evt.from.id);
+
+                        if (evt.from.id === evt.to.id) {
+                            const swapObject = editor.swapObject(fromObject, evt.oldDraggableIndex, evt.newDraggableIndex);
+                            if (swapObject) {
+                                swapObject.UIElement.domElement.dispatchEvent(new Event('click'));
+                            }
+                        } else { // 다른 위치로 이동
+                            const histories = [];  // 이력 저장용
+                            const toObject = editor.form.getById(evt.to.id);
+                            const sortObject = fromObject.children[evt.oldDraggableIndex];
                             // 이력 추가
-                            histories.push({
-                                type: 'add',
-                                from: { id: '', clone: null },
-                                to: { id: toObject.id, clone: group.clone(true).toJson() }
-                            });
-                            // group 선택
-                            group.UIElement.domElement.dispatchEvent(new Event('click'));
-                        } else {
-                            // 다른 group 내로 이동
-                            toObject.add(sortObject, evt.newDraggableIndex);
-                            // 이력 추가
-                            histories.push({
-                                type: 'add',
-                                from: { id: '', clone: null },
-                                to: { id: toObject.id, clone: sortObject.clone(true).toJson() }
-                            });
-                            // row 선택
-                            sortObject.UIElement.domElement.dispatchEvent(new Event('click'));
-                        }
-                        // 그룹에 자식이 없을 경우 그룹 삭제
-                        if (fromObject.children !== undefined && fromObject.children.length === 0) {
                             histories.push({
                                 type: 'remove',
-                                from: { id: fromObject.parent.id, clone: fromObject.clone(true).toJson() },
+                                from: { id: sortObject.parent.id, clone: sortObject.clone(true).toJson() },
                                 to: { id: '', clone: null }
                             });
-                            fromObject.parent.remove(fromObject);
-                        }
-                        // clone 후 기존 row 삭제
-                        evt.from.removeChild(evt.clone);
-                        // 이력 저장
-                        editor.history.save(histories.reverse());
-                    }
-                }
-            });
-            break;
-        case FORM.LAYOUT.ROW:
-            addObject = new ZRow(data);
 
-            // drag & drop 이벤트 추가
-            addObject.UIElement.addUIClass('list-group-item');
-            addObject.UIElement.UIRow.addUIClass('list-group');
-            new Sortable(addObject.UIElement.UIRow.domElement, {
-                group: {
-                    name: 'row',
-                    pull: 'clone',
-                    put: function (to) { // row 컴포넌트 갯수 제한
-                        if (to.el.classList.contains(CLASS_PREFIX + 'row') && 
-                          to.el.children.length >= FORM.MAX_COMPONENT_IN_ROW) {
-                            return 'false';
-                        } else {
-                            return ['palette', 'row'];
+                            if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.FORM)) {
+                            // form 내에 신규 group 추가
+                                const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject, evt.newDraggableIndex);
+                                group.add(sortObject, 0);
+                                // 이력 추가
+                                histories.push({
+                                    type: 'add',
+                                    from: { id: '', clone: null },
+                                    to: { id: toObject.id, clone: group.clone(true).toJson() }
+                                });
+                                // group 선택
+                                group.UIElement.domElement.dispatchEvent(new Event('click'));
+                            } else {
+                            // 다른 group 내로 이동
+                                toObject.add(sortObject, evt.newDraggableIndex);
+                                // 이력 추가
+                                histories.push({
+                                    type: 'add',
+                                    from: { id: '', clone: null },
+                                    to: { id: toObject.id, clone: sortObject.clone(true).toJson() }
+                                });
+                                // row 선택
+                                sortObject.UIElement.domElement.dispatchEvent(new Event('click'));
+                            }
+                            // 그룹에 자식이 없을 경우 그룹 삭제
+                            if (fromObject.children !== undefined && fromObject.children.length === 0) {
+                                histories.push({
+                                    type: 'remove',
+                                    from: { id: fromObject.parent.id, clone: fromObject.clone(true).toJson() },
+                                    to: { id: '', clone: null }
+                                });
+                                fromObject.parent.remove(fromObject);
+                            }
+                            // clone 후 기존 row 삭제
+                            evt.from.removeChild(evt.clone);
+                            // 이력 저장
+                            editor.history.save(histories.reverse());
                         }
                     }
-                },
-                direction: function(evt, target, dragEl) { // 하나의 row에 여러개 컴포넌트 추가 용도
-                    if (target !== null &&
+                });
+                break;
+            case FORM.LAYOUT.ROW:
+                addObject = new ZRow(data);
+
+                // drag & drop 이벤트 추가
+                addObject.UIElement.addUIClass('list-group-item');
+                addObject.UIElement.UIRow.addUIClass('list-group');
+                new Sortable(addObject.UIElement.UIRow.domElement, {
+                    group: {
+                        name: 'row',
+                        pull: 'clone',
+                        put: function (to) { // row 컴포넌트 갯수 제한
+                            if (to.el.classList.contains(CLASS_PREFIX + 'row') && 
+                          to.el.children.length >= FORM.MAX_COMPONENT_IN_ROW) {
+                                return 'false';
+                            } else {
+                                return ['palette', 'row'];
+                            }
+                        }
+                    },
+                    direction: function(evt, target, dragEl) { // 하나의 row에 여러개 컴포넌트 추가 용도
+                        if (target !== null &&
                         target.className.includes(CLASS_PREFIX + 'component-tooltip') &&
                         (dragEl.className.includes(CLASS_PREFIX + 'component-tooltip') ||
                             dragEl.className.includes('component-icon'))) {
-                        return 'horizontal';
-                    }
-                    return 'vertical';
-                },
-                animation: 150,
-                sort: true,
-                chosenClass: 'drag-in',
-                editor: this,
-                draggable: '.list-group-item',
-                fallbackOnBody: true,
-                swapThreshold: 0.65,
-                filter: '.' + CLASS_PREFIX + 'tooltip-menu',
-                preventOnFilter: true,
-                onChoose: function () {
-                    this.options.editor.deSelectObject();
-                },
-                onClone: function (evt) {
+                            return 'horizontal';
+                        }
+                        return 'vertical';
+                    },
+                    animation: 150,
+                    sort: true,
+                    chosenClass: 'drag-in',
+                    editor: this,
+                    draggable: '.list-group-item',
+                    fallbackOnBody: true,
+                    swapThreshold: 0.65,
+                    filter: '.' + CLASS_PREFIX + 'tooltip-menu',
+                    preventOnFilter: true,
+                    onChoose: function () {
+                        this.options.editor.deSelectObject();
+                    },
+                    onClone: function (evt) {
                     // clone 대상이되는 엘리먼트 디자인 변경
-                    evt.clone.classList.add('drag-ghost');
-                },
-                onEnd: function (evt) {
-                    evt.clone.classList.remove('drag-ghost');
+                        evt.clone.classList.add('drag-ghost');
+                    },
+                    onEnd: function (evt) {
+                        evt.clone.classList.remove('drag-ghost');
 
-                    const editor = this.options.editor;
+                        const editor = this.options.editor;
 
-                    const fromObject = editor.form.getById(evt.from.id);
-                    if (evt.from.id === evt.to.id) {
-                        const swapObject = editor.swapObject(fromObject, evt.oldDraggableIndex, evt.newDraggableIndex);
-                        if (swapObject) {
-                            swapObject.UIElement.domElement.dispatchEvent(new Event('click'));
-                        }
-                    } else { // 다른 위치로 이동
-                        const histories = [];  // 이력 저장용
-                        const toObject = editor.form.getById(evt.to.id);
-                        const sortObject = fromObject.children[evt.oldDraggableIndex];
-                        // 이력 추가
-                        histories.push({
-                            type: 'remove',
-                            from: { id: sortObject.parent.id, clone: sortObject.clone(true, { type: sortObject.type }).toJson() },
-                            to: { id: '', clone: null }
-                        });
-                        if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.FORM)) {
+                        const fromObject = editor.form.getById(evt.from.id);
+                        if (evt.from.id === evt.to.id) {
+                            const swapObject = editor.swapObject(fromObject, evt.oldDraggableIndex, evt.newDraggableIndex);
+                            if (swapObject) {
+                                swapObject.UIElement.domElement.dispatchEvent(new Event('click'));
+                            }
+                        } else { // 다른 위치로 이동
+                            const histories = [];  // 이력 저장용
+                            const toObject = editor.form.getById(evt.to.id);
+                            const sortObject = fromObject.children[evt.oldDraggableIndex];
+                            // 이력 추가
+                            histories.push({
+                                type: 'remove',
+                                from: { id: sortObject.parent.id, clone: sortObject.clone(true, { type: sortObject.type }).toJson() },
+                                to: { id: '', clone: null }
+                            });
+                            if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.FORM)) {
                             // 신규 group, row 추가 후 component 이동
-                            const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject, evt.newDraggableIndex);
-                            const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, group, 0);
-                            row.add(sortObject, 0);
-                            // 이력 추가
-                            histories.push({
-                                type: 'add',
-                                from: { id: '', clone: null },
-                                to: { id: toObject.id, clone: group.clone(true).toJson() }
-                            });
-                            // group 선택
-                            group.UIElement.domElement.dispatchEvent(new Event('click'));
-                        } else if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.GROUP)) {
+                                const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject, evt.newDraggableIndex);
+                                const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, group, 0);
+                                row.add(sortObject, 0);
+                                // 이력 추가
+                                histories.push({
+                                    type: 'add',
+                                    from: { id: '', clone: null },
+                                    to: { id: toObject.id, clone: group.clone(true).toJson() }
+                                });
+                                // group 선택
+                                group.UIElement.domElement.dispatchEvent(new Event('click'));
+                            } else if (evt.to.classList.contains(CLASS_PREFIX + FORM.LAYOUT.GROUP)) {
                             // 신규 row 추가 후 component 이동
-                            const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, toObject, evt.newDraggableIndex);
-                            row.add(sortObject, 0);
-                            // 이력 추가
-                            histories.push({
-                                type: 'add',
-                                from: { id: '', clone: null },
-                                to: { id: toObject.id, clone: row.clone(true).toJson() }
-                            });
-                            // group 선택
-                            row.UIElement.domElement.dispatchEvent(new Event('click'));
-                        } else { // component 이동
-                            toObject.add(sortObject, evt.newDraggableIndex);
-                            // 이력 추가
-                            histories.push({
-                                type: 'add',
-                                from: { id: '', clone: null },
-                                to: { id: toObject.id, clone: sortObject.clone(true, { type: sortObject.type }).toJson() }
-                            });
-                            // component 선택
-                            sortObject.UIElement.domElement.dispatchEvent(new Event('click'));
+                                const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, toObject, evt.newDraggableIndex);
+                                row.add(sortObject, 0);
+                                // 이력 추가
+                                histories.push({
+                                    type: 'add',
+                                    from: { id: '', clone: null },
+                                    to: { id: toObject.id, clone: row.clone(true).toJson() }
+                                });
+                                // group 선택
+                                row.UIElement.domElement.dispatchEvent(new Event('click'));
+                            } else { // component 이동
+                                toObject.add(sortObject, evt.newDraggableIndex);
+                                // 이력 추가
+                                histories.push({
+                                    type: 'add',
+                                    from: { id: '', clone: null },
+                                    to: { id: toObject.id, clone: sortObject.clone(true, { type: sortObject.type }).toJson() }
+                                });
+                                // component 선택
+                                sortObject.UIElement.domElement.dispatchEvent(new Event('click'));
+                            }
+                            // row에 자식이 없을 경우 Row 삭제
+                            editor.deleteRowChildrenEmpty(fromObject, histories);
+                            // clone 후 기존 row 삭제
+                            evt.from.removeChild(evt.clone);
+                            // 이력 저장
+                            editor.history.save(histories.reverse());
                         }
-                        // row에 자식이 없을 경우 Row 삭제
-                        editor.deleteRowChildrenEmpty(fromObject, histories);
-                        // clone 후 기존 row 삭제
-                        evt.from.removeChild(evt.clone);
-                        // 이력 저장
-                        editor.history.save(histories.reverse());
                     }
-                }
-            });
-            break;
-        case FORM.LAYOUT.COMPONENT:
-            addObject = new ZComponent(data);
-            addObject.UIElement.addUIClass('list-group-item'); // drag & drop 이벤트 추가
-            break;
-        default:
-            break;
+                });
+                break;
+            case FORM.LAYOUT.COMPONENT:
+                addObject = new ZComponent(data);
+                addObject.UIElement.addUIClass('list-group-item'); // drag & drop 이벤트 추가
+                break;
+            default:
+                break;
         }
         // 선택 이벤트 추가
         addObject.UIElement.onUIClick(this.selectObject.bind(addObject));
@@ -682,8 +682,7 @@ class ZFormDesigner {
         }
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
-        // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
-        console.log(saveData);
+        console.debug(saveData);
 
         // 저장
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
@@ -695,7 +694,9 @@ class ZFormDesigner {
             showProgressbar: true
         }).then((formData) => {
             if (formData) {
-                this.setFormName(this.form.name);
+                this.history.saveHistoryIndex = this.history.undoList.length;
+                this.history.status = 0;
+                this.setFormName();
                 // 팝업 닫기
                 if (boolean) {
                     aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
@@ -708,7 +709,6 @@ class ZFormDesigner {
                     const date = new Date();
                     document.getElementById('saveInfo').innerText = i18n.msg('form.msg.saveInfo'
                         , i18n.userDateTime(date.toISOString()));
-
                     aliceAlert.alertSuccess(i18n.msg('common.msg.save'));
                 }
             } else {
@@ -773,8 +773,7 @@ class ZFormDesigner {
         const saveData  =  this.form.toJson();
         saveData.name = document.getElementById('newFormName').value;
         saveData.desc = document.getElementById('newFormDesc').value;
-        // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
-        console.log(saveData);
+        console.debug(saveData);
         // 저장
         aliceJs.fetchText('/rest/forms?saveType=saveas', {
             method: 'POST',

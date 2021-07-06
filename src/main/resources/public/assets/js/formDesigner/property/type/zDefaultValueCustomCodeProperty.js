@@ -66,7 +66,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             .setUIOptions(customCodeOption)
             .setUIValue(defaultCustomCodeValues[0])
             .setUIAttribute('data-value', 'customCode')
-            .onUIChange(this.updateCustomCodeDate.bind(this));
+            .onUIChange(this.updateCustomCodeData.bind(this));
         this.UIElement.addUI(this.UIElement.UISelect);
 
         // 기본 값
@@ -151,8 +151,8 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         });
     }
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
-    updateCustomCodeDate(e) {
-        this.makeCustomCodeDate(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
+    updateCustomCodeData(e) {
+        this.makeCustomCodeData(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
 
         this.updateProperty.call(this, e);
     }

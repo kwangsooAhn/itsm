@@ -2,7 +2,7 @@
  * TextArea Mixin
  *
  *
- * @author
+ * @author phc <phc@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIDiv, UITextArea } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
@@ -49,7 +49,7 @@ export const textAreaMixin = {
     // component 엘리먼트 생성
     makeElement() {
         // label 숨김 처리
-        this.labelPosition = FORM.LABEL.POSITION.HIDDEN;
+        this.labelPosition = FORM.LABEL.POSITION.TOP;
 
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
@@ -152,6 +152,7 @@ export const textAreaMixin = {
 
         this.value = e.target.value;
     },
+    // 세부 속성 조회
     getProperty() {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
@@ -166,6 +167,7 @@ export const textAreaMixin = {
                 .addProperty(new ZInputBoxProperty('validationMaxLength', 'validation.maxLength', this.validationMaxLength))
         ];
     },
+    // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {
         return {
             id: this._id,
