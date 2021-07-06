@@ -135,7 +135,6 @@ class CIServiceTest {
                         ciDesc = "Update Test 1",
                         typeId = ciDto.typeId.toString(),
                         classId = ciDto.classId,
-                        ciTags = ciDto.tags,
                         ciIcon = ciDto.ciIcon
                     )
                     assertTrue(ciService.updateCI(updateCiDto).status)
