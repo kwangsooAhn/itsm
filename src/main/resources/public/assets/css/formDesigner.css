@@ -1751,6 +1751,7 @@ label {
   margin: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  flex-basis: calc((100% * var(--data-column, 12)) / 12);
 }
 .input-button input[type=text]:focus, .input-button input[type=text]:hover {
   z-index: 25;
@@ -5182,7 +5183,7 @@ body.modal-active {
   padding: 0.4375rem 0.938rem 0.4375rem 0;
 }
 .z-component .z-component-label.on {
-  display: block;
+  display: flex;
 }
 .z-component .z-component-label.off {
   display: none;
@@ -5240,18 +5241,8 @@ body.modal-active {
 .z-component .z-element .z-imagebox[src=""] + .z-imagebox-placeholder {
   display: block;
 }
-.z-component .z-element .z-input-button {
-  width: 100%;
-}
-.z-component .z-element .z-input-button .input {
-  width: 80%;
-}
-.z-component .z-element .z-input-button .button {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  word-wrap: normal;
-  width: 20%;
-  overflow: hidden;
+.z-component .z-element .z-input-button .z-button-search {
+  padding: 0.625rem;
 }
 .z-component .z-element .z-ci-table {
   width: 100%;

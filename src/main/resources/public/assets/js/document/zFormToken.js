@@ -118,20 +118,20 @@ class ZFormToken {
         let addObject = null; // 추가된 객체
 
         switch(type) {
-        case FORM.LAYOUT.FORM:
-            addObject = new ZForm(data);
-            break;
-        case FORM.LAYOUT.GROUP:
-            addObject = new ZGroup(data);
-            break;
-        case FORM.LAYOUT.ROW:
-            addObject = new ZRow(data);
-            break;
-        case FORM.LAYOUT.COMPONENT:
-            addObject = new ZComponent(data);
-            break;
-        default:
-            break;
+            case FORM.LAYOUT.FORM:
+                addObject = new ZForm(data);
+                break;
+            case FORM.LAYOUT.GROUP:
+                addObject = new ZGroup(data);
+                break;
+            case FORM.LAYOUT.ROW:
+                addObject = new ZRow(data);
+                break;
+            case FORM.LAYOUT.COMPONENT:
+                addObject = new ZComponent(data);
+                break;
+            default:
+                break;
         }
         if (parent && addObject) {
             parent.add(addObject, index);
@@ -146,7 +146,7 @@ class ZFormToken {
     getComponentData(object, array) {
         object.children.forEach((child) => {
             if (child instanceof ZComponent) {
-                array.push({ componentId: child.id, value: (Array.isArray(this.value) ? JSON.stringify(child.value) : child.value) });
+                array.push({ componentId: child.id, value: (typeof child.value === 'object' ? JSON.stringify(child.value) : child.value) });
             } else {
                 this.getComponentData(child, array);
             }
@@ -170,7 +170,8 @@ class ZFormToken {
             'tokenId': (zValidation.isDefined(this.formDataJson.tokenId) ? this.formDataJson.tokenId : ''),
             'isComplete': (actionType !== 'save'),
             'assigneeId' : (actionType === 'save') ? SESSION['userKey'] : '',
-            'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : ''
+            'assigneeType' : (actionType === 'save') ? DOCUMENT.ASSIGNEE_TYPE : '',
+            'action': actionType
         };
         // 컴포넌트 값
         saveData.componentData = this.zForm.getComponentData(this.zForm.form, []);

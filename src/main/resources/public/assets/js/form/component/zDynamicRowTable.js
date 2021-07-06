@@ -155,6 +155,7 @@ export const dynamicRowTableMixin = {
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX);
         row.addUICell(td);
+        
         if (Array.isArray(this.value) && this.value.length > 0) {
             this.value.forEach((rowData) => {
                 this.addTableRow(table, rowData);
@@ -219,10 +220,10 @@ export const dynamicRowTableMixin = {
     // column Type 에 따른 cell 반환
     getElementByColumnType(column, cellValue) {
         switch (column.columnType) {
-        case 'input':
-            return this.getInputBoxForColumn(column, cellValue);
-        default:
-            return new UISpan().setUIInnerHTML(cellValue);
+            case 'input':
+                return this.getInputBoxForColumn(column, cellValue);
+            default:
+                return new UISpan().setUIInnerHTML(cellValue);
         }
     },
     //column Type - input
@@ -285,6 +286,7 @@ export const dynamicRowTableMixin = {
 
         this.value = newValue;
     },
+    // 세부 속성 조회
     getProperty() {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),

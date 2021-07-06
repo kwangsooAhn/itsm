@@ -2,7 +2,7 @@
  * Text Editor Mixin
  *
  *
- * @author
+ * @author woodajung <wdj@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -177,6 +177,7 @@ export const textEditorMixin = {
     get value() {
         return this._value;
     },
+    // 세부 속성 조회
     getProperty() {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),

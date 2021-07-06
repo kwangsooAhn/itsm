@@ -51,7 +51,7 @@ class FormComponentDto(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var mapId: String = "",
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    var value: String? = "",
+    var value: String? = null,
     var isTopic: Boolean = false,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var tags: List<String>? = null,

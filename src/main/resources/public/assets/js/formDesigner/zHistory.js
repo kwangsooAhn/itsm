@@ -12,6 +12,8 @@ export default class ZHistory {
         this.editor = editor;
         this.undoList = [];
         this.redoList = [];
+
+        this.saveHistoryIndex = 0; // 저장 된 이력
         this.status = false; // 수정 여부
     }
 
@@ -39,7 +41,8 @@ export default class ZHistory {
         if (!flag) { this.redoList = []; }
 
         (list || this.undoList).push(data);
-        this.status = (this.undoList.length > 0); // undoList가 없으면 수정된 항목이 없음을 의미한다.
+        this.status = (this.saveHistoryIndex !== this.undoList.length); // undoList가 없으면 수정된 항목이 없음을 의미한다.
+        this.editor.setFormName();
     }
     /**
      * 되돌리기
@@ -75,54 +78,54 @@ export default class ZHistory {
         }
         historiesData.forEach((data) => {
             switch(data.type) {
-            case 'add':
-                const toParent = this.editor.form.getById(data.to.id);
-                if (type === 'redo') { // 복제한 객체를 다시 추가
-                    this.editor.makeForm(data.to.clone, toParent, data.to.clone.displayDisplayOrder);
-                    // 추가된 객체 선택
-                    toParent.getById(data.to.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
-                } else { // 기존 추가한 객체를 삭제
-                    const to = this.editor.form.getById(data.to.clone.id);
-                    toParent.remove(to);
-                }
-                break;
-            case 'remove':
-                const fromParent = this.editor.form.getById(data.from.id);
-                if (type === 'redo') {
-                    const from = this.editor.form.getById(data.from.clone.id);
-                    fromParent.remove(from);
-                } else { // 기존 삭제한 객체를 다시 추가
-                    this.editor.makeForm(data.from.clone, fromParent, data.from.clone.displayDisplayOrder);
-                    // 추가된 객체 선택
-                    fromParent.getById(data.from.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
-                }
-                break;
-            case 'sort': // 정렬 변경시
-                const sortParent = this.editor.form.getById(data.from.id);
-                const sortTarget = sortParent.getById(data.from.clone.id);
-                let oldIndex = data.to.clone.displayDisplayOrder;
-                let newIndex = data.from.clone.displayDisplayOrder;
-                if (type === 'redo') {
-                    oldIndex = data.from.clone.displayDisplayOrder;
-                    newIndex = data.to.clone.displayDisplayOrder;
-                }
-                aliceJs.moveObject(sortParent.children, oldIndex, newIndex); // 객체 정렬
-                sortParent.sort(0);
-                // DOM 객체 정렬
-                const nextSibling = (sortParent.children.length === (newIndex + 1)) ? null :
-                    sortParent.children[newIndex + 1].UIElement.domElement;
-                sortParent.UIElement.domElement.insertBefore(sortTarget.UIElement.domElement, nextSibling);
-                break;
-            case 'change':
-                const changeTarget = this.editor.form.getById(data.id);
-                if (type === 'redo') {
-                    changeTarget[data.method] = data.to;
-                } else {
-                    changeTarget[data.method] = data.from;
-                }
-                break;
-            default:
-                break;
+                case 'add':
+                    const toParent = this.editor.form.getById(data.to.id);
+                    if (type === 'redo') { // 복제한 객체를 다시 추가
+                        this.editor.makeForm(data.to.clone, toParent, data.to.clone.display.displayOrder);
+                        // 추가된 객체 선택
+                        toParent.getById(data.to.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
+                    } else { // 기존 추가한 객체를 삭제
+                        const to = this.editor.form.getById(data.to.clone.id);
+                        toParent.remove(to);
+                    }
+                    break;
+                case 'remove':
+                    const fromParent = this.editor.form.getById(data.from.id);
+                    if (type === 'redo') {
+                        const from = this.editor.form.getById(data.from.clone.id);
+                        fromParent.remove(from);
+                    } else { // 기존 삭제한 객체를 다시 추가
+                        this.editor.makeForm(data.from.clone, fromParent, data.from.clone.display.displayOrder);
+                        // 추가된 객체 선택
+                        fromParent.getById(data.from.clone.id).UIElement.domElement.dispatchEvent(new Event('click'));
+                    }
+                    break;
+                case 'sort': // 정렬 변경시
+                    const sortParent = this.editor.form.getById(data.from.id);
+                    const sortTarget = sortParent.getById(data.from.clone.id);
+                    let oldIndex = data.to.clone.display.displayOrder;
+                    let newIndex = data.from.clone.display.displayOrder;
+                    if (type === 'redo') {
+                        oldIndex = data.from.clone.display.displayOrder;
+                        newIndex = data.to.clone.display.displayOrder;
+                    }
+                    aliceJs.moveObject(sortParent.children, oldIndex, newIndex); // 객체 정렬
+                    sortParent.sort(0);
+                    // DOM 객체 정렬
+                    const nextSibling = (sortParent.children.length === (newIndex + 1)) ? null :
+                        sortParent.children[newIndex + 1].UIElement.domElement;
+                    sortParent.UIElement.domElement.insertBefore(sortTarget.UIElement.domElement, nextSibling);
+                    break;
+                case 'change':
+                    const changeTarget = this.editor.form.getById(data.id);
+                    if (type === 'redo') {
+                        changeTarget[data.method] = data.to;
+                    } else {
+                        changeTarget[data.method] = data.from;
+                    }
+                    break;
+                default:
+                    break;
             }
         });
     }
