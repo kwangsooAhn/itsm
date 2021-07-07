@@ -16,8 +16,7 @@ import ZComponent from '../form/zComponent.js';
 import { zFormButton } from './zFormButton.js';
 
 class ZDocument {
-    constructor() {
-    }
+    constructor() {}
 
     /**
      * 신청서를 표시하는 모달 생성
@@ -49,8 +48,6 @@ class ZDocument {
         aliceJs.fetchJson('/rest/documents/' + documentId + '/data', {
             method: 'GET'
         }).then((documentData) => {
-            // TODO: 전달된 데이터의 서버 시간에 따른 날짜/시간 처리
-            //this.data = aliceForm.reformatCalendarFormat('read', formData);
             // 정렬 (기준 : displayOrder)
             this.sortJson(documentData.form);
             this.data = documentData;
@@ -58,7 +55,7 @@ class ZDocument {
             const documentMainHeader =  document.getElementById('documentMainHeader');
             documentMainHeader.innerHTML = '';
 
-            zFormButton.init(documentMainHeader, documentData, this)
+            zFormButton.init(documentMainHeader, documentData, this);
             this.makeDocument(this.data.form); // Form 생성
             this.documentModal.show(); // 모달 표시
         });
@@ -148,20 +145,20 @@ class ZDocument {
         let addObject = null; // 추가된 객체
 
         switch(type) {
-        case FORM.LAYOUT.FORM:
-            addObject = new ZForm(data);
-            break;
-        case FORM.LAYOUT.GROUP:
-            addObject = new ZGroup(data);
-            break;
-        case FORM.LAYOUT.ROW:
-            addObject = new ZRow(data);
-            break;
-        case FORM.LAYOUT.COMPONENT:
-            addObject = new ZComponent(data);
-            break;
-        default:
-            break;
+            case FORM.LAYOUT.FORM:
+                addObject = new ZForm(data);
+                break;
+            case FORM.LAYOUT.GROUP:
+                addObject = new ZGroup(data);
+                break;
+            case FORM.LAYOUT.ROW:
+                addObject = new ZRow(data);
+                break;
+            case FORM.LAYOUT.COMPONENT:
+                addObject = new ZComponent(data);
+                break;
+            default:
+                break;
         }
         if (parent !== undefined) {
             parent.add(addObject, index);
@@ -182,7 +179,7 @@ class ZDocument {
     getComponentData(object, array) {
         object.children.forEach((child) => {
             if (child instanceof ZComponent) {
-                array.push({ componentId: child.id, value: (Array.isArray(this.value) ? JSON.stringify(child.value) : child.value) });
+                array.push({ componentId: child.id, value: (typeof child.value === 'object' ? JSON.stringify(child.value) : child.value) });
             } else {
                 this.getComponentData(child, array);
             }
@@ -211,6 +208,7 @@ class ZDocument {
         };
         // 컴포넌트 값
         saveData.componentData = this.getComponentData(this.form, []);
+        console.debug(saveData);
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
         const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';

@@ -54,7 +54,7 @@ export const dateMixin = {
             .setUIClass('datepicker')
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
-            .setUIValue(this.value)
+            .setUIValue(this.getDefaultValue())
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-max-date', this.validationMaxDate)
             .setUIAttribute('data-validation-min-date', this.validationMinDate);
@@ -85,7 +85,7 @@ export const dateMixin = {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         this._element.defaultValueRadio = value;
         this.UIElement.UIComponent.UIElement.UIDate.setUIValue(
-            aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this.makeDefaultValue(value)));
+            aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this.getDefaultValue()));
     },
     get elementDefaultValueRadio() {
         return this._element.defaultValueRadio;
@@ -128,36 +128,35 @@ export const dateMixin = {
         this._value = value;
     },
     get value() {
-        if (this._value === '${default}') {
-            return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
-        } else { // 저장된 값 반환
-            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._value);
-        }
-
+        return this._value;
     },
     // 기본값 조회
-    makeDefaultValue(value) {
-        // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
-        const defaultValueArray = value.split('|');
-        let date = '';
-        switch (defaultValueArray[0]) {
-            case FORM.DATE_TYPE.NONE:
-                break;
-            case FORM.DATE_TYPE.NOW:
-                date = i18n.getDate();
-                break;
-            case FORM.DATE_TYPE.DAYS:
-                const offset = {
-                    days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
-                        0 : Number(defaultValueArray[1])
-                };
-                date = i18n.getDate(offset);
-                break;
-            case FORM.DATE_TYPE.DATE_PICKER:
-                date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
-                break;
+    getDefaultValue() {
+        if (this._value === '${default}') {
+            // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
+            const defaultValueArray = this.elementDefaultValueRadio.split('|');
+            let date = '';
+            switch (defaultValueArray[0]) {
+                case FORM.DATE_TYPE.NONE:
+                    break;
+                case FORM.DATE_TYPE.NOW:
+                    date = i18n.getDate();
+                    break;
+                case FORM.DATE_TYPE.DAYS:
+                    const offset = {
+                        days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
+                            0 : Number(defaultValueArray[1])
+                    };
+                    date = i18n.getDate(offset);
+                    break;
+                case FORM.DATE_TYPE.DATE_PICKER:
+                    date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    break;
+            }
+            return date;
+        } else {
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this.value);
         }
-        return date;
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -173,6 +172,7 @@ export const dateMixin = {
         }
         this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type, e.value);
     },
+    // 세부 속성 조회
     getProperty() {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty('elementDefaultValueRadio', 'element.defaultValueRadio',
             this.elementDefaultValueRadio,

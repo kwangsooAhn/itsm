@@ -47,6 +47,7 @@
         let tokenListModal, instanceId;
 
         // 아래 URL 은 추후에 '/rest/tokens/' + '[[${tokenId}]]' + '/data' 로 수정해야 함.
+        //aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
         aliceJs.fetchJson('/assets/js/document/token_test.json', {
             method: 'GET'
         }).then((formDataJson) => {

@@ -1,7 +1,6 @@
 /**
  * Check Box Mixin
  *
- *
  * @author Ahn kwangsoo <ks.ahn@brainz.co.kr>
  * @version 1.0
  *
@@ -10,8 +9,8 @@
  * https://www.brainz.co.kr
  */
 
-import {FORM, CLASS_PREFIX} from '../../lib/zConstants.js';
-import {UIDiv, UILabel, UICheckbox, UISpan} from '../../lib/zUI.js';
+import { FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { UIDiv, UILabel, UICheckbox, UISpan } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -54,8 +53,7 @@ export const checkBoxMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         return this.makeCheckbox(element);
     },
-    afterEvent() {
-    },
+    afterEvent() {},
     set element(element) {
         this._element = element;
     },
@@ -67,8 +65,6 @@ export const checkBoxMixin = {
         this._value = value;
     },
     get value() {
-        // this._value === '${default}' 일 경우, 신청서에서 변경되지 않은 값을 의미하므로 기본값을 표시한다.
-        // 사용자 변경시 해당 값이 할당된다.
         return this._value;
     },
     set elementColumnWidth(width) {
@@ -158,12 +154,13 @@ export const checkBoxMixin = {
     },
     updateValue(e) {
         e.stopPropagation();
-        this.value = '';
+        let updateValue = '';
         e.target.parentNode.parentNode.querySelectorAll('input[type=checkbox]').forEach((element) => {
             if (element.checked) {
-                this.value += (this.value === '' ? '' : '|') + element.value;
+                updateValue += (updateValue === '' ? '' : '|') + element.value;
             }
         });
+        this.value = updateValue;
     },
     // 세부 속성 조회
     getProperty() {
@@ -184,6 +181,7 @@ export const checkBoxMixin = {
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
     },
+    // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {
         return {
             id: this._id,

@@ -2,7 +2,7 @@
  * Divider Mixin
  *
  *
- * @author
+ * @author jy.lim <jy.lim@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -119,6 +119,7 @@ export const dividerMixin = {
     get value() {
         return this._value;
     },
+    // 세부 속성 조회
     getProperty() {
         // element - thickness
         const thicknessProperty = new ZInputBoxProperty('elementThickness', 'element.thickness', this.elementThickness)
