@@ -1751,7 +1751,6 @@ label {
   margin: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  flex-basis: calc((100% * var(--data-column, 12)) / 12);
 }
 .input-button input[type=text]:focus, .input-button input[type=text]:hover {
   z-index: 25;
@@ -2012,6 +2011,11 @@ label {
 
 .timepicker {
   background: #FFFFFF url("../media/icons/icon_clock.svg") no-repeat 98% 50%;
+}
+
+.z-input-button .z-button-clear {
+  position: absolute;
+  right: calc(0rem + 2.625rem);
 }
 
 /* _buttons.scss 
