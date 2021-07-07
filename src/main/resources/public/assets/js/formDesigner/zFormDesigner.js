@@ -684,7 +684,7 @@ class ZFormDesigner {
         const saveData  =  this.form.toJson();
         // TODO: datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
         console.log(saveData);
-
+        return false;
         // 저장
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'PUT',

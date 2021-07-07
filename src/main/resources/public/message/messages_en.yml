@@ -693,7 +693,6 @@ form:
       fontOption: "Option"
       fontSize: "Size"
     columnType:
-      customCode: "Custom Code"
       date: "Date"
       dateTime: "DateTime"
       dropdown: "DropDown"

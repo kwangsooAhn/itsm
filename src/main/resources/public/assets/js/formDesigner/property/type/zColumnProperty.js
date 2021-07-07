@@ -11,8 +11,8 @@
  *
  * https://www.brainz.co.kr
  */
-import { FORM, UNIT } from '../../../lib/zConstants.js';
-import { UIButton, UIDiv, UISpan, UITabPanel } from '../../../lib/zUI.js';
+import { CLASS_PREFIX, FORM, UNIT } from '../../../lib/zConstants.js';
+import { UIButton, UIDiv, UISpan } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
 import ZGroupProperty from './zGroupProperty.js';
@@ -23,19 +23,55 @@ import ZSwitchButtonProperty from './zSwitchButtonProperty.js';
 import ZToggleButtonProperty from './zToggleButtonProperty.js';
 import ZColorPickerProperty from './zColorPickerProperty.js';
 import ZDefaultValueSelectProperty from './zDefaultValueSelectProperty.js';
+import ZOptionListProperty from './zOptionListProperty.js';
 
-const propertyExtends = {
+export const propertyExtends = {
     columnCommon: {
-        ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.COMMON
+        columnName: 'COLUMN',
+        columnType: 'input', // input, dropdown, date, time, datetime, customCode 등 입력 유형
+        columnWidth: '12', // 컬럼 너비
+        columnHead: {
+            fontSize: '14',
+            fontColor: 'rgba(141, 146, 153, 1)',
+            align: 'left',
+            bold: true,
+            italic: false,
+            underline: false
+        },
+        columnContent: {
+            fontSize: '14',
+            fontColor: 'rgba(50, 50, 51, 1)',
+            align: 'left',
+            bold: true,
+            italic: false,
+            underline: false
+        }
     },
     input: {
-        ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.INPUT
+        columnElement: {
+            placeholder: '',
+            defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
+        },
+        columnValidation: {
+            validationType: 'none', // none | char | num | numchar | email | phone
+            minLength: '0',
+            maxLength: '100'
+        }
+    },
+    dropdown: {
+        columnElement: {
+            options: [ FORM.DEFAULT_OPTION_ROW ]
+        }
     }
 };
 
 export default class ZColumnProperty extends ZProperty {
     constructor(key, name, value) {
         super(key, name, 'columnProperty', value);
+
+        this.tabs = [];
+        this.panels = [];
+        this.selectedTabId = '';
 
         this.validationStatus = true;
     }
@@ -49,144 +85,210 @@ export default class ZColumnProperty extends ZProperty {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
 
-        // tab panel
-        this.UIElement.UITabPanel = new UITabPanel();
-        this.UIElement.addUI(this.UIElement.UITabPanel);
-
+        // tab panel > tagGroup, panelGroup
+        this.UITabPanel = new UIDiv().setUIClass(CLASS_PREFIX + 'tab-panel');
+        this.UITabPanel.tabGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'tabs');
+        this.UITabPanel.panelGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'panels');
+        this.UITabPanel.addUI(this.UITabPanel.tabGroup).addUI(this.UITabPanel.panelGroup);
+        this.UIElement.addUI(this.UITabPanel);
+        
         // this.value 에 따라서 tab 추가
         this.value.forEach((item, index) => {
             this.addColumn(item, index);
         });
 
-        // 추가 버튼
-        this.UIElement.UITabPanel.tabsDiv.UIButton = new UIButton()
+        // tab panel > tagGroup > addButton : 컬럼 추가 버튼
+        this.UITabPanel.tabGroup.addButton = new UIButton()
             .addUIClass('ghost-line')
             .addUIClass((this.value.length > FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
             .addUI(new UISpan().addUIClass('icon').addUIClass('icon-plus'))
             .onUIClick(this.addColumn.bind(this, { columnType: 'input' }, -1));
-        this.UIElement.UITabPanel.tabsDiv.addUI(this.UIElement.UITabPanel.tabsDiv.UIButton);
+        this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
 
         return this.UIElement;
     }
     // 컬럼 추가
     addColumn(option, index) {
         if (index === -1 ) { index = this.value.length; }
-        // 옵션
+        // 컬럼 옵션
         const columnOption = Object.assign({}, propertyExtends.columnCommon, option);
         // 열 속성 기본 값 조회
         if (zValidation.isEmpty(columnOption.columnElement)) {
             Object.assign(columnOption, propertyExtends[columnOption.columnType]);
         }
-        const columnPropertyGroup = new UIDiv();
-        // 순서 변경 버튼 추가
-        const arrowLeftButton = new UIButton().addUI(new UISpan().setUIClass('icon').addUIClass('icon-arrow-left'))
+        // tab 버튼
+        const tab = new UIButton()
+            .setUIClass(CLASS_PREFIX + 'tab')
+            .addUIClass('ghost-line')
+            .setUIId('column' + index)
+            .addUI(new UISpan().addUIClass('icon').addUIClass('icon-checkbox'))
+            .onUIClick(this.selectColumn.bind(this, 'column' + index));
+        this.UITabPanel.tabGroup.addUI(tab);
+        this.tabs.push(tab);
+
+        // panel 추가
+        const panel = new UIDiv()
+            .setUIClass(CLASS_PREFIX + 'panel')
+            .setUIId('column' + index)
+            .setUIDisplay('none');
+        panel.UICommon = this.addColumnForColumnCommon(option, index); // 컬럼 공통 속성
+        panel.UIColumn = this.addColumnForColumnType(option, index); // 입력 유형별 속성
+        panel.addUI(panel.UICommon).addUI(panel.UIColumn);
+        this.UITabPanel.panelGroup.addUI(panel);
+        this.panels.push(panel);
+
+        this.selectColumn('column' + index);
+
+        // 옵션 신규 추가
+        if (this.value.length <= index) {
+            this.value.push(columnOption);
+            // 신규 추가일 경우 + 추가 버튼과 위치를 변경한다. (재정렬)
+            aliceJs.swapNode(this.UITabPanel.tabGroup.addButton.domElement, this.tabs[index].domElement);
+            // 최대값을 넘어가는 순간 추가 버튼을 숨긴다.
+            if ((index + 1 ) === FORM.MAX_COLUMN_IN_TABLE) {
+                this.UITabPanel.tabGroup.addButton.removeUIClass('on').addUIClass('off');
+            }
+            this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
+        }
+    }
+    addColumnForColumnCommon(option, index) {
+        const columnCommonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'panel-common');
+        // 순서 변경 < > 버튼 추가
+        const arrowLeftButton = new UIButton()
+            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-arrow-left'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, - 1));
-        const arrowRightButton = new UIButton().addUI(new UISpan().setUIClass('icon').addUIClass('icon-arrow-right'))
+        const arrowRightButton = new UIButton()
+            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-arrow-right'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, + 1));
         // 패널 삭제 버튼 추가
-        const deleteButton = new UIButton().addUIClass('panel-delete-button').addUI(new UISpan().setUIClass('icon').addUIClass('icon-delete'))
+        const deleteButton = new UIButton().addUIClass('panel-delete-button')
+            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-delete'))
             .onUIClick(this.removeColumn.bind(this, 'column' + index));
 
-        columnPropertyGroup.addUI(
+        columnCommonGroup.addUI(
             new UISpan().setUIClass('panel-name').setUIInnerHTML(i18n.msg('form.properties.element.columnOrder')),
             arrowLeftButton,
             arrowRightButton,
             deleteButton
         );
 
-        // 컬럼 세부 속성 Tab 추가
-        const property = this.getProperty(columnOption, 'column' + index);
+        const property = this.getPropertyForColumnCommon(option, 'column' + index);
+        this.makePropertyRecursive(columnCommonGroup, property);
+        return columnCommonGroup;
+    }
+    addColumnForColumnType(option, index) {
+        const columnIndividualGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'panel-individual');
+        const property = this.getPropertyForColumnType(option, 'column' + index);
+        this.makePropertyRecursive(columnIndividualGroup, property);
+        return columnIndividualGroup;
+    }
+    // 세부 속성 추가 (Recursive)
+    makePropertyRecursive(target, property) {
         property.map(propertyObject => {
             const propertyObjectElement = propertyObject.makeProperty(this);
 
             if (!zValidation.isDefined(propertyObjectElement)) { return false; }
 
             if (propertyObject instanceof ZGroupProperty) {
-                // display, 라벨, 엘리먼트, 유효성 등 그룹에 포함될 경우
+                // 그룹에 포함될 경우
                 propertyObject.children.map(childPropertyObject => {
                     const childPropertyObjectElement = childPropertyObject.makeProperty(this);
                     propertyObjectElement.addUI(childPropertyObjectElement);
                 });
             }
-            columnPropertyGroup.addUI(propertyObjectElement);
+            target.addUI(propertyObjectElement);
         });
-        this.UIElement.UITabPanel.addUITab(
-            'column' + index,
-            new UISpan().addUIClass('icon').addUIClass('icon-checkbox'),
-            columnPropertyGroup
-        );
-        this.UIElement.UITabPanel.tabs[index].addUIClass('ghost-line');
+    }
+    // 컬럼 선택
+    selectColumn(id) {
+        let tab;
+        let panel;
+        if (this.selectedTabId && this.selectedTabId.length) {
+            tab = this.tabs.find(function(item) {
+                return item.domElement.id === this.selectedTabId;
+            });
 
-        // 옵션 신규 추가
-        if (this.value.length <= index) {
-            this.value.push(columnOption);
-            // 신규 추가일 경우 + 추가 버튼과 위치를 변경한다. (재정렬)
-            aliceJs.swapNode(this.UIElement.UITabPanel.tabsDiv.UIButton.domElement, this.UIElement.UITabPanel.tabs[index].domElement);
-            // 최대값을 넘어가는 순간 추가 버튼을 숨긴다.
-            if ((index + 1 ) === FORM.MAX_COLUMN_IN_TABLE) {
-                this.UIElement.UITabPanel.tabsDiv.UIButton.removeUIClass('on').addUIClass('off');
+            panel = this.panels.find(function(item) {
+                return item.domElement.id === this.selectedTabId;
+            });
+
+            if (tab) {
+                tab.removeUIClass('selected');
             }
-            this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
+
+            if (panel) {
+                panel.setUIDisplay('none');
+            }
         }
+
+        tab = this.tabs.find(function (item) {
+            return item.domElement.id === id;
+        });
+
+        panel = this.panels.find(function (item) {
+            return item.domElement.id === id;
+        });
+
+        if (tab) {
+            tab.addUIClass('selected');
+        }
+
+        if (panel) {
+            panel.setUIDisplay('');
+        }
+
+        this.selectedTabId = id;
+
+        return this;
     }
     // 컬럼 삭제
     removeColumn(id) {
-        const index = this.UIElement.UITabPanel.tabs.findIndex((tab) => tab.domElement.id === id);
+        const index = this.tabs.findIndex((tab) => tab.getUIId() === id);
+
+        if (index === -1) { return false; }
 
         if (this.value.length === 1) {
             aliceAlert.alertWarning(i18n.msg('form.msg.failedAllColumnDelete'));
         } else {
-            this.UIElement.UITabPanel.removeUITab('column' + index);
+            this.UITabPanel.tabGroup.removeUI(this.tabs[index]);
+            this.tabs.splice(index, 1);
+
+            this.UITabPanel.panelGroup.removeUI(this.panels[index]);
+            this.panels.splice(index, 1);
+
             this.value.splice(index, 1);
             // 이전 탭 선택
-            const prevTab = this.UIElement.UITabPanel.tabs[index - 1];
-            this.UIElement.UITabPanel.selectUITab(prevTab.domElement.id);
+            const prevTab = this.tabs[index - 1];
+            this.selectColumn(prevTab.getUIId());
 
             this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
         }
     }
     // 컬럼 순서 변경
     swapColumn(id, offset) {
-        const curIndex = this.UIElement.UITabPanel.tabs.findIndex((tab) => tab.domElement.id === id);
+        const curIndex = this.tabs.findIndex((tab) => tab.getUIId() === id);
         const changeIndex = curIndex + offset;
         if (changeIndex === -1 || changeIndex === this.value.length) { return false; }
 
-        aliceJs.swapNode(this.UIElement.UITabPanel.tabs[curIndex].domElement, this.UIElement.UITabPanel.tabs[changeIndex].domElement);
+        aliceJs.swapNode(this.tabs[curIndex].domElement, this.tabs[changeIndex].domElement);
+        [this.tabs[curIndex], this.tabs[changeIndex]] = [this.tabs[changeIndex], this.tabs[curIndex]];
 
-        [this.UIElement.UITabPanel.tabs[curIndex], this.UIElement.UITabPanel.tabs[changeIndex]] =
-            [this.UIElement.UITabPanel.tabs[changeIndex], this.UIElement.UITabPanel.tabs[curIndex]];
-
-        aliceJs.swapNode(this.UIElement.UITabPanel.panels[curIndex].domElement, this.UIElement.UITabPanel.panels[changeIndex].domElement);
-
-        [this.UIElement.UITabPanel.panels[curIndex], this.UIElement.UITabPanel.panels[changeIndex]] =
-            [this.UIElement.UITabPanel.panels[changeIndex], this.UIElement.UITabPanel.panels[curIndex]];
+        aliceJs.swapNode(this.panels[curIndex].domElement, this.panels[changeIndex].domElement);
+        [this.panels[curIndex], this.panels[changeIndex]] = [this.panels[changeIndex], this.panels[curIndex]];
 
         [this.value[curIndex], this.value[changeIndex]] = [this.value[changeIndex], this.value[curIndex]];
         this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
-    }
-    // 컬럼입력유형에 따른 속성 조회
-    getProperty(option, id) {
-        switch (option.columnType) {
-        case 'input':
-            return [
-                ...this.getPropertyForColumnCommon(option, id),
-                ...this.getPropertyForColumnTypeInput(option, id)
-            ];
-        default:
-            return [];
-        }
     }
     // 컬럼 세부 속성 - 공통
     getPropertyForColumnCommon(option, id) {
         // 입력 유형
         const columnTypeProperty = new ZDropdownProperty(id + '|columnType', 'element.columnType',
-            option.columnType, [ // input, dropdown, date, time, datetime, customCode
-                {name: 'form.properties.columnType.input', value: 'input'},
-                {name: 'form.properties.columnType.dropdown', value: 'dropdown'},
-                {name: 'form.properties.columnType.date', value: 'date'},
-                {name: 'form.properties.columnType.time', value: 'time'},
-                {name: 'form.properties.columnType.datetime', value: 'datetime'},
-                {name: 'form.properties.columnType.customCode', value: 'customCode'},
+            option.columnType, [ // input, dropdown, date, time, datetime
+                { name: i18n.msg('form.properties.columnType.input'), value: 'input' },
+                { name: i18n.msg('form.properties.columnType.dropdown'), value: 'dropdown' },
+                { name: i18n.msg('form.properties.columnType.date'), value: 'date' },
+                { name: i18n.msg('form.properties.columnType.time'), value: 'time' },
+                { name: i18n.msg('form.properties.columnType.datetime'), value: 'datetime' }
             ]);
 
         // head - fontColor
@@ -264,15 +366,26 @@ export default class ZColumnProperty extends ZProperty {
 
         ];
     }
+    // 컬럼입력유형에 따른 속성 조회
+    getPropertyForColumnType(option, id) {
+        switch (option.columnType) {
+            case 'input':
+                return this.getPropertyForColumnTypeInput(option, id);
+            case 'dropdown':
+                return this.getPropertyForColumnTypeDropdown(option, id);
+            default:
+                return [];
+        }
+    }
     // 컬럼 세부 속성 - input
     getPropertyForColumnTypeInput(option, id) {
         const validationTypeProperty = new ZDropdownProperty(id + '|columnValidation.validationType', 'validation.validationType',
             option.columnValidation.validationType, [
-                {name: 'form.properties.none', value: 'none'},
-                {name: 'form.properties.char', value: 'char'},
-                {name: 'form.properties.number', value: 'number'},
-                {name: 'form.properties.email', value: 'email'},
-                {name: 'form.properties.phone', value: 'phone'}
+                { name: i18n.msg('form.properties.none'), value: 'none' },
+                { name: i18n.msg('form.properties.char'), value: 'char' },
+                { name: i18n.msg('form.properties.number'), value: 'number' },
+                { name: i18n.msg('form.properties.email'), value: 'email' },
+                { name: i18n.msg('form.properties.phone'), value: 'phone' }
             ]);
         return [
             new ZGroupProperty('group.columnElement')
@@ -284,12 +397,30 @@ export default class ZColumnProperty extends ZProperty {
                 .addProperty(new ZInputBoxProperty(id + '|columnValidation.maxLength', 'validation.maxLength', option.columnValidation.maxLength))
         ];
     }
+    // 컬럼 세부 속성 - input
+    getPropertyForColumnTypeDropdown(option, id) {
+        return [
+            new ZGroupProperty('group.columnElement')
+                .addProperty(new ZOptionListProperty(id + '|columnElement.options', 'element.options', option.columnElement.options))
+        ];
+    }
+    // 입력 유형 타입 변경
+    changeColumnType(prevData, index) {
+        Object.assign(prevData, propertyExtends[prevData.columnType]);
+
+        this.panels[index].UIColumn.clearUI();
+        delete this.panels[index].UIColumn;
+
+        this.panels[index].UIColumn = this.addColumnForColumnType(prevData, index); // 입력 유형별 속성
+        this.panels[index].addUI(this.panels[index].UIColumn);
+    }
     // 컬럼 세부 속성 변경시 호출되는 이벤트 핸들러
     update(key, value) {
         // id|key.key 속성 형태로 값이 전달되며 첫번째는 column 순서 즉 index를 의미한다.
         const keyArray = key.split('|');
-        const curIndex = this.UIElement.UITabPanel.tabs.findIndex((tab) => tab.domElement.id === keyArray[0]);
+        const curIndex = this.tabs.findIndex((tab) => tab.getUIId() === keyArray[0]);
         const changeValue = JSON.parse(JSON.stringify(this.value));
+
         // property 검색
         const propertyNameArray =  keyArray[1].split('.');
         let changeColumnOption = changeValue[curIndex];
@@ -301,6 +432,10 @@ export default class ZColumnProperty extends ZProperty {
             lastPropertyName.substr(1, lastPropertyName.length);
         changeColumnOption[method] = value;
 
+        // 입력 유형 타입 변경시, 입력 유형 엘리먼트 속성을 변경한다.
+        if (keyArray[1] === 'columnType') {
+            this.changeColumnType(changeColumnOption, curIndex);
+        }
         this.value = changeValue;
         this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
     }

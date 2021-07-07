@@ -12,13 +12,13 @@
 
 import { FORM, CLASS_PREFIX, UNIT, SESSION } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton } from '../../lib/zUI.js';
+import { UIDiv, UICell, UIRow, UIInput, UISpan, UITable, UIButton, UISelect } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
-import ZColumnProperty from '../../formDesigner/property/type/zColumnProperty.js';
+import ZColumnProperty, { propertyExtends } from '../../formDesigner/property/type/zColumnProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -27,8 +27,8 @@ const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
         columns: [{
-            ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.COMMON,
-            ...FORM.DEFAULT_DYNAMIC_ROW_TABLE_COLUMN.INPUT
+            ...propertyExtends.columnCommon,
+            ...propertyExtends.input
         }]
     },
     validation: {
@@ -101,7 +101,6 @@ export const dynamicRowTableMixin = {
     set elementColumns(columns) {
         this._element.columns = columns;
         this.UIElement.UIComponent.UIElement.UITable.clearUIRow().clearUI();
-
         this.makeTable(this.UIElement.UIComponent.UIElement.UITable);
     },
     get elementColumns() {
@@ -219,10 +218,12 @@ export const dynamicRowTableMixin = {
     // column Type 에 따른 cell 반환
     getElementByColumnType(column, cellValue) {
         switch (column.columnType) {
-        case 'input':
-            return this.getInputBoxForColumn(column, cellValue);
-        default:
-            return new UISpan().setUIInnerHTML(cellValue);
+            case 'input':
+                return this.getInputBoxForColumn(column, cellValue);
+            case 'dropdown':
+                return this.getDropDownForColumn(column, cellValue);
+            default:
+                return new UISpan().setUIInnerHTML(cellValue);
         }
     },
     //column Type - input
@@ -244,6 +245,11 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('data-validation-min-length', column.columnValidation.minLength)
             .onUIKeyUp(this.updateValue.bind(this))
             .onUIChange(this.updateValue.bind(this));
+    },
+    // column Type - dropdown
+    getDropDownForColumn(column, cellValue) {
+        const selectOptionValue = zValidation.isEmpty(cellValue) ? column.columnElement.options[0].value : cellValue;
+        return new UISelect().setUIOptions(column.columnElement.options).setUIValue(selectOptionValue);
     },
     // 테이블 row 삭제
     removeTableRow(targetTable, row) {
@@ -283,6 +289,7 @@ export const dynamicRowTableMixin = {
         const cellIndex = e.target.parentNode.cellIndex;
         newValue[rowIndex][cellIndex] = e.target.value;
 
+        console.log(newValue);
         this.value = newValue;
     },
     getProperty() {
