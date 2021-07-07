@@ -40,9 +40,12 @@
     }
   }
   >.os-scrollbar-corner {
-    width: 0.625rem; // 10px
-    height: 0.625rem; // 10px
+    width: 1.6875rem; // 27px
+    height: 1.6875rem; // 27px
     background-color: transparent;
+    &.os-scrollbar-corner-resize {
+      @include backgroundImage('#{$icon-folder-path}icon_resize.svg', null, no-repeat, 0, 0, null);
+    }
   }
   >.os-scrollbar {
     box-sizing: border-box;
@@ -116,26 +119,6 @@
 // textarea scrollbar
 .textarea-scroll-wrapper {
   display: block;
-  // 라이브러리 사용으로 CSS를 다시 정의해줌
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
-  background-color: $element-bg-color;
-  @include border($element-border-width, solid, $element-border-color, all);
-  @include borderRadius(0.0625rem); // 1px
-  padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
-  resize: vertical;
-
-  &:focus-within { // focus 시
-    outline: 0;
-    @include border($element-focus-border-width, solid, $element-focus-border-color, all);
-  }
-  &:hover {
-    outline: 0;
-    @include border($element-hover-border-width, solid, $element-hover-border-color, all);
-    @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
-  }
 }
 // element 내부 scrollbar
 .inner-scrollbar {

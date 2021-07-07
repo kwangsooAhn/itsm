@@ -236,7 +236,7 @@ class UIInput extends UIElement {
 class UITextArea extends UIElement {
     constructor() {
         super(document.createElement('textarea'));
-        this.domElement.className = 'textArea';
+        this.domElement.className = 'z-textarea';
         this.domElement.style.padding = '10px';
         this.domElement.spellcheck = false;
 

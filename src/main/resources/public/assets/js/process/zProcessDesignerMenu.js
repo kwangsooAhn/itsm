@@ -1796,6 +1796,7 @@
             break;
         case 'textarea':
             elementObject = document.createElement('textarea');
+            elementObject.className = 'z-textarea'
             elementObject.style.resize = 'none';
             elementObject.maxLength = 256;
             propertyContainer.appendChild(elementObject);

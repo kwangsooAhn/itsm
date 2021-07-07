@@ -52,7 +52,7 @@ a:active {
 }
 // 공통: readonly거나 disabled 일 경우 element에 focus가 처리되지 않는다.
 // input
-input {
+input:not(.#{$common-prefix}input) {
   height: 2.5rem; // 40px
   font-family: inherit;
   font-size: $element-font-size;
@@ -126,7 +126,7 @@ input {
   }
 }
 // textarea
-textarea {
+textarea:not(.#{$common-prefix}textarea) {
   font-family: inherit;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
@@ -773,38 +773,40 @@ label {
 }
 
 // text area
+// overlay scroll로 인한 div와의 중복 디자인을 방지하기 위해
+// outer div에 대해 예외 처리
 .#{$common-prefix}textarea {
-  font-family: inherit;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $neutral900 !important; // $element-font-color
-  background-color: $element-bg-color !important;
-  @include border($element-border-width, solid, $gray300, all); // $element-border-width, $element-border-color
-  border-radius: 0.125rem !important;
-  padding: 0.5rem $element-indent 0.5rem $element-indent !important; // 들여쓰기 8px 10px 8px 10px
-  resize: vertical;
+    font-family: inherit;
+    font-size: $element-font-size;
+    font-weight: $element-font-weight;
+    line-height: $element-line-height;
+    color: $neutral900; // $element-font-color
+    background-color: $element-bg-color;
+    padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
+  &:not(.os-textarea) {
+    @include border($element-border-width, solid, $gray300, all); // $element-border-width, $element-border-color
+    @include borderRadius(0.125rem);
+  }
 
   &::placeholder {
     color: $gray400;
   }
 
-  &:not(:disabled),
-  &:not(:read-only) {
+  &:not(:disabled) {
     &:focus {
       outline: 0;
-      border-color: $blue600;
+      @include border($element-border-width, solid, $blue600, all);
       @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
     }
 
     &:hover {
       outline: 0;
-      border-color: $blue400;
+      @include border($element-border-width, solid, $blue400, all);
     }
 
     &:active {
       outline: 0;
-      border-color: $blue500;
+      @include border($element-border-width, solid, $blue500, all);
     }
   }
 
@@ -815,7 +817,7 @@ label {
     cursor: default;
   }
 
-  &:read-only {
+  &:read-only:not(.os-host-textarea) {
     border-color: $gray400;
     border-style: none none none solid;
     @include borderRadius(0);

@@ -28,8 +28,8 @@
                 <label for="attributeDesc">
                     <span th:text="#{cmdb.attribute.label.description}"></span>
                 </label>
-                <textarea id="attributeDesc" name="attributeDesc" maxlength="250" rows="5"
-                          class="textarea-scroll-wrapper" th:text="${attribute?.attributeDesc}" disabled></textarea>
+                <textarea id="attributeDesc" name="attributeDesc" class="z-textarea textarea-scroll-wrapper"
+                          maxlength="250" rows="5" th:text="${attribute?.attributeDesc}" disabled></textarea>
             </div>
             <div class="flex-column edit-row">
                 <label for="attributeText">

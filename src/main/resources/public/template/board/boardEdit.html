@@ -40,8 +40,8 @@
             </div>
             <div class="flex-column edit-row">
                 <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
-                <textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7"
-                          class="textarea-scroll-wrapper"  th:text="${boardAdmin?.boardAdminDesc}"></textarea>
+                <textarea id="boardAdminDesc" name="boardAdminDesc" class="z-textarea textarea-scroll-wrapper"
+                          maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
             </div>
             <div class="flex-column edit-row">
                 <label class="switch">

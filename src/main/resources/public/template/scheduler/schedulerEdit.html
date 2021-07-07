@@ -29,7 +29,7 @@
                     <span th:text="#{scheduler.label.description}"></span>
                 </label>
                 <textarea id="taskDesc" name="taskDesc" maxlength="250" rows="5"
-                          class="textarea-scroll-wrapper" th:text="${schedule?.taskDesc}"></textarea>
+                          class="z-textarea textarea-scroll-wrapper" th:text="${schedule?.taskDesc}"></textarea>
             </div>
             <div class="flex-column edit-row">
                 <label for="taskStatus">
@@ -98,7 +98,7 @@
                         <span class="required"></span>
                     </label>
                     <textarea id="executeQuery" name="executeQuery" maxlength="500" rows="10" required="required"
-                              class="textarea-scroll-wrapper" th:text="${schedule?.executeQuery}"></textarea>
+                              class="z-textarea textarea-scroll-wrapper" th:text="${schedule?.executeQuery}"></textarea>
                 </div>
             </div>
             <div class="flex-column edit-row">
@@ -162,6 +162,16 @@
         window.onload = function() {
             document.getElementById('taskName').focus();
             OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelectorAll('#taskDesc'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
         };
 
         /** 작업 유형, 실행 유형에 따른 입력 화면 출력 **/

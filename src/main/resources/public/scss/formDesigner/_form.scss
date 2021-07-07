@@ -156,18 +156,20 @@
     &.off { display: none; }
   }
   // element
+  // todo: UI Component refactoring 완료 시, 각 엘리먼트별 중복 클래스 제거 여부 검토
+  //       (예. .input, .#{$common-prefix}input > .#{$common-prefix}input )
   .#{$common-prefix}element {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0; // 7px 0
 
     // inputBox
-    .input, .z-input {
+    .input, .#{$common-prefix}input {
       width: 100%;
       @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
       @include borderRadius(0.0625rem); // 2px
     }
     // textArea
-    .textArea {
+    .textArea, .#{$common-prefix}textarea {
       width: 100%;
       height: calc(2.5rem * var(--data-row));
     }

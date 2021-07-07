@@ -21,7 +21,8 @@
             <input type="text" class="z-input" id="document-name" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
             <!-- 설명 -->
             <label class="field-label" th:text="#{document.label.description}" for="document-desc"></label>
-            <textarea id="document-desc" class="textarea-scroll-wrapper" rows="7" maxlength="128" th:text="${documentData?.documentDesc}"></textarea>
+            <textarea id="document-desc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"
+                      th:text="${documentData?.documentDesc}"></textarea>
             <!-- 그룹 -->
             <label class="field-label" th:text="#{common.label.group}" for="document-group"></label>
             <select id="document-group" th:disabled="${documentData?.documentType == 'workflow'}">

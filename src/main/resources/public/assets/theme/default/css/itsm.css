@@ -676,7 +676,7 @@ a:active {
   text-decoration: none;
 }
 
-input {
+input:not(.z-input) {
   height: 2.5rem;
   font-family: inherit;
   font-size: 1rem;
@@ -691,48 +691,48 @@ input {
   padding: 0 0.625rem 0 0.625rem;
   vertical-align: middle;
 }
-input::placeholder {
+input:not(.z-input)::placeholder {
   color: #ACB4BF;
 }
-input:not(:disabled):focus, input:not(:read-only):focus {
+input:not(.z-input):not(:disabled):focus, input:not(.z-input):not(:read-only):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
-input:not(:disabled):hover, input:not(:read-only):hover {
+input:not(.z-input):not(:disabled):hover, input:not(.z-input):not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
   -moz-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
-input:disabled {
+input:not(.z-input):disabled {
   color: #ACB4BF;
   background-color: #F7F8F9;
   border-color: #EBEBEB;
   pointer-events: none;
   cursor: default;
 }
-input:read-only {
+input:not(.z-input):read-only {
   background-color: #F7F8F9;
   border-color: #EBEBEB;
   pointer-events: none;
   cursor: default;
 }
-input.icon {
+input:not(.z-input).icon {
   padding-right: 2.5rem;
 }
-input.error {
+input:not(.z-input).error {
   color: #ff405a !important;
   border: 0.0625rem solid #ff405a !important;
 }
-input[type=range] {
+input:not(.z-input)[type=range] {
   -webkit-appearance: none;
   appearance: none;
   height: 0.0625rem;
   background-color: #EBEBEB;
   outline: 0;
 }
-input[type=range]::-webkit-slider-thumb {
+input:not(.z-input)[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 1.125rem;
@@ -742,7 +742,7 @@ input[type=range]::-webkit-slider-thumb {
   background: #FFFFFF;
   cursor: pointer;
 }
-input[type=range]::-moz-range-thumb {
+input:not(.z-input)[type=range]::-moz-range-thumb {
   width: 1.125rem;
   height: 1.125rem;
   border: 0.0625rem solid #EBEBEB;
@@ -751,7 +751,7 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
 }
 
-textarea {
+textarea:not(.z-textarea) {
   font-family: inherit;
   font-size: 1rem;
   font-weight: 400;
@@ -765,33 +765,33 @@ textarea {
   padding: 0.5rem 0.625rem 0.5rem 0.625rem;
   resize: vertical;
 }
-textarea::placeholder {
+textarea:not(.z-textarea)::placeholder {
   color: #ACB4BF;
 }
-textarea:not(:disabled):focus, textarea:not(:read-only):focus {
+textarea:not(.z-textarea):not(:disabled):focus, textarea:not(.z-textarea):not(:read-only):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
-textarea:not(:disabled):hover, textarea:not(:read-only):hover {
+textarea:not(.z-textarea):not(:disabled):hover, textarea:not(.z-textarea):not(:read-only):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
   -moz-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
-textarea:disabled {
+textarea:not(.z-textarea):disabled {
   color: #ACB4BF;
   background-color: #F7F8F9;
   pointer-events: none;
   cursor: default;
 }
-textarea:read-only {
+textarea:not(.z-textarea):read-only {
   background-color: #F7F8F9;
   border-color: #EBEBEB;
   pointer-events: none;
   cursor: default;
 }
-textarea.error {
+textarea:not(.z-textarea).error {
   color: #ff405a !important;
   border: 0.0625rem solid #ff405a !important;
 }
@@ -1364,30 +1364,33 @@ label {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.2;
-  color: #212121 !important;
-  background-color: #FFFFFF !important;
+  color: #212121;
+  background-color: #FFFFFF;
+  padding: 0.5rem 0.625rem 0.5rem 0.625rem;
+}
+.z-textarea:not(.os-textarea) {
   border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.125rem !important;
-  padding: 0.5rem 0.625rem 0.5rem 0.625rem !important;
-  resize: vertical;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
 }
 .z-textarea::placeholder {
   color: #ABB0B5;
 }
-.z-textarea:not(:disabled):focus, .z-textarea:not(:read-only):focus {
+.z-textarea:not(:disabled):focus {
   outline: 0;
-  border-color: #2578CE;
+  border: 0.0625rem solid #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-textarea:not(:disabled):hover, .z-textarea:not(:read-only):hover {
+.z-textarea:not(:disabled):hover {
   outline: 0;
-  border-color: #64BBF6;
+  border: 0.0625rem solid #64BBF6;
 }
-.z-textarea:not(:disabled):active, .z-textarea:not(:read-only):active {
+.z-textarea:not(:disabled):active {
   outline: 0;
-  border-color: #339AF0;
+  border: 0.0625rem solid #339AF0;
 }
 .z-textarea:disabled {
   color: #ABB0B5;
@@ -1395,7 +1398,7 @@ label {
   pointer-events: none;
   cursor: default;
 }
-.z-textarea:read-only {
+.z-textarea:read-only:not(.os-host-textarea) {
   border-color: #ABB0B5;
   border-style: none none none solid;
   border-radius: 0;
@@ -3429,9 +3432,16 @@ button .icon-plus {
   display: block;
 }
 .scrollbar > .os-scrollbar-corner {
-  width: 0.625rem;
-  height: 0.625rem;
+  width: 1.6875rem;
+  height: 1.6875rem;
   background-color: transparent;
+}
+.scrollbar > .os-scrollbar-corner.os-scrollbar-corner-resize {
+  background-image: url("../media/icons/icon_resize.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 0;
+  background-position-y: 0;
 }
 .scrollbar > .os-scrollbar {
   box-sizing: border-box;
@@ -3487,28 +3497,6 @@ button .icon-plus {
 
 .textarea-scroll-wrapper {
   display: block;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.2;
-  color: #586872;
-  background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  padding: 0.5rem 0.625rem 0.5rem 0.625rem;
-  resize: vertical;
-}
-.textarea-scroll-wrapper:focus-within {
-  outline: 0;
-  border: 0.0625rem solid #0098FF;
-}
-.textarea-scroll-wrapper:hover {
-  outline: 0;
-  border: 0.0625rem solid #0098FF;
-  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-  -moz-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
 
 .inner-scrollbar > .os-scrollbar-horizontal {
