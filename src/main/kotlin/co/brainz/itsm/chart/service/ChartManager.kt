@@ -70,7 +70,6 @@ abstract class ChartManager(
 
     abstract fun setChartDetail(chartDto: ChartDto): ChartDto
 
-
     private fun getChartConfigMap(chartConfig: String): Map<String, Any> {
         return mapper.readValue(chartConfig, object : TypeReference<Map<String, Any>>() {})
     }
@@ -226,7 +225,7 @@ abstract class ChartManager(
     private fun getPeriodHour(
         documentList: MutableList<WfDocumentEntity>,
         dateFormatList: MutableList<String>
-    ) : LinkedHashMap<String, Any> {
+    ): LinkedHashMap<String, Any> {
         val durationMap = LinkedHashMap<String, Any>()
         for (dateFormat in dateFormatList) {
             val docList = mutableListOf<HashMap<String, Any>>()
