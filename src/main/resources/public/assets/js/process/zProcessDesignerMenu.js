@@ -1069,6 +1069,7 @@
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let targetMappingInput = document.createElement('input');
+            targetMappingInput.className = 'z-input';
             targetMappingInput.id = 'target-mapping-id';
             targetMappingInput.name = 'target-mapping-id';
             targetMappingInput.maxLength = 150;
@@ -1086,6 +1087,7 @@
             sourceMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let sourceMappingInput = document.createElement('input');
+            sourceMappingInput.className = 'z-input';
             sourceMappingInput.id = 'source-mapping-id';
             sourceMappingInput.name = 'source-mapping-id';
             sourceMappingInput.maxLength = 150;
@@ -1125,6 +1127,7 @@
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let targetMappingInput = document.createElement('input');
+            targetMappingInput.className = 'z-input';
             targetMappingInput.id = 'target-mapping-id';
             targetMappingInput.name = 'target-mapping-id';
             targetMappingInput.required = true;
@@ -1179,6 +1182,7 @@
             actionContainer.appendChild(conditionLabel);
 
             let conditionInput = document.createElement('input');
+            conditionInput.className = 'z-input';
             conditionInput.maxLength = 150;
             actionContainer.appendChild(conditionInput);
 
@@ -1190,7 +1194,7 @@
 
             let fileInput = document.createElement('input');
             fileInput.id = 'script-file';
-            fileInput.className = 'file';
+            fileInput.className = 'z-input file';
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
@@ -1745,19 +1749,21 @@
         switch (property.type) {
         case 'inputbox':
             elementObject = document.createElement('input');
+            elementObject.className = 'z-input';
             elementObject.maxLength = 70;
             propertyContainer.appendChild(elementObject);
             break;
         case 'inputbox-readonly':
             elementObject = document.createElement('input');
             elementObject.type = 'text';
+            elementObject.className = 'z-input';
             elementObject.readOnly = true;
             propertyContainer.appendChild(elementObject);
             break;
         case 'inputbox-copy':
             elementObject = document.createElement('input');
             elementObject.type = 'text';
-            elementObject.className = 'copy';
+            elementObject.className = 'z-input copy';
             elementObject.readOnly = true;
             propertyContainer.appendChild(elementObject);
 
@@ -1866,7 +1872,7 @@
             propertyContainer.appendChild(colorPicker);
 
             elementObject = document.createElement('input');
-            elementObject.className = 'color';
+            elementObject.className = 'z-input color';
             elementObject.readOnly = true;
             elementObject.addEventListener('change', function() {
                 let opacity = 0;

@@ -730,7 +730,7 @@ label {
 
     input { width: 100%; }
 
-    .z-button-clear {
+    .#{$common-prefix}button-clear {
       @include absolute($right: $input-clear-right);
       padding: 1.125rem 0.875rem; // 18px 14px
       @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $gray500); // 10px 10px
@@ -740,7 +740,6 @@ label {
   // todo: 임시로 추가. 추후 z-input 모두 적용 시 제거 예정.
   &-button {
     @include relative();
-    display: inherit;
     height: 2.25rem; // 36px
 
     input[type='text'] {
@@ -765,7 +764,7 @@ label {
       }
     }
 
-    .z-button-clear {
+    .#{$common-prefix}button-clear {
       @include absolute($right: calc(#{$input-clear-right} + 5rem));
       padding: 1.125rem 0.875rem; // 18px 14px
       @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $gray500); // 10px 10px
@@ -779,11 +778,11 @@ label {
   font-size: $element-font-size;
   font-weight: $element-font-weight;
   line-height: $element-line-height;
-  color: $neutral900; // $element-font-color
-  background-color: $element-bg-color;
+  color: $neutral900 !important; // $element-font-color
+  background-color: $element-bg-color !important;
   @include border($element-border-width, solid, $gray300, all); // $element-border-width, $element-border-color
-  @include borderRadius(0.125rem); // 2px
-  padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
+  border-radius: 0.125rem !important;
+  padding: 0.5rem $element-indent 0.5rem $element-indent !important; // 들여쓰기 8px 10px 8px 10px
   resize: vertical;
 
   &::placeholder {

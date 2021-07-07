@@ -83,9 +83,10 @@
                         </div>
                         <div class="flex-column edit-row">
                             <label th:text="#{user.label.department}" for="department"></label>
-                            <div class="flex-row input-button">
+                            <div class="flex-row z-input-button">
                                 <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
                                 <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
+                                <button class="z-button-clear" name="clearIcon" type="button" onclick="aliceJs.clearText(this);"  tabindex="-1"></button>
                                 <button type="button" class="default-line" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
                             </div>
                         </div>

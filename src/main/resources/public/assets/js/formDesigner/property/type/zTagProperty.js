@@ -31,7 +31,8 @@ export default class ZTagProperty extends ZProperty {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
         // inputbox
-        this.UIElement.UIInput = new UIInput().setUIId(this.key).setUIValue(this.value);
+        this.UIElement.UIInput = new UIInput().removeUIClass('z-input').addUIClass('input')
+            .setUIId(this.key).setUIValue(this.value);
         this.UIElement.addUI(this.UIElement.UIInput);
 
         // tag 는 실제 그려진 UI를 이용해서 tagify 적용이 필요함.

@@ -192,7 +192,7 @@ class UIInput extends UIElement {
     constructor(text) {
         super(document.createElement('input'));
         this.domElement.type = 'text';
-        this.domElement.className = 'input';
+        this.domElement.className = 'z-input';
 
         this.domElement.addEventListener(
             'keydown',

@@ -24,8 +24,8 @@
                 </div>
                 <div class="flex-column edit-row">
                     <label th:text="#{common.label.contents}" for="noticeContents" class="required"></label>
-                    <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11" class="textarea-scroll-wrapper"
-                              th:text="${notice?.noticeContents}"></textarea>
+                    <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11"
+                              class="z-textarea textarea-scroll-wrapper" th:text="${notice?.noticeContents}"></textarea>
                 </div>
                 <div class="flex-column edit-row file-uploader-edit">
                     <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>

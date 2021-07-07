@@ -160,7 +160,7 @@
     padding: 0.4375rem 0; // 7px 0
 
     // inputBox
-    .input {
+    .input, .z-input {
       width: 100%;
       @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
       @include borderRadius(0.0625rem); // 2px

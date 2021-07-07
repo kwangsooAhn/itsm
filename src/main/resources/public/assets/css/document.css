@@ -1561,7 +1561,6 @@ label {
 }
 .z-input-button {
   position: relative;
-  display: inherit;
   height: 2.25rem;
 }
 .z-input-button input[type=text] {
@@ -1600,13 +1599,11 @@ label {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
-  color: #212121;
-  background-color: #FFFFFF;
+  color: #212121 !important;
+  background-color: #FFFFFF !important;
   border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  padding: 0.5rem 0.625rem 0.5rem 0.625rem;
+  border-radius: 0.125rem !important;
+  padding: 0.5rem 0.625rem 0.5rem 0.625rem !important;
   resize: vertical;
 }
 .z-textarea::placeholder {
