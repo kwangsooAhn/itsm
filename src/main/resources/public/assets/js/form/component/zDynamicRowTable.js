@@ -249,8 +249,11 @@ export const dynamicRowTableMixin = {
     },
     // column Type - dropdown
     getDropDownForColumn(column, cellValue) {
-        const selectOptionValue = zValidation.isEmpty(cellValue) ? column.columnElement.options[0].value : cellValue;
-        return new UISelect().setUIOptions(column.columnElement.options).setUIValue(selectOptionValue);
+        const selectOptionValue = cellValue === '${default}' ? column.columnElement.options[0].value : cellValue;
+        return new UISelect()
+            .setUIOptions(column.columnElement.options)
+            .setUIValue(selectOptionValue)
+            .onUIChange(this.updateProperty.bind(this));
     },
     // 테이블 row 삭제
     removeTableRow(targetTable, row) {
@@ -290,7 +293,6 @@ export const dynamicRowTableMixin = {
         const cellIndex = e.target.parentNode.cellIndex;
         newValue[rowIndex][cellIndex] = e.target.value;
 
-        console.log(newValue);
         this.value = newValue;
     },
     // 세부 속성 조회

@@ -131,8 +131,8 @@ export default class ZColumnProperty extends ZProperty {
             .setUIClass(CLASS_PREFIX + 'panel')
             .setUIId('column' + index)
             .setUIDisplay('none');
-        panel.UICommon = this.addColumnForColumnCommon(option, index); // 컬럼 공통 속성
-        panel.UIColumn = this.addColumnForColumnType(option, index); // 입력 유형별 속성
+        panel.UICommon = this.addColumnForColumnCommon(columnOption, index); // 컬럼 공통 속성
+        panel.UIColumn = this.addColumnForColumnType(columnOption, index); // 입력 유형별 속성
         panel.addUI(panel.UICommon).addUI(panel.UIColumn);
         this.UITabPanel.panelGroup.addUI(panel);
         this.panels.push(panel);
@@ -171,7 +171,6 @@ export default class ZColumnProperty extends ZProperty {
             arrowRightButton,
             deleteButton
         );
-
         const property = this.getPropertyForColumnCommon(option, 'column' + index);
         this.makePropertyRecursive(columnCommonGroup, property);
         return columnCommonGroup;
@@ -203,13 +202,14 @@ export default class ZColumnProperty extends ZProperty {
     selectColumn(id) {
         let tab;
         let panel;
+        const scope = this;
         if (this.selectedTabId && this.selectedTabId.length) {
             tab = this.tabs.find(function(item) {
-                return item.domElement.id === this.selectedTabId;
+                return item.domElement.id === scope.selectedTabId;
             });
 
             panel = this.panels.find(function(item) {
-                return item.domElement.id === this.selectedTabId;
+                return item.domElement.id === scope.selectedTabId;
             });
 
             if (tab) {
