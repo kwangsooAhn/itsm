@@ -10,7 +10,7 @@
                 <label class="field-label" for="ciNo">
                     <span th:text="#{cmdb.ci.label.seqNum}"></span>
                 </label>
-                <input type="text" id="ciNo" th:value="${ciData?.ciNo}" maxlength="100" readonly />
+                <input type="text" id="ciNo" class="z-input" th:value="${ciData?.ciNo}" maxlength="100" readonly />
             </div>
             <!-- CI 타입 -->
             <div class="flex-column view-row">
@@ -20,7 +20,8 @@
                 </label>
                 <div class="flex-row input-button">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
-                    <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}" readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
+                    <input type="text" id="typeName" class="z-input col-pct-12 inherit" th:value="${ciData?.typeName}"
+                           readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
                     <button class="default-line" id="typeSelectBtn" type="button" disabled th:text="#{common.btn.select}"></button>
                 </div>
             </div>
@@ -30,7 +31,7 @@
                     <span th:text="#{cmdb.type.label.icon}"></span>
                 </label>
                 <div class="flex-row input-button">
-                    <input type="text" id="typeIcon" class="col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
+                    <input type="text" id="typeIcon" class="z-input col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
                 </div>
             </div>
             <!-- CI 이름 -->
@@ -39,14 +40,16 @@
                     <span th:text="#{cmdb.ci.label.name}"></span>
                     <span class="required"></span>
                 </label>
-                <input id="ciName" type="text" maxlength="100" th:value="${ciData?.ciName}" readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.name}"/>
+                <input type="text" id="ciName" class="z-input" maxlength="100" th:value="${ciData?.ciName}"
+                       th:attr="data-validation-required-name=#{cmdb.ci.label.name}" readonly required="true"/>
             </div>
             <!--CI 설명 -->
             <div class="flex-column view-row">
                 <label class="field-label" for="ciDesc">
                     <span th:text="#{cmdb.ci.label.description}"></span>
                 </label>
-                <textarea id="ciDesc" class="textarea-scroll-wrapper" rows="7" maxlength="500" th:text="${ciData?.ciDesc}" readonly></textarea>
+                <textarea id="ciDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="500"
+                          th:text="${ciData?.ciDesc}" readonly></textarea>
             </div>
             <!--클래스 -->
             <div class="flex-column view-row">
@@ -55,14 +58,15 @@
                     <span class="required"></span>
                 </label>
                 <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
-                <input id="className" type="text" maxlength="100" th:value="${ciData?.className}" readonly required="true" th:attr="data-validation-required-namee=#{cmdb.type.label.class}"/>
+                <input type="text" id="className" class="z-input" maxlength="100" th:value="${ciData?.className}"
+                       th:attr="data-validation-required-namee=#{cmdb.type.label.class}" readonly required="true"/>
             </div>
             <!-- CI 태그 -->
             <div class="flex-column view-row">
                 <label class="field-label">
                     <span th:text="#{cmdb.ci.label.tag}"></span>
                 </label>
-                <input type="text" id="ciTags" class="col-pct-12 inherit"  th:value="${ciData?.ciTags}" readonly/>
+                <input type="text" id="ciTags" class="z-input col-pct-12 inherit" th:value="${ciData?.ciTags}" readonly/>
             </div>
             <!-- 세부속성 -->
             <div class="flex-column view-row">

@@ -38,7 +38,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .input {
+    .#{$common-prefix}input {
       width: 4.375rem; // 70px
     }
   }
@@ -47,12 +47,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .input {
+    .#{$common-prefix}input {
       width: 100%
     }
   }
   // input 엘리먼트
-  .input {
+  .#{$common-prefix}input {
     width: 100%;
     padding: 0 1rem; // 0 16px
     font-size: $property-font-size;
@@ -92,10 +92,14 @@
         &:hover { background: $blue; }
       }
     }
-    .input {
+    .#{$common-prefix}input {
       width: 23%;
       text-align: center;
       margin-left: 2%;
+      &:read-only {
+        @include border($element-border-width, solid, $gray300, all);
+        @include borderRadius(0.125rem); // 2px
+      }
     }
   }
   // select box
@@ -108,7 +112,7 @@
     flex-direction: row;
 
     .btn-switch { width: 3.75rem; } // 60px
-    .input {
+    .#{$common-prefix}input {
       display: block;
       margin-left : 0.625rem; // 10px
       &.off { display: none; }
@@ -139,7 +143,7 @@
       margin: 0.3125rem 0; // 5px 0
 
       .radio-item {
-        .input {
+        .#{$common-prefix}input {
           width: 2.813rem; // 45px
           margin: 0 0.3125rem 0 0; // 5px
         }

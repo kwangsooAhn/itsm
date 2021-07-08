@@ -19,11 +19,11 @@
                     <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
                             th:text="#{${boardAdmin.boardAdminTitle}}"></option>
                 </select>
-                <input type="text" class="search col-3" id="search" name="search" maxlength="100"
+                <input type="text" class="z-input search col-3" id="search" name="search" maxlength="100"
                        th:placeholder="#{board.label.searchBoardPlaceholder}"/>
-                <input type="text" class="search-date col-3" id="fromDt" name="fromDt"/>
+                <input type="text" class="z-input search-date col-3" id="fromDt" name="fromDt"/>
                 <span>~</span>
-                <input type="text" class="search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
+                <input type="text" class="z-input search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
                 <input type="hidden" class="search-date" id="toDt" name="toDt"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>

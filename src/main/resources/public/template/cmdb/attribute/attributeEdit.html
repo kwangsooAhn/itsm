@@ -21,28 +21,29 @@
                     <span th:text="#{cmdb.attribute.label.name}"></span>
                     <span class="required"></span>
                 </label>
-                <input type="text" id="attributeName" required="true" maxlength="100" th:attr="data-validation-required-name=#{cmdb.attribute.label.name}"
+                <input type="text" id="attributeName" class="z-input" required="true" maxlength="100"
+                       th:attr="data-validation-required-name=#{cmdb.attribute.label.name}"
                        th:value="${attribute?.attributeName}"/>
             </div>
             <div class="flex-column edit-row">
                 <label for="attributeDesc">
                     <span th:text="#{cmdb.attribute.label.description}"></span>
                 </label>
-                <textarea id="attributeDesc" name="attributeDesc" maxlength="250" rows="5"
-                          class="textarea-scroll-wrapper" th:text="${attribute?.attributeDesc}"></textarea>
+                <textarea id="attributeDesc" name="attributeDesc" class="z-textarea textarea-scroll-wrapper"
+                          maxlength="250" rows="5" th:text="${attribute?.attributeDesc}"></textarea>
             </div>
             <div class="flex-column edit-row">
                 <label for="attributeText">
                     <span th:text="#{cmdb.attribute.label.label}"></span>
                 </label>
-                <input type="text" id="attributeText" maxlength="100"
+                <input type="text" id="attributeText" class="z-input" maxlength="100"
                        th:value="${attribute?.attributeText}"/>
             </div>
             <div class="flex-column edit-row">
                 <label for="mappingId">
                     <span th:text="#{cmdb.attribute.label.mappingId}"></span>
                 </label>
-                <input type="text" id="mappingId" maxlength="100"
+                <input type="text" id="mappingId" class="z-input" maxlength="100"
                        th:value="${attribute?.mappingId}"/>
             </div>
             <div class="flex-column edit-row">

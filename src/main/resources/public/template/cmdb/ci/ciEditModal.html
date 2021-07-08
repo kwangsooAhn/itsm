@@ -11,7 +11,7 @@
                 <label class="field-label" for="ciNo">
                     <span th:text="#{cmdb.ci.label.seqNum}"></span>
                 </label>
-                <input type="text" id="ciNo" th:value="${ciData?.ciNo}" maxlength="100" disabled />
+                <input type="text" id="ciNo" class="z-input" th:value="${ciData?.ciNo}" maxlength="100" disabled />
             </div>
             <!-- CI 타입 -->
             <div class="flex-column edit-row">
@@ -21,7 +21,7 @@
                 </label>
                 <div class="flex-row input-button">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
-                    <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}" readonly  required="true"
+                    <input type="text" id="typeName" class="z-input col-pct-12 inherit" th:value="${ciData?.typeName}" readonly  required="true"
                            data-validation-required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
                     <button class="default-line" id="typeSelectBtn" type="button"  th:text="#{common.btn.select}"></button>
                 </div>
@@ -32,7 +32,7 @@
                     <span th:text="#{cmdb.type.label.icon}"></span>
                 </label>
                 <div class="flex-row input-button">
-                    <input type="text" id="ciIcon" class="col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
+                    <input type="text" id="ciIcon" class="z-input col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
                 </div>
             </div>
             <!-- CI 이름 -->
@@ -41,7 +41,7 @@
                     <span th:text="#{cmdb.ci.label.name}"></span>
                     <span class="required"></span>
                 </label>
-                <input id="ciName" type="text" maxlength="100" required="true" th:value="${ciData?.ciName}"
+                <input type="text" class="z-input" id="ciName" maxlength="100" required="true" th:value="${ciData?.ciName}"
                        data-validation-required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.name}"/>
             </div>
             <!--CI 설명 -->
@@ -49,7 +49,8 @@
                 <label class="field-label" for="ciDesc">
                     <span th:text="#{cmdb.ci.label.description}"></span>
                 </label>
-                <textarea id="ciDesc" class="textarea-scroll-wrapper" rows="7" maxlength="500" th:text="${ciData?.ciDesc}"></textarea>
+                <textarea id="ciDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="500"
+                          th:text="${ciData?.ciDesc}"></textarea>
             </div>
             <!--클래스 -->
             <div class="flex-column edit-row">
@@ -58,7 +59,7 @@
                     <span class="required"></span>
                 </label>
                 <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
-                <input id="className" type="text" maxlength="100" readonly required="true"
+                <input type="text" class="z-input" id="className" maxlength="100" readonly required="true"
                        data-validation-required="true" th:attr="data-validation-required-name=#{cmdb.type.label.class}" th:value="${ciData?.className}"/>
                 <!-- // 2021-02-09 타입선택시 클래스가 변경되는 것 외에 클래스 선택 기능은 막음
                 <div class="flex-row input-button">
@@ -72,7 +73,7 @@
                 <label class="field-label">
                     <span th:text="#{cmdb.ci.label.tag}"></span>
                 </label>
-                <input type="text" id="ciTags" th:value="${ciData?.ciTags}" />
+                <input type="text" class="z-input" id="ciTags" th:value="${ciData?.ciTags}" />
             </div>
             <!-- 세부속성 -->
             <div class="flex-column edit-row">

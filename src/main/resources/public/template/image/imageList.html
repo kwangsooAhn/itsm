@@ -14,7 +14,7 @@
                 <h6 class="description ml-2" th:text="#{image.msg.searchDescription}"></h6>
             </div>
             <div class="header-search flex-row">
-                <input type="text" class="search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+                <input type="text" class="z-input search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
                        th:placeholder="#{image.label.name}"/>
                 <span id="totalCount" class="search-count"></span>
             </div>
@@ -127,7 +127,7 @@
                     <div class="thumbnail-info">
                         <p class="thumbnail-info-text">
                             <label class="thumbnail-img-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
-                            <input type="text" class="fileName float-left" />
+                            <input type="text" class="z-input fileName float-left" />
                         </p>
                         <p class="thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
                     </div>

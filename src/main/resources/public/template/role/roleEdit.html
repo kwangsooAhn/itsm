@@ -14,7 +14,7 @@
             <h6 class="description ml-2" th:text="#{role.msg.editDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100" th:placeholder="#{role.msg.searchPlaceholder}"/>
+            <input type="text" class="z-input search col-5 mr-2" id="search" name="search" maxlength="100" th:placeholder="#{role.msg.searchPlaceholder}"/>
             <span id="totalCount" class="search-count"></span>
             <div class="ml-auto">
                 <button type="button" class="default-fill" id="btnSearch" name="btnSearch" onclick="onCreate();"
@@ -32,16 +32,16 @@
             <div class="edit-form">
                 <div class="edit-row flex-column">
                     <label th:text="#{role.label.id}" class="required"></label>
-                    <input id="txtRoleId" name="txtRoleId" type="text" maxlength="100"/>
+                    <input type="text" class="z-input" id="txtRoleId" name="txtRoleId" maxlength="100"/>
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{role.label.name}" class="required"></label>
-                    <input id="txtRoleName" name="txtRoleName" type="text" maxlength="100" />
+                    <input type="text" class="z-input" id="txtRoleName" name="txtRoleName" maxlength="100" />
                     <input type="hidden" id="txtRoleNameOrg" name="txtRoleNameOrg"/>
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{role.label.desc}"></label>
-                    <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="textarea-scroll-wrapper"></textarea>
+                    <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="z-textarea textarea-scroll-wrapper"></textarea>
                 </div>
                 <div class="edit-row flex-column">
                     <div class="flex-row">
@@ -70,23 +70,23 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{common.label.createUser}"></label>
-                    <input id="spanCreateUserKey" name="spanCreateUserKey" disabled />
+                    <input type="text" class="z-input" id="spanCreateUserKey" name="spanCreateUserKey" disabled />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{common.label.createDate}"></label>
-                    <input id="spanCreateDt" name="spanCreateDt" disabled />
+                    <input type="text" class="z-input" id="spanCreateDt" name="spanCreateDt" disabled />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{common.label.updateUser}"></label>
-                    <input id="spanUpdateUserKey" name="spanUpdateUserKey" disabled />
+                    <input type="text" class="z-input" id="spanUpdateUserKey" name="spanUpdateUserKey" disabled />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{common.label.updateDate}"></label>
-                    <input id="spanUpdateDt" name="spanUpdateDt" disabled />
+                    <input type="text" class="z-input" id="spanUpdateDt" name="spanUpdateDt" disabled />
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{role.label.referenceCount}"></label>
-                    <input id="userRoleMapCount" name="userRoleMapCount" disabled />
+                    <input type="text" class="z-input" id="userRoleMapCount" name="userRoleMapCount" disabled />
                 </div>
             </div>
         </div>

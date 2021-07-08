@@ -20,7 +20,7 @@
                     <span th:text="#{customCode.label.name}"></span>
                     <span class="required"></span>
                 </label>
-                <input type="text" id="customCodeName" required="required" maxlength="110"
+                <input type="text" id="customCodeName" class="z-input" required="required" maxlength="110"
                        th:value="${customCode?.customCodeName}" disabled>
             </div>
             <div class="flex-column edit-row">
@@ -52,21 +52,21 @@
                         <span th:text="#{customCode.label.targetTable}"></span>
                         <span class="required"></span>
                     </label>
-                    <input type="text" th:value="|${customCode.targetTableName}(${customCode.targetTable})|" disabled/>
+                    <input type="text" class="z-input" th:value="|${customCode.targetTableName}(${customCode.targetTable})|" disabled/>
                 </div>
                 <div class="flex-column edit-row">
                     <label>
                         <span th:text="#{customCode.label.searchColumn}"></span>
                         <span class="required"></span>
                     </label>
-                    <input type="text" th:value="|${customCode.searchColumnName}(${customCode.searchColumn})|" disabled />
+                    <input type="text" class="z-input" th:value="|${customCode.searchColumnName}(${customCode.searchColumn})|" disabled />
                 </div>
                 <div class="flex-column edit-row">
                     <label>
                         <span th:text="#{customCode.label.valueColumn}"></span>
                         <span class="required"></span>
                     </label>
-                    <input type="text" th:value="|${customCode.valueColumnName}(${customCode.valueColumn})|" disabled />
+                    <input type="text" class="z-input" th:value="|${customCode.valueColumnName}(${customCode.valueColumn})|" disabled />
                 </div>
                 <div class="flex-column edit-row">
                     <div class="under-bar">
@@ -87,7 +87,7 @@
                         <span th:text="#{customCode.label.pCode}"></span>
                         <span class="required"></span>
                     </label>
-                    <input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}" disabled>
+                    <input type="text" id="pCode" class="z-input" maxlength="100" th:value="${customCode?.pCode}" disabled>
                 </div>
             </div>
             <div class="flex-row justify-content-end edit-row">

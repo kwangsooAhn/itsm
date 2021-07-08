@@ -45,7 +45,7 @@
                         <span th:text="#{board.label.title}"></span>
                         <span class="required"></span>
                     </label>
-                    <input type="text" id="boardTitle" maxlength="100" th:value="${boardInfo?.boardTitle}">
+                    <input type="text" id="boardTitle" class="z-input" maxlength="100" th:value="${boardInfo?.boardTitle}">
                 </div>
                 <div class="flex-column edit-row">
                     <label th:text="#{common.label.contents}" for="boardContents"/>
@@ -60,14 +60,14 @@
                     <div class="flex-row">
                         <div class="flex-column col-6 mr-4">
                             <label th:text="#{common.label.writer}"/>
-                            <input type="text" id="spanCreateUserKey" name="spanCreateUserKey" disabled
+                            <input type="text" id="spanCreateUserKey" name="spanCreateUserKey" class="z-input" disabled
                                    th:value="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"/>
                         </div>
                     </div>
                     <div class="flex-row">
                         <div class="flex-column col-6">
                             <label th:text="#{common.label.createDate}"/>
-                            <input type="text" id="spanCreateDt" name="spanCreateDt" disabled
+                            <input type="text" id="spanCreateDt" name="spanCreateDt" class="z-input" disabled
                                    th:value="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"/>
                         </div>
                     </div>

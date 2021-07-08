@@ -14,7 +14,7 @@
             <h6 class="description ml-2" th:text="#{pattern.msg.editDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input type="text" class="search col-5 mr-2" id="search" name="search" maxlength="100"
+            <input type="text" class="z-input search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{pattern.msg.searchPlaceholder}"/>
             <span id="totalCount" class="search-count"></span>
             <div class="ml-auto">
@@ -35,7 +35,7 @@
                     <label th:text="#{pattern.label.name}" class="required"></label>
                     <input type="hidden" id="txtPatternId" name="txtPatternId"/>
                     <input type="hidden" id="txtPatternNameOrg" name="txtPatternNameOrg"/>
-                    <input id="txtPatternName" name="txtPatternName" type="text" maxlength="100"/>
+                    <input type="text" class="z-input" id="txtPatternName" name="txtPatternName" maxlength="100"/>
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{pattern.label.type}" class="required"></label>
@@ -62,7 +62,7 @@
                 </div>
                 <div id="type-input-pattern" class="edit-row flex-column">
                     <label th:text="#{pattern.label.value}" class="required"></label>
-                    <input id="txtPatternValue" name="txtPatternValue" type="text" maxlength="100"/>
+                    <input type="text" class="z-input" id="txtPatternValue" name="txtPatternValue" maxlength="100"/>
                 </div>
                 <div id="type-select-pattern" class="edit-row flex-column">
                     <label th:text="#{pattern.label.value}" class="required"></label>

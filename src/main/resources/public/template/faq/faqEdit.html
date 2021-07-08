@@ -34,7 +34,7 @@
                         <span th:text="#{common.label.title}"></span>
                         <span class="required"></span>
                     </label>
-                    <input id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
+                    <input type="text" class="z-input" id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
                            maxlength="100" required="required"/>
                 </div>
                 <div class="flex-column edit-row">
@@ -43,7 +43,7 @@
                         <span class="required"></span>
                     </label>
                     <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"
-                              maxlength="2048" rows="7" class="textarea-scroll-wrapper"></textarea>
+                              maxlength="2048" rows="7" class="z-textarea textarea-scroll-wrapper"></textarea>
                 </div>
                 <div class="flex-row justify-content-end edit-row">
                     <div class="btn-list">
