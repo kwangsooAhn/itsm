@@ -74,7 +74,6 @@ export const dropdownMixin = {
     set elementOptions(options) {
         this._element.options = options;
         this.UIElement.UIComponent.UIElement.UIDropdown.setUIOptions(options);
-
     },
     get elementOptions() {
         return this._element.options;
