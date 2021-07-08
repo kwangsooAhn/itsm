@@ -1959,8 +1959,8 @@ label {
   left: 0;
   width: 2.25rem;
   height: 0.75rem;
-  background-color: #339AF0;
-  border: 0.0625rem solid #2578CE;
+  background-color: #ABB0B5;
+  border: 0.0625rem solid #8B9094;
   border-radius: 2.5rem;
   -webkit-border-radius: 2.5rem;
   -moz-border-radius: 2.5rem;
@@ -1987,8 +1987,8 @@ label {
   box-shadow: 0 0 0.125rem 0 #63686C;
 }
 .z-switch input[type=checkbox]:checked + span {
-  background-color: #ABB0B5;
-  border-color: #8B9094;
+  background-color: #339AF0;
+  border-color: #2578CE;
 }
 .z-switch input[type=checkbox]:checked + span::before {
   -webkit-transform: translate(1.3125rem, 0);
@@ -2001,14 +2001,8 @@ label {
   background-color: #E0E0E0;
   border-color: #CFD5D9;
 }
-.z-switch input[type=checkbox]:hover + span::before {
-  border-color: #64BBF6;
-}
-.z-switch:focus input[type=checkbox] + span:before {
-  border-color: #2578CE;
-  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
-  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
-  box-shadow: 0 0 0.125rem 0 #2578CE;
+.z-switch input[type=checkbox]:disabled + span::before {
+  background-color: #F5F5F5;
 }
 
 .switch {

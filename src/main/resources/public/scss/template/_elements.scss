@@ -876,7 +876,6 @@ label {
         @include boxShadow(0, 0, 0.125rem, 0, $gray600); // 2px
       }
     }
-
     &:checked {
       + span {
         background-color: $blue500;
