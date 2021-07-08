@@ -90,7 +90,7 @@ $card-hover-box-shadow:                       0 0 0.9375rem hexToRGBA(map-get($g
 $no-data-found-bg:                            hexToRGBA(map-get($grays, 'light'), 0.45);
 
 ///////////////////////////// Elements /////////////////////////////
-$element-font-size:                           1rem; // 16px
+$element-font-size:                           $font-size-xs;
 $element-font-color:                          map-get($grays, 'dark');
 $element-font-weight:                         $font-weight-regular;
 $element-bg-color:                            $white;

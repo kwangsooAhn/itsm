@@ -437,7 +437,7 @@ class UIColor extends UIElement {
 class UISwitch extends UIElement {
     constructor(boolean) {
         super(document.createElement('label'));
-        this.domElement.className = 'switch';
+        this.domElement.className = 'z-switch';
 
         // checkbox
         this.UICheckbox = new UICheckbox(boolean);

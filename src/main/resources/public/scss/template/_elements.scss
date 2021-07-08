@@ -834,3 +834,66 @@ label {
     @include border($element-border-width, solid, $green500, all);
   }
 }
+
+// switch
+.#{$common-prefix}switch {
+  @include relative();
+  height: 1.125rem; // 18px
+  font-family: inherit;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
+  outline: none;
+
+  .label {
+    display: inline-block;
+    height: 1.125rem; // 18px
+    margin-left: 3rem; // 48px
+    cursor: pointer;
+  }
+
+  input[type=checkbox] {
+    display: none;
+    // 스위치 버튼
+    + span {
+      @include absolute(0, 0, 0, 0);
+      width: 2.25rem; // 36px
+      height: 0.75rem; // 12px
+      background-color: $gray400;
+      @include border(0.0625rem, solid, $gray500, all); // 1px
+      @include borderRadius(2.5rem); // 40px
+      cursor: pointer;
+      @include transition(.4s);
+      // 동그라미
+      &::before {
+        content: '';
+        @include absolute($top: -0.25rem, $left: -0.0625rem); // -4px -1px
+        width: 1.125rem; // 18px
+        height: 1.125rem; // 18px
+        background-color: $white;
+        @include borderRadius(50%);
+        @include boxShadow(0, 0, 0.125rem, 0, $gray600); // 2px
+      }
+    }
+
+    &:checked {
+      + span {
+        background-color: $blue500;
+        border-color: $blue600;
+        &::before {
+          @include translate(1.3125rem, 0); // 21px
+        }
+      }
+    }
+    &:disabled {
+      + span {
+        background-color: $neutral300;
+        border-color: $gray300;
+        &::before {
+          background-color: $neutral100;
+        }
+      }
+    }
+  }
+}
