@@ -2,7 +2,7 @@
  * Label Mixin
  *
  *
- * @author
+ * @author phc <phc@brainz.co.kr>
  * @version 1.0
  *
  * Copyright 2021 Brainzcompany Co., Ltd.
@@ -10,16 +10,15 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
-import { UIDiv, UILabel } from '../../lib/zUI.js';
+import { CLASS_PREFIX } from '../../lib/zConstants.js';
+import { UNIT } from '../../lib/zConstants.js';
+import { UIDiv } from '../../lib/zUI.js';
 import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZSwitchButtonProperty from '../../formDesigner/property/type/zSwitchButtonProperty.js';
 import ZToggleButtonProperty from '../../formDesigner/property/type/zToggleButtonProperty.js';
 import ZColorPickerProperty from '../../formDesigner/property/type/zColorPickerProperty.js';
-import {UNIT} from '../../lib/zConstants.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -99,6 +98,7 @@ export const labelMixin = {
     get value() {
         return this._value;
     },
+    // 세부 속성 조회
     getProperty() {
         // label - text
         const labelTextProperty = new ZInputBoxProperty('labelText', 'label.text', this.labelText);

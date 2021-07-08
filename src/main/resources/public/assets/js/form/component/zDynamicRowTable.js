@@ -154,6 +154,7 @@ export const dynamicRowTableMixin = {
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX);
         row.addUICell(td);
+
         if (Array.isArray(this.value) && this.value.length > 0) {
             this.value.forEach((rowData) => {
                 this.addTableRow(table, rowData);
@@ -292,6 +293,7 @@ export const dynamicRowTableMixin = {
         console.log(newValue);
         this.value = newValue;
     },
+    // 세부 속성 조회
     getProperty() {
         return [
             ...new ZCommonProperty(this).getCommonProperty(),

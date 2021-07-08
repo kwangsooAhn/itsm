@@ -750,40 +750,9 @@ class UITab extends UIButton {
     }
 }
 
-class UIInputButton extends UIElement {
-    constructor() {
-        super(document.createElement('div'));
-        this.domElement.className = 'z-input-button';
-    }
-
-    getUIValue() {
-        return this.UIInput.domElement.textContent;
-    }
-
-    setUIValue(value) {
-        this.UIInput.domElement.value = value;
-        return this;
-    }
-
-    setUITextContent(text) {
-        this.UIButton.domElement.textContent = text;
-        return this;
-    }
-
-    setUIType(type) {
-        this.domElement.type = type;
-        return this;
-    }
-
-    setUIRequired(boolean) {
-        this.domElement.required = boolean;
-        return this;
-    }
-}
-
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
     UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable,
-    UIRow, UICell, UIRadioButton, UITabPanel, UITab, UIInputButton
+    UIRow, UICell, UIRadioButton, UITabPanel, UITab
 };

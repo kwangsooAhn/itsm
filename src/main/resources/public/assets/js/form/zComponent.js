@@ -96,40 +96,40 @@ export default class ZComponent {
     // 타입에 따른 믹스인 호출
     getMixinByType(type) {
         switch(type) {
-        case 'inputBox':
-            return inputBoxMixin;
-        case 'textArea':
-            return textAreaMixin;
-        case 'textEditor':
-            return textEditorMixin;
-        case 'dropdown':
-            return dropdownMixin;
-        case 'radio':
-            return radioMixin;
-        case 'checkBox':
-            return checkBoxMixin;
-        case 'label':
-            return labelMixin;
-        case 'image':
-            return imageMixin;
-        case 'divider':
-            return dividerMixin;
-        case 'date':
-            return dateMixin;
-        case 'time':
-            return timeMixin;
-        case 'dateTime':
-            return dataTimeMixin;
-        case 'fileUpload':
-            return fileUploadMixin;
-        case 'customCode':
-            return customCodeMixin;
-        case 'dynamicRowTable':
-            return dynamicRowTableMixin;
-        case 'ci':
-            return ciMixin;
-        default:
-            break;
+            case 'inputBox':
+                return inputBoxMixin;
+            case 'textArea':
+                return textAreaMixin;
+            case 'textEditor':
+                return textEditorMixin;
+            case 'dropdown':
+                return dropdownMixin;
+            case 'radio':
+                return radioMixin;
+            case 'checkBox':
+                return checkBoxMixin;
+            case 'label':
+                return labelMixin;
+            case 'image':
+                return imageMixin;
+            case 'divider':
+                return dividerMixin;
+            case 'date':
+                return dateMixin;
+            case 'time':
+                return timeMixin;
+            case 'dateTime':
+                return dataTimeMixin;
+            case 'fileUpload':
+                return fileUploadMixin;
+            case 'customCode':
+                return customCodeMixin;
+            case 'dynamicRowTable':
+                return dynamicRowTableMixin;
+            case 'ci':
+                return ciMixin;
+            default:
+                break;
         }
     }
 
@@ -355,6 +355,7 @@ export default class ZComponent {
         if (flag) { this._id = source.id; }
 
         this.init();
+
         return this;
     }
 }

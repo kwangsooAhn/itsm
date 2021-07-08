@@ -53,7 +53,7 @@ export const dataTimeMixin = {
             .setUIClass('datepicker')
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
-            .setUIValue(this.value)
+            .setUIValue(this.getDefaultValue())
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-maxDateTime', this.validationMaxDateTime)
             .setUIAttribute('data-validation-minDateTime', this.validationMinDateTime);
@@ -83,7 +83,7 @@ export const dataTimeMixin = {
     set elementDefaultValueRadio(value) {
         // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
         this._element.defaultValueRadio = value;
-        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.makeDefaultValue(value));
+        this.UIElement.UIComponent.UIElement.UIDate.setUIValue(this.getDefaultValue());
     },
     get elementDefaultValueRadio() {
         return this._element.defaultValueRadio;
@@ -126,37 +126,37 @@ export const dataTimeMixin = {
         this._value = value;
     },
     get value() {
-        if (this._value === '${default}') {
-            return this.makeDefaultValue(this.elementDefaultValueRadio); // 기본값 반환
-        } else { // 저장된 값 반환
-            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this._value);
-        }
+        return this._value;
     },
     // 기본값 조회
-    makeDefaultValue(value) {
-        // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
-        const defaultValueArray = value.split('|');
-        let dateTime = '';
-        switch (defaultValueArray[0]) {
-            case FORM.DATE_TYPE.NONE:
-                break;
-            case FORM.DATE_TYPE.NOW:
-                dateTime = i18n.getDateTime();
-                break;
-            case FORM.DATE_TYPE.DATETIME:
-                const offset = {
-                    days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
-                        0 : Number(defaultValueArray[1]),
-                    hours: zValidation.isEmpty(defaultValueArray[2]) || isNaN(Number(defaultValueArray[2])) ?
-                        0 : Number(defaultValueArray[2])
-                };
-                dateTime = i18n.getDateTime(offset);
-                break;
-            case FORM.DATE_TYPE.DATETIME_PICKER:
-                dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
-                break;
+    getDefaultValue() {
+        if (this._value === '${default}') {
+            // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
+            const defaultValueArray = this.elementDefaultValueRadio.split('|');
+            let dateTime = '';
+            switch (defaultValueArray[0]) {
+                case FORM.DATE_TYPE.NONE:
+                    break;
+                case FORM.DATE_TYPE.NOW:
+                    dateTime = i18n.getDateTime();
+                    break;
+                case FORM.DATE_TYPE.DATETIME:
+                    const offset = {
+                        days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
+                            0 : Number(defaultValueArray[1]),
+                        hours: zValidation.isEmpty(defaultValueArray[2]) || isNaN(Number(defaultValueArray[2])) ?
+                            0 : Number(defaultValueArray[2])
+                    };
+                    dateTime = i18n.getDateTime(offset);
+                    break;
+                case FORM.DATE_TYPE.DATETIME_PICKER:
+                    dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    break;
+            }
+            return dateTime;
+        } else {
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, this.value);
         }
-        return dateTime;
     },
     // input box 값 변경시 이벤트 핸들러
     updateValue(e) {

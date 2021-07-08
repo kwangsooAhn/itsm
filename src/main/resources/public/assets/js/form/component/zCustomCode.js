@@ -12,8 +12,7 @@
 
 import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
-import { UIButton, UIDiv, UIInput, UIInputButton } from '../../lib/zUI.js';
-import ZInputBoxProperty from '../../formDesigner/property/type/zInputBoxProperty.js';
+import { UIButton, UIDiv, UIInput, UISpan } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
@@ -27,8 +26,7 @@ import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/ZD
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        defaultValueCustomCode: '',
-        buttonText: 'BUTTON'
+        defaultValueCustomCode: ''
     },
     validation: {
         required: false // 필수값 여부
@@ -54,19 +52,26 @@ export const customCodeMixin = {
     makeElement() {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
-        element.UIInputButton = new UIInputButton()
-            .setUIRequired(this.validationRequired)
+        element.UIInputButton = new UIDiv()
+            .setUIClass(CLASS_PREFIX + 'input-button')
+            .addUIClass('flex-row')
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
-        element.UIInput = new UIInput(this.value)
+        element.UIInput = new UIInput(this.getDefaultValue())
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', this.elementDefaultValueCustomCode)
             .onUIChange(this.updateValue.bind(this));
-        element.UIButton = new UIButton(this.elementButtonText)
+        element.UIButtonClear = new UIButton()
+            .setUIClass(CLASS_PREFIX + 'button-clear')
+            .setUIAttribute('tabIndex', '-1')
+            .onUIClick(aliceJs.clearText);
+        element.UIButton = new UIButton()
+            .setUIClass(CLASS_PREFIX + 'button-search')
             .addUIClass('default-line')
-            .onUIClick(this.openCustomCodePopup.bind(this));
+            .onUIClick(this.openCustomCodePopup.bind(this))
+            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
 
-        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
+        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButtonClear).addUI(element.UIButton));
 
         return element;
     },
@@ -83,17 +88,10 @@ export const customCodeMixin = {
     },
     set elementDefaultValueCustomCode(value) {
         this._element.defaultValueCustomCode = value;
-        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(this.value).setUIAttribute('data-custom-data', value);
+        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(this.getDefaultValue()).setUIAttribute('data-custom-data', value);
     },
     get elementDefaultValueCustomCode() {
         return this._element.defaultValueCustomCode;
-    },
-    get elementButtonText() {
-        return this._element.buttonText;
-    },
-    set elementButtonText(text) {
-        this._element.buttonText = text;
-        this.UIElement.UIComponent.UIElement.UIButton.setUITextContent(text);
     },
     set validation(validation) {
         this._validation = validation;
@@ -116,22 +114,22 @@ export const customCodeMixin = {
         this._value = value;
     },
     get value() {
-        if (this._value === '${default}') {
-            return this.getDefaultValue(); // 기본값 반환
-        } else { // 저장된 값 반환
-            return this._value;
-        }
+        return this._value;
     },
     // 기본값 조회
     getDefaultValue() {
-        const defaultValues = this.elementDefaultValueCustomCode.split('|');
-        switch (defaultValues[1]) {
-            case FORM.CUSTOM.NONE:
-                return '';
-            case FORM.CUSTOM.SESSION:
-                return SESSION[defaultValues[2]] || '';
-            case FORM.CUSTOM.CODE:
-                return defaultValues[3];
+        if (this._value === '${default}') {
+            const defaultValues = this.elementDefaultValueCustomCode.split('|');
+            switch (defaultValues[1]) {
+                case FORM.CUSTOM.NONE:
+                    return '';
+                case FORM.CUSTOM.SESSION:
+                    return SESSION[defaultValues[2]] || '';
+                case FORM.CUSTOM.CODE:
+                    return defaultValues[3];
+            }
+        } else {
+            return this.value;
         }
     },
     // input box 값 변경시 이벤트 핸들러
@@ -141,6 +139,7 @@ export const customCodeMixin = {
 
         this.value = e.target.value;
     },
+    // 세부 속성 조회
     getProperty() {
         const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.DefaultValueCustomCode',
             this.elementDefaultValueCustomCode);
@@ -149,8 +148,7 @@ export const customCodeMixin = {
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(customCodeProperty)
-                .addProperty(new ZInputBoxProperty('elementButtonText', 'element.buttonText', this.elementButtonText)),
+                .addProperty(customCodeProperty),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];

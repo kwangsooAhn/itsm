@@ -224,60 +224,60 @@ export const ciMixin = {
         const tdClassName = (option.type === 'hidden' ? '' : 'on ') + option.class;
 
         switch (option.type) {
-        case 'editable':
-            return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%;`)
-                .setUITextContent((typeof data[option.id] !== 'undefined') ? data[option.id] : '');
-        case 'readonly':
-            return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%;`)
-                .setUITextContent(i18n.msg('cmdb.ci.actionType.' + data.actionType));
-        case 'image':
-            return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%;`)
-                .addUI(new UIImg().setUISrc(data[option.id]).setUIWidth('20' + UNIT.PX).setUIHeight('20' + UNIT.PX));
-        case 'icon-edit': // CI 등록 / 수정
-            if (data.actionType === CI.ACTION_TYPE.DELETE) {
-                const viewButton = new UIButton()
+            case 'editable':
+                return new UICell(row).setUIClass(tdClassName)
+                    .setUICSSText(`width:${tdWidth}%;`)
+                    .setUITextContent((typeof data[option.id] !== 'undefined') ? data[option.id] : '');
+            case 'readonly':
+                return new UICell(row).setUIClass(tdClassName)
+                    .setUICSSText(`width:${tdWidth}%;`)
+                    .setUITextContent(i18n.msg('cmdb.ci.actionType.' + data.actionType));
+            case 'image':
+                return new UICell(row).setUIClass(tdClassName)
+                    .setUICSSText(`width:${tdWidth}%;`)
+                    .addUI(new UIImg().setUISrc(data[option.id]).setUIWidth('20' + UNIT.PX).setUIHeight('20' + UNIT.PX));
+            case 'icon-edit': // CI 등록 / 수정
+                if (data.actionType === CI.ACTION_TYPE.DELETE) {
+                    const viewButton = new UIButton()
+                        .setUIAttribute('data-type', data.actionType)
+                        .onUIClick(this.openViewModal.bind(this, data.ciId))
+                        .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
+
+                    return new UICell(row).setUIClass(tdClassName)
+                        .setUICSSText(`width:${tdWidth}%;`)
+                        .addUI(viewButton);
+                } else {
+                    const editButton = new UIButton()
+                        .setUIAttribute('data-type', data.actionType)
+                        .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
+                        .addUI(new UISpan().setUIClass('icon').addUIClass('icon-edit'));
+
+                    return new UICell(row).setUIClass(tdClassName)
+                        .setUICSSText(`width:${tdWidth}%;`)
+                        .addUI(editButton);
+                }
+            case 'icon-search': // CI 상세 조회
+                const searchButton = new UIButton()
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
                     .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
-                    .addUI(viewButton);
-            } else {
-                const editButton = new UIButton()
+                    .addUI(searchButton);
+            case 'icon-delete': // Row 삭제
+                const deleteButton = new UIButton()
                     .setUIAttribute('data-type', data.actionType)
-                    .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
-                    .addUI(new UISpan().setUIClass('icon').addUIClass('icon-edit'));
+                    .onUIClick(this.removeCITableRow.bind(this, row.parent, row.getUIIndex(), data))
+                    .addUI(new UISpan().setUIClass('icon').addUIClass('icon-delete'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
-                    .addUI(editButton);
-            }
-        case 'icon-search': // CI 상세 조회
-            const searchButton = new UIButton()
-                .setUIAttribute('data-type', data.actionType)
-                .onUIClick(this.openViewModal.bind(this, data.ciId))
-                .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
-
-            return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%;`)
-                .addUI(searchButton);
-        case 'icon-delete': // Row 삭제
-            const deleteButton = new UIButton()
-                .setUIAttribute('data-type', data.actionType)
-                .onUIClick(this.removeCITableRow.bind(this, row.parent, row.getUIIndex(), data))
-                .addUI(new UISpan().setUIClass('icon').addUIClass('icon-delete'));
-
-            return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%;`)
-                .addUI(deleteButton);
-        default: // hidden
-            return new UICell(row).setUIClass(tdClassName)
-                .setUICSSText(`width:${tdWidth}%;`)
-                .addUI(new UIInput(data[option.id]).setUIType('hidden'));
+                    .addUI(deleteButton);
+            default: // hidden
+                return new UICell(row).setUIClass(tdClassName)
+                    .setUICSSText(`width:${tdWidth}%;`)
+                    .addUI(new UIInput(data[option.id]).setUIType('hidden'));
         }
     },
     // CI 테이블 row 추가
@@ -378,52 +378,52 @@ export const ciMixin = {
             let ciAttribute = {};
             const attributeType = el.getAttribute('data-attributeType');
             switch (attributeType) {
-            case 'inputbox':
-                const inputElem = el.querySelector('input');
-                ciAttribute.id = inputElem.id;
-                ciAttribute.value = inputElem.value;
-                break;
-            case 'dropdown':
-                const selectElem = el.querySelector('select');
-                ciAttribute.id = selectElem.id;
-                ciAttribute.value = selectElem.value;
-                break;
-            case 'radio':
-                const radioElem = el.querySelector('input[name="attribute-radio"]:checked');
-                if (radioElem !== null) {
-                    ciAttribute.id = radioElem.id.split('-')[0];
-                    ciAttribute.value = radioElem.value;
-                }
-                break;
-            case 'checkbox':
-                let checkValues = [];
-                let strValues = '';
-                el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function (chkElem, idx) {
-                    if (idx === 0) {
-                        ciAttribute.id = chkElem.id.split('-')[0];
+                case 'inputbox':
+                    const inputElem = el.querySelector('input');
+                    ciAttribute.id = inputElem.id;
+                    ciAttribute.value = inputElem.value;
+                    break;
+                case 'dropdown':
+                    const selectElem = el.querySelector('select');
+                    ciAttribute.id = selectElem.id;
+                    ciAttribute.value = selectElem.value;
+                    break;
+                case 'radio':
+                    const radioElem = el.querySelector('input[name="attribute-radio"]:checked');
+                    if (radioElem !== null) {
+                        ciAttribute.id = radioElem.id.split('-')[0];
+                        ciAttribute.value = radioElem.value;
                     }
-                    if (chkElem.checked) {
-                        checkValues.push(chkElem.value);
-                    }
-                });
-                if (checkValues.length > 0) {
-                    for (let i = 0; i < checkValues.length; i++) {
-                        if (strValues === '') {
-                            strValues = checkValues[i];
-                        } else {
-                            strValues = strValues + ',' + checkValues[i];
+                    break;
+                case 'checkbox':
+                    let checkValues = [];
+                    let strValues = '';
+                    el.querySelectorAll('input[name="attribute-checkbox"]').forEach(function (chkElem, idx) {
+                        if (idx === 0) {
+                            ciAttribute.id = chkElem.id.split('-')[0];
+                        }
+                        if (chkElem.checked) {
+                            checkValues.push(chkElem.value);
+                        }
+                    });
+                    if (checkValues.length > 0) {
+                        for (let i = 0; i < checkValues.length; i++) {
+                            if (strValues === '') {
+                                strValues = checkValues[i];
+                            } else {
+                                strValues = strValues + ',' + checkValues[i];
+                            }
                         }
                     }
-                }
-                ciAttribute.value = strValues;
-                break;
-            case 'custom-code':
-                const customElem = el.querySelector('input');
-                ciAttribute.id = customElem.parentNode.id;
-                ciAttribute.value = customElem.getAttribute('custom-data');
-                break;
-            default:
-                break;
+                    ciAttribute.value = strValues;
+                    break;
+                case 'custom-code':
+                    const customElem = el.querySelector('input');
+                    ciAttribute.id = customElem.parentNode.id;
+                    ciAttribute.value = customElem.getAttribute('custom-data');
+                    break;
+                default:
+                    break;
             }
             if (Object.keys(ciAttribute).length !== 0) {
                 saveData.values.ciAttributes.push(ciAttribute);

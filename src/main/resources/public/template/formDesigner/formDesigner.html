@@ -36,6 +36,7 @@
         } else {
             Object.assign(SESSION, userSession);
         }
+        console.log('[[${isView}]]');
         zFormDesigner.initForm('[[${formId}]]');
         window.zFormDesigner = zFormDesigner;
         console.log(zFormDesigner);
