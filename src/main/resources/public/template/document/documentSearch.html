@@ -40,17 +40,6 @@
                 userSession['departmentName'] = codeData.codeName;
                 Object.assign(SESSION, userSession);
             });
-            /*aliceJs.sendXhr({
-                method: 'GET',
-                async: false,
-                url: '/rest/codes/' + userSession['department'],
-                callbackFunc: function(xhr) {
-                    let result = JSON.parse(xhr.responseText);
-                    userSession['departmentName'] = result.codeName;
-                    Object.assign(SESSION, userSession);
-                },
-                contentType: 'application/json; charset=utf-8'
-            });*/
         } else {
             Object.assign(SESSION, userSession);
         }

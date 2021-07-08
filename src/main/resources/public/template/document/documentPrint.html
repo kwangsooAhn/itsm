@@ -10,31 +10,35 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <div class="print">
-        <div class="print-main flex-column align-items-center">
-            <div class="print-main-header">
+    <div class="z-print">
+        <div class="z-print-main">
+            <div class="z-print-main-header">
                 <img src="/assets/media/images/zenius.ico" width="25" height="25">
                 <span class="float-right align-right" id="print-information"></span>
             </div>
-            <div class="print-area justify-content-center">
-                <div class="drawing-board" id="document-panel" data-display="print"></div>
+            <div class="z-print-area">
+                <div class="drawing-board" id="documentDrawingBoard"></div>
             </div>
         </div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="script">
-    <script th:src="@{/assets/js/document/zDocument.js}"></script>
-    <script th:inline="javascript" type="text/javascript">
+    <script type="module">
         /*<![CDATA[*/
-        window.onload = function() {
-            const printInfo = document.getElementById('print-information');
-            printInfo.innerHTML = aliceForm.session.userName + ' ['
-                + aliceForm.session.email + ']<br>'
-                + i18n.printFormat(/*[[${time}]]*/'');
+        import { zDocument } from '../../assets/js/document/zDocument.js';
 
-            let data = sessionStorage.getItem('alice_print');
-            aliceForm.init(aliceDocument.drawDocument, data);
+        window.onload = function() {
+            const userName = '[[${#authentication.details.userName}]]';
+            const userEmail = '[[${#authentication.details.email}]]';
+            const time = '[[${time}]]';
+
+            const printInfo = document.getElementById('print-information');
+            printInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
+
+            const printData = sessionStorage.getItem('alice_print');
+            zDocument.domElement = document.getElementById('documentDrawingBoard');
+            zDocument.makeDocument(JSON.parse(printData));
 
             setTimeout(function() {
                 window.print();

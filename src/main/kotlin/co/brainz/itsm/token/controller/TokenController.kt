@@ -17,8 +17,7 @@ import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -161,7 +160,7 @@ class TokenController(
      */
     @GetMapping("/{tokenId}/print")
     fun getDocumentPrint(@PathVariable tokenId: String, model: Model, request: HttpServletRequest): String {
-        model.addAttribute("time", ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")))
+        model.addAttribute("time", LocalDateTime.now())
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         model.addAttribute(
             "documentNo",
