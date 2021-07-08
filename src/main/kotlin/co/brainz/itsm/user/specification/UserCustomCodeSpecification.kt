@@ -17,14 +17,9 @@ class UserCustomCodeSpecification(private val condition: MutableMap<String, Any>
         query: CriteriaQuery<*>,
         criteriaBuilder: CriteriaBuilder
     ): Predicate? {
+        if (condition == null) return null
         val predicate = mutableListOf<Predicate>()
-        predicate.add(
-            criteriaBuilder.equal(
-                root.get<String>("useYn"),
-                true
-            )
-        )
-        condition?.forEach {
+        condition.forEach {
             predicate.add(
                 criteriaBuilder.equal(
                     root.get<String>(it.key),
