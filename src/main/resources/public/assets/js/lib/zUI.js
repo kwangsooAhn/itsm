@@ -192,7 +192,7 @@ class UIInput extends UIElement {
     constructor(text) {
         super(document.createElement('input'));
         this.domElement.type = 'text';
-        this.domElement.className = 'z-input';
+        this.domElement.className = CLASS_PREFIX + 'input';
 
         this.domElement.addEventListener(
             'keydown',
@@ -236,7 +236,7 @@ class UIInput extends UIElement {
 class UITextArea extends UIElement {
     constructor() {
         super(document.createElement('textarea'));
-        this.domElement.className = 'z-textarea';
+        this.domElement.className = CLASS_PREFIX + 'textarea';
         this.domElement.style.padding = '10px';
         this.domElement.spellcheck = false;
 
