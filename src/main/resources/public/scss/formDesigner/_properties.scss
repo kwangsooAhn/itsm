@@ -81,16 +81,9 @@
     }
   }
   // column 너비 조정
-  .slider {
-    .range {
+  .#{$common-prefix}slider {
+    .#{$common-prefix}range {
       width : 75%;
-      height: 0.375rem; // 6px
-      @include borderRadius(0.25rem); // 4px
-      &:not(:disabled),
-      &:not(:read-only) {
-        &:focus { background: $blue; }
-        &:hover { background: $blue; }
-      }
     }
     .#{$common-prefix}input {
       width: 23%;

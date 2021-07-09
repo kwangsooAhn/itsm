@@ -52,79 +52,79 @@ a:active {
 }
 // 공통: readonly거나 disabled 일 경우 element에 focus가 처리되지 않는다.
 // input
-input:not(.#{$common-prefix}input) {
-  height: 2.5rem; // 40px
-  font-family: inherit;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
-  background-color: $element-bg-color;
-  @include border($element-border-width, solid, $element-border-color, all);
-  @include borderRadius(0.0625rem); // 1px
-  padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px
-  vertical-align: middle;
-
-  &::placeholder {
-    color: $element-placeholder-font-color;
-  }
-
-  &:not(:disabled),
-  &:not(:read-only) {
-    &:focus {
-      outline: 0;
-      border: $element-focus-border;
-    }
-
-    &:hover {
-      outline: 0;
-      border: $element-hover-border;
-      @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
-    }
-  }
-
-  &:disabled {
-    color: $element-disabled-font-color;
-    background-color: $element-disabled-bg-color;
-    border-color: $element-disabled-border-color;
-    pointer-events: none;
-    cursor: default;
-  }
-
-  &:read-only {
-    background-color: $element-readonly-bg-color;
-    border-color: $element-readonly-border-color;
-    pointer-events: none;
-    cursor: default;
-  }
-
-  &.icon {
-    padding-right: 2.5rem; // 아이콘 크기만큼 들여 쓰기 40px
-  }
-
-  &.error {
-    color: $element-error-font-color;
-    border: $element-error-border;
-  }
-
-  &[type=range] {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 0.0625rem; // 1px
-    background-color: $element-border-color;
-    outline: 0;
-
-    &::-webkit-slider-thumb { // 동그라미
-      -webkit-appearance: none;
-      appearance: none;
-      @include thumb(1.125rem, 1.125rem, $element-border, 50%, $element-bg-color); // 18px 18px
-    }
-
-    &::-moz-range-thumb { // 동그라미
-      @include thumb(1.125rem, 1.125rem, $element-border, 50%, $element-bg-color); // 18px 18px
-    }
-  }
-}
+//input:not(.#{$common-prefix}input) {
+//  height: 2.5rem; // 40px
+//  font-family: inherit;
+//  font-size: $element-font-size;
+//  font-weight: $element-font-weight;
+//  line-height: $element-line-height;
+//  color: $element-font-color;
+//  background-color: $element-bg-color;
+//  @include border($element-border-width, solid, $element-border-color, all);
+//  @include borderRadius(0.0625rem); // 1px
+//  padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px
+//  vertical-align: middle;
+//
+//  &::placeholder {
+//    color: $element-placeholder-font-color;
+//  }
+//
+//  &:not(:disabled),
+//  &:not(:read-only) {
+//    &:focus {
+//      outline: 0;
+//      border: $element-focus-border;
+//    }
+//
+//    &:hover {
+//      outline: 0;
+//      border: $element-hover-border;
+//      @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
+//    }
+//  }
+//
+//  &:disabled {
+//    color: $element-disabled-font-color;
+//    background-color: $element-disabled-bg-color;
+//    border-color: $element-disabled-border-color;
+//    pointer-events: none;
+//    cursor: default;
+//  }
+//
+//  &:read-only {
+//    background-color: $element-readonly-bg-color;
+//    border-color: $element-readonly-border-color;
+//    pointer-events: none;
+//    cursor: default;
+//  }
+//
+//  &.icon {
+//    padding-right: 2.5rem; // 아이콘 크기만큼 들여 쓰기 40px
+//  }
+//
+//  &.error {
+//    color: $element-error-font-color;
+//    border: $element-error-border;
+//  }
+//
+//  &[type=range] {
+//    -webkit-appearance: none;
+//    appearance: none;
+//    height: 0.0625rem; // 1px
+//    background-color: $element-border-color;
+//    outline: 0;
+//
+//    &::-webkit-slider-thumb { // 동그라미
+//      -webkit-appearance: none;
+//      appearance: none;
+//      @include thumb(1.125rem, 1.125rem, $element-border, 50%, $element-bg-color); // 18px 18px
+//    }
+//
+//    &::-moz-range-thumb { // 동그라미
+//      @include thumb(1.125rem, 1.125rem, $element-border, 50%, $element-bg-color); // 18px 18px
+//    }
+//  }
+//}
 // textarea
 textarea:not(.#{$common-prefix}textarea) {
   font-family: inherit;
@@ -769,6 +769,8 @@ label {
       padding: 1.125rem 0.875rem; // 18px 14px
       @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $gray500); // 10px 10px
     }
+
+
   }
 }
 
@@ -832,5 +834,68 @@ label {
   
   &.success {
     @include border($element-border-width, solid, $green500, all);
+  }
+}
+
+// column 너비 조정
+.#{$common-prefix}slider {
+  .#{$common-prefix}range {
+    height: 0.375rem; // 6px
+    @include borderRadius(0.25rem); // 4px
+
+    &_progress {
+      width : 75%;
+      height: 0.25rem; // 4px
+      background-color: $neutral200;
+    }
+  }
+
+  > input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 0.25rem; // 4px
+    background-color: $element-border-color;
+    outline: 0;
+
+    &::-webkit-slider-thumb { // 동그라미
+      -webkit-appearance: none;
+      appearance: none;
+      @include thumb(1.125rem, 1.125rem, 0.0625rem solid $gray300, 50%, $white); // 18px 18px
+      @include boxShadow(0, 0, 0.125rem, 0, $gray500); // 2px
+      &:hover {
+        border-color: $blue400;
+        background-color: $blue100;
+      }
+      &:focus {
+        border-color: $blue600;
+        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+      }
+      &:active {
+        border-color: $blue500;
+        background-color: $blue200;
+      }
+      &:disabled {
+        border-color: $gray300;
+        background-color: $neutral200;
+      }
+    }
+
+    &::-moz-range-thumb { // 동그라미
+      @include thumb(1.125rem, 1.125rem, 0.0625rem solid $gray300, 50%, $element-bg-color); // 18px 18px
+      @include boxShadow(0, 0, 0.125rem, 0, $gray500); // 2px
+      &:hover {
+        border-color: $blue400;
+        background-color: $blue100;
+      }
+      &:focus {
+        border-color: $blue600;
+        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+
+      }
+      &:active {
+        border-color: $blue500;
+        background-color: $blue200;
+      }
+    }
   }
 }

@@ -496,13 +496,14 @@ class UIButton extends UIElement {
 class UISlider extends UIElement {
     constructor(value) {
         super(document.createElement('div'));
-        this.domElement.className = 'slider';
+        this.domElement.className = CLASS_PREFIX + 'slider';
         // range
-        this.UIRange = new UIInput(value).setUIClass('range');
+        this.UIRange = new UIInput(value).setUIClass(CLASS_PREFIX + 'range');
         this.UIRange.domElement.type = 'range';
         this.addUI(this.UIRange);
         // input
-        this.UIInput = new UIInput(value).setUIReadOnly(true);
+        this.UIInput = new UIInput(value).setUIReadOnly(true)
+            .setUIClass(CLASS_PREFIX + 'input');
         this.addUI(this.UIInput);
 
         const scope = this;
