@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div class="notification-header">
-        <span class="title" th:text="#{notification.label.notification}"></span>
+    <div class="z-notification-header">
+        <span class="z-title" th:text="#{notification.label.notification}"></span>
         <span id="total"></span>
-        <span class="message" th:text="#{notification.msg.description}"></span>
-        <span class="icon-close float-right" onclick="toggleNotificationContainer();"></span>
+        <span class="z-message" th:text="#{notification.msg.description}"></span>
+        <span class="z-icon-close float-right" onclick="toggleNotificationContainer();"></span>
     </div>
-    <div class="notification-body" th:classappend="${#arrays.isEmpty(notificationList)} ? nodata">
-        <div class="nodata" th:if="${#arrays.isEmpty(notificationList)}">
+    <div class="z-notification-body" th:classappend="${#arrays.isEmpty(notificationList)} ? nodata">
+        <div class="z-nodata" th:if="${#arrays.isEmpty(notificationList)}">
             <span th:text="#{notification.msg.noNotificationData}"></span>
         </div>
-        <div class="notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
+        <div class="z-notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
              th:each="notification: ${notificationList}"
              th:id="${notification.notificationId}" th:attr="instance-id=${notification.instanceId}"
              th:attrappend="isnot-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
              th:classappend="${notification.confirmYn} ? confirm">
 
-            <div class="title">
-                <label class="notification-checked float-left"><input type="checkbox" th:checked="${notification.confirmYn}"
+            <div class="z-title">
+                <label class="z-notification-checked float-left"><input type="checkbox" th:checked="${notification.confirmYn}"
                               th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
                               th:disabled="${notification.confirmYn}"/></label>
-                <span class="title text-ellipsis" th:text="${notification.title}" th:classappend="${notification.confirmYn} ? confirm"
+                <span class="z-title text-ellipsis" th:text="${notification.title}" th:classappend="${notification.confirmYn} ? confirm"
                     th:onclick="openTokenPage([[${notification.notificationId}]], [[${notification.instanceId}]])"></span>
-                <button class="icon-remove float-right" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
+                <button class="z-icon-remove float-right" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
             </div>
-            <div class="message">
-                <span class="message text-ellipsis" th:text="${notification.message}"></span>
+            <div class="z-message">
+                <span class="z-message text-ellipsis" th:text="${notification.message}"></span>
             </div>
-            <div class="date">
-                <span class="date" th:text="${#temporals.format(notification.createDt, dateformat)}"
+            <div class="z-date">
+                <span class="z-date" th:text="${#temporals.format(notification.createDt, dateformat)}"
                       th:with="dateformat=${#authentication.details.timeFormat}"></span>
             </div>
         </div>

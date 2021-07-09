@@ -16,20 +16,20 @@
 // *********************************************************************************************************************
 
 // GNB
-.gnb {
+.z-gnb {
   width: $nav-width;
 
-  .navigation {
+  .z-navigation {
     @include fixed($bottom: 0);
     width: $nav-width;
     height: $nav-height;
     background-color: $nav-bg-color;
     z-index: $z-index-gnb;
   
-    .breadcrumb { display: none; }
+    .z-breadcrumb { display: none; }
   
     &-config {
-      .notification {
+      .z-notification {
         &-count {
           @include absolute();
           margin: 0.3125rem 1rem; // 5px 16px
@@ -40,26 +40,26 @@
           font-weight: $font-weight-bold;
           background-color: map-get($grays, "blue");
         }
-        &.active { // 알림이 존재할 경우
+        &.z-active { // 알림이 존재할 경우
           .notification-round {  fill: $blue; }
           .notification-bell { fill: $white; }
-          .notification-count {
+          .z-notification-count {
             color: $white;
             background-color: $blue;
           }
         }
       }
-      .user-info {
+      .z-user-info {
         height: 3.125rem; // 50px
         padding: 0.6875rem 0 0.6875rem 1.3125rem;
-        .user-name {
+        .z-user-name {
           display: inline-block;
           height: 1.688rem;  // 27px
           line-height: 1.688rem;  // 27px
           color: map-get($grays, "blue");
           font-weight: $font-weight-medium;
         }
-        .user-profile {
+        .z-user-profile {
           display: inline-block; 
           width: 1.688rem; // 27px
           height: 1.688rem;  // 27px
@@ -68,14 +68,14 @@
           vertical-align: middle;
         }
       }
-      .logout {
+      .z-logout {
         height: 3.125rem; // 50px
         padding: 0.6875rem 0 0.6875rem 1.3125rem;
-        .btn-logout {
+        .z-btn-logout {
           font-weight: $font-weight-medium;
           color: map-get($grays, "blue");
         }
-        .icon-logout {
+        .z-icon-logout {
           margin-right: 0.875rem; // 14px
           @include maskImage('#{$icon-folder-path}gnb/icon_gnb_logout.svg', 1.6875rem, 1.6875rem, no-repeat, center, null, $icon-gnb-color); // 27px
         }
@@ -84,7 +84,7 @@
     }
   }
   
-  .logo {
+  .z-logo {
     @include fixed();
     width: $logo-width;
     height: $logo-height;
@@ -93,7 +93,7 @@
     z-index: $z-index-gnb;
   }
   
-  .menu {
+  .z-menu {
     @include fixed($top: $logo-height);
     width: $menu-width;
     height: $menu-height;
@@ -101,14 +101,14 @@
     z-index: $z-index-gnb;
     overflow: auto;
 
-    .right { right: 0.375rem; } // 6px
+    .z-right { right: 0.375rem; } // 6px
   }
   
-  .menu-area {
-    .gnb {
+  .z-menu-area {
+    .z-gnb {
       padding: 0.5rem 1.25rem 0.5rem 1.25rem; // 8px 20px 8px 20px
       vertical-align: middle;
-      .token-count{
+      .z-token-count{
         @include absolute();
         margin: 0.3125rem 9rem; // 5px 144px
         padding: 0.125rem 0.625rem; // 2px 10px
@@ -118,7 +118,7 @@
         font-weight: $font-weight-medium;
         background-color: $gray500;
         color: $gray200;
-        &.active {
+        &.z-active {
           color: $white;
           background-color: $blue500;
         }
@@ -129,19 +129,18 @@
         &:first-child {
           margin-top: 0.3125rem; // 5px
         }
-        &:hover { background: $menu-bg-hover; }
-        .gnb-link {
+        .z-gnb-link {
           cursor: pointer;
           color: $menu-color;
-          &:hover { color: $menu-hover-color; }
-          .menu-name {
+          &:hover { color: $menu-hover-color; background: $menu-bg-hover }
+          .z-menu-name {
             display: inline-block;
             padding-left: 1.1875rem; //19px
             font-weight: $font-weight-medium;
             line-height: 1.3rem;
           }
           // 화살표 아이콘
-          .arrow {
+          .z-arrow {
             &-right {
               @include maskImage($icon-menu-arrow-right, 0.75rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 12px 20px
               padding: 0 0.375rem 0 0; // 0 6px 0 0
@@ -156,7 +155,7 @@
             }
           }
         }
-        .snb {
+        .z-snb {
           &-group {
             display: none;
             background-color: $menu-bg-color;
@@ -166,27 +165,34 @@
             font-weight: $font-weight-regular;
             color: $menu-color;
             &:hover { background-color: $menu-bg-hover; }
-            .snb-link {
+            .z-snb-link {
               display: block;
               cursor: pointer;
-              .menu-name {
+              .z-menu-name {
                 display: inline-block;
                 padding-left: 0.625rem; // 10px
               }
-              &.snb {
+              &.z-snb {
                 padding: 0.5rem 1.25rem 0.5rem 1.25rem; // 8px 20px 8px 20px
                 color: $gray300;
-                &:hover { color: $menu-hover-color; }
+                &:hover {
+                  &:not(.z-active) {
+                    color: $menu-hover-color;
+                    .z-dot {
+                      @include maskImage($icon-gnb-sub-dot, 0.25rem, 0.25rem, no-repeat, center, null, $gray200); // 4xp 4px
+                    }
+                  }
+                }
               }
-              .icon-gnb-sub {
+              .z-icon-gnb-sub {
                 margin-left: 40px;
                 padding-left: 6px;
               }
-              &.active {
+              &.z-active {
                 background-color: $menu-bg-selected-color;
-                .menu-name { color: $white; }
-                .dot {
-                  @include maskImage($icon-gnb-sub-dot, 0.25rem, 0.25rem, no-repeat, center, null, $blue500); // 20xp 20px
+                .z-menu-name { color: $white; }
+                .z-dot {
+                  @include maskImage($icon-gnb-sub-dot, 0.25rem, 0.25rem, no-repeat, center, null, $blue500); // 4xp 4px
                 }
               }
             }
@@ -194,20 +200,20 @@
         }
       }
   
-      &.active {
+      &.z-active {
         background-color: $menu-bg-selected-color;
-        .menu-name { color: $white; }
-        .icon-gnb { background: $blue; }
+        .z-menu-name { color: $white; }
+        .z-icon-gnb { background: $blue; }
       }
-      &.active-parent {
-        .menu-name { color: $white; }
-        .icon-gnb { background: $blue; }
-        .arrow-right, .arrow-down { background: $white; }
+      &.z-active-parent {
+        .z-menu-name { color: $white; }
+        .z-icon-gnb { background: $blue; }
+        .z-arrow-right, .z-arrow-down { background: $white; }
       }
     }
   }
   // 아이콘 
-  .icon-gnb {
+  .z-icon-gnb {
     &-board {
       @include maskImage($icon-gnb-board, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }

@@ -2,29 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<div class="logo">
-    <img class="navigation-logo" th:src="@{/assets/theme/{theme}/media/icons/(theme=${#authentication.details.theme})} + 'icon_logo_white.svg'" width="152" height="26" alt="Zenius ITSM">
+<div class="z-logo">
+    <img class="z-navigation-logo" th:src="@{/assets/theme/{theme}/media/icons/(theme=${#authentication.details.theme})} + 'icon_logo_white.svg'" width="152" height="26" alt="Zenius ITSM">
 </div>
-<div class="navigation">
-    <div class="breadcrumb">
+<div class="z-navigation">
+    <div class="z-breadcrumb">
     </div>
-    <div class="navigation-config">
-        <div class="notification">
+    <div class="z-navigation-config">
+        <div class="z-notification">
             <div class="notification-icon" onclick="toggleNotificationContainer();">
                 <img class="load-svg" th:src="@{/assets/theme/{theme}/media/icons/gnb/icon_gnb_notification.svg(theme=${#authentication.details.theme})}" width="25" height="27">
-                <span class="notification-count align-center" id="count"></span>
+                <span class="z-notification-count align-center" id="count"></span>
             </div>
-            <div id="notification-panel" class="notification-panel"></div>
+            <div id="notification-panel" class="z-notification-panel"></div>
         </div>
-        <div class="user-info flex-row align-items-center">
+        <div class="z-user-info flex-row align-items-center">
             <a class="flex-row" th:href="@{/users/{userKey}/editself(userKey=${#authentication.details.userKey})}">
-                <img class="user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
-                <span class="user-name text-ellipsis" sec:authentication="details.userName"></span>
+                <img class="z-user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
+                <span class="z-user-name text-ellipsis" sec:authentication="details.userName"></span>
             </a>
         </div>
-        <div class="logout">
-            <a class="btn-logout flex-row" href="javascript:logout()">
-                <span class="icon-logout"></span>
+        <div class="z-logout">
+            <a class="z-btn-logout flex-row" href="javascript:logout()">
+                <span class="z-icon-logout"></span>
                 <span th:text="#{common.btn.logout}"></span>
             </a>
         </div>
@@ -55,20 +55,20 @@
 
     function toggleNotificationContainer() {
         if (notificationDiv!== null) {
-            if (notificationDiv.classList.contains('on')) {
-                notificationDiv.classList.remove('on');
+            if (notificationDiv.classList.contains('z-on')) {
+                notificationDiv.classList.remove('z-on');
             } else {
-                notificationDiv.classList.add('on');
+                notificationDiv.classList.add('z-on');
             }
         }
     }
 
     function notificationContainerOff(e) {
         //알림창 내부를 클릭한 경우 동작하지 않는다.
-        if (aliceJs.clickInsideElement(e, 'notification-panel') || aliceJs.clickInsideElement(e, 'notification')) { return false; }
+        if (aliceJs.clickInsideElement(e, 'z-notification-panel') || aliceJs.clickInsideElement(e, 'z-notification')) { return false; }
 
-        if (notificationDiv && notificationDiv.classList.contains('on')) {
-            notificationDiv.classList.remove('on');
+        if (notificationDiv && notificationDiv.classList.contains('z-on')) {
+            notificationDiv.classList.remove('z-on');
         }
     }
 
@@ -79,8 +79,8 @@
             const count = document.getElementById('count');
             const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
             count.innerText = noConfirmNotification.length.toString();
-            if (noConfirmNotification.length !== 0 && !notificationDiv.parentNode.classList.contains('active')) {
-                notificationDiv.parentNode.classList.add('active');
+            if (noConfirmNotification.length !== 0 && !notificationDiv.parentNode.classList.contains('z-active')) {
+                notificationDiv.parentNode.classList.add('z-active');
             }
             document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                 notificationDiv.querySelectorAll('div[is-display=true]').length + ')';
@@ -91,23 +91,23 @@
                     showNotification({
                         notificationId: element.id,
                         instanceId: element.getAttribute('instance-id'),
-                        title: element.querySelector('.title').innerHTML,
-                        date: element.querySelector('.date').innerHTML,
-                        message: element.querySelector('.message').innerHTML
+                        title: element.querySelector('.z-title').innerHTML,
+                        date: element.querySelector('.z-date').innerHTML,
+                        message: element.querySelector('.z-message').innerHTML
                     });
                 });
             }
 
-            OverlayScrollbars(document.querySelectorAll('.notification-body'), {className: 'inner-scrollbar'});
+            OverlayScrollbars(document.querySelectorAll('.z-notification-body'), {className: 'inner-scrollbar'});
         });
     }
 
     // show notification popup.
     function showNotification(param) {
-        let text = '<div class="icon float-left"></div>' +
-            '<div class="content float-left"><div class="title">' + param.title + '</div>' +
-            '<div class="message text-ellipsis">' + param.message + '</div>' +
-            '<div class="date">' + param.date + '</div></div>';
+        let text = '<div class="z-icon float-left"></div>' +
+            '<div class="z-content float-left"><div class="z-title">' + param.title + '</div>' +
+            '<div class="z-message text-ellipsis">' + param.message + '</div>' +
+            '<div class="z-date">' + param.date + '</div></div>';
         Toastify({
             text: text,
             duration: 5000,
