@@ -3174,13 +3174,13 @@ button .icon-plus {
   color: #FFFFFF;
 }
 .z-gnb .z-menu-area .z-gnb.z-active .z-icon-gnb {
-  background: #0098FF;
+  background: #339AF0;
 }
 .z-gnb .z-menu-area .z-gnb.z-active-parent .z-menu-name {
   color: #FFFFFF;
 }
 .z-gnb .z-menu-area .z-gnb.z-active-parent .z-icon-gnb {
-  background: #0098FF;
+  background: #339AF0;
 }
 .z-gnb .z-menu-area .z-gnb.z-active-parent .z-arrow-right, .z-gnb .z-menu-area .z-gnb.z-active-parent .z-arrow-down {
   background: #FFFFFF;
