@@ -106,8 +106,23 @@
   
   .menu-area {
     .gnb {
-      padding: 0.9375rem 1.25rem 0.9375rem 1.25rem; // 15px 20px 15px 20px
+      padding: 0.5rem 1.25rem 0.5rem 1.25rem; // 8px 20px 8px 20px
       vertical-align: middle;
+      .token-count{
+        @include absolute();
+        margin: 0.3125rem 9rem; // 5px 144px
+        padding: 0.125rem 0.625rem; // 2px 10px
+        @include borderRadius(1.25rem); // 20px
+        line-height: inherit;
+        font-size: 0.688rem; // 11px
+        font-weight: $font-weight-medium;
+        background-color: $gray500;
+        color: $gray200;
+        &.active {
+          color: $white;
+          background-color: $blue500;
+        }
+      }
       &-area {
         line-height: 1.3;
         font-weight: $font-weight-medium;
@@ -117,24 +132,24 @@
         &:hover { background: $menu-bg-hover; }
         .gnb-link {
           cursor: pointer;
-
+          color: $menu-color;
+          &:hover { color: $menu-hover-color; }
           .menu-name {
             display: inline-block;
             padding-left: 1.1875rem; //19px
             font-weight: $font-weight-medium;
-            color: $menu-color;
             line-height: 1.3rem;
           }
           // 화살표 아이콘
           .arrow {
             &-right {
-              @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 12px 20px
+              @include maskImage($icon-menu-arrow-right, 0.75rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 12px 20px
               padding: 0 0.375rem 0 0; // 0 6px 0 0
               margin-left: auto;
               float: right;
             }
             &-down {
-              @include maskImage($icon-arrow-bottom, 0.75rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 12px 20px
+              @include maskImage($icon-menu-arrow-bottom, 0.75rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 12px 20px
               padding: 0 0.375rem 0 0; // 0 6px 0 0
               margin-left: auto;
               float: right;
@@ -142,26 +157,37 @@
           }
         }
         .snb {
-          &-group { display: none; }
+          &-group {
+            display: none;
+            background-color: $menu-bg-color;
+          }
           &-area {
-            font-size: $menu-font;
+            font-size: $menu-snb-font;
             font-weight: $font-weight-regular;
             color: $menu-color;
-
+            &:hover { background-color: $menu-bg-hover; }
             .snb-link {
               display: block;
               cursor: pointer;
               .menu-name {
                 display: inline-block;
-                padding-left: 2.4375rem; // 39px
+                padding-left: 0.625rem; // 10px
               }
               &.snb {
                 padding: 0.5rem 1.25rem 0.5rem 1.25rem; // 8px 20px 8px 20px
-                color: $menu-color;
+                color: $gray300;
+                &:hover { color: $menu-hover-color; }
+              }
+              .icon-gnb-sub {
+                margin-left: 40px;
+                padding-left: 6px;
               }
               &.active {
-                background-color: $menu-bg-hover;
+                background-color: $menu-bg-selected-color;
                 .menu-name { color: $white; }
+                .dot {
+                  @include maskImage($icon-gnb-sub-dot, 0.25rem, 0.25rem, no-repeat, center, null, $blue500); // 20xp 20px
+                }
               }
             }
           }
@@ -169,7 +195,7 @@
       }
   
       &.active {
-        background-color: $menu-bg-hover;
+        background-color: $menu-bg-selected-color;
         .menu-name { color: $white; }
         .icon-gnb { background: $blue; }
       }
@@ -183,37 +209,37 @@
   // 아이콘 
   .icon-gnb {
     &-board {
-      @include maskImage($icon-gnb-board, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-board, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
     &-chart {
-      @include maskImage($icon-gnb-chart, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20xp
+      @include maskImage($icon-gnb-chart, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20xp
     }
     &-dashboard {
-      @include maskImage($icon-gnb-dashboard, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-dashboard, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
     &-document {
-      @include maskImage($icon-gnb-document, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-document, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
     &-download {
-      @include maskImage($icon-gnb-download, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-download, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
     &-faq {
-      @include maskImage($icon-gnb-faq, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-faq, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
     &-notice {
-      @include maskImage($icon-gnb-notice, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-notice, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
     &-config {
-      @include maskImage($icon-gnb-config, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-config, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
     &-workflow {
-      @include maskImage($icon-gnb-workflow, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-workflow, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
     &-token {
-      @include maskImage($icon-gnb-token, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-token, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
     &-cmdb {
-      @include maskImage($icon-gnb-cmdb, 1.25rem, 1.25rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
+      @include maskImage($icon-gnb-cmdb, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 20xp 20px
     }
   }
 }

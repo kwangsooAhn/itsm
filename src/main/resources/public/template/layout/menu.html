@@ -28,6 +28,7 @@
 							th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
 							<a th:href="${subMenu.url}"  th:class="'snb snb-link ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()"
 							   th:classappend="${subMenu.url} == ${session.active_url} ? active">
+								<span class="icon-gnb-sub dot"></span>
 								<span class="menu-name" th:text="#{|menu.${subMenu.menuId}|}"></span>
 							</a>
 						</li>
@@ -36,6 +37,7 @@
 					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb gnb-link flex-row" th:classappend="${topMenu.url} == ${session.active_url} ? active">
 						<span th:class="'icon-gnb icon-gnb-' + ${topMenu.menuId}"></span>
 						<span class="menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+						<span th:if="${topMenu.menuId == 'token'}" class="token-count align-center active" id="token_count">12</span>
 					</a>
 				</li>
 			</ul>
