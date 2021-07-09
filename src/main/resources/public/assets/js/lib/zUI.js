@@ -437,7 +437,7 @@ class UIColor extends UIElement {
 class UISwitch extends UIElement {
     constructor(boolean) {
         super(document.createElement('label'));
-        this.domElement.className = 'switch';
+        this.domElement.className = CLASS_PREFIX + 'switch';
 
         // checkbox
         this.UICheckbox = new UICheckbox(boolean);
@@ -639,120 +639,9 @@ class UICell extends UIElement {
     }
 }
 
-class UITabPanel extends UIElement {
-    constructor() {
-        super(document.createElement('div'));
-        this.domElement.className = CLASS_PREFIX + 'tab-panel';
-
-        this.tabs = [];
-        this.panels = [];
-
-        this.tabsDiv = new UIDiv();
-        this.tabsDiv.setUIClass(CLASS_PREFIX + 'tabs');
-        this.addUI(this.tabsDiv);
-
-        this.panelsDiv = new UIDiv();
-        this.panelsDiv.setUIClass(CLASS_PREFIX + 'panels');
-        this.addUI(this.panelsDiv);
-
-        this.selected = '';
-    }
-
-    selectUITab(id) {
-        let tab;
-        let panel;
-        const scope = this;
-
-        // Deselect current selection
-        if (this.selected && this.selected.length) {
-            tab = this.tabs.find(function(item) {
-                return item.domElement.id === scope.selected;
-            });
-
-            panel = this.panels.find(function(item) {
-                return item.domElement.id === scope.selected;
-            });
-
-            if (tab) {
-                tab.removeUIClass('selected');
-            }
-
-            if (panel) {
-                panel.setUIDisplay('none');
-            }
-        }
-
-        tab = this.tabs.find(function (item) {
-            return item.domElement.id === id;
-        });
-
-        panel = this.panels.find(function (item) {
-            return item.domElement.id === id;
-        });
-
-        if (tab) {
-            tab.addUIClass('selected');
-        }
-
-        if (panel) {
-            panel.setUIDisplay('');
-        }
-
-        this.selected = id;
-
-        return this;
-    }
-
-    addUITab(id, tabItem, panelItem) {
-        const tab = new UITab(tabItem, this);
-        tab.setUIId(id);
-        this.tabs.push(tab);
-        this.tabsDiv.addUI(tab);
-
-        const panel = new UIDiv().setUIClass(CLASS_PREFIX + 'panel');
-        panel.setUIId(id);
-        panel.setUIDisplay('none');
-        panel.addUI(panelItem);
-
-        this.panels.push(panel);
-        this.panelsDiv.addUI(panel);
-
-        this.selectUITab(id);
-    }
-
-    removeUITab(id) {
-        const index = this.tabs.findIndex((tab) => tab.domElement.id === id);
-
-        if (index !== -1) {
-            this.tabs[index].parent = null;
-            this.tabsDiv.removeUI(this.tabs[index]);
-            this.tabs.splice(index, 1);
-
-            this.panels[index].parent = null;
-            this.panelsDiv.removeUI(this.panels[index]);
-            this.panels.splice(index, 1);
-        }
-    }
-}
-
-class UITab extends UIButton {
-    constructor(item, parent) {
-        super('');
-        this.domElement.className = CLASS_PREFIX + 'tab';
-        this.parent = parent;
-
-        this.addUI(item);
-
-        const scope = this;
-        this.domElement.addEventListener( 'click', function () {
-            scope.parent.selectUITab( scope.domElement.id );
-        } );
-    }
-}
-
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
     UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
     UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable,
-    UIRow, UICell, UIRadioButton, UITabPanel, UITab
+    UIRow, UICell, UIRadioButton
 };

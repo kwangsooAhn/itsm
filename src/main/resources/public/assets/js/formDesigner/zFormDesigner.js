@@ -397,7 +397,7 @@ class ZFormDesigner {
                         name: 'row',
                         pull: 'clone',
                         put: function (to) { // row 컴포넌트 갯수 제한
-                            if (to.el.classList.contains(CLASS_PREFIX + 'row') && 
+                            if (to.el.classList.contains(CLASS_PREFIX + 'row') &&
                           to.el.children.length >= FORM.MAX_COMPONENT_IN_ROW) {
                                 return 'false';
                             } else {

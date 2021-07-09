@@ -693,7 +693,6 @@ form:
       fontOption: "옵션"
       fontSize: "크기"
     columnType:
-      customCode: "Custom Code"
       dropdown: "DropDown"
       date: "Date"
       dateTime: "DateTime"
