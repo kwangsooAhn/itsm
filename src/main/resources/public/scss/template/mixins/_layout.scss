@@ -229,17 +229,17 @@
 }
 // register, edit
 @mixin defaultEditTemplate() {
-  .edit {
+  .#{$common-prefix}edit {
     height: 100vh; // edit 화면에서 스크롤이 생기는 영역
-    .edit-row {
+    .#{$common-prefix}edit-row {
       margin: 0.625rem 0 0; // 10px 0 0 0
 
       // 버튼 목록
-      .btn-list { margin-top: 1.875rem; } // 30px
+      .#{$common-prefix}button-list { margin-top: 1.875rem; } // 30px
     }
 
-    .edit-column {
-      .edit-row { margin: 0.625rem 0 0 0; } // 10px 0 0 0
+    .#{$common-prefix}edit-column {
+      .#{$common-prefix}edit-row { margin: 0.625rem 0 0 0; } // 10px 0 0 0
     }
   }
 }

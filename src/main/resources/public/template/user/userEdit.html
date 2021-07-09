@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="user-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{user.label.user}"></h1>
@@ -18,13 +18,13 @@
         <div class="user-content-edit">
             <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <h3 class="sub-title under-bar bold" th:text="#{user.label.profile}"></h3>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <div class="flex-row">
-                    <div class="edit-column col-6">
-                        <div class="flex-column edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                    <div class="z-edit-column col-6">
+                        <div class="flex-column z-edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                             <label for="userId">
                                 <span th:text="#{user.label.id}"></span>
                                 <span class="required"></span>
@@ -32,12 +32,12 @@
                             <input type="text" class="z-input" id="userId" name="userId" maxlength="100"
                                    th:value="${users?.userId}" required="required"/>
                         </div>
-                        <div class="flex-column edit-row" th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice')}">
+                        <div class="flex-column z-edit-row" th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice')}">
                             <label th:text="#{user.label.password}"></label>
                             <button class="point-fill" type="button" th:text="#{user.btn.resetPassword}"
                                     th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"/>
                         </div>
-                        <div class="flex-column edit-row">
+                        <div class="flex-column z-edit-row">
                             <label for="userName">
                                 <span th:text="#{user.label.name}"></span>
                                 <span class="required"></span>
@@ -45,7 +45,7 @@
                             <input type="text" class="z-input" id="userName" name="userName" th:value="${users?.userName}"
                                    maxlength="100" required="required" />
                         </div>
-                        <div class="flex-column edit-row">
+                        <div class="flex-column z-edit-row">
                             <label for="email">
                                 <span th:text="#{user.label.email}"></span>
                                 <span class="required"></span>
@@ -53,11 +53,11 @@
                             <input type="text" class="z-input" id="email" name="email" th:value="${users?.email}"
                                    maxlength="100" required="required">
                         </div>
-                        <div class="flex-column edit-row">
+                        <div class="flex-column z-edit-row">
                             <label th:text="#{user.label.position}" for="position"></label>
                             <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}" maxlength="100">
                         </div>
-                        <div class="flex-column edit-row">
+                        <div class="flex-column z-edit-row">
                             <label th:text="#{user.label.department}" for="department"></label>
                             <div class="flex-row z-input-button">
                                 <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
@@ -66,12 +66,12 @@
                                 <button type="button" class="default-line" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
                             </div>
                         </div>
-                        <div class="flex-column edit-row">
+                        <div class="flex-column z-edit-row">
                             <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
                             <input type="text" class="z-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
                                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
                         </div>
-                        <div class="flex-column edit-row">
+                        <div class="flex-column z-edit-row">
                             <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
                             <input type="text" class="z-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="100">
@@ -87,10 +87,10 @@
                     </div>
                 </div>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <h3 class="sub-title under-bar bold" th:text="#{user.label.customSetting}"></h3>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
                         <label for="timezone">
@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
                         <label for="lang">
@@ -142,10 +142,10 @@
                     </div>
                 </div>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <h3 class="sub-title under-bar bold" th:text="#{user.label.role}"></h3>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <div class="checkbox-list">
                     <ul>
                         <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
@@ -160,7 +160,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <h3 class="sub-title under-bar bold" th:text="#{user.label.usageStatus}"></h3>
                 <label class="z-switch">
                     <input type="checkbox" id="usageStatus" name="usageStatus"
@@ -169,13 +169,15 @@
                     <span class="label" th:text="#{user.msg.usageStatus}"></span>
                 </label>
             </div>
-            <div class="flex-row justify-content-end edit-row">
-                <div class="btn-list">
-                <button class="point-fill" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
+                <button class="z-button primary" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
                         th:onclick="restSubmit('post', [[@{/rest/users}]], 'true')"></button>
-                <button class="point-fill" type="button" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
+                <button class="z-button primary" type="button" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
                         th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')"></button>
-                <a class="btn default-line" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
             </div>
         </div>

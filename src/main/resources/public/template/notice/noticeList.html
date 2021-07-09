@@ -31,7 +31,7 @@
                        th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
                 </td>
                 <td style="width:5%;" th:if="${topNotice.popYn}" class="align-center">
-                    <button type="button" class="z-button-icon" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
+                    <button type="button" class="z-button-icon secondary" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
                         <span class="z-icon popup"></span>
                     </button>
                 </td>
@@ -50,7 +50,7 @@
                        th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}"></a>
                 </td>
                 <td style="width:5%;" class="align-center" th:if="${notice.popYn}">
-                    <button type="button" class="z-button-icon" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
+                    <button type="button" class="z-button-icon secondary" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
                         <span class="z-icon popup"></span>
                     </button>
                 </td>

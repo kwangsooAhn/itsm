@@ -74,14 +74,14 @@
             </div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="btn-list">
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.create')"
+            <div class="z-button-list">
+                <button type="button" class="z-button primary" sec:authorize="hasAuthority('numbering.pattern.create')"
                         id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.update')"
+                <button type="button" class="z-button primary" sec:authorize="hasAuthority('numbering.pattern.update')"
                         id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.delete')"
+                <button type="button" class="z-button secondary" sec:authorize="hasAuthority('numbering.pattern.delete')"
                         id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>

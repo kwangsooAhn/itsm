@@ -91,12 +91,12 @@
             </div>
         </div>
         <div class="flex-row justify-content-end mr-5">
-            <div class="btn-list">
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('role.create')" id="btnRegist" name="btnRegist"
+            <div class="z-button-list">
+                <button type="button" class="z-button primary" sec:authorize="hasAuthority('role.create')" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('role.update')" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="z-button primary" sec:authorize="hasAuthority('role.update')" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('role.delete')" id="btnDelete" name="btnDelete"
+                <button type="button" class="z-button secondary" sec:authorize="hasAuthority('role.delete')" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>

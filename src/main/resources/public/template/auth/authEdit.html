@@ -82,15 +82,15 @@
             </div>
         </div>
         <div class="flex-row justify-content-end mr-5">
-            <div class="btn-list">
+            <div class="z-button-list">
                 <button sec:authorize="hasAuthority('auth.create')"
-                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                        class="z-button primary" type="button" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('auth.update')"
-                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                        class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
                 <button sec:authorize="hasAuthority('auth.delete')"
-                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                        class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>

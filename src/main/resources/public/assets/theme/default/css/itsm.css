@@ -1910,7 +1910,6 @@ table[id=documentDisplay] td {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
 }
 .z-button-icon .z-icon.delete {
   width: 1.5rem;
@@ -1921,7 +1920,6 @@ table[id=documentDisplay] td {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
 }
 .z-button-icon .z-icon.edit {
   width: 1.5rem;
@@ -1932,7 +1930,6 @@ table[id=documentDisplay] td {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
 }
 .z-button-icon .z-icon.popup {
   width: 1.5rem;
@@ -1943,7 +1940,16 @@ table[id=documentDisplay] td {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
+}
+
+.z-button-list {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+}
+.z-button-list .z-button:not(:last-child),
+.z-button-list .z-button-icon:not(:last-child) {
+  margin-right: 0.5rem;
 }
 
 .btn,
@@ -2762,16 +2768,16 @@ button .icon-plus {
   color: #CCCED1;
   margin-left: 2.5rem;
 }
-.itsm-container .main .edit {
+.itsm-container .main .z-edit {
   height: 100vh;
 }
-.itsm-container .main .edit .edit-row {
+.itsm-container .main .z-edit .z-edit-row {
   margin: 0.625rem 0 0;
 }
-.itsm-container .main .edit .edit-row .btn-list {
+.itsm-container .main .z-edit .z-edit-row .z-button-list {
   margin-top: 1.875rem;
 }
-.itsm-container .main .edit .edit-column .edit-row {
+.itsm-container .main .z-edit .z-edit-column .z-edit-row {
   margin: 0.625rem 0 0 0;
 }
 .itsm-container .main .view {

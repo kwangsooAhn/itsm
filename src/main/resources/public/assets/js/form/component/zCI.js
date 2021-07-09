@@ -732,7 +732,7 @@ export const ciMixin = {
                 classes: 'cmdb-ci-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'default-line',
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 }],

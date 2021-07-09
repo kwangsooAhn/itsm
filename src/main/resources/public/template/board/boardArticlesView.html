@@ -48,18 +48,23 @@
                 </form>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="flex-row justify-content-end view-row">
-                <div class="btn-list">
-                    <button sec:authorize="hasAuthority('board.create')"
-                            class="z-button primary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
-                            th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
-                            th:text="#{board.btn.reply}">
-                    </button>
+            <div class="flex-row justify-content-between view-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary"
+                       th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}"
+                       th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
                     <button class="z-button primary"
                             th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.update'')')})
                                    or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.create'')')})"
                             th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
                             th:text="#{common.btn.modify}">
+                    </button>
+                    <button sec:authorize="hasAuthority('board.create')"
+                            class="z-button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
+                            th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
+                            th:text="#{board.btn.reply}">
                     </button>
                     <button class="z-button secondary"
                             th:if="(${#authentication.details.userKey} != (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''board.delete'')')})
@@ -67,9 +72,6 @@
                             th:onclick="deleteBoard('delete')"
                             th:text="#{common.btn.delete}">
                     </button>
-                    <a class="z-button secondary"
-                       th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}"
-                       th:text="#{common.btn.list}"></a>
                 </div>
             </div>
             <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
@@ -78,7 +80,7 @@
                          width="32" height="32"/>
                     <input type="text" class="z-input reply-input" id="boardComments" name="boardComments" maxlength="500"
                            th:placeholder="#{comment.msg.enterComments}"/>
-                    <button class="z-button secondary" onclick="saveBoardComment('post')"
+                    <button class="z-button form" onclick="saveBoardComment('post')"
                             th:text="#{common.btn.save}"></button>
                 </div>
                 <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>

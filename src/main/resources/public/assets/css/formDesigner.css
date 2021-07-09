@@ -2398,7 +2398,6 @@ label {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
 }
 .z-button-icon .z-icon.delete {
   width: 1.5rem;
@@ -2409,7 +2408,6 @@ label {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
 }
 .z-button-icon .z-icon.edit {
   width: 1.5rem;
@@ -2420,7 +2418,6 @@ label {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
 }
 .z-button-icon .z-icon.popup {
   width: 1.5rem;
@@ -2431,7 +2428,16 @@ label {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
+}
+
+.z-button-list {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+}
+.z-button-list .z-button:not(:last-child),
+.z-button-list .z-button-icon:not(:last-child) {
+  margin-right: 0.5rem;
 }
 
 .btn,

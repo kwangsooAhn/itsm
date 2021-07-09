@@ -30,7 +30,7 @@
                 </td>
                 <td style="width: 25%;" class="align-left" th:text="${chart.chartDesc}"></td>
                 <td style="width: 10%;" class="align-center">
-                    <button type="button" class="z-button-icon" sec:authorize="hasAuthority('chart.create') || hasAuthority('chart.update')"
+                    <button type="button" class="z-button-icon secondary" sec:authorize="hasAuthority('chart.create') || hasAuthority('chart.update')"
                             th:onclick="openChartEditModal([[${chart.chartId}]], [[${chart.chartType}]])">
                         <span class="z-icon edit"></span>
                     </button>

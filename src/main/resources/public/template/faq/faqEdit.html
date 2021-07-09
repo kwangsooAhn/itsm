@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="faq-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{faq.label.faq}"></h1>
@@ -18,7 +18,7 @@
         <div class="faq-content-edit">
             <form id="faqForm" method="post" onsubmit="return false">
                 <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label for="faqGroup">
                         <span th:text="#{faq.label.category}"></span>
                         <span class="required"></span>
@@ -29,7 +29,7 @@
                         </option>
                     </select>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label for="faqTitle">
                         <span th:text="#{common.label.title}"></span>
                         <span class="required"></span>
@@ -37,7 +37,7 @@
                     <input type="text" class="z-input" id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
                            maxlength="100" required="required"/>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label for="faqContent">
                         <span th:text="#{common.label.contents}"></span>
                         <span class="required"></span>
@@ -45,8 +45,11 @@
                     <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"
                               maxlength="2048" rows="7" class="z-textarea textarea-scroll-wrapper"></textarea>
                 </div>
-                <div class="flex-row justify-content-end edit-row">
-                    <div class="btn-list">
+                <div class="flex-row justify-content-between z-edit-row">
+                    <div class="z-button-list">
+                        <a class="z-button secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
+                    </div>
+                    <div class="z-button-list">
                         <button type="button" class="z-button primary" id="btnRegist"
                                 sec:authorize="hasAuthority('faq.create')"
                                 th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
@@ -56,7 +59,6 @@
                         <button type="button" class="z-button secondary" id="btnDelete"
                                 sec:authorize="hasAuthority('faq.delete')"
                                 th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
-                        <a class="z-button secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
                     </div>
                 </div>
             </form>
