@@ -678,7 +678,7 @@ a:active {
 
 textarea:not(.z-textarea) {
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -726,7 +726,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #586872;
   background-color: transparent;
@@ -752,7 +752,7 @@ table tr td, table tr th {
 select {
   height: 2.5rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -785,7 +785,7 @@ select:disabled {
 .select {
   position: relative;
   display: inline-block;
-  font-size: 1rem;
+  font-size: 0.875rem;
   height: 2.5rem;
   width: 100%;
   padding: 0 2px;
@@ -808,7 +808,7 @@ select:disabled {
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   display: flex;
@@ -929,7 +929,7 @@ label {
 .radio {
   position: relative;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: #586872;
   outline: none;
@@ -1014,7 +1014,7 @@ label {
 
 .checkbox {
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1086,7 +1086,7 @@ label {
   position: relative;
   height: 2.188rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
@@ -1175,7 +1175,7 @@ label {
 .z-input {
   height: 2.25rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #212121;
@@ -1286,7 +1286,7 @@ label {
 
 .z-textarea {
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #212121;
@@ -1338,6 +1338,79 @@ label {
 }
 .z-textarea.success {
   border: 0.0625rem solid #76BD26;
+}
+
+.z-switch {
+  position: relative;
+  height: 1.125rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  outline: none;
+}
+.z-switch .label {
+  display: inline-block;
+  height: 1.125rem;
+  margin-left: 3rem;
+  cursor: pointer;
+}
+.z-switch input[type=checkbox] {
+  display: none;
+}
+.z-switch input[type=checkbox] + span {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 2.25rem;
+  height: 0.75rem;
+  background-color: #ABB0B5;
+  border: 0.0625rem solid #8B9094;
+  border-radius: 2.5rem;
+  -webkit-border-radius: 2.5rem;
+  -moz-border-radius: 2.5rem;
+  cursor: pointer;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -o-transition: 0.4s;
+  -ms-transition: 0.4s;
+  transition: 0.4s;
+}
+.z-switch input[type=checkbox] + span::before {
+  content: "";
+  position: absolute;
+  top: -0.25rem;
+  left: -0.0625rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-box-shadow: 0 0 0.125rem 0 #63686C;
+  -moz-box-shadow: 0 0 0.125rem 0 #63686C;
+  box-shadow: 0 0 0.125rem 0 #63686C;
+}
+.z-switch input[type=checkbox]:checked + span {
+  background-color: #339AF0;
+  border-color: #2578CE;
+}
+.z-switch input[type=checkbox]:checked + span::before {
+  -webkit-transform: translate(1.3125rem, 0);
+  -moz-transform: translate(1.3125rem, 0);
+  -o-transform: translate(1.3125rem, 0);
+  -ms-transform: translate(1.3125rem, 0);
+  transform: translate(1.3125rem, 0);
+}
+.z-switch input[type=checkbox]:disabled + span {
+  background-color: #E0E0E0;
+  border-color: #CFD5D9;
+}
+.z-switch input[type=checkbox]:disabled + span::before {
+  background-color: #F5F5F5;
 }
 
 .z-slider .z-range {

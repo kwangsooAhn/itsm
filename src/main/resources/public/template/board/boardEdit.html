@@ -25,7 +25,7 @@
                        class="z-input" required="required"/>
             </div>
             <div class="flex-column edit-row">
-                <label class="switch">
+                <label class="z-switch">
                     <span class="label" th:text="#{board.label.useYn}"></span>
                     <input type="checkbox" id="boardUseYn" name="boardUseYn"
                            th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}">
@@ -44,7 +44,7 @@
                           maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
             </div>
             <div class="flex-column edit-row">
-                <label class="switch">
+                <label class="z-switch">
                     <span class="label" th:text="#{board.label.replyYn}"></span>
                     <input type="checkbox" id="replyYn" name="replyYn"
                            th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}">
@@ -52,7 +52,7 @@
                 </label>
             </div>
             <div class="flex-column edit-row">
-                <label class="switch">
+                <label class="z-switch">
                     <span class="label" th:text="#{board.label.commentYn}"></span>
                     <input type="checkbox" id="commentYn" name="commentYn"
                            th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}">
@@ -60,7 +60,7 @@
                 </label>
             </div>
             <div class="flex-column edit-row">
-                <label class="switch">
+                <label class="z-switch">
                     <span class="label" th:text="#{board.label.category}"></span>
                     <input type="checkbox" id="categoryYn" name="categoryYn"
                            th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}"
@@ -117,7 +117,7 @@
                 </div>
             </div>
             <div class="flex-column edit-row">
-                <label class="switch">
+                <label class="z-switch">
                     <span class="label" th:text="#{board.label.attachFileYn}"></span>
                     <input type="checkbox" id="attachYn" name="attachYn"
                            th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
