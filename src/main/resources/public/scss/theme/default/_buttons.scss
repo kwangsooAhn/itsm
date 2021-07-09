@@ -2,12 +2,6 @@
 
 .btn,
 button {
-  // 팝업 버튼 
-  &.btn-popup {
-    padding: 3.5px 5px; // 3.5px 5px
-    margin: 0;
-    &:focus, &:hover { background-color: map-get($grays, "pressed"); }
-  }
   // 커스텀 코드 + 버튼
   &.plus {
     width: 1.625rem; // 26px

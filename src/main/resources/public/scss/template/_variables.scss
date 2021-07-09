@@ -166,6 +166,40 @@ $table-th-font-size:                          1.125rem; // 18px
 $table-th-font-weight:                        $font-weight-medium;
 
 // button, a
+$button-font-size:                            $font-size-xs;
+$button-font-weight:                          $font-weight-bold;
+$button-border-radius:                        0.25rem; // 4px
+$button-themes-colors: (
+  'primary': (
+    'default': ('font': $white, 'background': $blue500, 'border': $blue500),
+    'hover': ('font' : $white, 'background': $blue400, 'border': $blue400),
+    'focus': ('font': $white, 'background': $blue500, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $white, 'background': $blue600, 'border': $blue700),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  ),
+  'secondary': (
+    'default': ('font': $blue500, 'background': $white, 'border': $blue500),
+    'hover': ('font' : $blue500, 'background': $blue100, 'border': $blue500),
+    'focus': ('font': $blue500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $blue700, 'background': $blue200, 'border': $blue600),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  ),
+  'extra': (
+    'default': ('font': $blue500, 'background': $white, 'border': $white),
+    'hover': ('font' : $blue500, 'background': $blue100, 'border': $blue100),
+    'focus': ('font': $blue500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $blue700, 'background': $blue200, 'border': $blue200),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  ),
+  'form': (
+    'default': ('font': $neutral800, 'background': $neutral300, 'border': $neutral300),
+    'hover': ('font' : $neutral800, 'background': $neutral200, 'border': $neutral200),
+    'focus': ('font': $neutral800, 'background': $neutral300, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $neutral800, 'background': $neutral300, 'border': $neutral400),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  )
+);
+
 $btn-font-size:                               $font-size-xs;
 $btn-font-color:                              map-get($blacks, 'light');
 $btn-font-weight:                             $font-weight-medium;

@@ -13,14 +13,14 @@
             <span class="vertical-bar"></span>
             <h5 class="reply-create-date" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
             <div class="ml-auto align-middle">
-                <button class="reply-edit" sec:authorize="hasAuthority('board.update')"
+                <button class="z-button-icon pr-4" sec:authorize="hasAuthority('board.update')"
                         th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
-                    <span class="icon-edit"></span>
+                    <span class="z-icon edit"></span>
                 </button>
                 <span class="vertical-bar"></span>
-                <button class="reply-delete" sec:authorize="hasAuthority('board.delete')"
+                <button class="z-button-icon" sec:authorize="hasAuthority('board.delete')"
                         th:onclick="restSubmit('delete', [[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
-                    <span class="icon-delete" ></span>
+                    <span class="z-icon delete" ></span>
                 </button>
             </div>
         </div>

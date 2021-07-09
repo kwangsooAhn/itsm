@@ -24,10 +24,10 @@
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
             <div class="ml-auto">
-                <button type="button" class="default-line" onclick="openFormImport();"
-                        sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
-                <button type="button" class="default-fill" onclick="openFormRegister();"
+                <button type="button" class="z-button primary" onclick="openFormRegister();"
                         sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
+                <button type="button" class="z-button secondary" onclick="openFormImport();"
+                        sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
             </div>
         </div>
     </div>

@@ -22,10 +22,10 @@
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
             <div class="ml-auto">
-                <button type="button" class="default-line" onclick="openProcessImport();"
-                        sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
-                <button type="button" class="default-fill" onclick="openProcessRegister();"
+                <button type="button" class="z-button primary" onclick="openProcessRegister();"
                         sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.add}"></button>
+                <button type="button" class="z-button secondary" onclick="openProcessImport();"
+                        sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
             </div>
         </div>
     </div>

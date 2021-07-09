@@ -31,8 +31,8 @@
                        th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
                 </td>
                 <td style="width:5%;" th:if="${topNotice.popYn}" class="align-center">
-                    <button type="button" class="default-fill btn-popup" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
-                        <span class="icon-search"></span>
+                    <button type="button" class="z-button-icon" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
+                        <span class="z-icon popup"></span>
                     </button>
                 </td>
                 <td style="width:5%;" class="align-center" th:unless="${topNotice.popYn}"></td>
@@ -50,8 +50,8 @@
                        th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}"></a>
                 </td>
                 <td style="width:5%;" class="align-center" th:if="${notice.popYn}">
-                    <button type="button" class="default-fill btn-popup" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
-                        <span class="icon-search"></span>
+                    <button type="button" class="z-button-icon" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
+                        <span class="z-icon popup"></span>
                     </button>
                 </td>
                 <td style="width:5%;" class="align-center" th:unless="${notice.popYn}"></td>

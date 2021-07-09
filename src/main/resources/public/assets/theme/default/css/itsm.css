@@ -1535,11 +1535,344 @@ table[id=documentDisplay] td {
 
 /* _buttons.scss 
  *
+ * 적용 규칙  (자세한 건 UX팀 정승녕 팀장님과 협의)
+ * (1) 버튼 1개인 경우 : Secondary
+ * (2) 버튼 2개인 경우 : Primary + Secondary 혹은 Primary + Extra (두번째 옵션의 중요도에 따라)
+ * (3) 버튼 3개 이상인 경우 : Primary + (n * Secondary)
+ * (4) 버튼 외에 폼 양식을 포함할 경우
+ *  - (4-1) 제출 버튼 하나만 있을 경우 : Primary
+ *  - (4-2) 제출 외의 옵션이 있는 경우: (2)번 혹은 (3)번과 동일
+ * (5) 버튼 외에 클릭하는 옵션이 그 옵션을 클릭함으로써 버튼을 클릭하지 않아도 되는 (혹은 클릭하지 못하는) 상황이 되는 경우: Secondary (아마 이 경우에는 버튼이 하나 뿐일 겁니다.)
+ *
  * 파일 경로 : template/_buttons.scss
  * @description 버튼 디자인
  * @author wdj
  * @version 1.0
  */
+.z-button,
+.z-button-icon {
+  display: inline-block;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  background-color: transparent;
+  opacity: 1;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  overflow: visible;
+  cursor: pointer;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  padding: 0.5625rem 0.9375rem;
+}
+.z-button:focus, .z-button:hover,
+.z-button-icon:focus,
+.z-button-icon:hover {
+  outline: 0;
+}
+.z-button:disabled, .z-button.disabled,
+.z-button-icon:disabled,
+.z-button-icon.disabled {
+  cursor: default;
+}
+.z-button.primary,
+.z-button-icon.primary {
+  color: #FFFFFF;
+  background-color: #339AF0;
+  border-color: #339AF0;
+}
+.z-button.primary .z-icon,
+.z-button-icon.primary .z-icon {
+  display: inline-block;
+  background: #FFFFFF;
+}
+.z-button.primary:focus,
+.z-button-icon.primary:focus {
+  color: #FFFFFF;
+  background-color: #339AF0;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.primary:focus .z-icon,
+.z-button-icon.primary:focus .z-icon {
+  background: #FFFFFF;
+}
+.z-button.primary:hover,
+.z-button-icon.primary:hover {
+  color: #FFFFFF;
+  background-color: #64BBF6;
+  border-color: #64BBF6;
+}
+.z-button.primary:hover .z-icon,
+.z-button-icon.primary:hover .z-icon {
+  background: #FFFFFF;
+}
+.z-button.primary:not(:disabled):active, .z-button.primary:not(:disabled).active, .z-button.primary:not(.disabled):active, .z-button.primary:not(.disabled).active,
+.z-button-icon.primary:not(:disabled):active,
+.z-button-icon.primary:not(:disabled).active,
+.z-button-icon.primary:not(.disabled):active,
+.z-button-icon.primary:not(.disabled).active {
+  color: #FFFFFF;
+  background-color: #2578CE;
+  border-color: #1959AC;
+}
+.z-button.primary:not(:disabled):active .z-icon, .z-button.primary:not(:disabled).active .z-icon, .z-button.primary:not(.disabled):active .z-icon, .z-button.primary:not(.disabled).active .z-icon,
+.z-button-icon.primary:not(:disabled):active .z-icon,
+.z-button-icon.primary:not(:disabled).active .z-icon,
+.z-button-icon.primary:not(.disabled):active .z-icon,
+.z-button-icon.primary:not(.disabled).active .z-icon {
+  background: #FFFFFF;
+}
+.z-button.primary:disabled, .z-button.primary.disabled,
+.z-button-icon.primary:disabled,
+.z-button-icon.primary.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.primary:disabled .z-icon, .z-button.primary.disabled .z-icon,
+.z-button-icon.primary:disabled .z-icon,
+.z-button-icon.primary.disabled .z-icon {
+  background: #ABB0B5;
+}
+.z-button.secondary,
+.z-button-icon.secondary {
+  color: #339AF0;
+  background-color: #FFFFFF;
+  border-color: #339AF0;
+}
+.z-button.secondary .z-icon,
+.z-button-icon.secondary .z-icon {
+  display: inline-block;
+  background: #339AF0;
+}
+.z-button.secondary:focus,
+.z-button-icon.secondary:focus {
+  color: #339AF0;
+  background-color: #FFFFFF;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.secondary:focus .z-icon,
+.z-button-icon.secondary:focus .z-icon {
+  background: #339AF0;
+}
+.z-button.secondary:hover,
+.z-button-icon.secondary:hover {
+  color: #339AF0;
+  background-color: #E3F5FC;
+  border-color: #339AF0;
+}
+.z-button.secondary:hover .z-icon,
+.z-button-icon.secondary:hover .z-icon {
+  background: #339AF0;
+}
+.z-button.secondary:not(:disabled):active, .z-button.secondary:not(:disabled).active, .z-button.secondary:not(.disabled):active, .z-button.secondary:not(.disabled).active,
+.z-button-icon.secondary:not(:disabled):active,
+.z-button-icon.secondary:not(:disabled).active,
+.z-button-icon.secondary:not(.disabled):active,
+.z-button-icon.secondary:not(.disabled).active {
+  color: #1959AC;
+  background-color: #ADE6FD;
+  border-color: #2578CE;
+}
+.z-button.secondary:not(:disabled):active .z-icon, .z-button.secondary:not(:disabled).active .z-icon, .z-button.secondary:not(.disabled):active .z-icon, .z-button.secondary:not(.disabled).active .z-icon,
+.z-button-icon.secondary:not(:disabled):active .z-icon,
+.z-button-icon.secondary:not(:disabled).active .z-icon,
+.z-button-icon.secondary:not(.disabled):active .z-icon,
+.z-button-icon.secondary:not(.disabled).active .z-icon {
+  background: #1959AC;
+}
+.z-button.secondary:disabled, .z-button.secondary.disabled,
+.z-button-icon.secondary:disabled,
+.z-button-icon.secondary.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.secondary:disabled .z-icon, .z-button.secondary.disabled .z-icon,
+.z-button-icon.secondary:disabled .z-icon,
+.z-button-icon.secondary.disabled .z-icon {
+  background: #ABB0B5;
+}
+.z-button.extra,
+.z-button-icon.extra {
+  color: #339AF0;
+  background-color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+.z-button.extra .z-icon,
+.z-button-icon.extra .z-icon {
+  display: inline-block;
+  background: #339AF0;
+}
+.z-button.extra:focus,
+.z-button-icon.extra:focus {
+  color: #339AF0;
+  background-color: #FFFFFF;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.extra:focus .z-icon,
+.z-button-icon.extra:focus .z-icon {
+  background: #339AF0;
+}
+.z-button.extra:hover,
+.z-button-icon.extra:hover {
+  color: #339AF0;
+  background-color: #E3F5FC;
+  border-color: #E3F5FC;
+}
+.z-button.extra:hover .z-icon,
+.z-button-icon.extra:hover .z-icon {
+  background: #339AF0;
+}
+.z-button.extra:not(:disabled):active, .z-button.extra:not(:disabled).active, .z-button.extra:not(.disabled):active, .z-button.extra:not(.disabled).active,
+.z-button-icon.extra:not(:disabled):active,
+.z-button-icon.extra:not(:disabled).active,
+.z-button-icon.extra:not(.disabled):active,
+.z-button-icon.extra:not(.disabled).active {
+  color: #1959AC;
+  background-color: #ADE6FD;
+  border-color: #ADE6FD;
+}
+.z-button.extra:not(:disabled):active .z-icon, .z-button.extra:not(:disabled).active .z-icon, .z-button.extra:not(.disabled):active .z-icon, .z-button.extra:not(.disabled).active .z-icon,
+.z-button-icon.extra:not(:disabled):active .z-icon,
+.z-button-icon.extra:not(:disabled).active .z-icon,
+.z-button-icon.extra:not(.disabled):active .z-icon,
+.z-button-icon.extra:not(.disabled).active .z-icon {
+  background: #1959AC;
+}
+.z-button.extra:disabled, .z-button.extra.disabled,
+.z-button-icon.extra:disabled,
+.z-button-icon.extra.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.extra:disabled .z-icon, .z-button.extra.disabled .z-icon,
+.z-button-icon.extra:disabled .z-icon,
+.z-button-icon.extra.disabled .z-icon {
+  background: #ABB0B5;
+}
+.z-button.form,
+.z-button-icon.form {
+  color: #424242;
+  background-color: #E0E0E0;
+  border-color: #E0E0E0;
+}
+.z-button.form .z-icon,
+.z-button-icon.form .z-icon {
+  display: inline-block;
+  background: #424242;
+}
+.z-button.form:focus,
+.z-button-icon.form:focus {
+  color: #424242;
+  background-color: #E0E0E0;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.form:focus .z-icon,
+.z-button-icon.form:focus .z-icon {
+  background: #424242;
+}
+.z-button.form:hover,
+.z-button-icon.form:hover {
+  color: #424242;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.form:hover .z-icon,
+.z-button-icon.form:hover .z-icon {
+  background: #424242;
+}
+.z-button.form:not(:disabled):active, .z-button.form:not(:disabled).active, .z-button.form:not(.disabled):active, .z-button.form:not(.disabled).active,
+.z-button-icon.form:not(:disabled):active,
+.z-button-icon.form:not(:disabled).active,
+.z-button-icon.form:not(.disabled):active,
+.z-button-icon.form:not(.disabled).active {
+  color: #424242;
+  background-color: #E0E0E0;
+  border-color: #BDBDBD;
+}
+.z-button.form:not(:disabled):active .z-icon, .z-button.form:not(:disabled).active .z-icon, .z-button.form:not(.disabled):active .z-icon, .z-button.form:not(.disabled).active .z-icon,
+.z-button-icon.form:not(:disabled):active .z-icon,
+.z-button-icon.form:not(:disabled).active .z-icon,
+.z-button-icon.form:not(.disabled):active .z-icon,
+.z-button-icon.form:not(.disabled).active .z-icon {
+  background: #424242;
+}
+.z-button.form:disabled, .z-button.form.disabled,
+.z-button-icon.form:disabled,
+.z-button-icon.form.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.form:disabled .z-icon, .z-button.form.disabled .z-icon,
+.z-button-icon.form:disabled .z-icon,
+.z-button-icon.form.disabled .z-icon {
+  background: #ABB0B5;
+}
+
+.z-button-icon {
+  padding: 0.375rem;
+}
+.z-button-icon .z-icon {
+  display: inline-block;
+}
+.z-button-icon .z-icon.search {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_search.svg");
+  mask-image: url("../media/icons/icon_search.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+}
+.z-button-icon .z-icon.delete {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+}
+.z-button-icon .z-icon.edit {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_edit.svg");
+  mask-image: url("../media/icons/icon_edit.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+}
+.z-button-icon .z-icon.popup {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_popup.svg");
+  mask-image: url("../media/icons/icon_popup.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+}
+
 .btn,
 button {
   display: inline-block;
@@ -2056,16 +2389,6 @@ button.ghost-line:disabled .icon {
   margin-left: 0.3125rem;
 }
 
-.btn.btn-popup,
-button.btn-popup {
-  padding: 3.5px 5px;
-  margin: 0;
-}
-.btn.btn-popup:focus, .btn.btn-popup:hover,
-button.btn-popup:focus,
-button.btn-popup:hover {
-  background-color: #CCCED1;
-}
 .btn.plus,
 button.plus {
   width: 1.625rem;
@@ -6958,5 +7281,3 @@ body.modal-active {
 .tags-look .tagify__dropdown__item--active {
   color: #0088E6;
 }
-
-/*# sourceMappingURL=itsm.css.map */

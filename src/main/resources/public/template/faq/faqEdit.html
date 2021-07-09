@@ -47,16 +47,16 @@
                 </div>
                 <div class="flex-row justify-content-end edit-row">
                     <div class="btn-list">
-                        <button type="button" class="point-fill" id="btnRegist"
+                        <button type="button" class="z-button primary" id="btnRegist"
                                 sec:authorize="hasAuthority('faq.create')"
                                 th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
-                        <button type="button" class="point-fill" id="btnUpdate"
+                        <button type="button" class="z-button primary" id="btnUpdate"
                                 sec:authorize="hasAuthority('faq.update')"
                                 th:if="${faq?.faqId}" th:text="#{common.btn.modify}"></button>
-                        <button type="button" class="default-fill" id="btnDelete"
+                        <button type="button" class="z-button secondary" id="btnDelete"
                                 sec:authorize="hasAuthority('faq.delete')"
                                 th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
-                        <a class="btn default-line" href="/faqs/search" th:text="#{common.btn.list}"></a>
+                        <a class="z-button secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
                     </div>
                 </div>
             </form>

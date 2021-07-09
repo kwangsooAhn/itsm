@@ -26,7 +26,7 @@
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
             <div class="ml-auto">
-                <button type="button" class="default-fill" sec:authorize="hasAuthority('chart.create')"
+                <button type="button" class="z-button secondary" sec:authorize="hasAuthority('chart.create')"
                         th:text="#{common.btn.add}" th:onclick="openChartEditModal()"></button>
             </div>
         </div>

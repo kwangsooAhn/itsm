@@ -42,12 +42,12 @@
             <div class="flex-row justify-content-end edit-row">
                 <div class="btn-list">
                     <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
-                            class="point-fill" th:text="#{common.btn.modify}"></button>
+                            class="z-button primary" th:text="#{common.btn.modify}"></button>
                     <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
-                            class="point-fill" th:text="#{common.btn.register}"></button>
+                            class="z-button primary" th:text="#{common.btn.register}"></button>
                     <button th:if="${download?.downloadId}" onclick="deleteDownload()"
-                            class="default-fill" th:text="#{common.btn.delete}"></button>
-                    <a class="btn default-line" href="/downloads/search" th:text="#{common.btn.list}"></a>
+                            class="z-button secondary" th:text="#{common.btn.delete}"></button>
+                    <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
         </div>

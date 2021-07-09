@@ -74,22 +74,22 @@
                 </div>
                 <div class="flex-row justify-content-end edit-row">
                     <div class="btn-list">
-                        <button class="point-fill" sec:authorize="hasAuthority('board.create')"
+                        <button class="z-button primary" sec:authorize="hasAuthority('board.create')"
                                 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
                                 onclick="saveBoard('post', 'reply')"
                                 th:text="#{board.btn.reply}">
                         </button>
-                        <button class="point-fill" sec:authorize="hasAuthority('board.update')"
+                        <button class="z-button primary" sec:authorize="hasAuthority('board.update')"
                                 th:if="${boardInfo?.boardId} and ${replyYn} == false"
                                 onclick ="saveBoard('put', 'normal')"
                                 th:text="#{common.btn.modify}">
                         </button>
-                        <button class="point-fill" sec:authorize="hasAuthority('board.create')"
+                        <button class="z-button primary" sec:authorize="hasAuthority('board.create')"
                                 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
                                 onclick="saveBoard('post', 'normal')"
                                 th:text="#{common.btn.register}">
                         </button>
-                        <a class="btn default-line"
+                        <a class="z-button secondary"
                            th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                     </div>
                 </div>

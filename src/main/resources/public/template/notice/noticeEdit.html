@@ -96,15 +96,15 @@
                 <div class="flex-row justify-content-end edit-row">
                     <div class="btn-list">
                         <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
-                                class="point-fill" onclick="saveNotice('post')" th:text="#{common.btn.register}">
+                                class="z-button primary" onclick="saveNotice('post')" th:text="#{common.btn.register}">
                         </button>
                         <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
-                                class="point-fill" onclick="saveNotice('put')" th:text="#{common.btn.modify}">
+                                class="z-button primary" onclick="saveNotice('put')" th:text="#{common.btn.modify}">
                         </button>
                         <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
-                                class="default-fill" onclick="deleteNotice()" th:text="#{common.btn.delete}">
+                                class="z-button secondary" onclick="deleteNotice()" th:text="#{common.btn.delete}">
                         </button>
-                        <a class="btn default-line" href="/notices/search" th:text="#{common.btn.list}"></a>
+                        <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
                     </div>
                 </div>
             </form>
