@@ -1,7 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20.003" viewBox="0 0 20 20.003">
-  <g transform="translate(-747 -158)">
-    <path class="cls-1" d="M3005.5,424h-5.09l-3.7-3.71a1.008,1.008,0,0,0-1.42,0l-3.7,3.71h-5.09a.5.5,0,0,0-.5.5v15a.5.5,0,0,0,.5.5h19a.5.5,0,0,0,.5-.5v-15A.5.5,0,0,0,3005.5,424Zm-9.5-1.58,1.58,1.58h-3.16Zm8,15.58h-16V426h16Z" transform="translate(-2239 -261.997)"/>
-    <path class="cls-1" d="M3000,429h-8a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z" transform="translate(-2239 -261.997)"/>
-    <path class="cls-1" d="M3000,433h-8a1,1,0,0,0,0,2h8a1,1,0,0,0,0-2Z" transform="translate(-2239 -261.997)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g transform="translate(-879 -499)">
+    <rect width="24" height="24" transform="translate(879 499)" fill="none"/>
+    <path d="M368.5,424h-4.086l-3.707-3.707a1,1,0,0,0-1.414,0L355.586,424H351.5a1.5,1.5,0,0,0-1.5,1.5v13a1.5,1.5,0,0,0,1.5,1.5h17a1.5,1.5,0,0,0,1.5-1.5v-13A1.5,1.5,0,0,0,368.5,424Zm-8.5-1.586L361.586,424h-3.172ZM365,435H355a1,1,0,0,1,0-2h10a1,1,0,0,1,0,2Zm0-4H355a1,1,0,0,1,0-2h10a1,1,0,0,1,0,2Z" transform="translate(531 81)" fill="#8b9094"/>
   </g>
 </svg>

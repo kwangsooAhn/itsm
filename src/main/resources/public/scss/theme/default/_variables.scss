@@ -6,26 +6,35 @@ $tree-folder-path:                            '../../../media/icons/tree';
 ////////////////////////////// Layout //////////////////////////////
 // Logo
 $logo-width:                                  13.75rem; // 220px
-$logo-height:                                 3.75rem; // 60px
+$logo-height:                                 3.375rem; // 54px
 
 // Navigation
 $nav-width:                                   13.75rem; // 220px
 $nav-height:                                  9.375rem; // 150px
-$nav-bg-color:                                map-get($blacks, 'ground');
+$nav-bg-color:                                $gray800;
 
 // Menu
 $menu-width:                                  13.75rem; // 220px
 $menu-height:                                 calc(100vh - #{$nav-height} - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
-$menu-bg-color:                               map-get($blacks, 'ground');
-$menu-bg-selected-color:                      map-get($blacks, 'focus');
-$menu-bg-hover:                               map-get($blacks, 'focus');
-$menu-color:                                  map-get($grays, 'blue');
+$menu-bg-color:                               $gray800;
+$menu-bg-selected-color:                      $gray900;
+$menu-bg-hover:                               $gray700;
+$menu-color:                                  $gray500;
 $menu-selected-color:                         $white;
-$menu-hover:                                  map-get($grays, 'blue');
+$menu-hover-color:                            $gray200;
 $menu-font:                                   1rem; // 16px;
+$menu-snb-font:                               0.875rem; // 14px;
+$menu-count-bg-color:                         $gray500;
+$menu-count-color:                            $gray200;
+$menu-count-bg-active-color:                  $blue500;
+$menu-count-active-color:                     $white;
+$menu-snb-color:                              $gray300;
+$menu-snb-dot-selected-color:                 $blue500;
+$menu-snb-dot-hover:                          $gray200;
+$menu-active-color:                           $blue500;
 
 // Menu Icons
-$icon-gnb-color:                              map-get($grays, 'blue');
+$icon-gnb-color:                              $gray500;
 
 $icon-gnb-board:                              $icon-folder-path + 'gnb/icon_gnb_board.svg';
 $icon-gnb-chart:                              $icon-folder-path + 'gnb/icon_gnb_chart.svg';
@@ -38,9 +47,10 @@ $icon-gnb-config:                             $icon-folder-path + 'gnb/icon_gnb_
 $icon-gnb-workflow:                           $icon-folder-path + 'gnb/icon_gnb_workflow.svg';
 $icon-gnb-token:                              $icon-folder-path + 'gnb/icon_gnb_token.svg';
 $icon-gnb-cmdb:                               $icon-folder-path + 'gnb/icon_gnb_cmdb.svg';
+$icon-gnb-sub-dot:                            $icon-folder-path + 'gnb/icon_gnb_sub_dot.svg';
 
-$icon-arrow-left:                             $icon-folder-path + 'icon_arrow_left.svg';
-$icon-arrow-bottom:                           $icon-folder-path + 'icon_arrow_bottom.svg';
+$icon-menu-arrow-right:                       $icon-folder-path + 'icon_menu_arrow_right.svg';
+$icon-menu-arrow-bottom:                      $icon-folder-path + 'icon_menu_arrow_bottom.svg';
 
 // Profile
 $profile-photo-size:                          2rem; // 16px
