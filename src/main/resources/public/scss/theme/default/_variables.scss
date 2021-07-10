@@ -89,14 +89,6 @@ $card-hover-box-shadow:                       0 0 0.9375rem hexToRGBA(map-get($g
 // 카드 - 데이터 없을 때
 $no-data-found-bg:                            hexToRGBA(map-get($grays, 'light'), 0.45);
 
-///////////////////////////// Elements /////////////////////////////
-$element-font-size:                           $font-size-xs;
-$element-font-color:                          map-get($grays, 'dark');
-$element-font-weight:                         $font-weight-regular;
-$element-bg-color:                            $white;
-$element-border-color:                        map-get($grays, 'line');
-$element-border-width:                        0.0625rem; // 1px
-
 //////////////////////////// Thumbnail /////////////////////////////
 $thumbnail-border-width:                      0.0625rem; // 1px
 $thumbnail-border-color:                      map-get($grays, 'line');

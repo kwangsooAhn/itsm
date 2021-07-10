@@ -58,6 +58,7 @@ class ZDocument {
             zFormButton.init(documentMainHeader, documentData, this);
             this.makeDocument(this.data.form); // Form 생성
             this.documentModal.show(); // 모달 표시
+            aliceJs.initDesignedSelectTag();
         });
     }
     /**
