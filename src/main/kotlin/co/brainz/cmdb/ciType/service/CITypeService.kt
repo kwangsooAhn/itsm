@@ -96,6 +96,7 @@ class CITypeService(
                     typeName = typeEntity.typeName,
                     typeDesc = typeEntity.typeDesc,
                     typeLevel = typeEntity.typeLevel,
+                    typeSeq = typeEntity.typeSeq,
                     typeAlias = typeEntity.typeAlias,
                     pTypeId = typeEntity.pType?.typeId,
                     pTypeName = typeEntity.pType?.typeName,
@@ -122,6 +123,7 @@ class CITypeService(
             typeName = typeDetailEntity.typeName,
             typeDesc = typeDetailEntity.typeDesc,
             typeLevel = typeDetailEntity.typeLevel,
+            typeSeq = typeDetailEntity.typeSeq,
             typeAlias = typeDetailEntity.typeAlias,
             pTypeId = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeId },
             pTypeName = typeDetailEntity.pType?.let { typeDetailEntity.pType.typeName!! },
@@ -155,6 +157,7 @@ class CITypeService(
             pType = parentTypeEntity,
             typeName = ciTypeDto.typeName,
             typeDesc = ciTypeDto.typeDesc,
+            typeSeq = ciTypeDto.typeSeq,
             typeAlias = ciTypeDto.typeAlias,
             typeIcon = ciTypeDto.typeIcon,
             ciClass = ciClassRepository.getOne(ciTypeDto.classId),
@@ -182,6 +185,7 @@ class CITypeService(
             typeDesc = ciTypeDto.typeDesc,
             typeAlias = ciTypeDto.typeAlias,
             typeLevel = ciTypeDto.typeLevel,
+            typeSeq = ciTypeDto.typeSeq,
             pType = parentTypeEntity,
             typeIcon = ciTypeDto.typeIcon,
             ciClass = ciClassRepository.getOne(ciTypeDto.classId)
@@ -216,5 +220,15 @@ class CITypeService(
             )
             false -> ""
         }
+    }
+
+    /**
+     * CI Class로 CI Type이 있는지 확인
+     *
+     * @param classId
+     * @return Boolean CI Type 있을 경우 True, 없을 경우 False
+     */
+    fun getCITypesByClassId(classId: String): Boolean {
+        return ciTypeRepository.existsCITypeEntitiesByCiClass_ClassId(classId)
     }
 }

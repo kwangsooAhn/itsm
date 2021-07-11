@@ -13,6 +13,7 @@ data class CITypeListDto(
     val typeName: String? = null,
     val typeDesc: String? = null,
     val typeLevel: Int? = 1,
+    val typeSeq: Int? = 0,
     val typeAlias: String? = null,
     var pTypeId: String? = null,
     var pTypeName: String? = null,
