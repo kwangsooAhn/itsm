@@ -2170,20 +2170,16 @@ table tbody tr:hover {
 .z-button-icon.primary:hover .z-icon {
   background: #FFFFFF;
 }
-.z-button.primary:not(:disabled):active, .z-button.primary:not(:disabled).active, .z-button.primary:not(.disabled):active, .z-button.primary:not(.disabled).active,
-.z-button-icon.primary:not(:disabled):active,
-.z-button-icon.primary:not(:disabled).active,
-.z-button-icon.primary:not(.disabled):active,
-.z-button-icon.primary:not(.disabled).active {
+.z-button.primary:enabled:active, .z-button.primary:enabled.active,
+.z-button-icon.primary:enabled:active,
+.z-button-icon.primary:enabled.active {
   color: #FFFFFF;
   background-color: #2578CE;
   border-color: #1959AC;
 }
-.z-button.primary:not(:disabled):active .z-icon, .z-button.primary:not(:disabled).active .z-icon, .z-button.primary:not(.disabled):active .z-icon, .z-button.primary:not(.disabled).active .z-icon,
-.z-button-icon.primary:not(:disabled):active .z-icon,
-.z-button-icon.primary:not(:disabled).active .z-icon,
-.z-button-icon.primary:not(.disabled):active .z-icon,
-.z-button-icon.primary:not(.disabled).active .z-icon {
+.z-button.primary:enabled:active .z-icon, .z-button.primary:enabled.active .z-icon,
+.z-button-icon.primary:enabled:active .z-icon,
+.z-button-icon.primary:enabled.active .z-icon {
   background: #FFFFFF;
 }
 .z-button.primary:disabled, .z-button.primary.disabled,
@@ -2230,20 +2226,16 @@ table tbody tr:hover {
 .z-button-icon.secondary:hover .z-icon {
   background: #339AF0;
 }
-.z-button.secondary:not(:disabled):active, .z-button.secondary:not(:disabled).active, .z-button.secondary:not(.disabled):active, .z-button.secondary:not(.disabled).active,
-.z-button-icon.secondary:not(:disabled):active,
-.z-button-icon.secondary:not(:disabled).active,
-.z-button-icon.secondary:not(.disabled):active,
-.z-button-icon.secondary:not(.disabled).active {
+.z-button.secondary:enabled:active, .z-button.secondary:enabled.active,
+.z-button-icon.secondary:enabled:active,
+.z-button-icon.secondary:enabled.active {
   color: #1959AC;
   background-color: #ADE6FD;
   border-color: #2578CE;
 }
-.z-button.secondary:not(:disabled):active .z-icon, .z-button.secondary:not(:disabled).active .z-icon, .z-button.secondary:not(.disabled):active .z-icon, .z-button.secondary:not(.disabled).active .z-icon,
-.z-button-icon.secondary:not(:disabled):active .z-icon,
-.z-button-icon.secondary:not(:disabled).active .z-icon,
-.z-button-icon.secondary:not(.disabled):active .z-icon,
-.z-button-icon.secondary:not(.disabled).active .z-icon {
+.z-button.secondary:enabled:active .z-icon, .z-button.secondary:enabled.active .z-icon,
+.z-button-icon.secondary:enabled:active .z-icon,
+.z-button-icon.secondary:enabled.active .z-icon {
   background: #1959AC;
 }
 .z-button.secondary:disabled, .z-button.secondary.disabled,
@@ -2290,20 +2282,16 @@ table tbody tr:hover {
 .z-button-icon.extra:hover .z-icon {
   background: #339AF0;
 }
-.z-button.extra:not(:disabled):active, .z-button.extra:not(:disabled).active, .z-button.extra:not(.disabled):active, .z-button.extra:not(.disabled).active,
-.z-button-icon.extra:not(:disabled):active,
-.z-button-icon.extra:not(:disabled).active,
-.z-button-icon.extra:not(.disabled):active,
-.z-button-icon.extra:not(.disabled).active {
+.z-button.extra:enabled:active, .z-button.extra:enabled.active,
+.z-button-icon.extra:enabled:active,
+.z-button-icon.extra:enabled.active {
   color: #1959AC;
   background-color: #ADE6FD;
   border-color: #ADE6FD;
 }
-.z-button.extra:not(:disabled):active .z-icon, .z-button.extra:not(:disabled).active .z-icon, .z-button.extra:not(.disabled):active .z-icon, .z-button.extra:not(.disabled).active .z-icon,
-.z-button-icon.extra:not(:disabled):active .z-icon,
-.z-button-icon.extra:not(:disabled).active .z-icon,
-.z-button-icon.extra:not(.disabled):active .z-icon,
-.z-button-icon.extra:not(.disabled).active .z-icon {
+.z-button.extra:enabled:active .z-icon, .z-button.extra:enabled.active .z-icon,
+.z-button-icon.extra:enabled:active .z-icon,
+.z-button-icon.extra:enabled.active .z-icon {
   background: #1959AC;
 }
 .z-button.extra:disabled, .z-button.extra.disabled,
@@ -2350,20 +2338,16 @@ table tbody tr:hover {
 .z-button-icon.form:hover .z-icon {
   background: #424242;
 }
-.z-button.form:not(:disabled):active, .z-button.form:not(:disabled).active, .z-button.form:not(.disabled):active, .z-button.form:not(.disabled).active,
-.z-button-icon.form:not(:disabled):active,
-.z-button-icon.form:not(:disabled).active,
-.z-button-icon.form:not(.disabled):active,
-.z-button-icon.form:not(.disabled).active {
+.z-button.form:enabled:active, .z-button.form:enabled.active,
+.z-button-icon.form:enabled:active,
+.z-button-icon.form:enabled.active {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #BDBDBD;
 }
-.z-button.form:not(:disabled):active .z-icon, .z-button.form:not(:disabled).active .z-icon, .z-button.form:not(.disabled):active .z-icon, .z-button.form:not(.disabled).active .z-icon,
-.z-button-icon.form:not(:disabled):active .z-icon,
-.z-button-icon.form:not(:disabled).active .z-icon,
-.z-button-icon.form:not(.disabled):active .z-icon,
-.z-button-icon.form:not(.disabled).active .z-icon {
+.z-button.form:enabled:active .z-icon, .z-button.form:enabled.active .z-icon,
+.z-button-icon.form:enabled:active .z-icon,
+.z-button-icon.form:enabled.active .z-icon {
   background: #424242;
 }
 .z-button.form:disabled, .z-button.form.disabled,
@@ -2952,6 +2936,79 @@ button.ghost-line:disabled .icon {
   margin-left: 0.3125rem;
 }
 
+.z-button.google {
+  color: #222529;
+  background-color: #FFFFFF;
+  border-color: #CFD5D9;
+  background-image: url("../media/icons/login/icon_google.svg");
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  background-position-x: 0.875rem;
+  background-position-y: center;
+}
+.z-button.google:focus {
+  color: #222529;
+  background-color: #FFFFFF;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.google:hover {
+  color: #222529;
+  background-color: #EEEEEE;
+  border-color: #CFD5D9;
+}
+.z-button.google:enabled:active, .z-button.google:enabled.active {
+  color: #222529;
+  background-color: #E0E0E0;
+  border-color: #ABB0B5;
+}
+.z-button.google:disabled, .z-button.google.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+  background-image: url("../media/icons/login/icon_google_disabled.svg");
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  background-position-x: 0.875rem;
+  background-position-y: center;
+}
+.z-button.kakao {
+  color: #222529;
+  background-color: #FADF2D;
+  border-color: #D7BC20;
+  background-image: url("../media/icons/login/icon_kakao.svg");
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  background-position-x: 0.875rem;
+  background-position-y: center;
+}
+.z-button.kakao:focus {
+  color: #222529;
+  background-color: #FADF2D;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.kakao:hover {
+  color: #222529;
+  background-color: #FBE961;
+  border-color: #D7BC20;
+}
+.z-button.kakao:enabled:active, .z-button.kakao:enabled.active {
+  color: #222529;
+  background-color: #D7BC20;
+  border-color: #907A0E;
+}
+.z-button.kakao:disabled, .z-button.kakao.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+  background-image: url("../media/icons/login/icon_kakao_disabled.svg");
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  background-position-x: 0.875rem;
+  background-position-y: center;
+}
+
 .login-return {
   position: relative;
   top: 5rem;
@@ -2961,83 +3018,11 @@ button.ghost-line:disabled .icon {
   padding: 0.75rem 3rem;
 }
 
-.login-submit {
-  width: 100%;
-  color: #FFFFFF;
-  background-color: #0098FF;
-}
-
-.login-google {
-  width: 100%;
-  color: #3F4B56;
-  background-color: #FFFFFF;
-  border-color: #EBEBEB;
-}
-.login-google.icon-google {
-  background-image: url("../media/icons/login/icon_login_google.svg");
-  background-size: 1.188rem;
-  background-repeat: no-repeat;
-  background-position-x: 0.625rem;
-  background-position-y: center;
-}
-.login-google:hover {
-  background-color: #E6E6E6;
-  border-color: #EBEBEB;
-}
-.login-google:focus {
-  background-color: #E6E6E6;
-  border-color: #CCCED1;
-}
-.login-google:active {
-  background-color: #EBEBEB;
-  border-color: #CCCED1;
-}
-.login-google:disabled {
-  background-color: #EBEBEB;
-  border-color: #FFFFFF;
-}
-
-.login-kakao {
-  width: 100%;
-  color: #3F4B56;
-  background-color: #FFDE00;
-  border-color: #EBCC00;
-}
-.login-kakao.icon-kakao {
-  background-image: url("../media/icons/login/icon_login_kakao.svg");
-  background-size: 1.188rem;
-  background-repeat: no-repeat;
-  background-position-x: 0.625rem;
-  background-position-y: center;
-}
-.login-kakao:hover {
-  background-color: #FFEA59;
-  border-color: #EBDA6A;
-}
-.login-kakao:focus {
-  background-color: #FFEA59;
-  border-color: #D6BB00;
-}
-.login-kakao:active {
-  background-color: #EBCC00;
-  border-color: #D6BB00;
-}
-.login-kakao:disabled {
-  background-color: #FFDE00;
-  border-color: #EBCC00;
-}
-
 .signup-return {
   color: #FFFFFF;
   border-color: #FFFFFF;
   padding: 0.75rem 3rem;
   margin-left: 2.5rem;
-}
-
-.signup-submit {
-  width: 100%;
-  color: #FFFFFF;
-  background-color: #0098FF;
 }
 
 .session-return {

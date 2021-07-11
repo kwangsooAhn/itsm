@@ -1686,20 +1686,16 @@ table[id=documentDisplay] td {
 .z-button-icon.primary:hover .z-icon {
   background: #FFFFFF;
 }
-.z-button.primary:not(:disabled):active, .z-button.primary:not(:disabled).active, .z-button.primary:not(.disabled):active, .z-button.primary:not(.disabled).active,
-.z-button-icon.primary:not(:disabled):active,
-.z-button-icon.primary:not(:disabled).active,
-.z-button-icon.primary:not(.disabled):active,
-.z-button-icon.primary:not(.disabled).active {
+.z-button.primary:enabled:active, .z-button.primary:enabled.active,
+.z-button-icon.primary:enabled:active,
+.z-button-icon.primary:enabled.active {
   color: #FFFFFF;
   background-color: #2578CE;
   border-color: #1959AC;
 }
-.z-button.primary:not(:disabled):active .z-icon, .z-button.primary:not(:disabled).active .z-icon, .z-button.primary:not(.disabled):active .z-icon, .z-button.primary:not(.disabled).active .z-icon,
-.z-button-icon.primary:not(:disabled):active .z-icon,
-.z-button-icon.primary:not(:disabled).active .z-icon,
-.z-button-icon.primary:not(.disabled):active .z-icon,
-.z-button-icon.primary:not(.disabled).active .z-icon {
+.z-button.primary:enabled:active .z-icon, .z-button.primary:enabled.active .z-icon,
+.z-button-icon.primary:enabled:active .z-icon,
+.z-button-icon.primary:enabled.active .z-icon {
   background: #FFFFFF;
 }
 .z-button.primary:disabled, .z-button.primary.disabled,
@@ -1746,20 +1742,16 @@ table[id=documentDisplay] td {
 .z-button-icon.secondary:hover .z-icon {
   background: #339AF0;
 }
-.z-button.secondary:not(:disabled):active, .z-button.secondary:not(:disabled).active, .z-button.secondary:not(.disabled):active, .z-button.secondary:not(.disabled).active,
-.z-button-icon.secondary:not(:disabled):active,
-.z-button-icon.secondary:not(:disabled).active,
-.z-button-icon.secondary:not(.disabled):active,
-.z-button-icon.secondary:not(.disabled).active {
+.z-button.secondary:enabled:active, .z-button.secondary:enabled.active,
+.z-button-icon.secondary:enabled:active,
+.z-button-icon.secondary:enabled.active {
   color: #1959AC;
   background-color: #ADE6FD;
   border-color: #2578CE;
 }
-.z-button.secondary:not(:disabled):active .z-icon, .z-button.secondary:not(:disabled).active .z-icon, .z-button.secondary:not(.disabled):active .z-icon, .z-button.secondary:not(.disabled).active .z-icon,
-.z-button-icon.secondary:not(:disabled):active .z-icon,
-.z-button-icon.secondary:not(:disabled).active .z-icon,
-.z-button-icon.secondary:not(.disabled):active .z-icon,
-.z-button-icon.secondary:not(.disabled).active .z-icon {
+.z-button.secondary:enabled:active .z-icon, .z-button.secondary:enabled.active .z-icon,
+.z-button-icon.secondary:enabled:active .z-icon,
+.z-button-icon.secondary:enabled.active .z-icon {
   background: #1959AC;
 }
 .z-button.secondary:disabled, .z-button.secondary.disabled,
@@ -1806,20 +1798,16 @@ table[id=documentDisplay] td {
 .z-button-icon.extra:hover .z-icon {
   background: #339AF0;
 }
-.z-button.extra:not(:disabled):active, .z-button.extra:not(:disabled).active, .z-button.extra:not(.disabled):active, .z-button.extra:not(.disabled).active,
-.z-button-icon.extra:not(:disabled):active,
-.z-button-icon.extra:not(:disabled).active,
-.z-button-icon.extra:not(.disabled):active,
-.z-button-icon.extra:not(.disabled).active {
+.z-button.extra:enabled:active, .z-button.extra:enabled.active,
+.z-button-icon.extra:enabled:active,
+.z-button-icon.extra:enabled.active {
   color: #1959AC;
   background-color: #ADE6FD;
   border-color: #ADE6FD;
 }
-.z-button.extra:not(:disabled):active .z-icon, .z-button.extra:not(:disabled).active .z-icon, .z-button.extra:not(.disabled):active .z-icon, .z-button.extra:not(.disabled).active .z-icon,
-.z-button-icon.extra:not(:disabled):active .z-icon,
-.z-button-icon.extra:not(:disabled).active .z-icon,
-.z-button-icon.extra:not(.disabled):active .z-icon,
-.z-button-icon.extra:not(.disabled).active .z-icon {
+.z-button.extra:enabled:active .z-icon, .z-button.extra:enabled.active .z-icon,
+.z-button-icon.extra:enabled:active .z-icon,
+.z-button-icon.extra:enabled.active .z-icon {
   background: #1959AC;
 }
 .z-button.extra:disabled, .z-button.extra.disabled,
@@ -1866,20 +1854,16 @@ table[id=documentDisplay] td {
 .z-button-icon.form:hover .z-icon {
   background: #424242;
 }
-.z-button.form:not(:disabled):active, .z-button.form:not(:disabled).active, .z-button.form:not(.disabled):active, .z-button.form:not(.disabled).active,
-.z-button-icon.form:not(:disabled):active,
-.z-button-icon.form:not(:disabled).active,
-.z-button-icon.form:not(.disabled):active,
-.z-button-icon.form:not(.disabled).active {
+.z-button.form:enabled:active, .z-button.form:enabled.active,
+.z-button-icon.form:enabled:active,
+.z-button-icon.form:enabled.active {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #BDBDBD;
 }
-.z-button.form:not(:disabled):active .z-icon, .z-button.form:not(:disabled).active .z-icon, .z-button.form:not(.disabled):active .z-icon, .z-button.form:not(.disabled).active .z-icon,
-.z-button-icon.form:not(:disabled):active .z-icon,
-.z-button-icon.form:not(:disabled).active .z-icon,
-.z-button-icon.form:not(.disabled):active .z-icon,
-.z-button-icon.form:not(.disabled).active .z-icon {
+.z-button.form:enabled:active .z-icon, .z-button.form:enabled.active .z-icon,
+.z-button-icon.form:enabled:active .z-icon,
+.z-button-icon.form:enabled.active .z-icon {
   background: #424242;
 }
 .z-button.form:disabled, .z-button.form.disabled,

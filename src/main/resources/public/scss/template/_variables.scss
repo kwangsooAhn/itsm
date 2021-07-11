@@ -169,7 +169,7 @@ $table-th-font-weight:                        $font-weight-medium;
 $button-font-size:                            $font-size-xs;
 $button-font-weight:                          $font-weight-bold;
 $button-border-radius:                        0.25rem; // 4px
-$button-themes-colors: (
+$button-themes: (
   'primary': (
     'default': ('font': $white, 'background': $blue500, 'border': $blue500),
     'hover': ('font' : $white, 'background': $blue400, 'border': $blue400),
