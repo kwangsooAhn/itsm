@@ -49,6 +49,11 @@
                               class="z-textarea textarea-scroll-wrapper"></textarea>
                 </div>
                 <div class="edit-row flex-column">
+                    <label class="required" th:text="#{cmdb.class.label.seq}" for="txtClassSeq"></label>
+                    <input type="text" class="z-input" id="txtClassSeq" name="txtClassSeq" maxlength="4"
+                           onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                </div>
+                <div class="edit-row flex-column">
                     <div class="under-bar">
                         <label>
                             <span class="required" th:text="#{cmdb.class.label.attributeList}"></span>
@@ -85,6 +90,7 @@
         /*<![CDATA[*/
         const STATUS_SUCCESS = '0';
         const STATUS_SUCCESS_EDIT_CLASS = '1';
+        const STATUS_FAILE_CLASS_HAVE_TYPE = '2';
         let extendsAttributeList = document.getElementById('extendsAttributeList');
         let attributeList = document.getElementById('attributeList');
         let classAttributeMap = new Map();
@@ -123,6 +129,8 @@
                         document.getElementById('txtPClassName').value = responseJson.pclassName;
                         document.getElementById('txtClassName').value = responseJson.className;
                         document.getElementById('txtClassDesc').value = responseJson.classDesc;
+                        document.getElementById('txtClassSeq').value = responseJson.classSeq;
+
                         if (responseJson.editable) {
                             document.getElementById('btnUpdate').removeAttribute('disabled');
                             document.getElementById('btnDelete').removeAttribute('disabled');
@@ -151,7 +159,7 @@
                                 drawAttribute({
                                     key: data.attributeId,
                                     value: data.attributeName
-                                }, 'attribute', true);
+                                }, 'attribute', responseJson.editable);
                             });
                         }
                         onEdit();
@@ -194,6 +202,7 @@
             document.getElementById('txtPClassId').value = '';
             document.getElementById('txtClassName').value = '';
             document.getElementById('txtClassDesc').value = '';
+            document.getElementById('txtClassSeq').value = '';
 
             let selectedNode = tree.getTreeSelectNode();
             if (selectedNode !== null) {
@@ -212,6 +221,7 @@
         function onSave(flag) {
             let pClassId = document.getElementById('txtPClassId').value;
             if (isEmpty('txtClassName', 'cmdb.class.msg.enterClassName')) return;
+            if (isEmpty('txtClassSeq', 'cmdb.class.msg.enterClassSeq')) return;
             if (document.getElementsByName('attribute').length === 0) {
                 aliceAlert.alertWarning(i18n.msg("cmdb.class.msg.enterAttributeList"));
                 return;
@@ -225,6 +235,7 @@
             obj.classId = document.getElementById('txtClassId').value;
             obj.className = document.getElementById('txtClassName').value;
             obj.classDesc = document.getElementById('txtClassDesc').value;
+            obj.classSeq = document.getElementById('txtClassSeq').value;
             obj.attributes = attributeList;
 
             if (pClassId !== '' || pClassId !== null) {
@@ -273,6 +284,9 @@
                             aliceAlert.alertSuccess(i18n.msg('common.msg.delete'), function () {
                                 window.location.href = '/cmdb/class/edit';
                             });
+                            break;
+                        case STATUS_FAILE_CLASS_HAVE_TYPE:
+                            aliceAlert.alertDanger(i18n.msg('cmdb.class.msg.relatedTypes'));
                             break;
                         default:
                             aliceAlert.alertDanger(i18n.msg('common.msg.fail'));

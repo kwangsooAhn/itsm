@@ -55,6 +55,11 @@
                               class="z-textarea textarea-scroll-wrapper" text=""></textarea>
                 </div>
                 <div class="edit-row flex-column">
+                    <label class="required" th:text="#{cmdb.type.label.seq}" for="typeSeq"></label>
+                    <input class="z-input" id="typeSeq" name="typeSeq" type="text"  maxlength="4"
+                           onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                </div>
+                <div class="edit-row flex-column">
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
                     <div class="flex-row z-input-button">
                         <input class="z-input col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
@@ -134,6 +139,7 @@
                         document.getElementById('typeName').value = responseJson.typeName;
                         document.getElementById('typeId').value = responseJson.typeId;
                         document.getElementById('typeDesc').value = responseJson.typeDesc;
+                        document.getElementById('typeSeq').value = responseJson.typeSeq;
                         document.getElementById('typeAlias').value = responseJson.typeAlias;
                         document.getElementById('typeIcon').value = responseJson.typeIcon;
                         document.getElementById('typeClassId').value = responseJson.classId;
@@ -207,6 +213,7 @@
                 typeName: document.getElementById('typeName').value,
                 typeAlias: document.getElementById('typeAlias').value,
                 typeDesc: document.getElementById('typeDesc').value,
+                typeSeq: document.getElementById('typeSeq').value,
                 typeIcon: document.getElementById('typeIcon').value,
                 classId: document.getElementById('typeClassId').value,
                 className: document.getElementById('typeClass').value,
@@ -218,6 +225,10 @@
             }
             if (jsonData.typeName === null || jsonData.typeName.trim() === '') {
                 aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeName}]]);
+                return false;
+            }
+            if (jsonData.typeSeq === null || jsonData.typeSeq.trim() === '') {
+                aliceAlert.alertWarning([[#{cmdb.type.msg.enterTypeSeq}]]);
                 return false;
             }
             if (jsonData.typeAlias === null || jsonData.typeAlias.trim() === '') {

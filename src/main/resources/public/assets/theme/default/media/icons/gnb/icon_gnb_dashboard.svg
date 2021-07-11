@@ -1,7 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <g transform="translate(-20 -80)">
-    <path d="M28.5,80h-8a.5.5,0,0,0-.5.5v19a.5.5,0,0,0,.5.5h8a.5.5,0,0,0,.5-.5v-19A.5.5,0,0,0,28.5,80ZM27,98H22V82h5Z"/>
-    <path d="M39.5,80h-8a.5.5,0,0,0-.5.5v8a.5.5,0,0,0,.5.5h8a.5.5,0,0,0,.5-.5v-8A.5.5,0,0,0,39.5,80ZM38,87H33V82h5Z"/>
-    <path d="M39.5,91h-8a.5.5,0,0,0-.5.5v8a.5.5,0,0,0,.5.5h8a.5.5,0,0,0,.5-.5v-8A.5.5,0,0,0,39.5,91ZM38,98H33V93h5Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g transform="translate(-935 -258)">
+    <rect width="24" height="24" transform="translate(935 258)" fill="none"/>
+    <g transform="translate(587 75)">
+      <rect width="8" height="18" rx="1.5" transform="translate(351 186)" fill="#8b9094"/>
+      <rect width="8" height="8" rx="1.5" transform="translate(361 186)" fill="#8b9094"/>
+      <rect width="8" height="8" rx="1.5" transform="translate(361 196)" fill="#8b9094"/>
+    </g>
   </g>
 </svg>

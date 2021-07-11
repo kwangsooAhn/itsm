@@ -14,6 +14,7 @@ data class CIClassDto(
     var className: String = "",
     var classDesc: String? = null,
     val classLevel: Int? = 1,
+    val classSeq: Int? = 0,
     var pClassId: String? = null,
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,

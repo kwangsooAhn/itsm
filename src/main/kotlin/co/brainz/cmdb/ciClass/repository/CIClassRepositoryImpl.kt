@@ -29,6 +29,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
                     ciClass.className,
                     ciClass.classDesc,
                     ciClass.classLevel,
+                    ciClass.classSeq,
                     ciClass.pClass.classId,
                     ciClass.pClass.className
                 )
@@ -48,6 +49,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
                     ciClass.className,
                     ciClass.classDesc,
                     ciClass.classLevel,
+                    ciClass.classSeq,
                     ciClass.pClass.classId,
                     ciClass.pClass.className
                 )
@@ -56,7 +58,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
             .where(
                 super.like(ciClass.className, searchDto.search)
                     ?.or(super.like(ciClass.classDesc, searchDto.search))
-            ).orderBy(ciClass.classLevel.asc(), ciClass.className.asc())
+            ).orderBy(ciClass.classLevel.asc(), ciClass.classSeq.asc(), ciClass.className.asc())
         if (searchDto.limit != null) {
             query.limit(searchDto.limit)
         }
@@ -73,7 +75,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
             .where(
                 super.like(ciClass.className, search)
                     ?.or(super.like(ciClass.classDesc, search))
-            ).orderBy(ciClass.classLevel.asc(), ciClass.className.asc())
+            ).orderBy(ciClass.classLevel.asc(), ciClass.classSeq.asc(), ciClass.className.asc())
             .fetchResults()
     }
 

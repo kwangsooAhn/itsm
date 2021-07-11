@@ -75,4 +75,8 @@ class CITypeService(
         }
         return returnValue
     }
+
+    fun getCITypesByClassId(classId: String): Boolean {
+        return ciTypeService.getCITypesByClassId(classId)
+    }
 }
