@@ -234,7 +234,7 @@ class ZDocument {
         });
     }
     /**
-     * TODO: 신청서 인쇄
+     * 신청서 인쇄
      */
     print() {
         const printData  =  this.form.toJson();

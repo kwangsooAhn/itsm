@@ -5,30 +5,24 @@
  * @author wdj
  * @version 1.0
  */
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
+.#{$common-prefix}print {
+  margin: 1cm auto;
 
-  .#{$common-prefix}print {
-    margin: 1cm auto;
-
-    .#{$common-prefix}print-main-header {
-      line-height: 1.2;
-      margin: 0 0 10mm 0;
-    }
-    .#{$common-prefix}form {
-      box-shadow: none;
-      // 인쇄시 모든 동작을 막음
-      input, textarea, button, select,
-      .dropzone, .ql-toolbar,
-      label.radio, label.checkbox {
-        pointer-events: none;
-      }
+  .#{$common-prefix}print-main-header {
+    line-height: 1.2;
+    margin: 0 0 10mm 0;
+  }
+  .#{$common-prefix}form {
+    box-shadow: none;
+    // 인쇄시 모든 동작을 막음
+    input, textarea, button, select,
+    .dropzone, .ql-toolbar,
+    label.radio, label.checkbox {
+      pointer-events: none;
     }
   }
 }
+
 @page {
   size: A4;
   margin: 0;
