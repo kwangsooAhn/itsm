@@ -180,7 +180,7 @@ class CIService(
             }
         }
 
-        classList.forEach { it ->
+        classList.asReversed().forEach { it ->
             val ciClassDetailValueDto = CIClassDetailValueDto(
                 attributes = ciAttributeRepository.findAttributeValueList(ciId, it).toMutableList()
             )
