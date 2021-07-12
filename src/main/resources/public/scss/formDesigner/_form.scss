@@ -291,13 +291,6 @@
       height: 2.5rem;
       line-height: 2rem;
       padding-top: 0.625rem;
-      .#{$common-prefix}button {
-        padding: 0;
-        .icon-plus {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $blue);
-        }
-      }
     }
   }
 }

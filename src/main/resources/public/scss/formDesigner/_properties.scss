@@ -43,7 +43,7 @@
     }
   }
   // clipboard 엘리먼트
-  .clipboard {
+  .#{$common-prefix}clipboard {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -164,8 +164,7 @@
   // tab
   .#{$common-prefix}tab-panel {
     .#{$common-prefix}tabs {
-      button {
-        display: inline-block;
+      .#{$common-prefix}button-icon {
         padding: 10px 14px 9px 14px;
 
         &:not(:last-child) {
@@ -175,46 +174,50 @@
         &.off {
           display: none;
         }
-        .icon-checkbox {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}icon_arrow_bottom.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white);
-        }
-        .icon-plus {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $blue);
-        }
-        // 선택된 tab은 체크 아이콘 표시
-        &.selected {
-          .icon-checkbox {
-            background: $blue;
-          }
-        }
       }
     }
     .#{$common-prefix}panels {
       .#{$common-prefix}panel {
         @include relative();
         margin-top: 0.625rem;
-        padding: 0.625rem 0.75rem;
+        padding: 0.625rem 0; // 10px 0
         @include border(0.0625rem, solid, map-get($grays, "line"), all); // 1px
 
-        .panel-delete-button {
-          @include absolute($right: 0.625rem); // 10px
+        .#{$common-prefix}panel-common {
+          .panel-name {
+            padding: 0 0.75rem; // 12px
+          }
+          .panel-delete-button {
+            @include absolute($right: 0.625rem); // 10px
+          }
+
+          & > .property {
+            padding: 0 0.75rem; // 12px
+          }
         }
 
         .#{$common-prefix}button {
           padding: 0;
-          .icon-arrow-left {
+          .#{$common-prefix}icon {
             display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 1.5rem, 01.5rem, no-repeat, center, null, $blue);
+            &.i-arrow-left {
+              @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 1.5rem, 01.5rem, no-repeat, center, null, $blue);
+            }
+            &.i-arrow-right {
+              @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 1.5rem, 1.5rem, no-repeat, center, null, $blue);
+            }
+            &.i-delete {
+              @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.5rem, 1.5rem, no-repeat, center, null, $blue);
+            }
           }
-          .icon-arrow-right {
-            display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 1.5rem, 1.5rem, no-repeat, center, null, $blue);
-          }
-          .icon-delete {
-            display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.5rem, 1.5rem, no-repeat, center, null, $blue);
+        }
+
+        .#{$common-prefix}button-switch-group,
+        .#{$common-prefix}button-toggle-group {
+
+          .#{$common-prefix}button-switch,
+          .#{$common-prefix}button-toggle {
+            padding: 0.25rem  0.5625rem; // 4px 9px
           }
         }
       }

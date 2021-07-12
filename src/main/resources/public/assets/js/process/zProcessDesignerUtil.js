@@ -407,7 +407,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: 'default-line',
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
@@ -416,7 +416,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'default-line',
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -983,12 +983,12 @@ function valdationCheck() {
     let nowStatus = zProcessDesigner.data.process.status;
 
     if (deployableStatus.indexOf(zProcessDesigner.initialStatus) >= 0 && deployableStatus.indexOf(nowStatus) >= 0) {
-        aliceJs.alertWarning(i18n.msg("common.msg.onlySaveInEdit"));
+        aliceJs.alertWarning(i18n.msg('common.msg.onlySaveInEdit'));
         return false;
     }
     if (zProcessDesigner.isView) return false;
     if (zProcessDesigner.data.process.name.toString().trim() === '') {
-        aliceAlert.alertWarning(i18n.msg("process.msg.enterProcessName"));
+        aliceAlert.alertWarning(i18n.msg('process.msg.enterProcessName'));
         return false;
     }
 
@@ -1000,8 +1000,8 @@ function valdationCheck() {
                     if (requiredList.indexOf(key) >= 0) {
                         if (totalElements[i][key].toString().trim() === '') {
                             const errorElem = document.getElementById(totalElements[i].id);
-                            aliceAlert.alertWarning(i18n.msg("process.msg.enterRequired",
-                                i18n.msg("process.designer.attribute." + totalElements[i].type)));
+                            aliceAlert.alertWarning(i18n.msg('process.msg.enterRequired',
+                                i18n.msg('process.designer.attribute.' + totalElements[i].type)));
                             zProcessDesigner.setSelectedElement(d3.select(errorElem));
                             zProcessDesigner.setElementMenu(d3.select(errorElem));
                             return false;
@@ -1013,8 +1013,8 @@ function valdationCheck() {
                         if (requiredList.indexOf(key) >= 0) {
                             if (totalElements[i].data[key].toString().trim() === '') {
                                 const errorElem = document.getElementById(totalElements[i].id);
-                                aliceAlert.alertWarning(i18n.msg("process.msg.enterRequired",
-                                    i18n.msg("process.designer.attribute." + totalElements[i].type)));
+                                aliceAlert.alertWarning(i18n.msg('process.msg.enterRequired',
+                                    i18n.msg('process.designer.attribute.' + totalElements[i].type)));
                                 zProcessDesigner.setSelectedElement(d3.select(errorElem));
                                 zProcessDesigner.setElementMenu(d3.select(errorElem));
                                 return false;
@@ -1026,5 +1026,5 @@ function valdationCheck() {
         }
         return true;
     }
-    return true
+    return true;
 }

@@ -34,7 +34,7 @@
                         </div>
                         <div class="flex-column z-edit-row" th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice')}">
                             <label th:text="#{user.label.password}"></label>
-                            <button class="point-fill" type="button" th:text="#{user.btn.resetPassword}"
+                            <button class="z-button primary" type="button" th:text="#{user.btn.resetPassword}"
                                     th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"/>
                         </div>
                         <div class="flex-column z-edit-row">
@@ -63,7 +63,7 @@
                                 <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
                                 <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
                                 <button class="z-button-clear" name="clearIcon" type="button" onclick="aliceJs.clearText(this);"  tabindex="-1"></button>
-                                <button type="button" class="default-line" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
+                                <button type="button" class="z-button-search z-button form" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
                             </div>
                         </div>
                         <div class="flex-column z-edit-row">

@@ -209,7 +209,7 @@
                     classes: 'document-edit',
                     buttons: [{
                         content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
-                        classes: "point-fill",
+                        classes: 'z-button primary',
                         bindKey: false,
                         callback: function(modal) {
                             let method = (documentId !== undefined) ? 'put' : 'post';
@@ -217,7 +217,7 @@
                         }
                     },{
                         content: i18n.msg('common.btn.cancel'),
-                        classes: "default-line",
+                        classes: 'z-button secondary',
                         bindKey: false,
                         callback: function(modal) {
                             modal.hide();
@@ -263,7 +263,7 @@
                 if (documentId !== undefined) {
                     modalOptions.buttons.splice(1, 0, {
                         content: i18n.msg('document.label.display'),
-                        classes: "point-line",
+                        classes: 'z-button secondary',
                         bindKey: false,
                         callback: function(modal) {
                             openDocumentDisplay(documentId);
@@ -274,7 +274,6 @@
                 // 모달 호출
                 const documentAdminModal = new modal(modalOptions);
                 documentAdminModal.show();
-                document.querySelector('.modal-dialog .point-fill').focus();
             });
         }
 
@@ -289,14 +288,14 @@
                     classes: 'document-display',
                     buttons: [{
                         content: i18n.msg('common.btn.modify'),
-                        classes: "point-fill",
+                        classes: 'z-button primary',
                         bindKey: false,
                         callback: function(modal) {
                             saveDocumentDisplay(documentId);
                         }
                     },{
                         content: i18n.msg('common.btn.cancel'),
-                        classes: "default-line",
+                        classes: 'z-button secondary',
                         bindKey: false,
                         callback: function(modal) {
                             modal.hide();

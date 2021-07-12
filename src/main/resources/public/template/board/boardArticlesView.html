@@ -160,7 +160,7 @@
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
                 document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' class='z-input' id='editComments' name='editComments' value='" + context + "'/>" +
-                    "<button class='default-line' onclick=\"saveBoardEditComment('put','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
+                    "<button class='z-button form' onclick=\"saveBoardEditComment('put','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
             }
         }
 

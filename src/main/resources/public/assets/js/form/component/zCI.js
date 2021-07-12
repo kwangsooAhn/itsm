@@ -120,32 +120,32 @@ export const ciMixin = {
         return this._value;
     },
     makeCIButton() {
-        const buttonGroup = new UIDiv().setUIClass('btn-list');
+        const buttonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-list');
         if (this.elementIsEditable) {
             // 등록
             const registerButton = new UIButton(i18n.msg('cmdb.ci.label.new') + ' ' + i18n.msg('cmdb.ci.label.register'))
-                .addUIClass('default-line')
+                .addUIClass('form')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.REGISTER)
                 .onUIClick(this.openRegisterModal.bind(this));
             buttonGroup.addUI(registerButton);
 
             // 수정
             const updateButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.update'))
-                .addUIClass('default-line')
+                .addUIClass('form')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.MODIFY)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(updateButton);
 
             // 삭제
             const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.delete'))
-                .addUIClass('default-line')
+                .addUIClass('form')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.DELETE)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(deleteButton);
         } else {
             // 조회
             const selectButton = new UIButton(i18n.msg('cmdb.ci.label.select'))
-                .addUIClass('default-line')
+                .addUIClass('form')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.READ)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(selectButton);
@@ -239,18 +239,22 @@ export const ciMixin = {
             case 'icon-edit': // CI 등록 / 수정
                 if (data.actionType === CI.ACTION_TYPE.DELETE) {
                     const viewButton = new UIButton()
+                        .setUIClass(CLASS_PREFIX + 'button-icon')
+                        .addUIClass('form')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
-                        .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
+                        .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
                         .addUI(viewButton);
                 } else {
                     const editButton = new UIButton()
+                        .setUIClass(CLASS_PREFIX + 'button-icon')
+                        .addUIClass('form')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
-                        .addUI(new UISpan().setUIClass('icon').addUIClass('icon-edit'));
+                        .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-edit'));
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
@@ -258,18 +262,22 @@ export const ciMixin = {
                 }
             case 'icon-search': // CI 상세 조회
                 const searchButton = new UIButton()
+                    .setUIClass(CLASS_PREFIX + 'button-icon')
+                    .addUIClass('form')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
-                    .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
+                    .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
                     .addUI(searchButton);
             case 'icon-delete': // Row 삭제
                 const deleteButton = new UIButton()
+                    .setUIClass(CLASS_PREFIX + 'button-icon')
+                    .addUIClass('form')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, row.getUIIndex(), data))
-                    .addUI(new UISpan().setUIClass('icon').addUIClass('icon-delete'));
+                    .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-delete'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
@@ -459,7 +467,7 @@ export const ciMixin = {
                 classes: 'cmdb-ci-register-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
-                    classes: 'point-fill',
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
@@ -482,7 +490,7 @@ export const ciMixin = {
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'default-line',
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: (modal) => {
                         aliceAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -539,7 +547,7 @@ export const ciMixin = {
                 classes: 'cmdb-ci-update-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.modify'),
-                    classes: 'point-fill',
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
@@ -560,7 +568,7 @@ export const ciMixin = {
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'default-line',
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback:  (modal) => {
                         aliceAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -625,7 +633,7 @@ export const ciMixin = {
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
-                classes: 'point-fill',
+                classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 체크된 CI 출력
@@ -657,7 +665,7 @@ export const ciMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'default-line',
+                classes: 'z-button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

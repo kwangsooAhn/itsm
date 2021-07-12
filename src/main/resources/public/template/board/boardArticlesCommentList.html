@@ -14,11 +14,11 @@
             <div class="ml-auto align-middle z-button-list">
                 <button class="z-button-icon extra" sec:authorize="hasAuthority('board.update')"
                         th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
-                    <span class="z-icon edit"></span>
+                    <span class="z-icon i-edit"></span>
                 </button>
                 <button class="z-button-icon extra" sec:authorize="hasAuthority('board.delete')"
                         th:onclick="restSubmit('delete', [[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
-                    <span class="z-icon delete" ></span>
+                    <span class="z-icon i-delete" ></span>
                 </button>
             </div>
         </div>

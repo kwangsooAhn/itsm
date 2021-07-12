@@ -202,9 +202,9 @@
             if (data.popYn === true) {
                 const popYnBtn = document.createElement('button');
                 popYnBtn.type = 'button';
-                popYnBtn.classList.add('default-fill', 'btn-popup');
+                popYnBtn.className = 'z-button-icon form';
                 const icon =  document.createElement('span');
-                icon.className = 'icon-search';
+                icon.className = 'z-icon i-popup';
                 popYnBtn.appendChild(icon);
                 aPopYn.appendChild(popYnBtn);
                 aPopYn.onclick = function() {

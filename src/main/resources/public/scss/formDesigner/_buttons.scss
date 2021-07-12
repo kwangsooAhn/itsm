@@ -43,216 +43,134 @@
   }
 }
 
-// clipboard tooltip button
-.btn-clipboard-tooltip {
-  width: 2.5rem; // 40px
-  height: 2.5rem; // 40px
-  padding: 0;
+// button group
+// (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
+// (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
+.#{$common-prefix}button-switch-group,
+.#{$common-prefix}button-toggle-group {
 
-  .icon-clipboard {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}formDesigner/property/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
-  }
-}
+  .#{$common-prefix}button-switch,
+  .#{$common-prefix}button-toggle {
 
-// button switch group
-.btn-switch-group {
-  display: inline-flex;
-  flex-direction: row;
-  vertical-align: middle;
+    .#{$common-prefix}text { pointer-events: none; }
 
-  .btn-switch {
-    flex: 1 1 auto;
-    min-width: 48px; // 48px
-    height: 2.5rem; // 40px
-    padding: 0;
-    font-size: $btn-switch-font-size;
-    font-weight: $btn-switch-font-weight;
-    color: $btn-switch-font-color;
-    background-color: $btn-switch-bg-color;
-    border: $btn-switch-border;
-    border-radius: $btn-switch-border-radius;
-    // if icon exist
-    .icon {
-      display: inline-block;
-      background: $btn-switch-font-color;
-      vertical-align: middle;
+    .#{$common-prefix}icon {
       pointer-events: none;
-
-      &.icon-align-left {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_left.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
+      &.i-align-left {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_left.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
       }
-      &.icon-align-center {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_center.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
+      &.i-align-center {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_center.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
       }
-      &.icon-align-right {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_right.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 18px
+      &.i-align-right {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_right.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
       }
-      &.icon-position-left {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_left.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+      &.i-position-left {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_left.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
       }
-      &.icon-position-top {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_top.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+      &.i-position-top {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_top.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
       }
-      &.icon-position-hidden {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_hidden.svg', 24px, 24px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+      &.i-position-hidden {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_hidden.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
       }
-      &.icon-display-position-left {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_display_left.svg', 20px, 20px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+      &.i-display-position-left {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_display_left.svg', 20px, 20px, no-repeat, center); // 20px 20px
       }
-      &.icon-display-position-right {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_display_right.svg', 20px, 20px, no-repeat, center, null, $btn-switch-font-color); // 20px 20px
+      &.i-display-position-right {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_display_right.svg', 20px, 20px, no-repeat, center); // 20px 20px
       }
-    }
-    // if text exist
-    .text { pointer-events: none; }
-
-    &:focus,
-    &:hover {
-      color: $btn-switch-hover-font-color;
-      background-color: $btn-switch-hover-bg-color;
-      border-color: $btn-switch-hover-border-color;
-
-      .icon { background: $btn-switch-hover-font-color; }
-    }
-
-    &:not(:disabled) {
-      &:active,
-      &.active { // pressed
-        color: $btn-switch-pressed-font-color;
-        background-color: $btn-switch-pressed-bg-color;
-        border-color: $btn-switch-pressed-border-color;
-        z-index: $z-index-event;
-
-        .icon { background: $btn-switch-pressed-font-color; }
+      &.i-bold {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_bold.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+      }
+      &.i-italic {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_italic.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+      }
+      &.i-underline {
+        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_underline.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
       }
     }
-
-    &:disabled {
-      color: $btn-switch-disabled-font-color;
-      background-color: $btn-switch-disabled-bg-color;
-      border-color: $btn-switch-disabled-border-color;
-
-      .icon { background: $btn-switch-disabled-font-color; }
-    }
-  }
-
-  // 양 끝 테두리 둥글게
-  .btn-switch:not(:first-child) {
-    margin-left: -$btn-switch-border-width;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  .btn-switch:not(:last-of-type) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
   }
 }
 
-// button toggle group
-.btn-toggle-group {
-  display: inline-flex;
-  flex-direction: row;
-  vertical-align: middle;
+// 열속성 > tab 버튼
+.#{$common-prefix}tab {
+  color: map-get($button-tab, 'default', 'font');
+  background-color: map-get($button-tab, 'default', 'background');
+  border-color: map-get($button-tab, 'default', 'border');
+  @if map-get($button-tab, 'default', 'shadow') != null {
+    box-shadow: map-get($button-tab, 'default', 'shadow');
+  }
+  .#{$common-prefix}icon {
+    background: map-get($button-tab, 'default', 'font');
+  }
 
-  .btn-toggle {
-    flex: 1 1 auto;
-    min-width: 48px; // 48px
-    height: 2.5rem; // 40px
-    padding: 0;
-    font-size: $btn-toggle-font-size;
-    font-weight: $btn-toggle-font-weight;
-    color: $btn-toggle-font-color;
-    background-color: $btn-toggle-bg-color;
-    border: $btn-toggle-border;
-    border-radius: $btn-toggle-border-radius;
-    // if icon exist
-    .icon {
-      display: inline-block;
-      background: $btn-toggle-font-color;
-      vertical-align: middle;
-      pointer-events: none;
-
-      &.icon-bold {
-        @include maskImage('#{$icon-folder-path}form/property/icon_bold.svg', 24px, 24px, no-repeat, center, null, $btn-toggle-font-color); // 16px 20px
-      }
-      &.icon-italic {
-        @include maskImage('#{$icon-folder-path}form/property/icon_italic.svg', 24px, 24px, no-repeat, center, null, $btn-toggle-font-color); // 20px 20px
-      }
-      &.icon-underline {
-        @include maskImage('#{$icon-folder-path}form/property/icon_underline.svg', 24px, 24px, no-repeat, center, null, $btn-toggle-font-color); // 20px 20px
-      }
+  &:focus {
+    outline: 0;
+    color: map-get($button-tab, 'focus', 'font');
+    background-color: map-get($button-tab, 'focus', 'background');
+    border-color: map-get($button-tab, 'focus', 'border');
+    @if map-get($button-tab, 'focus', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'focus', 'shadow');
     }
-    // if text exist
-    .text { pointer-events: none; }
-
-    &:focus,
-    &:hover {
-      color: $btn-toggle-hover-font-color;
-      background-color: $btn-toggle-hover-bg-color;
-      border-color: $btn-toggle-hover-border-color;
-
-      .icon { background: $btn-toggle-hover-font-color; }
-    }
-
-    &:not(:disabled) {
-      &:active,
-      &.active { // pressed
-        color: $btn-toggle-pressed-font-color;
-        background-color: $btn-toggle-pressed-bg-color;
-        border-color: $btn-toggle-pressed-border-color;
-        z-index: $z-index-event;
-
-        .icon { background: $btn-toggle-pressed-font-color; }
-      }
-    }
-
-    &:disabled {
-      color: $btn-toggle-disabled-font-color;
-      background-color: $btn-toggle-disabled-bg-color;
-      border-color: $btn-toggle-disabled-border-color;
-
-      .icon { background: $btn-toggle-disabled-font-color; }
+    .#{$common-prefix}icon {
+      background: map-get($button-tab, 'focus', 'font');
     }
   }
 
-  // 양 끝 테두리 둥글게
-  .btn-toggle:not(:first-child) {
-    margin-left: -$btn-toggle-border-width;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+  &:hover {
+    outline: 0;
+    color: map-get($button-tab, 'hover', 'font');
+    background-color: map-get($button-tab, 'hover', 'background');
+    border-color: map-get($button-tab, 'hover', 'border');
+    @if map-get($button-tab, 'hover', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'hover', 'shadow');
+    }
+    .#{$common-prefix}icon {
+      background: map-get($button-tab, 'hover', 'font');
+    }
   }
 
-  .btn-toggle:not(:last-of-type) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+  &:enabled:active,
+  &:enabled.active {
+    color: map-get($button-tab, 'active', 'font');
+    background-color: map-get($button-tab, 'active', 'background');
+    border-color: map-get($button-tab, 'active', 'border');
+    z-index: $z-index-event;
+    @if map-get($button-tab, 'active', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'active', 'shadow');
+    }
+    .#{$common-prefix}icon {
+      background: map-get($button-tab, 'active', 'font');
+    }
+  }
+  // 선택된 경우
+  &.selected:not(:disabled),
+  &.selected:not(.disabled) {
+    color: map-get($button-tab, 'selected', 'font');
+    background-color: map-get($button-tab, 'selected', 'background');
+    border-color: map-get($button-tab, 'selected', 'border');
+    z-index: $z-index-event;
+    @if map-get($button-tab, 'selected', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'selected', 'shadow');
+    }
+    .#{$common-prefix}icon {
+      background: map-get($button-tab, 'selected', 'font');
+    }
+  }
+
+  &:disabled,
+  &.disabled {
+    color: map-get($button-tab, 'disabled', 'font');
+    background-color: map-get($button-tab, 'disabled', 'background');
+    border-color: map-get($button-tab, 'disabled', 'border');
+    cursor: default;
+    @if map-get($button-tab, 'disabled', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'disabled', 'shadow');
+    }
+    .#{$common-prefix}icon {
+      background: map-get($button-tab, 'disabled', 'font');
+    }
   }
 }
 
-// button search
-.icon-search {
-  display: inline-block;
-  @include maskImage('#{$icon-folder-path}icon_search.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
-}
-// button edit
-.icon-edit {
-  display: inline-block;
-  @include maskImage('#{$icon-folder-path}icon_edit.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
-}
-// icon delete
-.icon-delete {
-  display: inline-block;
-  @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
-}
-// 옵션 추가/삭제 버튼. 디자인 확정되면 변경의 여지가 있음.
-.btn-option {
-  .icon-plus {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white);
-  }
-  .icon-minus {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_minus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white);
-  }
-}

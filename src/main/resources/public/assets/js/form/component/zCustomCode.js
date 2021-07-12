@@ -67,7 +67,7 @@ export const customCodeMixin = {
             .onUIClick(aliceJs.clearText);
         element.UIButton = new UIButton()
             .setUIClass(CLASS_PREFIX + 'button-search')
-            .addUIClass('default-line')
+            .addUIClass('form')
             .onUIClick(this.openCustomCodePopup.bind(this))
             .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
 

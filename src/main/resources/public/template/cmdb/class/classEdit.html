@@ -57,9 +57,9 @@
                     <div class="under-bar">
                         <label>
                             <span class="required" th:text="#{cmdb.class.label.attributeList}"></span>
-                            <button type="button" class="default-line plus float-right"
+                            <button type="button" class="z-button-icon float-right"
                                     onclick="openClassAttributeListModal()">
-                                <span class="icon-plus"></span>
+                                <span class="z-icon i-plus"></span>
                             </button>
                         </label>
                     </div>
@@ -341,7 +341,7 @@
                 classes: 'cmdb-class-attribute-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: "point-fill",
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: function (modal) {
                         while (attributeList.hasChildNodes()) {
@@ -357,7 +357,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function (modal) {
                         modal.hide();

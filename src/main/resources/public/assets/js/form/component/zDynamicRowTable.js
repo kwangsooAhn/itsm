@@ -74,8 +74,10 @@ export const dynamicRowTableMixin = {
         element.addUI(element.UIDiv);
 
         element.UIDiv.addUIButton = new UIButton()
+            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .addUIClass('extra')
             .onUIClick(this.addTableRow.bind(this, element.UITable, {}))
-            .addUI(new UISpan().addUIClass('icon').addUIClass('icon-plus'));
+            .addUI(new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-plus'));
         element.UIDiv.addUI(element.UIDiv.addUIButton);
 
         return element;

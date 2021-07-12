@@ -164,7 +164,7 @@
                 let commentButton = document.createElement('button');
                 commentButton.type = 'button';
                 commentButton.innerText = i18n.msg('common.btn.register');
-                commentButton.classList.add('default-line');
+                commentButton.className = 'z-button primary';
                 commentButton.addEventListener('click', function () {
                     // 유효성 검증
                     if (isEmpty('commentValue', 'comment.msg.enterComments')) { return false; }
@@ -246,14 +246,14 @@
                 classes: 'token-list',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: "point-fill",
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: function() {
                         saveTokenList();
                     }
                 },{
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

@@ -314,7 +314,7 @@ export default class ZGroup {
 
         // labe - text
         const labelTextProperty = new ZInputBoxProperty('labelText', 'label.text', this.labelText);
-        labelTextProperty.columnWidth = '8';
+        labelTextProperty.columnWidth = '9';
 
         // label - fontSize
         const labelFontSizeProperty = new ZInputBoxProperty('labelFontSize', 'label.fontSize', this.labelFontSize)
@@ -324,24 +324,24 @@ export default class ZGroup {
 
         // label - align
         const labelAlignProperty = new ZSwitchButtonProperty('labelAlign', 'label.align', this.labelAlign, [
-            { 'name': 'icon-align-left', 'value': 'left' },
-            { 'name': 'icon-align-center', 'value': 'center' },
-            { 'name': 'icon-align-right', 'value': 'right' }
+            { 'name': 'i-align-left', 'value': 'left' },
+            { 'name': 'i-align-center', 'value': 'center' },
+            { 'name': 'i-align-right', 'value': 'right' }
         ]);
-        labelAlignProperty.columnWidth = '5';
+        labelAlignProperty.columnWidth = '6';
 
         // label - fontOption
         const labelFontOption = [
-            { 'name': 'icon-bold', 'value': 'bold'},
-            { 'name': 'icon-italic', 'value': 'italic' },
-            { 'name': 'icon-underline', 'value': 'underline' }
+            { 'name': 'i-bold', 'value': 'bold'},
+            { 'name': 'i-italic', 'value': 'italic' },
+            { 'name': 'i-underline', 'value': 'underline' }
         ];
         const labelFontValue = labelFontOption.map((item) => {
             const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             return this['labelFontOption' + method] ? 'Y' : 'N';
         }).join('|');
         const labelFontOptionProperty = new ZToggleButtonProperty('labelFontOption', 'label.fontOption', labelFontValue, labelFontOption);
-        labelFontOptionProperty.columnWidth = '5';
+        labelFontOptionProperty.columnWidth = '6';
 
         // label - fontColor
         const labelFontColorProperty = new ZColorPickerProperty('labelFontColor', 'label.fontColor', this.labelFontColor, false)

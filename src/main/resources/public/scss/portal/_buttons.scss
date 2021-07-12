@@ -84,13 +84,5 @@
 // 세션 Invalid > 로그인 되돌아가기
 .session-return {
   margin-top: 6.25rem;
-  background-color: $blue;
-  color: $white;
   padding: 0.75rem 1.563rem; // 12px 25px
-}
-
-// 에러 발생시 이전 페이지로 돌아가기
-.btn-error {
-  color: $white;
-  background-color: $blue;
 }

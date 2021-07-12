@@ -17,11 +17,11 @@
             <div class="document-main flex-column align-items-center">
                 <div class="document-main-header flex-row justify-content-between align-items-center">
                     <span class="document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></span>
-                    <div class="btn-list">
-                        <button type="button" class="default-line" onclick="openProcessStatusPopUp()"
+                    <div class="z-button-list">
+                        <button type="button" class="z-button form" onclick="openProcessStatusPopUp()"
                                 th:text="#{process.label.processMap}"></button>
                         <div id="button-panel"></div>
-                        <button type="button" class="default-line"
+                        <button type="button" class="z-button form"
                                 th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
                                 th:text="#{common.btn.print}"></button>
                     </div>
@@ -86,8 +86,8 @@
                         </div>
                     </div>
                     <div class="related-add justify-content-center align-items-center">
-                        <button th:onclick="openPopUp([[${tokenId}]])">
-                            <span class="icon-plus"></span>
+                        <button class="z-button-icon form" th:onclick="openPopUp([[${tokenId}]])">
+                            <span class="z-icon i-plus"></span>
                         </button>
                     </div>
                 </div>
@@ -100,8 +100,8 @@
                             </div>
                             <h5 class="should-be-modify-userdate" th:text="${comment.createDt}"></h5>
                             <div th:if="${#authentication.details.userKey} == ${comment.createUserKey}">
-                                <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|">
-                                    <span class="icon icon-delete"></span>
+                                <button class="z-button-icon form" th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|">
+                                    <span class="z-icon i-delete"></span>
                                 </button>
                             </div>
                         </div>
@@ -257,14 +257,14 @@
                 classes: 'token-list',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: "point-fill",
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
                         saveTokenList();
                     }
                 },{
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

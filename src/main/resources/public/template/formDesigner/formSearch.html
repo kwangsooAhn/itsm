@@ -139,7 +139,7 @@
                             classes: 'form-edit',
                             buttons: [{
                                 content: i18n.msg('form.btn.export'), // 내보내기 버튼
-                                classes: "point-fill",
+                                classes: 'z-button primary',
                                 bindKey: false,
                                 callback: function(modal) {
                                     // TODO: 폼 리팩토링 완료 후, exportWoo를 export로 변경하고 export 함수를 삭제한다.
@@ -171,7 +171,7 @@
                             // 수정
                             options.buttons.push({
                                 content: i18n.msg('common.btn.modify'),
-                                classes: "point-fill",
+                                classes: 'z-button primary',
                                 bindKey: false,
                                 callback: function(modal) {
                                     saveForm(responseObject.id, false, true);
@@ -180,7 +180,7 @@
                             // 삭제
                             options.buttons.push({
                                 content: i18n.msg('common.btn.delete'),
-                                classes: "default-fill",
+                                classes: 'z-button secondary',
                                 bindKey: false,
                                 callback: function(modal) {
                                     deleteForm(responseObject.id);
@@ -190,7 +190,7 @@
                             // 폐기
                             options.buttons.push({
                                 content: i18n.msg('form.status.destroy'),
-                                classes: "point-fill",
+                                classes: 'z-button secondary',
                                 bindKey: false,
                                 callback: function(modal) {
                                     saveForm(responseObject.id, true, responseObject.editable);
@@ -200,7 +200,7 @@
                         // 취소
                         options.buttons.push({
                             content: i18n.msg('common.btn.cancel'),
-                            classes: "default-line",
+                            classes: 'z-button secondary',
                             bindKey: false,
                             callback: function(modal) {
                                 modal.hide();
@@ -224,14 +224,14 @@
                 classes: 'form-edit',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
-                    classes: "point-fill",
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
                         saveForm();
                     }
                 },{
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -256,7 +256,6 @@
                 }
             });
             formModal.show();
-            document.querySelector('.modal-dialog .point-fill').focus();
         }
 
         // REST API
@@ -360,14 +359,14 @@
                 buttons: [
                     {
                         content: i18n.msg('form.btn.import'),
-                        classes: "default-line",
+                        classes: 'z-button primary',
                         bindKey: false,
                         callback: function(modal) {
                             importForm();
                         }
                     },{
                         content: i18n.msg('common.btn.cancel'),
-                        classes: "default-line",
+                        classes: 'z-button secondary',
                         bindKey: false,
                         callback: function(modal) {
                             modal.hide();
@@ -403,7 +402,6 @@
                 }
             });
             importModal.show();
-            document.querySelector('.modal-dialog .default-line').focus();
         }
 
         //REST API

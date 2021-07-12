@@ -38,15 +38,15 @@
                         </div>
                     </td>
                     <td width="10%" class="align-center">
-                        <button type="button" class="z-button-icon secondary" th:onclick="openFormDesignerView([[${form.id}]])">
-                            <span class="z-icon popup"></span>
+                        <button type="button" class="z-button-icon form" th:onclick="openFormDesignerView([[${form.id}]])">
+                            <span class="z-icon i-popup"></span>
                         </button>
                     </td>
                     <td width="10%" class="align-center">
                         <th:block th:if="${form.editable == true}">
-                            <button type="button" sec:authorize="hasAuthority('form.update')"
+                            <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('form.update')"
                                     th:onclick="openFormDesignerEdit([[${form.id}]])">
-                                <span class="icon-edit"></span>
+                                <span class="z-icon i-edit"></span>
                             </button>
                         </th:block>
                     </td>

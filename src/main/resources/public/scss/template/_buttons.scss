@@ -19,10 +19,9 @@
 .#{$common-prefix}button,
 .#{$common-prefix}button-icon {
   display: inline-block;
-  font-family: $font-family-s;
+  font-family: $button-font-family;
   font-size: $button-font-size;
   font-weight: $button-font-weight;
-  //line-height: 1.5;
   background-color: transparent;
   opacity: 1;
   vertical-align: middle;
@@ -33,7 +32,7 @@
   vertical-align: middle;
   overflow:visible;
   cursor: pointer;
-  @include border(0.0625rem, solid, transparent, all); // 1px
+  @include border($button-border-width, solid, transparent, all);
   @include borderRadius($button-border-radius);
   padding: 0.5625rem 0.9375rem; // 9px 15px
 
@@ -115,28 +114,45 @@
 }
 
 .#{$common-prefix}button-icon {
-  padding: 0.375rem; // 6px (버튼 기본 너비 높이 : 36px 36px)
+  padding: 0.25rem 0.3125rem; // 4px 5px (버튼 기본 너비 높이 : 36px 36px)
 
   .#{$common-prefix}icon {
     display: inline-block;
     // 검색 아이콘
-    &.search {
+    &.i-search {
       @include maskImage('#{$icon-folder-path}icon_search.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
     }
     // 삭제 아이콘
-    &.delete {
+    &.i-delete {
       @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
     }
     // 편집 아이콘
-    &.edit {
+    &.i-edit {
       @include maskImage('#{$icon-folder-path}icon_edit.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
     }
     // 팝업 아이콘
-    &.popup {
+    &.i-popup {
       @include maskImage('#{$icon-folder-path}icon_popup.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+    }
+    // clipboard 아이콘
+    &.i-clipboard {
+      @include maskImage('#{$icon-folder-path}icon_clipboard.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+    }
+    // + 아이콘
+    &.i-plus {
+      @include maskImage('#{$icon-folder-path}icon_plus.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+    }
+    // - 아이콘
+    &.i-minus {
+      @include maskImage('#{$icon-folder-path}icon_minus.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+    }
+    // check 아이콘
+    &.i-check {
+      @include maskImage('#{$icon-folder-path}icon_check.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
     }
   }
 }
+
 // 버튼 목록
 .#{$common-prefix}button-list {
   display: inline-flex;
@@ -151,299 +167,152 @@
   }
 }
 
-
-.btn, 
-button {
-  display: inline-block;
-  font-family: inherit;
-  font-size: $btn-font-size;
-  font-weight: $btn-font-weight;
-  line-height: $btn-line-height;
-  color: $btn-font-color;
-  background-color: $btn-bg-color;
-  @include border($btn-border-width, solid, $btn-border-color, all);
-  @include borderRadius($btn-border-radius);
-  opacity: 1;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  white-space: nowrap;
+// button group
+// (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
+// (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
+.#{$common-prefix}button-switch-group,
+.#{$common-prefix}button-toggle-group {
+  display: inline-flex;
+  flex-direction: row;
   vertical-align: middle;
-  overflow:visible;
-  padding: 0.625rem 1.563rem 0.5625rem 1.563rem; // 10px 25px 9px 25px
-  cursor: pointer;
 
-  &:focus,
-  &:hover {
+  .#{$common-prefix}button-switch,
+  .#{$common-prefix}button-toggle {
+    flex: 1 1 auto;
+    display: inline-block;
+    font-family: $button-font-family;
+    font-size: $button-font-size;
+    font-weight: $button-font-weight;
+    color: map-get($button-group, 'default', 'font');
+    background-color: map-get($button-group, 'default', 'background');
+    opacity: 1;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    overflow:visible;
+    cursor: pointer;
+    @include border($button-border-width, solid, map-get($button-group, 'default', 'border'), all);
+    @include borderRadius($button-border-radius);
+    @if map-get($button-group, 'default', 'shadow') != null {
+      box-shadow: map-get($button-group, 'default', 'shadow');
+    }
+    padding: 0.25rem 0.6875rem; // 4px 11px
+
+    // 아이콘이 존재한다면
+    .#{$common-prefix}icon {
+      display: inline-block;
+      background: map-get($button-group, 'default', 'font');
+    }
+
+    &:focus {
       outline: 0;
-  }
-  &:disabled {
-    cursor: default;
-  }
-  // 단일 버튼 (테마별 적용)
-  @each $theme, $value in $btn-themes-colors {
-    &.#{$theme} {
-      color: map-get($value, 'default', 'font');
-      background-color: map-get($value, 'default', 'background');
-      border-color: map-get($value, 'default', 'border');
-      // 아이콘이 존재한다면
-      .icon {
-        display: inline-block;
-        background: map-get($value, 'default', 'font');
-        vertical-align: middle;
+      color: map-get($button-group, 'focus', 'font');
+      background-color: map-get($button-group, 'focus', 'background');
+      border-color: map-get($button-group, 'focus', 'border');
+      @if map-get($button-group, 'focus', 'shadow') != null {
+        box-shadow: map-get($button-group, 'focus', 'shadow');
       }
-
-      &:focus,
-      &:hover {
-        color: map-get($value, 'hover', 'font');
-        background-color: map-get($value, 'hover', 'background');
-        border-color: map-get($value, 'hover', 'border');
-
-        .icon {
-          background: map-get($value, 'hover', 'font');
-        }
-      }
-
-      &:not(:disabled) {
-        &:active,
-        &.active { // pressed
-          color: map-get($value, 'pressed', 'font');
-          background-color: map-get($value, 'pressed', 'background');
-          border-color: map-get($value, 'pressed', 'border');
-          @if $theme == 'point-line' { opacity: 0.3; }
-
-          .icon {
-            background: map-get($value, 'pressed', 'font');
-          }
-        }
-      }
-
-      &:disabled {
-        color: map-get($value, 'disabled', 'font');
-        background-color: map-get($value, 'disabled', 'background');
-        border-color: map-get($value, 'disabled', 'border');
-        @if $theme == 'default-fill' {
-          opacity: 0.5;
-        } @else {
-          opacity: 0.3;
-        }
-
-        .icon {
-          background: map-get($value, 'disabled', 'font');
-        }
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'focus', 'font');
       }
     }
-  }
-}
 
-// 버튼 그룹
-.btn-group {
-  position: relative;
-  display: inline-flex;
-  vertical-align: middle;
-
-  .btn,
-  button {
-    flex: 1 1 auto;
-    font-size: $btn-group-font-size;
-    font-weight: $btn-group-font-weight;
-    line-height: $btn-group-line-height;
-    color: $btn-group-font-color;
-    background-color: $btn-group-bg-color;
-    @include border($btn-group-border-width, solid, $btn-group-border-color, all);
-    @include borderRadius($btn-group-border-radius); // 1px
-    // if icon exist
-    .icon {
-      display: inline-block;
-      background: $btn-group-font-color;
-      vertical-align: middle;
-    }
-
-    &:focus,
     &:hover {
-      color: $btn-group-hover-font-color;
-      background-color: $btn-group-hover-bg-color;
-      border-color: $btn-group-hover-border-color;
-
-      .icon {
-        background: $btn-group-hover-font-color;
+      outline: 0;
+      color: map-get($button-group, 'hover', 'font');
+      background-color: map-get($button-group, 'hover', 'background');
+      border-color: map-get($button-group, 'hover', 'border');
+      @if map-get($button-group, 'hover', 'shadow') != null {
+        box-shadow: map-get($button-group, 'hover', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'hover', 'font');
       }
     }
 
-    &:not(:disabled) {
-      &:active,
-      &.active { // pressed
-        color: $btn-group-pressed-font-color;
-        background-color: $btn-group-pressed-bg-color;
-        border-color: $btn-group-pressed-border-color;
-        z-index: $z-index-event;
-
-        .icon {
-          background: $btn-group-pressed-font-color;
-        }
+    &:enabled:active,
+    &:enabled.active {
+      color: map-get($button-group, 'active', 'font');
+      background-color: map-get($button-group, 'active', 'background');
+      border-color: map-get($button-group, 'active', 'border');
+      z-index: $z-index-event;
+      @if map-get($button-group, 'active', 'shadow') != null {
+        box-shadow: map-get($button-group, 'active', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'active', 'font');
+      }
+    }
+    // 선택된 경우
+    &.selected:not(:disabled),
+    &.selected:not(.disabled) {
+      color: map-get($button-group, 'selected', 'font');
+      background-color: map-get($button-group, 'selected', 'background');
+      border-color: map-get($button-group, 'selected', 'border');
+      z-index: $z-index-event;
+      @if map-get($button-group, 'selected', 'shadow') != null {
+        box-shadow: map-get($button-group, 'selected', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'selected', 'font');
       }
     }
 
-    &:disabled {
-      color: $btn-group-disabled-font-color;
-      background-color: $btn-group-disabled-bg-color;
-      border-color: $btn-group-disabled-border-color;
-
-      .icon {
-        background: $btn-group-disabled-font-color;
+    &:disabled,
+    &.disabled {
+      color: map-get($button-group, 'disabled', 'font');
+      background-color: map-get($button-group, 'disabled', 'background');
+      border-color: map-get($button-group, 'disabled', 'border');
+      cursor: default;
+      @if map-get($button-group, 'disabled', 'shadow') != null {
+        box-shadow: map-get($button-group, 'disabled', 'shadow');
       }
-    }
-  }
-  // rounded corners
-  .btn:not(:first-child),
-  button:not(:first-child) {
-    margin-left: -$btn-group-border-width;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  .btn:not(:last-of-type),
-  button:not(:last-of-type) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  // vertical button toggle group
-  &.btn-vertical {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    
-    .btn,
-    button {
-      flex: 0 1 auto;
-      @include borderRadius($btn-group-border-radius); // 1px
-    }
-
-    // Prevent double borders when buttons are next to each other
-    .btn:not(:first-child),
-    button:not(:first-child) {
-      margin-left: 0;
-      margin-top: -$btn-group-border-width;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      
-    }
-    .btn:not(:last-of-type), 
-    button:not(:last-of-type) {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-  }
-}
-// 버튼 그룹 토글
-.btn-group-toggle {
-  position: relative;
-  display: inline-flex;
-  vertical-align: middle;
-
-  .btn,
-  button {
-    flex: 1 1 auto;
-    font-size: $btn-group-font-size;
-    font-weight: $btn-group-font-weight;
-    line-height: $btn-group-line-height;
-    color: $btn-group-toggle-font-color;
-    background-color: $btn-group-toggle-bg-color;
-    @include border($btn-group-border-width, solid, $btn-group-border-color, all);
-    @include borderRadius($btn-group-border-radius); // 1px
-    // if icon exist
-    .icon {
-      display: inline-block;
-      background: $btn-group-toggle-font-color;
-      vertical-align: middle;
-    }
-
-    &:focus,
-    &:hover {
-      color: $btn-group-hover-font-color;
-      background-color: $btn-group-hover-bg-color;
-      border-color: $btn-group-hover-border-color;
-
-      .icon {
-        background: $btn-group-hover-font-color;
-      }
-    }
-
-    &:not(:disabled) {
-      &:active,
-      &.active { // pressed
-        color: $btn-group-pressed-font-color;
-        background-color: $btn-group-pressed-bg-color;
-        border-color: $btn-group-pressed-border-color;
-        z-index: $z-index-event;
-
-        .icon {
-          background: $btn-group-pressed-font-color;
-        }
-      }
-    }
-
-    &:disabled {
-      color: $btn-group-disabled-font-color;
-      background-color: $btn-group-disabled-bg-color;
-      border-color: $btn-group-disabled-border-color;
-
-      .icon {
-        background: $btn-group-disabled-font-color;
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'disabled', 'font');
       }
     }
   }
 
   // 양 끝 테두리 둥글게
-  .btn:not(:first-child),
-  button:not(:first-child) {
-    margin-left: -$btn-group-border-width;
+  .#{$common-prefix}button-switch:not(:first-child),
+  .#{$common-prefix}button-toggle:not(:first-child) {
+    margin-left: -$button-border-width;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  .btn:not(:last-of-type),
-  button:not(:last-of-type) {
+  .#{$common-prefix}button-switch:not(:last-of-type),
+  .#{$common-prefix}button-toggle:not(:last-of-type) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
   // vertical button toggle group
-  &.btn-vertical {
+  &.vertical {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
 
-    .btn,
-    button {
+    .#{$common-prefix}button-switch,
+    .#{$common-prefix}button-toggle {
       flex: 0 1 auto;
-      @include borderRadius($btn-group-border-radius); // 1px
+      @include borderRadius($button-border-radius); // 1px
     }
     // Prevent double borders when buttons are next to each other
-    .btn:not(:first-child),
-    button:not(:first-child) {
+    .#{$common-prefix}button-switch:not(:first-child),
+    .#{$common-prefix}button-toggle:not(:first-child) {
       margin-left: 0;
-      margin-top: -$btn-group-border-width;
+      margin-top: -$button-border-width;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
-    .btn:not(:last-of-type), 
-    button:not(:last-of-type) {
+    .#{$common-prefix}button-switch:not(:last-of-type),
+    .#{$common-prefix}button-toggle:not(:last-of-type) {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
-  }
-}
-
-// 버튼 리스트
-.btn-list {
-  display: inline-flex;
-  vertical-align: middle;
-  position: relative;
-
-  .btn,
-  button {
-      margin-left: 0.3125rem; // 5px
   }
 }

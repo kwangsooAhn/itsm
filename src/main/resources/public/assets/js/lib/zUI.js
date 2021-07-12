@@ -359,18 +359,18 @@ class UIRadioButton extends UIElement {
 class UIClipboard extends UIElement {
     constructor() {
         super(document.createElement('div'));
-        this.domElement.className = 'clipboard';
+        this.domElement.className = CLASS_PREFIX + 'clipboard';
         // input
         this.UIInput = new UIInput().addUIClass('copy').setUIReadOnly(true);
         this.addUI(this.UIInput);
 
         // tooptip
-        this.UITooltip = new UIDiv().setUIClass('clipboard-tooltip');
+        this.UITooltip = new UIDiv().setUIClass(CLASS_PREFIX + 'clipboard-tooltip');
         this.addUI(this.UITooltip);
 
         // copy button
         const scope = this;
-        this.UITooltip.UIButton = new UIButton().setUIClass('btn-clipboard-tooltip').addUIClass('ghost-line');
+        this.UITooltip.UIButton = new UIButton().setUIClass(CLASS_PREFIX + 'button-icon').addUIClass('form');
         this.UITooltip.UIButton.domElement.addEventListener('click', function () {
             scope.UIInput.domElement.select();
             scope.UIInput.domElement.setSelectionRange(0, 99999);
@@ -384,11 +384,11 @@ class UIClipboard extends UIElement {
         this.UITooltip.addUI(this.UITooltip.UIButton);
 
         // copy button icon
-        const UIButtonIcon = new UISpan().setUIClass('icon').addUIClass('icon-clipboard');
+        const UIButtonIcon = new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-clipboard');
         this.UITooltip.UIButton.addUI(UIButtonIcon);
 
         // tooltip text
-        this.UITooltip.UITooptipText = new UISpan().setUIClass('clipboard-tooltip-text')
+        this.UITooltip.UITooptipText = new UISpan().setUIClass(CLASS_PREFIX + 'clipboard-tooltip-text')
             .setUITextContent('Copy to clipboard');
         this.UITooltip.UIButton.addUI(this.UITooltip.UITooptipText);
     }
