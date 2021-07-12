@@ -42,6 +42,9 @@ data class CITypeEntity(
     @Column(name = "type_level")
     var typeLevel: Int? = null,
 
+    @Column(name = "type_seq")
+    var typeSeq: Int? = null,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "p_type_id")
     @NotFound(action = NotFoundAction.IGNORE)

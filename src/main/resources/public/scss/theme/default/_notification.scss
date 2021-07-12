@@ -8,7 +8,7 @@
 //   - toastify를 커스텀하여 생성되며, 우측 하단에서 설정 값에 따라 n초 간 노출되는 요소
 // *********************************************************************************************************************
 
-.notification {
+.z-notification {
   width: $notification-icon-width;
   height: $notification-icon-height;
   padding: $notification-icon-padding;
@@ -30,7 +30,7 @@
     color: $notification-container-color;
     background-color: $notification-container-background;
     display: none;
-    &.on { display: block; }
+    &.z-on { display: block; }
   }
 
   // notification 상단 영역 
@@ -47,19 +47,19 @@
       color: $white;
 
       // header 내부 컨텐츠
-      &.title {
+      &.z-title {
         font-size: 1rem; // 16px
         font-weight: $font-weight-medium;
       }
-      &.total {
+      &.z-total {
         margin: auto 0.3125rem; //5px
       }
-      &.message {
+      &.z-message {
         margin-left: 0.625rem;  // 10px
       }
 
       // 우측 상단 X 버튼
-      &.icon-close { 
+      &.z-icon-close {
         width: 0.875rem; //14px
         height: 0.875rem;
         margin-left: auto;
@@ -72,7 +72,7 @@
   &-body {
     overflow-y: auto;
     height: 20.63rem;    // 330px
-    &.nodata {
+    &.z-nodata {
       height: 6.875rem;  // 110px
       padding: 0.938rem; // 15px
     }
@@ -85,7 +85,7 @@
       background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
     }
     // 체크 박스 영역
-    .notification-checked {
+    .z-notification-checked {
       display: flex;
       margin: 0;
       background-color: $white;
@@ -114,19 +114,19 @@
       }
     }
     // 제거 버튼 영역
-    .icon-remove {
+    .z-icon-remove {
       padding: 0;
       @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 1.25rem, no-repeat, center, null, $notification-icon-color); // 18px 20px
     }
     span {
-      &.title {
+      &.z-title {
         max-width: 18.13rem; // 290px
         margin-left: 0.625rem; // 10px
         font-weight: $font-weight-medium;
         font-size: 1rem; // 16px
         line-height: 1.2;
         color: map-get($blacks, "light");
-        &.confirm {
+        &.z-confirm {
           opacity: 0.75;
         }
         &:hover {
@@ -134,7 +134,7 @@
           text-decoration: underline;
         }
       }
-      &.message {
+      &.z-message {
         display: block;
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
@@ -142,11 +142,11 @@
         font-weight: $font-weight-regular;
         font-size: 1rem; // 16px
         color: map-get($grays, "dark");
-        &.confirm {
+        &.z-confirm {
             color: $gray;
         }
       }
-      &.date {
+      &.z-date {
         margin-left: 1.75rem; // 28px
         font-weight: $font-weight-regular;
         font-size: 0.875rem; // 14px

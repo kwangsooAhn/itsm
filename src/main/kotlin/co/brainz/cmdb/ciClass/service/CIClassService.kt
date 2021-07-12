@@ -110,6 +110,7 @@ class CIClassService(
             classId = ciClassEntity.classId,
             className = ciClassEntity.className,
             classDesc = ciClassEntity.classDesc,
+            classSeq = ciClassEntity.classSeq,
             pClassId = ciClassEntity.pClass?.classId,
             pClassName = pClassName,
             editable = editable,
@@ -209,6 +210,7 @@ class CIClassService(
             classId = ciClassDto.classId,
             className = ciClassDto.className,
             classDesc = ciClassDto.classDesc,
+            classSeq = ciClassDto.classSeq,
             pClass = ciClassDto.pClassId?.let {
                 ciClassRepository.findById(it).orElse(CIClassEntity(classId = ciClassDto.pClassId!!))
             }
@@ -249,6 +251,7 @@ class CIClassService(
         )
         ciClassEntity.className = ciClassDto.className
         ciClassEntity.classDesc = ciClassDto.classDesc
+        ciClassEntity.classSeq = ciClassDto.classSeq
         ciClassEntity.pClass = ciClassDto.pClassId?.let {
             ciClassRepository.findById(it).orElse(CIClassEntity(classId = ciClassDto.pClassId!!))
         }

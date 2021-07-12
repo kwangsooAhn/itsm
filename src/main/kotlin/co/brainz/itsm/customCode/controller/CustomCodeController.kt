@@ -65,6 +65,7 @@ class CustomCodeController(
     fun getCustomCodeNew(model: Model): String {
         model.addAttribute("customCodeTableList", customCodeService.getCustomCodeTableList())
         model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
+        model.addAttribute("operatorList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE))
         return customCodeEditPage
     }
 
@@ -100,6 +101,7 @@ class CustomCodeController(
         model.addAttribute("customCode", customCodeService.getCustomCodeDetail(customCodeId))
         model.addAttribute("customCodeTableList", customCodeService.getCustomCodeTableList())
         model.addAttribute("customCodeColumnList", customCodeService.getCustomCodeColumnList())
+        model.addAttribute("operatorList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_OPERATOR_P_CODE))
         return customCodeEditPage
     }
 

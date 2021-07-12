@@ -59,6 +59,9 @@ class ScheduleTaskTypeJar(
         runnable = Runnable {
             val processBuilder = ProcessBuilder(command)
             processBuilder.directory(File(jarDir))
+            processBuilder.redirectInput(ProcessBuilder.Redirect.INHERIT)
+            processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT)
+            processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
             processBuilder.start()
         }
         return runnable

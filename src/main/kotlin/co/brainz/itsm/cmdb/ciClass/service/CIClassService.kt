@@ -16,6 +16,7 @@ import co.brainz.cmdb.dto.CIClassToAttributeDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
 import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
+import co.brainz.itsm.cmdb.ciType.service.CITypeService
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
@@ -25,7 +26,8 @@ import org.springframework.stereotype.Service
 @Service
 @Transactional
 class CIClassService(
-    private val ciClassService: CIClassService
+    private val ciClassService: CIClassService,
+    private val ciTypeService: CITypeService
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -76,8 +78,12 @@ class CIClassService(
      */
     fun deleteCIClass(classId: String): String {
         var returnValue = ""
-        if (ciClassService.deleteCIClass(classId)) {
-            returnValue = CIClassConstants.Status.STATUS_SUCCESS.code
+        if (!ciTypeService.getCITypesByClassId(classId)) {
+            if (ciClassService.deleteCIClass(classId)) {
+                returnValue = CIClassConstants.Status.STATUS_SUCCESS.code
+            }
+        } else {
+                returnValue = CIClassConstants.Status.STATUS_FAILE_CLASS_HAVE_TYPE.code
         }
         return returnValue
     }
