@@ -1730,74 +1730,48 @@ label {
  * @author wdj
  * @version 1.0
  */
-.print {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+.z-print {
+  margin: 1cm auto;
 }
-.print .print-main {
-  min-width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  overflow: auto;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-.print .print-main::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-.print .print-main .print-main-header {
-  width: 100vw;
-  margin: 0.9375rem;
-}
-.print .print-main .print-main-header span {
+.z-print .z-print-main-header {
   line-height: 1.2;
+  margin: 0 0 10mm 0;
 }
-.print .print-main .print-area {
-  min-height: 100%;
+.z-print .z-form {
+  box-shadow: none;
 }
-.print .print-main .drawing-board {
-  display: table;
-  width: 710px;
-  min-height: 100%;
-  margin: 0.9375rem;
-  padding: 6.25rem 4.688rem;
-  background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
-}
-.print .print-main .drawing-board *:focus {
-  outline: none !important;
-}
-.print .print-main .drawing-board .component {
-  page-break-inside: always;
-}
-.print .print-main .drawing-board .component:hover .move-handler {
-  opacity: 0;
+.z-print .z-form input, .z-print .z-form textarea, .z-print .z-form button, .z-print .z-form select,
+.z-print .z-form .dropzone, .z-print .z-form .ql-toolbar,
+.z-print .z-form label.radio, .z-print .z-form label.checkbox {
+  pointer-events: none;
 }
 
+@page {
+  size: A4;
+  margin: 0;
+}
 @media print {
-  body {
-    width: 21cm;
-    height: 29.7cm;
-    margin: 20mm auto;
+  html, body {
+    width: 210mm;
+    height: 297mm;
   }
 
-  .print {
-    width: 100%;
+  .z-print {
+    padding: 0mm 20mm;
+    margin: 0;
+    border: initial;
+    border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;
+    background: initial;
+    page-break-after: always;
   }
-  .print .print-main {
-    min-width: 0;
+  .z-print .z-print-main-header {
+    margin: 0 0 10mm 0;
   }
-  .print .print-main .print-main-header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+  .z-print .z-form {
+    box-shadow: none;
   }
 }
 /* _modal.scss 
