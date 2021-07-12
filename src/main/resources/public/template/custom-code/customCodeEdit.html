@@ -193,8 +193,9 @@
         function addCondition() {
             const searchColumnLength = document.getElementById('searchColumn').childNodes.length;
             const conditionLen = document.getElementById('condition').childNodes.length;
+            const conditionLabel = document.getElementById('conditionLabel').childNodes.length;
             if (conditionLen < searchColumnLength) {
-                if (conditionLen === 0) {
+                if (conditionLen === 0 && conditionLabel === 3) {
                     document.getElementById('conditionLabel').insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                 }
                 drawCondition();
@@ -235,7 +236,7 @@
                 aliceAlert.confirm(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
                     const row = deleteBtn.parentNode;
                     const conditionElems = document.querySelectorAll('input[name=conditionValue]');
-                    if (conditionElems.length === 0) {
+                    if (conditionElems.length === 1) {
                         const conditionLabel = document.getElementById('conditionLabel');
                         conditionLabel.removeChild(conditionLabel.children[1]);
                     }
