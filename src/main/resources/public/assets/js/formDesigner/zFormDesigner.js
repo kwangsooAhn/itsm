@@ -165,6 +165,9 @@ class ZFormDesigner {
 
                     // 이력 저장
                     this.options.editor.history.save(histories);
+
+                    // Designed Select Box
+                    aliceJs.initDesignedSelectTag();
                 }
             });
         });
@@ -185,6 +188,8 @@ class ZFormDesigner {
 
             this.makeForm(this.data, this); // DOM 엘리먼트 생성
             this.setFormName(this.data.name); // 폼 디자이너 상단 이름 출력
+            this.form.UIElement.domElement.dispatchEvent(new Event('click')); // 폼 속성 패널 출력
+            aliceJs.initDesignedSelectTag();
         });
 
         document.addEventListener('click', onLeftClickHandler.bind(this), false);

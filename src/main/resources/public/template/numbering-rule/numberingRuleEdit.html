@@ -199,7 +199,7 @@
                     for (let i = 0; i < patternListLength; i++) {
                         for (let k = 0; k < patternEle[i].length; k++) {
                             if (patternEle[i][k].textContent === responseJson.patternList[i].patternName) {
-                                document.querySelectorAll('.designed-select')[i].textContent = responseJson.patternList[i].patternName;
+                                document.querySelectorAll('.z-select-box')[i].textContent = responseJson.patternList[i].patternName;
                                 patternEle[i][k].selected = true;
                             }
                         }
@@ -222,7 +222,7 @@
             document.getElementById('txtRuleId').value = '';
             document.getElementById('txtRuleName').value = '';
             document.getElementById('txtRuleDesc').value = '';
-            document.querySelectorAll('.designed-select').forEach(elem => elem.textContent = document.querySelector('.designed-options').firstElementChild.textContent);
+            document.querySelectorAll('.z-select-box').forEach(elem => elem.textContent = document.querySelector('.z-select-options').firstElementChild.textContent);
             document.querySelectorAll('.pattern').forEach(elem => elem.style.display = 'flex');
             document.getElementsByName('pattern').forEach(elem => elem[0].selected = true);
 
