@@ -455,6 +455,7 @@ customCode:
     searchDescription: "View and manage custom codes used in processes and forms."
     selectNotDuplicateSearchColumn: "Please select the search criteria in the column without duplication."
     viewDescription: "Inquires detailed information about the custom code used in the process and document form."
+    checkUseYnValue: "Whether to use the user can only input true or false values."
 
 # Dashboard
 dashboard:

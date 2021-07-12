@@ -18,6 +18,11 @@ object CustomCodeConstants {
     const val CUSTOM_CODE_TYPE_P_CODE = "customCode.type"
 
     /**
+     * 커스텀 코드 조건 연산자 p_code.
+     */
+    const val CUSTOM_CODE_OPERATOR_P_CODE = "customCode.operator"
+
+    /**
      * 사용자 정의 코드 편집 상태.
      */
     enum class Status(val code: String) {
