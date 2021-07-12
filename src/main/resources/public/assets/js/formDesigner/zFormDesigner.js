@@ -165,6 +165,9 @@ class ZFormDesigner {
 
                     // 이력 저장
                     this.options.editor.history.save(histories);
+
+                    // Designed Select Box
+                    aliceJs.initDesignedSelectTag();
                 }
             });
         });
