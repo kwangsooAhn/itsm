@@ -1642,24 +1642,26 @@ label {
      - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
 */
 .z-select {
-  height: 2.25rem;
-  position: relative;
   display: inline-block;
+  position: relative;
   width: 100%;
+  height: 2.25rem;
 }
 .z-select select.readonly {
   visibility: hidden;
 }
 .z-select .z-select-box {
+  display: flex;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  color: #222529;
   width: 100%;
   padding: 0 1rem;
   border: 0.0625rem solid #CFD5D9;
+  background-color: #FFFFFF;
+  color: #222529;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -1667,8 +1669,6 @@ label {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
-  background-color: #FFFFFF;
-  display: flex;
   align-items: center;
   overflow: hidden;
   cursor: pointer;
@@ -1695,7 +1695,6 @@ label {
   display: block;
 }
 .z-select .z-select-box:not(.readonly):after {
-  content: "";
   position: absolute;
   right: 0.5rem;
   width: 0;
@@ -1706,40 +1705,41 @@ label {
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
+  content: "";
 }
 .z-select .z-select-box.disabled-select {
-  color: #ABB0B5;
-  background-color: #EEEEEE;
   border: 0.0625rem solid #CFD5D9;
+  background-color: #EEEEEE;
+  color: #ABB0B5;
   pointer-events: none;
   cursor: default;
 }
 .z-select .z-select-box.readonly {
   border: 0.0625rem solid #ABB0B5;
   border-style: none none none solid;
+  background-color: #FFFFFF;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
-  background-color: #FFFFFF;
   pointer-events: none;
   cursor: default;
 }
 .z-select .z-select-options {
   display: none;
+  list-style: none;
   position: absolute;
   top: calc(100% + 0.25rem);
   right: 0;
   left: 0;
   z-index: 5000;
-  margin: 0;
   padding: 0.25rem 0;
-  list-style: none;
+  margin: 0;
+  border: 0.0625rem solid #CFD5D9;
+  background-color: #FFFFFF;
   max-height: 25rem;
   color: #222529;
-  background-color: #FFFFFF;
   outline: 0;
   overflow: auto;
-  border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -1748,8 +1748,8 @@ label {
   box-shadow: 0 0 0.125rem 0 #CFD5D9;
 }
 .z-select .z-select-options li {
-  margin: 0 0.3125rem;
   padding: 0.5625rem 0;
+  margin: 0 0.3125rem;
   text-indent: 0.6875rem;
   align-items: center;
   font-family: inherit;
@@ -1773,7 +1773,6 @@ label {
   color: #339AF0;
 }
 .z-select .z-select-options .selected:after {
-  content: "";
   position: absolute;
   right: 0.9375rem;
   width: 10px;
@@ -1783,6 +1782,7 @@ label {
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
+  content: "";
 }
 
 input:read-only {

@@ -752,10 +752,10 @@ label {
      - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
 */
 .#{$common-prefix}select {
-  height: 2.25rem; // 36px
-  @include relative();
   display: inline-block;
+  @include relative();
   width: 100%;
+  height: 2.25rem; // 36px
 
   select.readonly {
     visibility: hidden;
@@ -763,27 +763,29 @@ label {
 
   // select 태그를 대신해서 보여지는 부분
   .#{$common-prefix}select-box {
+    display: flex;
     @include absolute(0, 0, 0, 0);
-    color: $element-font-color;
     width: 100%;
     padding: 0 $element-indent;
     border: $element-border;
+    background-color: $element-bg-color;
+    color: $element-font-color;
     @include borderRadius(0.125rem); // 2px
     font-family: inherit;
     font-size: $element-font-size;
     font-weight: $element-font-weight;
     line-height: $element-line-height;
-    background-color: $element-bg-color;
-    display: flex;
     align-items: center;
     overflow: hidden;
     cursor: pointer;
 
     &:not(.readonly) {
+
       &:hover {
         outline: 0;
         border: $element-hover-border;
       }
+
       &.active {
         outline: 0;
         border: $element-focus-border;
@@ -797,22 +799,23 @@ label {
           display: block;
         }
       }
+
       // 닫혔을때 출력되는 화살표 아이콘
       &:after {
-        content:'';
         @include absolute($right: 0.5rem); // 8px
         width: 0;
         height: 0;
         border: 0.75rem solid transparent; // 12px
         @include backgroundImage($icon-folder-path + 'icon_arrow_bottom.svg', auto, no-repeat, center, center, null);
+        content:'';
       }
     }
 
     // disabled
     &.disabled-select {
-      color: $element-disabled-font-color;
-      background-color: $element-disabled-bg-color;
       border: $element-disabled-border;
+      background-color: $element-disabled-bg-color;
+      color: $element-disabled-font-color;
       pointer-events: none;
       cursor: default;
     }
@@ -821,8 +824,8 @@ label {
     &.readonly {
       border: $element-readonly-border;
       border-style: none none none solid;
-      @include borderRadius(0);
       background-color: $white;
+      @include borderRadius(0);
       pointer-events: none;
       cursor: default;
     }
@@ -831,22 +834,22 @@ label {
   // z-select-box 클릭 시 보여지는 option 리스트 부분
   .#{$common-prefix}select-options {
     display: none;
+    list-style: none;
     @include absolute(calc(100% + 0.25rem), 0, null, 0);  // 4px
     z-index: $z-index-between-alert-modal;
-    margin: 0;
     padding: 0.25rem 0; // 4px
-    list-style: none;
+    margin: 0;
+    border: $element-border;
+    background-color: $element-bg-color;
     max-height: 25rem; // 400px
     color: $gray800;
-    background-color: $element-bg-color;
     outline: 0;
     overflow: auto;
-    border: $element-border;
     @include borderRadius(0.125rem); // 2px
     @include boxShadow(0, 0, 0.125rem, 0, $element-shadow-color);
     li {
-      margin: 0 0.3125rem; // 5px
       padding: 0.5625rem 0; // 9px
+      margin: 0 0.3125rem; // 5px
       text-indent: 0.6875rem; // 11px
       align-items: center;
       font-family: inherit;
@@ -854,22 +857,25 @@ label {
       font-weight: $element-font-weight;
       line-height: $element-line-height;
       @include ellipsis(flex);
+
       &:hover {
         background: $select-bg-color;
       }
+
       &[rel='hide'] {
         display: none;
       }
     }
     .selected {
       color: $element-selected-font-color;
+
       // 선택된 옵션에 표시되는 체크 아이콘
       &:after {
-        content: '';
         @include absolute($right: 0.9375rem); // 15px
         width: 10px;
         height: 7px;
         @include backgroundImage($icon-folder-path + 'icon_select_check.svg', auto, no-repeat, center, center, null);
+        content: '';
       }
     }
   }
