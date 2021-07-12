@@ -10,6 +10,7 @@ data class CIClassDetailDto(
     var classId: String = "",
     var className: String = "",
     var classDesc: String? = null,
+    var classSeq: Int? = 0,
     var pClassId: String? = null,
     var pClassName: String? = null,
     var editable: Boolean? = true,

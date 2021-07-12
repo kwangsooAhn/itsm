@@ -199,7 +199,7 @@
      */
     function convertToPrintFormat(beforeSystemDateTime) {
         return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone)
-            .toFormat(i18n.dateTimeFormat.replace(/(mm)/g, '$1:ss') + ' (z)');
+            .toFormat(i18n.dateTimeFormat);
     }
 
     /**

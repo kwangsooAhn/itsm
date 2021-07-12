@@ -313,6 +313,9 @@ insert into awf_code values ('customCode', 'root', null, '커스텀코드', null
 insert into awf_code values ('customCode.type', 'customCode', null, '신청서 목록', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.type.table', 'customCode.type', 'table', '테이블', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('customCode.type.code', 'customCode.type', 'code', '코드', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.operator', 'customCode', null, '연산자', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.operator.equal', 'customCode.operator', 'equal', '=', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.operator.notEqual', 'customCode.operator', 'notEqual', '!=', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart', 'root', null, 'CHART', null, false, 1, 14, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type', 'chart', null, 'CHART TYPE', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.basicLine', 'chart.type', 'chart.basicLine', 'Basic Line Chart', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -416,6 +419,7 @@ insert into awf_custom_code_column values ('awf_role', 'search', 'role_id', '역
 insert into awf_custom_code_column values ('awf_user', 'search', 'department', '사용자 부서');
 insert into awf_custom_code_column values ('awf_user', 'search', 'user_name', '사용자 이름');
 insert into awf_custom_code_column values ('awf_user', 'search', 'position', '사용자 직급');
+insert into awf_custom_code_column values ('awf_user', 'search', 'use_yn', '사용자 사용여부');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_name', '사용자 이름');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_key', '사용자 식별키');
 
@@ -2821,19 +2825,19 @@ DROP TABLE IF EXISTS cmdb_attribute cascade;
 
 CREATE TABLE cmdb_attribute
 (
-	attribute_id character varying(128) NOT NULL UNIQUE,
-	attribute_name character varying(128),
-	attribute_desc character varying(512),
-	attribute_type character varying(100),
-	attribute_text character varying(128),
-	attribute_value text,
-	create_user_key character varying(128),
-	create_dt timestamp,
-	update_user_key character varying(128),
-	update_dt timestamp,
-	mapping_id character varying(128),
-	CONSTRAINT cmdb_attribute_pk PRIMARY KEY (attribute_id),
-	CONSTRAINT cmdb_attribute_uk UNIQUE (attribute_id)
+    attribute_id    character varying(128) NOT NULL UNIQUE,
+    attribute_name  character varying(128),
+    attribute_desc  character varying(512),
+    attribute_type  character varying(100),
+    attribute_text  character varying(128),
+    attribute_value text,
+    mapping_id      character varying(128),
+    create_user_key character varying(128),
+    create_dt       timestamp,
+    update_user_key character varying(128),
+    update_dt       timestamp,
+    CONSTRAINT cmdb_attribute_pk PRIMARY KEY (attribute_id),
+    CONSTRAINT cmdb_attribute_uk UNIQUE (attribute_id)
 );
 
 COMMENT ON TABLE cmdb_attribute IS 'CMDB 속성 정보';
@@ -2843,127 +2847,177 @@ COMMENT ON COLUMN cmdb_attribute.attribute_desc IS '속성설명';
 COMMENT ON COLUMN cmdb_attribute.attribute_type IS '속성타입';
 COMMENT ON COLUMN cmdb_attribute.attribute_text IS '속성라벨';
 COMMENT ON COLUMN cmdb_attribute.attribute_value IS '속성세부정보';
+COMMENT ON COLUMN cmdb_attribute.mapping_id IS '매핑아이디';
 COMMENT ON COLUMN cmdb_attribute.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_attribute.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_attribute.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_attribute.update_dt IS '수정일시';
-COMMENT ON COLUMN cmdb_attribute.mapping_id IS '매핑아이디';
 
-insert into cmdb_attribute values ('4028b25d791b75ac01791bb574a70005', 'Asset Importance', '자산보안등급정보', 'inputbox', '자산중요도', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('77b6112b3013a6808aeb04f80dd75360', 'Confidentiality', '자산보안등급정보', 'dropdown', '기밀성', '{"option":[{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('b5f16c33ca0531087ed1b46805a9c682', 'Integrity', '자산보안등급정보', 'dropdown', '무결성', '{"option":[{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('072fcb3be4056095a9af82dc6505b1e8', 'Availability', '자산보안등급정보', 'dropdown', '가용성', '{"option":[{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791bb4b48c0004', 'Evaluation Results', '자산보안등급정보', 'inputbox', '평가결과', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791b777a240000', 'External Connection ID', '일반정보', 'inputbox', '외부연동ID', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791b78b0550001', 'Serial Number', '일반정보', 'inputbox', '시리얼번호', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791bb0f9140002', 'The Person In Charge', '일반정보', 'inputbox', '담당자(정)', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791bb14a4d0003', 'Deputy Representative', '일반정보', 'inputbox', '담당자(부)', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('adaeef4046bfcd78e345ad48cbbeefa5', 'Model', '일반정보', 'inputbox', '모델명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('189319790e6349c7248b9f50456ed47b', 'Remarks', '일반정보', 'inputbox', '비고', '{"validate":"","required":"false","maxLength":"10000","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('27caaeba596663101d55a09ec873a375', 'Status', '일반정보', 'radio', '상태', '{"option":[{"text":"사용","value":"use"},{"text":"미사용","value":"unused"},{"text":"폐기","value":"disposal"},{"text":"할당","value":"assignment"},{"text":"반납","value":"return"},{"text":"AS","value":"as"},{"text":"예비","value":"spare"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b881792074460179209cef74000c', 'Management Department', '일반정보', 'inputbox', '관리부서', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f017916fc8f1d0004', 'Period (annual average)', '유지보수정보', 'inputbox', '기간(연평균)', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f017916f397230000', 'Date Acquisition', '유지보수정보', 'inputbox', '취득 일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f017916f7bd590003', 'Maintenance End Date', '유지보수정보', 'inputbox', '유지보수 종료일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f017916fff6c60006', 'Scope Of Work Impact', '유지보수정보', 'inputbox', '업무영향 범위', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f017916f71b030002', 'Maintenance Start Date', '유지보수정보', 'inputbox', '유지보수 시작일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f01791711dc08000b', 'Maintenance Emergency Contact', '유지보수정보', 'inputbox', '유지 보수 비상 연락처', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f0179170ee2c7000a', 'Name of Maintenance Personnel', '유지보수정보', 'inputbox', '유지보수 담당자명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f0179170df7c80009', 'Maintenance Company Name', '유지보수정보', 'inputbox', '유지보수 업체명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920d8df1c000d', 'Maintenance Status', '유지보수정보', 'dropdown', '유지보수여부', '{"option":[{"text":"사용","value":"used"},{"text":"미사용","value":"unused"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f017916f594a70001', 'Introduction Amount', '유지보수정보', 'inputbox', '도입금액', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f0179170937d70008', 'Evidence', '유지보수정보', 'inputbox', '근거자료', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f01791707c3b70007', 'Number Of Users/Number of Process', '유지보수정보', 'inputbox', '이용자수/처리건수', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f017916fd4e5b0005', 'Estimated Amount', '유지보수정보', 'inputbox', '예상금액', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c7f51d8000f', 'HPUX OS Version', '설비정보 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"11i v1","value":"v1"},{"text":"11i v2","value":"v2"},{"text":"11i v3","value":"v3"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c839afd0012', 'TRU64 OS Version', '설비정보 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"UNIX 3.2","value":"UNIX 3.2"},{"text":"UNIX 4.0","value":"UNIX 4.0"},{"text":"UNIX 5.1","value":"UNIX 5.1"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('734ab921484883ad7760032a008baf21', 'Linux OS Version', '설비정보 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"Debian","value":"debian"},{"text":"Ubuntu","value":"ubuntu"},{"text":"RedHat","value":"redHat"},{"text":"CentOs","value":"centOs"},{"text":"Fedora","value":"fedora"},{"text":"Mint","value":"Mint"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c84a9500013', 'UNIXWARE OS Version', '설비정보 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"7.1.0","value":"7.1.0"},{"text":"7.1.1","value":"7.1.1"},{"text":"7.1.2","value":"7.1.2"},{"text":"7.1.3","value":"7.1.3"},{"text":"7.1.4","value":"7.1.4"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c78e61e000e', 'AIX OS Version', '설비정보 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"5.2","value":"5.2"},{"text":"5.3","value":"5.3"},{"text":"6.1","value":"6.1"},{"text":"7.1","value":"7.1"},{"text":"7.2","value":"7.2"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c815b090010', 'Solaris OS Version', '설비정보 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"10","value":"10"},{"text":"11.1","value":"11.1"},{"text":"11.2","value":"11.2"},{"text":"11.3","value":"11.3"},{"text":"11.4","value":"11.4"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('df0e88d216ace73e0164f3dbf7ade131', 'WinNT OS Version', '설비정보 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"Windows Server 2012","value":"2012"},{"text":"Windows Server 2016","value":"2016"},{"text":"Windows Server 2019","value":"2019"},{"text":"Windows Server 20H2","value":"20H2"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c82c9ca0011', 'FreeBSD OS Version', '설비정보 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"9","value":"9"},{"text":"10","value":"10"},{"text":"11","value":"11"},{"text":"12","value":"12"},{"text":"13","value":"13"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c36103b0000', 'NIC', '설비정보 - 서버', 'inputbox', 'NIC', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f01791713d145000d', 'Memory', '설비정보 - 서버', 'inputbox', '메모리', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('d47973f063130acab00b2cf203a9788b', 'CPU', '설비정보 - 서버', 'inputbox', 'CPU', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b52a501791b5e35ff0000', 'DISK', '설비정보 - 서버', 'inputbox', '디스크', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b8817920744601792089f9390008', 'KORINC GLORY Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"APpCheckEndPointProtection","value":"APpCheckEndPointProtection"},{"text":"AppcheckAnalyzerCloud","value":"AppcheckAnalyzerCloud"},{"text":"CMSCloud","value":"CMSCloud"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b8817920744601792090af45000b', 'FutureSystem Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"SSLPLUS","value":"SSLPLUS"},{"text":"XTM","value":"XTM"},{"text":"IPS","value":"IPS"},{"text":"WIPS","value":"WIPS"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b881792074460179208c29bf0009', 'FASOO Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"Fasoo Enterprise DRM","value":"FasooEnterpriseDRM"},{"text":"Fasoo Data Radar","value":"FasooDataRadar"},{"text":"Fasoo RiskView","value":"FasooRiskView"},{"text":"FED-N","value":"FED-N"},{"text":"FED-R","value":"FED-R"},{"text":"FED-E","value":"FED-E"},{"text":"FED-M","value":"FED-M"},{"text":"FSP","value":"FSP"},{"text":"FSS","value":"FSS"},{"text":"FSW","value":"FSW"},{"text":"FSM","value":"FSM"},{"text":"FXM","value":"FXM"},{"text":"FILM","value":"FILM"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920873e820007', 'CHECKMAL Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"AppCheck","value":"AppCheck"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b881792074460179207d3f7c0002', 'S3I Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"Net-Protect","value":"Net-Protect"},{"text":"OneWay Protect","value":"OneWayProtect"},{"text":"ShellCop","value":"ShellCop"},{"text":"FireMon","value":"FireMon"},{"text":"ZyroidSE","value":"ZyroidSE"},{"text":"Xnexpose","value":"Xnexpose"},{"text":"Metasploit","value":"Metasploit"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b881792074460179207b35a20001', 'SGN Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"Cloudera","value":"Cloudera"},{"text":"SecureGuard IM","value":"SecureGuardIM"},{"text":"SecureGuard AM","value":"SecureGuardAM"},{"text":"SecureGuard PM","value":"SecureGuardPM"},{"text":"SecureGurard CCTV PM","value":"SecureGurardCCTVPM"},{"text":"SecureSuard VPN","value":"SecureSuardVPN"},{"text":"SecureGruard OTP","value":"SecureGruardOTP"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920843f560005', 'GTONE Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"ChangeMiner","value":"ChangeMiner"},{"text":"MetaMiner","value":"MetaMiner"},{"text":"DQMiner","value":"DQMiner"},{"text":"DQXpress","value":"DQXpress"},{"text":"DQ loT","value":"DQloT"},{"text":"SQLMiner","value":"SQLMiner"},{"text":"DataHawk","value":"DataHawk"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b881792074460179208588280006', 'CHAEWOOL Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"uToken","value":"uToken"},{"text":"uTokenHSM","value":"uTokenHSM"},{"text":"Genian NAC","value":"GenianNAC"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c98e06e0016', 'SECUI Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"BLUEMAX-NGF","value":"BLUEMAX-NGF"},{"text":"BLUEMAX-NFG VE","value":"BLUEMAX-NFG-VE"},{"text":"SECUI MF2","value":"SECUI-MF2"},{"text":"BLUEMAX-WIPS","value":"BLUEMAX-WIPS"},{"text":"BLUEMAX-TAMS","value":"BLUEMAX-TAMS"},{"text":"SECUI TMS","value":"SECUI-TMS"},{"text":"BLUEMAX-LMS","value":"BLUEMAX-LMS"},{"text":"SECUI MFI","value":"SECUI-MFI"},{"text":"SECUI MFD","value":"SECUI-MFD"},{"text":"SECUI MA","value":"SECUI-MA"},{"text":"SECUI SCAN","value":"SECUI-SCAN"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c91baa00015', 'Somansa Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"DB-I","value":"DB-I"},{"text":"WAS-I","value":"WAS-I"},{"text":"App-I","value":"App-I"},{"text":"Mail-I","value":"Mail-I"},{"text":"Privacy-I","value":"Privacy-I"},{"text":"Server-I","value":"Server-I"},{"text":"WebKeeper","value":"WebKeeper"},{"text":"EDR","value":"EDR"},{"text":"Privacy-I Cloud","value":"Privacy-I-Cloud"},{"text":"WebKeeper Cloud","value":"WebKeeper-Cloud"},{"text":"Mail-I Cloud","value":"Mail-I-Cloud"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c88e4b30014', 'Netcruz Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"BigEye","value":"BigEye"},{"text":"nSIEM","value":"nSIEM"},{"text":"nPIS","value":"nPIS"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b8817920744601792079683b0000', 'Ahnlab Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"TIP","value":"TIP"},{"text":"MDS","value":"MDS"},{"text":"EPP Patch Management","value":"EPPPatchManagement"},{"text":"EPP Security Assessment","value":"EPPSecurityAssessment"},{"text":"V3 Internet Secuiry 9.0","value":"V3InternetSecuiry9.0"},{"text":"TrusGuard","value":"TrusGuard"},{"text":"TrusGuard DPX","value":"TrusGuardDPX"},{"text":"AIIPS","value":"AIIPS"},{"text":"TMS","value":"TMS"},{"text":"vTrusGruard WAS","value":"vTrusGruardWAS"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b8817920744601792080a98f0003', 'IGLOO Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"SPiDER TM","value":"SPiDERTM"},{"text":"SPiDER AI","value":"SPiDERAI"},{"text":"Smart Guard","value":"SmartGuard"},{"text":"WEBMON","value":"WEBMON"},{"text":"SPiDER LogBox","value":"SPiDERLogBox"},{"text":"SPiDER SOAR","value":"SPiDERSOAR"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b8817920744601792082b3f20004', 'Genians Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"Genian NAC","value":"GenianNAC"},{"text":"Genian Cloud NAC","value":"GenianCloudNAC"},{"text":"Genian Insights E","value":"GenianInsightsE"},{"text":"Genian GPI","value":"GenianGPI"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b881792074460179208efdca000a', 'Penta Security Solution', '설비정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"WAPPLES","value":"WAPPLES"},{"text":"DAmo","value":"DAmo"},{"text":"CIS-CC","value":"CIS-CC"},{"text":"iSIGN+","value":"iSIGN+"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c6e00bc0009', 'SQLite Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"3.28","value":"3.28"},{"text":"3.29","value":"3.29"},{"text":"3.30","value":"3.30"},{"text":"3.34","value":"3.34"},{"text":"3.35","value":"3.35"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c5fa3850004', 'Maria DB Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"5.6","value":"5.6"},{"text":"5.7","value":"5.7"},{"text":"10.2","value":"10.2"},{"text":"10.3","value":"10.3"},{"text":"10.4","value":"10.4"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c5dd9240003', 'MySQL Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"5.6","value":"5.6"},{"text":"5.7","value":"5.7"},{"text":"8.0","value":"8.0"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c6f7892000a', 'MongoDB Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"3.4","value":"3.4"},{"text":"3.6","value":"3.6"},{"text":"4.0","value":"4.0"},{"text":"4.2","value":"4.2"},{"text":"4.4","value":"4.4"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('489a14a0ebdca14b6eb42cf804330145', 'Licenses', '설비정보 - 데이터베이스', 'inputbox', '라이선스', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c5c52970002', 'Oracle Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"11g","value":"11"},{"text":"12c","value":"12"},{"text":"18c","value":"18"},{"text":"19c","value":"19"},{"text":"21c","value":"21"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c7057ef000b', 'Redis Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"3.2","value":"3.2"},{"text":"3.6","value":"3.6"},{"text":"4.0","value":"4.0"},{"text":"4.2","value":"4.2"},{"text":"4.4","value":"4.4"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c71ff45000d', 'Cassandra Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"2.1","value":"2.1"},{"text":"2.2","value":"2.2"},{"text":"3.0","value":"3.0"},{"text":"3.1","value":"3.1"},{"text":"4.0","value":"4.0"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c60844a0005', 'MS-SQL Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"2016","value":"2016"},{"text":"2017","value":"2017"},{"text":"2019","value":"2019"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c711790000c', 'HBase Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"1.4","value":"1.4"},{"text":"1.6","value":"1.6"},{"text":"2.2","value":"2.2"},{"text":"2.3","value":"2.3"},{"text":"2.4","value":"2.4"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c617c790006', 'DB2 Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"10.1","value":"10.1"},{"text":"10.5","value":"10.5"},{"text":"11.5","value":"11.5"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c62891d0007', 'Infomix Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"11.5","value":"11.5"},{"text":"11.7","value":"11.7"},{"text":"12.10","value":"12.10"},{"text":"14.10","value":"14.10"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791c335201791c685fef0008', 'Derby Version', '설비정보 - 데이터베이스', 'dropdown', '버전', '{"option":[{"text":"10.11","value":"10.11"},{"text":"10.12","value":"10.12"},{"text":"10.13","value":"10.13"},{"text":"10.14","value":"10.14"},{"text":"10.15","value":"10.15"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920ee4ac50012', 'Labtop AC Adapter', '설비정보 - 노트북', 'inputbox', 'AC 어댑터', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920ec770e0010', 'Laptop RAM', '설비정보 - 노트북', 'inputbox', 'RAM', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920eb4f63000f', 'Laptop OS', '설비정보 - 노트북', 'inputbox', 'OS', '{"validate":"","required":"true","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920ed30de0011', 'Laptop HDD', '설비정보 - 노트북', 'inputbox', 'HDD', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920ef02e10013', 'Labtop Graphic Card', '설비정보 - 노트북', 'inputbox', '그래픽 카드', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920f09cc90014', 'Labtop CPU', '설비정보 - 노트북', 'inputbox', 'CPU', '{"validate":"","required":"true","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791bc0ffe3000a', 'ISO Version', '설비정보 - 네트워크', 'inputbox', 'ISO Version', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791bbb1ed10006', 'Interface Information', '설비정보 - 네트워크', 'inputbox', '인터페이스정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791bbd4e5b0007', 'SNMP Version', '설비정보 - 네트워크', 'inputbox', 'SNMP버전', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791bbe677f0008', 'Total Number Of IFs', '설비정보 - 네트워크', 'inputbox', '전체IF개수', '{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b75ac01791bc0759f0009', 'Used IF Count', '설비정보 - 네트워크', 'inputbox', '사용IF개수', '{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b52a501791b61f7170001', 'Area', '설비정보 - 공통', 'inputbox', '지역', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d7916ef5f017917129c66000c', 'IP', '설비정보 - 공통', 'inputbox', 'IP', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b52a501791b62eb220002', 'Purpose', '설비정보 - 공통', 'inputbox', '용도', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b52a501791b71ff790003', 'Building Name', '설비정보 - 공통', 'inputbox', '건물명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b52a501791b72ccbc0004', 'Floor', '설비정보 - 공통', 'inputbox', '층', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b25d791b52a501791b73fff90005', 'Rack Position', '설비정보 - 공통', 'inputbox', '랙위치', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('6ea67d6c6cb28def6b289affc6c95fd1', 'MAC', '설비정보 - 공통', 'inputbox', 'MAC', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179210e1b01792155cae80020', 'ICMP Infomation', '설비상세 - 네트워크', 'inputbox', 'ICMP 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179210e1b01792156af0c0022', 'IPCHECK Infomation', '설비상세 - 네트워크', 'inputbox', 'IPCHECK 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179210e1b0179215883dd0025', 'L4SWITCH Infomation', '설비상세 - 네트워크', 'inputbox', 'L4SWITCH 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179210e1b017921555a73001f', 'OID Infomation', '설비상세 - 네트워크', 'inputbox', 'OID 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179210e1b017921563ea00021', 'SNMP Infomation', '설비상세 - 네트워크', 'inputbox', 'SNMP 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179210e1b0179215719fb0023', 'L2SWITCH Infomation', '설비상세 - 네트워크', 'inputbox', 'L2SWITCH 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179210e1b017921581a750024', 'L3SWITCH Infomation', '설비상세 - 네트워크', 'inputbox', 'L3SWITCH 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179210e1b01792159017a0026', 'APETC Infomation', '설비상세 - 네트워크', 'inputbox', 'APETC 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179210e1b01792159687f0027', 'IPS Infomation', '설비상세 - 네트워크', 'inputbox', 'IPS 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('4028b88179207446017920f72ed30015', 'Classification Security', '보안장비 - 설비정보', 'radio', '분류', '{"option":[{"text":"서버","value":"sms"},{"text":"네트워크","value":"nms"},{"text":"기타","value":"etc"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('e613591ddea0f8c1f2457104f7cf286d', 'Equipment', '', 'inputbox', '장비명', '{"validate":"","required":"true","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('bde6f4eac279ac3528c9cca16d12779a', 'Database', '', 'custom-code', '데이터베이스', '{"required":"true","customCode":"40288ab777dd21b50177dd52781e0000","default":{"type":"code","value":"cmdb.db.kind.altibase|altibase"},"button":"검색"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('ac4f3785cdbcc149a0b92dbf00af80ef', 'Classification', '', 'inputbox', '분류', '{"validate":"","required":"true","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('ef60a5a1aa010de9b7ba2dda96107c5d', 'Processor', '', 'inputbox', 'Processor', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('c1f97be1aea3fdee785ca73b751f79d8', 'Quantity', '', 'inputbox', '수량', '{"validate":"number","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('247aa7187b335f9c4d78db5e18a2704c', 'Brand', '', 'inputbox', '브랜드', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('2bb03c41cd9998e77da9b737d4fcf9ab', 'Bash Version', '', 'inputbox', 'bash 버전', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('e651113f8a452f55f50ed41956cdfb34', 'Version', '', 'inputbox', '버전', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('58e0cd57479bbb9d8a6b2bb6012206c2', 'Installation Location', '', 'inputbox', '설치장소', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('602b2c9216825bffc96ae69eeb73bdbc', 'Introduction Date', '', 'inputbox', '도입일', '{"validate":"","required":"true","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('d0a35c07fa9bdd919a039f1f127cd54e', 'Protection Level', '', 'dropdown', '보호수준', '{"option":[{"text":"가 등급","value":"3"},{"text":"나 등급","value":"2"},{"text":"다 등급","value":"1"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('f4538a0d55c456461f1d0932fd424350', 'RAM', '', 'inputbox', 'RAM', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('42b02142dd9128e47a35b737d4fc21ad', 'Service Name', '', 'inputbox', '서비스명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('799afe719cd0bfe38797172bb77ae5d8', 'Licensing policy', '', 'dropdown', '라이선스 정책', '{"option":[{"text":"무료","value":"free"},{"text":"유료","value":"pay"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('932831a8e53aa6f795f608794e51e7e0', 'IP_V6', '', 'inputbox', 'IP_V6', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('a508fbfda5d65a54b9b25dc5925d79bb', 'Manager', '', 'custom-code', '관리자', '{"required":"true","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"session","value":"userName"},"button":"검색"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('1d1338bb6316ab81f7c6adbc77199409', 'Manufacturer', '', 'inputbox', '제조사', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('addc07e374faec9f0d6d3bbeca565886', 'OS Type', '', 'dropdown', 'OS 종류', '{"option":[{"text":"common","value":"common"},{"text":"Linux","value":"linux"},{"text":"FreeBSD","value":"freebsd"},{"text":"Solaris","value":"solaris"},{"text":"AIX","value":"aix"},{"text":"HPUX","value":"hpux"},{"text":"WinNT","value":"winnt"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('79a99dfa69d7d0c5c369ad4840815749', 'IP_V4', '', 'inputbox', 'IP_V4', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('99a8cf26726e907a95dad34e188cbfc8', 'Grade', '', 'dropdown', '등급', '{"option":[{"text":"1등급","value":"1"},{"text":"2등급","value":"2"},{"text":"3등급","value":"3"}]}', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_attribute values ('6e247bdb7b70757e1987ae25a36c3d13', 'Host', '', 'inputbox', '호스트명', '{"validate":"","required":"true","maxLength":"100","minLength":"0"}', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791bb574a70005', 'Asset Importance', '자산보안등급정보', 'inputbox', '자산중요도', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('77b6112b3013a6808aeb04f80dd75360', 'Confidentiality', '자산보안등급정보', 'dropdown', '기밀성', '{"option":[{"text":"선택하세요","value":""},{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('b5f16c33ca0531087ed1b46805a9c682', 'Integrity', '자산보안등급정보', 'dropdown', '무결성', '{"option":[{"text":"선택하세요","value":""},{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('072fcb3be4056095a9af82dc6505b1e8', 'Availability', '자산보안등급정보', 'dropdown', '가용성', '{"option":[{"text":"선택하세요","value":""},{"text":"상","value":"3"},{"text":"중","value":"2"},{"text":"하","value":"1"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791bb4b48c0004', 'Evaluation Results', '자산보안등급정보', 'inputbox', '평가결과', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791b777a240000', 'External Connection ID', '인프라정보', 'inputbox', '외부연동ID', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', 'zid', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791b78b0550001', 'Serial Number', '인프라정보', 'inputbox', '시리얼번호', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', 'serial', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791bb0f9140002', 'The Person In Charge', '일반정보', 'inputbox', '담당자(정)', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791bb14a4d0003', 'Deputy Representative', '일반정보', 'inputbox', '담당자(부)', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('adaeef4046bfcd78e345ad48cbbeefa5', 'Model', '인프라정보', 'inputbox', '모델명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', 'modal', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('189319790e6349c7248b9f50456ed47b', 'Remarks', '일반정보', 'inputbox', '비고', '{"validate":"","required":"false","maxLength":"10000","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('27caaeba596663101d55a09ec873a375', 'Status', '일반정보 - 인프라', 'radio', '상태', '{"option":[{"text":"사용","value":"use"},{"text":"미사용","value":"unused"},{"text":"폐기","value":"disposal"},{"text":"할당","value":"assignment"},{"text":"반납","value":"return"},{"text":"AS","value":"as"},{"text":"예비","value":"spare"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b881792074460179209cef74000c', 'Management Department', '일반정보', 'inputbox', '관리부서', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f017916fc8f1d0004', 'Period (annual average)', '유지보수정보', 'inputbox', '기간(연평균)', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f017916f397230000', 'Date Acquisition', '유지보수정보', 'inputbox', '취득 일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f017916f7bd590003', 'Maintenance End Date', '유지보수정보', 'inputbox', '유지보수 종료일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f017916fff6c60006', 'Scope Of Work Impact', '유지보수정보', 'inputbox', '업무영향 범위', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f017916f71b030002', 'Maintenance Start Date', '유지보수정보', 'inputbox', '유지보수 시작일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f01791711dc08000b', 'Maintenance Emergency Contact', '유지보수정보', 'inputbox', '유지 보수 비상 연락처', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f0179170ee2c7000a', 'Name of Maintenance Personnel', '유지보수정보', 'inputbox', '유지보수 담당자명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f0179170df7c80009', 'Maintenance Company Name', '유지보수정보', 'inputbox', '유지보수 업체명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920d8df1c000d', 'Maintenance Status', '유지보수정보', 'dropdown', '유지보수여부', '{"option":[{"text":"선택하세요","value":""},{"text":"사용","value":"used"},{"text":"미사용","value":"unused"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f017916f594a70001', 'Introduction Amount', '유지보수정보', 'inputbox', '도입금액', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f0179170937d70008', 'Evidence', '유지보수정보', 'inputbox', '근거자료', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f01791707c3b70007', 'Number Of Users/Number of Process', '유지보수정보', 'inputbox', '이용자수/처리건수', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f017916fd4e5b0005', 'Estimated Amount', '유지보수정보', 'inputbox', '예상금액', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c7f51d8000f', 'HPUX OS Version', '인프라정보 - 서버 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"선택하세요","value":""},{"text":"11i v1","value":"v1"},{"text":"11i v2","value":"v2"},{"text":"11i v3","value":"v3"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c839afd0012', 'TRU64 OS Version', '인프라정보 - 서버 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"선택하세요","value":""},{"text":"UNIX 3.2","value":"UNIX 3.2"},{"text":"UNIX 4.0","value":"UNIX 4.0"},{"text":"UNIX 5.1","value":"UNIX 5.1"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('734ab921484883ad7760032a008baf21', 'Linux OS Version', '인프라정보 - 서버 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"선택하세요","value":""},{"text":"Debian","value":"debian"},{"text":"Ubuntu","value":"ubuntu"},{"text":"RedHat","value":"redHat"},{"text":"CentOs","value":"centOs"},{"text":"Fedora","value":"fedora"},{"text":"Mint","value":"Mint"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c84a9500013', 'UNIXWARE OS Version', '인프라정보 - 서버 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"선택하세요","value":""},{"text":"7.1.0","value":"7.1.0"},{"text":"7.1.1","value":"7.1.1"},{"text":"7.1.2","value":"7.1.2"},{"text":"7.1.3","value":"7.1.3"},{"text":"7.1.4","value":"7.1.4"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c78e61e000e', 'AIX OS Version', '인프라정보 - 서버 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"선택하세요","value":""},{"text":"5.2","value":"5.2"},{"text":"5.3","value":"5.3"},{"text":"6.1","value":"6.1"},{"text":"7.1","value":"7.1"},{"text":"7.2","value":"7.2"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c815b090010', 'Solaris OS Version', '인프라정보 - 서버 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"선택하세요","value":""},{"text":"10","value":"10"},{"text":"11.1","value":"11.1"},{"text":"11.2","value":"11.2"},{"text":"11.3","value":"11.3"},{"text":"11.4","value":"11.4"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('df0e88d216ace73e0164f3dbf7ade131', 'WinNT OS Version', '인프라정보 - 서버 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"선택하세요","value":""},{"text":"Windows Server 2012","value":"2012"},{"text":"Windows Server 2016","value":"2016"},{"text":"Windows Server 2019","value":"2019"},{"text":"Windows Server 20H2","value":"20H2"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c82c9ca0011', 'FreeBSD OS Version', '인프라정보 - 서버 - 운영체제', 'dropdown', '버전', '{"option":[{"text":"선택하세요","value":""},{"text":"9","value":"9"},{"text":"10","value":"10"},{"text":"11","value":"11"},{"text":"12","value":"12"},{"text":"13","value":"13"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c36103b0000', 'NIC', '인프라정보 - 서버', 'inputbox', 'NIC', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f01791713d145000d', 'Memory', '인프라정보 - 서버', 'inputbox', '메모리', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('d47973f063130acab00b2cf203a9788b', 'CPU', '인프라정보 - 서버', 'inputbox', 'CPU', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b52a501791b5e35ff0000', 'DISK', '인프라정보 - 서버', 'inputbox', '디스크', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817920744601792089f9390008', 'KORINC GLORY Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"APpCheckEndPointProtection","value":"APpCheckEndPointProtection"},{"text":"AppcheckAnalyzerCloud","value":"AppcheckAnalyzerCloud"},{"text":"CMSCloud","value":"CMSCloud"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817920744601792090af45000b', 'FutureSystem Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"SSLPLUS","value":"SSLPLUS"},{"text":"XTM","value":"XTM"},{"text":"IPS","value":"IPS"},{"text":"WIPS","value":"WIPS"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b881792074460179208c29bf0009', 'FASOO Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"Fasoo Enterprise DRM","value":"FasooEnterpriseDRM"},{"text":"Fasoo Data Radar","value":"FasooDataRadar"},{"text":"Fasoo RiskView","value":"FasooRiskView"},{"text":"FED-N","value":"FED-N"},{"text":"FED-R","value":"FED-R"},{"text":"FED-E","value":"FED-E"},{"text":"FED-M","value":"FED-M"},{"text":"FSP","value":"FSP"},{"text":"FSS","value":"FSS"},{"text":"FSW","value":"FSW"},{"text":"FSM","value":"FSM"},{"text":"FXM","value":"FXM"},{"text":"FILM","value":"FILM"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920873e820007', 'CHECKMAL Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"AppCheck","value":"AppCheck"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b881792074460179207d3f7c0002', 'S3I Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"Net-Protect","value":"Net-Protect"},{"text":"OneWay Protect","value":"OneWayProtect"},{"text":"ShellCop","value":"ShellCop"},{"text":"FireMon","value":"FireMon"},{"text":"ZyroidSE","value":"ZyroidSE"},{"text":"Xnexpose","value":"Xnexpose"},{"text":"Metasploit","value":"Metasploit"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b881792074460179207b35a20001', 'SGN Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"Cloudera","value":"Cloudera"},{"text":"SecureGuard IM","value":"SecureGuardIM"},{"text":"SecureGuard AM","value":"SecureGuardAM"},{"text":"SecureGuard PM","value":"SecureGuardPM"},{"text":"SecureGurard CCTV PM","value":"SecureGurardCCTVPM"},{"text":"SecureSuard VPN","value":"SecureSuardVPN"},{"text":"SecureGruard OTP","value":"SecureGruardOTP"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920843f560005', 'GTONE Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"ChangeMiner","value":"ChangeMiner"},{"text":"MetaMiner","value":"MetaMiner"},{"text":"DQMiner","value":"DQMiner"},{"text":"DQXpress","value":"DQXpress"},{"text":"DQ loT","value":"DQloT"},{"text":"SQLMiner","value":"SQLMiner"},{"text":"DataHawk","value":"DataHawk"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b881792074460179208588280006', 'CHAEWOOL Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"uToken","value":"uToken"},{"text":"uTokenHSM","value":"uTokenHSM"},{"text":"Genian NAC","value":"GenianNAC"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c98e06e0016', 'SECUI Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"BLUEMAX-NGF","value":"BLUEMAX-NGF"},{"text":"BLUEMAX-NFG VE","value":"BLUEMAX-NFG-VE"},{"text":"SECUI MF2","value":"SECUI-MF2"},{"text":"BLUEMAX-WIPS","value":"BLUEMAX-WIPS"},{"text":"BLUEMAX-TAMS","value":"BLUEMAX-TAMS"},{"text":"SECUI TMS","value":"SECUI-TMS"},{"text":"BLUEMAX-LMS","value":"BLUEMAX-LMS"},{"text":"SECUI MFI","value":"SECUI-MFI"},{"text":"SECUI MFD","value":"SECUI-MFD"},{"text":"SECUI MA","value":"SECUI-MA"},{"text":"SECUI SCAN","value":"SECUI-SCAN"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c91baa00015', 'Somansa Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"DB-I","value":"DB-I"},{"text":"WAS-I","value":"WAS-I"},{"text":"App-I","value":"App-I"},{"text":"Mail-I","value":"Mail-I"},{"text":"Privacy-I","value":"Privacy-I"},{"text":"Server-I","value":"Server-I"},{"text":"WebKeeper","value":"WebKeeper"},{"text":"EDR","value":"EDR"},{"text":"Privacy-I Cloud","value":"Privacy-I-Cloud"},{"text":"WebKeeper Cloud","value":"WebKeeper-Cloud"},{"text":"Mail-I Cloud","value":"Mail-I-Cloud"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c88e4b30014', 'Netcruz Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"BigEye","value":"BigEye"},{"text":"nSIEM","value":"nSIEM"},{"text":"nPIS","value":"nPIS"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817920744601792079683b0000', 'Ahnlab Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"TIP","value":"TIP"},{"text":"MDS","value":"MDS"},{"text":"EPP Patch Management","value":"EPPPatchManagement"},{"text":"EPP Security Assessment","value":"EPPSecurityAssessment"},{"text":"V3 Internet Secuiry 9.0","value":"V3InternetSecuiry9.0"},{"text":"TrusGuard","value":"TrusGuard"},{"text":"TrusGuard DPX","value":"TrusGuardDPX"},{"text":"AIIPS","value":"AIIPS"},{"text":"TMS","value":"TMS"},{"text":"vTrusGruard WAS","value":"vTrusGruardWAS"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817920744601792080a98f0003', 'IGLOO Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"SPiDER TM","value":"SPiDERTM"},{"text":"SPiDER AI","value":"SPiDERAI"},{"text":"Smart Guard","value":"SmartGuard"},{"text":"WEBMON","value":"WEBMON"},{"text":"SPiDER LogBox","value":"SPiDERLogBox"},{"text":"SPiDER SOAR","value":"SPiDERSOAR"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817920744601792082b3f20004', 'Genians Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"Genian NAC","value":"GenianNAC"},{"text":"Genian Cloud NAC","value":"GenianCloudNAC"},{"text":"Genian Insights E","value":"GenianInsightsE"},{"text":"Genian GPI","value":"GenianGPI"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b881792074460179208efdca000a', 'Penta Security Solution', '인프라정보 - 보안솔류션', 'dropdown', '솔류션', '{"option":[{"text":"선택하세요","value":""},{"text":"WAPPLES","value":"WAPPLES"},{"text":"DAmo","value":"DAmo"},{"text":"CIS-CC","value":"CIS-CC"},{"text":"iSIGN+","value":"iSIGN+"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c6e00bc0009', 'SQLite License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c5fa3850004', 'Maria DB License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c5dd9240003', 'MySQL License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c6f7892000a', 'MongoDB License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('489a14a0ebdca14b6eb42cf804330145', 'Version', '인프라정보 - 데이터베이스', 'inputbox', '버전', '{"validate":"","required":"false","maxLength":"1000","minLength":"0"}', 'version', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c5c52970002', 'Oracle License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c7057ef000b', 'Redis License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c71ff45000d', 'Cassandra License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c60844a0005', 'MS-SQL License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c711790000c', 'HBase License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c617c790006', 'DB2 License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c62891d0007', 'Infomix License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791c335201791c685fef0008', 'Derby License', '인프라정보 - 데이터베이스', 'dropdown', '라이선스', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7a8a5993017a8a5e5aac0000', 'Instance Name', '인프라정보 - 데이터베이스', 'inputbox', '인스턴스 명', '{"validate":"","required":"false","maxLength":"500","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7a8a5993017a8a6008e30003', 'Backup Cycle', '인프라정보 - 데이터베이스', 'inputbox', '백업 주기', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7a8a5993017a8a5f95d70002', 'Backup Method', '인프라정보 - 데이터베이스', 'inputbox', '백업 방식', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7a8a5993017a8a60910e0004', 'Storage Cycle', '인프라정보 - 데이터베이스', 'inputbox', '보관 주기', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7a8a5993017a8a61b37f0005', 'Storage Location', '인프라정보 - 데이터베이스', 'inputbox', '보관 위치', '{"validate":"","required":"false","maxLength":"500","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7a8a5993017a8a5efdb00001', 'Instance Role', '인프라정보 - 데이터베이스', 'inputbox', '인스턴스 역할', '{"validate":"","required":"false","maxLength":"500","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920ee4ac50012', 'Labtop AC Adapter', '인프라정보 - 노트북', 'inputbox', 'AC 어댑터', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920ec770e0010', 'Laptop RAM', '인프라정보 - 노트북', 'inputbox', 'RAM', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920eb4f63000f', 'Laptop OS', '인프라정보 - 노트북', 'inputbox', 'OS', '{"validate":"","required":"true","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920ed30de0011', 'Laptop HDD', '인프라정보 - 노트북', 'inputbox', 'HDD', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920ef02e10013', 'Labtop Graphic Card', '인프라정보 - 노트북', 'inputbox', '그래픽 카드', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920f09cc90014', 'Labtop CPU', '인프라정보 - 노트북', 'inputbox', 'CPU', '{"validate":"","required":"true","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791bc0ffe3000a', 'IOS Version', '인프라정보 - 네트워크', 'inputbox', 'IOS Version', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', 'iosver', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791bbb1ed10006', 'Interface Information', '인프라정보 - 네트워크', 'inputbox', '인터페이스정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791bbd4e5b0007', 'SNMP Version', '인프라정보 - 네트워크', 'inputbox', 'SNMP버전', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791bbe677f0008', 'Total Number Of IFs', '인프라정보 - 네트워크', 'inputbox', '전체IF개수', '{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}', 'totifnum', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b75ac01791bc0759f0009', 'Used IF Count', '인프라정보 - 네트워크', 'inputbox', '사용IF개수', '{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}', 'actifnum', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b52a501791b61f7170001', 'Area', '인프라정보 - 공통', 'inputbox', '지역', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d7916ef5f017917129c66000c', 'IP', '인프라정보 - 공통', 'inputbox', 'IP', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', 'ip', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b52a501791b71ff790003', 'Building Name', '인프라정보 - 공통', 'inputbox', '건물명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b52a501791b72ccbc0004', 'Floor', '인프라정보 - 공통', 'inputbox', '층', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b52a501791b73fff90005', 'Rack Position', '인프라정보 - 공통', 'inputbox', '랙위치', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('6ea67d6c6cb28def6b289affc6c95fd1', 'MAC', '인프라정보 - 공통', 'inputbox', 'MAC', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', 'mac', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179210e1b01792155cae80020', 'ICMP Infomation', '인프라상세 - 네트워크', 'inputbox', 'ICMP 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179210e1b01792156af0c0022', 'IPCHECK Infomation', '인프라상세 - 네트워크', 'inputbox', 'IPCHECK 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179210e1b0179215883dd0025', 'L4SWITCH Infomation', '인프라상세 - 네트워크', 'inputbox', 'L4SWITCH 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179210e1b017921555a73001f', 'OID Infomation', '인프라상세 - 네트워크', 'inputbox', 'OID 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179210e1b017921563ea00021', 'SNMP Infomation', '인프라상세 - 네트워크', 'inputbox', 'SNMP 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179210e1b0179215719fb0023', 'L2SWITCH Infomation', '인프라상세 - 네트워크', 'inputbox', 'L2SWITCH 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179210e1b017921581a750024', 'L3SWITCH Infomation', '인프라상세 - 네트워크', 'inputbox', 'L3SWITCH 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179210e1b01792159017a0026', 'APETC Infomation', '인프라상세 - 네트워크', 'inputbox', 'APETC 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179210e1b01792159687f0027', 'IPS Infomation', '인프라상세 - 네트워크', 'inputbox', 'IPS 정보', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b88179207446017920f72ed30015', 'Classification Security', '보안장비 - 설비정보', 'radio', '분류', '{"option":[{"text":"서버","value":"sms"},{"text":"네트워크","value":"nms"},{"text":"기타","value":"etc"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f0b263e0000', 'Purchases (number of cases)', '소프트웨어정보', 'inputbox', '구매(건)', '{"validate":"number","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f0b97760001', 'Installation (number of cases)', '소프트웨어정보', 'inputbox', '설치(건)', '{"validate":"number","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f0c231a0002', 'Supplier', '소프트웨어정보', 'inputbox' , '공급사', '{"validate":"","required":"false","maxLength":"1000","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f0c78660003', 'License Start Date', '소프트웨어정보', 'inputbox', '라이선스 시작일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f0d0aec0004', 'License Termination Date', '소프트웨어정보', 'inputbox', '라이선스 종료일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f0d5e0d0005', 'Price','소프트웨어정보', 'inputbox', '금액', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f282cc10007', 'Company Name', '계약정보관리', 'inputbox', '업체명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f288f020008', 'Contract Name', '계약정보관리', 'inputbox', '계약명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f297d640009', 'Contract Date', '계약정보관리', 'inputbox', '계약일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f29d2ac000a', 'Contract Start Date', '계약정보관리', 'inputbox', '계약시작일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f2a6796000b', 'Contract End Date', '계약정보관리', 'inputbox', '계약종료일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f2ad6ea000c', 'Contract Method', '계약정보관리', 'inputbox', '계약방법', '{"validate":"","required":"false","maxLength":"500","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f2b611f000d', 'Contract Amount', '계약정보관리', 'inputbox', '계약금액', '{"validate":"number","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f2cab18000e', 'Contract Details', '계약정보관리', 'inputbox', '계약상세내역', '{"validate":"char","required":"false","maxLength":"1000","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f2d01d6000f', 'Budget Code', '계약정보관리', 'inputbox', '예산코드', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f2d60300010', 'Contract Department', '계약정보관리', 'inputbox', '계약 담당부서', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8eeaa3017a8f2e573f0011', 'Contract Person', '계약정보관리', 'custom-code', '계약 담당자', '{"required":"false","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"session","value":"userName"},"button":"검색"}','','0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f5b51700001', 'Year', '사업정보관리', 'inputbox', '년도', '{"validate":"","required":"true","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6123360002', 'Processing Status', '사업정보관리', 'dropdown', '처리상태', '{"option":[{"text":"선택하세요.","value":""},{"text":"정상","value":"normal"},{"text":"취소","value":"cancel"},{"text":"대기","value":"waiting"},{"text":"전산실무협의회","value":"computing working group"},{"text":"전산운영위원회","value":"computing steering committee"},{"text":"RFI발송","value":"rfisent"},{"text":"RFI접수","value":"rfireceipt"},{"text":"RFP발송","value":"rfpsent"},{"text":"RFP접수","value":"rfpreceipt"},{"text":"제안평가","value":"proposalevaluation"},{"text":"입찰발송","value":"sendbid"},{"text":"입찰등록","value":"bidregistration"},{"text":"입찰실시","value":"bidding"},{"text":"계약완료","value":"contractcompletion"},{"text":"사업추진중","value":"businessinprogress"},{"text":"최종검수완료","value":"finalinspectioncompleted"},{"text":"최종대금지금완료","value":"finalpaymentcompleted"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f62f3d10003', 'Division', '사업정보관리', 'dropdown', '구분','{"option":[{"text":"선택하세요.","value":""},{"text":"전년도 계속사업","value":"beforeyear"},{"text":"본부부서 추진사업","value":"headquarters"},{"text":"전산정보부 추진사업","value":"computerinformation"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f63cdf60004', 'Priority', '사업정보관리', 'inputbox', '우선순위','{"validate":"number","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6451ec0005', 'Department in Charge', '사업정보관리', 'inputbox', '주관부서','{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f64b62c0006', 'Business Promotion Schedule Start Month', '사업정보관리', 'inputbox','사업추진일정 시작월','{"validate":"number","required":"false","maxLength":"10","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6587d60007', 'Business Promotion Schedule End Month', '사업정보관리', 'inputbox','사업추진일정 종료월','{"validate":"number","required":"false","maxLength":"10","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6697260008', 'Total Budget Required', '사업정보관리', 'inputbox','소요예산 합계','{"validate":"","required":"false","maxLength":"10000","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6b9b180009', 'Classification Of Information Protection Business', '사업정보관리', 'radio', '정보보호 사업구분', '{"option":[{"text":"해당없음","value":"none"},{"text":"전체","value":"all"},{"text":"부분","value":"part"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6c041c000a', 'Information Security Business Standards', '사업정보관리', 'inputbox', '정보보호 사업기준', '{"validate":"","required":"false","maxLength":"1000","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6c8877000b', 'Total Information Security Budget', '사업정보관리', 'inputbox', '정보보호예산 합계', '{"validate":"","required":"false","maxLength":"1000","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6d490a000c', 'Computer Working Group Deliberation', '사업정보관리', 'radio', '전산실무협의회 심의대상 여부', '{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6db3b8000d', 'Computing Working Group Deliberation End Day', '사업정보관리', 'inputbox', '전산실무협의회 심의완료일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6e6999000e', 'Computing Steering Committee End Day', '사업정보관리', 'inputbox', '전산운영위원회 심의완료일', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f6f4ff6000f', 'RFI Sent', '사업정보관리', 'radio', 'RFI 발송여부', '{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f7524b40010', 'Computing Steering Committee Deliberation', '사업정보관리', 'radio', '전산운영위원회 심의대상여부', '{"option":[{"text":"예","value":"yes"},{"text":"아니오","value":"no"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f7610e60011', 'RFI Sent Date', '사업정보관리', 'inputbox', 'RFI 발송일자', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f812a9c0012', 'RFI Receipt Date', '사업정보관리', 'inputbox', 'RFI 접수일자', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '' ,'0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f81bf150013', 'RFI Sending Target Company', '사업정보관리', 'inputbox', 'RFI 발송대상업체', '{"validate":"","required":"false","maxLength":"1000","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f821bfc0014', 'RFP Send Date', '사업정보관리', 'inputbox', 'RFP 발송일자', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f827a9a0015', 'RFP Receipt Date', '사업정보관리', 'inputbox', 'RFP 접수일자', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f82e2990016', 'RFP Sending Target Company', '사업정보관리', 'inputbox', 'RFP 발송업체', '{"validate":"","required":"false","maxLength":"1000","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f83df0c0017', 'Proposal Presentation Date', '사업정보관리', 'inputbox', '제안설명회 일자', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f84329c0018', 'Proposal Evaluation Date', '사업정보관리', 'inputbox', '제안평가 일자', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f8551c80019', 'Budget Allocation Method', '사업정보관리', 'radio', '예산배정방법', '{"option":[{"text":"정상배정","value":"normal"},{"text":"타사업에예산전용","value":"other"},{"text":"정상배정+타사업예산전용","value":"normalother"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f860fb7001a', 'Reason For Promotion', '사업정보관리', 'inputbox', '추진사유', '{"validate":"","required":"false","maxLength":"1000","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b8817a8f3542017a8f8669aa001b', 'Reason For Non-promotion', '사업정보관리', 'inputbox', '미추진사유', '{"validate":"","required":"false","maxLength":"1000","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('e613591ddea0f8c1f2457104f7cf286d', 'Equipment', '', 'inputbox', '장비명', '{"validate":"","required":"true","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('bde6f4eac279ac3528c9cca16d12779a', 'Database', '', 'custom-code', '데이터베이스', '{"required":"true","customCode":"40288ab777dd21b50177dd52781e0000","default":{"type":"code","value":"cmdb.db.kind.altibase|altibase"},"button":"검색"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('ac4f3785cdbcc149a0b92dbf00af80ef', 'Classification', '', 'inputbox', '분류', '{"validate":"","required":"true","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('ef60a5a1aa010de9b7ba2dda96107c5d', 'Processor', '', 'inputbox', 'Processor', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('c1f97be1aea3fdee785ca73b751f79d8', 'Quantity', '', 'inputbox', '수량', '{"validate":"number","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('247aa7187b335f9c4d78db5e18a2704c', 'Brand', '', 'inputbox', '브랜드', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('2bb03c41cd9998e77da9b737d4fcf9ab', 'Bash Version', '', 'inputbox', 'bash 버전', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('e651113f8a452f55f50ed41956cdfb34', 'Version', '', 'inputbox', '버전', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('58e0cd57479bbb9d8a6b2bb6012206c2', 'Installation Location', '', 'inputbox', '설치장소', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('602b2c9216825bffc96ae69eeb73bdbc', 'Introduction Date', '', 'inputbox', '도입일', '{"validate":"","required":"true","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('d0a35c07fa9bdd919a039f1f127cd54e', 'Protection Level', '', 'dropdown', '보호수준', '{{"text":"선택하세요","value":""},"option":[{"text":"가 등급","value":"3"},{"text":"나 등급","value":"2"},{"text":"다 등급","value":"1"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('f4538a0d55c456461f1d0932fd424350', 'RAM', '', 'inputbox', 'RAM', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('42b02142dd9128e47a35b737d4fc21ad', 'Service Name', '', 'inputbox', '서비스명', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('799afe719cd0bfe38797172bb77ae5d8', 'Licensing policy', '', 'dropdown', '라이선스 정책', '{"option":[{"text":"선택하세요","value":""},{"text":"무료","value":"free"},{"text":"유료","value":"pay"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('932831a8e53aa6f795f608794e51e7e0', 'IP_V6', '', 'inputbox', 'IP_V6', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('a508fbfda5d65a54b9b25dc5925d79bb', 'Manager', '', 'custom-code', '관리자', '{"required":"true","customCode":"40288a19736b46fb01736b89e46c0008","default":{"type":"session","value":"userName"},"button":"검색"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('1d1338bb6316ab81f7c6adbc77199409', 'Manufacturer', '', 'inputbox', '제조사', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('addc07e374faec9f0d6d3bbeca565886', 'OS Type', '', 'dropdown', 'OS 종류', '{"option":[{"text":"선택하세요","value":""},{"text":"common","value":"common"},{"text":"Linux","value":"linux"},{"text":"FreeBSD","value":"freebsd"},{"text":"Solaris","value":"solaris"},{"text":"AIX","value":"aix"},{"text":"HPUX","value":"hpux"},{"text":"WinNT","value":"winnt"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('79a99dfa69d7d0c5c369ad4840815749', 'IP_V4', '', 'inputbox', 'IP_V4', '{"validate":"","required":"false","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('99a8cf26726e907a95dad34e188cbfc8', 'Grade', '', 'dropdown', '등급', '{"option":[{"text":"선택하세요","value":""},{"text":"1등급","value":"1"},{"text":"2등급","value":"2"},{"text":"3등급","value":"3"}]}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('6e247bdb7b70757e1987ae25a36c3d13', 'Host', '', 'inputbox', '호스트명', '{"validate":"","required":"true","maxLength":"100","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_attribute values ('4028b25d791b52a501791b62eb220002', 'Purpose', '', 'inputbox', '용도', '{"validate":"","required":"false","maxLength":"300","minLength":"0"}', '', '0509e09412534a6e98f04ca79abb6424', now());
 
 /**
  * CMDB 클래스 정보
@@ -2972,17 +3026,18 @@ DROP TABLE IF EXISTS cmdb_class cascade;
 
 CREATE TABLE cmdb_class
 (
-    class_id character varying(128) NOT NULL,
-    class_name character varying(128) NOT NULL,
-    class_desc character varying(512),
-    p_class_id character varying(128),
-    class_level int,
-    create_user_key character varying(128),
-    create_dt timestamp,
-    update_user_key character varying(128),
-    update_dt timestamp,
-    CONSTRAINT cmdb_class_pk PRIMARY KEY (class_id),
-    CONSTRAINT cmdb_class_uk UNIQUE (class_id, class_name)
+	class_id character varying(128) NOT NULL,
+	class_name character varying(128) NOT NULL,
+	class_desc character varying(512),
+	p_class_id character varying(128),
+	class_level int,
+	class_seq int,
+	create_user_key character varying(128),
+	create_dt timestamp,
+	update_user_key character varying(128),
+	update_dt timestamp,
+	CONSTRAINT cmdb_class_pk PRIMARY KEY (class_id),
+	CONSTRAINT cmdb_class_uk UNIQUE (class_id, class_name)
 );
 
 COMMENT ON TABLE cmdb_class IS 'CMDB_클래스 정보';
@@ -2991,69 +3046,72 @@ COMMENT ON COLUMN cmdb_class.class_name IS '클래스이름';
 COMMENT ON COLUMN cmdb_class.class_desc IS '클래스설명';
 COMMENT ON COLUMN cmdb_class.p_class_id IS '부모클래스아이디';
 COMMENT ON COLUMN cmdb_class.class_level IS '클래스레벨';
+COMMENT ON COLUMN cmdb_class.class_seq IS '클래스정렬순서';
 COMMENT ON COLUMN cmdb_class.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_class.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_class.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_class.update_dt IS '수정일시';
 
-insert into cmdb_class values ('root', 'root', 'root', null, 0, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b017921740c250043', '일반정보 - 소프트웨어', '일반정보 - 소프트웨어 Class입니다.', 'root', 1, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b881792074460179210677bb0016', '일반정보', '일반정보 Class입니다.', 'root', 1, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179217130030041', '일반정보 - 노트북', '일반정보 - 노트북 Class입니다.', 'root', 1, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179217798830044', '유지보수정보 - 소프트웨어', '유지보수정보 - 소프트웨어 Class입니다.', '4028b88179210e1b017921740c250043', 2, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792172d1b80042', '설비정보 - 노트북', '설비정보 - 노트북 Class입니다.', '4028b88179210e1b0179217130030041', 2, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179216b6d55003b', '채울', '채울 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179216bf1a6003c', '체크멀', '체크멀 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179216cf921003d', '코닉글로리', '코닉글로리 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179216e6e35003e', '펜타시규리티', '펜타시규리티 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179216226d30032', '넷크루즈', '넷크루즈 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792162e60f0033', '소만사', '소만사 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b017921643b830034', '시큐아이', '시큐아이 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792165deef0036', '에스지엔', '에스지엔 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792166dba20037', '에스큐브아이', '에스큐브아이 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792167e5f30038', '이글루시큐리티', '이글루시큐리티 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179216af1c9003a', '지티원 ', '지티원 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179216f07b2003f', '퓨처시스템', '퓨처시스템 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179216f773b0040', '파수닷컴', '파수닷컴 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179216a760a0039', '지니안', '지이안 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b017921651e3d0035', '안랩', '안랩 Class입니다.', '4028b88179210e1b01792160f3010031', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179213a11f80018', 'Infomix', 'Infomix Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179213b50f50019', 'Derby', 'Derby Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179213cfac9001d', 'HBase', 'HBase Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179213d8436001e', 'Cassandra', 'Cassandra Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179213baac3001a', 'SQLite', 'SQLite Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b017921362c960013', 'Oracle', 'Oracle Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792136918f0014', 'MySQL', 'MySQL Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b017921370e000015', 'Maria DB', 'Maria DB Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792137989f0016', 'MS-SQL', 'MS-SQL Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179213972140017', 'DB2', 'DB2 Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179213c2099001b', 'MongoDB', 'MongoDB Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179213ca263001c', 'Redis', 'Redis Class입니다.', '4028b88179210e1b017921336fc60012', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179215c07b9002c', 'L2SWITCH', 'L2SWITCH Class입니다.', '4028b88179210e1b0179212f17f90011', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179215b8bff002b', 'IPCHECK', 'IPCHECK Class입니다.', '4028b88179210e1b0179212f17f90011', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179215ce42d002e', 'L4SWITCH', 'L4SWITCH Class입니다.', '4028b88179210e1b0179212f17f90011', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179215d4b68002f', 'APETC', 'APETC Class입니다.', '4028b88179210e1b0179212f17f90011', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179215dbbf80030', 'IPS', 'IPS Class입니다.', '4028b88179210e1b0179212f17f90011', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179215c8495002d', 'L3SWITCH', 'L3SWITCH Class입니다.', '4028b88179210e1b0179212f17f90011', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179215a20da0028', 'OID', 'OID Class입니다.', '4028b88179210e1b0179212f17f90011', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179215a98930029', 'ICMP', 'ICMP Class입니다.', '4028b88179210e1b0179212f17f90011', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179215b19bb002a', 'SNMP', 'SNMP Class입니다.', '4028b88179210e1b0179212f17f90011', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792123742e0009', 'HPUX', 'HPUX Class입니다.', '4028b88179210e1b0179211d13760005', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b017921242450000a', 'Solaris', 'Solaris Class입니다.', '4028b88179210e1b0179211d13760005', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b017921261f87000c', 'TRU64', 'TRU64 Class입니다.', '4028b88179210e1b0179211d13760005', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792126a13a000d', 'UNIXWARE', 'UNIXWARE Class입니다.', '4028b88179210e1b0179211d13760005', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b017921201e8f0007', 'WinNT ', 'WinNT Class입니다.', '4028b88179210e1b0179211d13760005', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792121eea80008', 'AIX', 'AIX Class입니다.', '4028b88179210e1b0179211d13760005', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792125a23a000b', 'FreeBSD', 'FreeBSD Class입니다.', '4028b88179210e1b0179211d13760005', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179211eb65d0006', 'Linux', 'Linux Class입니다.', '4028b88179210e1b0179211d13760005', 6, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792160f3010031', '보안장비 - 설비정보', '보안장비 - 설비정보 Class입니다.', '4028b88179210e1b01792117aab10004', 5, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b017921336fc60012', '데이터베이스 - 설비정보', '데이터베이스 - 설비정보 Class입니다.', '4028b88179210e1b01792117aab10004', 5, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179212f17f90011', '네트워크 - 설비정보', '네트워크 - 설비정보 Class입니다.', '4028b88179210e1b01792117aab10004', 5, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179211d13760005', '서버 - 설비정보', '서버 - 설비정보 Class입니다.', '4028b88179210e1b01792117aab10004', 5, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b01792117aab10004', '자산보안등급 정보', '서버의 자산보안등급 Class입니다.', '4028b88179210e1b0179211490200003', 4, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b88179210e1b0179211490200003', '유지보수 항목', '서버 유지보수 항목입니다.', '4028b8817920744601792109b4800017', 3, '0509e09412534a6e98f04ca79abb6424',now());
-insert into cmdb_class values ('4028b8817920744601792109b4800017', '설비정보 - 공통', '서버의 설비정보 Class입니다.', '4028b881792074460179210677bb0016', 2, '0509e09412534a6e98f04ca79abb6424',now());
-
+insert into cmdb_class values ('root', 'root', 'root', null, 0, 0, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b881792074460179210677bb0016', '일반정보 - 인프라', '일반정보 - 인프라 Class입니다.', 'root', 1, 10, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_class values ('4028b88179210e1b017921740c250043', '일반정보 - 소프트웨어', '일반정보 - 소프트웨어 Class입니다.', 'root', 1, 20, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_class values ('4028b8817a8f3542017a8f38b60d0000', '계약정보관리', '계약정보관리 Class입니다.', 'root', 1, 30, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_class values ('4028b8817a8f3542017a8f9c365e001c', '사업정보관리', '사업정보관리 Class입니다.', 'root', 1, 40, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_class values ('4028b88179210e1b0179217130030041', '일반정보 - 노트북', '일반정보 - 노트북 Class입니다.', 'root', 1, 50, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_class values ('4028b8817920744601792109b4800017', '위치정보 - 인프라', '인프라정보 위치정보 Class입니다.', '4028b881792074460179210677bb0016', 2, 10, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_class values ('4028b88179210e1b0179217798830044', '유지보수정보 - 소프트웨어', '유지보수정보 - 소프트웨어 Class입니다.', '4028b88179210e1b017921740c250043', 2, 10, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_class values ('4028b88179210e1b01792172d1b80042', '자산정보 - 노트북', '자산정보 - 노트북 Class입니다.', '4028b88179210e1b0179217130030041', 2, 10, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_class values ('4028b88179210e1b0179211490200003', '유지보수정보 - 인프라', '인프라정보 유지보수 Class입니다.', '4028b8817920744601792109b4800017', 3, 10, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b8817a8eeaa3017a8f15873f0006', '소프트웨어', '소프트웨어 Class입니다.', '4028b88179210e1b0179217798830044', 3, 10,  '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_class values ('4028b88179210e1b01792117aab10004', '자산보안등급정보 - 인프라', '인프라 자산보안등급 Class입니다.', '4028b88179210e1b0179211490200003', 4, 10, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179211d13760005', '인프라정보 - 서버', '인프라 - 서버 Class입니다.', '4028b88179210e1b01792117aab10004', 5, 10, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179212f17f90011', '인프라정보 - 네트워크', '인프라 - 네트워크 Class입니다.', '4028b88179210e1b01792117aab10004', 5, 20, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b017921336fc60012', '인프라정보 - 데이터베이스', '인프라정보 - 데이터베이스 Class입니다.', '4028b88179210e1b01792117aab10004', 5, 30, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792160f3010031', '인프라정보 - 보안장비', '인프라정보 - 보안장비 Class입니다.', '4028b88179210e1b01792117aab10004', 5, 40, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179216b6d55003b', '채울', '채울 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 10, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179216bf1a6003c', '체크멀', '체크멀 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 20, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179216cf921003d', '코닉글로리', '코닉글로리 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 30, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179216e6e35003e', '펜타시규리티', '펜타시규리티 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 40, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179216226d30032', '넷크루즈', '넷크루즈 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 50, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792162e60f0033', '소만사', '소만사 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 60, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b017921643b830034', '시큐아이', '시큐아이 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 70, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792165deef0036', '에스지엔', '에스지엔 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 80, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792166dba20037', '에스큐브아이', '에스큐브아이 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 90, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792167e5f30038', '이글루시큐리티', '이글루시큐리티 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 100, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179216af1c9003a', '지티원 ', '지티원 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 110, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179216f07b2003f', '퓨처시스템', '퓨처시스템 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 120, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179216f773b0040', '파수닷컴', '파수닷컴 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 130, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179216a760a0039', '지니안', '지이안 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 140, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b017921651e3d0035', '안랩', '안랩 Class입니다.', '4028b88179210e1b01792160f3010031', 6, 150, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179211eb65d0006', 'Linux', 'Linux Class입니다.', '4028b88179210e1b0179211d13760005', 6, 10, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792123742e0009', 'HPUX', 'HPUX Class입니다.', '4028b88179210e1b0179211d13760005', 6, 20, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b017921201e8f0007', 'WinNT ', 'WinNT Class입니다.', '4028b88179210e1b0179211d13760005', 6, 30, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b017921242450000a', 'Solaris', 'Solaris Class입니다.', '4028b88179210e1b0179211d13760005', 6, 40, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b017921261f87000c', 'TRU64', 'TRU64 Class입니다.', '4028b88179210e1b0179211d13760005', 6, 50, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792126a13a000d', 'UNIXWARE', 'UNIXWARE Class입니다.', '4028b88179210e1b0179211d13760005', 6, 60, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792121eea80008', 'AIX', 'AIX Class입니다.', '4028b88179210e1b0179211d13760005', 6, 70, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792125a23a000b', 'FreeBSD', 'FreeBSD Class입니다.', '4028b88179210e1b0179211d13760005', 6, 80, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b017921362c960013', 'Oracle', 'Oracle Class입니다.', '4028b88179210e1b017921336fc60012', 6, 10, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792137989f0016', 'MS-SQL', 'MS-SQL Class입니다.', '4028b88179210e1b017921336fc60012', 6, 20, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b01792136918f0014', 'MySQL', 'MySQL Class입니다.', '4028b88179210e1b017921336fc60012', 6, 30, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b017921370e000015', 'Maria DB', 'Maria DB Class입니다.', '4028b88179210e1b017921336fc60012', 6, 40, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179213baac3001a', 'SQLite', 'SQLite Class입니다.', '4028b88179210e1b017921336fc60012', 6, 50, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179213a11f80018', 'Infomix', 'Infomix Class입니다.', '4028b88179210e1b017921336fc60012', 6, 60, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179213b50f50019', 'Derby', 'Derby Class입니다.', '4028b88179210e1b017921336fc60012', 6, 70, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179213cfac9001d', 'HBase', 'HBase Class입니다.', '4028b88179210e1b017921336fc60012', 6, 80, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179213d8436001e', 'Cassandra', 'Cassandra Class입니다.', '4028b88179210e1b017921336fc60012', 6, 90,'0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179213972140017', 'DB2', 'DB2 Class입니다.', '4028b88179210e1b017921336fc60012', 6, 100, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179213c2099001b', 'MongoDB', 'MongoDB Class입니다.', '4028b88179210e1b017921336fc60012', 6, 110, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179213ca263001c', 'Redis', 'Redis Class입니다.', '4028b88179210e1b017921336fc60012', 6, 120, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179215a20da0028', 'OID', 'OID Class입니다.', '4028b88179210e1b0179212f17f90011', 6, 10, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179215a98930029', 'ICMP', 'ICMP Class입니다.', '4028b88179210e1b0179212f17f90011', 6, 20, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179215b19bb002a', 'SNMP', 'SNMP Class입니다.', '4028b88179210e1b0179212f17f90011', 6, 30, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179215c07b9002c', 'L2SWITCH', 'L2SWITCH Class입니다.', '4028b88179210e1b0179212f17f90011', 6, 40, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179215c8495002d', 'L3SWITCH', 'L3SWITCH Class입니다.', '4028b88179210e1b0179212f17f90011', 6, 50, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179215ce42d002e', 'L4SWITCH', 'L4SWITCH Class입니다.', '4028b88179210e1b0179212f17f90011', 6, 60, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179215b8bff002b', 'IPCHECK', 'IPCHECK Class입니다.', '4028b88179210e1b0179212f17f90011', 6, 70, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179215d4b68002f', 'APETC', 'APETC Class입니다.', '4028b88179210e1b0179212f17f90011', 6, 80, '0509e09412534a6e98f04ca79abb6424',now());
+insert into cmdb_class values ('4028b88179210e1b0179215dbbf80030', 'IPS', 'IPS Class입니다.', '4028b88179210e1b0179212f17f90011', 6, 90, '0509e09412534a6e98f04ca79abb6424',now());
 /**
  * CMDB 타입 정보
  */
@@ -3067,6 +3125,7 @@ CREATE TABLE cmdb_type
 	type_desc character varying(512),
 	type_alias character varying(128),
 	type_level int,
+	type_seq int,
 	class_id character varying(128) NOT NULL,
 	type_icon character varying(200),
 	create_user_key character varying(128),
@@ -3087,6 +3146,7 @@ COMMENT ON COLUMN cmdb_type.type_name IS '타입이름';
 COMMENT ON COLUMN cmdb_type.type_desc IS '타입설명';
 COMMENT ON COLUMN cmdb_type.type_alias IS '타입식별자';
 COMMENT ON COLUMN cmdb_type.type_level IS '타입레벨';
+COMMENT ON COLUMN cmdb_type.type_seq IS '타입정렬순서';
 COMMENT ON COLUMN cmdb_type.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_type.type_icon IS '타입아이콘';
 COMMENT ON COLUMN cmdb_type.create_user_key IS '등록자';
@@ -3094,58 +3154,59 @@ COMMENT ON COLUMN cmdb_type.create_dt IS '등록일시';
 COMMENT ON COLUMN cmdb_type.update_user_key IS '수정자';
 COMMENT ON COLUMN cmdb_type.update_dt IS '수정일시';
 
-insert into cmdb_type values ('root', null, 'ROOT', null, 'CI', 0, 'root', null, '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921a6b6950073', 'root', '소프트웨어', '소프트웨어 Type입니다.', 'software', 1, '4028b88179210e1b0179217798830044', 'image_winnt.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921a5b57a0072', 'root', '노트북', '노트북 Type입니다.', 'laptop', 1, '4028b88179210e1b01792172d1b80042', 'image_server.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179219878cd0062', 'root', '보안장비', '보안장비 Type입니다.', 'security', 1, '4028b88179210e1b01792160f3010031', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217bb335004b', 'root', '네트워크', '네트워크 타입입니다.', 'nms', 1, '4028b88179210e1b0179212f17f90011', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921277022000e', 'root', '서버', '서버입니다.', 'sever', 1, '4028b88179210e1b0179211d13760005', 'image_server.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179218fb2070055', 'root', '데이터베이스', '데이터베이스 Type입니다.', 'DBMS', 1, '4028b88179210e1b017921336fc60012', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b01792199e1d80063', '4028b88179210e1b0179219878cd0062', '넷크루즈', '넷크루즈', 'Netcruz', 2, '4028b88179210e1b0179216226d30032', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179219c3f0a0064', '4028b88179210e1b0179219878cd0062', '소만사', '소만사 Type입니다.', 'Somansa', 2, '4028b88179210e1b01792162e60f0033', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179219d58e20066', '4028b88179210e1b0179219878cd0062', '안랩', '안랩 Type입니다.', 'Ahnlab', 2, '4028b88179210e1b017921651e3d0035', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179219dcf9d0067', '4028b88179210e1b0179219878cd0062', '에스지엔', '에스지엔 Type입니다.', 'SGN', 2, '4028b88179210e1b01792165deef0036', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179219e84340068', '4028b88179210e1b0179219878cd0062', '에스큐브아이', '에스큐브아이 Type입니다.', 'S3I', 2, '4028b88179210e1b01792166dba20037', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179219f9e5c006a', '4028b88179210e1b0179219878cd0062', '지니안', '지니안 Type입니다.', 'Genians', 2, '4028b88179210e1b0179216a760a0039', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921a097f5006b', '4028b88179210e1b0179219878cd0062', '지티원', '지티원 Type입니다.', 'GTONE', 2, '4028b88179210e1b0179216af1c9003a', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921a113fe006c', '4028b88179210e1b0179219878cd0062', '채울', '채울 Type입니다.', 'CHAEWOOL', 2, '4028b88179210e1b0179216b6d55003b', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921a18a1b006d', '4028b88179210e1b0179219878cd0062', '체크멀', '체크멀  Type입니다.', 'CHECKMAL', 2, '4028b88179210e1b0179216bf1a6003c', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921a230e4006e', '4028b88179210e1b0179219878cd0062', '코닉글로리', '코닉글로리 Type입니다.', 'KORINCGLORY', 2, '4028b88179210e1b0179216cf921003d', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921a2b43a006f', '4028b88179210e1b0179219878cd0062', '파수닷컴', '파수닷컴 Type입니다.', 'FASOO', 2, '4028b88179210e1b0179216f773b0040', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921a355c10070', '4028b88179210e1b0179219878cd0062', '퓨처시스템', '퓨처시스템 Type입니다.', 'FutureSystem', 2, '4028b88179210e1b0179216f07b2003f', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921a3f3320071', '4028b88179210e1b0179219878cd0062', '펜타시규리티', '펜타시규리티 Type입니다.', 'Penta', 2, '4028b88179210e1b0179216e6e35003e', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179219f04020069', '4028b88179210e1b0179219878cd0062', '이글루시큐리티', '이글루시큐리티 Type입니다.', 'IGLOO', 2, '4028b88179210e1b01792167e5f30038', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179219cf81d0065', '4028b88179210e1b0179219878cd0062', '시큐아이', 'SECUI Type입니다.', 'SECUI', 2, '4028b88179210e1b017921643b830034', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921957a67005e', '4028b88179210e1b0179218fb2070055', 'MongoDB', 'MongoDB', 'MongoDB', 2, '4028b88179210e1b0179213c2099001b', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b01792195e8be005f', '4028b88179210e1b0179218fb2070055', 'Redis', 'Redis Type입니다.', 'Redis', 2, '4028b88179210e1b0179213ca263001c', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921962d8d0060', '4028b88179210e1b0179218fb2070055', 'HBase', 'HBase', 'HBase', 2, '4028b88179210e1b0179213cfac9001d', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179219012c40056', '4028b88179210e1b0179218fb2070055', 'Oracle', 'Oracle Type입니다.', 'Oracle', 2, '4028b88179210e1b017921362c960013', 'image_oracle.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b01792190905b0057', '4028b88179210e1b0179218fb2070055', 'MySQL', 'MySQL Type입니다.', 'MySQL', 2, '4028b88179210e1b01792136918f0014', 'image_mysql.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b01792196eb490061', '4028b88179210e1b0179218fb2070055', 'Cassandra', 'Cassandra Type입니다.', 'Cassandra', 2, '4028b88179210e1b0179213d8436001e', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921925bd60058', '4028b88179210e1b0179218fb2070055', 'MariaDB', 'Maria DB Type입니다.', 'MariaDB', 2, '4028b88179210e1b017921370e000015', 'image_mariadb.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921934c300059', '4028b88179210e1b0179218fb2070055', 'MS-SQL', 'MS-SQL Type입니다.', 'MSSQL', 2, '4028b88179210e1b01792137989f0016', 'image_mssql.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b01792193da25005a', '4028b88179210e1b0179218fb2070055', 'DB2', 'DB2 Type입니다.', 'DB2', 2, '4028b88179210e1b0179213972140017', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921942970005b', '4028b88179210e1b0179218fb2070055', 'Infomix', 'Infomix Type입니다.', 'Infomix', 2, '4028b88179210e1b0179213a11f80018', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921947c2e005c', '4028b88179210e1b0179218fb2070055', 'Derby', 'Derby Type입니다.', 'Derby', 2, '4028b88179210e1b0179213b50f50019', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921952e81005d', '4028b88179210e1b0179218fb2070055', 'SQLite', 'SQLite Type입니다.', 'SQLite', 2, '4028b88179210e1b0179213baac3001a', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179218e22100053', '4028b88179210e1b0179217bb335004b', 'APETC', 'APETC Type입니다.', 'APETC', 2, '4028b88179210e1b0179215d4b68002f', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179218131610050', '4028b88179210e1b0179217bb335004b', 'L2SWITCH', 'L2SWITCH Type입니다.', 'L2SWITCH', 2, '4028b88179210e1b0179215c07b9002c', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921825cf70052', '4028b88179210e1b0179217bb335004b', 'L4SWITCH', 'L4SWITCH Type입니다.', 'L4SWITCH', 2, '4028b88179210e1b0179215ce42d002e', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179218ef2cc0054', '4028b88179210e1b0179217bb335004b', 'IPS', 'IPS Type입니다.', 'IPS', 2, '4028b88179210e1b0179215dbbf80030', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217e7e7f004e', '4028b88179210e1b0179217bb335004b', 'SNMP', 'SNMP Type입니다.', 'SNMP', 2, '4028b88179210e1b0179215b19bb002a', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217f2001004f', '4028b88179210e1b0179217bb335004b', 'IPCHECK', 'IPCHECK Type입니다.', 'IPCHECK', 2, '4028b88179210e1b0179215b8bff002b', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217d5a96004d', '4028b88179210e1b0179217bb335004b', 'ICMP', 'ICMP Type입니다.', 'ICMP', 2, '4028b88179210e1b0179215a98930029', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217cc893004c', '4028b88179210e1b0179217bb335004b', 'OID', 'OID Type입니다.', 'OID', 2, '4028b88179210e1b0179215a20da0028', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b01792181cc9a0051', '4028b88179210e1b0179217bb335004b', 'L3SWITCH', 'L3SWITCH Type입니다.', 'L3SWITCH', 2, '4028b88179210e1b0179215c8495002d', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217906d10047', '4028b88179210e1b017921277022000e', 'Solaris', 'Solaris Type입니다.', 'Solaris', 2, '4028b88179210e1b017921242450000a', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217b3cfb004a', '4028b88179210e1b017921277022000e', 'UNIXWARE', 'UNIXWARE Type입니다.', 'UNIXWARE', 2, '4028b88179210e1b01792126a13a000d', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b01792127ed690010', '4028b88179210e1b017921277022000e', 'WinNT', 'WinNT', 'WinNT', 2, '4028b88179210e1b017921201e8f0007', 'image_winnt.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b017921279d29000f', '4028b88179210e1b017921277022000e', 'Linux ', 'Linux ', 'Linux', 2, '4028b88179210e1b0179211eb65d0006', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217837510045', '4028b88179210e1b017921277022000e', 'AIX', 'AIX Type입니다.', 'AIX', 2, '4028b88179210e1b01792121eea80008', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b01792179d7e30048', '4028b88179210e1b017921277022000e', 'FreeBSD', 'FreeBSD Type입니다.', 'FreeBSD', 2, '4028b88179210e1b01792125a23a000b', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217894fd0046', '4028b88179210e1b017921277022000e', 'HPUX', 'HPUX Type입니다.', 'HPUX', 2, '4028b88179210e1b01792123742e0009', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
-insert into cmdb_type values ('4028b88179210e1b0179217aa9660049', '4028b88179210e1b017921277022000e', 'TRU64', 'TRU64 Type입니다.', 'TRU64', 2, '4028b88179210e1b017921261f87000c', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
-
+insert into cmdb_type values ('root', null, 'ROOT', null, 'CI', 0, 0, 'root', null, '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921277022000e', 'root', '서버', '서버입니다.', 'SERVER', 1, 10, '4028b88179210e1b0179211d13760005', 'image_server.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217bb335004b', 'root', '네트워크', '네트워크 타입입니다.', 'NETWORK', 1, 20, '4028b88179210e1b0179212f17f90011', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179218fb2070055', 'root', '데이터베이스', '데이터베이스 Type입니다.', 'DATABASE', 1, 30, '4028b88179210e1b017921336fc60012', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179219878cd0062', 'root', '보안장비', '보안장비 Type입니다.', 'security', 1, 40, '4028b88179210e1b01792160f3010031', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a6b6950073', 'root', '소프트웨어', '소프트웨어 Type입니다.', 'software', 1, 50, '4028b8817a8eeaa3017a8f15873f0006', 'image_winnt.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a6b6951174', 'root', '사업', '사업 Type입니다.', 'business', 1, 60, '4028b8817a8f3542017a8f9c365e001c', 'image_winnt.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a6b6950173', 'root', '계약', '계약 Type입니다.', 'contract', 1, 70, '4028b8817a8f3542017a8f38b60d0000', 'image_winnt.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a5b57a0072', 'root', '노트북', '노트북 Type입니다.', 'laptop', 1, 80, '4028b88179210e1b01792172d1b80042', 'image_server.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a113fe006c', '4028b88179210e1b0179219878cd0062', '채울', '채울 Type입니다.', 'CHAEWOOL', 2, 10, '4028b88179210e1b0179216b6d55003b', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a18a1b006d', '4028b88179210e1b0179219878cd0062', '체크멀', '체크멀  Type입니다.', 'CHECKMAL', 2, 20, '4028b88179210e1b0179216bf1a6003c', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a230e4006e', '4028b88179210e1b0179219878cd0062', '코닉글로리', '코닉글로리 Type입니다.', 'KORINCGLORY', 2, 30, '4028b88179210e1b0179216cf921003d', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a3f3320071', '4028b88179210e1b0179219878cd0062', '펜타시규리티', '펜타시규리티 Type입니다.', 'Penta', 2, 40, '4028b88179210e1b0179216e6e35003e', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b01792199e1d80063', '4028b88179210e1b0179219878cd0062', '넷크루즈', '넷크루즈', 'Netcruz', 2, 50, '4028b88179210e1b0179216226d30032', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179219c3f0a0064', '4028b88179210e1b0179219878cd0062', '소만사', '소만사 Type입니다.', 'Somansa', 2, 60, '4028b88179210e1b01792162e60f0033', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179219cf81d0065', '4028b88179210e1b0179219878cd0062', '시큐아이', 'SECUI Type입니다.', 'SECUI', 2, 70, '4028b88179210e1b017921643b830034', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179219dcf9d0067', '4028b88179210e1b0179219878cd0062', '에스지엔', '에스지엔 Type입니다.', 'SGN', 2, 80, '4028b88179210e1b01792165deef0036', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179219e84340068', '4028b88179210e1b0179219878cd0062', '에스큐브아이', '에스큐브아이 Type입니다.', 'S3I', 2, 90, '4028b88179210e1b01792166dba20037', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179219f04020069', '4028b88179210e1b0179219878cd0062', '이글루시큐리티', '이글루시큐리티 Type입니다.', 'IGLOO', 2, 100, '4028b88179210e1b01792167e5f30038', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a097f5006b', '4028b88179210e1b0179219878cd0062', '지티원', '지티원 Type입니다.', 'GTONE', 2, 110, '4028b88179210e1b0179216af1c9003a', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a355c10070', '4028b88179210e1b0179219878cd0062', '퓨처시스템', '퓨처시스템 Type입니다.', 'FutureSystem', 2, 120, '4028b88179210e1b0179216f07b2003f', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921a2b43a006f', '4028b88179210e1b0179219878cd0062', '파수닷컴', '파수닷컴 Type입니다.', 'FASOO', 2, 130, '4028b88179210e1b0179216f773b0040', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179219f9e5c006a', '4028b88179210e1b0179219878cd0062', '지니안', '지니안 Type입니다.', 'Genians', 2, 140, '4028b88179210e1b0179216a760a0039', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179219d58e20066', '4028b88179210e1b0179219878cd0062', '안랩', '안랩 Type입니다.', 'Ahnlab', 2, 150, '4028b88179210e1b017921651e3d0035', 'image_snmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921279d29000f', '4028b88179210e1b017921277022000e', 'Linux ', 'Linux Type입니다.', 'Linux', 2, 10, '4028b88179210e1b0179211eb65d0006', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217894fd0046', '4028b88179210e1b017921277022000e', 'HPUX', 'HPUX Type입니다.', 'HPUX', 2, 20, '4028b88179210e1b01792123742e0009', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b01792127ed690010', '4028b88179210e1b017921277022000e', 'WinNT', 'WinNT Type입니다.', 'WinNT', 2, 30, '4028b88179210e1b017921201e8f0007', 'image_winnt.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217906d10047', '4028b88179210e1b017921277022000e', 'Solaris', 'Solaris Type입니다.', 'Solaris', 2, 40, '4028b88179210e1b017921242450000a', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217aa9660049', '4028b88179210e1b017921277022000e', 'TRU64', 'TRU64 Type입니다.', 'TRU64', 2, 50, '4028b88179210e1b017921261f87000c', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217b3cfb004a', '4028b88179210e1b017921277022000e', 'UNIXWARE', 'UNIXWARE Type입니다.', 'UNIXWARE', 2, 60, '4028b88179210e1b01792126a13a000d', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217837510045', '4028b88179210e1b017921277022000e', 'AIX', 'AIX Type입니다.', 'AIX', 2, 70, '4028b88179210e1b01792121eea80008', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b01792179d7e30048', '4028b88179210e1b017921277022000e', 'FreeBSD', 'FreeBSD Type입니다.', 'FreeBSD', 2, 80, '4028b88179210e1b01792125a23a000b', 'image_linux.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179219012c40056', '4028b88179210e1b0179218fb2070055', 'Oracle', 'Oracle Type입니다.', 'Oracle', 2, 10, '4028b88179210e1b017921362c960013', 'image_oracle.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921934c300059', '4028b88179210e1b0179218fb2070055', 'MS-SQL', 'MS-SQL Type입니다.', 'MSSQL', 2, 20, '4028b88179210e1b01792137989f0016', 'image_mssql.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b01792190905b0057', '4028b88179210e1b0179218fb2070055', 'MySQL', 'MySQL Type입니다.', 'MySQL', 2, 30, '4028b88179210e1b01792136918f0014', 'image_mysql.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921925bd60058', '4028b88179210e1b0179218fb2070055', 'MariaDB', 'Maria DB Type입니다.', 'MariaDB', 2, 40, '4028b88179210e1b017921370e000015', 'image_mariadb.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921952e81005d', '4028b88179210e1b0179218fb2070055', 'SQLite', 'SQLite Type입니다.', 'SQLite', 2, 50, '4028b88179210e1b0179213baac3001a', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921942970005b', '4028b88179210e1b0179218fb2070055', 'Infomix', 'Infomix Type입니다.', 'Infomix', 2, 60, '4028b88179210e1b0179213a11f80018', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921947c2e005c', '4028b88179210e1b0179218fb2070055', 'Derby', 'Derby Type입니다.', 'Derby', 2, 70, '4028b88179210e1b0179213b50f50019', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921962d8d0060', '4028b88179210e1b0179218fb2070055', 'HBase', 'HBase Type입니다.', 'HBase', 2, 80, '4028b88179210e1b0179213cfac9001d', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b01792196eb490061', '4028b88179210e1b0179218fb2070055', 'Cassandra', 'Cassandra Type입니다.', 'Cassandra', 2, 90,'4028b88179210e1b0179213d8436001e', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b01792193da25005a', '4028b88179210e1b0179218fb2070055', 'DB2', 'DB2 Type입니다.', 'DB2', 2, 100, '4028b88179210e1b0179213972140017', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921957a67005e', '4028b88179210e1b0179218fb2070055', 'MongoDB', 'MongoDB Type입니다.', 'MongoDB', 2, 110, '4028b88179210e1b0179213c2099001b', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b01792195e8be005f', '4028b88179210e1b0179218fb2070055', 'Redis', 'Redis Type입니다.', 'Redis', 2, 120, '4028b88179210e1b0179213ca263001c', 'image_l4switch.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217cc893004c', '4028b88179210e1b0179217bb335004b', 'OID', 'OID Type입니다.', 'OID', 2, 10, '4028b88179210e1b0179215a20da0028', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217d5a96004d', '4028b88179210e1b0179217bb335004b', 'ICMP', 'ICMP Type입니다.', 'ICMP', 2, 20, '4028b88179210e1b0179215a98930029', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217e7e7f004e', '4028b88179210e1b0179217bb335004b', 'SNMP', 'SNMP Type입니다.', 'SNMP', 2, 30, '4028b88179210e1b0179215b19bb002a', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179218131610050', '4028b88179210e1b0179217bb335004b', 'L2SWITCH', 'L2SWITCH Type입니다.', 'L2SWITCH', 2, 40, '4028b88179210e1b0179215c07b9002c', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b01792181cc9a0051', '4028b88179210e1b0179217bb335004b', 'L3SWITCH', 'L3SWITCH Type입니다.', 'L3SWITCH', 2, 50, '4028b88179210e1b0179215c8495002d', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b017921825cf70052', '4028b88179210e1b0179217bb335004b', 'L4SWITCH', 'L4SWITCH Type입니다.', 'L4SWITCH', 2, 60, '4028b88179210e1b0179215ce42d002e', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179217f2001004f', '4028b88179210e1b0179217bb335004b', 'IPCHECK', 'IPCHECK Type입니다.', 'IPCHECK', 2, 70, '4028b88179210e1b0179215b8bff002b', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179218e22100053', '4028b88179210e1b0179217bb335004b', 'APETC', 'APETC Type입니다.', 'APETC', 2, 80, '4028b88179210e1b0179215d4b68002f', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
+insert into cmdb_type values ('4028b88179210e1b0179218ef2cc0054', '4028b88179210e1b0179217bb335004b', 'IPS', 'IPS Type입니다.', 'IPS', 2, 90, '4028b88179210e1b0179215dbbf80030', 'image_icmp.png', '0509e09412534a6e98f04ca79abb6424', now());
 /**
  * CMDB CI 정보
  */
@@ -3338,20 +3399,14 @@ COMMENT ON COLUMN cmdb_class_attribute_map.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_class_attribute_map.attribute_id IS '속성아이디';
 COMMENT ON COLUMN cmdb_class_attribute_map.attribute_order IS '속성순서';
 
-insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', 'adaeef4046bfcd78e345ad48cbbeefa5', 1);
-insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '4028b25d791b75ac01791b78b0550001', 2);
-insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '27caaeba596663101d55a09ec873a375', 3);
-insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '4028b881792074460179209cef74000c', 4);
-insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '4028b25d791b75ac01791bb14a4d0003', 5);
-insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '4028b25d791b75ac01791b777a240000', 6);
-insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '189319790e6349c7248b9f50456ed47b', 7);
-insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d7916ef5f017917129c66000c', 1);
-insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '6ea67d6c6cb28def6b289affc6c95fd1', 2);
-insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d791b52a501791b62eb220002', 3);
-insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d791b52a501791b71ff790003', 4);
-insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d791b52a501791b61f7170001', 5);
-insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d791b52a501791b72ccbc0004', 6);
-insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d791b52a501791b73fff90005', 7);
+insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '27caaeba596663101d55a09ec873a375', 1);
+insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '4028b881792074460179209cef74000c', 2);
+insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '4028b25d791b75ac01791bb0f9140002', 3);
+insert into cmdb_class_attribute_map values ('4028b881792074460179210677bb0016', '189319790e6349c7248b9f50456ed47b', 4);
+insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d791b52a501791b71ff790003', 1);
+insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d791b52a501791b61f7170001', 2);
+insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d791b52a501791b72ccbc0004', 3);
+insert into cmdb_class_attribute_map values ('4028b8817920744601792109b4800017', '4028b25d791b52a501791b73fff90005', 4);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211490200003', '4028b25d7916ef5f017916f397230000', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211490200003', '4028b25d7916ef5f017916f594a70001', 2);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211490200003', '4028b88179207446017920d8df1c000d', 3);
@@ -3370,10 +3425,15 @@ insert into cmdb_class_attribute_map values ('4028b88179210e1b01792117aab10004',
 insert into cmdb_class_attribute_map values ('4028b88179210e1b01792117aab10004', '77b6112b3013a6808aeb04f80dd75360', 3);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b01792117aab10004', '4028b25d791b75ac01791bb4b48c0004', 4);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b01792117aab10004', '4028b25d791b75ac01791bb574a70005', 5);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', 'd47973f063130acab00b2cf203a9788b', 1);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '4028b25d7916ef5f01791713d145000d', 2);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '4028b25d791b52a501791b5e35ff0000', 3);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '4028b25d791c335201791c36103b0000', 4);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '4028b25d7916ef5f017917129c66000c', 1);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '6ea67d6c6cb28def6b289affc6c95fd1', 2);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', 'adaeef4046bfcd78e345ad48cbbeefa5', 3);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '4028b25d791b75ac01791b78b0550001', 4);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '4028b25d791b75ac01791b777a240000', 5);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', 'd47973f063130acab00b2cf203a9788b', 6);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '4028b25d7916ef5f01791713d145000d', 7);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '4028b25d791b52a501791b5e35ff0000', 8);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211d13760005', '4028b25d791c335201791c36103b0000', 9);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179211eb65d0006', '734ab921484883ad7760032a008baf21', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b017921201e8f0007', 'df0e88d216ace73e0164f3dbf7ade131', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b01792121eea80008', '4028b25d791c335201791c78e61e000e', 1);
@@ -3382,12 +3442,26 @@ insert into cmdb_class_attribute_map values ('4028b88179210e1b017921242450000a',
 insert into cmdb_class_attribute_map values ('4028b88179210e1b01792125a23a000b', '4028b25d791c335201791c82c9ca0011', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b017921261f87000c', '4028b25d791c335201791c839afd0012', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b01792126a13a000d', '4028b25d791c335201791c84a9500013', 1);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bbb1ed10006', 1);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bbd4e5b0007', 2);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bbe677f0008', 3);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bc0759f0009', 4);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bc0ffe3000a', 5);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '489a14a0ebdca14b6eb42cf804330145', 1);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d7916ef5f017917129c66000c', 1);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '6ea67d6c6cb28def6b289affc6c95fd1', 2);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', 'adaeef4046bfcd78e345ad48cbbeefa5', 3);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791b78b0550001', 4);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791b777a240000', 5);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bbb1ed10006', 6);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bbd4e5b0007', 7);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bbe677f0008', 8);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bc0759f0009', 9);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b0179212f17f90011', '4028b25d791b75ac01791bc0ffe3000a', 10);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '4028b25d7916ef5f017917129c66000c', 1);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '6ea67d6c6cb28def6b289affc6c95fd1', 2);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '4028b25d791b75ac01791b777a240000', 3);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '489a14a0ebdca14b6eb42cf804330145', 4);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '4028b25d7a8a5993017a8a5e5aac0000', 5);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '4028b25d7a8a5993017a8a5efdb00001', 6);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '4028b25d7a8a5993017a8a60910e0004', 7);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '4028b25d7a8a5993017a8a61b37f0005', 8);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '4028b25d7a8a5993017a8a5f95d70002', 9);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921336fc60012', '4028b25d7a8a5993017a8a6008e30003', 10);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b017921362c960013', '4028b25d791c335201791c5c52970002', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b01792136918f0014', '4028b25d791c335201791c5dd9240003', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b017921370e000015', '4028b25d791c335201791c5fa3850004', 1);
@@ -3410,6 +3484,9 @@ insert into cmdb_class_attribute_map values ('4028b88179210e1b0179215ce42d002e',
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179215d4b68002f', '4028b88179210e1b01792159017a0026', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179215dbbf80030', '4028b88179210e1b01792159687f0027', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b01792160f3010031', '4028b88179207446017920f72ed30015', 1);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b01792160f3010031', '4028b25d7916ef5f017917129c66000c', 2);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b01792160f3010031', '6ea67d6c6cb28def6b289affc6c95fd1', 3);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b01792160f3010031', '4028b25d791b75ac01791b777a240000', 4);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179216226d30032', '4028b25d791c335201791c88e4b30014', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b01792162e60f0033', '4028b25d791c335201791c91baa00015', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b017921643b830034', '4028b25d791c335201791c98e06e0016', 1);
@@ -3441,8 +3518,7 @@ insert into cmdb_class_attribute_map values ('4028b88179210e1b017921740c250043',
 insert into cmdb_class_attribute_map values ('4028b88179210e1b017921740c250043', '27caaeba596663101d55a09ec873a375', 2);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b017921740c250043', '4028b881792074460179209cef74000c', 3);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b017921740c250043', '4028b25d791b75ac01791bb0f9140002', 4);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b017921740c250043', '4028b25d791b75ac01791bb14a4d0003', 5);
-insert into cmdb_class_attribute_map values ('4028b88179210e1b017921740c250043', '189319790e6349c7248b9f50456ed47b', 6);
+insert into cmdb_class_attribute_map values ('4028b88179210e1b017921740c250043', '189319790e6349c7248b9f50456ed47b', 5);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179217798830044', '4028b25d7916ef5f017916f397230000', 1);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179217798830044', '4028b25d7916ef5f017916f594a70001', 2);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179217798830044', '4028b88179207446017920d8df1c000d', 3);
@@ -3453,6 +3529,52 @@ insert into cmdb_class_attribute_map values ('4028b88179210e1b0179217798830044',
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179217798830044', '4028b25d7916ef5f0179170df7c80009', 8);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179217798830044', '4028b25d7916ef5f0179170ee2c7000a', 9);
 insert into cmdb_class_attribute_map values ('4028b88179210e1b0179217798830044', '4028b25d7916ef5f01791711dc08000b', 10);
+insert into cmdb_class_attribute_map values ('4028b8817a8eeaa3017a8f15873f0006', '4028b8817a8eeaa3017a8f0b263e0000', 1);
+insert into cmdb_class_attribute_map values ('4028b8817a8eeaa3017a8f15873f0006', '4028b8817a8eeaa3017a8f0b97760001', 2);
+insert into cmdb_class_attribute_map values ('4028b8817a8eeaa3017a8f15873f0006', '4028b8817a8eeaa3017a8f0c231a0002', 3);
+insert into cmdb_class_attribute_map values ('4028b8817a8eeaa3017a8f15873f0006', '4028b8817a8eeaa3017a8f0c78660003', 4);
+insert into cmdb_class_attribute_map values ('4028b8817a8eeaa3017a8f15873f0006', '4028b8817a8eeaa3017a8f0d0aec0004', 5);
+insert into cmdb_class_attribute_map values ('4028b8817a8eeaa3017a8f15873f0006', '4028b8817a8eeaa3017a8f0d5e0d0005', 6);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f282cc10007', 1);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f288f020008', 2);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f297d640009', 3);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f29d2ac000a', 4);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f2a6796000b', 5);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f2ad6ea000c', 6);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f2b611f000d', 7);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f2cab18000e', 8);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f2d01d6000f', 9);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f2d60300010', 10);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '4028b8817a8eeaa3017a8f2e573f0011', 11);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f38b60d0000', '189319790e6349c7248b9f50456ed47b', 12);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f5b51700001' ,1);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6123360002' ,2);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f62f3d10003' ,3);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f63cdf60004' ,4);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6451ec0005' ,5);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f64b62c0006' ,6);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6587d60007' ,7);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6697260008' ,8);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6b9b180009' ,9);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6c041c000a' ,10);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6c8877000b' ,11);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6d490a000c' ,12);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6db3b8000d' ,13);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f7524b40010' ,14);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6e6999000e' ,15);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f6f4ff6000f' ,16);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f7610e60011' ,17);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f812a9c0012' ,18);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f81bf150013' ,19);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f821bfc0014' ,20);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f827a9a0015' ,21);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f82e2990016' ,22);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f83df0c0017' ,23);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f84329c0018' ,24);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f8551c80019' ,25);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f860fb7001a' ,26);
+insert into cmdb_class_attribute_map values ('4028b8817a8f3542017a8f9c365e001c' ,'4028b8817a8f3542017a8f8669aa001b' ,27);
+
 
 /**
  * CI 컴포넌트 - CI 세부 속성 임시 테이블

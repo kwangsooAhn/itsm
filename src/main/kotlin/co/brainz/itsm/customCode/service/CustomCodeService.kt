@@ -11,6 +11,7 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.component.service.ComponentService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
+import co.brainz.itsm.customCode.dto.CustomCodeConditionDto
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
@@ -33,7 +34,6 @@ import co.brainz.itsm.user.specification.UserCustomCodeSpecification
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.readValue
 import javax.persistence.Column
 import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.Sort
@@ -130,18 +130,6 @@ class CustomCodeService(
     }
 
     /**
-     * 사용중인 사용자 정의 코드 ID 리스트 조회.
-     *
-     * @return List<String>
-     */
-    fun getUsedCustomCodeIdList(): List<String> {
-        val parameters = LinkedHashMap<String, Any>()
-        parameters["componentType"] = CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE
-        parameters["componentAttribute"] = CustomCodeConstants.ATTRIBUTE_ID_DISPLAY
-        return componentService.getComponentDataCustomCodeIds(parameters)
-    }
-
-    /**
      * 사용자 정의 코드 테이블 리스트 조회.
      *
      * @return MutableList<CustomCodeTableDto>
@@ -174,11 +162,42 @@ class CustomCodeService(
     }
 
     /**
+     * 사용자 정의 조건에 부합하는 데이터 조회.
+     *
+     * @param customCodeId 커스텀 코드 ID
+     * @return List<CustomCodeDataDto>
+     */
+    fun getCustomCodeData(customCodeId: String): List<CustomCodeDataDto> {
+        val customCode = customCodeRepository.findByCustomCode(customCodeId)
+        return if (customCode.type == CustomCodeConstants.Type.TABLE.code) {
+            getTableTypeData(customCode)
+        } else {
+            getCodeTypeData(customCode)
+        }
+    }
+
+    /**
+     * 사용중인 사용자 정의 코드 ID 리스트 조회.
+     *
+     * @return List<String>
+     */
+    private fun getUsedCustomCodeIdList(): List<String> {
+        val parameters = LinkedHashMap<String, Any>()
+        parameters["componentType"] = CustomCodeConstants.COMPONENT_TYPE_CUSTOM_CODE
+        parameters["componentAttribute"] = CustomCodeConstants.ATTRIBUTE_ID_DISPLAY
+        return componentService.getComponentDataCustomCodeIds(parameters)
+    }
+
+    /**
      * 사용자 정의 코드 컬럼 이름 조회.
      *
      * @return String
      */
-    fun getCustomCodeColumnName(customCodeTable: String, customCodeColumn: String, customCodeType: String): String {
+    private fun getCustomCodeColumnName(
+        customCodeTable: String,
+        customCodeColumn: String,
+        customCodeType: String
+    ): String {
         return customCodeColumnRepository.findById(
             CustomCodeColumnPk(
                 customCodeTable = customCodeTable,
@@ -194,7 +213,7 @@ class CustomCodeService(
      * @param customCodeDto
      * @return String
      */
-    fun customCodeEditValid(customCodeDto: CustomCodeDto): String {
+    private fun customCodeEditValid(customCodeDto: CustomCodeDto): String {
         var code = CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code
         var isContinue = true
         val customCodeId = customCodeDto.customCodeId
@@ -222,30 +241,15 @@ class CustomCodeService(
     }
 
     /**
-     * 사용자 정의 조건에 부합하는 데이터 조회.
-     *
-     * @param customCodeId 커스텀 코드 ID
-     * @return List<CustomCodeDataDto>
-     */
-    fun getCustomCodeData(customCodeId: String): List<CustomCodeDataDto> {
-        val customCode = customCodeRepository.findByCustomCode(customCodeId)
-        return if (customCode.type == CustomCodeConstants.Type.TABLE.code) {
-            getTableTypeData(customCode)
-        } else {
-            getCodeTypeData(customCode)
-        }
-    }
-
-    /**
      * 타입이 테이블인 데이터 조회.
      *
      * @param customCode CustomCodeEntity
      * @return MutableList<CustomCodeDataDto>
      */
-    fun getTableTypeData(customCode: CustomCodeCoreDto): MutableList<CustomCodeDataDto> {
+    private fun getTableTypeData(customCode: CustomCodeCoreDto): MutableList<CustomCodeDataDto> {
         val customDataList = mutableListOf<CustomCodeDataDto>()
         var dataList = mutableListOf<Any>()
-        val condition = jsonToMapByCondition(customCode.condition)
+        val condition = jsonToArrayByCondition(customCode.condition)
         val sort = Sort(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
         when (customCode.targetTable) {
             CustomCodeConstants.TableName.ROLE.code -> {
@@ -286,7 +290,7 @@ class CustomCodeService(
      * @param customCode CustomCodeEntity
      * @return MutableList<CustomCodeDataDto>
      */
-    fun getCodeTypeData(customCode: CustomCodeCoreDto): MutableList<CustomCodeDataDto> {
+    private fun getCodeTypeData(customCode: CustomCodeCoreDto): MutableList<CustomCodeDataDto> {
         val customDataList = mutableListOf<CustomCodeDataDto>()
         val dataList = customCode.pCode?.let { codeService.getCodeListByCustomCode(it) }
         dataList?.forEach {
@@ -301,16 +305,16 @@ class CustomCodeService(
      * @param condition 조건
      * @return MutableMap<String, Any>
      */
-    fun jsonToMapByCondition(condition: String?): MutableMap<String, Any> {
+    private fun jsonToArrayByCondition(condition: String?): Array<CustomCodeConditionDto>? {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val jsonToMap: MutableMap<String, Any>? = condition?.let {
-            mapper.readValue(it)
+        val jsonToArray = mapper.readValue(condition, Array<CustomCodeConditionDto>::class.java)
+        jsonToArray?.forEach {
+            it.conditionKey = toCamelCase(it.conditionKey)
+            if (it.conditionKey == "useYn") {
+                it.conditionValue = it.conditionValue == "true"
+            }
         }
-        val result = mutableMapOf<String, Any>()
-        jsonToMap?.forEach {
-            result[toCamelCase(it.key)] = it.value
-        }
-        return result
+        return jsonToArray
     }
 
     /**
@@ -319,7 +323,7 @@ class CustomCodeService(
      * @param text
      * @return String
      */
-    fun toCamelCase(text: String): String {
+    private fun toCamelCase(text: String): String {
         var camelText = text
         while (camelText.indexOf("_") > -1) {
             camelText = camelText.replaceFirst(

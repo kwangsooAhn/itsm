@@ -4,6 +4,7 @@ object CIClassConstants {
 
     enum class Status(val code: String) {
         STATUS_SUCCESS("0"),
-        STATUS_SUCCESS_EDIT_CLASS("1")
+        STATUS_SUCCESS_EDIT_CLASS("1"),
+        STATUS_FAILE_CLASS_HAVE_TYPE("2")
     }
 }

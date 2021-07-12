@@ -26,6 +26,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.typeName,
                     ciType.typeDesc,
                     ciType.typeLevel,
+                    ciType.typeSeq,
                     ciType.typeAlias,
                     ciType.pType.typeId,
                     ciType.pType.typeName,
@@ -50,6 +51,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.typeName,
                     ciType.typeDesc,
                     ciType.typeLevel,
+                    ciType.typeSeq,
                     ciType.typeAlias,
                     ciType.pType.typeId,
                     ciType.pType.typeName,
@@ -65,7 +67,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.typeName, searchDto.search
                 )
             )
-            .orderBy(ciType.typeLevel.asc(), ciType.typeName.asc())
+            .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc(), ciType.typeName.asc())
         if (searchDto.limit != null) {
             query.limit(searchDto.limit)
         }
@@ -84,14 +86,14 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.typeName, search
                 )
             )
-            .orderBy(ciType.typeLevel.asc(), ciType.typeName.asc())
+            .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc(), ciType.typeName.asc())
             .fetchResults()
     }
 
     override fun findByCITypeAll(): List<CITypeEntity>? {
         val ciType = QCITypeEntity.cITypeEntity
         return from(ciType)
-            .orderBy(ciType.typeLevel.asc())
+            .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc())
             .fetch()
     }
 }

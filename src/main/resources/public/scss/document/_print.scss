@@ -5,74 +5,51 @@
  * @author wdj
  * @version 1.0
  */
-.print {
-  width: 100vw;
-  height: 100vh;
+.#{$common-prefix}print {
+  margin: 1cm auto;
+
+  .#{$common-prefix}print-main-header {
+    line-height: 1.2;
+    margin: 0 0 10mm 0;
+  }
+  .#{$common-prefix}form {
+    box-shadow: none;
+    // 인쇄시 모든 동작을 막음
+    input, textarea, button, select,
+    .dropzone, .ql-toolbar,
+    label.radio, label.checkbox {
+      pointer-events: none;
+    }
+  }
+}
+
+@page {
+  size: A4;
   margin: 0;
-  padding: 0;
-
-  .print-main {
-    min-width: 100vw;
-    height: 100vh;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    overflow: auto;
-    @include scrollbarHidden;
-
-    .print-main-header {
-      width: 100vw;
-      margin: 0.9375rem; // 15px
-
-      span {
-        line-height: 1.2;
-      }
-    }
-
-    .print-area {
-      min-height: 100%;
-    }
-
-    // 폼이 그려지는 영역
-    .drawing-board {
-      display: table;
-      width: 710px; // 710px
-      min-height: 100%;
-      margin: 0.9375rem; // 15px
-      padding: $drawing-board-padding;
-      background-color: $drawing-board-bg-color;
-      border: $drawing-board-border;
-      
-      & *:focus {
-        outline: none !important;
-      }
-      .component {
-        page-break-inside: always;
-        &:hover {
-          .move-handler { opacity: 0; }
-        }
-      }
-    }
-  }
 }
-
 @media print {
-  body {
-    width: 21cm;
-    height: 29.7cm;
-    margin: 20mm auto;
+  html, body {
+    width: 210mm;
+    height: 297mm;
   }
+  .#{$common-prefix}print {
+    padding: 0mm 20mm;
+    margin: 0;
+    border: initial;
+    border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;
+    background: initial;
+    page-break-after: always;
 
-  .print {
-    width: 100%;
-    .print-main {
-      min-width: 0;
+    .#{$common-prefix}print-main-header {
+      margin: 0 0 10mm 0;
+    }
 
-      .print-main-header {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-      }
+    .#{$common-prefix}form {
+      box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
     }
   }
 }
+

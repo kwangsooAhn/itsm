@@ -356,32 +356,37 @@ cmdb:
       name: "이름"
       pClassName: "부모 Class"
       searchPlaceholder: "Class 명 / 설명"
+      seq: "정렬 순서"
     msg:
       confirmDeleteAttribute: "속성을 삭제하시겠습니까?"
-      enterAttributeList: "부모 속성목록을 제외한 본인 속성목록은<br>반드시 1개 이상이여야 합니다."
       editDescription: "CI Class를 조회 및 관리합니다."
+      enterAttributeList: "부모 속성목록을 제외한 본인 속성목록은<br>반드시 1개 이상이여야 합니다."
       enterClassName: "Class 이름을 입력하세요."
+      enterClassSeq: "정렬 순서를 입력하세요."
+      relatedTypes: "관련된 Type이 있습니다."
     btn:
       import: "가져오기"
       export: "내보내기"
   type:
     label:
       alias: "식별자"
-      management: "Type 관리"
-      searchPlaceholder: "Type"
-      parentType: "부모 Type"
-      name: "Type 명"
+      class: "Class"
       description: "설명"
       icon: "아이콘"
-      class: "Class"
+      management: "Type 관리"
+      name: "Type 명"
+      parentType: "부모 Type"
+      searchPlaceholder: "Type"
+      seq: "정렬 순서"
     msg:
-      searchDescription: "CI Type을 조회 및 관리합니다."
       enterPType: "부모 Type을 선택하세요."
       enterTypeAlias: "식별자를 입력하세요."
       enterTypeName: "Type 명을 입력하세요."
-      selectType: "Type을 선택하세요."
+      enterTypeSeq: "정렬 순서를 입력하세요."
+      searchDescription: "CI Type을 조회 및 관리합니다."
       selectAvailableClass: "유효한 Class를 선택하세요."
       selectAvailableType: "유효한 Type를 선택하세요."
+      selectType: "Type을 선택하세요."
     btn:
       import: "가져오기"
       export: "내보내기"
@@ -450,6 +455,7 @@ customCode:
     searchDescription: "프로세스와 문서양식에서 사용하는 커스텀 코드를 조회 및 관리합니다."
     selectNotDuplicateSearchColumn: "조건 항목에 검색 컬럼을 중복 없이 선택하세요."
     viewDescription: "프로세스와 문서양식에서 사용하는 커스텀 코드에 대한 상세 정보를 조회합니다."
+    checkUseYnValue: "사용자 사용 여부는 true 혹은 false 값만 입력 가능합니다."
 
 # Dashboard
 dashboard:

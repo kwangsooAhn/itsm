@@ -8,8 +8,7 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -57,7 +56,7 @@ class DocumentController(
      */
     @GetMapping("/{documentId}/print")
     fun getDocumentPrint(@PathVariable documentId: String, model: Model, request: HttpServletRequest): String {
-        model.addAttribute("time", ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")))
+        model.addAttribute("time", LocalDateTime.now())
         return documentPrintPage
     }
 }

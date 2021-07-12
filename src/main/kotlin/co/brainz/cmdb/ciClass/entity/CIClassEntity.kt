@@ -45,6 +45,9 @@ data class CIClassEntity(
     @Column(name = "class_level")
     var classLevel: Int? = null,
 
+    @Column(name = "class_seq")
+    var classSeq: Int? = null,
+
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 
