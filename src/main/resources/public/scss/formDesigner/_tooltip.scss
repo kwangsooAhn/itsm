@@ -29,23 +29,23 @@
 }
 
 // clipboard - 복사 용도
-.clipboard-tooltip {
+.#{$common-prefix}clipboard-tooltip {
   position: relative;
   display: inline-block;
   margin-left: 0.3125rem; // 5px
   cursor: pointer;
 
   &:hover {
-    .clipboard-tooltip-text {
+    .#{$common-prefix}clipboard-tooltip-text {
       visibility: visible;
       opacity: 1;
     }
   }
 
-  .clipboard-tooltip-text {
-    visibility: hidden;
-    position: absolute;
+  .#{$common-prefix}clipboard-tooltip-text {
+    @include absolute($left: 50%, $bottom: 120%);
     width: 9.375rem; //150px
+    font-family: $clipboard-tooltip-font-family;
     font-size: $clipboard-tooltip-font-size;
     font-weight: $clipboard-tooltip-font-weight;
     color: $clipboard-tooltip-font-color;
@@ -54,18 +54,15 @@
     @include borderRadius($clipboard-tooltip-border-radius);
     text-align: center;
     padding: 0.313rem; // 5px
-    z-index: $z-index-tooltip;
-    bottom: 120%;
-    left: 50%;
     margin-left: -8.125rem; // -130px
     opacity: 0;
-    transition: opacity 0.3s;
+    @include transition(opacity 0.3s);
+    visibility: hidden;
+    z-index: $z-index-tooltip;
 
     &::after {
+      @include absolute($top: 100%, $left: 50%);
       content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
       margin-left: -0.313rem; // -5px
     }
   }

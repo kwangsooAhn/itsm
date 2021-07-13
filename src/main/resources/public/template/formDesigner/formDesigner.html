@@ -56,8 +56,8 @@
                 <div class="buttons flex-row">
                     <!--실행 취소-->
                     <th:block th:if="${#strings.isEmpty(isView)}">
-                        <button type="button" id="btnUndo" class="btn-header header-tooltip">
-                            <span class="icon-undo"></span>
+                        <button type="button" id="btnUndo" class="z-header-button z-button-icon light-extra header-tooltip">
+                            <span class="z-icon i-undo"></span>
                             <div class="tooltip-contents">
                                 <span th:text="#{form.label.undo}"></span>
                             </div>
@@ -65,8 +65,8 @@
                     </th:block>
                     <!--재실행(드롭다운)-->
                     <th:block th:if="${#strings.isEmpty(isView)}">
-                        <button type="button" class="btn-header btn-dropdown">
-                            <span class="icon-dropdown"></span>
+                        <button type="button" class="z-header-button z-button-icon light-extra btn-dropdown">
+                            <span class="z-icon i-dropdown"></span>
                             <ul class="dropdown-content">
                                 <li class="dropdown-item align-left" id="btnUndo">
                                     <span th:text="#{form.label.undo}"></span>
@@ -78,16 +78,16 @@
                         </button>
                     </th:block>
                     <!--미리보기-->
-                    <button type="button" id="btnPreview" class="btn-header header-tooltip ml-auto">
-                        <span class="icon-preview"></span>
+                    <button type="button" id="btnPreview" class="z-header-button z-button-icon light-extra header-tooltip ml-auto">
+                        <span class="z-icon i-preview"></span>
                         <div class="tooltip-contents">
                             <span th:text="#{form.label.preview}"></span>
                         </div>
                     </button>
                     <!--저장하기-->
                     <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
-                        <button type="button" id="btnSave" class="btn-header header-tooltip">
-                            <span class="icon-save"></span>
+                        <button type="button" id="btnSave" class="z-header-button z-button-icon light-extra header-tooltip">
+                            <span class="z-icon i-save"></span>
                             <div class="tooltip-contents">
                                 <span th:text="#{common.btn.save}"></span>
                             </div>
@@ -95,8 +95,8 @@
                     </th:block>
                     <!--다른 이름으로 저장(드롭다운)-->
                     <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                        <button type="button" class="btn-header btn-dropdown">
-                            <span class="icon-dropdown"></span>
+                        <button type="button" class="z-header-button z-button-icon light-extra btn-dropdown">
+                            <span class="z-icon i-dropdown"></span>
                             <ul class="dropdown-content">
                                 <li class="dropdown-item align-left">
                                     <span th:text="#{common.btn.save}" id="btnSave"></span>
@@ -253,7 +253,9 @@
 </template>
 <template id="documentModalTemplate">
     <div class="document-main preview flex-column align-items-center">
-        <div class="document-main-header flex-row justify-content-end align-items-center" id="documentMainHeader"></div>
+        <div class="document-main-header flex-row justify-content-end align-items-center">
+            <div class="z-button-area" id="documentButtonArea"></div>
+        </div>
         <div class="drawing-board" id="documentDrawingBoard"></div>
     </div>
 </template>

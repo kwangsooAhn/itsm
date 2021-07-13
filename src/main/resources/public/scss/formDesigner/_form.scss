@@ -204,13 +204,6 @@
       }
     }
 
-    // Custom-code 컴포넌트
-    .#{$common-prefix}input-button {
-      .#{$common-prefix}button-search {
-        padding: 0.625rem; // 10px
-      }
-    }
-
     // CI 컴포넌트
     .#{$common-prefix}ci-table {
       width: 100%;
@@ -223,9 +216,6 @@
           @include border(0.0625rem, solid, $component-ciTable-border-color, bottom, right);
 
           &.on { display: table-cell; }
-          //&.first-column { @include border(0.0625rem, solid, transparent, left); }
-          //&.last-column { @include border(0.0625rem, solid, transparent, right); }
-          .#{$common-prefix}button { padding: 0; }
         }
       }
       // 제목
@@ -262,13 +252,6 @@
           @include border(0.0625rem, solid, $component-drTable-border-color, bottom, right);
 
           &.on { display: table-cell; }
-          .#{$common-prefix}button {
-            padding: 0;
-            .icon-close {
-              display: inline-block;
-              @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, map-get($grays, "pressed")); // 14px
-            }
-          }
         }
       }
       // 제목
@@ -291,13 +274,6 @@
       height: 2.5rem;
       line-height: 2rem;
       padding-top: 0.625rem;
-      .#{$common-prefix}button {
-        padding: 0;
-        .icon-plus {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $blue);
-        }
-      }
     }
   }
 }

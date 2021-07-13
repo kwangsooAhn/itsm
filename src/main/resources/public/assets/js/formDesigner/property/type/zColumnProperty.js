@@ -99,9 +99,10 @@ export default class ZColumnProperty extends ZProperty {
 
         // tab panel > tagGroup > addButton : 컬럼 추가 버튼
         this.UITabPanel.tabGroup.addButton = new UIButton()
-            .addUIClass('ghost-line')
+            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .addUIClass('extra')
             .addUIClass((this.value.length > FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
-            .addUI(new UISpan().addUIClass('icon').addUIClass('icon-plus'))
+            .addUI(new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-plus'))
             .onUIClick(this.addColumn.bind(this, { columnType: 'input' }, -1));
         this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
 
@@ -118,10 +119,10 @@ export default class ZColumnProperty extends ZProperty {
         }
         // tab 버튼
         const tab = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'tab')
-            .addUIClass('ghost-line')
+            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .addUIClass(CLASS_PREFIX + 'tab')
             .setUIId('column' + index)
-            .addUI(new UISpan().addUIClass('icon').addUIClass('icon-checkbox'))
+            .addUI(new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-check'))
             .onUIClick(this.selectColumn.bind(this, 'column' + index));
         this.UITabPanel.tabGroup.addUI(tab);
         this.tabs.push(tab);
@@ -155,14 +156,14 @@ export default class ZColumnProperty extends ZProperty {
         const columnCommonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'panel-common');
         // 순서 변경 < > 버튼 추가
         const arrowLeftButton = new UIButton()
-            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-arrow-left'))
+            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-arrow-left'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, - 1));
         const arrowRightButton = new UIButton()
-            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-arrow-right'))
+            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-arrow-right'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, + 1));
         // 패널 삭제 버튼 추가
         const deleteButton = new UIButton().addUIClass('panel-delete-button')
-            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-delete'))
+            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-delete'))
             .onUIClick(this.removeColumn.bind(this, 'column' + index));
 
         columnCommonGroup.addUI(
@@ -304,17 +305,17 @@ export default class ZColumnProperty extends ZProperty {
 
         // head - align
         const columnHeadAlignProperty = new ZSwitchButtonProperty(id + '|columnHead.align', 'columnHead.align', option.columnHead.align, [
-            { 'name': 'icon-align-left', 'value': 'left' },
-            { 'name': 'icon-align-center', 'value': 'center' },
-            { 'name': 'icon-align-right', 'value': 'right' }
+            { 'name': 'i-align-left', 'value': 'left' },
+            { 'name': 'i-align-center', 'value': 'center' },
+            { 'name': 'i-align-right', 'value': 'right' }
         ]);
         columnHeadAlignProperty.columnWidth = '6';
 
         // head - fontOption
         const columnHeadFontOption = [
-            { 'name': 'icon-bold', 'value': 'bold'},
-            { 'name': 'icon-italic', 'value': 'italic' },
-            { 'name': 'icon-underline', 'value': 'underline' }
+            { 'name': 'i-bold', 'value': 'bold'},
+            { 'name': 'i-italic', 'value': 'italic' },
+            { 'name': 'i-underline', 'value': 'underline' }
         ];
         const columnHeadFontValue = columnHeadFontOption.map((item) => option.columnHead[item.value] ? 'Y' : 'N').join('|');
         const columnHeadFontOptionProperty = new ZToggleButtonProperty(id + '|columnHead.', 'columnHead.fontOption', columnHeadFontValue, columnHeadFontOption);
@@ -333,17 +334,17 @@ export default class ZColumnProperty extends ZProperty {
 
         // content - align
         const columnContentAlignProperty = new ZSwitchButtonProperty(id + '|columnContent.align', 'columnContent.align', option.columnContent.align, [
-            { 'name': 'icon-align-left', 'value': 'left' },
-            { 'name': 'icon-align-center', 'value': 'center' },
-            { 'name': 'icon-align-right', 'value': 'right' }
+            { 'name': 'i-align-left', 'value': 'left' },
+            { 'name': 'i-align-center', 'value': 'center' },
+            { 'name': 'i-align-right', 'value': 'right' }
         ]);
         columnContentAlignProperty.columnWidth = '6';
 
         // content - fontOption
         const columnContentFontOption = [
-            { 'name': 'icon-bold', 'value': 'bold'},
-            { 'name': 'icon-italic', 'value': 'italic' },
-            { 'name': 'icon-underline', 'value': 'underline' }
+            { 'name': 'i-bold', 'value': 'bold'},
+            { 'name': 'i-italic', 'value': 'italic' },
+            { 'name': 'i-underline', 'value': 'underline' }
         ];
         const columnContentFontValue = columnContentFontOption.map((item) => option.columnContent[item.value] ? 'Y' : 'N').join('|');
         const columnContentFontOptionProperty = new ZToggleButtonProperty(id + '|columnContent.', 'columnContent.fontOption', columnContentFontValue, columnContentFontOption);

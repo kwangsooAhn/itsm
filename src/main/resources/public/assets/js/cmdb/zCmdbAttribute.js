@@ -72,23 +72,23 @@
         }
         let attributeObject = null;
         switch (attributeType) {
-        case 'inputbox':
-            attributeObject =  new InputBox(attributesProperty);
-            break;
-        case 'dropdown':
-            attributeObject =  new Dropdown(attributesProperty);
-            break;
-        case 'radio':
-            attributeObject = new Radiobox(attributesProperty);
-            break;
-        case 'checkbox':
-            attributeObject = new Checkbox(attributesProperty);
-            break;
-        case 'custom-code':
-            attributeObject = new CustomCode(attributesProperty);
-            break;
-        default:
-            break;
+            case 'inputbox':
+                attributeObject =  new InputBox(attributesProperty);
+                break;
+            case 'dropdown':
+                attributeObject =  new Dropdown(attributesProperty);
+                break;
+            case 'radio':
+                attributeObject = new Radiobox(attributesProperty);
+                break;
+            case 'checkbox':
+                attributeObject = new Checkbox(attributesProperty);
+                break;
+            case 'custom-code':
+                attributeObject = new CustomCode(attributesProperty);
+                break;
+            default:
+                break;
         }
         return attributeObject;
     }
@@ -158,7 +158,7 @@
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="default-line plus"><span class="icon-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -172,7 +172,7 @@
                 `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -201,7 +201,7 @@
     function Radiobox(property) {
         const objectId = attributeTypeList[2].type; // radio
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="default-line plus"><span class="icon-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -215,7 +215,7 @@
                 `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -244,7 +244,7 @@
     function Checkbox(property) {
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="default-line plus"><span class="icon-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -260,7 +260,7 @@
                 `<div class="flex-column col-4 mr-4"><input type="text" class="z-input" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label></div>` +
                 `<div class="flex-column col-1"><input type="checkbox"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -425,67 +425,67 @@
     function setDetails(attributeType) {
         let details = {};
         switch (attributeType) {
-        case 'inputbox':
-            details.validate = parent.querySelector('#' + attributeTypeList[0].type + '-validation').value;
-            details.required = parent.querySelector('#' + attributeTypeList[0].type + '-required').value;
-            details.maxLength = parent.querySelector('#' + attributeTypeList[0].type + '-maxLength').value;
-            details.minLength = parent.querySelector('#' + attributeTypeList[0].type + '-minLength').value;
-            break;
-        case 'dropdown':
-            let dropdownOption = [];
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
-                dropdownOption.push({
-                    text: object.querySelectorAll('input')[0].value.trim(),
-                    value: object.querySelectorAll('input')[1].value.trim()
-                });
-            });
-            details.option = dropdownOption;
-            break;
-        case 'radio':
-            let radioOption = [];
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
-                radioOption.push({
-                    text: object.querySelectorAll('input')[0].value.trim(),
-                    value: object.querySelectorAll('input')[1].value.trim()
-                });
-            });
-            details.option = radioOption;
-            break;
-        case 'checkbox':
-            let checkOption = [];
-            document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
-                checkOption.push({
-                    text: object.querySelectorAll('input')[0].value.trim(),
-                    value: object.querySelectorAll('input')[1].value.trim(),
-                    checked: object.querySelectorAll('input')[2].checked,
-                });
-            });
-            details.option = checkOption;
-            break;
-        case 'custom-code':
-            details.required = parent.querySelector('#' + attributeTypeList[4].type + '-required').value;
-            const defaultType = document.querySelector('input[name="custom-code-default"]:checked').value;
-            let defaultValue = '';
-            switch (defaultType) {
-            case 'session':
-                defaultValue = parent.querySelector('#' + attributeTypeList[4].type + '-default-session').value;
+            case 'inputbox':
+                details.validate = parent.querySelector('#' + attributeTypeList[0].type + '-validation').value;
+                details.required = parent.querySelector('#' + attributeTypeList[0].type + '-required').value;
+                details.maxLength = parent.querySelector('#' + attributeTypeList[0].type + '-maxLength').value;
+                details.minLength = parent.querySelector('#' + attributeTypeList[0].type + '-minLength').value;
                 break;
-            case 'code':
-                const codeSelect = parent.querySelector('#' + attributeTypeList[4].type + '-default-code');
-                defaultValue = codeSelect.value + '|' + codeSelect.options[codeSelect.selectedIndex].text;
+            case 'dropdown':
+                let dropdownOption = [];
+                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                    dropdownOption.push({
+                        text: object.querySelectorAll('input')[0].value.trim(),
+                        value: object.querySelectorAll('input')[1].value.trim()
+                    });
+                });
+                details.option = dropdownOption;
+                break;
+            case 'radio':
+                let radioOption = [];
+                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                    radioOption.push({
+                        text: object.querySelectorAll('input')[0].value.trim(),
+                        value: object.querySelectorAll('input')[1].value.trim()
+                    });
+                });
+                details.option = radioOption;
+                break;
+            case 'checkbox':
+                let checkOption = [];
+                document.querySelectorAll('#details > .flex-row:not(:first-child)').forEach(function (object) {
+                    checkOption.push({
+                        text: object.querySelectorAll('input')[0].value.trim(),
+                        value: object.querySelectorAll('input')[1].value.trim(),
+                        checked: object.querySelectorAll('input')[2].checked,
+                    });
+                });
+                details.option = checkOption;
+                break;
+            case 'custom-code':
+                details.required = parent.querySelector('#' + attributeTypeList[4].type + '-required').value;
+                const defaultType = document.querySelector('input[name="custom-code-default"]:checked').value;
+                let defaultValue = '';
+                switch (defaultType) {
+                    case 'session':
+                        defaultValue = parent.querySelector('#' + attributeTypeList[4].type + '-default-session').value;
+                        break;
+                    case 'code':
+                        const codeSelect = parent.querySelector('#' + attributeTypeList[4].type + '-default-code');
+                        defaultValue = codeSelect.value + '|' + codeSelect.options[codeSelect.selectedIndex].text;
+                        break;
+                    default:
+                        break;
+                }
+                details.customCode = parent.querySelector('#' + attributeTypeList[4].type + '-select').value;
+                details.default = {
+                    type: defaultType,
+                    value: defaultValue
+                };
+                details.button = parent.querySelector('#' + attributeTypeList[4].type + '-button').value;
                 break;
             default:
                 break;
-            }
-            details.customCode = parent.querySelector('#' + attributeTypeList[4].type + '-select').value;
-            details.default = {
-                type: defaultType,
-                value: defaultValue
-            };
-            details.button = parent.querySelector('#' + attributeTypeList[4].type + '-button').value;
-            break;
-        default:
-            break;
         }
 
         return details;
@@ -519,200 +519,200 @@
 
                 const attributeValue = (attributes.attributeValue === null) ? '' : JSON.parse(attributes.attributeValue);
                 switch (attributes.attributeType) {
-                case 'inputbox':
-                    const inputElem = document.createElement('input');
-                    inputElem.type = 'text';
-                    inputElem.className = 'z-input';
-                    inputElem.id = attributes.attributeId;
-                    inputElem.value = attributes.value;
-                    if (attributeValue !== '') {
-                        if (attributeValue.required === 'true') {
-                            inputElem.required = true;
-                            inputElem.setAttribute('data-validation-required', 'true');
-                            inputElem.setAttribute('data-validation-required-name', attributes.attributeText);
-                            labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
-                        }
-                        // 유효성 검증
-                        inputElem.addEventListener('keyup', function (e) {
-                            e.preventDefault();
-                            let userKeyCode = e.keyCode ? e.keyCode : e.which;
-                            if (userKeyCode === 13) {
-                                return false;
-                            } else {
-                                const elem = e.target;
-                                if (attributeValue.validate === 'char') {
-                                    isValidNumber(elem.id, true);
-                                } else if (attributeValue.validate === 'number') {
-                                    isValidChar(elem.id, true);
-                                }
-
-                                if (attributeValue.maxLength !== '') {
-                                    isValidMaxLength(elem.id, attributeValue.maxLength, true);
-                                }
-                                if (attributeValue.minLength !== '') {
-                                    isValidMinLength(elem.id, attributeValue.minLength, true);
-                                }
-                            }
-                        });
-                    }
-                    childAttributeElem.appendChild(inputElem);
-                    break;
-                case 'dropdown':
-                    const selectElem = document.createElement('select');
-                    selectElem.id = attributes.attributeId;
-                    if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
-                        for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
-                            const attributeOption = attributeValue.option[opt];
-                            const selectOption = document.createElement('option');
-                            selectOption.textContent = attributeOption.text;
-                            selectOption.value = attributeOption.value;
-                            if (selectOption.value === attributes.value) {
-                                selectOption.selected = true;
-                            }
-                            selectElem.appendChild(selectOption);
-                        }
-                    }
-                    childAttributeElem.appendChild(selectElem);
-                    break;
-                case 'radio':
-                    if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
-                        for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
-                            const attributeOption = attributeValue.option[opt];
-                            const radioGroup = document.createElement('label');
-                            radioGroup.className = 'radio';
-                            radioGroup.tabindex = 0;
-                            radioGroup.htmlFor = attributes.attributeId + '-' + opt;
-
-                            const radio = document.createElement('input');
-                            radio.type = 'radio';
-                            radio.id = attributes.attributeId + '-' + opt;
-                            radio.name = 'attribute-radio';
-                            radio.value = attributeOption.value;
-                            if (attributeOption.value === attributes.value) {
-                                radio.checked = true;
-                            }
-                            if (attributes.value === '' && opt === 0) {
-                                radio.checked = true;
-                            }
-                            radioGroup.appendChild(radio);
-
-                            const radioSpan = document.createElement('span');
-                            radioGroup.appendChild(radioSpan);
-
-                            const radioLabel = document.createElement('span');
-                            radioLabel.className = 'label';
-                            radioLabel.textContent = attributeOption.text;
-                            radioGroup.appendChild(radioLabel);
-                            childAttributeElem.appendChild(radioGroup);
-                        }
-                    }
-                    break;
-                case 'checkbox':
-                    if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
-                        for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
-                            const attributeOption = attributeValue.option[opt];
-                            const chkGroup = document.createElement('label');
-                            chkGroup.className = 'checkbox';
-                            chkGroup.tabindex = 0;
-                            chkGroup.htmlFor = attributes.attributeId + '-' + opt;
-
-                            const chk = document.createElement('input');
-                            chk.type = 'checkbox';
-                            chk.id = attributes.attributeId + '-' + opt;
-                            chk.name = 'attribute-checkbox';
-                            chk.value = attributeOption.value;
-                            if (attributes.value != null) {
-                                if (attributes.value.indexOf(attributeOption.value ) > -1) {
-                                    chk.checked = true;
-                                }
-                            } else {
-                                if (attributeOption.checked) {
-                                    chk.checked = true;
-                                }
-                            }
-                            chkGroup.appendChild(chk);
-
-                            const chkSpan = document.createElement('span');
-                            chkGroup.appendChild(chkSpan);
-
-                            const chkLabel = document.createElement('span');
-                            chkLabel.className = 'label';
-                            chkLabel.textContent = attributeOption.text;
-                            chkGroup.appendChild(chkLabel);
-                            childAttributeElem.appendChild(chkGroup);
-                        }
-                    }
-                    break;
-                case 'custom-code':
-                    let customValueArr = '';
-                    if (attributes.value !== null) {
-                        customValueArr = attributes.value.split('|');
-                    } else {
+                    case 'inputbox':
+                        const inputElem = document.createElement('input');
+                        inputElem.type = 'text';
+                        inputElem.className = 'z-input';
+                        inputElem.id = attributes.attributeId;
+                        inputElem.value = attributes.value;
                         if (attributeValue !== '') {
-                            customValueArr = attributeValue.default.value.split('|');
-                        }
-                    }
-
-                    const inputButtonElem = document.createElement('div');
-                    inputButtonElem.id = attributes.attributeId;
-                    inputButtonElem.className = 'flex-row input-button';
-
-                    const customInputElem = document.createElement('input');
-                    customInputElem.type = 'text';
-                    customInputElem.className = 'z-input col-pct-12 inherit';
-                    customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
-                    customInputElem.readOnly = true;
-                    inputButtonElem.appendChild(customInputElem);
-
-                    const customBtnElem = document.createElement('button');
-                    customBtnElem.type = 'button';
-                    customBtnElem.className = 'default-line';
-                    inputButtonElem.appendChild(customBtnElem);
-
-                    let customData = attributes.value; // 'key|값'
-                    let defaultValue = '';
-                    if (attributeValue !== '') {
-                        customBtnElem.textContent = attributeValue.button;
-                        // 커스텀 코드 기본 값 넣기
-                        if (attributes.value === '' || attributes.value === null) {
-                            switch (attributeValue.default.type) {
-                            case 'session':
-                                if (attributeValue.default.value === 'userName') {
-                                    customData = userInfo.userKey + '|' + userInfo.userName;
-                                    defaultValue = userInfo.userName;
-                                } else if (attributeValue.default.value === 'department') {
-                                    customData = userInfo.department + '|' + userInfo.departmentName;
-                                    defaultValue = userInfo.departmentName;
-                                }
-                                break;
-                            case 'code':
-                                customData = attributeValue.default.value;
-                                defaultValue = customData.split('|')[1];
-                                break;
-                            default: //none
-                                customData = attributeValue.default.type + '|';
-                                break;
+                            if (attributeValue.required === 'true') {
+                                inputElem.required = true;
+                                inputElem.setAttribute('data-validation-required', 'true');
+                                inputElem.setAttribute('data-validation-required-name', attributes.attributeText);
+                                labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                             }
-                            customInputElem.value = defaultValue;
-                        }
-                        customInputElem.setAttribute('value', defaultValue);
-                        customInputElem.setAttribute('custom-data', customData);
+                            // 유효성 검증
+                            inputElem.addEventListener('keyup', function (e) {
+                                e.preventDefault();
+                                let userKeyCode = e.keyCode ? e.keyCode : e.which;
+                                if (userKeyCode === 13) {
+                                    return false;
+                                } else {
+                                    const elem = e.target;
+                                    if (attributeValue.validate === 'char') {
+                                        isValidNumber(elem.id, true);
+                                    } else if (attributeValue.validate === 'number') {
+                                        isValidChar(elem.id, true);
+                                    }
 
-                        customBtnElem.addEventListener('click', function () {
-                            const customCodeData = {
-                                componentId: attributes.attributeId,
-                                componentValue: customInputElem.getAttribute('custom-data')
-                            };
-                            const itemName = 'alice_custom-codes-search-' + attributes.attributeId;
-                            sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
-                            let url = '/custom-codes/' + attributeValue.customCode+ '/search';
-                            window.open(url, itemName, 'width=500, height=655');
-                        });
-                    }
-                    childAttributeElem.appendChild(inputButtonElem);
-                    break;
-                default:
-                    break;
+                                    if (attributeValue.maxLength !== '') {
+                                        isValidMaxLength(elem.id, attributeValue.maxLength, true);
+                                    }
+                                    if (attributeValue.minLength !== '') {
+                                        isValidMinLength(elem.id, attributeValue.minLength, true);
+                                    }
+                                }
+                            });
+                        }
+                        childAttributeElem.appendChild(inputElem);
+                        break;
+                    case 'dropdown':
+                        const selectElem = document.createElement('select');
+                        selectElem.id = attributes.attributeId;
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
+                                const selectOption = document.createElement('option');
+                                selectOption.textContent = attributeOption.text;
+                                selectOption.value = attributeOption.value;
+                                if (selectOption.value === attributes.value) {
+                                    selectOption.selected = true;
+                                }
+                                selectElem.appendChild(selectOption);
+                            }
+                        }
+                        childAttributeElem.appendChild(selectElem);
+                        break;
+                    case 'radio':
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
+                                const radioGroup = document.createElement('label');
+                                radioGroup.className = 'radio';
+                                radioGroup.tabindex = 0;
+                                radioGroup.htmlFor = attributes.attributeId + '-' + opt;
+
+                                const radio = document.createElement('input');
+                                radio.type = 'radio';
+                                radio.id = attributes.attributeId + '-' + opt;
+                                radio.name = 'attribute-radio';
+                                radio.value = attributeOption.value;
+                                if (attributeOption.value === attributes.value) {
+                                    radio.checked = true;
+                                }
+                                if (attributes.value === '' && opt === 0) {
+                                    radio.checked = true;
+                                }
+                                radioGroup.appendChild(radio);
+
+                                const radioSpan = document.createElement('span');
+                                radioGroup.appendChild(radioSpan);
+
+                                const radioLabel = document.createElement('span');
+                                radioLabel.className = 'label';
+                                radioLabel.textContent = attributeOption.text;
+                                radioGroup.appendChild(radioLabel);
+                                childAttributeElem.appendChild(radioGroup);
+                            }
+                        }
+                        break;
+                    case 'checkbox':
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
+                                const chkGroup = document.createElement('label');
+                                chkGroup.className = 'checkbox';
+                                chkGroup.tabindex = 0;
+                                chkGroup.htmlFor = attributes.attributeId + '-' + opt;
+
+                                const chk = document.createElement('input');
+                                chk.type = 'checkbox';
+                                chk.id = attributes.attributeId + '-' + opt;
+                                chk.name = 'attribute-checkbox';
+                                chk.value = attributeOption.value;
+                                if (attributes.value != null) {
+                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                        chk.checked = true;
+                                    }
+                                } else {
+                                    if (attributeOption.checked) {
+                                        chk.checked = true;
+                                    }
+                                }
+                                chkGroup.appendChild(chk);
+
+                                const chkSpan = document.createElement('span');
+                                chkGroup.appendChild(chkSpan);
+
+                                const chkLabel = document.createElement('span');
+                                chkLabel.className = 'label';
+                                chkLabel.textContent = attributeOption.text;
+                                chkGroup.appendChild(chkLabel);
+                                childAttributeElem.appendChild(chkGroup);
+                            }
+                        }
+                        break;
+                    case 'custom-code':
+                        let customValueArr = '';
+                        if (attributes.value !== null) {
+                            customValueArr = attributes.value.split('|');
+                        } else {
+                            if (attributeValue !== '') {
+                                customValueArr = attributeValue.default.value.split('|');
+                            }
+                        }
+
+                        const inputButtonElem = document.createElement('div');
+                        inputButtonElem.id = attributes.attributeId;
+                        inputButtonElem.className = 'flex-row input-button';
+
+                        const customInputElem = document.createElement('input');
+                        customInputElem.type = 'text';
+                        customInputElem.className = 'z-input col-pct-12 inherit';
+                        customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
+                        customInputElem.readOnly = true;
+                        inputButtonElem.appendChild(customInputElem);
+
+                        const customBtnElem = document.createElement('button');
+                        customBtnElem.type = 'button';
+                        customBtnElem.className = 'z-button form';
+                        inputButtonElem.appendChild(customBtnElem);
+
+                        let customData = attributes.value; // 'key|값'
+                        let defaultValue = '';
+                        if (attributeValue !== '') {
+                            customBtnElem.textContent = attributeValue.button;
+                            // 커스텀 코드 기본 값 넣기
+                            if (attributes.value === '' || attributes.value === null) {
+                                switch (attributeValue.default.type) {
+                                    case 'session':
+                                        if (attributeValue.default.value === 'userName') {
+                                            customData = userInfo.userKey + '|' + userInfo.userName;
+                                            defaultValue = userInfo.userName;
+                                        } else if (attributeValue.default.value === 'department') {
+                                            customData = userInfo.department + '|' + userInfo.departmentName;
+                                            defaultValue = userInfo.departmentName;
+                                        }
+                                        break;
+                                    case 'code':
+                                        customData = attributeValue.default.value;
+                                        defaultValue = customData.split('|')[1];
+                                        break;
+                                    default: //none
+                                        customData = attributeValue.default.type + '|';
+                                        break;
+                                }
+                                customInputElem.value = defaultValue;
+                            }
+                            customInputElem.setAttribute('value', defaultValue);
+                            customInputElem.setAttribute('custom-data', customData);
+
+                            customBtnElem.addEventListener('click', function () {
+                                const customCodeData = {
+                                    componentId: attributes.attributeId,
+                                    componentValue: customInputElem.getAttribute('custom-data')
+                                };
+                                const itemName = 'alice_custom-codes-search-' + attributes.attributeId;
+                                sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
+                                let url = '/custom-codes/' + attributeValue.customCode+ '/search';
+                                window.open(url, itemName, 'width=500, height=655');
+                            });
+                        }
+                        childAttributeElem.appendChild(inputButtonElem);
+                        break;
+                    default:
+                        break;
                 }
 
                 groupAttributeElem.appendChild(childAttributeElem);
@@ -750,175 +750,175 @@
 
                 const attributeValue = (attributes.attributeValue === null) ? '' : JSON.parse(attributes.attributeValue);
                 switch (attributes.attributeType) {
-                case 'inputbox':
-                    const inputElem = document.createElement('input');
-                    inputElem.type = 'text';
-                    inputElem.className = 'z-input';
-                    inputElem.id = attributes.attributeId;
-                    inputElem.value = attributes.value;
-                    inputElem.readOnly = true;
-                    if (attributeValue !== '') {
-                        if (attributeValue.required === 'true') {
-                            inputElem.required = true;
-                            inputElem.setAttribute('data-validation-required', 'true');
-                            inputElem.setAttribute('data-validation-required-name', attributes.attributeText);
-                            labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
-                        }
-                    }
-                    childAttributeElem.appendChild(inputElem);
-                    break;
-                case 'dropdown':
-                    const selectElem = document.createElement('select');
-                    selectElem.id = attributes.attributeId;
-                    selectElem.className = 'readonly';
-
-                    if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
-                        for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
-                            const attributeOption = attributeValue.option[opt];
-                            const selectOption = document.createElement('option');
-                            selectOption.textContent = attributeOption.text;
-                            selectOption.value = attributeOption.value;
-                            if (selectOption.value === attributes.value) {
-                                selectOption.selected = true;
+                    case 'inputbox':
+                        const inputElem = document.createElement('input');
+                        inputElem.type = 'text';
+                        inputElem.className = 'z-input';
+                        inputElem.id = attributes.attributeId;
+                        inputElem.value = attributes.value;
+                        inputElem.readOnly = true;
+                        if (attributeValue !== '') {
+                            if (attributeValue.required === 'true') {
+                                inputElem.required = true;
+                                inputElem.setAttribute('data-validation-required', 'true');
+                                inputElem.setAttribute('data-validation-required-name', attributes.attributeText);
+                                labelElem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                             }
-                            selectElem.appendChild(selectOption);
                         }
-                    }
-                    childAttributeElem.appendChild(selectElem);
-                    break;
-                case 'radio':
-                    if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
-                        for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
-                            const attributeOption = attributeValue.option[opt];
-                            const radioGroup = document.createElement('label');
-                            radioGroup.className = 'radio';
-                            radioGroup.tabindex = 0;
-                            radioGroup.htmlFor = attributes.attributeId + '-' + opt;
+                        childAttributeElem.appendChild(inputElem);
+                        break;
+                    case 'dropdown':
+                        const selectElem = document.createElement('select');
+                        selectElem.id = attributes.attributeId;
+                        selectElem.className = 'readonly';
 
-                            const radio = document.createElement('input');
-                            radio.type = 'radio';
-                            radio.id = attributes.attributeId + '-' + opt;
-                            radio.name = 'attribute-radio';
-                            radio.value = attributeOption.value;
-                            radio.readOnly = true;
-                            radio.onclick = function() {
-                                return false;
-                            };
-                            if (attributeOption.value === attributes.value) {
-                                radio.checked = true;
-                            }
-                            if (attributes.value === '' && opt === 0) {
-                                radio.checked = true;
-                            }
-                            radioGroup.appendChild(radio);
-
-                            const radioSpan = document.createElement('span');
-                            radioGroup.appendChild(radioSpan);
-
-                            const radioLabel = document.createElement('span');
-                            radioLabel.className = 'label';
-                            radioLabel.textContent = attributeOption.text;
-                            radioGroup.appendChild(radioLabel);
-                            childAttributeElem.appendChild(radioGroup);
-                        }
-                    }
-                    break;
-                case 'checkbox':
-                    if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
-                        for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
-                            const attributeOption = attributeValue.option[opt];
-                            const chkGroup = document.createElement('label');
-                            chkGroup.className = 'checkbox';
-                            chkGroup.tabindex = 0;
-                            chkGroup.htmlFor = attributes.attributeId + '-' + opt;
-
-                            const chk = document.createElement('input');
-                            chk.type = 'checkbox';
-                            chk.id = attributes.attributeId + '-' + opt;
-                            chk.name = 'attribute-checkbox';
-                            chk.value = attributeOption.value;
-                            chk.readOnly = true;
-                            chk.onclick = function() {
-                                return false;
-                            };
-                            if (attributes.value != null) {
-                                if (attributes.value.indexOf(attributeOption.value ) > -1) {
-                                    chk.checked = true;
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
+                                const selectOption = document.createElement('option');
+                                selectOption.textContent = attributeOption.text;
+                                selectOption.value = attributeOption.value;
+                                if (selectOption.value === attributes.value) {
+                                    selectOption.selected = true;
                                 }
-                            } else {
-                                if (attributeOption.checked) {
-                                    chk.checked = true;
-                                }
+                                selectElem.appendChild(selectOption);
                             }
-                            chkGroup.appendChild(chk);
-
-                            const chkSpan = document.createElement('span');
-                            chkGroup.appendChild(chkSpan);
-
-                            const chkLabel = document.createElement('span');
-                            chkLabel.className = 'label';
-                            chkLabel.textContent = attributeOption.text;
-                            chkGroup.appendChild(chkLabel);
-                            childAttributeElem.appendChild(chkGroup);
                         }
-                    }
-                    break;
-                case 'custom-code':
-                    let customValueArr = '';
-                    if (attributes.value !== null) {
-                        customValueArr = attributes.value.split('|');
-                    } else {
-                        customValueArr = attributeValue.default.value.split('|');
-                    }
-                    const inputButtonElem = document.createElement('div');
-                    inputButtonElem.id = attributes.attributeId;
-                    inputButtonElem.className = 'flex-row input-button';
+                        childAttributeElem.appendChild(selectElem);
+                        break;
+                    case 'radio':
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
+                                const radioGroup = document.createElement('label');
+                                radioGroup.className = 'radio';
+                                radioGroup.tabindex = 0;
+                                radioGroup.htmlFor = attributes.attributeId + '-' + opt;
 
-                    const customInputElem = document.createElement('input');
-                    customInputElem.type = 'text';
-                    customInputElem.className = 'z-input col-pct-12 inherit';
-                    customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
-                    customInputElem.readOnly = true;
-                    inputButtonElem.appendChild(customInputElem);
-                    const customBtnElem = document.createElement('button');
-                    customBtnElem.type = 'button';
-                    customBtnElem.className = 'default-line';
-                    customBtnElem.disabled = true;
-                    inputButtonElem.appendChild(customBtnElem);
-
-                    let customData = attributes.value; // 'key|값'
-                    let defaultValue = '';
-                    if (attributeValue !== '') {
-                        customBtnElem.textContent = attributeValue.button;
-                        // 커스텀 코드 기본 값 넣기
-                        if (attributes.value === '' || attributes.value === null) {
-                            switch (attributeValue.default.type) {
-                            case 'session':
-                                if (attributeValue.default.value === 'userName') {
-                                    customData = userInfo.userKey + '|' + userInfo.userName;
-                                    defaultValue = userInfo.userName;
-                                } else if (attributeValue.default.value === 'department') {
-                                    customData = userInfo.department + '|' + userInfo.departmentName;
-                                    defaultValue = userInfo.departmentName;
+                                const radio = document.createElement('input');
+                                radio.type = 'radio';
+                                radio.id = attributes.attributeId + '-' + opt;
+                                radio.name = 'attribute-radio';
+                                radio.value = attributeOption.value;
+                                radio.readOnly = true;
+                                radio.onclick = function() {
+                                    return false;
+                                };
+                                if (attributeOption.value === attributes.value) {
+                                    radio.checked = true;
                                 }
-                                break;
-                            case 'code':
-                                customData = attributeValue.default.value;
-                                defaultValue = customData.split('|')[1];
-                                break;
-                            default: //none
-                                customData = attributeValue.default.type + '|';
-                                break;
+                                if (attributes.value === '' && opt === 0) {
+                                    radio.checked = true;
+                                }
+                                radioGroup.appendChild(radio);
+
+                                const radioSpan = document.createElement('span');
+                                radioGroup.appendChild(radioSpan);
+
+                                const radioLabel = document.createElement('span');
+                                radioLabel.className = 'label';
+                                radioLabel.textContent = attributeOption.text;
+                                radioGroup.appendChild(radioLabel);
+                                childAttributeElem.appendChild(radioGroup);
                             }
-                            customInputElem.value = defaultValue;
                         }
-                        customInputElem.setAttribute('value', defaultValue);
-                        customInputElem.setAttribute('custom-data', customData);
-                    }
-                    childAttributeElem.appendChild(inputButtonElem);
-                    break;
-                default:
-                    break;
+                        break;
+                    case 'checkbox':
+                        if (attributeValue !== '' && typeof attributeValue.option !== 'undefined') {
+                            for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
+                                const attributeOption = attributeValue.option[opt];
+                                const chkGroup = document.createElement('label');
+                                chkGroup.className = 'checkbox';
+                                chkGroup.tabindex = 0;
+                                chkGroup.htmlFor = attributes.attributeId + '-' + opt;
+
+                                const chk = document.createElement('input');
+                                chk.type = 'checkbox';
+                                chk.id = attributes.attributeId + '-' + opt;
+                                chk.name = 'attribute-checkbox';
+                                chk.value = attributeOption.value;
+                                chk.readOnly = true;
+                                chk.onclick = function() {
+                                    return false;
+                                };
+                                if (attributes.value != null) {
+                                    if (attributes.value.indexOf(attributeOption.value ) > -1) {
+                                        chk.checked = true;
+                                    }
+                                } else {
+                                    if (attributeOption.checked) {
+                                        chk.checked = true;
+                                    }
+                                }
+                                chkGroup.appendChild(chk);
+
+                                const chkSpan = document.createElement('span');
+                                chkGroup.appendChild(chkSpan);
+
+                                const chkLabel = document.createElement('span');
+                                chkLabel.className = 'label';
+                                chkLabel.textContent = attributeOption.text;
+                                chkGroup.appendChild(chkLabel);
+                                childAttributeElem.appendChild(chkGroup);
+                            }
+                        }
+                        break;
+                    case 'custom-code':
+                        let customValueArr = '';
+                        if (attributes.value !== null) {
+                            customValueArr = attributes.value.split('|');
+                        } else {
+                            customValueArr = attributeValue.default.value.split('|');
+                        }
+                        const inputButtonElem = document.createElement('div');
+                        inputButtonElem.id = attributes.attributeId;
+                        inputButtonElem.className = 'flex-row input-button';
+
+                        const customInputElem = document.createElement('input');
+                        customInputElem.type = 'text';
+                        customInputElem.className = 'z-input col-pct-12 inherit';
+                        customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
+                        customInputElem.readOnly = true;
+                        inputButtonElem.appendChild(customInputElem);
+                        const customBtnElem = document.createElement('button');
+                        customBtnElem.type = 'button';
+                        customBtnElem.className = 'z-button form';
+                        customBtnElem.disabled = true;
+                        inputButtonElem.appendChild(customBtnElem);
+
+                        let customData = attributes.value; // 'key|값'
+                        let defaultValue = '';
+                        if (attributeValue !== '') {
+                            customBtnElem.textContent = attributeValue.button;
+                            // 커스텀 코드 기본 값 넣기
+                            if (attributes.value === '' || attributes.value === null) {
+                                switch (attributeValue.default.type) {
+                                    case 'session':
+                                        if (attributeValue.default.value === 'userName') {
+                                            customData = userInfo.userKey + '|' + userInfo.userName;
+                                            defaultValue = userInfo.userName;
+                                        } else if (attributeValue.default.value === 'department') {
+                                            customData = userInfo.department + '|' + userInfo.departmentName;
+                                            defaultValue = userInfo.departmentName;
+                                        }
+                                        break;
+                                    case 'code':
+                                        customData = attributeValue.default.value;
+                                        defaultValue = customData.split('|')[1];
+                                        break;
+                                    default: //none
+                                        customData = attributeValue.default.type + '|';
+                                        break;
+                                }
+                                customInputElem.value = defaultValue;
+                            }
+                            customInputElem.setAttribute('value', defaultValue);
+                            customInputElem.setAttribute('custom-data', customData);
+                        }
+                        childAttributeElem.appendChild(inputButtonElem);
+                        break;
+                    default:
+                        break;
                 }
                 groupAttributeElem.appendChild(childAttributeElem);
             }

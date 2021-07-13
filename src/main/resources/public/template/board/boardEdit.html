@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="board-admin-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{board.label.board}"></h1>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="board-admin-content-edit">
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="boardAdminTitle">
                     <span th:text="#{board.label.name}"></span>
                     <span class="required"></span>
@@ -24,7 +24,7 @@
                 <input type="text" id="boardAdminTitle" maxlength="70" th:value="${boardAdmin?.boardAdminTitle}"
                        class="z-input" required="required"/>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label class="z-switch">
                     <span class="label" th:text="#{board.label.useYn}"></span>
                     <input type="checkbox" id="boardUseYn" name="boardUseYn"
@@ -32,18 +32,18 @@
                     <span></span>
                 </label>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label th:text="#{board.label.order}" for="boardAdminSort"></label>
                 <input class="z-input col-6" id="boardAdminSort" name="boardAdminSort" type="text"
                        th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
                        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
                 <textarea id="boardAdminDesc" name="boardAdminDesc" class="z-textarea textarea-scroll-wrapper"
                           maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label class="z-switch">
                     <span class="label" th:text="#{board.label.replyYn}"></span>
                     <input type="checkbox" id="replyYn" name="replyYn"
@@ -51,7 +51,7 @@
                     <span></span>
                 </label>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label class="z-switch">
                     <span class="label" th:text="#{board.label.commentYn}"></span>
                     <input type="checkbox" id="commentYn" name="commentYn"
@@ -59,7 +59,7 @@
                     <span></span>
                 </label>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label class="z-switch">
                     <span class="label" th:text="#{board.label.category}"></span>
                     <input type="checkbox" id="categoryYn" name="categoryYn"
@@ -82,7 +82,7 @@
                                    onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
                         </div>
                         <div class="flex-column justify-content-end col-1">
-                            <button class="point-fill" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
+                            <button class="z-button secondary" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
                         </div>
                     </div>
                     <div class="flex-row">
@@ -116,7 +116,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label class="z-switch">
                     <span class="label" th:text="#{board.label.attachFileYn}"></span>
                     <input type="checkbox" id="attachYn" name="attachYn"
@@ -125,21 +125,23 @@
                     <span></span>
                 </label>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
                 <input class="z-input col-6 mb" id="attachFileSize" name="attachFileSize" type="text"
                        th:value="${boardAdmin?.attachFileSize}" maxlength="4"
                        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>
-            <div class="flex-row justify-content-end edit-row">
-                <div class="btn-list">
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
                     <button sec:authorize="hasAuthority('board.admin.create')" th:unless="${boardAdmin?.boardAdminId}"
-                            onclick="saveBoardAdmin('post')" class="point-fill" th:text="#{common.btn.register}"></button>
+                            onclick="saveBoardAdmin('post')" class="z-button primary" th:text="#{common.btn.register}"></button>
                     <button sec:authorize="hasAuthority('board.admin.update')" th:if="${boardAdmin?.boardAdminId}"
-                            onclick="saveBoardAdmin('put')" class="point-fill" th:text="#{common.btn.modify}"></button>
+                            onclick="saveBoardAdmin('put')" class="z-button primary" th:text="#{common.btn.modify}"></button>
                     <button sec:authorize="hasAuthority('board.admin.delete')" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin()"
-                            th:disabled="${!boardAdmin.enabled}" class="default-line" th:text="#{common.btn.delete}"></button>
-                    <a class="btn default-line" href="/boards/search" th:text="#{common.btn.list}"></a>
+                            th:disabled="${!boardAdmin.enabled}" class="z-button secondary" th:text="#{common.btn.delete}"></button>
                 </div>
             </div>
         </div>

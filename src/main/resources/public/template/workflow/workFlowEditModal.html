@@ -103,7 +103,7 @@
                 <div class="flex-row z-input-button">
                     <input type="text" id="document-icon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
                     <button class="z-button-clear" name="clearIcon" type="button" onclick="aliceJs.clearText(this);"  tabindex="-1"></button>
-                    <button type="button" class="default-line" th:text="#{common.btn.select}" th:onclick="openIcon();"></button>
+                    <button type="button" class="z-button-search z-button form" th:text="#{common.btn.select}" th:onclick="openIcon();"></button>
                 </div>
             </div>
         </div>

@@ -23,7 +23,7 @@ export default class ZLabelProperty {
     getLabelProperty() {
         // label - text
         const labelTextProperty = new ZInputBoxProperty('labelText', 'label.text', this.target.labelText);
-        labelTextProperty.columnWidth = '8';
+        labelTextProperty.columnWidth = '9';
 
         // label - fontSize
         const labelFontSizeProperty = new ZInputBoxProperty('labelFontSize', 'label.fontSize', this.target.labelFontSize)
@@ -33,31 +33,31 @@ export default class ZLabelProperty {
 
         // label - position
         const labelPositionProperty = new ZSwitchButtonProperty('labelPosition', 'label.position', this.target.labelPosition, [
-            {'name': 'icon-position-left', 'value': 'left'},
-            {'name': 'icon-position-top', 'value': 'top'},
-            {'name': 'icon-position-hidden', 'value': 'hidden'}
+            { 'name': 'i-position-left', 'value': 'left' },
+            { 'name': 'i-position-top', 'value': 'top' },
+            { 'name': 'i-position-hidden', 'value': 'hidden' }
         ]);
 
         // label - align
         const labelAlignProperty = new ZSwitchButtonProperty('labelAlign', 'label.align', this.target.labelAlign, [
-            { 'name': 'icon-align-left', 'value': 'left' },
-            { 'name': 'icon-align-center', 'value': 'center' },
-            { 'name': 'icon-align-right', 'value': 'right' }
+            { 'name': 'i-align-left', 'value': 'left' },
+            { 'name': 'i-align-center', 'value': 'center' },
+            { 'name': 'i-align-right', 'value': 'right' }
         ]);
-        labelAlignProperty.columnWidth = '5';
+        labelAlignProperty.columnWidth = '6';
 
         // label - fontOption
         const labelFontOption = [
-            { 'name': 'icon-bold', 'value': 'bold'},
-            { 'name': 'icon-italic', 'value': 'italic' },
-            { 'name': 'icon-underline', 'value': 'underline' }
+            { 'name': 'i-bold', 'value': 'bold'},
+            { 'name': 'i-italic', 'value': 'italic' },
+            { 'name': 'i-underline', 'value': 'underline' }
         ];
         const labelFontValue = labelFontOption.map((item) => {
             const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             return this.target['labelFontOption' + method] ? 'Y' : 'N';
         }).join('|');
         const labelFontOptionProperty = new ZToggleButtonProperty('labelFontOption', 'label.fontOption', labelFontValue, labelFontOption);
-        labelFontOptionProperty.columnWidth = '5';
+        labelFontOptionProperty.columnWidth = '6';
 
         // label - fontColor
         const labelFontColorProperty = new ZColorPickerProperty('labelFontColor', 'label.fontColor', this.target.labelFontColor, false)

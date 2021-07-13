@@ -11,9 +11,10 @@
  *
  * https://www.brainz.co.kr
  */
+import ZProperty from '../zProperty.js';
 import { UIButton, UIDiv, UIInput, UISelect, UISpan } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
-import ZProperty from '../zProperty.js';
+import { CLASS_PREFIX } from '../../../lib/zConstants.js';
 
 const propertyExtends = {
     options : [
@@ -51,18 +52,18 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         this.UIElement.UIGroup = new UIDiv().setUIClass('default-type');
         const defaultTypeValueArray = this.value.split('|');
         // switch button
-        this.UIElement.UIGroup.UIButtonGroup = new UIDiv().setUIClass('btn-switch-group');
+        this.UIElement.UIGroup.UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-switch-group');
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIGroup.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(this.key)
                 .setUIAttribute('data-type', item.value)
-                .addUIClass('btn-switch').onUIClick(this.updateProperty.bind(this));
-            this.UIElement.UIGroup.UIButtonGroup['UIButton' + name].addUI(new UISpan().setUIClass('text')
-                .setUITextContent(i18n.msg(item.name)));
+                .setUIClass(CLASS_PREFIX + 'button-switch')
+                .onUIClick(this.updateProperty.bind(this))
+                .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'text').setUITextContent(i18n.msg(item.name)));
 
             if (defaultTypeValueArray[0] === item.value) {
-                this.UIElement.UIGroup.UIButtonGroup['UIButton' + name].addUIClass('active');
+                this.UIElement.UIGroup.UIButtonGroup['UIButton' + name].addUIClass('selected');
             }
             this.UIElement.UIGroup.UIButtonGroup.addUI(this.UIElement.UIGroup.UIButtonGroup['UIButton' + name]);
         });
@@ -101,7 +102,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         e.preventDefault();
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) { return false; }
-        if (e.type === 'click' && e.target.classList.contains('active')) { return false; }
+        if (e.type === 'click' && e.target.classList.contains('selected')) { return false; }
         // change 일 경우 minLength, maxLength 체크
         if (e.type === 'change' && !zValidation.changeValidationCheck(e.target)) {
             this.panel.validationStatus = false; // 유효성 검증 실패
@@ -126,15 +127,15 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
                 // 초기화
                 for (let i = 0, len = buttonGroup.childNodes.length ; i< len; i++) {
                     let child = buttonGroup.childNodes[i];
-                    if (child.classList.contains('active')) {
-                        child.classList.remove('active');
+                    if (child.classList.contains('selected')) {
+                        child.classList.remove('selected');
                     }
                 }
-                element.classList.add('active');
+                element.classList.add('selected');
 
                 const defaultTypeGroup = buttonGroup.parentNode;
-                const input = defaultTypeGroup.querySelector('.input');
-                const select = defaultTypeGroup.querySelector('.select');
+                const input = defaultTypeGroup.querySelector('input[type=text]');
+                const select = defaultTypeGroup.querySelector('select');
                 if (element.getAttribute('data-type') === 'input') { // input 활성화
                     input.classList.remove('off');
                     select.classList.add('off');

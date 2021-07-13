@@ -169,106 +169,84 @@ $table-th-font-size:                          1.125rem; // 18px
 $table-th-font-weight:                        $font-weight-medium;
 
 // button, a
-$btn-font-size:                               $font-size-xs;
-$btn-font-color:                              map-get($blacks, 'light');
-$btn-font-weight:                             $font-weight-medium;
-$btn-line-height:                             1.2;
-$btn-bg-color:                                transparent;
-$btn-border-color:                            transparent;
-$btn-border-width:                            0.0625rem; // 1px
-$btn-border-radius:                           0.1875rem; // 3px
-
-// button 테마
-$btn-themes-colors: (
-  'point-fill': (
-    'default': ('font': $white, 'background': $blue, 'border': transparent),
-    'hover': ('font': $white, 'background': map-get($blues, 'hover'), 'border': transparent),
-    'pressed': ('font': $white, 'background': map-get($blues, 'pressed'), 'border': transparent),
-    'disabled': ('font': $white, 'background': $blue, 'border': transparent)
+$button-font-family:                          $font-family-s;
+$button-font-size:                            $font-size-xs;
+$button-font-weight:                          $font-weight-bold;
+$button-border-width:                         0.0625rem; // 1px
+$button-border-radius:                        0.25rem; // 4px
+// 기본 버튼 테마
+$button-themes-default: (
+  'primary': (
+    'default': ('font': $white, 'background': $blue500, 'border': $blue500),
+    'hover': ('font' : $white, 'background': $blue400, 'border': $blue400),
+    'focus': ('font': $white, 'background': $blue500, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $white, 'background': $blue600, 'border': $blue700),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
   ),
-  'point-line': (
-    'default': ('font': $blue, 'background': $white, 'border': $blue),
-    'hover': ('font': $blue, 'background': hexToRGBA($blue, 0.1), 'border': $blue),
-    'pressed': ('font': $white, 'background': map-get($blues, 'hover'), 'border': $blue),
-    'disabled': ('font': $blue, 'background': $white, 'border': $blue)
+  'secondary': (
+    'default': ('font': $blue500, 'background': $white, 'border': $blue500),
+    'hover': ('font' : $blue500, 'background': $blue100, 'border': $blue500),
+    'focus': ('font': $blue500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $blue700, 'background': $blue200, 'border': $blue600),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
   ),
-  'default-fill': (
-    'default': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'default'), 'border': transparent),
-    'hover': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'line'), 'border': transparent),
-    'pressed': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'pressed'), 'border': transparent),
-    'disabled': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'default'), 'border': transparent)
+  'extra': (
+    'default': ('font': $blue500, 'background': $white, 'border': $white),
+    'hover': ('font' : $blue500, 'background': $blue100, 'border': $blue100),
+    'focus': ('font': $blue500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $blue700, 'background': $blue200, 'border': $blue200),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
   ),
-  'default-line': (
-    'default': ('font': map-get($blacks, 'light'), 'background': $white, 'border': map-get($grays, 'line')),
-    'hover': ('font': map-get($blacks, 'light'), 'background': hexToRGBA(#E6E6E6, 0.3), 'border': map-get($grays, 'line')),
-    'pressed': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'line'), 'border': map-get($grays, 'pressed')),
-    'disabled': ('font': map-get($blacks, 'light'), 'background': $white, 'border': map-get($grays, 'line'))
+  'form': (
+    'default': ('font': $neutral800, 'background': $neutral300, 'border': $neutral300),
+    'hover': ('font' : $neutral800, 'background': $neutral200, 'border': $neutral200),
+    'focus': ('font': $neutral800, 'background': $neutral300, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $neutral800, 'background': $neutral300, 'border': $neutral400),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  )
+);
+// 어두운 배경에서 사용되는 버튼 테마
+$button-themes-light: (
+  'light-primary': (
+    'default': ('font': $white, 'background': $blue500, 'border': $blue500),
+    'hover': ('font' : $white, 'background': $blue400, 'border': $blue400),
+    'focus': ('font': $white, 'background': $blue500, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $white, 'background': $blue600, 'border': $blue700),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
   ),
-  'ghost-fill': (
-    'default': ('font': map-get($blacks, 'light'), 'background': transparent, 'border': transparent),
-    'hover': ('font': map-get($blacks, 'light'), 'background': hexToRGBA(#E6E6E6, 0.3), 'border': transparent),
-    'pressed': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'line'), 'border': transparent),
-    'disabled': ('font': map-get($blacks, 'light'), 'background': transparent, 'border': transparent)
+  'light-secondary': (
+    'default': ('font': $white, 'background': transparent, 'border': $white),
+    'hover': ('font' : $white, 'background': hexToRGBA($white, 0.2), 'border': $white),
+    'focus': ('font': $white, 'background': transparent, 'border': $white, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $white, 'background': hexToRGBA($white, 0.4), 'border': $white),
+    'disabled': ('font': $gray400, ' background': $neutral200, 'border': $neutral200)
   ),
-  'ghost-line': (
-    'default': ('font': map-get($grays, 'pressed'), 'background': $white, 'border': map-get($grays, 'line')),
-    'hover': ('font': map-get($blacks, 'light'), 'background': $white, 'border': map-get($grays, 'line')),
-    'pressed': ('font': $blue, 'background': $white, 'border': $blue),
-    'disabled': ('font': map-get($blacks, 'light'), 'background': map-get($grays, 'pressed'), 'border':  map-get($grays, 'line'))
+  'light-extra': (
+    'default': ('font': $white, 'background': transparent, 'border': transparent),
+    'hover': ('font' : $white, 'background': hexToRGBA($white, 0.2), 'border': hexToRGBA($white, 0.2)),
+    'focus': ('font': $white, 'background': transparent, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $white, 'background': hexToRGBA($white, 0.4), 'border': hexToRGBA($white, 0.4)),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  ),
+  'light-form': (
+    'default': ('font': $neutral800, 'background': $neutral300, 'border': $neutral300),
+    'hover': ('font' : $neutral800, 'background': $neutral200, 'border': $neutral200),
+    'focus': ('font': $neutral800, 'background': $neutral300, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $neutral800, 'background': $neutral300, 'border': $neutral400),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
   )
 );
 
-//구글, 카카오 로그인 버튼 색상정의
-$btn-google-defualt-border-color:            #EBEBEB;
-$btn-google-default-bg-color:                #FFFFFF;
-$btn-google-hover-border-color:              #EBEBEB;
-$btn-google-hover-bg-color:                  #E6E6E6;
-$btn-google-focus-border-color:              #CCCED1;
-$btn-google-focus-bg-color:                  #E6E6E6;
-$btn-google-active-border-color:             #CCCED1;
-$btn-google-active-bg-color:                 #EBEBEB;
-$btn-google-disabled-border-color:           #FFFFFF;
-$btn-google-disabled-bg-color:               #EBEBEB;
-$btn-kakao-defualt-border-color:             #EBCC00;
-$btn-kakao-default-bg-color:                 #FFDE00;
-$btn-kakao-hover-border-color:               #EBDA6A;
-$btn-kakao-hover-bg-color:                   #FFEA59;
-$btn-kakao-focus-border-color:               #D6BB00;
-$btn-kakao-focus-bg-color:                   #FFEA59;
-$btn-kakao-active-border-color:              #D6BB00;
-$btn-kakao-active-bg-color:                  #EBCC00;
-$btn-kakao-disabled-border-color:            #EBCC00;
-$btn-kakao-disabled-bg-color:                #FFDE00;
-
-// button-group 디자인 요소
-$btn-group-font-size:                        $font-size-xs;
-$btn-group-font-color:                       map-get($blacks, 'light');
-$btn-group-font-weight:                      $font-weight-medium;
-$btn-group-line-height:                      1.2;
-$btn-group-font-color:                       map-get($blacks, 'light');
-$btn-group-bg-color:                         $white;
-$btn-group-border-color:                     map-get($grays, 'line');
-$btn-group-border-width:                     0.0625rem; // 1px
-$btn-group-border-radius:                    0.1875rem; // 3px
-
-// button-group hover 시 디자인 요소
-$btn-group-hover-font-color:                 map-get($blacks, 'light');
-$btn-group-hover-bg-color:                   hexToRGBA(#E6E6E6, 0.3);
-$btn-group-hover-border-color:               map-get($grays, 'line');
-
-// button-group pressed 시 디자인 요소
-$btn-group-pressed-font-color:               $blue;
-$btn-group-pressed-bg-color:                 $white;
-$btn-group-pressed-border-color:             $blue;
-
-// button-group disabled 시 디자인 요소
-$btn-group-disabled-font-color:              map-get($blacks, 'light');
-$btn-group-disabled-bg-color:                $white;
-$btn-group-disabled-border-color:            map-get($grays, 'line');
-
-// button-group-toggle 디자인 요소
-$btn-group-toggle-font-color:                $gray;
-$btn-group-toggle-bg-color:                  map-get($grays, 'light');
+// button group
+// - button switch, button toggle
+$button-group: (
+  'default': ('font': $gray800, 'background': $white, 'border': $gray300),
+  'hover': ('font' : $gray800, 'background': $blue100, 'border': $gray300),
+  'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+  'active': ('font': $blue700, 'background': $blue200, 'border': $blue400),
+  'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
+  'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
+);
 
 //////////////////////////////// layout ////////////////////////////////
 $layout-header-height:                       3.125rem; // 50px

@@ -171,7 +171,8 @@ $tooltip-contents-box-shadow:                      0 0 0.3125rem 0 rgba(30, 47, 
 
 // clipboard tooltip
 // ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
-$clipboard-tooltip-font-size:                      0.875rem; // 14px
+$clipboard-tooltip-font-family:                    $font-family-s;
+$clipboard-tooltip-font-size:                      $font-size-xs;
 $clipboard-tooltip-font-weight:                    $font-weight-regular;
 $clipboard-tooltip-font-color:                     $blue;
 $clipboard-tooltip-bg-color:                       $white;
@@ -211,52 +212,13 @@ $property-label-font-size:                         0.875rem; // 14px
 $color-picker-color-size:                          1.5rem; // 24px
 $color-picker-margin:                              0.3125rem; // 5px
 $color-picker-box-size:                            2.25rem; // 36px
-/////////// switch button 디자인 요소
-$btn-switch-font-size:                            0.875rem; // 14px
-$btn-switch-font-weight:                          $font-weight-medium;
-$btn-switch-font-color:                           map-get($blacks, "light");
-$btn-switch-bg-color:                             map-get($grays, "light");
-$btn-switch-border-color:                         map-get($grays, "line");
-$btn-switch-border-width:                         0.0625rem; // 1px
-$btn-switch-border:                               $btn-switch-border-width solid $btn-switch-border-color;
-$btn-switch-border-radius:                        0.1875rem; // 3px
 
-// hover 시 디자인 요소
-$btn-switch-hover-font-color:                     map-get($blacks, "light");
-$btn-switch-hover-bg-color:                       rgba(230, 230, 230, 0.3);
-$btn-switch-hover-border-color:                   map-get($grays, "line");
-
-// pressed 시 디자인 요소
-$btn-switch-pressed-font-color:                   $blue;
-$btn-switch-pressed-bg-color:                     $white;
-$btn-switch-pressed-border-color:                 $blue;
-
-// disabled 시 디자인 요소
-$btn-switch-disabled-font-color:                  map-get($blacks, "light");
-$btn-switch-disabled-bg-color:                    $white;
-$btn-switch-disabled-border-color:                map-get($grays, "line");
-
-/////////////// toggle button 디자인 요소
-$btn-toggle-font-size:                            0.875rem; // 14px
-$btn-toggle-font-color:                           map-get($blacks, "light");
-$btn-toggle-font-weight:                          $font-weight-medium;
-$btn-toggle-bg-color:                             $white;
-$btn-toggle-border-color:                         map-get($grays, "line");
-$btn-toggle-border-width:                         0.0625rem; // 1px
-$btn-toggle-border:                               $btn-toggle-border-width solid $btn-toggle-border-color;
-$btn-toggle-border-radius:                        0.1875rem; // 3px
-
-// hover 시 디자인 요소
-$btn-toggle-hover-font-color:                     map-get($blacks, "light");
-$btn-toggle-hover-bg-color:                       rgba(230, 230, 230, 0.3);
-$btn-toggle-hover-border-color:                   map-get($grays, "line");
-
-// pressed 시 디자인 요소
-$btn-toggle-pressed-font-color:                   $blue;
-$btn-toggle-pressed-bg-color:                     $white;
-$btn-toggle-pressed-border-color:                 $blue;
-
-// disabled 시 디자인 요소
-$btn-toggle-disabled-font-color:                  map-get($blacks, "light");
-$btn-toggle-disabled-bg-color:                    $white;
-$btn-toggle-disabled-border-color:                map-get($grays, "line");
+// 열 속성 > tab button
+$button-tab: (
+  'default': ('font': $white, 'background': $white, 'border': $gray300),
+  'hover': ('font' : $blue100, 'background': $blue100, 'border': $gray300 ),
+  'focus': ('font': $white, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+  'active': ('font': $blue200, 'background': $blue200, 'border': $blue400),
+  'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
+  'disabled': ('font': $neutral200, 'background': $neutral200, 'border': $neutral200)
+);

@@ -215,7 +215,7 @@ var gModal = (function() {
                     var button = document.createElement('button');
                     button.setAttribute('type', 'button');
 
-                    button.className = 'gmodal-button default-line';
+                    button.className = 'gmodal-button  z-button secondary';
                     if (typeof this.options.buttons[i].classes !== 'undefined') {
                         button.className += ' ' + this.options.buttons[i].classes;
                     }
@@ -294,6 +294,7 @@ aliceAlert.alert = function(message, callbackFunc) {
         buttons: [
             {
                 content: i18n.msg('common.btn.close'),
+                classes: 'z-button secondary',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -323,6 +324,7 @@ aliceAlert.alertSuccess = function(message, callbackFunc) {
         buttons: [
             {
                 content: i18n.msg('common.btn.close'),
+                classes: 'z-button secondary',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -352,6 +354,7 @@ aliceAlert.alertWarning = function(message, callbackFunc) {
         buttons: [
             {
                 content: i18n.msg('common.btn.close'),
+                classes: 'z-button secondary',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -381,6 +384,7 @@ aliceAlert.alertDanger = function(message, callbackFunc) {
         buttons: [
             {
                 content: i18n.msg('common.btn.close'),
+                classes: 'z-button secondary',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {

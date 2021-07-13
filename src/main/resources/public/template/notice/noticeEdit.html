@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="notice-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{notice.label.notice}"></h1>
@@ -17,27 +17,27 @@
         </div>
         <div class="notice-content-edit">
             <form id="frm" method="post">
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label th:text="#{common.label.title}" for="noticeTitle" class="required"></label>
                     <input type="text" id="noticeTitle" name="noticeTitle" class="z-input" maxlength="128"
                            th:value="${notice?.noticeTitle}"/>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label th:text="#{common.label.contents}" for="noticeContents" class="required"></label>
                     <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11"
                               class="z-textarea textarea-scroll-wrapper" th:text="${notice?.noticeContents}"></textarea>
                 </div>
-                <div class="flex-column edit-row file-uploader-edit">
+                <div class="flex-column z-edit-row file-uploader-edit">
                     <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
                     <div id="dropZoneFiles"></div>
                     <div id="dropZoneUploadedFiles"></div>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label th:text="#{common.label.writer}"></label>
                     <input type="text" class="z-input" th:value="${notice?.createUserName} ? ${notice.createUserName} : ${#authentication.details.userName}"
                            disabled/>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label class="z-switch">
                         <input type="checkbox" id="popYn" name="popYn" onchange="setDisplay('popTab',this)"
                                th:checked="${notice?.popYn == true}">
@@ -45,7 +45,7 @@
                         <span class="label" th:text="#{notice.label.popUpNoticeSettings}"></span>
                     </label>
                 </div>
-                <div id="popTab" class="flex-column edit-row">
+                <div id="popTab" class="flex-column z-edit-row">
                     <div class="flex-row">
                         <div class="flex-column col-6 mr-4">
                             <label th:text="#{notice.label.height}" for="popHeight"></label>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label class="z-switch">
                         <input type="checkbox" id="topNoticeYn" name="topNoticeYn" onchange="setDisplay('topNoticeTab',this)"
                                th:checked="${notice?.topNoticeYn == true}">
@@ -81,7 +81,7 @@
                         <span class="label" th:text="#{notice.label.topNoticeSettings}"></span>
                     </label>
                 </div>
-                <div id="topNoticeTab" class="flex-column edit-row">
+                <div id="topNoticeTab" class="flex-column z-edit-row">
                     <div class="flex-row">
                         <div class="flex-column col-6 mr-4">
                             <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
@@ -93,18 +93,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-row justify-content-end edit-row">
-                    <div class="btn-list">
+                <div class="flex-row justify-content-between z-edit-row">
+                    <div class="z-button-list">
+                        <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
+                    </div>
+                    <div class="z-button-list">
                         <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
-                                class="point-fill" onclick="saveNotice('post')" th:text="#{common.btn.register}">
+                                class="z-button primary" onclick="saveNotice('post')" th:text="#{common.btn.register}">
                         </button>
                         <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
-                                class="point-fill" onclick="saveNotice('put')" th:text="#{common.btn.modify}">
+                                class="z-button primary" onclick="saveNotice('put')" th:text="#{common.btn.modify}">
                         </button>
                         <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
-                                class="default-fill" onclick="deleteNotice()" th:text="#{common.btn.delete}">
+                                class="z-button secondary" onclick="deleteNotice()" th:text="#{common.btn.delete}">
                         </button>
-                        <a class="btn default-line" href="/notices/search" th:text="#{common.btn.list}"></a>
                     </div>
                 </div>
             </form>

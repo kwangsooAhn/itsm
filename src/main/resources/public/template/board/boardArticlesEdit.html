@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="board-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{board.label.board}"></h1>
@@ -17,7 +17,7 @@
         </div>
         <div class="board-content-edit">
             <form id="boardForm" method="post" onsubmit="return false">
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label for="boardAdminId">
                         <span th:text="#{board.label.board}"></span>
                         <span class="required"></span>
@@ -28,7 +28,7 @@
                                 th:selected="${boardAdmin.boardAdminId} == ${boardAdminInfo?.boardAdminId}"></option>
                     </select>
                 </div>
-                <div class="flex-column edit-row" id="divCategoryYn" name="divCategoryYn">
+                <div class="flex-column z-edit-row" id="divCategoryYn" name="divCategoryYn">
                     <label for="boardCategory">
                         <span th:text="#{board.label.category}"></span>
                         <span class="required"></span>
@@ -40,23 +40,23 @@
                         </option>
                     </select>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label for="boardTitle">
                         <span th:text="#{board.label.title}"></span>
                         <span class="required"></span>
                     </label>
                     <input type="text" id="boardTitle" class="z-input" maxlength="100" th:value="${boardInfo?.boardTitle}">
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label th:text="#{common.label.contents}" for="boardContents"/>
                     <div class="text-editor" id="boardContents"></div>
                 </div>
-                <div class="flex-column edit-row file-uploader-edit" id="divFile" name="divFile">
+                <div class="flex-column z-edit-row file-uploader-edit" id="divFile" name="divFile">
                     <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
                     <div id="dropZoneFiles"></div>
                     <div id="dropZoneUploadedFiles"></div>
                 </div>
-                <div id="boardUserInfo" class="flex-column edit-row">
+                <div id="boardUserInfo" class="flex-column z-edit-row">
                     <div class="flex-row">
                         <div class="flex-column col-6 mr-4">
                             <label th:text="#{common.label.writer}"/>
@@ -72,25 +72,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-row justify-content-end edit-row">
-                    <div class="btn-list">
-                        <button class="point-fill" sec:authorize="hasAuthority('board.create')"
-                                th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
-                                onclick="saveBoard('post', 'reply')"
-                                th:text="#{board.btn.reply}">
-                        </button>
-                        <button class="point-fill" sec:authorize="hasAuthority('board.update')"
+                <div class="flex-row justify-content-between z-edit-row">
+                    <div class="z-button-list">
+                        <a class="z-button secondary"
+                           th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
+                    </div>
+                    <div class="z-button-list">
+                        <button class="z-button primary" sec:authorize="hasAuthority('board.update')"
                                 th:if="${boardInfo?.boardId} and ${replyYn} == false"
                                 onclick ="saveBoard('put', 'normal')"
                                 th:text="#{common.btn.modify}">
                         </button>
-                        <button class="point-fill" sec:authorize="hasAuthority('board.create')"
+                        <button class="z-button primary" sec:authorize="hasAuthority('board.create')"
                                 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
                                 onclick="saveBoard('post', 'normal')"
                                 th:text="#{common.btn.register}">
                         </button>
-                        <a class="btn default-line"
-                           th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
+                        <button class="z-button secondary" sec:authorize="hasAuthority('board.create')"
+                                th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                                onclick="saveBoard('post', 'reply')"
+                                th:text="#{board.btn.reply}">
+                        </button>
                     </div>
                 </div>
             </form>
