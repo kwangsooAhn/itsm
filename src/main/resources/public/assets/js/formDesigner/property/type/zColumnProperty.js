@@ -24,6 +24,9 @@ import ZToggleButtonProperty from './zToggleButtonProperty.js';
 import ZColorPickerProperty from './zColorPickerProperty.js';
 import ZDefaultValueSelectProperty from './zDefaultValueSelectProperty.js';
 import ZOptionListProperty from './zOptionListProperty.js';
+import ZDefaultValueRadioProperty from './zDefaultValueRadioProperty.js';
+import ZDateTimePickerProperty from './zDateTimePickerProperty.js';
+
 
 export const propertyExtends = {
     columnCommon: {
@@ -53,7 +56,7 @@ export const propertyExtends = {
             defaultValueSelect: 'input|', // input|사용자입력 / select|세션값
         },
         columnValidation: {
-            validationType: 'none', // none | char | num | numchar | email | phone
+            validationType: 'none',
             minLength: '0',
             maxLength: '100'
         }
@@ -61,6 +64,15 @@ export const propertyExtends = {
     dropdown: {
         columnElement: {
             options: [ FORM.DEFAULT_OPTION_ROW ]
+        }
+    },
+    date: {
+        columnElement: {
+            defaultValueRadio: 'none'
+        },
+        columnValidation: {
+            minDate: '',
+            maxDate: ''
         }
     }
 };
@@ -373,6 +385,8 @@ export default class ZColumnProperty extends ZProperty {
                 return this.getPropertyForColumnTypeInput(option, id);
             case 'dropdown':
                 return this.getPropertyForColumnTypeDropdown(option, id);
+            case 'date':
+                return this.getPropertyForColumnTypeDate(option, id);
             default:
                 return [];
         }
@@ -402,6 +416,23 @@ export default class ZColumnProperty extends ZProperty {
         return [
             new ZGroupProperty('group.columnElement')
                 .addProperty(new ZOptionListProperty(id + '|columnElement.options', 'element.options', option.columnElement.options))
+        ];
+    }
+    getPropertyForColumnTypeDate(option, id) {
+        const defaultValueRadioProperty = new ZDefaultValueRadioProperty(id + '|columnElement.defaultValueRadio', 'element.defaultValueRadio',
+                option.columnElement.defaultValueRadio,
+            [
+                { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
+                { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },
+                { name: '', value: FORM.DATE_TYPE.DAYS },
+                { name: '', value: FORM.DATE_TYPE.DATE_PICKER }
+            ]);
+        return [
+            new ZGroupProperty('group.columnElement')
+                .addProperty(defaultValueRadioProperty),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.minDate', 'element.minDate', option.columnValidation.minDate, FORM.DATE_TYPE.DATE_PICKER))
+                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxDate', 'element.maxDate', option.columnValidation.maxDate, FORM.DATE_TYPE.DATE_PICKER))
         ];
     }
     // 입력 유형 타입 변경
