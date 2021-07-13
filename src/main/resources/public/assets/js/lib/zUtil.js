@@ -1280,7 +1280,7 @@ aliceJs.inputButtonRemove = function(target) {
  * @param keyName
  * @param callBackFunc
  */
-function pressKeyForAction(event, keyName, callBackFunc) {
+aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
     if (event.key === keyName) {
         callBackFunc();
     }

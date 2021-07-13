@@ -1419,16 +1419,11 @@ label {
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
 }
-.z-slider .z-range_progress {
-  width: 75%;
-  height: 0.25rem;
-  background-color: #EEEEEE;
-}
 .z-slider > input[type=range] {
   -webkit-appearance: none;
   appearance: none;
   height: 0.25rem;
-  background-color: #EBEBEB;
+  background-color: #EEEEEE;
   outline: 0;
 }
 .z-slider > input[type=range]::-webkit-slider-thumb {
@@ -1486,6 +1481,10 @@ label {
 .z-slider > input[type=range]::-moz-range-thumb:active {
   border-color: #339AF0;
   background-color: #ADE6FD;
+}
+.z-slider > input[type=range]::-moz-range-thumb:disabled {
+  border-color: #CFD5D9;
+  background-color: #EEEEEE;
 }
 
 h6 {
@@ -7082,3 +7081,5 @@ body.modal-active {
 .tags-look .tagify__dropdown__item--active {
   color: #0088E6;
 }
+
+/*# sourceMappingURL=itsm.css.map */
