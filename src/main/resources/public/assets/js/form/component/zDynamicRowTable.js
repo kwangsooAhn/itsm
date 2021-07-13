@@ -206,7 +206,7 @@ export const dynamicRowTableMixin = {
 
             const td = new UICell(row)
                 .setUICSSText(tdCssText)
-                .addUI(this.getElementByColumnType(column, columnData[index]));
+                .addUI(this.getElementByColumnType(column, columnData[index], index));
             row.addUICell(td);
         });
         // 데이터 추가
@@ -225,14 +225,14 @@ export const dynamicRowTableMixin = {
         targetTable.addUIRow(row);
     },
     // column Type 에 따른 cell 반환
-    getElementByColumnType(column, cellValue) {
+    getElementByColumnType(column, cellValue, index) {
         switch (column.columnType) {
             case 'input':
                 return this.getInputBoxForColumn(column, cellValue);
             case 'dropdown':
                 return this.getDropDownForColumn(column, cellValue);
             case 'date':
-                return this.getDateForColumn(column, cellValue);
+                return this.getDateForColumn(column, cellValue, index);
             default:
                 return new UISpan().setUIInnerHTML(cellValue);
         }
@@ -265,10 +265,11 @@ export const dynamicRowTableMixin = {
             .setUIValue(selectOptionValue)
             .onUIChange(this.updateValue.bind(this));
     },
-    getDateForColumn(column, cellValue) {
+    getDateForColumn(column, cellValue, index) {
         let dateWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
         let date = new UIInput().setUIPlaceholder(i18n.dateFormat)
             .setUIClass('datepicker')
+            .setUIId('date' + index)
             //.setUICSSText('width: 100%')
             .setUIValue(this.getDefaultValue(column, cellValue))
             .setUIAttribute('type', FORM.DATE_TYPE.DATE_PICKER)
