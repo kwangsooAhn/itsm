@@ -99,11 +99,11 @@ export const dynamicRowTableMixin = {
         return this._element.columnWidth;
     },
     set elementColumns(columns) {
-        if (columns[0].columnType === FORM.DATE_TYPE.DAYS) {
-            columns[0].columnValidation.minDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, columns[0].columnType, columns[0].columnValidation.minDate);
-            columns[0].columnValidation.maxDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, columns[0].columnType, columns[0].columnValidation.maxDate);
-        }
         this._element.columns = columns;
+        if (columns[0].columnType === FORM.DATE_TYPE.DAYS) {
+            this._element.columns[0].columnValidation.minDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, columns[0].columnType, this._element.columns[0].columnValidation.minDate);
+            this._element.columns[0].columnValidation.maxDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, columns[0].columnType, this._element.columns[0].columnValidation.maxDate);
+        }
         this.UIElement.UIComponent.UIElement.UITable.clearUIRow().clearUI();
         this.makeTable(this.UIElement.UIComponent.UIElement.UITable);
     },
