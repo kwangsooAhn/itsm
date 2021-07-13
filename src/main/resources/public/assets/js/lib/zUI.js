@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 
-import { CLASS_PREFIX } from './zConstants.js';
+import {CLASS_PREFIX, FORM, UNIT} from './zConstants.js';
 
 class UIElement {
     constructor(domElement) {
@@ -494,12 +494,15 @@ class UIButton extends UIElement {
 }
 
 class UISlider extends UIElement {
-    constructor(value) {
+    constructor(value, max) {
         super(document.createElement('div'));
         this.domElement.className = CLASS_PREFIX + 'slider';
         // range
         this.UIRange = new UIInput(value).setUIClass(CLASS_PREFIX + 'range');
         this.UIRange.domElement.type = 'range';
+        // range thumb 위치 계산
+        let thumbLocation =  parseInt((value - 1) * 100 / (max - 1)) + UNIT.PERCENT;
+        this.UIRange.setUICSSText(`--range-location: ${thumbLocation}`);
         this.addUI(this.UIRange);
         // input
         this.UIInput = new UIInput(value).setUIReadOnly(true)
@@ -508,6 +511,9 @@ class UISlider extends UIElement {
 
         const scope = this;
         function onInput() {
+            thumbLocation = parseInt((scope.UIRange.domElement.value - 1) * 100 / (max - 1)) + UNIT.PERCENT;
+            scope.UIRange.setUICSSText(`--range-location:${thumbLocation}`);
+
             scope.UIInput.setUIValue(scope.UIRange.getUIValue());
 
             const changeEvent = document.createEvent('HTMLEvents');
@@ -515,7 +521,7 @@ class UISlider extends UIElement {
             scope.UIInput.domElement.dispatchEvent(changeEvent);
         }
 
-        this.UIRange.domElement.addEventListener('input', onInput, false);
+        this.UIRange.domElement.addEventListener('input', onInput, true);
     }
 
     setUIMin(value) {
@@ -526,6 +532,11 @@ class UISlider extends UIElement {
     setUIMax(value) {
         this.UIRange.domElement.setAttribute('max', value);
         return this;
+    }
+
+    setUIRange(max) {
+        const rangeValue = this.UIRange.getUIValue() * 100 / max;
+        this.UIRange.setUICSSText(`background:linear-gradient(to right, #339AF0 0%, #339AF0 ${rangeValue}%, #EEEEEE ${rangeValue}%, #EEEEEE 100%);`);
     }
 }
 

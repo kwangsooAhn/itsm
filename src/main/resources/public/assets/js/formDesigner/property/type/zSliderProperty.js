@@ -13,7 +13,7 @@
  * https://www.brainz.co.kr
  */
 import {UIDiv, UISlider} from '../../../lib/zUI.js';
-import { FORM } from '../../../lib/zConstants.js';
+import {FORM, UNIT} from '../../../lib/zConstants.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
 
@@ -36,9 +36,7 @@ export default class ZSliderProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // slider
-        this.UIElement.UISlider = new UISlider(this.value)
-            .setUIMin(1).setUIMax(FORM.COLUMN)
-            .onUIChange(this.drawRange.bind(this));
+        this.UIElement.UISlider = new UISlider(this.value, FORM.COLUMN).setUIMin(1).setUIMax(FORM.COLUMN);
         this.UIElement.UISlider.UIInput.setUIId(this.key)
             .onUIChange(this.updateProperty.bind(this));
         this.UIElement.addUI(this.UIElement.UISlider);
@@ -57,11 +55,5 @@ export default class ZSliderProperty extends ZProperty {
             return false;
         }
         this.panel.update.call(this.panel, e.target.id, e.target.value);
-    }
-
-    // range 값에 따른 slide draw 이벤트 (test)
-    drawRange(e) {
-        let rangeValue =  e.target.value * 100 / 12;
-        e.target.style.background = 'linear-gradient(to right, #339AF0 0%, #339AF0 '+ rangeValue +'%, #EEEEEE ' + rangeValue + '%, #EEEEEE 100%)';
     }
 }

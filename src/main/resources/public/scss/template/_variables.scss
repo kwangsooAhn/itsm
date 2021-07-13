@@ -550,12 +550,15 @@ $input-clear-right:                          0rem;
 
 /////////////////////////////// slider ///////////////////////////////
 $slider-range-bg-color:                      $neutral200;
+$slider-range-fill-color:                    $blue500;
+$slider-range-disabled-fill-color:           $gray300;
 
 $slider-thumb-bg-color:                      $white;
 $slider-thumb-size:                          1.125rem; // 18px
 $slider-thumb-border-color:                  $gray300;
 $slider-thumb-shadow-color:                  $gray500;
 $slider-thumb-hover-border-color:            $blue400;
+$slider-thumb-hover-bg-color:                $blue100;
 $slider-thumb-focus-border-color:            $blue600;
 $slider-thumb-active-border-color:           $blue500;
 $slider-thumb-active-bg-color:               $blue200;
