@@ -25,5 +25,6 @@ insert into awf_custom_code_column values ('awf_role', 'search', 'role_id', '역
 insert into awf_custom_code_column values ('awf_user', 'search', 'department', '사용자 부서');
 insert into awf_custom_code_column values ('awf_user', 'search', 'user_name', '사용자 이름');
 insert into awf_custom_code_column values ('awf_user', 'search', 'position', '사용자 직급');
+insert into awf_custom_code_column values ('awf_user', 'search', 'use_yn', '사용자 사용여부');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_name', '사용자 이름');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_key', '사용자 식별키');

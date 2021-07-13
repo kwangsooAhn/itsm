@@ -58,6 +58,7 @@ class ZDocument {
             zFormButton.init(documentButtonArea, documentData, this);
             this.makeDocument(this.data.form); // Form 생성
             this.documentModal.show(); // 모달 표시
+            aliceJs.initDesignedSelectTag();
         });
     }
     /**
@@ -234,9 +235,13 @@ class ZDocument {
         });
     }
     /**
-     * TODO: 신청서 인쇄
+     * 신청서 인쇄
      */
-    print() {}
+    print() {
+        const printData  =  this.form.toJson();
+        sessionStorage.setItem('alice_print', JSON.stringify(printData));
+        window.open('/documents/' + this.data.documentId + '/print', '_blank');
+    }
 }
 
 export const zDocument = new ZDocument();
