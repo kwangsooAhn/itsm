@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="custom-code-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{customCode.label.customCode}"></h1>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="custom-code-content-edit">
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="customCodeName">
                     <span th:text="#{customCode.label.name}"></span>
                     <span class="required"></span>
@@ -24,7 +24,7 @@
                 <input type="text" id="customCodeName" class="z-input" required="required" maxlength="110"
                        th:value="${customCode?.customCodeName}">
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label>
                     <span th:text="#{customCode.label.type}"></span>
                     <span class="required"></span>
@@ -49,7 +49,7 @@
             <!-- 타입: table-->
             <div id="type-table-container"
                  th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label>
                         <span th:text="#{customCode.label.targetTable}"></span>
                         <span class="required"></span>
@@ -62,27 +62,27 @@
                         </option>
                     </select>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label for="searchColumn">
                         <span th:text="#{customCode.label.searchColumn}"></span>
                         <span class="required"></span>
                     </label>
                     <select id="searchColumn"></select>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label for="valueColumn">
                         <span th:text="#{customCode.label.valueColumn}"></span>
                         <span class="required"></span>
                     </label>
                     <select id="valueColumn"></select>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <div class="under-bar">
                         <label id="conditionLabel">
                             <span th:text="#{customCode.label.condition}"></span>
                         </label>
-                        <button type="button" class="default-line plus float-right" onclick="addCondition()">
-                            <span class="icon-plus"></span>
+                        <button type="button" class="z-button-icon extra float-right" onclick="addCondition()">
+                            <span class="z-icon i-plus"></span>
                         </button>
                     </div>
                     <div id="condition"></div>
@@ -90,7 +90,7 @@
             </div>
             <!-- 타입: 코드 -->
             <div id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label>
                         <span th:text="#{customCode.label.pCode}"></span>
                         <span class="required"></span>
@@ -99,22 +99,24 @@
                            th:disabled="${customCode?.pCode != null}">
                 </div>
             </div>
-            <div class="flex-row justify-content-end edit-row">
-                <div class="btn-list">
-                    <button class="point-fill" th:if="${customCode == null}"
+            <div class="flex-row justify-content-between edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
+                    <button class="z-button primary" th:if="${customCode == null}"
                             sec:authorize="hasAuthority('custom.code.create')"
                             onclick="actionCustomCode('post')" th:text="#{common.btn.register}"></button>
-                    <button class="point-fill" th:if="${customCode?.customCodeId}"
+                    <button class="z-button primary" th:if="${customCode?.customCodeId}"
                             sec:authorize="hasAuthority('custom.code.update')"
                             th:disabled="${!customCode.enabled}" onclick="actionCustomCode('put')"
                             th:text="#{common.btn.modify}">
                     </button>
-                    <button class="default-fill" th:if="${customCode?.customCodeId}"
+                    <button class="z-button secondary" th:if="${customCode?.customCodeId}"
                             sec:authorize="hasAuthority('custom.code.delete')"
                             th:disabled="${!customCode.enabled}" onclick="actionCustomCode('delete')"
                             th:text="#{common.btn.delete}">
                     </button>
-                    <a class="btn default-line" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
         </div>
@@ -217,7 +219,7 @@
 
         function drawCondition(param) {
             const divRow = document.createElement('div');
-            divRow.classList.add('flex-row', 'edit-row');
+            divRow.classList.add('flex-row', 'z-edit-row');
 
             const keySelect = document.createElement('select');
             keySelect.classList.add('condition');
@@ -246,9 +248,9 @@
             valueInput.value = (typeof param !== 'undefined') ? param.conditionValue : '';
 
             const deleteBtn = document.createElement('button');
-            deleteBtn.classList.add('btn-minus');
+            deleteBtn.className = 'z-button-icon extra';
             const deleteIcon = document.createElement('span');
-            deleteIcon.classList.add('icon-delete-gray', 'ml-1');
+            deleteIcon.className = 'z-icon i-delete';
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
                 aliceAlert.confirm(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
@@ -334,10 +336,10 @@
                         data.searchColumn = document.getElementById('searchColumn').value;
                         data.valueColumn = document.getElementById('valueColumn').value;
 
-                        let conditionDataArr = new Array();
+                        let conditionDataArr = [];
                         let childNodes = document.getElementById('condition').childNodes;
                         for (let i = 0; i < childNodes.length; i++) {
-                            let conditionObj = new Object();
+                            let conditionObj = {};
                             let conditionKey = childNodes[i].getElementsByTagName('select')[0].value;
                             let conditionOperator = childNodes[i].getElementsByTagName('select')[1].value;
                             let conditionValue = childNodes[i].getElementsByTagName('input')[0].value;

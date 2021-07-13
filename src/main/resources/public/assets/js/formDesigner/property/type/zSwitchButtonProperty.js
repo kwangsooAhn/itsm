@@ -12,7 +12,8 @@
  * https://www.brainz.co.kr
  */
 import ZProperty from '../zProperty.js';
-import {UIButton, UIDiv, UISpan} from '../../../lib/zUI.js';
+import { UIButton, UIDiv, UISpan } from '../../../lib/zUI.js';
+import { CLASS_PREFIX } from '../../../lib/zConstants.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
@@ -35,19 +36,19 @@ export default class ZSwitchButtonProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // 버튼 그룹
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('btn-switch-group');
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-switch-group');
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
                 .setUIId(this.key)
                 .setUIAttribute('data-value', item.value)
-                .addUIClass('btn-switch')
-                .onUIClick(this.updateProperty.bind(this));
-            this.UIElement.UIButtonGroup['UIButton' + name].addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
+                .setUIClass(CLASS_PREFIX + 'button-switch')
+                .onUIClick(this.updateProperty.bind(this))
+                .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass(item.name));
 
             if (this.value === item.value) {
-                this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('active');
+                this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('selected');
             }
             this.UIElement.UIButtonGroup.addUI(this.UIElement.UIButtonGroup['UIButton' + name]);
         });
@@ -60,16 +61,16 @@ export default class ZSwitchButtonProperty extends ZProperty {
         e.stopPropagation();
         e.preventDefault();
         // 정렬
-        if (e.target.classList.contains('active')) {return false;}
+        if (e.target.classList.contains('selected')) {return false;}
 
         const buttonGroup = e.target.parentNode;
         for (let i = 0, len = buttonGroup.childNodes.length; i < len; i++) {
             let child = buttonGroup.childNodes[i];
-            if (child.classList.contains('active')) {
-                child.classList.remove('active');
+            if (child.classList.contains('selected')) {
+                child.classList.remove('selected');
             }
         }
-        e.target.classList.add('active');
+        e.target.classList.add('selected');
 
         this.panel.update.call(this.panel, e.target.id, e.target.getAttribute('data-value'));
     }

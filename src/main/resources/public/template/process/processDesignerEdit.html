@@ -16,6 +16,7 @@
     <script th:src="@{/assets/js/lib/zModal.js}"></script>
     <script th:src="@{/assets/js/lib/zAlert.js}"></script>
     <script th:src="@{/assets/js/lib/zUtil.js}"></script>
+    <script th:src="@{/assets/js/lib/zSelectBox.js}"></script>
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
     <script th:src="@{/assets/js/lib/zColorPalette.js}"></script>
@@ -35,41 +36,41 @@
             <span class="name" th:text="#{process.label.title}"></span>
             <span class="separator"></span>
             <th:block th:if="${#strings.isEmpty(isView)}">
-                <button type="button" class="btn-header header-tooltip" id="btnSave">
-                    <span class="icon icon-save"></span>
+                <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnSave">
+                    <span class="z-icon i-save"></span>
                     <div class="tooltip-contents">
                         <span th:text="#{common.btn.save}"></span>
                     </div>
                 </button>
             </th:block>
-            <button type="button" class="btn-header header-tooltip" id="btnSaveAs">
-                <span class="icon icon-save-as"></span>
+            <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnSaveAs">
+                <span class="z-icon i-save-as"></span>
                 <div class="tooltip-contents">
                     <span th:text="#{common.btn.saveAs}"></span>
                 </div>
             </button>
             <th:block th:if="${#strings.isEmpty(isView)}">
-               <button type="button" class="btn-header header-tooltip" id="btnUndo">
-                    <span class="icon icon-undo"></span>
+               <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnUndo">
+                    <span class="z-icon i-undo"></span>
                     <div class="tooltip-contents">
                         <span th:text="#{process.label.undo}"></span>
                     </div>
                 </button>
-                <button type="button" class="btn-header header-tooltip" id="btnRedo">
-                    <span class="icon icon-redo"></span>
+                <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnRedo">
+                    <span class="z-icon i-redo"></span>
                     <div class="tooltip-contents">
                         <span th:text="#{process.label.redo}"></span>
                     </div>
                 </button>
             </th:block>
-            <button type="button" class="btn-header header-tooltip" id="btnSimulation">
-                <span class="icon icon-simulation"></span>
+            <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnSimulation">
+                <span class="z-icon i-simulation"></span>
                 <div class="tooltip-contents">
                     <span th:text="#{process.label.simulation}"></span>
                 </div>
             </button>
-            <button type="button" class="btn-header header-tooltip" id="btnDownload">
-                <span class="icon icon-image-download"></span>
+            <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnDownload">
+                <span class="z-icon i-image-download"></span>
                 <div class="tooltip-contents">
                     <span th:text="#{process.label.imageDownload}"></span>
                 </div>

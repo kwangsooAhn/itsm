@@ -13,6 +13,7 @@
  */
 import { UIButton, UIDiv } from '../lib/zUI.js';
 import { zValidation } from '../lib/zValidation.js';
+import { CLASS_PREFIX } from '../lib/zConstants.js';
 
 class ZFormButton {
     constructor() {
@@ -38,17 +39,17 @@ class ZFormButton {
      */
     makeDefaultButton() {
         // 버튼 목록 생성
-        const UIButtonGroup = new UIDiv().setUIClass('btn-list');
+        const UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-list');
 
         // 문서함에서 출력되는 경우 프로세스 맵 버튼도 출력
         if (this.isToken) {
-            const UIProcessMapButton = new UIButton(i18n.msg('process.label.processMap')).addUIClass('default-line')
+            const UIProcessMapButton = new UIButton(i18n.msg('process.label.processMap')).addUIClass('form')
                 .onUIClick(this.zForm.openProcessStatusPopUp.bind(this.zForm));
             UIButtonGroup.addUI(UIProcessMapButton);
         }
 
         // 인쇄 버튼
-        const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('default-line')
+        const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('form')
             .onUIClick(this.zForm.print.bind(this.zForm));
         UIButtonGroup.addUI(UIPrintButton);
 
@@ -63,19 +64,20 @@ class ZFormButton {
     makeActionButton(actions) {
         if (!zValidation.isDefined(actions)) { return false; }
         // 버튼 목록 생성
-        const UIButtonGroup = new UIDiv().setUIClass('btn-list');
+        const UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-list');
         // 동적버튼
         actions.forEach( (btn) => {
             if (zValidation.isEmpty(btn.name)) { return false; }
-            let UIActionButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
-                .addUIClass('default-fill')
+            let UIActionButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name));
 
             switch(btn.value) {
                 case 'close':
-                    UIActionButton.onUIClick(this.zForm.close.bind(this.zForm));
+                    UIActionButton.addUIClass('secondary')
+                        .onUIClick(this.zForm.close.bind(this.zForm));
                     break;
                 default :
-                    UIActionButton.onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
+                    UIActionButton.addUIClass('primary')
+                        .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
             }
             UIButtonGroup.addUI(UIActionButton);
         });

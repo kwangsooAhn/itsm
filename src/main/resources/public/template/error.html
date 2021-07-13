@@ -19,14 +19,14 @@
             <h3 th:text="${message}" class="error-code-txt"></h3>
             <h3 th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-code-txt"></h3>
             <h3 th:text="#{error.label.bottomPhrase}" class="error-bottom-txt"></h3>
-            <button th:text="#{error.btn.return}" class="point-fill btn-error"></button>
+            <button th:text="#{error.btn.return}" class="z-button primary" id="errorButton"></button>
         </div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
     window.addEventListener('load', function () {
-        document.querySelector('.btn-error').addEventListener('click', function () {
+        document.getElementById('errorButton').addEventListener('click', function () {
             if (window.opener) {
                 self.close();
             } else {

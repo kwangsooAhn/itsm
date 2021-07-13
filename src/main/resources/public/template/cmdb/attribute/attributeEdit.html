@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="cmdb-attribute-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{cmdb.attribute.label.view}"></h1>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="cmdb-attribute-content-edit">
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="attributeName">
                     <span th:text="#{cmdb.attribute.label.name}"></span>
                     <span class="required"></span>
@@ -25,28 +25,28 @@
                        th:attr="data-validation-required-name=#{cmdb.attribute.label.name}"
                        th:value="${attribute?.attributeName}"/>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="attributeDesc">
                     <span th:text="#{cmdb.attribute.label.description}"></span>
                 </label>
                 <textarea id="attributeDesc" name="attributeDesc" class="z-textarea textarea-scroll-wrapper"
                           maxlength="250" rows="5" th:text="${attribute?.attributeDesc}"></textarea>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="attributeText">
                     <span th:text="#{cmdb.attribute.label.label}"></span>
                 </label>
                 <input type="text" id="attributeText" class="z-input" maxlength="100"
                        th:value="${attribute?.attributeText}"/>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="mappingId">
                     <span th:text="#{cmdb.attribute.label.mappingId}"></span>
                 </label>
                 <input type="text" id="mappingId" class="z-input" maxlength="100"
                        th:value="${attribute?.mappingId}"/>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="attributeType">
                     <span th:text="#{cmdb.attribute.label.type}"></span>
                     <span class="required"></span>
@@ -54,7 +54,7 @@
                 <select id="attributeType" onchange="changeType(this)">
                 </select>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <div class="under-bar">
                     <label>
                         <span th:text="#{cmdb.attribute.label.details}"></span>
@@ -63,15 +63,17 @@
                 </div>
                 <div id="details" class="attribute"></div>
             </div>
-            <div class="flex-row justify-content-end edit-row">
-                <div class="btn-list">
-                    <button class="point-fill" th:if="${attribute == null}" sec:authorize="hasAuthority('cmdb.attribute.create')"
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
+                    <button class="z-button primary" th:if="${attribute == null}" sec:authorize="hasAuthority('cmdb.attribute.create')"
                             onclick="actionAttribute('post')" th:text="#{common.btn.register}"></button>
-                    <button class="point-fill" th:if="${attribute?.attributeId}" sec:authorize="hasAuthority('cmdb.attribute.update')"
+                    <button class="z-button primary" th:if="${attribute?.attributeId}" sec:authorize="hasAuthority('cmdb.attribute.update')"
                             onclick="actionAttribute('put')" th:text="#{common.btn.modify}"></button>
-                    <button class="default-fill" th:if="${attribute?.attributeId}" sec:authorize="hasAuthority('cmdb.attribute.delete')"
+                    <button class="z-button secondary" th:if="${attribute?.attributeId}" sec:authorize="hasAuthority('cmdb.attribute.delete')"
                             th:disabled="${!attribute.enabled}" onclick="actionAttribute('delete')" th:text="#{common.btn.delete}"></button>
-                    <a class="btn default-line" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
         </div>

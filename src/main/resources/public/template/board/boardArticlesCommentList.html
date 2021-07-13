@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 </head>
 <body>
@@ -12,15 +11,14 @@
             <h5 class="reply-user-name" th:text="${boardComment.createUser.userName}"></h5>
             <span class="vertical-bar"></span>
             <h5 class="reply-create-date" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
-            <div class="ml-auto align-middle">
-                <button class="reply-edit" sec:authorize="hasAuthority('board.update')"
+            <div class="ml-auto align-middle z-button-list">
+                <button class="z-button-icon extra" sec:authorize="hasAuthority('board.update')"
                         th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
-                    <span class="icon-edit"></span>
+                    <span class="z-icon i-edit"></span>
                 </button>
-                <span class="vertical-bar"></span>
-                <button class="reply-delete" sec:authorize="hasAuthority('board.delete')"
+                <button class="z-button-icon extra" sec:authorize="hasAuthority('board.delete')"
                         th:onclick="restSubmit('delete', [[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
-                    <span class="icon-delete" ></span>
+                    <span class="z-icon i-delete" ></span>
                 </button>
             </div>
         </div>

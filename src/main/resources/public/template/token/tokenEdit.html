@@ -17,9 +17,9 @@
             <div class="document-main flex-column align-items-center" style="right: 38.13rem">
                 <div class="document-main-header flex-row justify-content-between align-items-center">
                     <span class="document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></span>
-                    <div id="btn-area"></div>
+                    <div class="z-button-area" id="documentButtonArea"></div>
                 </div>
-                <div class="drawing-board" id="document-panel" data-display="token"></div>
+                <div class="drawing-board" id="documentPanel" data-display="token"></div>
             </div>
         </form>
         <div class="token-properties"></div>
@@ -59,8 +59,8 @@
                 addIdComponent('tokenId', formDataJson.tokenId);
             }
 
-            zFormToken.init(document.getElementById('document-panel'), formDataJson);
-            zFormButton.init(document.getElementById('btn-area'), formDataJson, zFormToken);
+            zFormToken.init(document.getElementById('documentPanel'), formDataJson);
+            zFormButton.init(document.getElementById('documentButtonArea'), formDataJson, zFormToken);
         });
         OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
         /*]]>*/
@@ -69,6 +69,7 @@
         // 탭 정보들 조회하여 셋팅.
         window.onload = function() {
             tabInit();
+            aliceJs.initDesignedSelectTag();
         }
 
         /**
@@ -164,7 +165,7 @@
                 let commentButton = document.createElement('button');
                 commentButton.type = 'button';
                 commentButton.innerText = i18n.msg('common.btn.register');
-                commentButton.classList.add('default-line');
+                commentButton.className = 'z-button form';
                 commentButton.addEventListener('click', function () {
                     // 유효성 검증
                     if (isEmpty('commentValue', 'comment.msg.enterComments')) { return false; }
@@ -235,7 +236,7 @@
             const comp = document.createElement('div');
             comp.id = v_kind;
             comp.setAttribute('data-id', v_data);
-            document.getElementById('document-panel').appendChild(comp);
+            document.getElementById('documentPanel').appendChild(comp);
         }
 
         // 관련문서 모달
@@ -246,14 +247,14 @@
                 classes: 'token-list',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: "point-fill",
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: function() {
                         saveTokenList();
                     }
                 },{
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

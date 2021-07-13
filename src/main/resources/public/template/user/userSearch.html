@@ -18,7 +18,7 @@
                    th:placeholder="#{user.label.searchPlaceholder}"/>
             <span id="spanTotalCount" class="search-count"></span>
             <div class="ml-auto">
-                <button type="button" class="default-fill" onclick="location.href='/users/new'"
+                <button type="button" class="z-button secondary" onclick="location.href='/users/new'"
                         sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>

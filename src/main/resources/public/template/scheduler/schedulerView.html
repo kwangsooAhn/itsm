@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="scheduler-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{scheduler.label.schedule}"></h1>
@@ -112,11 +112,13 @@
                 <input type="text" class="z-input" id="executeCyclePeriod" required="required" maxlength="6"
                        th:value="${schedule?.executeCyclePeriod}" disabled/>
             </div>
-            <div class="flex-row justify-content-end edit-row">
-                <div class="btn-list">
-                    <button class="default-fill" th:if="${schedule != null}" sec:authorize="hasAuthority('scheduler.read')"
+            <div class="flex-row justify-content-between edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/schedulers/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
+                    <button class="z-button primary" th:if="${schedule != null}" sec:authorize="hasAuthority('scheduler.read')"
                             onclick="openHistoryViewModal()" th:text="#{scheduler.btn.history}"></button>
-                    <a class="btn default-line" href="/schedulers/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
         </div>
@@ -149,7 +151,7 @@
                 body: `<div class="table-set" id="historyList"></div>`,
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'default-line',
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

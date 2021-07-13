@@ -42,6 +42,7 @@ export default class ZPanel {
                 });
             }
             this.domElement.appendChild(propertyObjectElement.domElement);
+            aliceJs.initDesignedSelectTag(propertyObjectElement.domElement);
         });
         return this;
     }
@@ -79,6 +80,7 @@ export default class ZPanel {
         }]);
         // 변경
         this.editor.selectedObject[key] = value;
+        aliceJs.initDesignedSelectTag();
     }
     /**
      * 세부 속성 첫번째 inputbox 포커싱 - 단축키에서 사용

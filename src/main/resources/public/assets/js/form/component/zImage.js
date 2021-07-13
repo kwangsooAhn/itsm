@@ -170,9 +170,9 @@ export const imageMixin = {
 
         // label - align
         const elementAlignProperty = new ZSwitchButtonProperty('elementAlign', 'element.align', this.elementAlign, [
-            { 'name': 'icon-align-left', 'value': 'left' },
-            { 'name': 'icon-align-center', 'value': 'center' },
-            { 'name': 'icon-align-right', 'value': 'right' }
+            { 'name': 'i-align-left', 'value': 'left' },
+            { 'name': 'i-align-center', 'value': 'center' },
+            { 'name': 'i-align-right', 'value': 'right' }
         ]);
 
         return [

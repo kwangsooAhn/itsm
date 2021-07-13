@@ -18,7 +18,7 @@
                    th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
             <span id="totalCount" class="search-count"></span>
             <div class="ml-auto">
-                <button type="button" class="default-fill" id="btnCreate" name="btnCreate" onclick="onCreate();"
+                <button type="button" class="z-button secondary" id="btnCreate" name="btnCreate" onclick="onCreate();"
                         sec:authorize="hasAuthority('cmdb.type.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
@@ -64,7 +64,7 @@
                     <div class="flex-row z-input-button">
                         <input class="z-input col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
                         <button class="z-button-clear" name="clearIcon" type="button" onclick="aliceJs.clearText(this);"  tabindex="-1"></button>
-                        <button class="z-button-search default-line" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
+                        <button class="z-button-search z-button form" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
                 <div class="edit-row flex-column">
@@ -73,21 +73,21 @@
                         <input class="z-input col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
                         <input id="typeClassId" name="typeClassId" type="hidden"/>
                         <button class="z-button-clear" name="clearClass" type="button" onclick="aliceJs.clearText(this);" tabindex="-1" ></button>
-                        <button class="z-button-search default-line" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
+                        <button class="z-button-search z-button form" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="btn-list">
+            <div class="z-button-list">
                 <button sec:authorize="hasAuthority('cmdb.type.create')"
-                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                        class="z-button primary" type="button" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('cmdb.type.update')"
-                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                        class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('cmdb.type.delete')"
-                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                        class="z-button secondary" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>

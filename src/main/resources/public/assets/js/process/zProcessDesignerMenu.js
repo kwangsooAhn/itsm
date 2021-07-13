@@ -732,22 +732,22 @@
             addElemWidth = 0,
             addElemHeight = 0;
         switch (type) {
-        case 'userTask':
-        case 'manualTask':
-            addElemWidth = 160;
-            addElemHeight = 40;
-            break;
-        case 'exclusiveGateway':
-            let gatewaySize = Math.sqrt(
-                Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2) + Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2)
-            );
-            addElemWidth = gatewaySize;
-            addElemHeight = gatewaySize;
-            break;
-        case 'commonEnd':
-            addElemWidth = 40;
-            addElemHeight = 40;
-            break;
+            case 'userTask':
+            case 'manualTask':
+                addElemWidth = 160;
+                addElemHeight = 40;
+                break;
+            case 'exclusiveGateway':
+                let gatewaySize = Math.sqrt(
+                    Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2) + Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2)
+                );
+                addElemWidth = gatewaySize;
+                addElemHeight = gatewaySize;
+                break;
+            case 'commonEnd':
+                addElemWidth = 40;
+                addElemHeight = 40;
+                break;
         }
 
         elemData.display = {
@@ -1198,9 +1198,9 @@
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
-            fileBtn.className = 'ghost-line btn-file';
+            fileBtn.className = 'z-button-icon form';
             let fileIcon = document.createElement('span');
-            fileIcon.className = 'icon icon-search';
+            fileIcon.className = 'z-icon i-search';
             fileBtn.addEventListener('click', function() {
                 aliceJs.thumbnail({
                     title: i18n.msg('common.label.attachFile'),
@@ -1217,7 +1217,7 @@
             // button
             let btnAdd = document.createElement('button');
             btnAdd.type = 'button';
-            btnAdd.className = 'default-line btn-add';
+            btnAdd.className = 'z-button form mt-3';
             btnAdd.textContent = i18n.msg('common.btn.add');
 
             const saveData = function() {
@@ -1281,9 +1281,10 @@
                 // 삭제 버튼
                 let btnDel = document.createElement('button');
                 btnDel.type = 'button';
+                btnDel.className = 'z-button-icon extra';
 
                 let btnIcon = document.createElement('span');
-                btnIcon.className = 'icon icon-delete';
+                btnIcon.className = 'z-icon i-delete';
                 btnDel.appendChild(btnIcon);
 
                 btnDel.addEventListener('click', function() {
@@ -1369,8 +1370,8 @@
 
         let btnAdd = document.createElement('button');
         btnAdd.type = 'button';
-        btnAdd.className = 'ghost-line btn-candidate-add';
-        btnAdd.insertAdjacentHTML('beforeend', `<span class="icon icon-plus"></span>`);
+        btnAdd.className = 'z-button-icon form z-button-candidate-add';
+        btnAdd.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
 
         const saveData = function() {
             let dataBody = inputObject.parentNode.querySelector('tbody');
@@ -1405,9 +1406,10 @@
             // 삭제 버튼
             let btnDel = document.createElement('button');
             btnDel.type = 'button';
+            btnDel.className = 'z-button-icon extra';
 
             let btnIcon = document.createElement('span');
-            btnIcon.className = 'icon icon-delete';
+            btnIcon.className = 'z-icon i-delete';
             btnDel.appendChild(btnIcon);
 
             btnDel.addEventListener('click', function() {
@@ -1587,40 +1589,40 @@
 
                     // 그 외 이벤트 설정
                     switch (property.id) {
-                    case 'name':
-                        let keyupHandler = function() {
-                            zProcessDesigner.changeTextToElement(id, this.value);
-                        };
-                        if (id === zProcessDesigner.data.process.id) {
-                            keyupHandler = changeEventHandler;
-                        }
-                        elementObject.addEventListener('keyup', keyupHandler);
-                        break;
-                    case 'reject-id':
-                        const addRejectClass = function(e) {
-                            e.stopPropagation();
-                            const elementData = zProcessDesigner.data.elements.filter(function(elem) { return elem.id === e.target.value; });
-                            if (elementData.length) {
-                                d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
-                            } else {
-                                d3.selectAll('.node').classed('reject-element', false);
+                        case 'name':
+                            let keyupHandler = function() {
+                                zProcessDesigner.changeTextToElement(id, this.value);
+                            };
+                            if (id === zProcessDesigner.data.process.id) {
+                                keyupHandler = changeEventHandler;
                             }
-                        };
-                        elementObject.addEventListener('keyup', addRejectClass);
-                        elementObject.addEventListener('focus', addRejectClass);
-                        elementObject.addEventListener('focusout', function() {
-                            d3.selectAll('.node').classed('reject-element', false);
-                        });
-                        break;
-                    case 'target-document-list':
-                        setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
-                        break;
-                    case 'script-detail' :
-                        setMultipleScriptDetail(elementObject, elemData['script-type'], elemData[property.id]);
-                        break;
-                    case 'script-action' :
-                        setMultipleScriptAction(elementObject, elemData['script-type'], elemData[property.id]);
-                        break;
+                            elementObject.addEventListener('keyup', keyupHandler);
+                            break;
+                        case 'reject-id':
+                            const addRejectClass = function(e) {
+                                e.stopPropagation();
+                                const elementData = zProcessDesigner.data.elements.filter(function(elem) { return elem.id === e.target.value; });
+                                if (elementData.length) {
+                                    d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
+                                } else {
+                                    d3.selectAll('.node').classed('reject-element', false);
+                                }
+                            };
+                            elementObject.addEventListener('keyup', addRejectClass);
+                            elementObject.addEventListener('focus', addRejectClass);
+                            elementObject.addEventListener('focusout', function() {
+                                d3.selectAll('.node').classed('reject-element', false);
+                            });
+                            break;
+                        case 'target-document-list':
+                            setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
+                            break;
+                        case 'script-detail' :
+                            setMultipleScriptDetail(elementObject, elemData['script-type'], elemData[property.id]);
+                            break;
+                        case 'script-action' :
+                            setMultipleScriptAction(elementObject, elemData['script-type'], elemData[property.id]);
+                            break;
                     }
                 }
             }
@@ -1747,184 +1749,184 @@
     function addPropertyObject(id, property, properties, elemData, propertyContainer) {
         let elementObject;
         switch (property.type) {
-        case 'inputbox':
-            elementObject = document.createElement('input');
-            elementObject.className = 'z-input';
-            elementObject.maxLength = 70;
-            propertyContainer.appendChild(elementObject);
-            break;
-        case 'inputbox-readonly':
-            elementObject = document.createElement('input');
-            elementObject.type = 'text';
-            elementObject.className = 'z-input';
-            elementObject.readOnly = true;
-            propertyContainer.appendChild(elementObject);
-            break;
-        case 'inputbox-copy':
-            elementObject = document.createElement('input');
-            elementObject.type = 'text';
-            elementObject.className = 'z-input copy';
-            elementObject.readOnly = true;
-            propertyContainer.appendChild(elementObject);
+            case 'inputbox':
+                elementObject = document.createElement('input');
+                elementObject.className = 'z-input';
+                elementObject.maxLength = 70;
+                propertyContainer.appendChild(elementObject);
+                break;
+            case 'inputbox-readonly':
+                elementObject = document.createElement('input');
+                elementObject.type = 'text';
+                elementObject.className = 'z-input';
+                elementObject.readOnly = true;
+                propertyContainer.appendChild(elementObject);
+                break;
+            case 'inputbox-copy':
+                elementObject = document.createElement('input');
+                elementObject.type = 'text';
+                elementObject.className = 'z-input copy';
+                elementObject.readOnly = true;
+                propertyContainer.appendChild(elementObject);
 
-            let copyBtnContainer = document.createElement('div');
-            copyBtnContainer.className = 'clipboard-tooltip';
+                let copyBtnContainer = document.createElement('div');
+                copyBtnContainer.className = 'z-clipboard-tooltip';
 
-            let copyBtn = document.createElement('button');
-            copyBtn.className = 'ghost-line btn-clipboard-tooltip';
-            copyBtn.insertAdjacentHTML('beforeend', `<span class="icon icon-clipboard"></span>`);
-            copyBtn.addEventListener('click', function() {
-                elementObject.select();
-                elementObject.setSelectionRange(0, 99999);
-                document.execCommand('copy');
+                let copyBtn = document.createElement('button');
+                copyBtn.className = 'z-button-icon form btn-clipboard-tooltip';
+                copyBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-clipboard"></span>`);
+                copyBtn.addEventListener('click', function() {
+                    elementObject.select();
+                    elementObject.setSelectionRange(0, 99999);
+                    document.execCommand('copy');
 
-                let tooltip = document.getElementById('clipboard-tooltip-text');
-                tooltip.textContent = 'Copy Success';
-            });
-            copyBtn.addEventListener('mouseout', function() {
-                let tooltip = document.getElementById('clipboard-tooltip-text');
+                    let tooltip = document.getElementById('clipboardTooltipText');
+                    tooltip.textContent = 'Copy Success';
+                });
+                copyBtn.addEventListener('mouseout', function() {
+                    let tooltip = document.getElementById('clipboardTooltipText');
+                    tooltip.textContent = 'Copy to clipboard';
+                });
+                let tooltip = document.createElement('span');
+                tooltip.id = 'clipboardTooltipText';
+                tooltip.className = 'z-clipboard-tooltip-text';
                 tooltip.textContent = 'Copy to clipboard';
-            });
-            let tooltip = document.createElement('span');
-            tooltip.id = 'clipboard-tooltip-text';
-            tooltip.className = 'clipboard-tooltip-text';
-            tooltip.textContent = 'Copy to clipboard';
-            copyBtn.appendChild(tooltip);
-            copyBtnContainer.appendChild(copyBtn);
+                copyBtn.appendChild(tooltip);
+                copyBtnContainer.appendChild(copyBtn);
 
-            propertyContainer.appendChild(copyBtnContainer);
-            break;
-        case 'textarea':
-            elementObject = document.createElement('textarea');
-            elementObject.className = 'z-textarea'
-            elementObject.style.resize = 'none';
-            elementObject.maxLength = 256;
-            propertyContainer.appendChild(elementObject);
+                propertyContainer.appendChild(copyBtnContainer);
+                break;
+            case 'textarea':
+                elementObject = document.createElement('textarea');
+                elementObject.className = 'z-textarea';
+                elementObject.style.resize = 'none';
+                elementObject.maxLength = 256;
+                propertyContainer.appendChild(elementObject);
 
-            // textarea 에 스크롤 적용
-            propertyContainer.querySelectorAll('textarea').forEach(element => {
-                element.classList.add('textarea-scroll-wrapper');
-                OverlayScrollbars(element, { className: 'inner-scrollbar' });
-            });
-            break;
-        case 'checkbox':
-            const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
-            const labelText = labelElem.textContent;
-            labelElem.textContent = '';
-            elementObject = document.createElement('input');
-            elementObject.type = 'checkbox';
-            if (elemData[property.id] && elemData[property.id] === 'Y') {
-                elementObject.checked = true;
-            }
-            labelElem.appendChild(elementObject);
-            labelElem.appendChild(document.createElement('span'));
-
-            const spanElem = document.createElement('span');
-            spanElem.className = 'label';
-            spanElem.textContent = labelText;
-            labelElem.appendChild(spanElem);
-            break;
-        case 'select':
-            elementObject = document.createElement('select');
-            let optionList = JSON.parse(JSON.stringify(property['sub-list']));
-            if (property.id === 'sub-document-id') {
-                documents.forEach(function(d) {
-                    optionList.push({id: d.documentId, name: d.documentName});
+                // textarea 에 스크롤 적용
+                propertyContainer.querySelectorAll('textarea').forEach(element => {
+                    element.classList.add('textarea-scroll-wrapper');
+                    OverlayScrollbars(element, { className: 'inner-scrollbar' });
                 });
-            }
-            for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
-                let option = document.createElement('option');
-                option.value = optionList[j].id;
-                option.text = optionList[j].name;
-                elementObject.appendChild(option);
-            }
-            if (property.id === 'assignee-type') {
-                elementObject.addEventListener('change', function() {
-                    changePropertyAssigneeType(this);
-                });
-            }
-            if (property.id === 'script-type') {
-                elementObject.addEventListener('change', function() {
-                    changePropertyScriptType(this);
-                });
-            }
-            propertyContainer.appendChild(elementObject);
-            break;
-        case 'rgb':
-            let colorPicker = document.createElement('div');
-            colorPicker.className = 'color-picker';
-            let colorInput = document.createElement('div');
-            colorInput.className = 'color-input';
-            let selectedColorBox = document.createElement('span');
-            let selectedColor = document.createElement('span');
-            selectedColorBox.className = 'selected-color-box';
-            selectedColor.className = 'selected-color';
-            if (property.id === 'line-color') {
-                selectedColor.style.backgroundColor = '';
-                selectedColor.style.borderColor = elemData[property.id];
-            }
-            if (property.id === 'background-color') {
-                selectedColor.style.backgroundColor = elemData[property.id];
-                selectedColor.style.border = 'transparent';
-            }
-            selectedColorBox.appendChild(selectedColor);
-            colorInput.appendChild(selectedColorBox);
-            colorPicker.appendChild(colorInput);
-            propertyContainer.appendChild(colorPicker);
-
-            elementObject = document.createElement('input');
-            elementObject.className = 'z-input color';
-            elementObject.readOnly = true;
-            elementObject.addEventListener('change', function() {
-                let opacity = 0;
-                if (this.dataset['opacity'] !== '') {
-                    opacity = Number(this.dataset['opacity']) / 100;
+                break;
+            case 'checkbox':
+                const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
+                const labelText = labelElem.textContent;
+                labelElem.textContent = '';
+                elementObject = document.createElement('input');
+                elementObject.type = 'checkbox';
+                if (elemData[property.id] && elemData[property.id] === 'Y') {
+                    elementObject.checked = true;
                 }
-                if (!aliceJs.isHexCode(this.value)) {
-                    this.value = aliceJs.rgbaToHex(this.value); // opacity 값 갱신하기 위해 Hex로 변환
+                labelElem.appendChild(elementObject);
+                labelElem.appendChild(document.createElement('span'));
+
+                const spanElem = document.createElement('span');
+                spanElem.className = 'label';
+                spanElem.textContent = labelText;
+                labelElem.appendChild(spanElem);
+                break;
+            case 'select':
+                elementObject = document.createElement('select');
+                let optionList = JSON.parse(JSON.stringify(property['sub-list']));
+                if (property.id === 'sub-document-id') {
+                    documents.forEach(function(d) {
+                        optionList.push({id: d.documentId, name: d.documentName});
+                    });
                 }
-                this.value = aliceJs.hexToRgba(this.value, opacity);
-                if (properties.type === 'groupArtifact') {
-                    const groupElement = d3.select(document.getElementById(id));
-                    const selectedElement = elementObject.parentNode.querySelector('span.selected-color');
-                    if (this.id === 'line-color') {
-                        selectedElement.style.borderColor = this.value;
-                        selectedElement.style.backgroundColor = 'transparent';
-                        groupElement.style('stroke', this.value);
+                for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
+                    let option = document.createElement('option');
+                    option.value = optionList[j].id;
+                    option.text = optionList[j].name;
+                    elementObject.appendChild(option);
+                }
+                if (property.id === 'assignee-type') {
+                    elementObject.addEventListener('change', function() {
+                        changePropertyAssigneeType(this);
+                    });
+                }
+                if (property.id === 'script-type') {
+                    elementObject.addEventListener('change', function() {
+                        changePropertyScriptType(this);
+                    });
+                }
+                propertyContainer.appendChild(elementObject);
+                break;
+            case 'rgb':
+                let colorPicker = document.createElement('div');
+                colorPicker.className = 'color-picker';
+                let colorInput = document.createElement('div');
+                colorInput.className = 'color-input';
+                let selectedColorBox = document.createElement('span');
+                let selectedColor = document.createElement('span');
+                selectedColorBox.className = 'selected-color-box';
+                selectedColor.className = 'selected-color';
+                if (property.id === 'line-color') {
+                    selectedColor.style.backgroundColor = '';
+                    selectedColor.style.borderColor = elemData[property.id];
+                }
+                if (property.id === 'background-color') {
+                    selectedColor.style.backgroundColor = elemData[property.id];
+                    selectedColor.style.border = 'transparent';
+                }
+                selectedColorBox.appendChild(selectedColor);
+                colorInput.appendChild(selectedColorBox);
+                colorPicker.appendChild(colorInput);
+                propertyContainer.appendChild(colorPicker);
+
+                elementObject = document.createElement('input');
+                elementObject.className = 'z-input color';
+                elementObject.readOnly = true;
+                elementObject.addEventListener('change', function() {
+                    let opacity = 0;
+                    if (this.dataset['opacity'] !== '') {
+                        opacity = Number(this.dataset['opacity']) / 100;
                     }
-                    if (this.id === 'background-color') {
-                        selectedElement.style.backgroundColor = this.value;
-                        selectedElement.style.border = 'transparent';
-                        if (this.value.trim() === '') {
-                            groupElement.style('fill-opacity', 0);
-                        } else {
-                            groupElement.style('fill', this.value).style('fill-opacity', opacity);
+                    if (!aliceJs.isHexCode(this.value)) {
+                        this.value = aliceJs.rgbaToHex(this.value); // opacity 값 갱신하기 위해 Hex로 변환
+                    }
+                    this.value = aliceJs.hexToRgba(this.value, opacity);
+                    if (properties.type === 'groupArtifact') {
+                        const groupElement = d3.select(document.getElementById(id));
+                        const selectedElement = elementObject.parentNode.querySelector('span.selected-color');
+                        if (this.id === 'line-color') {
+                            selectedElement.style.borderColor = this.value;
+                            selectedElement.style.backgroundColor = 'transparent';
+                            groupElement.style('stroke', this.value);
+                        }
+                        if (this.id === 'background-color') {
+                            selectedElement.style.backgroundColor = this.value;
+                            selectedElement.style.border = 'transparent';
+                            if (this.value.trim() === '') {
+                                groupElement.style('fill-opacity', 0);
+                            } else {
+                                groupElement.style('fill', this.value).style('fill-opacity', opacity);
+                            }
                         }
                     }
-                }
-            });
-            colorInput.appendChild(elementObject);
+                });
+                colorInput.appendChild(elementObject);
 
-            let colorPaletteLayer = document.createElement('div');
-            colorPaletteLayer.className = 'color-palette-layer';
-            let colorPaletteBox = document.createElement('div');
-            colorPaletteBox.id = property.id + '-colorPalette';
-            colorPaletteBox.className = 'color-palette';
-            colorPaletteLayer.appendChild(colorPaletteBox);
-            colorPicker.appendChild(colorPaletteLayer);
+                let colorPaletteLayer = document.createElement('div');
+                colorPaletteLayer.className = 'color-palette-layer';
+                let colorPaletteBox = document.createElement('div');
+                colorPaletteBox.id = property.id + '-colorPalette';
+                colorPaletteBox.className = 'color-palette';
+                colorPaletteLayer.appendChild(colorPaletteBox);
+                colorPicker.appendChild(colorPaletteLayer);
 
-            let option = {
-                isOpacity: true,
-                data: {
-                    isSelected: true,
-                    selectedClass: 'selected',
-                    value: elemData[property.id]
-                }
-            };
-            zColorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
-            break;
-        default:
-            break;
+                let option = {
+                    isOpacity: true,
+                    data: {
+                        isSelected: true,
+                        selectedClass: 'selected',
+                        value: elemData[property.id]
+                    }
+                };
+                zColorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
+                break;
+            default:
+                break;
         }
         return elementObject;
     }

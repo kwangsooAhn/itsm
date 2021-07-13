@@ -38,15 +38,15 @@
                         </div>
                     </td>
                     <td style="width: 10%" class="align-center">
-                        <button type="button" class="default-fill btn-popup" th:onclick="openProcessDesignerView([[${process.id}]])">
-                            <span class="icon-search"></span>
+                        <button type="button" class="z-button-icon form" th:onclick="openProcessDesignerView([[${process.id}]])">
+                            <span class="z-icon i-popup"></span>
                         </button>
                     </td>
                     <td style="width: 10%" class="align-center">
                         <th:block th:if="${process.enabled == true}">
-                            <button type="button" sec:authorize="hasAuthority('process.update')"
+                            <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('process.update')"
                                     th:onclick="openProcessDesignerEdit([[${process.id}]])">
-                                <span class="icon-edit"></span>
+                                <span class="z-icon i-edit"></span>
                             </button>
                         </th:block>
                     </td>

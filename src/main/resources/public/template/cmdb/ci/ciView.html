@@ -22,7 +22,7 @@
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
                     <input type="text" id="typeName" class="col-pct-12 inherit" th:value="${ciData?.typeName}"
                            readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
-                    <button class="default-line" id="typeSelectBtn" type="button" disabled th:text="#{common.btn.select}"></button>
+                    <button class="z-button form" id="typeSelectBtn" type="button" disabled th:text="#{common.btn.select}"></button>
                 </div>
             </div>
             <!-- 아이콘 -->

@@ -27,6 +27,10 @@
       width: $drawing-board-width;
       max-width: $drawing-board-width;
       padding: 8.438rem 0 0.9375rem 0; // 135px 0 15px 0
+
+      .#{$common-prefix}button-area {
+        .#{$common-prefix}button-list:first-child { margin-right: 0.5rem; } // 8px
+      }
     }
   }
 

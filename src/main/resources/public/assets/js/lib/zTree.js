@@ -40,7 +40,7 @@
         classes: 'tree',                        // 모달일 경우 추가되는 class 명
         buttons: [{
             content: 'Confirm',
-            classes: 'default-line',
+            classes: 'z-button primary',
             bindKey: false,
             callback: function(modal) {
                 if (saveSelectedNode()) {
@@ -49,7 +49,7 @@
             }
         }, {
             content: 'Cancel',
-            classes: 'default-line',
+            classes: 'z-button secondary',
             bindKey: false,
             callback: function(modal) {
                 modal.hide();
@@ -555,15 +555,15 @@
         options.data.forEach(function (item) {
             let p_node_id = '';
             switch (options.source) {
-            case 'ciType':
-                p_node_id = item.ptypeId;
-                break;
-            case 'ciClass':
-                p_node_id = item.pclassId;
-                break;
-            default:
-                p_node_id = item.pcode;
-                break;
+                case 'ciType':
+                    p_node_id = item.ptypeId;
+                    break;
+                case 'ciClass':
+                    p_node_id = item.pclassId;
+                    break;
+                default:
+                    p_node_id = item.pcode;
+                    break;
             }
             if (node.id === p_node_id) {
                 let expand = false;
@@ -636,7 +636,7 @@
                 buttons: [
                     {
                         content: i18n.msg('common.btn.select'),
-                        classes: 'default-line',
+                        classes: 'z-button primary',
                         bindKey: false,
                         callback: function(modal) {
                             if (saveSelectedNode()) {
@@ -645,7 +645,7 @@
                         }
                     }, {
                         content: i18n.msg('common.btn.cancel'),
-                        classes: 'default-line',
+                        classes: 'z-button secondary',
                         bindKey: false,
                         callback: function(modal) {
                             modal.hide();
