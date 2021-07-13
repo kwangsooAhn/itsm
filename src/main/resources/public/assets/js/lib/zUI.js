@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 
-import {CLASS_PREFIX, FORM, UNIT} from './zConstants.js';
+import { CLASS_PREFIX, FORM, UNIT } from './zConstants.js';
 
 class UIElement {
     constructor(domElement) {
