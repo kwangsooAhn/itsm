@@ -99,7 +99,7 @@ export const dynamicRowTableMixin = {
         return this._element.columnWidth;
     },
     set elementColumns(columns) {
-        if (columns[0].columnType ===  FORM.DATE_TYPE.DAYS) {
+        if (columns[0].columnType === FORM.DATE_TYPE.DAYS) {
             columns[0].columnValidation.minDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, columns[0].columnType, columns[0].columnValidation.minDate);
             columns[0].columnValidation.maxDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, columns[0].columnType, columns[0].columnValidation.maxDate);
         }
@@ -108,7 +108,7 @@ export const dynamicRowTableMixin = {
         this.makeTable(this.UIElement.UIComponent.UIElement.UITable);
     },
     get elementColumns() {
-        if (this._element.columns[0].columnType ===FORM.DATE_TYPE.DAYS) {
+        if (this._element.columns[0].columnType === FORM.DATE_TYPE.DAYS) {
             this._element.columns[0].columnValidation.minDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this._element.columns[0].columnType, this._element.columns[0].columnValidation.minDate);
             this._element.columns[0].columnValidation.maxDate = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this._element.columns[0].columnType, this._element.columns[0].columnValidation.maxDate);
         }
@@ -270,7 +270,6 @@ export const dynamicRowTableMixin = {
         let date = new UIInput().setUIPlaceholder(i18n.dateFormat)
             .setUIClass('datepicker')
             .setUIId('date' + index)
-            //.setUICSSText('width: 100%')
             .setUIValue(this.getDefaultValue(column, cellValue))
             .setUIAttribute('type', FORM.DATE_TYPE.DATE_PICKER)
             .setUIAttribute('data-validation-max-date', this._element.columns[0].columnValidation.maxDate)
