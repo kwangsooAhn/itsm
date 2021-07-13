@@ -818,30 +818,31 @@ label {
     @include borderRadius(0.25rem); // 4px
     background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $slider-range-bg-color var(--range-location), $slider-range-bg-color 100%);
     outline: 0;
+
     &:disabled {
       --range-fill-color: #{$slider-range-disabled-fill-color};
       background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $slider-range-bg-color var(--range-location), $slider-range-bg-color 100%);
     }
-
+  //}
+  //
+  //> input[type=range] {
     // Thumb (= round button)
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
       @include thumb($slider-thumb-size, $slider-thumb-size, 0.0625rem solid $slider-thumb-border-color, 50%, $slider-thumb-bg-color); // 18px 18px
       @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-shadow-color); // 2px
-      &:not(:disabled) {
-        &:hover {
-          border-color: $slider-thumb-hover-border-color;
-          background-color: $slider-thumb-hover-bg-color;
-        }
-        &:focus {
-          border-color: $slider-thumb-focus-border-color;
-          @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
-        }
-        &:active {
-          border-color: $slider-thumb-active-border-color;
-          background-color: $slider-thumb-active-bg-color;
-        }
+      &:hover {
+        border-color: $slider-thumb-hover-border-color;
+        background-color: $slider-thumb-hover-bg-color;
+      }
+      &:focus {
+        border-color: $slider-thumb-focus-border-color;
+        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+      }
+      &:active {
+        border-color: $slider-thumb-active-border-color;
+        background-color: $slider-thumb-active-bg-color;
       }
       &:disabled {
         border-color: $slider-thumb-disabled-border-color;
@@ -857,10 +858,12 @@ label {
         border-color: $slider-thumb-hover-border-color;
         background-color: $blue100;
       }
+
       &:focus {
         border-color: $slider-thumb-focus-border-color;
         @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-focus-border-color); // 2px
       }
+
       &:active {
         border-color: $slider-thumb-active-border-color;
         background-color: $slider-thumb-active-bg-color;

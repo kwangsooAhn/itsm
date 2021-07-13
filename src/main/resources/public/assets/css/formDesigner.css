@@ -1946,17 +1946,17 @@ label {
   -moz-box-shadow: 0 0 0.125rem 0 #8B9094;
   box-shadow: 0 0 0.125rem 0 #8B9094;
 }
-.z-slider .z-range::-webkit-slider-thumb:not(:disabled):hover {
+.z-slider .z-range::-webkit-slider-thumb:hover {
   border-color: #64BBF6;
   background-color: #E3F5FC;
 }
-.z-slider .z-range::-webkit-slider-thumb:not(:disabled):focus {
+.z-slider .z-range::-webkit-slider-thumb:focus {
   border-color: #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-slider .z-range::-webkit-slider-thumb:not(:disabled):active {
+.z-slider .z-range::-webkit-slider-thumb:active {
   border-color: #339AF0;
   background-color: #ADE6FD;
 }
