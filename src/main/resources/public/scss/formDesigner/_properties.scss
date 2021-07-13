@@ -165,7 +165,7 @@
   .#{$common-prefix}tab-panel {
     .#{$common-prefix}tabs {
       .#{$common-prefix}button-icon {
-        padding: 10px 14px 9px 14px;
+        padding: 4px 9px; // 4px 9px
 
         &:not(:last-child) {
           margin-right: 0.3125rem; // 5px

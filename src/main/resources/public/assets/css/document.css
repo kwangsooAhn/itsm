@@ -669,6 +669,9 @@ input, button, select, optgroup, textarea {
   max-width: 60rem;
   padding: 8.438rem 0 0.9375rem 0;
 }
+.document-container .document-main .document-main-header .z-button-area .z-button-list:first-child {
+  margin-right: 0.5rem;
+}
 .document-container .token-properties {
   position: fixed;
   top: 0;

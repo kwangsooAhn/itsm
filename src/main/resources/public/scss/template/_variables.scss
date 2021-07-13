@@ -171,7 +171,8 @@ $button-font-size:                            $font-size-xs;
 $button-font-weight:                          $font-weight-bold;
 $button-border-width:                         0.0625rem; // 1px
 $button-border-radius:                        0.25rem; // 4px
-$button-themes: (
+// 기본 버튼 테마
+$button-themes-default: (
   'primary': (
     'default': ('font': $white, 'background': $blue500, 'border': $blue500),
     'hover': ('font' : $white, 'background': $blue400, 'border': $blue400),
@@ -194,6 +195,37 @@ $button-themes: (
     'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
   ),
   'form': (
+    'default': ('font': $neutral800, 'background': $neutral300, 'border': $neutral300),
+    'hover': ('font' : $neutral800, 'background': $neutral200, 'border': $neutral200),
+    'focus': ('font': $neutral800, 'background': $neutral300, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $neutral800, 'background': $neutral300, 'border': $neutral400),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  )
+);
+// 어두운 배경에서 사용되는 버튼 테마
+$button-themes-light: (
+  'light-primary': (
+    'default': ('font': $white, 'background': $blue500, 'border': $blue500),
+    'hover': ('font' : $white, 'background': $blue400, 'border': $blue400),
+    'focus': ('font': $white, 'background': $blue500, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $white, 'background': $blue600, 'border': $blue700),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  ),
+  'light-secondary': (
+    'default': ('font': $white, 'background': transparent, 'border': $white),
+    'hover': ('font' : $white, 'background': hexToRGBA($white, 0.2), 'border': $white),
+    'focus': ('font': $white, 'background': transparent, 'border': $white, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $white, 'background': hexToRGBA($white, 0.4), 'border': $white),
+    'disabled': ('font': $gray400, ' background': $neutral200, 'border': $neutral200)
+  ),
+  'light-extra': (
+    'default': ('font': $white, 'background': transparent, 'border': transparent),
+    'hover': ('font' : $white, 'background': hexToRGBA($white, 0.2), 'border': hexToRGBA($white, 0.2)),
+    'focus': ('font': $white, 'background': transparent, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+    'active': ('font': $white, 'background': hexToRGBA($white, 0.4), 'border': hexToRGBA($white, 0.4)),
+    'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
+  ),
+  'light-form': (
     'default': ('font': $neutral800, 'background': $neutral300, 'border': $neutral300),
     'hover': ('font' : $neutral800, 'background': $neutral200, 'border': $neutral200),
     'focus': ('font': $neutral800, 'background': $neutral300, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),

@@ -565,7 +565,7 @@
         }
 
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
-        documentPanel = document.getElementById('document-panel');
+        documentPanel = document.getElementById('documentPanel');
         component.init(documentPanel);
         buttonPanel = document.getElementById('button-panel');
         if (data.form.components.length > 0) {
@@ -782,7 +782,7 @@
 
             const documentPanel = document.createElement('div');
             documentPanel.className = 'drawing-board';
-            documentPanel.id = 'document-panel';
+            documentPanel.id = 'documentPanel';
             documentPanel.setAttribute('data-display', 'document');
             body.appendChild(documentPanel);
             return body;

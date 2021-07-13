@@ -66,8 +66,8 @@
                             <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
                                     th:text="${pattern.patternName}" th:name="${pattern.patternType}"></option>
                         </select>
-                        <button type="button" name="secondPattern" class="btn-minus" onclick="deletePattern(this.name)">
-                            <span class="icon-delete-gray ml-l"></span>
+                        <button type="button" name="secondPattern" class="z-button-icon extra ml-l" onclick="deletePattern(this.name)">
+                            <span class="z-icon i-delete"></span>
                         </button>
                     </div>
                     <div id="thirdPattern" class="edit-row flex-row pattern">
@@ -77,8 +77,8 @@
                             <option th:each="pattern: ${patternList}" th:value="${pattern.patternId}"
                                     th:text="${pattern.patternName}" th:name="${pattern.patternType}"></option>
                         </select>
-                        <button type="button" name="thirdPattern" class="btn-minus" onclick="deletePattern(this.name)">
-                            <span class="icon-delete-gray ml-l"></span>
+                        <button type="button" name="thirdPattern" class="z-button-icon extra" onclick="deletePattern(this.name)">
+                            <span class="z-icon i-delete"></span>
                         </button>
                     </div>
                 </div>

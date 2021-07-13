@@ -45,8 +45,75 @@
     cursor: default;
   }
 
-  // 테마별 버튼
-  @each $theme, $value in $button-themes {
+  // 기본 테마별 버튼
+  @each $theme, $value in $button-themes-default {
+    &.#{$theme} {
+      color: map-get($value, 'default', 'font');
+      background-color: map-get($value, 'default', 'background');
+      border-color: map-get($value, 'default', 'border');
+      @if map-get($value, 'default', 'shadow') != null {
+        box-shadow: map-get($value, 'default', 'shadow');
+      }
+      // 아이콘이 존재한다면
+      .#{$common-prefix}icon {
+        display: inline-block;
+        background: map-get($value, 'default', 'font');
+      }
+
+      &:focus {
+        color: map-get($value, 'focus', 'font');
+        background-color: map-get($value, 'focus', 'background');
+        border-color: map-get($value, 'focus', 'border');
+        @if map-get($value, 'focus', 'shadow') != null {
+          box-shadow: map-get($value, 'focus', 'shadow');
+        }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'focus', 'font');
+        }
+      }
+
+      &:hover {
+        color: map-get($value, 'hover', 'font');
+        background-color: map-get($value, 'hover', 'background');
+        border-color: map-get($value, 'hover', 'border');
+        @if map-get($value, 'hover', 'shadow') != null {
+          box-shadow: map-get($value, 'hover', 'shadow');
+        }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'hover', 'font');
+        }
+      }
+
+      &:enabled:active,
+      &:enabled.active {
+        color: map-get($value, 'active', 'font');
+        background-color: map-get($value, 'active', 'background');
+        border-color: map-get($value, 'active', 'border');
+        @if map-get($value, 'active', 'shadow') != null {
+          box-shadow: map-get($value, 'active', 'shadow');
+        }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'active', 'font');
+        }
+      }
+
+      &:disabled,
+      &.disabled {
+        color: map-get($value, 'disabled', 'font');
+        background-color: map-get($value, 'disabled', 'background');
+        border-color: map-get($value, 'disabled', 'border');
+        @if map-get($value, 'disabled', 'shadow') != null {
+          box-shadow: map-get($value, 'disabled', 'shadow');
+        }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'disabled', 'font');
+        }
+      }
+    }
+  }
+
+  // 어두운 배경에서 사용되는 버튼 테마
+  @each $theme, $value in $button-themes-light {
     &.#{$theme} {
       color: map-get($value, 'default', 'font');
       background-color: map-get($value, 'default', 'background');
@@ -149,6 +216,10 @@
     // check 아이콘
     &.i-check {
       @include maskImage('#{$icon-folder-path}icon_check.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+    }
+    // X 아이콘
+    &.i-clear {
+      @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
     }
   }
 }

@@ -209,8 +209,10 @@ export const dynamicRowTableMixin = {
         }
         // 삭제 버튼
         const removeButton = new UIButton()
+            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .addUIClass('extra')
             .onUIClick(this.removeTableRow.bind(this, targetTable, row))
-            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-close'));
+            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-clear'));
         const td = new UICell(row)
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX)

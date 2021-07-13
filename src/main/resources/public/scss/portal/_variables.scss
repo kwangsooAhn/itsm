@@ -1,5 +1,5 @@
 //////////////////////////// button ///////////////////////////
-$button-themes-portal: (
+$button-themes-social: (
   'google': (
     'default': ('font': $gray800, 'background': $white, 'border': $gray300),
     'hover': ('font' : $gray800, 'background': $neutral200, 'border': $gray300),
@@ -73,9 +73,11 @@ $faq-group-font-weight:                      $font-weight-medium;
 $faq-group-font-color:                       map-get($blacks, "light");
 $faq-group-border-width:                     0.0625rem; // 1px
 $faq-group-border-color:                     map-get($grays, "line");
+$faq-group-icon-color:                       $gray500;
 $faq-group-opened-border-width:              0.0625rem; // 1px
 $faq-group-opened-border-color:              $blue;
 $faq-group-opened-font-color:                $blue;
+$faq-group-opened-icon-color:                $blue500;
 // faq > faq group > faq row
 $faq-row-font-size:                          1rem; // 16px
 $faq-row-font-weight:                        $font-weight-medium;

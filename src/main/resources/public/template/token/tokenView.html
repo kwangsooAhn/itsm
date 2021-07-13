@@ -26,7 +26,7 @@
                                 th:text="#{common.btn.print}"></button>
                     </div>
                 </div>
-                <div class="drawing-board" id="document-panel"></div>
+                <div class="drawing-board" id="documentPanel"></div>
             </div>
         </form>
         <div class="token-properties">
@@ -127,7 +127,7 @@
         /*<![CDATA[*/
         window.onload = function () {
             // view 일 경우, 컴포넌트들의 세부 값을 편집 할 수 없음
-            const documentPanel = document.getElementById('document-panel');
+            const documentPanel = document.getElementById('documentPanel');
             documentPanel.setAttribute('data-display', 'complete');
 
             aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');

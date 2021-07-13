@@ -158,7 +158,7 @@
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -172,7 +172,7 @@
                 `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -201,7 +201,7 @@
     function Radiobox(property) {
         const objectId = attributeTypeList[2].type; // radio
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -215,7 +215,7 @@
                 `<div class="flex-column col-5 mr-4"><input type="text" class="z-input" maxlength="50" required="true" data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label></div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 
@@ -244,7 +244,7 @@
     function Checkbox(property) {
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
-            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button extra"><span class="z-icon i-plus"></span></button></div>`;
+            `<div class="flex-row justify-content-end"><button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button></div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -260,7 +260,7 @@
                 `<div class="flex-column col-4 mr-4"><input type="text" class="z-input" maxlength="50"></div>` +
                 `<div class="flex-column col-1"><label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label></div>` +
                 `<div class="flex-column col-1"><input type="checkbox"></div>` +
-                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="btn-delete"><span class="icon-delete-gray"></span></button></div>` +
+                `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
                 `</div>`;
             parent.insertAdjacentHTML('beforeend', rowElement);
 

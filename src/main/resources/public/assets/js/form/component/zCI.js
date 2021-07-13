@@ -124,28 +124,28 @@ export const ciMixin = {
         if (this.elementIsEditable) {
             // 등록
             const registerButton = new UIButton(i18n.msg('cmdb.ci.label.new') + ' ' + i18n.msg('cmdb.ci.label.register'))
-                .addUIClass('form')
+                .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.REGISTER)
                 .onUIClick(this.openRegisterModal.bind(this));
             buttonGroup.addUI(registerButton);
 
             // 수정
             const updateButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.update'))
-                .addUIClass('form')
+                .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.MODIFY)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(updateButton);
 
             // 삭제
             const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.delete'))
-                .addUIClass('form')
+                .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.DELETE)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(deleteButton);
         } else {
             // 조회
             const selectButton = new UIButton(i18n.msg('cmdb.ci.label.select'))
-                .addUIClass('form')
+                .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.READ)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(selectButton);
@@ -240,7 +240,7 @@ export const ciMixin = {
                 if (data.actionType === CI.ACTION_TYPE.DELETE) {
                     const viewButton = new UIButton()
                         .setUIClass(CLASS_PREFIX + 'button-icon')
-                        .addUIClass('form')
+                        .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
                         .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
@@ -251,7 +251,6 @@ export const ciMixin = {
                 } else {
                     const editButton = new UIButton()
                         .setUIClass(CLASS_PREFIX + 'button-icon')
-                        .addUIClass('form')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
                         .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-edit'));
@@ -263,7 +262,7 @@ export const ciMixin = {
             case 'icon-search': // CI 상세 조회
                 const searchButton = new UIButton()
                     .setUIClass(CLASS_PREFIX + 'button-icon')
-                    .addUIClass('form')
+                    .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
                     .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
@@ -274,7 +273,7 @@ export const ciMixin = {
             case 'icon-delete': // Row 삭제
                 const deleteButton = new UIButton()
                     .setUIClass(CLASS_PREFIX + 'button-icon')
-                    .addUIClass('form')
+                    .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, row.getUIIndex(), data))
                     .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-delete'));

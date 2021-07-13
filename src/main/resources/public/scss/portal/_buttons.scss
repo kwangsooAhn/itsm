@@ -1,9 +1,9 @@
 @import "../template/buttons";
 
-// 구글 로그인
-// 카카오 로그인
 .#{$common-prefix}button {
-  @each $theme, $value in $button-themes-portal {
+  // 구글 로그인 버튼
+  // 카카오 로그인 버튼
+  @each $theme, $value in $button-themes-social {
     &.#{$theme} {
       color: map-get($value, 'default', 'font');
       background-color: map-get($value, 'default', 'background');
@@ -63,26 +63,17 @@
       }
     }
   }
-}
 
-// 되돌아가기
-.login-return {
-  @include relative($top: 5rem, $right: 5rem); // 80px 80px
-  color: $white;
-  border-color: $white;
-  padding: 0.75rem 3rem; // 12px 48px
-}
-
-// 로그인 되돌아가기
-.signup-return {
-  color: $white;
-  border-color: $white;
-  padding: 0.75rem 3rem; // 12px 48px
-  margin-left: 2.5rem; // 40px
-}
-
-// 세션 Invalid > 로그인 되돌아가기
-.session-return {
-  margin-top: 6.25rem;
-  padding: 0.75rem 1.563rem; // 12px 25px
+  // 메인으로 되돌아가기 버튼
+  &.main-return {
+    @include relative($top: 5rem, $right: 5rem); // 80px 80px
+  }
+  // 로그인 되돌아가기
+  &.signup-return {
+    margin-left: 2.5rem; // 40px
+  }
+  // 세션 Invalid > 로그인 되돌아가기
+  &.session-return {
+    margin-top: 6.25rem;
+  }
 }

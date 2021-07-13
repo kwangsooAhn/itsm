@@ -512,7 +512,7 @@
                 }
 
                 if (document.querySelector('.simulation-report').classList.contains('closed')) {
-                    document.querySelector('.btn-simulation-report').click();
+                    document.querySelector('.z-button-simulation-report').click();
                 }
                 // 스크롤바 생성
                 OverlayScrollbars(document.querySelector('.simulation-report-contents-main'), { className: 'scrollbar' });
@@ -852,15 +852,15 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.classList.add('ghost-line', 'btn-minimap');
+        minimapButton.className = 'z-button-icon secondary z-button-minimap';
         minimapButton.addEventListener('click', function (e) {
-            const elem = aliceJs.clickInsideElement(e, 'btn-minimap');
+            const elem = aliceJs.clickInsideElement(e, 'z-button-minimap');
             elem.classList.toggle('active');
             document.querySelector('div.minimap').classList.toggle('closed');
         }, false);
 
         const minimapIcon = document.createElement('span');
-        minimapIcon.classList.add('icon', 'icon-minimap');
+        minimapIcon.className = 'z-icon i-minimap';
         minimapButton.appendChild(minimapIcon);
         drawingBoard.appendChild(minimapButton);
 
@@ -869,7 +869,7 @@
         // 시뮬레이션 레포트 버튼 동작 이벤트 설정
         const simulationToggleEvent = function() {
             document.querySelector('.simulation-report').classList.toggle('closed');
-            document.querySelector('.btn-simulation-report').classList.toggle('active');
+            document.querySelector('.z-button-simulation-report').classList.toggle('active');
         };
 
         // 시뮬레이션 레포트 초기화 설정
@@ -907,11 +907,11 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.classList.add('ghost-line', 'btn-simulation-report');
+        simulationButton.className = 'z-button-icon secondary z-button-simulation-report';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
-        simulationIcon.classList.add('icon', 'icon-simulation-report');
+        simulationIcon.className = 'z-icon i-simulation-report';
         simulationButton.appendChild(simulationIcon);
         drawingBoard.appendChild(simulationButton);
 

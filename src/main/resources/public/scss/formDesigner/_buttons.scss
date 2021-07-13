@@ -1,45 +1,29 @@
 @import "../template/buttons";
 
 // header button
-.btn-header {
-  width: 1.625rem; // 26px
-  height: 3.125rem; // 50px
-  padding: 0;
-  border-radius: 0;
-  &:not(.btn-dropdown) {
-    width: 2rem; // 32px
-  }
-
-  // mouse over and pressed
-  &:focus,
-  &:hover,
-  &:active {
-    background-color: #26A7FF;
-  }
-
-  .icon-save {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_save.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white); // 24px 24px
-  }
-  .icon-save-as {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_save_as.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
-  }
-  .icon-undo {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_undo.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
-  }
-  .icon-redo {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_redo.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
-  }
-  .icon-preview {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_preview.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
-  }
-  .icon-dropdown {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_dropdown.svg', 1.5rem, 1.5rem, no-repeat, center, null, $white);// 24px 24px
+.#{$common-prefix}header-button {
+  padding: 0.5625rem 0.625rem; // 9px 10px
+  &.#{$common-prefix}button-icon {
+    .#{$common-prefix}icon {
+      &.i-save {
+        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_save.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+      }
+      &.i-save-as {
+        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_save_as.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+      &.i-undo {
+        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_undo.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+      &.i-redo {
+        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_redo.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+      &.i-preview {
+        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_preview.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+      &.i-dropdown {
+        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_dropdown.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+    }
   }
 }
 

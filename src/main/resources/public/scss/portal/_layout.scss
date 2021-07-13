@@ -55,8 +55,6 @@
       padding: 0 0.9375rem; // 0 15px
       font-size: 1.125rem; // 18px
     }
-    // 로그인 링크
-    a { color: $layout-header-font-color; }
   }
   // 포탈 메인
   .main {
@@ -198,30 +196,34 @@
             color: $faq-group-font-color;
             // 그룹일 경우 summary의 화살표 숨김
             &::-webkit-details-marker { display: none; }
-            .icon-plus {
-              @include absolute($right: 0.9375rem); // 15px
-              display: inline-block;
-              opacity: 1;
-              @include maskImage('#{$icon-folder-path}icon_plus.svg', 16px, 16px, no-repeat, center, 16px 16px, map-get($grays, "pressed"));
-            }
-  
-            .icon-minus {
-              @include absolute($right: 0.9375rem); // 15px
-              display: inline-block;
-              opacity: 0;
-              @include maskImage('#{$icon-folder-path}icon_minus.svg', 16px, 16px, no-repeat, center, 16px 16px, map-get($grays, "pressed"));
+            .#{$common-prefix}icon {
+              &.i-plus {
+                @include absolute($right: 0.9375rem); // 15px
+                display: inline-block;
+                opacity: 1;
+                @include maskImage('#{$icon-folder-path}icon_plus.svg', 16px, 16px, no-repeat, center, 16px 16px, $faq-group-icon-color);
+              }
+              &.i-minus {
+                @include absolute($right: 0.9375rem); // 15px
+                display: inline-block;
+                opacity: 0;
+                @include maskImage('#{$icon-folder-path}icon_minus.svg', 16px, 16px, no-repeat, center, 16px 16px, $faq-group-icon-color);
+              }
             }
           }
-
           &[open] {
             @include border($faq-group-opened-border-width, solid, $faq-group-opened-border-color, all); // 1px
             .faq-group-title {
               color: $faq-group-opened-font-color; 
               border-bottom-color: $faq-group-opened-border-color;
-              .icon-plus { opacity: 0; }
-              .icon-minus { 
-                background: $faq-group-opened-font-color;
-                opacity: 1;
+              .#{$common-prefix}icon {
+                &.i-plus {
+                  opacity: 0;
+                }
+                &.i-minus {
+                  background: $faq-group-opened-icon-color;
+                  opacity: 1;
+                }
               }
             }
             .faq-row { background-color: $faq-row-opened-bg-color; }

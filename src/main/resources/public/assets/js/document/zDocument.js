@@ -31,7 +31,7 @@ class ZDocument {
             close: { closable: false },
             onCreate: () => {
                 this.domElement = document.getElementById('documentDrawingBoard');
-                this.btnDomElement = document.getElementById('documentMainHeader');
+                this.btnDomElement = document.getElementById('documentButtonArea');
             },
             onHide: () => {
                 this.domElement.innerHTML = '';
@@ -52,10 +52,10 @@ class ZDocument {
             this.sortJson(documentData.form);
             this.data = documentData;
 
-            const documentMainHeader =  document.getElementById('documentMainHeader');
-            documentMainHeader.innerHTML = '';
+            const documentButtonArea =  document.getElementById('documentButtonArea');
+            documentButtonArea.innerHTML = '';
 
-            zFormButton.init(documentMainHeader, documentData, this);
+            zFormButton.init(documentButtonArea, documentData, this);
             this.makeDocument(this.data.form); // Form 생성
             this.documentModal.show(); // 모달 표시
         });

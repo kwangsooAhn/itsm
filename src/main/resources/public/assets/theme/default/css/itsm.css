@@ -1878,6 +1878,229 @@ table[id=documentDisplay] td {
 .z-button-icon.form.disabled .z-icon {
   background: #ABB0B5;
 }
+.z-button.light-primary,
+.z-button-icon.light-primary {
+  color: #FFFFFF;
+  background-color: #339AF0;
+  border-color: #339AF0;
+}
+.z-button.light-primary .z-icon,
+.z-button-icon.light-primary .z-icon {
+  display: inline-block;
+  background: #FFFFFF;
+}
+.z-button.light-primary:focus,
+.z-button-icon.light-primary:focus {
+  color: #FFFFFF;
+  background-color: #339AF0;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.light-primary:focus .z-icon,
+.z-button-icon.light-primary:focus .z-icon {
+  background: #FFFFFF;
+}
+.z-button.light-primary:hover,
+.z-button-icon.light-primary:hover {
+  color: #FFFFFF;
+  background-color: #64BBF6;
+  border-color: #64BBF6;
+}
+.z-button.light-primary:hover .z-icon,
+.z-button-icon.light-primary:hover .z-icon {
+  background: #FFFFFF;
+}
+.z-button.light-primary:enabled:active, .z-button.light-primary:enabled.active,
+.z-button-icon.light-primary:enabled:active,
+.z-button-icon.light-primary:enabled.active {
+  color: #FFFFFF;
+  background-color: #2578CE;
+  border-color: #1959AC;
+}
+.z-button.light-primary:enabled:active .z-icon, .z-button.light-primary:enabled.active .z-icon,
+.z-button-icon.light-primary:enabled:active .z-icon,
+.z-button-icon.light-primary:enabled.active .z-icon {
+  background: #FFFFFF;
+}
+.z-button.light-primary:disabled, .z-button.light-primary.disabled,
+.z-button-icon.light-primary:disabled,
+.z-button-icon.light-primary.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.light-primary:disabled .z-icon, .z-button.light-primary.disabled .z-icon,
+.z-button-icon.light-primary:disabled .z-icon,
+.z-button-icon.light-primary.disabled .z-icon {
+  background: #ABB0B5;
+}
+.z-button.light-secondary,
+.z-button-icon.light-secondary {
+  color: #FFFFFF;
+  background-color: transparent;
+  border-color: #FFFFFF;
+}
+.z-button.light-secondary .z-icon,
+.z-button-icon.light-secondary .z-icon {
+  display: inline-block;
+  background: #FFFFFF;
+}
+.z-button.light-secondary:focus,
+.z-button-icon.light-secondary:focus {
+  color: #FFFFFF;
+  background-color: transparent;
+  border-color: #FFFFFF;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.light-secondary:focus .z-icon,
+.z-button-icon.light-secondary:focus .z-icon {
+  background: #FFFFFF;
+}
+.z-button.light-secondary:hover,
+.z-button-icon.light-secondary:hover {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: #FFFFFF;
+}
+.z-button.light-secondary:hover .z-icon,
+.z-button-icon.light-secondary:hover .z-icon {
+  background: #FFFFFF;
+}
+.z-button.light-secondary:enabled:active, .z-button.light-secondary:enabled.active,
+.z-button-icon.light-secondary:enabled:active,
+.z-button-icon.light-secondary:enabled.active {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-color: #FFFFFF;
+}
+.z-button.light-secondary:enabled:active .z-icon, .z-button.light-secondary:enabled.active .z-icon,
+.z-button-icon.light-secondary:enabled:active .z-icon,
+.z-button-icon.light-secondary:enabled.active .z-icon {
+  background: #FFFFFF;
+}
+.z-button.light-secondary:disabled, .z-button.light-secondary.disabled,
+.z-button-icon.light-secondary:disabled,
+.z-button-icon.light-secondary.disabled {
+  color: #ABB0B5;
+  border-color: #EEEEEE;
+}
+.z-button.light-secondary:disabled .z-icon, .z-button.light-secondary.disabled .z-icon,
+.z-button-icon.light-secondary:disabled .z-icon,
+.z-button-icon.light-secondary.disabled .z-icon {
+  background: #ABB0B5;
+}
+.z-button.light-extra,
+.z-button-icon.light-extra {
+  color: #FFFFFF;
+  background-color: transparent;
+  border-color: transparent;
+}
+.z-button.light-extra .z-icon,
+.z-button-icon.light-extra .z-icon {
+  display: inline-block;
+  background: #FFFFFF;
+}
+.z-button.light-extra:focus,
+.z-button-icon.light-extra:focus {
+  color: #FFFFFF;
+  background-color: transparent;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.light-extra:focus .z-icon,
+.z-button-icon.light-extra:focus .z-icon {
+  background: #FFFFFF;
+}
+.z-button.light-extra:hover,
+.z-button-icon.light-extra:hover {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.z-button.light-extra:hover .z-icon,
+.z-button-icon.light-extra:hover .z-icon {
+  background: #FFFFFF;
+}
+.z-button.light-extra:enabled:active, .z-button.light-extra:enabled.active,
+.z-button-icon.light-extra:enabled:active,
+.z-button-icon.light-extra:enabled.active {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.z-button.light-extra:enabled:active .z-icon, .z-button.light-extra:enabled.active .z-icon,
+.z-button-icon.light-extra:enabled:active .z-icon,
+.z-button-icon.light-extra:enabled.active .z-icon {
+  background: #FFFFFF;
+}
+.z-button.light-extra:disabled, .z-button.light-extra.disabled,
+.z-button-icon.light-extra:disabled,
+.z-button-icon.light-extra.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.light-extra:disabled .z-icon, .z-button.light-extra.disabled .z-icon,
+.z-button-icon.light-extra:disabled .z-icon,
+.z-button-icon.light-extra.disabled .z-icon {
+  background: #ABB0B5;
+}
+.z-button.light-form,
+.z-button-icon.light-form {
+  color: #424242;
+  background-color: #E0E0E0;
+  border-color: #E0E0E0;
+}
+.z-button.light-form .z-icon,
+.z-button-icon.light-form .z-icon {
+  display: inline-block;
+  background: #424242;
+}
+.z-button.light-form:focus,
+.z-button-icon.light-form:focus {
+  color: #424242;
+  background-color: #E0E0E0;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-button.light-form:focus .z-icon,
+.z-button-icon.light-form:focus .z-icon {
+  background: #424242;
+}
+.z-button.light-form:hover,
+.z-button-icon.light-form:hover {
+  color: #424242;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.light-form:hover .z-icon,
+.z-button-icon.light-form:hover .z-icon {
+  background: #424242;
+}
+.z-button.light-form:enabled:active, .z-button.light-form:enabled.active,
+.z-button-icon.light-form:enabled:active,
+.z-button-icon.light-form:enabled.active {
+  color: #424242;
+  background-color: #E0E0E0;
+  border-color: #BDBDBD;
+}
+.z-button.light-form:enabled:active .z-icon, .z-button.light-form:enabled.active .z-icon,
+.z-button-icon.light-form:enabled:active .z-icon,
+.z-button-icon.light-form:enabled.active .z-icon {
+  background: #424242;
+}
+.z-button.light-form:disabled, .z-button.light-form.disabled,
+.z-button-icon.light-form:disabled,
+.z-button-icon.light-form.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #EEEEEE;
+}
+.z-button.light-form:disabled .z-icon, .z-button.light-form.disabled .z-icon,
+.z-button-icon.light-form:disabled .z-icon,
+.z-button-icon.light-form.disabled .z-icon {
+  background: #ABB0B5;
+}
 
 .z-button-icon {
   padding: 0.25rem 0.3125rem;
@@ -1960,6 +2183,16 @@ table[id=documentDisplay] td {
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/icon_check.svg");
   mask-image: url("../media/icons/icon_check.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-button-icon .z-icon.i-clear {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_clear.svg");
+  mask-image: url("../media/icons/icon_clear.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2154,48 +2387,6 @@ table[id=documentDisplay] td {
 .z-button-toggle-group.vertical .z-button-toggle:not(:last-of-type) {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-}
-
-.btn.plus,
-button.plus {
-  width: 1.625rem;
-  height: 1.625rem;
-  padding: 0;
-}
-.btn.btn-delete,
-button.btn-delete {
-  height: 2.5rem;
-  padding: 0;
-}
-.btn .icon-search,
-button .icon-search {
-  display: inline-block;
-  width: 1.125rem;
-  height: 1.125rem;
-  -webkit-mask-image: url("../media/icons/icon_search.svg");
-  mask-image: url("../media/icons/icon_search.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: 1.125rem 1.125rem;
-  mask-size: 1.125rem 1.125rem;
-  background: #ACB4BF;
-}
-.btn .icon-delete-gray,
-button .icon-delete-gray {
-  display: inline-block;
-  width: 1.625rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_delete.svg");
-  mask-image: url("../media/icons/icon_delete.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: 1.625rem 1.25rem;
-  mask-size: 1.625rem 1.25rem;
-  background: #CCCED1;
 }
 
 /* _layout.scss
@@ -2930,11 +3121,6 @@ button .icon-delete-gray {
 .scheduler-content-edit .condition {
   width: 28.31rem;
 }
-.custom-code-content-edit .btn-minus,
-.cmdb-attribute-content-edit .btn-minus,
-.scheduler-content-edit .btn-minus {
-  padding: 0;
-}
 .custom-code-content-edit .attribute,
 .cmdb-attribute-content-edit .attribute,
 .scheduler-content-edit .attribute {
@@ -2946,9 +3132,6 @@ button .icon-delete-gray {
 }
 .numbering-rule-content-edit .pattern-type {
   width: 7.5rem;
-}
-.numbering-rule-content-edit .btn-minus {
-  padding: 0;
 }
 
 .cmdb-class-content-edit {
@@ -2963,9 +3146,6 @@ button .icon-delete-gray {
 }
 .cmdb-class-content-edit .attribute {
   width: 27.94rem;
-}
-.cmdb-class-content-edit .btn-minus {
-  padding: 0;
 }
 
 .notice-content-view,
