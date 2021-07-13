@@ -13,7 +13,7 @@
  * https://www.brainz.co.kr
  */
 import {UIDiv, UISlider} from '../../../lib/zUI.js';
-import {FORM, UNIT} from '../../../lib/zConstants.js';
+import { FORM } from '../../../lib/zConstants.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
 
