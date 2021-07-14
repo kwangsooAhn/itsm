@@ -1,0 +1,66 @@
+/* _icons.scss
+ *
+ * 공통으로 사용되는 아이콘
+ *
+ * <선언 방법>
+ * <span class="z-icon i-delete"></span>
+ ** z-icon : 공통 아이콘 클래스
+ ** i-delete: i는 아이콘 파일의 약자로 i- 뒤에는 이미지, svg 파일명(icon-delete.svg)과 동일하게 선언합니다.
+ *
+ * 파일 경로 : template/_icons.scss
+ * @description 공통 아이콘
+ * @author wdj
+ * @version 1.0
+ */
+.#{$common-prefix}icon {
+  display: inline-block;
+  // 검색 아이콘
+  &.i-search {
+    @include maskImage('#{$icon-folder-path}icon_search.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // 삭제 아이콘
+  &.i-delete {
+    @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // 편집 아이콘
+  &.i-edit {
+    @include maskImage('#{$icon-folder-path}icon_edit.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // 팝업 아이콘
+  &.i-popup {
+    @include maskImage('#{$icon-folder-path}icon_popup.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // clipboard 아이콘
+  &.i-clipboard {
+    @include maskImage('#{$icon-folder-path}icon_clipboard.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // + 아이콘
+  &.i-plus {
+    @include maskImage('#{$icon-folder-path}icon_plus.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // - 아이콘
+  &.i-minus {
+    @include maskImage('#{$icon-folder-path}icon_minus.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // check 아이콘
+  &.i-check {
+    @include maskImage('#{$icon-folder-path}icon_check.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // X 아이콘
+  &.i-clear {
+    @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // 화살표(>) 아이콘
+  &.i-arrow-right {
+    @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+}

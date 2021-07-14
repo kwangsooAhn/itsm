@@ -111,117 +111,117 @@
             </div>
             <!-- 컴포넌트 팔레트 -->
             <div class="z-form-component-palette" id="componentPalette">
-                <div class="component-accordion-box" id="componentList">
+                <div class="z-component-accordion-box" id="componentList">
                     <!-- inputs: 일반적인 입력 항목 -->
-                    <div class="component-accordion">
+                    <div class="z-component-accordion">
                         <input type="radio" id="inputs" name="accordion-type" checked="true">
-                        <label class="flex-row justify-content-between accordion-label" for="inputs">
-                            <span class="type-name">Inputs</span>
-                            <span class="arrow-left"></span>
+                        <label class="flex-row justify-content-between z-accordion-label" for="inputs">
+                            <span class="z-accordion-name">Inputs</span>
+                            <span class="z-icon i-arrow-right"></span>
                         </label>
-                        <div class="accordion-content">
+                        <div class="z-accordion-content">
                             <!-- sortablejs 라이브러리에서 사용하니 list-group, list-group-item 은 삭제하지 마세요. -->
-                            <div class="component-icon-box list-group">
-                                <div class="component-icon inputBox list-group-item" id="inputBox">
-                                    <span class="icon icon-inputBox"></span>
-                                    <span class="component-name" th:text="#{form.component.inputBox}"></span>
+                            <div class="z-component-icon-box list-group">
+                                <div class="z-component-icon inputBox list-group-item" id="inputBox" tabindex="0" style="--data-row:0;">
+                                    <span class="z-icon i-inputBox"></span>
+                                    <span class="z-component-name" th:text="#{form.component.inputBox}"></span>
                                 </div>
-                                <div class="component-icon textArea list-group-item" id="textArea">
-                                    <span class="icon icon-textArea"></span>
-                                    <span class="component-name" th:text="#{form.component.textArea}"></span>
+                                <div class="z-component-icon textArea list-group-item" id="textArea" tabindex="0" style="--data-row:0;">
+                                    <span class="z-icon i-textArea"></span>
+                                    <span class="z-component-name" th:text="#{form.component.textArea}"></span>
                                 </div>
-                                <div class="component-icon textEditor list-group-item" id="textEditor">
-                                    <span class="icon icon-textEditor"></span>
-                                    <span class="component-name" th:text="#{form.component.textEditor}"></span>
+                                <div class="z-component-icon textEditor list-group-item" id="textEditor" tabindex="0" style="--data-row:1;">
+                                    <span class="z-icon i-textEditor"></span>
+                                    <span class="z-component-name" th:text="#{form.component.textEditor}"></span>
                                 </div>
-                                <div class="component-icon dropdown list-group-item" id="dropdown">
-                                    <span class="icon icon-dropdown"></span>
-                                    <span class="component-name" th:text="#{form.component.dropdown}"></span>
+                                <div class="z-component-icon dropdown list-group-item" id="dropdown" tabindex="0" style="--data-row:1;">
+                                    <span class="z-icon i-dropdown"></span>
+                                    <span class="z-component-name" th:text="#{form.component.dropdown}"></span>
                                 </div>
-                                <div class="component-icon radio list-group-item" id="radio">
-                                    <span class="icon icon-radio"></span>
-                                    <span class="component-name" th:text="#{form.component.radio}"></span>
+                                <div class="z-component-icon radio list-group-item" id="radio" tabindex="0" style="--data-row:2;">
+                                    <span class="z-icon i-radio"></span>
+                                    <span class="z-component-name" th:text="#{form.component.radio}"></span>
                                 </div>
-                                <div class="component-icon checkBox list-group-item" id="checkBox">
-                                    <span class="icon icon-checkBox"></span>
-                                    <span class="component-name" th:text="#{form.component.checkBox}"></span>
+                                <div class="z-component-icon checkBox list-group-item" id="checkBox" tabindex="0" style="--data-row:2;">
+                                    <span class="z-icon i-checkBox"></span>
+                                    <span class="z-component-name" th:text="#{form.component.checkBox}"></span>
                                 </div>
-                                <div class="component-icon date list-group-item" id="date">
-                                    <span class="icon icon-date"></span>
-                                    <span class="component-name" th:text="#{form.component.date}"></span>
+                                <div class="z-component-icon date list-group-item" id="date" tabindex="0" style="--data-row:3;">
+                                    <span class="z-icon i-date"></span>
+                                    <span class="z-component-name" th:text="#{form.component.date}"></span>
                                 </div>
-                                <div class="component-icon time list-group-item" id="time">
-                                    <span class="icon icon-time"></span>
-                                    <span class="component-name" th:text="#{form.component.time}"></span>
+                                <div class="z-component-icon time list-group-item" id="time" tabindex="0" style="--data-row:3;">
+                                    <span class="z-icon i-time"></span>
+                                    <span class="z-component-name" th:text="#{form.component.time}"></span>
                                 </div>
-                                <div class="component-icon dateTime list-group-item" id="dateTime">
-                                    <span class="icon icon-dateTime"></span>
-                                    <span class="component-name" th:text="#{form.component.dateTime}"></span>
+                                <div class="z-component-icon dateTime list-group-item" id="dateTime" tabindex="0" style="--data-row:4;">
+                                    <span class="z-icon i-dateTime"></span>
+                                    <span class="z-component-name" th:text="#{form.component.dateTime}"></span>
                                 </div>
-                                <div class="component-icon fileUpload list-group-item" id="fileUpload">
-                                    <span class="icon icon-fileUpload"></span>
-                                    <span class="component-name" th:text="#{form.component.fileUpload}"></span>
+                                <div class="z-component-icon fileUpload list-group-item" id="fileUpload" tabindex="0" style="--data-row:4;">
+                                    <span class="z-icon i-fileUpload"></span>
+                                    <span class="z-component-name" th:text="#{form.component.fileUpload}"></span>
                                 </div>
-                                <div class="component-icon customCode list-group-item" id="customCode">
-                                    <span class="icon icon-customCode"></span>
-                                    <span class="component-name" th:text="#{form.component.customCode}"></span>
+                                <div class="z-component-icon customCode list-group-item" id="customCode" tabindex="0" style="--data-row:5;">
+                                    <span class="z-icon i-customCode"></span>
+                                    <span class="z-component-name" th:text="#{form.component.customCode}"></span>
                                 </div>
-                                <div class="component-icon dynamicRowTable list-group-item" id="dynamicRowTable">
-                                    <span class="icon icon-dynamicRowTable"></span>
-                                    <span class="component-name" th:text="#{form.component.dynamicRowTable}"></span>
+                                <div class="z-component-icon dynamicRowTable list-group-item" id="dynamicRowTable" tabindex="0" style="--data-row:5;">
+                                    <span class="z-icon i-dynamicRowTable"></span>
+                                    <span class="z-component-name" th:text="#{form.component.dynamicRowTable}"></span>
                                 </div>
-                                <div class="component-icon ci list-group-item" id="ci">
-                                    <span class="icon icon-ci"></span>
-                                    <span class="component-name" th:text="#{form.component.ci}"></span>
+                                <div class="z-component-icon ci list-group-item" id="ci" tabindex="0" style="--data-row:6;">
+                                    <span class="z-icon i-ci"></span>
+                                    <span class="z-component-name" th:text="#{form.component.ci}"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- format:가로선, 이미지, 라벨 등 꾸미기 항목 -->
-                    <div class="component-accordion">
+                    <div class="z-component-accordion">
                         <input type="radio" id="format" name="accordion-type">
-                        <label class="flex-row justify-content-between accordion-label" for="format">
-                            <span class="type-name">Format</span>
-                            <span class="arrow-left"></span>
+                        <label class="flex-row justify-content-between z-accordion-label" for="format">
+                            <span class="z-accordion-name">Format</span>
+                            <span class="z-icon i-arrow-right"></span>
                         </label>
-                        <div class="accordion-content">
-                            <div class="component-icon-box list-group">
-                                <div class="component-icon label list-group-item" id="label">
-                                    <span class="icon icon-label"></span>
-                                    <span class="component-name" th:text="#{form.component.label}"></span>
+                        <div class="z-accordion-content">
+                            <div class="z-component-icon-box list-group">
+                                <div class="z-component-icon label list-group-item" id="label" tabindex="0" style="--data-row:0;">
+                                    <span class="z-icon i-label"></span>
+                                    <span class="z-component-name" th:text="#{form.component.label}"></span>
                                 </div>
-                                <div class="component-icon image list-group-item" id="image">
-                                    <span class="icon icon-image"></span>
-                                    <span class="component-name" th:text="#{form.component.image}"></span>
+                                <div class="z-component-icon image list-group-item" id="image" tabindex="0" style="--data-row:0;">
+                                    <span class="z-icon i-image"></span>
+                                    <span class="z-component-name" th:text="#{form.component.image}"></span>
                                 </div>
-                                <div class="component-icon divider list-group-item" id="divider">
-                                    <span class="icon icon-divider"></span>
-                                    <span class="component-name" th:text="#{form.component.divider}"></span>
+                                <div class="z-component-icon divider list-group-item" id="divider" tabindex="0" style="--data-row:1;">
+                                    <span class="z-icon i-divider"></span>
+                                    <span class="z-component-name" th:text="#{form.component.divider}"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- visual: video, html, map, chart 등 추후 구현 -->
-                    <div class="component-accordion">
+                    <div class="z-component-accordion">
                         <input type="radio" id="visual" name="accordion-type">
-                        <label class="flex-row justify-content-between accordion-label" for="visual">
-                            <span class="type-name">Visual</span>
-                            <span class="arrow-left"></span>
+                        <label class="flex-row justify-content-between z-accordion-label" for="visual">
+                            <span class="z-accordion-name">Visual</span>
+                            <span class="z-icon i-arrow-right"></span>
                         </label>
-                        <div class="accordion-content">
-                            <div class="component-icon-box list-group">
+                        <div class="z-accordion-content">
+                            <div class="z-component-icon-box list-group">
                             </div>
                         </div>
                     </div>
                     <!-- custom: 고객 설정 컴포넌트 -->
-                    <div class="component-accordion">
+                    <div class="z-component-accordion">
                         <input type="radio" id="custom" name="accordion-type">
-                        <label class="flex-row justify-content-between accordion-label" for="custom">
-                            <span class="type-name">Custom</span>
-                            <span class="arrow-left"></span>
+                        <label class="flex-row justify-content-between z-accordion-label" for="custom">
+                            <span class="z-accordion-name">Custom</span>
+                            <span class="z-icon i-arrow-right"></span>
                         </label>
-                        <div class="accordion-content" id="customComponentList">
-                            <div class="component-icon-box list-group">
+                        <div class="z-accordion-content" id="customComponentList">
+                            <div class="z-component-icon-box list-group">
                             </div>
                         </div>
                     </div>

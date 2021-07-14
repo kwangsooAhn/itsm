@@ -89,7 +89,7 @@ class ZFormDesigner {
      */
     initComponentPalette() {
         // drag & drop 이벤트 추가
-        const componentIconBoxes = document.querySelectorAll('.component-icon-box');
+        const componentIconBoxes = document.querySelectorAll('.' + CLASS_PREFIX + 'component-icon-box');
         componentIconBoxes.forEach(icon => {
             new Sortable(icon, {
                 group: {
@@ -99,7 +99,8 @@ class ZFormDesigner {
                 },
                 animation: 150,
                 sort: false,
-                chosenClass: 'drag-on',
+                ghostClass: CLASS_PREFIX + 'component-icon-drag-placeholder', // Class name for the drop placeholder
+                chosenClass: CLASS_PREFIX + 'component-icon-drag-on', // Class name for the chosen item
                 editor: this,
                 draggable: '.list-group-item',
                 fallbackOnBody: true,
@@ -108,11 +109,15 @@ class ZFormDesigner {
                     // drag 시작시, 기존 선택된 객체 선택 해제
                     this.options.editor.deSelectObject();
                 },
+                onClone: function (evt) {
+                    // drag & drop시 디자인 추가
+                    evt.clone.classList.add(CLASS_PREFIX + 'component-icon-drag-placeholder');
+                },
                 onMove: function (evt) {
-                    if (evt.from !== evt.to && evt.dragged.classList.contains('component-icon')) {
+                    if (evt.from !== evt.to && evt.dragged.classList.contains(CLASS_PREFIX + 'component-icon')) {
                         // TODO: form 내부이면, placeholder 로 가상의 group, row, component 표시
                         // TODO: 아니면 타입에 따라 component만 표시
-                        evt.dragged.classList.add('component-icon-drag-in');
+                        evt.dragged.classList.add(CLASS_PREFIX + 'component-icon-drag-in');
                     }
                 },
                 onEnd: function (evt) {
@@ -159,7 +164,11 @@ class ZFormDesigner {
                         // component 선택
                         component.UIElement.domElement.dispatchEvent(new Event('click'));
                     }
-
+                    
+                    // drag & drop시 추가된 디자인 제거
+                    if (zValidation.isDefined(evt.clone) && evt.clone.classList.contains(CLASS_PREFIX + 'component-icon-drag-placeholder')) {
+                        evt.clone.classList.remove(CLASS_PREFIX + 'component-icon-drag-placeholder');
+                    }
                     // 기존 fake element 삭제
                     evt.to.removeChild(evt.item);
 
@@ -414,7 +423,7 @@ class ZFormDesigner {
                         if (target !== null &&
                         target.className.includes(CLASS_PREFIX + 'component-tooltip') &&
                         (dragEl.className.includes(CLASS_PREFIX + 'component-tooltip') ||
-                            dragEl.className.includes('component-icon'))) {
+                            dragEl.className.includes(CLASS_PREFIX + 'component-icon'))) {
                             return 'horizontal';
                         }
                         return 'vertical';
