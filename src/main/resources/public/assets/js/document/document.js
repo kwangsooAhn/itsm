@@ -781,7 +781,7 @@
             buttonPanel.appendChild(printButton);
 
             const documentPanel = document.createElement('div');
-            documentPanel.className = 'drawing-board';
+            documentPanel.className = 'z-drawing-board';
             documentPanel.id = 'documentPanel';
             documentPanel.setAttribute('data-display', 'document');
             body.appendChild(documentPanel);

@@ -290,7 +290,7 @@ class ZFormDesigner {
                     },
                     animation: 150,
                     sort: true,
-                    chosenClass: 'drag-in',
+                    chosenClass: CLASS_PREFIX + 'component-drag-in',
                     editor: this,
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
@@ -323,7 +323,7 @@ class ZFormDesigner {
                     },
                     animation: 150,
                     sort: true,
-                    chosenClass: 'drag-in',
+                    chosenClass: CLASS_PREFIX + 'component-drag-in',
                     editor: this,
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
@@ -335,10 +335,10 @@ class ZFormDesigner {
                     },
                     onClone: function (evt) {
                     // clone 대상이되는 엘리먼트 디자인 변경
-                        evt.clone.classList.add('drag-ghost');
+                        evt.clone.classList.add(CLASS_PREFIX + 'component-drag-ghost');
                     },
                     onEnd: function (evt) {
-                        evt.clone.classList.remove('drag-ghost');
+                        evt.clone.classList.remove(CLASS_PREFIX + 'component-drag-ghost');
 
                         const editor = this.options.editor;
                         const fromObject = editor.form.getById(evt.from.id);
@@ -430,7 +430,7 @@ class ZFormDesigner {
                     },
                     animation: 150,
                     sort: true,
-                    chosenClass: 'drag-in',
+                    chosenClass: CLASS_PREFIX + 'component-drag-in',
                     editor: this,
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
@@ -442,10 +442,10 @@ class ZFormDesigner {
                     },
                     onClone: function (evt) {
                     // clone 대상이되는 엘리먼트 디자인 변경
-                        evt.clone.classList.add('drag-ghost');
+                        evt.clone.classList.add(CLASS_PREFIX + 'component-drag-ghost');
                     },
                     onEnd: function (evt) {
-                        evt.clone.classList.remove('drag-ghost');
+                        evt.clone.classList.remove(CLASS_PREFIX + 'component-drag-ghost');
 
                         const editor = this.options.editor;
 

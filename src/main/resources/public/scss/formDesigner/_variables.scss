@@ -40,7 +40,7 @@ $layout-component-palette-accordion-font-size:     $font-size-s;
 $layout-component-palette-accordion-font-weight:   $font-weight-bold;
 $layout-component-palette-accordion-font-color:    $gray800;
 $layout-component-palette-accordion-icon-color:    $gray500; // 화살표 아이콘 색상
-// 컴포넌트 아이콘
+// 컴포넌트 아이콘 > default
 $component-icon-width:                             6.188rem; // 99px
 $component-icon-height:                            4.6875rem; // 75px
 $component-icon-font-family:                       $font-family-s;
@@ -59,7 +59,7 @@ $component-icon-focus-box-shadow-color:            $blue600;
 $component-icon-active-color:                      $blue700;
 $component-icon-active-bg-color:                   $blue100;
 $component-icon-active-border-color:               $blue400;
-// 컴포넌트 아이콘 > drag out
+// 컴포넌트 아이콘 > drag out (마우스에 따라다니는 item)
 $component-icon-drag-out-font-color:               $gray800;
 $component-icon-drag-out-color:                    $blue500;
 $component-icon-drag-out-bg-color:                 $white;
@@ -67,7 +67,7 @@ $component-icon-drag-out-border-color:             $gray300;
 $component-icon-drag-out-box-shadow-color:         $gray300;
 $component-icon-placeholder-color:                 $gray400;
 $component-icon-placeholder-bg-color:              $neutral200;
-// 컴포넌트 아이콘 > drag 되는 item
+// 컴포넌트 아이콘 > drag item (폼 내부에 나타나는 item)
 $component-icon-drag-bg-color:                     $blue100;
 $component-icon-drag-border-color:                 $blue400;
 
@@ -86,7 +86,12 @@ $layout-properties-panel-border:                   0.0625rem solid map-get($gray
 $layout-properties-panel-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.15);// -1px 15px 7px 0px $pressed-gray, 불투명도 15%;
 
 // main
-$layout-main-bg-color:                             map-get($grays, "light");
+$layout-main-bg-color:                             $neutral50;
+// main - save info
+$layout-main-save-info-font-family:                $font-family-s;
+$layout-main-save-info-font-size:                  $font-size-xs;
+$layout-main-save-info-font-weight:                $font-weight-bold;
+$layout-main-save-info-font-color:                 $gray500;
 
 ///////////////////////////// common /////////////////////////
 $column-row:                                       12;  // 폼을 나누는 갯수
