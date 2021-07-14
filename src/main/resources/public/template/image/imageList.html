@@ -54,7 +54,7 @@
             // 썸네일 표시
             document.getElementById('searchValue').focus();
             document.getElementById('searchValue').addEventListener('keyup', function () {
-                pressKeyForAction(event, 'Enter', function () {
+                aliceJs.pressKeyForAction(event, 'Enter', function () {
                     document.querySelector('.thumbnail-main').innerHTML = '';
                     getImages(false);
                 });

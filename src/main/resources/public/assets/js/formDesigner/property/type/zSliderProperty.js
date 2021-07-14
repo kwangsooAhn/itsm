@@ -36,13 +36,14 @@ export default class ZSliderProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // slider
-        this.UIElement.UISlider = new UISlider(this.value).setUIMin(1).setUIMax(FORM.COLUMN);
+        this.UIElement.UISlider = new UISlider(this.value, FORM.COLUMN).setUIMin(1).setUIMax(FORM.COLUMN);
         this.UIElement.UISlider.UIInput.setUIId(this.key)
             .onUIChange(this.updateProperty.bind(this));
         this.UIElement.addUI(this.UIElement.UISlider);
 
         return this.UIElement;
     }
+
     // 속성 변경시 발생하는 이벤트 핸들러
     updateProperty(e) {
         e.stopPropagation();
