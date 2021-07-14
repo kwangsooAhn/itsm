@@ -53,6 +53,8 @@
         const CHART_HOUR = 'H';
         const PIE_CHART = 'chart.pie';
         const STACKED_COLUMN_CHART = 'chart.stackedColumn';
+        const STACKED_BAR_CHART = 'chart.stackedBar';
+        const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
         const BASIC_LINE_CHART = 'chart.basicLine';
         let chart = null;
 
@@ -443,7 +445,16 @@
                     };
                     break;
                 case STACKED_COLUMN_CHART:
-                    options.chart.type = 'column';
+                case STACKED_BAR_CHART:
+                case LINE_AND_COLUMN_CHART:
+                    if (chartType === STACKED_COLUMN_CHART || chartType === LINE_AND_COLUMN_CHART) {
+                        if (chartType == LINE_AND_COLUMN_CHART) {
+                            options.series.push({data: []});
+                        }
+                        options.chart.type = 'column';
+                    } else {
+                        options.chart.type = 'bar';
+                    }
                     options.xAxis.type = 'datetime';
                     options.yAxis = {
                         min: 0,
@@ -589,6 +600,8 @@
                     chart.series[0].setData(seriesData, true);
                     break;
                 case STACKED_COLUMN_CHART:
+                case STACKED_BAR_CHART:
+                case LINE_AND_COLUMN_CHART:
                     chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
 
                     chart.series[0].update({
@@ -632,6 +645,39 @@
                     }
                     chart.series[0].update({name: seriesName, showInLegend: true}, false);
                     chart.series[0].setData(seriesData, true);
+                    if (chartConfigJson.type === LINE_AND_COLUMN_CHART) {
+                        chart.series[1].update({
+                            name: seriesName,
+                            showInLegend: false,
+                            type: 'spline',
+                            pointStart: Date.UTC(getYear, getMonth, getDay, getHour),
+                            pointInterval: pointInterval,
+                            pointIntervalUnit: pointIntervalUnit,
+                            tooltip: {
+                                pointFormatter: function () {
+                                    if (chartConfigJson.operation === 'percent') {
+                                        const sum = countArray.reduce((a, b) => (a + b));
+                                        const percent = (this.y / sum) * 100;
+                                        return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                    } else {
+                                        return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                    }
+                                }
+                            },
+                            dataLabels: {
+                                formatter: function () {
+                                    if (chartConfigJson.operation === 'percent') {
+                                        const sum = countArray.reduce((a, b) => (a + b));
+                                        const percent = (this.y / sum) * 100;
+                                        return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                    } else {
+                                        return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                                    }
+                                }
+                            }
+                        }, false);
+                        chart.series[1].setData(seriesData, true);
+                    }
                     break;
             }
         }
@@ -696,6 +742,8 @@
                     chartInfo.group = document.getElementById('targetGroup').value;
                     break;
                 case STACKED_COLUMN_CHART :
+                case STACKED_BAR_CHART:
+                case LINE_AND_COLUMN_CHART:
                     chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
                     break;
             }

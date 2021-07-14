@@ -261,6 +261,8 @@ chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
     stackedColumn: "Stacked Column Chart"
+    stackedBar: "Stacked Bar Chart"
+    lineAndColumn: "Line And Column Chart"
 
 # CMDB
 cmdb:
