@@ -59,14 +59,11 @@
     }
   }
   &-component-palette {
-    position:fixed;
-    top: $layout-header-height;
-    left: 0;
-    bottom: 0;
+    @include fixed($layout-header-height, null, 0, 0);
     width: $layout-component-palette-width;
     background-color: $layout-component-palette-bg-color;
-    border-right: $layout-component-palette-border;
-    box-shadow: $layout-component-palette-box-shadow;
+    @include border($layout-component-palette-border-width, solid, $layout-component-palette-border-color, right); // 1px
+    @include boxShadow(0, 0, 0.125rem, 0, $layout-component-palette-box-shadow-color); // 2px
     overflow: hidden;
 
   }
@@ -78,9 +75,7 @@
     @include scrollbarHidden;
   }
   &-properties-panel-header {
-    position:fixed;
-    top: $layout-header-height;
-    right: 0;
+    @include fixed($top: $layout-header-height, $right: 0);
     width: $layout-properties-panel-width;
     height: $layout-properties-panel-header-height;
     font-size: $layout-properties-panel-header-font-size;
@@ -111,34 +106,40 @@
   }
 }
 // 아코디언
-.component-accordion-box {
-  .component-accordion {
+.#{$common-prefix}component-accordion-box {
+  .#{$common-prefix}component-accordion {
     width: 100%;
     input[type=radio] {
-      position: absolute;
+      @include absolute();
       opacity: 0;
       z-index: $z-index-hidden;
     }
-    .accordion-label {
-      height: $accordion-height;
-      border-bottom: $accordion-border;
-      padding: 0 0.625rem; // 0 10px
-      font-size: $accordion-font-size;
-      color: $accordion-font-color;
-      font-weight: $accordion-font-weight;
+    .#{$common-prefix}accordion-label {
+      height: $layout-component-palette-accordion-height;
+      font-family: $layout-component-palette-accordion-font-family;
+      font-size: $layout-component-palette-accordion-font-size;
+      font-weight: $layout-component-palette-accordion-font-weight;
+      color: $layout-component-palette-accordion-font-color;
+      @include border($layout-component-palette-border-width, solid, $layout-component-palette-border-color, bottom); // 1px
+      padding: 0 12px; // 0 12px
       cursor:pointer;
-      .arrow-left {
-        @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, map-get($grays, "blue")); // 12px 20px
+
+      .#{$common-prefix}icon {
+        &.i-arrow-right {
+          @include rotate(180);
+          @include transformOrigin(50% 50%);
+          background: $layout-component-palette-accordion-icon-color;
+        }
       }
     }
-    .accordion-content {
+    .#{$common-prefix}accordion-content {
       height: 0;
-      border-bottom: $accordion-border;
-      border-bottom-color: transparent;
+      @include border(0.0625rem, solid, transparent, bottom); // 1px
       overflow: hidden;
-      transition: all 0.25s ease-out;
+      @include transition(all 0.25s ease-out);
 
-      .component-icon-box {
+      .#{$common-prefix}component-icon-box {
+        position: relative;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -146,74 +147,123 @@
         padding: 0;
         margin: 0;
 
-        .component-icon {
+        .#{$common-prefix}component-icon {
           width: $component-icon-width; // 124px
           height: $component-icon-height;
           text-align: center;
-          border: $accordion-border;
           padding: 0.625rem 0; // 10px 0
-          margin-top: -0.0625rem; // -1px
-          margin-right: -0.0625rem; // -1px
+          background-color: $component-icon-bg-color;
+          @include border($layout-component-palette-border-width, solid, $layout-component-palette-border-color, all); // 1px
+          border-top-color: transparent;
+          box-shadow: none;
           cursor: move;
+          outline: none;
           // 홀수
-          //&:nth-child(odd) {
-          //  border-right: $accordion-border;
-          //  border-bottom: $accordion-border;
-          //}
+          &:nth-child(odd) {
+            @include absolute($top: calc(var(--data-row, 0) * #{$component-icon-height}), $left: 0.0625rem); // 1px
+            border-left-color: transparent;
+          }
           // 짝수
           &:nth-child(even) {
-            flex: 1 1 auto;
+            @include absolute($top: calc(var(--data-row, 0) * #{$component-icon-height}), $right: 0);
+            border-left-color: transparent;
+            border-right-color: transparent;
           }
+          .#{$common-prefix}icon {
+            background: $component-icon-color;
+
+            &.i-inputBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_inputbox.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-textArea { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_textarea.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-textEditor { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_text_editor.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-dropdown { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dropdown.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-radio { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_radio.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-checkBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_checkbox.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-date { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_date.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-time { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_time.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-dateTime { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_datetime.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-fileUpload { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_fileupload.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-customCode { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_custom_code.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-dynamicRowTable { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dynamic_row_table.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-ci { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_ci.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-label { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_label.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-image { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_image.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-divider { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_divider.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+          }
+
+          .#{$common-prefix}component-name {
+            display: block;
+            font-family: $component-icon-font-family;
+            font-size: $component-icon-font-size;
+            font-weight: $component-icon-font-weight;
+            color: $component-icon-font-color;
+            padding-top: 0.375rem; // 6px
+          }
+
           &:hover {
             background-color: $component-icon-hover-bg-color;
-            > .icon { background: $icon-component-focus-color; }
-            > .component-name { color: $icon-component-focus-color; }
+            .#{$common-prefix}icon {
+              background: $component-icon-hover-color;
+            }
           }
 
-          .icon {
-            display: inline-block;
+          &:focus {
+            border-color: $component-icon-focus-border-color;
+            z-index: $z-index-event;
+            @include boxShadow(0, 0, 0.125rem, 0, $component-icon-focus-box-shadow-color);
           }
-          .icon-inputBox { @include maskImage($icon-component-inputBox, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-textArea { @include maskImage($icon-component-textArea, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-textEditor { @include maskImage($icon-component-textEditor, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-dropdown { @include maskImage($icon-component-dropdown, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-radio { @include maskImage($icon-component-radio, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-checkBox { @include maskImage($icon-component-checkBox, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-label { @include maskImage($icon-component-label, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-date { @include maskImage($icon-component-date, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-time { @include maskImage($icon-component-time, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-dateTime { @include maskImage($icon-component-dateTime, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-fileUpload { @include maskImage($icon-component-fileUpload, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-customCode { @include maskImage($icon-component-customCode, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-dynamicRowTable { @include maskImage($icon-component-dynamicRowTable, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-ci { @include maskImage($icon-component-ci, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-label { @include maskImage($icon-component-label, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-image { @include maskImage($icon-component-image, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-divider { @include maskImage($icon-component-divider, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
 
-          .component-name {
-            display: block;
-            padding-top: 0.375rem; // 6px
-            color: $gray;
-            font-size: 0.875rem; // 14px
+          &.#{$common-prefix}component-icon-drag-active {
+            border-color: $component-icon-active-border-color;
+            background-color: $component-icon-active-bg-color;
+            z-index: $z-index-event;
+            box-shadow: none;
+            .#{$common-prefix}icon {
+              background: $component-icon-active-color;
+            }
+            .#{$common-prefix}component-name {
+              font-weight: $font-weight-bold;
+              color: $component-icon-active-color;
+            }
           }
-          // drag & drop
-          &.drag-on {
-            .icon { background: $blue; }
-            .component-name { color: map-get($grays, "dark"); }
+
+          &.#{$common-prefix}component-icon-drag-on {
+            border-color: $component-icon-drag-out-border-color;
+            background-color: $component-icon-drag-out-bg-color;
+            @include boxShadow(0, 0, 0.125rem, 0, $component-icon-drag-out-box-shadow-color); // 2px
+            .#{$common-prefix}icon {
+              background: $component-icon-drag-out-color;
+            }
+            .#{$common-prefix}component-name {
+              font-weight: $font-weight-bold;
+              color: $component-icon-drag-out-font-color;
+            }
+          }
+
+          &.#{$common-prefix}component-icon-drag-placeholder {
+            border-color: $layout-component-palette-border-color;
+            background-color: $component-icon-placeholder-bg-color;
+            .#{$common-prefix}icon {
+              background: $component-icon-placeholder-color;
+            }
+            .#{$common-prefix}component-name {
+              font-weight: $component-icon-font-weight;
+              color: $component-icon-placeholder-color;
+            }
           }
         }
       }
     }
     input[type=radio]:checked {
-      + .accordion-label {
-        .arrow-left {
-          transform: rotate(-90deg);
+      + .#{$common-prefix}accordion-label {
+        .#{$common-prefix}icon {
+          &.i-arrow-right {
+            @include rotate(90);
+          }
         }
       }
-      ~ .accordion-content {
-        height: calc(100vh - (#{$accordion-height} * 4) - #{$layout-header-height});
-        border-bottom-color: $accordion-border-color;
+      ~ .#{$common-prefix}accordion-content {
+        height: calc(100vh - (#{$layout-component-palette-accordion-height} * 4) - #{$layout-header-height});
+        border-bottom-color: $layout-component-palette-border-color;
         overflow-y: auto;
         @include scrollbarHidden;
       }
@@ -223,22 +273,19 @@
 
 // drawing board
 .drawing-board {
-  .drag-ghost {
-    opacity: 0.5;
-  }
   .drag-in {
-    background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
-    border: 0.0625rem dashed map-get($blues, "light"); // 1px
+    background-color: $component-icon-drag-bg-color;
+    @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
   }
   // drag & drop
-  .component-icon-drag-in {
+  .#{$common-prefix}component-icon-drag-in {
     display: inline-block;
     width: 100%;
     height: 7.875rem; // 126px
-    background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
-    border: 0.0625rem dashed map-get($blues, "light"); // 1px
-    .icon { opacity: 0; }
-    .component-name { opacity: 0; }
+    background-color: $component-icon-drag-bg-color;
+    @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
+    .#{$common-prefix}icon { opacity: 0; }
+    .#{$common-prefix}component-name { opacity: 0; }
   }
 
   // 문서 상태에 따라 편집을 막음

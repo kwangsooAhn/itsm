@@ -49,10 +49,13 @@
       opacity: 1;
     }
     // 화살표 아이콘
-    .arrow-left {
-      opacity: 0;
-      display: table-cell;
-      @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, map-get($grays, "blue")); // 12px 20px
+    .#{$common-prefix}icon {
+      &.i-arrow-right {
+        display: table-cell;
+        @include rotate(180);
+        background: $group-accordion-icon-color;
+        opacity: 0;
+      }
     }
   }
   // 아코디언 사용중일 경우
@@ -60,8 +63,10 @@
     // 체크박스 선택 = 아코디언 펼침
     .#{$common-prefix}group-accordion-checkBox:checked {
       + .#{$common-prefix}group-label {
-        .arrow-left {
-          @include rotate(-90);
+        .#{$common-prefix}icon {
+          &.i-arrow-right {
+            @include rotate(90);
+          }
         }
       }
       ~ .#{$common-prefix}row-tooltip:not(.off) {
@@ -85,8 +90,10 @@
         padding-right: 0.625rem; // 10px
       }
 
-      .arrow-left {
-        opacity: 1;
+      .#{$common-prefix}icon {
+        &.i-arrow-right {
+          opacity: 1;
+        }
       }
     }
 
