@@ -211,7 +211,7 @@
             z-index: $z-index-event;
             @include boxShadow(0, 0, 0.125rem, 0, $component-icon-focus-box-shadow-color);
           }
-
+          // 마우스 클릭시
           &.#{$common-prefix}component-icon-drag-active {
             border-color: $component-icon-active-border-color;
             background-color: $component-icon-active-bg-color;
@@ -225,7 +225,7 @@
               color: $component-icon-active-color;
             }
           }
-
+          // 마우스 클릭시 drag 되는 item (마우스에 따라다니는 item)
           &.#{$common-prefix}component-icon-drag-on {
             border-color: $component-icon-drag-out-border-color;
             background-color: $component-icon-drag-out-bg-color;
@@ -238,7 +238,7 @@
               color: $component-icon-drag-out-font-color;
             }
           }
-
+          // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
           &.#{$common-prefix}component-icon-drag-placeholder {
             border-color: $layout-component-palette-border-color;
             background-color: $component-icon-placeholder-bg-color;
@@ -272,18 +272,22 @@
 }
 
 // drawing board
-.drawing-board {
-  .drag-in {
+.#{$common-prefix}drawing-board {
+  .#{$common-prefix}drag-ghost {
+    opacity: 0.5;
+  }
+  .#{$common-prefix}component-drag-in {
     background-color: $component-icon-drag-bg-color;
     @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
   }
-  // drag & drop
+  // drag & drop (폼 내부에 나타나는 item)
   .#{$common-prefix}component-icon-drag-in {
     display: inline-block;
     width: 100%;
     height: 7.875rem; // 126px
     background-color: $component-icon-drag-bg-color;
     @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
+
     .#{$common-prefix}icon { opacity: 0; }
     .#{$common-prefix}component-name { opacity: 0; }
   }
@@ -293,24 +297,13 @@
     .#{$common-prefix}group-label { pointer-events: none; }
   }
 }
-.vertical {
-  display: block;
-  margin-top: 0.625rem;
-  &:first-of-type {
-    margin-top: 0;
-  }
-}
 
-.horizontal {
-  display: inline-block;
-  margin-right: 0.625rem;
-}
-
-.save-info {
+// 저장 정보
+.#{$common-prefix}save-info {
   height: 2.188rem; //35px
+  font-family: $layout-main-save-info-font-family;
+  font-size: $layout-main-save-info-font-size;
+  font-weight: $layout-main-save-info-font-weight;
+  color: $layout-main-save-info-font-color;
   margin-top: 1.5625rem; // 25px
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  color: $element-font-color;
-  text-align: center;
 }

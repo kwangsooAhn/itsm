@@ -839,7 +839,7 @@ input, button, select, optgroup, textarea {
   overflow-y: auto;
   left: 12.5rem;
   right: 20rem;
-  background-color: #F7F8F9;
+  background-color: #FAFAFA;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
@@ -1210,47 +1210,37 @@ input, button, select, optgroup, textarea {
   /* Chrome, Safari, Opera*/
 }
 
-.drawing-board .drag-in {
+.z-drawing-board .z-drag-ghost {
+  opacity: 0.5;
+}
+.z-drawing-board .z-component-drag-in {
   background-color: #E3F5FC;
   border: 0.0625rem dashed #64BBF6;
 }
-.drawing-board .z-component-icon-drag-in {
+.z-drawing-board .z-component-icon-drag-in {
   display: inline-block;
   width: 100%;
   height: 7.875rem;
   background-color: #E3F5FC;
   border: 0.0625rem dashed #64BBF6;
 }
-.drawing-board .z-component-icon-drag-in .z-icon {
+.z-drawing-board .z-component-icon-drag-in .z-icon {
   opacity: 0;
 }
-.drawing-board .z-component-icon-drag-in .z-component-name {
+.z-drawing-board .z-component-icon-drag-in .z-component-name {
   opacity: 0;
 }
-.drawing-board.edit .z-group-label {
+.z-drawing-board.edit .z-group-label {
   pointer-events: none;
 }
 
-.vertical {
-  display: block;
-  margin-top: 0.625rem;
-}
-.vertical:first-of-type {
-  margin-top: 0;
-}
-
-.horizontal {
-  display: inline-block;
-  margin-right: 0.625rem;
-}
-
-.save-info {
+.z-save-info {
   height: 2.188rem;
-  margin-top: 1.5625rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
-  color: #222529;
-  text-align: center;
+  font-weight: 700;
+  color: #8B9094;
+  margin-top: 1.5625rem;
 }
 
 /* _elements.scss
@@ -5479,6 +5469,17 @@ body.modal-active {
 }
 .z-component .z-element .z-text-editor {
   height: calc(2.5rem * var(--data-row));
+}
+.z-component .z-element .radio .vertical, .z-component .z-element .checkbox .vertical {
+  display: block;
+  margin-top: 0.625rem;
+}
+.z-component .z-element .radio .vertical:first-of-type, .z-component .z-element .checkbox .vertical:first-of-type {
+  margin-top: 0;
+}
+.z-component .z-element .radio .horizontal, .z-component .z-element .checkbox .horizontal {
+  display: inline-block;
+  margin-right: 0.625rem;
 }
 .z-component .z-element .z-imagebox-placeholder {
   display: none;
