@@ -1189,3 +1189,13 @@ aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
         callBackFunc();
     }
 }
+
+/**
+ * z-slider > range value에 따라 range fill 영역을 계산한다.
+ * @param target
+ */
+aliceJs.drawSlider = function(target) {
+    let thumbLocation =  parseInt((target.value - 1) * 100 / (target.max - 1)) + '%';
+    target.style.cssText = '--range-location:' + thumbLocation;
+}
+
