@@ -7,6 +7,8 @@ package co.brainz.itsm.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
@@ -17,8 +19,6 @@ import co.brainz.workflow.token.service.WfTokenService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import org.springframework.stereotype.Service
 
 @Service
@@ -27,7 +27,8 @@ class InstanceService(
     private val userDetailsService: AliceUserDetailsService,
     private val folderService: FolderService,
     private val wfInstanceService: WfInstanceService,
-    private val wfTokenService: WfTokenService
+    private val wfTokenService: WfTokenService,
+    private val aliceTagService: AliceTagService
 ) {
     private val mapper: ObjectMapper =
         ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -61,16 +62,8 @@ class InstanceService(
         return moreInfoAddCommentsDto
     }
 
-    fun getInstanceTags(instanceId: String): String {
-        val restTemplateTags = wfInstanceService.getInstanceTags(instanceId)
-        val tagBasicList = JsonArray()
-        restTemplateTags.forEach {
-            val tagData = JsonObject()
-            tagData.addProperty("id", it.tagId.toString())
-            tagData.addProperty("value", it.tagValue)
-            tagBasicList.add(tagData)
-        }
-        return tagBasicList.toString()
+    fun getInstanceTags(instanceId: String): List<AliceTagDto> {
+        return wfInstanceService.getInstanceTags(instanceId)
     }
 
     fun getAllInstanceListAndSearch(

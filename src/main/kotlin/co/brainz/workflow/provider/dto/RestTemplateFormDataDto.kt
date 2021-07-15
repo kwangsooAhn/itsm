@@ -9,6 +9,7 @@
  */
 package co.brainz.workflow.provider.dto
 
+import co.brainz.framework.tag.dto.AliceTagDto
 import com.fasterxml.jackson.annotation.JsonInclude
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -54,7 +55,7 @@ class FormComponentDto(
     var value: String? = null,
     var isTopic: Boolean = false,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    var tags: List<String>? = null,
+    var tags: List<AliceTagDto>? = null,
     var display: LinkedHashMap<String, Any> = LinkedHashMap(),
     var label: LinkedHashMap<String, Any> = LinkedHashMap(),
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -10,6 +10,7 @@
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.AliceUtil
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -198,7 +199,7 @@ class FormService(
                             id = component["id"] as String,
                             type = component["type"] as String,
                             isTopic = component["isTopic"] as Boolean,
-                            tags = component["tags"] as List<String>,
+                            tags = component["tags"] as List<AliceTagDto>,
                             value = component["value"] as String,
                             display = componentDisplay,
                             label = componentLabel,

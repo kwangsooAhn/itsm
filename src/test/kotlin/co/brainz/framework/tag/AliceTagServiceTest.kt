@@ -65,9 +65,7 @@ class AliceTagServiceTest {
         ) {
             val instanceTagList =
                 aliceTagService.getTagsByTargetId(AliceTagConstants.TagType.INSTANCE.code, instanceDto.instanceId)
-            for (instanceTag in instanceTagList) {
-                instanceTag.tagValue
-            }
+
             val tempTagValue = instanceTagList.filter {
                 it.tagValue == this.tagValue
             }[0]
