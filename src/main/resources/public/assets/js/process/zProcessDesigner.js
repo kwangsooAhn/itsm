@@ -765,6 +765,7 @@
                         removeElementSelected();
                         mousedownElement = elem;
                         selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
+
                         setSelectedElement(selectedElement);
 
                         if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
@@ -1609,7 +1610,23 @@
 
         d3.select('.' + aliceJs.CLASS_PREFIX + 'process-element-palette').selectAll('button.shape')
             .attr('draggable', 'true')
+            .on('mousedown', function() {
+                let _this = d3.select(this);
+                _this.classed('active', true);
+
+            })
+            .on('mouseup', function() {
+                let _this = d3.select(this);
+                _this.classed('active', false);
+            })
+            .on('drag', function() {
+                let _this = d3.select(this);
+                _this.classed('placeholder', true);
+            })
             .on('dragend', function() {
+                let _this = d3.select(this);
+                _this.classed('active', false);
+                _this.classed('placeholder', false);
                 const svgOffset = svg.node().getBoundingClientRect(),
                     gTransform = d3.zoomTransform(d3.select('g.element-container').node());
                 let x = snapToGrid(d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x),
@@ -1621,7 +1638,6 @@
                     d3.event.pageY - svgOffset.top - window.pageYOffset > drawingBoard.offsetHeight) {
                     return false;
                 }
-                let _this = d3.select(this);
                 let node;
                 if (_this.classed('event')) {
                     node = new EventElement(x, y);

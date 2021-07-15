@@ -790,12 +790,14 @@ input, button, select, optgroup, textarea {
 .z-process-element-palette {
   position: fixed;
   top: 3.125rem;
-  left: 0;
   bottom: 0;
+  left: 0;
   width: 6.25rem;
   background-color: #FFFFFF;
-  border-right: 0.0625rem solid #EBEBEB;
-  box-shadow: 0.0625rem 0 0.4375rem 0 rgba(204, 206, 209, 0.15);
+  border-right: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
   overflow: hidden;
 }
 .z-process-main {
@@ -2871,21 +2873,43 @@ svg path.connector.hidden {
   mask-position: center;
 }
 
-.rectangle-menu {
+.z-element-icon {
+  display: inline-block;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
   width: 5.625rem;
   height: 4.375rem;
   padding: 0;
   margin: 0.313rem 0.313rem 0 0.313rem;
-  border: 0.063rem solid #EBEBEB;
+  color: #63686C;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  opacity: 1;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  overflow: visible;
+  cursor: pointer;
 }
-.rectangle-menu .icon-text {
+.z-element-icon:disabled, .z-element-icon.disabled {
+  cursor: default;
+}
+.z-element-icon .z-element-icon-text {
   display: block;
-  font-size: 14px;
-  font-weight: 400;
-  color: #3F4B56;
+  color: #63686C;
 }
-.rectangle-menu .icon-event {
+.z-element-icon .z-icon {
   display: inline-block;
+  background: #8B9094;
+}
+.z-element-icon .z-icon.i-event {
   width: 26px;
   height: 26px;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_event.svg");
@@ -2894,10 +2918,8 @@ svg path.connector.hidden {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
 }
-.rectangle-menu .icon-task {
-  display: inline-block;
+.z-element-icon .z-icon.i-task {
   width: 24px;
   height: 24px;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_task.svg");
@@ -2906,10 +2928,8 @@ svg path.connector.hidden {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
 }
-.rectangle-menu .icon-subprocess {
-  display: inline-block;
+.z-element-icon .z-icon.i-subprocess {
   width: 24px;
   height: 24px;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_subprocess.svg");
@@ -2918,10 +2938,8 @@ svg path.connector.hidden {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
 }
-.rectangle-menu .icon-gateway {
-  display: inline-block;
+.z-element-icon .z-icon.i-gateway {
   width: 30px;
   height: 30px;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_gateway.svg");
@@ -2930,10 +2948,8 @@ svg path.connector.hidden {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
 }
-.rectangle-menu .icon-group {
-  display: inline-block;
+.z-element-icon .z-icon.i-group {
   width: 24px;
   height: 24px;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_group.svg");
@@ -2942,10 +2958,8 @@ svg path.connector.hidden {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
 }
-.rectangle-menu .icon-annotation {
-  display: inline-block;
+.z-element-icon .z-icon.i-annotation {
   width: 24px;
   height: 24px;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_annotation.svg");
@@ -2954,15 +2968,8 @@ svg path.connector.hidden {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
 }
-.rectangle-menu.connector {
-  position: absolute;
-  bottom: 5rem;
-  background-color: #F7F8F9;
-}
-.rectangle-menu.connector .icon-connector {
-  display: inline-block;
+.z-element-icon .z-icon.i-connector {
   width: 24px;
   height: 24px;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_connector.svg");
@@ -2971,28 +2978,8 @@ svg path.connector.hidden {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #ACB4BF;
 }
-.rectangle-menu.connector .icon-connector + .icon-text {
-  color: #ACB4BF;
-}
-.rectangle-menu.connector.selected {
-  border-color: #0098FF;
-  background-color: #FFFFFF;
-}
-.rectangle-menu.connector.selected .icon {
-  background: #0098FF;
-}
-.rectangle-menu.connector.selected .icon-text {
-  color: #0098FF;
-}
-.rectangle-menu.move-icon {
-  position: absolute;
-  bottom: 0.313rem;
-  background-color: #F7F8F9;
-}
-.rectangle-menu.move-icon .icon-background {
-  display: inline-block;
+.z-element-icon .z-icon.i-background {
   width: 24px;
   height: 24px;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_background.svg");
@@ -3001,20 +2988,132 @@ svg path.connector.hidden {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #ACB4BF;
 }
-.rectangle-menu.move-icon .icon-background + .icon-text {
-  color: #ACB4BF;
-}
-.rectangle-menu.move-icon.selected {
-  border-color: #0098FF;
+.z-element-icon:focus {
+  outline: 0;
   background-color: #FFFFFF;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
 }
-.rectangle-menu.move-icon.selected .icon {
-  background: #0098FF;
+.z-element-icon:focus .z-element-icon-text {
+  color: #63686C;
 }
-.rectangle-menu.move-icon.selected .icon-text {
-  color: #0098FF;
+.z-element-icon:focus .z-icon {
+  background: #8B9094;
+}
+.z-element-icon:hover {
+  outline: 0;
+  background-color: #E3F5FC;
+  border-color: #CFD5D9;
+}
+.z-element-icon:hover .z-element-icon-text {
+  color: #63686C;
+}
+.z-element-icon:hover .z-icon {
+  background: #63686C;
+}
+.z-element-icon.active {
+  background-color: #FFFFFF;
+  border-color: #CFD5D9;
+  z-index: 25;
+  box-shadow: 0 0 0.125rem #CFD5D9;
+}
+.z-element-icon.active .z-element-icon-text {
+  color: #222529;
+  font-weight: 700;
+}
+.z-element-icon.active .z-icon {
+  background: #339AF0;
+}
+.z-element-icon.placeholder {
+  background-color: #EEEEEE;
+  border-color: #CFD5D9;
+}
+.z-element-icon.placeholder .z-element-icon-text {
+  color: #ABB0B5;
+}
+.z-element-icon.placeholder .z-icon {
+  background: #ABB0B5;
+}
+.z-element-icon.connector, .z-element-icon.move-icon {
+  color: #222529;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #CFD5D9;
+}
+.z-element-icon.connector .z-icon, .z-element-icon.move-icon .z-icon {
+  background: #222529;
+}
+.z-element-icon.connector .z-element-icon-text, .z-element-icon.move-icon .z-element-icon-text {
+  color: #222529;
+}
+.z-element-icon.connector:focus, .z-element-icon.move-icon:focus {
+  outline: 0;
+  color: #222529;
+  background-color: #FFFFFF;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-element-icon.connector:focus .z-icon, .z-element-icon.move-icon:focus .z-icon {
+  background: #222529;
+}
+.z-element-icon.connector:focus .z-element-icon-text, .z-element-icon.move-icon:focus .z-element-icon-text {
+  color: #222529;
+}
+.z-element-icon.connector:hover, .z-element-icon.move-icon:hover {
+  outline: 0;
+  color: #222529;
+  background-color: #E3F5FC;
+  border-color: #CFD5D9;
+}
+.z-element-icon.connector:hover .z-icon, .z-element-icon.move-icon:hover .z-icon {
+  background: #222529;
+}
+.z-element-icon.connector:hover .z-element-icon-text, .z-element-icon.move-icon:hover .z-element-icon-text {
+  color: #222529;
+}
+.z-element-icon.connector:enabled:active, .z-element-icon.connector:enabled.active, .z-element-icon.move-icon:enabled:active, .z-element-icon.move-icon:enabled.active {
+  color: #1959AC;
+  background-color: #ADE6FD;
+  border-color: #64BBF6;
+  z-index: 25;
+}
+.z-element-icon.connector:enabled:active .z-icon, .z-element-icon.connector:enabled.active .z-icon, .z-element-icon.move-icon:enabled:active .z-icon, .z-element-icon.move-icon:enabled.active .z-icon {
+  background: #1959AC;
+}
+.z-element-icon.connector:enabled:active .z-element-icon-text, .z-element-icon.connector:enabled.active .z-element-icon-text, .z-element-icon.move-icon:enabled:active .z-element-icon-text, .z-element-icon.move-icon:enabled.active .z-element-icon-text {
+  color: #1959AC;
+}
+.z-element-icon.connector.selected:not(:disabled), .z-element-icon.connector.selected:not(.disabled), .z-element-icon.move-icon.selected:not(:disabled), .z-element-icon.move-icon.selected:not(.disabled) {
+  color: #339AF0;
+  background-color: #FFFFFF;
+  border-color: #339AF0;
+  z-index: 25;
+}
+.z-element-icon.connector.selected:not(:disabled) .z-icon, .z-element-icon.connector.selected:not(.disabled) .z-icon, .z-element-icon.move-icon.selected:not(:disabled) .z-icon, .z-element-icon.move-icon.selected:not(.disabled) .z-icon {
+  background: #339AF0;
+}
+.z-element-icon.connector.selected:not(:disabled) .z-element-icon-text, .z-element-icon.connector.selected:not(.disabled) .z-element-icon-text, .z-element-icon.move-icon.selected:not(:disabled) .z-element-icon-text, .z-element-icon.move-icon.selected:not(.disabled) .z-element-icon-text {
+  color: #339AF0;
+}
+.z-element-icon.connector:disabled, .z-element-icon.connector.disabled, .z-element-icon.move-icon:disabled, .z-element-icon.move-icon.disabled {
+  color: #ABB0B5;
+  background-color: #EEEEEE;
+  border-color: #CFD5D9;
+  cursor: default;
+}
+.z-element-icon.connector:disabled .z-icon, .z-element-icon.connector.disabled .z-icon, .z-element-icon.move-icon:disabled .z-icon, .z-element-icon.move-icon.disabled .z-icon {
+  background: #ABB0B5;
+}
+.z-element-icon.connector:disabled .z-element-icon-text, .z-element-icon.connector.disabled .z-element-icon-text, .z-element-icon.move-icon:disabled .z-element-icon-text, .z-element-icon.move-icon.disabled .z-element-icon-text {
+  color: #ABB0B5;
+}
+.z-element-icon.connector {
+  position: absolute;
+  bottom: 5rem;
+}
+.z-element-icon.move-icon {
+  position: absolute;
+  bottom: 0.313rem;
 }
 
 .z-button-icon.z-button-minimap {

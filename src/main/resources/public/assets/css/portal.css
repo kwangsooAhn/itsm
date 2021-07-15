@@ -3738,8 +3738,8 @@ table tbody tr:hover {
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-remove .icon-delete {
   width: 1.125rem;
   height: 3rem;
-  -webkit-mask-image: url("../media/icons/icon_close.svg");
-  mask-image: url("../media/icons/icon_close.svg");
+  -webkit-mask-image: url("../media/icons/icon_clear.svg");
+  mask-image: url("../media/icons/icon_clear.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -4009,7 +4009,7 @@ table tbody tr:hover {
   display: block;
   width: 1.125rem;
   height: 1.125rem;
-  background-image: url("../media/icons/icon_close.svg");
+  background-image: url("../media/icons/icon_clear.svg");
   background-size: 0.875rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -4119,8 +4119,8 @@ table tbody tr:hover {
   cursor: pointer;
   width: 0.875rem;
   height: 0.875rem;
-  -webkit-mask-image: url("../media/icons/icon_close.svg");
-  mask-image: url("../media/icons/icon_close.svg");
+  -webkit-mask-image: url("../media/icons/icon_clear.svg");
+  mask-image: url("../media/icons/icon_clear.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;

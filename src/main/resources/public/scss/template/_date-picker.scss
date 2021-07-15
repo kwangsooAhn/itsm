@@ -42,7 +42,7 @@
       @include absolute($right: 1.25rem); // 20px
       display: inline-block;
       cursor: pointer;
-      @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $datepicker-icon-color); // 14px 14px
+      @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.875rem, 0.875rem, no-repeat, center, null, $datepicker-icon-color); // 14px 14px
       // mouse over
       &:hover {
         background: $datepicker-hover-color;
