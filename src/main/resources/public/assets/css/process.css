@@ -759,11 +759,11 @@ input, button, select, optgroup, textarea {
  *                   - process-properties-header : 세부 속성 상단
  *                   - process-properties : 세부 속성
  */
-.process-container {
+.z-process-container {
   max-width: 120rem;
   margin: 0 auto;
 }
-.process-header {
+.z-process-header {
   position: fixed;
   top: 0;
   right: 0;
@@ -778,16 +778,16 @@ input, button, select, optgroup, textarea {
   padding: 0 1.25rem;
   z-index: 100;
 }
-.process-header .name {
+.z-process-header .name {
   font-size: 1.125rem;
   padding: 0 0.9375rem;
 }
-.process-header .separator {
+.z-process-header .separator {
   width: 0.063rem;
   height: 1.25rem;
   background-color: #4DB7FF;
 }
-.process-element-palette {
+.z-process-element-palette {
   position: fixed;
   top: 3.125rem;
   left: 0;
@@ -798,7 +798,7 @@ input, button, select, optgroup, textarea {
   box-shadow: 0.0625rem 0 0.4375rem 0 rgba(204, 206, 209, 0.15);
   overflow: hidden;
 }
-.process-main {
+.z-process-main {
   position: fixed;
   top: 3.125rem;
   right: 18.75rem;
@@ -808,26 +808,26 @@ input, button, select, optgroup, textarea {
   left: 6.25rem;
   overflow: hidden;
 }
-.process-main .drawing-board {
+.z-process-main .z-drawing-board {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
-.process-main .drawing-board svg {
+.z-process-main .z-drawing-board svg {
   background-color: #F7F8F9;
 }
-.process-main .drawing-board svg g.grid path {
+.z-process-main .z-drawing-board svg g.grid path {
   display: none;
 }
-.process-main .drawing-board svg g.grid line {
+.z-process-main .z-drawing-board svg g.grid line {
   stroke: #EBEBEB;
   stroke-width: 1;
   stroke-opacity: 1;
   shape-rendering: crispEdges;
 }
-.process-main .drawing-board .minimap {
+.z-process-main .z-drawing-board .minimap {
   display: inline-block;
   width: 350px;
   height: 260px;
@@ -840,7 +840,7 @@ input, button, select, optgroup, textarea {
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   overflow: hidden;
 }
-.process-main .drawing-board .minimap svg {
+.z-process-main .z-drawing-board .minimap svg {
   position: absolute;
   top: 1.875rem;
   left: 1.875rem;
@@ -848,15 +848,15 @@ input, button, select, optgroup, textarea {
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
 }
-.process-main .drawing-board .minimap svg rect.minimap-guide {
+.z-process-main .z-drawing-board .minimap svg rect.minimap-guide {
   fill: #A3B6CC;
   fill-opacity: 0.25;
   stroke-width: 0;
 }
-.process-main .drawing-board .minimap.closed {
+.z-process-main .z-drawing-board .minimap.closed {
   display: none;
 }
-.process-main .drawing-board .simulation-report {
+.z-process-main .z-drawing-board .simulation-report {
   display: block;
   width: 63.75rem;
   height: 22.688rem;
@@ -872,7 +872,7 @@ input, button, select, optgroup, textarea {
   margin: auto;
   overflow: hidden;
 }
-.process-main .drawing-board .simulation-report-title {
+.z-process-main .z-drawing-board .simulation-report-title {
   height: 3.375rem;
   font-size: 1.125rem;
   font-weight: 500;
@@ -880,7 +880,7 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.0625rem solid #EBEBEB;
   padding: 1.125rem;
 }
-.process-main .drawing-board .simulation-report-title .icon-minus {
+.z-process-main .z-drawing-board .simulation-report-title .icon-minus {
   position: absolute;
   display: inline-block;
   right: 1.125rem;
@@ -895,47 +895,47 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #CCCED1;
 }
-.process-main .drawing-board .simulation-report-title .icon-minus:hover {
+.z-process-main .z-drawing-board .simulation-report-title .icon-minus:hover {
   background: #0098FF;
 }
-.process-main .drawing-board .simulation-report-contents {
+.z-process-main .z-drawing-board .simulation-report-contents {
   padding: 0.3125rem;
 }
-.process-main .drawing-board .simulation-report-contents-main {
+.z-process-main .z-drawing-board .simulation-report-contents-main {
   width: 100%;
   height: 18.44rem;
   overflow-y: auto;
 }
-.process-main .drawing-board .simulation-report-contents-main .result {
+.z-process-main .z-drawing-board .simulation-report-contents-main .result {
   font-size: 1.125rem;
   font-weight: 500;
   margin: 1.25rem 0.938rem;
 }
-.process-main .drawing-board .simulation-report-contents-main .result.success {
+.z-process-main .z-drawing-board .simulation-report-contents-main .result.success {
   color: #00C462;
 }
-.process-main .drawing-board .simulation-report-contents-main .result.failed {
+.z-process-main .z-drawing-board .simulation-report-contents-main .result.failed {
   color: #ff405a;
 }
-.process-main .drawing-board .simulation-report-contents-main .details {
+.z-process-main .z-drawing-board .simulation-report-contents-main .details {
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
   margin: 0 0.938rem;
 }
-.process-main .drawing-board .simulation-report-contents-main .details div {
+.z-process-main .z-drawing-board .simulation-report-contents-main .details div {
   margin: 0.625rem 0;
 }
-.process-main .drawing-board .simulation-report-contents-main .details div.failed {
+.z-process-main .z-drawing-board .simulation-report-contents-main .details div.failed {
   color: #ff405a;
 }
-.process-main .drawing-board .simulation-report-contents-main .details-result, .process-main .drawing-board .simulation-report-contents-main .details-element-info, .process-main .drawing-board .simulation-report-contents-main .details-failed-message {
+.z-process-main .z-drawing-board .simulation-report-contents-main .details-result, .z-process-main .z-drawing-board .simulation-report-contents-main .details-element-info, .z-process-main .z-drawing-board .simulation-report-contents-main .details-failed-message {
   margin-left: 0.313rem;
 }
-.process-main .drawing-board .simulation-report.closed {
+.z-process-main .z-drawing-board .simulation-report.closed {
   display: none;
 }
-.process-properties-header {
+.z-process-properties-header {
   position: fixed;
   top: 3.125rem;
   right: 0;
@@ -947,7 +947,7 @@ input, button, select, optgroup, textarea {
   background-color: #33ADFF;
   padding: 0.625rem 1.563rem;
 }
-.process-properties {
+.z-process-properties {
   position: fixed;
   top: calc(3.125rem + 2.5rem);
   right: 0;
@@ -963,18 +963,18 @@ input, button, select, optgroup, textarea {
   scrollbar-width: none;
   /* Firefox */
 }
-.process-properties::-webkit-scrollbar {
+.z-process-properties::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
-.process-properties .properties-group-title {
+.z-process-properties .properties-group-title {
   color: #33ADFF;
   margin: 1.563rem 1.563rem 0 1.563rem;
 }
-.process-properties .properties {
+.z-process-properties .properties {
   padding: 0.9375rem 1.563rem 0.4375rem 1.563rem;
 }
-.process-properties .properties-title {
+.z-process-properties .properties-title {
   display: inline-block;
   width: 100%;
   font-size: 1rem;
@@ -982,65 +982,65 @@ input, button, select, optgroup, textarea {
   color: #3F4B56;
   margin-bottom: 0.625rem;
 }
-.process-properties .properties.last {
+.z-process-properties .properties.last {
   padding-bottom: 1.875rem;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
-.process-properties .properties .copy {
+.z-process-properties .properties .copy {
   width: 81% !important;
 }
-.process-properties .properties .file-select-group .file {
+.z-process-properties .properties .file-select-group .file {
   width: 81% !important;
   margin-right: 5px;
 }
-.process-properties .properties .candidate-table,
-.process-properties .properties .script-data {
+.z-process-properties .properties .candidate-table,
+.z-process-properties .properties .script-data {
   margin-top: 15px;
 }
-.process-properties .properties .candidate-table button,
-.process-properties .properties .script-data button {
+.z-process-properties .properties .candidate-table button,
+.z-process-properties .properties .script-data button {
   padding: 0;
 }
-.process-properties .properties .candidate-table tr th, .process-properties .properties .candidate-table tr td,
-.process-properties .properties .script-data tr th,
-.process-properties .properties .script-data tr td {
+.z-process-properties .properties .candidate-table tr th, .z-process-properties .properties .candidate-table tr td,
+.z-process-properties .properties .script-data tr th,
+.z-process-properties .properties .script-data tr td {
   text-align: center;
   vertical-align: middle;
   border-color: #EBEBEB;
   padding: 0 0.625rem;
 }
-.process-properties fieldset {
+.z-process-properties fieldset {
   padding: 0 1.563rem;
 }
-.process-properties fieldset legend, .process-properties fieldset .properties {
+.z-process-properties fieldset legend, .z-process-properties fieldset .properties {
   padding: 0.9375rem 0 0.4375rem 0;
 }
-.process-properties fieldset .properties:last-child {
+.z-process-properties fieldset .properties:last-child {
   padding-bottom: 1.875rem;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
-.process-properties fieldset[name=condition] {
+.z-process-properties fieldset[name=condition] {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
-.process-properties fieldset[name=condition] .properties:last-child {
+.z-process-properties fieldset[name=condition] .properties:last-child {
   border: none;
 }
-.process-properties .process-info-main {
+.z-process-properties .process-info-main {
   margin: 1.25rem 1.563rem;
 }
-.process-properties .process-info-main .process-info-title {
+.z-process-properties .process-info-main .process-info-title {
   color: #33ADFF;
 }
-.process-properties .process-info-main .process-info-dashboard {
+.z-process-properties .process-info-main .process-info-dashboard {
   margin-top: 1.25rem;
 }
-.process-properties .process-info-main .process-info-dashboard .total {
+.z-process-properties .process-info-main .process-info-dashboard .total {
   color: #3F4B56;
   padding: 0 0 0.625rem 0;
   margin: 0;
   border-bottom: 0.125rem solid #EBEBEB;
 }
-.process-properties .process-info-main .process-info-dashboard table tr td {
+.z-process-properties .process-info-main .process-info-dashboard table tr td {
   padding: 0.625rem;
 }
 

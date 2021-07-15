@@ -4,6 +4,9 @@ aliceJs.systemCalendarDatetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 aliceJs.systemCalendarDateFormat = 'YYYY-MM-DD';
 aliceJs.systemCalendarTimeFormat = 'HH:mm:ss';
 
+// es6 모듈 구조일 경우 zConstants.js 파일의  CLASS_PREFIX 를 사용한다.
+aliceJs.CLASS_PREFIX = 'z-';
+
 const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
 const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
 

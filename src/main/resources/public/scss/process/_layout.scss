@@ -9,7 +9,7 @@
  *                   - process-properties : 세부 속성
  */
 
-.process {
+.#{$common-prefix}process {
   &-container {
     @include container;
   }
@@ -52,7 +52,7 @@
     left: $layout-element-palette-width;
     overflow: hidden;
 
-    .drawing-board {
+    .#{$common-prefix}drawing-board {
       position: absolute;
       top: 0;
       left: 0;
