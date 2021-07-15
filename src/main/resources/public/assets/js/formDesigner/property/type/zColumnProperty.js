@@ -27,7 +27,6 @@ import ZOptionListProperty from './zOptionListProperty.js';
 import ZDefaultValueRadioProperty from './zDefaultValueRadioProperty.js';
 import ZDateTimePickerProperty from './zDateTimePickerProperty.js';
 
-
 export const propertyExtends = {
     columnCommon: {
         columnName: 'COLUMN',
@@ -431,8 +430,8 @@ export default class ZColumnProperty extends ZProperty {
             new ZGroupProperty('group.columnElement')
                 .addProperty(defaultValueRadioProperty),
             new ZGroupProperty('group.validation')
-                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.minDate', 'element.minDate', option.columnValidation.minDate, FORM.DATE_TYPE.DATE_PICKER))
-                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxDate', 'element.maxDate', option.columnValidation.maxDate, FORM.DATE_TYPE.DATE_PICKER))
+                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.minDate', 'validation.minDate', option.columnValidation.minDate, FORM.DATE_TYPE.DATE_PICKER))
+                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxDate', 'validation.maxDate', option.columnValidation.maxDate, FORM.DATE_TYPE.DATE_PICKER))
         ];
     }
     // 입력 유형 타입 변경
