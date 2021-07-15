@@ -65,7 +65,7 @@
     }
 
     &.icon-unit-px {
-      background: url($icon-folder-path + "formDesigner/unit/icon_unit_px.svg") no-repeat 100%-3 50%;
+      background: url($icon-folder-path + "formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 1rem) 50%;
       background-color: $element-bg-color;
       padding-right: 1.875rem; // 30px
     }

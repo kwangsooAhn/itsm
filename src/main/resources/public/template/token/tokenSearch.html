@@ -26,7 +26,7 @@
                     <option th:each="document: ${documentList}" th:value="${document.documentId}"
                             th:text="${document.documentName}"></option>
                 </select>
-                <input class="search col-3" type="text" name="searchValue" id="searchValue"
+                <input class="z-input search col-3" type="text" name="searchValue" id="searchValue"
                        maxlength="100" th:placeholder="#{token.label.searchPlaceholder}"/>
                 <input type="text" class="z-input search-date col-3" id="searchFromDt" name="searchFromDt"/>
                 <input type="text" class="z-input search-date col-3" id="toDt" name="toDt"/>

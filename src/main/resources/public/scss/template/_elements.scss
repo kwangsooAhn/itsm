@@ -505,8 +505,33 @@ label {
     .#{$common-prefix}button-clear {
       @include absolute($right: $input-clear-right);
       padding: 1.125rem 0.875rem; // 18px 14px
-      @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $gray500); // 10px 10px
+      @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $input-bg-icon-color); // 10px 10px
     }
+  }
+
+  // z-input with background img
+  &.search {
+    @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  }
+
+  &.search-date, &.date {
+    @include backgroundImage($icon-folder-path + 'icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  }
+
+  &.time {
+    @include backgroundImage($icon-folder-path + 'icon_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  }
+
+  &.datetime {
+    @include backgroundImage($icon-folder-path + 'icon_date_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  }
+
+  &.px {
+    @include backgroundImage($icon-folder-path + 'icon_px.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  }
+
+  &.mb {
+    @include backgroundImage($icon-folder-path + 'icon_mb.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
   }
 
   // todo: 임시로 추가. 추후 z-input 모두 적용 시 제거 예정.
@@ -884,3 +909,9 @@ label {
     }
   }
 }
+
+// date / time / date time picker
+.#{$common-prefix}datepicker {
+
+}
+

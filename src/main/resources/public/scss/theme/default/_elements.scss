@@ -11,54 +11,6 @@ h6 {
 input {
   padding: 0 10px;
   vertical-align: middle;
-
-  &.search {
-    background: url($icon-folder-path + "icon_search.svg") no-repeat 100%-3 50%;
-    background-color: $element-bg-color;
-    padding-right: 1.875rem; // 30px
-  }
-
-  &.search-datetime {
-    background: url($icon-folder-path + "icon_date_time.svg") no-repeat 100%-5 50%;
-    background-color: $element-bg-color;
-
-    &:disabled {
-      background-color: map-get($grays, "light");
-    }
-  }
-
-  &.search-date {
-    background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
-    background-color: $element-bg-color;
-
-    &:disabled {
-      background-color: map-get($grays, "light");
-    }
-  }
-
-  &.search-time {
-    background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
-    background-color: $element-bg-color;
-  }
-
-  &.date {
-    background: url($icon-folder-path + "icon_calendar.svg") no-repeat calc(100% - 10px) 50%;
-    background-color: $element-bg-color;
-  }
-
-  &.px {
-    background: url($icon-folder-path + "icon_px.svg") no-repeat calc(100% - 10px) 50%;
-    background-color: $element-bg-color;
-  }
-
-  &.mb {
-    background: url($icon-folder-path + "icon_mb.svg") no-repeat calc(100% - 10px) 50%;
-    background-color: $element-bg-color;
-
-    &:disabled {
-      background-color: map-get($grays, "light");
-    }
-  }
 }
 
 label {

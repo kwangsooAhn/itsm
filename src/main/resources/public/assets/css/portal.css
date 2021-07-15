@@ -1610,6 +1610,48 @@ label {
   mask-position: center;
   background: #8B9094;
 }
+.z-input.search {
+  background-image: url("../media/icons/icon_search.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.search-date, .z-input.date {
+  background-image: url("../media/icons/icon_date_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.time {
+  background-image: url("../media/icons/icon_time_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.datetime {
+  background-image: url("../media/icons/icon_date_time_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.px {
+  background-image: url("../media/icons/icon_px.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.mb {
+  background-image: url("../media/icons/icon_mb.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
 .z-input-button {
   position: relative;
   height: 2.25rem;
@@ -4117,7 +4159,7 @@ table tbody tr:hover {
   display: flex;
   justify-content: center;
   border-bottom: 0.0625rem solid #EBEBEB;
-  padding: 1.25rem 0 0.9375rem 0;
+  padding: 1rem 0 1rem 0;
 }
 .picker-modal-content-date {
   display: none;
