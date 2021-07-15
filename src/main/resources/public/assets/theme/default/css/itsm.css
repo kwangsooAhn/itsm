@@ -2530,7 +2530,7 @@ table[id=documentDisplay] td {
   height: 100vh;
 }
 .itsm-container .main .header-title {
-  padding: 1.563rem 0px 3.875rem 0px;
+  padding: 0 0 3.875rem 0;
 }
 .itsm-container .main .header-search {
   padding: 0.3125rem 0px 1.875rem 0px;
@@ -2809,15 +2809,15 @@ table[id=documentDisplay] td {
 .cmdb-type-header,
 .cmdb-ci-header,
 .scheduler-header {
-  padding: 2.188rem 3.75rem 0 3.75rem;
-  background-color: #F7F8F9;
+  padding: 0 3.75rem 0 3.75rem;
+  background-color: #FAFAFA;
 }
 
 .document-header,
 .token-header,
 .dashboard-header {
-  padding: 2.188rem 3.75rem 0 3.75rem;
-  background-color: #F7F8F9;
+  padding: 0 3.75rem 0 3.75rem;
+  background-color: #FAFAFA;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 
@@ -3230,47 +3230,6 @@ table[id=documentDisplay] td {
   color: #FFFFFF;
   background-color: #0098FF;
 }
-.z-gnb .z-navigation-config .z-user-info {
-  height: 3.125rem;
-  padding: 0.6875rem 0 0.6875rem 1.3125rem;
-}
-.z-gnb .z-navigation-config .z-user-info .z-user-name {
-  display: inline-block;
-  height: 1.688rem;
-  line-height: 1.688rem;
-  color: #929AA6;
-  font-weight: 500;
-}
-.z-gnb .z-navigation-config .z-user-info .z-user-profile {
-  display: inline-block;
-  width: 1.688rem;
-  height: 1.688rem;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  margin-right: 0.625rem;
-  vertical-align: middle;
-}
-.z-gnb .z-navigation-config .z-logout {
-  height: 3.125rem;
-  padding: 0.6875rem 0 0.6875rem 1.3125rem;
-}
-.z-gnb .z-navigation-config .z-logout .z-btn-logout {
-  font-weight: 500;
-  color: #929AA6;
-}
-.z-gnb .z-navigation-config .z-logout .z-icon-logout {
-  margin-right: 0.875rem;
-  width: 1.6875rem;
-  height: 1.6875rem;
-  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_logout.svg");
-  mask-image: url("../media/icons/gnb/icon_gnb_logout.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #8B9094;
-}
 .z-gnb .z-navigation-config > div:hover {
   background: #505559;
 }
@@ -3326,9 +3285,15 @@ table[id=documentDisplay] td {
   cursor: pointer;
   color: #8B9094;
 }
-.z-gnb .z-menu-area .z-gnb-area .z-gnb-link:hover {
+.z-gnb .z-menu-area .z-gnb-area .z-gnb-link:hover:not(.z-active, .z-active-parent) {
   color: #E1E6EA;
   background: #505559;
+}
+.z-gnb .z-menu-area .z-gnb-area .z-gnb-link:hover:not(.z-active, .z-active-parent) .z-icon-gnb {
+  background: #E1E6EA;
+}
+.z-gnb .z-menu-area .z-gnb-area .z-gnb-link:hover:not(.z-active, .z-active-parent) .z-arrow-right, .z-gnb .z-menu-area .z-gnb-area .z-gnb-link:hover:not(.z-active, .z-active-parent) .z-arrow-down {
+  background: #E1E6EA;
 }
 .z-gnb .z-menu-area .z-gnb-area .z-gnb-link .z-menu-name {
   display: inline-block;
@@ -3561,6 +3526,141 @@ table[id=documentDisplay] td {
   -webkit-mask-position: center;
   mask-position: center;
   background: #8B9094;
+}
+
+.z-top {
+  background-color: #FAFAFA;
+  height: 3.5rem;
+}
+.z-top .z-icon-notification {
+  height: 1.5rem;
+}
+.z-top .z-icon-notification.z-active .z-notification-round {
+  fill: #339AF0;
+}
+.z-top .z-icon-notification:hover {
+  cursor: pointer;
+}
+.z-top .z-divide {
+  padding: 0 0.75rem 0 1.25rem;
+  height: 1.25rem;
+  color: #CFD5D9;
+}
+.z-top .z-user-info {
+  height: 2.875rem;
+  margin: 0.313rem 0.5rem 0.313rem 0;
+  padding: 0 0.5rem 0 0.5rem;
+  background-color: #FAFAFA;
+  border: 0.0625rem solid #FAFAFA;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+}
+.z-top .z-user-info .z-user-name {
+  display: inline-block;
+  min-width: 2.75rem;
+  max-width: 12.5rem;
+  height: 1.688rem;
+  line-height: 1.688rem;
+  color: #222529;
+  font-weight: 500;
+  padding: 0 0 0 0.5rem;
+}
+.z-top .z-user-info .z-user-profile {
+  display: inline-block;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  vertical-align: middle;
+}
+.z-top .z-user-info .i-menu-arrow {
+  margin-left: auto;
+  float: right;
+}
+.z-top .z-user-info .i-menu-arrow-top {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_menu_arrow_top.svg");
+  mask-image: url("../media/icons/icon_menu_arrow_top.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+}
+.z-top .z-user-info .i-menu-arrow-bottom {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_menu_arrow_bottom.svg");
+  mask-image: url("../media/icons/icon_menu_arrow_bottom.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+}
+.z-top .z-user-info:hover {
+  outline: 0;
+  cursor: pointer;
+  background-color: #FFFFFF;
+  border-color: #CFD5D9;
+}
+.z-top .z-user-info:focus {
+  outline: 0;
+  border: 0.0625rem solid #2578CE !important;
+}
+.z-top .z-user-info:active {
+  background-color: #FFFFFF;
+  border-color: #CFD5D9;
+}
+.z-top .z-user-info:active .i-menu-arrow-top, .z-top .z-user-info:active .i-menu-arrow-bottom {
+  background-color: #222529;
+}
+.z-top .z-user-info.z-active {
+  background-color: #FFFFFF;
+  border-color: #CFD5D9;
+}
+.z-top .z-user-info.z-active + .z-dropdown-content {
+  visibility: visible;
+}
+.z-top .z-dropdown-content {
+  visibility: hidden;
+  position: absolute;
+  margin: 3.625rem 0.5rem 0 0;
+  background-color: #FFFFFF;
+  color: #222529;
+  font-size: 0.875rem;
+  border: 0.0625rem solid #CFD5D9;
+  z-index: 100;
+}
+.z-top .z-dropdown-item {
+  width: 118px;
+}
+.z-top .z-dropdown-item-btn {
+  width: calc(100% - (0.188rem * 2));
+  padding-left: 0.875rem;
+  margin: 0.188rem;
+  line-height: 2.3;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #FFFFFF;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+}
+.z-top .z-dropdown-item-btn:hover {
+  outline: 0;
+  cursor: pointer;
+  background-color: #F1F9FC;
+}
+.z-top .z-dropdown-item-btn:focus {
+  outline: 0;
+  border: 0.0625rem solid #2578CE;
+}
+.z-top .z-dropdown-item-btn:active {
+  background-color: #E3F5FC;
+  color: #1959AC;
 }
 
 /* _alerts.scss 
@@ -7265,5 +7365,3 @@ body.modal-active {
 .tags-look .tagify__dropdown__item--active {
   color: #0088E6;
 }
-
-/*# sourceMappingURL=itsm.css.map */

@@ -71,7 +71,7 @@
 @mixin defaultHeader {
   // 제목
   .header-title {
-    padding: 1.563rem 0px 3.875rem 0px; // 25px 0px 62px 0px
+    padding: 0 0 3.875rem 0; // 25px 0px 62px 0px
   }
   // 검색 영역
   .header-search {

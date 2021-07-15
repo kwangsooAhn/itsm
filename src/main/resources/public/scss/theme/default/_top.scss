@@ -1,0 +1,113 @@
+// Top 메뉴
+.z-top {
+    background-color: $top-menu-bg-color;
+    height: 3.5rem; // 56px
+    .z-icon-notification {
+        height: 1.5rem; // 24px
+        &.z-active {
+            .z-notification-round {  fill: $top-menu-notification-active-color; }
+        }
+        &:hover { cursor: pointer; }
+    }
+    .z-divide {
+        padding: 0 0.75rem 0 1.25rem; // 0 12px 0 20px
+        height: 1.25rem; // 20px
+        color: $top-menu-divide-color;
+    }
+    .z-user-info {
+        height: 2.875rem; // 46px
+        margin: 0.313rem 0.5rem 0.313rem 0; // 5px 8px 5px 0
+        padding: 0 0.5rem 0 0.5rem; // 0 8px 0 8px
+        background-color: $top-menu-bg-color;
+        @include border(0.0625rem, solid, $top-menu-bg-color, all); // 1px
+        @include borderRadius(0.25rem); // 4px
+        .z-user-name {
+            display: inline-block;
+            min-width: 2.75rem; // 44px
+            max-width: 12.5rem; // 200px
+            height: 1.688rem; // 27px
+            line-height: 1.688rem; // 27px
+            color: $top-menu-user-color;
+            font-weight: $font-weight-medium;
+            padding: 0 0 0 0.5rem; // 0 0 0 8px
+        }
+        .z-user-profile {
+            display: inline-block;
+            width: 1.875rem; // 30px
+            height: 1.875rem; // 30px
+            @include borderRadius(50%);
+            vertical-align: middle;
+        }
+        .i-menu-arrow {
+            margin-left: auto;
+            float: right;
+            &-top {
+                @include maskImage($icon-menu-arrow-top, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 12px 20px
+            }
+            &-bottom {
+                @include maskImage($icon-menu-arrow-bottom, 1.5rem, 1.5rem, no-repeat, center, null, $icon-gnb-color); // 12px 20px
+            }
+        }
+        &:hover {
+            outline: 0;
+            cursor: pointer;
+            background-color: $top-menu-user-bg-hover;
+            border-color: $top-menu-user-border-hover;
+        }
+        &:focus {
+            outline: 0;
+            border: $element-focus-border !important;
+        }
+        &:active {
+            background-color: $top-menu-user-bg-active;
+            border-color: $top-menu-user-border-active;
+            .i-menu-arrow-top, .i-menu-arrow-bottom {
+                background-color: $top-menu-user-icon-active;
+            }
+        }
+        &.z-active {
+            background-color: $top-menu-user-selected-bg-color;
+            border-color: $top-menu-user-selected-border-color;
+            + .z-dropdown-content {
+                visibility: visible;
+            }
+        }
+    }
+    .z-dropdown {
+        &-content {
+            visibility: hidden;
+            position: absolute;
+            margin: 3.625rem 0.5rem 0 0; // 58px 8px 0 0
+            background-color: $top-menu-user-dropdown-bg-color;
+            color: $top-menu-user-color;
+            font-size: $font-size-xs;
+            @include border(0.0625rem, solid, $top-menu-user-dropdown-border-color, all); // 1px
+            z-index: $z-index-gnb;
+        }
+        &-item {
+            width: 118px;
+            &-btn {
+                width: calc(100% - (#{$top-menu-user-dropdown-margin} * 2));
+                padding-left: 0.875rem; // 14px
+                margin: $top-menu-user-dropdown-margin;
+                line-height: 2.3;
+                background-color: $top-menu-user-dropdown-bg-color;
+                @include border(0.0625rem, solid, $top-menu-user-dropdown-bg-color, all); // 1px
+                @include borderRadius(0.0625rem); // 1px
+                &:hover {
+                    outline: 0;
+                    cursor: pointer;
+                    background-color: $top-menu-user-dropdown-bg-hover;
+                }
+                &:focus {
+                    outline: 0;
+                    border: $element-focus-border;
+                }
+                &:active {
+                    background-color: $top-menu-user-dropdown-bg-active;
+                    color: $top-menu-user-dropdown-active-color;
+                }
+            }
+        }
+    }
+}

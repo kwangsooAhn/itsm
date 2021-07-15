@@ -33,6 +33,26 @@ $menu-snb-dot-selected-color:                 $blue500;
 $menu-snb-dot-hover:                          $gray200;
 $menu-active-color:                           $blue500;
 
+// Top Menu
+$top-menu-bg-color:                           $neutral50;
+$top-menu-divide-color:                       $gray300;
+$top-menu-notification-active-color:          $blue500;
+$top-menu-user-color:                         $gray800;
+$top-menu-user-bg-hover:                      $white;
+$top-menu-user-border-hover:                  $gray300;
+$top-menu-user-bg-active:                     $white;
+$top-menu-user-border-active:                 $gray300;
+$top-menu-user-icon-active:                   $gray800;
+$top-menu-user-selected-bg-color:             $white;
+$top-menu-user-selected-border-color:         $gray300;
+$top-menu-user-dropdown-bg-color:             $white;
+$top-menu-user-dropdown-border-color:         $gray300;
+$top-menu-user-dropdown-width:                110px;
+$top-menu-user-dropdown-margin:               0.188rem; // 3px
+$top-menu-user-dropdown-bg-hover:             $blue50;
+$top-menu-user-dropdown-bg-active:            $blue100;
+$top-menu-user-dropdown-active-color:         $blue700;
+
 // Menu Icons
 $icon-gnb-color:                              $gray500;
 
@@ -49,6 +69,7 @@ $icon-gnb-token:                              $icon-folder-path + 'gnb/icon_gnb_
 $icon-gnb-cmdb:                               $icon-folder-path + 'gnb/icon_gnb_cmdb.svg';
 $icon-gnb-sub-dot:                            $icon-folder-path + 'gnb/icon_gnb_sub_dot.svg';
 
+$icon-menu-arrow-top:                         $icon-folder-path + 'icon_menu_arrow_top.svg';
 $icon-menu-arrow-right:                       $icon-folder-path + 'icon_menu_arrow_right.svg';
 $icon-menu-arrow-bottom:                      $icon-folder-path + 'icon_menu_arrow_bottom.svg';
 
