@@ -46,7 +46,8 @@ object ChartConstants {
         STACKED_BAR("chart.stackedBar"),
         BASIC_LINE("chart.basicLine"),
         PIE("chart.pie"),
-        LINE_AND_COLUMN("chart.lineAndColumn")
+        LINE_AND_COLUMN("chart.lineAndColumn"),
+        ACTIVITY_GAUGE("chart.activityGauge")
     }
 
     /**

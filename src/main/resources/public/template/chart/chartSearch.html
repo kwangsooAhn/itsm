@@ -40,8 +40,10 @@
 <th:block layout:fragment="pageScript">
     <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
@@ -56,6 +58,7 @@
         const STACKED_BAR_CHART = 'chart.stackedBar';
         const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
         const BASIC_LINE_CHART = 'chart.basicLine';
+        const ACTIVITY_GAUGE_CHART = "chart.activityGauge"
         let chart = null;
 
         window.onload = function () {
@@ -744,6 +747,7 @@
                 case STACKED_COLUMN_CHART :
                 case STACKED_BAR_CHART:
                 case LINE_AND_COLUMN_CHART:
+                case ACTIVITY_GAUGE_CHART:
                     chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
                     break;
             }
