@@ -111,7 +111,7 @@
             display: block;
             width: 1.125rem;
             height: 1.125rem;
-            @include backgroundImage($icon-folder-path + 'icon_close.svg', 0.875rem, no-repeat, center, center, hexToRGBA($white, 0.4)); // 14px
+            @include backgroundImage($icon-folder-path + 'icon_clear.svg', 0.875rem, no-repeat, center, center, hexToRGBA($white, 0.4)); // 14px
             cursor: pointer;
 
             &:hover {

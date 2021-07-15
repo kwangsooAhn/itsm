@@ -448,7 +448,7 @@
             }
         }
 
-        const tooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
+        const tooltipItemContainer = d3.select('.z-drawing-board').select('svg').append('g')
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
@@ -931,7 +931,7 @@
      * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
-        const container = document.querySelector('.process-properties'),
+        const container = document.querySelector('.z-process-properties'),
             propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
         if (id === zProcessDesigner.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(zProcessDesigner.data.process));
@@ -1150,7 +1150,7 @@
                 targetMappingInput.value = (valueAttr[0] !== '') ? valueAttr[0] : '';
             }
         }
-        const propertiesPanel = document.querySelector('.process-properties');
+        const propertiesPanel = document.querySelector('.z-process-properties');
         if (propertiesPanel !== null) {
             let propertyContainer = propertiesPanel.querySelector('#script-type').parentNode;
             if (!propertyContainer.classList.contains('properties')) {
@@ -1487,7 +1487,7 @@
      * @param elemData 속성데이터
      */
     function makePropertiesItem(id, properties, elemData) {
-        const elementContainer = document.querySelector('.process-properties');
+        const elementContainer = document.querySelector('.z-process-properties');
         elementContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
         let propertiesPanelTitle = i18n.msg(i18nMsgPrefix + 'process');
@@ -1630,7 +1630,7 @@
         if (id !== zProcessDesigner.data.process.id) {
             addSpecialProperties(id, elemData);
         } else {
-            const temp = document.getElementById('process-info');
+            const temp = document.getElementById('processInfo');
             let clone = temp.content.cloneNode(true);
             elementContainer.appendChild(clone);
             setProcessInformation();
@@ -1644,7 +1644,7 @@
      * @param elemData element data
      */
     function addSpecialProperties(id, elemData) {
-        const elementContainer = document.querySelector('.process-properties');
+        const elementContainer = document.querySelector('.z-process-properties');
         const selectedElement = d3.select(document.getElementById(id));
 
         if (selectedElement.classed('userTask')) {

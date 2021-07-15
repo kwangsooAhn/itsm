@@ -18,7 +18,7 @@ import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/ZDefaultValueCustomCodeProperty.js';
+import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/zDefaultValueCustomCodeProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값

@@ -9,7 +9,7 @@
  *                   - process-properties : 세부 속성
  */
 
-.process {
+.#{$common-prefix}process {
   &-container {
     @include container;
   }
@@ -36,14 +36,11 @@
   }
   // element palette
   &-element-palette {
-    position:fixed;
-    top: $layout-header-height;
-    left: 0;
-    bottom: 0;
+    @include fixed($layout-header-height, null, 0, 0);
     width: $layout-element-palette-width;
     background-color: $layout-element-palette-bg-color;
-    border-right: $layout-element-palette-border;
-    box-shadow: $layout-element-palette-box-shadow;
+    @include border($layout-element-palette-border-width, solid, $layout-element-palette-border-color, right); // 1px
+    @include boxShadow(0, 0, 0.125rem, 0, $layout-element-palette-box-shadow-color); // 2px
     overflow: hidden;
   }
   // main
@@ -52,10 +49,8 @@
     left: $layout-element-palette-width;
     overflow: hidden;
 
-    .drawing-board {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .#{$common-prefix}drawing-board {
+      @include absolute($top: 0, $left: 0); // 0 0
       width: 100%;
       height: 100%;
       // 모눈 종이 : 내부 디자인 속성은 _elements.scss 참조

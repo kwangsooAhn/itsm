@@ -407,7 +407,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: 'z-button primary',
+                    classes: aliceJs.CLASS_PREFIX + 'button primary',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
@@ -416,7 +416,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: aliceJs.CLASS_PREFIX + 'button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -641,11 +641,11 @@
      * @return {Promise<unknown[]>}
      */
     function loadProcessImage(viewBox, svgNode) {
-        let svg = d3.select(svgNode).html(d3.select('.drawing-board > svg').html());
+        let svg = d3.select(svgNode).html(d3.select('.z-drawing-board > svg').html());
         svg.attr('width', viewBox[2])
             .attr('height', viewBox[3])
             .attr('viewBox', viewBox.join(' '))
-            .classed('drawing-board', true);
+            .classed('z-drawing-board', true);
 
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
@@ -752,7 +752,7 @@
      * focus properties panel.
      */
     function focusPropertiesPanel() {
-        let panel = document.querySelector('.process-properties');
+        let panel = document.querySelector('.z-process-properties');
         let items = panel.querySelectorAll('input:not([readonly]), select');
         if (items.length === 0) {
             return false;
@@ -764,7 +764,7 @@
      * 미니맵을 표시한다.
      */
     function setProcessMinimap() {
-        const drawingboardContainer = document.querySelector('.drawing-board');
+        const drawingboardContainer = document.querySelector('.z-drawing-board');
         let drawingBoard = d3.select(drawingboardContainer).select('svg');
         let content = drawingBoard.html();
         const minimapSvg = d3.select('div.minimap').select('svg');
@@ -808,7 +808,7 @@
         if (isMinimapClosed) {
             d3.select('div.minimap').classed('closed', false);
         }
-        const drawingBoard = d3.select(document.querySelector('.drawing-board'));
+        const drawingBoard = d3.select(document.querySelector('.z-drawing-board'));
         const minimapSvg = d3.select('div.minimap').select('svg');
         const nodeTopArray = [],
             nodeRightArray = [],
@@ -842,7 +842,7 @@
      * 드로잉보드 오른쪽 하단 버튼 기능 추가
      */
     function initializeButtonOnDrawingBoard() {
-        const drawingBoard = document.querySelector('.drawing-board');
+        const drawingBoard = document.querySelector('.z-drawing-board');
 
         // 미니맵 초기화 설정
         const minimapContainer = document.createElement('div');
@@ -852,15 +852,15 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = 'z-button-icon secondary z-button-minimap';
+        minimapButton.className = aliceJs.CLASS_PREFIX + 'button-icon secondary ' + aliceJs.CLASS_PREFIX + 'button-minimap';
         minimapButton.addEventListener('click', function (e) {
-            const elem = aliceJs.clickInsideElement(e, 'z-button-minimap');
+            const elem = aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'button-minimap');
             elem.classList.toggle('active');
             document.querySelector('div.minimap').classList.toggle('closed');
         }, false);
 
         const minimapIcon = document.createElement('span');
-        minimapIcon.className = 'z-icon i-minimap';
+        minimapIcon.className = aliceJs.CLASS_PREFIX + 'icon i-minimap';
         minimapButton.appendChild(minimapIcon);
         drawingBoard.appendChild(minimapButton);
 
@@ -907,11 +907,11 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = 'z-button-icon secondary z-button-simulation-report';
+        simulationButton.className = aliceJs.CLASS_PREFIX + 'button-icon secondary ' + aliceJs.CLASS_PREFIX + 'button-simulation-report';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
-        simulationIcon.className = 'z-icon i-simulation-report';
+        simulationIcon.className = aliceJs.CLASS_PREFIX + 'icon i-simulation-report';
         simulationButton.appendChild(simulationIcon);
         drawingBoard.appendChild(simulationButton);
 

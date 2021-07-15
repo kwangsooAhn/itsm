@@ -63,7 +63,7 @@
         width: 0.875rem; //14px
         height: 0.875rem;
         margin-left: auto;
-        @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white); // 14px
+        @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white); // 14px
       }
     }
   }
@@ -211,6 +211,6 @@
   .toast-close {
     @include absolute($top: 0.688rem, $right: 0.688rem); // 11px 11px
     padding: 0;
-    @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-color); // 14px
+    @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-color); // 14px
   }
 }

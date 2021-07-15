@@ -245,7 +245,7 @@
           // 삭제 아이콘
           .dz-remove {
             .icon-delete {
-              @include maskImage('#{$icon-folder-path}icon_close.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $red); // 18px 48px, 아이콘 크기 19px 20px
+              @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $red); // 18px 48px, 아이콘 크기 19px 20px
             }
           }
         }
