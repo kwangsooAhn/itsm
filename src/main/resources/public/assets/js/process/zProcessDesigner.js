@@ -765,6 +765,7 @@
                         removeElementSelected();
                         mousedownElement = elem;
                         selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
+
                         setSelectedElement(selectedElement);
 
                         if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
@@ -1027,7 +1028,7 @@
             }
         });
 
-        const drawingBoard = document.querySelector('.drawing-board'),
+        const drawingBoard = document.getElementById('processDrawingBoard'),
             gTransform = d3.zoomTransform(d3.select('g.guides-container').node());
         if (isDrawCenterX) {
             svg.select('#guides-center-x')
@@ -1490,38 +1491,38 @@
                                 {x: Number(self.nodeElement.attr('x')) + Number(self.nodeElement.attr('width')), y: Number(self.nodeElement.attr('y')) + Number(self.nodeElement.attr('height'))}
                             ];
                             switch (i + 1) {
-                            case 1:
-                                if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
-                                    rectData[0].x += mouseX;
-                                }
-                                if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
-                                    rectData[0].y += mouseY;
-                                }
-                                break;
-                            case 2:
-                                if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
-                                    rectData[1].x += mouseX;
-                                }
-                                if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
-                                    rectData[1].y += mouseY;
-                                }
-                                break;
-                            case 3:
-                                if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
-                                    rectData[1].x += mouseX;
-                                }
-                                if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
-                                    rectData[0].y += mouseY;
-                                }
-                                break;
-                            case 4:
-                                if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
-                                    rectData[0].x += mouseX;
-                                }
-                                if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
-                                    rectData[1].y += mouseY;
-                                }
-                                break;
+                                case 1:
+                                    if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
+                                        rectData[0].x += mouseX;
+                                    }
+                                    if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
+                                        rectData[0].y += mouseY;
+                                    }
+                                    break;
+                                case 2:
+                                    if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
+                                        rectData[1].x += mouseX;
+                                    }
+                                    if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
+                                        rectData[1].y += mouseY;
+                                    }
+                                    break;
+                                case 3:
+                                    if ((rectData[1].x + mouseX) - rectData[0].x >= minWidth) {
+                                        rectData[1].x += mouseX;
+                                    }
+                                    if (rectData[1].y - (rectData[0].y + mouseY) >= minHeight) {
+                                        rectData[0].y += mouseY;
+                                    }
+                                    break;
+                                case 4:
+                                    if (rectData[1].x - (rectData[0].x + mouseX) >= minWidth) {
+                                        rectData[0].x += mouseX;
+                                    }
+                                    if ((rectData[1].y + mouseY) - rectData[0].y >= minHeight) {
+                                        rectData[1].y += mouseY;
+                                    }
+                                    break;
                             }
                             self.nodeElement
                                 .attr('x', rectData[0].x)
@@ -1594,10 +1595,10 @@
      * element 에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.process-element-palette, .drawing-board')
+        d3.selectAll('.' + aliceJs.CLASS_PREFIX + 'process-element-palette, .' + aliceJs.CLASS_PREFIX + 'drawing-board')
             .on('dragover', function() {d3.event.preventDefault();});
 
-        d3.select('.process-element-palette').select('.connector')
+        d3.select('.' + aliceJs.CLASS_PREFIX + 'process-element-palette').select('.connector')
             .on('click', function() {
                 isDrawConnector = !d3.select(this).classed('selected');
                 d3.select(this).classed('selected', isDrawConnector);
@@ -1607,21 +1608,36 @@
                 zProcessDesigner.setElementMenu();
             });
 
-        d3.select('.process-element-palette').selectAll('button.shape')
+        d3.select('.' + aliceJs.CLASS_PREFIX + 'process-element-palette').selectAll('button.shape')
             .attr('draggable', 'true')
+            .on('mousedown', function() {
+                let _this = d3.select(this);
+                _this.classed('active', true);
+
+            })
+            .on('mouseup', function() {
+                let _this = d3.select(this);
+                _this.classed('active', false);
+            })
+            .on('drag', function() {
+                let _this = d3.select(this);
+                _this.classed('placeholder', true);
+            })
             .on('dragend', function() {
+                let _this = d3.select(this);
+                _this.classed('active', false);
+                _this.classed('placeholder', false);
                 const svgOffset = svg.node().getBoundingClientRect(),
                     gTransform = d3.zoomTransform(d3.select('g.element-container').node());
                 let x = snapToGrid(d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x),
                     y = snapToGrid(d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y);
-                const drawingBoard = document.querySelector('.drawing-board');
+                const drawingBoard = document.getElementById('processDrawingBoard');
                 if (d3.event.pageX - svgOffset.left - window.pageXOffset < 0 ||
                     d3.event.pageY - svgOffset.top - window.pageYOffset  < 0 ||
                     d3.event.pageX - svgOffset.left - window.pageXOffset > drawingBoard.offsetWidth ||
                     d3.event.pageY - svgOffset.top - window.pageYOffset > drawingBoard.offsetHeight) {
                     return false;
                 }
-                let _this = d3.select(this);
                 let node;
                 if (_this.classed('event')) {
                     node = new EventElement(x, y);
@@ -1731,10 +1747,10 @@
             e.preventDefault();
         });
 
-        const drawingBoard = document.querySelector('.drawing-board');
+        const drawingBoard = document.getElementById('processDrawingBoard');
 
         // add svg and svg event
-        svg = d3.select('.drawing-board').append('svg')
+        svg = d3.select('.' + aliceJs.CLASS_PREFIX + 'drawing-board').append('svg')
             .attr('width', drawingBoard.offsetWidth)
             .attr('height', drawingBoard.offsetHeight)
             .on('mousedown', function() {
@@ -1881,7 +1897,7 @@
          * disable the movable function of the drawing board.
          */
         function dismovableDrawingboard() {
-            const drawingBoard = document.querySelector('.drawing-board'),
+            const drawingBoard = document.getElementById('processDrawingBoard'),
                 gTransform = d3.zoomTransform(d3.select('g.element-container').node());
             zoom.translateExtent([
                 [-gTransform.x, -gTransform.y],
@@ -1938,37 +1954,37 @@
 
         let category = zProcessDesigner.getElementCategory(element.type);
         switch (category) {
-        case 'event':
-            node = new EventElement(x, y);
-            zProcessDesigner.changeElementType(node.nodeElement, element.type);
-            break;
-        case 'task':
-            node = new TaskElement(x, y);
-            zProcessDesigner.changeElementType(node.nodeElement, element.type);
-            break;
-        case 'subprocess':
-            node = new SubprocessElement(x, y);
-            break;
-        case 'gateway':
-            node = new GatewayElement(x, y);
-            zProcessDesigner.changeElementType(node.nodeElement, element.type);
-            break;
-        case 'artifact':
-            if (element.type === 'groupArtifact') {
-                node = new GroupElement(x, y, element.display.width, element.display.height);
-                node.nodeElement.style('stroke', element.data['line-color'])
-                    .style('fill', element.data['background-color']);
-                if (element.data['background-color'] === '') {
-                    node.nodeElement.style('fill-opacity', 0);
-                } else {
-                    node.nodeElement.style('fill-opacity', aliceJs.rgbaOpacity(element.data['background-color']));
+            case 'event':
+                node = new EventElement(x, y);
+                zProcessDesigner.changeElementType(node.nodeElement, element.type);
+                break;
+            case 'task':
+                node = new TaskElement(x, y);
+                zProcessDesigner.changeElementType(node.nodeElement, element.type);
+                break;
+            case 'subprocess':
+                node = new SubprocessElement(x, y);
+                break;
+            case 'gateway':
+                node = new GatewayElement(x, y);
+                zProcessDesigner.changeElementType(node.nodeElement, element.type);
+                break;
+            case 'artifact':
+                if (element.type === 'groupArtifact') {
+                    node = new GroupElement(x, y, element.display.width, element.display.height);
+                    node.nodeElement.style('stroke', element.data['line-color'])
+                        .style('fill', element.data['background-color']);
+                    if (element.data['background-color'] === '') {
+                        node.nodeElement.style('fill-opacity', 0);
+                    } else {
+                        node.nodeElement.style('fill-opacity', aliceJs.rgbaOpacity(element.data['background-color']));
+                    }
+                } else if (element.type === 'annotationArtifact') {
+                    node = new AnnotationElement(x, y);
                 }
-            } else if (element.type === 'annotationArtifact') {
-                node = new AnnotationElement(x, y);
-            }
-            break;
-        default:
-            break;
+                break;
+            default:
+                break;
         }
 
         if (node) {

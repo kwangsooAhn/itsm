@@ -169,8 +169,8 @@ export const radioMixin = {
                     {name: i18n.msg('form.properties.align.vertical'), value: 'vertical'}
                 ]))
                 .addProperty(new ZSwitchButtonProperty('elementPosition', 'element.position', this._element.position, [
-                    {'name': 'icon-display-position-left', 'value': 'left'},
-                    {'name': 'icon-display-position-right', 'value': 'right'},
+                    {'name': 'i-display-position-left', 'value': 'left'},
+                    {'name': 'i-display-position-right', 'value': 'right'},
                 ]))
                 .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions)),
             new ZGroupProperty('group.validation')

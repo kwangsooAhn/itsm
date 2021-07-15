@@ -35,7 +35,7 @@
                         <span class="element-name" th:text="${token.elementName}"></span>
                     </div>
                     <div class="document-tag align-right">
-                        <span class="tag align-center text-ellipsis" th:each="tag: ${token.tags}" th:text="${tag}"></span>
+                        <input type="text" name="tokenTagList" class="align-left text-ellipsis" th:value="${token.tags}" readonly></input>
                     </div>
                 </div>
             </div>

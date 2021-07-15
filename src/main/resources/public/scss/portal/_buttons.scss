@@ -1,106 +1,79 @@
 @import "../template/buttons";
 
-// 되돌아가기
-.login-return {
-  @include relative($top: 5rem, $right: 5rem); // 80px 80px
-  color: $white;
-  border-color: $white;
-  padding: 0.75rem 3rem; // 12px 48px
-}
-// 로그인
-.login-submit {
-  width: 100%;
-  color: $white;
-  background-color: $blue;
-}
+.#{$common-prefix}button {
+  // 구글 로그인 버튼
+  // 카카오 로그인 버튼
+  @each $theme, $value in $button-themes-social {
+    &.#{$theme} {
+      color: map-get($value, 'default', 'font');
+      background-color: map-get($value, 'default', 'background');
+      border-color: map-get($value, 'default', 'border');
+      @if (map-get($value, 'default', 'shadow') != null) {
+        box-shadow: map-get($value, 'default', 'shadow');
+      }
 
-// 구글 로그인
-.login-google {
-  width: 100%;
-  color: map-get($blacks, "light");
-  background-color: $white;
-  border-color: map-get($grays, "line");
-  
-  &.icon-google {
-    @include backgroundImage($icon-folder-path + 'login/icon_login_google.svg', 1.188rem, no-repeat, 0.625rem, center, null); // 19px 10px
-  }
-  $background-colors: (
-          hover: $btn-google-hover-bg-color,
-          focus: $btn-google-focus-bg-color,
-          active: $btn-google-active-bg-color,
-          disabled: $btn-google-disabled-bg-color
-  );
-  $border-colors: (
-          hover: $btn-google-hover-border-color,
-          focus: $btn-google-focus-border-color,
-          active: $btn-google-active-border-color,
-          disabled: $btn-google-disabled-border-color
-  );
-  $event-type: (hover, focus, active, disabled);
-  @each $type in $event-type {
-    &:#{$type} {
-      background-color: map-get($background-colors, #{$type});
-      border-color: map-get($border-colors, #{$type});
+      @if $theme == 'google' {
+        @include backgroundImage($icon-folder-path + 'login/icon_google.svg', 1.5rem, no-repeat, 0.875rem, center, null); // 24px 14px
+      } @else if $theme == 'kakao' {
+        @include backgroundImage($icon-folder-path + 'login/icon_kakao.svg', 1.5rem, no-repeat, 0.875rem, center, null); // 24px 14px
+      }
+
+      &:focus {
+        color: map-get($value, 'focus', 'font');
+        background-color: map-get($value, 'focus', 'background');
+        border-color: map-get($value, 'focus', 'border');
+        @if map-get($value, 'focus', 'shadow') != null {
+          box-shadow: map-get($value, 'focus', 'shadow');
+        }
+      }
+
+      &:hover {
+        color: map-get($value, 'hover', 'font');
+        background-color: map-get($value, 'hover', 'background');
+        border-color: map-get($value, 'hover', 'border');
+        @if map-get($value, 'hover', 'shadow') != null {
+          box-shadow: map-get($value, 'hover', 'shadow');
+        }
+      }
+
+      &:enabled:active,
+      &:enabled.active {
+        color: map-get($value, 'active', 'font');
+        background-color: map-get($value, 'active', 'background');
+        border-color: map-get($value, 'active', 'border');
+        @if map-get($value, 'active', 'shadow') != null {
+          box-shadow: map-get($value, 'active', 'shadow');
+        }
+      }
+
+      &:disabled,
+      &.disabled {
+        color: map-get($value, 'disabled', 'font');
+        background-color: map-get($value, 'disabled', 'background');
+        border-color: map-get($value, 'disabled', 'border');
+        @if map-get($value, 'disabled', 'shadow') != null {
+          box-shadow: map-get($value, 'disabled', 'shadow');
+        }
+
+        @if $theme == 'google' {
+          @include backgroundImage($icon-folder-path + 'login/icon_google_disabled.svg', 1.5rem, no-repeat, 0.875rem, center, null); // 24px 14px
+        } @else if $theme == 'kakao' {
+          @include backgroundImage($icon-folder-path + 'login/icon_kakao_disabled.svg', 1.5rem, no-repeat, 0.875rem, center, null); // 24px 14px
+        }
+      }
     }
   }
-}
 
-// 카카오 로그인
-.login-kakao {
-  width: 100%;
-  color: map-get($blacks, "light");
-  background-color: #FFDE00;
-  border-color: #EBCC00;
-
-  &.icon-kakao {
-    @include backgroundImage($icon-folder-path + 'login/icon_login_kakao.svg', 1.188rem, no-repeat, 0.625rem, center, null); // 19px 10px
+  // 메인으로 되돌아가기 버튼
+  &.main-return {
+    @include relative($top: 5rem, $right: 5rem); // 80px 80px
   }
-  $background-colors: (
-          hover: $btn-kakao-hover-bg-color,
-          focus: $btn-kakao-focus-bg-color,
-          active: $btn-kakao-active-bg-color,
-          disabled: $btn-kakao-disabled-bg-color
-  );
-  $border-colors: (
-          hover: $btn-kakao-hover-border-color,
-          focus: $btn-kakao-focus-border-color,
-          active: $btn-kakao-active-border-color,
-          disabled: $btn-kakao-disabled-border-color
-  );
-  $event-type: (hover, focus, active, disabled);
-  @each $type in $event-type {
-    &:#{$type} {
-      background-color: map-get($background-colors, #{$type});
-      border-color: map-get($border-colors, #{$type});
-    }
+  // 로그인 되돌아가기
+  &.signup-return {
+    margin-left: 2.5rem; // 40px
   }
-}
-
-// 로그인 되돌아가기
-.signup-return {
-  color: $white;
-  border-color: $white;
-  padding: 0.75rem 3rem; // 12px 48px
-  margin-left: 2.5rem; // 40px
-}
-
-// 로그인
-.signup-submit {
-  width: 100%;
-  color: $white;
-  background-color: $blue;
-}
-
-// 세션 Invalid > 로그인 되돌아가기
-.session-return {
-  margin-top: 6.25rem;
-  background-color: $blue;
-  color: $white;
-  padding: 0.75rem 1.563rem; // 12px 25px
-}
-
-// 에러 발생시 이전 페이지로 돌아가기
-.btn-error {
-  color: $white;
-  background-color: $blue;
+  // 세션 Invalid > 로그인 되돌아가기
+  &.session-return {
+    margin-top: 6.25rem;
+  }
 }

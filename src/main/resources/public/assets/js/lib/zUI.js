@@ -8,7 +8,7 @@
  * https://www.brainz.co.kr
  */
 
-import { CLASS_PREFIX } from './zConstants.js';
+import { CLASS_PREFIX, FORM, UNIT } from './zConstants.js';
 
 class UIElement {
     constructor(domElement) {
@@ -359,18 +359,18 @@ class UIRadioButton extends UIElement {
 class UIClipboard extends UIElement {
     constructor() {
         super(document.createElement('div'));
-        this.domElement.className = 'clipboard';
+        this.domElement.className = CLASS_PREFIX + 'clipboard';
         // input
         this.UIInput = new UIInput().addUIClass('copy').setUIReadOnly(true);
         this.addUI(this.UIInput);
 
         // tooptip
-        this.UITooltip = new UIDiv().setUIClass('clipboard-tooltip');
+        this.UITooltip = new UIDiv().setUIClass(CLASS_PREFIX + 'clipboard-tooltip');
         this.addUI(this.UITooltip);
 
         // copy button
         const scope = this;
-        this.UITooltip.UIButton = new UIButton().setUIClass('btn-clipboard-tooltip').addUIClass('ghost-line');
+        this.UITooltip.UIButton = new UIButton().setUIClass(CLASS_PREFIX + 'button-icon').addUIClass('form');
         this.UITooltip.UIButton.domElement.addEventListener('click', function () {
             scope.UIInput.domElement.select();
             scope.UIInput.domElement.setSelectionRange(0, 99999);
@@ -384,11 +384,11 @@ class UIClipboard extends UIElement {
         this.UITooltip.addUI(this.UITooltip.UIButton);
 
         // copy button icon
-        const UIButtonIcon = new UISpan().setUIClass('icon').addUIClass('icon-clipboard');
+        const UIButtonIcon = new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-clipboard');
         this.UITooltip.UIButton.addUI(UIButtonIcon);
 
         // tooltip text
-        this.UITooltip.UITooptipText = new UISpan().setUIClass('clipboard-tooltip-text')
+        this.UITooltip.UITooptipText = new UISpan().setUIClass(CLASS_PREFIX + 'clipboard-tooltip-text')
             .setUITextContent('Copy to clipboard');
         this.UITooltip.UIButton.addUI(this.UITooltip.UITooptipText);
     }
@@ -494,19 +494,26 @@ class UIButton extends UIElement {
 }
 
 class UISlider extends UIElement {
-    constructor(value) {
+    constructor(value, max) {
         super(document.createElement('div'));
-        this.domElement.className = 'slider';
+        this.domElement.className = CLASS_PREFIX + 'slider';
         // range
-        this.UIRange = new UIInput(value).setUIClass('range');
+        this.UIRange = new UIInput(value).setUIClass(CLASS_PREFIX + 'range');
         this.UIRange.domElement.type = 'range';
+        // range thumb 위치 계산
+        let thumbLocation =  parseInt((value - 1) * 100 / (max - 1)) + UNIT.PERCENT;
+        this.UIRange.setUICSSText(`--range-location: ${thumbLocation}`);
         this.addUI(this.UIRange);
         // input
-        this.UIInput = new UIInput(value).setUIReadOnly(true);
+        this.UIInput = new UIInput(value).setUIReadOnly(true)
+            .setUIClass(CLASS_PREFIX + 'input');
         this.addUI(this.UIInput);
 
         const scope = this;
         function onInput() {
+            thumbLocation = parseInt((scope.UIRange.domElement.value - 1) * 100 / (max - 1)) + UNIT.PERCENT;
+            scope.UIRange.setUICSSText(`--range-location:${thumbLocation}`);
+
             scope.UIInput.setUIValue(scope.UIRange.getUIValue());
 
             const changeEvent = document.createEvent('HTMLEvents');
@@ -514,7 +521,7 @@ class UISlider extends UIElement {
             scope.UIInput.domElement.dispatchEvent(changeEvent);
         }
 
-        this.UIRange.domElement.addEventListener('input', onInput, false);
+        this.UIRange.domElement.addEventListener('input', onInput, true);
     }
 
     setUIMin(value) {
@@ -525,6 +532,11 @@ class UISlider extends UIElement {
     setUIMax(value) {
         this.UIRange.domElement.setAttribute('max', value);
         return this;
+    }
+
+    setUIRange(max) {
+        const rangeValue = this.UIRange.getUIValue() * 100 / max;
+        this.UIRange.setUICSSText(`background:linear-gradient(to right, #339AF0 0%, #339AF0 ${rangeValue}%, #EEEEEE ${rangeValue}%, #EEEEEE 100%);`);
     }
 }
 

@@ -4,6 +4,9 @@ aliceJs.systemCalendarDatetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 aliceJs.systemCalendarDateFormat = 'YYYY-MM-DD';
 aliceJs.systemCalendarTimeFormat = 'HH:mm:ss';
 
+// es6 모듈 구조일 경우 zConstants.js 파일의  CLASS_PREFIX 를 사용한다.
+aliceJs.CLASS_PREFIX = 'z-';
+
 const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
 const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
 
@@ -663,7 +666,7 @@ aliceJs.thumbnail = function(options) {
                 classes: 'thumbnail-' + options.type,
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: 'default-line thumbnail-save',
+                    classes: 'z-button primary thumbnail-save',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveThumbnail(options.targetId)) {
@@ -672,7 +675,7 @@ aliceJs.thumbnail = function(options) {
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'default-line',
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -979,102 +982,6 @@ aliceJs.filterXSS = function (str) {
 };
 
 /**
- * select tag 디자인을 위한 초기화.
- * 1) select tag 디자인을 적용하기 위해서 기존 select tag 는 숨기고
- * 2) div, ul 로 기존 select tag 를 대신할 객체를 만들고
- * 3) 그에 따른 이벤트 등록.
- */
-aliceJs.initDesignedSelectTag = function () {
-    document.querySelectorAll('select').forEach(function(originSelectTag) {
-        if (originSelectTag.style.display !== 'none') {
-            // 이미 그려진 경우 초기화.
-            if (originSelectTag.parentElement.classList.contains('select')) {
-                let removeTarget = originSelectTag.parentElement;
-                removeTarget.parentElement.insertBefore(originSelectTag, originSelectTag.parentElement);
-                removeTarget.remove();
-            }
-
-            let numOfOptions = originSelectTag.childElementCount;
-
-            // select tag 와 추가되는 div, ul 을 감싸는 wrapper 생성.
-            originSelectTag.classList.remove('select-hidden');
-            let selectWrapper = document.createElement('div');
-            selectWrapper.classList = originSelectTag.classList;
-            selectWrapper.classList.add('select');
-            originSelectTag.parentElement.insertBefore(selectWrapper, originSelectTag);
-            selectWrapper.append(originSelectTag);
-
-            // select tag 숨기기.
-            originSelectTag.classList.add('select-hidden');
-
-            // 옵션 리스트용 박스 만들기
-            let ulElement = document.createElement('ul');
-            ulElement.classList.add('designed-options');
-            selectWrapper.insertBefore(ulElement, originSelectTag.nextSibling);
-
-            // 디자인된 SELECT 박스 창 만들기
-            let designedSelectBox = document.createElement('div');
-            designedSelectBox.classList.add('designed-select');
-            selectWrapper.insertBefore(designedSelectBox, originSelectTag.nextSibling);
-            if (originSelectTag.disabled) designedSelectBox.classList.add('disabled-select');
-
-            // option 복사
-            let options = document.createDocumentFragment();
-            for (let i = 0; i < numOfOptions; i++) {
-                let liElement = document.createElement('li');
-                liElement.innerText = originSelectTag.options[i].text;
-                liElement.setAttribute('rel', originSelectTag.options[i].value);
-                options.appendChild(liElement.cloneNode(true));
-                if (originSelectTag.options[i].selected) {
-                    designedSelectBox.innerText = originSelectTag.options[i].text;
-                }
-            }
-            ulElement.appendChild(options);
-
-            // 화면의 select box (실제로는 styledSelect)를 클릭할때 이벤트
-            if (!originSelectTag.disabled && !originSelectTag.classList.contains('disabled') &&
-                !originSelectTag.classList.contains('readonly')) {
-                designedSelectBox.addEventListener('click', (function (e) {
-                    e.stopPropagation();
-                    let clickedSelect = e.target;
-                    document.querySelectorAll('div.designed-select.active').forEach(function (selectTag) {
-                        if (selectTag !== clickedSelect) {
-                            selectTag.classList.remove('active');
-                        }
-                    });
-                    // toggle
-                    if (clickedSelect.classList.contains('active')) {
-                        this.classList.remove('active');
-                    } else {
-                        this.classList.add('active');
-                    }
-                }));
-
-                // option 을 선택하는 경우 이벤트
-                ulElement.childNodes.forEach(function (liOption) {
-                    liOption.addEventListener('click', function (clickedOption) {
-                        clickedOption.stopPropagation();
-                        designedSelectBox.innerText = liOption.innerText;
-                        // 선택된 값 반영
-                        originSelectTag.value = liOption.getAttribute('rel');
-                        originSelectTag.querySelector('option[value=\'' + originSelectTag.value + '\']').selected = true;
-                        // 숨기기
-                        designedSelectBox.classList.remove('active');
-                        // 종종 select 선택이 변경되면 다른 화면의 변경을 위해서 이벤트가 있는 경우에 이벤트 발생.
-                        let changeEvent = new Event('change');
-                        originSelectTag.dispatchEvent(changeEvent);
-                    });
-                });
-
-                document.addEventListener('click', function () {
-                    designedSelectBox.classList.remove('active');
-                });
-            }
-        }
-    });
-};
-
-/**
  * Move object
  * @param index1 old index
  * @param index2 new index
@@ -1216,27 +1123,27 @@ aliceJs.convertDateFormat = function (format, type, date) {
     let reformatDate = date;
     if (format === 'systemFormat') { //  ISO8601 규격 포멧으로 서버에 데이터 전달할때 사용 ex> 2021-06-29T15:00:00.000Z
         switch (type) {
-        case 'dateTime':
-            reformatDate = i18n.systemDateTime(date);
-            break;
-        case 'date':
-            reformatDate = i18n.systemDate(date);
-            break;
-        case 'time':
-            reformatDate = i18n.systemTime(date);
-            break;
+            case 'dateTime':
+                reformatDate = i18n.systemDateTime(date);
+                break;
+            case 'date':
+                reformatDate = i18n.systemDate(date);
+                break;
+            case 'time':
+                reformatDate = i18n.systemTime(date);
+                break;
         }
     } else if (format === 'userFormat') {  //화면에 뿌려질 양식으로 서버에서 받은 데이터를 화면에 뿌려줄때 사용됨ex> 2021-06-21-15:30
         switch (type) {
-        case 'dateTime':
-            reformatDate = i18n.userDateTime(date);
-            break;
-        case 'date':
-            reformatDate = i18n.userDate(date);
-            break;
-        case 'time':
-            reformatDate = i18n.userTime(date);
-            break;
+            case 'dateTime':
+                reformatDate = i18n.userDateTime(date);
+                break;
+            case 'date':
+                reformatDate = i18n.userDate(date);
+                break;
+            case 'time':
+                reformatDate = i18n.userTime(date);
+                break;
         }
     }
     return reformatDate;
@@ -1280,8 +1187,18 @@ aliceJs.inputButtonRemove = function(target) {
  * @param keyName
  * @param callBackFunc
  */
-function pressKeyForAction(event, keyName, callBackFunc) {
+aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
     if (event.key === keyName) {
         callBackFunc();
     }
 }
+
+/**
+ * z-slider > range value에 따라 range fill 영역을 계산한다.
+ * @param target
+ */
+aliceJs.drawSlider = function(target) {
+    let thumbLocation =  parseInt((target.value - 1) * 100 / (target.max - 1)) + '%';
+    target.style.cssText = '--range-location:' + thumbLocation;
+}
+

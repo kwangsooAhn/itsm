@@ -44,21 +44,21 @@ export default class ZOptionListProperty extends ZProperty {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
 
-        const optionButtonGroup = new UIDiv().setUIClass('btn-list');
+        const optionButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-list');
         // 옵션 추가 버튼
         const addButton = new UIButton()
-            .addUIClass('ghost-line')
-            .addUIClass('btn-option')
+            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .addUIClass('extra')
             .onUIClick(this.addRow.bind(this));
-        const plusIcon = new UISpan().addUIClass('icon').addUIClass('icon-plus');
+        const plusIcon = new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-plus');
         addButton.addUI(plusIcon);
 
         // 옵션 삭제 버튼
         const removeButton = new UIButton()
-            .addUIClass('ghost-line')
-            .addUIClass('btn-option')
+            .setUIClass(CLASS_PREFIX + 'button-icon')
+            .addUIClass('extra')
             .onUIClick(this.removeRow.bind(this));
-        const minusIcon = new UISpan().addUIClass('icon').addUIClass('icon-minus');
+        const minusIcon = new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-minus');
         removeButton.addUI(minusIcon);
 
         optionButtonGroup.addUI(addButton);

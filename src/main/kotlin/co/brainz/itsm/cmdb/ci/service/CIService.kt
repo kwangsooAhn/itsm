@@ -12,6 +12,7 @@ import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIReturnDto
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -95,15 +96,18 @@ class CIService(
             // 임시 테이블의 CI 세부 데이터가 존재할 경우 합치기
             val ciComponentData =
                 ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(componentId, ciId, instanceId)
-            val tagDataList = mutableListOf<Map<String, String>>()
+            val tagDataList = mutableListOf<AliceTagDto>()
             val relationList = mutableListOf<CIRelationDto>()
             val ciClasses = ciClassService.getCIClassAttributes(map["classId"] as String)
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
                     mapper.readValue(ciComponentData.values, object : TypeReference<Map<String, Any>>() {})
                 // 태그
-                tagDataList.addAll(mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType))
-
+                val tagData = mutableListOf<Map<String, String>>()
+                tagData.addAll(mapper.convertValue(ciComponentDataValue["ciTags"], listLinkedMapType))
+                tagData.forEach {
+                    tagDataList.add(mapper.convertValue(it, AliceTagDto::class.java))
+                }
                 // TODO : 연관 관계
 
                 // 세부 속성
@@ -124,7 +128,7 @@ class CIService(
                     }
                 }
             }
-            ciDetailDto.ciTags = mapper.writeValueAsString(tagDataList)
+            ciDetailDto.ciTags = tagDataList
             ciDetailDto.ciRelations = relationList
             ciDetailDto.classes = ciClasses
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회

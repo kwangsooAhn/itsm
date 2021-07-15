@@ -43,23 +43,23 @@ const TAG_ERROR_MSG = {
     INVALID_TAG_TYPE: 'is invalid tag type. you can use tag type in [' + TAG_TYPE + ']'
 };
 
-function zTag(inputElement, userSettins, tagifySettings) {
+function zTag(inputElement, userSettings, tagifySettings) {
     // tag type validation check
-    if (!TAG_TYPE.includes(userSettins.tagType)) {
-        console.error(userSettins.tagType, TAG_ERROR_MSG.INVALID_TAG_TYPE);
+    if (!TAG_TYPE.includes(userSettings.tagType)) {
+        console.error(userSettings.tagType, TAG_ERROR_MSG.INVALID_TAG_TYPE);
         return false;
     }
 
     // tagify default setting
     this.tagifyOptions = tagifySettings || DEFAULT_TAGIFY_SETTING;
 
-    this.tagifyOptions.targetId = userSettins.targetId;
-    this.tagifyOptions.tagType = userSettins.tagType;
+    this.tagifyOptions.targetId = userSettings.targetId;
+    this.tagifyOptions.tagType = userSettings.tagType;
 
     let tagging = new Tagify(inputElement, this.tagifyOptions);
 
     // 추천목록 사용인 경우 이벤트 등록
-    if (userSettins.suggestion) {
+    if (userSettings.suggestion) {
         let controller;
         tagging.on('input', (function (e) {
             let value = e.detail.value;
@@ -87,7 +87,7 @@ function zTag(inputElement, userSettins, tagifySettings) {
     }
 
     // 화면 저장과 따로 실시간으로 저장/삭제하는 경우 이벤트 (ex: 처리할문서)
-    if (userSettins.realtime) {
+    if (userSettings.realtime) {
         tagging.on('add', (function (tag) {
             const jsonData = {
                 tagType: tag.detail.tagify.settings.tagType,

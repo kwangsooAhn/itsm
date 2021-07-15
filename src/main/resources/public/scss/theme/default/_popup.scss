@@ -19,7 +19,7 @@
     @include border(0.0625rem, solid, map-get($grays, "default"), top); //1px
   }
 
-  &-btn-list {
+  &-button-list {
     margin-top: 1.25rem; //20px
   }
 

@@ -1,88 +1,178 @@
 /* _buttons.scss 
  *
+ * 적용 규칙  (자세한 건 UX팀 정승녕 팀장님과 협의)
+ * (1) 버튼 1개인 경우 : Secondary
+ * (2) 버튼 2개인 경우 : Primary + Secondary 혹은 Primary + Extra (두번째 옵션의 중요도에 따라)
+ * (3) 버튼 3개 이상인 경우 : Primary + (n * Secondary)
+ * (4) 버튼 외에 폼 양식을 포함할 경우
+ *  - (4-1) 제출 버튼 하나만 있을 경우 : Primary
+ *  - (4-2) 제출 외의 옵션이 있는 경우: (2)번 혹은 (3)번과 동일
+ * (5) 버튼 외에 클릭하는 옵션이 그 옵션을 클릭함으로써 버튼을 클릭하지 않아도 되는 (혹은 클릭하지 못하는) 상황이 되는 경우: Secondary (아마 이 경우에는 버튼이 하나 뿐일 겁니다.)
+ *
  * 파일 경로 : template/_buttons.scss
  * @description 버튼 디자인
  * @author wdj
  * @version 1.0
  */
-// <a class='btn'></a>  or button
-.btn, 
-button {
+
+// <a class='z-button'></a>  or <button class='z-button'>
+.#{$common-prefix}button,
+.#{$common-prefix}button-icon {
   display: inline-block;
-  font-family: inherit;
-  font-size: $btn-font-size;
-  font-weight: $btn-font-weight;
-  line-height: $btn-line-height;
-  color: $btn-font-color;
-  background-color: $btn-bg-color;
-  @include border($btn-border-width, solid, $btn-border-color, all);
-  @include borderRadius($btn-border-radius);
+  font-family: $button-font-family;
+  font-size: $button-font-size;
+  font-weight: $button-font-weight;
+  background-color: transparent;
   opacity: 1;
+  vertical-align: middle;
   text-align: center;
   text-decoration: none;
   user-select: none;
   white-space: nowrap;
   vertical-align: middle;
   overflow:visible;
-  padding: 0.625rem 1.563rem 0.5625rem 1.563rem; // 10px 25px 9px 25px
   cursor: pointer;
+  @include border($button-border-width, solid, transparent, all);
+  @include borderRadius($button-border-radius);
+  padding: 0.5625rem 0.9375rem; // 9px 15px
 
   &:focus,
   &:hover {
-      outline: 0;
+    outline: 0;
   }
-  &:disabled {
+  &:disabled,
+  &.disabled {
     cursor: default;
   }
-  // 단일 버튼 (테마별 적용)
-  @each $theme, $value in $btn-themes-colors {
+
+  // 기본 테마별 버튼
+  @each $theme, $value in $button-themes-default {
     &.#{$theme} {
       color: map-get($value, 'default', 'font');
       background-color: map-get($value, 'default', 'background');
       border-color: map-get($value, 'default', 'border');
+      @if map-get($value, 'default', 'shadow') != null {
+        box-shadow: map-get($value, 'default', 'shadow');
+      }
       // 아이콘이 존재한다면
-      .icon {
+      .#{$common-prefix}icon {
         display: inline-block;
         background: map-get($value, 'default', 'font');
-        vertical-align: middle;
       }
 
-      &:focus,
+      &:focus {
+        color: map-get($value, 'focus', 'font');
+        background-color: map-get($value, 'focus', 'background');
+        border-color: map-get($value, 'focus', 'border');
+        @if map-get($value, 'focus', 'shadow') != null {
+          box-shadow: map-get($value, 'focus', 'shadow');
+        }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'focus', 'font');
+        }
+      }
+
       &:hover {
         color: map-get($value, 'hover', 'font');
         background-color: map-get($value, 'hover', 'background');
         border-color: map-get($value, 'hover', 'border');
-
-        .icon {
+        @if map-get($value, 'hover', 'shadow') != null {
+          box-shadow: map-get($value, 'hover', 'shadow');
+        }
+        .#{$common-prefix}icon {
           background: map-get($value, 'hover', 'font');
         }
       }
 
-      &:not(:disabled) {
-        &:active,
-        &.active { // pressed
-          color: map-get($value, 'pressed', 'font');
-          background-color: map-get($value, 'pressed', 'background');
-          border-color: map-get($value, 'pressed', 'border');
-          @if $theme == 'point-line' { opacity: 0.3; }
-
-          .icon {
-            background: map-get($value, 'pressed', 'font');
-          }
+      &:enabled:active,
+      &:enabled.active {
+        color: map-get($value, 'active', 'font');
+        background-color: map-get($value, 'active', 'background');
+        border-color: map-get($value, 'active', 'border');
+        @if map-get($value, 'active', 'shadow') != null {
+          box-shadow: map-get($value, 'active', 'shadow');
+        }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'active', 'font');
         }
       }
 
-      &:disabled {
+      &:disabled,
+      &.disabled {
         color: map-get($value, 'disabled', 'font');
         background-color: map-get($value, 'disabled', 'background');
         border-color: map-get($value, 'disabled', 'border');
-        @if $theme == 'default-fill' {
-          opacity: 0.5;
-        } @else {
-          opacity: 0.3;
+        @if map-get($value, 'disabled', 'shadow') != null {
+          box-shadow: map-get($value, 'disabled', 'shadow');
         }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'disabled', 'font');
+        }
+      }
+    }
+  }
 
-        .icon {
+  // 어두운 배경에서 사용되는 버튼 테마
+  @each $theme, $value in $button-themes-light {
+    &.#{$theme} {
+      color: map-get($value, 'default', 'font');
+      background-color: map-get($value, 'default', 'background');
+      border-color: map-get($value, 'default', 'border');
+      @if map-get($value, 'default', 'shadow') != null {
+        box-shadow: map-get($value, 'default', 'shadow');
+      }
+      // 아이콘이 존재한다면
+      .#{$common-prefix}icon {
+        display: inline-block;
+        background: map-get($value, 'default', 'font');
+      }
+
+      &:focus {
+        color: map-get($value, 'focus', 'font');
+        background-color: map-get($value, 'focus', 'background');
+        border-color: map-get($value, 'focus', 'border');
+        @if map-get($value, 'focus', 'shadow') != null {
+          box-shadow: map-get($value, 'focus', 'shadow');
+        }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'focus', 'font');
+        }
+      }
+
+      &:hover {
+        color: map-get($value, 'hover', 'font');
+        background-color: map-get($value, 'hover', 'background');
+        border-color: map-get($value, 'hover', 'border');
+        @if map-get($value, 'hover', 'shadow') != null {
+          box-shadow: map-get($value, 'hover', 'shadow');
+        }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'hover', 'font');
+        }
+      }
+
+      &:enabled:active,
+      &:enabled.active {
+        color: map-get($value, 'active', 'font');
+        background-color: map-get($value, 'active', 'background');
+        border-color: map-get($value, 'active', 'border');
+        @if map-get($value, 'active', 'shadow') != null {
+          box-shadow: map-get($value, 'active', 'shadow');
+        }
+        .#{$common-prefix}icon {
+          background: map-get($value, 'active', 'font');
+        }
+      }
+
+      &:disabled,
+      &.disabled {
+        color: map-get($value, 'disabled', 'font');
+        background-color: map-get($value, 'disabled', 'background');
+        border-color: map-get($value, 'disabled', 'border');
+        @if map-get($value, 'disabled', 'shadow') != null {
+          box-shadow: map-get($value, 'disabled', 'shadow');
+        }
+        .#{$common-prefix}icon {
           background: map-get($value, 'disabled', 'font');
         }
       }
@@ -90,214 +180,170 @@ button {
   }
 }
 
-// 버튼 그룹
-.btn-group {
-  position: relative;
+.#{$common-prefix}button-icon {
+  padding: 0.25rem 0.3125rem; // 4px 5px (버튼 기본 너비 높이 : 36px 36px)
+}
+
+// 버튼 목록
+.#{$common-prefix}button-list {
   display: inline-flex;
   vertical-align: middle;
+  position: relative;
 
-  .btn,
-  button {
-    flex: 1 1 auto;
-    font-size: $btn-group-font-size;
-    font-weight: $btn-group-font-weight;
-    line-height: $btn-group-line-height;
-    color: $btn-group-font-color;
-    background-color: $btn-group-bg-color;
-    @include border($btn-group-border-width, solid, $btn-group-border-color, all);
-    @include borderRadius($btn-group-border-radius); // 1px
-    // if icon exist
-    .icon {
-      display: inline-block;
-      background: $btn-group-font-color;
-      vertical-align: middle;
-    }
-
-    &:focus,
-    &:hover {
-      color: $btn-group-hover-font-color;
-      background-color: $btn-group-hover-bg-color;
-      border-color: $btn-group-hover-border-color;
-
-      .icon {
-        background: $btn-group-hover-font-color;
-      }
-    }
-
-    &:not(:disabled) {
-      &:active,
-      &.active { // pressed
-        color: $btn-group-pressed-font-color;
-        background-color: $btn-group-pressed-bg-color;
-        border-color: $btn-group-pressed-border-color;
-        z-index: $z-index-event;
-
-        .icon {
-          background: $btn-group-pressed-font-color;
-        }
-      }
-    }
-
-    &:disabled {
-      color: $btn-group-disabled-font-color;
-      background-color: $btn-group-disabled-bg-color;
-      border-color: $btn-group-disabled-border-color;
-
-      .icon {
-        background: $btn-group-disabled-font-color;
-      }
-    }
-  }
-  // rounded corners
-  .btn:not(:first-child),
-  button:not(:first-child) {
-    margin-left: -$btn-group-border-width;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  .btn:not(:last-of-type),
-  button:not(:last-of-type) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  // vertical button toggle group
-  &.btn-vertical {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    
-    .btn,
-    button {
-      flex: 0 1 auto;
-      @include borderRadius($btn-group-border-radius); // 1px
-    }
-
-    // Prevent double borders when buttons are next to each other
-    .btn:not(:first-child),
-    button:not(:first-child) {
-      margin-left: 0;
-      margin-top: -$btn-group-border-width;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      
-    }
-    .btn:not(:last-of-type), 
-    button:not(:last-of-type) {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
+  .#{$common-prefix}button,
+  .#{$common-prefix}button-icon {
+    &:not(:last-child) {
+      margin-right: 0.5rem; // 8px
     }
   }
 }
-// 버튼 그룹 토글
-.btn-group-toggle {
-  position: relative;
+
+// button group
+// (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
+// (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
+.#{$common-prefix}button-switch-group,
+.#{$common-prefix}button-toggle-group {
   display: inline-flex;
+  flex-direction: row;
   vertical-align: middle;
 
-  .btn,
-  button {
+  .#{$common-prefix}button-switch,
+  .#{$common-prefix}button-toggle {
     flex: 1 1 auto;
-    font-size: $btn-group-font-size;
-    font-weight: $btn-group-font-weight;
-    line-height: $btn-group-line-height;
-    color: $btn-group-toggle-font-color;
-    background-color: $btn-group-toggle-bg-color;
-    @include border($btn-group-border-width, solid, $btn-group-border-color, all);
-    @include borderRadius($btn-group-border-radius); // 1px
-    // if icon exist
-    .icon {
+    display: inline-block;
+    font-family: $button-font-family;
+    font-size: $button-font-size;
+    font-weight: $button-font-weight;
+    color: map-get($button-group, 'default', 'font');
+    background-color: map-get($button-group, 'default', 'background');
+    opacity: 1;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    overflow:visible;
+    cursor: pointer;
+    @include border($button-border-width, solid, map-get($button-group, 'default', 'border'), all);
+    @include borderRadius($button-border-radius);
+    @if map-get($button-group, 'default', 'shadow') != null {
+      box-shadow: map-get($button-group, 'default', 'shadow');
+    }
+    padding: 0.25rem 0.6875rem; // 4px 11px
+
+    // 아이콘이 존재한다면
+    .#{$common-prefix}icon {
       display: inline-block;
-      background: $btn-group-toggle-font-color;
-      vertical-align: middle;
+      background: map-get($button-group, 'default', 'font');
     }
 
-    &:focus,
+    &:focus {
+      outline: 0;
+      color: map-get($button-group, 'focus', 'font');
+      background-color: map-get($button-group, 'focus', 'background');
+      border-color: map-get($button-group, 'focus', 'border');
+      @if map-get($button-group, 'focus', 'shadow') != null {
+        box-shadow: map-get($button-group, 'focus', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'focus', 'font');
+      }
+    }
+
     &:hover {
-      color: $btn-group-hover-font-color;
-      background-color: $btn-group-hover-bg-color;
-      border-color: $btn-group-hover-border-color;
-
-      .icon {
-        background: $btn-group-hover-font-color;
+      outline: 0;
+      color: map-get($button-group, 'hover', 'font');
+      background-color: map-get($button-group, 'hover', 'background');
+      border-color: map-get($button-group, 'hover', 'border');
+      @if map-get($button-group, 'hover', 'shadow') != null {
+        box-shadow: map-get($button-group, 'hover', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'hover', 'font');
       }
     }
 
-    &:not(:disabled) {
-      &:active,
-      &.active { // pressed
-        color: $btn-group-pressed-font-color;
-        background-color: $btn-group-pressed-bg-color;
-        border-color: $btn-group-pressed-border-color;
-        z-index: $z-index-event;
-
-        .icon {
-          background: $btn-group-pressed-font-color;
-        }
+    &:enabled:active,
+    &:enabled.active {
+      color: map-get($button-group, 'active', 'font');
+      background-color: map-get($button-group, 'active', 'background');
+      border-color: map-get($button-group, 'active', 'border');
+      z-index: $z-index-event;
+      @if map-get($button-group, 'active', 'shadow') != null {
+        box-shadow: map-get($button-group, 'active', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'active', 'font');
+      }
+    }
+    // 선택된 경우
+    &.selected:not(:disabled),
+    &.selected:not(.disabled) {
+      color: map-get($button-group, 'selected', 'font');
+      background-color: map-get($button-group, 'selected', 'background');
+      border-color: map-get($button-group, 'selected', 'border');
+      z-index: $z-index-event;
+      @if map-get($button-group, 'selected', 'shadow') != null {
+        box-shadow: map-get($button-group, 'selected', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'selected', 'font');
       }
     }
 
-    &:disabled {
-      color: $btn-group-disabled-font-color;
-      background-color: $btn-group-disabled-bg-color;
-      border-color: $btn-group-disabled-border-color;
-
-      .icon {
-        background: $btn-group-disabled-font-color;
+    &:disabled,
+    &.disabled {
+      color: map-get($button-group, 'disabled', 'font');
+      background-color: map-get($button-group, 'disabled', 'background');
+      border-color: map-get($button-group, 'disabled', 'border');
+      cursor: default;
+      @if map-get($button-group, 'disabled', 'shadow') != null {
+        box-shadow: map-get($button-group, 'disabled', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($button-group, 'disabled', 'font');
       }
     }
   }
 
   // 양 끝 테두리 둥글게
-  .btn:not(:first-child),
-  button:not(:first-child) {
-    margin-left: -$btn-group-border-width;
+  .#{$common-prefix}button-switch:not(:first-child),
+  .#{$common-prefix}button-toggle:not(:first-child) {
+    margin-left: -$button-border-width;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  .btn:not(:last-of-type),
-  button:not(:last-of-type) {
+  .#{$common-prefix}button-switch:not(:last-of-type),
+  .#{$common-prefix}button-toggle:not(:last-of-type) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
   // vertical button toggle group
-  &.btn-vertical {
+  &.vertical {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
 
-    .btn,
-    button {
+    .#{$common-prefix}button-switch,
+    .#{$common-prefix}button-toggle {
       flex: 0 1 auto;
-      @include borderRadius($btn-group-border-radius); // 1px
+      @include borderRadius($button-border-radius); // 1px
     }
     // Prevent double borders when buttons are next to each other
-    .btn:not(:first-child),
-    button:not(:first-child) {
+    .#{$common-prefix}button-switch:not(:first-child),
+    .#{$common-prefix}button-toggle:not(:first-child) {
       margin-left: 0;
-      margin-top: -$btn-group-border-width;
+      margin-top: -$button-border-width;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
-    .btn:not(:last-of-type), 
-    button:not(:last-of-type) {
+    .#{$common-prefix}button-switch:not(:last-of-type),
+    .#{$common-prefix}button-toggle:not(:last-of-type) {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
-  }
-}
-
-// 버튼 리스트
-.btn-list {
-  display: inline-flex;
-  vertical-align: middle;
-  position: relative;
-
-  .btn,
-  button {
-      margin-left: 0.3125rem; // 5px
   }
 }

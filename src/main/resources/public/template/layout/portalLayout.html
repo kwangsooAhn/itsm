@@ -14,8 +14,8 @@
                         <img class="logo" th:src="@{/assets/media/icons/icon_logo_white.svg}" width="152" height="26" alt="Alice">
                     </a>
                     <div class="name" th:text="#{portal.label.mainPhrase}"></div>
-                    <a class="ml-auto" href="/layout" sec:authorize="isAuthenticated()" th:text="#{portal.label.main}"></a>
-                    <a class="ml-auto" href="/login" sec:authorize="isAnonymous()" th:text="#{portal.label.login}"></a>
+                    <a class="ml-auto z-button light-secondary" href="/layout" sec:authorize="isAuthenticated()" th:text="#{portal.label.main}"></a>
+                    <a class="ml-auto z-button light-secondary" href="/login" sec:authorize="isAnonymous()" th:text="#{portal.label.login}"></a>
                 </div>
                 <div class="main">
                     <th:block layout:fragment="content"></th:block>

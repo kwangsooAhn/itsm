@@ -26,7 +26,7 @@
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
             <div class="ml-auto">
-                <button type="button" class="default-fill" sec:authorize="hasAuthority('chart.create')"
+                <button type="button" class="z-button secondary" sec:authorize="hasAuthority('chart.create')"
                         th:text="#{common.btn.add}" th:onclick="openChartEditModal()"></button>
             </div>
         </div>
@@ -170,17 +170,12 @@
                 classes: 'chart-edit-modal',
                 buttons: [
                     {
-                        content: i18n.msg('chart.btn.preview'),
-                        classes: "default-fill",
+                        content: (chartId !== undefined) ? i18n.msg('common.btn.save') : i18n.msg('common.btn.register'),
+                        classes: 'z-button primary',
                         bindKey: false,
                         callback: function (modal) {
-                            if (emptyValidation() && isValidation()) {
-                                let chartInfo = setChartInfo()
-                                restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
-                                    let responseJson = JSON.parse(response);
-                                    parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
-                                }, false);
-                            }
+                            let method = (chartId !== undefined) ? 'put' : 'post'
+                            saveChart(method, chartId)
                         }
                     }],
                 close: {
@@ -192,32 +187,35 @@
                 }
             };
 
-            if (deletable === 'true') {
-                if (chartId !== undefined) {
-                    modalOptions.buttons.push({
-                        content: i18n.msg('common.btn.delete'),
-                        classes: "default-fill",
-                        bindKey: false,
-                        callback: function (modal) {
-                            deleteChart(chartId);
-                        }
-                    });
-                }
+            if (deletable === 'true' && chartId !== undefined) {
+                modalOptions.buttons.push({
+                    content: i18n.msg('common.btn.delete'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        deleteChart(chartId);
+                    }
+                });
             }
 
             modalOptions.buttons.push({
-                content: (chartId !== undefined) ? i18n.msg('common.btn.save') : i18n.msg('common.btn.register'),
-                classes: "point-fill",
+                content: i18n.msg('chart.btn.preview'),
+                classes: 'z-button secondary',
                 bindKey: false,
                 callback: function (modal) {
-                    let method = (chartId !== undefined) ? 'put' : 'post'
-                    saveChart(method, chartId)
+                    if (emptyValidation() && isValidation()) {
+                        let chartInfo = setChartInfo()
+                        restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
+                            let responseJson = JSON.parse(response);
+                            parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
+                        }, false);
+                    }
                 }
             });
 
             modalOptions.buttons.push({
                 content: i18n.msg('common.btn.cancel'),
-                classes: "default-line",
+                classes: 'z-button secondary',
                 bindKey: false,
                 callback: function (modal) {
                     modal.hide();
@@ -226,7 +224,6 @@
 
             const chartEditModal = new modal(modalOptions);
             chartEditModal.show();
-            document.querySelector('.modal-dialog .point-fill').focus();
         }
 
         /**
@@ -239,7 +236,7 @@
                 classes: 'chart-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: "default-line",
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function (modal) {
                         modal.hide();
@@ -255,7 +252,6 @@
 
             const chartViewModal = new modal(modalOptions);
             chartViewModal.show();
-            document.querySelector('.modal-dialog .default-line').focus();
         }
 
         function createModalContent() {

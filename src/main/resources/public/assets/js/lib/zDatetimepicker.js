@@ -34,15 +34,15 @@
                 rtn = luxon.DateTime.local().setZone(i18n.timezone);
             } else {
                 switch (options.type) {
-                case 'DATE':
-                    rtn = luxon.DateTime.fromFormat(options.value, i18n.dateFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
-                    break;
-                case 'DATEHOUR':
-                    rtn = luxon.DateTime.fromFormat(options.value, i18n.dateTimeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
-                    break;
-                case 'HOUR':
-                    rtn = luxon.DateTime.fromFormat(options.value, i18n.timeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
-                    break;
+                    case 'DATE':
+                        rtn = luxon.DateTime.fromFormat(options.value, i18n.dateFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
+                        break;
+                    case 'DATEHOUR':
+                        rtn = luxon.DateTime.fromFormat(options.value, i18n.dateTimeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
+                        break;
+                    case 'HOUR':
+                        rtn = luxon.DateTime.fromFormat(options.value, i18n.timeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
+                        break;
                 }
             }
             return rtn;
@@ -141,13 +141,13 @@
 
         // create button
         let pickerButton = document.createElement('div');
-        pickerButton.className = 'btn-list picker-modal-button';
+        pickerButton.className = 'z-button-list picker-modal-button';
         this.el.appendChild(pickerButton);
 
         // create button > confirm
         let buttonConfirm = document.createElement('button');
         buttonConfirm.type = 'button';
-        buttonConfirm.className = 'default-line';
+        buttonConfirm.className = 'z-button secondary';
         buttonConfirm.innerText = i18n.msg('common.btn.select');
         buttonConfirm.addEventListener('click', this.changeTarget, false);
         pickerButton.appendChild(buttonConfirm);
@@ -155,7 +155,7 @@
         // create button > cancel
         let buttonCancel = document.createElement('button');
         buttonCancel.type = 'button';
-        buttonCancel.className = 'default-line';
+        buttonCancel.className = 'z-button extra';
         buttonCancel.innerText = i18n.msg('common.btn.cancel');
         buttonCancel.addEventListener('click', this.close, false);
         pickerButton.appendChild(buttonCancel);
@@ -381,13 +381,14 @@
 
                 const curHourType = _this.selectLuxon.toFormat(minuteFormatArr[1]);
                 const hourType = document.createElement('div');
-                hourType.className = 'btn-group-toggle btn-vertical';
+                hourType.className = 'z-button-toggle-group vertical';
                 pickerTime.appendChild(hourType);
 
                 // create button > am
                 let buttonAM = document.createElement('button');
+                buttonAM.className = 'z-button-toggle';
                 if (curHourType === 'AM') {
-                    buttonAM.classList.add('active');
+                    buttonAM.classList.add('selected');
                     _this.meridiem = 'AM';
                 }
                 buttonAM.type = 'button';
@@ -396,14 +397,14 @@
                 buttonAM.addEventListener('click', function(e) {
                     const elem = e.target; // 선택된 toggle 버튼
                     const parentElem = elem.parentNode;
-                    const isActive = elem.classList.contains('active');
+                    const isActive = elem.classList.contains('selected');
                     if (!isActive) {
                         for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
                             const child = parentElem.childNodes[i];
                             if (child.id === elem.id) {
-                                elem.classList.add('active');
+                                elem.classList.add('selected');
                             } else {
-                                child.classList.remove('active');
+                                child.classList.remove('selected');
                             }
                         }
                         _this.changeMeridiem(elem.id);
@@ -413,8 +414,9 @@
 
                 // create button > pm
                 let buttonPM = document.createElement('button');
+                buttonPM.className = 'z-button-toggle';
                 if (curHourType === 'PM') {
-                    buttonPM.classList.add('active');
+                    buttonPM.classList.add('selected');
                     _this.meridiem = 'PM';
                 }
                 buttonPM.type = 'button';
@@ -423,14 +425,14 @@
                 buttonPM.addEventListener('click', function(e) {
                     const elem = e.target; // 선택된 toggle 버튼
                     const parentElem = elem.parentNode;
-                    const isActive = elem.classList.contains('active');
+                    const isActive = elem.classList.contains('selected');
                     if (!isActive) {
                         for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
                             const child = parentElem.childNodes[i];
                             if (child.id === elem.id) {
-                                elem.classList.add('active');
+                                elem.classList.add('selected');
                             } else {
-                                child.classList.remove('active');
+                                child.classList.remove('selected');
                             }
                         }
                         _this.changeMeridiem(elem.id);
@@ -469,15 +471,15 @@
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function() {
             switch (this.type) {
-            case 'DATE':
-                this.target.value = this.selectLuxon.toFormat(i18n.dateFormat);
-                break;
-            case 'DATEHOUR':
-                this.target.value = this.selectLuxon.toFormat(i18n.dateTimeFormat);
-                break;
-            case 'HOUR':
-                this.target.value = this.selectLuxon.toFormat(i18n.timeFormat);
-                break;
+                case 'DATE':
+                    this.target.value = this.selectLuxon.toFormat(i18n.dateFormat);
+                    break;
+                case 'DATEHOUR':
+                    this.target.value = this.selectLuxon.toFormat(i18n.dateTimeFormat);
+                    break;
+                case 'HOUR':
+                    this.target.value = this.selectLuxon.toFormat(i18n.timeFormat);
+                    break;
             }
             this.close();
 

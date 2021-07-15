@@ -7,7 +7,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="download-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{download.label.download}"></h1>
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="download-content-edit">
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="downloadCategory">
                     <span th:text="#{download.label.category}"></span>
                     <span class="required"></span>
@@ -27,27 +27,29 @@
                             th:selected="${category.code} == ${download?.downloadCategory}"></option>
                 </select>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="downloadTitle">
                     <span th:text="#{common.label.title}"></span>
                     <span class="required"></span>
                 </label>
                 <input type="text" id="downloadTitle" class="z-input" maxlength="100" th:value="${download?.downloadTitle}"></td>
             </div>
-            <div class="flex-column edit-row file-uploader-edit">
+            <div class="flex-column z-edit-row file-uploader-edit">
                 <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
                 <div id="dropZoneFiles"></div>
                 <div id="dropZoneUploadedFiles"></div>
             </div>
-            <div class="flex-row justify-content-end edit-row">
-                <div class="btn-list">
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
                     <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
-                            class="point-fill" th:text="#{common.btn.modify}"></button>
+                            class="z-button primary" th:text="#{common.btn.modify}"></button>
                     <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
-                            class="point-fill" th:text="#{common.btn.register}"></button>
+                            class="z-button primary" th:text="#{common.btn.register}"></button>
                     <button th:if="${download?.downloadId}" onclick="deleteDownload()"
-                            class="default-fill" th:text="#{common.btn.delete}"></button>
-                    <a class="btn default-line" href="/downloads/search" th:text="#{common.btn.list}"></a>
+                            class="z-button secondary" th:text="#{common.btn.delete}"></button>
                 </div>
             </div>
         </div>

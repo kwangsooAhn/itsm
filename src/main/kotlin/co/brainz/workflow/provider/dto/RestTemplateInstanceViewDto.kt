@@ -6,6 +6,7 @@
 
 package co.brainz.workflow.provider.dto
 
+import co.brainz.framework.tag.dto.AliceTagDto
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -16,7 +17,7 @@ data class RestTemplateInstanceViewDto(
     val documentDesc: String? = "",
     val elementName: String? = "",
     val topics: MutableList<String>?,
-    val tags: MutableList<String>?,
+    val tags: List<AliceTagDto>,
     var createDt: LocalDateTime?,
     val assigneeUserKey: String? = "",
     val assigneeUserName: String? = "",

@@ -7,7 +7,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column edit">
+    <div class="flex-column z-edit">
         <div class="custom-code-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{customCode.label.customCode}"></h1>
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="custom-code-content-edit">
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label for="customCodeName">
                     <span th:text="#{customCode.label.name}"></span>
                     <span class="required"></span>
@@ -23,7 +23,7 @@
                 <input type="text" id="customCodeName" class="z-input" required="required" maxlength="110"
                        th:value="${customCode?.customCodeName}" disabled>
             </div>
-            <div class="flex-column edit-row">
+            <div class="flex-column z-edit-row">
                 <label>
                     <span th:text="#{customCode.label.type}"></span>
                     <span class="required"></span>
@@ -47,34 +47,34 @@
             <!-- 타입: table-->
             <div id="type-table-container"
                  th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label>
                         <span th:text="#{customCode.label.targetTable}"></span>
                         <span class="required"></span>
                     </label>
                     <input type="text" class="z-input" th:value="|${customCode.targetTableName}(${customCode.targetTable})|" disabled/>
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label>
                         <span th:text="#{customCode.label.searchColumn}"></span>
                         <span class="required"></span>
                     </label>
                     <input type="text" class="z-input" th:value="|${customCode.searchColumnName}(${customCode.searchColumn})|" disabled />
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label>
                         <span th:text="#{customCode.label.valueColumn}"></span>
                         <span class="required"></span>
                     </label>
                     <input type="text" class="z-input" th:value="|${customCode.valueColumnName}(${customCode.valueColumn})|" disabled />
                 </div>
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <div class="under-bar">
                         <label id="conditionLabel">
                             <span th:text="#{customCode.label.condition}"></span>
                         </label>
-                        <button type="button" class="default-line plus float-right" disabled>
-                            <span class="icon-plus"></span>
+                        <button type="button" class="z-button-icon float-right" disabled>
+                            <span class="z-icon i-plus"></span>
                         </button>
                     </div>
                     <div id="condition"></div>
@@ -82,7 +82,7 @@
             </div>
             <!-- 타입: 코드 -->
             <div id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
-                <div class="flex-column edit-row">
+                <div class="flex-column z-edit-row">
                     <label>
                         <span th:text="#{customCode.label.pCode}"></span>
                         <span class="required"></span>
@@ -90,9 +90,9 @@
                     <input type="text" id="pCode" class="z-input" maxlength="100" th:value="${customCode?.pCode}" disabled>
                 </div>
             </div>
-            <div class="flex-row justify-content-end edit-row">
-                <div class="btn-list">
-                    <a class="btn default-line" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
+            <div class="flex-row justify-content-start z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
                 if (condition != null) {
                     Object.keys(condition).forEach(function (data) {
                         const divRow = document.createElement('div');
-                        divRow.classList.add('flex-row', 'edit-row');
+                        divRow.classList.add('flex-row', 'z-edit-row');
 
                         const conditionInput = document.createElement('input');
                         conditionInput.classList.add('col-6');

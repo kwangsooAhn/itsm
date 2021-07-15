@@ -22,10 +22,10 @@
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
             <div class="ml-auto">
-                <button type="button" class="default-line" onclick="openProcessImport();"
-                        sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
-                <button type="button" class="default-fill" onclick="openProcessRegister();"
+                <button type="button" class="z-button primary" onclick="openProcessRegister();"
                         sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.add}"></button>
+                <button type="button" class="z-button secondary" onclick="openProcessImport();"
+                        sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
             </div>
         </div>
     </div>
@@ -159,7 +159,7 @@
                             // 내보내기 버튼
                             options.buttons.push({
                                 content: i18n.msg('process.btn.export'),
-                                classes: "point-fill",
+                                classes: 'z-button primary',
                                 bindKey: false,
                                 callback: function(modal) {
                                     ZWorkflowUtil.export(responseObject.id, 'process');
@@ -168,7 +168,7 @@
                             // 수정
                             options.buttons.push({
                                 content: i18n.msg('common.btn.modify'),
-                                classes: "point-fill",
+                                classes: 'z-button primary',
                                 bindKey: false,
                                 callback: function(modal) {
                                     saveProcess(responseObject.id, false, true);
@@ -177,7 +177,7 @@
                             // 삭제
                             options.buttons.push({
                                 content: i18n.msg('common.btn.delete'),
-                                classes: "default-fill",
+                                classes: 'z-button secondary',
                                 bindKey: false,
                                 callback: function(modal) {
                                     deleteProcess(responseObject.id);
@@ -187,7 +187,7 @@
                             // 내보내기 버튼
                             options.buttons.push({
                                 content: i18n.msg('process.btn.export'),
-                                classes: "point-fill",
+                                classes: 'z-button primary',
                                 bindKey: false,
                                 callback: function(modal) {
                                     ZWorkflowUtil.export(responseObject.id, 'process');
@@ -196,7 +196,7 @@
                             // 폐기
                             options.buttons.push({
                                 content: i18n.msg('process.status.destroy'),
-                                classes: "point-fill",
+                                classes: 'z-button secondary',
                                 bindKey: false,
                                 callback: function(modal) {
                                     saveProcess(responseObject.id, true, responseObject.enabled);
@@ -206,7 +206,7 @@
                         // 취소
                         options.buttons.push({
                             content: i18n.msg('common.btn.cancel'),
-                            classes: "default-line",
+                            classes: 'z-button secondary',
                             bindKey: false,
                             callback: function(modal) {
                                 modal.hide();
@@ -230,14 +230,14 @@
                 classes: 'process-edit',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
-                    classes: "point-fill",
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
                         saveProcess();
                     }
                 },{
                     content: i18n.msg('common.btn.cancel'),
-                    classes: "default-line",
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -262,7 +262,6 @@
                 }
             });
             processModal.show();
-            document.querySelector('.modal-dialog .point-fill').focus();
         }
 
         // REST API
@@ -394,14 +393,14 @@
                 buttons: [
                     {
                         content: i18n.msg('process.btn.import'),
-                        classes: "default-line",
+                        classes: 'z-button primary',
                         bindKey: false,
                         callback: function(modal) {
                             importProcess();
                         }
                     },{
                         content: i18n.msg('common.btn.cancel'),
-                        classes: "default-line",
+                        classes: 'z-button secondary',
                         bindKey: false,
                         callback: function(modal) {
                             modal.hide();
@@ -437,7 +436,6 @@
                 }
             });
             importModal.show();
-            document.querySelector('.modal-dialog .default-line').focus();
         }
 
         // REST API

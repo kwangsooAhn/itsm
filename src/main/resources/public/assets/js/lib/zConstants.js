@@ -13,7 +13,8 @@ export const SESSION = {};
 export const CLASS_PREFIX = 'z-';
 // 단위
 export const UNIT = {
-    PX: 'px'
+    PX: 'px',
+    PERCENT: '%'
 };
 export const MAX_COLUMN_COUNT = 12;
 // 폼

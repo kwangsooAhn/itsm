@@ -1,3 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="19.8" height="19.8" viewBox="0 0 19.8 19.8">
-  <path d="M1679.414,498l5.293-5.293a1,1,0,0,0-1.414-1.415L1678,496.586l-5.293-5.294a1,1,0,1,0-1.414,1.415l5.293,5.293-5.293,5.293a1,1,0,0,0,1.414,1.414l5.293-5.293,5.293,5.293a1,1,0,0,0,1.414-1.414Z" transform="translate(-824.486 -1528.764) rotate(45)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g transform="translate(24 24) rotate(180)">
+    <rect fill="none" width="24" height="24"/>
+    <path fill="#222529" d="M1846,497h-5v-5a1,1,0,0,0-2,0v5h-5a1,1,0,0,0,0,2h5v5a1,1,0,1,0,2,0v-5h5a1,1,0,1,0,0-2Z" transform="translate(-1828 -486)"/>
+  </g>
 </svg>

@@ -50,81 +50,7 @@ a:hover,
 a:active {
   text-decoration: none;
 }
-// 공통: readonly거나 disabled 일 경우 element에 focus가 처리되지 않는다.
-// input
-input:not(.#{$common-prefix}input) {
-  height: 2.5rem; // 40px
-  font-family: inherit;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
-  background-color: $element-bg-color;
-  @include border($element-border-width, solid, $element-border-color, all);
-  @include borderRadius(0.0625rem); // 1px
-  padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px
-  vertical-align: middle;
 
-  &::placeholder {
-    color: $element-placeholder-font-color;
-  }
-
-  &:not(:disabled),
-  &:not(:read-only) {
-    &:focus {
-      outline: 0;
-      border: $element-focus-border;
-    }
-
-    &:hover {
-      outline: 0;
-      border: $element-hover-border;
-      @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
-    }
-  }
-
-  &:disabled {
-    color: $element-disabled-font-color;
-    background-color: $element-disabled-bg-color;
-    border-color: $element-disabled-border-color;
-    pointer-events: none;
-    cursor: default;
-  }
-
-  &:read-only {
-    background-color: $element-readonly-bg-color;
-    border-color: $element-readonly-border-color;
-    pointer-events: none;
-    cursor: default;
-  }
-
-  &.icon {
-    padding-right: 2.5rem; // 아이콘 크기만큼 들여 쓰기 40px
-  }
-
-  &.error {
-    color: $element-error-font-color;
-    border: $element-error-border;
-  }
-
-  &[type=range] {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 0.0625rem; // 1px
-    background-color: $element-border-color;
-    outline: 0;
-
-    &::-webkit-slider-thumb { // 동그라미
-      -webkit-appearance: none;
-      appearance: none;
-      @include thumb(1.125rem, 1.125rem, $element-border, 50%, $element-bg-color); // 18px 18px
-    }
-
-    &::-moz-range-thumb { // 동그라미
-      @include thumb(1.125rem, 1.125rem, $element-border, 50%, $element-bg-color); // 18px 18px
-    }
-  }
-}
 // textarea
 textarea:not(.#{$common-prefix}textarea) {
   font-family: inherit;
@@ -201,161 +127,7 @@ table {
     }
   }
 }
-// select
-select {
-  height: 2.5rem; // 40px
-  font-family: inherit;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
-  background-color: $element-bg-color;
-  @include border($element-border-width, solid, $element-border-color, all);
-  @include borderRadius(0.0625rem); // 1px
-  padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px 0 10px
-  vertical-align: middle;
 
-  &:not(:disabled),
-  &:not(:read-only) {
-    &:focus {
-      outline: 0;
-      border: $element-focus-border;
-    }
-
-    &:hover {
-      outline: 0;
-      border: $element-hover-border;
-      @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
-    }
-  }
-
-  &:disabled {
-    color: $element-disabled-font-color;
-    background-color: $element-disabled-bg-color;
-    pointer-events: none;
-    cursor: default;
-  }
-}
-
-// designed select
-.select {
-  @include relative();
-  display: inline-block;
-  font-size: $element-font-size;
-  height: 2.5rem; // 40px
-  width: 100%;
-  padding: 0 2px;
-
-  .select-hidden {
-    visibility: hidden;
-    padding-right: 0.625rem; // 10px
-  }
-
-  .designed-select {
-    @include absolute(0, 0, 0, 0);
-    padding: 0.5rem 0.625rem; // 8px 10px
-    background-color: $element-bg-color;
-    color: $element-font-color;
-    @include border($element-border-width, solid, $element-border-color, all);
-    @include borderRadius(0.0625rem); // 1px
-    font-family: inherit;
-    font-size: $element-font-size;
-    font-weight: $element-font-weight;
-    line-height: $element-line-height;
-    display: flex;
-    align-items: flex-start;
-    overflow: hidden;
-    cursor: pointer;
-
-    &:after {
-      content:'';
-      @include absolute($right: 0.625rem); // 10px
-      width: 0;
-      height: 0;
-      border: 0.625rem solid transparent; // 10px
-      @include backgroundImage($icon-folder-path + 'icon_arrow_bottom.svg', auto, no-repeat, center, left, null);
-    }
-    &:not(:disabled),
-    &:not(.readonly) {
-      &:hover {
-        outline: 0;
-        border: $element-hover-border;
-        @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.2)); // 5px
-      }
-      &.active {
-        outline: 0;
-        border: $element-focus-border;
-
-        &:after {
-          top: 0.5625rem; // 9px
-          @include backgroundImage($icon-folder-path + 'icon_arrow_up.svg', auto, no-repeat, center, left, null);
-        }
-
-        + .designed-options {
-          display: block;
-        }
-      }
-    }
-
-    &.disabled-select {
-      color: $element-disabled-font-color;
-      background-color: $element-disabled-bg-color;
-      pointer-events: none;
-      cursor: default;
-    }
-  }
-
-  .designed-options {
-    display: none;
-    @include absolute(calc(100% + 0.3125rem), 0, null, 0);  // 5px
-    z-index: $z-index-between-alert-modal;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    max-height: 25rem; // 400px
-    color: $element-font-color;
-    background-color: $element-bg-color;
-    outline: 0;
-    @include border($element-border-width, solid, $element-border-color, all);
-    overflow: auto;
-    @include borderRadius(0.0625rem); // 1px
-    @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
-    li {
-      margin: 0;
-      padding: 0.75rem 0; // 12px
-      text-indent: 0.625rem; // 10px
-      @include ellipsis(list-item);
-      &:hover {
-        background: $select-bg-color;
-      }
-      &[rel='hide'] {
-        display: none;
-      }
-    }
-  }
-
-  &.readonly {
-    .designed-select {
-      background-color: $element-readonly-bg-color;
-      pointer-events: none;
-      cursor: default;
-    }
-  }
-}
-
-option {
-  &:hover {
-    background-color: $element-hover-bg-color;
-  }
-  &:visited {
-    color: $element-selected-font-color;
-    background-color: $element-bg-color;
-  }
-  &:active,
-  &:focus {
-    color: $element-selected-font-color;
-  }
-}
 // span
 span {
   font-family: inherit;
@@ -829,7 +601,7 @@ label {
   &.error {
     @include border($element-border-width, solid, $red500, all);
   }
-  
+
   &.success {
     @include border($element-border-width, solid, $green500, all);
   }
@@ -893,6 +665,222 @@ label {
           background-color: $neutral100;
         }
       }
+    }
+  }
+}
+
+/**
+ Designed select
+   1) select 태그를 사용하면서 initDesignedSelectTag 함수를 호출하면 아래 디자인을 적용할 수 있음.
+   2) z-select 클래스를 가진 div 로 select 태그를 감싸고 디자인된 div 를 제공
+   3) 내부에는 2개의 영역으로 구성되며 아래와 같은 클래스명으로 구분된다.
+     - z-select-box : select 태그를 대신해서 보여지는 부분
+     - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
+*/
+.#{$common-prefix}select {
+  display: inline-block;
+  @include relative();
+  width: 100%;
+  height: 2.25rem; // 36px
+
+  select.readonly {
+    visibility: hidden;
+  }
+
+  // select 태그를 대신해서 보여지는 부분
+  .#{$common-prefix}select-box {
+    display: flex;
+    @include absolute(0, 0, 0, 0);
+    width: 100%;
+    padding: 0 $element-indent;
+    border: $element-border;
+    background-color: $element-bg-color;
+    color: $element-font-color;
+    @include borderRadius(0.125rem); // 2px
+    font-family: inherit;
+    font-size: $element-font-size;
+    font-weight: $element-font-weight;
+    line-height: $element-line-height;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+
+    &:not(.readonly) {
+
+      &:hover {
+        outline: 0;
+        border: $element-hover-border;
+      }
+
+      &.active {
+        outline: 0;
+        border: $element-focus-border;
+        @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color);
+        // 열렸을때 출력되는 화살표 아이콘
+        &:after {
+          @include backgroundImage($icon-folder-path + 'icon_arrow_up.svg', auto, no-repeat, center, center, null);
+        }
+
+        + .z-select-options {
+          display: block;
+        }
+      }
+
+      // 닫혔을때 출력되는 화살표 아이콘
+      &:after {
+        @include absolute($right: 0.5rem); // 8px
+        width: 0;
+        height: 0;
+        border: 0.75rem solid transparent; // 12px
+        @include backgroundImage($icon-folder-path + 'icon_arrow_bottom.svg', auto, no-repeat, center, center, null);
+        content:'';
+      }
+    }
+
+    // disabled
+    &.disabled-select {
+      border: $element-disabled-border;
+      background-color: $element-disabled-bg-color;
+      color: $element-disabled-font-color;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    // readonly
+    &.readonly {
+      border: $element-readonly-border;
+      border-style: none none none solid;
+      background-color: $white;
+      @include borderRadius(0);
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  // z-select-box 클릭 시 보여지는 option 리스트 부분
+  .#{$common-prefix}select-options {
+    display: none;
+    list-style: none;
+    @include absolute(calc(100% + 0.25rem), 0, null, 0);  // 4px
+    z-index: $z-index-between-alert-modal;
+    padding: 0.25rem 0; // 4px
+    margin: 0;
+    border: $element-border;
+    background-color: $element-bg-color;
+    max-height: 25rem; // 400px
+    color: $gray800;
+    outline: 0;
+    overflow: auto;
+    @include borderRadius(0.125rem); // 2px
+    @include boxShadow(0, 0, 0.125rem, 0, $element-shadow-color);
+    li {
+      padding: 0.5625rem 0; // 9px
+      margin: 0 0.3125rem; // 5px
+      text-indent: 0.6875rem; // 11px
+      align-items: center;
+      font-family: inherit;
+      font-size: $element-font-size;
+      font-weight: $element-font-weight;
+      line-height: $element-line-height;
+      @include ellipsis(flex);
+
+      &:hover {
+        background: $select-bg-color;
+      }
+
+      &[rel='hide'] {
+        display: none;
+      }
+    }
+    .selected {
+      color: $element-selected-font-color;
+
+      // 선택된 옵션에 표시되는 체크 아이콘
+      &:after {
+        @include absolute($right: 0.9375rem); // 15px
+        width: 10px;
+        height: 7px;
+        @include backgroundImage($icon-folder-path + 'icon_select_check.svg', auto, no-repeat, center, center, null);
+        content: '';
+      }
+    }
+  }
+}
+
+// slider
+.#{$common-prefix}slider {
+  min-height: 1.375rem; // 22px
+  .#{$common-prefix}range {
+    --range-fill-color: #{$slider-range-fill-color};
+    --range-location: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    width : 75%;
+    max-width: 15rem; // 240px
+    height: 0.375rem; // 6px
+    padding: 0;
+    @include borderRadius(0.25rem); // 4px
+    background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $slider-range-bg-color var(--range-location), $slider-range-bg-color 100%);
+    outline: 0;
+
+    &:disabled {
+      --range-fill-color: #{$slider-range-disabled-fill-color};
+      background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $slider-range-bg-color var(--range-location), $slider-range-bg-color 100%);
+    }
+
+    // Thumb (= round button)
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      @include thumb($slider-thumb-size, $slider-thumb-size, 0.0625rem solid $slider-thumb-border-color, 50%, $slider-thumb-bg-color); // 18px 18px
+      @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-shadow-color); // 2px
+      &:hover {
+        border-color: $slider-thumb-hover-border-color;
+        background-color: $slider-thumb-hover-bg-color;
+      }
+      &:focus {
+        border-color: $slider-thumb-focus-border-color;
+        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+      }
+      &:active {
+        border-color: $slider-thumb-active-border-color;
+        background-color: $slider-thumb-active-bg-color;
+      }
+      &:disabled {
+        border-color: $slider-thumb-disabled-border-color;
+        background-color: $slider-thumb-disabled-bg-color;
+      }
+    }
+
+    // firefox
+    &::-moz-range-thumb { // 동그라미
+      @include thumb($slider-thumb-size, $slider-thumb-size, 0.0625rem solid $slider-thumb-border-color, 50%, $slider-thumb-bg-color); // 18px 18px
+      @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-shadow-color); // 2px
+      &:hover {
+        border-color: $slider-thumb-hover-border-color;
+        background-color: $blue100;
+      }
+      &:focus {
+        border-color: $slider-thumb-focus-border-color;
+        @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-focus-border-color); // 2px
+      }
+      &:active {
+        border-color: $slider-thumb-active-border-color;
+        background-color: $slider-thumb-active-bg-color;
+      }
+      &:disabled {
+        border-color: $slider-thumb-disabled-border-color;
+        background-color: $slider-thumb-disabled-bg-color;
+      }
+    }
+  }
+  .#{$common-prefix}input {
+    width: 23%;
+    text-align: center;
+    margin-left: 2%;
+    &:read-only {
+      @include border($element-border-width, solid, $gray300, all);
+      @include borderRadius(0.125rem); // 2px
     }
   }
 }

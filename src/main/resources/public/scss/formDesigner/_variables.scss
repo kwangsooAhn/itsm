@@ -30,8 +30,46 @@ $layout-header-box-shadow:                         0 0 0.9375rem 0 rgba(204, 206
 // component palette
 $layout-component-palette-width:                   12.5rem; // 200px
 $layout-component-palette-bg-color:                $white;
-$layout-component-palette-border:                  0.0625rem solid map-get($grays, "line"); // 1px
-$layout-component-palette-box-shadow:              0.0625rem 0 0.4375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.15); // 1px 0px 7px 0px $pressed-gray, 불투명도 15%;
+$layout-component-palette-border-color:            $gray300;
+$layout-component-palette-border-width:            0.0625rem; // 1px
+$layout-component-palette-box-shadow-color:        $blue600;
+// component palette > accordion
+$layout-component-palette-accordion-height:        40px; // 40px
+$layout-component-palette-accordion-font-family:   $font-family-m;
+$layout-component-palette-accordion-font-size:     $font-size-s;
+$layout-component-palette-accordion-font-weight:   $font-weight-bold;
+$layout-component-palette-accordion-font-color:    $gray800;
+$layout-component-palette-accordion-icon-color:    $gray500; // 화살표 아이콘 색상
+// 컴포넌트 아이콘 > default
+$component-icon-width:                             6.188rem; // 99px
+$component-icon-height:                            4.6875rem; // 75px
+$component-icon-font-family:                       $font-family-s;
+$component-icon-font-size:                         $font-size-xs;
+$component-icon-font-weight:                       $font-weight-medium;
+$component-icon-font-color:                        $gray600;
+$component-icon-color:                             $gray500;
+$component-icon-bg-color:                          $white;
+// 컴포넌트 아이콘 > hover
+$component-icon-hover-color:                       $gray600;
+$component-icon-hover-bg-color:                    $blue100;
+// 컴포넌트 아이콘 > focus
+$component-icon-focus-border-color:                $blue600;
+$component-icon-focus-box-shadow-color:            $blue600;
+// 컴포넌트 아이콘 > active
+$component-icon-active-color:                      $blue700;
+$component-icon-active-bg-color:                   $blue100;
+$component-icon-active-border-color:               $blue400;
+// 컴포넌트 아이콘 > drag out (마우스에 따라다니는 item)
+$component-icon-drag-out-font-color:               $gray800;
+$component-icon-drag-out-color:                    $blue500;
+$component-icon-drag-out-bg-color:                 $white;
+$component-icon-drag-out-border-color:             $gray300;
+$component-icon-drag-out-box-shadow-color:         $gray300;
+$component-icon-placeholder-color:                 $gray400;
+$component-icon-placeholder-bg-color:              $neutral200;
+// 컴포넌트 아이콘 > drag item (폼 내부에 나타나는 item)
+$component-icon-drag-bg-color:                     $blue100;
+$component-icon-drag-border-color:                 $blue400;
 
 // properties header
 $layout-properties-panel-header-height:            2.5rem; // 40px
@@ -48,43 +86,12 @@ $layout-properties-panel-border:                   0.0625rem solid map-get($gray
 $layout-properties-panel-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.15);// -1px 15px 7px 0px $pressed-gray, 불투명도 15%;
 
 // main
-$layout-main-bg-color:                             map-get($grays, "light");
-
-// accordion
-$accordion-height:                                 3.125rem; // 50px
-$accordion-border-width:                           0.0625rem; // 1px
-$accordion-border-color:                           map-get($grays, "line");
-$accordion-border:                                 $accordion-border-width solid $accordion-border-color;
-$accordion-font-size:                              $font-size-s;
-$accordion-font-color:                             map-get($grays, "blue");
-$accordion-font-weight:                            $font-weight-medium;
-$component-icon-width:                             6.25rem; // 100px
-$component-icon-height:                            4.6875rem; // 75px
-$component-icon-hover-bg-color:                    rgba(235, 235, 235, 0.3);
-
-////////////////////////////////////// icon//////////////////////////////////////////////
-$icon-arrow-left:                                  $icon-folder-path + "icon_arrow_left.svg";
-
-$icon-component-color:                             map-get($form-grays, "icon");
-$icon-component-focus-color:                       map-get($form-grays, "focus");
-
-$icon-component-inputBox:                          $icon-folder-path + "form/context-menu/icon-inputbox.svg";
-$icon-component-textArea:                          $icon-folder-path + "form/context-menu/icon-textbox.svg";
-$icon-component-textEditor:                        $icon-folder-path + "form/context-menu/icon-textbox.svg";
-$icon-component-dropdown:                          $icon-folder-path + "form/context-menu/icon-dropdown.svg";
-$icon-component-radio:                             $icon-folder-path + "form/context-menu/icon-radio.svg";
-$icon-component-checkBox:                          $icon-folder-path + "form/context-menu/icon-checkbox.svg";
-$icon-component-date:                              $icon-folder-path + "form/context-menu/icon-date.svg";
-$icon-component-time:                              $icon-folder-path + "form/context-menu/icon-time.svg";
-$icon-component-dateTime:                          $icon-folder-path + "form/context-menu/icon-datetime.svg";
-$icon-component-fileUpload:                        $icon-folder-path + "form/context-menu/icon-fileupload.svg";
-$icon-component-customCode:                        $icon-folder-path + "form/context-menu/icon-custom-code.svg";
-$icon-component-dynamicRowTable:                   $icon-folder-path + "form/context-menu/icon-dynamic-row-table.svg";
-$icon-component-ci:                                $icon-folder-path + "form/context-menu/icon-ci.svg";
-
-$icon-component-label:                             $icon-folder-path + "form/context-menu/icon-label.svg";
-$icon-component-image:                             $icon-folder-path + "form/context-menu/icon-image.svg";
-$icon-component-divider:                           $icon-folder-path + "form/context-menu/icon-divider.svg";
+$layout-main-bg-color:                             $neutral50;
+// main - save info
+$layout-main-save-info-font-family:                $font-family-s;
+$layout-main-save-info-font-size:                  $font-size-xs;
+$layout-main-save-info-font-weight:                $font-weight-bold;
+$layout-main-save-info-font-color:                 $gray500;
 
 ///////////////////////////// common /////////////////////////
 $column-row:                                       12;  // 폼을 나누는 갯수
@@ -97,6 +104,7 @@ $form-box-shadow:                                  0 0 0.9375rem 0 hexToRGBA(map
 //////////////////////////// group ///////////////////////////
 $group-accordion-bg-color:                         map-get($grays, "light");
 $group-accordion-border-color:                     map-get($form-grays, "line");
+$group-accordion-icon-color:                       $gray500; // 화살표 아이콘 색상
 $group-selected-border-color:                      map-get($blues, "light");
 $group-selected-border-radius:                     0.125rem; // 2px
 $group-selected-bg-color:                          map-get($form-blues, "focus");
@@ -171,7 +179,8 @@ $tooltip-contents-box-shadow:                      0 0 0.3125rem 0 rgba(30, 47, 
 
 // clipboard tooltip
 // ID 복사하는 용도 > _tooltip.scss에 정의되어 있음
-$clipboard-tooltip-font-size:                      0.875rem; // 14px
+$clipboard-tooltip-font-family:                    $font-family-s;
+$clipboard-tooltip-font-size:                      $font-size-xs;
 $clipboard-tooltip-font-weight:                    $font-weight-regular;
 $clipboard-tooltip-font-color:                     $blue;
 $clipboard-tooltip-bg-color:                       $white;
@@ -211,52 +220,13 @@ $property-label-font-size:                         0.875rem; // 14px
 $color-picker-color-size:                          1.5rem; // 24px
 $color-picker-margin:                              0.3125rem; // 5px
 $color-picker-box-size:                            2.25rem; // 36px
-/////////// switch button 디자인 요소
-$btn-switch-font-size:                            0.875rem; // 14px
-$btn-switch-font-weight:                          $font-weight-medium;
-$btn-switch-font-color:                           map-get($blacks, "light");
-$btn-switch-bg-color:                             map-get($grays, "light");
-$btn-switch-border-color:                         map-get($grays, "line");
-$btn-switch-border-width:                         0.0625rem; // 1px
-$btn-switch-border:                               $btn-switch-border-width solid $btn-switch-border-color;
-$btn-switch-border-radius:                        0.1875rem; // 3px
 
-// hover 시 디자인 요소
-$btn-switch-hover-font-color:                     map-get($blacks, "light");
-$btn-switch-hover-bg-color:                       rgba(230, 230, 230, 0.3);
-$btn-switch-hover-border-color:                   map-get($grays, "line");
-
-// pressed 시 디자인 요소
-$btn-switch-pressed-font-color:                   $blue;
-$btn-switch-pressed-bg-color:                     $white;
-$btn-switch-pressed-border-color:                 $blue;
-
-// disabled 시 디자인 요소
-$btn-switch-disabled-font-color:                  map-get($blacks, "light");
-$btn-switch-disabled-bg-color:                    $white;
-$btn-switch-disabled-border-color:                map-get($grays, "line");
-
-/////////////// toggle button 디자인 요소
-$btn-toggle-font-size:                            0.875rem; // 14px
-$btn-toggle-font-color:                           map-get($blacks, "light");
-$btn-toggle-font-weight:                          $font-weight-medium;
-$btn-toggle-bg-color:                             $white;
-$btn-toggle-border-color:                         map-get($grays, "line");
-$btn-toggle-border-width:                         0.0625rem; // 1px
-$btn-toggle-border:                               $btn-toggle-border-width solid $btn-toggle-border-color;
-$btn-toggle-border-radius:                        0.1875rem; // 3px
-
-// hover 시 디자인 요소
-$btn-toggle-hover-font-color:                     map-get($blacks, "light");
-$btn-toggle-hover-bg-color:                       rgba(230, 230, 230, 0.3);
-$btn-toggle-hover-border-color:                   map-get($grays, "line");
-
-// pressed 시 디자인 요소
-$btn-toggle-pressed-font-color:                   $blue;
-$btn-toggle-pressed-bg-color:                     $white;
-$btn-toggle-pressed-border-color:                 $blue;
-
-// disabled 시 디자인 요소
-$btn-toggle-disabled-font-color:                  map-get($blacks, "light");
-$btn-toggle-disabled-bg-color:                    $white;
-$btn-toggle-disabled-border-color:                map-get($grays, "line");
+// 열 속성 > tab button
+$button-tab: (
+  'default': ('font': $white, 'background': $white, 'border': $gray300),
+  'hover': ('font' : $blue100, 'background': $blue100, 'border': $gray300 ),
+  'focus': ('font': $white, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+  'active': ('font': $blue200, 'background': $blue200, 'border': $blue400),
+  'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
+  'disabled': ('font': $neutral200, 'background': $neutral200, 'border': $neutral200)
+);

@@ -12,7 +12,8 @@
  * https://www.brainz.co.kr
  */
 import ZProperty from '../zProperty.js';
-import {UIButton, UIDiv, UISpan} from '../../../lib/zUI.js';
+import { UIButton, UIDiv, UISpan } from '../../../lib/zUI.js';
+import { CLASS_PREFIX } from '../../../lib/zConstants.js';
 
 const propertyExtends = {
     /* 슬라이드 속성 타입은 추가적인 설정이 없다. */
@@ -35,7 +36,7 @@ export default class ZToggleButtonProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // 버튼 그룹
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('btn-toggle-group');
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-toggle-group');
         const toggleValueArray = this.value.split('|');
         this.options.forEach((item, index) => {
             const name = item.value.substr(0, 1).toUpperCase() +
@@ -44,13 +45,12 @@ export default class ZToggleButtonProperty extends ZProperty {
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
                 .setUIId(this.key + name)
                 .setUIAttribute('data-value', (toggleValueArray[index] === 'Y'))
-                .addUIClass('btn-toggle')
-                .onUIClick(this.updateProperty.bind(this));
-            this.UIElement.UIButtonGroup['UIButton' + name]
-                .addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
+                .setUIClass(CLASS_PREFIX + 'button-toggle')
+                .onUIClick(this.updateProperty.bind(this))
+                .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass(item.name));
 
             if (toggleValueArray[index] === 'Y') {
-                this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('active');
+                this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('selected');
             }
             this.UIElement.UIButtonGroup.addUI(this.UIElement.UIButtonGroup['UIButton' + name]);
         });
@@ -63,11 +63,11 @@ export default class ZToggleButtonProperty extends ZProperty {
         e.stopPropagation();
         e.preventDefault();
         // bold, italic 등 toggle button
-        if (e.target.classList.contains('active')) {
-            e.target.classList.remove('active');
+        if (e.target.classList.contains('selected')) {
+            e.target.classList.remove('selected');
             e.target.setAttribute('data-value', false);
         } else {
-            e.target.classList.add('active');
+            e.target.classList.add('selected');
             e.target.setAttribute('data-value', true);
         }
         this.panel.update.call(this.panel, e.target.id, e.target.getAttribute('data-value') === 'true');

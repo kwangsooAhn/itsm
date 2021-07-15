@@ -1,5 +1,5 @@
 // 배경 이미지
-// @include backgroundImage($icon-folder-path + 'login/icon_login_google.svg', 1.188rem, no-repeat, 0.625rem, center, null);
+// @include backgroundImage($icon-folder-path + 'login/icon_google.svg', 1.188rem, no-repeat, 0.625rem, center, null);
 @mixin backgroundImage($path, $size, $repeat, $posX, $posY, $color) {
   background-image: url($path);
   background-size: if($size == null, auto, $size);
@@ -12,14 +12,10 @@
 }
 
 // 아이콘
-// @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-color);
-@mixin maskImage($path, $width, $height, $repeat, $pos, $size, $color) {
-  @if ($width != null) {
-    width: $width;
-  }
-  @if ($height != null) {
-    height: $height;
-  }
+// @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-color);
+@mixin maskImage($path, $width: 1.5rem, $height: 1.5rem, $repeat, $pos, $size: null, $color: null) {
+  width: $width;  // 기본값 24px
+  height: $height; // 기본값 24px
   -webkit-mask-image: url($path);
   mask-image: url($path);
   -webkit-mask-repeat: if($repeat == null, no-repeat, $repeat);
@@ -30,5 +26,7 @@
     -webkit-mask-size: $size;
     mask-size: $size;
   }
-  background: $color;
+  @if ($color != null) {
+    background: $color;
+  }
 }

@@ -1,214 +1,301 @@
 @import "../template/buttons";
 
 // header button
-.btn-header {
-  width: 3.75rem; // 60px
-  height: 3.125rem; // 50px
-  padding: 0;
-  border-radius: 0;
-
-  // 첫번째 버튼만 구분자를 가리기 위해 구분자 너비만큼 margin을 -1px 로 조정한다.
-  &:first-of-type {
-    margin-left: -0.063rem; // -1px
-  }
-
-  // mouse over and pressed
-  &:focus,
-  &:hover,
-  &:active {
-    background-color: #26A7FF; 
-  }
-
-  .icon-save {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/topmenu/icon_save.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white); // 20px 20px 
-  }
-  .icon-save-as {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/topmenu/icon_save_as.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
-  }
-  .icon-undo {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/topmenu/icon_undo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
-  }
-  .icon-redo {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/topmenu/icon_redo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
-  }
-  .icon-simulation {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/topmenu/icon_simulation.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
-  }
-  .icon-image-download {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/topmenu/icon_image_download.svg', 1.5rem, 1.25rem, no-repeat, center, null, $white);// 24px 20px 
+.#{$common-prefix}header-button {
+  padding: 0.5625rem 0.625rem; // 9px 10px
+  &.#{$common-prefix}button-icon {
+    .#{$common-prefix}icon {
+      &.i-save {
+        @include maskImage('#{$icon-folder-path}process/topmenu/icon_save.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+      }
+      &.i-save-as {
+        @include maskImage('#{$icon-folder-path}process/topmenu/icon_save_as.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+      &.i-undo {
+        @include maskImage('#{$icon-folder-path}process/topmenu/icon_undo.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+      &.i-redo {
+        @include maskImage('#{$icon-folder-path}process/topmenu/icon_redo.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+      &.i-simulation {
+        @include maskImage('#{$icon-folder-path}process/topmenu/icon_simulation.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+      &.i-image-download {
+        @include maskImage('#{$icon-folder-path}process/topmenu/icon_image_download.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+      &.i-dropdown {
+        @include maskImage('#{$icon-folder-path}process/topmenu/icon_dropdown.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      }
+    }
   }
 }
 
-// element palette
-.rectangle-menu {
-  width: 5.625rem; // 90px
-  height: 4.375rem; // 70px
+// element palette > element icon
+.#{$common-prefix}element-icon {
+  display: inline-block;
+  font-family: $element-icon-font-family;
+  font-size: $element-icon-font-size;
+  font-weight: $element-icon-font-weight;
+  width: $element-icon-width;
+  height: $element-icon-height;
   padding: 0;
   margin: 0.313rem 0.313rem 0 0.313rem; // 5px
-  border: 0.063rem solid map-get($grays, "line");
-  
-  .icon-text {
-    display: block;
-    font-size: 14px; // 14px
-    font-weight: $font-weight-regular;
-    color: map-get($blacks, "light");
+  color: map-get($element-icon, 'default', 'font');
+  background-color: map-get($element-icon, 'default', 'background');
+  @include border($element-icon-border-width, solid, map-get($element-icon, 'default', 'border'), all); // 1px
+  @include borderRadius($element-icon-border-radius);
+  @if map-get($element-icon, 'default', 'shadow') != null {
+    box-shadow: map-get($element-icon, 'default', 'shadow');
+  }
+  opacity: 1;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  overflow:visible;
+  cursor: pointer;
+
+  &:disabled,
+  &.disabled {
+    cursor: default;
   }
 
-  .icon-event {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/element-palette/icon_event.svg', 26px, 26px, no-repeat, center, null, $icon-rectangle-menu-color); // 26px 26px
+  .#{$common-prefix}element-icon-text {
+    display: block;
+    color: map-get($element-icon, 'default', 'font');
   }
-  .icon-task {
+
+  .#{$common-prefix}icon {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/element-palette/icon_task.svg', 24px, 24px, no-repeat, center, null, $icon-rectangle-menu-color); // 24px 24px
+    background: map-get($element-icon, 'default', 'icon');;
+    // 이벤트
+    &.i-event {
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_event.svg', 26px, 26px, no-repeat, center); // 26px 26px
+    }
+    // 테스트
+    &.i-task {
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_task.svg', 24px, 24px, no-repeat, center); // 24px 24px
+    }
+    // 서브프로세스
+    &.i-subprocess {
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_subprocess.svg', 24px, 24px, no-repeat, center); // 24px, 24px
+    }
+    // 게이트웨이
+    &.i-gateway {
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_gateway.svg', 30px, 30px, no-repeat, center); // 30px 30px
+    }
+    // 그룹
+    &.i-group {
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_group.svg', 24px, 24px, no-repeat, center); // 24px 24px
+    }
+    // 주석
+    &.i-annotation {
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_annotation.svg', 24px, 24px, no-repeat, center); // 24px 24px
+    }
+    // 연결선
+    &.i-connector {
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_connector.svg', 24px, 24px, no-repeat, center); // 24px 24px
+    }
+    // 배경이동
+    &.i-background {
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_background.svg', 24px, 24px, no-repeat, center); // 24px 24px
+    }
   }
-  .icon-subprocess {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/element-palette/icon_subprocess.svg', 24px, 24px, no-repeat, center, null, $icon-rectangle-menu-color); // 24px, 24px
+
+  &:focus {
+    outline: 0;
+    background-color: map-get($element-icon, 'focus', 'background');
+    border-color: map-get($element-icon, 'focus', 'border');
+    @if map-get($element-icon, 'focus', 'shadow') != null {
+      box-shadow: map-get($element-icon, 'focus', 'shadow');
+    }
+    .#{$common-prefix}element-icon-text {
+      color: map-get($element-icon, 'focus', 'font');
+    }
+
+    .#{$common-prefix}icon {
+      background: map-get($element-icon, 'focus', 'icon');
+    }
   }
-  .icon-gateway {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/element-palette/icon_gateway.svg', 30px, 30px, no-repeat, center, null, $icon-rectangle-menu-color); // 30px 30px
+
+  &:hover {
+    outline: 0;
+    background-color: map-get($element-icon, 'hover', 'background');
+    border-color: map-get($element-icon, 'hover', 'border');
+    @if map-get($element-icon, 'hover', 'shadow') != null {
+      box-shadow: map-get($element-icon, 'hover', 'shadow');
+    }
+    .#{$common-prefix}element-icon-text {
+      color: map-get($element-icon, 'hover', 'font');
+    }
+    .#{$common-prefix}icon {
+      background: map-get($element-icon, 'hover', 'icon');
+    }
   }
-  .icon-group {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/element-palette/icon_group.svg', 24px, 24px, no-repeat, center, null, $icon-rectangle-menu-color); // 24px 24px
+
+  &.active {
+    background-color: map-get($element-icon, 'drag', 'background');
+    border-color: map-get($element-icon, 'drag', 'border');
+    z-index: $z-index-event;
+    @if map-get($element-icon, 'drag', 'shadow') != null {
+      box-shadow: map-get($element-icon, 'drag', 'shadow');
+    }
+    .#{$common-prefix}element-icon-text {
+      color: map-get($element-icon, 'drag', 'font');
+      font-weight: $font-weight-bold;
+    }
+    .#{$common-prefix}icon {
+      background: map-get($element-icon, 'drag', 'icon');
+    }
   }
-  .icon-annotation {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/element-palette/icon_annotation.svg', 24px, 24px, no-repeat, center, null, $icon-rectangle-menu-color); // 24px 24px
+
+  &.placeholder {
+    background-color: map-get($element-icon, 'placeholder', 'background');
+    border-color: map-get($element-icon, 'placeholder', 'border');
+    @if map-get($element-icon, 'placeholder', 'shadow') != null {
+      box-shadow: map-get($element-icon, 'placeholder', 'shadow');
+    }
+    .#{$common-prefix}element-icon-text {
+      color: map-get($element-icon, 'placeholder', 'font');
+    }
+    .#{$common-prefix}icon {
+      background: map-get($element-icon, 'placeholder', 'icon');
+    }
   }
+
+  // 연결선, 배경이동
+  &.connector,
+  &.move-icon {
+    color: map-get($element-icon-toggle, 'default', 'font');
+    background-color: map-get($element-icon-toggle, 'default', 'background');
+    @include border($element-icon-border-width, solid, map-get($element-icon-toggle, 'default', 'border'), all);
+    @if map-get($element-icon-toggle, 'default', 'shadow') != null {
+      box-shadow: map-get($element-icon-toggle, 'default', 'shadow');
+    }
+    // 아이콘이 존재한다면
+    .#{$common-prefix}icon {
+      background: map-get($element-icon-toggle, 'default', 'font');
+    }
+    .#{$common-prefix}element-icon-text {
+      color: map-get($element-icon-toggle, 'default', 'font');
+    }
+
+    &:focus {
+      outline: 0;
+      color: map-get($element-icon-toggle, 'focus', 'font');
+      background-color: map-get($element-icon-toggle, 'focus', 'background');
+      border-color: map-get($element-icon-toggle, 'focus', 'border');
+      @if map-get($element-icon-toggle, 'focus', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'focus', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($element-icon-toggle, 'focus', 'font');
+      }
+      .#{$common-prefix}element-icon-text {
+        color: map-get($element-icon-toggle, 'focus', 'font');
+      }
+    }
+
+    &:hover {
+      outline: 0;
+      color: map-get($element-icon-toggle, 'hover', 'font');
+      background-color: map-get($element-icon-toggle, 'hover', 'background');
+      border-color: map-get($element-icon-toggle, 'hover', 'border');
+      @if map-get($element-icon-toggle, 'hover', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'hover', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($element-icon-toggle, 'hover', 'font');
+      }
+      .#{$common-prefix}element-icon-text {
+        color: map-get($element-icon-toggle, 'hover', 'font');
+      }
+    }
+
+    &:enabled:active,
+    &:enabled.active {
+      color: map-get($element-icon-toggle, 'active', 'font');
+      background-color: map-get($element-icon-toggle, 'active', 'background');
+      border-color: map-get($element-icon-toggle, 'active', 'border');
+      z-index: $z-index-event;
+      @if map-get($element-icon-toggle, 'active', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'active', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($element-icon-toggle, 'active', 'font');
+      }
+      .#{$common-prefix}element-icon-text {
+        color: map-get($element-icon-toggle, 'active', 'font');
+      }
+    }
+    // 선택된 경우
+    &.selected:not(:disabled),
+    &.selected:not(.disabled) {
+      color: map-get($element-icon-toggle, 'selected', 'font');
+      background-color: map-get($element-icon-toggle, 'selected', 'background');
+      border-color: map-get($element-icon-toggle, 'selected', 'border');
+      z-index: $z-index-event;
+      @if map-get($element-icon-toggle, 'selected', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'selected', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($element-icon-toggle, 'selected', 'font');
+      }
+      .#{$common-prefix}element-icon-text {
+        color: map-get($element-icon-toggle, 'selected', 'font');
+      }
+    }
+
+    &:disabled,
+    &.disabled {
+      color: map-get($element-icon-toggle, 'disabled', 'font');
+      background-color: map-get($element-icon-toggle, 'disabled', 'background');
+      border-color: map-get($element-icon-toggle, 'disabled', 'border');
+      cursor: default;
+      @if map-get($element-icon-toggle, 'disabled', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'disabled', 'shadow');
+      }
+      .#{$common-prefix}icon {
+        background: map-get($element-icon-toggle, 'disabled', 'font');
+      }
+      .#{$common-prefix}element-icon-text {
+        color: map-get($element-icon-toggle, 'disabled', 'font');
+      }
+    }
+  }
+
+
+
   // Connector 
   &.connector {
-    position: absolute;
-    bottom: 5rem; // 80px
-    background-color: map-get($grays, "light");
-
-    .icon-connector {
-      display: inline-block;
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_connector.svg', 24px, 24px, no-repeat, center, null, $gray); // 24px 24px 
-      // Connector 문구
-      + .icon-text { color: $gray; }
-    }
-    // 선택시
-    &.selected {
-      border-color: $blue;
-      background-color: $white;;
-      .icon { background: $blue;}
-      .icon-text { color: $blue; }
-    }
+    @include absolute($bottom: 5rem); // 80px
   }
   // Background
   &.move-icon {
-    position: absolute;
-    bottom: 0.313rem; // 5px
-    background-color: map-get($grays, "light");
+    @include absolute($bottom: 0.313rem); //  5px
+  }
+}
 
-    .icon-background {
-      display: inline-block;
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_background.svg', 24px, 24px, no-repeat, center, null, $gray); // 24px 24px 
-      // Background 문구
-      + .icon-text { color: $gray; }
-    }
-    // 선택시
-    &.selected {
-      border-color: $blue;
-      background-color: $white;;
-      .icon { background: $blue;}
-      .icon-text { color: $blue; }
+.#{$common-prefix}button-icon {
+  &.#{$common-prefix}button-minimap {
+    @include absolute($right: 0.625rem, $bottom: 0.625rem); // 10px 10px
+    .#{$common-prefix}icon {
+      &.i-minimap {
+        @include maskImage('#{$icon-folder-path}process/editor/icon_map.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+      }
     }
   }
-}
-
-// minimap button
-.btn-minimap {
-  position: absolute;
-  width: 2.5rem; // 40px
-  height: 2.5rem; // 40px
-  bottom: 0.625rem; // 10px
-  right: 0.625rem; // 10px
-  padding: 0;
-  // pressed
-  &.active {
-    border-color: $blue;
-    .icon-minimap { background: $blue; }
+  &.#{$common-prefix}button-simulation-report {
+    @include absolute($right: 0.625rem, $bottom: 3.438rem); // 10px 55px
+    .#{$common-prefix}icon {
+      &.i-simulation-report {
+        @include maskImage('#{$icon-folder-path}process/editor/icon_simulation_report.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+      }
+    }
   }
-
-  .icon-minimap {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/editor/icon_map.svg', 1.063rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 17px 20px
-  }
-}
-
-// simulation report button
-.btn-simulation-report {
-  position: absolute;
-  width: 2.5rem; // 40px
-  height: 2.5rem; // 40px
-  bottom: 3.438rem; // 55px
-  right: 0.625rem; // 10px
-  padding: 0;
-  // pressed
-  &.active {
-    border-color: $blue;
-    .icon-simulation-report { background: $blue; }
-  }
-
-  .icon-simulation-report {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/editor/icon_simulation_report.svg', 1.25rem, 1rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 16px
-    vertical-align: baseline; // TODO: 아이콘 위치가 다른 아이콘과 조금 다름
-  }
-}
-
-// clipboard tooltip button
-.btn-clipboard-tooltip {
-  width: 2.5rem; // 40px
-  height: 2.5rem; // 40px
-  padding: 0;
-
-  .icon-clipboard {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}process/editor/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
-  }
-}
-
-// candidate add button
-.btn-candidate-add {
-  width: 2.5rem; // 40px
-  height: 2.5rem; // 40px
-  padding: 0;
-  margin-left: 0.3125rem; // 5px
-
-  .icon-plus {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_plus.svg', 24px, 24px, no-repeat, center, 20px 20px, map-get($grays, "pressed"));
-  }
-}
-
-// 파일 추가 버튼
-.btn-file {
-  width: 2.5rem; // 40px
-  height: 2.5rem; // 40px
-  padding: 0;
-
-  .icon-search {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_search.svg', 18px, 18px, no-repeat, center, 18px 18px, $gray);
-  }
-}
-
-// 삭제 버튼
-.btn,
-button {
-  .icon-delete {
-    display: inline-block;
-    @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, map-get($grays, "pressed")); // 20px 20px
+  &.#{$common-prefix}button-candidate-add {
+    margin-left: 0.3125rem; // 5px
   }
 }

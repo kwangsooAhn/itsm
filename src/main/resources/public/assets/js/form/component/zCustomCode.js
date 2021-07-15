@@ -18,7 +18,7 @@ import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js
 import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
-import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/ZDefaultValueCustomCodeProperty.js';
+import ZDefaultValueCustomCodeProperty from '../../formDesigner/property/type/zDefaultValueCustomCodeProperty.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -67,9 +67,10 @@ export const customCodeMixin = {
             .onUIClick(aliceJs.clearText);
         element.UIButton = new UIButton()
             .setUIClass(CLASS_PREFIX + 'button-search')
-            .addUIClass('default-line')
+            .addUIClass(CLASS_PREFIX + 'button-icon')
+            .addUIClass('form')
             .onUIClick(this.openCustomCodePopup.bind(this))
-            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-search'));
+            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButtonClear).addUI(element.UIButton));
 

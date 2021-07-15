@@ -85,6 +85,13 @@
             }
             urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
             restSubmit('get', '/tokens?' + urlParam, isScroll);
+            document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
+                new zTag(tagInput, {
+                    suggestion: false,
+                    realtime: false,
+                    tagType: 'instance'
+                });
+            });
         }
 
         function restSubmit(method, url, isScroll) {
