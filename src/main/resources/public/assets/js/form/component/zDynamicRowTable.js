@@ -261,6 +261,7 @@ export const dynamicRowTableMixin = {
         let dateWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
         let date = new UIInput().setUIPlaceholder(i18n.dateFormat)
             .setUIClass('datepicker')
+            .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'date' + index)
             .setUIValue(this.getDefaultValueForDate(column, cellValue))
             .setUIAttribute('type', FORM.DATE_TYPE.DATE_PICKER)
