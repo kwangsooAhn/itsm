@@ -10,7 +10,7 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
-import co.brainz.framework.tag.repository.AliceTagRepository
+import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -56,7 +56,7 @@ class WfInstanceService(
     private val numberingRuleService: NumberingRuleService,
     private val aliceUserRepository: AliceUserRepository,
     private val wfFolderService: WfFolderService,
-    private val aliceTagRepository: AliceTagRepository,
+    private val aliceTagService: AliceTagService,
     private val userDetailsService: AliceUserDetailsService
 ) {
 
@@ -124,19 +124,6 @@ class WfInstanceService(
             tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
         }
 
-        // Tag
-        val instanceIds = mutableSetOf<String>()
-        val tagDataList = mutableListOf<AliceTagDto>()
-        queryResults.results.forEach { result -> instanceIds.add(result.instanceEntity.instanceId) }
-        if (instanceIds.isNotEmpty()) {
-            tagDataList.addAll(
-                aliceTagRepository.findByTargetIds(
-                    AliceTagConstants.TagType.INSTANCE.code,
-                    instanceIds
-                )
-            )
-        }
-
         for (instance in queryResults.results) {
             val topics = mutableListOf<String>()
             val topicComponentIds = mutableListOf<String>()
@@ -151,16 +138,15 @@ class WfInstanceService(
                 }
             }
 
-            val tags = mutableListOf<String>()
-            tagDataList.forEach { tagData ->
-                if (tagData.targetId == instance.instanceEntity.instanceId) {
-                    tags.add(tagData.tagValue)
-                }
-            }
-
             val avatarPath = instance.instanceEntity.instanceCreateUser?.let {
                 userDetailsService.makeAvatarPath(it)
             }
+
+            // Tag
+            val tagDataList = aliceTagService.getTagsByTargetId(
+                AliceTagConstants.TagType.INSTANCE.code,
+                instance.instanceEntity.instanceId
+            )
 
             tokens.add(
                 RestTemplateInstanceViewDto(
@@ -170,7 +156,7 @@ class WfInstanceService(
                     documentName = instance.documentEntity.documentName,
                     documentDesc = instance.documentEntity.documentDesc,
                     topics = topics,
-                    tags = tags,
+                    tags = tagDataList,
                     createDt = instance.instanceEntity.instanceStartDt,
                     assigneeUserKey = instance.tokenEntity.assigneeId,
                     assigneeUserName = "",
@@ -364,7 +350,7 @@ class WfInstanceService(
      * Get Instance Tags.
      */
     fun getInstanceTags(instanceId: String): List<AliceTagDto> {
-        return aliceTagRepository.findByTargetId(
+        return aliceTagService.getTagsByTargetId(
             AliceTagConstants.TagType.INSTANCE.code,
             instanceId
         )

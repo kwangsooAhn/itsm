@@ -143,7 +143,7 @@ class WfFormService(
                         type = componentEntity.componentType,
                         isTopic = componentEntity.isTopic,
                         mapId = componentEntity.mappingId,
-                        tags = aliceTagService.getTagValuesByTargetId(
+                        tags = aliceTagService.getTagsByTargetId(
                             AliceTagConstants.TagType.COMPONENT.code,
                             componentEntity.componentId
                         )
