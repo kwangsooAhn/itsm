@@ -269,7 +269,6 @@ export const dynamicRowTableMixin = {
         dateWrapper.addUI(date);
         zDateTimePicker.initDatePicker(date.domElement, this.updateDateTimeValue.bind(this));
         return dateWrapper;
-
     },
     getDefaultValueForDate (column, cellValue) {
         if (cellValue === '${default}') {
@@ -290,7 +289,7 @@ export const dynamicRowTableMixin = {
                     date = i18n.getDate(offset);
                     break;
                 case FORM.DATE_TYPE.DATE_PICKER:
-                    date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DAYS, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
                     break;
             }
             return date;
@@ -298,7 +297,6 @@ export const dynamicRowTableMixin = {
             return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DAYS, cellValue);
         }
     },
-
     // 테이블 row 삭제
     removeTableRow(targetTable, row) {
         const removeIndex = targetTable.getIndexUIRow(row);
@@ -326,7 +324,6 @@ export const dynamicRowTableMixin = {
                     break;
                 default:
                     break;
-
             }
         }
         return columns;
@@ -380,7 +377,6 @@ export const dynamicRowTableMixin = {
         const cellIndex = e.target.parentNode.cellIndex;
         newValue[rowIndex][cellIndex] = e.target.value;
         this.value = newValue;
-
     },
     updateDateTimeValue(e) {
         this.isBetweenMaxDateTimeAndMinDatetime(this._element.columns, e.parentNode.parentNode.parentNode.parentNode);
