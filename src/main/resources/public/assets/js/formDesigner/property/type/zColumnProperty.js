@@ -420,7 +420,7 @@ export default class ZColumnProperty extends ZProperty {
     }
     getPropertyForColumnTypeDate(option, id) {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty(id + '|columnElement.defaultValueRadio', 'element.defaultValueRadio',
-                option.columnElement.defaultValueRadio,
+            option.columnElement.defaultValueRadio,
             [
                 { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
                 { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },
