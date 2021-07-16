@@ -11,7 +11,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { FORM } from '../../../lib/zConstants.js';
+import { CLASS_PREFIX, FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UIInput, UILabel, UIRadioButton, UISpan } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
@@ -81,7 +81,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     radioGroup.UIInput = new UIInput((
                         aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DAYS,
                             defaultValueArray[0] === item.value ? defaultValueArray[1] : '')))
-                        .setUIClass('datepicker')
+                        .setUIClass(CLASS_PREFIX + 'input date-picker')
                         .addUIClass('picker')
                         .setUIId('dateProperty')
                         .setUIAttribute('name', this.key);
@@ -105,7 +105,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 case FORM.DATE_TYPE.TIME_PICKER:
                     radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.HOURS,
                         defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
-                        .setUIClass('datepicker')
+                        .setUIClass(CLASS_PREFIX + 'input time-picker')
                         .addUIClass('picker')
                         .setUIId('timeProperty')
                         .setUIAttribute('name', this.key);
@@ -133,7 +133,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 case FORM.DATE_TYPE.DATETIME_PICKER:
                     radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DATETIME,
                         defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
-                        .setUIClass('datepicker')
+                        .setUIClass(CLASS_PREFIX + 'input datetime-picker')
                         .addUIClass('picker')
                         .setUIId('timeProperty')
                         .setUIAttribute('name', this.key);

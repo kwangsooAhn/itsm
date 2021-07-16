@@ -10,7 +10,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { FORM } from '../../../lib/zConstants.js';
+import { CLASS_PREFIX, FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../../lib/zUI.js';
 import ZProperty from '../zProperty.js';
 
@@ -35,7 +35,7 @@ export default class ZDateTimePickerProperty extends ZProperty {
         // inputbox
         this.UIElement.UIInput = new UIInput(this.value)
             .setUIId(this.key)
-            .setUIClass('datepicker');
+            .setUIClass(CLASS_PREFIX + 'input date-picker');
 
         this.UIElement.addUI(this.UIElement.UIInput);
 

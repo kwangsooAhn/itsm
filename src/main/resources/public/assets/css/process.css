@@ -1398,21 +1398,21 @@ label {
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.z-input.search-date, .z-input.date {
+.z-input.search-date, .z-input.date-picker {
   background-image: url("../media/icons/icon_date_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.z-input.time {
+.z-input.time-picker {
   background-image: url("../media/icons/icon_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.z-input.datetime {
+.z-input.datetime-picker {
   background-image: url("../media/icons/icon_date_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;

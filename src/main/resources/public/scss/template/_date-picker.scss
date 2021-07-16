@@ -13,7 +13,7 @@
 .picker-modal {
   display: none;
   @include fixed();
-  min-width: 23.375rem; // 374px
+  min-width: 12.5rem; // 200px
   font-family: inherit;
   font-size: $datepicker-font-size;
   font-weight: $datepicker-font-weight;
@@ -36,13 +36,13 @@
     font-weight: $datepicker-title-font-weight;
     color: $datepicker-title-font-color;
     @include border($datepicker-border-width, solid, $datepicker-border-color, bottom);
-    padding: 1.125rem 0; // 17px 0
+    padding: 0.75rem 0; // 12px 0
 
-    .icon-close {
-      @include absolute($right: 1.25rem); // 20px
+    .z-icon-close {
+      @include absolute($top: 1rem, $right: 0.9375rem); // 16px 15px
       display: inline-block;
       cursor: pointer;
-      @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $datepicker-icon-color); // 14px 14px
+      @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $datepicker-icon-color); // 10px 10px
       // mouse over
       &:hover {
         background: $datepicker-hover-color;
@@ -67,7 +67,7 @@
     
     &-date {
       display: none;
-      width: 23.375rem; // 374px
+      width: 19rem; // 304px
 
       &.active {
         display: inline-block;
@@ -87,7 +87,7 @@
         .date-prev {
           display: table-cell;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 0.625rem, 1.563rem, no-repeat, center, null, map-get($grays, "dark")); // 너비 10px 높이 25px 아이콘 크기 10px 6px
+          @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 0.625rem, 1.563rem, no-repeat, center, null, $gray500); // 너비 10px 높이 25px 아이콘 크기 10px 6px
         }
 
         .date-text {
@@ -95,41 +95,59 @@
           width: 16.5rem; // 264px
           margin: 0;
           padding: 0;
+          font-weight: $datepicker-calendar-month-font-weight;
+          color: $datepicker-calendar-month-font-color;
           vertical-align: middle;
         }
 
         .date-next {
           display: table-cell;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 0.625rem, 1.563rem, no-repeat, center, null, map-get($grays, "dark")); // 너비 10px 높이 25px 아이콘 크기 10px 6px
+          @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 0.625rem, 1.563rem, no-repeat, center, null, $gray500); // 너비 10px 높이 25px 아이콘 크기 10px 6px
         }
       }
       // calendar
       &-calendar {
+        padding: 0.9375rem 0.9375rem 0 0.9375rem; // 15px 15px 0 15px
         color: $datepicker-cell-font-color; // 전월, 이월
-        padding: 0.625rem 1.5rem 0 1.5rem; // 10px 24px 0 24px
 
         .calendar-cell {
           display: inline-block;
-          width: 1.875rem; // 30px
-          height: 1.875rem; // 30px
-          line-height: 1.75rem; // 28px
+          width: 1.5rem; // 24px
+          height: 1.5rem; // 24px
+          line-height: 1.7;
           padding: 0;
           margin: 0.25rem 0.4375rem; // 4px 7px
           text-align: center;
 
-          &.calendar-title { pointer-events: none; }
+          &.calendar-title {
+            color: $datepicker-calendar-title-font-color;
+            pointer-events: none;
+          }
 
-          &:not(.calendar-title) { cursor: pointer; }
+          &:not(.calendar-title) {
+            @include border(0.0625rem, solid, $element-bg-color);
+            @include borderRadius(50%);
+            cursor: pointer;
+            &:hover {
+              border-color: $datepicker-hover-cell-color;
+              background-color: $datepicker-hover-cell-color;
+            }
+            &:active {
+              border-color: $datepicker-active-cell-color;
+              @include boxShadow(0, 0, 0.125rem, 0, $datepicker-active-cell-color);
+            }
+          }
 
           &.active { // 현재 월
             color: $datepicker-current-cell-font-color;
           }
 
           &.selected {
-            color: $datepicker-selected-cell-font-color;
-            background-color: $datepicker-selected-cell-bg-color;
+            @include border(0.0625rem, solid, $datepicker-selected-cell-color);
             @include borderRadius(50%);
+            color: $datepicker-selected-cell-color;
+            background-color: $datepicker-selected-cell-bg-color;
           }
         }
       }
@@ -137,9 +155,9 @@
 
     &-time {
       display: none;
-      width: 23.375rem; // 374px
+      width: 12.5rem; // 200px
+      height: 7.375rem; // 118px
       justify-content: center;
-      padding: 1.188rem 2.25rem; // 19px 36px
 
       &.active { display: flex; }
 
@@ -154,7 +172,7 @@
           display: inline-block;
           margin: 0;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_triangle_up.svg', 1.125rem, 0.625rem, no-repeat, center, null, $datepicker-icon-color); // 18px, 10px
+          @include maskImage('#{$icon-folder-path}icon_arrow_up.svg', 0.625rem, 0.375rem, no-repeat, center, null, $datepicker-icon-color); // 10px, 6px
 
           &:hover {
             background: $datepicker-hover-color;
@@ -165,7 +183,7 @@
           display: inline-block;
           margin: 0;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_triangle_down.svg', 1.125rem, 0.625rem, no-repeat, center, null, $datepicker-icon-color); // 18px, 10px
+          @include maskImage('#{$icon-folder-path}icon_arrow_bottom.svg', 0.625rem, 0.375rem, no-repeat, center, null, $datepicker-icon-color); // 10px, 6px
 
           &:hover {
             background: $datepicker-hover-color;
@@ -174,17 +192,23 @@
 
         .digit {
           width: 3.75rem !important; // 60px
-          height: 3.75rem; // 60px
+          height: 3.5rem; // 56px
+          @include border($datepicker-border-width, solid, $datepicker-border-color);
+          @include borderRadius(0.125rem);
+          padding: 0;
+          margin: 0.8125rem 0; // 13px
           font-size: $datepicker-time-font-size;
           font-weight: $datepicker-time-font-weight;
           color: $datepicker-time-font-color;
           text-align: center;
-          padding: 0;
-          margin: 2.1875rem 0; // 25px
+
+          &:hover {
+            border-color: $datepicker-hover-color;
+          }
 
           &:focus {
-            outline: none;
-            @include border($datepicker-focus-border-width, solid, $datepicker-focus-border-color, all);
+            border-color: $datepicker-focus-color;
+            @include boxShadow(0, 0, 0.125rem, 0, $datepicker-focus-color);
           }
         }
       }
@@ -204,7 +228,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 2.5rem; // 40px
+        width: 2rem; // 32px
         font-size: $datepicker-time-font-size;
         font-weight: $datepicker-time-font-weight;
         color: $datepicker-time-font-color;
@@ -214,6 +238,6 @@
   // 버튼 
   &-button {
     float: right;
-    margin: 1.25rem 1.25rem 1.25rem 0; // 20px 20px 20px 0
+    margin: 0.75rem 0.6875rem 0.75rem 0; // 12px 11px 12px 0
   }
 }

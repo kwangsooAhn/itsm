@@ -106,7 +106,7 @@
 
         // create title > close icon
         const spanClose = document.createElement('span');
-        spanClose.className = 'icon-close';
+        spanClose.className = 'z-icon-close';
         spanClose.addEventListener('click', this.close, false);
         pickerTitle.appendChild(spanClose);
 

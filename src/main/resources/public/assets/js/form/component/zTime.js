@@ -51,10 +51,11 @@ export const timeMixin = {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.timeFormat)
-            .setUIClass('datepicker')
+            .setUIClass(CLASS_PREFIX + 'input time-picker')
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())
+            .setUIAttribute('autocomplete', 'off')
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-maxtime', this.validationMaxTime)
             .setUIAttribute('data-validation-mintime', this.validationMinTime);

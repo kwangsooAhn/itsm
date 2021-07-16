@@ -514,15 +514,15 @@ label {
     @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
   }
 
-  &.search-date, &.date {
+  &.search-date, &.date-picker {
     @include backgroundImage($icon-folder-path + 'icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
   }
 
-  &.time {
+  &.time-picker {
     @include backgroundImage($icon-folder-path + 'icon_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
   }
 
-  &.datetime {
+  &.datetime-picker {
     @include backgroundImage($icon-folder-path + 'icon_date_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
   }
 

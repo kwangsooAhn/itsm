@@ -328,32 +328,41 @@ $datepicker-font-color:                      map-get($grays, 'dark');
 $datepicker-font-weight:                     $font-weight-regular;
 $datepicker-line-height:                     1.2;
 $datepicker-bg-color:                        $white;
-$datepicker-border-color:                    map-get($grays, 'line');
+$datepicker-border-color:                    $gray300;
 $datepicker-border-width:                    0.0625rem; // 1px
-$datepicker-hover-color:                     $blue;
-$datepicker-icon-color:                      map-get($grays, 'pressed');
+$datepicker-focus-color:                     $blue600;
+$datepicker-hover-color:                     $blue400;
+$datepicker-icon-color:                      $gray500;
 // focus
 $datepicker-focus-border-color:              $blue;
 $datepicker-focus-border-width:              0.0625rem; // 1px
 // title
-$datepicker-title-font-size:                 1.125rem; // 18px
-$datepicker-title-font-color:                map-get($blacks, 'light');
-$datepicker-title-font-weight:               $font-weight-medium;
+$datepicker-title-font-size:                 $font-size-xs;
+$datepicker-title-font-color:                $gray500;
+$datepicker-title-font-weight:               $font-weight-bold;
 // sub title
 $datepicker-sub-title-font-size:             $font-size-xs;
-$datepicker-sub-title-font-color:            map-get($grays, 'dark');
+$datepicker-sub-title-font-color:            $gray800;
 $datepicker-sub-title-font-weight:           $font-weight-regular;
-$datepicker-sub-title-bg-color:              map-get($grays, 'light');
+$datepicker-sub-title-bg-color:              $neutral50;
+// calendar
+$datepicker-calendar-month-font-weight:               $font-weight-medium;
+$datepicker-calendar-month-font-color:                $gray800;
+$datepicker-calendar-title-font-color:                $gray500;
 // cell
-$datepicker-cell-font-color:                 $gray;
+$datepicker-cell-font-color:                 $gray400;
 // current cell
 $datepicker-current-cell-font-color:         map-get($grays, 'dark');
+// hovered cell
+$datepicker-hover-cell-color:                $blue100;
+// active cell
+$datepicker-active-cell-color:               $blue600;
 // selected cell
-$datepicker-selected-cell-font-color:        $white;
-$datepicker-selected-cell-bg-color:          $blue;;
+$datepicker-selected-cell-color:             $blue500;
+$datepicker-selected-cell-bg-color:          $white;
 // time
-$datepicker-time-font-size:                  1.75rem; // 28px
-$datepicker-time-font-color:                 map-get($blacks, 'light');
+$datepicker-time-font-size:                  1.5rem; // 24px
+$datepicker-time-font-color:                 $gray800;
 $datepicker-time-font-weight:                $font-weight-medium;
 
 ///////////////////////////////// text editor /////////////////////////////////
