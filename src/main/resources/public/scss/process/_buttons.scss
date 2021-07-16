@@ -69,7 +69,7 @@
 
   .#{$common-prefix}icon {
     display: inline-block;
-    background: map-get($element-icon, 'default', 'icon');;
+    background: map-get($element-icon, 'default', 'icon');
     // 이벤트
     &.i-event {
       @include maskImage('#{$icon-folder-path}process/element-palette/icon_event.svg', 26px, 26px, no-repeat, center); // 26px 26px
@@ -134,7 +134,7 @@
       background: map-get($element-icon, 'hover', 'icon');
     }
   }
-
+  // html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
   &.active {
     background-color: map-get($element-icon, 'drag', 'background');
     border-color: map-get($element-icon, 'drag', 'border');
@@ -265,8 +265,6 @@
       }
     }
   }
-
-
 
   // Connector 
   &.connector {

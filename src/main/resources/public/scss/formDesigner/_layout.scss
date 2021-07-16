@@ -139,7 +139,7 @@
       @include transition(all 0.25s ease-out);
 
       .#{$common-prefix}component-icon-box {
-        position: relative;
+        @include relative();
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -152,10 +152,12 @@
           height: $component-icon-height;
           text-align: center;
           padding: 0.625rem 0; // 10px 0
-          background-color: $component-icon-bg-color;
-          @include border($layout-component-palette-border-width, solid, $layout-component-palette-border-color, all); // 1px
+          background-color: map-get($component-icon, 'default', 'background');
+          @include border($layout-component-palette-border-width, solid, map-get($component-icon, 'default', 'border'), all); // 1px
           border-top-color: transparent;
-          box-shadow: none;
+          @if map-get($component-icon, 'default', 'shadow') != null {
+            box-shadow: map-get($component-icon, 'default', 'shadow');
+          }
           cursor: move;
           outline: none;
           // 홀수
@@ -169,8 +171,9 @@
             border-left-color: transparent;
             border-right-color: transparent;
           }
+
           .#{$common-prefix}icon {
-            background: $component-icon-color;
+            background: map-get($component-icon, 'default', 'icon');
 
             &.i-inputBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_inputbox.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
             &.i-textArea { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_textarea.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
@@ -195,59 +198,83 @@
             font-family: $component-icon-font-family;
             font-size: $component-icon-font-size;
             font-weight: $component-icon-font-weight;
-            color: $component-icon-font-color;
+            color: map-get($component-icon, 'default', 'font');
             padding-top: 0.375rem; // 6px
           }
 
           &:hover {
-            background-color: $component-icon-hover-bg-color;
+            background-color: map-get($component-icon, 'hover', 'background');
+            @if map-get($component-icon, 'hover', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'hover', 'shadow');
+            }
             .#{$common-prefix}icon {
-              background: $component-icon-hover-color;
+              background: map-get($component-icon, 'hover', 'icon');
+            }
+            .#{$common-prefix}component-name {
+              color: map-get($component-icon, 'hover', 'font');
             }
           }
 
           &:focus {
-            border-color: $component-icon-focus-border-color;
+            background-color: map-get($component-icon, 'focus', 'background');;
+            border-color: map-get($component-icon, 'focus', 'border');
             z-index: $z-index-event;
-            @include boxShadow(0, 0, 0.125rem, 0, $component-icon-focus-box-shadow-color);
-          }
-          // 마우스 클릭시
-          &.#{$common-prefix}component-icon-drag-active {
-            border-color: $component-icon-active-border-color;
-            background-color: $component-icon-active-bg-color;
-            z-index: $z-index-event;
-            box-shadow: none;
+            @if map-get($component-icon, 'focus', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'focus', 'shadow');
+            }
             .#{$common-prefix}icon {
-              background: $component-icon-active-color;
+              background: map-get($component-icon, 'focus', 'icon');
+            }
+            .#{$common-prefix}component-name {
+              color: map-get($component-icon, 'focus', 'font');
+            }
+          }
+
+          // 사용되지 않음 : html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+          &.active {
+            border-color: map-get($component-icon, 'active', 'border');
+            background-color: map-get($component-icon, 'active', 'background');
+            z-index: $z-index-event;
+            @if map-get($component-icon, 'active', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'active', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              background: map-get($component-icon, 'active', 'icon');
             }
             .#{$common-prefix}component-name {
               font-weight: $font-weight-bold;
-              color: $component-icon-active-color;
+              color: map-get($component-icon, 'active', 'font');
             }
           }
+          // html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
           // 마우스 클릭시 drag 되는 item (마우스에 따라다니는 item)
-          &.#{$common-prefix}component-icon-drag-on {
-            border-color: $component-icon-drag-out-border-color;
-            background-color: $component-icon-drag-out-bg-color;
-            @include boxShadow(0, 0, 0.125rem, 0, $component-icon-drag-out-box-shadow-color); // 2px
+          &.drag {
+            border-color: map-get($component-icon, 'drag', 'border');
+            background-color: map-get($component-icon, 'drag', 'background');
+            @if map-get($component-icon, 'drag', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'drag', 'shadow');
+            }
             .#{$common-prefix}icon {
-              background: $component-icon-drag-out-color;
+              background: map-get($component-icon, 'drag', 'icon');
             }
             .#{$common-prefix}component-name {
               font-weight: $font-weight-bold;
-              color: $component-icon-drag-out-font-color;
+              color: map-get($component-icon, 'drag', 'font');
             }
           }
           // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
-          &.#{$common-prefix}component-icon-drag-placeholder {
-            border-color: $layout-component-palette-border-color;
-            background-color: $component-icon-placeholder-bg-color;
+          &.placeholder {
+            border-color: map-get($component-icon, 'placeholder', 'border');
+            background-color: map-get($component-icon, 'placeholder', 'background');
+            @if map-get($component-icon, 'placeholder', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'placeholder', 'shadow');
+            }
             .#{$common-prefix}icon {
-              background: $component-icon-placeholder-color;
+              background: map-get($component-icon, 'placeholder', 'icon');
             }
             .#{$common-prefix}component-name {
               font-weight: $component-icon-font-weight;
-              color: $component-icon-placeholder-color;
+              color: map-get($component-icon, 'placeholder', 'font');
             }
           }
         }

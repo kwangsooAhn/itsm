@@ -21,7 +21,6 @@ $element-icon-font-size:                           $font-size-xs;
 $element-icon-font-weight:                         $font-weight-medium;
 $element-icon-border-radius:                       0.125rem; // 2px
 $element-icon-border-width:                        0.0625rem; // 1px
-
 $element-icon: (
   'default': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $gray300),
   'hover': ('font' : $gray600, 'icon': $gray600,  'background': $blue100, 'border': $gray300),
@@ -39,7 +38,6 @@ $element-icon-toggle: (
   'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
   'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
 );
-
 
 // main > drawing-board
 $drawing-board-bg-color:                     map-get($grays, "light"); // 모눈종이 바탕색
