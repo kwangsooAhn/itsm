@@ -59,14 +59,11 @@
     }
   }
   &-component-palette {
-    position:fixed;
-    top: $layout-header-height;
-    left: 0;
-    bottom: 0;
+    @include fixed($layout-header-height, null, 0, 0);
     width: $layout-component-palette-width;
     background-color: $layout-component-palette-bg-color;
-    border-right: $layout-component-palette-border;
-    box-shadow: $layout-component-palette-box-shadow;
+    @include border($layout-component-palette-border-width, solid, $layout-component-palette-border-color, right); // 1px
+    @include boxShadow(0, 0, 0.125rem, 0, $layout-component-palette-box-shadow-color); // 2px
     overflow: hidden;
 
   }
@@ -78,9 +75,7 @@
     @include scrollbarHidden;
   }
   &-properties-panel-header {
-    position:fixed;
-    top: $layout-header-height;
-    right: 0;
+    @include fixed($top: $layout-header-height, $right: 0);
     width: $layout-properties-panel-width;
     height: $layout-properties-panel-header-height;
     font-size: $layout-properties-panel-header-font-size;
@@ -111,34 +106,40 @@
   }
 }
 // 아코디언
-.component-accordion-box {
-  .component-accordion {
+.#{$common-prefix}component-accordion-box {
+  .#{$common-prefix}component-accordion {
     width: 100%;
     input[type=radio] {
-      position: absolute;
+      @include absolute();
       opacity: 0;
       z-index: $z-index-hidden;
     }
-    .accordion-label {
-      height: $accordion-height;
-      border-bottom: $accordion-border;
-      padding: 0 0.625rem; // 0 10px
-      font-size: $accordion-font-size;
-      color: $accordion-font-color;
-      font-weight: $accordion-font-weight;
+    .#{$common-prefix}accordion-label {
+      height: $layout-component-palette-accordion-height;
+      font-family: $layout-component-palette-accordion-font-family;
+      font-size: $layout-component-palette-accordion-font-size;
+      font-weight: $layout-component-palette-accordion-font-weight;
+      color: $layout-component-palette-accordion-font-color;
+      @include border($layout-component-palette-border-width, solid, $layout-component-palette-border-color, bottom); // 1px
+      padding: 0 12px; // 0 12px
       cursor:pointer;
-      .arrow-left {
-        @include maskImage($icon-arrow-left, 0.75rem, 1.25rem, no-repeat, center, null, map-get($grays, "blue")); // 12px 20px
+
+      .#{$common-prefix}icon {
+        &.i-arrow-right {
+          @include rotate(180);
+          @include transformOrigin(50% 50%);
+          background: $layout-component-palette-accordion-icon-color;
+        }
       }
     }
-    .accordion-content {
+    .#{$common-prefix}accordion-content {
       height: 0;
-      border-bottom: $accordion-border;
-      border-bottom-color: transparent;
+      @include border(0.0625rem, solid, transparent, bottom); // 1px
       overflow: hidden;
-      transition: all 0.25s ease-out;
+      @include transition(all 0.25s ease-out);
 
-      .component-icon-box {
+      .#{$common-prefix}component-icon-box {
+        @include relative();
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -146,74 +147,150 @@
         padding: 0;
         margin: 0;
 
-        .component-icon {
+        .#{$common-prefix}component-icon {
           width: $component-icon-width; // 124px
           height: $component-icon-height;
           text-align: center;
-          border: $accordion-border;
           padding: 0.625rem 0; // 10px 0
-          margin-top: -0.0625rem; // -1px
-          margin-right: -0.0625rem; // -1px
+          background-color: map-get($component-icon, 'default', 'background');
+          @include border($layout-component-palette-border-width, solid, map-get($component-icon, 'default', 'border'), all); // 1px
+          border-top-color: transparent;
+          @if map-get($component-icon, 'default', 'shadow') != null {
+            box-shadow: map-get($component-icon, 'default', 'shadow');
+          }
           cursor: move;
+          outline: none;
           // 홀수
-          //&:nth-child(odd) {
-          //  border-right: $accordion-border;
-          //  border-bottom: $accordion-border;
-          //}
+          &:nth-child(odd) {
+            @include absolute($top: calc(var(--data-row, 0) * #{$component-icon-height}), $left: 0.0625rem); // 1px
+            border-left-color: transparent;
+          }
           // 짝수
           &:nth-child(even) {
-            flex: 1 1 auto;
-          }
-          &:hover {
-            background-color: $component-icon-hover-bg-color;
-            > .icon { background: $icon-component-focus-color; }
-            > .component-name { color: $icon-component-focus-color; }
+            @include absolute($top: calc(var(--data-row, 0) * #{$component-icon-height}), $right: 0);
+            border-left-color: transparent;
+            border-right-color: transparent;
           }
 
-          .icon {
-            display: inline-block;
-          }
-          .icon-inputBox { @include maskImage($icon-component-inputBox, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-textArea { @include maskImage($icon-component-textArea, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-textEditor { @include maskImage($icon-component-textEditor, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-dropdown { @include maskImage($icon-component-dropdown, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-radio { @include maskImage($icon-component-radio, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-checkBox { @include maskImage($icon-component-checkBox, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-label { @include maskImage($icon-component-label, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-date { @include maskImage($icon-component-date, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-time { @include maskImage($icon-component-time, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-dateTime { @include maskImage($icon-component-dateTime, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-fileUpload { @include maskImage($icon-component-fileUpload, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-customCode { @include maskImage($icon-component-customCode, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-dynamicRowTable { @include maskImage($icon-component-dynamicRowTable, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-ci { @include maskImage($icon-component-ci, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-label { @include maskImage($icon-component-label, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-image { @include maskImage($icon-component-image, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
-          .icon-divider { @include maskImage($icon-component-divider, 2rem, 2rem, no-repeat, center, 2rem 2rem, $icon-component-color); } // 32px 32px
+          .#{$common-prefix}icon {
+            background: map-get($component-icon, 'default', 'icon');
 
-          .component-name {
+            &.i-inputBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_inputbox.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-textArea { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_textarea.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-textEditor { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_text_editor.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-dropdown { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dropdown.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-radio { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_radio.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-checkBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_checkbox.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-date { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_date.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-time { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_time.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-dateTime { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_datetime.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-fileUpload { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_fileupload.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-customCode { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_custom_code.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-dynamicRowTable { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dynamic_row_table.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-ci { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_ci.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-label { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_label.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-image { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_image.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+            &.i-divider { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_divider.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+          }
+
+          .#{$common-prefix}component-name {
             display: block;
+            font-family: $component-icon-font-family;
+            font-size: $component-icon-font-size;
+            font-weight: $component-icon-font-weight;
+            color: map-get($component-icon, 'default', 'font');
             padding-top: 0.375rem; // 6px
-            color: $gray;
-            font-size: 0.875rem; // 14px
           }
-          // drag & drop
-          &.drag-on {
-            .icon { background: $blue; }
-            .component-name { color: map-get($grays, "dark"); }
+
+          &:hover {
+            background-color: map-get($component-icon, 'hover', 'background');
+            @if map-get($component-icon, 'hover', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'hover', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              background: map-get($component-icon, 'hover', 'icon');
+            }
+            .#{$common-prefix}component-name {
+              color: map-get($component-icon, 'hover', 'font');
+            }
+          }
+
+          &:focus {
+            background-color: map-get($component-icon, 'focus', 'background');;
+            border-color: map-get($component-icon, 'focus', 'border');
+            z-index: $z-index-event;
+            @if map-get($component-icon, 'focus', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'focus', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              background: map-get($component-icon, 'focus', 'icon');
+            }
+            .#{$common-prefix}component-name {
+              color: map-get($component-icon, 'focus', 'font');
+            }
+          }
+
+          // 사용되지 않음 : html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+          &.active {
+            border-color: map-get($component-icon, 'active', 'border');
+            background-color: map-get($component-icon, 'active', 'background');
+            z-index: $z-index-event;
+            @if map-get($component-icon, 'active', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'active', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              background: map-get($component-icon, 'active', 'icon');
+            }
+            .#{$common-prefix}component-name {
+              font-weight: $font-weight-bold;
+              color: map-get($component-icon, 'active', 'font');
+            }
+          }
+          // html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+          // 마우스 클릭시 drag 되는 item (마우스에 따라다니는 item)
+          &.drag {
+            border-color: map-get($component-icon, 'drag', 'border');
+            background-color: map-get($component-icon, 'drag', 'background');
+            @if map-get($component-icon, 'drag', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'drag', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              background: map-get($component-icon, 'drag', 'icon');
+            }
+            .#{$common-prefix}component-name {
+              font-weight: $font-weight-bold;
+              color: map-get($component-icon, 'drag', 'font');
+            }
+          }
+          // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
+          &.placeholder {
+            border-color: map-get($component-icon, 'placeholder', 'border');
+            background-color: map-get($component-icon, 'placeholder', 'background');
+            @if map-get($component-icon, 'placeholder', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'placeholder', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              background: map-get($component-icon, 'placeholder', 'icon');
+            }
+            .#{$common-prefix}component-name {
+              font-weight: $component-icon-font-weight;
+              color: map-get($component-icon, 'placeholder', 'font');
+            }
           }
         }
       }
     }
     input[type=radio]:checked {
-      + .accordion-label {
-        .arrow-left {
-          transform: rotate(-90deg);
+      + .#{$common-prefix}accordion-label {
+        .#{$common-prefix}icon {
+          &.i-arrow-right {
+            @include rotate(90);
+          }
         }
       }
-      ~ .accordion-content {
-        height: calc(100vh - (#{$accordion-height} * 4) - #{$layout-header-height});
-        border-bottom-color: $accordion-border-color;
+      ~ .#{$common-prefix}accordion-content {
+        height: calc(100vh - (#{$layout-component-palette-accordion-height} * 4) - #{$layout-header-height});
+        border-bottom-color: $layout-component-palette-border-color;
         overflow-y: auto;
         @include scrollbarHidden;
       }
@@ -222,23 +299,24 @@
 }
 
 // drawing board
-.drawing-board {
-  .drag-ghost {
+.#{$common-prefix}drawing-board {
+  .#{$common-prefix}drag-ghost {
     opacity: 0.5;
   }
-  .drag-in {
-    background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
-    border: 0.0625rem dashed map-get($blues, "light"); // 1px
+  .#{$common-prefix}component-drag-in {
+    background-color: $component-icon-drag-bg-color;
+    @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
   }
-  // drag & drop
-  .component-icon-drag-in {
+  // drag & drop (폼 내부에 나타나는 item)
+  .#{$common-prefix}component-icon-drag-in {
     display: inline-block;
     width: 100%;
     height: 7.875rem; // 126px
-    background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
-    border: 0.0625rem dashed map-get($blues, "light"); // 1px
-    .icon { opacity: 0; }
-    .component-name { opacity: 0; }
+    background-color: $component-icon-drag-bg-color;
+    @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
+
+    .#{$common-prefix}icon { opacity: 0; }
+    .#{$common-prefix}component-name { opacity: 0; }
   }
 
   // 문서 상태에 따라 편집을 막음
@@ -246,24 +324,13 @@
     .#{$common-prefix}group-label { pointer-events: none; }
   }
 }
-.vertical {
-  display: block;
-  margin-top: 0.625rem;
-  &:first-of-type {
-    margin-top: 0;
-  }
-}
 
-.horizontal {
-  display: inline-block;
-  margin-right: 0.625rem;
-}
-
-.save-info {
+// 저장 정보
+.#{$common-prefix}save-info {
   height: 2.188rem; //35px
+  font-family: $layout-main-save-info-font-family;
+  font-size: $layout-main-save-info-font-size;
+  font-weight: $layout-main-save-info-font-weight;
+  color: $layout-main-save-info-font-color;
   margin-top: 1.5625rem; // 25px
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  color: $element-font-color;
-  text-align: center;
 }

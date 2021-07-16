@@ -101,12 +101,12 @@ export const dynamicRowTableMixin = {
         return this._element.columnWidth;
     },
     set elementColumns(columns) {
-        this._element.columns = columns;
+        this._element.columns = this.changeDateTimeFormat(columns, FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT);
         this.UIElement.UIComponent.UIElement.UITable.clearUIRow().clearUI();
         this.makeTable(this.UIElement.UIComponent.UIElement.UITable);
     },
     get elementColumns() {
-        return this._element.columns;
+        return this.changeDateTimeFormat(this._element.columns, FORM.DATE_TYPE.FORMAT.USERFORMAT);
     },
     set validation(validation) {
         this._validation = validation;
@@ -183,7 +183,7 @@ export const dynamicRowTableMixin = {
         }
         // value가 문자일 경우 배열로 변환
         if (zValidation.isEmpty(this._value)) { this.value = []; }
-        
+
         // row 추가
         const row = new UIRow(targetTable).setUIClass(CLASS_PREFIX + 'dr-table-row');
         // td 추가
@@ -200,7 +200,7 @@ export const dynamicRowTableMixin = {
 
             const td = new UICell(row)
                 .setUICSSText(tdCssText)
-                .addUI(this.getElementByColumnType(column, columnData[index]));
+                .addUI(this.getElementByColumnType(column, columnData[index], index));
             row.addUICell(td);
         });
         // 데이터 추가
@@ -221,12 +221,14 @@ export const dynamicRowTableMixin = {
         targetTable.addUIRow(row);
     },
     // column Type 에 따른 cell 반환
-    getElementByColumnType(column, cellValue) {
+    getElementByColumnType(column, cellValue, index) {
         switch (column.columnType) {
             case 'input':
                 return this.getInputBoxForColumn(column, cellValue);
             case 'dropdown':
                 return this.getDropDownForColumn(column, cellValue);
+            case 'date':
+                return this.getDateForColumn(column, cellValue, index);
             default:
                 return new UISpan().setUIInnerHTML(cellValue);
         }
@@ -257,7 +259,48 @@ export const dynamicRowTableMixin = {
         return new UISelect()
             .setUIOptions(column.columnElement.options)
             .setUIValue(selectOptionValue)
-            .onUIChange(this.updateProperty.bind(this));
+            .onUIChange(this.updateValue.bind(this));
+    },
+    getDateForColumn(column, cellValue, index) {
+        let dateWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
+        let date = new UIInput().setUIPlaceholder(i18n.dateFormat)
+            .setUIClass('datepicker')
+            .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
+            .setUIAttribute('name', 'date' + index)
+            .setUIValue(this.getDefaultValueForDate(column, cellValue))
+            .setUIAttribute('type', FORM.DATE_TYPE.DATE_PICKER)
+            .setUIAttribute('data-validation-max-date', this._element.columns[index].columnValidation.maxDate)
+            .setUIAttribute('data-validation-min-date', this._element.columns[index].columnValidation.minDate);
+        dateWrapper.addUI(date);
+        zDateTimePicker.initDatePicker(date.domElement, this.updateDateTimeValue.bind(this));
+        return dateWrapper;
+    },
+    getDefaultValueForDate (column, cellValue) {
+        if (cellValue === '${default}') {
+            // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
+            const defaultValueArray = column.columnElement.defaultValueRadio.split('|');
+            let date = '';
+            switch (defaultValueArray[0]) {
+                case FORM.DATE_TYPE.NONE:
+                    break;
+                case FORM.DATE_TYPE.NOW:
+                    date = i18n.getDate();
+                    break;
+                case FORM.DATE_TYPE.DAYS:
+                    const offset = {
+                        days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
+                            0 : Number(defaultValueArray[1])
+                    };
+                    date = i18n.getDate(offset);
+                    break;
+                case FORM.DATE_TYPE.DATE_PICKER:
+                    date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    break;
+            }
+            return date;
+        } else {
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DAYS, cellValue);
+        }
     },
     // 테이블 row 삭제
     removeTableRow(targetTable, row) {
@@ -273,12 +316,53 @@ export const dynamicRowTableMixin = {
             this.setEmptyTable(targetTable);
         }
     },
+    changeDateTimeFormat(columns, format) {
+        for (let i = 0; i < columns.length; i++) {
+            switch (columns[i].columnType) {
+                case FORM.DATE_TYPE.DAYS:
+                    columns[i].columnValidation.minDate = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.minDate);
+                    columns[i].columnValidation.maxDate = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.maxDate);
+                    break;
+                case FORM.DATE_TYPE.HOURS:
+                    break;
+                case FORM.DATE_TYPE.DATETIME:
+                    break;
+                default:
+                    break;
+            }
+        }
+        return columns;
+    },
+    isBetweenMaxDateTimeAndMinDatetime(target) {  // 최소 날짜 ,최대 날짜 유효성 검증
+        let isValidationPass = true;
+
+        switch (target.getAttribute('type').replace('Picker', '')) {
+            case FORM.DATE_TYPE.DAYS:
+                if (!zValidation.isEmpty(target.getAttribute('data-validation-min-date'))) {
+                    isValidationPass = i18n.compareSystemDate(target.getAttribute('data-validation-min-date'), target.value);
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterDate', target.getAttribute('data-validation-min-date')));
+
+                }
+                if (isValidationPass && !zValidation.isEmpty(target.getAttribute('data-validation-max-date'))) {
+                    isValidationPass = i18n.compareSystemDate(target.value, target.getAttribute('data-validation-max-date'));
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeDate', target.getAttribute('data-validation-max-date')));
+                }
+                break;
+            case FORM.DATE_TYPE.HOURS:
+                break;
+            case FORM.DATE_TYPE.DATETIME:
+                break;
+            default:
+                break;
+
+        }
+        return isValidationPass;
+    },
     // 신청서, 처리할문서에서 row에 값 변경시 이벤트 핸들러
     updateValue(e) {
+        // input, dropdown, date, time, datetime, customCode 등 여러 타입의 값을 처리
         e.stopPropagation();
         e.preventDefault();
-        // input, dropdown, date, time, datetime, customCode 등 여러 타입의 값을 처리
-
         // enter, tab 입력시
         if (e.type === 'keyup' && (e.keyCode === 13 || e.keyCode === 9)) {
             return false;
@@ -296,6 +380,18 @@ export const dynamicRowTableMixin = {
         const rowIndex = e.target.parentNode.parentNode.rowIndex - 1; // 헤더 제외
         const cellIndex = e.target.parentNode.cellIndex;
         newValue[rowIndex][cellIndex] = e.target.value;
+
+        this.value = newValue;
+    },
+    updateDateTimeValue(e) {
+        if (!this.isBetweenMaxDateTimeAndMinDatetime(e)) {
+            return false;
+        }
+
+        const newValue = JSON.parse(JSON.stringify(this.value));
+        const rowIndex = e.parentNode.parentNode.parentNode.parentNode.rowIndex - 1; // 헤더 제외
+        const cellIndex = e.parentNode.parentNode.parentNode.cellIndex;
+        newValue[rowIndex][cellIndex] = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, e.type, e.value);
 
         this.value = newValue;
     },

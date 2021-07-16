@@ -61,7 +61,9 @@
 
   &-content {
     display: flex;
+    flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
     @include border($datepicker-border-width, solid, $datepicker-border-color, bottom);
     padding: 1rem 0 1rem 0; // 16px 0 16px 0
     
@@ -108,6 +110,9 @@
       }
       // calendar
       &-calendar {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         padding: 0.9375rem 0.9375rem 0 0.9375rem; // 15px 15px 0 15px
         color: $datepicker-cell-font-color; // 전월, 이월
 

@@ -16,6 +16,7 @@
 					</div>
 				</div>
 				<div class="main flex-column">
+					<th:block th:replace="layout/topMenu">topMenu</th:block>
 					<th:block layout:fragment="content"></th:block>
 				</div>
 				<th:block layout:fragment="aside"></th:block>

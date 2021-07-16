@@ -426,7 +426,7 @@ export class UIGroup extends UIDiv {
 
         this.UILabel = new UILabel().setUIClass(CLASS_PREFIX + 'group-label');
         this.UILabel.UILabelText = new UISpan().setUIClass(CLASS_PREFIX + 'group-label-text');
-        this.UILabel.UIIcon = new UISpan().setUIClass(CLASS_PREFIX + 'group-label-icon arrow-left');
+        this.UILabel.UIIcon = new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-arrow-right');
         this.UILabel.addUI(this.UILabel.UILabelText).addUI(this.UILabel.UIIcon);
         this.addUI(this.UILabel);
     }

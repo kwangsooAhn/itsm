@@ -37,17 +37,6 @@ class AliceTagService(
     }
 
     /**
-     * Get tag value list by target ID.
-     */
-    fun getTagValuesByTargetId(tagType: String, targetId: String): List<String> {
-        val tagStringArray: MutableList<String> = mutableListOf()
-        aliceTagRepository.findByTargetId(tagType, targetId).forEach { tag ->
-            tagStringArray.add(tag.tagValue)
-        }
-        return tagStringArray
-    }
-
-    /**
      * Get Tags by target ID.
      */
     fun getTagsByTargetId(tagType: String, targetId: String): List<AliceTagDto> {

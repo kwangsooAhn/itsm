@@ -6,6 +6,7 @@ common:
     check: "확인"
     close: "닫기"
     delete: "삭제"
+    editUserInfo: "회원 정보 수정"
     list: "목록"
     logout: "로그아웃"
     modify: "수정"

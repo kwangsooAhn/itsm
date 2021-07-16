@@ -30,8 +30,33 @@ $layout-header-box-shadow:                         0 0 0.9375rem 0 rgba(204, 206
 // component palette
 $layout-component-palette-width:                   12.5rem; // 200px
 $layout-component-palette-bg-color:                $white;
-$layout-component-palette-border:                  0.0625rem solid map-get($grays, "line"); // 1px
-$layout-component-palette-box-shadow:              0.0625rem 0 0.4375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.15); // 1px 0px 7px 0px $pressed-gray, 불투명도 15%;
+$layout-component-palette-border-color:            $gray300;
+$layout-component-palette-border-width:            0.0625rem; // 1px
+$layout-component-palette-box-shadow-color:        $blue600;
+// component palette > accordion
+$layout-component-palette-accordion-height:        40px; // 40px
+$layout-component-palette-accordion-font-family:   $font-family-m;
+$layout-component-palette-accordion-font-size:     $font-size-s;
+$layout-component-palette-accordion-font-weight:   $font-weight-bold;
+$layout-component-palette-accordion-font-color:    $gray800;
+$layout-component-palette-accordion-icon-color:    $gray500; // 화살표 아이콘 색상
+// 컴포넌트 아이콘 > default
+$component-icon-width:                             6.188rem; // 99px
+$component-icon-height:                            4.6875rem; // 75px
+$component-icon-font-family:                       $font-family-s;
+$component-icon-font-size:                         $font-size-xs;
+$component-icon-font-weight:                       $font-weight-medium;
+$component-icon: (
+  'default': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $gray300),
+  'hover': ('font' : $gray600, 'icon': $gray600,  'background': $blue100, 'border': $gray300),
+  'focus': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+  'active': ('font': $blue700, 'icon': $blue700, 'background': $blue100, 'border': $blue400),
+  'drag': ('font': $gray800, 'icon': $blue500, 'background': $white, 'border': $gray300, 'shadow': 0 0 0.125rem $gray300),
+  'placeholder': ('font': $gray400, 'icon': $gray400, 'background': $neutral200, 'border': $gray300)
+);
+// 컴포넌트 아이콘 > drag item (폼 내부에 나타나는 item)
+$component-icon-drag-bg-color:                     $blue100;
+$component-icon-drag-border-color:                 $blue400;
 
 // properties header
 $layout-properties-panel-header-height:            2.5rem; // 40px
@@ -48,43 +73,12 @@ $layout-properties-panel-border:                   0.0625rem solid map-get($gray
 $layout-properties-panel-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.15);// -1px 15px 7px 0px $pressed-gray, 불투명도 15%;
 
 // main
-$layout-main-bg-color:                             map-get($grays, "light");
-
-// accordion
-$accordion-height:                                 3.125rem; // 50px
-$accordion-border-width:                           0.0625rem; // 1px
-$accordion-border-color:                           map-get($grays, "line");
-$accordion-border:                                 $accordion-border-width solid $accordion-border-color;
-$accordion-font-size:                              $font-size-s;
-$accordion-font-color:                             map-get($grays, "blue");
-$accordion-font-weight:                            $font-weight-medium;
-$component-icon-width:                             6.25rem; // 100px
-$component-icon-height:                            4.6875rem; // 75px
-$component-icon-hover-bg-color:                    rgba(235, 235, 235, 0.3);
-
-////////////////////////////////////// icon//////////////////////////////////////////////
-$icon-arrow-left:                                  $icon-folder-path + "icon_arrow_left.svg";
-
-$icon-component-color:                             map-get($form-grays, "icon");
-$icon-component-focus-color:                       map-get($form-grays, "focus");
-
-$icon-component-inputBox:                          $icon-folder-path + "form/context-menu/icon-inputbox.svg";
-$icon-component-textArea:                          $icon-folder-path + "form/context-menu/icon-textbox.svg";
-$icon-component-textEditor:                        $icon-folder-path + "form/context-menu/icon-textbox.svg";
-$icon-component-dropdown:                          $icon-folder-path + "form/context-menu/icon-dropdown.svg";
-$icon-component-radio:                             $icon-folder-path + "form/context-menu/icon-radio.svg";
-$icon-component-checkBox:                          $icon-folder-path + "form/context-menu/icon-checkbox.svg";
-$icon-component-date:                              $icon-folder-path + "form/context-menu/icon-date.svg";
-$icon-component-time:                              $icon-folder-path + "form/context-menu/icon-time.svg";
-$icon-component-dateTime:                          $icon-folder-path + "form/context-menu/icon-datetime.svg";
-$icon-component-fileUpload:                        $icon-folder-path + "form/context-menu/icon-fileupload.svg";
-$icon-component-customCode:                        $icon-folder-path + "form/context-menu/icon-custom-code.svg";
-$icon-component-dynamicRowTable:                   $icon-folder-path + "form/context-menu/icon-dynamic-row-table.svg";
-$icon-component-ci:                                $icon-folder-path + "form/context-menu/icon-ci.svg";
-
-$icon-component-label:                             $icon-folder-path + "form/context-menu/icon-label.svg";
-$icon-component-image:                             $icon-folder-path + "form/context-menu/icon-image.svg";
-$icon-component-divider:                           $icon-folder-path + "form/context-menu/icon-divider.svg";
+$layout-main-bg-color:                             $neutral50;
+// main - save info
+$layout-main-save-info-font-family:                $font-family-s;
+$layout-main-save-info-font-size:                  $font-size-xs;
+$layout-main-save-info-font-weight:                $font-weight-bold;
+$layout-main-save-info-font-color:                 $gray500;
 
 ///////////////////////////// common /////////////////////////
 $column-row:                                       12;  // 폼을 나누는 갯수
@@ -97,6 +91,7 @@ $form-box-shadow:                                  0 0 0.9375rem 0 hexToRGBA(map
 //////////////////////////// group ///////////////////////////
 $group-accordion-bg-color:                         map-get($grays, "light");
 $group-accordion-border-color:                     map-get($form-grays, "line");
+$group-accordion-icon-color:                       $gray500; // 화살표 아이콘 색상
 $group-selected-border-color:                      map-get($blues, "light");
 $group-selected-border-radius:                     0.125rem; // 2px
 $group-selected-bg-color:                          map-get($form-blues, "focus");

@@ -12,7 +12,7 @@
 }
 
 // 아이콘
-// @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-color);
+// @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-color);
 @mixin maskImage($path, $width: 1.5rem, $height: 1.5rem, $repeat, $pos, $size: null, $color: null) {
   width: $width;  // 기본값 24px
   height: $height; // 기본값 24px
