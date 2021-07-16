@@ -16,18 +16,6 @@
             </div>
             <div id="notification-panel" class="z-notification-panel"></div>
         </div>
-        <div class="z-user-info flex-row align-items-center">
-            <a class="flex-row" th:href="@{/users/{userKey}/editself(userKey=${#authentication.details.userKey})}">
-                <img class="z-user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
-                <span class="z-user-name text-ellipsis" sec:authentication="details.userName"></span>
-            </a>
-        </div>
-        <div class="z-logout">
-            <a class="z-btn-logout flex-row" href="javascript:logout()">
-                <span class="z-icon-logout"></span>
-                <span th:text="#{common.btn.logout}"></span>
-            </a>
-        </div>
     </div>
 </div>
 <div>
