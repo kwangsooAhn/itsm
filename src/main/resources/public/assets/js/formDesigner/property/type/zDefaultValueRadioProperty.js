@@ -45,7 +45,8 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
 
         this.options.forEach((item) => {
             const radioGroup = new UIDiv().setUIClass('radio-property-group').addUIClass('vertical');
-            const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
+            const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length) +
+                ZWorkflowUtil.generateUUID();
             // 라벨
             radioGroup.UILabel = new UILabel().setUIClass('radio').setUIFor('radioProperty' + radioId);
             radioGroup.addUI(radioGroup.UILabel);

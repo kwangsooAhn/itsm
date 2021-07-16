@@ -4735,7 +4735,9 @@ table[id=documentDisplay] td {
 }
 .picker-modal-content {
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
   border-bottom: 0.0625rem solid #EBEBEB;
   padding: 1.25rem 0 0.9375rem 0;
 }
@@ -4791,6 +4793,9 @@ table[id=documentDisplay] td {
   background: #586872;
 }
 .picker-modal-content-date-calendar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   color: #ACB4BF;
   padding: 0.625rem 1.5rem 0 1.5rem;
 }
