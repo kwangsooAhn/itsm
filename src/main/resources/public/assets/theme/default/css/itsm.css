@@ -3535,7 +3535,7 @@ table[id=documentDisplay] td {
 .z-top .z-icon-notification {
   height: 1.5rem;
 }
-.z-top .z-icon-notification.z-active .z-notification-round {
+.z-top .z-icon-notification.active .notification-round {
   fill: #339AF0;
 }
 .z-top .z-icon-notification:hover {
@@ -3575,31 +3575,22 @@ table[id=documentDisplay] td {
   -moz-border-radius: 50%;
   vertical-align: middle;
 }
-.z-top .z-user-info .i-menu-arrow {
+.z-top .z-user-info .z-icon.i-arrow-right {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.z-top .z-user-info .z-icon.i-arrow-right {
   margin-left: auto;
   float: right;
-}
-.z-top .z-user-info .i-menu-arrow-top {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/icon_menu_arrow_top.svg");
-  mask-image: url("../media/icons/icon_menu_arrow_top.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #8B9094;
-}
-.z-top .z-user-info .i-menu-arrow-bottom {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/icon_menu_arrow_bottom.svg");
-  mask-image: url("../media/icons/icon_menu_arrow_bottom.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #8B9094;
+  background-color: #8B9094;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 .z-top .z-user-info:hover {
   outline: 0;
@@ -3615,15 +3606,22 @@ table[id=documentDisplay] td {
   background-color: #FFFFFF;
   border-color: #CFD5D9;
 }
-.z-top .z-user-info:active .i-menu-arrow-top, .z-top .z-user-info:active .i-menu-arrow-bottom {
+.z-top .z-user-info:active .i-arrow-right {
   background-color: #222529;
 }
-.z-top .z-user-info.z-active {
+.z-top .z-user-info.active {
   background-color: #FFFFFF;
   border-color: #CFD5D9;
 }
-.z-top .z-user-info.z-active + .z-dropdown-content {
+.z-top .z-user-info.active + .z-dropdown-content {
   visibility: visible;
+}
+.z-top .z-user-info.active .i-arrow-right {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
 .z-top .z-dropdown-content {
   visibility: hidden;

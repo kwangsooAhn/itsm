@@ -4,14 +4,14 @@
     <body>
         <div class="z-top">
             <div class="flex-row justify-content-end">
-                <span class="z-icon-notification z-active">
+                <span class="z-icon-notification active">
                     <img class="load-svg" th:src="@{/assets/theme/{theme}/media/icons/gnb/icon_gnb_notification.svg(theme=${#authentication.details.theme})}" width="24" height="24">
                 </span>
                 <span class="z-divide">|</span>
                 <button class="z-user z-user-info flex-row align-items-center" tabindex="0">
                     <img class="z-user z-user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
                     <span class="z-user z-user-name text-ellipsis" sec:authentication="details.userName"></span>
-                    <span class="z-user z-icon i-menu-arrow-bottom"></span>
+                    <span class="z-user z-icon i-arrow-right"></span>
                 </button>
                 <ul class="z-dropdown-content">
                     <li class="z-dropdown-item" tabindex="-1">
@@ -30,18 +30,15 @@
             const userInfo = document.querySelector('.z-user-info');
             document.querySelector('.z-user-info').addEventListener('click', function (e) {
                 e.preventDefault();
-                if (this.classList.contains('z-active')) {
-                    this.classList.remove('z-active');
-                    this.querySelector('.i-menu-arrow-top').className = 'i-menu-arrow-bottom';
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
                 } else {
-                    this.classList.add('z-active');
-                    this.querySelector('.i-menu-arrow-bottom').className = 'i-menu-arrow-top';
+                    this.classList.add('active');
                 }
             });
             document.addEventListener('click', function (e) {
                 if (e.target != null && !e.target.classList.contains('z-user')) {
-                    userInfo.classList.remove('z-active');
-                    userInfo.querySelector('.i-menu-arrow-top').className = 'i-menu-arrow-bottom';
+                    userInfo.classList.remove('active');
                 }
             })
         });
