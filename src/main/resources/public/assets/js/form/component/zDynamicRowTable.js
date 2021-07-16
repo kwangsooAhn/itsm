@@ -329,36 +329,30 @@ export const dynamicRowTableMixin = {
         }
         return columns;
     },
-    isBetweenMaxDateTimeAndMinDatetime(columns, target) {  // 최소 날짜 ,최대 날짜 유효성 검증
+    isBetweenMaxDateTimeAndMinDatetime(target) {  // 최소 날짜 ,최대 날짜 유효성 검증
         let isValidationPass = true;
-        let validationResultList = []; // isValidationPass 값들이 여기 배열에 쌓임 -> 1건이라도 false가 나오면 false로 리턴
-        for (let i = 0; i < columns.length; i++) {
-            switch (columns[i].columnType) {
-                case FORM.DATE_TYPE.DAYS:
-                    target.querySelectorAll('input[name= date' + i + ']').forEach((elem) => {
-                        if (!zValidation.isEmpty(elem.value)) {
-                            if (!zValidation.isEmpty(columns[i].columnValidation.minDate)) {
-                                isValidationPass = i18n.compareSystemDate(this._element.columns[i].columnValidation.minDate, elem.value);
-                                zValidation.setDOMElementError(isValidationPass, elem, i18n.msg('common.msg.selectAfterDate', this._element.columns[i].columnValidation.minDate));
-                                validationResultList.push(isValidationPass);
-                            }
-                            if (!zValidation.isEmpty(columns[i].columnValidation.maxDate)) {
-                                isValidationPass = i18n.compareSystemDate(elem.value, this._element.columns[i].columnValidation.maxDate);
-                                zValidation.setDOMElementError(isValidationPass, elem, i18n.msg('common.msg.selectBeforeDate', this._element.columns[i].columnValidation.maxDate));
-                                validationResultList.push(isValidationPass);
-                            }
-                        }
-                    })
-                    break;
-                case FORM.DATE_TYPE.HOURS:
-                    break;
-                case FORM.DATE_TYPE.DATETIME:
-                    break;
-                default:
-                    break;
-            }
+
+        switch (target.getAttribute('type').replace('Picker', '')) {
+            case FORM.DATE_TYPE.DAYS:
+                if (!zValidation.isEmpty(target.getAttribute('data-validation-min-date'))) {
+                    isValidationPass = i18n.compareSystemDate(target.getAttribute('data-validation-min-date'), target.value);
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterDate', target.getAttribute('data-validation-min-date')));
+
+                }
+                if (isValidationPass && !zValidation.isEmpty(target.getAttribute('data-validation-max-date'))) {
+                    isValidationPass = i18n.compareSystemDate(target.value, target.getAttribute('data-validation-max-date'));
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeDate', target.getAttribute('data-validation-max-date')));
+                }
+                break;
+            case FORM.DATE_TYPE.HOURS:
+                break;
+            case FORM.DATE_TYPE.DATETIME:
+                break;
+            default:
+                break;
+
         }
-        return validationResultList.indexOf(false) === -1 ? true : false;
+        return isValidationPass;
     },
     // 신청서, 처리할문서에서 row에 값 변경시 이벤트 핸들러
     updateValue(e) {
@@ -386,8 +380,7 @@ export const dynamicRowTableMixin = {
         this.value = newValue;
     },
     updateDateTimeValue(e) {
-        let drTable = e.parentNode.parentNode.parentNode.parentNode.parentNode; // DR 테이블 전체 범위
-        if (!this.isBetweenMaxDateTimeAndMinDatetime(this._element.columns, drTable)) { //DR 테이블 전체범위의 날짜 유효성 체크를 한다.
+        if (!this.isBetweenMaxDateTimeAndMinDatetime(e)) {
             return false;
         }
 
