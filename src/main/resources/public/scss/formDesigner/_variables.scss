@@ -46,27 +46,14 @@ $component-icon-height:                            4.6875rem; // 75px
 $component-icon-font-family:                       $font-family-s;
 $component-icon-font-size:                         $font-size-xs;
 $component-icon-font-weight:                       $font-weight-medium;
-$component-icon-font-color:                        $gray600;
-$component-icon-color:                             $gray500;
-$component-icon-bg-color:                          $white;
-// 컴포넌트 아이콘 > hover
-$component-icon-hover-color:                       $gray600;
-$component-icon-hover-bg-color:                    $blue100;
-// 컴포넌트 아이콘 > focus
-$component-icon-focus-border-color:                $blue600;
-$component-icon-focus-box-shadow-color:            $blue600;
-// 컴포넌트 아이콘 > active
-$component-icon-active-color:                      $blue700;
-$component-icon-active-bg-color:                   $blue100;
-$component-icon-active-border-color:               $blue400;
-// 컴포넌트 아이콘 > drag out (마우스에 따라다니는 item)
-$component-icon-drag-out-font-color:               $gray800;
-$component-icon-drag-out-color:                    $blue500;
-$component-icon-drag-out-bg-color:                 $white;
-$component-icon-drag-out-border-color:             $gray300;
-$component-icon-drag-out-box-shadow-color:         $gray300;
-$component-icon-placeholder-color:                 $gray400;
-$component-icon-placeholder-bg-color:              $neutral200;
+$component-icon: (
+  'default': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $gray300),
+  'hover': ('font' : $gray600, 'icon': $gray600,  'background': $blue100, 'border': $gray300),
+  'focus': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+  'active': ('font': $blue700, 'icon': $blue700, 'background': $blue100, 'border': $blue400),
+  'drag': ('font': $gray800, 'icon': $blue500, 'background': $white, 'border': $gray300, 'shadow': 0 0 0.125rem $gray300),
+  'placeholder': ('font': $gray400, 'icon': $gray400, 'background': $neutral200, 'border': $gray300)
+);
 // 컴포넌트 아이콘 > drag item (폼 내부에 나타나는 item)
 $component-icon-drag-bg-color:                     $blue100;
 $component-icon-drag-border-color:                 $blue400;

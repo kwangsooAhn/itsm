@@ -99,8 +99,8 @@ class ZFormDesigner {
                 },
                 animation: 150,
                 sort: false,
-                ghostClass: CLASS_PREFIX + 'component-icon-drag-placeholder', // Class name for the drop placeholder
-                chosenClass: CLASS_PREFIX + 'component-icon-drag-on', // Class name for the chosen item
+                ghostClass: 'placeholder', // Class name for the drop placeholder
+                chosenClass: 'drag', // Class name for the chosen item
                 editor: this,
                 draggable: '.list-group-item',
                 fallbackOnBody: true,
@@ -111,7 +111,7 @@ class ZFormDesigner {
                 },
                 onClone: function (evt) {
                     // drag & drop시 디자인 추가
-                    evt.clone.classList.add(CLASS_PREFIX + 'component-icon-drag-placeholder');
+                    evt.clone.classList.add('placeholder');
                 },
                 onMove: function (evt) {
                     if (evt.from !== evt.to && evt.dragged.classList.contains(CLASS_PREFIX + 'component-icon')) {
@@ -166,8 +166,8 @@ class ZFormDesigner {
                     }
                     
                     // drag & drop시 추가된 디자인 제거
-                    if (zValidation.isDefined(evt.clone) && evt.clone.classList.contains(CLASS_PREFIX + 'component-icon-drag-placeholder')) {
-                        evt.clone.classList.remove(CLASS_PREFIX + 'component-icon-drag-placeholder');
+                    if (zValidation.isDefined(evt.clone) && evt.clone.classList.contains('placeholder')) {
+                        evt.clone.classList.remove('placeholder');
                     }
                     // 기존 fake element 삭제
                     evt.to.removeChild(evt.item);
