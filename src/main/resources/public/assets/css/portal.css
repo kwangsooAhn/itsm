@@ -1728,6 +1728,48 @@ label {
   mask-position: center;
   background: #8B9094;
 }
+.z-input.search {
+  background-image: url("../media/icons/icon_search.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.search-date, .z-input.date-picker {
+  background-image: url("../media/icons/icon_date_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.time-picker {
+  background-image: url("../media/icons/icon_time_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.datetime-picker {
+  background-image: url("../media/icons/icon_date_time_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.px {
+  background-image: url("../media/icons/icon_px.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.mb {
+  background-image: url("../media/icons/icon_mb.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
 .z-input-button {
   position: relative;
   height: 2.25rem;
@@ -4084,14 +4126,14 @@ table tbody tr:hover {
 .picker-modal {
   display: none;
   position: fixed;
-  min-width: 23.375rem;
+  min-width: 12.5rem;
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
   background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
@@ -4106,36 +4148,37 @@ table tbody tr:hover {
   z-index: 1000;
 }
 .picker-modal-title {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #3F4B56;
-  border-bottom: 0.0625rem solid #EBEBEB;
-  padding: 1.125rem 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #8B9094;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding: 0.75rem 0;
 }
-.picker-modal-title .icon-close {
+.picker-modal-title .z-icon-close {
   position: absolute;
-  right: 1.25rem;
+  top: 1rem;
+  right: 0.9375rem;
   display: inline-block;
   cursor: pointer;
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 0.625rem;
+  height: 0.625rem;
   -webkit-mask-image: url("../media/icons/icon_clear.svg");
   mask-image: url("../media/icons/icon_clear.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #8B9094;
 }
-.picker-modal-title .icon-close:hover {
-  background: #0098FF;
+.picker-modal-title .z-icon-close:hover {
+  background: #64BBF6;
 }
 .picker-modal-sub-title {
   font-size: 0.875rem;
   font-weight: 400;
-  color: #586872;
-  background-color: #F7F8F9;
-  border-bottom: 0.0625rem solid #EBEBEB;
+  color: #222529;
+  background-color: #FAFAFA;
+  border-bottom: 0.0625rem solid #CFD5D9;
   padding: 0.625rem 0;
 }
 .picker-modal-content {
@@ -4143,18 +4186,18 @@ table tbody tr:hover {
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
-  border-bottom: 0.0625rem solid #EBEBEB;
-  padding: 1.25rem 0 0.9375rem 0;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding: 1rem 0 1rem 0;
 }
 .picker-modal-content-date {
   display: none;
-  width: 23.375rem;
+  width: 19rem;
 }
 .picker-modal-content-date.active {
   display: inline-block;
 }
 .picker-modal-content-date.active + div.active {
-  border-left: 0.0625rem solid #EBEBEB;
+  border-left: 0.0625rem solid #CFD5D9;
 }
 .picker-modal-content-date-months {
   display: table;
@@ -4175,13 +4218,15 @@ table tbody tr:hover {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #586872;
+  background: #8B9094;
 }
 .picker-modal-content-date-months .date-text {
   display: table-cell;
   width: 16.5rem;
   margin: 0;
   padding: 0;
+  font-weight: 500;
+  color: #222529;
   vertical-align: middle;
 }
 .picker-modal-content-date-months .date-next {
@@ -4195,45 +4240,61 @@ table tbody tr:hover {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #586872;
+  background: #8B9094;
 }
 .picker-modal-content-date-calendar {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  color: #ACB4BF;
-  padding: 0.625rem 1.5rem 0 1.5rem;
+  padding: 0.9375rem 0.9375rem 0 0.9375rem;
+  color: #ABB0B5;
 }
 .picker-modal-content-date-calendar .calendar-cell {
   display: inline-block;
-  width: 1.875rem;
-  height: 1.875rem;
-  line-height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.7;
   padding: 0;
   margin: 0.25rem 0.4375rem;
   text-align: center;
 }
 .picker-modal-content-date-calendar .calendar-cell.calendar-title {
+  color: #8B9094;
   pointer-events: none;
 }
 .picker-modal-content-date-calendar .calendar-cell:not(.calendar-title) {
+  border: 0.0625rem solid #FFFFFF;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
   cursor: pointer;
+}
+.picker-modal-content-date-calendar .calendar-cell:not(.calendar-title):hover {
+  border-color: #E3F5FC;
+  background-color: #E3F5FC;
+}
+.picker-modal-content-date-calendar .calendar-cell:not(.calendar-title):active {
+  border-color: #2578CE;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
 }
 .picker-modal-content-date-calendar .calendar-cell.active {
   color: #586872;
 }
 .picker-modal-content-date-calendar .calendar-cell.selected {
-  color: #FFFFFF;
-  background-color: #0098FF;
+  border: 0.0625rem solid #339AF0;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
+  color: #339AF0;
+  background-color: #FFFFFF;
 }
 .picker-modal-content-time {
   display: none;
-  width: 23.375rem;
+  width: 12.5rem;
+  height: 7.375rem;
   justify-content: center;
-  padding: 1.188rem 2.25rem;
 }
 .picker-modal-content-time.active {
   display: flex;
@@ -4250,54 +4311,64 @@ table tbody tr:hover {
   display: inline-block;
   margin: 0;
   cursor: pointer;
-  width: 1.125rem;
-  height: 0.625rem;
-  -webkit-mask-image: url("../media/icons/icon_triangle_up.svg");
-  mask-image: url("../media/icons/icon_triangle_up.svg");
+  width: 0.625rem;
+  height: 0.375rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_up.svg");
+  mask-image: url("../media/icons/icon_arrow_up.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #8B9094;
 }
 .picker-modal-content-time .hour-group .arrow-up:hover,
 .picker-modal-content-time .minute-group .arrow-up:hover {
-  background: #0098FF;
+  background: #64BBF6;
 }
 .picker-modal-content-time .hour-group .arrow-down,
 .picker-modal-content-time .minute-group .arrow-down {
   display: inline-block;
   margin: 0;
   cursor: pointer;
-  width: 1.125rem;
-  height: 0.625rem;
-  -webkit-mask-image: url("../media/icons/icon_triangle_down.svg");
-  mask-image: url("../media/icons/icon_triangle_down.svg");
+  width: 0.625rem;
+  height: 0.375rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_bottom.svg");
+  mask-image: url("../media/icons/icon_arrow_bottom.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #8B9094;
 }
 .picker-modal-content-time .hour-group .arrow-down:hover,
 .picker-modal-content-time .minute-group .arrow-down:hover {
-  background: #0098FF;
+  background: #64BBF6;
 }
 .picker-modal-content-time .hour-group .digit,
 .picker-modal-content-time .minute-group .digit {
   width: 3.75rem !important;
-  height: 3.75rem;
-  font-size: 1.75rem;
-  font-weight: 500;
-  color: #3F4B56;
-  text-align: center;
+  height: 3.5rem;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
   padding: 0;
-  margin: 2.1875rem 0;
+  margin: 0.8125rem 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #222529;
+  text-align: center;
+}
+.picker-modal-content-time .hour-group .digit:hover,
+.picker-modal-content-time .minute-group .digit:hover {
+  border-color: #64BBF6;
 }
 .picker-modal-content-time .hour-group .digit:focus,
 .picker-modal-content-time .minute-group .digit:focus {
-  outline: none;
-  border: 0.0625rem solid #0098FF;
+  border-color: #2578CE;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
 }
 .picker-modal-content-time .btn-vertical {
   padding-left: 0.625rem;
@@ -4314,14 +4385,14 @@ table tbody tr:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 2.5rem;
-  font-size: 1.75rem;
+  width: 2rem;
+  font-size: 1.5rem;
   font-weight: 500;
-  color: #3F4B56;
+  color: #222529;
 }
 .picker-modal-button {
   float: right;
-  margin: 1.25rem 1.25rem 1.25rem 0;
+  margin: 0.75rem 0.6875rem 0.75rem 0;
 }
 
 /* _tooltip.scss 
