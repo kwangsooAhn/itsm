@@ -71,7 +71,7 @@
         &.active {
             background-color: $top-menu-user-selected-bg-color;
             border-color: $top-menu-user-selected-border-color;
-            + .z-dropdown-content {
+            + .#{$common-prefix}dropdown-content {
                 visibility: visible;
             }
             .i-arrow-right {
