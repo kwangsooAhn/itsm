@@ -17,13 +17,16 @@ $form-blues: (
 
 //////////////////////////// layout ////////////////////////////
 // header
-$layout-header-height:                             3.125rem; // 50px
+$layout-header-height:                             2.875rem; // 46px
 $layout-header-padding:                            0.75rem; // 12px
-$layout-header-font-size:                          $font-size-s * 1.125; // 18px
+$layout-header-font-family:                        $font-family-m;
+$layout-header-font-size:                          $font-size-m;
 $layout-header-font-color:                         $white;
 $layout-header-font-weight:                        $font-weight-medium;
-$layout-header-bg-color:                           $blue;
-$layout-header-dropdown-bg-color:                  white;
+$layout-header-bg-color:                           $blue500;
+
+
+$layout-header-dropdown-bg-color:                  $white;
 $layout-header-dropdown-hover-bg-color:            rgba(235, 235, 235, 0.3);
 $layout-header-box-shadow:                         0 0 0.9375rem 0 rgba(204, 206, 209, 0.5);
 

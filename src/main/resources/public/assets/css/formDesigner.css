@@ -775,27 +775,43 @@ input, button, select, optgroup, textarea {
   left: 0;
   display: flex;
   align-items: center;
-  height: 3.125rem;
+  height: 2.875rem;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1.125rem;
   font-weight: 500;
   color: #FFFFFF;
-  background-color: #0098FF;
+  background-color: #339AF0;
   z-index: 100;
 }
-.z-form-header .logo {
+.z-form-header .z-logo {
   width: 12.5rem;
   padding: 0 0.75rem;
 }
-.z-form-header .name {
+.z-form-header .z-form-name {
   font-size: 1.125rem;
 }
-.z-form-header .buttons {
-  width: 20rem;
-  padding: 0 0.75rem;
+.z-form-header .z-form-button-list {
+  width: 19.06rem;
 }
-.z-form-header .buttons .dropdown-content {
+.z-form-header .z-form-button-list .z-header-dropdown {
+  width: 1.25rem;
+  padding: 0;
+  /*&.hover {
+    > .dropdown-content {
+      visibility: visible;
+      display: block;
+    }
+    &:last-child > .dropdown-content {
+      right: $layout-header-padding; // 12px
+    }
+  }*/
+}
+.z-form-header .z-form-button-list .z-header-dropdown .z-icon {
+  margin: -0.1875rem;
+}
+.z-form-header .z-form-button-list .dropdown-content {
   visibility: hidden;
-  background-color: white;
+  background-color: #FFFFFF;
   color: #33ADFF;
   text-align: center;
   font-size: 1.125rem;
@@ -804,22 +820,15 @@ input, button, select, optgroup, textarea {
   z-index: 500;
   box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.5);
 }
-.z-form-header .buttons .dropdown-item {
+.z-form-header .z-form-button-list .dropdown-item {
   padding: 0.6875rem 0.875rem;
 }
-.z-form-header .buttons .dropdown-item:hover {
+.z-form-header .z-form-button-list .dropdown-item:hover {
   background-color: rgba(235, 235, 235, 0.3);
-}
-.z-form-header .buttons .btn-dropdown:hover > .dropdown-content {
-  visibility: visible;
-  display: block;
-}
-.z-form-header .buttons .btn-dropdown:hover:last-child > .dropdown-content {
-  right: 0.75rem;
 }
 .z-form-component-palette {
   position: fixed;
-  top: 3.125rem;
+  top: 2.875rem;
   bottom: 0;
   left: 0;
   width: 12.5rem;
@@ -832,7 +841,7 @@ input, button, select, optgroup, textarea {
 }
 .z-form-main {
   position: fixed;
-  top: 3.125rem;
+  top: 2.875rem;
   right: 18.75rem;
   bottom: 0;
   left: 0;
@@ -851,7 +860,7 @@ input, button, select, optgroup, textarea {
 }
 .z-form-properties-panel-header {
   position: fixed;
-  top: 3.125rem;
+  top: 2.875rem;
   right: 0;
   width: 20rem;
   height: 2.5rem;
@@ -863,7 +872,7 @@ input, button, select, optgroup, textarea {
 }
 .z-form-properties-panel {
   position: fixed;
-  top: calc(3.125rem + 2.5rem);
+  top: calc(2.875rem + 2.5rem);
   right: 0;
   bottom: 0;
   display: flex;
@@ -1201,7 +1210,7 @@ input, button, select, optgroup, textarea {
   transform: rotate(90deg);
 }
 .z-component-accordion-box .z-component-accordion input[type=radio]:checked ~ .z-accordion-content {
-  height: calc(100vh - (40px * 4) - 3.125rem);
+  height: calc(100vh - (40px * 4) - 2.875rem);
   border-bottom-color: #CFD5D9;
   overflow-y: auto;
   -ms-overflow-style: none;
@@ -2901,9 +2910,6 @@ label {
   border-bottom-right-radius: 0;
 }
 
-.z-header-button {
-  padding: 0.5625rem 0.625rem;
-}
 .z-header-button.z-button-icon .z-icon.i-save {
   width: 1.5rem;
   height: 1.5rem;

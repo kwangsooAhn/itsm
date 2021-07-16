@@ -10,7 +10,6 @@
   @include fixed(0, 0, null, 0);
   display: flex;
   align-items: center;
-  height: $layout-header-height;
 }
 
 @mixin fixedContainer {

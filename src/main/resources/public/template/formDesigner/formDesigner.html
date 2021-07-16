@@ -50,10 +50,10 @@
         <div class="z-form-container">
             <!-- 상단 네비게이션 -->
             <div class="z-form-header" id="menuBar">
-                <img class="logo" th:src="@{/assets/media/icons/formDesigner/topmenu/icon_form_designer.svg}" width="169" height="25" alt="Form Designer" />
-                <span class="name ml-auto mr-auto" id="formName"></span>
+                <img class="z-logo" th:src="@{/assets/media/icons/formDesigner/topmenu/icon_form_designer.svg}" width="169" height="25" alt="Form Designer" />
+                <span class="z-form-name ml-auto mr-auto" id="formName"></span>
                 <!--버튼 영역-->
-                <div class="buttons flex-row">
+                <div class="z-form-button-list flex-row mr-3">
                     <!--실행 취소-->
                     <th:block th:if="${#strings.isEmpty(isView)}">
                         <button type="button" id="btnUndo" class="z-header-button z-button-icon light-extra header-tooltip">
@@ -65,7 +65,7 @@
                     </th:block>
                     <!--재실행(드롭다운)-->
                     <th:block th:if="${#strings.isEmpty(isView)}">
-                        <button type="button" class="z-header-button z-button-icon light-extra btn-dropdown">
+                        <button type="button" class="z-header-button z-button-icon light-extra z-header-dropdown">
                             <span class="z-icon i-dropdown"></span>
                             <ul class="dropdown-content">
                                 <li class="dropdown-item align-left" id="btnUndo">
@@ -95,7 +95,7 @@
                     </th:block>
                     <!--다른 이름으로 저장(드롭다운)-->
                     <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                        <button type="button" class="z-header-button z-button-icon light-extra btn-dropdown">
+                        <button type="button" class="z-header-button z-button-icon light-extra z-header-dropdown">
                             <span class="z-icon i-dropdown"></span>
                             <ul class="dropdown-content">
                                 <li class="dropdown-item align-left">

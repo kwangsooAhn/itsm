@@ -43,6 +43,7 @@
   .header {
     @include fixedHeader;
     max-width: 120rem;
+    height: $layout-header-height;
     padding: 0 1.25rem; // 0 20px
     margin: 0 auto;
     font-size: $layout-header-font-size;

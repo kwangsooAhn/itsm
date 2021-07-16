@@ -2,7 +2,6 @@
 
 // header button
 .#{$common-prefix}header-button {
-  padding: 0.5625rem 0.625rem; // 9px 10px
   &.#{$common-prefix}button-icon {
     .#{$common-prefix}icon {
       &.i-save {

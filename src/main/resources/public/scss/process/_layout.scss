@@ -16,6 +16,7 @@
   // header
   &-header {
     @include fixedHeader;
+    height: $layout-header-height;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;

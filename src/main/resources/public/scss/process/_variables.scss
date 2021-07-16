@@ -1,10 +1,11 @@
 //////////////////////////// layout ////////////////////////////
 // header
 $layout-header-height:                             3.125rem; // 50px
-$layout-header-font-size:                          $font-size-s;
+$layout-header-font-family:                        $font-family-m;
+$layout-header-font-size:                          $font-size-m;
 $layout-header-font-color:                         $white;
 $layout-header-font-weight:                        $font-weight-medium;
-$layout-header-bg-color:                           $blue;
+$layout-header-bg-color:                           $blue500;
 
 // element palette
 $layout-element-palette-width:                     6.25rem; // 100px
