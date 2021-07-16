@@ -125,8 +125,8 @@
 .cmdb-type-header,
 .cmdb-ci-header,
 .scheduler-header {
-  padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
-  background-color: map-get($grays, "light");
+  padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
+  background-color: $neutral50;
 }
 
 // 문서함
@@ -135,8 +135,8 @@
 .document-header,
 .token-header,
 .dashboard-header {
-  padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
-  background-color: map-get($grays, "light");
+  padding: 0 3.75rem 0 3.75rem; // 35px 60px 0px 60px
+  background-color: $neutral50;
   border-bottom: $layout-header-border;
 }
 
