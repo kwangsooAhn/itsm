@@ -941,7 +941,6 @@
      */
     function onDropdownClickHandler(e) {
         const target = e.target || e;
-        console.log(target);
         const targetId = target.getAttribute('data-targetId');
         const changeTarget = document.getElementById(targetId);
 
