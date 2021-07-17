@@ -33,39 +33,7 @@
       width: 19.06rem; // 305px
 
       .#{$common-prefix}header-dropdown {
-        width: 1.25rem; // 20px
-        padding: 0;
-
-        .#{$common-prefix}icon {
-          margin: -0.1875rem; // -3px
-        }
-
-        /*&.hover {
-          > .dropdown-content {
-            visibility: visible;
-            display: block;
-          }
-          &:last-child > .dropdown-content {
-            right: $layout-header-padding; // 12px
-          }
-        }*/
-      }
-      .dropdown {
-        &-content {
-          visibility: hidden;
-          background-color: $layout-header-dropdown-bg-color;
-          color: map-get($blues, "hover");
-          text-align: center;
-          font-size: 1.125rem; // 18px
-          margin: 0.6875rem 0 0 0; // 11px
-          position: absolute;
-          z-index: 500;
-          box-shadow: $layout-header-box-shadow;
-        }
-        &-item {
-          padding: 0.6875rem 0.875rem; // 11px 14px
-          &:hover { background-color: $layout-header-dropdown-hover-bg-color; }
-        }
+        @include relative();
       }
     }
   }
