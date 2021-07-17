@@ -1,11 +1,23 @@
 //////////////////////////// layout ////////////////////////////
 // header
-$layout-header-height:                             3.125rem; // 50px
+$layout-header-height:                             2.875rem; // 46px
+$layout-header-padding:                            0.75rem; // 12px
 $layout-header-font-family:                        $font-family-m;
 $layout-header-font-size:                          $font-size-m;
 $layout-header-font-color:                         $white;
 $layout-header-font-weight:                        $font-weight-medium;
 $layout-header-bg-color:                           $blue500;
+// header > dropdown
+$layout-header-dropdown-border-width:              0.0625rem; // 1px
+$layout-header-dropdown-border-color:              $gray300;
+$layout-header-dropdown-box-shadow-color:          $gray300;
+$layout-header-dropdown-bg-color:                  $white;
+$layout-header-dropdown: (
+        'default': ('font': $gray800, 'background': $white, 'border': $white),
+        'hover': ('font' : $gray800, 'background': $blue50, 'border': $blue50),
+        'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+        'active': ('font': $blue700, 'background': $blue100, 'border': $blue100)
+);
 
 // element palette
 $layout-element-palette-width:                     6.25rem; // 100px

@@ -189,6 +189,15 @@ class ZFormDesigner {
 
             this.makeForm(this.data, this); // DOM 엘리먼트 생성
             this.setFormName(this.data.name); // 폼 디자이너 상단 이름 출력
+
+            // TODO: 발행, 사용 중인 문서는 저장이 불가능하다.
+            //const deployableStatus = ['form.status.publish', 'form.status.use'];
+            //if (deployableStatus.includes(this.data.status)) {
+            //    const saveInfo = document.getElementById('saveInfo');
+            //    saveInfo.classList.add('error');
+            //    saveInfo.innerHTML = i18n.msg('common.msg.onlySaveInEdit');
+            //}
+
             this.form.UIElement.domElement.dispatchEvent(new Event('click')); // 폼 속성 패널 출력
             aliceJs.initDesignedSelectTag();
         });
@@ -700,6 +709,7 @@ class ZFormDesigner {
             showProgressbar: true
         }).then((formData) => {
             if (formData) {
+                this.data = saveData;
                 this.history.saveHistoryIndex = this.history.undoList.length;
                 this.history.status = 0;
                 this.setFormName();
@@ -834,17 +844,20 @@ class ZFormDesigner {
      * 상단 드롭다운 이벤트 핸들러
      */
     onDropdownClickHandler(e) {
-        console.log(e);
-        const targetId = e.getAttribute('data-targetId');
+        const target = e.target || e;
+        const targetId = target.getAttribute('data-targetId');
         const changeTarget = document.getElementById(targetId);
 
-        const actionType = e.getAttribute('data-actionType');
-        const buttonTemplate = document.getElementById(actionType + 'ButtonTemplate');
-        // buttonTemplate.content.cloneNode(true),
-        // 버튼 변경
-        console.log(actionType);
-        console.log(changeTarget);
-        console.log(buttonTemplate.content.cloneNode(true));
+        const actionType = target.getAttribute('data-actionType');
+        if (changeTarget.firstElementChild.getAttribute('data-actionType') !== actionType) {
+            // 기존 버튼 삭제
+            changeTarget.removeChild(changeTarget.firstElementChild);
+            // 버튼 추가
+            const buttonTemplate = document.getElementById(actionType + 'ButtonTemplate');
+            changeTarget.appendChild(buttonTemplate.content.cloneNode(true));
+            // 이벤트 할당
+            changeTarget.firstElementChild.addEventListener('click', this.onDropdownClickHandler.bind(this));
+        }
 
         // 이벤트 실행
         switch (actionType) {

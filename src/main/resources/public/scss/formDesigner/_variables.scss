@@ -36,9 +36,6 @@ $layout-header-dropdown: (
   'active': ('font': $blue700, 'background': $blue100, 'border': $blue100)
 );
 
-$layout-header-dropdown-hover-bg-color:            rgba(235, 235, 235, 0.3);
-$layout-header-box-shadow:                         0 0 0.9375rem 0 rgba(204, 206, 209, 0.5);
-
 // component palette
 $layout-component-palette-width:                   12.5rem; // 200px
 $layout-component-palette-bg-color:                $white;

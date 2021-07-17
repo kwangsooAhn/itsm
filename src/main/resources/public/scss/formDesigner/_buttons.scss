@@ -43,7 +43,7 @@
     @include absolute($right: 0);
     padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
     margin: 0.6875rem 0 0 0; // 11px
-    z-index: 500;
+    z-index: $z-index-between-tooltip-gnb;
     background-color: $layout-header-dropdown-bg-color;
     @include border($layout-header-dropdown-border-width, solid, $layout-header-dropdown-border-color, all); // 1px
     @include boxShadow(0, 2px, 12px, 0, $layout-header-dropdown-box-shadow-color); // 0, 2px, 12px, 0

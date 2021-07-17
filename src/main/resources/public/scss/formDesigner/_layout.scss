@@ -306,10 +306,11 @@
 
 // 저장 정보
 .#{$common-prefix}save-info {
-  height: 2.188rem; //35px
+  min-height: 1.5625rem; // 25px
+  line-height: 1.5;
   font-family: $layout-main-save-info-font-family;
   font-size: $layout-main-save-info-font-size;
   font-weight: $layout-main-save-info-font-weight;
   color: $layout-main-save-info-font-color;
-  margin-top: 1.5625rem; // 25px
+  margin: 1.5625rem 0; // 25px 0
 }
