@@ -58,7 +58,7 @@
         const STACKED_BAR_CHART = 'chart.stackedBar';
         const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
         const BASIC_LINE_CHART = 'chart.basicLine';
-        const ACTIVITY_GAUGE_CHART = "chart.activityGauge"
+        const ACTIVITY_GAUGE_CHART = 'chart.activityGauge';
         let chart = null;
 
         window.onload = function () {
@@ -245,7 +245,7 @@
                 close: {
                     closable: false,
                 },
-                onCreate: function() {
+                onCreate: function () {
                     getChart(chartId, chartType, 'view');
                 }
             };
@@ -389,6 +389,7 @@
                 xAxis: {},
                 yAxis: {},
                 tooltip: {},
+                pane: {},
                 legend: {
                     align: 'right',
                     x: -30,
@@ -468,6 +469,56 @@
                         }
                     };
                     break;
+                case ACTIVITY_GAUGE_CHART:
+                    options.chart = {
+                        type: 'solidgauge',
+                        marginTop: 50
+                    }
+                    options.tooltip = {
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        shadow: false,
+                        style: {
+                            fontSize: '16px'
+                        },
+                        pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
+                        positioner: function (labelWidth) {
+                            return {
+                                x: (this.chart.chartWidth - labelWidth) / 2,
+                                y: (this.chart.plotHeight / 2) + 15
+                            };
+                        }
+                    }
+                    options.yAxis = {
+                        min: 0,
+                        max: 100,
+                        lineWidth: 0,
+                        tickPositions: []
+                    }
+                    options.plotOptions = {
+                        solidgauge: {
+                            borderWidth: '2px',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            linecap: 'round',
+                            stickyTracking: false
+                        }
+                    }
+                    options.pane = {
+                        startAngle: 0,
+                        endAngle: 360,
+                        background: []
+                    }
+
+                    let propertyJson = JSON.parse(document.getElementById('propertyJson').value);
+                    let docKeyList = [];
+                    for (let key in propertyJson[1].documentList) {
+                        docKeyList.push(key);
+                    }
+                    for (let i = 0; i < docKeyList.length - 1; i++) {
+                        options.series.push({data: []});
+                    }
             }
             chart = Highcharts.chart('container', options);
         }
@@ -678,6 +729,25 @@
                         chart.series[1].setData(seriesData, true);
                     }
                     break;
+                case ACTIVITY_GAUGE_CHART:
+                    let innerRadius = 40;
+                    let radius = 50;
+                    const sum = countArray.reduce((a, b) => (a + b));
+                    for (let k = 0; k < categoryData.length; k++) {
+                        innerRadius = innerRadius + 10;
+                        radius = radius + 10;
+                        chart.series[k].update({
+                            name: categoryData[k],
+                            borderColor: Highcharts.getOptions().colors[k]
+                        }, false);
+                        chart.series[k].setData([{
+                            color: Highcharts.getOptions().colors[k],
+                            radius: radius,
+                            innerRadius: innerRadius,
+                            y: Number(Highcharts.numberFormat((countArray[k] / sum) * 100))
+                        }], true);
+                    }
+                    break;
             }
         }
 
@@ -718,8 +788,8 @@
         // 전송할 데이터 셋팅
         function setChartInfo(method, chartId) {
             let tagList = [];
-            JSON.parse(document.getElementById('targetTags').value).forEach (tag => {
-                    tagList.push(tag.value);
+            JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
+                tagList.push(tag.value);
             })
 
             let chartInfo = {
@@ -749,6 +819,7 @@
             }
             return chartInfo;
         }
+
         /*]]>*/
     </script>
 </th:block>
