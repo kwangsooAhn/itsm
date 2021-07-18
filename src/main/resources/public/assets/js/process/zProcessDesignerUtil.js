@@ -119,7 +119,7 @@
      * 프로세스명 변경
      */
     function changeProcessName() {
-        document.getElementById('process-name').textContent = (isEdited ? '*' : '') + zProcessDesigner.data.process.name;
+        document.getElementById('processName').textContent = (isEdited ? '*' : '') + zProcessDesigner.data.process.name;
     }
 
     /**
@@ -937,29 +937,47 @@
     }
 
     /**
+     * 상단 드롭다운 이벤트 핸들러
+     */
+    function onDropdownClickHandler(e) {
+        const target = e.target || e;
+        const targetId = target.getAttribute('data-targetId');
+        const changeTarget = document.getElementById(targetId);
+
+        const actionType = target.getAttribute('data-actionType');
+        if (changeTarget.firstElementChild.getAttribute('data-actionType') !== actionType) {
+            // 기존 버튼 삭제
+            changeTarget.removeChild(changeTarget.firstElementChild);
+            // 버튼 추가
+            const buttonTemplate = document.getElementById(actionType + 'ButtonTemplate');
+            changeTarget.appendChild(buttonTemplate.content.cloneNode(true));
+            // 이벤트 할당
+            changeTarget.firstElementChild.addEventListener('click', onDropdownClickHandler);
+        }
+
+        // 이벤트 실행
+        switch (actionType) {
+            case 'undo':
+                undoProcess();
+                break;
+            case 'redo':
+                redoProcess();
+                break;
+            case 'save':
+                saveProcess();
+                break;
+            case 'saveAs':
+                saveAsProcess();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
      * init workflow util.
      */
     function initUtil() {
-        // add click event listener.
-        if (document.getElementById('btnSave') !== null) {
-            document.getElementById('btnSave').addEventListener('click', saveProcess);
-        }
-        if (document.getElementById('btnSaveAs') !== null) {
-            document.getElementById('btnSaveAs').addEventListener('click', saveAsProcess);
-        }
-        if (document.getElementById('btnSimulation') !== null) {
-            document.getElementById('btnSimulation').addEventListener('click', simulationProcess);
-        }
-        if (document.getElementById('btnUndo') !== null) {
-            document.getElementById('btnUndo').addEventListener('click', undoProcess);
-        }
-        if (document.getElementById('btnRedo') !== null) {
-            document.getElementById('btnRedo').addEventListener('click', redoProcess);
-        }
-        if (document.getElementById('btnDownload') !== null) {
-            document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
-        }
-
         initializeButtonOnDrawingBoard();
         // start observer
         isEdited = false;
@@ -971,6 +989,11 @@
     exports.utils = utils;
     exports.initUtil = initUtil;
     exports.autoSave = autoSaveProcess;
+    exports.saveProcess = saveProcess;
+    exports.saveAsProcess = saveAsProcess;
+    exports.simulationProcess = simulationProcess;
+    exports.downloadProcessImage = downloadProcessImage;
+    exports.onDropdownClickHandler = onDropdownClickHandler;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
 

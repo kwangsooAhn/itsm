@@ -1,33 +1,4 @@
 @import '../template/_tooltip.scss';
-
-// header
-.header-tooltip {
-  .tooltip-contents-reverse {
-    min-width: $tooltip-header-contents-width;
-    visibility: hidden;
-    background-color: map-get($blues, "hover");
-    color: $white;
-    text-align: center;
-    font-size: $tooltip-header-contents-size;
-    @include borderRadius(0.125rem); // 2px
-    padding: $tooltip-header-contents-padding;
-    margin: $tooltip-header-contents-margin;
-    position: absolute;
-    z-index: $z-index-tooltip;
-    span {
-      color: $white;
-      font-weight: $font-weight-medium;
-    }
-  }
-
-  &:hover {
-    .tooltip-contents {
-      visibility: visible;
-      @include animation (0s, 0.3s, fadeIn, ease-out);
-    }
-  }
-}
-
 // clipboard - 복사 용도
 .#{$common-prefix}clipboard-tooltip {
   position: relative;

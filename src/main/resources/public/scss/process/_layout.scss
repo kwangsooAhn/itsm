@@ -16,22 +16,28 @@
   // header
   &-header {
     @include fixedHeader;
+    height: $layout-header-height;
+    font-family: $layout-header-font-family;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
     background-color: $layout-header-bg-color;
-    padding: 0 1.25rem; // 0 20px
     z-index: $z-index-gnb;
-    // process designer 문구
-    .name {
-      font-size: 1.125rem; // 18px
-      padding: 0 0.9375rem; // 15px
+
+    .#{$common-prefix}logo {
+      width: 12.5rem; // 200px
+      padding: 0 $layout-header-padding; // 0 12px
     }
-    // 아이콘 구분자
-    .separator {
-      width: 0.063rem; // 1px
-      height: 1.25rem; // 20px
-      background-color: #4DB7FF;
+
+    .#{$common-prefix}process-name {
+      font-size: $layout-header-font-size;
+    }
+    .#{$common-prefix}process-button-list {
+      width: 19.06rem; // 305px
+
+      .#{$common-prefix}header-dropdown {
+        @include relative();
+      }
     }
   }
   // element palette
