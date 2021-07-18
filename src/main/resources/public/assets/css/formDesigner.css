@@ -4209,6 +4209,7 @@ label {
   display: inline-block;
 }
 .picker-modal-content-date.active + div.active {
+  height: 16.5rem;
   border-left: 0.0625rem solid #CFD5D9;
 }
 .picker-modal-content-date-months {
@@ -4232,6 +4233,9 @@ label {
   mask-position: center;
   background: #8B9094;
 }
+.picker-modal-content-date-months .date-prev:hover {
+  background: #64BBF6;
+}
 .picker-modal-content-date-months .date-text {
   display: table-cell;
   width: 16.5rem;
@@ -4253,6 +4257,9 @@ label {
   -webkit-mask-position: center;
   mask-position: center;
   background: #8B9094;
+}
+.picker-modal-content-date-months .date-next:hover {
+  background: #64BBF6;
 }
 .picker-modal-content-date-calendar {
   display: flex;

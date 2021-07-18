@@ -2459,7 +2459,7 @@ svg path.connector.hidden {
 .z-button-icon.light-primary:enabled:active,
 .z-button-icon.light-primary:enabled.active {
   color: #FFFFFF;
-  background-color: #2578CE;
+  background-colop: #2578CE;
   border-color: #1959AC;
 }
 .z-button.light-primary:enabled:active .z-icon, .z-button.light-primary:enabled.active .z-icon,
@@ -2515,7 +2515,7 @@ svg path.connector.hidden {
 .z-button-icon.light-secondary:enabled:active,
 .z-button-icon.light-secondary:enabled.active {
   color: #FFFFFF;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-colop: rgba(255, 255, 255, 0.4);
   border-color: #FFFFFF;
 }
 .z-button.light-secondary:enabled:active .z-icon, .z-button.light-secondary:enabled.active .z-icon,
@@ -2570,7 +2570,7 @@ svg path.connector.hidden {
 .z-button-icon.light-extra:enabled:active,
 .z-button-icon.light-extra:enabled.active {
   color: #FFFFFF;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-colop: rgba(255, 255, 255, 0.4);
   border-color: rgba(255, 255, 255, 0.4);
 }
 .z-button.light-extra:enabled:active .z-icon, .z-button.light-extra:enabled.active .z-icon,
@@ -2626,7 +2626,7 @@ svg path.connector.hidden {
 .z-button-icon.light-form:enabled:active,
 .z-button-icon.light-form:enabled.active {
   color: #424242;
-  background-color: #E0E0E0;
+  background-colop: #E0E0E0;
   border-color: #BDBDBD;
 }
 .z-button.light-form:enabled:active .z-icon, .z-button.light-form:enabled.active .z-icon,

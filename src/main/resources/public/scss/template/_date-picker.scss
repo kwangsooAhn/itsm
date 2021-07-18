@@ -75,6 +75,7 @@
         display: inline-block;
 
         + div.active {
+          height: 16.5rem; // 264px
           @include border($datepicker-border-width, solid, $datepicker-border-color, left);
         }
       }
@@ -89,7 +90,11 @@
         .date-prev {
           display: table-cell;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 0.625rem, 1.563rem, no-repeat, center, null, $gray500); // 너비 10px 높이 25px 아이콘 크기 10px 6px
+          @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 0.625rem, 1.563rem, no-repeat, center, null, $datepicker-icon-color); // 6px 10px
+
+          &:hover {
+            background: $datepicker-hover-color;
+          }
         }
 
         .date-text {
@@ -105,7 +110,11 @@
         .date-next {
           display: table-cell;
           cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 0.625rem, 1.563rem, no-repeat, center, null, $gray500); // 너비 10px 높이 25px 아이콘 크기 10px 6px
+          @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 0.625rem, 1.563rem, no-repeat, center, null, $datepicker-icon-color); // 6px 10px
+
+          &:hover {
+            background: $datepicker-hover-color;
+          }
         }
       }
       // calendar
