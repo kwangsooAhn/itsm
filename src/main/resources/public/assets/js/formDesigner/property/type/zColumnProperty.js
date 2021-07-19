@@ -73,7 +73,16 @@ export const propertyExtends = {
             minDate: '',
             maxDate: ''
         }
-    }
+    },
+    time: {
+        columnElement: {
+            defaultValueRadio: 'none'
+        },
+        columnValidation: {
+            minTime: '',
+            maxTime: ''
+        }
+    },
 };
 
 export default class ZColumnProperty extends ZProperty {
@@ -300,7 +309,7 @@ export default class ZColumnProperty extends ZProperty {
                 { name: i18n.msg('form.properties.columnType.dropdown'), value: 'dropdown' },
                 { name: i18n.msg('form.properties.columnType.date'), value: 'date' },
                 { name: i18n.msg('form.properties.columnType.time'), value: 'time' },
-                { name: i18n.msg('form.properties.columnType.datetime'), value: 'datetime' }
+                { name: i18n.msg('form.properties.columnType.dateTime'), value: 'dateTime' }
             ]);
 
         // head - fontColor
@@ -387,6 +396,8 @@ export default class ZColumnProperty extends ZProperty {
                 return this.getPropertyForColumnTypeDropdown(option, id);
             case 'date':
                 return this.getPropertyForColumnTypeDate(option, id);
+            case 'time':
+                return this.getPropertyForColumnTypeTime(option, id);
             default:
                 return [];
         }
@@ -435,7 +446,25 @@ export default class ZColumnProperty extends ZProperty {
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxDate', 'validation.maxDate', option.columnValidation.maxDate, FORM.DATE_TYPE.DATE_PICKER))
         ];
     }
-    // 입력 유형 타입 변경
+
+    getPropertyForColumnTypeTime(option, id) {
+        const defaultValueRadioProperty = new ZDefaultValueRadioProperty(id + '|columnElement.defaultValueRadio', 'element.defaultValueRadio',
+            option.columnElement.defaultValueRadio,
+            [
+                {name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE},
+                {name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW},
+                {name: '', value: FORM.DATE_TYPE.HOURS},
+                {name: '', value: FORM.DATE_TYPE.TIME_PICKER}
+            ]);
+        return [
+            new ZGroupProperty('group.columnElement')
+                .addProperty(defaultValueRadioProperty),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.minTime', 'validation.minTime', option.columnValidation.minTime, FORM.DATE_TYPE.TIME_PICKER))
+                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxTime', 'validation.maxTime', option.columnValidation.maxTime, FORM.DATE_TYPE.TIME_PICKER))
+        ];
+    }
+     // 입력 유형 타입 변경
     changeColumnType(prevData, index) {
         Object.assign(prevData, propertyExtends[prevData.columnType]);
 

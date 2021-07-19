@@ -523,10 +523,10 @@
 
             this.selectLuxon = this.selectLuxon.set(changeTimeOffset);
 
-            const hourInput = this.el.querySelector('#' + this.id + '-time-hour');
+            const hourInput = document.getElementById(this.id + '-time-hour');
             hourInput.value = this.selectLuxon.toFormat(this.hourFormat);
 
-            const minuteInput = this.el.querySelector('#' + this.id + '-time-minute');
+            const minuteInput = document.getElementById(this.id + '-time-minute');
             minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
 
             this.changeDisplay();

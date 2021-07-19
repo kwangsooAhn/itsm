@@ -229,6 +229,8 @@ export const dynamicRowTableMixin = {
                 return this.getDropDownForColumn(column, cellValue);
             case 'date':
                 return this.getDateForColumn(column, cellValue, index);
+            case 'time':
+                return this.getTimeForColumn(column, cellValue, index);
             default:
                 return new UISpan().setUIInnerHTML(cellValue);
         }
@@ -269,11 +271,27 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('name', 'date' + index)
             .setUIValue(this.getDefaultValueForDate(column, cellValue))
             .setUIAttribute('type', FORM.DATE_TYPE.DATE_PICKER)
-            .setUIAttribute('data-validation-max-date', this._element.columns[index].columnValidation.maxDate)
-            .setUIAttribute('data-validation-min-date', this._element.columns[index].columnValidation.minDate);
+            .setUIAttribute('data-validation-min-date', this._element.columns[index].columnValidation.minDate)
+            .setUIAttribute('data-validation-max-date', this._element.columns[index].columnValidation.maxDate);
         dateWrapper.addUI(date);
         zDateTimePicker.initDatePicker(date.domElement, this.updateDateTimeValue.bind(this));
         return dateWrapper;
+    },
+    getTimeForColumn(column, cellValue, index) {
+        let timeWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
+
+        let time = new UIInput().setUIPlaceholder(i18n.timeFormat)
+            .setUIClass('timepicker')
+            .setUIId('time' + index +  ZWorkflowUtil.generateUUID())
+            .setUIAttribute('name', 'time' + index)
+            .setUIValue(this.getDefaultValueForTime(column, cellValue))
+            .setUIAttribute('type', FORM.DATE_TYPE.TIME_PICKER)
+            .setUIAttribute('data-validation-min-time', this._element.columns[index].columnValidation.minTime)
+            .setUIAttribute('data-validation-max-time', this._element.columns[index].columnValidation.maxTime);
+        timeWrapper.addUI(time);
+
+        zDateTimePicker.initTimePicker(time.domElement, this.updateDateTimeValue.bind(this));
+        return timeWrapper;
     },
     getDefaultValueForDate (column, cellValue) {
         if (cellValue === '${default}') {
@@ -299,7 +317,34 @@ export const dynamicRowTableMixin = {
             }
             return date;
         } else {
-            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DAYS, cellValue);
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, cellValue);
+        }
+    },
+    getDefaultValueForTime (column, cellValue) {
+          if (cellValue === '${default}') {
+            // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
+            const defaultValueArray = column.columnElement.defaultValueRadio.split('|');
+            let time = '';
+            switch (defaultValueArray[0]) {
+                case FORM.DATE_TYPE.NONE:
+                    break;
+                case FORM.DATE_TYPE.NOW:
+                    time = i18n.getTime();
+                    break;
+                case FORM.DATE_TYPE.HOURS:
+                    const offset = {
+                        hours: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
+                            0 : Number(defaultValueArray[1])
+                    };
+                    time = i18n.getTime(offset);
+                    break;
+                case FORM.DATE_TYPE.TIME_PICKER:
+                    time = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    break;
+            }
+            return time;
+        } else {
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, cellValue);
         }
     },
     // 테이블 row 삭제
@@ -324,6 +369,8 @@ export const dynamicRowTableMixin = {
                     columns[i].columnValidation.maxDate = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.maxDate);
                     break;
                 case FORM.DATE_TYPE.HOURS:
+                    columns[i].columnValidation.minTime = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.minTime);
+                    columns[i].columnValidation.maxTime = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.maxTime);
                     break;
                 case FORM.DATE_TYPE.DATETIME:
                     break;
@@ -341,7 +388,6 @@ export const dynamicRowTableMixin = {
                 if (!zValidation.isEmpty(target.getAttribute('data-validation-min-date'))) {
                     isValidationPass = i18n.compareSystemDate(target.getAttribute('data-validation-min-date'), target.value);
                     zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterDate', target.getAttribute('data-validation-min-date')));
-
                 }
                 if (isValidationPass && !zValidation.isEmpty(target.getAttribute('data-validation-max-date'))) {
                     isValidationPass = i18n.compareSystemDate(target.value, target.getAttribute('data-validation-max-date'));
@@ -349,12 +395,19 @@ export const dynamicRowTableMixin = {
                 }
                 break;
             case FORM.DATE_TYPE.HOURS:
+                if (!zValidation.isEmpty(target.getAttribute('data-validation-min-time'))) {
+                    isValidationPass = i18n.compareSystemTime(target.getAttribute('data-validation-min-time'), target.value);
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterTime', target.getAttribute('data-validation-min-time')));
+                }
+                if (isValidationPass && !zValidation.isEmpty(target.getAttribute('data-validation-max-time'))) {
+                    isValidationPass = i18n.compareSystemTime(target.value, target.getAttribute('data-validation-max-time'));
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeTime', target.getAttribute('data-validation-max-time')));
+                }
                 break;
             case FORM.DATE_TYPE.DATETIME:
                 break;
             default:
                 break;
-
         }
         return isValidationPass;
     },
