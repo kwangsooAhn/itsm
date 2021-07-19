@@ -523,10 +523,10 @@
 
             this.selectLuxon = this.selectLuxon.set(changeTimeOffset);
 
-            const hourInput = this.el.querySelector('#' + this.id + '-time-hour');
+            const hourInput = document.getElementById(this.id + '-time-hour');
             hourInput.value = this.selectLuxon.toFormat(this.hourFormat);
 
-            const minuteInput = this.el.querySelector('#' + this.id + '-time-minute');
+            const minuteInput = document.getElementById(this.id + '-time-minute');
             minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
 
             this.changeDisplay();
@@ -534,7 +534,7 @@
         // Time picker 에서 input box (Hour) 변경시 처리.
         setHour: function() {
             let rtn = false;
-            const hourInput = this.el.querySelector('#' + this.id + '-time-hour');
+            const hourInput = document.getElementById(this.id + '-time-hour');
             const inputValue = hourInput.value;
             // 12 시간제 1 ~ 12 까지만 입력가능
             // 24 시간제 0 ~ 23 까지만 입력가능
@@ -557,7 +557,7 @@
         // Time picker 에서 input box (Minute) 변경시 처리.
         setMinute: function() {
             let rtn = false;
-            const minuteInput = this.el.querySelector('#' + this.id + '-time-minute');
+            const minuteInput = document.getElementById(this.id + '-time-minute');
             const inputValue = minuteInput.value;
             // 0 ~ 59 까지 입력가능
             if (numberRegex.test(inputValue)) {
