@@ -738,6 +738,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-color-palette {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_color_palette.svg");
+  mask-image: url("../media/icons/icon_color_palette.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 :root {
   --data-column: 12;
@@ -4742,6 +4752,33 @@ label {
   line-height: 1.25rem;
   margin: 0 0 0 0.25rem;
   vertical-align: middle;
+}
+
+.z-color-palette-wrapper {
+  width: 120px;
+  padding: 5px;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+}
+.z-color-palette-wrapper .z-color-input {
+  display: none;
+}
+.z-color-palette-wrapper .z-color-box {
+  width: 76px;
+  height: 24px;
+}
+
+.z-palette-modal {
+  display: none;
+  position: fixed;
+  min-width: 23.375rem;
+  z-index: 1000;
+}
+.z-palette-modal.active {
+  display: block;
+  z-index: 1000;
 }
 
 .color-picker {

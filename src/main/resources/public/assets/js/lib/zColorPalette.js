@@ -1,4 +1,121 @@
-const zColorPalette = (function() {
+/**
+ * Color Palette Library
+ *
+ * - piklor.js 를 기본으로 color palette 그려주므로 반드시 함께 import 한다.
+ *
+ * @author Woo Da Jung <wdj@brainz.co.kr>
+ * @version 1.0
+ *
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+const DEFAULT_OPTIONS = {
+
+};
+
+function zColorPalette(targetElement, options) {
+    this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+    this.isOpen = true;
+    console.log(this);
+
+    // input box
+    targetElement.classList.add(aliceJs.CLASS_PREFIX + 'color-input');
+    this.inputEl = targetElement;
+
+    // wrapper
+    const wrapperContainer = document.createElement('div');
+    wrapperContainer.className = aliceJs.CLASS_PREFIX + 'color-palette-wrapper';
+    wrapperContainer.tabIndex = 0;
+    targetElement.parentElement.insertBefore(wrapperContainer, targetElement.nextSibling);
+    targetElement.parentElement.removeChild(targetElement);
+    wrapperContainer.appendChild(targetElement);
+    this.containerEl = wrapperContainer;
+
+    // color box
+    const colorBox = document.createElement('div');
+    colorBox.className = aliceJs.CLASS_PREFIX + 'color-box';
+    colorBox.style.backgroundColor = this.inputEl.value || '#ffffff';
+    wrapperContainer.appendChild(colorBox);
+    this.colorEl = wrapperContainer;
+
+    // 아이콘
+    const paletteIcon = document.createElement('span');
+    paletteIcon.className = 'z-icon i-color-palette';
+    wrapperContainer.appendChild(paletteIcon);
+
+    // color palette modal
+    let paletteModal = document.createElement('div');
+    paletteModal.id = targetElement.id + 'Palette';
+    paletteModal.className = aliceJs.CLASS_PREFIX + 'palette-modal';
+    wrapperContainer.appendChild(paletteModal);
+    this.modalEl = paletteModal;
+
+    const self = this;
+    this.containerEl.addEventListener('click', function () {
+        self.isOpen ? self.close() : self.open();
+    });
+}
+Object.assign(zColorPalette.prototype, {
+    // open
+    open: function () {
+        if (!this.modalEl.classList.contains('active')) {
+            this.modalEl.classList.add('active');
+            this.setPosition();
+            this.isOpen = true;
+
+            // Detects the target if it's the picker element, if not, closes the picker
+            document.addEventListener('mousedown', this.clickWindow, false);
+            window.addEventListener('scroll', this.setPosition, false);
+            window.addEventListener('resize', this.setPosition, false);
+        }
+    },
+    // close
+    close: function () {
+        if (this.modalEl.classList.contains('active')) {
+            this.modalEl.classList.remove('active');
+            this.isOpen = false;
+
+            // remove event
+            document.removeEventListener('mousedown', this.autoClose, false);
+            window.removeEventListener('scroll', this.setPosition, false);
+            window.removeEventListener('resize', this.setPosition, false);
+        }
+    },
+    // Palette set Position.
+    setPosition: function() {
+        let rect = this.modalEl.parentNode.getBoundingClientRect(),
+            ow = this.modalEl.offsetWidth,
+            oh = this.modalEl.offsetHeight,
+            x = rect.left + ow,
+            _x = rect.left - ow,
+            y = rect.top + rect.height + oh,
+            _y = rect.top - oh,
+            w = window.innerWidth,
+            h = window.innerHeight;
+
+        if (x >= w && _x > 0) {
+            this.modalEl.style.left = rect.left + rect.width - ow + 'px';
+        } else {
+            this.modalEl.style.left = rect.left + 'px';
+        }
+
+        if (y >= h && _y > 0) {
+            this.modalEl.style.top = rect.top - oh - 3 + 'px'; // 3은 간격
+        } else {
+            this.modalEl.style.top = rect.top + rect.height +  3 + 'px';
+        }
+    },
+    // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
+    autoClose: function(e) {
+        if (!aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'palette-modal') &&
+            !aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-box')) {
+            this.close();
+        }
+    }
+});
+
+
+/*const zColorPalette = (function() {
     'use strict';
 
     const basicPaletteColors = [
@@ -33,22 +150,22 @@ const zColorPalette = (function() {
         , '#FFFFFF'
     ];
 
-    /**
+    /!**
      * 커스텀 색상표 설정.
      *
      * @param paletteColors 색상표 이름
      * @return 색상표 목록
-     */
+     *!/
     function getPaletteColors(paletteColors) {
         return paletteColors ? eval(paletteColors) : basicPaletteColors;
     }
 
-    /**
+    /!**
      * 색상표 설정 (기본값: basicPaletteColors).
      *
      * @param option 옵션
      * @return {string[]} 색상표 목록
-     */
+     *!/
     function setPaletteColors(option) {
         let colors = basicPaletteColors;
         if (option !== null && option !== undefined && option['colors'] !== undefined) {
@@ -57,13 +174,13 @@ const zColorPalette = (function() {
         return colors;
     }
 
-    /**
+    /!**
      * 색상표 템플릿 설정 (기본값: null).
      *   - 색상표에 디자인 적용시 사용 (ex: 그라데이션, 모양 등)
      *
      * @param option 옵션
      * @return {string} template
-     */
+     *!/
     function setPaletteTemplate(option) {
         let template = '';
         if (option !== null && option !== undefined && option['template'] !== undefined) {
@@ -72,12 +189,12 @@ const zColorPalette = (function() {
         return template;
     }
 
-    /**
+    /!**
      * 데이터 옵션.
      *
      * @param option 옵션
      * @return {object} data
-     */
+     *!/
     function setData(option) {
         let data = {};
         if (option !== null && option !== undefined && option['data'] !== undefined) {
@@ -94,12 +211,12 @@ const zColorPalette = (function() {
         return data;
     }
 
-    /**
+    /!**
      * 불투명도 사용여부.
      *
      * @param option 옵션
      * @return {boolean} 사용여부
-     */
+     *!/
     function isPaletteOpacity(option) {
         let isOpacity = false;
         if (option !== null && option !== undefined && option['isOpacity'] !== undefined) {
@@ -108,11 +225,11 @@ const zColorPalette = (function() {
         return isOpacity;
     }
 
-    /**
+    /!**
      * 불투명도 슬라이드 생성.
      *
      * @return {HTMLInputElement}
-     */
+     *!/
     function createRangeElement() {
         let slide = document.createElement('input');
         slide.type = 'range';
@@ -123,12 +240,12 @@ const zColorPalette = (function() {
         return slide;
     }
 
-    /**
+    /!**
      * 불투명도 슬라이드 값 input 생성.
      *
      * @param slide 슬라이드 엘리먼트
      * @return {HTMLInputElement}
-     */
+     *!/
     function createInputElement(slide) {
         let input = document.createElement('input');
         input.type = 'text';
@@ -138,14 +255,14 @@ const zColorPalette = (function() {
         return input;
     }
 
-    /**
+    /!**
      * 색상표 생성.
      *
      * @param colorLayout 색상표 전체 레이아웃 (색상표, 불투명도 부모 엘리멘트)
      * @param selectedBox 선택된 색상 box
      * @param selectedInput 선택된 색상 input
      * @param option 옵션
-     */
+     *!/
     function initColorPalette(colorLayout, selectedBox, selectedInput, option) {
         let palette = colorLayout.querySelector('.color-palette');
 
@@ -247,14 +364,14 @@ const zColorPalette = (function() {
         });
     }
 
-    /**
+    /!**
      * 불투명도 조절 이벤트.
      *
      * @param event 이벤트
      * @param selectedInput 컬러 색상값 엘리먼트
      * @param slideInput 슬라이드 Input 오브젝트
      * @param slideObject 슬라이드 오브젝트
-     */
+     *!/
     function slideEvent(event, selectedInput, slideInput, slideObject) {
         event.stopPropagation();
         event.preventDefault();
@@ -269,4 +386,4 @@ const zColorPalette = (function() {
         getPaletteColors: getPaletteColors,
         initColorPalette: initColorPalette,
     };
-})();
+})();*/

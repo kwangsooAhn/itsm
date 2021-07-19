@@ -143,7 +143,8 @@
 
         // ColorPicker 초기화
         function initColorPicker() {
-            let selectedColorBox = document.getElementById('selected-color');
+            new zColorPalette(document.getElementById('documentColor'));
+            /*let selectedColorBox = document.getElementById('selected-color');
             let elementObject = document.getElementById('document-color');
             // 색상 초기화
             if (elementObject.value === '') {
@@ -167,7 +168,7 @@
                     value: elementObject.value
                 }
             }
-            zColorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
+            zColorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);*/
         }
 
         // 신청서 아이콘 선택 팝업

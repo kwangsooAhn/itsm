@@ -5,7 +5,6 @@
  * @author jy.lim
  * @version 1.0
  */
-
 .color-picker {
   display: flex;
   flex-direction: column;
@@ -115,5 +114,33 @@
         vertical-align: middle;
       }
     }
+  }
+}
+
+.#{$common-prefix}color-palette-wrapper {
+  width: 120px; // 120px
+  padding: 5px; // 5px
+  @include border(0.0625rem, solid, $gray300, all); // 1px
+  @include borderRadius(0.0625rem); // 2px
+
+  .#{$common-prefix}color-input {
+    display: none;
+  }
+
+  .#{$common-prefix}color-box {
+    width: 76px; // 76px
+    height: 24px; // 24px
+  }
+}
+
+.#{$common-prefix}palette-modal {
+  display: none;
+  @include fixed();
+  min-width: 23.375rem; // 374px
+  z-index: $z-index-modal;
+  // modal open
+  &.active {
+    display: block;
+    z-index: $z-index-modal;
   }
 }
