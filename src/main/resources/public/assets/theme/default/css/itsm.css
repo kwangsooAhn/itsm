@@ -1210,7 +1210,7 @@ label {
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.z-input.i-search-date, .z-input.i-date-picker {
+.z-input.i-date-picker {
   background-image: url("../media/icons/icon_date_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -1237,7 +1237,6 @@ label {
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
-  background-color: #8B9094;
 }
 .z-input.i-mb {
   background-image: url("../media/icons/icon_mb.svg");
@@ -1245,7 +1244,6 @@ label {
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
-  background-color: #8B9094;
 }
 .z-input-button {
   position: relative;

@@ -514,7 +514,7 @@ label {
     @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
-  &.i-search-date, &.i-date-picker {
+  &.i-date-picker {
     @include backgroundImage($icon-folder-path + 'icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
@@ -527,11 +527,11 @@ label {
   }
 
   &.i-px {
-    @include backgroundImage($icon-folder-path + 'icon_px.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, $gray500);
+    @include backgroundImage($icon-folder-path + 'icon_px.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
   &.i-mb {
-    @include backgroundImage($icon-folder-path + 'icon_mb.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, $gray500);
+    @include backgroundImage($icon-folder-path + 'icon_mb.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
   // todo: 임시로 추가. 추후 z-input 모두 적용 시 제거 예정.

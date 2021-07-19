@@ -281,7 +281,7 @@ export const dynamicRowTableMixin = {
         let timeWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
 
         let time = new UIInput().setUIPlaceholder(i18n.timeFormat)
-            .setUIClass('timepicker')
+            .setUIClass(CLASS_PREFIX + 'input i-time-picker')
             .setUIId('time' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'time' + index)
             .setUIValue(this.getDefaultValueForTime(column, cellValue))
