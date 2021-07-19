@@ -4841,7 +4841,6 @@ table[id=documentDisplay] td {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  flex-wrap: wrap;
   border-bottom: 0.0625rem solid #CFD5D9;
   padding: 1rem 0 1rem 0;
 }
