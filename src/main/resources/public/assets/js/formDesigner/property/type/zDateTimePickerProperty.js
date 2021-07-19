@@ -34,22 +34,33 @@ export default class ZDateTimePickerProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
         // inputbox
         this.UIElement.UIInput = new UIInput(this.value)
-            .setUIId(this.key)
+            .setUIId(this.key).setUIClass(CLASS_PREFIX + 'input');
+
+        switch (this.pickerType) {
+            case FORM.DATE_TYPE.DATE_PICKER:
+                this.UIElement.UIInput.setUIClass('i-date-picker');
+                break;
+            case FORM.DATE_TYPE.TIME_PICKER:
+                this.UIElement.UIInput.setUIClass('i-time-picker');
+                break;
+            case FORM.DATE_TYPE.DATETIME_PICKER:
+                this.UIElement.UIInput.setUIClass('i-datetime-picker');
+                break;
+        }
+
+        this.UIElement.addUI(this.UIElement.UIInput);
+
         switch (this.pickerType) {
         case FORM.DATE_TYPE.DATE_PICKER:
-            this.UIElement.UIInput.setUIClass(CLASS_PREFIX + 'input i-date-picker');
             zDateTimePicker.initDatePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
             break;
         case FORM.DATE_TYPE.TIME_PICKER:
-            this.UIElement.UIInput.setUIClass(CLASS_PREFIX + 'input i-time-picker');
             zDateTimePicker.initTimePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
             break;
         case FORM.DATE_TYPE.DATETIME_PICKER:
-            this.UIElement.UIInput.setUIClass(CLASS_PREFIX + 'input i-datetime-picker');
             zDateTimePicker.initDateTimePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
             break;
         }
-        this.UIElement.addUI(this.UIElement.UIInput);
 
         return this.UIElement;
     }
