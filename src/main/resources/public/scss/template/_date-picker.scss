@@ -6,11 +6,11 @@
  * @version 1.0
  */
 // input box
-.picker-wrapper-date {
+.#{$common-prefix}picker-wrapper-date {
   display: inline-block;
 }
 // modal
-.picker-modal {
+.#{$common-prefix}picker-modal {
   display: none;
   @include fixed();
   min-width: 12.5rem; // 200px
@@ -102,6 +102,7 @@
           width: 16.5rem; // 264px
           margin: 0;
           padding: 0;
+          font-size: $datepicker-calendar-month-font-size;
           font-weight: $datepicker-calendar-month-font-weight;
           color: $datepicker-calendar-month-font-color;
           vertical-align: middle;

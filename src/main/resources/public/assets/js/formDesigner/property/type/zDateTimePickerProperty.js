@@ -34,17 +34,17 @@ export default class ZDateTimePickerProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
         // inputbox
         this.UIElement.UIInput = new UIInput(this.value)
-            .setUIId(this.key).setUIClass(CLASS_PREFIX + 'input');
+            .setUIId(this.key)
 
         switch (this.pickerType) {
             case FORM.DATE_TYPE.DATE_PICKER:
-                this.UIElement.UIInput.setUIClass('i-date-picker');
+                this.UIElement.UIInput.setUIClass(CLASS_PREFIX + 'input i-date-picker');
                 break;
             case FORM.DATE_TYPE.TIME_PICKER:
-                this.UIElement.UIInput.setUIClass('i-time-picker');
+                this.UIElement.UIInput.setUIClass(CLASS_PREFIX + 'input i-time-picker');
                 break;
             case FORM.DATE_TYPE.DATETIME_PICKER:
-                this.UIElement.UIInput.setUIClass('i-datetime-picker');
+                this.UIElement.UIInput.setUIClass(CLASS_PREFIX + 'input i-datetime-picker');
                 break;
         }
 
