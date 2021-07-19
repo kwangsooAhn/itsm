@@ -1743,6 +1743,17 @@
      * svg 추가 및 필요한 element 추가.
      */
     function initProcessEdit() {
+        document.addEventListener('click', function(e) {
+            // 상단 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
+            if (e.target != null && !e.target.classList.contains(aliceJs.CLASS_PREFIX + 'header-button-dropdown')) {
+                document.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'header-button-dropdown').forEach(function (dropdown) {
+                    if (dropdown.classList.contains('active')) {
+                        dropdown.classList.remove('active');
+                    }
+                });
+            }
+        });
+
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
@@ -1813,13 +1824,13 @@
         window.onkeydown = function(e) {
             let keyCode = e.keyCode ? e.keyCode : e.which;
             isMovableDrawingboard = keyCode === 32;
-            d3.select(document.getElementById('icon-move-drawingboard')).classed('selected', isMovableDrawingboard);
+            d3.select(document.getElementById('moveDrawingboard')).classed('selected', isMovableDrawingboard);
         };
         window.onkeyup = function() {
             if (isMovableDrawingboard) {
                 isMovableDrawingboard = false;
             }
-            d3.select(document.getElementById('icon-move-drawingboard')).classed('selected', isMovableDrawingboard);
+            d3.select(document.getElementById('moveDrawingboard')).classed('selected', isMovableDrawingboard);
         };
         setDrawingBoardGrid();
 
@@ -1934,7 +1945,7 @@
             .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
 
-        document.getElementById('icon-move-drawingboard').addEventListener('click', function() {
+        document.getElementById('moveDrawingboard').addEventListener('click', function() {
             let isSelected = d3.select(this).classed('selected');
             d3.select(this).classed('selected', !isSelected);
             isMovableDrawingboard = !isSelected;

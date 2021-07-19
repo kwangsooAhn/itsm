@@ -285,6 +285,7 @@
                             editTags: false,
                             placeholder: i18n.msg('token.msg.tag')
                         });
+                        aliceJs.initDesignedSelectTag(document.querySelector('.chart-edit-modal'));
                     } else if (target === 'view') {
                         setChart(chartType, document.getElementById('propertyJson').value);
                     }

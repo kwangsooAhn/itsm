@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <body>
+        <div class="z-top">
+            <div class="flex-row justify-content-end">
+                <span class="z-icon-notification active">
+                    <img class="load-svg" th:src="@{/assets/theme/{theme}/media/icons/gnb/icon_gnb_notification.svg(theme=${#authentication.details.theme})}" width="24" height="24">
+                </span>
+                <span class="z-divide">|</span>
+                <button class="z-user z-user-info flex-row align-items-center" tabindex="0">
+                    <img class="z-user z-user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
+                    <span class="z-user z-user-name text-ellipsis" sec:authentication="details.userName"></span>
+                    <span class="z-user z-icon i-arrow-right"></span>
+                </button>
+                <ul class="z-dropdown-content">
+                    <li class="z-dropdown-item" tabindex="-1">
+                        <button class="z-dropdown-item-btn align-left" th:text="#{common.btn.editUserInfo}" onclick="getUserEdit()" tabindex="0"></button>
+                    </li>
+                    <li class="z-dropdown-item" tabindex="-1">
+                        <button class="z-dropdown-item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()" tabindex="0"></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[ */
+        window.addEventListener('DOMContentLoaded', function(){
+            const userInfo = document.querySelector('.z-user-info');
+            document.querySelector('.z-user-info').addEventListener('click', function (e) {
+                e.preventDefault();
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                } else {
+                    this.classList.add('active');
+                }
+            });
+            document.addEventListener('click', function (e) {
+                if (e.target != null && !e.target.classList.contains('z-user')) {
+                    userInfo.classList.remove('active');
+                }
+            })
+        });
+
+    function getUserEdit() {
+        document.location.href = '/users/[(${#authentication.details.userKey})]/editself';
+    }
+    function logout() {
+        document.getElementById('logoutForm').submit();
+    }
+    </script>
+</html>
