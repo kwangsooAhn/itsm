@@ -4793,9 +4793,9 @@ table[id=documentDisplay] td {
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0 0.3125rem 0 #CFD5D9;
+  box-shadow: 0 0 0.3125rem 0 #CFD5D9;
   text-align: center;
   z-index: 1000;
 }

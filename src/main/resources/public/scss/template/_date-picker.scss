@@ -22,7 +22,7 @@
   background-color: $datepicker-bg-color;
   @include border($datepicker-border-width, solid, $datepicker-border-color, all);
   @include borderRadius(0.0625rem); // 1px
-  @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
+  @include boxShadow(0, 0, 0.3125rem, 0, $datepicker-border-color);
   text-align: center;
   z-index: $z-index-modal;
   // modal open
