@@ -14,7 +14,7 @@
   display: none;
   @include fixed();
   min-width: 12.5rem; // 200px
-  font-family: inherit;
+  font-family: $datepicker-font-family;
   font-size: $datepicker-font-size;
   font-weight: $datepicker-font-weight;
   line-height: $datepicker-line-height;
