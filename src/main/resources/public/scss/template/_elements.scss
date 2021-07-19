@@ -510,28 +510,28 @@ label {
   }
 
   // z-input with background img
-  &.search {
-    @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  &.i-search {
+    @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
-  &.search-date, &.date-picker {
-    @include backgroundImage($icon-folder-path + 'icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  &.i-search-date, &.i-date-picker {
+    @include backgroundImage($icon-folder-path + 'icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
-  &.time-picker {
-    @include backgroundImage($icon-folder-path + 'icon_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  &.i-time-picker {
+    @include backgroundImage($icon-folder-path + 'icon_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
-  &.datetime-picker {
-    @include backgroundImage($icon-folder-path + 'icon_date_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  &.i-datetime-picker {
+    @include backgroundImage($icon-folder-path + 'icon_date_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
-  &.px {
-    @include backgroundImage($icon-folder-path + 'icon_px.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  &.i-px {
+    @include backgroundImage($icon-folder-path + 'icon_px.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, $gray500);
   }
 
-  &.mb {
-    @include backgroundImage($icon-folder-path + 'icon_mb.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, null);
+  &.i-mb {
+    @include backgroundImage($icon-folder-path + 'icon_mb.svg', null, no-repeat, calc(100% - 0.4375rem), 50%, $gray500);
   }
 
   // todo: 임시로 추가. 추후 z-input 모두 적용 시 제거 예정.
@@ -743,7 +743,7 @@ label {
         @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color);
         // 열렸을때 출력되는 화살표 아이콘
         &:after {
-          @include backgroundImage($icon-folder-path + 'icon_arrow_up.svg', auto, no-repeat, center, center, null);
+          @include backgroundImage($icon-folder-path + 'icon_arrow_up.svg', auto, no-repeat, center, center);
         }
 
         + .z-select-options {
@@ -757,7 +757,7 @@ label {
         width: 0;
         height: 0;
         border: 0.75rem solid transparent; // 12px
-        @include backgroundImage($icon-folder-path + 'icon_arrow_bottom.svg', auto, no-repeat, center, center, null);
+        @include backgroundImage($icon-folder-path + 'icon_arrow_bottom.svg', auto, no-repeat, center, center);
         content:'';
       }
     }
@@ -825,7 +825,7 @@ label {
         @include absolute($right: 0.9375rem); // 15px
         width: 10px;
         height: 7px;
-        @include backgroundImage($icon-folder-path + 'icon_select_check.svg', auto, no-repeat, center, center, null);
+        @include backgroundImage($icon-folder-path + 'icon_select_check.svg', auto, no-repeat, center, center);
         content: '';
       }
     }

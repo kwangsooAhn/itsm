@@ -1,6 +1,6 @@
 // 배경 이미지
 // @include backgroundImage($icon-folder-path + 'login/icon_google.svg', 1.188rem, no-repeat, 0.625rem, center, null);
-@mixin backgroundImage($path, $size, $repeat, $posX, $posY, $color) {
+@mixin backgroundImage($path, $size, $repeat, $posX, $posY, $color: null) {
   background-image: url($path);
   background-size: if($size == null, auto, $size);
   background-repeat: if($repeat == null, no-repeat, $repeat);
