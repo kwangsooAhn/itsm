@@ -354,7 +354,7 @@ $datepicker-calendar-title-font-color:       $gray500;
 // cell
 $datepicker-cell-font-color:                 $gray400;
 // current cell
-$datepicker-current-cell-font-color:         map-get($grays, 'dark');
+$datepicker-current-cell-font-color:         $gray800;
 // hovered cell
 $datepicker-hover-cell-color:                $blue100;
 // active cell

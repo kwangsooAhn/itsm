@@ -4942,7 +4942,7 @@ table[id=documentDisplay] td {
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
 .picker-modal-content-date-calendar .calendar-cell.active {
-  color: #586872;
+  color: #222529;
 }
 .picker-modal-content-date-calendar .calendar-cell.selected {
   border: 0.0625rem solid #339AF0;
