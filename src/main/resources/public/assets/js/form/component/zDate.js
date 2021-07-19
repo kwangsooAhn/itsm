@@ -51,10 +51,11 @@ export const dateMixin = {
         const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass('datepicker')
+            .setUIClass(CLASS_PREFIX + 'input i-date-picker')
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())
+            .setUIAttribute('autocomplete', 'off')
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-max-date', this.validationMaxDate)
             .setUIAttribute('data-validation-min-date', this.validationMinDate);
