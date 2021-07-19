@@ -10,13 +10,12 @@
  * https://www.brainz.co.kr
  */
 const DEFAULT_OPTIONS = {
-
+    type: 'fill', // fill or line
 };
 
 function zColorPalette(targetElement, options) {
     this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-    this.isOpen = true;
-    console.log(this);
+    this.isOpen = false;
 
     // input box
     targetElement.classList.add(aliceJs.CLASS_PREFIX + 'color-input');
@@ -34,13 +33,12 @@ function zColorPalette(targetElement, options) {
     // color box
     const colorBox = document.createElement('div');
     colorBox.className = aliceJs.CLASS_PREFIX + 'color-box';
-    colorBox.style.backgroundColor = this.inputEl.value || '#ffffff';
     wrapperContainer.appendChild(colorBox);
     this.colorEl = wrapperContainer;
 
     // 아이콘
     const paletteIcon = document.createElement('span');
-    paletteIcon.className = 'z-icon i-color-palette';
+    paletteIcon.className = 'z-icon i-color-palette ml-1';
     wrapperContainer.appendChild(paletteIcon);
 
     // color palette modal
@@ -54,6 +52,9 @@ function zColorPalette(targetElement, options) {
     this.containerEl.addEventListener('click', function () {
         self.isOpen ? self.close() : self.open();
     });
+
+    // 색상 초기화
+    this.setColor(this.inputEl.value || '#ffffff');
 }
 Object.assign(zColorPalette.prototype, {
     // open
@@ -81,6 +82,13 @@ Object.assign(zColorPalette.prototype, {
             window.removeEventListener('resize', this.setPosition, false);
         }
     },
+    // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
+    autoClose: function(e) {
+        if (!aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'palette-modal') &&
+            !aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-box')) {
+            this.close();
+        }
+    },
     // Palette set Position.
     setPosition: function() {
         let rect = this.modalEl.parentNode.getBoundingClientRect(),
@@ -105,11 +113,12 @@ Object.assign(zColorPalette.prototype, {
             this.modalEl.style.top = rect.top + rect.height +  3 + 'px';
         }
     },
-    // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
-    autoClose: function(e) {
-        if (!aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'palette-modal') &&
-            !aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-box')) {
-            this.close();
+    // set color
+    setColor: function (color) {
+        if (this.options.type === 'fill') {
+            this.colorEl.style.backgroundColor = color;
+        } else { // line
+            this.colorEl.style.borderColor = color;
         }
     }
 });

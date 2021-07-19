@@ -3755,19 +3755,27 @@ svg path.connector.hidden {
 }
 
 .z-color-palette-wrapper {
-  width: 120px;
-  padding: 5px;
+  width: 7.5rem;
+  padding: 0.3125rem;
   border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  cursor: pointer;
+  outline: none;
 }
 .z-color-palette-wrapper .z-color-input {
   display: none;
 }
 .z-color-palette-wrapper .z-color-box {
-  width: 76px;
-  height: 24px;
+  display: inline-block;
+  width: 4.75rem;
+  height: 1.5rem;
+  border: 0.25rem solid transparent;
+}
+.z-color-palette-wrapper .z-icon.i-color-palette {
+  background: #8B9094;
+  pointer-events: none;
 }
 
 .z-palette-modal {

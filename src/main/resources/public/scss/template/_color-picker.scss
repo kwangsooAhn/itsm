@@ -118,18 +118,28 @@
 }
 
 .#{$common-prefix}color-palette-wrapper {
-  width: 120px; // 120px
-  padding: 5px; // 5px
+  width: 7.5rem; // 120px
+  padding: 0.3125rem; // 5px
   @include border(0.0625rem, solid, $gray300, all); // 1px
-  @include borderRadius(0.0625rem); // 2px
+  @include borderRadius(0.125rem); // 2px
+  cursor: pointer;
+  outline: none;
 
   .#{$common-prefix}color-input {
     display: none;
   }
 
   .#{$common-prefix}color-box {
-    width: 76px; // 76px
-    height: 24px; // 24px
+    display: inline-block;
+    width: 4.75rem; // 76px
+    height: 1.5rem; // 24px
+    @include border(0.25rem, solid, transparent, all); // 4px
+  }
+  .#{$common-prefix}icon {
+    &.i-color-palette {
+      background: $gray500;
+      pointer-events: none;
+    }
   }
 }
 
