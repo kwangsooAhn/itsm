@@ -2,9 +2,9 @@
 
 // header button
 .#{$common-prefix}header-button {
-  padding: 0.5625rem 0.625rem; // 9px 10px
   &.#{$common-prefix}button-icon {
     .#{$common-prefix}icon {
+      pointer-events: none;
       &.i-save {
         @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_save.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
       }
@@ -20,9 +20,89 @@
       &.i-preview {
         @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_preview.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
       }
-      &.i-dropdown {
-        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_dropdown.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
+      &.i-arrow-right {
+        @include rotate(90);
       }
+    }
+  }
+}
+
+// header dropdown button
+.#{$common-prefix}header-button-dropdown {
+  width: 1.25rem; // 20px
+  padding: 0.25rem 0; // 4px 0
+
+  .#{$common-prefix}icon {
+    margin-left: -0.1875rem; // -3px
+    pointer-events: none;
+  }
+
+  + .#{$common-prefix}dropdown-content {
+    min-width: 9.625rem; // 154px
+    visibility: hidden;
+    @include absolute($right: 0);
+    padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
+    margin: 0.6875rem 0 0 0; // 11px
+    z-index: $z-index-between-tooltip-gnb;
+    background-color: $layout-header-dropdown-bg-color;
+    @include border($layout-header-dropdown-border-width, solid, $layout-header-dropdown-border-color, all); // 1px
+    @include boxShadow(0, 2px, 12px, 0, $layout-header-dropdown-box-shadow-color); // 0, 2px, 12px, 0
+
+    .#{$common-prefix}dropdown-item {
+      padding: 0.25rem 0 0 0; // 4px 0 0 0
+
+      .#{$common-prefix}button-dropdown {
+        width: 100%;
+        font-weight: $font-weight-medium;
+        color: map-get($layout-header-dropdown, 'default', 'font');
+        background-color: map-get($layout-header-dropdown, 'default', 'background');
+        border-color: map-get($layout-header-dropdown, 'default', 'border');
+        @if map-get($layout-header-dropdown, 'default', 'shadow') != null {
+          box-shadow: map-get($layout-header-dropdown, 'default', 'shadow');
+        }
+        &:focus {
+          outline: 0;
+          color: map-get($layout-header-dropdown, 'focus', 'font');
+          background-color: map-get($layout-header-dropdown, 'focus', 'background');
+          border-color: map-get($layout-header-dropdown, 'focus', 'border');
+          @if map-get($layout-header-dropdown, 'focus', 'shadow') != null {
+            box-shadow: map-get($layout-header-dropdown, 'focus', 'shadow');
+          }
+        }
+
+        &:hover {
+          outline: 0;
+          color: map-get($layout-header-dropdown, 'hover', 'font');
+          background-color: map-get($layout-header-dropdown, 'hover', 'background');
+          border-color: map-get($layout-header-dropdown, 'hover', 'border');
+          @if map-get($layout-header-dropdown, 'hover', 'shadow') != null {
+            box-shadow: map-get($layout-header-dropdown, 'hover', 'shadow');
+          }
+        }
+
+        &:enabled:active,
+        &:enabled.active {
+          color: map-get($layout-header-dropdown, 'active', 'font');
+          background-color: map-get($layout-header-dropdown, 'active', 'background');
+          border-color: map-get($layout-header-dropdown, 'active', 'border');
+          z-index: $z-index-event;
+          @if map-get($layout-header-dropdown, 'active', 'shadow') != null {
+            box-shadow: map-get($layout-header-dropdown, 'active', 'shadow');
+          }
+        }
+      }
+    }
+  }
+
+  &.active {
+    .#{$common-prefix}icon {
+      &.i-arrow-right {
+        @include rotate(-90);
+      }
+    }
+    + .#{$common-prefix}dropdown-content {
+      visibility: visible;
+      display: block;
     }
   }
 }

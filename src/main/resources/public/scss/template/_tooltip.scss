@@ -57,27 +57,37 @@
   }
 }
 
-.header-tooltip {
-  .tooltip-contents {
-    @include absolute();
-    min-width: $tooltip-header-contents-width;
+// header tooltip
+.#{$common-prefix}header-tooltip {
+  @include relative();
+  .#{$common-prefix}header-tooltip-contents {
+    @include absolute($left: 50%);
+    @include translate(-50%, 0);
     visibility: hidden;
-    background-color: map-get($blues, "hover");
-    color: $white;
+    background-color: $header-tooltip-bg-color;
     text-align: center;
-    font-size: $tooltip-header-contents-size;
-    @include borderRadius(0.1875rem); // 3px
-    padding: $tooltip-header-contents-padding;
-    margin: $tooltip-header-contents-margin;
+    @include borderRadius($header-tooltip-border-radius);
+    @include border($header-tooltip-border-width, solid, $header-tooltip-border-color, all);
+    @include boxShadow(0, 0, 0.125rem, 0, $header-tooltip-box-shadow-color); // 2px
+    padding: $header-tooltip-padding;
+    margin: $header-tooltip-margin;
     z-index: $z-index-tooltip;
-    span {
-      color: $white;
-      font-weight: $font-weight-medium;
+
+    &.last {
+      left: 0;
+      @include translate(-70%, 0);
+    }
+
+    .#{$common-prefix}header-tooltip-text {
+      font-family: $header-tooltip-font-family;
+      font-size: $header-tooltip-font-size;
+      color: $header-tooltip-font-color;
+      font-weight: $header-tooltip-font-weight;
     }
   }
-
+  // 마우스 오버
   &:hover {
-    .tooltip-contents {
+    .#{$common-prefix}header-tooltip-contents {
       visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
     }

@@ -77,6 +77,7 @@ input, button, select, optgroup, textarea {
   font-size: 100%;
   line-height: 1.2;
   margin: 0;
+  max-width: 100%;
 }
 
 /* _alignments.scss 
@@ -775,51 +776,30 @@ input, button, select, optgroup, textarea {
   left: 0;
   display: flex;
   align-items: center;
-  height: 3.125rem;
+  height: 2.875rem;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1.125rem;
   font-weight: 500;
   color: #FFFFFF;
-  background-color: #0098FF;
+  background-color: #339AF0;
   z-index: 100;
 }
-.z-form-header .logo {
+.z-form-header .z-logo {
   width: 12.5rem;
   padding: 0 0.75rem;
 }
-.z-form-header .name {
+.z-form-header .z-form-name {
   font-size: 1.125rem;
 }
-.z-form-header .buttons {
-  width: 20rem;
-  padding: 0 0.75rem;
+.z-form-header .z-form-button-list {
+  width: 19.06rem;
 }
-.z-form-header .buttons .dropdown-content {
-  visibility: hidden;
-  background-color: white;
-  color: #33ADFF;
-  text-align: center;
-  font-size: 1.125rem;
-  margin: 0.6875rem 0 0 0;
-  position: absolute;
-  z-index: 500;
-  box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.5);
-}
-.z-form-header .buttons .dropdown-item {
-  padding: 0.6875rem 0.875rem;
-}
-.z-form-header .buttons .dropdown-item:hover {
-  background-color: rgba(235, 235, 235, 0.3);
-}
-.z-form-header .buttons .btn-dropdown:hover > .dropdown-content {
-  visibility: visible;
-  display: block;
-}
-.z-form-header .buttons .btn-dropdown:hover:last-child > .dropdown-content {
-  right: 0.75rem;
+.z-form-header .z-form-button-list .z-header-dropdown {
+  position: relative;
 }
 .z-form-component-palette {
   position: fixed;
-  top: 3.125rem;
+  top: 2.875rem;
   bottom: 0;
   left: 0;
   width: 12.5rem;
@@ -832,7 +812,7 @@ input, button, select, optgroup, textarea {
 }
 .z-form-main {
   position: fixed;
-  top: 3.125rem;
+  top: 2.875rem;
   right: 18.75rem;
   bottom: 0;
   left: 0;
@@ -851,7 +831,7 @@ input, button, select, optgroup, textarea {
 }
 .z-form-properties-panel-header {
   position: fixed;
-  top: 3.125rem;
+  top: 2.875rem;
   right: 0;
   width: 20rem;
   height: 2.5rem;
@@ -863,7 +843,7 @@ input, button, select, optgroup, textarea {
 }
 .z-form-properties-panel {
   position: fixed;
-  top: calc(3.125rem + 2.5rem);
+  top: calc(2.875rem + 2.5rem);
   right: 0;
   bottom: 0;
   display: flex;
@@ -1201,7 +1181,7 @@ input, button, select, optgroup, textarea {
   transform: rotate(90deg);
 }
 .z-component-accordion-box .z-component-accordion input[type=radio]:checked ~ .z-accordion-content {
-  height: calc(100vh - (40px * 4) - 3.125rem);
+  height: calc(100vh - (40px * 4) - 2.875rem);
   border-bottom-color: #CFD5D9;
   overflow-y: auto;
   -ms-overflow-style: none;
@@ -1239,12 +1219,13 @@ input, button, select, optgroup, textarea {
 }
 
 .z-save-info {
-  height: 2.188rem;
+  min-height: 1.5625rem;
+  line-height: 1.5;
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   color: #8B9094;
-  margin-top: 1.5625rem;
+  margin: 1.5625rem 0;
 }
 
 /* _elements.scss
@@ -2945,8 +2926,8 @@ label {
   border-bottom-right-radius: 0;
 }
 
-.z-header-button {
-  padding: 0.5625rem 0.625rem;
+.z-header-button.z-button-icon .z-icon {
+  pointer-events: none;
 }
 .z-header-button.z-button-icon .z-icon.i-save {
   width: 1.5rem;
@@ -2998,15 +2979,75 @@ label {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-header-button.z-button-icon .z-icon.i-dropdown {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/topmenu/icon_dropdown.svg");
-  mask-image: url("../media/icons/formDesigner/topmenu/icon_dropdown.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
+.z-header-button.z-button-icon .z-icon.i-arrow-right {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.z-header-button-dropdown {
+  width: 1.25rem;
+  padding: 0.25rem 0;
+}
+.z-header-button-dropdown .z-icon {
+  margin-left: -0.1875rem;
+  pointer-events: none;
+}
+.z-header-button-dropdown + .z-dropdown-content {
+  min-width: 9.625rem;
+  visibility: hidden;
+  position: absolute;
+  right: 0;
+  padding: 0 0.25rem 0.25rem 0.25rem;
+  margin: 0.6875rem 0 0 0;
+  z-index: 250;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 2px 12px 0 #CFD5D9;
+  -moz-box-shadow: 0 2px 12px 0 #CFD5D9;
+  box-shadow: 0 2px 12px 0 #CFD5D9;
+}
+.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item {
+  padding: 0.25rem 0 0 0;
+}
+.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .z-button-dropdown {
+  width: 100%;
+  font-weight: 500;
+  color: #222529;
+  background-color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .z-button-dropdown:focus {
+  outline: 0;
+  color: #222529;
+  background-color: #FFFFFF;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .z-button-dropdown:hover {
+  outline: 0;
+  color: #222529;
+  background-color: #F1F9FC;
+  border-color: #F1F9FC;
+}
+.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .z-button-dropdown:enabled:active, .z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .z-button-dropdown:enabled.active {
+  color: #1959AC;
+  background-color: #E3F5FC;
+  border-color: #E3F5FC;
+  z-index: 25;
+}
+.z-header-button-dropdown.active .z-icon.i-arrow-right {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.z-header-button-dropdown.active + .z-dropdown-content {
+  visibility: visible;
+  display: block;
 }
 
 .z-button-switch-group .z-button-switch .z-text,
@@ -5153,79 +5194,46 @@ body.modal-active {
   background: #0098FF;
 }
 
-.header-tooltip .tooltip-contents {
+.z-header-tooltip {
+  position: relative;
+}
+.z-header-tooltip .z-header-tooltip-contents {
   position: absolute;
-  min-width: 3.75rem;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
   visibility: hidden;
-  background-color: #33ADFF;
-  color: #FFFFFF;
+  background-color: #FFFFFF;
   text-align: center;
-  font-size: 1.125rem;
-  border-radius: 0.1875rem;
-  -webkit-border-radius: 0.1875rem;
-  -moz-border-radius: 0.1875rem;
-  padding: 0.6875rem 0.875rem;
-  margin: 1.3125rem 0 0 0;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  border: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  padding: 7px;
+  margin: 16px 0 0 0;
   z-index: 500;
 }
-.header-tooltip .tooltip-contents span {
-  color: #FFFFFF;
+.z-header-tooltip .z-header-tooltip-contents.last {
+  left: 0;
+  -webkit-transform: translate(-70%, 0);
+  -moz-transform: translate(-70%, 0);
+  -o-transform: translate(-70%, 0);
+  -ms-transform: translate(-70%, 0);
+  transform: translate(-70%, 0);
+}
+.z-header-tooltip .z-header-tooltip-contents .z-header-tooltip-text {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  color: #222529;
   font-weight: 500;
 }
-.header-tooltip:hover .tooltip-contents {
-  visibility: visible;
-  -webkit-animation-delay: 0s;
-  -webkit-animation-duration: 0.3s;
-  -webkit-animation-name: fadeIn;
-  -webkit-animation-timing-function: ease-out;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-direction: normal;
-  -moz-animation-delay: 0s;
-  -moz-animation-duration: 0.3s;
-  -moz-animation-name: fadeIn;
-  -moz-animation-timing-function: ease-out;
-  -moz-animation-iteration-count: 1;
-  -moz-animation-direction: normal;
-  -o-animation-delay: 0s;
-  -o-animation-duration: 0.3s;
-  -o-animation-name: fadeIn;
-  -o-animation-timing-function: ease-out;
-  -o-animation-iteration-count: 1;
-  -o-animation-direction: normal;
-  -ms-animation-delay: 0s;
-  -ms-animation-duration: 0.3s;
-  -ms-animation-name: fadeIn;
-  -ms-animation-timing-function: ease-out;
-  -ms-animation-iteration-count: 1;
-  -ms-animation-direction: normal;
-  animation-delay: 0s;
-  animation-duration: 0.3s;
-  animation-name: fadeIn;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-}
-
-.header-tooltip .tooltip-contents-reverse {
-  min-width: 3.75rem;
-  visibility: hidden;
-  background-color: #33ADFF;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 1.125rem;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  padding: 0.6875rem 0.875rem;
-  margin: 1.3125rem 0 0 0;
-  position: absolute;
-  z-index: 500;
-}
-.header-tooltip .tooltip-contents-reverse span {
-  color: #FFFFFF;
-  font-weight: 500;
-}
-.header-tooltip:hover .tooltip-contents {
+.z-header-tooltip:hover .z-header-tooltip-contents {
   visibility: visible;
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;

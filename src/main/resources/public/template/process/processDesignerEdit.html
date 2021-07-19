@@ -32,50 +32,92 @@
 <div class="alice-wrapper">
     <div class="z-process-container">
         <div class="z-process-header">
-            <img class="logo"  th:src="@{/assets/media/icons/icon_logo_white.svg}" width="152" height="26" alt="Zenius ITSM" />
-            <span class="name" th:text="#{process.label.title}"></span>
-            <span class="separator"></span>
-            <th:block th:if="${#strings.isEmpty(isView)}">
-                <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnSave">
-                    <span class="z-icon i-save"></span>
-                    <div class="tooltip-contents">
-                        <span th:text="#{common.btn.save}"></span>
+            <img class="z-logo"  th:src="@{/assets/media/icons/process/topmenu/icon_process_designer.svg}" width="196" height="25" alt="Process Designer" />
+            <span class="z-process-name ml-auto mr-auto" id="processName"></span>
+            <!-- 버튼 영역 -->
+            <div class="z-process-button-list flex-row mr-3">
+                <!--undo-->
+                <th:block th:if="${#strings.isEmpty(isView)}">
+                    <div id="editCommand">
+                        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="undo" data-targetId="editCommand"
+                                onclick="zProcessDesigner.onDropdownClickHandler(this);">
+                            <span class="z-icon i-undo"></span>
+                            <div class="z-header-tooltip-contents">
+                                <span class="z-header-tooltip-text" th:text="#{process.label.undo}"></span>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </th:block>
-            <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnSaveAs">
-                <span class="z-icon i-save-as"></span>
-                <div class="tooltip-contents">
-                    <span th:text="#{common.btn.saveAs}"></span>
-                </div>
-            </button>
-            <th:block th:if="${#strings.isEmpty(isView)}">
-               <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnUndo">
-                    <span class="z-icon i-undo"></span>
-                    <div class="tooltip-contents">
-                        <span th:text="#{process.label.undo}"></span>
+                    <!--undo, redo (드롭다운)-->
+                    <div class="z-header-dropdown">
+                        <button type="button" class="z-header-button z-button-icon z-header-button-dropdown light-extra">
+                            <span class="z-icon i-arrow-right"></span>
+                        </button>
+                        <ul class="z-dropdown-content">
+                            <li class="z-dropdown-item" tabindex="-1">
+                                <button type="button" class="z-button z-button-dropdown align-left" data-actionType="undo" data-targetId="editCommand"
+                                        onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{process.label.undo}" tabindex="0"></button>
+                            </li>
+                            <li class="z-dropdown-item" tabindex="-1">
+                                <button type="button" class="z-button z-button-dropdown align-left" data-actionType="redo" data-targetId="editCommand"
+                                        onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{process.label.redo}" tabindex="0"></button>
+                            </li>
+                        </ul>
                     </div>
-                </button>
-                <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnRedo">
-                    <span class="z-icon i-redo"></span>
-                    <div class="tooltip-contents">
-                        <span th:text="#{process.label.redo}"></span>
+                </th:block>
+                <div class="ml-auto">
+                    <!-- 시뮬레이션 -->
+                    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.simulationProcess();">
+                        <span class="z-icon i-simulation"></span>
+                        <div class="z-header-tooltip-contents">
+                            <span class="z-header-tooltip-text" th:text="#{process.label.simulation}"></span>
+                        </div>
+                    </button>
+                    <!-- 이미지로 다운로드 -->
+                    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.downloadProcessImage();">
+                        <span class="z-icon i-image-download"></span>
+                        <div class="z-header-tooltip-contents">
+                            <span class="z-header-tooltip-text" th:text="#{process.label.imageDownload}"></span>
+                        </div>
+                    </button>
+                </div>
+                <!--저장하기-->
+                <th:block th:if="${#strings.isEmpty(isView)}">
+                    <div id="fileCommand">
+                        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="save" data-targetId="fileCommand"
+                                onclick="zProcessDesigner.saveProcess();">
+                            <span class="z-icon i-save"></span>
+                            <div class="z-header-tooltip-contents">
+                                <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
+                            </div>
+                        </button>
                     </div>
-                </button>
-            </th:block>
-            <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnSimulation">
-                <span class="z-icon i-simulation"></span>
-                <div class="tooltip-contents">
-                    <span th:text="#{process.label.simulation}"></span>
-                </div>
-            </button>
-            <button type="button" class="z-header-button z-button-icon light-extra header-tooltip" id="btnDownload">
-                <span class="z-icon i-image-download"></span>
-                <div class="tooltip-contents">
-                    <span th:text="#{process.label.imageDownload}"></span>
-                </div>
-            </button>
-            <span class="ml-auto" id="process-name"></span>
+                    <!--저장하기(드롭다운)-->
+                    <div class="z-header-dropdown">
+                        <button type="button" class="z-header-button z-button-icon z-header-button-dropdown light-extra">
+                            <span class="z-icon i-arrow-right"></span>
+                        </button>
+                        <ul class="z-dropdown-content">
+                            <li class="z-dropdown-item" tabindex="-1">
+                                <button type="button" class="z-button z-button-dropdown align-left" data-actionType="save" data-targetId="fileCommand"
+                                        onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{common.btn.save}" tabindex="0"></button>
+                            </li>
+                            <li class="z-dropdown-item align-left" tabindex="-1">
+                                <button type="button" class="z-button z-button-dropdown align-left"  data-actionType="saveAs" data-targetId="fileCommand"
+                                        onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{common.btn.saveAs}" tabindex="0"></button>
+                            </li>
+                        </ul>
+                    </div>
+                </th:block>
+                <!--프로세스가 사용일때 다른이름으로 저장하기 만 가능-->
+                <th:block th:unless="${#strings.isEmpty(isView)}">
+                    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.saveAsProcess();">
+                        <span class="z-icon i-save-as"></span>
+                        <div class="z-header-tooltip-contents last">
+                            <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
+                        </div>
+                    </button>
+                </th:block>
+            </div>
         </div>
         <div class="z-process-element-palette">
             <button type="button" class="z-element-icon shape event">
@@ -106,7 +148,7 @@
                 <span class="z-icon i-connector"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.connector}"></label>
             </button>
-            <button type="button" class="z-element-icon move-icon" id="icon-move-drawingboard">
+            <button type="button" class="z-element-icon move-icon" id="moveDrawingboard">
                 <span class="z-icon i-background"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.background}"></label>
             </button>
@@ -119,6 +161,40 @@
         </div>
         <div class="z-process-properties"></div>
     </div>
+    <!-- dropdown button 템플릿 -->
+    <template id="undoButtonTemplate">
+        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="undo" data-targetId="editCommand">
+            <span class="z-icon i-undo"></span>
+            <div class="z-header-tooltip-contents">
+                <span class="z-header-tooltip-text" th:text="#{process.label.undo}"></span>
+            </div>
+        </button>
+    </template>
+    <template id="redoButtonTemplate">
+        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="redo" data-targetId="editCommand">
+            <span class="z-icon i-redo"></span>
+            <div class="z-header-tooltip-contents">
+                <span class="z-header-tooltip-text" th:text="#{process.label.redo}"></span>
+            </div>
+        </button>
+    </template>
+    <template id="saveButtonTemplate">
+        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="save" data-targetId="fileCommand">
+            <span class="z-icon i-save"></span>
+            <div class="z-header-tooltip-contents">
+                <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
+            </div>
+        </button>
+    </template>
+    <template id="saveAsButtonTemplate">
+        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="saveAs" data-targetId="fileCommand">
+            <span class="z-icon i-save-as"></span>
+            <div class="z-header-tooltip-contents last">
+                <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
+            </div>
+        </button>
+    </template>
+    <!-- 프로세스 개요 -->
     <template id="processInfo">
         <div class="process-info-main">
             <h5 class="process-info-title" th:text="#{process.designer.attribute.processInformation}"></h5>
@@ -168,10 +244,20 @@
         i18n.initMessages(function() {
             zProcessDesigner.init('[[${processId}]]', '[[${#strings.isEmpty(isView)}]]');
         });
-    };
+        // 드롭다운 이벤트 추가
+        document.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'header-button-dropdown').forEach(function (dropdown) {
+            dropdown.addEventListener('click', function (e) {
+                e.preventDefault();
 
-    window.addEventListener('load', () => {
+                if (e.target.classList.contains('active')) {
+                    e.target.classList.remove('active');
+                } else {
+                    e.target.classList.add('active');
+                }
+            })
+        });
+        // 디자인 select box 추가
         aliceJs.initDesignedSelectTag();
-    });
+    };
 </script>
 </html>

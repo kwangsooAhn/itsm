@@ -15,46 +15,25 @@
   }
   &-header {
     @include fixedHeader;
+    height: $layout-header-height;
+    font-family: $layout-header-font-family;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
     background-color: $layout-header-bg-color;
     z-index: $z-index-gnb;
-    .logo {
+    .#{$common-prefix}logo {
       width: 12.5rem; // 200px
       padding: 0 $layout-header-padding; // 0 12px
     }
-    .name {
+    .#{$common-prefix}form-name {
       font-size: $layout-header-font-size;
     }
-    .buttons {
-      width: 20rem; // 320px
-      padding: 0 $layout-header-padding; // 0 12px
-      .dropdown {
-        &-content {
-          visibility: hidden;
-          background-color: $layout-header-dropdown-bg-color;
-          color: map-get($blues, "hover");
-          text-align: center;
-          font-size: 1.125rem; // 18px
-          margin: 0.6875rem 0 0 0; // 11px
-          position: absolute;
-          z-index: 500;
-          box-shadow: $layout-header-box-shadow;
-        }
-        &-item {
-          padding: 0.6875rem 0.875rem; // 11px 14px
-          &:hover { background-color: $layout-header-dropdown-hover-bg-color; }
-        }
-      }
-      .btn-dropdown:hover {
-        > .dropdown-content {
-          visibility: visible;
-          display: block;
-        }
-        &:last-child > .dropdown-content {
-          right: $layout-header-padding; // 12px
-        }
+    .#{$common-prefix}form-button-list {
+      width: 19.06rem; // 305px
+
+      .#{$common-prefix}header-dropdown {
+        @include relative();
       }
     }
   }
@@ -327,10 +306,11 @@
 
 // 저장 정보
 .#{$common-prefix}save-info {
-  height: 2.188rem; //35px
+  min-height: 1.5625rem; // 25px
+  line-height: 1.5;
   font-family: $layout-main-save-info-font-family;
   font-size: $layout-main-save-info-font-size;
   font-weight: $layout-main-save-info-font-weight;
   color: $layout-main-save-info-font-color;
-  margin-top: 1.5625rem; // 25px
+  margin: 1.5625rem 0; // 25px 0
 }

@@ -76,6 +76,7 @@ input, button, select, optgroup, textarea {
   font-size: 100%;
   line-height: 1.2;
   margin: 0;
+  max-width: 100%;
 }
 
 /* _alignments.scss 
@@ -6255,26 +6256,46 @@ body.modal-active {
   background: #0098FF;
 }
 
-.header-tooltip .tooltip-contents {
+.z-header-tooltip {
+  position: relative;
+}
+.z-header-tooltip .z-header-tooltip-contents {
   position: absolute;
-  min-width: 3.75rem;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
   visibility: hidden;
-  background-color: #33ADFF;
-  color: #FFFFFF;
+  background-color: #FFFFFF;
   text-align: center;
-  font-size: 1.125rem;
-  border-radius: 0.1875rem;
-  -webkit-border-radius: 0.1875rem;
-  -moz-border-radius: 0.1875rem;
-  padding: 0.6875rem 0.875rem;
-  margin: 1.3125rem 0 0 0;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  border: 0.0625rem solid #CFD5D9;
+  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  padding: 7px;
+  margin: 16px 0 0 0;
   z-index: 500;
 }
-.header-tooltip .tooltip-contents span {
-  color: #FFFFFF;
+.z-header-tooltip .z-header-tooltip-contents.last {
+  left: 0;
+  -webkit-transform: translate(-70%, 0);
+  -moz-transform: translate(-70%, 0);
+  -o-transform: translate(-70%, 0);
+  -ms-transform: translate(-70%, 0);
+  transform: translate(-70%, 0);
+}
+.z-header-tooltip .z-header-tooltip-contents .z-header-tooltip-text {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  color: #222529;
   font-weight: 500;
 }
-.header-tooltip:hover .tooltip-contents {
+.z-header-tooltip:hover .z-header-tooltip-contents {
   visibility: visible;
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;

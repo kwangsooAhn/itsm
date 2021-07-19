@@ -43,14 +43,6 @@ class ZFormDesigner {
      * 상단 메뉴바 초기화 및 이벤트 등록
      */
     initMenuBar() {
-        //상단 메뉴 버튼 액션 추가
-        document.getElementById('btnSave').addEventListener('click', this.saveForm.bind(this, false), false);
-        document.getElementById('btnSaveAs').addEventListener('click', this.openSaveAsModal.bind(this), false);
-
-        document.getElementById('btnUndo').addEventListener('click', this.history.undo.bind(this.history), false);
-        document.getElementById('btnRedo').addEventListener('click', this.history.redo.bind(this.history), false);
-        document.getElementById('btnPreview').addEventListener('click', this.preview.bind(this), false);
-
         // 사용자가 페이지를 떠날 때 정말로 떠날 것인지 묻는 확인창 표시
         window.addEventListener('beforeunload', (e) => {
             if (this.history.status) {
@@ -197,11 +189,20 @@ class ZFormDesigner {
 
             this.makeForm(this.data, this); // DOM 엘리먼트 생성
             this.setFormName(this.data.name); // 폼 디자이너 상단 이름 출력
+
+            // TODO: 발행, 사용 중인 문서는 저장이 불가능하다.
+            //const deployableStatus = ['form.status.publish', 'form.status.use'];
+            //if (deployableStatus.includes(this.data.status)) {
+            //    const saveInfo = document.getElementById('saveInfo');
+            //    saveInfo.classList.add('error');
+            //    saveInfo.innerHTML = i18n.msg('common.msg.onlySaveInEdit');
+            //}
+
             this.form.UIElement.domElement.dispatchEvent(new Event('click')); // 폼 속성 패널 출력
             aliceJs.initDesignedSelectTag();
         });
 
-        document.addEventListener('click', onLeftClickHandler.bind(this), false);
+        document.addEventListener('click', this.onLeftClickHandler.bind(this), false);
     }
     /**
      * JSON 데이터 정렬 (Recursive)
@@ -708,6 +709,7 @@ class ZFormDesigner {
             showProgressbar: true
         }).then((formData) => {
             if (formData) {
+                this.data = saveData;
                 this.history.saveHistoryIndex = this.history.undoList.length;
                 this.history.status = 0;
                 this.setFormName();
@@ -818,18 +820,64 @@ class ZFormDesigner {
         zDocument.makeDocument(this.form.toJson()); // Form 생성
         zDocument.documentModal.show(); // 모달 표시
     }
+    /**
+     * 마우스 좌클릭 이벤트 핸들러
+     * @param e 이벤트객체
+     */
+    onLeftClickHandler(e) {
+        // 상단 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
+        if (e.target != null && !e.target.classList.contains(CLASS_PREFIX + 'header-button-dropdown')) {
+            document.querySelectorAll('.' + CLASS_PREFIX + 'header-button-dropdown').forEach(function (dropdown) {
+                if (dropdown.classList.contains('active')) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        }
+        // 폼 내부를 선택한게 아니라면, 기존 선택된 항목을 초기화한다.
+        if (aliceJs.clickInsideElement(e, CLASS_PREFIX + 'form-properties-panel-header') ||
+            aliceJs.clickInsideElement(e, CLASS_PREFIX + 'form-properties-panel')) {
+            return false;
+        }
+    }
+
+    /**
+     * 상단 드롭다운 이벤트 핸들러
+     */
+    onDropdownClickHandler(e) {
+        const target = e.target || e;
+        const targetId = target.getAttribute('data-targetId');
+        const changeTarget = document.getElementById(targetId);
+
+        const actionType = target.getAttribute('data-actionType');
+        if (changeTarget.firstElementChild.getAttribute('data-actionType') !== actionType) {
+            // 기존 버튼 삭제
+            changeTarget.removeChild(changeTarget.firstElementChild);
+            // 버튼 추가
+            const buttonTemplate = document.getElementById(actionType + 'ButtonTemplate');
+            changeTarget.appendChild(buttonTemplate.content.cloneNode(true));
+            // 이벤트 할당
+            changeTarget.firstElementChild.addEventListener('click', this.onDropdownClickHandler.bind(this));
+        }
+
+        // 이벤트 실행
+        switch (actionType) {
+            case 'undo':
+                this.history.undo();
+                break;
+            case 'redo':
+                this.history.redo();
+                break;
+            case 'save':
+                this.saveForm(false);
+                break;
+            case 'saveAs':
+                this.openSaveAsModal();
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 export const zFormDesigner = new ZFormDesigner();
 
-/**
- * 마우스 좌클릭 이벤트 핸들러
- * @param e 이벤트객체
- */
-function onLeftClickHandler(e) {
-    // 폼 내부를 선택한게 아니라면, 기존 선택된 항목을 초기화한다.
-    if (aliceJs.clickInsideElement(e, CLASS_PREFIX + 'form-properties-panel-header') ||
-        aliceJs.clickInsideElement(e, CLASS_PREFIX + 'form-properties-panel')) {
-        return false;
-    }
-}
