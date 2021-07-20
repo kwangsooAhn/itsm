@@ -6327,23 +6327,19 @@ body.modal-active {
   animation-direction: normal;
 }
 
-.z-notification {
-  width: 100%;
-  height: 3.125rem;
-  padding: 0.6875rem 0 0.6875rem 1.3125rem;
-  position: relative;
-  display: inline-block;
+.z-notification .z-icon-notification {
+  height: 1.5rem;
 }
-.z-notification img, .z-notification button {
-  margin: 0;
-  border: none;
-  background-color: transparent;
+.z-notification .z-icon-notification.active .notification-round {
+  fill: #339AF0;
+}
+.z-notification .z-icon-notification:hover {
   cursor: pointer;
 }
 .z-notification-panel {
-  position: absolute;
+  position: relative;
   bottom: 0;
-  left: calc(13.75rem + 0.3125rem);
+  left: 66.7rem;
   width: 26.25rem;
   border: 0.0625rem solid #EEEEEE all transparent;
   -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE;

@@ -9,21 +9,17 @@
 // *********************************************************************************************************************
 
 .#{$common-prefix}notification {
-  width: $notification-icon-width;
-  height: $notification-icon-height;
-  padding: $notification-icon-padding;
-  position: relative;
-  display: inline-block;
-  img, button {
-    margin: 0;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
+  // notification icon 영역
+  .#{$common-prefix}icon-notification {
+    height: 1.5rem; // 24px
+    &.active {
+      .notification-round {  fill: $top-menu-notification-active-color; }
+    }
+    &:hover { cursor: pointer; }
   }
-
   // .notification hover 시 노출되는 영역 전반
   &-panel {
-    @include absolute($left: calc(#{$nav-width} + 0.3125rem), $bottom: 0); // 좌측 간격 5px
+    @include relative($left: 66.7rem, $bottom: 0); // 좌측 간격
     width: 26.25rem; // 420px
     @include border(0.0625rem solid $neutral200, all); // 1px
     @include boxShadow(0, 0, 0.3125rem, 0, $neutral200); // 5px
