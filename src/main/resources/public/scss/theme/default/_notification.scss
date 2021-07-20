@@ -185,19 +185,19 @@
           padding-bottom: 0.625rem; // 10px
         }
         span {
-          &.title {
+          &.#{$common-prefix}title {
             max-width: 18.13rem; // 290px
             font-size: 1rem; // 16px
             font-weight: $font-weight-medium;
-            color: $neutral50;
+            color: $gray800;;
           }
-          &.message {
+          &.#{$common-prefix}message {
             max-width: 22.5rem; // 360px
             font-size: 1rem; // 16px
             font-weight: $font-weight-regular;
             color: $gray800;
           }
-          &.date {
+          &.#{$common-prefix}date {
             font-size: 0.875rem; // 14px
             font-weight: $font-weight-regular;
             color: $gray400;
