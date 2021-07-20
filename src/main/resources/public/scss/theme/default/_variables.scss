@@ -149,24 +149,24 @@ $tooltip-contents-width:                      22.5rem; // 360px
 $notification-icon-width:                     100%;
 $notification-icon-height:                    3.125rem; // 50px
 $notification-icon-padding:                   0.6875rem 0 0.6875rem 1.3125rem; // 11px 0 11px 21px
-$notification-icon-color:                     map-get($grays, 'pressed');
+$notification-icon-color:                     $gray300;
 
-$notification-container-color:                map-get($blacks, 'light');
+$notification-container-color:                $gray800;
 $notification-container-background:           $white;
-$notification-container-border:               0.0625rem solid map-get($grays, 'line'); // 1px
-$notification-container-box-shadow:           0 0 0.3125rem 0 map-get($grays, 'line'); // 5px
+$notification-container-border:               0.0625rem solid $neutral200; // 1px
+$notification-container-box-shadow:           0 0 0.3125rem 0 $neutral200; // 5px
 
-$notification-header-background:              $blue;
+$notification-header-background:              $category01;
 $notification-checkbox-size:                  1.125rem; // 18px
 $notification-checkbox-border:                0.063rem; // 1px
-$notification-checkbox-border-defualt:        $notification-checkbox-border solid $blue;
-$notification-checkbox-border-checked:        $notification-checkbox-border solid map-get($grays, 'line');
+$notification-checkbox-border-defualt:        $notification-checkbox-border solid $category01;
+$notification-checkbox-border-checked:        $notification-checkbox-border solid $neutral200;
 
 $toastify-height:                             6.25rem; // 100px
 $toastify-background:                         $white !important;
 $toastify-border-radius:                      0.0625rem; // 1px
-$toastify-border:                             $toastify-border-radius solid map-get($grays, 'line') !important;
-$toastify-box-shadow:                         0 0 0.3125rem 0 map-get($grays, 'line') !important;
+$toastify-border:                             $toastify-border-radius solid $neutral200 !important;
+$toastify-box-shadow:                         0 0 0.3125rem 0 $neutral200 !important;
 $toastify-icon-size:                          6.25rem; // 100px
 
 ///////////////////////////// Tree ////////////////////////////////

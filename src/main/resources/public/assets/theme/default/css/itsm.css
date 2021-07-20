@@ -6345,11 +6345,11 @@ body.modal-active {
   bottom: 0;
   left: calc(13.75rem + 0.3125rem);
   width: 26.25rem;
-  border: 0.0625rem solid #EBEBEB all transparent;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  color: #3F4B56;
+  border: 0.0625rem solid #EEEEEE all transparent;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
+  -moz-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
+  box-shadow: 0 0 0.3125rem 0 #EEEEEE;
+  color: #222529;
   background-color: #FFFFFF;
   display: none;
 }
@@ -6361,7 +6361,7 @@ body.modal-active {
   height: 2.5rem;
   padding: 0 0.938rem;
   align-items: baseline;
-  background-color: #0098FF;
+  background-color: #0096ff;
 }
 .z-notification-header span {
   display: inline-block;
@@ -6404,7 +6404,7 @@ body.modal-active {
 .z-notification-content {
   height: 6.875rem;
   padding: 0.938rem;
-  border-bottom: 0.063rem solid #EBEBEB;
+  border-bottom: 0.063rem solid #EEEEEE;
 }
 .z-notification-content:hover {
   background-color: rgba(135, 206, 255, 0.1);
@@ -6429,8 +6429,8 @@ body.modal-active {
   cursor: pointer;
 }
 .z-notification-content .z-notification-checked input[type=checkbox]:checked {
-  border: 0.063rem solid #EBEBEB;
-  color: #CCCED1;
+  border: 0.063rem solid #EEEEEE;
+  color: #CFD5D9;
   cursor: unset;
 }
 .z-notification-content .z-notification-checked input[type=checkbox]:checked::after {
@@ -6439,7 +6439,7 @@ body.modal-active {
   top: -0.063rem;
   left: 0.063rem;
   font-size: 1rem;
-  color: #CCCED1;
+  color: #CFD5D9;
 }
 .z-notification-content .z-icon-remove {
   padding: 0;
@@ -6451,7 +6451,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 .z-notification-content span.z-title {
   max-width: 18.13rem;
@@ -6459,7 +6459,7 @@ body.modal-active {
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.2;
-  color: #3F4B56;
+  color: #222529;
 }
 .z-notification-content span.z-title.z-confirm {
   opacity: 0.75;
@@ -6475,16 +6475,16 @@ body.modal-active {
   margin-left: 1.75rem;
   font-weight: 400;
   font-size: 1rem;
-  color: #586872;
+  color: #222529;
 }
 .z-notification-content span.z-message.z-confirm {
-  color: #ACB4BF;
+  color: #ABB0B5;
 }
 .z-notification-content span.z-date {
   margin-left: 1.75rem;
   font-weight: 400;
   font-size: 0.875rem;
-  color: #ACB4BF;
+  color: #ABB0B5;
 }
 
 .alice-toastify {
@@ -6493,9 +6493,9 @@ body.modal-active {
   border-radius: 0.0625rem !important;
   -webkit-border-radius: 0.0625rem !important;
   -moz-border-radius: 0.0625rem !important;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
+  -moz-box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
+  box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
   background: #FFFFFF !important;
 }
 .alice-toastify.toastify-right {
@@ -6514,7 +6514,7 @@ body.modal-active {
   width: 23.13rem;
   height: 100%;
   padding: 0.938rem;
-  border: 0.0625rem solid #EBEBEB !important;
+  border: 0.0625rem solid #EEEEEE !important;
 }
 .alice-toastify.toast-content .content div.title {
   padding-bottom: 0.625rem;
@@ -6529,18 +6529,18 @@ body.modal-active {
   max-width: 18.13rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #3F4B56;
+  color: #FAFAFA;
 }
 .alice-toastify.toast-content .content div span.message {
   max-width: 22.5rem;
   font-size: 1rem;
   font-weight: 400;
-  color: #586872;
+  color: #222529;
 }
 .alice-toastify.toast-content .content div span.date {
   font-size: 0.875rem;
   font-weight: 400;
-  color: #ACB4BF;
+  color: #ABB0B5;
 }
 .alice-toastify .toast-close {
   position: absolute;
@@ -6555,7 +6555,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #CFD5D9;
 }
 
 /** 
@@ -7429,5 +7429,3 @@ body.modal-active {
 .tags-look .tagify__dropdown__item--active {
   color: #0088E6;
 }
-
-/*# sourceMappingURL=itsm.css.map */

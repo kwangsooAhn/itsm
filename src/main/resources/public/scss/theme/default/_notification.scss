@@ -25,8 +25,8 @@
   &-panel {
     @include absolute($left: calc(#{$nav-width} + 0.3125rem), $bottom: 0); // 좌측 간격 5px
     width: 26.25rem; // 420px
-    @include border(0.0625rem solid map-get($grays, 'line'), all); // 1px
-    @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line')); // 5px
+    @include border(0.0625rem solid $neutral200, all); // 1px
+    @include boxShadow(0, 0, 0.3125rem, 0, $neutral200); // 5px
     color: $notification-container-color;
     background-color: $notification-container-background;
     display: none;
@@ -80,7 +80,7 @@
   &-content {
     height: 6.875rem; // 110px
     padding: 0.938rem;// 15px
-    @include border(0.063rem, solid, map-get($grays, "line"), bottom); // 1px
+    @include border(0.063rem, solid, $neutral200, bottom); // 1px
     &:hover {
       background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
     }
@@ -101,15 +101,15 @@
         -webkit-appearance: none;
         cursor: pointer;
         &:checked {
-          @include border($notification-checkbox-border, solid, map-get($grays, 'line'), all);
-          color: map-get($grays, "pressed");
+          @include border($notification-checkbox-border, solid, $neutral200, all);
+          color: $gray300;
           cursor: unset;
         }
         &:checked::after {
           content: '\2714';
           @include absolute($top: -0.063rem, $left: 0.063rem); // -1px 1px
           font-size: 1rem; // 16px
-          color: map-get($grays, "pressed");
+          color: $gray300;
         }
       }
     }
@@ -125,7 +125,7 @@
         font-weight: $font-weight-medium;
         font-size: 1rem; // 16px
         line-height: 1.2;
-        color: map-get($blacks, "light");
+        color: $gray800;
         &.#{$common-prefix}confirm {
           opacity: 0.75;
         }
@@ -141,16 +141,16 @@
         margin-left: 1.75rem; // 28px
         font-weight: $font-weight-regular;
         font-size: 1rem; // 16px
-        color: map-get($grays, "dark");
+        color: $gray800;
         &.#{$common-prefix}confirm {
-            color: $gray;
+            color: $gray400;
         }
       }
       &.#{$common-prefix}date {
         margin-left: 1.75rem; // 28px
         font-weight: $font-weight-regular;
         font-size: 0.875rem; // 14px
-        color: $gray;
+        color: $gray400;
       }
     }
   }
@@ -163,7 +163,7 @@
   height: $toastify-height;
   padding: 0 !important;
   @include borderRadius($toastify-border-radius !important);
-  @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line') !important);
+  @include boxShadow(0, 0, 0.3125rem, 0, $neutral200 !important);
   background: $toastify-background;
   &.toastify-right {
     right: 0.625rem; // 10px
@@ -178,7 +178,7 @@
       width: 23.13rem; // 370px
       height: 100%;
       padding: 0.938rem; // 15px
-      @include border($toastify-border-radius, solid, map-get($grays, 'line') !important, all);
+      @include border($toastify-border-radius, solid, $neutral200 !important, all);
       div {
         &.title {
           padding-bottom: 0.625rem; // 10px
@@ -192,18 +192,18 @@
             max-width: 18.13rem; // 290px
             font-size: 1rem; // 16px
             font-weight: $font-weight-medium;
-            color: map-get($blacks, "light");
+            color: $neutral50;
           }
           &.message {
             max-width: 22.5rem; // 360px
             font-size: 1rem; // 16px
             font-weight: $font-weight-regular;
-            color: map-get($grays, "dark");
+            color: $gray800;
           }
           &.date {
             font-size: 0.875rem; // 14px
             font-weight: $font-weight-regular;
-            color: $gray;
+            color: $gray400;
           }
         }
       }
