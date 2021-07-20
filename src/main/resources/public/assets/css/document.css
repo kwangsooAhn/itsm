@@ -1441,6 +1441,48 @@ label {
   mask-position: center;
   background: #8B9094;
 }
+.z-input.i-search {
+  background-image: url("../media/icons/icon_search.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-date-picker {
+  background-image: url("../media/icons/icon_date_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-time-picker {
+  background-image: url("../media/icons/icon_time_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-datetime-picker {
+  background-image: url("../media/icons/icon_date_time_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-px {
+  background-image: url("../media/icons/icon_px.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-mb {
+  background-image: url("../media/icons/icon_mb.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
 .z-input-button {
   position: relative;
   height: 2.25rem;

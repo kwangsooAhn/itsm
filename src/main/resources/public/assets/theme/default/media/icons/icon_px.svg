@@ -2,7 +2,7 @@
   <defs>
     <style>
       .pixel {
-        fill: #acb4bf;
+        fill: #8B9094;
         font-size: 16px;
         font-family: 'Noto Sans KR';
         font-weight: 400;

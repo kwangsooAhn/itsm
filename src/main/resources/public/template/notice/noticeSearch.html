@@ -17,11 +17,11 @@
             <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
             <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
             <form id="searchFrm">
-                <input type="text" class="z-input search col-5" id="searchValue" name="searchValue" maxlength="100"
+                <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
                        th:placeholder="#{notice.label.searchPlaceholder}"/>
-                <input type="text" class="z-input search-date col-3" id="fromDt" name="fromDt"/>
+                <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
                 <span>~</span>
-                <input type="text" class="z-input search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
+                <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
                 <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
