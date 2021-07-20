@@ -2,13 +2,6 @@
 .#{$common-prefix}top {
     background-color: $top-menu-bg-color;
     height: 3.5rem; // 56px
-    .#{$common-prefix}icon-notification {
-        height: 1.5rem; // 24px
-        &.active {
-            .notification-round {  fill: $top-menu-notification-active-color; }
-        }
-        &:hover { cursor: pointer; }
-    }
     .#{$common-prefix}divide {
         padding: 0 0.75rem 0 1.25rem; // 0 12px 0 20px
         height: 1.25rem; // 20px
