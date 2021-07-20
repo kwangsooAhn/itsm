@@ -19,7 +19,7 @@
   }
   // .notification hover 시 노출되는 영역 전반
   &-panel {
-    @include relative($left: 66.7rem, $bottom: 0); // 좌측 간격
+    @include relative($left: 66.7rem, $bottom: 0); // 좌측 간격 1067.2px
     width: 26.25rem; // 420px
     @include border(0.0625rem solid $neutral200, all); // 1px
     @include boxShadow(0, 0, 0.3125rem, 0, $neutral200); // 5px

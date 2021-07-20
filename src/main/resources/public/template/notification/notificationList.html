@@ -14,7 +14,7 @@
         <div class="z-notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
              th:each="notification: ${notificationList}"
              th:id="${notification.notificationId}" th:attr="instance-id=${notification.instanceId}"
-             th:attrappend="isnot-confirm=${notification.confirmYn}" th:attrprepend="is-display=false"
+             th:attrappend="isnot-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
              th:classappend="${notification.confirmYn} ? confirm">
 
             <div class="z-title">
