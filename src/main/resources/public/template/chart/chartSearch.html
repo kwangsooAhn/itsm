@@ -539,20 +539,14 @@
 
             /** Get propertyJson Data **/
             let countArray = [];
-            let percentArray = [];
             let docKeyList = [];
-            let docValueList = [];
             for (let key in propertyJson[0].operation) {
                 // 문서에 대한 카운트 개수
                 countArray.push(propertyJson[0].operation[key].count);
-                // 문서에 대한 각 퍼센트
-                percentArray.push(propertyJson[0].operation[key].percent);
             }
             for (let key in propertyJson[1].documentList) {
                 // 문서의 각 나눈 연도의 개수
                 docKeyList.push(key);
-                // 문서가 가진 정보 값 documentId, documentName, createDt
-                docValueList.push(propertyJson[1].documentList[key]);
             }
             const getYear = Number(docKeyList[0].substring(0, 4));
             const getMonth = Number(docKeyList[0].substring(4, 6));
@@ -607,8 +601,8 @@
                         seriesData.push({
                             name: docKeyList[i],
                             y: countArray[i],
-                            sliced: (i === 0) ? true : false,
-                            selected: (i === 0) ? true : false
+                            sliced: (i === 0),
+                            selected: (i === 0)
                         });
                     }
                     chart.series[0].setData(seriesData, true);
