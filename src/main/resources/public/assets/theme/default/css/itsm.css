@@ -3537,15 +3537,6 @@ table[id=documentDisplay] td {
   background-color: #FAFAFA;
   height: 3.5rem;
 }
-.z-top .z-icon-notification {
-  height: 1.5rem;
-}
-.z-top .z-icon-notification.active .notification-round {
-  fill: #339AF0;
-}
-.z-top .z-icon-notification:hover {
-  cursor: pointer;
-}
 .z-top .z-divide {
   padding: 0 0.75rem 0 1.25rem;
   height: 1.25rem;
