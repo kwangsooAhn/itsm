@@ -8,7 +8,7 @@
 //   - toastify를 커스텀하여 생성되며, 우측 하단에서 설정 값에 따라 n초 간 노출되는 요소
 // *********************************************************************************************************************
 
-.z-notification {
+.#{$common-prefix}notification {
   width: $notification-icon-width;
   height: $notification-icon-height;
   padding: $notification-icon-padding;
@@ -47,19 +47,19 @@
       color: $white;
 
       // header 내부 컨텐츠
-      &.z-title {
+      &.#{$common-prefix}title {
         font-size: 1rem; // 16px
         font-weight: $font-weight-medium;
       }
-      &.z-total {
+      &.#{$common-prefix}total {
         margin: auto 0.3125rem; //5px
       }
-      &.z-message {
+      &.#{$common-prefix}message {
         margin-left: 0.625rem;  // 10px
       }
 
       // 우측 상단 X 버튼
-      &.z-icon-close {
+      &.#{$common-prefix}icon-close {
         width: 0.875rem; //14px
         height: 0.875rem;
         margin-left: auto;
@@ -72,7 +72,7 @@
   &-body {
     overflow-y: auto;
     height: 20.63rem;    // 330px
-    &.z-nodata {
+    &.#{$common-prefix}nodata {
       height: 6.875rem;  // 110px
       padding: 0.938rem; // 15px
     }
@@ -85,7 +85,7 @@
       background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
     }
     // 체크 박스 영역
-    .z-notification-checked {
+    .#{$common-prefix}notification-checked {
       display: flex;
       margin: 0;
       background-color: $white;
@@ -114,19 +114,19 @@
       }
     }
     // 제거 버튼 영역
-    .z-icon-remove {
+    .#{$common-prefix}icon-remove {
       padding: 0;
       @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 1.25rem, no-repeat, center, null, $notification-icon-color); // 18px 20px
     }
     span {
-      &.z-title {
+      &.#{$common-prefix}title {
         max-width: 18.13rem; // 290px
         margin-left: 0.625rem; // 10px
         font-weight: $font-weight-medium;
         font-size: 1rem; // 16px
         line-height: 1.2;
         color: map-get($blacks, "light");
-        &.z-confirm {
+        &.#{$common-prefix}confirm {
           opacity: 0.75;
         }
         &:hover {
@@ -134,7 +134,7 @@
           text-decoration: underline;
         }
       }
-      &.z-message {
+      &.#{$common-prefix}message {
         display: block;
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
@@ -142,11 +142,11 @@
         font-weight: $font-weight-regular;
         font-size: 1rem; // 16px
         color: map-get($grays, "dark");
-        &.z-confirm {
+        &.#{$common-prefix}confirm {
             color: $gray;
         }
       }
-      &.z-date {
+      &.#{$common-prefix}date {
         margin-left: 1.75rem; // 28px
         font-weight: $font-weight-regular;
         font-size: 0.875rem; // 14px
@@ -158,6 +158,7 @@
 
 // 신규 알림 발생 시,
 // 전체 화면 우측 하단에서 지정한 시간동안만 노출되는 notification
+// toastify.css wrapper
 .alice-toastify {
   height: $toastify-height;
   padding: 0 !important;

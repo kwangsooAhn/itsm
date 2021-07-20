@@ -92,10 +92,10 @@
 
     // show notification popup.
     function showNotification(param) {
-        let text = '<div class="z-icon float-left"></div>' +
-            '<div class="z-content float-left"><div class="z-title">' + param.title + '</div>' +
-            '<div class="z-message text-ellipsis">' + param.message + '</div>' +
-            '<div class="z-date">' + param.date + '</div></div>';
+        let text = '<div class="icon float-left"></div>' +
+            '<div class="content float-left"><div class="title">' + param.title + '</div>' +
+            '<div class="message text-ellipsis">' + param.message + '</div>' +
+            '<div class="date">' + param.date + '</div></div>';
         Toastify({
             text: text,
             duration: 5000,
