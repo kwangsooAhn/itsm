@@ -6339,6 +6339,7 @@ body.modal-active {
   color: #222529;
   background-color: #FFFFFF;
   display: none;
+  z-index: 25;
 }
 .z-notification-panel.z-on {
   display: block;

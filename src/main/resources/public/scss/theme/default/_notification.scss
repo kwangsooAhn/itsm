@@ -26,6 +26,7 @@
     color: $notification-container-color;
     background-color: $notification-container-background;
     display: none;
+    z-index: 25;
     &.z-on { display: block; }
   }
 
