@@ -107,7 +107,8 @@
         &:checked::after {
           content: '\2714';
           @include absolute($top: -0.063rem, $left: 0.063rem); // -1px 1px
-          font-size: 1rem; // 16px
+          font-size: $notification-checkbox-checked-font-size; // 16px
+          font-family: $notification-checkbox-checked-font-family;
           color: $notification-checkbox-checked-color;
         }
       }

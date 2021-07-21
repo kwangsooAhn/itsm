@@ -6429,6 +6429,7 @@ body.modal-active {
   top: -0.063rem;
   left: 0.063rem;
   font-size: 1rem;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   color: #CFD5D9;
 }
 .z-notification-content span.z-title {
