@@ -251,6 +251,10 @@ chart:
     label:
       subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
+    text:
+      count: "Count"
+    value:
+      count: "count"
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
@@ -262,6 +266,9 @@ chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
     stackedColumn: "Stacked Column Chart"
+    stackedBar: "Stacked Bar Chart"
+    lineAndColumn: "Line And Column Chart"
+    activityGauge: "Activity Gauge Chart"
 
 # CMDB
 cmdb:

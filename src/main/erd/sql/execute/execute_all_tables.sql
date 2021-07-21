@@ -321,6 +321,9 @@ insert into awf_code values ('chart.type', 'chart', null, 'CHART TYPE', null, tr
 insert into awf_code values ('chart.type.basicLine', 'chart.type', 'chart.basicLine', 'Basic Line Chart', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.pie', 'chart.type', 'chart.pie', 'Pie Chart', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.type.stackedColumn', 'chart.type', 'chart.stackedColumn', 'Stacked Column Chart', null, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.stackedBar', 'chart.type', 'chart.stackedBar', 'Stacked Bar Chart', null, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.lineAndColumn', 'chart.type', 'chart.lineAndColumn', 'Line and Column Chart', null, true, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('chart.type.activityGauge', 'chart.type', 'chart.activityGauge', 'Activity Gauge Chart', null, true, 3, 6, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation', 'chart', null, 'CHART OPERATION', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation.count', 'chart.operation', 'count', '카운트', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('chart.operation.percent', 'chart.operation', 'percent', '퍼센트', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -918,12 +921,12 @@ DROP TABLE IF EXISTS awf_role_auth_map cascade;
 
 CREATE TABLE awf_role_auth_map
 (
-    role_id varchar(100) NOT NULL,	
+    role_id varchar(100) NOT NULL,
 	auth_id varchar(100) NOT NULL,
 	CONSTRAINT awf_role_auth_map_pk PRIMARY KEY (role_id, auth_id),
 	CONSTRAINT awf_role_auth_map_fk1 FOREIGN KEY (role_id) REFERENCES awf_role (role_id),
 	CONSTRAINT awf_role_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
-	
+
 );
 
 COMMENT ON TABLE awf_role_auth_map IS '역할권한매핑';
@@ -2256,7 +2259,7 @@ COMMENT ON COLUMN portal_board.update_dt IS '수정일';
  * 게시판 댓글
  */
 DROP TABLE IF EXISTS portal_board_comment cascade;
- 
+
 CREATE TABLE portal_board_comment
 (
 	board_comment_id varchar(128) NOT NULL,
