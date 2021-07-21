@@ -21,12 +21,12 @@
   &-panel {
     @include relative($left: 66.7rem, $bottom: 0); // 좌측 간격 1067.2px
     width: 26.25rem; // 420px
-    @include border(0.0625rem solid $neutral200, all); // 1px
-    @include boxShadow(0, 0, 0.3125rem, 0, $neutral200); // 5px
-    color: $notification-container-color;
-    background-color: $notification-container-background;
+    @include border(0.0625rem solid $notification-panel-border-color, all); // 1px
+    @include boxShadow(0, 0, 0.3125rem, 0, $notification-panel-box-shadow-color); // 5px
+    color: $notification-panel-color;
+    background-color: $notification-panel-background;
     display: none;
-    z-index: 25;
+    z-index: $z-index-event;
     &.z-on { display: block; }
   }
 
@@ -39,14 +39,16 @@
     background-color: $notification-header-background;
     span {
       display: inline-block;
-      font-size: 0.875rem; // 14px
-      font-weight: $font-weight-regular;
-      color: $white;
+      font-size: $notification-header-font-size; // 14px
+      font-family: $notification-header-font-family;
+      font-weight: $notification-header-font-weight;
+      color: $notification-header-color;
 
       // header 내부 컨텐츠
       &.#{$common-prefix}title {
-        font-size: 1rem; // 16px
-        font-weight: $font-weight-medium;
+        font-size: $notification-header-title-font-size; // 16px
+        font-family: $notification-header-title-font-family;
+        font-weight: $notification-header-title-font-weight;
       }
       &.#{$common-prefix}total {
         margin: auto 0.3125rem; //5px
@@ -60,7 +62,7 @@
         width: 0.875rem; //14px
         height: 0.875rem;
         margin-left: auto;
-        @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white); // 14px
+        @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-close-color); // 14px
       }
     }
   }
@@ -77,9 +79,9 @@
   &-content {
     height: 6.875rem; // 110px
     padding: 0.938rem;// 15px
-    @include border(0.063rem, solid, $neutral200, bottom); // 1px
+    @include border(0.063rem, solid, $notification-content-border-color, bottom); // 1px
     &:hover {
-      background-color: hexToRGBA(map-get($blues, 'light'), 0.1);
+      background-color: hexToRGBA($notification-content-background, 0.1);
     }
     // 체크 박스 영역
     .#{$common-prefix}notification-checked {
@@ -93,20 +95,20 @@
         height: $notification-checkbox-size;
         padding: 0.313rem; // 5px
         margin: 0;
-        @include border($notification-checkbox-border, solid, $blue, all);
+        @include border($notification-checkbox-border, solid, $notification-checkbox-border-color, all);
         @include borderRadius($notification-checkbox-border);
         -webkit-appearance: none;
         cursor: pointer;
         &:checked {
-          @include border($notification-checkbox-border, solid, $neutral200, all);
-          color: $gray300;
+          @include border($notification-checkbox-border, solid, $notification-checkbox-checked-border-color, all);
+          color: $notification-checkbox-checked-color;
           cursor: unset;
         }
         &:checked::after {
           content: '\2714';
           @include absolute($top: -0.063rem, $left: 0.063rem); // -1px 1px
           font-size: 1rem; // 16px
-          color: $gray300;
+          color: $notification-checkbox-checked-color;
         }
       }
     }
@@ -119,10 +121,11 @@
       &.#{$common-prefix}title {
         max-width: 18.13rem; // 290px
         margin-left: 0.625rem; // 10px
-        font-weight: $font-weight-medium;
-        font-size: 1rem; // 16px
+        font-weight: $notification-content-title-font-weight;
+        font-size: $notification-content-title-font-size; // 16px
+        font-family: $notification-content-title-font-family;
         line-height: 1.2;
-        color: $gray800;
+        color: $notification-content-title-color;
         &.#{$common-prefix}confirm {
           opacity: 0.75;
         }
@@ -136,18 +139,20 @@
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
         margin-left: 1.75rem; // 28px
-        font-weight: $font-weight-regular;
-        font-size: 1rem; // 16px
-        color: $gray800;
+        font-weight: $notification-content-message-font-weight;
+        font-size: $notification-content-message-font-size; // 16px
+        font-family: $notification-content-message-font-family;
+        color: $notification-content-message-color;
         &.#{$common-prefix}confirm {
-            color: $gray400;
+            color: $notification-content-message-confirm-color;
         }
       }
       &.#{$common-prefix}date {
         margin-left: 1.75rem; // 28px
-        font-weight: $font-weight-regular;
-        font-size: 0.875rem; // 14px
-        color: $gray400;
+        font-font: $notification-content-date-font-family;
+        font-weight: $notification-content-date-font-weight;
+        font-size: $notification-content-date-font-size; // 14px
+        color: $notification-content-date-color;
       }
     }
   }
@@ -160,7 +165,7 @@
   height: $toastify-height;
   padding: 0 !important;
   @include borderRadius($toastify-border-radius !important);
-  @include boxShadow(0, 0, 0.3125rem, 0, $neutral200 !important);
+  @include boxShadow(0, 0, 0.3125rem, 0, $toastify-box-shadow-color !important);
   background: $toastify-background;
   &.toastify-right {
     right: 0.625rem; // 10px
@@ -175,7 +180,7 @@
       width: 23.13rem; // 370px
       height: 100%;
       padding: 0.938rem; // 15px
-      @include border($toastify-border-radius, solid, $neutral200 !important, all);
+      @include border($toastify-border-radius, solid, $toastify-content-border-color !important, all);
       div {
         &.title {
           padding-bottom: 0.625rem; // 10px
@@ -187,20 +192,24 @@
         span {
           &.#{$common-prefix}title {
             max-width: 18.13rem; // 290px
-            font-size: 1rem; // 16px
-            font-weight: $font-weight-medium;
-            color: $gray800;;
+            font-size: $toastify-content-title-font-size; // 16px
+            font-weight: $toastify-content-title-font-weight;
+            font-family: $toastify-content-title-font-family;
+            color: $toastify-content-title-color;
           }
           &.#{$common-prefix}message {
             max-width: 22.5rem; // 360px
-            font-size: 1rem; // 16px
-            font-weight: $font-weight-regular;
-            color: $gray800;
+            font-size: $toastify-content-message-font-size; // 16px
+            font-weight: $toastify-content-message-font-weight;
+            font-family: $toastify-content-message-font-family;
+            font-font: $toastify-content-message-font-family;
+            color: $toastify-content-message-color;
           }
           &.#{$common-prefix}date {
-            font-size: 0.875rem; // 14px
-            font-weight: $font-weight-regular;
-            color: $gray400;
+            font-size: $toastify-content-date-font-size; // 14px
+            font-weight: $toastify-content-date-font-weight;
+            font-family: $toastify-content-date-font-family;
+            color: $toastify-content-date-color;
           }
         }
       }
