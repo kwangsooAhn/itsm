@@ -6369,7 +6369,7 @@ body.modal-active {
 .z-notification-header span.z-message {
   margin-left: 0.625rem;
 }
-.z-notification-header span.z-icon-close {
+.z-notification-header span.z-icon.i-close {
   width: 0.875rem;
   height: 0.875rem;
   margin-left: auto;
@@ -6381,7 +6381,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #FFFFFF;
+  background: #8B9094;
 }
 .z-notification-body {
   overflow-y: auto;
@@ -6432,6 +6432,18 @@ body.modal-active {
   font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   color: #CFD5D9;
 }
+.z-notification-content .z-icon.i-delete {
+  padding: 0;
+  width: 1.125rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+}
 .z-notification-content span.z-title {
   max-width: 18.13rem;
   margin-left: 0.625rem;
@@ -6466,7 +6478,7 @@ body.modal-active {
   font-font: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
-  color: #ABB0B5;
+  color: #8B9094;
 }
 
 .alice-toastify {
@@ -6526,7 +6538,7 @@ body.modal-active {
   font-size: 0.875rem;
   font-weight: 400;
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
-  color: #ABB0B5;
+  color: #8B9094;
 }
 .alice-toastify .toast-close {
   position: absolute;
@@ -6541,7 +6553,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CFD5D9;
+  background: #8B9094;
 }
 
 /** 

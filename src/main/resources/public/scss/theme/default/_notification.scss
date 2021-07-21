@@ -58,11 +58,13 @@
       }
 
       // 우측 상단 X 버튼
-      &.#{$common-prefix}icon-close {
-        width: 0.875rem; //14px
-        height: 0.875rem;
-        margin-left: auto;
-        @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-close-color); // 14px
+      &.#{$common-prefix}icon {
+        &.i-close {
+          width: 0.875rem; //14px
+          height: 0.875rem;
+          margin-left: auto;
+          @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.875rem, 0.875rem, no-repeat, center, null, $notification-icon-close-color); // 14px
+        }
       }
     }
   }
@@ -111,6 +113,13 @@
           font-family: $notification-checkbox-checked-font-family;
           color: $notification-checkbox-checked-color;
         }
+      }
+    }
+    // 제거 버튼 영역
+    .#{$common-prefix}icon {
+      &.i-delete {
+        padding: 0;
+        @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 1.25rem, no-repeat, center, null, $notification-icon-color); // 18px 20px
       }
     }
     span {

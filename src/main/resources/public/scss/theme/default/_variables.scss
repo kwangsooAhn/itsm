@@ -147,8 +147,8 @@ $tooltip-contents-width:                      22.5rem; // 360px
 
 /////////////////////////// Notification ///////////////////////////
 // Notification 상단 알람
-$notification-icon-color:                     $gray300;
-$notification-icon-close-color:               $white;
+$notification-icon-color:                     $gray500;
+$notification-icon-close-color:               $gray500;
 
 $notification-panel-border-color:             $neutral200;
 $notification-panel-box-shadow-color:         $neutral200;
@@ -181,7 +181,7 @@ $notification-content-message-confirm-color:  $gray400;
 $notification-content-date-font-size:         $font-size-xs;
 $notification-content-date-font-weight:       $font-weight-regular;
 $notification-content-date-font-family:       $font-family-s;
-$notification-content-date-color:             $gray400;
+$notification-content-date-color:             $gray500;
 
 $notification-checkbox-size:                  1.125rem; // 18px
 $notification-checkbox-border:                0.063rem; // 1px
@@ -207,7 +207,7 @@ $toastify-content-message-color:              $gray800;
 $toastify-content-message-font-size:          $font-size-s;
 $toastify-content-message-font-weight:        $font-weight-regular;
 $toastify-content-message-font-family:        $font-family-m;
-$toastify-content-date-color:                 $gray400;
+$toastify-content-date-color:                 $gray500;
 $toastify-content-date-font-size:             $font-size-xs;
 $toastify-content-date-font-weight:           $font-weight-regular;
 $toastify-content-date-font-family:           $font-family-s;

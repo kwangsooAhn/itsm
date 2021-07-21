@@ -5,7 +5,7 @@
         <span class="z-title" th:text="#{notification.label.notification}"></span>
         <span id="total"></span>
         <span class="z-message" th:text="#{notification.msg.description}"></span>
-        <span class="z-icon i-delete float-right" onclick="toggleNotificationContainer();"></span>
+        <span class="z-icon i-close float-right" onclick="toggleNotificationContainer();"></span>
     </div>
     <div class="z-notification-body" th:classappend="${#arrays.isEmpty(notificationList)} ? nodata">
         <div class="z-nodata" th:if="${#arrays.isEmpty(notificationList)}">
@@ -14,7 +14,7 @@
         <div class="z-notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
              th:each="notification: ${notificationList}"
              th:id="${notification.notificationId}" th:attr="instance-id=${notification.instanceId}"
-             th:attrappend="isnot-confirm=${notification.confirmYn}" th:attrprepend="is-display=${false}"
+             th:attrappend="isnot-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
              th:classappend="${notification.confirmYn} ? confirm">
 
             <div class="z-title">
