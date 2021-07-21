@@ -748,6 +748,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-water-drop {
+  width: 1.75rem;
+  height: 1.75rem;
+  -webkit-mask-image: url("../media/icons/icon_water_drop.svg");
+  mask-image: url("../media/icons/icon_water_drop.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 /* _layout.scss
  *

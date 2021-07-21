@@ -437,6 +437,31 @@ $color-picker-colorchip-margin:              0.625rem;   // 10px
 $color-picker-colorchip-border-width:        0.375rem;   // 6px
 $color-picker-colorchip-border-color:        $white;
 
+// color picker
+$color-picker-width:                         7.5rem; // 120px
+$color-picker-font-family:                   $font-family-s;
+$color-picker-font-size:                     $font-size-xs;
+$color-picker-font-weight:                   $font-weight-bold;
+$color-picker-font-color:                    $gray500;
+$color-picker-icon-color:                    $gray500;
+$color-picker-border-width:                  0.0625rem; // 1px
+$color-picker-border-color:                  $gray300;
+$color-picker-border-radius:                 0.125rem; // 2px
+// color picker > hover
+$color-picker-hover-border-color:            $blue400;
+// color picker > focus
+$color-picker-focus-border-color:            $blue600;
+// modal
+$color-picker-modal-bg-color:                $white;
+$color-picker-modal-box-shadow-color:        $gray300;
+// palette
+$color-palette-border-radius:                0.125rem; // 2px
+$color-palette-line-border-width:            0.25rem; // 4px
+$color-palette-inset-border-radius:          0.0625rem; // 1px
+// palette > selected
+$color-palette-selected-border-width:        0.0625rem; // 1px
+$color-palette-selected-border-color:        $blue500;
+
 ////////////////////////////// thumbnail /////////////////////////////
 $thumbnail-asset-path:                       '../media/icons/thumbnail';
 $thumbnail-font-family:                      'Noto Sans KR';

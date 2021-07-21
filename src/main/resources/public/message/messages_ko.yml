@@ -30,6 +30,7 @@ common:
     count: "{0} 건"
     createDate: "등록 일시"
     createUser: "등록자"
+    customColor: "사용자 색상"
     delete: "삭제"
     edit: "편집"
     fail: "실패"

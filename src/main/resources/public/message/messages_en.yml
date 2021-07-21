@@ -30,6 +30,7 @@ common:
     count: "total {0}"
     createDate: "Create Date"
     createUser: "Create User"
+    customColor: "Custom User Color"
     delete: "Delete"
     edit: "Edit"
     fail: "Fail"

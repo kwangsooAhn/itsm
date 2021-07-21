@@ -748,6 +748,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-water-drop {
+  width: 1.75rem;
+  height: 1.75rem;
+  -webkit-mask-image: url("../media/icons/icon_water_drop.svg");
+  mask-image: url("../media/icons/icon_water_drop.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 /* _layout.scss
  *
@@ -2276,6 +2286,7 @@ table tbody tr:hover {
 .z-button-icon.primary .z-icon {
   display: inline-block;
   background: #FFFFFF;
+  pointer-events: none;
 }
 .z-button.primary:focus,
 .z-button-icon.primary:focus {
@@ -2332,6 +2343,7 @@ table tbody tr:hover {
 .z-button-icon.secondary .z-icon {
   display: inline-block;
   background: #339AF0;
+  pointer-events: none;
 }
 .z-button.secondary:focus,
 .z-button-icon.secondary:focus {
@@ -2388,6 +2400,7 @@ table tbody tr:hover {
 .z-button-icon.extra .z-icon {
   display: inline-block;
   background: #339AF0;
+  pointer-events: none;
 }
 .z-button.extra:focus,
 .z-button-icon.extra:focus {
@@ -2444,6 +2457,7 @@ table tbody tr:hover {
 .z-button-icon.form .z-icon {
   display: inline-block;
   background: #424242;
+  pointer-events: none;
 }
 .z-button.form:focus,
 .z-button-icon.form:focus {
@@ -2500,6 +2514,7 @@ table tbody tr:hover {
 .z-button-icon.light-primary .z-icon {
   display: inline-block;
   background: #FFFFFF;
+  pointer-events: none;
 }
 .z-button.light-primary:focus,
 .z-button-icon.light-primary:focus {
@@ -2556,6 +2571,7 @@ table tbody tr:hover {
 .z-button-icon.light-secondary .z-icon {
   display: inline-block;
   background: #FFFFFF;
+  pointer-events: none;
 }
 .z-button.light-secondary:focus,
 .z-button-icon.light-secondary:focus {
@@ -2611,6 +2627,7 @@ table tbody tr:hover {
 .z-button-icon.light-extra .z-icon {
   display: inline-block;
   background: #FFFFFF;
+  pointer-events: none;
 }
 .z-button.light-extra:focus,
 .z-button-icon.light-extra:focus {
@@ -2667,6 +2684,7 @@ table tbody tr:hover {
 .z-button-icon.light-form .z-icon {
   display: inline-block;
   background: #424242;
+  pointer-events: none;
 }
 .z-button.light-form:focus,
 .z-button-icon.light-form:focus {
@@ -2766,6 +2784,7 @@ table tbody tr:hover {
 .z-button-toggle-group .z-button-toggle .z-icon {
   display: inline-block;
   background: #222529;
+  pointer-events: none;
 }
 .z-button-switch-group .z-button-switch:focus,
 .z-button-switch-group .z-button-toggle:focus,

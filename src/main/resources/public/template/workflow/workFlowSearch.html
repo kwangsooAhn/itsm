@@ -81,7 +81,7 @@
         // 빈 값 체크
         function emptyValidation() {
             if (isEmpty('document-name', 'document.msg.enterDocumentName')) { return false };
-            if (isEmpty('document-color', 'document.msg.enterBusinessFlowColor')) { return false };
+            if (isEmpty('documentColor', 'document.msg.enterBusinessFlowColor')) { return false };
             return true;
         }
         // 신청서 저장 / 수정
@@ -104,7 +104,7 @@
                     documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
                     documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
                     apiEnable: apiEnable.options[apiEnable.selectedIndex].value,
-                    documentColor: document.getElementById('document-color').value,
+                    documentColor: document.getElementById('documentColor').value,
                     documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
                 };
                 let documentIcon = document.getElementById('document-icon');
@@ -143,9 +143,9 @@
 
         // ColorPicker 초기화
         function initColorPicker() {
-            new zColorPalette(document.getElementById('documentColor'));
+            new zColorPicker(document.getElementById('documentColor'));
             /*let selectedColorBox = document.getElementById('selected-color');
-            let elementObject = document.getElementById('document-color');
+            let elementObject = document.getElementById('documentColor');
             // 색상 초기화
             if (elementObject.value === '') {
                 selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';

@@ -11,52 +11,73 @@
  */
 const DEFAULT_OPTIONS = {
     type: 'fill', // fill or line
+    colors: [
+        ['#F52525', '#FF850A', '#FADF2D', '#76BD26', '#339AF0', '#6885F7', '#F763C1', '#A95EEB', '#FFFFFF', '#000000'],
+        ['#FEE2D3', '#FFF0CE', '#FEFBD4', '#F1FCE0', '#E3F5FC', '#E1E9FE', '#FEE0E7', '#F6DFFE', '#F5F5F5', '#6D6D6D'],
+        ['#FEBEA7', '#FFDC9C', '#FEF6AB', '#DBF8A9', '#ADE6FD', '#C3D2FE', '#FEC1D5', '#EAC0FD', '#EEEEEE', '#494949'],
+        ['#F9685A', '#FFAC47', '#FBE961', '#A0D756', '#64BBF6', '#8DA5FA', '#FA89C6', '#C585F3', '#BDBDBD', '#373737'],
+        ['#D21B2A', '#DB6707', '#D7BC20', '#5CA21B', '#2578CE', '#4C64D4', '#D448AF', '#8444CA', '#757575', '#242424'],
+        ['#8E0B2D', '#933603', '#907A0E', '#316D0C', '#103F8B', '#21308F', '#731376', '#451D88', '#424242', '#121212']
+    ]
 };
 
-function zColorPalette(targetElement, options) {
+function zColorPicker(targetElement, options) {
     this.options = Object.assign({}, DEFAULT_OPTIONS, options);
     this.isOpen = false;
 
     // input box
     targetElement.classList.add(aliceJs.CLASS_PREFIX + 'color-input');
+    this.value = targetElement.value.toUpperCase() || 'transparent';
     this.inputEl = targetElement;
 
     // wrapper
     const wrapperContainer = document.createElement('div');
-    wrapperContainer.className = aliceJs.CLASS_PREFIX + 'color-palette-wrapper';
-    wrapperContainer.tabIndex = 0;
+    wrapperContainer.className = aliceJs.CLASS_PREFIX + 'color-picker-wrapper';
     targetElement.parentElement.insertBefore(wrapperContainer, targetElement.nextSibling);
     targetElement.parentElement.removeChild(targetElement);
     wrapperContainer.appendChild(targetElement);
     this.containerEl = wrapperContainer;
 
+    // color picker
+    const colorPicker = document.createElement('div');
+    colorPicker.className = aliceJs.CLASS_PREFIX + 'color-picker';
+    colorPicker.tabIndex = 0;
+    wrapperContainer.appendChild(colorPicker);
+    this.colorPicker = colorPicker;
+
     // color box
     const colorBox = document.createElement('div');
     colorBox.className = aliceJs.CLASS_PREFIX + 'color-box';
-    wrapperContainer.appendChild(colorBox);
-    this.colorEl = wrapperContainer;
+    colorPicker.appendChild(colorBox);
+    this.colorEl = colorBox;
 
     // 아이콘
     const paletteIcon = document.createElement('span');
     paletteIcon.className = 'z-icon i-color-palette ml-1';
-    wrapperContainer.appendChild(paletteIcon);
+    colorPicker.appendChild(paletteIcon);
 
-    // color palette modal
-    let paletteModal = document.createElement('div');
-    paletteModal.id = targetElement.id + 'Palette';
-    paletteModal.className = aliceJs.CLASS_PREFIX + 'palette-modal';
-    wrapperContainer.appendChild(paletteModal);
-    this.modalEl = paletteModal;
+    // color picker modal
+    let pickerModal = document.createElement('div');
+    pickerModal.id = targetElement.id + 'Picker';
+    pickerModal.className = aliceJs.CLASS_PREFIX + 'color-picker-modal';
+    wrapperContainer.appendChild(pickerModal);
+    this.modalEl = pickerModal;
+    // 팔레트 출력
+    this.drawPalette();
+    // 사용자 색상 출력
+    this.drawCustomColorPalette();
+    // 색상 초기화
+    this.setColor(this.value);
 
+    // color picker toggle event
     const self = this;
-    this.containerEl.addEventListener('click', function () {
+    this.colorPicker.addEventListener('click', function (e) {
+        e.stopPropagation();
+
         self.isOpen ? self.close() : self.open();
     });
-
-    // 색상 초기화
-    this.setColor(this.inputEl.value || '#ffffff');
 }
-Object.assign(zColorPalette.prototype, {
+Object.assign(zColorPicker.prototype, {
     // open
     open: function () {
         if (!this.modalEl.classList.contains('active')) {
@@ -65,9 +86,9 @@ Object.assign(zColorPalette.prototype, {
             this.isOpen = true;
 
             // Detects the target if it's the picker element, if not, closes the picker
-            document.addEventListener('mousedown', this.clickWindow, false);
-            window.addEventListener('scroll', this.setPosition, false);
-            window.addEventListener('resize', this.setPosition, false);
+            document.addEventListener('mousedown', this.autoClose.bind(this), false);
+            window.addEventListener('scroll', this.setPosition.bind(this), false);
+            window.addEventListener('resize', this.setPosition.bind(this), false);
         }
     },
     // close
@@ -77,15 +98,15 @@ Object.assign(zColorPalette.prototype, {
             this.isOpen = false;
 
             // remove event
-            document.removeEventListener('mousedown', this.autoClose, false);
-            window.removeEventListener('scroll', this.setPosition, false);
-            window.removeEventListener('resize', this.setPosition, false);
+            document.removeEventListener('mousedown', this.autoClose.bind(this), false);
+            window.removeEventListener('scroll', this.setPosition.bind(this), false);
+            window.removeEventListener('resize', this.setPosition.bind(this), false);
         }
     },
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
     autoClose: function(e) {
-        if (!aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'palette-modal') &&
-            !aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-box')) {
+        if (!aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-picker-modal') &&
+            !aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-picker')) {
             this.close();
         }
     },
@@ -120,6 +141,217 @@ Object.assign(zColorPalette.prototype, {
         } else { // line
             this.colorEl.style.borderColor = color;
         }
+    },
+    // palette draw
+    drawPalette() {
+        let paletteContainer = document.createElement('div');
+        paletteContainer.className = aliceJs.CLASS_PREFIX + 'palette-container';
+        this.modalEl.appendChild(paletteContainer);
+
+        // point color
+        let template = `<div class="${aliceJs.CLASS_PREFIX}palette-row">`;
+        for (let i = 0; i < this.options.colors[0].length; i++) {
+            const itemColor = this.options.colors[0][i];
+            template += `<span class="${aliceJs.CLASS_PREFIX}palette-item point-color`+
+                `${(itemColor === '#FFFFFF') ? ' border-inset' : ''}${this.value === itemColor ? ' selected' : ''}"`+
+                ` data-color="${itemColor}" style="background-color: ${this.value === itemColor ? 'transparent' : itemColor};" >`+
+                `<sapn class="${aliceJs.CLASS_PREFIX}palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
+                `</span>`;
+        }
+        template += `</div>`;
+        paletteContainer.insertAdjacentHTML('beforeend', template);
+
+        // material color
+        template = ``;
+        for (let i = 1; i < this.options.colors.length; i++) {
+            template += `<div class="${aliceJs.CLASS_PREFIX}palette-row">`;
+            for (let j = 0; j < this.options.colors[i].length; j++) {
+                const itemColor = this.options.colors[i][j];
+                template += `<span class="${aliceJs.CLASS_PREFIX}palette-item material-color${(i === 1) ? ' first' : ''}`+
+                    `${(i === (this.options.colors.length - 1)) ? ' last' : ''}${this.value === itemColor ? ' selected' : ''}"`+
+                    ` data-color="${itemColor}" style="background-color: ${this.value === itemColor ? 'transparent' : itemColor};" >`+
+                    `<sapn class="${aliceJs.CLASS_PREFIX}palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
+                    `</span>`;
+            }
+            template += `</div>`;
+        }
+        paletteContainer.insertAdjacentHTML('beforeend', template);
+        
+        // 이벤트 등록
+        this.selectedEl = paletteContainer.querySelector('.selected');
+        const self = this;
+        paletteContainer.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'palette-item').forEach(function (item) {
+            item.addEventListener('click', self.clickColorPalette.bind(self), false);
+        });
+    },
+    // 사용자 색상 draw
+    drawCustomColorPalette() {
+        let paletteContainer = document.createElement('div');
+        paletteContainer.className = aliceJs.CLASS_PREFIX + 'custom-color-palette-container';
+        this.modalEl.appendChild(paletteContainer);
+
+        // 사용자 색상 문구
+        const textTemplate = `<span class="${aliceJs.CLASS_PREFIX}custom-color-text">${i18n.msg('common.label.customColor')}</span>`;
+        paletteContainer.insertAdjacentHTML('beforeend', textTemplate);
+
+        // 편집 아이콘
+        const editButton = document.createElement('button');
+        editButton.type = 'button';
+        editButton.className = aliceJs.CLASS_PREFIX + 'button-icon extra ' + aliceJs.CLASS_PREFIX + 'custom-color-edit';
+        editButton.insertAdjacentHTML('beforeend', `<span class="${aliceJs.CLASS_PREFIX}icon i-edit"></span>`);
+        editButton.addEventListener('click', this.toggleCustomColorControl.bind(this), false);
+        paletteContainer.appendChild(editButton);
+
+        // 사용자 색상 목록
+        const customColorContainer = document.createElement('div');
+        customColorContainer.className = aliceJs.CLASS_PREFIX + 'custom-color-container';
+        paletteContainer.appendChild(customColorContainer);
+
+        // 저장된 사용자 색상 값을 가져와서 표기한다.
+
+        // 사용자 색상 목록 추가 버튼 (최대 10개까지 등록가능)
+        const addButton = document.createElement('button');
+        addButton.type = 'button';
+        addButton.className = aliceJs.CLASS_PREFIX + 'button-icon';
+        addButton.insertAdjacentHTML('beforeend', `<span class="${aliceJs.CLASS_PREFIX}icon i-plus"></span>`);
+        addButton.addEventListener('click', this.toggleCustomColorControl.bind(this), false);
+        paletteContainer.appendChild(addButton);
+
+        // hex, rgba control container
+        const customColorControl = document.createElement('div');
+        customColorControl.className = aliceJs.CLASS_PREFIX + 'custom-color-control';
+        paletteContainer.appendChild(customColorControl);
+        this.customColorControlEl = customColorControl;
+    },
+    // 사용자 색상 control
+    drawCustomColorControl() {
+        // 물방울
+        const waterDrop = document.createElement('span');
+        waterDrop.className = aliceJs.CLASS_PREFIX + 'icon i-water-drop';
+        this.customColorControlEl.appendChild(waterDrop);
+        this.waterDropEl = waterDrop;
+
+        // hex
+        const hexInput = document.createElement('input');
+        hexInput.type = 'text';
+        hexInput.className = aliceJs.CLASS_PREFIX + 'input ' + aliceJs.CLASS_PREFIX + 'color-hex';
+        hexInput.placeholder = '#FFFFFF';
+        //hexInput.value = '';
+        this.customColorControlEl.appendChild(hexInput);
+        this.hexEl = hexInput;
+
+        // rgb
+        ['r', 'g', 'b'].forEach(function (str) {
+            const rgbInput = document.createElement('input');
+            rgbInput.type = 'text';
+            rgbInput.className = aliceJs.CLASS_PREFIX + 'input ' + aliceJs.CLASS_PREFIX + 'color-' + str;
+            rgbInput.placeholder = '255';
+            this[str + 'El'] = rgbInput;
+        });
+
+        // 추가 버튼
+        const addButton = document.createElement('button');
+        addButton.type = 'button';
+        addButton.className = aliceJs.CLASS_PREFIX + 'button secondary';
+        addButton.textContent = i18n.msg('common.btn.add');
+        addButton.addEventListener('click', this.addCustomColor.bind(this), false);
+        this.customColorControlEl.appendChild(addButton);
+
+        let bottomButtonList = document.createElement('div');
+        bottomButtonList.className = aliceJs.CLASS_PREFIX + 'button-list';
+        this.customColorControlEl.appendChild(bottomButtonList);
+
+        // 저장 버튼
+        const saveButton = document.createElement('button');
+        saveButton.type = 'button';
+        saveButton.className = aliceJs.CLASS_PREFIX + 'button primary';
+        saveButton.textContent = i18n.msg('common.btn.save');
+        saveButton.addEventListener('click', this.saveCustomColor.bind(this), false);
+        bottomButtonList.appendChild(saveButton);
+
+        // 취소 버튼
+        const cancelButton = document.createElement('button');
+        cancelButton.type = 'button';
+        cancelButton.className = aliceJs.CLASS_PREFIX + 'button extra';
+        cancelButton.textContent = i18n.msg('common.btn.cancel');
+        cancelButton.addEventListener('click', this.cancelCustomColor.bind(this), false);
+        bottomButtonList.appendChild(cancelButton);
+    },
+    // Color Palette 선택
+    clickColorPalette(e) {
+        e.preventDefault();
+        // 기존 색상 조기화
+        if (this.selectedEl) {
+            this.selectedEl.classList.remove('selected');
+            this.selectedEl.style.backgroundColor = this.value;
+        }
+        this.value = e.target.getAttribute('data-color');
+
+        // 현재 색상 선택
+        if (!e.target.classList.contains('selected')) {
+            e.target.classList.add('selected');
+            e.target.style.backgroundColor = 'transparent';
+            this.selectedEl = e.target;
+        }
+        // color element 색상 변경
+        this.setColor(this.value);
+        this.inputEl.value = this.value;
+
+        // 모달 close
+        this.close();
+    },
+    // 사용자 색상 오픈 / 닫기
+    toggleCustomColorControl(e) {
+        console.log(e);
+        // 사용자 색상 편집 영역 오픈
+        
+        //버튼 숨기기
+        
+        // 사용자 색상 삭제(x) 아이콘 추가
+    },
+    // 사용자 색상 추가
+    addCustomColor() {
+        console.log(e);
+    },
+    // 사용자 색상 저장
+    saveCustomColor(e) {
+        console.log(e);
+    },
+    // 사용자 색상 취소
+    cancelCustomColor(e) {
+        // 기존 색상 선택
+    },
+    // Force a hex value to have 2 characters
+    pad2(c) {
+        return c.length == 1 ? '0' + c : '' + c;
+    },
+    // rgb to hex
+    rgbToHex(r, g, b) {
+        //  16진수 문자로 변환하기.
+        const hex = [
+            this.pad2(Math.round(r).toString(16)),
+            this.pad2(Math.round(g).toString(16)),
+            this.pad2(Math.round(b).toString(16))
+        ];
+        return '#'  + hex.join('');
+    },
+    // hex to rgb
+    hexToRGB(hex) {
+        // 맨 앞의 "#" 기호를 삭제하기.
+        hex = hex.trim().replace('#', '');
+
+        // rgb로 각각 분리해서 배열에 담기
+        let rgb = ( 3 === hex.length ) ? hex.match( /[a-f\d]/gi ) : hex.match( /[a-f\d]{2}/gi );
+
+        rgb.forEach(function (str, x, arr) {
+            // rgb 각각의 헥사값이 한자리일 경우, 두자리로 변경하기.
+            if ( str.length == 1 ) { str = str + str; }
+
+            /* 10진수로 변환하기. */
+            arr[x] = parseInt(str, 16);
+        });
+        //return 'rgb(' + rgb.join(', ') + ')';
+        return rgb;
     }
 });
 

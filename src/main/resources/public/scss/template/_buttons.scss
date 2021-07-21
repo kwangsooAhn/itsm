@@ -58,6 +58,7 @@
       .#{$common-prefix}icon {
         display: inline-block;
         background: map-get($value, 'default', 'font');
+        pointer-events: none;
       }
 
       &:focus {
@@ -125,6 +126,7 @@
       .#{$common-prefix}icon {
         display: inline-block;
         background: map-get($value, 'default', 'font');
+        pointer-events: none;
       }
 
       &:focus {
@@ -236,6 +238,7 @@
     .#{$common-prefix}icon {
       display: inline-block;
       background: map-get($button-group, 'default', 'font');
+      pointer-events: none;
     }
 
     &:focus {
