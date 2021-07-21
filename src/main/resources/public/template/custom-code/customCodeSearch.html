@@ -22,7 +22,7 @@
                     <option value="" th:text="#{customCode.label.all}" selected></option>
                     <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
                 </select>
-                <input type="text" class="z-input search col-4 mr-2" id="search" name="search" maxlength="100"
+                <input type="text" class="z-input i-search col-4 mr-2" id="search" name="search" maxlength="100"
                        th:placeholder="#{customCode.label.searchPlaceholder}"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>

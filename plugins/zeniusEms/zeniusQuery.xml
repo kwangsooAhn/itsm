@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+       <node id="getExistsCmdbCIList">
+              select ci_id, ci_no, ci_name, ci_status, type_id, ci_desc, mapping_id
+              from cmdb_ci
+              where mapping_id in (?)
+       </node>
+       <node id="getExistsCmdbCIDataList">
+              select ci_id, attribute_id, value
+              from cmdb_ci_data
+              where ci_id in (?)
+       </node>
+       <node id="getITSMCMDBTypeList">
+              select * from cmdb_type where type_alias in (?)
+       </node>
+       <node id="getITSMCMDBAttributeList">
+              select clam.class_id, ca.* from cmdb_class_attribute_map clam
+              inner join cmdb_attribute ca
+              on clam.attribute_id = ca.attribute_id
+              and clam.class_id in (?)
+       </node>
+       <node id="getLastCINoToService">
+              select ci_no from cmdb_ci
+              where upper(ci_no) like upper('%?%')
+              order by ci_no desc
+              limit 1
+       </node>
+       <node id="getITSMCMDBCIHistory">
+              with history as (
+                  select ci.ci_id, coalesce(max(seq), 0) as seq
+                  from cmdb_ci ci left join cmdb_ci_history cch
+                  on ci.ci_id = cch.ci_id
+                  where ci.ci_id in (?)
+                  group by ci.ci_id
+              )
+              select ci.ci_id, ci.ci_no, history.seq, ci.ci_name, ci.ci_status, ci_type.type_id
+                   , ci_type.class_id, ci_type.type_icon as ci_icon, ci.ci_desc, ci.automatic
+              from cmdb_ci ci, cmdb_type ci_type, history history
+              where ci.type_id = ci_type.type_id
+              and ci.ci_id = history.ci_id
+              and ci.ci_id in (?)
+       </node>
+       <node id="getITSMCMDMCIDataHistory">
+              with history as (
+                  select ci.ci_id, coalesce(max(seq), 0) as seq
+                  from cmdb_ci ci left join cmdb_ci_data_history data_history
+                  on ci.ci_id = data_history.ci_id
+                  where ci.ci_id in (?)
+                  group by ci.ci_id
+              )
+              select ccd.ci_id, hi.seq, ca.attribute_id, ca.attribute_name, ca.attribute_desc
+                   , ca.attribute_type, ca.attribute_text, ca.attribute_value, ccd.value
+              from cmdb_ci_data ccd, cmdb_attribute ca, history hi
+              where ccd.attribute_id = ca.attribute_id
+              and ccd.ci_id = hi.ci_id
+              and ccd.ci_id in (?)
+       </node>
+       <node id="deleteCmdbCIData">
+              delete from cmdb_ci_data where ci_id in (?)
+       </node>
+       <node id="insertCI">
+              insert into cmdb_ci (ci_id, ci_no, ci_name, ci_desc, ci_status, type_id, automatic, mapping_id)
+              values (?, ?, ?, ?, ?, ?, ?, ?)
+       </node>
+       <node id="updateCI">
+              update cmdb_ci
+              set    ci_no = ?,
+                     ci_name = ?,
+                     ci_desc = ?,
+                     ci_status = ?,
+                     type_id = ?,
+                     automatic = ?
+              where  ci_id = ?
+              and mapping_id = ?
+       </node>
+       <node id="insertCIData">
+              insert into cmdb_ci_data (ci_id, attribute_id, value) values (?, ?, ?)
+       </node>
+       <node id="insertCIHistory">
+              insert into cmdb_ci_history (history_id, ci_id, seq, ci_no, ci_name, ci_status, type_id, class_id, ci_icon, ci_desc, automatic)
+              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       </node>
+       <node id="insertCIDataHistory">
+              insert into cmdb_ci_data_history (data_history_id, ci_id, seq, attribute_id, attribute_name, attribute_desc, attribute_type, attribute_text, attribute_value, value)
+              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       </node>
+</query>

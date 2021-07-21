@@ -19,7 +19,7 @@
         <div class="header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
             <form id="searchFrm">
-                <input type="text" id="search" name="search" class="z-input search col-5 mr-2" maxlength="100"
+                <input type="text" id="search" name="search" class="z-input i-search col-5 mr-2" maxlength="100"
                        th:placeholder="#{form.label.searchPlaceholder}"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>

@@ -99,9 +99,9 @@ aliceJs.serialize = function (form) {
         // Convert field data to a query string
         else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
             let fieldValue = encodeURIComponent(field.value);
-            if (field.classList.contains('search-datetime')) {
+            if (field.classList.contains('datetime')) {
                 fieldValue = i18n.systemDateTime(encodeURIComponent(field.value));
-            } else if (field.classList.contains('search-date')) {
+            } else if (field.classList.contains('search-date') || field.classList.contains('date')) {
                 fieldValue = i18n.systemDate(encodeURIComponent(field.value));
             }
             serialized.push(encodeURIComponent(field.name) + '=' + fieldValue);
