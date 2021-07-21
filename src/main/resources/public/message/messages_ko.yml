@@ -251,6 +251,10 @@ chart:
     label:
       subTitle: "사용자 정의 차트 보고서"
       yAxisTitle: "문서 수"
+    text:
+      count: "카운트"
+    value:
+      coutn: "count"
   msg:
     searchDescription: "다양한 사용자 정의 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."

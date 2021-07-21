@@ -361,12 +361,25 @@
 
         function setDisplay(value) {
             // 연산자 박스 출력
-            if (value === ACTIVITY_GAUGE_CHART) {
-                document.getElementById('operationSelectBox').options[0].style.display = 'none';
-                document.getElementById('operationSelectBox').options[1].selected = true;
-            } else {
-                document.getElementById('operationSelectBox').options[0].style.display = 'block';
+            let operationSelectBox = document.getElementById('operationSelectBox');
+            for (let i = 0; i < operationSelectBox.options.length; i++) {
+                if (value === ACTIVITY_GAUGE_CHART) {
+                    if (operationSelectBox.options[i].value === 'count') {
+                        operationSelectBox.options[i].style.display = 'none';
+                    } else {
+                        operationSelectBox.options[i].selected = true;
+                    }
+                } else {
+                    if (operationSelectBox.options.length !== 2) {
+                        let countOption = document.createElement('option');
+                        countOption.text = i18n.msg('chart.option.text.count');
+                        countOption.value = i18n.msg('chart.option.text.value');
+                        operationSelectBox.add(countOption);
+                    }
+                }
             }
+            aliceJs.initDesignedSelectTag();
+
             if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
                 document.getElementById('periodUnitLabel').style.display = 'block';
                 document.getElementById('periodUnitSelectBox').style.display = 'block';
