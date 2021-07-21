@@ -146,28 +146,71 @@ $tooltip-contents-left:                       auto;
 $tooltip-contents-width:                      22.5rem; // 360px
 
 /////////////////////////// Notification ///////////////////////////
-$notification-icon-width:                     100%;
-$notification-icon-height:                    3.125rem; // 50px
-$notification-icon-padding:                   0.6875rem 0 0.6875rem 1.3125rem; // 11px 0 11px 21px
-$notification-icon-color:                     map-get($grays, 'pressed');
+// Notification 상단 알람
+$notification-icon-color:                     $gray500;
+$notification-icon-close-color:               $gray500;
 
-$notification-container-color:                map-get($blacks, 'light');
-$notification-container-background:           $white;
-$notification-container-border:               0.0625rem solid map-get($grays, 'line'); // 1px
-$notification-container-box-shadow:           0 0 0.3125rem 0 map-get($grays, 'line'); // 5px
+$notification-panel-border-color:             $neutral200;
+$notification-panel-box-shadow-color:         $neutral200;
+$notification-panel-color:                    $gray800;
+$notification-panel-background:               $white;
 
-$notification-header-background:              $blue;
+$notification-header-color:                   $white;
+$notification-header-background:              $category01;
+$notification-header-font-size:               $font-size-xs;
+$notification-header-font-family:             $font-family-s;
+$notification-header-font-weight:             $font-weight-regular;
+$notification-header-title-font-size:         $font-size-s;
+$notification-header-title-font-family:       $font-family-m;
+$notification-header-title-font-weight:       $font-weight-medium;
+
+$notification-content-border-color:           $neutral200;
+$notification-content-background:             $blue300;
+
+$notification-content-title-font-size:        $font-size-s;
+$notification-content-title-font-weight:      $font-weight-medium;
+$notification-content-title-font-family:      $font-family-m;
+$notification-content-title-color:            $gray800;
+
+$notification-content-message-font-size:      $font-size-s;
+$notification-content-message-font-weight:    $font-weight-regular;
+$notification-content-message-font-family:    $font-family-m;
+$notification-content-message-color:          $gray800;
+$notification-content-message-confirm-color:  $gray400;
+
+$notification-content-date-font-size:         $font-size-xs;
+$notification-content-date-font-weight:       $font-weight-regular;
+$notification-content-date-font-family:       $font-family-s;
+$notification-content-date-color:             $gray500;
+
 $notification-checkbox-size:                  1.125rem; // 18px
 $notification-checkbox-border:                0.063rem; // 1px
-$notification-checkbox-border-defualt:        $notification-checkbox-border solid $blue;
-$notification-checkbox-border-checked:        $notification-checkbox-border solid map-get($grays, 'line');
+$notification-checkbox-border-color:          $category01;
+$notification-checkbox-checked-color:         $gray300;
+$notification-checkbox-checked-border-color:  $neutral200;
+$notification-checkbox-checked-font-size:     $font-size-s;
+$notification-checkbox-checked-font-family:   $font-family-m;
 
+// Toastify 하단 알람
 $toastify-height:                             6.25rem; // 100px
 $toastify-background:                         $white !important;
 $toastify-border-radius:                      0.0625rem; // 1px
-$toastify-border:                             $toastify-border-radius solid map-get($grays, 'line') !important;
-$toastify-box-shadow:                         0 0 0.3125rem 0 map-get($grays, 'line') !important;
+$toastify-box-shadow-color:                   $neutral200;
 $toastify-icon-size:                          6.25rem; // 100px
+
+$toastify-content-border-color:               $neutral200;
+$toastify-content-title-color:                $gray800;
+$toastify-content-title-font-size:            $font-size-s;
+$toastify-content-title-font-weight:          $font-weight-medium;
+$toastify-content-title-font-family:          $font-family-m;
+$toastify-content-message-color:              $gray800;
+$toastify-content-message-font-size:          $font-size-s;
+$toastify-content-message-font-weight:        $font-weight-regular;
+$toastify-content-message-font-family:        $font-family-m;
+$toastify-content-date-color:                 $gray500;
+$toastify-content-date-font-size:             $font-size-xs;
+$toastify-content-date-font-weight:           $font-weight-regular;
+$toastify-content-date-font-family:           $font-family-s;
 
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                            40rem; // 640px

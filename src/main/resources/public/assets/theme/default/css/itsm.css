@@ -3537,15 +3537,6 @@ table[id=documentDisplay] td {
   background-color: #FAFAFA;
   height: 3.5rem;
 }
-.z-top .z-icon-notification {
-  height: 1.5rem;
-}
-.z-top .z-icon-notification.active .notification-round {
-  fill: #339AF0;
-}
-.z-top .z-icon-notification:hover {
-  cursor: pointer;
-}
 .z-top .z-divide {
   padding: 0 0.75rem 0 1.25rem;
   height: 1.25rem;
@@ -6327,31 +6318,28 @@ body.modal-active {
   animation-direction: normal;
 }
 
-.z-notification {
-  width: 100%;
-  height: 3.125rem;
-  padding: 0.6875rem 0 0.6875rem 1.3125rem;
-  position: relative;
-  display: inline-block;
+.z-notification .z-icon-notification {
+  height: 1.5rem;
 }
-.z-notification img, .z-notification button {
-  margin: 0;
-  border: none;
-  background-color: transparent;
+.z-notification .z-icon-notification.active .notification-round {
+  fill: #339AF0;
+}
+.z-notification .z-icon-notification:hover {
   cursor: pointer;
 }
 .z-notification-panel {
-  position: absolute;
+  position: relative;
   bottom: 0;
-  left: calc(13.75rem + 0.3125rem);
+  left: 66.7rem;
   width: 26.25rem;
-  border: 0.0625rem solid #EBEBEB all transparent;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  color: #3F4B56;
+  border: 0.0625rem solid #EEEEEE all transparent;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
+  -moz-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
+  box-shadow: 0 0 0.3125rem 0 #EEEEEE;
+  color: #222529;
   background-color: #FFFFFF;
   display: none;
+  z-index: 25;
 }
 .z-notification-panel.z-on {
   display: block;
@@ -6361,16 +6349,18 @@ body.modal-active {
   height: 2.5rem;
   padding: 0 0.938rem;
   align-items: baseline;
-  background-color: #0098FF;
+  background-color: #0096ff;
 }
 .z-notification-header span {
   display: inline-block;
   font-size: 0.875rem;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-weight: 400;
   color: #FFFFFF;
 }
 .z-notification-header span.z-title {
   font-size: 1rem;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
 }
 .z-notification-header span.z-total {
@@ -6379,7 +6369,7 @@ body.modal-active {
 .z-notification-header span.z-message {
   margin-left: 0.625rem;
 }
-.z-notification-header span.z-icon-close {
+.z-notification-header span.z-icon.i-close {
   width: 0.875rem;
   height: 0.875rem;
   margin-left: auto;
@@ -6391,7 +6381,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #FFFFFF;
+  background: #8B9094;
 }
 .z-notification-body {
   overflow-y: auto;
@@ -6404,10 +6394,10 @@ body.modal-active {
 .z-notification-content {
   height: 6.875rem;
   padding: 0.938rem;
-  border-bottom: 0.063rem solid #EBEBEB;
+  border-bottom: 0.063rem solid #EEEEEE;
 }
 .z-notification-content:hover {
-  background-color: rgba(135, 206, 255, 0.1);
+  background-color: rgba(132, 209, 250, 0.1);
 }
 .z-notification-content .z-notification-checked {
   display: flex;
@@ -6421,7 +6411,7 @@ body.modal-active {
   height: 1.125rem;
   padding: 0.313rem;
   margin: 0;
-  border: 0.063rem solid #0098FF;
+  border: 0.063rem solid #0096ff;
   border-radius: 0.063rem;
   -webkit-border-radius: 0.063rem;
   -moz-border-radius: 0.063rem;
@@ -6429,8 +6419,8 @@ body.modal-active {
   cursor: pointer;
 }
 .z-notification-content .z-notification-checked input[type=checkbox]:checked {
-  border: 0.063rem solid #EBEBEB;
-  color: #CCCED1;
+  border: 0.063rem solid #EEEEEE;
+  color: #CFD5D9;
   cursor: unset;
 }
 .z-notification-content .z-notification-checked input[type=checkbox]:checked::after {
@@ -6439,9 +6429,10 @@ body.modal-active {
   top: -0.063rem;
   left: 0.063rem;
   font-size: 1rem;
-  color: #CCCED1;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  color: #CFD5D9;
 }
-.z-notification-content .z-icon-remove {
+.z-notification-content .z-icon.i-delete {
   padding: 0;
   width: 1.125rem;
   height: 1.25rem;
@@ -6451,15 +6442,16 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #8B9094;
 }
 .z-notification-content span.z-title {
   max-width: 18.13rem;
   margin-left: 0.625rem;
   font-weight: 500;
   font-size: 1rem;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   line-height: 1.2;
-  color: #3F4B56;
+  color: #222529;
 }
 .z-notification-content span.z-title.z-confirm {
   opacity: 0.75;
@@ -6475,16 +6467,18 @@ body.modal-active {
   margin-left: 1.75rem;
   font-weight: 400;
   font-size: 1rem;
-  color: #586872;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  color: #222529;
 }
 .z-notification-content span.z-message.z-confirm {
-  color: #ACB4BF;
+  color: #ABB0B5;
 }
 .z-notification-content span.z-date {
   margin-left: 1.75rem;
+  font-font: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
-  color: #ACB4BF;
+  color: #8B9094;
 }
 
 .alice-toastify {
@@ -6493,9 +6487,9 @@ body.modal-active {
   border-radius: 0.0625rem !important;
   -webkit-border-radius: 0.0625rem !important;
   -moz-border-radius: 0.0625rem !important;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
+  -moz-box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
+  box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
   background: #FFFFFF !important;
 }
 .alice-toastify.toastify-right {
@@ -6514,7 +6508,7 @@ body.modal-active {
   width: 23.13rem;
   height: 100%;
   padding: 0.938rem;
-  border: 0.0625rem solid #EBEBEB !important;
+  border: 0.0625rem solid #EEEEEE !important;
 }
 .alice-toastify.toast-content .content div.title {
   padding-bottom: 0.625rem;
@@ -6525,22 +6519,26 @@ body.modal-active {
 .alice-toastify.toast-content .content div.message {
   padding-bottom: 0.625rem;
 }
-.alice-toastify.toast-content .content div span.title {
+.alice-toastify.toast-content .content div span.z-title {
   max-width: 18.13rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #3F4B56;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  color: #222529;
 }
-.alice-toastify.toast-content .content div span.message {
+.alice-toastify.toast-content .content div span.z-message {
   max-width: 22.5rem;
   font-size: 1rem;
   font-weight: 400;
-  color: #586872;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-font: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  color: #222529;
 }
-.alice-toastify.toast-content .content div span.date {
+.alice-toastify.toast-content .content div span.z-date {
   font-size: 0.875rem;
   font-weight: 400;
-  color: #ACB4BF;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  color: #8B9094;
 }
 .alice-toastify .toast-close {
   position: absolute;
@@ -6555,7 +6553,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #CCCED1;
+  background: #8B9094;
 }
 
 /** 
@@ -7429,5 +7427,3 @@ body.modal-active {
 .tags-look .tagify__dropdown__item--active {
   color: #0088E6;
 }
-
-/*# sourceMappingURL=itsm.css.map */
