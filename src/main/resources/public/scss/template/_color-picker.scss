@@ -238,14 +238,111 @@
       // 편집 버튼
       .#{$common-prefix}custom-color-edit {
         @include absolute($top: 0.125rem, $right: 0.75rem); // 2px 12px
+        visibility: hidden;
+        &.on {
+          visibility: visible;
+        }
       }
-      // 사용자 색상 목록 영역
-      .#{$common-prefix}custom-color-container {
-        margin: 0.75rem 0; // 12px 0
-      }
-      // 물방울, hex, rgb, 추가 버튼 영역
-      .#{$common-prefix}custom-color-control {
 
+      // 사용자 색상 목록 영역
+      .#{$common-prefix}custom-color-list {
+        margin: 0.75rem 0; // 12px 0
+        // [+] 버튼
+        .#{$common-prefix}custom-color-plus {
+          background-color: map-get($custom-color-plus, 'default', 'background');
+          @include border($color-picker-border-width, solid, map-get($custom-color-plus, 'default', 'border'), all);
+          @include borderRadius($color-picker-border-radius);
+          @if map-get($custom-color-plus, 'default', 'shadow') != null {
+            box-shadow: map-get($custom-color-plus, 'default', 'shadow');
+          }
+          padding: 0 0.0625rem; // 0px 1px
+
+          .#{$common-prefix}icon {
+            &.i-plus {
+              -webkit-mask-size: 10px;
+              mask-size: 10px;
+              background: map-get($custom-color-plus, 'default', 'font');
+            }
+          }
+
+          &:focus {
+            background-color: map-get($custom-color-plus, 'focus', 'background');
+            border-color: map-get($custom-color-plus, 'focus', 'border');
+            @if map-get($custom-color-plus, 'focus', 'shadow') != null {
+              box-shadow: map-get($custom-color-plus, 'focus', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              &.i-plus {
+                background: map-get($custom-color-plus, 'focus', 'font');
+              }
+            }
+          }
+
+          &:hover {
+            background-color: map-get($custom-color-plus, 'hover', 'background');
+            border-color: map-get($custom-color-plus, 'hover', 'border');
+            @if map-get($custom-color-plus, 'hover', 'shadow') != null {
+              box-shadow: map-get($custom-color-plus, 'hover', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              &.i-plus {
+                background: map-get($custom-color-plus, 'hover', 'font');
+              }
+            }
+          }
+
+          &:enabled:active,
+          &:enabled.active {
+            background-color: map-get($custom-color-plus, 'active', 'background');
+            border-color: map-get($custom-color-plus, 'active', 'border');
+            @if map-get($custom-color-plus, 'active', 'shadow') != null {
+              box-shadow: map-get($custom-color-plus, 'active', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              &.i-plus {
+                background: map-get($custom-color-plus, 'active', 'font');
+              }
+            }
+          }
+        }
+      }
+
+      // 물방울, hex, rgb, 추가 버튼 영역
+      .#{$common-prefix}custom-color-control-container {
+        display: none;
+        // control open
+        &.active {
+          display: block;
+        }
+
+        .#{$common-prefix}custom-color-control {
+          display: grid;
+          grid-template-columns:  1.75rem 5rem 3rem 3rem 3rem 3.75rem; // 28px 80px 48px 48px 48px 60px
+          grid-template-rows: 2.25rem 2.25rem; // 36px 36px
+          gab: 0 0.5rem; // 0 8px
+          font-weight: $font-weight-medium;
+
+          // 물방울 아이콘
+          .#{$common-prefix}icon {
+            &.i-water-drop {
+              background: $color-picker-icon-color;
+            }
+          }
+
+          .#{$common-prefix}input {
+            padding: 0 0.5rem; // 0 8px
+          }
+
+          // 문구
+          .#{$common-prefix}color-text {
+            text-align: center;
+          }
+        }
+
+       .#{$common-prefix}button-list {
+          width: 100%;
+          text-align: right;
+        }
       }
     }
   }

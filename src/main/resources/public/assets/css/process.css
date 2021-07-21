@@ -3895,10 +3895,76 @@ svg path.connector.hidden {
   position: absolute;
   top: 0.125rem;
   right: 0.75rem;
+  visibility: hidden;
 }
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-container {
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-edit.on {
+  visibility: visible;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list {
   margin: 0.75rem 0;
 }
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus {
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  padding: 0 0.0625rem;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus .z-icon.i-plus {
+  -webkit-mask-size: 10px;
+  mask-size: 10px;
+  background: #8B9094;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:focus {
+  background-color: #FFFFFF;
+  border-color: #2578CE;
+  box-shadow: 0 0 0.125rem #2578CE;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:focus .z-icon.i-plus {
+  background: #8B9094;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:hover {
+  background-color: #E3F5FC;
+  border-color: #CFD5D9;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:hover .z-icon.i-plus {
+  background: #8B9094;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled:active, .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled.active {
+  background-color: #ADE6FD;
+  border-color: #64BBF6;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled:active .z-icon.i-plus, .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled.active .z-icon.i-plus {
+  background: #1959AC;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container {
+  display: none;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container.active {
+  display: block;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control {
+  display: grid;
+  grid-template-columns: 1.75rem 5rem 3rem 3rem 3rem 3.75rem;
+  grid-template-rows: 2.25rem 2.25rem;
+  gab: 0 0.5rem;
+  font-weight: 500;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop {
+  background: #8B9094;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-input {
+  padding: 0 0.5rem;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-color-text {
+  text-align: center;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-button-list {
+  width: 100%;
+  text-align: right;
+}
+
 /* _tooltip.scss 
  *
  * 파일 경로 : template/_tooltip.scss

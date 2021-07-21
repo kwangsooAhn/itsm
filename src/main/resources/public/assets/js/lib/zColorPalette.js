@@ -179,9 +179,8 @@ Object.assign(zColorPicker.prototype, {
         
         // 이벤트 등록
         this.selectedEl = paletteContainer.querySelector('.selected');
-        const self = this;
-        paletteContainer.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'palette-item').forEach(function (item) {
-            item.addEventListener('click', self.clickColorPalette.bind(self), false);
+        paletteContainer.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'palette-item').forEach((item) => {
+            item.addEventListener('click', this.clickColorPalette.bind(this), false);
         });
     },
     // 사용자 색상 draw
@@ -197,38 +196,46 @@ Object.assign(zColorPicker.prototype, {
         // 편집 아이콘
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = aliceJs.CLASS_PREFIX + 'button-icon extra ' + aliceJs.CLASS_PREFIX + 'custom-color-edit';
+        editButton.className = aliceJs.CLASS_PREFIX + 'button-icon extra ' + aliceJs.CLASS_PREFIX + 'custom-color-edit on';
         editButton.insertAdjacentHTML('beforeend', `<span class="${aliceJs.CLASS_PREFIX}icon i-edit"></span>`);
-        editButton.addEventListener('click', this.toggleCustomColorControl.bind(this), false);
+        editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
+        this.editButtonEl = editButton;
 
         // 사용자 색상 목록
-        const customColorContainer = document.createElement('div');
-        customColorContainer.className = aliceJs.CLASS_PREFIX + 'custom-color-container';
-        paletteContainer.appendChild(customColorContainer);
+        const customColorList = document.createElement('div');
+        customColorList.className = aliceJs.CLASS_PREFIX + 'custom-color-list';
+        paletteContainer.appendChild(customColorList);
 
         // 저장된 사용자 색상 값을 가져와서 표기한다.
 
         // 사용자 색상 목록 추가 버튼 (최대 10개까지 등록가능)
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = aliceJs.CLASS_PREFIX + 'button-icon';
+        addButton.className = aliceJs.CLASS_PREFIX + 'button-icon ' + aliceJs.CLASS_PREFIX + 'custom-color-plus';
         addButton.insertAdjacentHTML('beforeend', `<span class="${aliceJs.CLASS_PREFIX}icon i-plus"></span>`);
-        addButton.addEventListener('click', this.toggleCustomColorControl.bind(this), false);
-        paletteContainer.appendChild(addButton);
+        addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
+        customColorList.appendChild(addButton);
 
-        // hex, rgba control container
-        const customColorControl = document.createElement('div');
-        customColorControl.className = aliceJs.CLASS_PREFIX + 'custom-color-control';
-        paletteContainer.appendChild(customColorControl);
-        this.customColorControlEl = customColorControl;
+        // 사용자 색상 control container
+        const customColorControlContainer = document.createElement('div');
+        customColorControlContainer.className = aliceJs.CLASS_PREFIX + 'custom-color-control-container';
+        paletteContainer.appendChild(customColorControlContainer);
+        this.customColorControlContainerEl = customColorControlContainer;
+        
+        // 사용자 색상 control 영역 출력
+        this.drawCustomColorControl();
     },
     // 사용자 색상 control
     drawCustomColorControl() {
+        const customColorControl = document.createElement('div');
+        customColorControl.className = aliceJs.CLASS_PREFIX + 'custom-color-control';
+        this.customColorControlContainerEl.appendChild(customColorControl);
+
         // 물방울
         const waterDrop = document.createElement('span');
         waterDrop.className = aliceJs.CLASS_PREFIX + 'icon i-water-drop';
-        this.customColorControlEl.appendChild(waterDrop);
+        customColorControl.appendChild(waterDrop);
         this.waterDropEl = waterDrop;
 
         // hex
@@ -237,15 +244,16 @@ Object.assign(zColorPicker.prototype, {
         hexInput.className = aliceJs.CLASS_PREFIX + 'input ' + aliceJs.CLASS_PREFIX + 'color-hex';
         hexInput.placeholder = '#FFFFFF';
         //hexInput.value = '';
-        this.customColorControlEl.appendChild(hexInput);
+        customColorControl.appendChild(hexInput);
         this.hexEl = hexInput;
 
         // rgb
-        ['r', 'g', 'b'].forEach(function (str) {
+        ['r', 'g', 'b'].forEach((str) => {
             const rgbInput = document.createElement('input');
             rgbInput.type = 'text';
             rgbInput.className = aliceJs.CLASS_PREFIX + 'input ' + aliceJs.CLASS_PREFIX + 'color-' + str;
             rgbInput.placeholder = '255';
+            customColorControl.appendChild(rgbInput);
             this[str + 'El'] = rgbInput;
         });
 
@@ -255,13 +263,22 @@ Object.assign(zColorPicker.prototype, {
         addButton.className = aliceJs.CLASS_PREFIX + 'button secondary';
         addButton.textContent = i18n.msg('common.btn.add');
         addButton.addEventListener('click', this.addCustomColor.bind(this), false);
-        this.customColorControlEl.appendChild(addButton);
+        customColorControl.appendChild(addButton);
 
+        // Hex, R,G,B 문구 추가
+        ['', 'Hex', 'R', 'G', 'B'].forEach((str) => {
+            const colorText = document.createElement('span');
+            colorText.className = aliceJs.CLASS_PREFIX + 'color-text';
+            colorText.textContent = str;
+            customColorControl.appendChild(colorText);
+        });
+        
+        // 버튼 그룹
         let bottomButtonList = document.createElement('div');
-        bottomButtonList.className = aliceJs.CLASS_PREFIX + 'button-list';
-        this.customColorControlEl.appendChild(bottomButtonList);
+        bottomButtonList.className = aliceJs.CLASS_PREFIX + 'button-list justify-content-end';
+        this.customColorControlContainerEl.appendChild(bottomButtonList);
 
-        // 저장 버튼
+        // 버튼 그룹 > 저장 버튼
         const saveButton = document.createElement('button');
         saveButton.type = 'button';
         saveButton.className = aliceJs.CLASS_PREFIX + 'button primary';
@@ -269,7 +286,7 @@ Object.assign(zColorPicker.prototype, {
         saveButton.addEventListener('click', this.saveCustomColor.bind(this), false);
         bottomButtonList.appendChild(saveButton);
 
-        // 취소 버튼
+        // 버튼 그룹 > 취소 버튼
         const cancelButton = document.createElement('button');
         cancelButton.type = 'button';
         cancelButton.className = aliceJs.CLASS_PREFIX + 'button extra';
@@ -300,26 +317,46 @@ Object.assign(zColorPicker.prototype, {
         // 모달 close
         this.close();
     },
-    // 사용자 색상 오픈 / 닫기
-    toggleCustomColorControl(e) {
+    // 사용자 색상 오픈
+    openCustomColorControl(e) {
         console.log(e);
         // 사용자 색상 편집 영역 오픈
-        
-        //버튼 숨기기
-        
-        // 사용자 색상 삭제(x) 아이콘 추가
+        if (!this.customColorControlContainerEl.classList.contains('active')) {
+            this.customColorControlContainerEl.classList.add('active');
+            this.setPosition();
+
+            // edit 버튼 숨기기
+            this.editButtonEl.classList.remove('on');
+
+            // 사용자 색상 삭제(x) 아이콘 추가
+        }
     },
     // 사용자 색상 추가
     addCustomColor() {
         console.log(e);
     },
     // 사용자 색상 저장
+    // ※ Hex, RGB코드를 입력하여 추가된 색상이 사용자 색상에 저장되기 위해 반드시 추가한 후 하단의 저장 버튼을 선택 해야한다.
     saveCustomColor(e) {
         console.log(e);
     },
     // 사용자 색상 취소
     cancelCustomColor(e) {
+        console.log(e);
+        // 경고창 띄우기 - 저장하지 않으면 사용자 색상이 초기화됩니다.
+
         // 기존 색상 선택
+
+        // 사용자 색상 편집 영역 닫기
+        if (this.customColorControlContainerEl.classList.contains('active')) {
+            this.customColorControlContainerEl.classList.remove('active');
+            this.setPosition();
+
+            // edit 버튼 표시
+            this.editButtonEl.classList.add('on');
+
+            // 사용자 색상 삭제(x) 아이콘 삭제
+        }
     },
     // Force a hex value to have 2 characters
     pad2(c) {

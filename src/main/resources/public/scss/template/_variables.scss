@@ -461,6 +461,15 @@ $color-palette-inset-border-radius:          0.0625rem; // 1px
 // palette > selected
 $color-palette-selected-border-width:        0.0625rem; // 1px
 $color-palette-selected-border-color:        $blue500;
+// custom color palette
+$custom-color-plus: (
+  'default': ('font': $gray500, 'background': $white, 'border': $gray300),
+  'hover': ('font' : $gray500, 'background': $blue100, 'border': $gray300),
+  'focus': ('font': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+  'active': ('font': $blue700, 'background': $blue200, 'border': $blue400)
+);
+// control
+
 
 ////////////////////////////// thumbnail /////////////////////////////
 $thumbnail-asset-path:                       '../media/icons/thumbnail';
