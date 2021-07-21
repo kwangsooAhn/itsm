@@ -112,11 +112,6 @@
         }
       }
     }
-    // 제거 버튼 영역
-    .#{$common-prefix}icon-remove {
-      padding: 0;
-      @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 1.25rem, no-repeat, center, null, $notification-icon-color); // 18px 20px
-    }
     span {
       &.#{$common-prefix}title {
         max-width: 18.13rem; // 290px

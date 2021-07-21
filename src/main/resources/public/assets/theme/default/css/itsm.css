@@ -6431,18 +6431,6 @@ body.modal-active {
   font-size: 1rem;
   color: #CFD5D9;
 }
-.z-notification-content .z-icon-remove {
-  padding: 0;
-  width: 1.125rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_delete.svg");
-  mask-image: url("../media/icons/icon_delete.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #CFD5D9;
-}
 .z-notification-content span.z-title {
   max-width: 18.13rem;
   margin-left: 0.625rem;
