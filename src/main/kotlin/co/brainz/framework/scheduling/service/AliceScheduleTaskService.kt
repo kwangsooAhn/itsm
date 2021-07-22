@@ -6,14 +6,11 @@
 package co.brainz.framework.scheduling.service
 
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
-import co.brainz.framework.scheduling.repository.AliceScheduleHistoryRepository
 import co.brainz.framework.scheduling.repository.AliceScheduleTaskRepository
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeClass
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeJar
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
-import java.time.LocalDateTime
 import java.util.TimeZone
 import java.util.concurrent.ScheduledFuture
 import javax.annotation.PostConstruct
@@ -30,7 +27,6 @@ import org.springframework.stereotype.Service
 class AliceScheduleTaskService(
     private val scheduler: TaskScheduler,
     private val aliceScheduleTaskRepository: AliceScheduleTaskRepository,
-    private val aliceScheduleHistoryRepository: AliceScheduleHistoryRepository,
     private val jdbcTemplate: JdbcTemplate,
     private val scheduleTaskTypeQuery: ScheduleTaskTypeQuery,
     private val scheduleTaskTypeClass: ScheduleTaskTypeClass,
@@ -59,9 +55,9 @@ class AliceScheduleTaskService(
      */
     fun addTaskToScheduler(taskInfo: AliceScheduleTaskEntity) {
         val task = when (taskInfo.taskType) {
-            AliceConstants.ScheduleTaskType.QUERY.code -> scheduleTaskTypeQuery.getRunnable(taskInfo)
-            AliceConstants.ScheduleTaskType.CLASS.code -> scheduleTaskTypeClass.getRunnable(taskInfo)
-            AliceConstants.ScheduleTaskType.JAR.code -> scheduleTaskTypeJar.getRunnable(taskInfo)
+            AliceConstants.ScheduleTaskType.QUERY.code -> scheduleTaskTypeQuery.getRunnable(taskInfo, false)
+            AliceConstants.ScheduleTaskType.CLASS.code -> scheduleTaskTypeClass.getRunnable(taskInfo, false)
+            AliceConstants.ScheduleTaskType.JAR.code -> scheduleTaskTypeJar.getRunnable(taskInfo, false)
             else -> null
         }
         if (task != null) {
@@ -109,17 +105,6 @@ class AliceScheduleTaskService(
         if (scheduledTask != null) {
             logger.info("The schedule task has been add. {}", taskInfo.toString())
             taskMap[id] = scheduledTask
-
-            if (scheduledTask.isDone) {
-                aliceScheduleHistoryRepository.save(
-                    AliceScheduleHistoryEntity(
-                        historySeq = 0L,
-                        taskId = taskInfo.taskId,
-                        executeTime = LocalDateTime.now(),
-                        result = true
-                    )
-                )
-            }
         }
     }
 }

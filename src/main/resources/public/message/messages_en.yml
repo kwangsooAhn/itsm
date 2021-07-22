@@ -54,6 +54,7 @@ common:
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
     fail: "Failed."
+    minValue: "Minimum input is {0}"
     modify: "Modified."
     noData: "There is no data."
     onlySaveInEdit: "It cannot be saved in the publish/edit. Please edit in the edit"
