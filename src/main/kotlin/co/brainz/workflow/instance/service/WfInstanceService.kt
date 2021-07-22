@@ -31,6 +31,7 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.mapper.WfTokenMapper
 import co.brainz.workflow.token.repository.WfTokenDataRepository
@@ -40,7 +41,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -79,34 +79,34 @@ class WfInstanceService(
     /**
      * Search Instances.
      */
-    fun instances(parameters: LinkedHashMap<String, Any>): RestTemplateInstanceListReturnDto {
+    fun instances(tokenSearchConditionDto: TokenSearchConditionDto): RestTemplateInstanceListReturnDto {
         // String tags -> Set<String>
-        parameters["tags"] = this.stringToSet(parameters["tags"].toString())
+        tokenSearchConditionDto.searchTagSet = this.stringToSet(tokenSearchConditionDto.searchTagString.toString())
 
         // Get Document List
-        val queryResults = when (parameters["tokenType"].toString()) {
+        val queryResults = when (tokenSearchConditionDto.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {
                 requestedInstances(
-                    parameters
+                    tokenSearchConditionDto
                 )
             }
             WfTokenConstants.SearchType.PROGRESS.code -> {
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
-                    parameters
+                    tokenSearchConditionDto
                 )
             }
             WfTokenConstants.SearchType.COMPLETED.code -> {
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
-                    parameters
+                    tokenSearchConditionDto
                 )
             }
             else -> {
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
-                    parameters
+                    tokenSearchConditionDto
                 )
             }
         }
@@ -180,17 +180,8 @@ class WfInstanceService(
      * 신청한 문서 조회.
      */
     @Suppress("UNCHECKED_CAST")
-    private fun requestedInstances(parameters: LinkedHashMap<String, Any>): QueryResults<WfInstanceListViewDto> {
-        return wfInstanceRepository.findRequestedInstances(
-            parameters["userKey"].toString(),
-            parameters["documentId"].toString(),
-            parameters["searchValue"].toString(),
-            parameters["tags"] as Set<String>,
-            LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
-            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
-            parameters["offset"].toString().toLong()
-        )
-    }
+    private fun requestedInstances(tokenSearchConditionDto: TokenSearchConditionDto): QueryResults<WfInstanceListViewDto> =
+        wfInstanceRepository.findRequestedInstances(tokenSearchConditionDto)
 
     /**
      * 진행중 / 완료된 문서 조회.
@@ -198,19 +189,8 @@ class WfInstanceService(
     @Suppress("UNCHECKED_CAST")
     private fun relatedInstances(
         status: List<String>?,
-        parameters: LinkedHashMap<String, Any>
-    ): QueryResults<WfInstanceListViewDto> {
-        return wfInstanceRepository.findRelationInstances(
-            status,
-            parameters["userKey"].toString(),
-            parameters["documentId"].toString(),
-            parameters["searchValue"].toString(),
-            parameters["tags"] as Set<String>,
-            LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
-            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
-            parameters["offset"].toString().toLong()
-        )
-    }
+        tokenSearchConditionDto: TokenSearchConditionDto
+    ): QueryResults<WfInstanceListViewDto> = wfInstanceRepository.findRelationInstances(status, tokenSearchConditionDto)
 
     /**
      * 처리할 문서 조회.
@@ -219,20 +199,9 @@ class WfInstanceService(
     private fun todoInstances(
         status: List<String>?,
         tokenStatus: List<String>?,
-        parameters: LinkedHashMap<String, Any>
-    ): QueryResults<WfInstanceListViewDto> {
-        return wfInstanceRepository.findTodoInstances(
-            status,
-            tokenStatus,
-            parameters["userKey"].toString(),
-            parameters["documentId"].toString(),
-            parameters["searchValue"].toString(),
-            parameters["tags"] as Set<String>,
-            LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
-            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
-            parameters["offset"].toString().toLong()
-        )
-    }
+        tokenSearchConditionDto: TokenSearchConditionDto
+    ): QueryResults<WfInstanceListViewDto> =
+        wfInstanceRepository.findTodoInstances(status, tokenStatus, tokenSearchConditionDto)
 
     /**
      * 인스턴스ID [instanceId] 로 인스턴스 정보를 조회한다.

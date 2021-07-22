@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.user.service
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
@@ -38,6 +39,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -318,4 +320,7 @@ class UserService(
         allCodes["timeList"] = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
         return allCodes
     }
+
+    fun getUserDto(): AliceUserDto? =
+        SecurityContextHolder.getContext().authentication.details as? AliceUserDto
 }

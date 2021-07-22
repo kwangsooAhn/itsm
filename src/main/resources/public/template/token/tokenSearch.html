@@ -31,7 +31,7 @@
                 <input type="text" class="z-input i-date-picker search-date col-3" id="searchFromDt" name="searchFromDt"/>
                 <input type="text" class="z-input i-date-picker search-date col-3" id="toDt" name="toDt"/>
                 <input type="hidden" class="search-date col-2" id="searchToDt" name="searchToDt" readonly="readonly"/>
-                <input  type="text" class="z-input i-search col-3 mr-2" id="searchTags" name="searchTags"
+                <input  type="text" class="z-input i-search col-3 mr-2" id="searchTagString" name="searchTags"
                        maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
@@ -68,7 +68,7 @@
             document.getElementById('searchValue').addEventListener('keyup', (e) => {tokenSearch(false);}, false);
 
             // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
-            document.getElementById('searchTags').addEventListener('keyup', (e) => {
+            document.getElementById('searchTagString').addEventListener('keyup', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     tokenSearch(false);
