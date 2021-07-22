@@ -51,7 +51,7 @@ export const dataTimeMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
             .setUIClass(CLASS_PREFIX + 'input i-datetime-picker')
-            .setUIId('date' + this.id)
+            .setUIId('dateTime' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())
             .setUIAttribute('autocomplete', 'off')
