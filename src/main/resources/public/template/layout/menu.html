@@ -37,7 +37,7 @@
 					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="z-gnb z-gnb-link flex-row" th:classappend="${topMenu.url} == ${session.active_url} ? z-active">
 						<span th:class="'z-icon-gnb z-icon-gnb-' + ${topMenu.menuId}"></span>
 						<span class="z-menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
-						<span th:if="${topMenu.menuId == 'token'}" class="z-token-count align-center z-active" id="token_count">12</span>
+						<span th:if="${topMenu.menuId == 'token'}" class="z-token-count align-center" id="token_count">-</span>
 					</a>
 				</li>
 			</ul>
@@ -73,6 +73,30 @@
 			}
 		});
 	});
+
+	window.addEventListener('load', function() {
+		setInterval(function () {
+			getTodoTokenCount();
+		}, 60000); // 60초 주기
+		getTodoTokenCount(true);
+	});
+
+	function getTodoTokenCount() {
+		aliceJs.fetchText('/rest/tokens/todoCount', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'text/plain'
+			}
+		}).then((tokenCount) => {
+			let tokenCountSpan = document.querySelector('span.z-token-count')
+			tokenCountSpan.innerText = tokenCount
+			if (Number(tokenCount) === 0 && tokenCountSpan.classList.contains('z-active')) {
+				 tokenCountSpan.classList.remove('z-active');
+			} else if (Number(tokenCount) > 0 && !tokenCountSpan.classList.contains('z-active')) {
+				tokenCountSpan.classList.add('z-active');
+			}
+		});
+	}
 /* ]]> */
 </script>
 </html>
