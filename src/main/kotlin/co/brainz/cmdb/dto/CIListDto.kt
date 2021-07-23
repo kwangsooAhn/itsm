@@ -6,7 +6,6 @@
 
 package co.brainz.cmdb.dto
 
-
 import co.brainz.framework.tag.dto.AliceTagDto
 import java.io.Serializable
 import java.time.LocalDateTime

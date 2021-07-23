@@ -54,7 +54,7 @@ class ScheduleTaskTypeJar(
 
         val moduleHome = File(jarDir).absolutePath
         commands?.forEach {
-            if (it == "-jar") {
+            if (it == AliceConstants.SCHEDULER_COMMAND_JAR) {
                 if (logbackConfigurationFile.isEmpty()) {
                     command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE + "=" + moduleHome + "/logback.xml")
                 }
