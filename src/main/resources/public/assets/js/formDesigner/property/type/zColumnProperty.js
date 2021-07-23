@@ -313,7 +313,7 @@ export default class ZColumnProperty extends ZProperty {
             ]);
 
         // head - fontColor
-        const columnHeadColorProperty = new ZColorPickerProperty(id + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor, false)
+        const columnHeadColorProperty = new ZColorPickerProperty(id + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor)
             .setValidation(false, 'rgb', '', '', '', '25');
         columnHeadColorProperty.columnWidth = '9';
 
@@ -342,7 +342,7 @@ export default class ZColumnProperty extends ZProperty {
         columnHeadFontOptionProperty.columnWidth = '6';
 
         // content - fontColor
-        const columnContentColorProperty = new ZColorPickerProperty(id + '|columnContent.fontColor', 'columnContent.fontColor', option.columnContent.fontColor, false)
+        const columnContentColorProperty = new ZColorPickerProperty(id + '|columnContent.fontColor', 'columnContent.fontColor', option.columnContent.fontColor)
             .setValidation(false, 'rgb', '', '', '', '25');
         columnContentColorProperty.columnWidth = '9';
 
@@ -464,7 +464,7 @@ export default class ZColumnProperty extends ZProperty {
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxTime', 'validation.maxTime', option.columnValidation.maxTime, FORM.DATE_TYPE.TIME_PICKER))
         ];
     }
-     // 입력 유형 타입 변경
+    // 입력 유형 타입 변경
     changeColumnType(prevData, index) {
         Object.assign(prevData, propertyExtends[prevData.columnType]);
 

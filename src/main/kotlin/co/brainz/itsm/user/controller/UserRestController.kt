@@ -138,7 +138,7 @@ class UserRestController(
      * 사용자 정의 색상 조회.
      */
     @GetMapping("colors")
-    fun getUserCustomColors(): MutableList<UserCustomDto> {
+    fun getUserCustomColors(): UserCustomDto? {
         return userService.getUserCustomColors()
     }
 

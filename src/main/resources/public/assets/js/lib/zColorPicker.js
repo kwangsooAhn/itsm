@@ -30,6 +30,7 @@ const DEFAULT_OPTIONS = {
 function zColorPicker(targetElement, options) {
     this.options = Object.assign({}, DEFAULT_OPTIONS, options);
     this.isOpen = false;
+    this.isCustomColorControlOpen = false; // 사용자 색상 편집 중인지 여부
 
     // input box
     targetElement.classList.add(aliceJs.CLASS_PREFIX + 'color-input');
@@ -44,16 +45,6 @@ function zColorPicker(targetElement, options) {
     this.customColors = [];
     // 선택된 색상 엘리먼트
     this.selectedEl = null;
-    
-    // 서버에 저장된 사용자 색상 조회
-    aliceJs.fetchJson('/rest/users/colors', {
-        method: 'GET'
-    }).then((userColors) => {
-        if (userColors.length > 0) {
-            this.savedCustomColors = userColors[0].split('|');
-            this.customColors = userColors[0].split('|');
-        }
-    });
 
     // wrapper
     const wrapperContainer = document.createElement('div');
@@ -87,17 +78,28 @@ function zColorPicker(targetElement, options) {
     pickerModal.className = aliceJs.CLASS_PREFIX + 'color-picker-modal';
     wrapperContainer.appendChild(pickerModal);
     this.modalEl = pickerModal;
-    // 팔레트 출력
-    this.drawPalette();
-    // 사용자 색상 출력
-    this.drawCustomColorPalette();
-    // 색상 초기화
-    this.setColor(this.value);
+    
+    // 서버에 저장된 사용자 색상 조회
+    aliceJs.fetchText('/rest/users/colors', {
+        method: 'GET'
+    }).then((data) => {
+        if (data.length > 0) {
+            const userColors = JSON.parse(data);
+            this.savedCustomColors = userColors.customValue.split('|');
+            this.customColors = userColors.customValue.split('|');
+        }
+        // 팔레트 출력
+        this.drawPalette();
+        // 사용자 색상 출력
+        this.drawCustomColorPalette();
+        // 색상 초기화
+        this.setColor(this.value);
+    });
 
     // color picker toggle event
     const self = this;
     this.colorPicker.addEventListener('click', function (e) {
-        e.stopPropagation();
+        e.preventDefault();
 
         if (self.isOpen) {
             // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
@@ -151,7 +153,8 @@ Object.assign(zColorPicker.prototype, {
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
     autoClose: function(e) {
         if (!aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-picker-modal') &&
-            !aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-picker')) {
+            !aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'color-picker') &&
+            !aliceJs.clickInsideElement(e, 'gmodal-active')) {
             // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
             if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
                 aliceAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
@@ -202,6 +205,7 @@ Object.assign(zColorPicker.prototype, {
         let paletteContainer = document.createElement('div');
         paletteContainer.className = aliceJs.CLASS_PREFIX + 'palette-container';
         this.modalEl.appendChild(paletteContainer);
+        this.colorListEl = paletteContainer;
 
         // point color
         let template = `<div class="${aliceJs.CLASS_PREFIX}palette-row">`;
@@ -235,7 +239,7 @@ Object.assign(zColorPicker.prototype, {
         // 이벤트 등록
         this.selectedEl = paletteContainer.querySelector('.selected');
         paletteContainer.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'palette-item').forEach((item) => {
-            item.addEventListener('click', this.clickColorPalette.bind(this), false);
+            item.addEventListener('click', this.selectColor.bind(this), false);
         });
     },
     // 사용자 색상 draw
@@ -268,7 +272,7 @@ Object.assign(zColorPicker.prototype, {
             this.customColorListEl.insertAdjacentHTML('beforeend', this.getCustomColorTemplate(color, (this.value === color)));
             // 이벤트 등록
             const colorItem = this.customColorListEl.lastChild;
-            colorItem.addEventListener('click', this.clickCustomColorPalette.bind(this), false);
+            colorItem.addEventListener('click', this.selectColor.bind(this), false);
             colorItem.querySelector('.' + aliceJs.CLASS_PREFIX + 'custom-color-palette-item-clear')
                 .addEventListener('click', this.removeCustomColor.bind(this), false);
         });
@@ -369,10 +373,10 @@ Object.assign(zColorPicker.prototype, {
                     // 색상 초기화
                     this.resetCustomColor();
                     // 사용자 색상 control 영역 닫기
-                    this.cancelCustomColor();
+                    this.closeCustomColorControl();
                 });
             } else {
-                this.cancelCustomColor();
+                this.closeCustomColorControl();
             }
         });
         bottomButtonList.appendChild(cancelButton);
@@ -392,8 +396,8 @@ Object.assign(zColorPicker.prototype, {
             </g>
         </svg>`;
     },
-    // Color Palette 선택
-    clickColorPalette(e) {
+    // Color 선택
+    selectColor(e) {
         e.stopPropagation();
         // 기존 색상 조기화
         if (this.selectedEl) {
@@ -411,8 +415,14 @@ Object.assign(zColorPicker.prototype, {
         // color element 색상 변경
         this.setColor(this.value);
         this.inputEl.value = this.value;
-        // 메인 색상 선택시 원래 사용자 색상을 변경한다.
-        this.savedValue = this.value;
+
+        // 메인 색상 선택하거나 저장된 색상을 선택할 경우 사용자 색상이 정상적으로 저장된다.
+        if (e.target.classList.contains(aliceJs.CLASS_PREFIX + 'palette-item') ||
+            this.savedCustomColors.includes(this.value)) {
+            this.savedValue = this.value;
+        }
+
+        if (this.isCustomColorControlOpen) { return false; }
 
         // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
         if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
@@ -426,18 +436,36 @@ Object.assign(zColorPicker.prototype, {
             this.close();
         }
     },
-    // 사용자 색상 오픈
+    // 사용자 색상 편집 영역 오픈
     openCustomColorControl() {
         // 사용자 색상 편집 영역 오픈
         if (!this.customColorControlContainerEl.classList.contains('active')) {
             this.customColorControlContainerEl.classList.add('active');
             this.setPosition();
 
+            this.isCustomColorControlOpen = true;
+
             // edit 버튼 숨기기
             this.editButtonEl.classList.remove('on');
 
             // 사용자 색상 삭제(x) 아이콘 표시
             this.customColorListEl.classList.add('editable');
+        }
+    },
+    // 사용자 색상 편집 영역 닫기
+    closeCustomColorControl() {
+        // 사용자 색상 편집 영역 닫기
+        if (this.customColorControlContainerEl.classList.contains('active')) {
+            this.customColorControlContainerEl.classList.remove('active');
+            this.setPosition();
+
+            this.isCustomColorControlOpen = false;
+
+            // edit 버튼 표시
+            this.editButtonEl.classList.add('on');
+
+            // 사용자 색상 삭제(x) 아이콘 삭제
+            this.customColorListEl.classList.remove('editable');
         }
     },
     // 커스텀 색상 아이템 템플릿
@@ -454,14 +482,14 @@ Object.assign(zColorPicker.prototype, {
     addCustomColor() {
         // hex 유효성 검증
         if (!this.options.hexReg.test(this.hexEl.value)) { return false; }
-        
+
         // 색상 추가
         this.customColorListEl.insertAdjacentHTML('beforeend', this.getCustomColorTemplate(this.hexEl.value, true));
         this.customColors.push(this.hexEl.value);
 
         // 이벤트 등록
         const colorItem = this.customColorListEl.lastChild;
-        colorItem.addEventListener('click', this.clickCustomColorPalette.bind(this), false);
+        colorItem.addEventListener('click', this.selectColor.bind(this), false);
         colorItem.querySelector('.' + aliceJs.CLASS_PREFIX + 'custom-color-palette-item-clear')
             .addEventListener('click', this.removeCustomColor.bind(this), false);
 
@@ -471,19 +499,19 @@ Object.assign(zColorPicker.prototype, {
         // 색상 선택
         colorItem.dispatchEvent(new Event('click'));
         this.selectedEl = colorItem;
-        
+
         // 기존 색상 초기화
         this.waterDropEl.classList.remove('on');
         this.hexEl.value = '';
         ['r', 'g', 'b'].forEach((str) => {
             this[str + 'El'].value = '';
         });
-        
+
     },
     // x 버튼 클릭 > 사용자 색상 삭제
     removeCustomColor(e) {
         e.stopPropagation();
-        
+
         const removeItem = e.target.parentNode;
         const removeColor = removeItem.getAttribute('data-color');
 
@@ -495,38 +523,14 @@ Object.assign(zColorPicker.prototype, {
         if (removeColor === this.selectedEl.getAttribute('data-color')) {
             this.selectedEl = null;
         }
-        
+
         // 엘리먼트 삭제
         removeItem.parentNode.removeChild(removeItem);
 
     },
-    // 사용자 색상 선택
-    clickCustomColorPalette(e) {
-        e.stopPropagation();
-        
-        // 기존 색상 초기화
-        if (this.selectedEl) {
-            this.selectedEl.classList.remove('selected');
-            this.selectedEl.style.backgroundColor = this.selectedEl.getAttribute('data-color');
-            this.selectedEl = null;
-        }
-
-        this.value = e.target.getAttribute('data-color');
-
-        // 현재 색상 선택
-        if (!e.target.classList.contains('selected')) {
-            e.target.classList.add('selected');
-            e.target.style.backgroundColor = 'transparent';
-            this.selectedEl = e.target;
-        }
-        // color element 색상 변경
-        this.setColor(this.value);
-        this.inputEl.value = this.value;
-    },
     // 사용자 색상 저장
-    // ※ Hex, RGB코드를 입력하여 추가된 색상이 사용자 색상에 저장되기 위해 반드시 추가한 후 하단의 저장 버튼을 선택 해야한다.
     saveCustomColor() {
-        console.log(this.customColors);
+        // ※ Hex, RGB코드를 입력하여 추가된 색상이 사용자 색상에 저장되기 위해 반드시 추가한 후 하단의 저장 버튼을 선택 해야한다.
         aliceJs.fetchJson('/rest/users/colors', {
             method: 'PUT',
             headers: {
@@ -536,31 +540,57 @@ Object.assign(zColorPicker.prototype, {
             showProgressbar: true
         }).then((rtn) => {
             if (rtn) {
-                this.savedCustomColors = JSON.stringify(this.customColors);
+                this.savedCustomColors = JSON.parse(JSON.stringify(this.customColors));
+                this.closeCustomColorControl();
             }
         });
 
     },
-    // 취소 버튼 클릭 > 사용자 색상 취소
-    cancelCustomColor() {
-        // 사용자 색상 편집 영역 닫기
-        if (this.customColorControlContainerEl.classList.contains('active')) {
-            this.customColorControlContainerEl.classList.remove('active');
-            this.setPosition();
-
-            // edit 버튼 표시
-            this.editButtonEl.classList.add('on');
-
-            // 사용자 색상 삭제(x) 아이콘 삭제
-            this.customColorListEl.classList.remove('editable');
-        }
-    },
     // 사용자 색상 초기화
-    resetCustomColor(e) {
-        console.log('reset=======');
-        console.log(this);
-        console.log(e);
-        console.log('============');
+    resetCustomColor() {
+        // 기존 색상 조기화
+        if (this.selectedEl) {
+            this.selectedEl.classList.remove('selected');
+            this.selectedEl.style.backgroundColor = this.selectedEl.getAttribute('data-color');
+        }
+
+        // 기존 색상 선택
+        const colorList = this.colorListEl.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'palette-item');
+        for (let i = 0; i < colorList.length; i++) {
+            if (colorList[i].getAttribute('data-color') === this.savedValue) {
+                colorList[i].classList.add('selected');
+                colorList[i].style.backgroundColor = 'transparent';
+                this.selectedEl = colorList[i];
+                break;
+            }
+        }
+
+        // 사용자 정의 색상 삭제
+        const customColorList = this.customColorListEl.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'custom-color-palette-item');
+        for (let i = 0; i < customColorList.length; i++) {
+            this.customColorListEl.removeChild(customColorList[i]);
+        }
+
+        // 저장된 사용자 정의 색상 출력
+        this.savedCustomColors.forEach(color => {
+            this.customColorListEl.insertAdjacentHTML('beforeend', this.getCustomColorTemplate(color, (this.savedValue === color)));
+            // 이벤트 등록
+            const colorItem = this.customColorListEl.lastChild;
+            colorItem.addEventListener('click', this.selectColor.bind(this), false);
+            colorItem.querySelector('.' + aliceJs.CLASS_PREFIX + 'custom-color-palette-item-clear')
+                .addEventListener('click', this.removeCustomColor.bind(this), false);
+            // 순서 변경
+            aliceJs.swapNode(colorItem, this.addButtonEl);
+
+            if (this.savedValue === color) {
+                this.selectedEl = colorItem;
+            }
+        });
+        this.customColors = JSON.parse(JSON.stringify(this.savedCustomColors));
+        this.value = this.savedValue;
+        // color element 색상 변경
+        this.setColor(this.value);
+        this.inputEl.value = this.value;
     },
     // Rgb 입력시 호출
     setRgb() {

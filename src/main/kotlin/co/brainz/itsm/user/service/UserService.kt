@@ -324,10 +324,9 @@ class UserService(
     /**
      * 사용자 정의 색상 조회
      */
-    fun getUserCustomColors(): MutableList<UserCustomDto> {
+    fun getUserCustomColors(): UserCustomDto? {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userEntity = userDetailsService.selectUserKey(aliceUserDto.userKey)
-
         return userCustomRepository.findByUserAndCustomType(userEntity, UserConstants.UserCustom.COLOR.code)
     }
 

@@ -9,7 +9,7 @@ CREATE TABLE awf_user_custom
     custom_type varchar(128) NOT NULL,
     custom_value varchar(512),
     CONSTRAINT awf_user_custom_pk PRIMARY KEY (user_key, custom_type),
-    CONSTRAINT awf_user_custom_fk1 FOREIGN KEY (user_key) REFERENCES awf_user (user_key)
+    CONSTRAINT awf_user_custom_fk FOREIGN KEY (user_key) REFERENCES awf_user (user_key)
 );
 
 COMMENT ON TABLE awf_user_custom IS '사용자 지정';
