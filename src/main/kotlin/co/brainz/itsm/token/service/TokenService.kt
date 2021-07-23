@@ -117,12 +117,12 @@ class TokenService(
     /**
      * [tokenId]를 받아서 처리할 문서 상세 조회 하여 [String]반환 한다.
      */
-    fun findToken(tokenId: String): String {
-        return documentActionService.makeTokenAction(mapper.writeValueAsString(wfTokenService.getTokenData(tokenId)))
-    }
+    fun findToken(tokenId: String): String =
+        documentActionService.makeTokenAction(mapper.writeValueAsString(wfTokenService.getTokenData(tokenId)))
 
-    fun getTodoTokenCount() : Long = getTokenList(
-            TokenSearchConditionDto(
+
+    fun getTodoTokenCount(): Long = getTokenList(
+        TokenSearchConditionDto(
             userKey = userService.getUserDto()!!.userKey,
             searchTokenType = WfTokenConstants.SearchType.TODO.code
         )
