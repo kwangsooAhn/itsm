@@ -48,6 +48,7 @@ common:
     writer: "Writer"
   msg:
     confirmDelete: "Are you sure you want to delete?"
+    customColorSave: "Your color has not been saved yet.<br/>Your color will be reset."
     dataSelect: "Please select data."
     delete: "Deleted."
     deleteTartget: "Please select target."
@@ -70,6 +71,7 @@ common:
     selectBeforeDate: "Please select before {0} date."
     selectBeforeDateTime: "Please select before {0}."
     selectBeforeTime: "Please select before {0} time."
+    selectColor: "Please select a color."
     success: "Successful."
     update: "Changed."
   code:

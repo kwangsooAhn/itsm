@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.user.service
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
@@ -23,11 +24,10 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
-import co.brainz.itsm.user.dto.UserListDataDto
-import co.brainz.itsm.user.dto.UserListReturnDto
-import co.brainz.itsm.user.dto.UserSelectListDto
-import co.brainz.itsm.user.dto.UserUpdateDto
+import co.brainz.itsm.user.dto.*
+import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.itsm.user.mapper.UserMapper
+import co.brainz.itsm.user.repository.UserCustomRepository
 import co.brainz.itsm.user.repository.UserRepository
 import java.nio.file.Paths
 import java.security.PrivateKey
@@ -38,6 +38,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -54,6 +55,7 @@ class UserService(
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val codeService: CodeService,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
+    private val userCustomRepository: UserCustomRepository,
     private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val roleRepository: RoleRepository,
@@ -317,5 +319,34 @@ class UserService(
         allCodes["dateList"] = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
         allCodes["timeList"] = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
         return allCodes
+    }
+
+    /**
+     * 사용자 정의 색상 조회
+     */
+    fun getUserCustomColors(): MutableList<UserCustomDto> {
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val userEntity = userDetailsService.selectUserKey(aliceUserDto.userKey)
+
+        return userCustomRepository.findByUserAndCustomType(userEntity, UserConstants.UserCustom.COLOR.code)
+    }
+
+    /**
+     * 사용자 정의 색상 저장
+     */
+    fun updateUserCustomColors(userCustomDto: UserCustomDto): Boolean {
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val userEntity = userDetailsService.selectUserKey(aliceUserDto.userKey)
+        // 삭제
+        userCustomRepository.deleteByUserAndAndCustomType(userEntity, UserConstants.UserCustom.COLOR.code)
+        // 저장
+        userCustomRepository.save(
+            UserCustomEntity(
+                user = userEntity,
+                customType = UserConstants.UserCustom.COLOR.code,
+                customValue = userCustomDto.customValue
+            )
+        )
+        return true
     }
 }
