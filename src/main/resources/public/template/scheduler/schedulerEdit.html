@@ -127,7 +127,7 @@
                     <span th:text="#{scheduler.label.executeCyclePeriod}"></span>
                     <span class="required"></span>
                 </label>
-                <input type="text" class="z-input" id="executeCyclePeriod" required="required" maxlength="6"
+                <input type="text" class="z-input" id="executeCyclePeriod" required="required" maxlength="10"
                        th:value="${schedule?.executeCyclePeriod}" onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"/>
             </div>
             <div class="flex-row justify-content-between z-edit-row">
@@ -311,6 +311,7 @@
                 if (isEmpty('cronExpression', 'common.msg.requiredEnter')) { return false; }
             } else { // fixedDelay, fixedRate
                 if (isEmpty('executeCyclePeriod', 'common.msg.requiredEnter')) { return false; }
+                if (isExistMinValue('executeCyclePeriod', 60000, 'common.msg.minValue')) { return false; }
             }
             return true;
         }

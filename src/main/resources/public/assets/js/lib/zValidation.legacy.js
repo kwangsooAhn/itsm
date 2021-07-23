@@ -148,6 +148,23 @@ function isExistInScope(elementId, minValue, maxValue, messageId, callbackFunc) 
     return true;
 }
 
+/** @brief 엘리먼트 값의 최소값 판별.
+ *  @date 2021-07-22
+ */
+function isExistMinValue(elementId, minValue, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    if (elem !== null) {
+        if (minValue !== undefined && elem.value < minValue) {
+            if (messageId !== undefined) {
+                aliceAlert.alertWarning(i18n.msg(messageId, minValue), callbackFunc);
+            }
+            return true;
+        }
+        return false;
+    }
+    return true;
+}
+
 /** @brief 논리 연산자 (AND) 판별.
  *  @date 2020-03-03
  */
