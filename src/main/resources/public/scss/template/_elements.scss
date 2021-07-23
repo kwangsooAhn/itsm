@@ -463,6 +463,14 @@ label {
       outline: 0;
       border-color: $blue600; // $element-focus-border
       @include boxShadow(0, 0, 0.125rem, 0, hexToRGBA($blue600, 1)); // 2px
+      &[data-error] {
+        @include border($element-border-width, solid, $element-error-border-color, all);
+        @include boxShadow(0, 0, 0, 0, $element-bg-color);
+      }
+      &[data-success] {
+        @include border($element-border-width, solid, $validation-success-color, all);
+        @include boxShadow(0, 0, 0, 0, $element-bg-color);
+      }
     }
 
     &:active {

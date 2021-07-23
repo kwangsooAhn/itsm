@@ -1,0 +1,36 @@
+/* _validations.scss
+ *
+ * 파일 경로 : template/_validations.scss
+ * @description validation message
+ * @author jy.lim
+ * @version 1.0
+ */
+
+.#{$common-prefix}validation {
+  &.error {
+    display: inherit;
+    height: 2rem;
+    margin: 0.25rem 0; // 4px 0px
+    padding: 0.375rem 0.375rem 0.375rem 2.5rem; // 6px 6px 6px 40px
+    @include border($element-border-width, solid, $validation-error-bg-color, all);
+    color: $validation-error-color;
+    background-color: $validation-error-bg-color;
+    @include backgroundImage('#{$icon-folder-path}icon_error.svg', null, no-repeat, 1rem, center, null);
+  }
+  &.success {
+    display: inherit;
+    height: 2rem;
+    margin: 0.25rem 0; // 4px 0px
+    padding: 0.375rem 0.375rem 0.375rem 2.5rem; // 6px 6px 6px 40px
+    @include border($element-border-width, solid, $validation-success-bg-color, all);
+    color: $validation-success-color;
+    background-color: $validation-success-bg-color;
+    @include backgroundImage('#{$icon-folder-path}icon_success.svg', null, no-repeat, 1rem, center, null);
+
+  }
+  .z-button-clear {
+    padding-right: 0.9375rem; // 15px
+    @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $gray500); // 10px 10px
+  }
+}
+

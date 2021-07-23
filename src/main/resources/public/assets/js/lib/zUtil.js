@@ -1150,6 +1150,15 @@ aliceJs.convertDateFormat = function (format, type, date) {
 };
 
 /**
+ * alert div내부의 X 버튼을 클릭했을 때, 해당 div를 제거한다.
+ * @param req
+ */
+aliceJs.removeTarget = function (req) {
+    let target = req.parentElement;
+    target.remove();
+}
+
+/**
  * input 엘리먼트 내부의 X 버튼을 클릭했을 때, 같은 레벨의 input value를 clear한다.
  * @param req
  */
@@ -1202,3 +1211,35 @@ aliceJs.drawSlider = function(target) {
     target.style.cssText = '--range-location:' + thumbLocation;
 }
 
+/**
+ * validation message 처리
+ * @param elem
+ * @param message
+ * @param type
+ */
+aliceJs.drawValidateMsg = function(elem, message, type) {
+    // reset attributes
+    document.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'input').forEach(el => {
+        el.addEventListener('input', () => el.removeAttribute('data-' + type));
+    });
+
+    // set validate message element
+    let validateMsg = '';
+    if (elem.parentElement.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'validation').length > 0) {
+        validateMsg = elem.parentElement.querySelector('.' + aliceJs.CLASS_PREFIX + 'validation');
+        validateMsg.textContent = i18n.msg(message);
+    } else {
+        validateMsg = document.createElement('div');
+        validateMsg.className = aliceJs.CLASS_PREFIX + 'validation ' + type;
+        validateMsg.textContent = i18n.msg(message);
+    }
+    // set clear button
+    let clearButton = document.createElement('span')
+    clearButton.className = aliceJs.CLASS_PREFIX + 'button-clear ml-auto';
+    clearButton.onclick = function() {
+        aliceJs.removeTarget(this);
+    };
+    validateMsg.appendChild(clearButton);
+    elem.after(validateMsg);
+    elem.setAttribute('data-' + type, 'true');
+}

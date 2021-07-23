@@ -110,43 +110,49 @@ $element-shadow-color:                        $gray300;
 // 사용자 미입력시 나올 문구 = placeholder
 $element-placeholder-font-color:              $gray;
 
-// 키보드 또는 선택시, 해당 element에 포커싱되었을때 사용하는 디자인 변수
+// 키보드 또는 선택 시, 해당 element에 포커싱되었을때 사용하는 디자인 변수
 $element-focus-border-color:                  $blue600;
 $element-focus-border-width:                  0.0625rem; // 1px
 $element-focus-border:                        $element-focus-border-width solid $element-focus-border-color;
 $element-focus-shadow-color:                  $blue600;
 
-// element 마우스 오버시 사용하는 디자인 변수 
+// element 마우스 오버 시 사용하는 디자인 변수
 $element-hover-border-color:                  $blue400;
 $element-hover-border-width:                  0.0625rem; // 1px
 $element-hover-border:                        $element-hover-border-width solid $element-hover-border-color;
 
-// element disabled시 사용하는 디자인 변수
+// element disabled 시 사용하는 디자인 변수
 $element-disabled-font-color:                 $gray400;
 $element-disabled-bg-color:                   $neutral200;
 $element-disabled-border-color:               $gray300;
 $element-disabled-border-width:               0.0625rem; // 1px
 $element-disabled-border:                     $element-disabled-border-width solid $element-disabled-border-color;
 
-// element readonly시 사용하는 디자인 변수
+// element readonly 시 사용하는 디자인 변수
 $element-readonly-font-color:                 map-get($grays, 'dark');
 $element-readonly-bg-color:                   map-get($grays, 'light');
 $element-readonly-border-color:               $gray400;
 $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
 
-// 체크박스, 라디오 버튼, 스위치 등 선택되었을때 (ON) 디자인 변수
+// 체크박스, 라디오 버튼, 스위치 등 선택되었을 때 (ON) 디자인 변수
 $element-checked-bg-color:                    $blue;
 
-//셀렉트 박스 선택되었을때 옵션에 사용하는 디자인 변수
+//셀렉트 박스 선택되었을 때 옵션에 사용하는 디자인 변수
 $element-selected-font-color:                 $blue500;
 $element-hover-bg-color:                      hexToRGBA($blue, 0.08); // 불투명도 8%
 
-// 유효성 검증 실패시 디자인 변수
-$element-error-font-color:                    $red !important;
-$element-error-border-color:                  $red;
+// 유효성 검증 실패 시 디자인 변수
+$element-error-font-color:                    $red500 !important;
+$element-error-border-color:                  $red500;
 $element-error-border-width:                  0.0625rem; // 1px
 $element-error-border:                        $element-error-border-width solid $element-error-border-color !important;
+
+// 유효성 검증 성공 시 디자인 변수
+$element-success-font-color:                    $red500 !important;
+$element-success-border-color:                  $red500;
+$element-success-border-width:                  0.0625rem; // 1px
+$element-success-border:                        $element-success-border-width solid $element-success-border-color !important;
 
 // headings
 $h1-font-size:                                $font-size-s * 2.25; // 36px
@@ -565,3 +571,9 @@ $slider-thumb-active-border-color:           $blue500;
 $slider-thumb-active-bg-color:               $blue200;
 $slider-thumb-disabled-border-color:         $gray300;
 $slider-thumb-disabled-bg-color:             $neutral200;
+
+////////////////////////////// validation /////////////////////////////
+$validation-error-color:                     $red500;
+$validation-error-bg-color:                  $red50;
+$validation-success-color:                   $green600;
+$validation-success-bg-color:                $green100;

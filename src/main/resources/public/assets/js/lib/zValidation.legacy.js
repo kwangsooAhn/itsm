@@ -70,6 +70,8 @@ function isEmpty(elementId, messageId, callbackFunc) {
     };
     if (elem !== null) {
         if (elem.value.trim() === '') {
+            aliceJs.drawValidateMsg(elem, messageId, 'error');
+
             if (messageId !== undefined) {
                 aliceAlert.alertWarning(i18n.msg(messageId), callback);
             }
