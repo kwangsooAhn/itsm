@@ -13,21 +13,21 @@ import co.brainz.cmdb.dto.CIClassDetailDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIClassDto
 import co.brainz.cmdb.dto.CIClassToAttributeDto
-import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
 import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
 import co.brainz.itsm.cmdb.ciType.service.CITypeService
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 @Transactional
 class CIClassService(
     private val ciClassService: CIClassService,
-    private val ciTypeService: CITypeService
+    private val ciTypeService: CITypeService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -50,9 +50,8 @@ class CIClassService(
      */
     fun createCIClass(ciClassDto: CIClassDto): String {
         var returnValue = ""
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         ciClassDto.createDt = LocalDateTime.now()
-        ciClassDto.createUserKey = aliceUserDto.userKey
+        ciClassDto.createUserKey = currentSessionUser.getUserKey()
         if (ciClassService.createCIClass(ciClassDto)) {
             returnValue = CIClassConstants.Status.STATUS_SUCCESS.code
         }
@@ -64,9 +63,8 @@ class CIClassService(
      */
     fun updateCIClass(ciClassDto: CIClassDto): String {
         var returnValue = ""
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         ciClassDto.updateDt = LocalDateTime.now()
-        ciClassDto.updateUserKey = userDetails.userKey
+        ciClassDto.updateUserKey = currentSessionUser.getUserKey()
         if (ciClassService.updateCIClass(ciClassDto)) {
             returnValue = CIClassConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
         }

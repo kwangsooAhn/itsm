@@ -5,8 +5,8 @@
 
 package co.brainz.itsm.code.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
@@ -29,7 +29,8 @@ import org.springframework.stereotype.Service
 @Service
 class CodeService(
     private val codeRepository: CodeRepository,
-    private val codeLangRepository: CodeLangRepository
+    private val codeLangRepository: CodeLangRepository,
+    private val currentSessionUser: CurrentSessionUser
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -50,8 +51,7 @@ class CodeService(
         val lang = if (SecurityContextHolder.getContext().authentication.principal == "anonymousUser") {
             AliceUserConstants.USER_LOCALE_LANG
         } else {
-            val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-            userDetails.lang
+            currentSessionUser.getUserDto()?.lang
         }
         val findCodeList = codeRepository.findCodeByPCodeIn(codes, lang)
         for (codeDto in findCodeList) {

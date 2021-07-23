@@ -5,21 +5,20 @@
 
 package co.brainz.itsm.token.controller
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.role.service.RoleService
+import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -35,7 +34,8 @@ class TokenController(
     private val folderService: FolderService,
     private val tokenService: TokenService,
     private val documentService: DocumentService,
-    private val roleService: RoleService
+    private val roleService: RoleService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
     private val statusPage: String = "redirect:/certification/status"
     private val tokenSearchPage: String = "token/tokenSearch"
@@ -58,8 +58,7 @@ class TokenController(
      */
     @GetMapping("/search")
     fun getTokenSearch(request: HttpServletRequest, model: Model): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val userKey = aliceUserDto.userKey
+        val userKey = currentSessionUser.getUserKey()
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)
         when (userDto.status) {
             AliceUserConstants.Status.SIGNUP.code,

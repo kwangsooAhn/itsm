@@ -5,7 +5,6 @@
 
 package co.brainz.framework.fileTransaction.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.constants.FileConstants
@@ -20,6 +19,7 @@ import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.util.AliceFileUtil
+import co.brainz.framework.util.CurrentSessionUser
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
@@ -40,7 +40,6 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -54,6 +53,7 @@ class AliceFileService(
     private val aliceFileNameExtensionRepository: AliceFileNameExtensionRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val aliceFileProvider: AliceFileProvider,
+    private val currentSessionUser: CurrentSessionUser,
     environment: Environment
 ) : AliceFileUtil(environment) {
 
@@ -65,7 +65,6 @@ class AliceFileService(
      */
     @Transactional
     fun uploadTemp(multipartFile: MultipartFile): AliceFileLocEntity {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = super.getRandomFilename()
         val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileName)
         val filePath = super.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
@@ -89,7 +88,7 @@ class AliceFileService(
 
         val aliceFileLocEntity = AliceFileLocEntity(
             fileSeq = 0,
-            fileOwner = aliceUserDto.userKey,
+            fileOwner = currentSessionUser.getUserKey(),
             uploaded = false,
             uploadedLocation = filePath.parent.toString(),
             randomName = fileName,

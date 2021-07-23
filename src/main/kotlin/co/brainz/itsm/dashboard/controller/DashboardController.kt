@@ -1,11 +1,10 @@
 package co.brainz.itsm.dashboard.controller
 
-import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.dashboard.service.DashboardService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping
  */
 @Controller
 @RequestMapping("/dashboard")
-class DashboardController(private val dashboardService: DashboardService) {
+class DashboardController(
+    private val dashboardService: DashboardService,
+    private val currentSessionUser: CurrentSessionUser
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val dashboardViewPage: String = "dashboard/dashboardView"
@@ -40,8 +42,7 @@ class DashboardController(private val dashboardService: DashboardService) {
     @GetMapping("/statistic")
     fun getDashboardList(model: Model): String {
         val params = LinkedHashMap<String, Any>()
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        params["userKey"] = aliceUserDto.userKey
+        params["userKey"] = currentSessionUser.getUserKey()
         model.addAttribute("statusCountList", dashboardService.getStatusCountList(params))
         return dashboardListPage
     }

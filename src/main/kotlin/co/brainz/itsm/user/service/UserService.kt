@@ -320,7 +320,4 @@ class UserService(
         allCodes["timeList"] = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
         return allCodes
     }
-
-    fun getUserDto(): AliceUserDto? =
-        SecurityContextHolder.getContext().authentication.details as? AliceUserDto
 }

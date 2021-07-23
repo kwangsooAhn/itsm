@@ -8,6 +8,7 @@ package co.brainz.itsm.document.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.service.ProcessAdminService
@@ -32,7 +33,8 @@ class DocumentService(
     private val formService: FormService,
     private val processAdminService: ProcessAdminService,
     private val wfDocumentService: WfDocumentService,
-    private val aliceFileProvider: AliceFileProvider
+    private val aliceFileProvider: AliceFileProvider,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -45,9 +47,9 @@ class DocumentService(
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
             RestTemplateDocumentListReturnDto {
         // 업무흐름을 관리하는 사용자라면 신청서 상태가 임시, 사용을 볼 수가 있다.
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        if (aliceUserDto.grantedAuthorises != null) {
-            aliceUserDto.grantedAuthorises.forEachIndexed { _, grantedAuthority ->
+        val aliceUserDto = currentSessionUser.getUserDto()
+        if (aliceUserDto!!.grantedAuthorises != null) {
+            aliceUserDto.grantedAuthorises?.forEachIndexed { _, grantedAuthority ->
                 if (grantedAuthority.authority == "document.read.admin") {
                     restTemplateDocumentSearchListDto.viewType = "admin"
                 }
@@ -104,8 +106,7 @@ class DocumentService(
      * @return String?
      */
     fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
+        restTemplateDocumentDto.createUserKey = currentSessionUser.getUserKey()
         restTemplateDocumentDto.createDt = LocalDateTime.now()
         val dataDto = wfDocumentService.createDocument(restTemplateDocumentDto)
         return dataDto.documentId
@@ -122,8 +123,7 @@ class DocumentService(
         params: LinkedHashMap<String, Any>
     ): String? {
         val documentId = restTemplateDocumentDto.documentId
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
+        restTemplateDocumentDto.updateUserKey = currentSessionUser.getUserKey()
         restTemplateDocumentDto.updateDt = LocalDateTime.now()
         wfDocumentService.updateDocument(restTemplateDocumentDto, params)
         return documentId

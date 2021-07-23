@@ -3,6 +3,7 @@ package co.brainz.itsm.folder.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceViewDto
@@ -16,7 +17,8 @@ import org.springframework.stereotype.Service
 class FolderService(
     private val aliceUserRepository: AliceUserRepository,
     private val userDetailsService: AliceUserDetailsService,
-    private val wfFolderService: WfFolderService
+    private val wfFolderService: WfFolderService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -40,10 +42,8 @@ class FolderService(
     }
 
     fun createFolder(restTemplateFolderDto: List<RestTemplateFolderDto>): Boolean {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-
         for (folder in restTemplateFolderDto) {
-            folder.createUserKey = aliceUserDto.userKey
+            folder.createUserKey = currentSessionUser.getUserKey()
         }
         return wfFolderService.createFolderData(restTemplateFolderDto)
     }

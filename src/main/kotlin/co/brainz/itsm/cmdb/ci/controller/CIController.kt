@@ -6,11 +6,10 @@
 
 package co.brainz.itsm.cmdb.ci.controller
 
-import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.constants.ItsmConstants
 import javax.servlet.http.HttpServletRequest
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/cmdb/cis")
-class CIController(private val ciService: CIService) {
+class CIController(private val ciService: CIService, private val currentSessionUser: CurrentSessionUser) {
 
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
@@ -68,11 +67,10 @@ class CIController(private val ciService: CIService) {
     fun getCIView(request: HttpServletRequest, model: Model, @PathVariable ciId: String): String {
         val ciData = ciService.getCI(ciId)
         val ciHistoryList = ciService.getCIHistory(ciId)
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val ciRelationList = ciService.getCIRelation(ciId)
         model.addAttribute("ciData", ciData)
         model.addAttribute("ciHistoryList", ciHistoryList)
-        model.addAttribute("userInfo", userDetails)
+        model.addAttribute("userInfo", currentSessionUser.getUserDto())
         model.addAttribute("ciRelationList", ciRelationList)
         return ciViewPage
     }
@@ -92,7 +90,6 @@ class CIController(private val ciService: CIService) {
     @PostMapping("/component/edit")
     fun getCIComponentEdit(request: HttpServletRequest, @RequestBody modifyCIData: String, model: Model): String {
         // TODO: 세션 정보를 화면에서 처리하도록 수정
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         model.addAttribute(
             "ciData", ciService.getCIData(
                 request.getParameter("ciId"),
@@ -101,7 +98,7 @@ class CIController(private val ciService: CIService) {
                 modifyCIData
             )
         )
-        model.addAttribute("userInfo", userDetails)
+        model.addAttribute("userInfo", currentSessionUser.getUserDto())
         return ciEditModal
     }
 
@@ -111,13 +108,12 @@ class CIController(private val ciService: CIService) {
     @GetMapping("/component/view")
     fun getCIComponentView(request: HttpServletRequest, model: Model): String {
         // TODO: 세션 정보를 화면에서 처리하도록 수정
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         model.addAttribute(
             "ciData", ciService.getCI(
                 request.getParameter("ciId")
             )
         )
-        model.addAttribute("userInfo", userDetails)
+        model.addAttribute("userInfo", currentSessionUser.getUserDto())
         return ciViewModal
     }
 

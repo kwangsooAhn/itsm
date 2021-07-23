@@ -12,6 +12,7 @@ package co.brainz.itsm.form.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.AliceUtil
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.FormComponentDto
@@ -25,12 +26,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 class FormService(
-    private val wfFormService: WfFormService
+    private val wfFormService: WfFormService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -64,9 +65,8 @@ class FormService(
      * @return Boolean
      */
     fun saveForm(formId: String, restTemplateFormDto: RestTemplateFormDto): Boolean {
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateFormDto.updateDt = LocalDateTime.now()
-        restTemplateFormDto.updateUserKey = userDetails.userKey
+        restTemplateFormDto.updateUserKey = currentSessionUser.getUserKey()
 
         logger.info("update form : [{}]", formId)
         return wfFormService.saveForm(restTemplateFormDto)
@@ -91,9 +91,8 @@ class FormService(
      * @return String 생성된 form ID
      */
     fun createForm(restTemplateFormDto: RestTemplateFormDto): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateFormDto.status = RestTemplateConstants.FormStatus.EDIT.value
-        restTemplateFormDto.createUserKey = aliceUserDto.userKey
+        restTemplateFormDto.createUserKey = currentSessionUser.getUserKey()
         restTemplateFormDto.createDt = LocalDateTime.now()
         restTemplateFormDto.updateDt = LocalDateTime.now()
         val newFormId = wfFormService.createForm(restTemplateFormDto).id
@@ -123,9 +122,8 @@ class FormService(
      */
     fun saveFormData(formId: String, formDataString: String): Boolean {
         val formDataDto = makeFormDataDto(formDataString)
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         formDataDto.updateDt = LocalDateTime.now()
-        formDataDto.updateUserKey = aliceUserDto.userKey
+        formDataDto.updateUserKey = currentSessionUser.getUserKey()
         logger.info("save form : [{}]", formId)
         return wfFormService.saveFormData(formDataDto)
     }
@@ -229,8 +227,6 @@ class FormService(
             )
         }
 
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-
         return RestTemplateFormDataDto(
             id = (map["id"] ?: "") as String,
             name = map["name"] as String,
@@ -239,7 +235,7 @@ class FormService(
             category = map["category"] as String,
             display = formDisplay,
             createDt = LocalDateTime.now(),
-            createUserKey = aliceUserDto.userKey,
+            createUserKey = currentSessionUser.getUserKey(),
             updateDt = null,
             updateUserKey = null,
             group = groupList
