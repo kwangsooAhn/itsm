@@ -34,7 +34,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
         fontOptionBold: 'N',
         fontOptionItalic: 'N',
         fontOptionUnderline: 'N',
-        fontColor: 'rgba(0,0,0,1)',
+        fontColor: '#8B9094',
     },
     validation: {
         required: false, // 필수값 여부

@@ -85,19 +85,6 @@
                 <span class="required"></span>
             </label>
             <input type="text" id="documentColor" th:value="${documentData?.documentColor}"/>
-            <!--<div class="color-picker">
-                <div class="color-input">
-                    <div class="selected-color-box">
-                        <div id="selected-color" name="selected-color" class="selected-color"></div>
-                    </div>
-                    <input type="text" class="z-input" id="document-color" name="document-color"
-                           th:value="${documentData?.documentColor}" readonly/>
-                </div>
-                <div id="color-palette-layer">
-                    <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
-                    <div id="document-colorPalette-opacity" name="document-colorPalette-opacity" class="color-palette-opacity"></div>
-                </div>
-            </div>-->
             <!-- 신청서 아이콘 -->
             <div id="document-icon-content" class="document-icon-content" th:classappend="${documentData?.documentType != 'workflow'} ? 'on'">
                 <label class="field-label" for="document-icon" th:text="#{document.label.icon}"></label>

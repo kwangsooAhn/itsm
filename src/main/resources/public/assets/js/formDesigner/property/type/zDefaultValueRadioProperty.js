@@ -149,6 +149,9 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
         return this.UIElement;
     }
 
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {}
+
     // 속성 변경 시, 발생하는 이벤트 핸들러
     // 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.
     updateProperty(e) {

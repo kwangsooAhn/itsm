@@ -5675,10 +5675,10 @@ span.modal_node_selected label {
 .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list {
   display: flex;
   flex-direction: row;
-  margin: 0.5rem 0;
+  margin: 0.75rem 0 0.5rem 0;
 }
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list > *:not(:last-child) {
-  margin: 0 8px 0 0;
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list > *:not(:first-child) {
+  margin: 0 0 0 8px;
 }
 .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item {
   position: relative;
@@ -5727,6 +5727,9 @@ span.modal_node_selected label {
   box-shadow: inset 0 0 0 0.0625rem #339AF0;
 }
 .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus {
+  display: none;
+  width: 1.75rem;
+  height: 1.75rem;
   background-color: #FFFFFF;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
@@ -5735,8 +5738,8 @@ span.modal_node_selected label {
   padding: 0 0.0625rem;
 }
 .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus .z-icon.i-plus {
-  -webkit-mask-size: 0.625rem;
-  mask-size: 0.625rem;
+  width: 0.625rem;
+  height: 0.625rem;
   background: #8B9094;
 }
 .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:focus {
@@ -5760,6 +5763,9 @@ span.modal_node_selected label {
 }
 .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled:active .z-icon.i-plus, .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled.active .z-icon.i-plus {
   background: #1959AC;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus.on {
+  display: inline-block;
 }
 .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list.editable .z-custom-color-palette-item .z-custom-color-palette-item-clear {
   visibility: visible;

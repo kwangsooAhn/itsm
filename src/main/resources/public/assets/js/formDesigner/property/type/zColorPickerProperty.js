@@ -35,24 +35,16 @@ export default class ZColorPickerProperty extends ZProperty {
             .setUIId(this.key)
             .setUIValue(this.value)
             .onUIChange(this.updateProperty.bind(this));
-        // TODO: 라이브러리 적용
-        new zColorPicker(this.UIElement.UIColorPicker, { type: 'fill' });
-
-        // color picker
-        /*const colorPickerOption = {
-            isOpacity: (this.isOpacityUsed), // 불투명도 사용시
-            data: {
-                isSelected: true, // 기존 색상 선택 여부
-                selectedClass: 'selected', // 기존 값 색상에 css 적용 (테두리)
-                value: this.value // 기존 값
-            }
-        };
-        this.UIElement.UIColorPicker = new UIColor(colorPickerOption).setUIId(this.key);
-        this.UIElement.UIColorPicker.UIColor.UIInput.onUIChange(this.updateProperty.bind(this));*/
         this.UIElement.addUI(this.UIElement.UIColorPicker);
 
         return this.UIElement;
     }
+
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {
+        new zColorPicker(this.UIElement.UIColorPicker.domElement, { type: 'fill' });
+    }
+
     // 속성 변경시 발생하는 이벤트 핸들러
     updateProperty(e) {
         e.stopPropagation();

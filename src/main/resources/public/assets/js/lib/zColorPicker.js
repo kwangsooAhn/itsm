@@ -25,6 +25,7 @@ const DEFAULT_OPTIONS = {
     ],
     rgbReg: /^\d{1,3}$/,
     hexReg: /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
+    maxCustomColor: 10
 };
 
 function zColorPicker(targetElement, options) {
@@ -148,6 +149,10 @@ Object.assign(zColorPicker.prototype, {
             document.removeEventListener('mousedown', this.autoClose.bind(this), false);
             window.removeEventListener('scroll', this.setPosition.bind(this), false);
             window.removeEventListener('resize', this.setPosition.bind(this), false);
+
+            // input change 이벤트 호출
+            this.inputEl.dispatchEvent(new Event('change'));
+
         }
     },
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
@@ -278,9 +283,11 @@ Object.assign(zColorPicker.prototype, {
         });
 
         // 사용자 색상 목록 추가 버튼 (최대 10개까지 등록가능)
+        const isMaxCustomColor =  (this.savedCustomColors.length === this.options.maxCustomColor);
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = aliceJs.CLASS_PREFIX + 'button-icon ' + aliceJs.CLASS_PREFIX + 'custom-color-plus';
+        addButton.className = aliceJs.CLASS_PREFIX + 'button-icon ' + aliceJs.CLASS_PREFIX + 'custom-color-plus' +
+            (isMaxCustomColor ? '' : ' on');
         addButton.insertAdjacentHTML('beforeend', `<span class="${aliceJs.CLASS_PREFIX}icon i-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         this.addButtonEl = addButton;
@@ -315,7 +322,6 @@ Object.assign(zColorPicker.prototype, {
         hexInput.className = aliceJs.CLASS_PREFIX + 'input ' + aliceJs.CLASS_PREFIX + 'color-hex';
         hexInput.placeholder = '#FFFFFF';
         hexInput.setAttribute('maxlength', '7');
-        //hexInput.value = '';
         hexInput.addEventListener('keyup', this.setHex.bind(this), false);
         customColorControl.appendChild(hexInput);
         this.hexEl = hexInput;
@@ -337,7 +343,9 @@ Object.assign(zColorPicker.prototype, {
         addButton.type = 'button';
         addButton.className = aliceJs.CLASS_PREFIX + 'button secondary';
         addButton.textContent = i18n.msg('common.btn.add');
+        addButton.disabled = (this.savedCustomColors.length === this.options.maxCustomColor);
         addButton.addEventListener('click', this.addCustomColor.bind(this), false);
+        this.addCustomColorButtonEl = addButton;
         customColorControl.appendChild(addButton);
 
         // Hex, R,G,B 문구 추가
@@ -486,6 +494,11 @@ Object.assign(zColorPicker.prototype, {
         // 색상 추가
         this.customColorListEl.insertAdjacentHTML('beforeend', this.getCustomColorTemplate(this.hexEl.value, true));
         this.customColors.push(this.hexEl.value);
+        // 최대 색상은 10개만 추가 가능하다.
+        if (this.customColors.length === this.options.maxCustomColor) {
+            this.addButtonEl.classList.remove('on');
+            this.addCustomColorButtonEl.disabled = true;
+        }
 
         // 이벤트 등록
         const colorItem = this.customColorListEl.lastChild;
@@ -520,7 +533,13 @@ Object.assign(zColorPicker.prototype, {
             this.customColors.splice(index, 1);
         }
 
-        if (removeColor === this.selectedEl.getAttribute('data-color')) {
+        // 최대 색상은 10개만 추가 가능하다.
+        if (!this.addButtonEl.classList.contains('on')) {
+            this.addButtonEl.classList.add('on');
+            this.addCustomColorButtonEl.disabled = false;
+        }
+
+        if (this.selectedEl && removeColor === this.selectedEl.getAttribute('data-color')) {
             this.selectedEl = null;
         }
 
@@ -591,6 +610,18 @@ Object.assign(zColorPicker.prototype, {
         // color element 색상 변경
         this.setColor(this.value);
         this.inputEl.value = this.value;
+
+        // 최대 색상인데 추가 버튼이 활성화 되어 있다면 비활성화 한다.
+        if (this.savedCustomColors.length === this.options.maxCustomColor && this.addButtonEl.classList.contains('on')) {
+            this.addButtonEl.classList.remove('on');
+            this.addCustomColorButtonEl.disabled = true;
+        }
+        // 최대 색상이 아니지만 추가 버튼이 비활성화 되어 있다면 활성화 한다.
+        if (this.savedCustomColors.length !== this.options.maxCustomColor && !this.addButtonEl.classList.contains('on')) {
+            this.addButtonEl.classList.add('on');
+            this.addCustomColorButtonEl.disabled = false;
+        }
+
     },
     // Rgb 입력시 호출
     setRgb() {

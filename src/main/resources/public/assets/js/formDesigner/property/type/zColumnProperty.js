@@ -128,6 +128,10 @@ export default class ZColumnProperty extends ZProperty {
 
         return this.UIElement;
     }
+
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {}
+
     // 컬럼 추가
     addColumn(option, index) {
         if (index === -1 ) { index = this.value.length; }

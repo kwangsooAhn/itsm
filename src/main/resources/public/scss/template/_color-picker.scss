@@ -197,8 +197,8 @@
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          width: 1.75rem; // 28px
-          height: 1.75rem; // 28px
+          width: $color-palette-item-width;
+          height: $color-palette-item-height;
           @include borderRadius($color-palette-border-radius);
           cursor: pointer;
 
@@ -248,11 +248,12 @@
       .#{$common-prefix}custom-color-list {
         display: flex;
         flex-direction: row;
-        margin: 0.5rem 0; // 12px 0
+        margin: 0.75rem 0 0.5rem 0; // 12px 0 8px 0
 
-        > *:not(:last-child) {
-          margin: 0 8px 0 0; // 0 8px 0 0
+        > *:not(:first-child) {
+            margin: 0 0 0 8px; // 0 0 0 8px
         }
+
 
         // custom color palette item
         .#{$common-prefix}custom-color-palette-item {
@@ -261,8 +262,8 @@
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          width: 1.75rem; // 28px
-          height: 1.75rem; // 28px
+          width: $color-palette-item-width;
+          height: $color-palette-item-height;
           @include borderRadius($color-palette-border-radius);
 
           cursor: pointer;
@@ -302,6 +303,9 @@
 
         // [+] 버튼
         .#{$common-prefix}custom-color-plus {
+          display: none;
+          width: $color-palette-item-width;
+          height: $color-palette-item-height;
           background-color: map-get($custom-color-plus, 'default', 'background');
           @include border($color-picker-border-width, solid, map-get($custom-color-plus, 'default', 'border'), all);
           @include borderRadius($color-picker-border-radius);
@@ -312,8 +316,8 @@
 
           .#{$common-prefix}icon {
             &.i-plus {
-              -webkit-mask-size: 0.625rem; // 10px
-              mask-size: 0.625rem; // 10px
+              width: 0.625rem; // 10px
+              height: 0.625rem; // 10px
               background: map-get($custom-color-plus, 'default', 'font');
             }
           }
@@ -356,6 +360,10 @@
                 background: map-get($custom-color-plus, 'active', 'font');
               }
             }
+          }
+
+          &.on {
+            display: inline-block;
           }
         }
 
