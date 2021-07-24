@@ -49,14 +49,14 @@
                     <div class="flex-row">
                         <div class="flex-column col-6 mr-4">
                             <label th:text="#{notice.label.height}" for="popHeight"></label>
-                            <input type="text" id="popHeight" name="popHeight" class="z-input px"
+                            <input type="text" id="popHeight" name="popHeight" class="z-input i-px"
                                    th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
                                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
                                    oninput="maxLengthCheck(this)"/>
                         </div>
                         <div class="flex-column col-6">
                             <label th:text="#{notice.label.width}" for="popWidth"></label>
-                            <input type="text" id="popWidth" name="popWidth" class="z-input px"
+                            <input type="text" id="popWidth" name="popWidth" class="z-input i-px"
                                    th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
                                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
                                    oninput="maxLengthCheck(this)" />
@@ -65,11 +65,11 @@
                     <div class="flex-row">
                         <div class="flex-column col-6 mr-4">
                             <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
-                            <input type="text" id="popStrtDt" name="popStrtDt" class="z-input date col-pct-12" />
+                            <input type="text" id="popStrtDt" name="popStrtDt" class="z-input i-date-picker date col-pct-12" />
                         </div>
                         <div class="flex-column col-6">
                             <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
-                            <input type="text" id="popEndDt" name="popEndDt" class="z-input date col-pct-12" />
+                            <input type="text" id="popEndDt" name="popEndDt" class="z-input i-date-picker date col-pct-12" />
                         </div>
                     </div>
                 </div>

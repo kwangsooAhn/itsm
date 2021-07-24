@@ -30,6 +30,13 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                 removeTarget.remove();
             }
 
+            // originSelectTag option 중, style의 display가 'none'인 옵션이 존재한다면 해당 옵션을 제외한다
+            for (let i = 0; i < originSelectTag.options.length; i++) {
+                if (originSelectTag.options[i].style.display === 'none') {
+                    originSelectTag.options[i].remove();
+                }
+            }
+
             // z-select : select tag 와 추가되는 div, ul 을 감싸는 wrapper 생성.
             originSelectTag.classList.remove('select-hidden');
             let selectWrapper = document.createElement('div');

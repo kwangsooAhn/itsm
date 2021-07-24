@@ -55,6 +55,7 @@ common:
     enterContents: "내용을 입력하세요."
     enterTitle: "제목을 입력하세요."
     fail: "실패하였습니다."
+    minValue: "최소 입력값은 {0} 입니다."
     modify: "수정되었습니다."
     noData: "데이터가 없습니다."
     onlySaveInEdit: "발행/사용 단계에서는 수정이 불가합니다.<br>편집상태로 변경후 수정하세요."
@@ -253,6 +254,10 @@ chart:
     label:
       subTitle: "사용자 정의 차트 보고서"
       yAxisTitle: "문서 수"
+    text:
+      count: "카운트"
+    value:
+      coutn: "count"
   msg:
     searchDescription: "다양한 사용자 정의 차트를 조회하고 관리합니다."
     enterChartName: "차트 이름을 입력하세요."
@@ -264,6 +269,9 @@ chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
     stackedColumn: "Stacked Column Chart"
+    stackedBar: "Stacked Bar Chart"
+    lineAndColumn: "Line And Column Chart"
+    activityGauge: "Activity Gauge Chart"
 
 # CMDB
 cmdb:
@@ -794,8 +802,10 @@ form:
       minLength: "최소 길이"
       validationType: "유효성 타입"
       maxDate: "최대 날짜"
+      maxDateTime: "최대 날짜 시간"
       maxTime: "최대 시간"
       minDate: "최소 날짜"
+      minDateTime: "최소 날짜 시간"
       minTime: "최소 시간"
     option:
       none: "없음"

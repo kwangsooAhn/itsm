@@ -24,7 +24,10 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
-import co.brainz.itsm.user.dto.*
+import co.brainz.itsm.user.dto.UserListDataDto
+import co.brainz.itsm.user.dto.UserListReturnDto
+import co.brainz.itsm.user.dto.UserSelectListDto
+import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserCustomRepository
@@ -320,6 +323,9 @@ class UserService(
         allCodes["timeList"] = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
         return allCodes
     }
+
+    fun getUserDto(): AliceUserDto? =
+        SecurityContextHolder.getContext().authentication.details as? AliceUserDto
 
     /**
      * 사용자 정의 색상 조회

@@ -56,6 +56,7 @@ common:
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
     fail: "Failed."
+    minValue: "Minimum input is {0}"
     modify: "Modified."
     noData: "There is no data."
     onlySaveInEdit: "It cannot be saved in the publish/edit. Please edit in the edit"
@@ -254,6 +255,10 @@ chart:
     label:
       subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
+    text:
+      count: "Count"
+    value:
+      count: "count"
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
@@ -265,6 +270,9 @@ chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
     stackedColumn: "Stacked Column Chart"
+    stackedBar: "Stacked Bar Chart"
+    lineAndColumn: "Line And Column Chart"
+    activityGauge: "Activity Gauge Chart"
 
 # CMDB
 cmdb:
@@ -795,8 +803,10 @@ form:
       minLength: "Min Length"
       validationType: "Validation Type"
       maxDate: "Max Date"
+      maxDateTime: "Max Date Time"
       maxTime: "Max Time"
       minDate: "Min Date"
+      minDateTime: "Min Date Time"
       minTime: "Min Time"
     option:
       none: "None"

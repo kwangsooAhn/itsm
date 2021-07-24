@@ -45,4 +45,7 @@ class TokenRestController(private val tokenService: TokenService) {
     ): Boolean {
         return tokenService.putToken(tokenId, restTemplateTokenDataUpdateDto)
     }
+
+    @GetMapping("/todoCount")
+    fun getTodoCount(): Long = tokenService.getTodoTokenCount()
 }

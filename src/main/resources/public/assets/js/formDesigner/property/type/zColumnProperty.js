@@ -83,6 +83,15 @@ export const propertyExtends = {
             maxTime: ''
         }
     },
+   dateTime: {
+        columnElement: {
+            defaultValueRadio: 'none'
+        },
+        columnValidation: {
+            minDateTime: '',
+            maxDateTime: ''
+        }
+    }
 };
 
 export default class ZColumnProperty extends ZProperty {
@@ -128,10 +137,6 @@ export default class ZColumnProperty extends ZProperty {
 
         return this.UIElement;
     }
-
-    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {}
-
     // 컬럼 추가
     addColumn(option, index) {
         if (index === -1 ) { index = this.value.length; }
@@ -317,7 +322,7 @@ export default class ZColumnProperty extends ZProperty {
             ]);
 
         // head - fontColor
-        const columnHeadColorProperty = new ZColorPickerProperty(id + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor)
+        const columnHeadColorProperty = new ZColorPickerProperty(id + '|columnHead.fontColor', 'columnHead.fontColor', option.columnHead.fontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
         columnHeadColorProperty.columnWidth = '9';
 
@@ -346,7 +351,7 @@ export default class ZColumnProperty extends ZProperty {
         columnHeadFontOptionProperty.columnWidth = '6';
 
         // content - fontColor
-        const columnContentColorProperty = new ZColorPickerProperty(id + '|columnContent.fontColor', 'columnContent.fontColor', option.columnContent.fontColor)
+        const columnContentColorProperty = new ZColorPickerProperty(id + '|columnContent.fontColor', 'columnContent.fontColor', option.columnContent.fontColor, false)
             .setValidation(false, 'rgb', '', '', '', '25');
         columnContentColorProperty.columnWidth = '9';
 
@@ -402,6 +407,8 @@ export default class ZColumnProperty extends ZProperty {
                 return this.getPropertyForColumnTypeDate(option, id);
             case 'time':
                 return this.getPropertyForColumnTypeTime(option, id);
+            case 'dateTime':
+                return this.getPropertyForColumnTypeDateTime(option, id);
             default:
                 return [];
         }
@@ -466,6 +473,24 @@ export default class ZColumnProperty extends ZProperty {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.minTime', 'validation.minTime', option.columnValidation.minTime, FORM.DATE_TYPE.TIME_PICKER))
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxTime', 'validation.maxTime', option.columnValidation.maxTime, FORM.DATE_TYPE.TIME_PICKER))
+        ];
+    }
+
+    getPropertyForColumnTypeDateTime(option, id) {
+        const defaultValueRadioProperty = new ZDefaultValueRadioProperty(id + '|columnElement.defaultValueRadio', 'element.defaultValueRadio',
+            option.columnElement.defaultValueRadio,
+            [
+                {name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE},
+                {name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW},
+                {name: '', value: FORM.DATE_TYPE.DATETIME},
+                {name: '', value: FORM.DATE_TYPE.DATETIME_PICKER}
+            ]);
+        return [
+            new ZGroupProperty('group.columnElement')
+                .addProperty(defaultValueRadioProperty),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.minDateTime', 'validation.minDateTime', option.columnValidation.minDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
+                .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxDateTime', 'validation.maxDateTime', option.columnValidation.maxDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
         ];
     }
     // 입력 유형 타입 변경

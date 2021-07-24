@@ -5,16 +5,47 @@
 
 package co.brainz.framework.scheduling.service.impl
 
+import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
+import co.brainz.framework.scheduling.repository.AliceScheduleHistoryRepository
+import co.brainz.framework.util.AliceUtil
+import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
-class ScheduleTaskTypeClass {
+class ScheduleTaskTypeClass(
+    private val aliceScheduleHistoryRepository: AliceScheduleHistoryRepository
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun getRunnable(taskInfo: AliceScheduleTaskEntity): Runnable? {
+    fun getRunnable(taskInfo: AliceScheduleTaskEntity, isImmediately: Boolean): Runnable? {
+        val runClass = this.getRunClass(taskInfo)
+        return Runnable {
+            var isSuccess = true
+            var errorMsg = ""
+            try {
+                runClass?.run()
+            } catch (e: Exception) {
+                isSuccess = false
+                errorMsg = AliceUtil().printStackTraceToString(e)
+                logger.error("Failed to load class. [{}]", taskInfo.executeClass)
+            }
+            aliceScheduleHistoryRepository.save(
+                AliceScheduleHistoryEntity(
+                    historySeq = 0L,
+                    taskId = taskInfo.taskId,
+                    immediatelyExecute = isImmediately,
+                    executeTime = LocalDateTime.now(),
+                    result = isSuccess,
+                    errorMessage = errorMsg
+                )
+            )
+        }
+    }
+
+    fun getRunClass(taskInfo: AliceScheduleTaskEntity): Runnable? {
         var runnable: Runnable? = null
         try {
             val taskClass = Class.forName(taskInfo.executeClass)

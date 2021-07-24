@@ -16,15 +16,12 @@ import co.brainz.framework.scheduling.service.AliceScheduleTaskService
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeClass
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeJar
 import co.brainz.framework.scheduling.service.impl.ScheduleTaskTypeQuery
-import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.scheduler.dto.SchedulerDto
-import co.brainz.itsm.scheduler.dto.SchedulerHistoryDto
 import co.brainz.itsm.scheduler.dto.SchedulerListDto
 import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
 import co.brainz.itsm.scheduler.dto.SchedulerSearchDto
 import java.time.Instant
-import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -196,63 +193,37 @@ class SchedulerService(
      */
     fun immediateExecuteScheduler(schedulerDto: SchedulerDto): String {
         var returnValue = "0"
-        val history = SchedulerHistoryDto(
-            taskId = schedulerDto.taskId!!,
-            immediatelyExecute = true
-        )
         val taskInfo = getSchedulerDtoToEntity(schedulerDto)
         when (schedulerDto.taskType) {
             AliceConstants.ScheduleTaskType.QUERY.code -> {
-                taskInfo.executeQuery?.let { scheduleTaskTypeQuery.executeQuery(it) }
+                taskInfo.executeQuery?.let { scheduleTaskTypeQuery.executeQuery(taskInfo, true) }
             }
             AliceConstants.ScheduleTaskType.CLASS.code -> {
                 try {
-                    val runnable = scheduleTaskTypeClass.getRunnable(taskInfo)
+                    val runnable = scheduleTaskTypeClass.getRunnable(taskInfo, true)
                     if (runnable != null) {
                         scheduler.schedule(runnable, Instant.now())
-                        history.result = true
                     }
                 } catch (e: Exception) {
                     logger.error("Failed to load class. [{}]", schedulerDto.executeClass)
                     e.printStackTrace()
                     returnValue = "3"
-                    history.result = false
-                    history.errorMessage = AliceUtil().printStackTraceToString(e)
                 }
             }
             AliceConstants.ScheduleTaskType.JAR.code -> {
                 try {
-                    val runnable = scheduleTaskTypeJar.getRunnable(taskInfo)
+                    val runnable = scheduleTaskTypeJar.getRunnable(taskInfo, true)
                     if (runnable != null) {
                         scheduler.schedule(runnable, Instant.now())
-                        history.result = true
                     }
                 } catch (e: Exception) {
                     logger.error("Failed to load jar. [{}]", schedulerDto.executeCommand)
                     e.printStackTrace()
                     returnValue = "3"
-                    history.result = false
-                    history.errorMessage = AliceUtil().printStackTraceToString(e)
                 }
             }
         }
-        this.setSchedulerHistory(history)
         return returnValue
-    }
-
-    /**
-     * 스케줄 이력 등록.
-     */
-    fun setSchedulerHistory(history: SchedulerHistoryDto) {
-        val historyEntity = AliceScheduleHistoryEntity(
-            historySeq = 0L,
-            taskId = history.taskId,
-            immediatelyExecute = history.immediatelyExecute,
-            result = history.result,
-            executeTime = LocalDateTime.now(),
-            errorMessage = history.errorMessage
-        )
-        aliceScheduleHistoryRepository.save(historyEntity)
     }
 
     fun getSchedulerHistory(taskId: String): List<AliceScheduleHistoryEntity> {

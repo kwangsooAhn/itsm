@@ -6,6 +6,8 @@
 package co.brainz.workflow
 
 import co.brainz.workflow.instance.service.WfInstanceService
+import co.brainz.itsm.token.dto.TokenSearchConditionDto
+import co.brainz.workflow.token.constants.WfTokenConstants
 import java.time.LocalDateTime
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assumptions.assumingThat
@@ -41,15 +43,16 @@ class WfInstanceServiceTest {
     fun getLatestToken() {
         val tokenDto = wfInstanceService.instance(instanceId)
 
-        val params = LinkedHashMap<String, Any>()
-        params["userKey"] = this.userKey
-        params["tokenType"] = ""
-        params["documentId"] = tokenDto.documentId
-        params["searchValue"] = ""
-        params["offset"] = 1
-        params["fromDt"] = LocalDateTime.now().minusYears(1)
-        params["toDt"] = LocalDateTime.now()
-        params["tags"] = ""
+        val params = TokenSearchConditionDto(
+            userKey = this.userKey,
+            searchDocumentId = tokenDto.documentId,
+            searchValue = "",
+            searchTokenType = WfTokenConstants.SearchType.COMPLETED.code,
+            searchFromDt = LocalDateTime.now().minusYears(1).toString(),
+            searchToDt = LocalDateTime.now().toString(),
+            offset = 1,
+            searchTagString = ""
+        )
         val instanceDtoList = wfInstanceService.instances(params)
         for (instanceDto in instanceDtoList.data) {
             instanceDto.tokenId

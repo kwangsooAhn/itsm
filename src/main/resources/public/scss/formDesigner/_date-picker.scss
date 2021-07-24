@@ -1,5 +1,5 @@
 @import '../template/date-picker';
 
-.picker-wrapper-date {
+.#{$common-prefix}picker-wrapper-date {
   width: 100%;
 }
