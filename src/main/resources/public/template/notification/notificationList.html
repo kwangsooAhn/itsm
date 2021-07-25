@@ -18,7 +18,7 @@
              th:classappend="${notification.confirmYn} ? confirm">
 
             <div class="z-title">
-                <label class="z-notification-checked float-left"><input type="checkbox" th:checked="${notification.confirmYn}"
+                <label class="z-checkbox z-notification-checked float-left"><input type="checkbox" th:checked="${notification.confirmYn}"
                               th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
                               th:disabled="${notification.confirmYn}"/></label>
                 <span class="z-title text-ellipsis" th:text="${notification.title}" th:classappend="${notification.confirmYn} ? confirm"

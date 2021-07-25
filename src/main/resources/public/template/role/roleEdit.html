@@ -49,17 +49,17 @@
                             <label th:text="#{role.label.auth}" class="required"></label>
                         </div>
                         <div class="ml-auto">
-                            <label class="checkbox checkbox-all">
+                            <label class="z-checkbox z-checkbox-all">
                                 <input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"/>
                                 <span></span>
                                 <span class="label" th:text="#{role.btn.selectAll}"/>
                             </label>
                         </div>
                     </div>
-                    <div class="checkbox-list">
+                    <div class="z-checkbox-list">
                         <ul>
                             <li class="text-ellipsis" th:each="auth : ${authList}">
-                                <label class="checkbox" th:for="${auth?.authId}" tabindex="0">
+                                <label class="z-checkbox" th:for="${auth?.authId}" tabindex="0">
                                     <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
                                     <span></span>
                                     <span class="label" th:text="${auth?.authName}"></span>
@@ -148,7 +148,7 @@
 
             OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelector('.role-content-edit'), { className: 'scrollbar' });
-            Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
+            Array.prototype.forEach.call(document.querySelectorAll('.z-checkbox-list'), function(target) {
                 OverlayScrollbars(target, { className: 'inner-scrollbar' });
             });
         }
@@ -188,11 +188,11 @@
             aliceJs.sendXhr(opt);
             document.getElementById('selectAll').checked = false;
             OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
-            Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
+            Array.prototype.forEach.call(document.querySelectorAll('.z-checkbox-list'), function(target) {
                 OverlayScrollbars(target, { className: 'inner-scrollbar',
                     callbacks: {
                         onInitialized: function () {
-                            const verticalScrollTrack = document.querySelector('.checkbox-list> .os-scrollbar-vertical');
+                            const verticalScrollTrack = document.querySelector('.z-checkbox-list> .os-scrollbar-vertical');
                             verticalScrollTrack.classList.add('right', 'padding');
                         }
                     }

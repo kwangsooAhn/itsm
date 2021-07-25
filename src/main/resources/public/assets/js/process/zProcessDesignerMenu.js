@@ -1530,7 +1530,7 @@
                 labelObject.className = 'properties-title';
                 labelObject.htmlFor = property.id;
                 if (property.type === 'checkbox') {
-                    labelObject.classList.add('checkbox');
+                    labelObject.classList.add(aliceJs.CLASS_PREFIX + 'checkbox');
                     labelObject.tabindex = 0;
                 }
                 labelObject.textContent = i18n.msg(i18nMsgPrefix + property.id);
@@ -1813,6 +1813,7 @@
                 const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
                 const labelText = labelElem.textContent;
                 labelElem.textContent = '';
+                labelElem.className = aliceJs.CLASS_PREFIX + 'checkbox';
                 elementObject = document.createElement('input');
                 elementObject.type = 'checkbox';
                 if (elemData[property.id] && elemData[property.id] === 'Y') {
