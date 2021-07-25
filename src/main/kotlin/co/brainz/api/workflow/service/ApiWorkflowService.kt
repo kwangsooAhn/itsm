@@ -79,9 +79,8 @@ class ApiWorkflowService(
         val documentDto = documentService.getDocument(documentId)
         when (documentDto.apiEnable) {
             true -> {
-                // TODO: CMDB 와 같이 별도의 저장 옵션이 존재하는 경우 해당 값을 추가하여 처리한다.
-                if (requestDto.optionData != null) {
-                }
+                // TODO : CMDB 와 같이 별도의 저장 옵션이 존재하는 경우 해당 값을 추가하여 처리한다.
+                // if (requestDto.optionData != null) { }
 
                 val tokenDto = apiWorkflowMapper.callDataMapper(documentId, requestDto)
                 tokenDto.instancePlatform = RestTemplateConstants.InstancePlatform.API.code
