@@ -12,6 +12,7 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
+import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.workflow.comment.entity.QWfCommentEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
@@ -28,7 +29,6 @@ import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
 import co.brainz.workflow.token.entity.QWfTokenEntity
