@@ -276,7 +276,8 @@ abstract class ChartManager(
             }
             ChartConstants.Unit.MONTH.code -> {
                 for (index in 0 until chartDateTime.period + 1) {
-                    dateFormatList.add(chartDateTime.startYear.toString() + this.addStringFormat(chartDateTime.startMonth))
+                    dateFormatList.add(chartDateTime.startYear.toString()
+                                       + this.addStringFormat(chartDateTime.startMonth))
                     when (chartDateTime.startMonth) {
                         12 -> {
                             chartDateTime.startYear++
@@ -298,7 +299,8 @@ abstract class ChartManager(
                     for (day in chartDateTime.startDays until lengthOfMonth + 1) {
                         dateFormatList.add(dateFormat + this.addStringFormat(day))
 
-                        if (day == chartDateTime.endDateTime!!.dayOfMonth && chartDateTime.startMonth == chartDateTime.endDateTime.monthValue) {
+                        if (day == chartDateTime.endDateTime!!.dayOfMonth
+                            && chartDateTime.startMonth == chartDateTime.endDateTime.monthValue) {
                             break
                         }
                     }
@@ -325,11 +327,14 @@ abstract class ChartManager(
                     for (day in chartDateTime.startDays until lengthOfMonth + 1) {
                         for (hours in chartDateTime.startHours until 25) {
                             dateFormatList.add(dateFormat + day + this.addStringFormat(hours))
-                            if (hours == chartDateTime.endDateTime!!.hour && day == chartDateTime.endDateTime.dayOfMonth && chartDateTime.startMonth == chartDateTime.endDateTime.monthValue) {
+                            if (hours == chartDateTime.endDateTime!!.hour
+                                && day == chartDateTime.endDateTime.dayOfMonth
+                                && chartDateTime.startMonth == chartDateTime.endDateTime.monthValue) {
                                 break
                             }
                         }
-                        if (day == chartDateTime.endDateTime!!.dayOfMonth && chartDateTime.startMonth == chartDateTime.endDateTime.monthValue) {
+                        if (day == chartDateTime.endDateTime!!.dayOfMonth
+                            && chartDateTime.startMonth == chartDateTime.endDateTime.monthValue) {
                             break
                         }
                         chartDateTime.startHours = 1

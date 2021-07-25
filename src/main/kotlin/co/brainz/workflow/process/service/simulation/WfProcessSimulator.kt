@@ -101,7 +101,8 @@ class WfProcessSimulator(
                 }
             }
             // GW 제외한 element 중 처리한 element 는 저장한다. (GW에 의한 반려, 회수 시 제외)
-            if (WfElementConstants.ElementType.getAtomic(currentElement.elementType) != WfElementConstants.ElementType.GATEWAY) {
+            if (WfElementConstants.ElementType.getAtomic(currentElement.elementType)
+                != WfElementConstants.ElementType.GATEWAY) {
                 completeElements.add(currentElement.elementId)
             }
         }
