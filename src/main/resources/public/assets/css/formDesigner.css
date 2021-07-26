@@ -4738,113 +4738,6 @@ label {
  * @author jy.lim
  * @version 1.0
  */
-.color-picker {
-  display: flex;
-  flex-direction: column;
-}
-.color-picker .color-input {
-  display: inline-flex;
-}
-.color-picker .color-input .selected-color {
-  width: 1.5rem;
-  height: 1.5rem;
-  margin: 0.3125rem;
-  border: 0.1875rem solid transparent;
-  cursor: pointer;
-}
-.color-picker .color-input .selected-color-box {
-  display: flex;
-  width: 2.25rem;
-  height: 2.25rem;
-  margin-right: 0.3125rem;
-  border: 0.0625rem solid #EBEBEB;
-}
-.color-picker .color-input .selected-color-box:hover {
-  border-color: #0098FF;
-}
-.color-picker .color-palette {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  width: 100%;
-  padding: 0.9375rem 0 0.9375rem 0.9375rem;
-  margin-top: 0.3125rem;
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #FFFFFF;
-}
-.color-picker .color-palette div {
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  margin-right: 0.1875rem;
-  margin-bottom: 0.1875rem;
-  cursor: pointer;
-}
-.color-picker .color-palette div.selected {
-  border: 0.125rem solid #FFFFFF;
-  outline: 0.0625rem solid #0098FF;
-}
-.color-picker .color-palette div:last-child {
-  border-color: #EBEBEB;
-}
-.color-picker .color-palette-opacity {
-  display: none;
-  width: 100%;
-  height: 2.5rem;
-  padding-left: 0.219rem;
-  border: 0.0625rem solid #EBEBEB;
-  border-top: none;
-  background-color: #FFFFFF;
-}
-.color-picker .color-palette-opacity span {
-  display: table-cell;
-  height: 3rem;
-  vertical-align: middle;
-}
-.color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 0.625rem;
-  height: 0.625rem;
-  border: 0.0625rem solid #c8ced8;
-  border-radius: 50%;
-  background: #FFFFFF;
-  cursor: pointer;
-}
-.color-picker .color-palette-opacity span input[type=range]::-moz-range-thumb {
-  width: 0.625rem;
-  height: 0.625rem;
-  border: 0.0625rem solid #c8ced8;
-  border-radius: 50%;
-  background: #FFFFFF;
-  cursor: pointer;
-}
-.color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
-  background-color: #0098FF;
-  height: 0.0625rem;
-}
-.color-picker .color-palette-opacity span input.slide-object {
-  width: 9.125rem;
-  height: 0.0625rem;
-  background: #c8ced8;
-  border: initial;
-  padding: initial;
-  margin: 0 0.594rem 0 0.625rem;
-  outline: none;
-}
-.color-picker .color-palette-opacity span input.slide-input {
-  width: 3rem !important;
-  height: 2rem;
-  text-align: center;
-  vertical-align: middle;
-}
-.color-picker .color-palette-opacity span label {
-  width: 0.813rem;
-  height: 1.25rem;
-  line-height: 1.25rem;
-  margin: 0 0 0 0.25rem;
-  vertical-align: middle;
-}
-
 .z-color-picker-wrapper {
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
@@ -4885,9 +4778,9 @@ label {
 }
 .z-color-picker-wrapper .z-color-picker:focus {
   border-color: #2578CE;
-  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #CFD5D9;
-  -moz-box-shadow: 0 0.125rem 0.75rem 0 #CFD5D9;
-  box-shadow: 0 0.125rem 0.75rem 0 #CFD5D9;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
 }
 .z-color-picker-wrapper .z-color-picker-modal {
   display: none;

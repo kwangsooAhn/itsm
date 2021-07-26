@@ -24,6 +24,7 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
+import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
 import co.brainz.itsm.user.dto.UserSelectListDto
