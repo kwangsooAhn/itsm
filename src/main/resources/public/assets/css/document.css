@@ -1186,7 +1186,7 @@ label {
   border-color: #CFD5D9;
 }
 .radio input[type=radio]:not(:disabled):checked + span::after {
-  background-color: #339AF0;
+  background-color: #0098FF;
   -webkit-transform: translate(4px, 9px) scale(1);
   -moz-transform: translate(4px, 9px) scale(1);
   -o-transform: translate(4px, 9px) scale(1);
@@ -1260,7 +1260,7 @@ label {
   left: 0;
   width: 0.75rem;
   height: 0.375rem;
-  border: 0.125rem solid #339AF0;
+  border: 0.125rem solid #0098FF;
   border-right: none;
   border-top: none;
   -webkit-transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
@@ -1339,7 +1339,7 @@ label {
   -moz-border-radius: 50%;
 }
 .switch input[type=checkbox]:checked + span {
-  background-color: #339AF0;
+  background-color: #0098FF;
 }
 .switch input[type=checkbox]:checked + span::before {
   -webkit-transform: translate(2.875rem, 0);

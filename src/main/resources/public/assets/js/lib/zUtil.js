@@ -1213,7 +1213,7 @@ aliceJs.drawSlider = function(target) {
 
 /**
  * validation message 처리
- * @param elem
+ * @param target
  * @param message
  * @param type
  * @param isAbsolute
