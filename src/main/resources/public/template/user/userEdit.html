@@ -146,10 +146,10 @@
                 <h3 class="sub-title under-bar bold" th:text="#{user.label.role}"></h3>
             </div>
             <div class="flex-column z-edit-row">
-                <div class="checkbox-list">
+                <div class="z-checkbox-list">
                     <ul>
                         <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
-                            <label class="checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}" tabindex="0">
+                            <label class="z-checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}" tabindex="0">
                                 <input class="user-role-checkbox" type="checkbox"
                                        th:id="|roles*{roleStat.index}|" name="roles"
                                        th:value="*{role.roleId}" th:checked="*{role.checked}">
@@ -212,7 +212,7 @@
             });
 
             OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
-            OverlayScrollbars(document.querySelector('.checkbox-list'), {className: 'inner-scrollbar'});
+            OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
         };
 
         const STATUS_SUCCESS = '0';
