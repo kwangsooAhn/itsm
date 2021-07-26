@@ -1217,22 +1217,23 @@ aliceJs.drawSlider = function(target) {
  * @param message
  * @param type
  */
-aliceJs.drawValidateMsg = function(elem, message, type) {
+aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
     // reset attributes
-    document.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'input').forEach(el => {
-        el.addEventListener('input', () => el.removeAttribute('data-' + type));
+    document.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'input').forEach(elem => {
+        elem.addEventListener('input', () => el.removeAttribute('data-' + type));
     });
 
     // set validate message element
     let validateMsg = '';
-    if (elem.parentElement.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'validation').length > 0) {
-        validateMsg = elem.parentElement.querySelector('.' + aliceJs.CLASS_PREFIX + 'validation');
+    if (target.parentElement.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'validation').length > 0) {
+        validateMsg = target.parentElement.querySelector('.' + aliceJs.CLASS_PREFIX + 'validation');
         validateMsg.textContent = i18n.msg(message);
     } else {
         validateMsg = document.createElement('div');
         validateMsg.className = aliceJs.CLASS_PREFIX + 'validation ' + type;
         validateMsg.textContent = i18n.msg(message);
     }
+
     // set clear button
     let clearButton = document.createElement('span')
     clearButton.className = aliceJs.CLASS_PREFIX + 'button-clear ml-auto';
@@ -1240,6 +1241,16 @@ aliceJs.drawValidateMsg = function(elem, message, type) {
         aliceJs.removeTarget(this);
     };
     validateMsg.appendChild(clearButton);
-    elem.after(validateMsg);
-    elem.setAttribute('data-' + type, 'true');
+
+    // for absolute option
+    if (isAbsolute) {
+        const location = target.getBoundingClientRect();
+        validateMsg.style.position = 'absolute';
+        validateMsg.style.top = location.top + location.height + 2 + 'px';
+        validateMsg.style.left = location.left + 'px';
+        validateMsg.style.width = location.width + 'px';
+    }
+
+    target.after(validateMsg);
+    target.setAttribute('data-' + type, 'true');
 }

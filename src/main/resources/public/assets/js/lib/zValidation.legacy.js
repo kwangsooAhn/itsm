@@ -70,8 +70,6 @@ function isEmpty(elementId, messageId, callbackFunc) {
     };
     if (elem !== null) {
         if (elem.value.trim() === '') {
-            aliceJs.drawValidateMsg(elem, messageId, 'error');
-
             if (messageId !== undefined) {
                 aliceAlert.alertWarning(i18n.msg(messageId), callback);
             }
@@ -142,6 +140,23 @@ function isExistInScope(elementId, minValue, maxValue, messageId, callbackFunc) 
         if ((minValue !== undefined && elem.value < minValue) || (maxValue !== undefined && elem.value > maxValue)) {
             if (messageId !== undefined) {
                 aliceAlert.alertWarning(i18n.msg(messageId), callbackFunc);
+            }
+            return true;
+        }
+        return false;
+    }
+    return true;
+}
+
+/** @brief 엘리먼트 값의 최소값 판별.
+ *  @date 2021-07-22
+ */
+function isExistMinValue(elementId, minValue, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    if (elem !== null) {
+        if (minValue !== undefined && elem.value < minValue) {
+            if (messageId !== undefined) {
+                aliceAlert.alertWarning(i18n.msg(messageId, minValue), callbackFunc);
             }
             return true;
         }
