@@ -392,8 +392,8 @@ class WfDocumentService(
         val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (elementEntity in userTasks) {
             for (display in displayList) {
-                if (display.formGroupId == formGroup.formGroupId
-                    && display.elementId == elementEntity["elementId"].toString()) {
+                if (display.formGroupId == formGroup.formGroupId &&
+                    display.elementId == elementEntity["elementId"].toString()) {
                     val displayMap = LinkedHashMap<String, Any>()
                     displayMap["elementId"] = display.elementId
                     displayMap["display"] = display.display
