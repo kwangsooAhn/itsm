@@ -870,6 +870,7 @@ menu:
     boardAdmin: "게시판"
     code: "코드"
     parent: "시스템 관리"
+    product: "제품 정보"
     role: "역할"
     scheduler: "스케줄러"
     user: "사용자"

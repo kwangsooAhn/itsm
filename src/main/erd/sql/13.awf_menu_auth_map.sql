@@ -49,6 +49,7 @@ insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.read');
 insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.create');
 insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.update');
 insert into awf_menu_auth_map values ('config.scheduler', 'scheduler.delete');
+insert into awf_menu_auth_map values ('config.product', 'product.read');
 insert into awf_menu_auth_map values ('dashboard', 'document.read');
 insert into awf_menu_auth_map values ('dashboard', 'document.create');
 insert into awf_menu_auth_map values ('dashboard', 'document.update');

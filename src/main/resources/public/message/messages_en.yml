@@ -870,6 +870,7 @@ menu:
     boardAdmin: "Board management"
     code: "Code management"
     parent: "System config"
+    product: "Product Info"
     role: "Role"
     scheduler: "Scheduler"
     user: "User"
