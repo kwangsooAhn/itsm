@@ -1337,6 +1337,18 @@ label {
   -moz-box-shadow: 0 0 0.125rem 0 #2578ce;
   box-shadow: 0 0 0.125rem 0 #2578ce;
 }
+.z-input:not(:disabled):focus[data-error], .z-input:not(:read-only):focus[data-error] {
+  border: 0.0625rem solid #ff405a;
+  -webkit-box-shadow: 0 0 0 0 #FFFFFF;
+  -moz-box-shadow: 0 0 0 0 #FFFFFF;
+  box-shadow: 0 0 0 0 #FFFFFF;
+}
+.z-input:not(:disabled):focus[data-success], .z-input:not(:read-only):focus[data-success] {
+  border: 0.0625rem solid #5CA21B;
+  -webkit-box-shadow: 0 0 0 0 #FFFFFF;
+  -moz-box-shadow: 0 0 0 0 #FFFFFF;
+  box-shadow: 0 0 0 0 #FFFFFF;
+}
 .z-input:not(:disabled):active, .z-input:not(:read-only):active {
   outline: 0;
   border: 0.0625rem solid #339AF0;
