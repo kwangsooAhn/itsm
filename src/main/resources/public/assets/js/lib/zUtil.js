@@ -1156,7 +1156,7 @@ aliceJs.convertDateFormat = function (format, type, date) {
 aliceJs.removeTarget = function (req) {
     let target = req.parentElement;
     target.remove();
-}
+};
 
 /**
  * input 엘리먼트 내부의 X 버튼을 클릭했을 때, 같은 레벨의 input value를 clear한다.
@@ -1200,7 +1200,7 @@ aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
     if (event.key === keyName) {
         callBackFunc();
     }
-}
+};
 
 /**
  * z-slider > range value에 따라 range fill 영역을 계산한다.
@@ -1209,13 +1209,14 @@ aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
 aliceJs.drawSlider = function(target) {
     let thumbLocation =  parseInt((target.value - 1) * 100 / (target.max - 1)) + '%';
     target.style.cssText = '--range-location:' + thumbLocation;
-}
+};
 
 /**
  * validation message 처리
  * @param elem
  * @param message
  * @param type
+ * @param isAbsolute
  */
 aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
     // reset attributes
@@ -1253,4 +1254,4 @@ aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
 
     target.after(validateMsg);
     target.setAttribute('data-' + type, 'true');
-}
+};
