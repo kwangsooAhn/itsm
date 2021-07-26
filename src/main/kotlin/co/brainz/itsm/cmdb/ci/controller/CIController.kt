@@ -91,7 +91,7 @@ class CIController(private val ciService: CIService) {
      */
     @PostMapping("/component/edit")
     fun getCIComponentEdit(request: HttpServletRequest, @RequestBody modifyCIData: String, model: Model): String {
-        // TODO: 세션 정보를 화면에서 처리하도록 수정
+        // TODO : 세션 정보를 화면에서 처리하도록 수정
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         model.addAttribute(
             "ciData", ciService.getCIData(
@@ -110,7 +110,7 @@ class CIController(private val ciService: CIService) {
      */
     @GetMapping("/component/view")
     fun getCIComponentView(request: HttpServletRequest, model: Model): String {
-        // TODO: 세션 정보를 화면에서 처리하도록 수정
+        // TODO : 세션 정보를 화면에서 처리하도록 수정
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         model.addAttribute(
             "ciData", ciService.getCI(

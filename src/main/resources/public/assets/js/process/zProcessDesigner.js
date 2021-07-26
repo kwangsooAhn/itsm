@@ -1985,11 +1985,6 @@
                     node = new GroupElement(x, y, element.display.width, element.display.height);
                     node.nodeElement.style('stroke', element.data['line-color'])
                         .style('fill', element.data['background-color']);
-                    if (element.data['background-color'] === '') {
-                        node.nodeElement.style('fill-opacity', 0);
-                    } else {
-                        node.nodeElement.style('fill-opacity', aliceJs.rgbaOpacity(element.data['background-color']));
-                    }
                 } else if (element.type === 'annotationArtifact') {
                     node = new AnnotationElement(x, y);
                 }

@@ -60,7 +60,7 @@ export default class ZLabelProperty {
         labelFontOptionProperty.columnWidth = '6';
 
         // label - fontColor
-        const labelFontColorProperty = new ZColorPickerProperty('labelFontColor', 'label.fontColor', this.target.labelFontColor, false)
+        const labelFontColorProperty = new ZColorPickerProperty('labelFontColor', 'label.fontColor', this.target.labelFontColor)
             .setValidation(false, 'rgb', '', '', '', '25');
         labelFontColorProperty.columnWidth = '12';
 

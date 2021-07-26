@@ -102,7 +102,8 @@ class WorkFlowController(
      */
     @GetMapping("/{documentId}/display")
     fun getWorkFlowDisplay(@PathVariable documentId: String, model: Model): String {
-        model.addAttribute("documentDisplayTypeList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_DISPLAY_TYPE_P_CODE))
+        model.addAttribute("documentDisplayTypeList",
+                            codeService.selectCodeByParent(DocumentConstants.DOCUMENT_DISPLAY_TYPE_P_CODE))
         model.addAttribute("documentDisplayList", documentService.getDocumentDisplay(documentId))
         return documentDisplayModalPage
     }

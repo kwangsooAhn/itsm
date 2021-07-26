@@ -47,10 +47,10 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{auth.label.urlList}"></label>
-                    <div class="checkbox-list">
+                    <div class="z-checkbox-list">
                         <ul>
                             <li class="text-ellipsis" th:each="url : ${urlList}">
-                                <label class="checkbox" th:for="${url?.url}" tabindex="0">
+                                <label class="z-checkbox" th:for="${url?.url}" tabindex="0">
                                     <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
                                     <span></span>
                                     <span class="label" th:text="|[${url?.method}] ${url?.url}|"></span>
@@ -61,10 +61,10 @@
                 </div>
                 <div class="edit-row flex-column">
                     <label class="auth-list" th:text="#{auth.label.menuList}"></label>
-                    <div class="checkbox-list">
+                    <div class="z-checkbox-list">
                         <ul id='menuList'>
                             <li th:each="menu : ${menuList}">
-                                <label class="checkbox" th:for="${menu?.menuId}" tabindex="0">
+                                <label class="z-checkbox" th:for="${menu?.menuId}" tabindex="0">
                                     <input class="auth-list-check" type="checkbox" name="authMenu"
                                            th:id="${menu?.menuId}"
                                            th:value="${menu?.menuId}">
@@ -405,11 +405,11 @@
                         disabledButton(responseJson.roleAuthMapCount);
                     }
                     OverlayScrollbars(document.querySelector('.auth-content-edit'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.querySelectorAll('.checkbox-list'), {
+                    OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), {
                         className: 'inner-scrollbar',
                         callbacks: {
                             onInitialized: function () {
-                                const verticalScrollTrack = document.querySelectorAll('.checkbox-list> .os-scrollbar-vertical');
+                                const verticalScrollTrack = document.querySelectorAll('.z-checkbox-list> .os-scrollbar-vertical');
                                 for (let i = 0; i < verticalScrollTrack.length; i++) {
                                     verticalScrollTrack.item(i).classList.add('right', 'padding');
                                 }
