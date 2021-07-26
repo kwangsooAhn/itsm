@@ -12,17 +12,15 @@
  */
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
-import {UIColor, UIDiv} from '../../../lib/zUI.js';
+import { UIDiv, UIInput } from '../../../lib/zUI.js';
 
 const propertyExtends = {
     /* 추가적인 설정이 없다. */
 };
 
 export default class ZColorPickerProperty extends ZProperty {
-    constructor(key, name, value, isOpacityUsed = true) {
+    constructor(key, name, value) {
         super(key, name, 'colorPickerProperty', value);
-
-        this.isOpacityUsed = isOpacityUsed;
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -33,22 +31,20 @@ export default class ZColorPickerProperty extends ZProperty {
         // 라벨
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
-
-        // color picker
-        const colorPickerOption = {
-            isOpacity: (this.isOpacityUsed), // 불투명도 사용시
-            data: {
-                isSelected: true, // 기존 색상 선택 여부
-                selectedClass: 'selected', // 기존 값 색상에 css 적용 (테두리)
-                value: this.value // 기존 값
-            }
-        };
-        this.UIElement.UIColorPicker = new UIColor(colorPickerOption).setUIId(this.key);
-        this.UIElement.UIColorPicker.UIColor.UIInput.onUIChange(this.updateProperty.bind(this));
+        this.UIElement.UIColorPicker = new UIInput()
+            .setUIId(this.key)
+            .setUIValue(this.value)
+            .onUIChange(this.updateProperty.bind(this));
         this.UIElement.addUI(this.UIElement.UIColorPicker);
 
         return this.UIElement;
     }
+
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {
+        new zColorPicker(this.UIElement.UIColorPicker.domElement, { type: 'fill' });
+    }
+
     // 속성 변경시 발생하는 이벤트 핸들러
     updateProperty(e) {
         e.stopPropagation();

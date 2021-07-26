@@ -1610,6 +1610,8 @@ insert into awf_url values ('/rest/users/all', 'get', '전체 사용자 목록 �
 insert into awf_url values ('/rest/users/{userkey}/all', 'put', '사용자가 자신의 정보를 업데이트', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 다른 사용자의 정보를 업데이트', 'FALSE');
 insert into awf_url values ('/rest/users/{userkey}/resetpassword', 'put', '사용자 비밀번호 초기화', 'TRUE');
+insert into awf_url values ('/rest/users/colors', 'get', '사용자 정의 색상 조회', 'FALSE');
+insert into awf_url values ('/rest/users/colors', 'put', '사용자 정의 색상 저장', 'FALSE');
 insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
 insert into awf_url values ('/roles', 'get', '역할 관리 목록 뷰 호출', 'TRUE');
 insert into awf_url values ('/schedulers', 'get', '스케줄러 리스트 화면', 'TRUE');
@@ -3732,3 +3734,22 @@ insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en')
 insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');
 insert into awf_code_lang values ('servicedesk.inquiry', 'Simple Inquiry', 'en');
 insert into awf_code_lang values ('servicedesk.request', 'Service Request', 'en');
+
+/**
+ * 사용자 지정 테이블
+ */
+DROP TABLE IF EXISTS awf_user_custom cascade;
+
+CREATE TABLE awf_user_custom
+(
+    user_key varchar(128) NOT NULL,
+    custom_type varchar(128) NOT NULL,
+    custom_value varchar(512),
+    CONSTRAINT awf_user_custom_pk PRIMARY KEY (user_key, custom_type),
+    CONSTRAINT awf_user_custom_fk FOREIGN KEY (user_key) REFERENCES awf_user (user_key)
+);
+
+COMMENT ON TABLE awf_user_custom IS '사용자 지정';
+COMMENT ON COLUMN awf_user_custom.user_key IS '사용자키';
+COMMENT ON COLUMN awf_user_custom.custom_type IS '타입';
+COMMENT ON COLUMN awf_user_custom.custom_value IS '값';

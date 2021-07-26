@@ -6,113 +6,311 @@
  * @version 1.0
  */
 
-.color-picker {
-  display: flex;
-  flex-direction: column;
-  // input box
-  .color-input {
-    display: inline-flex;
-    .selected-color {
-      width: $color-picker-color-size;
-      height: $color-picker-color-size;
-      margin: $color-picker-margin;
-      @include border(0.1875rem, solid, transparent, all); // 3px
-      cursor: pointer;
-      &-box {
-        display: flex;
-        width: $color-picker-box-size;
-        height: $color-picker-box-size;
-        margin-right: $color-picker-margin;
-        @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
-        &:hover {
-          border-color: $blue;
-        }
-      }
-    }
-  }
-  // color palette
-  .color-palette {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    width: $color-picker-palette-width;
-    padding: $color-picker-palette-padding;
-    margin-top: $color-picker-margin;
-    @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
-    background-color: $white;
-    // 컬러 팔레트 내부의 색상표 박스 디자인
-    & div {
-      display: inline-block;
-      width: $color-picker-colorchip-size;
-      height: $color-picker-colorchip-size;
-      margin-right: $color-picker-palette-margin;
-      margin-bottom: $color-picker-palette-margin;
-      cursor: pointer;
+.#{$common-prefix}color-picker-wrapper {
+  font-family: $color-picker-font-family;
+  font-size: $color-picker-font-size;
+  font-weight: $color-picker-font-weight;
+  color: $color-picker-font-color;
 
-      &.selected {
-        @include border($color-picker-colorchip-border-width, solid, $color-picker-colorchip-border-color, all);
-        outline: 0.0625rem solid $blue;
-      }
-
-      &:last-child {
-        border-color: map-get($grays, 'line');
-      }
-    }
-  }
-  // opacity palette
-  .color-palette-opacity {
+  .#{$common-prefix}color-input {
     display: none;
-    width: 100%;
-    height: 2.5rem; // 40px
-    padding-left: 0.219rem; // 3.5px
-    @include border(0.0625rem, solid, map-get($grays, 'line'), all, top); // 1px
-    background-color: $white;
+  }
+  // color picker
+  .#{$common-prefix}color-picker {
+    width: $color-picker-width;
+    padding: 0.3125rem; // 5px
+    @include border($color-picker-border-width, solid, $color-picker-border-color, all); // 1px
+    @include borderRadius($color-picker-border-radius);
+    box-shadow: none;
+    cursor: pointer;
+    outline: none;
 
-    span {
-      display: table-cell;
-      height: 3rem; // 48px
-      vertical-align: middle;
+    .#{$common-prefix}color-box {
+      display: inline-block;
+      width: 4.75rem; // 76px
+      height: 1.5rem; // 24px
+      @include borderRadius($color-palette-inset-border-radius);
+      @include border($color-palette-line-border-width, solid, transparent, all); // 4px
+    }
+    .#{$common-prefix}icon {
+      &.i-color-palette {
+        background: $color-picker-icon-color;
+      }
+    }
 
-      input {
-        &[type=range] {
-          &::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            @include thumb(0.625rem, 0.625rem, 0.0625rem solid #c8ced8, 50%, $white); // 10px 10px 1px
+    &:focus,
+    &:hover {
+      outline: 0;
+    }
+
+    &:hover {
+      border-color: $color-picker-hover-border-color;
+    }
+
+    &:focus {
+      border-color: $color-picker-focus-border-color;
+      @include boxShadow(0, 0, 0.125rem, 0, $color-picker-focus-border-color); // 0 0 2px 0
+    }
+  }
+  // 모달
+  .#{$common-prefix}color-picker-modal {
+    display: none;
+    @include fixed();
+    min-width: 23.5rem; // 376px
+    @include border($color-picker-border-width, solid, $color-picker-border-color, all); // 1px
+    @include borderRadius($color-picker-border-radius);
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $color-picker-modal-box-shadow-color); // 0 2px 12px 0
+    background-color: $color-picker-modal-bg-color;
+    z-index: $z-index-modal;
+    // modal open
+    &.active {
+      display: block;
+      z-index: $z-index-modal;
+    }
+    // color palette
+    .#{$common-prefix}palette-container {
+      min-height: 12.5rem; // 200px
+      padding:  0.75rem; // 12px
+
+      .#{$common-prefix}palette-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        &:first-child {
+          margin-bottom: 0.5rem; // 8px
+        }
+        // color palette item
+        .#{$common-prefix}palette-item {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          width: $color-palette-item-width;
+          height: $color-palette-item-height;
+          @include borderRadius($color-palette-border-radius);
+          cursor: pointer;
+
+          &.material-color:not(.first) {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+          }
+          &.material-color:not(.last) {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+          // 하얀 색상은 테두리를 표기함
+          &.border-inset {
+            @include boxShadow(0, 0, 0, $color-picker-border-width, $color-picker-border-color, true);
           }
 
-          &::-moz-range-thumb {
-            @include thumb(0.625rem, 0.625rem, 0.0625rem solid #c8ced8, 50%, $white); // 10px 10px 1px
+          .#{$common-prefix}palette-item-inner {
+            width: 1.25rem; // 20px
+            height: 1.25rem; // 20px
+            @include borderRadius($color-palette-inset-border-radius);
+            pointer-events: none;
           }
 
-          &::-moz-range-progress {
-            background-color: $blue;
-            height: 0.0625rem; // 1px
+          &.selected {
+            @include boxShadow(0, 0, 0, $color-palette-selected-border-width, $color-palette-selected-border-color, true);
           }
         }
+      }
+    }
+    // 사용자 색상
+    .#{$common-prefix}custom-color-palette-container {
+      @include relative();
+      min-height: 4.875rem; // 78px
+      padding:  0.75rem; // 12px
+      @include border($color-picker-border-width, solid, $color-picker-border-color, top); // 1px
 
-        &.slide-object {
-          width: 9.125rem;   // 146px
-          height: 0.0625rem; // 1px
-          background: #c8ced8;
-          border: initial;
-          padding: initial;
-          margin: 0 0.594rem 0 0.625rem; // 0 9.5px 0 10px
-          outline: none;
-        }
-        &.slide-input {
-          width: 3rem !important; // 48px
-          height: 2rem; // 32px
-          text-align: center;
-          vertical-align: middle;
+      // 편집 버튼
+      .#{$common-prefix}custom-color-edit {
+        @include absolute($top: 0.125rem, $right: 0.75rem); // 2px 12px
+        visibility: hidden;
+        &.on {
+          visibility: visible;
         }
       }
 
-      label {
-        width: 0.813rem; // 13px
-        height: 1.25rem; // 20px
-        line-height: 1.25rem; // 20px
-        margin: 0 0 0 0.25rem; // 4px
-        vertical-align: middle;
+      // 사용자 색상 목록 영역
+      .#{$common-prefix}custom-color-list {
+        display: flex;
+        flex-direction: row;
+        margin: 0.75rem 0 0.5rem 0; // 12px 0 8px 0
+
+        > *:not(:first-child) {
+            margin: 0 0 0 8px; // 0 0 0 8px
+        }
+
+
+        // custom color palette item
+        .#{$common-prefix}custom-color-palette-item {
+          @include relative();
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          width: $color-palette-item-width;
+          height: $color-palette-item-height;
+          @include borderRadius($color-palette-border-radius);
+
+          cursor: pointer;
+
+          .#{$common-prefix}custom-color-palette-item-inner {
+            width: 1.25rem; // 20px
+            height: 1.25rem; // 20px
+            @include borderRadius($color-palette-inset-border-radius);
+            pointer-events: none;
+          }
+
+          // X 버튼
+          .#{$common-prefix}custom-color-palette-item-clear {
+            width: 1rem; // 16px
+            height: 1rem; // 16px
+            line-height: 0.3125rem; // 5px
+            @include absolute($top: -0.25rem,$right: -0.25rem); // -4px -4px
+            @include borderRadius(50%);
+            background-color: $error-color;
+            padding: 0;
+            visibility: hidden;
+
+            .#{$common-prefix}icon {
+              &.i-clear {
+                width: 0.5rem; // 8px
+                height: 0.5rem; // 8px
+                background: $white;
+                pointer-events: none;
+              }
+            }
+          }
+
+         &.selected {
+            @include boxShadow(0, 0, 0, $color-palette-selected-border-width, $color-palette-selected-border-color, true);
+          }
+        }
+
+        // [+] 버튼
+        .#{$common-prefix}custom-color-plus {
+          display: none;
+          width: $color-palette-item-width;
+          height: $color-palette-item-height;
+          background-color: map-get($custom-color-plus, 'default', 'background');
+          @include border($color-picker-border-width, solid, map-get($custom-color-plus, 'default', 'border'), all);
+          @include borderRadius($color-picker-border-radius);
+          @if map-get($custom-color-plus, 'default', 'shadow') != null {
+            box-shadow: map-get($custom-color-plus, 'default', 'shadow');
+          }
+          padding: 0 0.0625rem; // 0px 1px
+
+          .#{$common-prefix}icon {
+            &.i-plus {
+              width: 0.625rem; // 10px
+              height: 0.625rem; // 10px
+              background: map-get($custom-color-plus, 'default', 'font');
+            }
+          }
+
+          &:focus {
+            background-color: map-get($custom-color-plus, 'focus', 'background');
+            border-color: map-get($custom-color-plus, 'focus', 'border');
+            @if map-get($custom-color-plus, 'focus', 'shadow') != null {
+              box-shadow: map-get($custom-color-plus, 'focus', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              &.i-plus {
+                background: map-get($custom-color-plus, 'focus', 'font');
+              }
+            }
+          }
+
+          &:hover {
+            background-color: map-get($custom-color-plus, 'hover', 'background');
+            border-color: map-get($custom-color-plus, 'hover', 'border');
+            @if map-get($custom-color-plus, 'hover', 'shadow') != null {
+              box-shadow: map-get($custom-color-plus, 'hover', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              &.i-plus {
+                background: map-get($custom-color-plus, 'hover', 'font');
+              }
+            }
+          }
+
+          &:enabled:active,
+          &:enabled.active {
+            background-color: map-get($custom-color-plus, 'active', 'background');
+            border-color: map-get($custom-color-plus, 'active', 'border');
+            @if map-get($custom-color-plus, 'active', 'shadow') != null {
+              box-shadow: map-get($custom-color-plus, 'active', 'shadow');
+            }
+            .#{$common-prefix}icon {
+              &.i-plus {
+                background: map-get($custom-color-plus, 'active', 'font');
+              }
+            }
+          }
+
+          &.on {
+            display: inline-block;
+          }
+        }
+
+        // 편집 가능시 사용자 색상 삭제 버튼 show
+        &.editable {
+          .#{$common-prefix}custom-color-palette-item {
+            // X 버튼
+            .#{$common-prefix}custom-color-palette-item-clear {
+              visibility: visible;
+            }
+          }
+        }
+      }
+
+      // 물방울, hex, rgb, 추가 버튼 영역
+      .#{$common-prefix}custom-color-control-container {
+        display: none;
+        // control open
+        &.active {
+          display: block;
+        }
+
+        .#{$common-prefix}custom-color-control {
+          display: grid;
+          grid-template-columns:  1.75rem 5rem 3rem 3rem 3rem 3.75rem; // 28px 80px 48px 48px 48px 60px
+          grid-template-rows: 2.25rem 2.25rem; // 36px 36px
+          gap: 0 0.5rem; // 0 8px
+          font-weight: $font-weight-medium;
+
+          // 물방울 아이콘
+          .#{$common-prefix}icon {
+            &.i-water-drop {
+              .water-drop-outer { fill-opacity: 1; }
+              .water-drop-inner { fill-opacity: 0; }
+              &.on {
+                .water-drop-outer { fill-opacity: 0; }
+                .water-drop-inner {
+                  fill: var(--data-color, #{$color-picker-icon-color});
+                  fill-opacity: 1;
+                }
+              }
+            }
+          }
+
+          .#{$common-prefix}input {
+            padding: 0 0.5rem; // 0 8px
+          }
+
+          // 문구
+          .#{$common-prefix}color-text {
+            text-align: center;
+          }
+        }
+
+       .#{$common-prefix}button-list {
+          width: 100%;
+          text-align: right;
+        }
       }
     }
   }

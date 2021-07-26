@@ -493,7 +493,7 @@ export default class ZColumnProperty extends ZProperty {
                 .addProperty(new ZDateTimePickerProperty(id + '|columnValidation.maxDateTime', 'validation.maxDateTime', option.columnValidation.maxDateTime, FORM.DATE_TYPE.DATETIME_PICKER))
         ];
     }
-     // 입력 유형 타입 변경
+    // 입력 유형 타입 변경
     changeColumnType(prevData, index) {
         Object.assign(prevData, propertyExtends[prevData.columnType]);
 

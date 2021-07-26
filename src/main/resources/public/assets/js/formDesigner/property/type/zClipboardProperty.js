@@ -38,4 +38,7 @@ export default class ZClipboardProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UIClipboard);
         return this.UIElement;
     }
+
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {}
 }

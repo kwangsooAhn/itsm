@@ -489,11 +489,11 @@ label {
   }
 
   &.error {
-    @include border($element-border-width, solid, $red500, all); // $element-error-border
+    @include border($element-border-width, solid, $error-color, all); // $element-error-border
   }
 
   &.success {
-    @include border($element-border-width, solid, $green500, all);
+    @include border($element-border-width, solid, $success-color, all);
   }
 
   &-clear {
@@ -624,11 +624,11 @@ label {
   }
 
   &.error {
-    @include border($element-border-width, solid, $red500, all);
+    @include border($element-border-width, solid, $error-color, all);
   }
 
   &.success {
-    @include border($element-border-width, solid, $green500, all);
+    @include border($element-border-width, solid, $success-color, all);
   }
 }
 
