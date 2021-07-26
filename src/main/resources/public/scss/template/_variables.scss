@@ -101,6 +101,10 @@ $element-shadow-color:                        $gray300;
 // 사용자 미입력시 나올 문구 = placeholder
 $element-placeholder-font-color:              $gray400;
 
+// element가 활성화(active)되었을 때 사용하는 디자인 변수
+$element-active-bg-color:                     $blue200;
+$element-active-border-color:                 $blue600;
+
 // 키보드 또는 선택시, 해당 element에 포커싱되었을때 사용하는 디자인 변수
 $element-focus-border-color:                  $blue600;
 $element-focus-border-width:                  0.0625rem; // 1px
@@ -108,6 +112,7 @@ $element-focus-border:                        $element-focus-border-width solid 
 $element-focus-shadow-color:                  $blue600;
 
 // element 마우스 오버시 사용하는 디자인 변수 
+$element-hover-bg-color:                      $blue100;
 $element-hover-border-color:                  $blue400;
 $element-hover-border-width:                  0.0625rem; // 1px
 $element-hover-border:                        $element-hover-border-width solid $element-hover-border-color;
@@ -579,6 +584,10 @@ $tag-invalid-border-color:                   #FFE2E6;
 ////////////////////////////// input box /////////////////////////////
 $input-clear-right:                          0rem;
 $input-bg-icon-color:                        $gray500;
+
+////////////////////////////// check box /////////////////////////////
+$checkbox-indent:                            0.5rem; //8px
+$checkbox-size:                              1.125rem; // 18px
 
 /////////////////////////////// slider ///////////////////////////////
 $slider-range-bg-color:                      $neutral200;

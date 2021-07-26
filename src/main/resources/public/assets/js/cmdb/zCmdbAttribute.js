@@ -612,7 +612,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const chkGroup = document.createElement('label');
-                                chkGroup.className = 'checkbox';
+                                chkGroup.className = aliceJs.CLASS_PREFIX + 'checkbox';
                                 chkGroup.tabindex = 0;
                                 chkGroup.htmlFor = attributes.attributeId + '-' + opt;
 
@@ -828,7 +828,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const chkGroup = document.createElement('label');
-                                chkGroup.className = 'checkbox';
+                                chkGroup.className = aliceJs.CLASS_PREFIX + 'checkbox';
                                 chkGroup.tabindex = 0;
                                 chkGroup.htmlFor = attributes.attributeId + '-' + opt;
 

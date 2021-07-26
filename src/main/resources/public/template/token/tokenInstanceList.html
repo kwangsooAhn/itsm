@@ -30,7 +30,7 @@
         </tr>
         <tr class="instance-list" th:each="instance, index : ${instanceList}">
             <td style="width:5%;" class="align-center">
-                <label class="checkbox" th:for="${index.index}" tabindex="0">
+                <label class="z-checkbox" th:for="${index.index}" tabindex="0">
                     <input type="checkbox" name="chk" th:id="${index.index}"
                            th:value="${instance.instanceId}" th:checked="${instance.related == null || instance.related == true}"
                            th:disabled="${instance.related == null || instance.related == true}">
