@@ -843,12 +843,11 @@ label {
     // 체크 박스 span
     + span {
       @include relative();
-
       &::before {
         content: '';
         display: inline-block;
-        width: 1.125rem; // 18px
-        height: 1.125rem; // 18px
+        width: $checkbox-size;
+        height: $checkbox-size;
         margin-bottom: 0.125rem; // 2px
         @include border($element-border-width, solid, $element-border-color, all);
         @include borderRadius(0.125rem); // 2px
@@ -868,9 +867,9 @@ label {
             @include absolute($top: 0.125rem, $left: 0); // 2px
             width: 0.75rem; // 12px
             height: 0.375rem; // 6px
-            border: 0.125rem solid $element-checked-bg-color; // 2px
-            border-right: none;
-            border-top: none;
+            @include border(0.125rem, solid, $element-checked-bg-color, bottom, top);
+            @include border(0.125rem, solid, $element-checked-bg-color, left, right);
+            @include borderRadius(0.125rem); // 2px
             @include transform(translate(0.1875rem, 0.25rem) rotate(-45deg)); // 3px, 4px
           }
         }
@@ -917,6 +916,9 @@ label {
         &:before {
           border-color: $element-active-border-color;
           background-color: $element-active-bg-color;
+        }
+        &:after {
+          border-color: $element-active-border-color;
         }
       }
     }

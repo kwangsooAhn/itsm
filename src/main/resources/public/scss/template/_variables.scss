@@ -555,7 +555,8 @@ $input-clear-right:                          0rem;
 $input-bg-icon-color:                        $gray500;
 
 ////////////////////////////// check box /////////////////////////////
-$checkbox-indent:                            0.5rem;
+$checkbox-indent:                            0.5rem; //8px
+$checkbox-size:                              1.125rem; // 18px
 
 /////////////////////////////// slider ///////////////////////////////
 $slider-range-bg-color:                      $neutral200;
