@@ -231,6 +231,8 @@ export const dynamicRowTableMixin = {
                 return this.getDateForColumn(column, cellValue, index);
             case 'time':
                 return this.getTimeForColumn(column, cellValue, index);
+            case 'dateTime':
+                return this.getDateTimeForColumn(column, cellValue, index);
             default:
                 return new UISpan().setUIInnerHTML(cellValue);
         }
@@ -266,7 +268,7 @@ export const dynamicRowTableMixin = {
     getDateForColumn(column, cellValue, index) {
         let dateWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
         let date = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass('datepicker')
+            .setUIClass(CLASS_PREFIX + 'input i-date-picker')
             .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'date' + index)
             .setUIValue(this.getDefaultValueForDate(column, cellValue))
@@ -293,7 +295,23 @@ export const dynamicRowTableMixin = {
         zDateTimePicker.initTimePicker(time.domElement, this.updateDateTimeValue.bind(this));
         return timeWrapper;
     },
-    getDefaultValueForDate (column, cellValue) {
+    getDateTimeForColumn(column, cellValue, index) {
+        let dateTimeWrapper = new UIDiv().setUIClass(CLASS_PREFIX + 'element');
+
+        let dateTime = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
+            .setUIClass(CLASS_PREFIX + 'input i-datetime-picker')
+            .setUIId('datetime' + index +  ZWorkflowUtil.generateUUID())
+            .setUIAttribute('name', 'datetime' + index)
+            .setUIValue(this.getDefaultValueForDateTime(column, cellValue))
+            .setUIAttribute('type', FORM.DATE_TYPE.DATETIME_PICKER)
+            .setUIAttribute('data-validation-min-datetime', this._element.columns[index].columnValidation.minDateTime)
+            .setUIAttribute('data-validation-max-datetime', this._element.columns[index].columnValidation.maxDateTime);
+        dateTimeWrapper.addUI(dateTime);
+
+        zDateTimePicker.initDateTimePicker(dateTime.domElement, this.updateDateTimeValue.bind(this));
+        return dateTimeWrapper;
+    },
+    getDefaultValueForDate(column, cellValue) {
         if (cellValue === '${default}') {
             // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
             const defaultValueArray = column.columnElement.defaultValueRadio.split('|');
@@ -320,8 +338,8 @@ export const dynamicRowTableMixin = {
             return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, cellValue);
         }
     },
-    getDefaultValueForTime (column, cellValue) {
-          if (cellValue === '${default}') {
+    getDefaultValueForTime(column, cellValue) {
+        if (cellValue === '${default}') {
             // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
             const defaultValueArray = column.columnElement.defaultValueRadio.split('|');
             let time = '';
@@ -343,6 +361,35 @@ export const dynamicRowTableMixin = {
                     break;
             }
             return time;
+        } else {
+            return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, cellValue);
+        }
+    },
+    getDefaultValueForDateTime(column, cellValue) {
+        if (cellValue === '${default}') {
+            // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
+            const defaultValueArray = column.columnElement.defaultValueRadio.split('|');
+            let dateTime = '';
+            switch (defaultValueArray[0]) {
+                case FORM.DATE_TYPE.NONE:
+                    break;
+                case FORM.DATE_TYPE.NOW:
+                    dateTime = i18n.getDateTime();
+                    break;
+                case FORM.DATE_TYPE.DATETIME:
+                    const offset = {
+                        days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
+                            0 : Number(defaultValueArray[1]),
+                        hours: zValidation.isEmpty(defaultValueArray[2]) || isNaN(Number(defaultValueArray[2])) ?
+                            0 : Number(defaultValueArray[2])
+                    };
+                    dateTime = i18n.getDateTime(offset);
+                    break;
+                case FORM.DATE_TYPE.DATETIME_PICKER:
+                    dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    break;
+            }
+            return dateTime;
         } else {
             return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, cellValue);
         }
@@ -373,6 +420,8 @@ export const dynamicRowTableMixin = {
                     columns[i].columnValidation.maxTime = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.maxTime);
                     break;
                 case FORM.DATE_TYPE.DATETIME:
+                    columns[i].columnValidation.minTime = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.minDateTime);
+                    columns[i].columnValidation.maxTime = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.maxDateTime);
                     break;
                 default:
                     break;
@@ -405,6 +454,14 @@ export const dynamicRowTableMixin = {
                 }
                 break;
             case FORM.DATE_TYPE.DATETIME:
+                if (!zValidation.isEmpty(target.getAttribute('data-validation-min-datetime'))) {
+                    isValidationPass = i18n.compareSystemDateTime(target.getAttribute('data-validation-min-datetime'), target.value);
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterDateTime', target.getAttribute('data-validation-min-datetime')));
+                }
+                if (isValidationPass && !zValidation.isEmpty(target.getAttribute('data-validation-max-datetime'))) {
+                    isValidationPass = i18n.compareSystemDateTime(target.value, target.getAttribute('data-validation-max-datetime'));
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeDateTime', target.getAttribute('data-validation-max-datetime')));
+                }
                 break;
             default:
                 break;
@@ -440,11 +497,10 @@ export const dynamicRowTableMixin = {
         if (!this.isBetweenMaxDateTimeAndMinDatetime(e)) {
             return false;
         }
-
         const newValue = JSON.parse(JSON.stringify(this.value));
         const rowIndex = e.parentNode.parentNode.parentNode.parentNode.rowIndex - 1; // 헤더 제외
         const cellIndex = e.parentNode.parentNode.parentNode.cellIndex;
-        newValue[rowIndex][cellIndex] = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, e.type, e.value);
+        newValue[rowIndex][cellIndex] = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, e.getAttribute('type').replace('Picker', ''), e.value);
 
         this.value = newValue;
     },

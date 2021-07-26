@@ -9,6 +9,8 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.document.service.DocumentActionService
+import co.brainz.itsm.token.dto.TokenSearchConditionDto
+import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
@@ -18,7 +20,7 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
+import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.service.WfTokenService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -33,6 +35,7 @@ class TokenService(
     private val wfTokenService: WfTokenService,
     private val wfComponentService: WfComponentService,
     private val aliceFileService: AliceFileService,
+    private val userService: UserService,
     private val wfEngine: WfEngine
 ) {
 
@@ -101,29 +104,26 @@ class TokenService(
     /**
      * 처리할 문서 리스트 조회.
      *
-     * @param restTemplateTokenSearchListDto
+     * @param tokenSearchConditionDto
      * @return List<tokenDto>
      */
     fun getTokenList(
-        restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto
+        tokenSearchConditionDto: TokenSearchConditionDto
     ): RestTemplateInstanceListReturnDto {
-        val params = LinkedHashMap<String, Any>()
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        params["userKey"] = aliceUserDto.userKey
-        params["tokenType"] = restTemplateTokenSearchListDto.searchTokenType
-        params["documentId"] = restTemplateTokenSearchListDto.searchDocumentId
-        params["searchValue"] = restTemplateTokenSearchListDto.searchValue
-        params["offset"] = restTemplateTokenSearchListDto.offset
-        params["fromDt"] = restTemplateTokenSearchListDto.searchFromDt
-        params["toDt"] = restTemplateTokenSearchListDto.searchToDt
-        params["tags"] = restTemplateTokenSearchListDto.searchTags
-        return wfInstanceService.instances(params)
+        tokenSearchConditionDto.userKey = userService.getUserDto()!!.userKey
+        return wfInstanceService.instances(tokenSearchConditionDto)
     }
 
     /**
      * [tokenId]를 받아서 처리할 문서 상세 조회 하여 [String]반환 한다.
      */
-    fun findToken(tokenId: String): String {
-        return documentActionService.makeTokenAction(mapper.writeValueAsString(wfTokenService.getTokenData(tokenId)))
-    }
+    fun findToken(tokenId: String): String =
+        documentActionService.makeTokenAction(mapper.writeValueAsString(wfTokenService.getTokenData(tokenId)))
+
+    fun getTodoTokenCount(): Long = getTokenList(
+        TokenSearchConditionDto(
+            userKey = userService.getUserDto()!!.userKey,
+            searchTokenType = WfTokenConstants.SearchType.TODO.code
+        )
+    ).totalCount
 }

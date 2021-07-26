@@ -63,4 +63,9 @@
   &.i-arrow-right {
     @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
   }
+
+  // color palette
+  &.i-color-palette {
+    @include maskImage('#{$icon-folder-path}icon_color_palette.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
 }

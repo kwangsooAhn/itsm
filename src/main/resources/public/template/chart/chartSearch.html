@@ -40,8 +40,10 @@
 <th:block layout:fragment="pageScript">
     <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
@@ -53,7 +55,10 @@
         const CHART_HOUR = 'H';
         const PIE_CHART = 'chart.pie';
         const STACKED_COLUMN_CHART = 'chart.stackedColumn';
+        const STACKED_BAR_CHART = 'chart.stackedBar';
+        const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
         const BASIC_LINE_CHART = 'chart.basicLine';
+        const ACTIVITY_GAUGE_CHART = 'chart.activityGauge';
         let chart = null;
 
         window.onload = function () {
@@ -202,6 +207,7 @@
                         let chartInfo = setChartInfo()
                         restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
                             let responseJson = JSON.parse(response);
+                            setChart(responseJson.chartType, responseJson.propertyJson);
                             parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
                         }, false);
                     }
@@ -240,7 +246,7 @@
                 close: {
                     closable: false,
                 },
-                onCreate: function() {
+                onCreate: function () {
                     getChart(chartId, chartType, 'view');
                 }
             };
@@ -281,7 +287,7 @@
                         });
                         aliceJs.initDesignedSelectTag(document.querySelector('.chart-edit-modal'));
                     } else if (target === 'view') {
-                        setChart(chartType);
+                        setChart(chartType, document.getElementById('propertyJson').value);
                     }
                     if (chartId !== undefined) {
                         parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
@@ -354,6 +360,26 @@
         }
 
         function setDisplay(value) {
+            // 연산자 박스 출력
+            let operationSelectBox = document.getElementById('operationSelectBox');
+            for (let i = 0; i < operationSelectBox.options.length; i++) {
+                if (value === ACTIVITY_GAUGE_CHART) {
+                    if (operationSelectBox.options[i].value === 'count') {
+                        operationSelectBox.options[i].style.display = 'none';
+                    } else {
+                        operationSelectBox.options[i].selected = true;
+                    }
+                } else {
+                    if (operationSelectBox.options.length !== 2) {
+                        let countOption = document.createElement('option');
+                        countOption.text = i18n.msg('chart.option.text.count');
+                        countOption.value = i18n.msg('chart.option.text.value');
+                        operationSelectBox.add(countOption);
+                    }
+                }
+            }
+            aliceJs.initDesignedSelectTag();
+
             if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
                 document.getElementById('periodUnitLabel').style.display = 'block';
                 document.getElementById('periodUnitSelectBox').style.display = 'block';
@@ -371,11 +397,11 @@
                 document.getElementById('targetGroup').style.display = 'none';
             }
             // 차트 새로 그리기
-            setChart(value);
+            setChart(value, document.getElementById('propertyJson').value);
         }
 
         /** 하이차트 초기화 */
-        function setChart(chartType) {
+        function setChart(chartType, property) {
             // highcharts 기본 옵션
             let options = {
                 chart: {type: 'line'},
@@ -385,6 +411,7 @@
                 xAxis: {},
                 yAxis: {},
                 tooltip: {},
+                pane: {},
                 legend: {
                     align: 'right',
                     x: -30,
@@ -440,7 +467,16 @@
                     };
                     break;
                 case STACKED_COLUMN_CHART:
-                    options.chart.type = 'column';
+                case STACKED_BAR_CHART:
+                case LINE_AND_COLUMN_CHART:
+                    if (chartType === STACKED_COLUMN_CHART || chartType === LINE_AND_COLUMN_CHART) {
+                        if (chartType == LINE_AND_COLUMN_CHART) {
+                            options.series.push({data: []});
+                        }
+                        options.chart.type = 'column';
+                    } else {
+                        options.chart.type = 'bar';
+                    }
                     options.xAxis.type = 'datetime';
                     options.yAxis = {
                         min: 0,
@@ -455,6 +491,56 @@
                         }
                     };
                     break;
+                case ACTIVITY_GAUGE_CHART:
+                    options.chart = {
+                        type: 'solidgauge',
+                        marginTop: 50
+                    }
+                    options.tooltip = {
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        shadow: false,
+                        style: {
+                            fontSize: '16px'
+                        },
+                        pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
+                        positioner: function (labelWidth) {
+                            return {
+                                x: (this.chart.chartWidth - labelWidth) / 2,
+                                y: (this.chart.plotHeight / 2) + 15
+                            };
+                        }
+                    }
+                    options.yAxis = {
+                        min: 0,
+                        max: 100,
+                        lineWidth: 0,
+                        tickPositions: []
+                    }
+                    options.plotOptions = {
+                        solidgauge: {
+                            borderWidth: '2px',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            linecap: 'round',
+                            stickyTracking: false
+                        }
+                    }
+                    options.pane = {
+                        startAngle: 0,
+                        endAngle: 360,
+                        background: []
+                    }
+
+                    let docKeyList = [];
+                    let propertyJson = JSON.parse(property);
+                    for (let key in propertyJson[1].documentList) {
+                        docKeyList.push(key);
+                    }
+                    for (let i = 0; i < docKeyList.length - 1; i++) {
+                        options.series.push({data: []});
+                    }
             }
             chart = Highcharts.chart('container', options);
         }
@@ -466,20 +552,14 @@
 
             /** Get propertyJson Data **/
             let countArray = [];
-            let percentArray = [];
             let docKeyList = [];
-            let docValueList = [];
             for (let key in propertyJson[0].operation) {
                 // 문서에 대한 카운트 개수
                 countArray.push(propertyJson[0].operation[key].count);
-                // 문서에 대한 각 퍼센트
-                percentArray.push(propertyJson[0].operation[key].percent);
             }
             for (let key in propertyJson[1].documentList) {
                 // 문서의 각 나눈 연도의 개수
                 docKeyList.push(key);
-                // 문서가 가진 정보 값 documentId, documentName, createDt
-                docValueList.push(propertyJson[1].documentList[key]);
             }
             const getYear = Number(docKeyList[0].substring(0, 4));
             const getMonth = Number(docKeyList[0].substring(4, 6));
@@ -534,8 +614,8 @@
                         seriesData.push({
                             name: docKeyList[i],
                             y: countArray[i],
-                            sliced: (i === 0) ? true : false,
-                            selected: (i === 0) ? true : false
+                            sliced: (i === 0),
+                            selected: (i === 0)
                         });
                     }
                     chart.series[0].setData(seriesData, true);
@@ -586,6 +666,8 @@
                     chart.series[0].setData(seriesData, true);
                     break;
                 case STACKED_COLUMN_CHART:
+                case STACKED_BAR_CHART:
+                case LINE_AND_COLUMN_CHART:
                     chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
 
                     chart.series[0].update({
@@ -629,6 +711,58 @@
                     }
                     chart.series[0].update({name: seriesName, showInLegend: true}, false);
                     chart.series[0].setData(seriesData, true);
+                    if (chartConfigJson.type === LINE_AND_COLUMN_CHART) {
+                        chart.series[1].update({
+                            name: seriesName,
+                            showInLegend: false,
+                            type: 'spline',
+                            pointStart: Date.UTC(getYear, getMonth, getDay, getHour),
+                            pointInterval: pointInterval,
+                            pointIntervalUnit: pointIntervalUnit,
+                            tooltip: {
+                                pointFormatter: function () {
+                                    if (chartConfigJson.operation === 'percent') {
+                                        const sum = countArray.reduce((a, b) => (a + b));
+                                        const percent = (this.y / sum) * 100;
+                                        return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                    } else {
+                                        return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                                    }
+                                }
+                            },
+                            dataLabels: {
+                                formatter: function () {
+                                    if (chartConfigJson.operation === 'percent') {
+                                        const sum = countArray.reduce((a, b) => (a + b));
+                                        const percent = (this.y / sum) * 100;
+                                        return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                                    } else {
+                                        return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                                    }
+                                }
+                            }
+                        }, false);
+                        chart.series[1].setData(seriesData, true);
+                    }
+                    break;
+                case ACTIVITY_GAUGE_CHART:
+                    let innerRadius = 40;
+                    let radius = 50;
+                    const sum = countArray.reduce((a, b) => (a + b));
+                    for (let k = 0; k < categoryData.length; k++) {
+                        innerRadius = innerRadius + 10;
+                        radius = radius + 10;
+                        chart.series[k].update({
+                            name: categoryData[k],
+                            borderColor: Highcharts.getOptions().colors[k]
+                        }, false);
+                        chart.series[k].setData([{
+                            color: Highcharts.getOptions().colors[k],
+                            radius: radius,
+                            innerRadius: innerRadius,
+                            y: Number(Highcharts.numberFormat((countArray[k] / sum) * 100))
+                        }], true);
+                    }
                     break;
             }
         }
@@ -670,8 +804,8 @@
         // 전송할 데이터 셋팅
         function setChartInfo(method, chartId) {
             let tagList = [];
-            JSON.parse(document.getElementById('targetTags').value).forEach (tag => {
-                    tagList.push(tag.value);
+            JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
+                tagList.push(tag.value);
             })
 
             let chartInfo = {
@@ -693,11 +827,15 @@
                     chartInfo.group = document.getElementById('targetGroup').value;
                     break;
                 case STACKED_COLUMN_CHART :
+                case STACKED_BAR_CHART:
+                case LINE_AND_COLUMN_CHART:
+                case ACTIVITY_GAUGE_CHART:
                     chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
                     break;
             }
             return chartInfo;
         }
+
         /*]]>*/
     </script>
 </th:block>

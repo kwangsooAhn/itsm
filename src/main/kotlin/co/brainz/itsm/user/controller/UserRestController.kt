@@ -13,6 +13,7 @@ import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.service.UserService
@@ -131,5 +132,21 @@ class UserRestController(
     private fun resetPassword(@PathVariable userKey: String): String {
         val password = userService.makePassword()
         return userService.resetPassword(userKey, password)
+    }
+
+    /**
+     * 사용자 정의 색상 조회.
+     */
+    @GetMapping("colors")
+    fun getUserCustomColors(): UserCustomDto? {
+        return userService.getUserCustomColors()
+    }
+
+    /**
+     * 사용자 정의 색상 추가.
+     */
+    @PutMapping("colors")
+    private fun updateUserCustomColors(@RequestBody userCustomDto: UserCustomDto): Boolean {
+        return userService.updateUserCustomColors(userCustomDto)
     }
 }

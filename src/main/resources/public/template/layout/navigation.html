@@ -8,144 +8,14 @@
 <div class="z-navigation">
     <div class="z-breadcrumb">
     </div>
-    <div class="z-navigation-config">
-        <div class="z-notification">
-            <div class="notification-icon" onclick="toggleNotificationContainer();">
-                <img class="load-svg" th:src="@{/assets/theme/{theme}/media/icons/gnb/icon_gnb_notification.svg(theme=${#authentication.details.theme})}" width="25" height="27">
-                <span class="z-notification-count align-center" id="count"></span>
-            </div>
-            <div id="notification-panel" class="z-notification-panel"></div>
-        </div>
-    </div>
 </div>
 <div>
     <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
 </div>
 </body>
 <script type="text/javascript" th:inline="javascript">
-    let notificationDiv = null;
-    window.addEventListener('load', function() {
-        aliceJs.loadSvg();
-        notificationDiv = document.getElementById('notification-panel');
-        hiddenProgressBar();
-        setInterval(function () {
-            getNotificationList(true);
-        }, 60000); // 60초 주기
-        getNotificationList(true);
-
-        document.addEventListener('click', notificationContainerOff, false);
-
-    });
-
     function logout() {
         document.getElementById('logoutForm').submit();
-    }
-
-    function toggleNotificationContainer() {
-        if (notificationDiv!== null) {
-            if (notificationDiv.classList.contains('z-on')) {
-                notificationDiv.classList.remove('z-on');
-            } else {
-                notificationDiv.classList.add('z-on');
-            }
-        }
-    }
-
-    function notificationContainerOff(e) {
-        //알림창 내부를 클릭한 경우 동작하지 않는다.
-        if (aliceJs.clickInsideElement(e, 'z-notification-panel') || aliceJs.clickInsideElement(e, 'z-notification')) { return false; }
-
-        if (notificationDiv && notificationDiv.classList.contains('z-on')) {
-            notificationDiv.classList.remove('z-on');
-        }
-    }
-
-    // Get notification list.
-    function getNotificationList(isShow) {
-        restSubmitNotification('get', '/notifications', function (result) {
-            notificationDiv.innerHTML = result;
-            const count = document.getElementById('count');
-            const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
-            count.innerText = noConfirmNotification.length.toString();
-            if (noConfirmNotification.length !== 0 && !notificationDiv.parentNode.classList.contains('z-active')) {
-                notificationDiv.parentNode.classList.add('z-active');
-            }
-            document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
-                notificationDiv.querySelectorAll('div[is-display=true]').length + ')';
-            
-            if (isShow) {
-                const noDisplayNotification = notificationDiv.querySelectorAll('div[is-display=false]');
-                noDisplayNotification.forEach(function (element) {
-                    showNotification({
-                        notificationId: element.id,
-                        instanceId: element.getAttribute('instance-id'),
-                        title: element.querySelector('.z-title').innerHTML,
-                        date: element.querySelector('.z-date').innerHTML,
-                        message: element.querySelector('.z-message').innerHTML
-                    });
-                });
-            }
-
-            OverlayScrollbars(document.querySelectorAll('.z-notification-body'), {className: 'inner-scrollbar'});
-        });
-    }
-
-    // show notification popup.
-    function showNotification(param) {
-        let text = '<div class="z-icon float-left"></div>' +
-            '<div class="z-content float-left"><div class="z-title">' + param.title + '</div>' +
-            '<div class="z-message text-ellipsis">' + param.message + '</div>' +
-            '<div class="z-date">' + param.date + '</div></div>';
-        Toastify({
-            text: text,
-            duration: 5000,
-            close: true,
-            gravity: 'bottom',
-            position: 'right',
-            stopOnFocus: true,
-            className: 'alice-toastify toast-content',
-            onShow: function() {
-                updateNotification(param.notificationId, 'display');
-            },
-            onClick: function() {
-                openTokenPage(param.notificationId, param.instanceId);
-            }
-        }).showToast();
-    }
-
-    // TODO: 처리할 문서 화면 호출. 해당 문서가 처리되었을 때 이슈로 구현하지 않음. 일단 처리할 문서 목록 화면으로 이동하도록 함.
-    // Open token page.
-    function openTokenPage(notificationId, instanceId) {
-        console.log('[openTokenPage] instance id : ' + instanceId);
-        location.href = '/tokens/search';
-        updateNotification(notificationId, 'confirm');
-    }
-
-    // Update notification.
-    function updateNotification(notificationId, target) {
-        restSubmitNotification('put', '/rest/notifications/' + notificationId + '/' + target, function () {
-            getNotificationList(false);
-        });
-    }
-
-    // Delete notification.
-    function deleteNotification(notificationId) {
-        restSubmitNotification('delete', '/rest/notifications/' + notificationId, function () {
-            getNotificationList(false);
-        });
-    }
-
-    // REST API.
-    function restSubmitNotification(method, url, result) {
-        const opt = {
-            method: method,
-            url: url,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                result(response.responseText);
-            }
-        };
-        aliceJs.sendXhr(opt);
     }
 </script>
 </html>

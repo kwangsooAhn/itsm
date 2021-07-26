@@ -13,10 +13,10 @@ import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.role.service.RoleService
+import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
@@ -80,11 +80,11 @@ class TokenController(
     }
 
     @GetMapping("")
-    fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto, model: Model): String {
-        val result = tokenService.getTokenList(restTemplateTokenSearchListDto)
+    fun getTokenList(tokenSearchConditionDto: TokenSearchConditionDto, model: Model): String {
+        val result = tokenService.getTokenList(tokenSearchConditionDto)
         model.addAttribute("tokenList", result.data)
         model.addAttribute("tokenCount", result.totalCount)
-        return if (restTemplateTokenSearchListDto.isScroll) tokenListFragment else tokenListPage
+        return if (tokenSearchConditionDto.isScroll) tokenListFragment else tokenListPage
     }
 
     /**

@@ -12,6 +12,7 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
+import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.workflow.comment.entity.QWfCommentEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
@@ -38,6 +39,7 @@ import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -60,18 +62,17 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     override fun findTodoInstances(
         status: List<String>?,
         tokenStatus: List<String>?,
-        userKey: String,
-        documentId: String,
-        searchValue: String,
-        tags: Set<String>,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        offset: Long
+        tokenSearchConditionDto: TokenSearchConditionDto
     ): QueryResults<WfInstanceListViewDto> {
 
         val elementDataSub = QWfElementDataEntity("elementDataSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
-        val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
+        val builder = getInstancesWhereCondition(
+            tokenSearchConditionDto.searchDocumentId,
+            tokenSearchConditionDto.searchValue,
+            tokenSearchConditionDto.searchFromDt,
+            tokenSearchConditionDto.searchToDt
+        )
 
         val assigneeUsers = JPAExpressions
             .select(elementDataSub.element.elementId)
@@ -89,7 +90,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                         )
                 ),
                 elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE.value),
-                elementDataSub.attributeValue.eq(userKey)
+                elementDataSub.attributeValue.eq(tokenSearchConditionDto.userKey)
             )
 
         val assigneeGroups = JPAExpressions
@@ -112,7 +113,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     JPAExpressions
                         .select(roleSub.role.roleId)
                         .from(roleSub)
-                        .where(roleSub.user.userKey.eq(userKey))
+                        .where(roleSub.user.userKey.eq(tokenSearchConditionDto.userKey))
                 )
             )
 
@@ -120,7 +121,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         builder.and(token.tokenStatus.`in`(tokenStatus))
         builder.and(token.element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value))
         builder.and(
-            token.assigneeId.eq(userKey)
+            token.assigneeId.eq(tokenSearchConditionDto.userKey)
                 .or(
                     token.element.elementId.`in`(assigneeUsers)
                 ).or(
@@ -128,28 +129,24 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 )
         )
 
-        val query = getInstancesQuery(tags)
+        val query = getInstancesQuery(tokenSearchConditionDto.searchTagSet)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
             .limit(searchDataCount)
-            .offset(offset)
+            .offset(tokenSearchConditionDto.offset)
             .fetchResults()
     }
 
-    override fun findRequestedInstances(
-        userKey: String,
-        documentId: String,
-        searchValue: String,
-        tags: Set<String>,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        offset: Long
-    ): QueryResults<WfInstanceListViewDto> {
-
+    override fun findRequestedInstances(tokenSearchConditionDto: TokenSearchConditionDto): QueryResults<WfInstanceListViewDto> {
         val tokenSub = QWfTokenEntity("tokenSub")
-        val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
-        builder.and(instance.instanceCreateUser.userKey.eq(userKey))
+        val builder = getInstancesWhereCondition(
+            tokenSearchConditionDto.searchDocumentId,
+            tokenSearchConditionDto.searchValue,
+            tokenSearchConditionDto.searchFromDt,
+            tokenSearchConditionDto.searchToDt
+        )
+        builder.and(instance.instanceCreateUser.userKey.eq(tokenSearchConditionDto.userKey))
         builder.and(
             token.tokenId.eq(
                 JPAExpressions
@@ -163,28 +160,27 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 .or(token.tokenAction.isNull)
         )
 
-        val query = getInstancesQuery(tags)
+        val query = getInstancesQuery(tokenSearchConditionDto.searchTagSet)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
             .limit(searchDataCount)
-            .offset(offset)
+            .offset(tokenSearchConditionDto.offset)
             .fetchResults()
     }
 
     override fun findRelationInstances(
         status: List<String>?,
-        userKey: String,
-        documentId: String,
-        searchValue: String,
-        tags: Set<String>,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        offset: Long
+        tokenSearchConditionDto: TokenSearchConditionDto
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
-        val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
+        val builder = getInstancesWhereCondition(
+            tokenSearchConditionDto.searchDocumentId,
+            tokenSearchConditionDto.searchValue,
+            tokenSearchConditionDto.searchFromDt,
+            tokenSearchConditionDto.searchToDt
+        )
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(
             token.tokenId.eq(
@@ -199,19 +195,19 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 JPAExpressions
                     .select(tokenSub.instance.instanceId)
                     .from(tokenSub)
-                    .where(tokenSub.assigneeId.eq(userKey))
+                    .where(tokenSub.assigneeId.eq(tokenSearchConditionDto.userKey))
             )
         )
         builder.and(
             token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
         )
 
-        val query = getInstancesQuery(tags)
+        val query = getInstancesQuery(tokenSearchConditionDto.searchTagSet)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
             .limit(searchDataCount)
-            .offset(offset)
+            .offset(tokenSearchConditionDto.offset)
             .fetchResults()
     }
 
@@ -284,8 +280,8 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     private fun getInstancesWhereCondition(
         documentId: String,
         searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime
+        fromDt: String,
+        toDt: String
     ): BooleanBuilder {
         val builder = BooleanBuilder()
         if (documentId.isNotEmpty()) {
@@ -326,8 +322,22 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     )
             )
         }
-        builder.and(instance.instanceStartDt.goe(fromDt))
-        builder.and(instance.instanceStartDt.lt(toDt))
+        if (fromDt.isNotEmpty()) builder.and(
+            instance.instanceStartDt.goe(
+                LocalDateTime.parse(
+                    fromDt,
+                    DateTimeFormatter.ISO_DATE_TIME
+                )
+            )
+        )
+        if (toDt.isNotEmpty()) builder.and(
+            instance.instanceStartDt.lt(
+                LocalDateTime.parse(
+                    toDt,
+                    DateTimeFormatter.ISO_DATE_TIME
+                )
+            )
+        )
         return builder
     }
 
@@ -412,8 +422,8 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             )
         if (searchValue.isNotEmpty()) {
             query.where(
-                document.documentName.likeIgnoreCase("%" + searchValue + "%")
-                    .or(user.userName.likeIgnoreCase("%" + searchValue + "%"))
+                document.documentName.likeIgnoreCase("%$searchValue%")
+                    .or(user.userName.likeIgnoreCase("%$searchValue%"))
             )
         }
         query.orderBy(instance.instanceStartDt.asc())

@@ -30,6 +30,7 @@ common:
     count: "total {0}"
     createDate: "Create Date"
     createUser: "Create User"
+    customColor: "Custom User Color"
     delete: "Delete"
     edit: "Edit"
     fail: "Fail"
@@ -47,6 +48,7 @@ common:
     writer: "Writer"
   msg:
     confirmDelete: "Are you sure you want to delete?"
+    customColorSave: "Your color has not been saved yet.<br/>Your color will be reset."
     dataSelect: "Please select data."
     delete: "Deleted."
     deleteTartget: "Please select target."
@@ -54,6 +56,7 @@ common:
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
     fail: "Failed."
+    minValue: "Minimum input is {0}"
     modify: "Modified."
     noData: "There is no data."
     onlySaveInEdit: "It cannot be saved in the publish/edit. Please edit in the edit"
@@ -69,6 +72,7 @@ common:
     selectBeforeDate: "Please select before {0} date."
     selectBeforeDateTime: "Please select before {0}."
     selectBeforeTime: "Please select before {0} time."
+    selectColor: "Please select a color."
     success: "Successful."
     update: "Changed."
   code:
@@ -251,6 +255,10 @@ chart:
     label:
       subTitle: "User custom chart report"
       yAxisTitle: "Number of Documents"
+    text:
+      count: "Count"
+    value:
+      count: "count"
   msg:
     searchDescription: "View and manage various user custom charts."
     enterChartName: "Please enter a chart name."
@@ -262,6 +270,9 @@ chart:
     basicLine: "Basic Line Chart"
     pie: "Pie Chart"
     stackedColumn: "Stacked Column Chart"
+    stackedBar: "Stacked Bar Chart"
+    lineAndColumn: "Line And Column Chart"
+    activityGauge: "Activity Gauge Chart"
 
 # CMDB
 cmdb:
@@ -792,8 +803,10 @@ form:
       minLength: "Min Length"
       validationType: "Validation Type"
       maxDate: "Max Date"
+      maxDateTime: "Max Date Time"
       maxTime: "Max Time"
       minDate: "Min Date"
+      minDateTime: "Min Date Time"
       minTime: "Min Time"
     option:
       none: "None"

@@ -58,7 +58,9 @@ class DocumentService(
         for (document in documentList.data) {
             if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
             document.documentIcon =
-                aliceFileProvider.getDataUriSchema(FileConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon)
+                aliceFileProvider.getDataUriSchema(
+                    FileConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon
+                )
         }
 
         return documentList
