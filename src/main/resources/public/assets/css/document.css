@@ -80,7 +80,11 @@ input, button, select, optgroup, textarea {
   max-width: 100%;
 }
 
-/* _alignments.scss 
+:root {
+  --data-color: "";
+}
+
+/* _alignments.scss
  *
  * 파일 경로 : template/utilities/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -738,6 +742,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-color-palette {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_color_palette.svg");
+  mask-image: url("../media/icons/icon_color_palette.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 /* _layout.scss
  *
@@ -1048,7 +1062,7 @@ textarea:not(.z-textarea) {
   resize: vertical;
 }
 textarea:not(.z-textarea)::placeholder {
-  color: #ACB4BF;
+  color: #ABB0B5;
 }
 textarea:not(.z-textarea):not(:disabled):focus, textarea:not(.z-textarea):not(:read-only):focus {
   outline: 0;
@@ -1172,7 +1186,7 @@ label {
   border-color: #CFD5D9;
 }
 .radio input[type=radio]:not(:disabled):checked + span::after {
-  background-color: #0098FF;
+  background-color: #339AF0;
   -webkit-transform: translate(4px, 9px) scale(1);
   -moz-transform: translate(4px, 9px) scale(1);
   -o-transform: translate(4px, 9px) scale(1);
@@ -1255,7 +1269,7 @@ label {
   -moz-border-radius: 50%;
 }
 .switch input[type=checkbox]:checked + span {
-  background-color: #0098FF;
+  background-color: #339AF0;
 }
 .switch input[type=checkbox]:checked + span::before {
   -webkit-transform: translate(2.875rem, 0);
@@ -1906,7 +1920,7 @@ label {
   border-color: #2578CE;
 }
 
-/* _print.scss 
+/* _print.scss
  *
  * 파일 경로 : document/_print.scss
  * @description 프린트 화면 디자인

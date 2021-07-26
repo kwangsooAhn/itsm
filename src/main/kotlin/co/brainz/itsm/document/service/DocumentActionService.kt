@@ -97,7 +97,8 @@ class DocumentActionService(
         return when (tokenObject.get("token").asJsonObject.get("status").asString) {
             WfTokenConstants.Status.RUNNING.code ->
                 when (tokenObject.get("token").asJsonObject.get("action").asJsonArray.get(0).toString()) {
-                    WfTokenConstants.FinishAction.WITHDRAW.code, WfTokenConstants.FinishAction.REJECT.code, "null" -> true
+                    WfTokenConstants.FinishAction.WITHDRAW.code,
+                    WfTokenConstants.FinishAction.REJECT.code, "null" -> true
                     else -> false
                 }
             else -> false

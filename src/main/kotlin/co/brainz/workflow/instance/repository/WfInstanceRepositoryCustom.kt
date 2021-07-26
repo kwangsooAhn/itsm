@@ -5,11 +5,11 @@
 
 package co.brainz.workflow.instance.repository
 
+import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import com.querydsl.core.QueryResults
 
 interface WfInstanceRepositoryCustom {

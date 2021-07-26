@@ -133,6 +133,10 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
         return this.UIElement;
     }
+
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {}
+
     // 커스텀 코드 데이터 select box 생성
     makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
         aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {

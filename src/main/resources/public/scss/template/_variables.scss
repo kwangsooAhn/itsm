@@ -41,25 +41,6 @@ $font-folder-path:                            '../fonts';
 $icon-folder-path:                            '../media/icons/';
 $image-folder-path:                           '../media/images/';
 
-// color
-$black:                                       #000000 !default;
-$gray:                                        #ACB4BF !default;
-$white:                                       #ffffff !default;
-$red:                                         #ff405a !default;
-$blue:                                        #0098FF !default;
-$orange:                                      #FF7319 !default;
-$green:                                       #00C462 !default;
-
-$color: (
-  'black':                                    $black,
-  'gray':                                     $gray,
-  'white':                                    $white,
-  'red':                                      $red,
-  'blue':                                     $blue,
-  'orange':                                   $orange,
-  'green':                                    $green
-) !default;
-
 // black color
 $blacks: (
   'focus':                                    #283238,
@@ -91,6 +72,16 @@ $oranges: (
   'light':                                    #FF850A
 ) !default;
 
+$gray:                                        #ACB4BF !default;
+$red:                                         #ff405a !default;
+$blue:                                        #0098FF !default;
+$orange:                                      #FF7319 !default;
+$green:                                       #00C462 !default;
+
+// color
+$error-color:                                 $red500;
+$success-color:                               $green500;
+
 // common prefix
 $common-prefix:                               'z-';
 
@@ -108,7 +99,7 @@ $element-indent:                              1rem; // 16px 내부 들여쓰기
 $element-shadow-color:                        $gray300;
 
 // 사용자 미입력시 나올 문구 = placeholder
-$element-placeholder-font-color:              $gray;
+$element-placeholder-font-color:              $gray400;
 
 // element가 활성화(active)되었을 때 사용하는 디자인 변수
 $element-active-bg-color:                     $blue200;
@@ -141,7 +132,7 @@ $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
 
 // 체크박스, 라디오 버튼, 스위치 등 선택되었을때 (ON) 디자인 변수
-$element-checked-bg-color:                    $blue;
+$element-checked-bg-color:                    $blue500;
 
 //셀렉트 박스 선택되었을때 옵션에 사용하는 디자인 변수
 $element-selected-font-color:                 $blue500;
@@ -152,6 +143,7 @@ $element-error-font-color:                    $red !important;
 $element-error-border-color:                  $red;
 $element-error-border-width:                  0.0625rem; // 1px
 $element-error-border:                        $element-error-border-width solid $element-error-border-color !important;
+
 
 // headings
 $h1-font-size:                                $font-size-s * 2.25; // 36px
@@ -452,6 +444,45 @@ $color-picker-colorchip-size:                2.5rem;     // 40px
 $color-picker-colorchip-margin:              0.625rem;   // 10px
 $color-picker-colorchip-border-width:        0.375rem;   // 6px
 $color-picker-colorchip-border-color:        $white;
+
+// color picker
+:root {
+  --data-color: '';
+}
+$color-picker-width:                         7.5rem; // 120px
+$color-picker-font-family:                   $font-family-s;
+$color-picker-font-size:                     $font-size-xs;
+$color-picker-font-weight:                   $font-weight-bold;
+$color-picker-font-color:                    $gray500;
+$color-picker-icon-color:                    $gray500;
+$color-picker-border-width:                  0.0625rem; // 1px
+$color-picker-border-color:                  $gray300;
+$color-picker-border-radius:                 0.125rem; // 2px
+// color picker > hover
+$color-picker-hover-border-color:            $blue400;
+// color picker > focus
+$color-picker-focus-border-color:            $blue600;
+// modal
+$color-picker-modal-bg-color:                $white;
+$color-picker-modal-box-shadow-color:        $gray300;
+// palette
+$color-palette-item-width:                   1.75rem; // 28px
+$color-palette-item-height:                  1.75rem; // 28px
+$color-palette-border-radius:                0.125rem; // 2px
+$color-palette-line-border-width:            0.25rem; // 4px
+$color-palette-inset-border-radius:          0.0625rem; // 1px
+// palette > selected
+$color-palette-selected-border-width:        0.0625rem; // 1px
+$color-palette-selected-border-color:        $blue500;
+// custom color palette
+$custom-color-plus: (
+  'default': ('font': $gray500, 'background': $white, 'border': $gray300),
+  'hover': ('font' : $gray500, 'background': $blue100, 'border': $gray300),
+  'focus': ('font': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+  'active': ('font': $blue700, 'background': $blue200, 'border': $blue400)
+);
+// control
+
 
 ////////////////////////////// thumbnail /////////////////////////////
 $thumbnail-asset-path:                       '../media/icons/thumbnail';

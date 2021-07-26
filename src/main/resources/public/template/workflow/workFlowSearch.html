@@ -44,8 +44,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/js/lib/zColorPalette.js}"></script>
-    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
+    <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         // Document status.
@@ -81,7 +80,7 @@
         // 빈 값 체크
         function emptyValidation() {
             if (isEmpty('document-name', 'document.msg.enterDocumentName')) { return false };
-            if (isEmpty('document-color', 'document.msg.enterBusinessFlowColor')) { return false };
+            if (isEmpty('documentColor', 'document.msg.enterBusinessFlowColor')) { return false };
             return true;
         }
         // 신청서 저장 / 수정
@@ -104,7 +103,7 @@
                     documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
                     documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
                     apiEnable: apiEnable.options[apiEnable.selectedIndex].value,
-                    documentColor: document.getElementById('document-color').value,
+                    documentColor: document.getElementById('documentColor').value,
                     documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
                 };
                 let documentIcon = document.getElementById('document-icon');
@@ -139,35 +138,6 @@
                     });
                 }
             }
-        }
-
-        // ColorPicker 초기화
-        function initColorPicker() {
-            let selectedColorBox = document.getElementById('selected-color');
-            let elementObject = document.getElementById('document-color');
-            // 색상 초기화
-            if (elementObject.value === '') {
-                selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
-                elementObject.value = '#000000';
-            } else {
-                selectedColorBox.style.backgroundColor = elementObject.value;
-            }
-            elementObject.addEventListener('change', function() {
-                if (this.value.trim() !== '' && !isValidRgb(this.id, true)) {
-                    this.value = '';
-                }
-                selectedColorBox.style.backgroundColor = this.value;
-            });
-            let colorPaletteLayer = document.getElementById('color-palette-layer');
-            let option = {
-                colors: zColorPalette.getPaletteColors('basicPaletteColors'),
-                data : {
-                    isSelected: true,
-                    selectedClass: 'selected',
-                    value: elementObject.value
-                }
-            }
-            zColorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
         }
 
         // 신청서 아이콘 선택 팝업
@@ -227,7 +197,8 @@
                         closable: false,
                     },
                     onCreate: function(modal) {
-                        initColorPicker();
+                        // color picker 초기화
+                        new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
                         // 신청서 상태 초기화
                         const statusElem = document.getElementById('document-status');
                         const prevStatus = document.getElementById('prev-document-status').value;
@@ -335,7 +306,7 @@
             };
 
             aliceJs.fetchText('/rest/workflows/' + documentId + '/display', {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },

@@ -92,6 +92,9 @@ export default class ZOptionListProperty extends ZProperty {
         return this.UIElement;
     }
 
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {}
+
     makeRow(optionRow, option) {
         const checkTD = new UICell(optionRow).setUICSSText('width: 20%; border: 1px solid #000');
         checkTD.checkBox =  new UICheckbox(false);

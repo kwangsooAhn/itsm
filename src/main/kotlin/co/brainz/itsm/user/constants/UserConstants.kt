@@ -72,4 +72,11 @@ enum class UserConstants(val value: String) {
         EDIT("edit"),
         EDIT_SELF("editself")
     }
+
+    /**
+     * 사용자 정의 타입.
+     */
+    enum class UserCustom(val code: String) {
+        COLOR("color")
+    }
 }

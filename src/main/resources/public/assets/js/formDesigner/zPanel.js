@@ -34,14 +34,18 @@ export default class ZPanel {
 
             if (!zValidation.isDefined(propertyObjectElement)) { return false; }
 
+            this.domElement.appendChild(propertyObjectElement.domElement);
+            propertyObject.afterEvent();
+
             if (propertyObject instanceof ZGroupProperty) {
                 // display, 라벨, 엘리먼트, 유효성 등 그룹에 포함될 경우
                 propertyObject.children.map(childPropertyObject => {
                     const childPropertyObjectElement = childPropertyObject.makeProperty(this);
                     propertyObjectElement.addUI(childPropertyObjectElement);
+                    childPropertyObject.afterEvent();
                 });
             }
-            this.domElement.appendChild(propertyObjectElement.domElement);
+            // select box 디자인 추가
             aliceJs.initDesignedSelectTag(propertyObjectElement.domElement);
         });
         return this;

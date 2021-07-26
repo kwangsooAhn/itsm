@@ -102,6 +102,11 @@ object AliceConstants {
     }
 
     /**
+     * 스케줄러 command.
+     */
+    const val SCHEDULER_COMMAND_JAR = "-jar"
+
+    /**
      * 플러그인 VM 옵션 log 경로
      */
     const val PLUGINS_VM_OPTIONS_LOG_HOME = "-Dlog.home"
