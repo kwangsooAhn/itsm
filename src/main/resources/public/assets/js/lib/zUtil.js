@@ -1213,10 +1213,10 @@ aliceJs.drawSlider = function(target) {
 
 /**
  * validation message 처리
- * @param target
- * @param message
- * @param type
- * @param isAbsolute
+ * @param target     : validation message box를 띄울 target element
+ * @param message    : validation message 텍스트
+ * @param type       : validation message의 타입 (alert / success)
+ * @param isAbsolute : message box의 position: absolute 처리 여부
  */
 aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
     // reset attributes
