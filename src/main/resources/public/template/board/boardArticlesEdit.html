@@ -146,7 +146,10 @@
         };
 
         function initTextEditor(flag) {
-            let textEditorOptions = {
+            let textEditor = new zQuill(document.getElementById('boardContents'), {
+                readOnly: flag
+            })
+            /*let textEditorOptions = {
                 modules: {
                     toolbar: [
                         [{'header': [1, 2, 3, 4, false]}],
@@ -159,10 +162,9 @@
                 theme: 'snow',
                 readOnly: flag
             };
-
-            let textEditor = new Quill('#boardContents', textEditorOptions);
+            let textEditor = new Quill('#boardContents', textEditorOptions);*/
             if (boardId !== "" && replyYn === false) {
-                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardContents}]]*/));
+                //textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardContents}]]*/));
             }
         }
 
