@@ -4772,6 +4772,7 @@ label {
   display: none;
 }
 .ql-wrapper-container .ql-container.ql-snow {
+  height: auto;
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
@@ -4780,6 +4781,7 @@ label {
   border: 0.0625rem solid #CFD5D9;
 }
 .ql-wrapper-container .ql-container.ql-snow .ql-editor {
+  height: 7.5rem;
   padding: 0.625rem;
 }
 .ql-wrapper-container .ql-container.ql-snow .ql-editor .ql-blank::before {
