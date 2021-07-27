@@ -837,7 +837,7 @@ label {
 // radio button
 .#{$common-prefix}radio {
   @include relative();
-  font-family: $font-family-s;
+  font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
   color: $element-font-color;
