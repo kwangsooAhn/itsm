@@ -153,15 +153,6 @@ $element-readonly-font-color:                 $gray;
 $element-readonly-bg-color:                   map-get($grays, "light");
 $element-readonly-border-color:               map-get($grays, "line");
 
-//////////////////////////// color-picker palette ////////////////////////////
-$color-picker-palette-width:                  100%;
-$color-picker-palette-margin:                 0.1875rem;  // 3px
-$color-picker-palette-padding:                0.9375rem 0 0.9375rem 0.9375rem; // 15px 0 15px 15px
-$color-picker-colorchip-size:                 1rem; // 16px
-$color-picker-colorchip-margin:               0.1875rem; // 3px
-$color-picker-colorchip-border-width:         0.125rem;   // 2px
-$color-picker-colorchip-border-color:         $white;
-
 //////////////////////////// thumbnail //////////////////////////
 // thumbnail
 $thumbnail-modal-width:                       62.63rem; // 1002px

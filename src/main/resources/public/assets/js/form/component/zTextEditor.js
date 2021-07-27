@@ -56,33 +56,22 @@ export const textEditorMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         element.UIDiv = new UIDiv().setUIClass(CLASS_PREFIX + 'text-editor').setUIId('editorContainer')
-            .setUIProperty('--data-row', this.elementRows)
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UIDiv);
 
         if (this._value !== '' && typeof this._value === 'string') {
             this.value = JSON.parse(this.value);
-            this.editor.setContents(this.value);
         }
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
-        this.editor = new Quill(this.UIElement.UIComponent.UIElement.UIDiv.domElement, {
-            modules: {
-                toolbar: [
-                    [{'header': [1, 2, 3, 4, false]}],
-                    ['bold', 'italic', 'underline'],
-                    [{'color': []}, {'background': []}],
-                    [{'align': []}, { 'list': 'bullet' }],
-                    ['image']
-                ]
-            },
+        this.editor = new zQuill(this.UIElement.UIComponent.UIElement.UIDiv.domElement, {
             placeholder: this.elementPlaceholder,
-            theme: 'snow',
-            readOnly: false
+            readOnly: false,
+            content: (this.value !== '') ? this.value : ''
         });
-
+        this.editor.root.style.setProperty('--data-row', this.elementRows);
         this.editor.on('text-change', (delta, oldDelta, source) => {
             if (source === 'user') {
                 setTimeout(() => {
@@ -129,7 +118,7 @@ export const textEditorMixin = {
     },
     set elementRows(rows) {
         this._element.rows = rows;
-        this.UIElement.UIComponent.UIElement.UIDiv.setUIProperty('--data-row', rows);
+        this.editor.root.style.setProperty('--data-row', rows);
     },
     get elementRows() {
         return this._element.rows;
