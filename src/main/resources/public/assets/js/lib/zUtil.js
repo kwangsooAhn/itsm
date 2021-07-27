@@ -1150,6 +1150,15 @@ aliceJs.convertDateFormat = function (format, type, date) {
 };
 
 /**
+ * alert div내부의 X 버튼을 클릭했을 때, 해당 div를 제거한다.
+ * @param req
+ */
+aliceJs.removeTarget = function (req) {
+    let target = req.parentElement;
+    target.remove();
+};
+
+/**
  * input 엘리먼트 내부의 X 버튼을 클릭했을 때, 같은 레벨의 input value를 clear한다.
  * @param req
  */
@@ -1191,7 +1200,7 @@ aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
     if (event.key === keyName) {
         callBackFunc();
     }
-}
+};
 
 /**
  * z-slider > range value에 따라 range fill 영역을 계산한다.
@@ -1200,5 +1209,49 @@ aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
 aliceJs.drawSlider = function(target) {
     let thumbLocation =  parseInt((target.value - 1) * 100 / (target.max - 1)) + '%';
     target.style.cssText = '--range-location:' + thumbLocation;
-}
+};
 
+/**
+ * validation message 처리
+ * @param target     : validation message box를 띄울 target element
+ * @param message    : validation message 텍스트
+ * @param type       : validation message의 타입 (alert / success)
+ * @param isAbsolute : message box의 position: absolute 처리 여부
+ */
+aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
+    // reset attributes
+    document.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'input').forEach(elem => {
+        elem.addEventListener('input', () => el.removeAttribute('data-' + type));
+    });
+
+    // set validate message element
+    let validateMsg = '';
+    if (target.parentElement.querySelectorAll('.' + aliceJs.CLASS_PREFIX + 'validation').length > 0) {
+        validateMsg = target.parentElement.querySelector('.' + aliceJs.CLASS_PREFIX + 'validation');
+        validateMsg.textContent = i18n.msg(message);
+    } else {
+        validateMsg = document.createElement('div');
+        validateMsg.className = aliceJs.CLASS_PREFIX + 'validation ' + type;
+        validateMsg.textContent = i18n.msg(message);
+    }
+
+    // set clear button
+    let clearButton = document.createElement('span')
+    clearButton.className = aliceJs.CLASS_PREFIX + 'button-clear ml-auto';
+    clearButton.onclick = function() {
+        aliceJs.removeTarget(this);
+    };
+    validateMsg.appendChild(clearButton);
+
+    // for absolute option
+    if (isAbsolute) {
+        const location = target.getBoundingClientRect();
+        validateMsg.style.position = 'absolute';
+        validateMsg.style.top = location.top + location.height + 2 + 'px';
+        validateMsg.style.left = location.left + 'px';
+        validateMsg.style.width = location.width + 'px';
+    }
+
+    target.after(validateMsg);
+    target.setAttribute('data-' + type, 'true');
+};

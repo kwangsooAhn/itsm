@@ -127,7 +127,7 @@ export const dividerMixin = {
         thicknessProperty.unit = UNIT.PX;
 
         // element - color
-        const colorProperty = new ZColorPickerProperty('elementColor', 'element.color', this.elementColor, false)
+        const colorProperty = new ZColorPickerProperty('elementColor', 'element.color', this.elementColor)
             .setValidation(false, 'hex', '', '', '', '25');
 
         // element - Type

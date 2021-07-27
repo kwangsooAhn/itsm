@@ -1530,7 +1530,7 @@
                 labelObject.className = 'properties-title';
                 labelObject.htmlFor = property.id;
                 if (property.type === 'checkbox') {
-                    labelObject.classList.add('checkbox');
+                    labelObject.classList.add(aliceJs.CLASS_PREFIX + 'checkbox');
                     labelObject.tabindex = 0;
                 }
                 labelObject.textContent = i18n.msg(i18nMsgPrefix + property.id);
@@ -1551,19 +1551,7 @@
                     elementObject.name = property.id;
                     if (elemData[property.id] && property.type !== 'checkbox') {
                         if (property.type === 'rgb') {
-                            if (aliceJs.isHexCode(elemData[property.id])) {
-                                elementObject.value = aliceJs.hexToRgba(elemData[property.id], 0.5);
-                            } else {
-                                elementObject.value = aliceJs.rgbaToHex(elemData[property.id]);
-                            }
-                            let opacityValue = aliceJs.rgbaOpacity(elemData[property.id]) * 100;
-                            let opacityLayer = elementObject.parentElement.nextElementSibling.querySelector('.color-palette-opacity');
-                            if (opacityLayer !== null) {
-                                opacityValue = opacityValue.toFixed(0); // 실제 값은 정상이나 소수점이 나오는 현상이 있어 소수점 처리 추가
-                                opacityLayer.querySelector('.slide-object').value = opacityValue;
-                                opacityLayer.querySelector('.slide-input').value = opacityValue;
-                            }
-                            elementObject.value = elemData[property.id];
+                            elementObject.value = aliceJs.isHexCode(elemData[property.id]) ? elemData[property.id] : aliceJs.rgbaToHex(elemData[property.id]);
                         } else {
                             elementObject.value = elemData[property.id];
                         }
@@ -1813,6 +1801,7 @@
                 const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
                 const labelText = labelElem.textContent;
                 labelElem.textContent = '';
+                labelElem.className = aliceJs.CLASS_PREFIX + 'checkbox';
                 elementObject = document.createElement('input');
                 elementObject.type = 'checkbox';
                 if (elemData[property.id] && elemData[property.id] === 'Y') {
@@ -1853,77 +1842,19 @@
                 propertyContainer.appendChild(elementObject);
                 break;
             case 'rgb':
-                let colorPicker = document.createElement('div');
-                colorPicker.className = 'color-picker';
-                let colorInput = document.createElement('div');
-                colorInput.className = 'color-input';
-                let selectedColorBox = document.createElement('span');
-                let selectedColor = document.createElement('span');
-                selectedColorBox.className = 'selected-color-box';
-                selectedColor.className = 'selected-color';
-                if (property.id === 'line-color') {
-                    selectedColor.style.backgroundColor = '';
-                    selectedColor.style.borderColor = elemData[property.id];
-                }
-                if (property.id === 'background-color') {
-                    selectedColor.style.backgroundColor = elemData[property.id];
-                    selectedColor.style.border = 'transparent';
-                }
-                selectedColorBox.appendChild(selectedColor);
-                colorInput.appendChild(selectedColorBox);
-                colorPicker.appendChild(colorInput);
-                propertyContainer.appendChild(colorPicker);
-
                 elementObject = document.createElement('input');
-                elementObject.className = 'z-input color';
-                elementObject.readOnly = true;
-                elementObject.addEventListener('change', function() {
-                    let opacity = 0;
-                    if (this.dataset['opacity'] !== '') {
-                        opacity = Number(this.dataset['opacity']) / 100;
-                    }
-                    if (!aliceJs.isHexCode(this.value)) {
-                        this.value = aliceJs.rgbaToHex(this.value); // opacity 값 갱신하기 위해 Hex로 변환
-                    }
-                    this.value = aliceJs.hexToRgba(this.value, opacity);
+                elementObject.id = property.id;
+                elementObject.value = elemData[property.id];
+                elementObject.addEventListener('change', function(e) {
                     if (properties.type === 'groupArtifact') {
                         const groupElement = d3.select(document.getElementById(id));
-                        const selectedElement = elementObject.parentNode.querySelector('span.selected-color');
-                        if (this.id === 'line-color') {
-                            selectedElement.style.borderColor = this.value;
-                            selectedElement.style.backgroundColor = 'transparent';
-                            groupElement.style('stroke', this.value);
-                        }
-                        if (this.id === 'background-color') {
-                            selectedElement.style.backgroundColor = this.value;
-                            selectedElement.style.border = 'transparent';
-                            if (this.value.trim() === '') {
-                                groupElement.style('fill-opacity', 0);
-                            } else {
-                                groupElement.style('fill', this.value).style('fill-opacity', opacity);
-                            }
-                        }
+                        groupElement.style(e.target.id === 'line-color' ? 'stroke' : 'fill', e.target.value);
                     }
                 });
-                colorInput.appendChild(elementObject);
+                propertyContainer.appendChild(elementObject);
 
-                let colorPaletteLayer = document.createElement('div');
-                colorPaletteLayer.className = 'color-palette-layer';
-                let colorPaletteBox = document.createElement('div');
-                colorPaletteBox.id = property.id + '-colorPalette';
-                colorPaletteBox.className = 'color-palette';
-                colorPaletteLayer.appendChild(colorPaletteBox);
-                colorPicker.appendChild(colorPaletteLayer);
-
-                let option = {
-                    isOpacity: true,
-                    data: {
-                        isSelected: true,
-                        selectedClass: 'selected',
-                        value: elemData[property.id]
-                    }
-                };
-                zColorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
+                // color picker 초기화
+                new zColorPicker(elementObject, { type: (property.id === 'line-color') ? 'line' : 'fill' });
                 break;
             default:
                 break;

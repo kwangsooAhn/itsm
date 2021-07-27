@@ -7,8 +7,10 @@ package co.brainz.framework.auth.entity
 
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.user.entity.UserCustomEntity
 import java.io.Serializable
 import java.time.LocalDateTime
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -121,4 +123,7 @@ open class AliceUserEntity(
 ) : Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     open val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    open val userCustomEntities = mutableListOf<UserCustomEntity>()
 }

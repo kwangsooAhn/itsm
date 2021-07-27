@@ -77,8 +77,8 @@ class ProcessService(
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessElementDto.process!!.name!!)
         val preRestTemplateProcessDto = wfProcessRepository.findByProcessId(processId)
         var result = WfProcessConstants.ResultCode.FAIL.code
-        if (duplicateCount > 0
-            && (preRestTemplateProcessDto!!.processName != restTemplateProcessElementDto.process!!.name)) {
+        if (duplicateCount > 0 &&
+            (preRestTemplateProcessDto!!.processName != restTemplateProcessElementDto.process!!.name)) {
                 result = WfProcessConstants.ResultCode.DUPLICATE.code
                 return result
         }
