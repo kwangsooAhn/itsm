@@ -94,7 +94,7 @@ file.image.uri: /fileImages
 ip.access.control: true
 
 # Product Version
-product.version: 0.0.1
+product.version: 3.0.0
 
 jasypt.encryptor.bean: jasyptStringEncryptor
 
