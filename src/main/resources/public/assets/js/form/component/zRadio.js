@@ -136,7 +136,7 @@ export const radioMixin = {
             object.UILabel = new UILabel()
                 .setUIFor(radioId)
                 .setUIClass(this.element.align)
-                .addUIClass('radio');
+                .addUIClass(CLASS_PREFIX + 'radio');
             object.UILabel.UIRadio = new UIRadioButton(checkedYn)
                 .setUIId(radioId)
                 .setUIAttribute('value', this.element.options[i].value)

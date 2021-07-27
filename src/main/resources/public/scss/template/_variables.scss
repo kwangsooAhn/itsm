@@ -132,7 +132,8 @@ $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
 
 // 체크박스, 라디오 버튼, 스위치 등 선택되었을때 (ON) 디자인 변수
-$element-checked-bg-color:                    $blue500;
+$element-checked-color:                    $blue500;
+$element-checked-active-color:             $blue700;
 
 //셀렉트 박스 선택되었을때 옵션에 사용하는 디자인 변수
 $element-selected-font-color:                 $blue500;
@@ -585,9 +586,13 @@ $tag-invalid-border-color:                   #FFE2E6;
 $input-clear-right:                          0rem;
 $input-bg-icon-color:                        $gray500;
 
-////////////////////////////// check box /////////////////////////////
+////////////////////// check box / radio button //////////////////////
 $checkbox-indent:                            0.5rem; //8px
 $checkbox-size:                              1.125rem; // 18px
+
+$radio-indent:                               0.5rem; //8px
+$radio-border-size:                          1.125rem; // 18px
+$radio-inner-size:                           0.625rem; // 10px
 
 /////////////////////////////// slider ///////////////////////////////
 $slider-range-bg-color:                      $neutral200;
