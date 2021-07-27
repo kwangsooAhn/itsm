@@ -611,7 +611,7 @@ insert into awf_menu values ('config.role', 'config', '/roles/edit', 3,TRUE);
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,TRUE);
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6,TRUE);
-insert into awf_menu values ('config.product', 'config', '/products/view', 7,TRUE);
+insert into awf_menu values ('config.product', 'config', '', 7,TRUE);
 insert into awf_menu values ('workflow', 'menu', '', 10,TRUE);
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);
@@ -1490,7 +1490,6 @@ insert into awf_url values ('/processes/search', 'get', '프로세스 리스트 
 insert into awf_url values ('/process/{id}/edit', 'get', '프로세스 디자이너 편집 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/view', 'get', '프로세스 디자이너 보기 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'TRUE');
-insert into awf_url values ('/products/view', 'get', '제품 정보 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'get', '권한 전체 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
@@ -1615,6 +1614,7 @@ insert into awf_url values ('/rest/users/all', 'get', '전체 사용자 목록 �
 insert into awf_url values ('/rest/users/{userkey}/all', 'put', '사용자가 자신의 정보를 업데이트', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 다른 사용자의 정보를 업데이트', 'FALSE');
 insert into awf_url values ('/rest/users/{userkey}/resetpassword', 'put', '사용자 비밀번호 초기화', 'TRUE');
+insert into awf_url values ('/rest/products/Info', 'get', '제품 정보 조회', 'TRUE');
 insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
 insert into awf_url values ('/roles', 'get', '역할 관리 목록 뷰 호출', 'TRUE');
 insert into awf_url values ('/schedulers', 'get', '스케줄러 리스트 화면', 'TRUE');
@@ -1823,7 +1823,6 @@ insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'process.updat
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.create');
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.update');
 insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'document.read');
-insert into awf_url_auth_map values ('/products/view', 'get', 'product.read');
 insert into awf_url_auth_map values ('/rest/auths', 'post', 'auth.create');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.update');
@@ -2011,6 +2010,7 @@ insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.update');
+insert into awf_url_auth_map values ('/rest/products/Info', 'get', 'product.read');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.update');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.read');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.create');

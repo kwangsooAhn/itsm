@@ -1333,3 +1333,14 @@ rule:
     searchPlaceholder: "Document Number"
     selectSequence: "It must contain at least one sequence."
     usedRule: "This document number is being used."
+
+# Product
+product:
+  label:
+    versionSuffix: "Version : "
+    company: "Brainzcompany"
+    url: "http://www.brainz.co.kr"
+    email: "Email : info@brainz.co.kr"
+    mainPhone: "MainPhone : 02-2205-6001"
+    technicalSupport: "TechnicalSupport : 02-2205-6002"
+    productInquiry: "ProductInquiry : 02-2205-6009, 6015"

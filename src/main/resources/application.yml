@@ -93,6 +93,9 @@ file.image.uri: /fileImages
 # IP 접근 제한 기능 설정
 ip.access.control: true
 
+# Product Version
+product.version: 0.0.1
+
 jasypt.encryptor.bean: jasyptStringEncryptor
 
 ---

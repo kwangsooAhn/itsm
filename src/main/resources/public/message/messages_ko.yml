@@ -1333,3 +1333,14 @@ rule:
     searchPlaceholder: "문서번호 명"
     selectSequence: "Sequence를 최소 하나 이상 포함해야 합니다."
     usedRule: "해당 문서번호를 사용 중입니다."
+
+# Product
+product:
+  label:
+    versionSuffix: "version : "
+    company: "브레인즈컴퍼니(주)"
+    url: "http://www.brainz.co.kr"
+    email: "Email : info@brainz.co.kr"
+    mainPhone: "대표전화 : 02-2205-6001"
+    technicalSupport: "기술지원 : 02-2205-6002"
+    productInquiry: "제품문의 : 02-2205-6009, 6015"

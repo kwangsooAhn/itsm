@@ -183,7 +183,6 @@ insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'process.updat
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.create');
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'process.update');
 insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'document.read');
-insert into awf_url_auth_map values ('/products/view', 'get', 'product.read');
 insert into awf_url_auth_map values ('/rest/auths', 'post', 'auth.create');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.update');
@@ -371,6 +370,7 @@ insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.update');
+insert into awf_url_auth_map values ('/rest/products/Info', 'get', 'product.read');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.update');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.read');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.create');
