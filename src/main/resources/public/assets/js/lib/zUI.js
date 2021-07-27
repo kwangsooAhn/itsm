@@ -338,7 +338,7 @@ class UICheckbox extends UIElement {
 class UIRadioButton extends UIElement {
     constructor(boolean) {
         super(document.createElement('input'));
-        this.domElement.className = 'radio';
+        this.domElement.className = aliceJs.CLASS_PREFIX + 'radio';
         this.domElement.type = 'radio';
         this.setUIValue(boolean);
     }

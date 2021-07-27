@@ -579,7 +579,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const radioGroup = document.createElement('label');
-                                radioGroup.className = 'radio';
+                                radioGroup.className = aliceJs.CLASS_PREFIX + 'radio';
                                 radioGroup.tabindex = 0;
                                 radioGroup.htmlFor = attributes.attributeId + '-' + opt;
 
@@ -791,7 +791,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const radioGroup = document.createElement('label');
-                                radioGroup.className = 'radio';
+                                radioGroup.className = aliceJs.CLASS_PREFIX + 'radio';
                                 radioGroup.tabindex = 0;
                                 radioGroup.htmlFor = attributes.attributeId + '-' + opt;
 
