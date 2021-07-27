@@ -22,7 +22,7 @@ class ProductRestController {
     /**
      * application.yml 파일에 위치한 제품 정보 가져오기
      */
-    @GetMapping("/Info")
+    @GetMapping("/info")
     fun getProductInfo(): ProductInfoDto {
         return ProductInfoDto(
             version = productVersion

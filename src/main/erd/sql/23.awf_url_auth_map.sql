@@ -370,7 +370,7 @@ insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/resetpassword', 'put', 'user.update');
-insert into awf_url_auth_map values ('/rest/products/Info', 'get', 'product.read');
+insert into awf_url_auth_map values ('/rest/products/info', 'get', 'product.read');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.update');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.read');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.create');
