@@ -1610,7 +1610,7 @@ label {
 
 .z-radio {
   position: relative;
-  font-family: inherit;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   color: #222529;
