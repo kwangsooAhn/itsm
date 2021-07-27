@@ -1326,6 +1326,18 @@ label {
   -moz-box-shadow: 0 0 0.125rem 0 #2578ce;
   box-shadow: 0 0 0.125rem 0 #2578ce;
 }
+.z-input:not(:disabled):focus[data-error], .z-input:not(:read-only):focus[data-error] {
+  border: 0.0625rem solid #ff405a;
+  -webkit-box-shadow: 0 0 0 0 #FFFFFF;
+  -moz-box-shadow: 0 0 0 0 #FFFFFF;
+  box-shadow: 0 0 0 0 #FFFFFF;
+}
+.z-input:not(:disabled):focus[data-success], .z-input:not(:read-only):focus[data-success] {
+  border: 0.0625rem solid #5CA21B;
+  -webkit-box-shadow: 0 0 0 0 #FFFFFF;
+  -moz-box-shadow: 0 0 0 0 #FFFFFF;
+  box-shadow: 0 0 0 0 #FFFFFF;
+}
 .z-input:not(:disabled):active, .z-input:not(:read-only):active {
   outline: 0;
   border: 0.0625rem solid #339AF0;
@@ -3443,6 +3455,54 @@ svg path.connector.hidden {
     margin: 0.5em;
   }
 }
+/* _validations.scss
+ *
+ * 파일 경로 : template/_validations.scss
+ * @description validation message
+ * @author jy.lim
+ * @version 1.0
+ */
+.z-validation.error {
+  display: inherit;
+  height: 2rem;
+  margin: 0.25rem 0;
+  padding: 0.375rem 0.375rem 0.375rem 2.5rem;
+  border: 0.0625rem solid #FEF2EB;
+  color: #F52525;
+  background-color: #FEF2EB;
+  background-image: url("../media/icons/icon_error.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 1rem;
+  background-position-y: center;
+}
+.z-validation.success {
+  display: inherit;
+  height: 2rem;
+  margin: 0.25rem 0;
+  padding: 0.375rem 0.375rem 0.375rem 2.5rem;
+  border: 0.0625rem solid #F6FCE0;
+  color: #5CA21B;
+  background-color: #F6FCE0;
+  background-image: url("../media/icons/icon_success.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 1rem;
+  background-position-y: center;
+}
+.z-validation .z-button-clear {
+  padding-right: 0.9375rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  -webkit-mask-image: url("../media/icons/icon_clear.svg");
+  mask-image: url("../media/icons/icon_clear.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+}
+
 /* _scrollbars.scss 
  *
  * 파일 경로 : template/_scrollbars.scss
