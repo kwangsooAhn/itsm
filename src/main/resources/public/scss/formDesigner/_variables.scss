@@ -115,15 +115,6 @@ $component-gutter:                                 0.5rem; // 8px
 $component-selected-border-color:                  map-get($blues, "light");
 $component-selected-bg-color:                      map-get($form-blues, "focus");
 
-// color-picker palette
-$color-picker-palette-width:                       100%;
-$color-picker-palette-margin:                      0.1875rem;  // 3px
-$color-picker-palette-padding:                     0.9375rem 0 0.9375rem 0.9375rem; // 15px 0 15px 15px
-$color-picker-colorchip-size:                      1rem; // 16px
-$color-picker-colorchip-margin:                    0.1875rem; // 3px
-$color-picker-colorchip-border-width:              0.125rem;   // 2px
-$color-picker-colorchip-border-color:              $white;
-
 ///////////////////////// image 컴포넌트 ////////////////////////////
 $component-imagebox-font-size:                     $font-size-s;
 $component-imagebox-font-weight:                   $font-weight-regular;
@@ -212,10 +203,6 @@ $property-group-label-font-size:                   1rem; // 16px
 
 $property-label-color:                             #8D9299;
 $property-label-font-size:                         0.875rem; // 14px
-/////////// colorpicker 리사이즈
-$color-picker-color-size:                          1.5rem; // 24px
-$color-picker-margin:                              0.3125rem; // 5px
-$color-picker-box-size:                            2.25rem; // 36px
 
 // 열 속성 > tab button
 $button-tab: (

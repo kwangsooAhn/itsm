@@ -98,6 +98,7 @@
         const categoryYn = [[${boardAdminInfo?.categoryYn}]];
         const commentYn = [[${boardAdminInfo?.commentYn}]];
         const boardCreateDt = document.getElementById('spanCreateDt');
+        let textEditor = null;
 
         window.onload = function () {
             boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
@@ -107,23 +108,15 @@
             if (boardId !== null && commentYn) {
                 getBoardCommentList();
             }
-            initTextEditor(true);
+            // 텍스트 에디터 초기화
+            textEditor = new zQuill(document.getElementById('boardContents'), {
+                toolbarVisible: false,
+                readOnly: true,
+                content: (boardId !== "") ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
+            });
+
             OverlayScrollbars(document.querySelector('.view'), {className: 'scrollbar'});
         };
-
-        //웹에디터 초기화
-        function initTextEditor(flag) {
-            let textEditorOptions = {
-                modules: {toolbar: false},
-                theme: 'snow',
-                readOnly: flag
-            };
-
-            let textEditor = new Quill('#boardContents', textEditorOptions);
-            if (boardId !== "") {
-                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardContents}]]*/));
-            }
-        }
 
         //조회 화면 이동
         function searchBoard() {

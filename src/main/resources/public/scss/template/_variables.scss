@@ -102,16 +102,19 @@ $element-shadow-color:                        $gray300;
 $element-placeholder-font-color:              $gray400;
 
 // element가 활성화(active)되었을 때 사용하는 디자인 변수
+$element-active-font-color:                   $blue700;
 $element-active-bg-color:                     $blue200;
 $element-active-border-color:                 $blue600;
 
 // 키보드 또는 선택시, 해당 element에 포커싱되었을때 사용하는 디자인 변수
+$element-focus-font-color:                    $blue700;
 $element-focus-border-color:                  $blue600;
 $element-focus-border-width:                  0.0625rem; // 1px
 $element-focus-border:                        $element-focus-border-width solid $element-focus-border-color;
 $element-focus-shadow-color:                  $blue600;
 
-// element 마우스 오버시 사용하는 디자인 변수 
+// element 마우스 오버시 사용하는 디자인 변수
+$element-hover-font-color:                    $gray800;
 $element-hover-bg-color:                      $blue100;
 $element-hover-border-color:                  $blue400;
 $element-hover-border-width:                  0.0625rem; // 1px
@@ -252,6 +255,8 @@ $layout-properties-width:                    18.75rem; // 300px
 
 //////////////////////////////// scrollbar ////////////////////////////////
 // 기본 스크롤바
+// scrollbar 배경
+//$scrollbar-thick:                            1rem; // 16px
 // scrollbar 두께
 $scrollbar-thick:                            0.5rem; // 8px
 // element 내부 scrollbar 두께
@@ -366,20 +371,8 @@ $datepicker-time-font-color:                 $gray800;
 $datepicker-time-font-weight:                $font-weight-medium;
 
 ///////////////////////////////// text editor /////////////////////////////////
-$text-editor-font-size:                      $font-size-xs;
-$text-editor-font-color:                     map-get($grays, 'dark');
-$text-editor-font-weight:                    $font-weight-regular;
-$text-editor-line-height:                    1.5;
-$text-editor-border-color:                   map-get($grays, 'line');
-$text-editor-bg-color:                       $white;
-$text-editor-border-width:                   0.0625rem; // 1px
-$text-editor-toolbar-font-size:              $font-size-xs;
-$text-editor-toolbar-font-color:             map-get($blacks, 'light');
-$text-editor-toolbar-font-weight:            $font-weight-medium;
-// text editor의 hover와 pressec 는 동일한 디자인이다.
-$text-editor-toolbar-hover-font-color:       map-get($blacks, 'light');
-$text-editor-toolbar-hover-bg-color:         map-get($grays, 'line');
-$text-editor-toolbar-selected-font-color:    $blue;
+$text-editor-option-box-shadow-color:        $gray300;
+$text-editor-toolbar-selected-font-color:    $blue500;
 
 ///////////////////////////////// tree /////////////////////////////////
 $tree-folder-path:                           '/../media/icons/tree';
@@ -433,19 +426,6 @@ $alert-box-sizing:                           border-box;
 $alert-bg-color:                             $white;
 
 ///////////////////////////// color-picker ///////////////////////////
-$color-picker-color-size:                    1.75rem;    // 28px
-$color-picker-box-size:                      2.5rem;     // 40px
-$color-picker-margin:                        0.3125rem;  // 5px
-// color-picker palette
-$color-picker-palette-width:                 30rem;      // 480px
-$color-picker-palette-margin:                0.3125rem;  // 5px
-$color-picker-palette-padding:               1.25rem 0 0.625rem 1.25rem; // 20px 0 10px 20px;
-$color-picker-colorchip-size:                2.5rem;     // 40px
-$color-picker-colorchip-margin:              0.625rem;   // 10px
-$color-picker-colorchip-border-width:        0.375rem;   // 6px
-$color-picker-colorchip-border-color:        $white;
-
-// color picker
 :root {
   --data-color: '';
 }
@@ -481,8 +461,6 @@ $custom-color-plus: (
   'focus': ('font': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
   'active': ('font': $blue700, 'background': $blue200, 'border': $blue400)
 );
-// control
-
 
 ////////////////////////////// thumbnail /////////////////////////////
 $thumbnail-asset-path:                       '../media/icons/thumbnail';

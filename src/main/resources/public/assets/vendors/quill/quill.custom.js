@@ -12,17 +12,19 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-
-const DEFAULT_OPTIONS = {
+const QUILL_DEFAULT_OPTIONS = {
+    toolbarVisible: true,
     placeholder: '',
-    readOnly: false
+    readOnly: false,
+    content: ''
 };
 
 function zQuill(target, options) {
-    this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+    this.options = Object.assign({}, QUILL_DEFAULT_OPTIONS, options);
+
     // html template
     this.getTemplate = function () {
-        return `<div id="textEditorToolbar">` +
+        return `<div id="textEditorToolbar" class="${this.options.toolbarVisible ? '' : 'ql-toolbar-hidden'}">` +
                     // {'header': [1, 2, 3, 4, false]}
                     `<span class="ql-formats">` +
                         `<select class="ql-header">` +
@@ -44,11 +46,11 @@ function zQuill(target, options) {
                         `<select class="ql-color"></select>` +
                         `<select class="ql-background"></select>` +
                     `</span>` +
-                    // align - left, center, right
+                    // [{ 'align': '' }, { 'align': 'center' }, { 'align': 'right' }],
                     `<span class="ql-formats">` +
-                        `<button class="ql-align-left" id="textEditorAlignLeft" value="left"></button>` +
-                        `<button class="ql-align-center" id="textEditorAlignCenter" value="center"></button>` +
-                        `<button class="ql-align-right" id="textEditorAlignRight" value="right"></button>` +
+                        `<button class="ql-align" value=""></button>` +
+                        `<button class="ql-align" value="center"></button>` +
+                        `<button class="ql-align" value="right"></button>` +
                     `</span>` +
                     // [{ 'list': 'bullet' }]
                     `<span class="ql-formats">` +
@@ -61,17 +63,28 @@ function zQuill(target, options) {
             `</div>` +
             `<div id="textEditorContainer"></div>`;
     };
-    // toolbar 초기화
+
+    // wrapper 생성
     target.innerHTML = '';
+    target.classList.add('ql-wrapper-container');
+    if (!this.options.readOnly) {
+        target.tabIndex = 0; // 선택가능
+    }
     target.insertAdjacentHTML('beforeend', this.getTemplate());
     this.containerEl = target;
-
-    const quill = new Quill('#textEditorContainer', {
-        modules: { toolbar: '#textEditorToolbar' },
+    
+    // quill editor 호출
+    const quill = new Quill(target.querySelector('#textEditorContainer'), {
+        modules: {
+            toolbar: this.options.toolbarVisible ? target.querySelector('#textEditorToolbar') : false
+        },
         placeholder: this.options.placeholder,
         theme: 'snow',
         readOnly: this.options.readOnly
     });
-
-    console.log(quill);
+    // set value
+    if (this.options.content !== '') {
+        quill.setContents(this.options.content);
+    }
+    return quill;
 }
