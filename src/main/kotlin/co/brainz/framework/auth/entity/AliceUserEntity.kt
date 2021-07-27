@@ -124,6 +124,6 @@ open class AliceUserEntity(
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     open val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY , cascade = [CascadeType.REMOVE])
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     open val userCustomEntities = mutableListOf<UserCustomEntity>()
 }
