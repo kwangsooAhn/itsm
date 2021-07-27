@@ -374,20 +374,8 @@ $datepicker-time-font-color:                 $gray800;
 $datepicker-time-font-weight:                $font-weight-medium;
 
 ///////////////////////////////// text editor /////////////////////////////////
-$text-editor-font-size:                      $font-size-xs;
-$text-editor-font-color:                     map-get($grays, 'dark');
-$text-editor-font-weight:                    $font-weight-regular;
-$text-editor-line-height:                    1.5;
-$text-editor-border-color:                   map-get($grays, 'line');
-$text-editor-bg-color:                       $white;
-$text-editor-border-width:                   0.0625rem; // 1px
-$text-editor-toolbar-font-size:              $font-size-xs;
-$text-editor-toolbar-font-color:             map-get($blacks, 'light');
-$text-editor-toolbar-font-weight:            $font-weight-medium;
-// text editor의 hover와 pressec 는 동일한 디자인이다.
-$text-editor-toolbar-hover-font-color:       map-get($blacks, 'light');
-$text-editor-toolbar-hover-bg-color:         map-get($grays, 'line');
-$text-editor-toolbar-selected-font-color:    $blue;
+$text-editor-option-box-shadow-color:        $gray300;
+$text-editor-toolbar-selected-font-color:    $blue500;
 
 ///////////////////////////////// tree /////////////////////////////////
 $tree-folder-path:                           '/../media/icons/tree';
