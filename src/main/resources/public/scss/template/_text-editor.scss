@@ -243,6 +243,7 @@
   // 편집 영역
   .ql-container {
     &.ql-snow {
+      height: auto;
       font-family: $element-font-family;
       font-size: $element-font-size;
       font-weight: $element-font-weight;
@@ -250,6 +251,7 @@
       color: $element-font-color;
       @include border($element-border-width, solid, $element-border-color, all);
       .ql-editor {
+        height: 7.5rem; // 120px
         padding: 0.625rem; // 10px
         // 내부 태그 재정의
         .ql-blank::before {
