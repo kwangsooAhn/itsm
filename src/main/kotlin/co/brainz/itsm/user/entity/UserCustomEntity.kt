@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.user.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -26,7 +31,7 @@ data class UserCustomEntity(
 
     @Column(name = "custom_value", length = 512)
     var customValue: String? = ""
-): Serializable
+) : Serializable
 
 data class UserCustomEntityPk(
     var user: String = "",
