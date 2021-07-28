@@ -188,15 +188,15 @@
       }
     }
     // radio , checkbox
-    .radio, .checkbox {
-      .vertical {
+    .#{$common-prefix}radio, .#{$common-prefix}checkbox {
+      &.vertical {
         display: block;
         margin-top: 0.625rem;
         &:first-of-type {
           margin-top: 0;
         }
       }
-      .horizontal {
+      &.horizontal {
         display: inline-block;
         margin-right: 0.625rem;
       }

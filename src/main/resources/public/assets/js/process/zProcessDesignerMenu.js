@@ -1698,7 +1698,7 @@
         const legend = document.createElement('legend');
         // label
         const radioGroup = document.createElement('label');
-        radioGroup.className = 'radio';
+        radioGroup.className = aliceJs.CLASS_PREFIX + 'radio';
         radioGroup.tabindex = 0;
         radioGroup.htmlFor = 'fieldset_' + property.id;
         // radio

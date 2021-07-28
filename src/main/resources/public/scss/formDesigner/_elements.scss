@@ -45,7 +45,7 @@
 
     &:checked {
       + span {
-        background-color: $element-checked-bg-color;
+        background-color: $element-checked-color;
 
         &::before {
           @include translate(1.25rem, 0); // 20px
