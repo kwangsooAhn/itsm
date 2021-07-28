@@ -48,7 +48,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length) +
                 ZWorkflowUtil.generateUUID();
             // 라벨
-            radioGroup.UILabel = new UILabel().setUIClass('radio').setUIFor('radioProperty' + radioId);
+            radioGroup.UILabel = new UILabel().setUIClass(CLASS_PREFIX + 'radio').setUIFor('radioProperty' + radioId);
             radioGroup.addUI(radioGroup.UILabel);
             // 라디오 버튼
             radioGroup.UILabel.UIRadio = new UIRadioButton(defaultValueArray[0] === item.value)
@@ -148,6 +148,9 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
 
         return this.UIElement;
     }
+
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {}
 
     // 속성 변경 시, 발생하는 이벤트 핸들러
     // 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.

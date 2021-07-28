@@ -82,7 +82,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             const radioGroup = new UIDiv().setUIClass('radio-property-group').addUIClass('vertical');
             const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             // 라벨
-            radioGroup.UILabel = new UILabel().setUIClass('radio').setUIFor('radioProperty' + radioId);
+            radioGroup.UILabel = new UILabel().setUIClass(CLASS_PREFIX + 'radio').setUIFor('radioProperty' + radioId);
             radioGroup.addUI(radioGroup.UILabel);
             // 라디오 버튼
             radioGroup.UILabel.UIRadio = new UIRadioButton(defaultCustomCodeValues[1] === item.value)
@@ -133,6 +133,10 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
         return this.UIElement;
     }
+
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {}
+
     // 커스텀 코드 데이터 select box 생성
     makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
         aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {

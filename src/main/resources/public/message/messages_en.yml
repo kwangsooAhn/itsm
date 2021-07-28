@@ -30,6 +30,7 @@ common:
     count: "total {0}"
     createDate: "Create Date"
     createUser: "Create User"
+    customColor: "Custom User Color"
     delete: "Delete"
     edit: "Edit"
     fail: "Fail"
@@ -47,6 +48,7 @@ common:
     writer: "Writer"
   msg:
     confirmDelete: "Are you sure you want to delete?"
+    customColorSave: "Your color has not been saved yet.<br/>Your color will be reset."
     dataSelect: "Please select data."
     delete: "Deleted."
     deleteTartget: "Please select target."
@@ -70,6 +72,7 @@ common:
     selectBeforeDate: "Please select before {0} date."
     selectBeforeDateTime: "Please select before {0}."
     selectBeforeTime: "Please select before {0} time."
+    selectColor: "Please select a color."
     success: "Successful."
     update: "Changed."
   code:
@@ -870,6 +873,7 @@ menu:
     boardAdmin: "Board management"
     code: "Code management"
     parent: "System config"
+    product: "Product Info"
     role: "Role"
     scheduler: "Scheduler"
     user: "User"
@@ -1332,3 +1336,14 @@ rule:
     searchPlaceholder: "Document Number"
     selectSequence: "It must contain at least one sequence."
     usedRule: "This document number is being used."
+
+# Product
+product:
+  label:
+    versionSuffix: "Version : "
+    company: "Brainzcompany"
+    url: "http://www.brainz.co.kr"
+    email: "Email : info@brainz.co.kr"
+    mainPhone: "MainPhone : 02-2205-6001"
+    technicalSupport: "TechnicalSupport : 02-2205-6031"
+    productInquiry: "ProductInquiry : 02-2205-6009, 6015"

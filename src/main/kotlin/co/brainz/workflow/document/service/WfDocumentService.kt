@@ -349,7 +349,9 @@ class WfDocumentService(
         val gatewayQueue = ArrayDeque<WfElementEntity>()
         // 쓸모 없는 그룹, 주석을 제거
         val allElementEntitiesInProcess =
-            elementEntities.filter { WfElementConstants.ElementType.getAtomic(it.elementType) != WfElementConstants.ElementType.ARTIFACT }
+            elementEntities.filter {
+                WfElementConstants.ElementType.getAtomic(it.elementType) != WfElementConstants.ElementType.ARTIFACT
+            }
 
         // 첫 commonStart 엘리먼트 찾기
         val startElement = allElementEntitiesInProcess.first {
@@ -390,7 +392,8 @@ class WfDocumentService(
         val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (elementEntity in userTasks) {
             for (display in displayList) {
-                if (display.formGroupId == formGroup.formGroupId && display.elementId == elementEntity["elementId"].toString()) {
+                if (display.formGroupId == formGroup.formGroupId &&
+                    display.elementId == elementEntity["elementId"].toString()) {
                     val displayMap = LinkedHashMap<String, Any>()
                     displayMap["elementId"] = display.elementId
                     displayMap["display"] = display.display

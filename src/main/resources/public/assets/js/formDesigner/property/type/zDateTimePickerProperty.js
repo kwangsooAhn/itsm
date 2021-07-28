@@ -50,20 +50,24 @@ export default class ZDateTimePickerProperty extends ZProperty {
 
         this.UIElement.addUI(this.UIElement.UIInput);
 
-        switch (this.pickerType) {
-        case FORM.DATE_TYPE.DATE_PICKER:
-            zDateTimePicker.initDatePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
-            break;
-        case FORM.DATE_TYPE.TIME_PICKER:
-            zDateTimePicker.initTimePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
-            break;
-        case FORM.DATE_TYPE.DATETIME_PICKER:
-            zDateTimePicker.initDateTimePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
-            break;
-        }
-
         return this.UIElement;
     }
+
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {
+        switch (this.pickerType) {
+            case FORM.DATE_TYPE.DATE_PICKER:
+                zDateTimePicker.initDatePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
+                break;
+            case FORM.DATE_TYPE.TIME_PICKER:
+                zDateTimePicker.initTimePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
+                break;
+            case FORM.DATE_TYPE.DATETIME_PICKER:
+                zDateTimePicker.initDateTimePicker(this.UIElement.UIInput.domElement, this.updateProperty.bind(this));
+                break;
+        }
+    }
+
     // 속성 변경시 발생하는 이벤트 핸들러
     updateProperty(elem) {
         this.panel.update.call(this.panel, elem.id, elem.value);

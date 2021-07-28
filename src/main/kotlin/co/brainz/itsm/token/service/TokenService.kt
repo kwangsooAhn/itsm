@@ -5,11 +5,11 @@
 
 package co.brainz.itsm.token.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.service.DocumentActionService
+import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
@@ -19,7 +19,6 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.service.WfTokenService
 import com.fasterxml.jackson.databind.ObjectMapper

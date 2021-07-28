@@ -44,6 +44,9 @@ export default class ZSliderProperty extends ZProperty {
         return this.UIElement;
     }
 
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {}
+
     // 속성 변경시 발생하는 이벤트 핸들러
     updateProperty(e) {
         e.stopPropagation();

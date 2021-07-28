@@ -13,7 +13,7 @@ import ZSwitchButtonProperty from './zSwitchButtonProperty.js';
 import ZToggleButtonProperty from './zToggleButtonProperty.js';
 import ZColorPickerProperty from './zColorPickerProperty.js';
 import ZGroupProperty from './zGroupProperty.js';
-import { UNIT } from '../../../lib/ZConstants.js';
+import { UNIT } from '../../../lib/zConstants.js';
 
 export default class ZLabelProperty {
     constructor(target) {
@@ -60,7 +60,7 @@ export default class ZLabelProperty {
         labelFontOptionProperty.columnWidth = '6';
 
         // label - fontColor
-        const labelFontColorProperty = new ZColorPickerProperty('labelFontColor', 'label.fontColor', this.target.labelFontColor, false)
+        const labelFontColorProperty = new ZColorPickerProperty('labelFontColor', 'label.fontColor', this.target.labelFontColor)
             .setValidation(false, 'rgb', '', '', '', '25');
         labelFontColorProperty.columnWidth = '12';
 

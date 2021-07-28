@@ -338,7 +338,7 @@ class UICheckbox extends UIElement {
 class UIRadioButton extends UIElement {
     constructor(boolean) {
         super(document.createElement('input'));
-        this.domElement.className = 'radio';
+        this.domElement.className = CLASS_PREFIX + 'radio';
         this.domElement.type = 'radio';
         this.setUIValue(boolean);
     }
@@ -391,46 +391,6 @@ class UIClipboard extends UIElement {
         this.UITooltip.UITooptipText = new UISpan().setUIClass(CLASS_PREFIX + 'clipboard-tooltip-text')
             .setUITextContent('Copy to clipboard');
         this.UITooltip.UIButton.addUI(this.UITooltip.UITooptipText);
-    }
-}
-// TODO: color picker 라이브러리 참조하여 엘리먼트 만들기
-class UIColor extends UIElement {
-    constructor(option) {
-        super(document.createElement('div'));
-        this.domElement.className = 'color-picker';
-
-        // input box
-        this.UIColor = new UIDiv().setUIClass('color-input');
-        this.UIColor.UIBox = new UIDiv().setUIClass('selected-color-box');
-
-        this.UIColor.UIBox.UISpan = new UISpan().setUIClass('selected-color')
-            .setUIBackgroundColor(option.data.value);
-        this.UIColor.UIBox.addUI(this.UIColor.UIBox.UISpan);
-        this.UIColor.addUI(this.UIColor.UIBox);
-
-        this.UIColor.UIInput = new UIInput().addUIClass('color').setUIReadOnly(true)
-            .setUIValue(option.data.value);
-        this.UIColor.addUI(this.UIColor.UIInput);
-        this.addUI(this.UIColor);
-
-        // color palette layer
-        this.UIColorPalette = new UIDiv();
-        this.UIColorPalette.UIColor = new UIDiv().setUIClass('color-palette');
-        this.UIColorPalette.addUI(this.UIColorPalette.UIColor);
-
-        this.UIColorPalette.UIOpacity = new UIDiv().setUIClass('color-palette-opacity');
-        this.UIColorPalette.addUI(this.UIColorPalette.UIOpacity);
-        this.addUI(this.UIColorPalette);
-
-        // color picker 초기화
-        zColorPalette.initColorPalette(this.UIColorPalette.domElement,
-            this.UIColor.UIBox.UISpan.domElement, this.UIColor.UIInput.domElement, option);
-    }
-
-    setUIId(id) {
-        this.UIColor.UIInput.setUIId(id);
-        this.UIColorPalette.setUIId('colorPaletteLayer-' + id);
-        return this;
     }
 }
 
@@ -653,7 +613,7 @@ class UICell extends UIElement {
 
 export {
     UIElement, UISpan, UILabel, UIDiv, UIText, UIInput, UITextArea,
-    UISelect, UICheckbox, UIClipboard, UIColor, UISwitch, UIBreak,
+    UISelect, UICheckbox, UIClipboard, UISwitch, UIBreak,
     UIHorizontalRule, UIButton, UISlider, UIUl, UILi, UIImg, UITable,
     UIRow, UICell, UIRadioButton
 };

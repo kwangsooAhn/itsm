@@ -318,18 +318,18 @@
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span>${i18n.msg('cmdb.attribute.label.default')}</span></label></div>` +
-            `<div class="flex-column col-1"><label class="radio"><input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span></label></div>` +
+            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span></label></div>` +
             `<div class="flex-column col-8"></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="radio"><input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span></label></div>` +
+            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span></label></div>` +
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '': 'disabled=\'true\''}>${sessionOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
+            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7"><select id="${objectId}-default-code" ${defaultType === 'code' ? '': 'disabled=\'true\''}></select></div>` +
             `</div>` +
@@ -579,7 +579,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const radioGroup = document.createElement('label');
-                                radioGroup.className = 'radio';
+                                radioGroup.className = aliceJs.CLASS_PREFIX + 'radio';
                                 radioGroup.tabindex = 0;
                                 radioGroup.htmlFor = attributes.attributeId + '-' + opt;
 
@@ -612,7 +612,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const chkGroup = document.createElement('label');
-                                chkGroup.className = 'checkbox';
+                                chkGroup.className = aliceJs.CLASS_PREFIX + 'checkbox';
                                 chkGroup.tabindex = 0;
                                 chkGroup.htmlFor = attributes.attributeId + '-' + opt;
 
@@ -791,7 +791,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const radioGroup = document.createElement('label');
-                                radioGroup.className = 'radio';
+                                radioGroup.className = aliceJs.CLASS_PREFIX + 'radio';
                                 radioGroup.tabindex = 0;
                                 radioGroup.htmlFor = attributes.attributeId + '-' + opt;
 
@@ -828,7 +828,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const chkGroup = document.createElement('label');
-                                chkGroup.className = 'checkbox';
+                                chkGroup.className = aliceJs.CLASS_PREFIX + 'checkbox';
                                 chkGroup.tabindex = 0;
                                 chkGroup.htmlFor = attributes.attributeId + '-' + opt;
 
