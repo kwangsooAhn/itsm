@@ -736,6 +736,7 @@ label {
 
 // checkbox
 .#{$common-prefix}checkbox {
+  margin-right: 0.5rem; // 8px
   font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
@@ -837,6 +838,7 @@ label {
 // radio button
 .#{$common-prefix}radio {
   @include relative();
+  margin-right: 0.5rem; // 8px
   font-family: $element-font-family;
   font-size: $element-font-size;
   font-weight: $element-font-weight;
@@ -868,7 +870,7 @@ label {
 
       &::after { // 선택시 작은 원
         content: '';
-        @include absolute($top: -0.1875rem, $left: 0); // top: -3px
+        @include absolute($top: -0.225rem, $left: 0); // top: -3.6px
         width: $radio-inner-size;
         height: $radio-inner-size;
         background-color: transparent;

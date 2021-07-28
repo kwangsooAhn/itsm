@@ -2052,6 +2052,7 @@ label {
 }
 
 .z-checkbox {
+  margin-right: 0.5rem;
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
@@ -2136,6 +2137,7 @@ label {
 
 .z-radio {
   position: relative;
+  margin-right: 0.5rem;
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
@@ -2169,7 +2171,7 @@ label {
 .z-radio input[type=radio] + span::after {
   content: "";
   position: absolute;
-  top: -0.1875rem;
+  top: -0.225rem;
   left: 0;
   width: 0.625rem;
   height: 0.625rem;
