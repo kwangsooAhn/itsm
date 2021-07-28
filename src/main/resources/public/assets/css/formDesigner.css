@@ -5831,14 +5831,14 @@ body.modal-active {
 .z-component .z-element .z-text-editor {
   height: calc(2.5rem * var(--data-row));
 }
-.z-component .z-element .radio .vertical, .z-component .z-element .checkbox .vertical {
+.z-component .z-element .z-radio.vertical, .z-component .z-element .z-checkbox.vertical {
   display: block;
   margin-top: 0.625rem;
 }
-.z-component .z-element .radio .vertical:first-of-type, .z-component .z-element .checkbox .vertical:first-of-type {
+.z-component .z-element .z-radio.vertical:first-of-type, .z-component .z-element .z-checkbox.vertical:first-of-type {
   margin-top: 0;
 }
-.z-component .z-element .radio .horizontal, .z-component .z-element .checkbox .horizontal {
+.z-component .z-element .z-radio.horizontal, .z-component .z-element .z-checkbox.horizontal {
   display: inline-block;
   margin-right: 0.625rem;
 }
