@@ -6606,7 +6606,7 @@ body.modal-active {
 .z-notification-panel {
   position: relative;
   bottom: 0;
-  left: 66.7rem;
+  left: 70.8rem;
   width: 26.25rem;
   border: 0.0625rem solid #EEEEEE all transparent;
   -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
@@ -6657,7 +6657,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
+  background: #FFFFFF;
 }
 .z-notification-body {
   overflow-y: auto;
@@ -6710,8 +6710,8 @@ body.modal-active {
 }
 .z-notification-content .z-icon.i-delete {
   padding: 0;
-  width: 1.125rem;
-  height: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
   -webkit-mask-image: url("../media/icons/icon_delete.svg");
   mask-image: url("../media/icons/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
@@ -7703,3 +7703,5 @@ body.modal-active {
 .tags-look .tagify__dropdown__item--active {
   color: #0088E6;
 }
+
+/*# sourceMappingURL=itsm.css.map */
