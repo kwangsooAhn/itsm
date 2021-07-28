@@ -110,11 +110,17 @@ class ZFormDesigner {
                         // TODO: form 내부이면, placeholder 로 가상의 group, row, component 표시
                         // TODO: 아니면 타입에 따라 component만 표시
                         evt.dragged.classList.add(CLASS_PREFIX + 'component-icon-drag-in');
+                        if (!evt.dragged.classList.contains(CLASS_PREFIX + 'component')) {
+                            const component = new ZComponent({ type: evt.dragged.id });
+                            evt.dragged.appendChild(component.UIElement.domElement);
+                            console.log(evt.dragged);
+                        }
                     }
                 },
                 onEnd: function (evt) {
                     if (evt.from === evt.to) { return false; }
-
+                    console.log(evt.from);
+                    console.log(evt.to);
                     const histories = [];  // 이력 저장용
                     const editor = this.options.editor;
                     const parentObject = editor.form.getById(evt.to.id); // 부모 객체
@@ -189,14 +195,6 @@ class ZFormDesigner {
 
             this.makeForm(this.data, this); // DOM 엘리먼트 생성
             this.setFormName(this.data.name); // 폼 디자이너 상단 이름 출력
-
-            // TODO: 발행, 사용 중인 문서는 저장이 불가능하다.
-            //const deployableStatus = ['form.status.publish', 'form.status.use'];
-            //if (deployableStatus.includes(this.data.status)) {
-            //    const saveInfo = document.getElementById('saveInfo');
-            //    saveInfo.classList.add('error');
-            //    saveInfo.innerHTML = i18n.msg('common.msg.onlySaveInEdit');
-            //}
 
             this.form.UIElement.domElement.dispatchEvent(new Event('click')); // 폼 속성 패널 출력
             aliceJs.initDesignedSelectTag();

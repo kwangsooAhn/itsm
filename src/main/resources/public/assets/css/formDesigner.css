@@ -5768,6 +5768,9 @@ body.modal-active {
   -moz-border-radius: 0.0625rem;
   background-color: transparent;
 }
+.z-component-tooltip:first-child:nth-last-child(1) {
+  border: 0.0625rem solid #D7DBE0;
+}
 .z-component-tooltip.selected {
   border: 0.0625rem solid #87CEFF;
   background-color: #F7FCFF;
@@ -5780,6 +5783,9 @@ body.modal-active {
 }
 .z-component-tooltip.off {
   display: none;
+}
+.z-component-tooltip.sortable-ghost {
+  margin: 0;
 }
 
 .z-component {
