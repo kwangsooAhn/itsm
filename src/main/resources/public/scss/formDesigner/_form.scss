@@ -219,9 +219,12 @@
       background-color: $component-imagebox-bg-color;
       text-align: center;
       padding: 1.875rem 0 0.625rem; // 30px 0 10px 0
-      .icon-no-image {
-        display: inline-block;
-        @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, map-get($grays, 'pressed')); // 45px
+      // 아이콘
+      .#{$common-prefix}icon {
+        display: block;
+        &.i-no-image {
+          @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, $component-imagebox-font-color); // 45px
+        }
       }
     }
     .#{$common-prefix}imagebox {
@@ -239,12 +242,14 @@
     .#{$common-prefix}ci-table {
       width: 100%;
       background-color: $component-ciTable-bg-color;
+      border: none;
       tr {
         td {
           display: none;
           padding: $element-indent;
-          @include border(0.0625rem, solid, $component-ciTable-border-color, top, left);
-          @include border(0.0625rem, solid, $component-ciTable-border-color, bottom, right);
+          @include border(0.0625rem, solid, $component-ciTable-border-color, all);
+          border-left: none;
+          border-right: none;
 
           &.on { display: table-cell; }
         }
@@ -276,14 +281,14 @@
     .#{$common-prefix}dr-table {
       width: 100%;
       background-color: $component-drTable-bg-color;
-      tr {
-        td {
-          padding: $element-indent 0;
-          @include border(0.0625rem, solid, $component-drTable-border-color, top, left);
-          @include border(0.0625rem, solid, $component-drTable-border-color, bottom, right);
+      border: none;
+      tr td {
+        padding: $element-indent 0;
+        @include border(0.0625rem, solid, $component-drTable-border-color, all);
+        border-left: none;
+        border-right: none;
 
-          &.on { display: table-cell; }
-        }
+        &.on { display: table-cell; }
       }
       // 제목
       .#{$common-prefix}dr-table-header {

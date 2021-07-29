@@ -240,6 +240,9 @@
               font-weight: $font-weight-bold;
               color: map-get($component-icon, 'drag', 'font');
             }
+            .#{$common-prefix}component-tooltip {
+              display: none;
+            }
           }
           // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
           &.placeholder {
@@ -293,6 +296,7 @@
     height: auto;
     background-color: $component-icon-drag-bg-color;
     @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
+    opacity: 0.5;
 
     .#{$common-prefix}icon { display: none; }
     .#{$common-prefix}component-name { display: none; }
@@ -308,9 +312,109 @@
         .#{$common-prefix}element {
           .#{$common-prefix}input,
           .#{$common-prefix}textarea,
-          .ql-toolbar.ql-snow,
-          .ql-container.ql-snow {
+          .#{$common-prefix}select-box {
+            color: $component-icon-drag-font-color !important;
             border-color: $component-icon-drag-border-color !important;
+            &::placeholder {
+              color: $component-icon-drag-font-color !important;
+            }
+            .#{$common-prefix}icon {
+              background: $component-icon-drag-font-color !important;
+            }
+            // 날짜 시간 컴포넌트
+            &.i-date-picker {
+              @include backgroundImage($icon-folder-path + 'formDesigner/palette/icon_date_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+            }
+
+            &.i-time-picker {
+              @include backgroundImage($icon-folder-path + 'formDesigner/palette/icon_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+            }
+
+            &.i-datetime-picker {
+              @include backgroundImage($icon-folder-path + 'formDesigner/palette/icon_date_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+            }
+          }
+          .#{$common-prefix}radio,
+          .#{$common-prefix}checkbox {
+            color: $component-icon-drag-font-color !important;
+            input[type=radio] + span::before {
+              border-color: $component-icon-drag-border-color !important;
+            }
+            input[type=checkbox] + span::before {
+              border-color: $component-icon-drag-border-color !important;
+            }
+          }
+          // 텍스트 에디터 컴포넌트
+          .ql-toolbar.ql-snow,
+          .ql-container.ql-snow woo{
+            border-color: $component-icon-drag-border-color !important;
+            .ql-picker {
+              color: $component-icon-drag-font-color !important;
+            }
+            .ql-icon, .ql-transparent, .ql-arrow {
+              fill: $component-icon-drag-font-color !important;
+            }
+          }
+          // 파일 업로드 컴포넌트
+          .dropzone {
+            background-color: $white;
+            border-color: $component-icon-drag-border-color !important;
+            .dz-message {
+              color: $component-icon-drag-font-color !important;
+            }
+            .#{$common-prefix}icon {
+              background: $component-icon-drag-font-color !important;
+            }
+          }
+          // 커스텀 코드 컴포넌트
+          .#{$common-prefix}input-button {
+            .#{$common-prefix}button-clear {
+              opacity: 0;
+            }
+            .#{$common-prefix}button-icon {
+              color: $component-icon-drag-font-color !important;
+              background-color: $white;
+              border-color: $component-icon-drag-border-color !important;
+              .#{$common-prefix}icon {
+                background: $component-icon-drag-font-color !important;
+              }
+            }
+          }
+          // DR 테이블 컴포넌트 , CI 컴포넌트
+          .#{$common-prefix}dr-table-button-group {
+            opacity: 0;
+          }
+          .#{$common-prefix}button-list {
+            opacity: 0;
+          }
+          table {
+            tr td {
+              border-color: $component-icon-drag-border-color !important;
+            }
+            .#{$common-prefix}dr-table-header,
+            .#{$common-prefix}ci-table-header {
+              background-color: $component-icon-drag-bg-color !important;
+              td {
+                color: $component-icon-drag-font-color !important;
+              }
+            }
+            .no-data-found-list {
+              color: $component-icon-drag-font-color !important;
+            }
+          }
+          // Divider
+          .#{$common-prefix}divider {
+            border-top-style: solid;
+            border-top-color : $component-icon-drag-border-color !important;
+          }
+          // 이미지 컴포넌트
+          .#{$common-prefix}imagebox-placeholder {
+            background-color: $white;
+            border-color: $component-icon-drag-border-color !important;
+            color: $component-icon-drag-font-color !important;
+            .#{$common-prefix}icon {
+              background: $component-icon-drag-font-color !important;
+            }
           }
         }
       }

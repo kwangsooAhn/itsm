@@ -54,7 +54,10 @@ export const dropdownMixin = {
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
-    afterEvent() {},
+    afterEvent() {
+        // Designed Select Box
+        aliceJs.initDesignedSelectTag();
+    },
     // set, get
     set element(element) {
         this._element = element;

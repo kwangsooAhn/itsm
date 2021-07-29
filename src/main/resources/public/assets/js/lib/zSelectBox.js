@@ -50,6 +50,15 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
             designedSelectBox.classList.add('z-select-box');
             selectWrapper.insertBefore(designedSelectBox, originSelectTag.nextSibling);
 
+            // z-select-box - 라벨
+            let designedSelectBoxText = document.createElement('span');
+            designedSelectBoxText.className = 'z-select-box-label';
+            designedSelectBox.appendChild(designedSelectBoxText);
+            // z-select-box - 아이콘
+            let designedSelectBoxIcon = document.createElement('span');
+            designedSelectBoxIcon.className = 'z-icon i-arrow-right';
+            designedSelectBox.appendChild(designedSelectBoxIcon);
+
             // 인위적으로 추가되는 z-select-box 는 div 라서 focus 효과가 없다.
             // 원본 select tag 의 포커스를 active 클래스를 이용해서 전파.
             originSelectTag.addEventListener('focus', (function (e) {
@@ -65,7 +74,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
 
             if (originSelectTag.classList.contains('readonly')) {
                 designedSelectBox.classList.add('readonly');
-                designedSelectBox.innerText = originSelectTag.options[originSelectTag.selectedIndex].text;
+                designedSelectBoxText.innerText = originSelectTag.options[originSelectTag.selectedIndex].text;
             } else {
                 // z-select-option : 옵션 리스트용 박스 만들기
                 let ulElement = document.createElement('ul');
@@ -79,7 +88,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                     liElement.innerText = originSelectTag.options[i].text;
                     liElement.setAttribute('rel', originSelectTag.options[i].value);
                     if (originSelectTag.options[i].selected) {
-                        designedSelectBox.innerText = originSelectTag.options[i].text;
+                        designedSelectBoxText.innerText = originSelectTag.options[i].text;
                         liElement.classList.add('selected');
                     }
                     options.appendChild(liElement.cloneNode(true));
@@ -115,9 +124,9 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                     ulElement.querySelectorAll('li').forEach(function (liOption) {
                         liOption.addEventListener('click', function (clickedOption) {
                             clickedOption.stopPropagation();
-                            clickedOption.target.parentElement.querySelectorAll('li').forEach(function (li) {li.classList.remove('selected')});
+                            clickedOption.target.parentElement.querySelectorAll('li').forEach(function (li) {li.classList.remove('selected');});
                             clickedOption.target.classList.add('selected');
-                            designedSelectBox.innerText = liOption.innerText;
+                            designedSelectBoxText.innerText = liOption.innerText;
                             // 선택된 값을 원본 select 에 적용.
                             originSelectTag.value = liOption.getAttribute('rel');
                             originSelectTag.querySelector('option[value=\'' + originSelectTag.value + '\']').selected = true;

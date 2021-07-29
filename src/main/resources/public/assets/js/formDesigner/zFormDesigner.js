@@ -112,11 +112,7 @@ class ZFormDesigner {
                         if (evt.dragged.children.length < 3) {
                             const component = new ZComponent({ type: evt.dragged.id });
                             evt.dragged.appendChild(component.UIElement.domElement);
-
-                            if (evt.dragged.id === 'dropdown') {
-                                // Designed Select Box
-                                aliceJs.initDesignedSelectTag();
-                            }
+                            component.afterEvent();
                         }
                     }
                 },
@@ -179,9 +175,6 @@ class ZFormDesigner {
 
                     // 이력 저장
                     this.options.editor.history.save(histories);
-
-                    // Designed Select Box
-                    aliceJs.initDesignedSelectTag();
                 }
             });
         });
@@ -204,7 +197,6 @@ class ZFormDesigner {
             this.setFormName(this.data.name); // 폼 디자이너 상단 이름 출력
 
             this.form.UIElement.domElement.dispatchEvent(new Event('click')); // 폼 속성 패널 출력
-            aliceJs.initDesignedSelectTag();
         });
 
         document.addEventListener('click', this.onLeftClickHandler.bind(this), false);

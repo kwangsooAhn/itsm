@@ -1176,6 +1176,9 @@ input, button, select, optgroup, textarea {
   font-weight: 700;
   color: #222529;
 }
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-icon.drag .z-component-tooltip {
+  display: none;
+}
 .z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-icon.placeholder {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
@@ -1221,6 +1224,7 @@ input, button, select, optgroup, textarea {
   height: auto;
   background-color: #E3F5FC;
   border: 0.0625rem dashed #64BBF6;
+  opacity: 0.5;
 }
 .z-drawing-board .z-component-icon-drag-in .z-icon {
   display: none;
@@ -1236,9 +1240,125 @@ input, button, select, optgroup, textarea {
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box {
+  color: #64BBF6 !important;
   border-color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input::placeholder,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea::placeholder,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box::placeholder {
+  color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input .z-icon,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea .z-icon,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box .z-icon {
+  background: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-date-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-date-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-date-picker {
+  background-image: url("../media/icons/formDesigner/palette/icon_date_picker_drag.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-time-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-time-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-time-picker {
+  background-image: url("../media/icons/formDesigner/palette/icon_time_picker_drag.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-datetime-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-datetime-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-datetime-picker {
+  background-image: url("../media/icons/formDesigner/palette/icon_date_time_picker_drag.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-radio,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-checkbox {
+  color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-radio input[type=radio] + span::before,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-checkbox input[type=radio] + span::before {
+  border-color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-radio input[type=checkbox] + span::before,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-checkbox input[type=checkbox] + span::before {
+  border-color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo {
+  border-color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo .ql-picker {
+  color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-icon, .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-transparent, .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-arrow,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo .ql-icon,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo .ql-transparent,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow woo .ql-arrow {
+  fill: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone {
+  background-color: #FFFFFF;
+  border-color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone .dz-message {
+  color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone .z-icon {
+  background: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input-button .z-button-clear {
+  opacity: 0;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input-button .z-button-icon {
+  color: #64BBF6 !important;
+  background-color: #FFFFFF;
+  border-color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input-button .z-button-icon .z-icon {
+  background: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-dr-table-button-group {
+  opacity: 0;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-button-list {
+  opacity: 0;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table tr td {
+  border-color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-dr-table-header,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-ci-table-header {
+  background-color: #E3F5FC !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-dr-table-header td,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-ci-table-header td {
+  color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .no-data-found-list {
+  color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-divider {
+  border-top-style: solid;
+  border-top-color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-imagebox-placeholder {
+  background-color: #FFFFFF;
+  border-color: #64BBF6 !important;
+  color: #64BBF6 !important;
+}
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-imagebox-placeholder .z-icon {
+  background: #64BBF6 !important;
 }
 .z-drawing-board.edit .z-group-label {
   pointer-events: none;
@@ -1832,28 +1952,28 @@ label {
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-select .z-select-box:not(.readonly).active:after {
-  background-image: url("../media/icons/icon_arrow_up.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+.z-select .z-select-box:not(.readonly).active .z-icon.i-arrow-right {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
 .z-select .z-select-box:not(.readonly).active + .z-select-options {
   display: block;
 }
-.z-select .z-select-box:not(.readonly):after {
+.z-select .z-select-box:not(.readonly) .z-icon {
+  pointer-events: none;
+}
+.z-select .z-select-box:not(.readonly) .z-icon.i-arrow-right {
   position: absolute;
   right: 0.5rem;
-  width: 0;
-  height: 0;
-  border: 0.75rem solid transparent;
-  background-image: url("../media/icons/icon_arrow_bottom.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  content: "";
+  background: #8B9094;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 .z-select .z-select-box.disabled-select {
   border: 0.0625rem solid #CFD5D9;
@@ -3934,14 +4054,18 @@ label {
   color: #ACB4BF;
   text-align: center;
 }
-.file-uploader-edit .dropzone .dz-default.dz-message .icon-no-file {
+.file-uploader-edit .dropzone .dz-default.dz-message .z-icon.i-no-file {
   display: block;
   height: 2.813rem;
-  background-image: url("../media/icons/icon-no-file.svg");
-  background-size: 2.438rem 2.813rem;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+  background: #ACB4BF;
+  width: 100%;
+  height: 2.813rem;
+  -webkit-mask-image: url("../media/icons/icon-no-file.svg");
+  mask-image: url("../media/icons/icon-no-file.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
   margin-bottom: 1.25rem;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap {
@@ -5871,8 +5995,10 @@ body.modal-active {
   text-align: center;
   padding: 1.875rem 0 0.625rem;
 }
-.z-component .z-element .z-imagebox-placeholder .icon-no-image {
-  display: inline-block;
+.z-component .z-element .z-imagebox-placeholder .z-icon {
+  display: block;
+}
+.z-component .z-element .z-imagebox-placeholder .z-icon.i-no-image {
   width: 100%;
   height: 2.813rem;
   -webkit-mask-image: url("../media/icons/icon_image.svg");
@@ -5883,7 +6009,7 @@ body.modal-active {
   mask-position: center;
   -webkit-mask-size: 2.813rem;
   mask-size: 2.813rem;
-  background: #CCCED1;
+  background: #ACB4BF;
 }
 .z-component .z-element .z-imagebox {
   width: 100%;
@@ -5898,13 +6024,13 @@ body.modal-active {
 .z-component .z-element .z-ci-table {
   width: 100%;
   background-color: #FFFFFF;
+  border: none;
 }
 .z-component .z-element .z-ci-table tr td {
   display: none;
   padding: 1rem;
-  border-top: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #EBEBEB;
   border-left: none;
-  border-bottom: 0.0625rem solid #EBEBEB;
   border-right: none;
 }
 .z-component .z-element .z-ci-table tr td.on {
@@ -5928,12 +6054,12 @@ body.modal-active {
 .z-component .z-element .z-dr-table {
   width: 100%;
   background-color: #FFFFFF;
+  border: none;
 }
 .z-component .z-element .z-dr-table tr td {
   padding: 1rem 0;
-  border-top: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid #EBEBEB;
   border-left: none;
-  border-bottom: 0.0625rem solid #EBEBEB;
   border-right: none;
 }
 .z-component .z-element .z-dr-table tr td.on {
