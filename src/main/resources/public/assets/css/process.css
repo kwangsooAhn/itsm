@@ -3081,8 +3081,8 @@ svg path.connector.hidden {
   background: #8B9094;
 }
 .z-element-icon .z-icon.i-event {
-  width: 26px;
-  height: 26px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_event.svg");
   mask-image: url("../media/icons/process/element-palette/icon_event.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3091,8 +3091,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-task {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_task.svg");
   mask-image: url("../media/icons/process/element-palette/icon_task.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3101,8 +3101,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-subprocess {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_subprocess.svg");
   mask-image: url("../media/icons/process/element-palette/icon_subprocess.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3111,8 +3111,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-gateway {
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_gateway.svg");
   mask-image: url("../media/icons/process/element-palette/icon_gateway.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3121,8 +3121,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-group {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_group.svg");
   mask-image: url("../media/icons/process/element-palette/icon_group.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3131,8 +3131,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-annotation {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_annotation.svg");
   mask-image: url("../media/icons/process/element-palette/icon_annotation.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3141,8 +3141,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-connector {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_connector.svg");
   mask-image: url("../media/icons/process/element-palette/icon_connector.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3151,8 +3151,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-background {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_background.svg");
   mask-image: url("../media/icons/process/element-palette/icon_background.svg");
   -webkit-mask-repeat: no-repeat;

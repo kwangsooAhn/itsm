@@ -1,8 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <g transform="translate(-3129 -1512)">
-    <path d="M3140,1534h-9v-20h9a1,1,0,0,0,0-2h-10a1,1,0,0,0-1,1v22a1,1,0,0,0,1,1h10a1,1,0,0,0,0-2Z"/>
-    <path d="M3135,1518a1,1,0,0,0,1,1h16a1,1,0,0,0,0-2h-16A1,1,0,0,0,3135,1518Z"/>
-    <path d="M3152,1523h-16a1,1,0,0,0,0,2h16a1,1,0,0,0,0-2Z"/>
-    <path d="M3152,1529h-16a1,1,0,0,0,0,2h16a1,1,0,0,0,0-2Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g transform="translate(-5986 -2349)">
+    <rect fill="none" width="32" height="32" transform="translate(5986 2349)"/>
+    <g transform="translate(5388 898)">
+      <path fill="#222529" d="M607,1461a1,1,0,0,0,1,1h18a1,1,0,0,0,0-2H608A1,1,0,0,0,607,1461Z"/>
+      <path fill="#222529" d="M626,1466H608a1,1,0,0,0,0,2h18a1,1,0,0,0,0-2Z"/>
+      <path fill="#222529" d="M626,1472H608a1,1,0,0,0,0,2h18a1,1,0,0,0,0-2Z"/>
+      <path fill="#222529" d="M613,1478H603v-22h10a1,1,0,0,0,0-2H602a1,1,0,0,0-1,1v24a1,1,0,0,0,1,1h11a1,1,0,0,0,0-2Z"/>
+    </g>
   </g>
 </svg>
