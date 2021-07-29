@@ -8,17 +8,17 @@ package co.brainz.itsm.cmdb.ciType.service
 
 import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.dto.CITypeDto
-import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants
 import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 class CITypeService(
-    private val ciTypeService: CITypeService
+    private val ciTypeService: CITypeService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -42,9 +42,8 @@ class CITypeService(
      */
     fun createCIType(ciTypeDto: CITypeDto): String {
         var returnValue = ""
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         ciTypeDto.createDt = LocalDateTime.now()
-        ciTypeDto.createUserKey = userDetails.userKey
+        ciTypeDto.createUserKey = currentSessionUser.getUserKey()
         if (ciTypeService.createCIType(ciTypeDto)) {
             returnValue = CITypeConstants.Status.STATUS_SUCCESS.code
         }
@@ -56,9 +55,8 @@ class CITypeService(
      */
     fun updateCIType(ciTypeDto: CITypeDto, typeId: String): String {
         var returnValue = ""
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         ciTypeDto.updateDt = LocalDateTime.now()
-        ciTypeDto.updateUserKey = userDetails.userKey
+        ciTypeDto.updateUserKey = currentSessionUser.getUserKey()
         if (ciTypeService.updateCIType(typeId, ciTypeDto)) {
             returnValue = CITypeConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
         }

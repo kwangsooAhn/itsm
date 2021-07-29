@@ -5,12 +5,11 @@
 
 package co.brainz.itsm.token.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.token.dto.TokenSearchConditionDto
-import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
@@ -25,7 +24,6 @@ import co.brainz.workflow.token.service.WfTokenService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
@@ -35,7 +33,7 @@ class TokenService(
     private val wfTokenService: WfTokenService,
     private val wfComponentService: WfComponentService,
     private val aliceFileService: AliceFileService,
-    private val userService: UserService,
+    private val currentSessionUser: CurrentSessionUser,
     private val wfEngine: WfEngine
 ) {
 
@@ -48,8 +46,7 @@ class TokenService(
      * @return Boolean
      */
     fun postToken(restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateTokenDataUpdateDto.assigneeId = aliceUserDto.userKey
+        restTemplateTokenDataUpdateDto.assigneeId = currentSessionUser.getUserKey()
 
         val tokenDto = RestTemplateTokenDto(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
@@ -79,8 +76,7 @@ class TokenService(
      * @return Boolean
      */
     fun putToken(tokenId: String, restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateTokenDataUpdateDto.assigneeId = aliceUserDto.userKey
+        restTemplateTokenDataUpdateDto.assigneeId = currentSessionUser.getUserKey()
 
         val tokenDto = RestTemplateTokenDto(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
@@ -110,7 +106,7 @@ class TokenService(
     fun getTokenList(
         tokenSearchConditionDto: TokenSearchConditionDto
     ): RestTemplateInstanceListReturnDto {
-        tokenSearchConditionDto.userKey = userService.getUserDto()!!.userKey
+        tokenSearchConditionDto.userKey = currentSessionUser.getUserKey()
         return wfInstanceService.instances(tokenSearchConditionDto)
     }
 
@@ -122,7 +118,7 @@ class TokenService(
 
     fun getTodoTokenCount(): Long = getTokenList(
         TokenSearchConditionDto(
-            userKey = userService.getUserDto()!!.userKey,
+            userKey = currentSessionUser.getUserKey(),
             searchTokenType = WfTokenConstants.SearchType.TODO.code
         )
     ).totalCount

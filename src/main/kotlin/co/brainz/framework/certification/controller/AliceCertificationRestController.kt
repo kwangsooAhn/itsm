@@ -5,18 +5,17 @@
 
 package co.brainz.framework.certification.controller
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
+import co.brainz.framework.util.CurrentSessionUser
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -30,7 +29,8 @@ import org.springframework.web.multipart.MultipartFile
 class AliceCertificationRestController(
     private val aliceCertificationService: AliceCertificationService,
     private val aliceCertificationMailService: AliceCertificationMailService,
-    private val aliceFileAvatarService: AliceFileAvatarService
+    private val aliceFileAvatarService: AliceFileAvatarService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -51,10 +51,9 @@ class AliceCertificationRestController(
 
     @GetMapping("/certifiedmail")
     fun sendCertifiedMail() {
-        val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         aliceCertificationMailService.sendMail(
-            aliceUserDto.userId,
-            aliceUserDto.email,
+            currentSessionUser.getUserId(),
+            currentSessionUser.getEmail(),
             AliceUserConstants.SendMailStatus.CREATE_USER.code,
             null
         )

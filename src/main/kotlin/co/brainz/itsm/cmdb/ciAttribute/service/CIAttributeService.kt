@@ -9,20 +9,20 @@ package co.brainz.itsm.cmdb.ciAttribute.service
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeReturnDto
-import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.util.CurrentSessionUser
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 @Transactional
 class CIAttributeService(
-    private val ciAttributeService: CIAttributeService
+    private val ciAttributeService: CIAttributeService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -46,10 +46,9 @@ class CIAttributeService(
      * Attribute 등록.
      */
     fun saveCIAttribute(attributeData: String): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val ciAttributeDto = makeCIAttributeDto(attributeData)
         ciAttributeDto.createDt = LocalDateTime.now()
-        ciAttributeDto.createUserKey = aliceUserDto.userKey
+        ciAttributeDto.createUserKey = currentSessionUser.getUserKey()
         val returnDto = ciAttributeService.createCIAttribute(ciAttributeDto)
         return returnDto.code
     }
@@ -58,10 +57,9 @@ class CIAttributeService(
      * Attribute 수정.
      */
     fun updateCIAttribute(attributeId: String, attributeData: String): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val ciAttributeDto = makeCIAttributeDto(attributeData)
         ciAttributeDto.updateDt = LocalDateTime.now()
-        ciAttributeDto.updateUserKey = aliceUserDto.userKey
+        ciAttributeDto.updateUserKey = currentSessionUser.getUserKey()
         val returnDto = ciAttributeService.updateCIAttribute(ciAttributeDto)
         return returnDto.code
     }

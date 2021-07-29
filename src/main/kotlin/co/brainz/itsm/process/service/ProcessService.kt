@@ -5,8 +5,8 @@
 
 package co.brainz.itsm.process.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.process.dto.ProcessStatusDto
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.process.constants.WfProcessConstants
@@ -22,7 +22,6 @@ import com.google.gson.Gson
 import java.time.LocalDateTime
 import javax.xml.parsers.DocumentBuilderFactory
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.w3c.dom.Element
@@ -35,7 +34,8 @@ class ProcessService(
     private val aliceFileProvider: AliceFileProvider,
     private val wfInstanceService: WfInstanceService,
     private val wfProcessService: WfProcessService,
-    private val wfProcessRepository: WfProcessRepository
+    private val wfProcessRepository: WfProcessRepository,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -52,8 +52,7 @@ class ProcessService(
      * 프로세스 신규 등록
      */
     fun createProcess(restTemplateProcessDto: RestTemplateProcessDto): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateProcessDto.createUserKey = aliceUserDto.userKey
+        restTemplateProcessDto.createUserKey = currentSessionUser.getUserKey()
         restTemplateProcessDto.createDt = LocalDateTime.now()
         restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessDto.processName)
@@ -71,16 +70,16 @@ class ProcessService(
      * 프로세스 업데이트
      */
     fun updateProcessData(processId: String, restTemplateProcessElementDto: RestTemplateProcessElementDto): Int {
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessElementDto.process?.updateDt = LocalDateTime.now()
-        restTemplateProcessElementDto.process?.updateUserKey = userDetails.userKey
+        restTemplateProcessElementDto.process?.updateUserKey = currentSessionUser.getUserKey()
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessElementDto.process!!.name!!)
         val preRestTemplateProcessDto = wfProcessRepository.findByProcessId(processId)
         var result = WfProcessConstants.ResultCode.FAIL.code
         if (duplicateCount > 0 &&
-            (preRestTemplateProcessDto!!.processName != restTemplateProcessElementDto.process!!.name)) {
-                result = WfProcessConstants.ResultCode.DUPLICATE.code
-                return result
+            (preRestTemplateProcessDto!!.processName != restTemplateProcessElementDto.process!!.name)
+        ) {
+            result = WfProcessConstants.ResultCode.DUPLICATE.code
+            return result
         }
         if (wfProcessService.updateProcessData(restTemplateProcessElementDto)) {
             result = WfProcessConstants.ResultCode.SUCCESS.code
@@ -92,9 +91,8 @@ class ProcessService(
      * 프로세스 다른 이름 저장.
      */
     fun saveAsProcess(restTemplateProcessElementDto: RestTemplateProcessElementDto): String {
-        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessElementDto.process?.createDt = LocalDateTime.now()
-        restTemplateProcessElementDto.process?.createUserKey = userDetails.userKey
+        restTemplateProcessElementDto.process?.createUserKey = currentSessionUser.getUserKey()
         restTemplateProcessElementDto.process?.updateDt = null
         restTemplateProcessElementDto.process?.updateUserKey = null
         restTemplateProcessElementDto.process?.status = RestTemplateConstants.ProcessStatus.EDIT.value

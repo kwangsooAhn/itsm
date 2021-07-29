@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.user.controller
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.AliceSignUpDto
@@ -13,6 +12,7 @@ import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -45,7 +45,8 @@ class UserRestController(
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
     private val localeResolver: LocaleResolver,
-    private val aliceCryptoRsa: AliceCryptoRsa
+    private val aliceCryptoRsa: AliceCryptoRsa,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -108,8 +109,7 @@ class UserRestController(
         }
         localeResolver.setLocale(request, response, Locale(user.lang))
         if (SecurityContextHolder.getContext().authentication != null) {
-            val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-            if (user.userKey == aliceUserDto.userKey) {
+            if (user.userKey == currentSessionUser.getUserKey()) {
                 SecurityContextHolder.getContext().authentication =
                     userDetailsService.createNewAuthentication(user.userKey)
             }
