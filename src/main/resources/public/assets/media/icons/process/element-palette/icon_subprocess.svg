@@ -1,8 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <g transform="translate(-3129 -1472)">
-    <g>
-      <path d="M3152.5,1472h-23a.5.5,0,0,0-.5.5v23a.5.5,0,0,0,.5.5h23a.5.5,0,0,0,.5-.5v-23A.5.5,0,0,0,3152.5,1472Zm-1.5,22h-20v-20h20Z"/>
-      <path d="M3135,1485h5v5a1,1,0,0,0,2,0v-5h5a1,1,0,0,0,0-2h-5v-5a1,1,0,0,0-2,0v5h-5a1,1,0,0,0,0,2Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g transform="translate(-5986 -2193)">
+    <rect fill="none" width="32" height="32" transform="translate(5986 2193)"/>
+    <g transform="translate(5472 789)">
+      <path fill="#222529" d="M541,1407H519a2.006,2.006,0,0,0-2,2v22a2.006,2.006,0,0,0,2,2h22a2.006,2.006,0,0,0,2-2v-22A2.006,2.006,0,0,0,541,1407Zm0,24H519v-22h22Z"/>
+      <path fill="#222529" d="M524,1421h5v5a1,1,0,0,0,2,0v-5h5a1,1,0,0,0,0-2h-5v-5a1,1,0,0,0-2,0v5h-5a1,1,0,0,0,0,2Z"/>
     </g>
   </g>
 </svg>
