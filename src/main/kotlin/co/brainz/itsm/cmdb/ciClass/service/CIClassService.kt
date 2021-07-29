@@ -81,7 +81,7 @@ class CIClassService(
                 returnValue = CIClassConstants.Status.STATUS_SUCCESS.code
             }
         } else {
-                returnValue = CIClassConstants.Status.STATUS_FAILE_CLASS_HAVE_TYPE.code
+            returnValue = CIClassConstants.Status.STATUS_FAILE_CLASS_HAVE_TYPE.code
         }
         return returnValue
     }

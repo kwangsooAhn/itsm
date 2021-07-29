@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/cmdb/cis")
-class CIController(private val ciService: CIService, private val currentSessionUser: CurrentSessionUser) {
+class CIController(
+    private val ciService: CIService,
+    private val currentSessionUser: CurrentSessionUser
+) {
 
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"

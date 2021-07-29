@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.document.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.util.CurrentSessionUser
@@ -25,7 +24,6 @@ import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.io.File
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service

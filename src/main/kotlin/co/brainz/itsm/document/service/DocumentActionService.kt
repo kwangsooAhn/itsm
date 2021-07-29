@@ -6,7 +6,6 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.constants.AuthConstants
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.util.CurrentSessionUser

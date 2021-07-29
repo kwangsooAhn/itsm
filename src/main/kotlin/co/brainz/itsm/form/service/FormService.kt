@@ -9,7 +9,6 @@
 
 package co.brainz.itsm.form.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser

@@ -1,6 +1,5 @@
 package co.brainz.itsm.folder.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.util.CurrentSessionUser
@@ -10,7 +9,6 @@ import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceViewDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service

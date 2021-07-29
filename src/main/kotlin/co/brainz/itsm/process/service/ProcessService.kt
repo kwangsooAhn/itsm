@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.process.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.process.dto.ProcessStatusDto
@@ -23,7 +22,6 @@ import com.google.gson.Gson
 import java.time.LocalDateTime
 import javax.xml.parsers.DocumentBuilderFactory
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.w3c.dom.Element
@@ -78,9 +76,10 @@ class ProcessService(
         val preRestTemplateProcessDto = wfProcessRepository.findByProcessId(processId)
         var result = WfProcessConstants.ResultCode.FAIL.code
         if (duplicateCount > 0 &&
-            (preRestTemplateProcessDto!!.processName != restTemplateProcessElementDto.process!!.name)) {
-                result = WfProcessConstants.ResultCode.DUPLICATE.code
-                return result
+            (preRestTemplateProcessDto!!.processName != restTemplateProcessElementDto.process!!.name)
+        ) {
+            result = WfProcessConstants.ResultCode.DUPLICATE.code
+            return result
         }
         if (wfProcessService.updateProcessData(restTemplateProcessElementDto)) {
             result = WfProcessConstants.ResultCode.SUCCESS.code
