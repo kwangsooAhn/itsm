@@ -115,6 +115,7 @@ insert into awf_role_auth_map values ('admin', 'scheduler.delete');
 insert into awf_role_auth_map values ('admin', 'scheduler.execute');
 insert into awf_role_auth_map values ('admin', 'scheduler.read');
 insert into awf_role_auth_map values ('admin', 'scheduler.update');
+insert into awf_role_auth_map values ('admin', 'product.read');
 insert into awf_role_auth_map values ('auth.all', 'auth.create');
 insert into awf_role_auth_map values ('auth.all', 'auth.delete');
 insert into awf_role_auth_map values ('auth.all', 'auth.update');

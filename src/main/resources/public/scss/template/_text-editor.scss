@@ -5,250 +5,315 @@
  * @author wdj
  * @version 1.0
  */
-.ql-toolbar {
-  & *:focus {
-    outline: none !important;
-  }
-  &.ql-snow {
-    font-family: $font-family-m;
-    @include border($text-editor-border-width, solid, $text-editor-border-color, all);
-    background-color: $text-editor-bg-color;
-    padding: 0;
 
-    .ql-formats {
-      margin: 0;
+.ql-wrapper-container {
+  background-color: $element-bg-color;
+  // 툴바
+  .ql-toolbar {
+    // 라이브러리 outline 디자인 해제
+    & *:focus {
+      outline: none !important;
+    }
+
+    &.ql-snow {
+      font-family: $element-font-family;
+      @include border($element-border-width, solid, $element-border-color, all);
       padding: 0;
-      // picker inside item common
-      .ql-picker-label,
-      .ql-picker-item {
-        font-size:  $text-editor-toolbar-font-size;
-        font-weight:  $text-editor-toolbar-font-weight;
-        color: $text-editor-toolbar-font-color;
 
-        &.ql-active {
-          color: $text-editor-toolbar-hover-font-color;
-        }
-      }
-      // headings
-      .ql-header {
-        width: 7.5rem; // 120px
-        height: 2.5rem; // 40px
-
+      .ql-formats {
+        margin: 0;
+        padding: 0;
+        // picker inside item common
         .ql-picker-label,
         .ql-picker-item {
-          padding: 0.4375rem 0.75rem; // 7px 12px
-          // 화살표 아이콘
-          &:not(.ql-color-picker):not(.ql-icon-picker) svg {
-            margin: auto;
-            right: 4%;
-            top: 40%;
-          }
-
-          &:hover,
-          &:focus {
-            color:  $text-editor-toolbar-hover-font-color;
-            background-color: $text-editor-toolbar-hover-bg-color;
+          &.ql-active {
+            color: $element-hover-font-color;
           }
         }
 
-        .ql-picker-options {
-          padding: 0;
-          @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
-          // 상대 크기
-          .ql-picker-item[data-value="1"]::before { font-size: 2em; }
-          .ql-picker-item[data-value="2"]::before { font-size: 1.5em; }
-          .ql-picker-item[data-value="3"]::before { font-size: 1.17em; }
-          .ql-picker-item[data-value="4"]::before { font-size: 0.83em; }
-        }
+        // headings
+        .ql-header {
+          width: 7.5rem; // 120px
+          height: 2.25rem; // 36px
 
-        &.ql-expanded {
-          .ql-picker-label {
-            border-color: transparent;
-            color: $text-editor-toolbar-hover-font-color;
-            background-color:  $text-editor-toolbar-hover-bg-color;
+          .ql-picker-label,
+          .ql-picker-item {
+            padding: 0.4375rem 0.75rem; // 7px 12px
+            // 화살표 아이콘
+            &:not(.ql-color-picker):not(.ql-icon-picker) svg {
+              margin: auto;
+              right: 4%;
+              top: 40%;
+            }
 
-            // 화살표 회전
-            svg {
-              @include rotate(180);
-              @include transformOrigin(50% 50%);
+            &:hover {
+              background-color: $element-hover-bg-color;
+            }
+            &:focus {
+              color: $element-focus-font-color;
+              border-color: $element-focus-border-color;
+              @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
             }
           }
 
           .ql-picker-options {
-            margin-left: -0.0625rem; // -1px
-            border-color:  $text-editor-border-color;
+            padding: 0;
+            @include boxShadow(0, 0.125rem, 0.75rem, 0, $text-editor-option-box-shadow-color); // 0 2px 12px 0
+            // 상대 크기
+            .ql-picker-item[data-value='1']::before {
+              font-size: 2em;
+            }
 
-            // 선택된 item
-            .ql-picker-item {
-              &.ql-selected {
-                color:  $text-editor-toolbar-selected-font-color;
+            .ql-picker-item[data-value='2']::before {
+              font-size: 1.5em;
+            }
+
+            .ql-picker-item[data-value='3']::before {
+              font-size: 1.17em;
+            }
+
+            .ql-picker-item[data-value='4']::before {
+              font-size: 0.83em;
+            }
+          }
+
+          &.ql-expanded {
+            .ql-picker-label {
+              border-color: transparent;
+              color: $element-active-font-color;
+              background-color: $element-active-bg-color;
+
+              // 화살표 회전
+              svg {
+                @include rotate(180);
+                @include transformOrigin(50% 50%);
               }
             }
-          }
-        }
-      }
-      // color picker
-      .ql-color-picker { 
-        width: 2.813rem; // 45px
-        height: 2.5rem; // 40px
+            //  heading
+            .ql-picker-options {
+              margin-left: -$element-border-width; // -1px
+              border-color: $element-border-color;
 
-        .ql-picker-label {
-          padding: 0.5625rem 0.6875rem; // 9px 11px
-          svg {
-            .ql-transparent { opacity: 1; }
-            .ql-label,
-            .bg-line { fill: $text-editor-toolbar-font-color; }
-            .bg { fill: $text-editor-bg-color; }
-          }
-
-          &.ql-active[data-value]:not([data-value='']) svg .ql-label {
-            fill: $white;
-          }
-          &:hover,
-          &:focus {
-            color:  $text-editor-toolbar-hover-font-color;
-            background-color: $text-editor-toolbar-hover-bg-color;
-          }
-        }
-
-        .ql-picker-item {
-          &:hover,
-          &:focus {
-            color:  $text-editor-toolbar-hover-font-color;
-            border-color: $text-editor-toolbar-selected-font-color;
-          }
-        }
-
-        .ql-picker-options {
-          @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
-        }
-
-        &.ql-expanded {
-          .ql-picker-label {
-            border-color: transparent;
-            color: $text-editor-toolbar-hover-font-color;
-            background-color: $text-editor-toolbar-hover-bg-color;
-          }
-          .ql-picker-options {
-            border-color: $text-editor-bg-color;
-
-            .ql-picker-item {
+              // 선택된 item
+              .ql-picker-item {
                 &.ql-selected {
-                    border-color: $text-editor-toolbar-selected-font-color;
+                  color: $text-editor-toolbar-selected-font-color;
                 }
+              }
             }
           }
         }
-      }
-      // align
-      .ql-icon-picker {
-        width: 3.75rem; // 60px
-        height: 2.5rem; // 40px
 
-        .ql-picker-label {
-          width: 3.75rem; // 60px
-          height: 2.5rem; // 40px
-          padding: 0.5625rem 0.6875rem; // 9px 11px
+        // color picker
+        .ql-color-picker {
+          width: 2.25rem; // 36px
+          height: 2.25rem; // 36px
 
-          .ql-icon-arrow {
-            fill-opacity: 1;
-            @include translate(178px, -341px);
-          }
-
-          &:hover,
-          &:focus {
-            color: $text-editor-toolbar-hover-font-color;
-            background-color: $text-editor-toolbar-hover-bg-color;
-          }
-        }
-
-        .ql-picker-item {
-          width: 2.813rem; // 45px
-          height: 2.5rem; // 40px
-          padding: 0.5625rem 0.6875rem; // 9px 11px
-
-          &:hover,
-          &:focus {
-            color: $text-editor-toolbar-hover-font-color;
-            background-color: $text-editor-toolbar-hover-bg-color;
-          }
-        }
-
-        .ql-picker-options {
-          min-width: 2.813rem; // 45px
-          @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line'));
-          padding: 0;
-          .ql-icon-arrow {
-            fill-opacity: 0;
-          }
-        }
-
-        &.ql-expanded {
           .ql-picker-label {
-            border-color: transparent;
-            color: $text-editor-toolbar-hover-font-color;
-            background-color: $text-editor-toolbar-hover-bg-color;
+            padding: 0.3125rem; // 5px
+            svg {
+              .ql-transparent {
+                opacity: 1;
+              }
 
-            // 화살표 회전
-            .ql-icon-arrow {
-              fill-opacity: 1;
-              @include transform(translate(568px, 439px) rotate(180deg));
+              .ql-label,
+              .bg-line {
+                fill: $element-font-color;
+              }
+
+              .bg {
+                fill: $element-bg-color;
+              }
+            }
+
+            &.ql-active[data-value]:not([data-value='']) svg .ql-label {
+              fill: $white;
+            }
+
+            &:hover {
+              color: $element-hover-font-color;
+              background-color: $element-hover-bg-color;
+            }
+            &:focus {
+              color: $element-focus-border-color;
+              border-color: $element-focus-border-color;
+              @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
             }
           }
+
+          .ql-picker-item {
+            &:hover,
+            &:focus {
+              border-color: $text-editor-toolbar-selected-font-color;
+            }
+          }
+
           .ql-picker-options {
-            margin-left: -0.0625rem; // -1px
-            border-color: $text-editor-border-color;
-            .ql-picker-item {
-              &.ql-selected svg {
-                fill: $text-editor-toolbar-selected-font-color;
-              }
-              .ql-icon-arrow {
-                fill-opacity: 0;
+            @include boxShadow(0, 0.125rem, 0.75rem, 0, $text-editor-option-box-shadow-color); // 0 2px 12px 0
+          }
+
+          &.ql-expanded {
+            .ql-picker-label {
+              border-color: transparent;
+              color: $element-active-font-color;
+              background-color: $element-active-bg-color;
+            }
+
+            .ql-picker-options {
+              border-color: $element-bg-color;
+
+              .ql-picker-item {
+                &.ql-selected {
+                  border-color: $text-editor-toolbar-selected-font-color;
+                }
               }
             }
           }
         }
-      }
-      // bold, underline, italic
-      button {
-        width: 2.813rem; // 45px
-        height: 2.5rem; // 40px
-        padding: 0;
-        margin: 0;
-        @include borderRadius(0);
 
-        svg { float: initial; }
+        // bold, underline, italic, align 등
+        button {
+          @include relative();
+          width: 2.25rem; // 36px
+          height: 2.25rem; // 36px
+          padding: 0;
+          margin: 0;
+          @include borderRadius(0);
 
-        &:hover,
-        &:focus,
-        &.ql-active {
-            color: $text-editor-toolbar-hover-font-color;
-            background-color: $text-editor-toolbar-hover-bg-color;
+          svg {
+            float: initial;
+          }
+          // 동그라미
+          &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 0.5rem; // 6px
+            height: 0.5rem; // 6px
+            bottom: -4px;
+            left: calc(50% - 0.25rem);
+            background: transparent;
+            border-radius: 100%;
+          }
+
+          &:hover {
+            color: $element-hover-font-color;
+            background-color: $element-hover-bg-color;
+          }
+
+          &:focus {
+            color: $element-focus-border-color;
+            border-color: $element-focus-border-color;
+            @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+
+            .ql-icon {
+              fill : $element-focus-border-color;
+            }
+          }
+
+          &:enabled:active,
+          &:enabled.active {
+            color: $element-active-font-color;
+            background-color: $element-active-bg-color;
+
+            .ql-icon {
+              fill : $element-active-font-color;
+            }
+          }
+
+          &.ql-active {
+            color: $text-editor-toolbar-selected-font-color;
+
+            .ql-icon {
+              fill : $text-editor-toolbar-selected-font-color;
+            }
+
+            &:after {
+              background: $text-editor-toolbar-selected-font-color;
+            }
+          }
         }
       }
     }
   }
-}
-.ql-container {
-  &.ql-snow {
-    font-family: $font-family-m;
-    font-size:  $text-editor-font-size;
-    font-weight:  $text-editor-font-weight;
-    line-height: $text-editor-line-height;
-    color: $text-editor-font-color;
-    @include border($text-editor-border-width, solid, $text-editor-border-color, all);
-    background-color: $text-editor-bg-color;
-    .ql-editor {
-      padding: 0.625rem; // 10px
-      // 내부 태그 재정의
-      .ql-blank::before { content: attr(data-placeholder); }
-      h1, h2, h3, h4, h5, h6 { line-height: 1.2; }
-      em { font-style: italic; }
-      strong { font-weight: bold; }
+  // 툴바 숨김
+  .ql-toolbar-hidden {
+    display: none;
+  }
+  // 편집 영역
+  .ql-container {
+    &.ql-snow {
+      height: auto;
+      font-family: $element-font-family;
+      font-size: $element-font-size;
+      font-weight: $element-font-weight;
+      line-height: $element-line-height;
+      color: $element-font-color;
+      @include border($element-border-width, solid, $element-border-color, all);
+      .ql-editor {
+        height: 7.5rem; // 120px
+        padding: 0.625rem; // 10px
+        // 내부 태그 재정의
+        .ql-blank::before {
+          content: attr(data-placeholder);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+          line-height: $element-line-height;
+        }
+
+        em {
+          font-style: italic;
+        }
+
+        strong {
+          font-weight: bold;
+        }
+      }
     }
   }
 
+  // 테두리 없음
   &.ql-border-disabled {
-    border-color: transparent;
+    .ql-toolbar {
+      &.ql-snow {
+        border-color: transparent;
+      }
+    }
+    .ql-container {
+      &.ql-snow {
+        border-color: transparent;
+      }
+    }
+  }
+
+  // hover
+  &:hover {
+    outline: 0;
+    .ql-toolbar {
+      &.ql-snow {
+        border-color: $element-hover-border-color;
+      }
+    }
+    .ql-container {
+      &.ql-snow:not(.ql-disabled) {
+        border-color: $element-hover-border-color;
+      }
+    }
+  }
+  // focus
+  &:focus {
+    outline: 0;
+    @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+    .ql-toolbar {
+      &.ql-snow {
+        border-color: $element-focus-border-color;
+      }
+    }
+    .ql-container {
+      &.ql-snow {
+        border-color: $element-focus-border-color;
+      }
+    }
   }
 }

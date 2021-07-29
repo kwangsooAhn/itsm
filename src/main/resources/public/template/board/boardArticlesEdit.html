@@ -112,6 +112,7 @@
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
         const replyYn = /*[[${replyYn}]]*/;
         const boardCreateDt = document.getElementById('spanCreateDt');
+        let textEditor = null;
 
         window.onload = function() {
             document.getElementById('boardTitle').focus();
@@ -136,7 +137,11 @@
             if (!categoryYn) {
                 document.getElementById('divCategoryYn').style.display = 'none';
             }
-            initTextEditor(false);
+            // 텍스트 에디터 초기화
+            textEditor = new zQuill(document.getElementById('boardContents'), {
+                readOnly: false,
+                content: (boardId !== "" && replyYn === false) ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
+            });
 
             document.getElementById('boardAdminId').addEventListener('change', function() {
                 restSubmit('get', '/rest/boards/'+this.value+'/view', '');
@@ -144,27 +149,6 @@
 
             OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
         };
-
-        function initTextEditor(flag) {
-            let textEditorOptions = {
-                modules: {
-                    toolbar: [
-                        [{'header': [1, 2, 3, 4, false]}],
-                        ['bold', 'italic', 'underline'],
-                        [{'color': []}, {'background': []}],
-                        [{'align': []}, { 'list': 'bullet' }],
-                        ['image']
-                    ]
-                },
-                theme: 'snow',
-                readOnly: flag
-            };
-
-            let textEditor = new Quill('#boardContents', textEditorOptions);
-            if (boardId !== "" && replyYn === false) {
-                textEditor.setContents(JSON.parse(/*[[${boardInfo?.boardContents}]]*/));
-            }
-        }
 
         //게시판 저장
         function saveBoard(method, kind) {
@@ -181,12 +165,11 @@
             if (categoryYn) {
                 boardCategoryId = document.getElementById('boardCategory').value;
             }
-            let boardContents = Quill.find(document.getElementById('boardContents'));
 
             const data = {
                 boardAdminId: document.getElementById('boardAdminId').value,
                 boardTitle: document.getElementById('boardTitle').value,
-                boardContents: JSON.stringify(boardContents.getContents()),
+                boardContents: JSON.stringify(textEditor.getContents()),
                 fileSeqList: fileSeqList,
                 delFileSeqList: delFileSeqList,
                 boardCategoryId: boardCategoryId

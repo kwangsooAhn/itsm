@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
 <!--/*
 * 2020-08-05
@@ -24,7 +23,7 @@
 						<span class="z-arrow-right"></span>
 					</a>
 					<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="z-snb-group">
-						<li class="z-snb-area" th:each="subMenu : ${#authentication.details.menus}"
+						<li th:id="${subMenu.menuId}" class="z-snb-area" th:each="subMenu : ${#authentication.details.menus}"
 							th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
 							<a th:href="${subMenu.url}"  th:class="'z-snb z-snb-link ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()"
 							   th:classappend="${subMenu.url} == ${session.active_url} ? z-active">
@@ -46,6 +45,19 @@
 </body>
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[ */
+	window.addEventListener('load', function() {
+		setInterval(function () {
+			getTodoTokenCount();
+		}, 60000); // 60초 주기
+		getTodoTokenCount(true);
+
+		// 제품 정보 모달창 출력
+		document.getElementById('config.product').children[0].removeAttribute("href");
+		document.getElementById('config.product').children[0].onclick = function () {
+			openProductInfoModal();
+		}
+	});
+
 	function accordionMenu(element) {
 		if (document.getElementById(element.dataset.menugroup).style.display === 'block') {
 			element.querySelector('.z-arrow-down').className = 'z-arrow-right';
@@ -74,13 +86,6 @@
 		});
 	});
 
-	window.addEventListener('load', function() {
-		setInterval(function () {
-			getTodoTokenCount();
-		}, 60000); // 60초 주기
-		getTodoTokenCount(true);
-	});
-
 	function getTodoTokenCount() {
 		aliceJs.fetchText('/rest/tokens/todoCount', {
 			method: 'GET',
@@ -96,6 +101,49 @@
 				tokenCountSpan.classList.add('z-active');
 			}
 		});
+	}
+
+	function createProductModalContent(data) {
+        return `<div class="flex-column">` +
+				`<label>${i18n.msg('product.label.versionSuffix') + data.version}</label>` +
+				`<label>${i18n.msg('product.label.company')}</label>` +
+				`<a href="${i18n.msg('product.label.url')}">${i18n.msg('product.label.url')}</a>` +
+				`<label>${i18n.msg('product.label.email')}</label>` +
+				`<label>${i18n.msg('product.label.mainPhone')}</label>` +
+				`<label>${i18n.msg('product.label.technicalSupport')}</label>` +
+				`<label>${i18n.msg('product.label.productInquiry')}</label>` +
+				`</div>`;
+	}
+
+	function openProductInfoModal() {
+		const opt = {
+			method: 'get',
+			url: '/rest/products/info',
+			contentType: 'application/json',
+			showProgressbar: false,
+			callbackFunc: function (response) {
+				const data = JSON.parse(response.responseText);
+				let modalOptions = {
+					title: '',
+					body: createProductModalContent(data),
+					buttons: [{
+						content: i18n.msg('common.btn.close'),
+						classes: 'z-button secondary',
+						bindKey: false,
+						callback: function (modal) {
+							modal.hide();
+						}
+					}],
+					close: {
+						closable: false,
+					},
+				}
+
+				const productInfoModal = new modal(modalOptions);
+				productInfoModal.show();
+			}
+		};
+		aliceJs.sendXhr(opt);
 	}
 /* ]]> */
 </script>

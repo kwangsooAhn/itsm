@@ -13,7 +13,7 @@ import ZSwitchButtonProperty from './zSwitchButtonProperty.js';
 import ZToggleButtonProperty from './zToggleButtonProperty.js';
 import ZColorPickerProperty from './zColorPickerProperty.js';
 import ZGroupProperty from './zGroupProperty.js';
-import { UNIT } from '../../../lib/ZConstants.js';
+import { UNIT } from '../../../lib/zConstants.js';
 
 export default class ZLabelProperty {
     constructor(target) {

@@ -4,7 +4,7 @@
   display: inline-block;
   min-height: $form-min-height;
   background-color: $form-bg-color;
-  @include border(0.0625rem, solid, map-get($grays, "line"), all); // 1px
+  @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
   box-shadow: $form-box-shadow;
   & *:focus { outline: none !important; }
 }
@@ -190,18 +190,20 @@
     }
     // text editor
     .#{$common-prefix}text-editor {
-      height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
+      .ql-editor {
+        height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
+      }
     }
     // radio , checkbox
-    .radio, .checkbox {
-      .vertical {
+    .#{$common-prefix}radio, .#{$common-prefix}checkbox {
+      &.vertical {
         display: block;
         margin-top: 0.625rem;
         &:first-of-type {
           margin-top: 0;
         }
       }
-      .horizontal {
+      &.horizontal {
         display: inline-block;
         margin-right: 0.625rem;
       }
