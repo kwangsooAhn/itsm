@@ -290,12 +290,31 @@
   .#{$common-prefix}component-icon-drag-in {
     display: inline-block;
     width: 100%;
-    height: 7.875rem; // 126px
+    height: auto;
     background-color: $component-icon-drag-bg-color;
     @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
 
-    .#{$common-prefix}icon { opacity: 0; }
-    .#{$common-prefix}component-name { opacity: 0; }
+    .#{$common-prefix}icon { display: none; }
+    .#{$common-prefix}component-name { display: none; }
+    .#{$common-prefix}component-tooltip {
+      border-color: transparent;
+      .#{$common-prefix}component {
+        // 드래그시 사용자 디자인보다 우선 적용
+        .#{$common-prefix}component-label {
+          .#{$common-prefix}component-label-text {
+            color: $component-icon-drag-font-color !important;
+          }
+        }
+        .#{$common-prefix}element {
+          .#{$common-prefix}input,
+          .#{$common-prefix}textarea,
+          .ql-toolbar.ql-snow,
+          .ql-container.ql-snow {
+            border-color: $component-icon-drag-border-color !important;
+          }
+        }
+      }
+    }
   }
 
   // 문서 상태에 따라 편집을 막음

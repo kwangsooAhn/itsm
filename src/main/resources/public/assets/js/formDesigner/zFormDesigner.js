@@ -107,20 +107,27 @@ class ZFormDesigner {
                 },
                 onMove: function (evt) {
                     if (evt.from !== evt.to && evt.dragged.classList.contains(CLASS_PREFIX + 'component-icon')) {
-                        // TODO: form 내부이면, placeholder 로 가상의 group, row, component 표시
-                        // TODO: 아니면 타입에 따라 component만 표시
+                        // drag시 컴포넌트 표시
                         evt.dragged.classList.add(CLASS_PREFIX + 'component-icon-drag-in');
-                        if (!evt.dragged.classList.contains(CLASS_PREFIX + 'component')) {
+                        if (evt.dragged.children.length < 3) {
                             const component = new ZComponent({ type: evt.dragged.id });
                             evt.dragged.appendChild(component.UIElement.domElement);
-                            console.log(evt.dragged);
+
+                            if (evt.dragged.id === 'dropdown') {
+                                // Designed Select Box
+                                aliceJs.initDesignedSelectTag();
+                            }
                         }
                     }
                 },
                 onEnd: function (evt) {
-                    if (evt.from === evt.to) { return false; }
-                    console.log(evt.from);
-                    console.log(evt.to);
+                    if (evt.from === evt.to) {
+                        if (evt.item.children.length === 3) {
+                            evt.item.removeChild(evt.item.children[2]);
+                        }
+                        evt.item.classList.remove(CLASS_PREFIX + 'component-icon-drag-in');
+                        return false;
+                    }
                     const histories = [];  // 이력 저장용
                     const editor = this.options.editor;
                     const parentObject = editor.form.getById(evt.to.id); // 부모 객체
