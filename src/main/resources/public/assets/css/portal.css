@@ -1856,28 +1856,28 @@ label {
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-select .z-select-box:not(.readonly).active:after {
-  background-image: url("../media/icons/icon_arrow_up.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+.z-select .z-select-box:not(.readonly).active .z-icon.i-arrow-right {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
 .z-select .z-select-box:not(.readonly).active + .z-select-options {
   display: block;
 }
-.z-select .z-select-box:not(.readonly):after {
+.z-select .z-select-box:not(.readonly) .z-icon {
+  pointer-events: none;
+}
+.z-select .z-select-box:not(.readonly) .z-icon.i-arrow-right {
   position: absolute;
   right: 0.5rem;
-  width: 0;
-  height: 0;
-  border: 0.75rem solid transparent;
-  background-image: url("../media/icons/icon_arrow_bottom.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  content: "";
+  background: #8B9094;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 .z-select .z-select-box.disabled-select {
   border: 0.0625rem solid #CFD5D9;
@@ -3678,14 +3678,18 @@ table tbody tr:hover {
   color: #ACB4BF;
   text-align: center;
 }
-.file-uploader-edit .dropzone .dz-default.dz-message .icon-no-file {
+.file-uploader-edit .dropzone .dz-default.dz-message .z-icon.i-no-file {
   display: block;
   height: 2.813rem;
-  background-image: url("../media/icons/icon-no-file.svg");
-  background-size: 2.438rem 2.813rem;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+  background: #ACB4BF;
+  width: 100%;
+  height: 2.813rem;
+  -webkit-mask-image: url("../media/icons/icon-no-file.svg");
+  mask-image: url("../media/icons/icon-no-file.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
   margin-bottom: 1.25rem;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap {

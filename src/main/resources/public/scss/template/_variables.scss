@@ -97,6 +97,7 @@ $element-border-width:                        0.0625rem; // 1px
 $element-border:                              $element-border-width solid $element-border-color;
 $element-indent:                              1rem; // 16px 내부 들여쓰기
 $element-shadow-color:                        $gray300;
+$element-icon-color:                          $gray500;
 
 // 사용자 미입력시 나올 문구 = placeholder
 $element-placeholder-font-color:              $gray400;
