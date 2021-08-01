@@ -96,6 +96,9 @@ ip.access.control: true
 # Product Version
 product.version: 3.0.0
 
+# 비밀번호 만료 기간
+password.expired.period: 90
+
 jasypt.encryptor.bean: jasyptStringEncryptor
 
 ---

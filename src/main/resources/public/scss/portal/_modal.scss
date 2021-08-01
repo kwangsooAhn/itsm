@@ -1,0 +1,19 @@
+@import '../template/modal';
+
+.modal-dialog {
+  // 폼 / 프로세스 등록 / 수정 모달
+  &.password-update-notice {
+    width: $password-update-modal-width;
+    height: $password-update-modal-height;
+
+    .modal-content {
+      height: calc(#{$password-update-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 0.625rem 1.25rem; // 10px 20px 20px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+    }
+  }
+}

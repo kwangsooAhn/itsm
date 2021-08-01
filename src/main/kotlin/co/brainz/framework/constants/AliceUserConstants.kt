@@ -16,11 +16,6 @@ object AliceUserConstants {
     const val CREATE_USER_ID: String = "system"
 
     /**
-     * 사용자 계정 만료일자 범위 설정값.
-     */
-    const val USER_EXPIRED_VALUE: Long = 3
-
-    /**
      * 사용자 기본 언어셋.
      */
     const val USER_LOCALE_LANG: String = "ko"

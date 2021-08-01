@@ -4934,3 +4934,84 @@ table tbody tr:hover {
   color: #586872;
   margin: 1.25rem 0 5rem 0;
 }
+
+/* _modal.scss 
+ *
+ * 파일 경로 : template/_modal.scss
+ * @description 모달 디자인
+ * @author wdj
+ * @version 1.0
+ */
+body.modal-active {
+  overflow: hidden !important;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  overflow: auto;
+  z-index: 1000;
+}
+.modal-wrapper.modal-active {
+  display: block;
+}
+.modal-wrapper .modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5000;
+  background-color: rgba(116, 147, 179, 0.5);
+}
+.modal-wrapper .modal-dialog {
+  position: absolute;
+  top: 4em;
+  right: 0;
+  left: 0;
+  width: 34.38rem;
+  margin: 0 auto 2em auto;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #EBEBEB;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  z-index: 5000;
+}
+.modal-wrapper .modal-dialog .modal-header {
+  height: 3.375rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #3F4B56;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  padding: 1.125rem 0 0 1.25rem;
+}
+.modal-wrapper .modal-dialog .modal-content {
+  height: calc(22.5rem - 3.375rem - 4.6rem);
+  border-bottom: 0.0625rem solid #EBEBEB;
+  overflow: auto;
+}
+.modal-wrapper .modal-dialog .modal-bottom {
+  height: 4.6rem;
+  padding: 1.25rem 1.25rem 1.25rem 0;
+}
+
+.modal-dialog.password-update-notice {
+  width: 50rem;
+  height: 42rem;
+}
+.modal-dialog.password-update-notice .modal-content {
+  height: calc(42rem - 3.375rem - 4.6rem);
+  padding: 0.625rem 1.25rem 0.625rem 1.25rem;
+}
+.modal-dialog.password-update-notice .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
