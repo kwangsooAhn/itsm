@@ -23,6 +23,7 @@ import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.util.TimeZone
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -39,6 +40,8 @@ class AliceCertificationService(
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val aliceFileAvatarService: AliceFileAvatarService
 ) {
+    @Value("\${password.expired.period}")
+    private var passwordExpiredPeriod: Long = 90L
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -165,7 +168,7 @@ class AliceCertificationService(
             department = aliceSignUpDto.department,
             officeNumber = aliceSignUpDto.officeNumber,
             mobileNumber = aliceSignUpDto.mobileNumber,
-            expiredDt = LocalDateTime.now().plusMonths(AliceConstants.EXPIRED_MONTH_PERIOD.toLong()),
+            expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod),
             status = AliceUserConstants.Status.SIGNUP.code,
             oauthKey = "",
             lang = AliceUserConstants.USER_LOCALE_LANG,

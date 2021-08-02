@@ -16,6 +16,7 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
+import co.brainz.itsm.user.dto.UserUpdatePasswordDto
 import co.brainz.itsm.user.service.UserService
 import java.util.Locale
 import javax.servlet.http.HttpServletRequest
@@ -148,5 +149,14 @@ class UserRestController(
     @PutMapping("colors")
     private fun updateUserCustomColors(@RequestBody userCustomDto: UserCustomDto): Boolean {
         return userService.updateUserCustomColors(userCustomDto)
+    }
+
+    @PutMapping("/updatePassword")
+    private fun updatePassword(@RequestBody userUpdatePasswordDto: UserUpdatePasswordDto): Long {
+        return userService.updatePassword(userUpdatePasswordDto)
+    }
+    @PutMapping("/nextTime")
+    private fun extendExpiryDate(@RequestBody userUpdatePasswordDto: UserUpdatePasswordDto): Long {
+        return userService.extendExpiryDate(userUpdatePasswordDto)
     }
 }

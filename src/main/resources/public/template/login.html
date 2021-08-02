@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8"/>
     <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
     <title th:text="#{project.title.login}"></title>
@@ -19,8 +21,9 @@
             <h1 class="align-center" th:text="#{portal.label.login}"></h1>
             <div class="login-base">
                 <form id="loginForm" name="loginForm" method="post" th:action="@{/login}">
-                    <input type="hidden" id="userId" name="userId"/>
+                    <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
                     <input type="hidden" id="password" name="password"/>
+                    <input type="hidden" id="email" th:value="${email}"/>
                 </form>
                 <div class="login-base-form flex-column">
                     <label th:text="#{user.label.id}"></label>
@@ -53,6 +56,7 @@
 <script th:src="@{/assets/js/lib/zI18n.js}"></script>
 <script th:src="@{/assets/js/lib/zValidation.legacy.js}"></script>
 <script th:src="@{/assets/js/lib/zUtil.js}"></script>
+<script th:src="@{/assets/js/lib/zModal.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     i18n.initMessages();
@@ -61,6 +65,14 @@
     let ipList = /*[[${ipList}]]*/;
     let clientIp = /*[[${clientIp}]]*/;
     let ipSeparator = ".*";
+    let isExpired = /*[[${isExpired}]]*/;
+    let passwordExpiredPeriod = /*[[${passwordExpiredPeriod}]]*/;
+
+    const rsa = new RSAKey();
+    const STATUS_SUCCESS = '0';
+    const STATUS_SAME_AS_CURRENT_PASSWORD = '1';
+    const STATUS_NOT_EQUAL_NOW_PASSWORD = '2';
+
     window.onload = function() {
         if (window.opener) {
             opener.location.reload();
@@ -68,6 +80,7 @@
         }
         keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
         keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+        rsa.setPublic(keyModule, keyExponent);
         const authFailedMsg = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
         if (authFailedMsg !== null) {
             aliceAlert.alertWarning(i18n.msg(authFailedMsg), function() {
@@ -76,8 +89,90 @@
         } else {
             document.getElementById('uid').focus();
         }
+        if(isExpired) {
+            const formModal = new modal({
+                title: i18n.msg('user.label.updatePasswordNotice'),
+                body: createModalContent(),
+                classes: 'password-update-notice',
+                buttons: [{
+                    content: i18n.msg('user.btn.updatePassword'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function() {
+                          if(validation()) {
+                              const userUpdateInfo = {
+                                  userId: document.getElementById('userId').value,
+                                  nowPassword: rsa.encrypt(document.getElementById('nowPassword').value),
+                                  newPassword: rsa.encrypt(document.getElementById('newPassword').value),
+                              };
+                            restSubmit('put', 'rest/users/updatePassword', userUpdateInfo);
+                        }
+                    }
+                },{
+                    content: i18n.msg('user.btn.nextTime', passwordExpiredPeriod),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function() {
+                        const userUpdateInfo = {
+                            userId: document.getElementById('userId').value
+                        };
+                        restSubmit('put', 'rest/users/nextTime', userUpdateInfo);
+                    }
+                }],
+                close: {
+                    closable: false,
+                }
+            });
+            formModal.show();
+        }
     };
+    function createModalContent(data) {
+        return `<div class="flex-column">` +
+            `<label> <h3>${i18n.msg('user.msg.updatePasswordNotice', passwordExpiredPeriod)}</h3></label>` +
+            `<label> ${i18n.msg('user.tooltip.pwRuleSummary')}</label>` +
+            `</br></br>` +
+            `<label>${i18n.msg('user.label.nowUserPassword')} </label>` +
+            `<input type="password" id="nowPassword" class="z-input" maxlength="100" required="required">` +
+            `<label>${i18n.msg('user.label.newUserPassword')} </label>` +
+            `<input type="password" id="newPassword" class="z-input" maxlength="100" required="required">` +
+            `<label>${i18n.msg('user.label.newUserRePassword')} </label>` +
+            `<input type="password" id="newRePassword" class="z-input" maxlength="100" required="required">`
+    }
 
+    function validation() {
+        if (isEmpty('nowPassword', 'user.msg.enterNowUserPassword')) return false;
+        if (isEmpty('newPassword', 'user.msg.enterNewUserPassword')) return false;
+        if (isEmpty('newRePassword', 'user.msg.enterNewUserRePassword')) return false;
+        if (isNotEquals('newPassword', 'newRePassword', 'user.msg.notEqualNewPassword')) return false;
+        if (!isValidPassword('newPassword')) return false;
+
+        return true;
+    }
+
+    function restSubmit(method, url, data) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                            location.href = '/login';
+                        break;
+                    case STATUS_SAME_AS_CURRENT_PASSWORD:
+                        aliceAlert.alertWarning(i18n.msg("user.msg.sameAsCurrentPassword"))
+                        break;
+                    case STATUS_NOT_EQUAL_NOW_PASSWORD:
+                        aliceAlert.alertWarning(i18n.msg("user.msg.notEqualNowPassword"))
+                        break;
+                    default :
+                        break;
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
     window.onkeydown = function() {
         if (event.keyCode === 13) {
             onLogin();
@@ -102,8 +197,6 @@
                 aliceAlert.alertWarning([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
                 return false;
             }
-            const rsa = new RSAKey();
-            rsa.setPublic(keyModule, keyExponent);
             document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
             document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
             document.loginForm.submit();

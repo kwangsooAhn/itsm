@@ -1186,7 +1186,9 @@ workflowAdmin:
 # User
 user:
   btn:
+    nextTime: "Change after {0} days"
     resetPassword: "RESET PASSWORD"
+    updatePassword: "Change Password"
   label:
     avatar: "Avatar"
     customSetting: "Custom Settings"
@@ -1200,6 +1202,9 @@ user:
     lang: "Language"
     mobileNumber: "mobileNumber"
     name: "Name"
+    newUserPassword: "New Password"
+    newUserRePassword: "New Password Confirm"
+    nowUserPassword: "Current Password"
     officeNumber: "officeNumber"
     password: "Password"
     position: "Position"
@@ -1213,6 +1218,7 @@ user:
     time: "Time Format"
     timeFormat: "Date/Time Format"
     timezone: "TimeZone"
+    updatePasswordNotice: "Password change guide"
     usageStatus: "Usage Status"
     user: "User"
   msg:
@@ -1221,18 +1227,25 @@ user:
     editSelfDescription: "Edit your personal information."
     emailAlert: "When you change your email, you need to verify."
     emailWithUpdate: "Member information, including email information, has been modified."
+    enterNowUserPassword: "Please enter your current password."
+    enterNewUserPassword: "Please enter your new password."
+    enterNewUserRePassword: "Please enter your new Password Confirm."
     enterUserEmail: "Please enter your Email."
     enterUserId: "Please enter your UserId."
     enterUserName: "Please enter your UserName."
     enterUserPassword: "Please enter your password."
     enterUserRePassword: "Please enter your Reconfirm Password."
+    notEqualNewPassword: "New passwords do not match."
+    notEqualNowPassword: "Current passwords do not match."
     passwordNotEquals: "Passwords do not match."
     resetPassword: "Your password has been reset."
+    sameAsCurrentPassword: "New password is the same as your current password. Please use a different password"
     sameEmail: "The same Email exists."
     sameUserId: "The same ID exists."
     searchDescription: "View and manage users."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
+    updatePasswordNotice: "Recommend changing your password every {0} days for personal information protection and safe system use. Change your password."
     usageStatus: "※ If not using it, you won't be able to log in and use all systems."
   tooltip:
     idRule: "※ Letters, numbers, and special characters (@, -, _) can be used.<br/>
@@ -1245,7 +1258,11 @@ user:
     ※ Do not include your email ID.<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zeniu comprises available<br/>
     ※ Do not allow spaces.<br/>"
-
+    pwRuleSummary: "※ At least two types of characters (upper case, lower case, special characters, numbers),
+    &nbsp;&nbsp;&nbsp;&nbsp;More than 8 characters, less than 8 characters, if one kind character used, 10~20 length limit
+    ※ Do not include your ID.<br/><br/>
+    ※ Do not include your email ID.<br/><br/>
+    ※ Do not allow spaces.<br/>"
 
 
 

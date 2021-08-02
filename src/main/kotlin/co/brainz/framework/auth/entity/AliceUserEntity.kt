@@ -5,7 +5,6 @@
 
 package co.brainz.framework.auth.entity
 
-import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.user.entity.UserCustomEntity
 import java.io.Serializable
@@ -74,8 +73,7 @@ open class AliceUserEntity(
 
     @Column(name = "expired_dt")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    open var expiredDt: LocalDateTime = LocalDateTime.now()
-        .plusMonths(AliceConstants.EXPIRED_MONTH_PERIOD.toLong()),
+    open var expiredDt: LocalDateTime? = null,
 
     @Column(name = "oauth_key", length = 256)
     open var oauthKey: String? = "",
