@@ -924,12 +924,12 @@ DROP TABLE IF EXISTS awf_role_auth_map cascade;
 
 CREATE TABLE awf_role_auth_map
 (
-    role_id varchar(100) NOT NULL,
+    role_id varchar(100) NOT NULL,	
 	auth_id varchar(100) NOT NULL,
 	CONSTRAINT awf_role_auth_map_pk PRIMARY KEY (role_id, auth_id),
 	CONSTRAINT awf_role_auth_map_fk1 FOREIGN KEY (role_id) REFERENCES awf_role (role_id),
 	CONSTRAINT awf_role_auth_map_fk2 FOREIGN KEY (auth_id) REFERENCES awf_auth (auth_id)
-
+	
 );
 
 COMMENT ON TABLE awf_role_auth_map IS '역할권한매핑';
@@ -1639,6 +1639,8 @@ insert into awf_url values ('/users/new', 'get', '사용자 등록 화면', 'TRU
 insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 등 메인이 되는 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
+insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', false)
+insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', false)
 
 /**
  * URL별권한매핑
@@ -2267,7 +2269,7 @@ COMMENT ON COLUMN portal_board.update_dt IS '수정일';
  * 게시판 댓글
  */
 DROP TABLE IF EXISTS portal_board_comment cascade;
-
+ 
 CREATE TABLE portal_board_comment
 (
 	board_comment_id varchar(128) NOT NULL,
@@ -3740,7 +3742,6 @@ insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en')
 insert into awf_code_lang values ('servicedesk.incident', 'Disability Inquiry', 'en');
 insert into awf_code_lang values ('servicedesk.inquiry', 'Simple Inquiry', 'en');
 insert into awf_code_lang values ('servicedesk.request', 'Service Request', 'en');
-
 /**
  * 사용자 지정 테이블
  */
