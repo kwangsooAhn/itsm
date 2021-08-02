@@ -1641,6 +1641,7 @@ insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 �
 insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
+insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
 
 /**
  * URL별권한매핑
