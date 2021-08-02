@@ -81,7 +81,7 @@ enum class UserConstants(val value: String) {
     }
 
     /**
-     * 사용자 정의 타입.
+     *  PW 변경 결과 정의
      */
     enum class UserUpdatePassword(val code: Long) {
         SUCCESS(0),
