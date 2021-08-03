@@ -438,6 +438,7 @@
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   @include border(0.0625rem, solid, map-get($grays, 'line'), top); // 1px
   background-color: $white;
+  height: 100%;
 
   .under-bar {
     margin-top: 0.625rem; // 10px
