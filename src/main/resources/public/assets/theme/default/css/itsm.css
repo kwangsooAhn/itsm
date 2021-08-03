@@ -2855,7 +2855,7 @@ table[id=documentDisplay] td {
   display: inline-block;
 }
 
-.hidden-scrollbar {
+.hidden-scroll {
   overflow: hidden;
 }
 
