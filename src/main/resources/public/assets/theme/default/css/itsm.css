@@ -2855,6 +2855,10 @@ table[id=documentDisplay] td {
   display: inline-block;
 }
 
+.hidden-scrollbar {
+  overflow: hidden;
+}
+
 .notice-header,
 .faq-header,
 .download-header,
