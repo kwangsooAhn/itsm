@@ -129,7 +129,7 @@ $element-disabled-border:                     $element-disabled-border-width sol
 
 // element readonly 시 사용하는 디자인 변수
 $element-readonly-font-color:                 map-get($grays, 'dark');
-$element-readonly-bg-color:                   map-get($grays, 'light');
+$element-readonly-bg-color:                   $neutral200;
 $element-readonly-border-color:               $gray400;
 $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
@@ -552,31 +552,30 @@ $z-index-auto:                               auto;
 $z-index-hidden:                             -1;
 
 //////////////////////////// tag //////////////////////////////
-// tagify readonly
-$tagify-read-font-color:                     #586872;
-$tagify-read-bg-color:                       #F7F8F9;
-// tag
-$tag-font-color:                             map-get($blues, 'pressed');
-$tag-bg-color:                               hexToRGBA($blue, 0.1); // $blue , 불투명도 10
-$tag-border-radius:                          0.4375rem; // 7px
-// tag 삭제 버튼
-$tag-btn-remove-color:                       map-get($blues, 'pressed');
-// tag 마우스 오버
-$tag-hover-font-color:                       map-get($blues, 'pressed');
-$tag-hover-bg-color:                         hexToRGBA($blue, 0.1); // $blue , 불투명도 10
-$tag-hover-border-color:                     #ADD6F3;
+// tag editable
+$tag-editable-bg-color:                      $gray100;
+$tag-editable-font-color:                    $gray700;
 
-$tag-hover-btn-remove-color:                 $white;
-$tag-hover-btn-remove-bg-color:              $blue;
+// tagify readonly
+$tagify-read-font-color:                     $gray500;
+$tagify-read-bg-color:                       $neutral400;
+// tag
+$tag-font-color:                             $gray700;
+$tag-bg-color:                               $gray100;
+$tag-border-radius:                          0.25rem; // 4px
+// tag 삭제 버튼
+$tag-btn-remove-color:                       $gray600;
+$tag-btn-remove-hover-color:                 $white;
+$tag-btn-remove-hover-bg-color:              $gray600;
 // 태그를 입력하세요 input box
-$tag-input-font-color:                       map-get($grays, 'dark');
+$tag-input-font-color:                       $gray400;
 
 // 빨간색 Tag 디자인은 중복된 태그 단어 입력 시 중복 입력은 불가능한
 // 느낌을 주기 위해 빨간색 Tag 디자인을 하였습니다. 중복된 Tag는 일정
 // 시간만 보여준 후 사라집니다.
-$tag-invalid-color:                          hexToRGBA($red, 0.7); // $red , 불투명도 70
-$tag-invalid-bg-color:                       hexToRGBA($red, 0.1); // $red , 불투명도 10
-$tag-invalid-border-color:                   #FFE2E6;
+$tag-invalid-color:                          $red500;
+$tag-invalid-bg-color:                       $red100;
+$tag-invalid-border-color:                   $red500;
 
 ////////////////////////////// input box /////////////////////////////
 $input-clear-right:                          0rem;

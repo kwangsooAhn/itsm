@@ -42,7 +42,7 @@
                         <input type="checkbox" id="popYn" name="popYn" onchange="setDisplay('popTab',this)"
                                th:checked="${notice?.popYn == true}">
                         <span></span>
-                        <span class="label" th:text="#{notice.label.popUpNoticeSettings}"></span>
+                        <span class="z-label" th:text="#{notice.label.popUpNoticeSettings}"></span>
                     </label>
                 </div>
                 <div id="popTab" class="flex-column z-edit-row">
@@ -78,7 +78,7 @@
                         <input type="checkbox" id="topNoticeYn" name="topNoticeYn" onchange="setDisplay('topNoticeTab',this)"
                                th:checked="${notice?.topNoticeYn == true}">
                         <span></span>
-                        <span class="label" th:text="#{notice.label.topNoticeSettings}"></span>
+                        <span class="z-label" th:text="#{notice.label.topNoticeSettings}"></span>
                     </label>
                 </div>
                 <div id="topNoticeTab" class="flex-column z-edit-row">

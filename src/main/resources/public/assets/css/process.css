@@ -1529,7 +1529,7 @@ label {
   color: #222529;
   outline: none;
 }
-.z-switch .label {
+.z-switch .z-label {
   display: inline-block;
   height: 1.125rem;
   margin-left: 3rem;
@@ -1872,7 +1872,7 @@ label {
 .z-checkbox input[type=checkbox]:not(:disabled) + span {
   cursor: pointer;
 }
-.z-checkbox input[type=checkbox]:not(:disabled) ~ .label {
+.z-checkbox input[type=checkbox]:not(:disabled) ~ .z-label {
   cursor: pointer;
 }
 .z-checkbox input[type=checkbox]:not(:disabled):checked + span::after {
@@ -1905,7 +1905,7 @@ label {
 .z-checkbox input[type=checkbox]:disabled + span::after {
   border-color: #ABB0B5;
 }
-.z-checkbox input[type=checkbox]:disabled ~ .label {
+.z-checkbox input[type=checkbox]:disabled ~ .z-label {
   color: #ABB0B5;
 }
 .z-checkbox:focus input[type=checkbox]:not(:disabled) + span:before {
@@ -1970,7 +1970,7 @@ label {
 .z-radio input[type=radio]:not(:disabled) + span {
   cursor: pointer;
 }
-.z-radio input[type=radio]:not(:disabled) ~ .label {
+.z-radio input[type=radio]:not(:disabled) ~ .z-label {
   cursor: pointer;
 }
 .z-radio input[type=radio]:not(:disabled):checked + span::before {
@@ -1992,7 +1992,7 @@ label {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
 }
-.z-radio input[type=radio]:disabled ~ .label {
+.z-radio input[type=radio]:disabled ~ .z-label {
   color: #ABB0B5;
 }
 .z-radio input[type=radio]:disabled:checked + span::after {
