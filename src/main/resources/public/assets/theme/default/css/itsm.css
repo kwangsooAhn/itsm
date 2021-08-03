@@ -2855,6 +2855,10 @@ table[id=documentDisplay] td {
   display: inline-block;
 }
 
+.hidden-scroll {
+  overflow: hidden;
+}
+
 .notice-header,
 .faq-header,
 .download-header,
@@ -3209,6 +3213,7 @@ table[id=documentDisplay] td {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
   border-top: 0.0625rem solid #EBEBEB;
   background-color: #FFFFFF;
+  height: 100%;
 }
 .custom-code-content-edit .under-bar,
 .cmdb-attribute-content-edit .under-bar,
