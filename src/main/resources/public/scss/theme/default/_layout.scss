@@ -353,14 +353,13 @@
           }
 
           &:hover {
-            color: $tag-hover-btn-remove-color;
+            color: $tag-btn-remove-hover-color;
             background: map-get($grays, "pressed");
             + div {
               > span {
                 opacity: 1; // 기존 0.5
               }
               &::before {
-                @include insideBorder(1.25rem, $tag-hover-bg-color);
                 @include transition(0.2s);
               }
             }

@@ -26,7 +26,7 @@
             </div>
             <div class="flex-column z-edit-row">
                 <label class="z-switch">
-                    <span class="label" th:text="#{board.label.useYn}"></span>
+                    <span class="z-label" th:text="#{board.label.useYn}"></span>
                     <input type="checkbox" id="boardUseYn" name="boardUseYn"
                            th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}">
                     <span></span>
@@ -45,7 +45,7 @@
             </div>
             <div class="flex-column z-edit-row">
                 <label class="z-switch">
-                    <span class="label" th:text="#{board.label.replyYn}"></span>
+                    <span class="z-label" th:text="#{board.label.replyYn}"></span>
                     <input type="checkbox" id="replyYn" name="replyYn"
                            th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}">
                     <span></span>
@@ -53,7 +53,7 @@
             </div>
             <div class="flex-column z-edit-row">
                 <label class="z-switch">
-                    <span class="label" th:text="#{board.label.commentYn}"></span>
+                    <span class="z-label" th:text="#{board.label.commentYn}"></span>
                     <input type="checkbox" id="commentYn" name="commentYn"
                            th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}">
                     <span></span>
@@ -61,7 +61,7 @@
             </div>
             <div class="flex-column z-edit-row">
                 <label class="z-switch">
-                    <span class="label" th:text="#{board.label.category}"></span>
+                    <span class="z-label" th:text="#{board.label.category}"></span>
                     <input type="checkbox" id="categoryYn" name="categoryYn"
                            th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}"
                            onchange="setDisplay('category-detail', this.checked)">
@@ -118,7 +118,7 @@
             </div>
             <div class="flex-column z-edit-row">
                 <label class="z-switch">
-                    <span class="label" th:text="#{board.label.attachFileYn}"></span>
+                    <span class="z-label" th:text="#{board.label.attachFileYn}"></span>
                     <input type="checkbox" id="attachYn" name="attachYn"
                            th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
                            onchange="setDisplay('attachFileSize', this.checked)">
