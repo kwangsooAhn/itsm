@@ -1,11 +1,16 @@
-package co.brainz.framework.auth.controller
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 
+package co.brainz.framework.auth.controller
 import co.brainz.framework.auth.dto.AliceIpVerificationDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceIpVerificationService
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
+import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.mapstruct.factory.Mappers
@@ -33,6 +38,8 @@ class AliceLoginController(
 
     @Value("\${ip.access.control}")
     lateinit var ipAccessControlValue: String
+    @Value("\${password.expired.period}")
+    private var passwordExpiredPeriod: Long = 90
 
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
@@ -45,11 +52,10 @@ class AliceLoginController(
     @GetMapping("/login")
     fun login(request: HttpServletRequest, model: Model): String {
         logger.debug("=> Request move login.")
-
         var page = "login"
         val aliceUserEntity: AliceUserEntity?
         var clientIp: String? = request.getHeader("X-Forwarded-For")
-
+        var isExpired = false
         if (ipAccessControlValue == "true") {
             val _ipList = aliceIpVerificationService.getIpList()
             val ipList = mutableListOf<AliceIpVerificationDto>()
@@ -92,9 +98,19 @@ class AliceLoginController(
             val securityContext = securityContextObject as SecurityContext
             aliceUserEntity = userDetailsService.loadUserByUsername(securityContext.authentication.principal.toString())
             logger.debug("login info {}", aliceUserEntity)
-            request.removeAttribute(AliceConstants.RsaKey.USE_RSA.value)
-            page = "redirect:$layoutPage"
+
+            if (aliceUserEntity.expiredDt!! < LocalDateTime.now()) {
+                isExpired = true
+                model.addAttribute("userId", aliceUserEntity.userId)
+                model.addAttribute("email", aliceUserEntity.email)
+            } else {
+                request.removeAttribute(AliceConstants.RsaKey.USE_RSA.value)
+                page = "redirect:$layoutPage"
+            }
         }
+
+        model.addAttribute("isExpired", isExpired)
+        model.addAttribute("passwordExpiredPeriod", passwordExpiredPeriod)
 
         return page
     }

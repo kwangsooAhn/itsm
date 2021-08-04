@@ -566,8 +566,10 @@ label {
         border: $element-focus-border;
         @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color);
         // 열렸을때 출력되는 화살표 아이콘
-        &:after {
-          @include backgroundImage($icon-folder-path + 'icon_arrow_up.svg', auto, no-repeat, center, center);
+        .#{$common-prefix}icon {
+          &.i-arrow-right {
+            @include rotate(-90);
+          }
         }
 
         + .z-select-options {
@@ -576,13 +578,14 @@ label {
       }
 
       // 닫혔을때 출력되는 화살표 아이콘
-      &:after {
-        @include absolute($right: 0.5rem); // 8px
-        width: 0;
-        height: 0;
-        border: 0.75rem solid transparent; // 12px
-        @include backgroundImage($icon-folder-path + 'icon_arrow_bottom.svg', auto, no-repeat, center, center);
-        content:'';
+      .#{$common-prefix}icon {
+        pointer-events: none;
+
+        &.i-arrow-right {
+          @include absolute($right: 0.5rem); // 8px
+          background: $element-icon-color;
+          @include rotate(90);
+        }
       }
     }
 

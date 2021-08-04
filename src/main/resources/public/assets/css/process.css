@@ -760,7 +760,7 @@ input, button, select, optgroup, textarea {
  * @author jy.lim
  * @version 1.0
  */
-.alice-wrapper {
+.z-wrapper {
   display: flex;
   max-width: 120rem;
   margin: 0 auto;
@@ -1643,28 +1643,28 @@ label {
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-select .z-select-box:not(.readonly).active:after {
-  background-image: url("../media/icons/icon_arrow_up.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+.z-select .z-select-box:not(.readonly).active .z-icon.i-arrow-right {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
 .z-select .z-select-box:not(.readonly).active + .z-select-options {
   display: block;
 }
-.z-select .z-select-box:not(.readonly):after {
+.z-select .z-select-box:not(.readonly) .z-icon {
+  pointer-events: none;
+}
+.z-select .z-select-box:not(.readonly) .z-icon.i-arrow-right {
   position: absolute;
   right: 0.5rem;
-  width: 0;
-  height: 0;
-  border: 0.75rem solid transparent;
-  background-image: url("../media/icons/icon_arrow_bottom.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  content: "";
+  background: #8B9094;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 .z-select .z-select-box.disabled-select {
   border: 0.0625rem solid #CFD5D9;
@@ -3081,8 +3081,8 @@ svg path.connector.hidden {
   background: #8B9094;
 }
 .z-element-icon .z-icon.i-event {
-  width: 26px;
-  height: 26px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_event.svg");
   mask-image: url("../media/icons/process/element-palette/icon_event.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3091,8 +3091,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-task {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_task.svg");
   mask-image: url("../media/icons/process/element-palette/icon_task.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3101,8 +3101,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-subprocess {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_subprocess.svg");
   mask-image: url("../media/icons/process/element-palette/icon_subprocess.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3111,8 +3111,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-gateway {
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_gateway.svg");
   mask-image: url("../media/icons/process/element-palette/icon_gateway.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3121,8 +3121,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-group {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_group.svg");
   mask-image: url("../media/icons/process/element-palette/icon_group.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3131,8 +3131,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-annotation {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_annotation.svg");
   mask-image: url("../media/icons/process/element-palette/icon_annotation.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3141,8 +3141,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-connector {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_connector.svg");
   mask-image: url("../media/icons/process/element-palette/icon_connector.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3151,8 +3151,8 @@ svg path.connector.hidden {
   mask-position: center;
 }
 .z-element-icon .z-icon.i-background {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   -webkit-mask-image: url("../media/icons/process/element-palette/icon_background.svg");
   mask-image: url("../media/icons/process/element-palette/icon_background.svg");
   -webkit-mask-repeat: no-repeat;

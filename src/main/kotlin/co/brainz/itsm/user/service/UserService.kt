@@ -29,12 +29,14 @@ import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
+import co.brainz.itsm.user.dto.UserUpdatePasswordDto
 import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserCustomRepository
 import co.brainz.itsm.user.repository.UserRepository
 import java.nio.file.Paths
 import java.security.PrivateKey
+import java.time.LocalDateTime
 import java.util.Optional
 import kotlin.random.Random
 import org.mapstruct.factory.Mappers
@@ -73,6 +75,8 @@ class UserService(
 
     @Value("\${user.default.profile}")
     private val userDefaultProfile: String = ""
+    @Value("\${password.expired.period}")
+    private var passwordExpiredPeriod: Long = 90L
 
     /**
      * 사용자 목록을 조회한다.
@@ -140,6 +144,7 @@ class UserService(
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
                         userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
+                        userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
                     }
                 }
 
@@ -283,6 +288,7 @@ class UserService(
         val decryptPassword = aliceCryptoRsa.decrypt(privateKey, encryptPassword)
         val targetEntity = userDetailsService.selectUserKey(userKey)
         targetEntity.password = BCryptPasswordEncoder().encode(decryptPassword)
+        targetEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
 
         userRepository.save(targetEntity)
 
@@ -354,5 +360,42 @@ class UserService(
             )
         )
         return true
+    }
+
+    /**
+     * 비밀번호 변경
+     */
+    @Transactional
+    fun updatePassword(userUpdatePasswordDto: UserUpdatePasswordDto): Long {
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val privateKey =
+            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val rawNewPassword = aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!)
+        val rawNowPassword = aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.nowPassword!!)
+        val userEntity = selectUser(userUpdatePasswordDto.userId!!)
+
+        if (!BCryptPasswordEncoder().matches(rawNowPassword, userEntity.password)) { // 현재 비밀번호가 틀릴 경우
+            return UserConstants.UserUpdatePassword.NOT_EQUAL_NOW_PASSWORD.code
+        }
+
+        if (BCryptPasswordEncoder().matches(rawNewPassword, userEntity.password)) { // 새 비밀번호가 현재 비밀번호와 같을 경우
+            return UserConstants.UserUpdatePassword.SAME_AS_CURRENT_PASSWORD.code
+        }
+
+        userEntity.password =
+            BCryptPasswordEncoder().encode(aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!))
+        userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
+
+        return UserConstants.UserUpdatePassword.SUCCESS.code
+    }
+
+    /**
+     * 비밀번호 다음에 변경하기
+     */
+    @Transactional
+    fun extendExpiryDate(userUpdatePasswordDto: UserUpdatePasswordDto): Long {
+        val userEntity = selectUser(userUpdatePasswordDto.userId!!)
+        userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
+        return UserConstants.UserUpdatePassword.SUCCESS.code
     }
 }

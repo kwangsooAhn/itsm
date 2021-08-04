@@ -51,6 +51,8 @@ class OAuthService(
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository
 ) {
+    @Value("\${password.expired.period}")
+    private var passwordExpiredPeriod: Long = 90L
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
@@ -81,7 +83,7 @@ class OAuthService(
             password = "",
             userName = aliceOAuthDto.userName,
             email = aliceOAuthDto.email,
-            expiredDt = LocalDateTime.now().plusMonths(AliceUserConstants.USER_EXPIRED_VALUE),
+            expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod),
             status = AliceUserConstants.Status.CERTIFIED.code,
             platform = aliceOAuthDto.platform,
             oauthKey = aliceOAuthDto.oauthKey,

@@ -6,9 +6,9 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.constants.AuthConstants
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.provider.dto.RestTemplateActionDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
@@ -18,12 +18,12 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 class DocumentActionService(
-    private val aliceUserRepository: AliceUserRepository
+    private val aliceUserRepository: AliceUserRepository,
+    private val currentSessionUser: CurrentSessionUser
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -53,9 +53,7 @@ class DocumentActionService(
      */
     fun makeTokenAction(tokensData: String): String {
         val tokenObject = JsonParser().parse(tokensData).asJsonObject
-        // 문서를 연 사용자 정보
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val userEntity = aliceUserRepository.findByUserKey(aliceUserDto.userKey)
+        val userEntity = aliceUserRepository.findByUserKey(currentSessionUser.getUserKey())
         if (tokenObject.isJsonObject) {
             // 현재 진행중 문서 확인
             val isProgress = this.checkTokenStatusAndAction(tokenObject)

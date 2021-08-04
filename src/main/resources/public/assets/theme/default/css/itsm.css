@@ -1330,28 +1330,28 @@ label {
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-select .z-select-box:not(.readonly).active:after {
-  background-image: url("../media/icons/icon_arrow_up.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+.z-select .z-select-box:not(.readonly).active .z-icon.i-arrow-right {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
 .z-select .z-select-box:not(.readonly).active + .z-select-options {
   display: block;
 }
-.z-select .z-select-box:not(.readonly):after {
+.z-select .z-select-box:not(.readonly) .z-icon {
+  pointer-events: none;
+}
+.z-select .z-select-box:not(.readonly) .z-icon.i-arrow-right {
   position: absolute;
   right: 0.5rem;
-  width: 0;
-  height: 0;
-  border: 0.75rem solid transparent;
-  background-image: url("../media/icons/icon_arrow_bottom.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  content: "";
+  background: #8B9094;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 .z-select .z-select-box.disabled-select {
   border: 0.0625rem solid #CFD5D9;
@@ -2495,7 +2495,7 @@ table[id=documentDisplay] td {
  * @author jy.lim
  * @version 1.0
  */
-.alice-wrapper {
+.z-wrapper {
   display: flex;
   max-width: 120rem;
   margin: 0 auto;
@@ -2855,6 +2855,10 @@ table[id=documentDisplay] td {
   display: inline-block;
 }
 
+.hidden-scroll {
+  overflow: hidden;
+}
+
 .notice-header,
 .faq-header,
 .download-header,
@@ -3206,6 +3210,7 @@ table[id=documentDisplay] td {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
   border-top: 0.0625rem solid #EBEBEB;
   background-color: #FFFFFF;
+  height: 100%;
 }
 .custom-code-content-edit .under-bar,
 .cmdb-attribute-content-edit .under-bar,
@@ -3333,7 +3338,7 @@ table[id=documentDisplay] td {
   font-size: 0.688rem;
   font-weight: 500;
   background-color: #63686C;
-  color: #F6F8FA;
+  color: #ABB0B5;
 }
 .z-gnb .z-menu-area .z-gnb .z-token-count.z-active {
   color: #FFFFFF;
@@ -4317,14 +4322,18 @@ table[id=documentDisplay] td {
   color: #ACB4BF;
   text-align: center;
 }
-.file-uploader-edit .dropzone .dz-default.dz-message .icon-no-file {
+.file-uploader-edit .dropzone .dz-default.dz-message .z-icon.i-no-file {
   display: block;
   height: 2.813rem;
-  background-image: url("../media/icons/icon-no-file.svg");
-  background-size: 2.438rem 2.813rem;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
+  background: #ACB4BF;
+  width: 100%;
+  height: 2.813rem;
+  -webkit-mask-image: url("../media/icons/icon-no-file.svg");
+  mask-image: url("../media/icons/icon-no-file.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
   margin-bottom: 1.25rem;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap {
@@ -7468,5 +7477,3 @@ body.modal-active {
 .tags-look .tagify__dropdown__item--active {
   color: #505559;
 }
-
-/*# sourceMappingURL=itsm.css.map */

@@ -11,8 +11,8 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIReturnDto
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.tag.dto.AliceTagDto
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -25,14 +25,14 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 class CIService(
     private val ciService: CIService,
     private val ciClassService: CIClassService,
-    private val ciComponentDataRepository: CIComponentDataRepository
+    private val ciComponentDataRepository: CIComponentDataRepository,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -87,10 +87,9 @@ class CIService(
             val ciClassDetail = ciClassService.getCIClass(map["classId"] as String)
             ciDetailDto.className = ciClassDetail.className
 
-            val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-            ciDetailDto.createUserKey = aliceUserDto.userKey
+            ciDetailDto.createUserKey = currentSessionUser.getUserKey()
             ciDetailDto.createDt = LocalDateTime.now()
-            ciDetailDto.updateUserKey = aliceUserDto.userKey
+            ciDetailDto.updateUserKey = currentSessionUser.getUserKey()
             ciDetailDto.updateDt = LocalDateTime.now()
 
             // 임시 테이블의 CI 세부 데이터가 존재할 경우 합치기

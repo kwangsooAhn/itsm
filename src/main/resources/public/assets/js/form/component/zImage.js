@@ -64,7 +64,7 @@ export const imageMixin = {
 
         // placeholder
         element.UIDiv = new UIDiv().setUIClass(CLASS_PREFIX + 'imagebox-placeholder')
-            .addUI(new UISpan().setUIClass('icon-no-image'))
+            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-no-image'))
             .addUI(new UIText().addUIClass('mt-4').setUIInnerHTML(i18n.msg('image.label.placeholder')));
         element.addUI(element.UIDiv);
         return element;

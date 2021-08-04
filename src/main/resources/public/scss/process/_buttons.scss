@@ -152,35 +152,35 @@
     background: map-get($element-icon, 'default', 'icon');
     // 이벤트
     &.i-event {
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_event.svg', 26px, 26px, no-repeat, center); // 26px 26px
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_event.svg', 2rem, 2rem, no-repeat, center); // 32px 32px
     }
     // 테스트
     &.i-task {
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_task.svg', 24px, 24px, no-repeat, center); // 24px 24px
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_task.svg', 2rem, 2rem, no-repeat, center); // 32px 32px
     }
     // 서브프로세스
     &.i-subprocess {
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_subprocess.svg', 24px, 24px, no-repeat, center); // 24px, 24px
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_subprocess.svg', 2rem, 2rem, no-repeat, center); // 32px 32px
     }
     // 게이트웨이
     &.i-gateway {
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_gateway.svg', 30px, 30px, no-repeat, center); // 30px 30px
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_gateway.svg', 2rem, 2rem, no-repeat, center); // 32px 32px
     }
     // 그룹
     &.i-group {
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_group.svg', 24px, 24px, no-repeat, center); // 24px 24px
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_group.svg', 2rem, 2rem, no-repeat, center); // 32px 32px
     }
     // 주석
     &.i-annotation {
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_annotation.svg', 24px, 24px, no-repeat, center); // 24px 24px
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_annotation.svg', 2rem, 2rem, no-repeat, center); // 32px 32px
     }
     // 연결선
     &.i-connector {
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_connector.svg', 24px, 24px, no-repeat, center); // 24px 24px
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_connector.svg', 2rem, 2rem, no-repeat, center); // 32px 32px
     }
     // 배경이동
     &.i-background {
-      @include maskImage('#{$icon-folder-path}process/element-palette/icon_background.svg', 24px, 24px, no-repeat, center); // 24px 24px
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_background.svg', 2rem, 2rem, no-repeat, center); // 32px 32px
     }
   }
 

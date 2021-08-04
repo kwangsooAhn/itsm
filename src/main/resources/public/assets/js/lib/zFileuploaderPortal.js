@@ -425,7 +425,7 @@ const zFileUploaderPortal = (function () {
                                     // 파일이 하나도 없다면 아이콘을 보여준다.
                                     let previewList = delFilePreview.parentNode.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                                     if (previewList.length === 0) {
-                                        delFilePreview.parentNode.querySelector('.icon-no-file').style.display = 'block';
+                                        delFilePreview.parentNode.querySelector('.i-no-file').style.display = 'block';
                                         _this.isFileExist = false;
                                     }
                                 });
@@ -441,7 +441,7 @@ const zFileUploaderPortal = (function () {
                     const dropzoneMessage = _this.element.querySelector('.dz-message');
                     // 아이콘 추가
                     const dropzoneIcon = document.createElement('span');
-                    dropzoneIcon.className = 'icon-no-file';
+                    dropzoneIcon.className = aliceJs.CLASS_PREFIX + 'icon i-no-file';
                     if (_this.isFileExist) {
                         dropzoneIcon.style.display = 'none';
                     }
