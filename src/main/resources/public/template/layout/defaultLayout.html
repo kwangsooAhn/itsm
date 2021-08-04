@@ -9,17 +9,22 @@
 	<body>
 		<div class="z-wrapper">
 			<div class="itsm-container flex-row">
-				<div>
-					<div class="z-gnb">
-						<th:block th:replace="layout/menu">menu</th:block>
-						<th:block th:replace="layout/navigation">menu</th:block>
-					</div>
-				</div>
+				<th:block th:replace="layout/navigation"></th:block>
 				<div class="main flex-column">
-					<th:block th:replace="layout/topMenu">topMenu</th:block>
+					<div class="header">
+						<th:block th:replace="layout/topMenu">topMenu</th:block>
+						<th:block layout:fragment="head"></th:block>
+					</div>
+
 					<th:block layout:fragment="content"></th:block>
 				</div>
-				<th:block layout:fragment="aside"></th:block>
+
+				<!--<div class="main flex-column">
+					<th:block th:replace="layout/topMenu">topMenu</th:block>
+					<th:block layout:fragment="content"></th:block>
+				</div>-->
+
+				<th:block layout:fragment="defaultAside"></th:block>
 				<footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
 			</div>
 		</div>
