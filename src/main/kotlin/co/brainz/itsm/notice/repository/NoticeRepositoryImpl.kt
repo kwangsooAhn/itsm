@@ -6,13 +6,17 @@
 
 package co.brainz.itsm.notice.repository
 
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeListReturnDto
+import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.types.Projections
 import java.time.LocalDateTime
+import kotlin.math.ceil
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -37,13 +41,7 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
             .fetch()
     }
 
-    override fun findNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        offset: Long,
-        limit: Long
-    ): NoticeListReturnDto {
+    override fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): NoticeListReturnDto {
         val notice = QNoticeEntity.noticeEntity
         val query = from(notice)
             .select(
@@ -64,28 +62,26 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 )
             )
             .where(
-                super.like(notice.noticeTitle, searchValue)?.or(
-                    super.like(notice.createUser.userName, searchValue)
+                super.like(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
+                    super.like(notice.createUser.userName, noticeSearchCondition.searchValue)
                 ),
-                notice.createDt.goe(fromDt), notice.createDt.lt(toDt)
+                notice.createDt.goe(noticeSearchCondition.formattedFromDt), notice.createDt.lt(noticeSearchCondition.formattedToDt)
             )
             .orderBy(notice.createDt.desc())
-            .limit(limit)
-            .offset(offset)
+            .limit(PagingConstants.COUNT_PER_PAGE)
+            .offset((noticeSearchCondition.pageNum-1) * PagingConstants.COUNT_PER_PAGE)
             .fetchResults()
 
         return NoticeListReturnDto(
             data = query.results,
-            totalCount = query.total
+            pagingData = AlicePagingData(
+                totalCount = query.total,
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
     }
 
-    override fun findTopNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        limit: Long
-    ): MutableList<NoticeListDto> {
+    override fun findTopNoticeSearch(noticeSearchCondition: NoticeSearchCondition): MutableList<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
         return from(notice)
             .select(
@@ -106,13 +102,12 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 )
             )
             .where(
-                super.like(notice.noticeTitle, searchValue)?.or(
-                    super.like(notice.createUser.userName, searchValue)
+                super.like(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
+                    super.like(notice.createUser.userName, noticeSearchCondition.searchValue)
                 ),
-                notice.createDt.goe(fromDt), notice.createDt.lt(toDt), notice.topNoticeYn.eq(true)
+                notice.createDt.goe(noticeSearchCondition.formattedFromDt), notice.createDt.lt(noticeSearchCondition.formattedToDt), notice.topNoticeYn.eq(true)
             )
             .orderBy(notice.createDt.desc())
-            .limit(limit)
             .fetch()
     }
 

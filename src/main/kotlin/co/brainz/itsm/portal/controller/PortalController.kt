@@ -7,16 +7,12 @@
 package co.brainz.itsm.portal.controller
 
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.constants.DownloadConstants
 import co.brainz.itsm.download.dto.DownloadSearchDto
 import co.brainz.itsm.download.service.DownloadService
-import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.service.PortalService
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -87,7 +83,7 @@ class PortalController(
     /**
      * 포탈 공지사항 리스트 호출
      */
-    @GetMapping("/notices")
+/*    @GetMapping("/notices")
     fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
         val searchValue = noticeSearchDto.searchValue
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
@@ -99,7 +95,7 @@ class PortalController(
         model.addAttribute("noticeCount", result.totalCount)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt, limit))
         return if (noticeSearchDto.isScroll) portalNoticeListFragment else portalNoticeListPage
-    }
+    }*/
 
     /**
      * 포탈 공지사항 상세화면 호출

@@ -6,9 +6,10 @@
 
 package co.brainz.itsm.notice.dto
 
+import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class NoticeListReturnDto(
     val data: List<NoticeListDto> = emptyList(),
-    val totalCount: Long = 0
+    val pagingData: AlicePagingData
 ) : Serializable

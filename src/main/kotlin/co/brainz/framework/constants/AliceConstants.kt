@@ -136,3 +136,11 @@ object AliceConstants {
      */
     const val NOTIFICATION_SIZE = 50L
 }
+
+object PagingConstants {
+    const val COUNT_PER_PAGE = 15L
+
+    enum class ListOrderTypeCode(val code: String) {
+        CREATE_DESC("common.label.createDtDesc")
+    }
+}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<div class="pagingArea flex-row" style="background-color: #F7F8F9;">
+    <a href="" id="pagingStartArrow"><img src="/assets/media/icons/icon_paging_arrow_start.svg"></a>
+    <a href="" id="pagingPrevArrow"><img src="/assets/media/icons/icon_paging_arrow_prev.svg"></a>
+    <div class="PagingNumber">
+    </div>
+    <a href="" id = "pagingNextArrow"><img src="/assets/media/icons/icon_paging_arrow_next.svg"></a>
+    <a href="" id = "pagingEndArrow"><img src="/assets/media/icons/icon_paging_arrow_end.svg"></a>
+    <span id="spanCurrentPageNum"></span>
+</div>
+<script type="module">
+    import { zPaging } from '../../assets/js/lib/zPaging.js';
+    let test = zPaging;
+</script>
+</html>
