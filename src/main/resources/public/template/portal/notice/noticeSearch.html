@@ -2,33 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/portalLayout">
+      layout:decorate="~{layout/portal/pagingListLayout}">
 <head>
     <title th:text="#{notice.label.notice}"></title>
 </head>
 <body>
-<th:block layout:fragment="portalContent">
-    <div class="main">
-        <div class="notice-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{notice.label.notice}"></h1>
-                <h6 class="description ml-2" th:text="#{notice.msg.portalDescription}"></h6>
-            </div>
-            <div class="notice-search">
-                <form id="searchFrm">
-                    <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
-                           th:placeholder="#{notice.label.searchPlaceholder}"/>
-                    <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
-                    <span>~</span>
-                    <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
-                    <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
-                    <span id="spanTotalCount" class="search-count"></span>
-                </form>
-            </div>
+<th:block layout:fragment="searchArea">
+    <div class="notice-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{notice.label.notice}"></h1>
+            <h6 class="description ml-2" th:text="#{notice.msg.portalDescription}"></h6>
         </div>
-        <div class="notice-content">
-            <div class="list" id="noticeList"></div>
+        <div class="notice-search">
+            <form id="searchFrm">
+                <input type="text" class="z-input i-search col-5" id="searchValue" name="searchValue" maxlength="100"
+                       th:placeholder="#{notice.label.searchPlaceholder}"/>
+                <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
+                <span>~</span>
+                <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
+                <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
+                <span id="spanTotalCount" class="search-count"></span>
+                <span class="search-count">/</span>
+                <span id="spanTotalCountWithoutCondition" class="search-count"></span>
+            </form>
         </div>
+    </div>
+</th:block>
+<th:block layout:fragment="listArea">
+    <div class="notice-content list-content">
+        <div class="list" id="noticeList"></div>
     </div>
 </th:block>
 </body>
@@ -36,7 +38,7 @@
     <script th:inline="javascript">
         /*<![CDATA[ */
         let offsetCount = 0;
-        let searchFromDt = i18n.getDate({'months': -1});
+        let searchFromDt = i18n.getDate({'months': -12});
         let searchToDt = i18n.getDate();
 
         window.onload = function () {

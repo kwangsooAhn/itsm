@@ -15,8 +15,6 @@ import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.types.Projections
-import java.time.LocalDateTime
-import kotlin.math.ceil
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -74,7 +72,7 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
 
         return NoticeListReturnDto(
             data = query.results,
-            pagingData = AlicePagingData(
+            paging = AlicePagingData(
                 totalCount = query.total,
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )

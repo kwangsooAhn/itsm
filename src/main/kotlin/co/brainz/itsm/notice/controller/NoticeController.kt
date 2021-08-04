@@ -41,9 +41,9 @@ class NoticeController(private val noticeService: NoticeService) {
     @GetMapping("")
     fun getNoticeList(noticeSearchCondition: NoticeSearchCondition, model: Model): String {
         val result = noticeService.findNoticeSearch(noticeSearchCondition)
-        model.addAttribute("noticeList", result.data)
-        model.addAttribute("pagingInfo", result.pagingData)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(noticeSearchCondition))
+        model.addAttribute("noticeList", result.data)
+        model.addAttribute("paging", result.paging)
         return noticeListPage
     }
 

@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head></head>
-<body>
-<input th:type="hidden" id="totalCount" name="totalCount" th:value="${noticeCount}"/>
 <table>
     <thead>
         <tr>
@@ -36,5 +32,8 @@
         </th:block>
     </tbody>
 </table>
-</body>
-</html>
+<input th:type="hidden" id="totalCount" name="totalCount" th:value="${paging.totalCount}">
+<input th:type="hidden" id="totalCountWithoutCondition" name="totalCountWithoutCondition" th:value="${paging.totalCountWithoutCondition}">
+<input th:type="hidden" id="currentPageNum" name="currentPageNum" th:value="${paging.currentPageNum}">
+<input th:type="hidden" id="totalPageNum" name="totalPageNum" th:value="${paging.totalPageNum}">
+<input th:type="hidden" id="orderType" name="orderType" th:value="${paging.orderType}">

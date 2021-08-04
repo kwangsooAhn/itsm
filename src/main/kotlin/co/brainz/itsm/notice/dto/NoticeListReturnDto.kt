@@ -11,5 +11,5 @@ import java.io.Serializable
 
 data class NoticeListReturnDto(
     val data: List<NoticeListDto> = emptyList(),
-    val pagingData: AlicePagingData
+    val paging: AlicePagingData
 ) : Serializable

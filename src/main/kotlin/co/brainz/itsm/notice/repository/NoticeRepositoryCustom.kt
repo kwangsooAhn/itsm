@@ -12,7 +12,6 @@ import co.brainz.itsm.notice.dto.NoticeListReturnDto
 import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
-import java.time.LocalDateTime
 
 interface NoticeRepositoryCustom : AliceRepositoryCustom {
 

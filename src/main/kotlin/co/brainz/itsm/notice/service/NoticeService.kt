@@ -18,7 +18,6 @@ import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.mapper.NoticeMapper
 import co.brainz.itsm.notice.repository.NoticeRepository
-import java.time.LocalDateTime
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -31,14 +30,15 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeMapper: NoticeMapper = Mappers.getMapper(NoticeMapper::class.java)
 
-    // 공지사항 리스트
-    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition):
-            NoticeListReturnDto {
+    // 공지사항 검색 결과
+    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): NoticeListReturnDto {
+        // 공지사항 리스트
         val noticeReturnList = noticeRepository.findNoticeSearch(noticeSearchCondition)
-        noticeReturnList.pagingData.totalCountWithoutCondition = noticeRepository.count()
-        noticeReturnList.pagingData.currentPageNum = noticeSearchCondition.pageNum
-        noticeReturnList.pagingData.totalPageNum =
-            ceil(noticeReturnList.pagingData.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
+        // 페이징 정보 추가
+        noticeReturnList.paging.totalCountWithoutCondition = noticeRepository.count()
+        noticeReturnList.paging.currentPageNum = noticeSearchCondition.pageNum
+        noticeReturnList.paging.totalPageNum =
+            ceil(noticeReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
         return noticeReturnList
     }
 
@@ -118,9 +118,5 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     fun delete(noticeNo: String) {
         noticeRepository.deleteById(noticeNo)
         aliceFileService.delete(noticeNo)
-    }
-
-    fun getTotalCountWithoutCondition(): Long {
-        return noticeRepository.count()
     }
 }
