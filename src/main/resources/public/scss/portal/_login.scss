@@ -3,6 +3,10 @@
  * 파일 경로 : portal/_login.scss
  */
 .login {
+  &-main {
+    height: 100%;
+  }
+
   &-logo {
     @include relative($top: $login-logo-position-top, $left: $login-logo-position-left);
   }

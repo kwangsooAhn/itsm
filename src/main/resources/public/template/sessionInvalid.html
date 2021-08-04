@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/portalLayout">
 <head>
-    <meta charset="UTF-8"/>
-    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
-    <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
     <title th:text="#{project.title.sessionInvalid}"></title>
 </head>
 <body>
-<div class="alice-wrapper">
-    <div class="portal-container flex-row">
+<th:block layout:fragment="portalHead"></th:block>
+<th:block layout:fragment="portalContent">
+    <div class="session-main flex-row">
         <div class="session-background float-left">
             <img th:src="@{/assets/media/images/session/img_session_main.png}"/>
             <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
@@ -23,52 +23,54 @@
         </div>
     </div>
     <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
-</div>
-<script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
-    window.onload = function () {
-        let count = [[${counter}]],
-            timer;
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        window.onload = function () {
+            let count = [[${counter}]],
+                timer;
 
-        setCounter(count);
-        document.querySelector('#gotoLoginPage').addEventListener('click', gotoLoginPage);
-        const counting = function () {
-            clearTimeout(timer);
-            if (count !== 1) {
-                count -= 1;
-                setCounter(count);
-                timer = setTimeout(counting, 1000);
-            } else {
-                gotoLoginPage();
+            setCounter(count);
+            document.querySelector('#gotoLoginPage').addEventListener('click', gotoLoginPage);
+            const counting = function () {
+                clearTimeout(timer);
+                if (count !== 1) {
+                    count -= 1;
+                    setCounter(count);
+                    timer = setTimeout(counting, 1000);
+                } else {
+                    gotoLoginPage();
+                }
+            };
+            timer = setTimeout(counting, 1000);
+
+            function setCounter(count) {
+                document.querySelector('#counter').textContent = count;
+            }
+
+            function gotoLoginPage() {
+                clearTimeout(timer);
+                const logoutForm = document.getElementById('logoutForm');
+                if (!window.opener && '[[${redirectUrl}]]' !== '') {
+                    let prev = document.createElement('input');
+                    prev.setAttribute('type', 'hidden');
+                    prev.setAttribute('name', 'redirectUrl');
+                    prev.setAttribute('value', [[${redirectUrl}]]);
+                    logoutForm.appendChild(prev);
+                }
+                if (window.opener) {
+                    window.opener.name = 'alice_web';
+                    logoutForm.target = window.opener.name;
+                }
+                logoutForm.submit();
+                if (window.opener) {
+                    window.close();
+                }
             }
         };
-        timer = setTimeout(counting, 1000);
-
-        function setCounter(count) {
-            document.querySelector('#counter').textContent = count;
-        }
-
-        function gotoLoginPage() {
-            clearTimeout(timer);
-            const logoutForm = document.getElementById('logoutForm');
-            if (!window.opener && '[[${redirectUrl}]]' !== '') {
-                let prev = document.createElement('input');
-                prev.setAttribute('type', 'hidden');
-                prev.setAttribute('name', 'redirectUrl');
-                prev.setAttribute('value', [[${redirectUrl}]]);
-                logoutForm.appendChild(prev);
-            }
-            if (window.opener) {
-                window.opener.name = 'alice_web';
-                logoutForm.target = window.opener.name;
-            }
-            logoutForm.submit();
-            if (window.opener) {
-                window.close();
-            }
-        }
-    };
-    /*]]>*/
-</script>
+        /*]]>*/
+    </script>
+</th:block>
 </body>
 </html>

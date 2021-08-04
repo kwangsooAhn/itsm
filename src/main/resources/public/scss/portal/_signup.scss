@@ -3,6 +3,10 @@
  * 파일 경로 : portal/_signup.scss
  */
 .signup {
+  &-main {
+    height: 100%;
+  }
+
   &-logo {
     @include relative($top: $signup-logo-position-top, $left: $signup-logo-position-left);
   }
