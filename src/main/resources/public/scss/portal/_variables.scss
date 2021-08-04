@@ -137,3 +137,9 @@ $error-border-color:                         map-get($grays, "line");
 ///////////////////////// 메일 인증 ////////////////////////////
 $email-certificate-bg-color:                 #F2F5F9;
 $email-certificate-border-color:            map-get($grays, "line");
+
+///////////////////////// 비밀번호 변경 안내 ////////////////////////////
+$password-update-modal-width:                50rem; //800px
+$password-update-modal-height:               42rem; //672px
+$modal-header-height:                        3.375rem; //54px
+$modal-bottom-height:                        4.6rem; //73.6px

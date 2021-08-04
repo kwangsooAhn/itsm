@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="flex-column z-edit">
+    <div class="flex-column z-edit hidden-scroll">
         <div class="scheduler-header">
             <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{scheduler.label.schedule}"></h1>
@@ -105,6 +105,14 @@
                 <label for="executeCycleType">
                     <span th:text="#{scheduler.label.executeCycleType}"></span>
                     <span class="required"></span>
+                    <div class="help-tooltip">
+                        <span class="help-tooltip-icon"></span>
+                        <div id="tooltipContent" class="tooltip-contents">
+                            <span id="fixedDelayTooltip" th:utext="#{scheduler.tooltip.fixedDelay}"></span>
+                            <span id="fixedRateTooltip" th:utext="#{scheduler.tooltip.fixedRate}"></span>
+                            <span id="cronTooltip" th:utext="#{scheduler.tooltip.cron}"></span>
+                        </div>
+                    </div>
                 </label>
                 <select id="executeCycleType" required="required" onchange="changeContainer(this.value)">
                     <option th:each="executeCycleType: ${executeCycleTypeList}" th:value="${executeCycleType.codeValue}"
@@ -164,6 +172,7 @@
         window.onload = function() {
             document.getElementById('taskName').focus();
             OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.scheduler-content-edit'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelectorAll('#taskDesc'), {
                 className: 'scrollbar',
                 resize: 'vertical',
@@ -174,10 +183,15 @@
                     inheritedAttrs: "class"
                 }
             });
+            changeContainer(document.getElementById('executeCycleType').value);
         };
 
         /** 작업 유형, 실행 유형에 따른 입력 화면 출력 **/
         function changeContainer(type) {
+            let tooltipElems = document.getElementById('tooltipContent').childNodes;
+            for (let i = 1; i < tooltipElems.length; i+=2) {
+                tooltipElems[i].style.display = 'none';
+            }
             if (type === 'class') {
                 document.getElementById('type-query-container').style.display = 'none';
                 document.getElementById('type-jar-container').style.display = 'none';
@@ -193,9 +207,15 @@
             } else if (type === 'cron') {
                 document.getElementById('executeCycleType-cron-container').style.display = '';
                 document.getElementById('executeCycleType-fixed-container').style.display = 'none';
+                document.getElementById('cronTooltip').style.display = '';
             } else if (type === 'fixedDelay' || type === 'fixedRate') {
                 document.getElementById('executeCycleType-fixed-container').style.display = '';
                 document.getElementById('executeCycleType-cron-container').style.display = 'none';
+                if (type === 'fixedDelay') {
+                    document.getElementById('fixedDelayTooltip').style.display = '';
+                } else {
+                    document.getElementById('fixedRateTooltip').style.display = '';
+                }
             }
         }
 

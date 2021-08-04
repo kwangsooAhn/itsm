@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/portalLayout">
 <head>
-    <meta http-equiv="Content-Type" content="text/css; charset=UTF-8"/>
-    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
-    <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
     <title th:text="#{project.title.browserGuide}"></title>
 </head>
 <body>
-<div class="alice-wrapper">
-    <div class="portal-container flex-column guide-body">
+<th:block layout:fragment="portalHead"></th:block>
+<th:block layout:fragment="portalContent">
+    <div class="browser-guide-main flex-column">
         <h1 class="align-center" th:text="#{portal.label.browserGuidePhrase}"></h1>
         <div class="browser-row align-center">
             <div class="browser-box">
@@ -37,6 +37,6 @@
             </div>
         </div>
     </div>
-</div>
+</th:block>
 </body>
 </html>

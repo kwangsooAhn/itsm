@@ -2,24 +2,25 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" >
     <head>
         <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Zenius ITSM</title>
+        <th:block layout:fragment="meta"></th:block>
         <th:block th:replace="layout/fragments/commonPortalHead :: commonPortalHead"></th:block>
         <th:block layout:fragment="cssLink"></th:block>
         <th:block layout:fragment="scriptLink"></th:block>
     </head>
     <body>
-        <div class="alice-wrapper">
-            <div class="portal-container flex-column">
-                <div class="header">
+        <div class="z-wrapper">
+            <div class="portal-container">
+                <th:block layout:fragment="portalHead">
+                    <div class="header">
                     <a href="/portals/main">
                         <img class="logo" th:src="@{/assets/media/icons/icon_logo_white.svg}" width="152" height="26" alt="Alice">
                     </a>
-                    <div class="name" th:text="#{portal.label.mainPhrase}"></div>
+                    <span class="name" th:text="#{portal.label.mainPhrase}"></span>
                     <a class="ml-auto z-button light-secondary" href="/layout" sec:authorize="isAuthenticated()" th:text="#{portal.label.main}"></a>
                     <a class="ml-auto z-button light-secondary" href="/login" sec:authorize="isAnonymous()" th:text="#{portal.label.login}"></a>
                 </div>
-                <div class="main">
-                    <th:block layout:fragment="content"></th:block>
-                </div>
+                </th:block>
+                <th:block layout:fragment="portalContent"></th:block>
             </div>
         </div>
         <th:block layout:fragment="pageScript"></th:block>

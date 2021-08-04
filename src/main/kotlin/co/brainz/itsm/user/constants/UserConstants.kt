@@ -79,4 +79,13 @@ enum class UserConstants(val value: String) {
     enum class UserCustom(val code: String) {
         COLOR("color")
     }
+
+    /**
+     *  PW 변경 결과 정의
+     */
+    enum class UserUpdatePassword(val code: Long) {
+        SUCCESS(0),
+        SAME_AS_CURRENT_PASSWORD(1),
+        NOT_EQUAL_NOW_PASSWORD(2)
+    }
 }
