@@ -44,6 +44,7 @@
   }
 
   &.#{$common-prefix}input {
+    height: max-content;
     padding: 0;
     @include border(0.0625rem, solid, $element-border-color); // 1px
     @include borderRadius(0.125rem); // 2px
@@ -55,6 +56,10 @@
       &:not(:first-child) {
         padding: 0.25rem;
       }
+    }
+
+    .tagify__tag__removeBtn {
+      display: inherit;
     }
 
     &:hover {
@@ -127,7 +132,7 @@
 
       > * {
         @include ellipsis(inline-block, max-content);
-        min-width: 1ch;
+        max-width: 15.625rem;
         vertical-align: top;
         @include transition(0.8s ease);
       }

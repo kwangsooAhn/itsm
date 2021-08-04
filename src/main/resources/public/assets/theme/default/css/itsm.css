@@ -7069,6 +7069,7 @@ body.modal-active {
   display: none;
 }
 .tagify.z-input {
+  height: max-content;
   padding: 0;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
@@ -7081,6 +7082,9 @@ body.modal-active {
 }
 .tagify.z-input > .tagify__input:not(:first-child) {
   padding: 0.25rem;
+}
+.tagify.z-input .tagify__tag__removeBtn {
+  display: inherit;
 }
 .tagify.z-input:hover {
   outline: 0;
@@ -7165,7 +7169,7 @@ body.modal-active {
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
-  min-width: 1ch;
+  max-width: 15.625rem;
   vertical-align: top;
   -webkit-transition: 0.8s ease;
   -moz-transition: 0.8s ease;
@@ -7477,3 +7481,5 @@ body.modal-active {
 .tags-look .tagify__dropdown__item--active {
   color: #505559;
 }
+
+/*# sourceMappingURL=itsm.css.map */
