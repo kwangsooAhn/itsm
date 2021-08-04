@@ -1,213 +1,212 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/portalLayout">
 <head>
-    <meta charset="UTF-8"/>
-    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
+    <th:block layout:fragment="meta">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    </th:block>
     <title th:text="#{project.title.login}"></title>
+    <th:block layout:fragment="scriptLink">
+        <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
+        <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
+        <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
+        <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+    </th:block>
 </head>
 <body>
-<div class="alice-wrapper">
-    <div class="portal-container flex-row">
-        <div class="login-background">
-            <img class="login-logo" th:src="@{/assets/media/icons/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
-            <a href="/portals/main" class="z-button light-secondary main-return float-right" th:text="#{portal.btn.main}"></a>
-            <img class="login-main-image" th:src="@{/assets/media/images/login/img_login_main.png}" width="1071" height="710" alt="Login Main">
-        </div>
-        <div class="login-form">
-            <h1 class="align-center" th:text="#{portal.label.login}"></h1>
-            <div class="login-base">
-                <form id="loginForm" name="loginForm" method="post" th:action="@{/login}">
-                    <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
-                    <input type="hidden" id="password" name="password"/>
-                    <input type="hidden" id="email" th:value="${email}"/>
-                </form>
-                <div class="login-base-form flex-column">
-                    <label th:text="#{user.label.id}"></label>
-                    <input type="text" id="uid" name="uid" class="z-input" maxlength="100" required="required">
-                    <label tabindex="-1" th:text="#{user.label.password}"></label>
-                    <input type="password" id="upasswd" name="upasswd" class="z-input" maxlength="100" required="required">
+<th:block layout:fragment="portalHead"></th:block>
+<th:block layout:fragment="portalContent">
+    <div class="login-main flex-row">
+            <div class="login-background">
+                <img class="login-logo" th:src="@{/assets/media/icons/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
+                <a href="/portals/main" class="z-button light-secondary main-return float-right" th:text="#{portal.btn.main}"></a>
+                <img class="login-main-image" th:src="@{/assets/media/images/login/img_login_main.png}" width="1071" height="710" alt="Login Main">
+            </div>
+            <div class="login-form">
+                <h1 class="align-center" th:text="#{portal.label.login}"></h1>
+                <div class="login-base">
+                    <form id="loginForm" name="loginForm" method="post" th:action="@{/login}">
+                        <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+                        <input type="hidden" id="password" name="password"/>
+                        <input type="hidden" id="email" th:value="${email}"/>
+                    </form>
+                    <div class="login-base-form flex-column">
+                        <label th:text="#{user.label.id}"></label>
+                        <input type="text" id="uid" name="uid" class="z-input" maxlength="100" required="required">
+                        <label tabindex="-1" th:text="#{user.label.password}"></label>
+                        <input type="password" id="upasswd" name="upasswd" class="z-input" maxlength="100" required="required">
+                    </div>
+                    <button class="z-button primary col-pct-12" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
                 </div>
-                <button class="z-button primary col-pct-12" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
-            </div>
-            <div class="login-divide flex-row align-items-center" th:text="#{login.label.or}"></div>
-            <div class="login-platform">
-                <button class="z-button google col-pct-12" id="google" th:text="#{login.btn.googleLogin}" onclick="onPlatFormLogin(this.id)"></button>
-                <button class="z-button kakao col-pct-12" id="kakao" th:text="#{login.btn.kakaoLogin}" onclick="onPlatFormLogin(this.id)"></button>
-            </div>
-            <div class="login-other flex-row justify-content-center align-items-center">
-                <div class="login-other-signUp"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
-                <div class="vertical-bar"></div>
-                <div class="login-other-findPwd"><a href="#N" th:text="#{login.label.findPassword}"></a></div>
-                <div class="vertical-bar"></div>
-                <div class="login-other-findId"><a href="#N" th:text="#{login.label.findId}"></a></div>
+                <div class="login-divide flex-row align-items-center" th:text="#{login.label.or}"></div>
+                <div class="login-platform">
+                    <button class="z-button google col-pct-12" id="google" th:text="#{login.btn.googleLogin}" onclick="onPlatFormLogin(this.id)"></button>
+                    <button class="z-button kakao col-pct-12" id="kakao" th:text="#{login.btn.kakaoLogin}" onclick="onPlatFormLogin(this.id)"></button>
+                </div>
+                <div class="login-other flex-row justify-content-center align-items-center">
+                    <div class="login-other-signUp"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
+                    <div class="vertical-bar"></div>
+                    <div class="login-other-findPwd"><a href="#N" th:text="#{login.label.findPassword}"></a></div>
+                    <div class="vertical-bar"></div>
+                    <div class="login-other-findId"><a href="#N" th:text="#{login.label.findId}"></a></div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
-<script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
-<script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
-<script th:src="@{/assets/vendors/rsa/rng.js}"></script>
-<script th:src="@{/assets/js/lib/zAlert.js}"></script>
-<script th:src="@{/assets/js/lib/zI18n.js}"></script>
-<script th:src="@{/assets/js/lib/zValidation.legacy.js}"></script>
-<script th:src="@{/assets/js/lib/zUtil.js}"></script>
-<script th:src="@{/assets/js/lib/zModal.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
-    i18n.initMessages();
-    let keyModule = '';
-    let keyExponent = '';
-    let ipList = /*[[${ipList}]]*/;
-    let clientIp = /*[[${clientIp}]]*/;
-    let ipSeparator = ".*";
-    let isExpired = /*[[${isExpired}]]*/;
-    let passwordExpiredPeriod = /*[[${passwordExpiredPeriod}]]*/;
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        let keyModule = '';
+        let keyExponent = '';
+        let ipList = /*[[${ipList}]]*/;
+        let clientIp = /*[[${clientIp}]]*/;
+        let ipSeparator = ".*";
+        let isExpired = /*[[${isExpired}]]*/;
+        let passwordExpiredPeriod = /*[[${passwordExpiredPeriod}]]*/;
 
-    const rsa = new RSAKey();
-    const STATUS_SUCCESS = '0';
-    const STATUS_SAME_AS_CURRENT_PASSWORD = '1';
-    const STATUS_NOT_EQUAL_NOW_PASSWORD = '2';
+        const rsa = new RSAKey();
+        const STATUS_SUCCESS = '0';
+        const STATUS_SAME_AS_CURRENT_PASSWORD = '1';
+        const STATUS_NOT_EQUAL_NOW_PASSWORD = '2';
 
-    window.onload = function() {
-        if (window.opener) {
-            opener.location.reload();
-            window.close();
-        }
-        keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-        keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-        rsa.setPublic(keyModule, keyExponent);
-        const authFailedMsg = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
-        if (authFailedMsg !== null) {
-            aliceAlert.alertWarning(i18n.msg(authFailedMsg), function() {
+        window.onload = function() {
+            if (window.opener) {
+                opener.location.reload();
+                window.close();
+            }
+            keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+            keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+            rsa.setPublic(keyModule, keyExponent);
+            const authFailedMsg = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
+            if (authFailedMsg !== null) {
+                aliceAlert.alertWarning(i18n.msg(authFailedMsg), function() {
+                    document.getElementById('uid').focus();
+                });
+            } else {
                 document.getElementById('uid').focus();
-            });
-        } else {
-            document.getElementById('uid').focus();
-        }
-        if(isExpired) {
-            const formModal = new modal({
-                title: i18n.msg('user.label.updatePasswordNotice'),
-                body: createModalContent(),
-                classes: 'password-update-notice',
-                buttons: [{
-                    content: i18n.msg('user.btn.updatePassword'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function() {
-                          if(validation()) {
-                              const userUpdateInfo = {
-                                  userId: document.getElementById('userId').value,
-                                  nowPassword: rsa.encrypt(document.getElementById('nowPassword').value),
-                                  newPassword: rsa.encrypt(document.getElementById('newPassword').value),
-                              };
-                            restSubmit('put', 'rest/users/updatePassword', userUpdateInfo);
+            }
+            if(isExpired) {
+                const formModal = new modal({
+                    title: i18n.msg('user.label.updatePasswordNotice'),
+                    body: createModalContent(),
+                    classes: 'password-update-notice',
+                    buttons: [{
+                        content: i18n.msg('user.btn.updatePassword'),
+                        classes: 'z-button primary',
+                        bindKey: false,
+                        callback: function() {
+                              if(validation()) {
+                                  const userUpdateInfo = {
+                                      userId: document.getElementById('userId').value,
+                                      nowPassword: rsa.encrypt(document.getElementById('nowPassword').value),
+                                      newPassword: rsa.encrypt(document.getElementById('newPassword').value),
+                                  };
+                                restSubmit('put', 'rest/users/updatePassword', userUpdateInfo);
+                            }
                         }
+                    },{
+                        content: i18n.msg('user.btn.nextTime', passwordExpiredPeriod),
+                        classes: 'z-button secondary',
+                        bindKey: false,
+                        callback: function() {
+                            const userUpdateInfo = {
+                                userId: document.getElementById('userId').value
+                            };
+                            restSubmit('put', 'rest/users/nextTime', userUpdateInfo);
+                        }
+                    }],
+                    close: {
+                        closable: false,
                     }
-                },{
-                    content: i18n.msg('user.btn.nextTime', passwordExpiredPeriod),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function() {
-                        const userUpdateInfo = {
-                            userId: document.getElementById('userId').value
-                        };
-                        restSubmit('put', 'rest/users/nextTime', userUpdateInfo);
-                    }
-                }],
-                close: {
-                    closable: false,
-                }
-            });
-            formModal.show();
-        }
-    };
-    function createModalContent(data) {
-        return `<div class="flex-column">` +
-            `<label> <h3>${i18n.msg('user.msg.updatePasswordNotice', passwordExpiredPeriod)}</h3></label>` +
-            `<label> ${i18n.msg('user.tooltip.pwRuleSummary')}</label>` +
-            `</br></br>` +
-            `<label>${i18n.msg('user.label.nowUserPassword')} </label>` +
-            `<input type="password" id="nowPassword" class="z-input" maxlength="100" required="required">` +
-            `<label>${i18n.msg('user.label.newUserPassword')} </label>` +
-            `<input type="password" id="newPassword" class="z-input" maxlength="100" required="required">` +
-            `<label>${i18n.msg('user.label.newUserRePassword')} </label>` +
-            `<input type="password" id="newRePassword" class="z-input" maxlength="100" required="required">`
-    }
-
-    function validation() {
-        if (isEmpty('nowPassword', 'user.msg.enterNowUserPassword')) return false;
-        if (isEmpty('newPassword', 'user.msg.enterNewUserPassword')) return false;
-        if (isEmpty('newRePassword', 'user.msg.enterNewUserRePassword')) return false;
-        if (isNotEquals('newPassword', 'newRePassword', 'user.msg.notEqualNewPassword')) return false;
-        if (!isValidPassword('newPassword')) return false;
-
-        return true;
-    }
-
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function (response) {
-                switch (response.responseText) {
-                    case STATUS_SUCCESS:
-                            location.href = '/login';
-                        break;
-                    case STATUS_SAME_AS_CURRENT_PASSWORD:
-                        aliceAlert.alertWarning(i18n.msg("user.msg.sameAsCurrentPassword"))
-                        break;
-                    case STATUS_NOT_EQUAL_NOW_PASSWORD:
-                        aliceAlert.alertWarning(i18n.msg("user.msg.notEqualNowPassword"))
-                        break;
-                    default :
-                        break;
-                }
+                });
+                formModal.show();
             }
         };
-        aliceJs.sendXhr(opt);
-    }
-    window.onkeydown = function() {
-        if (event.keyCode === 13) {
-            onLogin();
+        function createModalContent(data) {
+            return `<div class="flex-column">` +
+                `<label> <h3>${i18n.msg('user.msg.updatePasswordNotice', passwordExpiredPeriod)}</h3></label>` +
+                `<label> ${i18n.msg('user.tooltip.pwRuleSummary')}</label>` +
+                `</br></br>` +
+                `<label>${i18n.msg('user.label.nowUserPassword')} </label>` +
+                `<input type="password" id="nowPassword" class="z-input" maxlength="100" required="required">` +
+                `<label>${i18n.msg('user.label.newUserPassword')} </label>` +
+                `<input type="password" id="newPassword" class="z-input" maxlength="100" required="required">` +
+                `<label>${i18n.msg('user.label.newUserRePassword')} </label>` +
+                `<input type="password" id="newRePassword" class="z-input" maxlength="100" required="required">`
         }
-    };
 
-    window._onLogin = false;
-    function onLogin() {
-        if (!window._onLogin) {
-            window._onLogin = true;
-            if (isEmpty('uid', "login.msg.enterId", function () {
-                window._onLogin = false; document.getElementById('uid').focus();
-            })) {
-                return false;
-            }
-            if (isEmpty('upasswd', 'login.msg.enterPassword', function () {
-                window._onLogin = false; document.getElementById('upasswd').focus();
-            })) {
-                return false;
-            }
-            if (!ipAccessCheck(ipList, clientIp, ipSeparator)) {
-                aliceAlert.alertWarning([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
-                return false;
-            }
-            document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
-            document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
-            document.loginForm.submit();
-            window._onLogin = false;
+        function validation() {
+            if (isEmpty('nowPassword', 'user.msg.enterNowUserPassword')) return false;
+            if (isEmpty('newPassword', 'user.msg.enterNewUserPassword')) return false;
+            if (isEmpty('newRePassword', 'user.msg.enterNewUserRePassword')) return false;
+            if (isNotEquals('newPassword', 'newRePassword', 'user.msg.notEqualNewPassword')) return false;
+            if (!isValidPassword('newPassword')) return false;
+
+            return true;
         }
-    }
 
-    function onPlatFormLogin(platform) {
-        location.href = '/oauth/' + platform + '/login';
-    }
-    /*]]>*/
-</script>
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function (response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                                location.href = '/login';
+                            break;
+                        case STATUS_SAME_AS_CURRENT_PASSWORD:
+                            aliceAlert.alertWarning(i18n.msg("user.msg.sameAsCurrentPassword"))
+                            break;
+                        case STATUS_NOT_EQUAL_NOW_PASSWORD:
+                            aliceAlert.alertWarning(i18n.msg("user.msg.notEqualNowPassword"))
+                            break;
+                        default :
+                            break;
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        window.onkeydown = function() {
+            if (event.keyCode === 13) {
+                onLogin();
+            }
+        };
+
+        window._onLogin = false;
+        function onLogin() {
+            if (!window._onLogin) {
+                window._onLogin = true;
+                if (isEmpty('uid', "login.msg.enterId", function () {
+                    window._onLogin = false; document.getElementById('uid').focus();
+                })) {
+                    return false;
+                }
+                if (isEmpty('upasswd', 'login.msg.enterPassword', function () {
+                    window._onLogin = false; document.getElementById('upasswd').focus();
+                })) {
+                    return false;
+                }
+                if (!ipAccessCheck(ipList, clientIp, ipSeparator)) {
+                    aliceAlert.alertWarning([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
+                    return false;
+                }
+                document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
+                document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
+                document.loginForm.submit();
+                window._onLogin = false;
+            }
+        }
+
+        function onPlatFormLogin(platform) {
+            location.href = '/oauth/' + platform + '/login';
+        }
+        /*]]>*/
+    </script>
+</th:block>
 </body>
 </html>

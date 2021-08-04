@@ -7,23 +7,25 @@
     <title th:text="#{faq.label.faq}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="faq-header">
-        <div class="header-title flex-row align-items-baseline">
-            <h1 th:text="#{faq.label.faq}"></h1>
-            <h6 class="description ml-2" th:text="#{faq.msg.portalDescription}"></h6>
+<th:block layout:fragment="portalContent">
+    <div class="main">
+        <div class="faq-header">
+            <div class="header-title flex-row align-items-baseline">
+                <h1 th:text="#{faq.label.faq}"></h1>
+                <h6 class="description ml-2" th:text="#{faq.msg.portalDescription}"></h6>
+            </div>
+            <div class="faq-search">
+                <select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="col-5 mr-2">
+                    <option th:text="#{common.code.faq.category.all}" value="" selected></option>
+                    <option th:each="category:${faqs.faqCategory}"
+                            th:text="#{|common.code.${category}|}" th:value="${category}"></option>
+                </select>
+                <span id="spanTotalCount" class="search-count"></span>
+            </div>
         </div>
-        <div class="faq-search">
-            <select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="col-5 mr-2">
-                <option th:text="#{common.code.faq.category.all}" value="" selected></option>
-                <option th:each="category:${faqs.faqCategory}"
-                        th:text="#{|common.code.${category}|}" th:value="${category}"></option>
-            </select>
-            <span id="spanTotalCount" class="search-count"></span>
+        <div class="faq-content">
+            <div class="list"></div>
         </div>
-    </div>
-    <div class="faq-content">
-        <div class="list"></div>
     </div>
 </th:block>
 </body>
