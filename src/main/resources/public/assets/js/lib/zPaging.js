@@ -31,8 +31,8 @@ class ZPaging {
 
         // 현재 페이징 목록을 가져옴.
         let currentPageList = [];
-        document.querySelectorAll('div.PagingNumber').forEach((span) => {
-            currentPageList.push(span.innerHTML);
+        document.querySelectorAll('div.PagingNumber span').forEach((span) => {
+            currentPageList.push(span.innerText);
         })
 
         // 현재 페이지번호가 이미 있는 경우 -> class 입힘.
@@ -47,7 +47,7 @@ class ZPaging {
         });
 
         // 페이지 번호 넣기.
-        let startPageNum = (Math.floor(currentPageNum / NUM_OF_PAGE_NUMS) * NUM_OF_PAGE_NUMS) + 1
+        let startPageNum = (Math.floor((currentPageNum-1) / NUM_OF_PAGE_NUMS) * NUM_OF_PAGE_NUMS) + 1
         let endPageNum = (startPageNum + NUM_OF_PAGE_NUMS - 1 > totalPageNum) ? totalPageNum : startPageNum + NUM_OF_PAGE_NUMS - 1;
         for (let i = startPageNum; i <= endPageNum; i++) {
             let newAnchor = document.createElement('a');
@@ -61,7 +61,7 @@ class ZPaging {
         // Start 화살표 처리
         let pagingStartArrow = document.querySelector('#pagingStartArrow');
         pagingStartArrow.className = '';
-        pagingStartArrow.setAttribute('href', '');
+        pagingStartArrow.removeAttribute('href');
         if (endPageNum > NUM_OF_PAGE_NUMS) {
             pagingStartArrow.classList.add('active');
             pagingStartArrow.setAttribute('href', 'javascript:getList(1)');
@@ -70,7 +70,7 @@ class ZPaging {
         // Prev 화살표 처리
         let pagingPrevArrow = document.querySelector('#pagingPrevArrow');
         pagingPrevArrow.className = '';
-        pagingPrevArrow.setAttribute('href', '');
+        pagingPrevArrow.removeAttribute('href');
         if (endPageNum > NUM_OF_PAGE_NUMS) {
             pagingPrevArrow.classList.add('active');
             pagingPrevArrow.setAttribute('href', 'javascript:getList(' + (startPageNum - 1) + ')');
@@ -79,7 +79,7 @@ class ZPaging {
         // End 화살표 처리
         let pagingEndArrow = document.querySelector('#pagingEndArrow');
         pagingEndArrow.className = '';
-        pagingEndArrow.setAttribute('href', '');
+        pagingEndArrow.removeAttribute('href');
         if (totalPageNum > endPageNum) {
             pagingEndArrow.classList.add('active');
             pagingEndArrow.setAttribute('href', 'javascript:getList(' + (totalPageNum) + ')');
@@ -88,7 +88,7 @@ class ZPaging {
         // Next 화살표 처리
         let pagingNextArrow = document.querySelector('#pagingNextArrow');
         pagingNextArrow.className = '';
-        pagingNextArrow.setAttribute('href', '');
+        pagingNextArrow.removeAttribute('href');
         if (totalPageNum > endPageNum) {
             pagingNextArrow.classList.add('active');
             pagingNextArrow.setAttribute('href', 'javascript:getList(' + (endPageNum + 1) + ')');
