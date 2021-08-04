@@ -52,7 +52,7 @@
     }
   }
   // input 엘리먼트
-  .#{$common-prefix}input {
+  .#{$common-prefix}input:not(.tagify) {
     width: 100%;
     padding: 0 1rem; // 0 16px
     font-size: $property-font-size;

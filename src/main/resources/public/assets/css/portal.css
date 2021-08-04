@@ -1555,7 +1555,7 @@ label {
   outline: 0;
   border: 0.0625rem solid #339AF0;
 }
-.z-input:read-only {
+.z-input:read-only:not(.tagify) {
   border-color: #ABB0B5;
   border-style: none none none solid;
   border-radius: 0;

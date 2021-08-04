@@ -1267,7 +1267,7 @@ label {
   outline: 0;
   border: 0.0625rem solid #339AF0;
 }
-.z-input:read-only {
+.z-input:read-only:not(.tagify) {
   border-color: #ABB0B5;
   border-style: none none none solid;
   border-radius: 0;
@@ -2232,10 +2232,6 @@ body.modal-active {
   position: relative;
   display: flex;
   min-height: 2.25rem;
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
   align-items: flex-start;
   flex-wrap: wrap;
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
@@ -2249,26 +2245,44 @@ body.modal-active {
   transition: 0.1s;
   --tag-hide-transition: 0.3s;
 }
-.tagify:not(:read-only):hover, .tagify:not(:disabled):hover {
+.tagify:read-only {
+  border: none;
+  cursor: inherit;
+}
+.tagify:read-only > .tagify__input {
+  visibility: hidden;
+}
+.tagify:read-only .tagify__tag__removeBtn {
+  display: none;
+}
+.tagify.z-input {
+  padding: 0;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+}
+.tagify.z-input > .tagify__input {
+  padding: 0 1rem;
+  visibility: visible;
+}
+.tagify.z-input > .tagify__input:not(:first-child) {
+  padding: 0.25rem;
+}
+.tagify.z-input:hover {
   outline: 0;
   border-color: #64BBF6;
 }
-.tagify:not(:read-only):focus, .tagify:not(:disabled):focus {
+.tagify.z-input:focus {
   outline: 0;
   border-color: #2578CE;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578ce;
   -moz-box-shadow: 0 0 0.125rem 0 #2578ce;
   box-shadow: 0 0 0.125rem 0 #2578ce;
 }
-.tagify:not(:read-only):active, .tagify:not(:disabled):active {
+.tagify.z-input:active {
   outline: 0;
   border-color: #2578CE;
-}
-.tagify:not(:read-only) > .tagify__input, .tagify:not(:disabled) > .tagify__input {
-  padding: 0 1rem;
-}
-.tagify:not(:read-only) > .tagify__input:not(:first-child), .tagify:not(:disabled) > .tagify__input:not(:first-child) {
-  padding: 0.25rem;
 }
 .tagify:disabled {
   border-color: #ABB0B5;
@@ -2289,18 +2303,6 @@ body.modal-active {
   pointer-events: none;
   box-shadow: none;
 }
-.tagify:read-only {
-  padding: 0;
-  border: none;
-  cursor: inherit;
-}
-.tagify:read-only > .tagify__input {
-  width: 0;
-  visibility: hidden;
-}
-.tagify:read-only .tagify__tag__removeBtn {
-  display: none;
-}
 .tagify + input,
 .tagify + textarea {
   display: none !important;
@@ -2308,11 +2310,11 @@ body.modal-active {
 .tagify__tag {
   position: relative;
   display: inline-flex;
-  align-items: center;
-  margin: 0.25rem 0 0.25rem 0.25rem;
+  margin: 0.1875rem 0 0.1875rem 0.1875rem;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
+  align-items: center;
   z-index: 1;
   outline: 0;
   cursor: default;
@@ -2350,8 +2352,8 @@ body.modal-active {
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
-  vertical-align: top;
   min-width: 1ch;
+  vertical-align: top;
   -webkit-transition: 0.8s ease;
   -moz-transition: 0.8s ease;
   -o-transition: 0.8s ease;

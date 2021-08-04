@@ -295,7 +295,7 @@ label {
     }
   }
 
-  &:read-only {
+  &:read-only:not(.tagify) {
     border-color: $gray400;
     border-style: none none none solid;
     @include borderRadius(0);

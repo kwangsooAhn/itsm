@@ -31,7 +31,7 @@ export default class ZTagProperty extends ZProperty {
         this.UIElement.UILabel = this.makeLabelProperty();
         this.UIElement.addUI(this.UIElement.UILabel);
         // inputbox
-        this.UIElement.UIInput = new UIInput().removeUIClass('z-input').addUIClass('input')
+        this.UIElement.UIInput = new UIInput()//.removeUIClass('z-input').addUIClass('input')
             .setUIId(this.key).setUIValue(this.value);
         this.UIElement.addUI(this.UIElement.UIInput);
 

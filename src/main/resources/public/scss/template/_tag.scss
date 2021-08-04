@@ -21,8 +21,6 @@
   @include relative();
   display: flex;
   min-height: 2.25rem; // 36px
-  @include border(0.0625rem, solid, $element-border-color); // 1px
-  @include borderRadius(0.125rem); // 2px
   align-items: flex-start;
   flex-wrap: wrap;
   font-family: $element-font-family;
@@ -32,8 +30,33 @@
   @include transition(0.1s);
   --tag-hide-transition: 0.3s;
 
-  &:not(:read-only),
-  &:not(:disabled) {
+  &:read-only {
+    border: none;
+    cursor: inherit;
+
+    > .tagify__input {
+      visibility: hidden;
+    }
+
+    .tagify__tag__removeBtn {
+      display: none;
+    }
+  }
+
+  &.#{$common-prefix}input {
+    padding: 0;
+    @include border(0.0625rem, solid, $element-border-color); // 1px
+    @include borderRadius(0.125rem); // 2px
+
+    > .tagify__input {
+      padding: 0 $element-indent;
+      visibility: visible;
+
+      &:not(:first-child) {
+        padding: 0.25rem;
+      }
+    }
+
     &:hover {
       outline: 0;
       border-color: $element-hover-border-color;
@@ -50,13 +73,6 @@
       border-color: $element-active-border-color;
     }
 
-    > .tagify__input {
-      padding: 0 $element-indent;
-
-      &:not(:first-child) {
-        padding: 0.25rem;
-      }
-    }
   }
 
   &:disabled {
@@ -81,21 +97,6 @@
     }
   }
 
-  &:read-only {
-    padding: 0;
-    border: none;
-    cursor: inherit;
-
-    > .tagify__input {
-      width: 0;
-      visibility: hidden;
-    }
-
-    .tagify__tag__removeBtn {
-      display: none;
-    }
-  }
-
   + input,
   + textarea {
     display: none !important;
@@ -105,9 +106,9 @@
   &__tag {
     @include relative();
     display: inline-flex;
-    align-items: center;
-    margin: 0.25rem 0 0.25rem 0.25rem; // 4px 0 4px 4px
+    margin: 0.1875rem 0 0.1875rem 0.1875rem; // 3px 0 3px 3px
     @include borderRadius($tag-border-radius);
+    align-items: center;
     z-index: 1;
     outline: 0;
     cursor: default;
@@ -126,8 +127,8 @@
 
       > * {
         @include ellipsis(inline-block, max-content);
-        vertical-align: top;
         min-width: 1ch;
+        vertical-align: top;
         @include transition(0.8s ease);
       }
 
@@ -164,7 +165,7 @@
         div {
           color: $tag-invalid-color;
           > span {
-            opacity: 1; // 기존 0.5
+            opacity: 1;
           }
           &::before {
             @include insideBorder(1.25rem, $tag-invalid-bg-color);
@@ -310,61 +311,7 @@
       }
     }
   }
-  //
-  //&--invalid {
-  //  border-color: $tag-invalid-border-color;
-  //}
 }
-//
-//.tagify--mix {
-//  line-height: 1.7;
-//
-//  .tagify__input {
-//    width: 100%;
-//    height: 100%;
-//    padding: 0.3125rem; // 5px
-//    margin: 0;
-//    line-height: inherit;
-//    &::before {
-//      position: static;
-//      height: auto;
-//      line-height: inherit;
-//    }
-//    &::after {
-//      content: none;
-//    }
-//  }
-//}
-//
-//.tagify--select {
-//  &::after {
-//    content: '>';
-//    @include absolute(50%, 0, 0, null);
-//    height: 0.5rem; // 8px
-//    opacity: 0.5;
-//    font-family: $font-family-m;
-//    line-height: 0.5rem; // 8px
-//    pointer-events: none;
-//    @include transform(translate(-150%, -50%) scaleX(1.2) rotate(90deg));
-//    @include transition(0.2s ease-in-out);
-//  }
-//
-//  &[aria-expanded=true]::after {
-//    @include transform(translate(-150%, -50%) rotate(270deg) scaleY(1.2));
-//  }
-//
-//  .tagify__tag {
-//    @include absolute(0, 1.8em, 0, null);
-//    div {
-//      display: none;
-//    }
-//  }
-//
-//  .tagify__input {
-//    width: 100%;
-//  }
-//}
-
 
 // 태그 자동 완성
 .tagify__dropdown {
@@ -383,15 +330,7 @@
       border-bottom-width: 0;
     }
   }
-  //
-  //&--text {
-  //  @include boxShadow(0, 0, 0, 3px, hexToRGBA(#3595f6, 0.1));
-  //  font-size: 0.9em;
-  //
-  //  .tagify__dropdown__wrapper {
-  //    border-width: .0625rem; // 1px
-  //  }
-  //}
+
   // 자동 완성 wrapper
   &__wrapper {
     max-height: 18.75rem;
@@ -405,17 +344,6 @@
       overflow: auto;
     }
   }
-  //
-  //&--initial {
-  //  &[placement=top] .tagify__dropdown__wrapper {
-  //    @include translate(0, 2em);
-  //  }
-  //
-  //  .tagify__dropdown__wrapper {
-  //    max-height: 20px;
-  //    @include translate(0, -1em);
-  //  }
-  //}
 
   &__item {
     @include relative();
