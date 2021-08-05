@@ -5047,3 +5047,56 @@ body.modal-active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
+
+/* _paging.scss
+ *
+ * 파일 경로 : template/_paging.scss
+ * @description 페이징 목록 디자인
+ * @author Jung Hee Chan
+ */
+.itsm-container .z-pagingArea {
+  background-color: #F7F8F9;
+}
+
+.z-pagingArea {
+  padding: 0 3.75rem 1.875rem 3.75rem;
+  justify-content: center;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
+.z-pagingArea a.z-pagingArrow {
+  visibility: hidden;
+}
+.z-pagingArea a.z-pagingArrow.active {
+  visibility: visible;
+}
+.z-pagingArea .z-pagingNumbers a:link,
+.z-pagingArea .z-pagingNumbers a:visited,
+.z-pagingArea .z-pagingNumbers a:hover,
+.z-pagingArea .z-pagingNumbers a:active {
+  display: inline-block;
+  padding: 0 0.625rem;
+  min-width: 1.5rem;
+  font-weight: 400;
+  color: #222529;
+}
+.z-pagingArea .z-pagingNumbers .selectedPage {
+  background-color: #E3F5FC;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+.z-pagingArea .z-pagingNumbers .selectedPage a:link,
+.z-pagingArea .z-pagingNumbers .selectedPage a:visited,
+.z-pagingArea .z-pagingNumbers .selectedPage a:hover,
+.z-pagingArea .z-pagingNumbers .selectedPage a:active {
+  font-weight: 700;
+  color: #2578CE;
+}
+.z-pagingArea #spanCurrentPageNum {
+  font-weight: 700;
+  color: #8B9094;
+  position: absolute;
+  right: 3.75rem;
+}
