@@ -6,13 +6,15 @@
     <title th:text="#{dashboard.label.dashboard}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="dashboard-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{token.label.list}"></h1>
             <h6 class="description ml-2" th:text="#{dashboard.msg.viewDescription}"></h6>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="dashboard-content flex-fill">
         <h3 class="sub-title">업무통계</h3>
         <div id="statistic" class="flex-row">

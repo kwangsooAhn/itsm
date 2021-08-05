@@ -2581,94 +2581,94 @@ table[id=documentDisplay] td {
     transform: translateY(0);
   }
 }
-.itsm-container {
+.z-itsm-container {
   max-width: 120rem;
   margin: 0 auto;
   width: 100vw;
   height: 100vh;
   overflow: auto;
 }
-.itsm-container .horizontal-bar {
-  height: 0.0625rem;
-  margin: 0.625rem 0;
-  background-color: #EBEBEB;
-}
-.itsm-container .main {
+.z-itsm-container .z-main {
   width: calc(100% - 13.75rem);
   height: 100vh;
 }
-.itsm-container .main .header-title {
+.z-itsm-container .z-main .z-main-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.z-itsm-container .z-main .z-main-header .header-title {
   padding: 0 0 3.875rem 0;
 }
-.itsm-container .main .header-search {
+.z-itsm-container .z-main .z-main-header .header-search {
   padding: 0.3125rem 0px 1.875rem 0px;
 }
-.itsm-container .main .header-search .search-count {
+.z-itsm-container .z-main .z-main-header .header-search .search-count {
   color: #7E848C;
 }
-.itsm-container .main .list a, .itsm-container .main .list button {
+.z-itsm-container .z-main .list a, .z-itsm-container .z-main .list button {
   cursor: pointer;
 }
-.itsm-container .main .list-table {
+.z-itsm-container .z-main .list-table {
   position: relative;
   display: inline-table;
   width: 100%;
 }
-.itsm-container .main .list-head tr {
+.z-itsm-container .z-main .list-head tr {
   height: 2.125rem;
   border-bottom: 0.125rem solid #E1E3E6;
 }
-.itsm-container .main .list-head tr th {
+.z-itsm-container .z-main .list-head tr th {
   font-size: 1.125rem;
   font-weight: 500;
   color: #3F4B56;
   padding: 0 0.9375rem;
 }
-.itsm-container .main .list-head tr th:first-child {
+.z-itsm-container .z-main .list-head tr th:first-child {
   padding-left: 1.25rem;
 }
-.itsm-container .main .list-body {
+.z-itsm-container .z-main .list-body {
   position: absolute;
   width: 100%;
   height: 33.75rem;
 }
-.itsm-container .main .list-body tr {
+.z-itsm-container .z-main .list-body tr {
   height: 3.375rem;
 }
-.itsm-container .main .list-body tr:hover {
+.z-itsm-container .z-main .list-body tr:hover {
   background-color: #EBEBEB;
 }
-.itsm-container .main .list-body tr.active {
+.z-itsm-container .z-main .list-body tr.active {
   background-color: rgba(230, 232, 235, 0.6);
 }
-.itsm-container .main .list-body tr.active td {
+.z-itsm-container .z-main .list-body tr.active td {
   color: #0060A5;
 }
-.itsm-container .main .list-body tr td {
+.z-itsm-container .z-main .list-body tr td {
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
   padding: 0 0.9375rem;
   line-height: initial;
 }
-.itsm-container .main .list-body tr td:first-child {
+.z-itsm-container .z-main .list-body tr td:first-child {
   padding-left: 1.25rem;
 }
-.itsm-container .main .list-body tr td a {
+.z-itsm-container .z-main .list-body tr td a {
   color: #586872;
 }
-.itsm-container .main .list-body .no-data-found-list {
+.z-itsm-container .z-main .list-body .no-data-found-list {
   background-color: #EBEBEB;
   pointer-events: none;
 }
-.itsm-container .main .list-tree {
+.z-itsm-container .z-main .list-tree {
   height: 37.88rem;
 }
-.itsm-container .main .card-list {
+.z-itsm-container .z-main .card-list {
   flex-wrap: wrap;
   padding-bottom: 0.625rem;
 }
-.itsm-container .main .card-list .card {
+.z-itsm-container .z-main .card-list .card {
   position: relative;
   min-width: 32.0625rem;
   min-height: 12.5rem;
@@ -2681,68 +2681,68 @@ table[id=documentDisplay] td {
   overflow: hidden;
   cursor: pointer;
 }
-.itsm-container .main .card-list .card:hover {
+.z-itsm-container .z-main .card-list .card:hover {
   box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15), inset 0 0 0 0.0625rem #EBEBEB;
 }
-.itsm-container .main .card-list .card .document-column h3 {
+.z-itsm-container .z-main .card-list .card .document-column h3 {
   width: 28rem;
 }
-.itsm-container .main .card-list .no-data-found {
+.z-itsm-container .z-main .card-list .no-data-found {
   width: 100%;
   background-color: rgba(247, 248, 249, 0.45);
   pointer-events: none;
 }
-.itsm-container .main .card-list .no-data-found .no-data-icon {
+.z-itsm-container .z-main .card-list .no-data-found .no-data-icon {
   content: url("../media/icons/icon_no_data.svg");
 }
-.itsm-container .main .card-list .no-data-found .no-data-text {
+.z-itsm-container .z-main .card-list .no-data-found .no-data-text {
   font-size: 1.125rem;
   font-weight: 500;
   color: #CCCED1;
   margin-left: 2.5rem;
 }
-.itsm-container .main .z-edit {
+.z-itsm-container .z-main .z-edit {
   height: 100vh;
 }
-.itsm-container .main .z-edit .z-edit-row {
+.z-itsm-container .z-main .z-edit .z-edit-row {
   margin: 0.625rem 0 0;
 }
-.itsm-container .main .z-edit .z-edit-row .z-button-list {
+.z-itsm-container .z-main .z-edit .z-edit-row .z-button-list {
   margin-top: 1.875rem;
 }
-.itsm-container .main .z-edit .z-edit-column .z-edit-row {
+.z-itsm-container .z-main .z-edit .z-edit-column .z-edit-row {
   margin: 0.625rem 0 0 0;
 }
-.itsm-container .main .view {
+.z-itsm-container .z-main .view {
   height: 100vh;
 }
-.itsm-container .main .view .view-row {
+.z-itsm-container .z-main .view .view-row {
   margin: 0.625rem 0 0 0;
 }
-.itsm-container .main .view .view-row .z-button-list {
+.z-itsm-container .z-main .view .view-row .z-button-list {
   margin-top: 1.875rem;
 }
-.itsm-container .main .view-title {
+.z-itsm-container .z-main .view-title {
   font-size: 1.125rem;
   font-weight: 500;
   color: #3F4B56;
   padding-bottom: 0.625rem;
   border-bottom: 0.125rem solid #E1E3E6;
 }
-.itsm-container .main .view-sub-title {
+.z-itsm-container .z-main .view-sub-title {
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
   padding: 0 1.25rem;
 }
-.itsm-container .main .view-content {
+.z-itsm-container .z-main .view-content {
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
 }
-.itsm-container .main .view-content pre {
+.z-itsm-container .z-main .view-content pre {
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-line;
@@ -2750,16 +2750,16 @@ table[id=documentDisplay] td {
   white-space: -moz-pre-wrap;
   word-break: break-all;
 }
-.itsm-container .main .view-content .view-text {
+.z-itsm-container .z-main .view-content .view-text {
   margin: 0;
 }
-.itsm-container .aside {
+.z-itsm-container .z-aside {
   flex-shrink: 0;
   width: 38.125rem;
   background-color: #FFFFFF;
   padding: 9.625rem 2.1875rem 3.125rem 0;
 }
-.itsm-container .aside.code {
+.z-itsm-container .z-aside.code {
   width: 62.5rem;
 }
 

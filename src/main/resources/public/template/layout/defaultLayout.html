@@ -8,23 +8,20 @@
 	</head>
 	<body>
 		<div class="z-wrapper">
-			<div class="itsm-container flex-row">
+			<div class="z-itsm-container flex-row">
+				<!-- 네비게이션 -->
 				<th:block th:replace="layout/navigation"></th:block>
-				<div class="main flex-column">
-					<div class="header">
+				<!-- 메인 -->
+				<div class="z-main flex-column">
+					<div class="z-main-header">
 						<th:block th:replace="layout/topMenu">topMenu</th:block>
 						<th:block layout:fragment="head"></th:block>
 					</div>
-
 					<th:block layout:fragment="content"></th:block>
 				</div>
-
-				<!--<div class="main flex-column">
-					<th:block th:replace="layout/topMenu">topMenu</th:block>
-					<th:block layout:fragment="content"></th:block>
-				</div>-->
-
-				<th:block layout:fragment="defaultAside"></th:block>
+				<!-- 사이드바 -->
+				<th:block layout:fragment="aside"></th:block>
+				<!-- 하단 -->
 				<footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
 			</div>
 		</div>

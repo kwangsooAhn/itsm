@@ -23,46 +23,50 @@
   }
 }
 /////////////////////////////////////////////// 공통 /////////////////////////////////////////////////////
-.itsm-container {
-  @include container;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-
-  @include horizontalBar(0.0625rem,  0.625rem 0, map-get($grays, "line"));
-
-  // 메뉴 디자인은 _gnb.scss 참조
-  // 메인
-  .main {
-    width: calc(100% - #{$nav-width});
+.#{$common-prefix}itsm {
+  &-container {
+    @include container;
+    width: 100vw;
     height: 100vh;
+    overflow: auto;
 
-    // 상단 영역
-    @include defaultHeader();
+    .#{$common-prefix}main {
+      width: calc(100% - #{$nav-width});
+      height: 100vh;
 
-    // 리스트
-    @include defaultListTemplate();
+      // 상단 영역
+      .#{$common-prefix}main-header {
+        @include sticky($top: 0);
+        z-index: $z-index-between-gnb-event;
 
-    // 카드
-    @include defaultCardTemplate();
+        @include defaultHeader();
+      }
 
-    // edit, register
-    @include defaultEditTemplate();
+      // 리스트
+      @include defaultListTemplate();
 
-    // view
-    @include defaultViewTemplate();
-  }
-  // 역할, 권한, 코드 화면의 우측 영역
-  .aside {
-    flex-shrink: 0; // 고정
-    width: 38.125rem; // 610px
-    background-color: $white;
-    padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
+      // 카드
+      @include defaultCardTemplate();
 
-    // 코드 화면은 너비가 다름
-    &.code { width: 62.5rem; } // 1000px
+      // edit, register
+      @include defaultEditTemplate();
+
+      // view
+      @include defaultViewTemplate();
+    }
+    // 역할, 권한, 코드 화면의 우측 영역
+    .#{$common-prefix}aside {
+      flex-shrink: 0; // 고정
+      width: 38.125rem; // 610px
+      background-color: $white;
+      padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
+
+      // 코드 화면은 너비가 다름
+      &.code { width: 62.5rem; } // 1000px
+    }
   }
 }
+
 // 슬라이드 효과
 .slide-down {
   @include animation(0s, 0.3s, slideDown, ease-out);

@@ -7,14 +7,16 @@
     <title th:text="${boardAdmin?.boardAdminId != null} ? #{board.label.boardEdit} : #{board.label.boardRegister}"></title>
 </head>
 <body>
+<th:block layout:fragment="head">
+    <div class="board-admin-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{board.label.board}"></h1>
+            <h6 class="description ml-2" th:text="#{board.msg.adminEditDescription}"></h6>
+        </div>
+    </div>
+</th:block>
 <th:block layout:fragment="content">
     <div class="flex-column z-edit">
-        <div class="board-admin-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{board.label.board}"></h1>
-                <h6 class="description ml-2" th:text="#{board.msg.adminEditDescription}"></h6>
-            </div>
-        </div>
         <div class="board-admin-content-edit">
             <div class="flex-column z-edit-row">
                 <label for="boardAdminTitle">

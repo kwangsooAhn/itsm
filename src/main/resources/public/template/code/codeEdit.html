@@ -7,7 +7,7 @@
     <title th:text="#{code.label.code}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="code-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{code.label.code}"></h1>
@@ -23,14 +23,16 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="code-content flex-fill">
         <div class="list-tree">
             <div id="treeList"></div>
         </div>
     </div>
 </th:block>
-<th:block layout:fragment="defaultAside">
-    <div class="aside code">
+<th:block layout:fragment="aside">
+    <div class="z-aside code">
         <div class="code-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-row">
