@@ -5054,7 +5054,7 @@ body.modal-active {
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
-.itsm-container .z-pagingArea {
+.z-itsm-container .z-pagingArea {
   background-color: #F7F8F9;
 }
 
@@ -5081,18 +5081,16 @@ body.modal-active {
   font-weight: 400;
   color: #222529;
 }
-.z-pagingArea .z-pagingNumbers .selectedPage {
+.z-pagingArea .z-pagingNumbers a:link.selectedPage,
+.z-pagingArea .z-pagingNumbers a:visited.selectedPage,
+.z-pagingArea .z-pagingNumbers a:hover.selectedPage,
+.z-pagingArea .z-pagingNumbers a:active.selectedPage {
+  font-weight: 700;
+  color: #2578CE;
   background-color: #E3F5FC;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
-}
-.z-pagingArea .z-pagingNumbers .selectedPage a:link,
-.z-pagingArea .z-pagingNumbers .selectedPage a:visited,
-.z-pagingArea .z-pagingNumbers .selectedPage a:hover,
-.z-pagingArea .z-pagingNumbers .selectedPage a:active {
-  font-weight: 700;
-  color: #2578CE;
 }
 .z-pagingArea #spanCurrentPageNum {
   font-weight: 700;
