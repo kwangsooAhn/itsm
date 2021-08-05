@@ -7,14 +7,16 @@
     <title th:text="#{board.label.view}"></title>
 </head>
 <body>
+<th:block layout:fragment="head">
+    <div class="board-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{board.label.board}"></h1>
+            <h6 class="description ml-2" th:text="#{board.msg.viewDescription}"></h6>
+        </div>
+    </div>
+</th:block>
 <th:block layout:fragment="content">
     <div class="flex-column view">
-        <div class="board-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{board.label.board}"></h1>
-                <h6 class="description ml-2" th:text="#{board.msg.viewDescription}"></h6>
-            </div>
-        </div>
         <div class="board-content-view">
             <div class="flex-column view-row">
                 <div class="view-title text-ellipsis">

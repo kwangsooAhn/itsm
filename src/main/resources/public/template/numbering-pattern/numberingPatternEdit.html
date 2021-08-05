@@ -7,7 +7,7 @@
     <title th:text="#{pattern.label.pattern}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="numbering-pattern-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{pattern.label.pattern}"></h1>
@@ -23,12 +23,14 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="numbering-pattern-content flex-fill">
         <div class="list" id="patternList"></div>
     </div>
 </th:block>
 <th:block layout:fragment="aside">
-    <div class="aside">
+    <div class="z-aside">
         <div class="numbering-pattern-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">
@@ -44,19 +46,19 @@
                             <input id="numbering.pattern.text" name="patternType" type="radio"
                                    onclick="changePatternValueInput('numbering.pattern.text')">
                             <span></span>
-                            <span class="label" th:text="#{pattern.type.text}"></span>
+                            <span class="z-label" th:text="#{pattern.type.text}"></span>
                         </label>
                         <label class="z-radio mr-4">
                             <input id="numbering.pattern.date" name="patternType" type="radio"
                                    onclick="changePatternValueInput('numbering.pattern.date')">
                             <span></span>
-                            <span class="label" th:text="#{pattern.type.date}"></span>
+                            <span class="z-label" th:text="#{pattern.type.date}"></span>
                         </label>
                         <label class="z-radio">
                             <input id="numbering.pattern.sequence" name="patternType" type="radio"
                                    onclick="changePatternValueInput('numbering.pattern.sequence')">
                             <span></span>
-                            <span class="label" th:text="#{pattern.type.sequence}"></span>
+                            <span class="z-label" th:text="#{pattern.type.sequence}"></span>
                         </label>
                     </div>
                 </div>

@@ -39,3 +39,8 @@
 @mixin fixed($args...) {
   @include position(fixed, $args...);
 }
+
+// @include sticky($top: 1em, $left: 50%);
+@mixin sticky($args...) {
+  @include position(sticky, $args...);
+}

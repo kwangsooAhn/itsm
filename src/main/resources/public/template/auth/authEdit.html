@@ -7,7 +7,7 @@
     <title th:text="#{auth.label.auth}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="auth-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{auth.label.auth}"></h1>
@@ -23,12 +23,14 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="auth-content flex-fill">
         <div class="list" id="authList"></div>
     </div>
 </th:block>
 <th:block layout:fragment="aside">
-    <div class="aside">
+    <div class="z-aside">
         <div class="auth-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">
@@ -53,7 +55,7 @@
                                 <label class="z-checkbox" th:for="${url?.url}" tabindex="0">
                                     <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
                                     <span></span>
-                                    <span class="label" th:text="|[${url?.method}] ${url?.url}|"></span>
+                                    <span class="z-label" th:text="|[${url?.method}] ${url?.url}|"></span>
                                 </label>
                             </li>
                         </ul>
@@ -69,7 +71,7 @@
                                            th:id="${menu?.menuId}"
                                            th:value="${menu?.menuId}">
                                     <span></span>
-                                    <span class="label" th:text="#{|menu.${menu?.menuId}|}"></span>
+                                    <span class="z-label" th:text="#{|menu.${menu?.menuId}|}"></span>
                                 </label>
                             </li>
                         </ul>

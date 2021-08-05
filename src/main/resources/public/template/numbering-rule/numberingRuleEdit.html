@@ -7,7 +7,7 @@
     <title th:text="#{rule.label.rule}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="numbering-rule-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{rule.label.rule}"></h1>
@@ -23,12 +23,14 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="numbering-rule-content flex-fill">
         <div class="list" id="ruleList"></div>
     </div>
 </th:block>
 <th:block layout:fragment="aside">
-    <div class="aside">
+    <div class="z-aside">
         <div class="numbering-rule-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">

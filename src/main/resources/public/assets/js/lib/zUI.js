@@ -317,7 +317,7 @@ class UISelect extends UIElement {
 class UICheckbox extends UIElement {
     constructor(boolean) {
         super(document.createElement('input'));
-        this.domElement.className = 'checkbox';
+        this.domElement.className =  CLASS_PREFIX + 'checkbox';
         this.domElement.type = 'checkbox';
         this.setUIValue(boolean);
     }
@@ -405,7 +405,7 @@ class UISwitch extends UIElement {
         this.addUI(new UISpan());
 
         // label
-        this.UISpan = new UISpan().setUIClass('label');
+        this.UISpan = new UISpan().setUIClass(CLASS_PREFIX + 'label');
         this.addUI(this.UISpan);
     }
 

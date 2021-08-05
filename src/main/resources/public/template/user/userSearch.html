@@ -7,7 +7,7 @@
     <title th:text="#{user.label.user}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="user-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{user.label.user}"></h1>
@@ -23,6 +23,8 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="user-content flex-fill">
         <div class="list" id="userList"></div>
     </div>

@@ -7,7 +7,7 @@
     <title th:text="#{board.label.board}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="board-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{board.label.board}"></h1>
@@ -33,6 +33,8 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="board-content flex-fill">
         <div class="list" id="boardList"></div>
     </div>

@@ -7,7 +7,7 @@
     <title th:text="#{token.label.list}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="token-header">
         <div class="header-title flex-row align-items-baseline" id="header-title">
             <h1 th:text="#{token.label.list}"></h1>
@@ -32,11 +32,13 @@
                 <input type="text" class="z-input i-date-picker search-date col-3" id="toDt" name="toDt"/>
                 <input type="hidden" class="search-date col-2" id="searchToDt" name="searchToDt" readonly="readonly"/>
                 <input  type="text" class="z-input i-search col-3 mr-2" id="searchTagString" name="searchTags"
-                       maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
+                        maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="token-content flex-fill">
         <input type="hidden" sec:authorize="hasAuthority('token.read')" th:name="isRole" th:value="true"/>
         <input type="hidden" sec:authorize="!hasAuthority('token.read')" th:name="isRole" th:value="false"/>

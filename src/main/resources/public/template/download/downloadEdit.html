@@ -6,14 +6,16 @@
     <title th:text="${download != null} ? #{download.label.edit} : #{download.label.register}"></title>
 </head>
 <body>
+<th:block layout:fragment="head">
+    <div class="download-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{download.label.download}"></h1>
+            <h6 class="description ml-2" th:text="#{download.msg.editDescription}"></h6>
+        </div>
+    </div>
+</th:block>
 <th:block layout:fragment="content">
     <div class="flex-column z-edit">
-        <div class="download-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{download.label.download}"></h1>
-                <h6 class="description ml-2" th:text="#{download.msg.editDescription}"></h6>
-            </div>
-        </div>
         <div class="download-content-edit">
             <div class="flex-column z-edit-row">
                 <label for="downloadCategory">

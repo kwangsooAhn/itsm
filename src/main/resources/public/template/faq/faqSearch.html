@@ -7,7 +7,7 @@
     <title th:text="#{faq.label.faq}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="faq-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{faq.label.faq}"></h1>
@@ -25,6 +25,8 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="faq-content flex-fill">
         <div class="list" id="faqList"></div>
     </div>

@@ -7,14 +7,16 @@
     <title th:text="${customCode != null} ? #{customCode.label.edit} : #{customCode.label.register}"></title>
 </head>
 <body>
+<th:block layout:fragment="head">
+    <div class="custom-code-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{customCode.label.customCode}"></h1>
+            <h6 class="description ml-2" th:text="#{customCode.msg.editDescription}"></h6>
+        </div>
+    </div>
+</th:block>
 <th:block layout:fragment="content">
     <div class="flex-column z-edit">
-        <div class="custom-code-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{customCode.label.customCode}"></h1>
-                <h6 class="description ml-2" th:text="#{customCode.msg.editDescription}"></h6>
-            </div>
-        </div>
         <div class="custom-code-content-edit">
             <div class="flex-column z-edit-row">
                 <label for="customCodeName">
@@ -35,14 +37,14 @@
                                th:checked="${customCode?.type == null || customCode?.type == 'table'}"
                                onclick="changeContainer('table')">
                         <span></span>
-                        <span class="label" th:text="#{customCode.label.table}"></span>
+                        <span class="z-label" th:text="#{customCode.label.table}"></span>
                     </label>
                     <label class="z-radio" for="code" tabindex="0">
                         <input id="code" name="type" type="radio"
                                th:checked="${customCode?.type == 'code'}"
                                onclick="changeContainer('code')">
                         <span></span>
-                        <span class="label" th:text="#{customCode.label.code}"></span>
+                        <span class="z-label" th:text="#{customCode.label.code}"></span>
                     </label>
                 </div>
             </div>
