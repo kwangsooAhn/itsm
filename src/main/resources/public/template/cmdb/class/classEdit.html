@@ -7,7 +7,7 @@
     <title th:text="#{cmdb.class.label.management}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="cmdb-class-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{cmdb.class.label.management}"></h1>
@@ -23,6 +23,8 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="cmdb-class-content flex-fill">
         <div class="list-tree">
             <div id="treeList"></div>
@@ -30,7 +32,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="aside">
-    <div class="aside">
+    <div class="z-aside">
         <div class="cmdb-class-content-edit flex-column">
             <div class="edit-form">
                 <input type="hidden" id="txtClassId" name="txtClassId"/>

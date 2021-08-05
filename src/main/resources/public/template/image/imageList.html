@@ -7,21 +7,23 @@
     <title th:text="#{image.label.list}"></title>
 </head>
 <body>
+<th:block layout:fragment="head">
+    <div class="image-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{image.label.list}"></h1>
+            <h6 class="description ml-2" th:text="#{image.msg.searchDescription}"></h6>
+        </div>
+        <div class="header-search flex-row">
+            <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+                   th:placeholder="#{image.label.name}"/>
+            <span id="totalCount" class="search-count"></span>
+        </div>
+    </div>
+</th:block>
 <th:block layout:fragment="content">
-        <div class="image-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{image.label.list}"></h1>
-                <h6 class="description ml-2" th:text="#{image.msg.searchDescription}"></h6>
-            </div>
-            <div class="header-search flex-row">
-                <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
-                       th:placeholder="#{image.label.name}"/>
-                <span id="totalCount" class="search-count"></span>
-            </div>
-        </div>
-        <div class="image-content-edit flex-fill">
-            <div class="thumbnail-main"></div>
-        </div>
+    <div class="image-content-edit flex-fill">
+        <div class="thumbnail-main"></div>
+    </div>
 </th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">

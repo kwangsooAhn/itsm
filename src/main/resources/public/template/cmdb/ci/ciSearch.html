@@ -7,7 +7,7 @@
     <title th:text="#{cmdb.ci.label.ciInquiry}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="cmdb-ci-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{cmdb.ci.label.ciInquiry}"></h1>
@@ -28,6 +28,8 @@
             </form>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="cmdb-ci-content flex-fill">
         <div class="list" id="ciList"></div>
     </div>

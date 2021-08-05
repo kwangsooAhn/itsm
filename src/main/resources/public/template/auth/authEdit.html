@@ -7,7 +7,7 @@
     <title th:text="#{auth.label.auth}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="auth-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{auth.label.auth}"></h1>
@@ -23,12 +23,14 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="auth-content flex-fill">
         <div class="list" id="authList"></div>
     </div>
 </th:block>
 <th:block layout:fragment="aside">
-    <div class="aside">
+    <div class="z-aside">
         <div class="auth-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">

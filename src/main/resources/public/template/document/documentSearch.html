@@ -12,8 +12,6 @@
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
 </th:block>
 <th:block layout:fragment="scriptLink">
-    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
-    <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
     <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
     <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
@@ -121,7 +119,7 @@
     </script>
 </th:block>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="document-header">
         <div class="header-title flex-row align-items-baseline" id="header-title">
             <h1 th:text="#{document.label.document}"></h1>
@@ -141,6 +139,8 @@
             </form>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="document-content flex-fill">
         <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
         <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>

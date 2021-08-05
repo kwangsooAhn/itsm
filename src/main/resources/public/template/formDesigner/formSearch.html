@@ -10,7 +10,7 @@
     <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
 </th:block>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="form-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{form.label.form}"></h1>
@@ -31,6 +31,8 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="form-content flex-fill">
         <div class="list" id="formList"></div>
     </div>

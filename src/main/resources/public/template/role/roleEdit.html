@@ -7,7 +7,7 @@
     <title th:text="#{role.label.role}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="role-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{role.label.role}"></h1>
@@ -22,12 +22,14 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="role-content flex-fill">
         <div class="list" id="roleList"></div>
     </div>
 </th:block>
 <th:block layout:fragment="aside">
-    <div class="aside">
+    <div class="z-aside">
         <div class="role-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">

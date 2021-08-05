@@ -7,7 +7,7 @@
     <title th:text="#{chart.label.chartList}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
+<th:block layout:fragment="head">
     <div class="chart-header">
         <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{chart.label.chartList}"></h1>
@@ -31,6 +31,8 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="content">
     <div class="chart-content flex-fill">
         <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''chart.delete'')')}"/>
         <div class="list" id="chartList"></div>

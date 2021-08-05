@@ -10,12 +10,10 @@ $logo-height:                                 3.375rem; // 54px
 
 // Navigation
 $nav-width:                                   13.75rem; // 220px
-$nav-height:                                  9.375rem; // 150px
-$nav-bg-color:                                $gray800;
 
 // Menu
 $menu-width:                                  13.75rem; // 220px
-$menu-height:                                 calc(100vh - #{$nav-height} - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
+$menu-height:                                 calc(100vh - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
 $menu-bg-color:                               $gray800;
 $menu-bg-selected-color:                      $gray900;
 $menu-bg-hover:                               $gray700;
