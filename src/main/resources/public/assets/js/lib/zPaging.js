@@ -7,7 +7,7 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-const NUM_OF_PAGE_NUMS = 5 // 출력되는 페이징 숫자의 개수
+const NUM_OF_PAGE_NUMS = 5; // 출력되는 페이징 숫자의 개수
 
 class ZPaging {
     constructor() {
@@ -26,9 +26,9 @@ class ZPaging {
      * @return {boolean}
      */
     update() {
-        let selectedNumClass = 'active'
-        let pageNumsSelector = 'div.z-pagingNumbers a'
-        let selectedPage = 'selectedPage'
+        let selectedNumClass = 'active';
+        let pageNumsSelector = 'div.z-pagingNumbers a';
+        let selectedPage = 'selectedPage';
 
         // 1) 전체 검색건수, 저장된 데이터 전체 건수, 정렬 순서등을 출력
         document.querySelector('#spanTotalCount').innerText = i18n.msg('common.label.count', document.querySelector('#totalCount').value);
@@ -44,7 +44,7 @@ class ZPaging {
         let currentPageList = [];
         document.querySelectorAll(pageNumsSelector).forEach((element) => {
             currentPageList.push(element.innerText);
-        })
+        });
 
         // 2-2) 현재 페이지 번호, 전체 페이지 수
         let currentPageNum = Number(document.querySelector('#currentPageNum').value);
@@ -68,7 +68,7 @@ class ZPaging {
         });
 
         // 2-5) 페이지 번호 넣기.
-        let startPageNum = (Math.floor((currentPageNum - 1) / NUM_OF_PAGE_NUMS) * NUM_OF_PAGE_NUMS) + 1
+        let startPageNum = (Math.floor((currentPageNum - 1) / NUM_OF_PAGE_NUMS) * NUM_OF_PAGE_NUMS) + 1;
         let endPageNum = (startPageNum + NUM_OF_PAGE_NUMS - 1 > totalPageNum) ? totalPageNum : startPageNum + NUM_OF_PAGE_NUMS - 1;
         for (let i = startPageNum; i <= endPageNum; i++) {
             // anchor tag
