@@ -63,11 +63,12 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 super.like(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
                     super.like(notice.createUser.userName, noticeSearchCondition.searchValue)
                 ),
-                notice.createDt.goe(noticeSearchCondition.formattedFromDt), notice.createDt.lt(noticeSearchCondition.formattedToDt)
+                notice.createDt.goe(noticeSearchCondition.formattedFromDt),
+                notice.createDt.lt(noticeSearchCondition.formattedToDt)
             )
             .orderBy(notice.createDt.desc())
-            .limit(PagingConstants.COUNT_PER_PAGE)
-            .offset((noticeSearchCondition.pageNum-1) * PagingConstants.COUNT_PER_PAGE)
+            .limit(noticeSearchCondition.contentNumPerPage)
+            .offset((noticeSearchCondition.pageNum - 1) * noticeSearchCondition.contentNumPerPage)
             .fetchResults()
 
         return NoticeListReturnDto(
@@ -103,7 +104,9 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 super.like(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
                     super.like(notice.createUser.userName, noticeSearchCondition.searchValue)
                 ),
-                notice.createDt.goe(noticeSearchCondition.formattedFromDt), notice.createDt.lt(noticeSearchCondition.formattedToDt), notice.topNoticeYn.eq(true)
+                notice.createDt.goe(noticeSearchCondition.formattedFromDt),
+                notice.createDt.lt(noticeSearchCondition.formattedToDt),
+                notice.topNoticeYn.eq(true)
             )
             .orderBy(notice.createDt.desc())
             .fetch()

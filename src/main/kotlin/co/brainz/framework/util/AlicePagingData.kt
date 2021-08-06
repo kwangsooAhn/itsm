@@ -8,13 +8,13 @@
  * https://www.brainz.co.kr
  *
  */
-package co.brainz.framework.util;
+package co.brainz.framework.util
 
 import java.io.Serializable
 
 /**
  * @param totalCount : 검색 결과에 대한 전체 건수
- * @param totalCountWithoutCondition : 검색조건과 전체 데이터 건수
+ * @param totalCountWithoutCondition : 검색조건과없이 전체 데이터 건수
  * @param currentPageNum : 현재 페이지 번호
  * @param totalPageNum : 전체 페이지 번호
  * @param orderType : 리스트 목록의 정렬 순서. (이건 사실 여기 성격과 안맞지만 1개라서 여기서 관리. 관련 정보가 많아지면 분리)

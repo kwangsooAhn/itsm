@@ -9,6 +9,8 @@
  */
 package co.brainz.itsm.notice.dto
 
+import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.PagingConstants
 import java.io.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -18,12 +20,14 @@ import java.time.format.DateTimeFormatter
  * @param fromDt : 생성일자 시작일 조건
  * @param toDt : 생성일자 종료일 조건
  * @param pageNum : 검색결과중에서 요청받은 페이지
+ * @param contentNumPerPage : 페이지당 출력되는 건수
  */
 data class NoticeSearchCondition(
     val searchValue: String,
     val fromDt: String,
     val toDt: String,
-    val pageNum: Long = 1L
+    val pageNum: Long = 1L,
+    val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
     val formattedFromDt: LocalDateTime = LocalDateTime.parse(fromDt, DateTimeFormatter.ISO_DATE_TIME)
     val formattedToDt: LocalDateTime = LocalDateTime.parse(toDt, DateTimeFormatter.ISO_DATE_TIME)
