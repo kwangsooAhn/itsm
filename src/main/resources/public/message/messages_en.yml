@@ -887,6 +887,10 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
+  report:
+    parent: "Report"
+    report: "Report Info"
+    template: "Report Template"
   setting:
     editMyInfo: "Edit My Info"
   token:
@@ -1076,6 +1080,24 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
+# Report
+report:
+  label:
+    automatic: "Automatic generation"
+    chart: "Chart"
+    config: "Report Config"
+    description: "Description"
+    download: "Download"
+    publishDate: "Publish Date"
+    report: "Report"
+    reportName: "Report Name"
+    search: "Report Search"
+    searchPlaceholder: "Report name"
+    templateName: "Template Name"
+  msg:
+    configDescription: "Set up reports using custom charts."
+    editDescription: "Register, modify, or delete reports."
+    searchDescription: "Search report that you generated."
 # Role
 role:
   btn:

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{report.label.report}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="flex-column z-edit">
+        <div class="report-template-header">
+            <div class="header-title flex-row align-items-baseline">
+                <h1 th:text="#{report.label.report}"></h1>
+                <h6 class="description ml-2" th:text="#{report.msg.editDescription}"></h6>
+            </div>
+        </div>
+        <div class="report-template-content-edit">
+            <div class="flex-column z-edit-row">
+                <label for="templateName">
+                    <span th:text="#{report.label.templateName}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="templateName" class="z-input" required="true" maxlength="100"
+                       th:attr="data-validation-required-name=#{report.label.templateName}"
+                       th:value="${template?.templateName}"/>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label for="templateDesc">
+                    <span th:text="#{report.label.description}"></span>
+                </label>
+                <textarea id="templateDesc" name="templateDesc" class="z-textarea textarea-scroll-wrapper"
+                          maxlength="250" rows="5" th:text="${template?.templateDesc}"></textarea>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label class="z-switch">
+                    <input type="checkbox" id="automatic" name="automatic" onchange="setAutomatic('popTab',this)"
+                           th:checked="${template?.automatic == true}">
+                    <span></span>
+                    <span class="label" th:text="#{report.label.automatic}"></span>
+                </label>
+            </div>
+            <div class="flex-column z-edit-row">
+                <div class="under-bar">
+                    <label>
+                        <span th:text="#{report.label.chart}"></span>
+                        <span class="required"></span>
+                    </label>
+                </div>
+                <div id="details" class="template">
+                    <div class="flex-row justify-content-end">
+                        <button type="button" class="z-button-icon extra" onclick="addChart()">
+                            <span class="z-icon i-plus"></span>
+                        </button>
+                    </div>
+                    <div id="chartList"></div>
+                </div>
+            </div>
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/report/template/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list">
+                    <button class="z-button primary" th:if="${template == null}" sec:authorize="hasAuthority('report.create')"
+                            onclick="actionTemplate('post')" th:text="#{common.btn.register}"></button>
+                    <button class="z-button primary" th:if="${template?.templateId}" sec:authorize="hasAuthority('report.update')"
+                            onclick="actionTemplate('put')" th:text="#{common.btn.modify}"></button>
+                    <button class="z-button secondary" th:if="${template?.templateId}" sec:authorize="hasAuthority('report.delete')"
+                            th:disabled="${!template.enabled}" onclick="actionTemplate('delete')" th:text="#{common.btn.delete}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        window.onload = function () {
+            aliceJs.initDesignedSelectTag();
+
+            OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
+        };
+
+        function addChart() {
+            //사용자 정의 차트 목록으로 selectbox 생성
+            let target = document.querySelector('#chartList');
+            console.log(target)
+            let rowElement =
+                `<div class="flex-row mt-2">` +
+                `<div class="flex-column col-9"><select><option>ffff</option></select></div>` +
+                `</div>`
+            target.insertAdjacentHTML('beforeend', rowElement);
+        }
+
+        function actionTemplate(method) {
+            console.log(method)
+        }
+
+        function setAutomatic() {
+
+        }
+
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

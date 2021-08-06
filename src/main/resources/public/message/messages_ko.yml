@@ -886,6 +886,10 @@ menu:
     parent: "FAQ"
   notice:
     parent: "공지사항"
+  report:
+    parent: "보고서"
+    report: "보고서 조회"
+    template: "보고서 설정"
   setting:
     editMyInfo: "자기정보 수정"
   token:
@@ -1075,6 +1079,24 @@ process:
       userTask: "유저 태스크"
       withdraw: "회수 가능여부"
 
+# Report
+report:
+  label:
+    automatic: "자동 생성"
+    chart: "사용자 정의 차트"
+    config: "보고서 설정"
+    description: "설명"
+    download: "다운로드"
+    publishDate: "발행 일시"
+    report: "보고서"
+    reportName: "보고서 명"
+    search: "보고서 조회"
+    searchPlaceholder: "보고서명"
+    templateName: "템플릿 명"
+  msg:
+    configDescription: "사용자 정의 차트를 이용한 보고서를 설정합니다."
+    editDescription: "보고서를 등록하거나 수정, 삭제합니다."
+    searchDescription: "생성한 보고서를 조회합니다."
 # Role
 role:
   btn:
