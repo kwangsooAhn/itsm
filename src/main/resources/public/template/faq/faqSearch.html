@@ -8,12 +8,12 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="faq-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-faq-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{faq.label.faq}"></h1>
             <h6 class="description ml-2" th:text="#{faq.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <form id="searchFrm">
                 <input class="z-input i-search col-5 mr-2" id="search" name="search" type="text" maxlength="100"
                        th:placeholder="#{faq.label.searchPlaceholder}"/>
@@ -27,7 +27,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="content">
-    <div class="faq-content flex-fill">
+    <div class="z-faq-content flex-fill">
         <div class="list" id="faqList"></div>
     </div>
 </th:block>

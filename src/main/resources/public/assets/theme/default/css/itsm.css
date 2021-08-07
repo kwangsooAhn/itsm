@@ -1280,6 +1280,27 @@ label {
   background-color: #F5F5F5;
 }
 
+select {
+  height: 2.25rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #222529;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  padding: 0 1rem;
+  vertical-align: middle;
+  -moz-appearance: none;
+  /* Firefox */
+  -webkit-appearance: none;
+  /* Safari and Chrome */
+  appearance: none;
+}
+
 /**
  Designed select
    1) select 태그를 사용하면서 initDesignedSelectTag 함수를 호출하면 아래 디자인을 적용할 수 있음.
@@ -1293,30 +1314,31 @@ label {
   position: relative;
   width: 100%;
   height: 2.25rem;
+  vertical-align: middle;
 }
 .z-select select.readonly {
   visibility: hidden;
 }
 .z-select .z-select-box {
   display: flex;
+  align-items: center;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 0 1rem;
-  border: 0.0625rem solid #CFD5D9;
-  background-color: #FFFFFF;
-  color: #222529;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.2;
-  align-items: center;
+  color: #222529;
+  background-color: #FFFFFF;
+  padding: 0 1rem;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  border: 0.0625rem solid #CFD5D9;
   overflow: hidden;
   cursor: pointer;
 }
@@ -2593,20 +2615,24 @@ table[id=documentDisplay] td {
   width: calc(100% - 13.75rem);
   height: 100vh;
 }
+.z-itsm-container .z-main.os-host-overflow > .os-padding {
+  margin-right: 0.5rem;
+}
 .z-itsm-container .z-main .z-main-header {
   position: sticky;
   top: 0;
+  background-color: #FAFAFA;
   z-index: 50;
 }
-.z-itsm-container .z-main .z-main-header .header-title {
+.z-itsm-container .z-main .z-main-header .z-main-header-title {
   padding: 0 0 1.563rem 0;
 }
-.z-itsm-container .z-main .z-main-header .header-search {
+.z-itsm-container .z-main .z-main-header .z-main-header-search {
   font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   padding: 0.3125rem 0px 1.25rem 0px;
 }
-.z-itsm-container .z-main .z-main-header .header-search .search-count {
+.z-itsm-container .z-main .z-main-header .z-main-header-search .search-count {
   color: #8B9094;
 }
 .z-itsm-container .z-main .list a, .z-itsm-container .z-main .list button {
@@ -2836,7 +2862,7 @@ table[id=documentDisplay] td {
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
-  background-color: #F0F0F0;
+  background-color: #8B9094;
 }
 
 .user-name {
@@ -2862,84 +2888,33 @@ table[id=documentDisplay] td {
   overflow: hidden;
 }
 
-.notice-header,
-.faq-header,
-.download-header,
-.board-header,
-.user-header,
-.board-admin-header,
-.process-header,
-.form-header,
-.document-admin-header,
-.custom-code-header,
-.auth-header,
-.role-header,
-.code-header,
-.image-header,
-.numbering-pattern-header,
-.numbering-rule-header,
-.chart-header,
-.cmdb-attribute-header,
-.cmdb-class-header,
-.cmdb-type-header,
-.cmdb-ci-header,
-.scheduler-header {
+.z-notice-header, .z-faq-header, .z-download-header, .z-board-header, .z-user-header, .z-board-admin-header, .z-process-header, .z-form-header, .z-document-admin-header, .z-custom-code-header, .z-auth-header, .z-role-header, .z-code-header, .z-image-header, .z-numbering-pattern-header, .z-numbering-rule-header, .z-chart-header, .z-cmdb-attribute-header, .z-cmdb-class-header, .z-cmdb-type-header, .z-cmdb-ci-header, .z-scheduler-header {
   padding: 0 3.75rem 0 3.75rem;
-  background-color: #FAFAFA;
 }
-
-.document-header,
-.token-header,
-.dashboard-header {
+.z-document-header, .z-token-header, .z-dashboard-header {
   padding: 0 3.75rem 0 3.75rem;
-  background-color: #FAFAFA;
-  border-bottom: 0.0625rem solid #EBEBEB;
+  border-bottom: 0.0625rem solid #CFD5D9;
 }
-
-.notice-content,
-.faq-content,
-.download-content,
-.board-content,
-.user-content,
-.board-admin-content,
-.process-content,
-.form-content,
-.document-admin-content,
-.custom-code-content,
-.auth-content,
-.role-content,
-.code-content,
-.numbering-pattern-content,
-.numbering-rule-content,
-.chart-content,
-.cmdb-attribute-content,
-.cmdb-type-content,
-.cmdb-class-content,
-.cmdb-ci-content {
+.z-notice-content, .z-faq-content, .z-download-content, .z-board-content, .z-user-content, .z-board-admin-content, .z-process-content, .z-form-content, .z-document-admin-content, .z-custom-code-content, .z-auth-content, .z-role-content, .z-code-content, .z-numbering-pattern-content, .z-numbering-rule-content, .z-chart-content, .z-cmdb-attribute-content, .z-cmdb-type-content, .z-cmdb-class-content, .z-cmdb-ci-content {
   padding: 0.9375rem 3.75rem;
-  background-color: #F7F8F9;
+  background-color: #FAFAFA;
 }
-
-.notice-pinned {
-  background-color: rgba(135, 206, 255, 0.15);
-}
-
-.document-content {
+.z-document-content {
   padding: 1.875rem 1.875rem 0 3.75rem;
   background-color: #FFFFFF;
 }
-.document-content .document-column {
+.z-document-content .document-column {
   width: 100%;
   height: 100%;
   padding: 1.975rem;
 }
-.document-content .document-column .document-icon {
+.z-document-content .document-column .document-icon {
   position: absolute;
   top: 3.75rem;
   left: 23.125rem;
   overflow: hidden;
 }
-.document-content .document-column .document-description {
+.z-document-content .document-column .document-description {
   display: block;
   width: 20rem;
   margin-top: 0.625rem;
@@ -2948,62 +2923,50 @@ table[id=documentDisplay] td {
   color: #929AA6;
   margin-top: 0.625rem;
 }
-
-.token-content,
-.dashboard-content {
+.z-token-content, .z-dashboard-content {
   padding: 1.875rem 1.875rem 0 3.75rem;
   background-color: #FFFFFF;
 }
-.token-content .card,
-.dashboard-content .card {
+.z-token-content .card, .z-dashboard-content .card {
   width: 100%;
 }
-.token-content .document-color,
-.dashboard-content .document-color {
+.z-token-content .document-color, .z-dashboard-content .document-color {
   width: 0.75rem;
 }
-.token-content .document-row,
-.dashboard-content .document-row {
+.z-token-content .document-row, .z-dashboard-content .document-row {
   padding: 1.875rem 3rem;
 }
-.token-content .document-row-content .document-title .document-numbering,
-.dashboard-content .document-row-content .document-title .document-numbering {
+.z-token-content .document-row-content .document-title .document-numbering, .z-dashboard-content .document-row-content .document-title .document-numbering {
   font-size: 1rem;
   font-weight: 400;
   color: #ACB4BF;
 }
-.token-content .document-row-content .document-topic,
-.dashboard-content .document-row-content .document-topic {
+.z-token-content .document-row-content .document-topic, .z-dashboard-content .document-row-content .document-topic {
   width: 39.38rem;
   margin-top: 1.5625rem;
 }
-.token-content .document-row-content .document-topic .topic,
-.dashboard-content .document-row-content .document-topic .topic {
+.z-token-content .document-row-content .document-topic .topic, .z-dashboard-content .document-row-content .document-topic .topic {
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
 }
-.token-content .document-row-info .document-detail .user-name,
-.token-content .document-row-info .document-detail .create-dt,
-.token-content .document-row-info .document-detail .element-name,
-.dashboard-content .document-row-info .document-detail .user-name,
-.dashboard-content .document-row-info .document-detail .create-dt,
-.dashboard-content .document-row-info .document-detail .element-name {
+.z-token-content .document-row-info .document-detail .user-name,
+.z-token-content .document-row-info .document-detail .create-dt,
+.z-token-content .document-row-info .document-detail .element-name, .z-dashboard-content .document-row-info .document-detail .user-name,
+.z-dashboard-content .document-row-info .document-detail .create-dt,
+.z-dashboard-content .document-row-info .document-detail .element-name {
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
 }
-.token-content .document-row-info .document-tag,
-.dashboard-content .document-row-info .document-tag {
+.z-token-content .document-row-info .document-tag, .z-dashboard-content .document-row-info .document-tag {
   max-width: 23.75rem;
   margin-top: 3.5rem;
 }
-.token-content .sub-title,
-.dashboard-content .sub-title {
+.z-token-content .sub-title, .z-dashboard-content .sub-title {
   margin: 1.25rem 0;
 }
-.token-content .statistic-box,
-.dashboard-content .statistic-box {
+.z-token-content .statistic-box, .z-dashboard-content .statistic-box {
   width: 23.75rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.3125rem;
@@ -3011,76 +2974,41 @@ table[id=documentDisplay] td {
   -moz-border-radius: 0.3125rem;
   padding: 1.5625rem;
 }
-.token-content .statistic-info,
-.dashboard-content .statistic-info {
+.z-token-content .statistic-info, .z-dashboard-content .statistic-info {
   margin-left: 1.5625rem;
 }
-.token-content .statistic-count,
-.dashboard-content .statistic-count {
+.z-token-content .statistic-count, .z-dashboard-content .statistic-count {
   margin-bottom: 0.9375rem;
 }
-.token-content .statistic-type,
-.dashboard-content .statistic-type {
+.z-token-content .statistic-type, .z-dashboard-content .statistic-type {
   color: #929AA6;
 }
-.token-content .scroll-wrap,
-.dashboard-content .scroll-wrap {
+.z-token-content .scroll-wrap, .z-dashboard-content .scroll-wrap {
   height: 27.5rem;
   margin-right: 1.25rem;
 }
-.token-content .scroll-wrap .card:first-of-type,
-.dashboard-content .scroll-wrap .card:first-of-type {
+.z-token-content .scroll-wrap .card:first-of-type, .z-dashboard-content .scroll-wrap .card:first-of-type {
   margin-top: 0;
 }
-
-.notice-content-edit,
-.faq-content-edit,
-.download-content-edit,
-.board-content-edit {
+.z-notice-content-edit, .z-faq-content-edit, .z-download-content-edit, .z-board-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
   background-color: #FFFFFF;
-  border-top: 0.0625rem solid #EBEBEB;
+  border-top: 0.0625rem solid #CFD5D9;
 }
-
-.auth-content-edit,
-.role-content-edit,
-.code-content-edit,
-.numbering-pattern-content-edit,
-.numbering-rule-content-edit,
-.cmdb-type-content-edit {
+.z-auth-content-edit, .z-role-content-edit, .z-code-content-edit, .z-numbering-pattern-content-edit, .z-numbering-rule-content-edit, .z-cmdb-type-content-edit {
   height: 41.25rem;
   margin: 0 0 1.875rem 0;
 }
-.auth-content-edit .edit-form,
-.role-content-edit .edit-form,
-.code-content-edit .edit-form,
-.numbering-pattern-content-edit .edit-form,
-.numbering-rule-content-edit .edit-form,
-.cmdb-type-content-edit .edit-form {
+.z-auth-content-edit .edit-form, .z-role-content-edit .edit-form, .z-code-content-edit .edit-form, .z-numbering-pattern-content-edit .edit-form, .z-numbering-rule-content-edit .edit-form, .z-cmdb-type-content-edit .edit-form {
   padding: 0 1.875rem 0 4.0625rem;
 }
-.auth-content-edit .edit-form .edit-row,
-.role-content-edit .edit-form .edit-row,
-.code-content-edit .edit-form .edit-row,
-.numbering-pattern-content-edit .edit-form .edit-row,
-.numbering-rule-content-edit .edit-form .edit-row,
-.cmdb-type-content-edit .edit-form .edit-row {
+.z-auth-content-edit .edit-form .edit-row, .z-role-content-edit .edit-form .edit-row, .z-code-content-edit .edit-form .edit-row, .z-numbering-pattern-content-edit .edit-form .edit-row, .z-numbering-rule-content-edit .edit-form .edit-row, .z-cmdb-type-content-edit .edit-form .edit-row {
   margin-top: 0.625rem;
 }
-.auth-content-edit .edit-form .edit-row .input-button-remove,
-.role-content-edit .edit-form .edit-row .input-button-remove,
-.code-content-edit .edit-form .edit-row .input-button-remove,
-.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove,
-.numbering-rule-content-edit .edit-form .edit-row .input-button-remove,
-.cmdb-type-content-edit .edit-form .edit-row .input-button-remove {
+.z-auth-content-edit .edit-form .edit-row .input-button-remove, .z-role-content-edit .edit-form .edit-row .input-button-remove, .z-code-content-edit .edit-form .edit-row .input-button-remove, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove {
   position: relative;
 }
-.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
-.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
-.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
-.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
-.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn,
-.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn {
+.z-auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn, .z-role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn, .z-code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn {
   position: absolute;
   margin-top: 0.75rem;
   margin-left: calc(100% - 108px);
@@ -3105,166 +3033,124 @@ table[id=documentDisplay] td {
   color: #CCCED1;
   background: 0 0;
 }
-.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
-.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
-.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
-.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
-.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after,
-.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after {
+.z-auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn::after {
   height: 1.125rem;
   line-height: 0.875rem;
   content: "×";
 }
-.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
-.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
-.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
-.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
-.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover,
-.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover {
+.z-auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover {
   color: #FFFFFF;
   background: #CCCED1;
 }
-.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
-.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
-.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
-.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
-.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span,
-.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span {
+.z-auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div > span {
   opacity: 1;
 }
-.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
-.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
-.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
-.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
-.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before,
-.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before {
+.z-auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before, .z-role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before, .z-code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn:hover + div::before {
   -webkit-transition: 0.2s;
   -moz-transition: 0.2s;
   -o-transition: 0.2s;
   -ms-transition: 0.2s;
   transition: 0.2s;
 }
-.auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
-.role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
-.code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
-.numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
-.numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active,
-.cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active {
+.z-auth-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active, .z-role-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active, .z-code-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active, .z-numbering-pattern-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active, .z-numbering-rule-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active, .z-cmdb-type-content-edit .edit-form .edit-row .input-button-remove .input-button-remove-btn.active {
   display: inline-flex;
 }
-
-.user-content-edit {
+.z-user-content-edit {
   padding: 0 23.13rem 3.125rem 23.13rem;
-  border-top: 0.0625rem solid #EBEBEB;
+  border-top: 0.0625rem solid #CFD5D9;
   background-color: #FFFFFF;
 }
-.user-content-edit .sub-title {
+.z-user-content-edit .sub-title {
   margin-top: 2.5rem;
 }
-.user-content-edit .custom-setting-top-select,
-.user-content-edit .language-select,
-.user-content-edit .theme-color-select {
+.z-user-content-edit .custom-setting-top-select,
+.z-user-content-edit .language-select,
+.z-user-content-edit .theme-color-select {
   width: 29.38rem;
 }
-.user-content-edit .select-date-time {
+.z-user-content-edit .select-date-time {
   width: 19.38rem;
 }
-.user-content-edit .hour-select {
+.z-user-content-edit .hour-select {
   width: 9.688rem;
 }
-
-.board-admin-content-edit {
+.z-board-admin-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  border-top: 0.0625rem solid #EBEBEB;
+  border-top: 0.0625rem solid #CFD5D9;
   background-color: #FFFFFF;
 }
-.board-admin-content-edit .edit-table {
+.z-board-admin-content-edit .edit-table {
   margin: 1.25rem 0 0 0;
 }
-.board-admin-content-edit .edit-table tr {
+.z-board-admin-content-edit .edit-table tr {
   height: 2.5rem;
   line-height: 2.5rem;
 }
-.board-admin-content-edit .edit-table tr th {
+.z-board-admin-content-edit .edit-table tr th {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
-.board-admin-content-edit .edit-table tr td {
+.z-board-admin-content-edit .edit-table tr td {
   padding: 0 0.9375rem;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
-.board-admin-content-edit .edit-table .tbody tr:hover {
+.z-board-admin-content-edit .edit-table .tbody tr:hover {
   background-color: #EBEBEB;
 }
-.board-admin-content-edit .edit-table .tbody .no-data-found-list {
+.z-board-admin-content-edit .edit-table .tbody .no-data-found-list {
   background-color: #EBEBEB;
   pointer-events: none;
 }
-
-.image-content-edit {
+.z-image-content-edit {
   padding: 3.125rem 3.75rem;
-  border-top: 0.0625rem solid #EBEBEB;
+  border-top: 0.0625rem solid #CFD5D9;
   background-color: #FFFFFF;
-  border-top: 0.0625rem solid #EBEBEB;
 }
-
-.custom-code-content-edit,
-.cmdb-attribute-content-edit,
-.scheduler-content-edit {
+.z-custom-code-content-edit, .z-cmdb-attribute-content-edit, .z-scheduler-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  border-top: 0.0625rem solid #EBEBEB;
+  border-top: 0.0625rem solid #CFD5D9;
   background-color: #FFFFFF;
   height: 100%;
 }
-.custom-code-content-edit .under-bar,
-.cmdb-attribute-content-edit .under-bar,
-.scheduler-content-edit .under-bar {
+.z-custom-code-content-edit .under-bar, .z-cmdb-attribute-content-edit .under-bar, .z-scheduler-content-edit .under-bar {
   margin-top: 0.625rem;
 }
-.custom-code-content-edit .condition,
-.cmdb-attribute-content-edit .condition,
-.scheduler-content-edit .condition {
+.z-custom-code-content-edit .condition, .z-cmdb-attribute-content-edit .condition, .z-scheduler-content-edit .condition {
   width: 28.31rem;
 }
-.custom-code-content-edit .attribute,
-.cmdb-attribute-content-edit .attribute,
-.scheduler-content-edit .attribute {
+.z-custom-code-content-edit .attribute, .z-cmdb-attribute-content-edit .attribute, .z-scheduler-content-edit .attribute {
   margin-left: 4rem;
 }
-
-.numbering-rule-content-edit .select-pattern-type {
+.z-numbering-rule-content-edit .select-pattern-type {
   width: 20rem;
 }
-.numbering-rule-content-edit .pattern-type {
+.z-numbering-rule-content-edit .pattern-type {
   width: 7.5rem;
 }
-
-.cmdb-class-content-edit {
+.z-cmdb-class-content-edit {
   height: 41.25rem;
   margin: 0 0 1.875rem 0;
 }
-.cmdb-class-content-edit .edit-form {
+.z-cmdb-class-content-edit .edit-form {
   padding: 0 1.875rem 0 4.0625rem;
 }
-.cmdb-class-content-edit .edit-form .edit-row {
+.z-cmdb-class-content-edit .edit-form .edit-row {
   margin-top: 0.625rem;
 }
-.cmdb-class-content-edit .attribute {
+.z-cmdb-class-content-edit .attribute {
   width: 27.94rem;
 }
-
-.notice-content-view,
-.faq-content-view,
-.download-content-view,
-.board-content-view,
-.cmdb-attribute-content-view {
+.z-notice-content-view, .z-faq-content-view, .z-download-content-view, .z-board-content-view, .z-cmdb-attribute-content-view {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  border-top: 0.0625rem solid #EBEBEB;
+  border-top: 0.0625rem solid #CFD5D9;
   background-color: #FFFFFF;
 }
-
-.chart-content-view {
+.z-chart-content-view {
   width: 100%;
   height: 25rem;
+}
+
+.notice-pinned {
+  background-color: rgba(135, 206, 255, 0.15);
 }
 
 .z-navigation .z-gnb {
@@ -6881,7 +6767,7 @@ body.modal-active {
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
-  background-color: #F0F0F0;
+  background-color: #8B9094;
 }
 .reply .icon-edit,
 .reply .icon-delete {
@@ -7448,5 +7334,3 @@ body.modal-active {
 .tags-look .tagify__dropdown__item--active {
   color: #505559;
 }
-
-/*# sourceMappingURL=itsm.css.map */

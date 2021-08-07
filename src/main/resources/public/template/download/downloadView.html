@@ -7,8 +7,8 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="download-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-download-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{download.label.download}"></h1>
             <h6 class="description ml-2" th:text="#{download.msg.viewDescription}"></h6>
         </div>
@@ -16,7 +16,7 @@
 </th:block>
 <th:block layout:fragment="content">
     <div class="flex-column view">
-        <div class="download-content-view">
+        <div class="z-download-content-view">
             <div class="flex-column view-row">
                 <div class="view-title text-ellipsis" th:text="${download.downloadTitle}"></div>
             </div>

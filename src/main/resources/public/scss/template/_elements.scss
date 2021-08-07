@@ -519,6 +519,24 @@ label {
   }
 }
 
+// select
+// 새로고침시 디자인전 기존 디자인이 표시됨
+select {
+  height: 2.25rem; // 36px
+  font-family: inherit;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
+  background-color: $element-bg-color;
+  @include border($element-border-width, solid, $element-border-color, all);
+  @include borderRadius(0.0625rem);
+  padding: 0 $element-indent;
+  vertical-align: middle;
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+}
 /**
  Designed select
    1) select 태그를 사용하면서 initDesignedSelectTag 함수를 호출하면 아래 디자인을 적용할 수 있음.
@@ -527,11 +545,13 @@ label {
      - z-select-box : select 태그를 대신해서 보여지는 부분
      - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
 */
+
 .#{$common-prefix}select {
   display: inline-block;
   @include relative();
   width: 100%;
   height: 2.25rem; // 36px
+  vertical-align: middle;
 
   select.readonly {
     visibility: hidden;
@@ -540,18 +560,18 @@ label {
   // select 태그를 대신해서 보여지는 부분
   .#{$common-prefix}select-box {
     display: flex;
+    align-items: center;
     @include absolute(0, 0, 0, 0);
     width: 100%;
-    padding: 0 $element-indent;
-    border: $element-border;
-    background-color: $element-bg-color;
-    color: $element-font-color;
-    @include borderRadius(0.125rem); // 2px
     font-family: inherit;
     font-size: $element-font-size;
     font-weight: $element-font-weight;
     line-height: $element-line-height;
-    align-items: center;
+    color: $element-font-color;
+    background-color: $element-bg-color;
+    padding: 0 $element-indent;
+    @include borderRadius(0.125rem); // 2px
+    @include border($element-border-width, solid, $element-border-color, all);
     overflow: hidden;
     cursor: pointer;
 

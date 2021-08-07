@@ -8,8 +8,8 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="cmdb-attribute-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-cmdb-attribute-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{cmdb.attribute.label.view}"></h1>
             <h6 class="description ml-2" th:text="#{cmdb.attribute.msg.viewDescription}"></h6>
         </div>
@@ -17,7 +17,7 @@
 </th:block>
 <th:block layout:fragment="content">
     <div class="flex-column z-edit">
-        <div class="cmdb-attribute-content-edit">
+        <div class="z-cmdb-attribute-content-edit">
             <div class="flex-column z-edit-row">
                 <label for="attributeName">
                     <span th:text="#{cmdb.attribute.label.name}"></span>

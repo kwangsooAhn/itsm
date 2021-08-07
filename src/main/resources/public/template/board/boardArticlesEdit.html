@@ -8,8 +8,8 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="board-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-board-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{board.label.board}"></h1>
             <h6 class="description ml-2" th:text="#{board.msg.editDescription}"></h6>
         </div>
@@ -17,7 +17,7 @@
 </th:block>
 <th:block layout:fragment="content">
     <div class="flex-column z-edit">
-        <div class="board-content-edit">
+        <div class="z-board-content-edit">
             <form id="boardForm" method="post" onsubmit="return false">
                 <div class="flex-column z-edit-row">
                     <label for="boardAdminId">
