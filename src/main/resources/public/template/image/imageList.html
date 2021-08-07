@@ -8,12 +8,12 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="image-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-image-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{image.label.list}"></h1>
             <h6 class="description ml-2" th:text="#{image.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
                    th:placeholder="#{image.label.name}"/>
             <span id="totalCount" class="search-count"></span>
@@ -21,7 +21,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="content">
-    <div class="image-content-edit flex-fill">
+    <div class="z-image-content-edit flex-fill">
         <div class="thumbnail-main"></div>
     </div>
 </th:block>
@@ -61,6 +61,22 @@
                     getImages(false);
                 });
             });
+            // 스크롤바 표시
+            OverlayScrollbars(document.querySelector('.z-main'), {
+                className: 'scrollbar',
+                callbacks: {
+                    onScroll: function (e) {
+                        const scrollHeight = e.target.scrollHeight;
+                        const scrollTop = e.target.scrollTop;
+                        const clientHeight = e.target.clientHeight;
+                        if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                getImages(true);
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function getImages(isScroll) {
@@ -89,7 +105,7 @@
                     if (isScroll) {
                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                             offsetCount = offsetCount + aliceJs.imageOffsetCount;
-                            imageList.forEach(function (image) {
+                            imageList.data.forEach(function (image) {
                                 addThumbnail(image);
                             });
                         }
@@ -100,7 +116,7 @@
                         imageList.data.forEach(function (image) {
                             addThumbnail(image);
                         });
-                        OverlayScrollbars(document.querySelector('.image-content-edit'), {
+                        /*OverlayScrollbars(document.querySelector('.image-content-edit'), {
                             className: 'scrollbar',
                             callbacks: {
                                 onScroll: function (e) {
@@ -114,7 +130,7 @@
                                     }
                                 }
                             }
-                        });
+                        });*/
                     }
                 }
             });

@@ -78,13 +78,22 @@ $blue:                                        #0098FF !default;
 $orange:                                      #FF7319 !default;
 $green:                                       #00C462 !default;
 
-// color
-$error-color:                                 $red500;
-$success-color:                               $green500;
-
+//////////////////////////////// common //////////////////////////////////
 // common prefix
 $common-prefix:                               'z-';
 
+$description-color:                           $gray500;
+$required-color:                              $red500;
+$error-color:                                 $red500;
+$success-color:                               $green500;
+
+// 선
+$horizontal-bar-width:                        0.0625rem; // 1px
+$vertical-bar-width:                          1.875rem; // 30px
+$vertical-bar-height:                         1.875rem; // 30px
+$vertical-bar-margin:                         0 1.875rem 0 0; // 0 30px 0 0
+
+//////////////////////////////// element //////////////////////////////////
 // element default
 $element-font-family:                         $font-family-s;
 $element-font-size:                           $font-size-xs;
@@ -136,8 +145,8 @@ $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
 
 // 체크박스, 라디오 버튼, 스위치 등 선택되었을 때 (ON) 디자인 변수
-$element-checked-color:                    $blue500;
-$element-checked-active-color:             $blue700;
+$element-checked-color:                      $blue500;
+$element-checked-active-color:               $blue700;
 
 //셀렉트 박스 선택되었을 때 옵션에 사용하는 디자인 변수
 $element-selected-font-color:                 $blue500;
@@ -156,19 +165,19 @@ $element-success-border-width:                0.0625rem; // 1px
 $element-success-border:                      $element-success-border-width solid $element-success-border-color !important;
 
 // headings
-$h1-font-size:                                $font-size-s * 2.25; // 36px
-$h2-font-size:                                $font-size-s * 1.75; // 28px
-$h3-font-size:                                $font-size-s * 1.5;  // 24px
-$h4-font-size:                                $font-size-s * 1.25; // 20px
-$h5-font-size:                                $font-size-s;
-$h6-font-size:                                $font-size-s * 0.875; // 14px
+$h1-font-size:                                $font-size-xxl; // 45px
+$h2-font-size:                                $font-size-xl; // 32px
+$h3-font-size:                                $font-size-l; // 24px
+$h4-font-size:                                $font-size-m; // 18px
+$h5-font-size:                                $font-size-s; // 16px
+$h6-font-size:                                $font-size-xs; // 14px
 
-$headings-font-color:                         map-get($blacks, 'light');
+$headings-font-color:                         $gray800;
 $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
 
 // label
-$label-font-color:                            map-get($blacks, 'light');
+$label-font-color:                            $gray800;
 $label-font-size:                             $font-size-xs;
 $label-font-weight:                           $font-weight-medium;
 
@@ -258,6 +267,10 @@ $button-group: (
 
 //////////////////////////////// layout ////////////////////////////////
 $layout-header-height:                       3.125rem; // 50px
+$layout-header-search-font-family:           $font-family-s;
+$layout-header-search-font-size:             $font-size-xs;
+$layout-header-search-color:                 $gray500;
+
 $layout-properties-width:                    18.75rem; // 300px
 
 //////////////////////////////// scrollbar ////////////////////////////////
@@ -532,11 +545,6 @@ $header-tooltip-margin:                      16px 0 0 0; // 16px
 
 /////////////////////////////// designed select ///////////////////////////////
 $select-bg-color:                            $blue50;
-
-//////////////////////////////////// common ///////////////////////////////////
-$vertical-bar-width:                         1.875rem; // 30px
-$vertical-bar-height:                        1.875rem; // 30px
-$vertical-bar-margin:                        0 1.875rem 0 0; // 0 30px 0 0#CFD5D9
 
 //////////////////////////////////// z-index ///////////////////////////////////
 $z-index-alert:                              999999;

@@ -8,8 +8,8 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="user-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-user-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{user.label.user}"></h1>
             <h6 class="description ml-2" th:text="#{user.msg.editDescription}"></h6>
         </div>
@@ -17,7 +17,7 @@
 </th:block>
 <th:block layout:fragment="content">
     <div class="flex-column z-edit">
-        <div class="user-content-edit">
+        <div class="z-user-content-edit">
             <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
             <div class="flex-column z-edit-row">

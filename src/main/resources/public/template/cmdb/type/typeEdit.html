@@ -8,12 +8,12 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="cmdb-type-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-cmdb-type-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{cmdb.type.label.management}"></h1>
             <h6 class="description ml-2" th:text="#{cmdb.type.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
                    th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
             <span id="totalCount" class="search-count"></span>
@@ -25,7 +25,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="content">
-    <div class="cmdb-type-content flex-fill">
+    <div class="z-cmdb-type-content flex-fill">
         <div class="list-tree">
             <div id="treeList"></div>
         </div>
@@ -33,7 +33,7 @@
 </th:block>
 <th:block layout:fragment="aside">
     <div class="z-aside tree">
-        <div class="cmdb-type-content-edit flex-column">
+        <div class="z-cmdb-type-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">
                     <label class="required" th:text="#{cmdb.type.label.parentType}" for="parentTypeName"></label>

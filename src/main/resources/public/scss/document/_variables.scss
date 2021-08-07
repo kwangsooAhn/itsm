@@ -3,7 +3,7 @@
 $layout-header-height:                       0; // 0px
 
 // main
-$layout-main-bg-color:                       map-get($grays, 'light');
+$layout-main-bg-color:                       $neutral50;
 
 // main > drawing-board
 $drawing-board-width:                        60rem; // 960px
