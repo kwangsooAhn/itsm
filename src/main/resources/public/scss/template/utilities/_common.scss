@@ -11,13 +11,13 @@
 }
 // 설명
 .description {
-  color: map-get($grays, "warm");
+  color: $description-color;
 }
 // 필수 (*) 표시
 .required {
-  font-weight: 700;
+  font-weight: $font-weight-bold;
   &::after {
-    color: $red;
+    color: $required-color;
     content: '\002a'; // *
   }
 }
@@ -26,18 +26,11 @@
   @include ellipsis();
 }
 // 가로 선
-@include horizontalBar(0.0625rem, 0.9375rem 0, $element-border-color);
+@include horizontalBar($horizontal-bar-width, 0.9375rem 0, $element-border-color); // 15px
 // 세로 선
-@include verticalBar($vertical-bar-width, $vertical-bar-height, $element-border, $vertical-bar-margin);
+@include verticalBar($vertical-bar-width, $vertical-bar-height, $element-border, $vertical-bar-margin); // 0 30px 0 0
 // 아래 실선
-.under-bar {
-  border-bottom: 0.0625rem solid map-get($grays, "default"); // 1px
-  padding-bottom: 0.625rem; // 10px
-  margin-bottom: 0.625rem; //10px
-  .bold {
-    border-bottom: 0.125rem solid map-get($grays, "default"); // 2px
-  }
-}
+@include underBar(0.0625rem, 0.625rem, $element-border-color); // 1px 10px
 // 포인터
 .pointer {
   cursor: pointer;

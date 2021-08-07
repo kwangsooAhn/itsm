@@ -578,14 +578,14 @@ input, button, select, optgroup, textarea {
 }
 
 .description {
-  color: #7E848C;
+  color: #8B9094;
 }
 
 .required {
   font-weight: 700;
 }
 .required::after {
-  color: #ff405a;
+  color: #F52525;
   content: "*";
 }
 
@@ -613,12 +613,12 @@ input, button, select, optgroup, textarea {
 }
 
 .under-bar {
-  border-bottom: 0.0625rem solid #E1E3E6;
+  border-bottom: 0.0625rem solid #CFD5D9;
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
 }
 .under-bar .bold {
-  border-bottom: 0.125rem solid #E1E3E6;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 
 .pointer {
@@ -971,7 +971,7 @@ input, button, select, optgroup, textarea {
   padding-bottom: 0.5rem;
 }
 .portal-container .main-content .list .row .item-title a {
-  color: #3F4B56;
+  color: #222529;
 }
 .portal-container .main-content .list .row .item-content {
   font-size: 1rem;
@@ -1287,24 +1287,25 @@ input, button, select, optgroup, textarea {
  */
 body {
   font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1rem;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: inherit;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
   line-height: 1.2;
-  color: #3F4B56;
+  color: #222529;
 }
 
 h1 {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 700;
 }
 
 h2 {
-  font-size: 1.75rem;
+  font-size: 2rem;
 }
 
 h3 {
@@ -1312,7 +1313,7 @@ h3 {
 }
 
 h4 {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
 }
 
 h5 {
@@ -1320,7 +1321,7 @@ h5 {
 }
 
 h6 {
-  font-family: "Malgun Gothic";
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
   font-size: 0.875rem;
 }
 
@@ -1415,7 +1416,7 @@ span {
 
 label {
   font-family: inherit;
-  color: #3F4B56;
+  color: #222529;
   font-size: 0.875rem;
   font-weight: 500;
 }

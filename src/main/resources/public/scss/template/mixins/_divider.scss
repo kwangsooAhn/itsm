@@ -18,3 +18,14 @@
     background-color: $color;
   }
 }
+// 아래 선
+@mixin underBar($width, $distance, $color) {
+  .under-bar {
+    border-bottom: $width solid $color;
+    padding-bottom: $distance;
+    margin-bottom: $distance;
+    .bold {
+      border-bottom: calc(#{$width} * 2) solid $color;
+    }
+  }
+}

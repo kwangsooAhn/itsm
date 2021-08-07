@@ -70,13 +70,15 @@
 @mixin defaultHeader {
   // 제목
   .header-title {
-    padding: 0 0 3.875rem 0; // 25px 0px 62px 0px
+    padding: 0 0 1.563rem 0; // 0 0px 25px 0px
   }
   // 검색 영역
   .header-search {
-    padding: 0.3125rem 0px 1.875rem 0px; // 5px 0px 30px 0px
+    font-family: $layout-header-search-font-family;
+    font-size: $layout-header-search-font-size;
+    padding: 0.3125rem 0px 1.25rem 0px; // 5px 0px 20px 0px
     // 건수
-    .search-count { color: map-get($grays, "warm"); }
+    .search-count { color: $layout-header-search-color; }
   }
 }
 // view
