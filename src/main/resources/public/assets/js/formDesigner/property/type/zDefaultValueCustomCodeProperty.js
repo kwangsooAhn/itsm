@@ -10,7 +10,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { FORM } from '../../../lib/zConstants.js';
+import { CLASS_PREFIX, FORM } from '../../../lib/zConstants.js';
 import { UIDiv, UILabel, UIRadioButton, UISpan, UISelect } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
@@ -95,7 +95,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             radioGroup.UILabel.addUI(new UISpan());
 
             if (!zValidation.isEmpty(item.name)) {
-                radioGroup.UILabel.addUI(new UISpan().setUIClass('label').setUIInnerHTML(i18n.msg(item.name)));
+                radioGroup.UILabel.addUI(new UISpan().setUIClass(CLASS_PREFIX + 'label').setUIInnerHTML(i18n.msg(item.name)));
             }
 
             switch (item.value) {

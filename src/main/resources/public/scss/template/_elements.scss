@@ -296,7 +296,7 @@ label {
     }
   }
 
-  &:read-only {
+  &:read-only:not(.tagify) {
     border-color: $gray400;
     border-style: none none none solid;
     @include borderRadius(0);
@@ -468,7 +468,7 @@ label {
   color: $element-font-color;
   outline: none;
 
-  .label {
+  .#{$common-prefix}label {
     display: inline-block;
     height: 1.125rem; // 18px
     margin-left: 3rem; // 48px
@@ -772,7 +772,7 @@ label {
 
     &:not(:disabled) {
       + span { cursor: pointer; }
-      ~ .label { cursor: pointer; }
+      ~ .#{$common-prefix}label { cursor: pointer; }
       &:checked {
         + span {
           // 체크 기호
@@ -808,7 +808,7 @@ label {
           border-color: $element-disabled-font-color;
         }
       }
-      ~ .label {
+      ~ .#{$common-prefix}label {
         color: $element-disabled-font-color;
       }
     }
@@ -884,7 +884,7 @@ label {
 
     &:not(:disabled) {
       + span { cursor: pointer; }
-      ~ .label { cursor: pointer; }
+      ~ .#{$common-prefix}label { cursor: pointer; }
 
       &:checked {
         + span {
@@ -915,7 +915,7 @@ label {
           background-color: $element-disabled-bg-color;
         }
       }
-      ~ .label {
+      ~ .#{$common-prefix}label {
         color: $element-disabled-font-color;
       }
       &:checked {

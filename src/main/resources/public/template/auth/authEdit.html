@@ -55,7 +55,7 @@
                                 <label class="z-checkbox" th:for="${url?.url}" tabindex="0">
                                     <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
                                     <span></span>
-                                    <span class="label" th:text="|[${url?.method}] ${url?.url}|"></span>
+                                    <span class="z-label" th:text="|[${url?.method}] ${url?.url}|"></span>
                                 </label>
                             </li>
                         </ul>
@@ -71,7 +71,7 @@
                                            th:id="${menu?.menuId}"
                                            th:value="${menu?.menuId}">
                                     <span></span>
-                                    <span class="label" th:text="#{|menu.${menu?.menuId}|}"></span>
+                                    <span class="z-label" th:text="#{|menu.${menu?.menuId}|}"></span>
                                 </label>
                             </li>
                         </ul>

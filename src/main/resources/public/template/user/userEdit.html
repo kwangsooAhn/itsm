@@ -156,7 +156,7 @@
                                        th:id="|roles*{roleStat.index}|" name="roles"
                                        th:value="*{role.roleId}" th:checked="*{role.checked}">
                                 <span></span>
-                                <span class="label" th:text="*{role.roleName}"></span>
+                                <span class="z-label" th:text="*{role.roleName}"></span>
                             </label>
                         </li>
                     </ul>
@@ -168,7 +168,7 @@
                     <input type="checkbox" id="usageStatus" name="usageStatus"
                            th:checked="${users?.useYn == null || users?.useYn == true}">
                     <span></span>
-                    <span class="label" th:text="#{user.msg.usageStatus}"></span>
+                    <span class="z-label" th:text="#{user.msg.usageStatus}"></span>
                 </label>
             </div>
             <div class="flex-row justify-content-between z-edit-row">

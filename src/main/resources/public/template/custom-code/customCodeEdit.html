@@ -37,14 +37,14 @@
                                th:checked="${customCode?.type == null || customCode?.type == 'table'}"
                                onclick="changeContainer('table')">
                         <span></span>
-                        <span class="label" th:text="#{customCode.label.table}"></span>
+                        <span class="z-label" th:text="#{customCode.label.table}"></span>
                     </label>
                     <label class="z-radio" for="code" tabindex="0">
                         <input id="code" name="type" type="radio"
                                th:checked="${customCode?.type == 'code'}"
                                onclick="changeContainer('code')">
                         <span></span>
-                        <span class="label" th:text="#{customCode.label.code}"></span>
+                        <span class="z-label" th:text="#{customCode.label.code}"></span>
                     </label>
                 </div>
             </div>

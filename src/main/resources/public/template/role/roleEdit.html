@@ -54,7 +54,7 @@
                             <label class="z-checkbox z-checkbox-all">
                                 <input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"/>
                                 <span></span>
-                                <span class="label" th:text="#{role.btn.selectAll}"/>
+                                <span class="z-label" th:text="#{role.btn.selectAll}"/>
                             </label>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                                 <label class="z-checkbox" th:for="${auth?.authId}" tabindex="0">
                                     <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
                                     <span></span>
-                                    <span class="label" th:text="${auth?.authName}"></span>
+                                    <span class="z-label" th:text="${auth?.authName}"></span>
                                 </label>
                             </li>
                         </ul>
