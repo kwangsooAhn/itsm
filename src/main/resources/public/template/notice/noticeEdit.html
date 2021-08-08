@@ -8,8 +8,8 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="notice-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-notice-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{notice.label.notice}"></h1>
             <h6 class="description ml-2" th:text="#{notice.msg.editDescription}"></h6>
         </div>
@@ -17,7 +17,7 @@
 </th:block>
 <th:block layout:fragment="content">
     <div class="flex-column z-edit">
-        <div class="notice-content-edit">
+        <div class="z-notice-content-edit">
             <form id="frm" method="post">
                 <div class="flex-column z-edit-row">
                     <label th:text="#{common.label.title}" for="noticeTitle" class="required"></label>

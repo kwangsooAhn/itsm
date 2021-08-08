@@ -8,12 +8,12 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="user-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-user-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{user.label.user}"></h1>
             <h6 class="description ml-2" th:text="#{user.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input class="z-input i-search col-5 mr-2" id="search" type="text" maxlength="100"
                    th:placeholder="#{user.label.searchPlaceholder}"/>
             <span id="spanTotalCount" class="search-count"></span>
@@ -25,7 +25,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="content">
-    <div class="user-content flex-fill">
+    <div class="z-user-content flex-fill">
         <div class="list" id="userList"></div>
     </div>
 </th:block>

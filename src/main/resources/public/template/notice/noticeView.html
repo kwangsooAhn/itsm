@@ -8,8 +8,8 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="notice-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-notice-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{notice.label.notice}"></h1>
             <h6 class="description ml-2" th:text="#{notice.msg.viewDescription}"></h6>
         </div>
@@ -17,7 +17,7 @@
 </th:block>
 <th:block layout:fragment="content">
     <div class="flex-column view">
-        <div class="notice-content-view">
+        <div class="z-notice-content-view">
             <div class="flex-column view-row">
                 <div class="view-title text-ellipsis" th:text="${notice?.noticeTitle}"></div>
             </div>

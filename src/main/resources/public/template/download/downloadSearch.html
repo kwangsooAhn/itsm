@@ -8,12 +8,12 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="download-header">
-        <div class="header-title flex-row align-items-baseline">
+    <div class="z-download-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{download.label.download}"></h1>
             <h6 class="description ml-2" th:text="#{download.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input type="hidden" name="isRole" sec:authorize="hasAuthority('download.update')" th:value="true"/>
             <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
             <form id="searchFrm">
@@ -37,7 +37,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="content">
-    <div class="faq-content flex-fill">
+    <div class="z-download-content flex-fill">
         <div class="list" id="downloadList"></div>
     </div>
 </th:block>
