@@ -11,7 +11,7 @@
 // 그룹 툴팁
 .#{$common-prefix}group-tooltip {
   position: relative;
-  padding: 0.9375rem; // 15px
+  padding: 0.9375rem 0.9375rem 2.5rem 0.9375rem; // 15px 15px 40px 15px
   @include border(0.0625rem, solid, #D7DBE0, all); // 1px
   @include borderRadius($group-selected-border-radius); // 2px
   background-color: $white;
