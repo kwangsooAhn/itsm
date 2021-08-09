@@ -7,6 +7,7 @@
 package co.brainz.itsm.chart.controller
 
 import co.brainz.itsm.chart.constants.ChartConstants
+import co.brainz.itsm.chart.dto.ChartSearchDto
 import co.brainz.itsm.chart.service.ChartService
 import co.brainz.itsm.code.service.CodeService
 import javax.servlet.http.HttpServletRequest
@@ -44,13 +45,11 @@ class ChartController(
      */
     @GetMapping("")
     fun getCharts(
-        request: HttpServletRequest,
         @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
+        chartSearchDto: ChartSearchDto,
         model: Model
     ): String {
-        val searchTypeName = request.getParameter("searchTypeName")
-        val offset = request.getParameter("offset") ?: "0"
-        val result = chartService.getCharts(searchTypeName, offset)
+        val result = chartService.getCharts(chartSearchDto)
         model.addAttribute("chartList", result.data)
         model.addAttribute("chartListCount", result.totalCount)
         return if (isScroll) chartListFragment else chartListPage

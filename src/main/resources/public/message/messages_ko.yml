@@ -1097,6 +1097,7 @@ report:
     configDescription: "사용자 정의 차트를 이용한 보고서를 설정합니다."
     editDescription: "보고서를 등록하거나 수정, 삭제합니다."
     searchDescription: "생성한 보고서를 조회합니다."
+    templateNameUsed: "중복되는 템플릿명이 존재합니다."
 # Role
 role:
   btn:

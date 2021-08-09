@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ReportTemplateRepository : JpaRepository<ReportTemplateEntity, String>, ReportTemplateRepositoryCustom {
+
+    fun findByTemplateId(templateId: String): ReportTemplateEntity?
 }

@@ -1098,6 +1098,7 @@ report:
     configDescription: "Set up reports using custom charts."
     editDescription: "Register, modify, or delete reports."
     searchDescription: "Search report that you generated."
+    templateNameUsed: "Duplicate template name exists."
 # Role
 role:
   btn:

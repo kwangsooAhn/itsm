@@ -6,6 +6,8 @@
 
 package co.brainz.itsm.report.controller
 
+import co.brainz.itsm.chart.dto.ChartSearchDto
+import co.brainz.itsm.chart.service.ChartService
 import co.brainz.itsm.report.dto.ReportSearchDto
 import co.brainz.itsm.report.dto.ReportTemplateSearchDto
 import co.brainz.itsm.report.service.ReportService
@@ -22,7 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/reports")
 class ReportController(
     private val reportTemplateService: ReportTemplateService,
-    private val reportService: ReportService
+    private val reportService: ReportService,
+    private val chartService: ChartService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -55,7 +58,9 @@ class ReportController(
     }
 
     @GetMapping("/template/{templateId}/edit")
-    fun getReportTemplateEdit(@PathVariable templateId: String): String {
+    fun getReportTemplateEdit(@PathVariable templateId: String, model: Model): String {
+        model.addAttribute("chartList", chartService.getCharts(ChartSearchDto(limit = -1, offset = -1)))
+        model.addAttribute("template", reportTemplateService.getReportTemplateDetail(templateId))
         return templateEditPage
     }
 

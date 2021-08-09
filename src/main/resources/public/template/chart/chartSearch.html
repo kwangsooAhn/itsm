@@ -19,7 +19,7 @@
             <input type="hidden" sec:authorize="!hasAuthority('chart.create') && !hasAuthority('chart.update')"
                    th:name="isRole" th:value="false"/>
             <form id="searchFrm">
-                <select id="searchTypeName" name="searchTypeName" class="col-3 mr-2">
+                <select id="search" name="search" class="col-3 mr-2">
                     <option value="" th:text="#{chart.label.all}" selected></option>
                     <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
                 </select>
@@ -62,7 +62,7 @@
         let chart = null;
 
         window.onload = function () {
-            document.getElementById('searchTypeName').addEventListener('change', function () {
+            document.getElementById('search').addEventListener('change', function () {
                 searchCharts(false);
             });
             searchCharts(false);
