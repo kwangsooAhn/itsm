@@ -31,36 +31,23 @@
       overflow: auto;
 
       .#{$common-prefix}right { right: 0.375rem; } // 6px
-    }
 
-    .#{$common-prefix}menu-area {
-      .#{$common-prefix}gnb {
-        padding: 0.5rem 1.25rem 0.5rem 1.25rem; // 8px 20px 8px 20px
-        vertical-align: middle;
-        .#{$common-prefix}token-count{
-          @include absolute();
-          margin: 0.3125rem 9rem; // 5px 144px
-          padding: 0.125rem 0.625rem; // 2px 10px
-          @include borderRadius(1.25rem); // 20px
-          line-height: inherit;
-          font-size: 0.688rem; // 11px
-          font-weight: $font-weight-medium;
-          background-color: $menu-count-bg-color;
-          color: $menu-count-color;
-          &.#{$common-prefix}active {
-            color: $menu-count-active-color;
-            background-color: $menu-count-bg-active-color;
-          }
-        }
-        &-area {
+      .#{$common-prefix}menu-area {
+
+        .#{$common-prefix}gnb-area {
           line-height: 1.3;
           font-weight: $font-weight-medium;
+
           &:first-child {
             margin-top: 0.3125rem; // 5px
           }
+
           .#{$common-prefix}gnb-link {
+            padding: 0.5rem 1.25rem 0.5rem 1.25rem; // 8px 20px 8px 20px
+            vertical-align: middle;
             cursor: pointer;
             color: $menu-color;
+
             &:hover {
               &:not(.#{$common-prefix}active, .#{$common-prefix}active-parent) {
                 color: $menu-hover-color;
@@ -69,6 +56,7 @@
                 .z-arrow-right, .z-arrow-down { background: $menu-hover-color; }
               }
             }
+
             .#{$common-prefix}menu-name {
               display: inline-block;
               padding-left: 1.1875rem; //19px
@@ -89,6 +77,34 @@
                 margin-left: auto;
                 float: right;
               }
+            }
+            // 문서함 카운트
+            .#{$common-prefix}token-count{
+              @include absolute();
+              margin: 0.3125rem 9rem; // 5px 144px
+              padding: 0.125rem 0.625rem; // 2px 10px
+              @include borderRadius(1.25rem); // 20px
+              line-height: inherit;
+              font-size: 0.688rem; // 11px
+              font-weight: $font-weight-medium;
+              background-color: $menu-count-bg-color;
+              color: $menu-count-color;
+              &.#{$common-prefix}active {
+                color: $menu-count-active-color;
+                background-color: $menu-count-bg-active-color;
+              }
+            }
+
+            // 메뉴 선택시
+            &.#{$common-prefix}active {
+              background-color: $menu-bg-selected-color;
+              .#{$common-prefix}menu-name { color: $menu-selected-color; }
+              .#{$common-prefix}icon-gnb { background: $menu-active-color; }
+            }
+            &.#{$common-prefix}active-parent {
+              .#{$common-prefix}menu-name { color: $menu-selected-color; }
+              .#{$common-prefix}icon-gnb { background: $menu-active-color; }
+              .#{$common-prefix}arrow-right, .z-arrow-down { background: $menu-selected-color; }
             }
           }
           .#{$common-prefix}snb {
@@ -134,17 +150,6 @@
               }
             }
           }
-        }
-
-        &.#{$common-prefix}active {
-          background-color: $menu-bg-selected-color;
-          .#{$common-prefix}menu-name { color: $menu-selected-color; }
-          .#{$common-prefix}icon-gnb { background: $menu-active-color; }
-        }
-        &.#{$common-prefix}active-parent {
-          .#{$common-prefix}menu-name { color: $menu-selected-color; }
-          .#{$common-prefix}icon-gnb { background: $menu-active-color; }
-          .#{$common-prefix}arrow-right, .z-arrow-down { background: $menu-selected-color; }
         }
       }
     }

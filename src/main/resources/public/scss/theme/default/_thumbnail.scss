@@ -1,10 +1,5 @@
 @import '../../template/_thumbnail.scss';
 
-.thumbnail-main {
-  .thumbnail {
-    @include boxShadow(0, 0, 0.3125rem, 0.0625rem, $thumbnail-border-color); // 5px
-  }
-}
 // 썸네일 모달
 .modal-dialog {
   // thumnbnail > modal(type: icon) 관련 템플릿
@@ -16,7 +11,7 @@
     .modal-content {
       height: calc(#{$thumbnail-icon-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
 
-      .thumbnail-main {
+      .#{$common-prefix}thumbnail-main {
         padding: $thumbnail-icon-container-padding;
         height: auto;
         .thumbnail {
@@ -52,7 +47,6 @@
       }
     }
   }
-
   // 이미지 관리 > 이미지 미리보기 모달
   &.thumbnail-preview {
     width: $thumbnail-preview-modal-width;

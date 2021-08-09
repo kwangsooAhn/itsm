@@ -135,7 +135,6 @@ $no-data-found-bg:                            hexToRGBA(map-get($grays, 'light')
 //////////////////////////// Thumbnail /////////////////////////////
 $thumbnail-border-width:                      0.0625rem; // 1px
 $thumbnail-border-color:                      map-get($grays, 'line');
-$thumbnail-asset-path:                        '../../../media/icons/thumbnail';
 
 // 업무흐름 아이콘 선택
 $thumbnail-icon-modal-width:                  47.81rem; // 765px

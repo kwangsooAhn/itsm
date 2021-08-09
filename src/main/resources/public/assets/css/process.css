@@ -752,6 +752,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-image {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_image.svg");
+  mask-image: url("../media/icons/icon_image.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 /* _layout.scss
  *
@@ -4417,30 +4427,37 @@ body.modal-active {
  * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  */
-.thumbnail-main {
-  font-family: "Noto Sans KR";
+.z-thumbnail-main {
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #8B9094;
   height: 100%;
   padding: 0.625rem;
 }
-.thumbnail-main .thumbnail {
+.z-thumbnail-main .thumbnail {
   display: inline-block;
-  width: 14.06rem;
+  width: 15rem;
   height: 18.13rem;
   margin: 0.625rem;
   padding: 0;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border: 0.0625rem solid #CFD5D9;
   background-color: #FFFFFF;
   cursor: pointer;
   overflow: hidden;
 }
-.thumbnail-main .thumbnail.selected, .thumbnail-main .thumbnail:hover {
-  border: 0.0625rem solid #0098FF;
-  background-color: rgba(0, 152, 255, 0.05);
+.z-thumbnail-main .thumbnail:hover {
+  border: 0.0625rem solid #339AF0;
+  background-color: #FFFFFF;
 }
-.thumbnail-main .thumbnail .thumbnail-img, .thumbnail-main .thumbnail .thumbnail-file {
+.z-thumbnail-main .thumbnail.selected {
+  border: 0.0625rem solid #2578CE;
+  background-color: #FFFFFF;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
+  -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
+  box-shadow: 0 0 0.125rem 0 #2578CE;
+}
+.z-thumbnail-main .thumbnail .thumbnail-img, .z-thumbnail-main .thumbnail .thumbnail-file {
   display: inline-block;
   width: 100%;
   height: 9.063rem;
@@ -4448,96 +4465,75 @@ body.modal-active {
   background-repeat: no-repeat;
   background-position: center center;
 }
-.thumbnail-main .thumbnail .thumbnail-info {
+.z-thumbnail-main .thumbnail .thumbnail-info {
   height: 6.563rem;
   padding: 0.75rem 0.9375rem;
 }
-.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text {
+.z-thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text {
   height: 1.5rem;
   line-height: 1.5rem;
 }
-.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text label {
+.z-thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text label {
   display: block;
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #ACB4BF;
 }
-.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child label {
-  color: #586872;
+.z-thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child label {
+  color: #222529;
+  font-weight: 700;
   cursor: pointer;
 }
-.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child .fileName {
+.z-thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child .file-name {
   display: none;
   width: 12.19rem;
   height: 1.875rem;
-  color: #586872;
   float: left;
 }
-.thumbnail-main .thumbnail .thumbnail-bottom {
+.z-thumbnail-main .thumbnail .thumbnail-bottom {
   height: 2.5rem;
   line-height: 2.5rem;
-  border-top: 0.0625rem solid #EBEBEB;
+  border-top: 0.0625rem solid #CFD5D9;
   padding: 0 0.625rem 0 0.9375rem;
 }
-.thumbnail-main .thumbnail .thumbnail-bottom label {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #ACB4BF;
-}
-.thumbnail-main .thumbnail .thumbnail-bottom button {
+.z-thumbnail-main .thumbnail .thumbnail-bottom .z-button-icon {
   padding: 0;
   height: 2.5rem;
 }
-.thumbnail-main .thumbnail .thumbnail-bottom button .icon-delete {
-  width: 0.9375rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_delete.svg");
-  mask-image: url("../media/icons/icon_delete.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #CCCED1;
-  cursor: pointer;
+.z-thumbnail-main .thumbnail .thumbnail-bottom .z-button-icon .z-icon.i-delete {
+  background: #8B9094;
 }
-.thumbnail-main .thumbnail .thumbnail-bottom button:hover .icon-delete {
-  background: #0098FF;
-}
-.thumbnail-main .thumbnail-upload {
+.z-thumbnail-main .thumbnail-upload {
   display: inline-block;
-  width: 14.06rem;
+  width: 15rem;
   height: 18.13rem;
   margin: 0.625rem;
-  padding: 5.625rem 0 0 0;
-  border: 0.0625rem solid #EBEBEB;
+  padding: 5.313rem 0 0 0;
+  border: 0.0625rem solid #CFD5D9;
   box-shadow: none;
-  background-color: #F7F8F9;
+  background-color: #FAFAFA;
   cursor: pointer;
   overflow: hidden;
 }
-.thumbnail-main .thumbnail-upload:hover {
-  border: 0.0625rem solid #0098FF;
-  background-color: rgba(0, 152, 255, 0.05);
+.z-thumbnail-main .thumbnail-upload:hover {
+  border: 0.0625rem solid #339AF0;
+  background-color: #E3F5FC;
 }
-.thumbnail-main .thumbnail-upload .fileInput {
+.z-thumbnail-main .thumbnail-upload .upload-file-input {
   display: none;
 }
-.thumbnail-main .thumbnail-upload img {
-  content: url("../media/icons/thumbnail/icon_image.png");
+.z-icon.i-image {
+  width: 5.313rem;
+  height: 5.313rem;
+  -webkit-mask-size: 5.313rem;
+  mask-size: 5.313rem;
+  background: #8B9094;
 }
-.thumbnail-main .thumbnail-upload .thumbnail-upload-text {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #ACB4BF;
-  margin-top: 1.25rem;
-}
-.thumbnail-main .thumbnail-nodata {
+.z-thumbnail-nodata {
   display: inline-block;
   width: 100%;
   height: 100%;
-  color: #ACB4BF;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 2rem;
   font-weight: 700;
-  font-size: 1.875rem;
+  color: #8B9094;
 }
 
 .modal-dialog.thumbnail-file {

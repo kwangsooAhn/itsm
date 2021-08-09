@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{image.label.list}"></title>
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div class="z-image-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
+    <div th:class="${COMMON_PREFIX} + 'image-header'">
+        <div th:class="${COMMON_PREFIX} + 'main-header-title flex-row align-items-baseline'">
             <h1 th:text="#{image.label.list}"></h1>
             <h6 class="description ml-2" th:text="#{image.msg.searchDescription}"></h6>
         </div>
-        <div class="z-main-header-search flex-row">
-            <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
-                   th:placeholder="#{image.label.name}"/>
+        <div th:class="${COMMON_PREFIX} + 'main-header-search flex-row'">
+            <input type="text" th:class="${COMMON_PREFIX} + 'input i-search col-5 mr-2'" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{image.label.name}"/>
             <span id="totalCount" class="search-count"></span>
         </div>
     </div>
 </th:block>
 <th:block layout:fragment="content">
-    <div class="z-image-content-edit flex-fill">
-        <div class="thumbnail-main"></div>
+    <div th:class="${COMMON_PREFIX} + 'image-content-edit flex-fill'">
+        <div th:class="${COMMON_PREFIX} + 'thumbnail-main flex-row flex-wrap'" id="thumbnailMain"></div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
@@ -38,7 +36,7 @@
                 classes: 'thumbnail-preview',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
+                    classes: aliceJs.COMMON_PREFIX + 'button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -57,12 +55,12 @@
             document.getElementById('searchValue').focus();
             document.getElementById('searchValue').addEventListener('keyup', function () {
                 aliceJs.pressKeyForAction(event, 'Enter', function () {
-                    document.querySelector('.thumbnail-main').innerHTML = '';
+                    document.getElementById('thumbnailMain').innerHTML = '';
                     getImages(false);
                 });
             });
             // 스크롤바 표시
-            OverlayScrollbars(document.querySelector('.z-main'), {
+            OverlayScrollbars(document.querySelector('.' + aliceJs.COMMON_PREFIX + 'main'), {
                 className: 'scrollbar',
                 callbacks: {
                     onScroll: function (e) {
@@ -94,64 +92,43 @@
         }
 
         function restSubmit(method, url, isScroll) {
-            aliceJs.sendXhr({
-                url: url,
-                method: method,
-                contentType: 'application/json',
-                async: false,
-                callbackFunc: function (response) {
-                    let imageList = JSON.parse(response.responseText);
-                    addThumbnailUpload();
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.imageOffsetCount;
-                            imageList.data.forEach(function (image) {
-                                addThumbnail(image);
-                            });
-                        }
-                    } else {
-                        let count = JSON.stringify(imageList.totalCount)
-                        aliceJs.showTotalCount(count, 'totalCount');
-                        document.getElementById('totalCount').value = count;
+            aliceJs.fetchJson(url, {
+                method: method
+            }).then((imageList) => {
+                addThumbnailUpload();
+                if (isScroll) {
+                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                        offsetCount = offsetCount + aliceJs.imageOffsetCount;
                         imageList.data.forEach(function (image) {
                             addThumbnail(image);
                         });
-                        /*OverlayScrollbars(document.querySelector('.image-content-edit'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function (e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getImages(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });*/
                     }
+                } else {
+                    let count = JSON.stringify(imageList.totalCount)
+                    aliceJs.showTotalCount(count, 'totalCount');
+                    document.getElementById('totalCount').value = count;
+                    imageList.data.forEach(function (image) {
+                        addThumbnail(image);
+                    });
                 }
-            });
+            })
         }
 
         function addThumbnail(image) {
-            const thumbnailContainer = document.querySelector('.thumbnail-main');
-            const thumbnailUpload = thumbnailContainer.querySelector('.thumbnail-upload');
-            let thumbnailTemplate = `
-                <div class="thumbnail" >
+            const thumbnailContainer = document.getElementById('thumbnailMain');
+            const thumbnailTemplate = `
+                <div class="thumbnail" tabindex="-1">
                     <div class="thumbnail-img" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
                     <div class="thumbnail-info">
                         <p class="thumbnail-info-text">
                             <label class="thumbnail-img-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
-                            <input type="text" class="z-input fileName float-left" />
+                            <input type="text" class="${aliceJs.COMMON_PREFIX}input file-name float-left" />
                         </p>
-                        <p class="thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
+                        <p class="thumbnail-info-text"><label class="file-size text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
                     </div>
                     <div class="thumbnail-bottom">
-                        <label>${i18n.userDateTime(image.updateDt)}</label>
-                        <button type="button" class="z-button-icon extra float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="z-icon i-delete"></span></button>
+                        <label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>
+                        <button type="button" class="${aliceJs.COMMON_PREFIX}button-icon float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="${aliceJs.COMMON_PREFIX}icon i-delete"></span></button>
                     </div>
                 </div>
             `;
@@ -159,76 +136,86 @@
         }
 
         function addThumbnailUpload() {
-            const thumbnailCnt = document.querySelector('.thumbnail-main').querySelectorAll('.thumbnail-upload').length;
+            const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.thumbnail-upload').length;
             if (thumbnailCnt === 0) {
                 let thumbnailUploadTemplate = `
-                    <div class="thumbnail-upload align-center" onclick="document.getElementById('image-upload-file').click();">
-                        <img src="" />
-                        <p class="thumbnail-upload-text">${i18n.msg('image.label.upload')}</p>
-                        <input type="file" class="fileInput" id="image-upload-file" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);"/>
+                    <div class="thumbnail-upload align-center" onclick="document.getElementById('imageUploadFile').click();" tabindex="-1">
+                        <span class="${aliceJs.COMMON_PREFIX}icon i-image"></span>
+                        <p class="mt-4">${i18n.msg('image.label.upload')}</p>
+                        <input type="file" class="upload-file-input" id="imageUploadFile" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);"/>
                     </div>
                 `;
-                document.querySelector('.thumbnail-main').insertAdjacentHTML('beforeend', thumbnailUploadTemplate);
+                document.getElementById('thumbnailMain').insertAdjacentHTML('beforeend', thumbnailUploadTemplate);
             }
         }
 
         function removeImage(imgObj) {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-                aliceJs.sendXhr({
-                    url: '/rest/images/' + imgObj.dataset.name,
+            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), function() {
+                aliceJs.fetchText('/rest/images/' + imgObj.dataset.name, {
                     method: 'delete',
-                    contentType: 'application/json',
-                    callbackFunc: xhr => {
-                        if (xhr.responseText === 'true') {
-                            document.querySelector('.thumbnail-main').removeChild(imgObj.parentNode.parentNode);
-                            let deleteAfterCount = Number(document.getElementById("totalCount").value) - 1;
-                            document.getElementById('totalCount').value = deleteAfterCount;
-                            aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
-                        }
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((rtn) => {
+                    if (rtn === 'true') {
+                        document.getElementById('thumbnailMain').removeChild(imgObj.parentNode.parentNode);
+                        let deleteAfterCount = Number(document.getElementById("totalCount").value) - 1;
+                        document.getElementById('totalCount').value = deleteAfterCount;
+                        aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
                     }
                 });
             });
         }
 
-        function renameImage(labelObj) {
-            const name = labelObj.textContent.trim();
-            labelObj.style.display = 'none';
-            let inputObj = labelObj.parentNode.querySelector('input');
+        function renameEventHandler(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            e.target.removeEventListener('blur', renameEventHandler);
+            e.target.removeEventListener('keyup', renameEventHandler);
+
+            const labelElem = e.target.parentNode.querySelector('label');
+            e.target.style.display = 'none';
+            labelElem.style.display = 'block';
+
+            let name = labelElem.textContent.trim();
+            let extension = name.split('.').pop();
+            console.log(e.target.value);
+            let modifyName = '';
+            if (e.target.value.trim() !== '') {
+                modifyName = e.target.value.trim() + '.' + extension;
+            }
+            if (name === modifyName) { return false; }
+            console.log(name, modifyName);
+            aliceJs.fetchText('/rest/images', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ originName: name, modifyName: modifyName })
+            }).then((rtn) => {
+                if (rtn === 'true') {
+                    labelElem.textContent = modifyName;
+                    labelElem.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
+                } else {
+                    aliceAlert.alertWarning(i18n.msg("image.msg.failedRename"));
+                }
+            });
+        }
+
+        function renameImage(target) {
+            const name = target.textContent.trim();
+            target.style.display = 'none';
+
+            let inputObj = target.parentNode.querySelector('input');
             let extension = name.split('.').pop();
             inputObj.value = name.split('.' + extension)[0];
             inputObj.style.display = 'block';
-            let renameEventHandler = e => {
-                e.preventDefault();
-                e.target.removeEventListener('focusout', renameEventHandler);
-                e.target.removeEventListener('keyup', renameEventHandler);
-                inputObj.style.display = 'none';
-                labelObj.style.display = 'block';
-                let modifyName = labelObj.textContent;
-                if (inputObj.value.trim() !== '') {
-                    modifyName = inputObj.value.trim() + '.' + extension;
-                }
 
-                if (name !== modifyName) {
-                    aliceJs.sendXhr({
-                        url: '/rest/images',
-                        method: 'put',
-                        params: JSON.stringify({originName: name, modifyName: modifyName}),
-                        contentType: 'application/json; charset=utf-8',
-                        callbackFunc: xhr => {
-                            if (xhr.responseText === 'true') {
-                                labelObj.textContent = modifyName;
-                                labelObj.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
-                            } else {
-                                aliceAlert.alertWarning(i18n.msg("image.msg.failedRename"));
-                            }
-                        }
-                    });
-                }
-            };
-            inputObj.addEventListener('focusout', renameEventHandler, false);
-            inputObj.addEventListener('keyup', e => {
+            inputObj.addEventListener('blur', renameEventHandler, false);
+            inputObj.addEventListener('keyup', function (e) {
                 if (e.keyCode === 13) {
-                    renameEventHandler(e);
+                    e.target.blur();
                 }
             }, false);
             inputObj.focus();
@@ -254,20 +241,20 @@
                     }
                     xhr.open('POST', '/rest/images', true);
                     xhr.send(formData);
-                    document.getElementById('image-upload-file').value = '';
+                    document.getElementById('imageUploadFile').value = '';
                 }
 
                 if (isAllowedExtensions(allowedExtensions, fileList)) {
                     uploadImage();
-                    aliceAlert.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function () {
+                    aliceAlert.alertSuccess(i18n.msg('image.msg.registrationSuccess'), function() {
                         location.reload();
                     });
                 } else {
-                    aliceAlert.confirm(
-                        i18n.msg('image.msg.existNotAllowedExtension'),
+                    aliceAlert.confirm(i18n.msg('image.msg.existNotAllowedExtension'),
                         uploadImage, // OK 시 업로드
-                        () => document.getElementById('image-upload-file').value = ''  // CANCEL 시 file object 값 비움 처리
-                        );
+                        function() {
+                            document.getElementById('imageUploadFile').value = '';  // CANCEL 시 file object 값 비움 처리
+                        });
                 }
             }
         }

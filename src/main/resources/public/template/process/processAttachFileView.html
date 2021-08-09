@@ -19,11 +19,11 @@
     <div class="thumbnail-modal-wrapper">
         <div class="thumbnail-modal-dialog">
             <div class="thumbnail-modal-title" th:text="#{document.label.icon}"></div>
-            <div class="thumbnail-nodata align-center" th:if="${#arrays.isEmpty(imageList)}">
+            <div class="z-thumbnail-nodata align-center" th:if="${#arrays.isEmpty(imageList)}">
                 <label th:text="#{common.msg.noData}"></label>
             </div>
             <div class="thumbnail-modal-body">
-                <div class="thumbnail-main">
+                <div class="z-thumbnail-main flex-row flex-wrap">
                     <div class="thumbnail" th:unless="${#arrays.isEmpty(imageList)}" th:each="image : ${imageList}" th:data-name="${image.name}" onclick="selectImage(this)">
                         <div class="thumbnail-img" th:style="'background-image: url(data:image/' + ${image.extension}  + ';base64,' + ${image.data} + ')'"></div>
                         <div class="thumbnail-info">

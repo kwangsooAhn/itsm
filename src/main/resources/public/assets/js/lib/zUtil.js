@@ -6,6 +6,7 @@ aliceJs.systemCalendarTimeFormat = 'HH:mm:ss';
 
 // es6 모듈 구조일 경우 zConstants.js 파일의  CLASS_PREFIX 를 사용한다.
 aliceJs.CLASS_PREFIX = 'z-';
+aliceJs.COMMON_PREFIX = 'z-';
 
 const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
 const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
@@ -583,7 +584,7 @@ aliceJs.thumbnail = function(options) {
      */
     const createContent = function(files) {
         const container = document.createElement('div');
-        container.className = 'thumbnail-main';
+        container.className = 'z-thumbnail-main flex-row flex-wrap';
 
         if (files.data.length > 0) {
             for (let i = 0, len = files.data.length; i < len; i++) {
@@ -644,7 +645,7 @@ aliceJs.thumbnail = function(options) {
         } else { 
             // 썸네일이 존재하지 않을 경우 안내 문구 표시
             const thumbnailNodataTemplate = `
-                <div class="thumbnail-nodata align-center">
+                <div class="z-thumbnail-nodata align-center">
                     <label>${i18n.msg('common.msg.noData')}</label>
                 </div>
             `;
@@ -1236,7 +1237,7 @@ aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
     }
 
     // set clear button
-    let clearButton = document.createElement('span')
+    let clearButton = document.createElement('span');
     clearButton.className = aliceJs.CLASS_PREFIX + 'button-clear ml-auto';
     clearButton.onclick = function() {
         aliceJs.removeTarget(this);
