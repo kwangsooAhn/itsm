@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assumptions.assumingThat
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -24,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest
 /**
  * CI Attribute Test
  */
+@Disabled
 @SpringBootTest
 @DisplayName("CI Attribute 호출 테스트")
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
