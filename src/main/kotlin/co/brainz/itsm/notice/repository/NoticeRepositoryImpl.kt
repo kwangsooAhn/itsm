@@ -80,12 +80,7 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
         )
     }
 
-    override fun findTopNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        limit: Long
-    ): MutableList<NoticeListDto> {
+    override fun findTopNotice(fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
         return from(notice)
             .select(
@@ -106,13 +101,9 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 )
             )
             .where(
-                super.like(notice.noticeTitle, searchValue)?.or(
-                    super.like(notice.createUser.userName, searchValue)
-                ),
                 notice.createDt.goe(fromDt), notice.createDt.lt(toDt), notice.topNoticeYn.eq(true)
             )
             .orderBy(notice.createDt.desc())
-            .limit(limit)
             .fetch()
     }
 
