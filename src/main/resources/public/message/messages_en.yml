@@ -47,7 +47,7 @@ common:
     writeDate: "Write Date"
     writer: "Writer"
     itsm: "ITSM"
-    zenius: "Zenius"
+    ems: "EMS"
     emptyData: "-"
   msg:
     confirmDelete: "Are you sure you want to delete?"

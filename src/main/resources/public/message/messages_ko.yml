@@ -47,7 +47,7 @@ common:
     writeDate: "작성 일시"
     writer: "작성자"
     itsm: "ITSM"
-    zenius: "Zenius"
+    ems: "EMS"
     emptyData: "-"
   msg:
     confirmDelete: "정말 삭제하시겠습니까?"
