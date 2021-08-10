@@ -18,11 +18,7 @@
             </tr>
         </thead>
         <tbody class="list-body">
-            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(noticeList)}">
-                <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <tr class="flex-row align-items-center notice-pinned " th:each="topNotice, i: ${topNoticeList}"
-                th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
+            <tr class="flex-row align-items-center notice-pinned " th:each="topNotice: ${topNoticeList}">
                 <td style="width:30%;" class="align-left underline">
                     <a sec:authorize="!hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
                        th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}">
@@ -40,6 +36,9 @@
                 <td style="width:20%;" class="align-left date-time" name="popDt" th:text="${topNotice.popStrtDt} + '~' + ${topNotice.popEndDt}"></td>
                 <td style="width:20%;" class="align-left date-time" name="noticeDt" th:text="${topNotice.topNoticeStrtDt} + '~' + ${topNotice.topNoticeEndDt}"/>
                 <td style="width:15%;" class="align-left date-time" name="createDt" th:text="${topNotice.createDt}"></td>
+            </tr>
+            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(noticeList)}">
+                <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <th:block th:fragment="list">
                 <tr class="flex-row align-items-center" th:each="notice : ${noticeList}">

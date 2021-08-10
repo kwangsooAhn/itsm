@@ -7,13 +7,13 @@
     <title th:text="#{board.label.board}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="board-header">
-        <div class="header-title flex-row align-items-baseline">
+<th:block layout:fragment="head">
+    <div class="z-board-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{board.label.board}"></h1>
             <h6 class="description ml-2" th:text="#{board.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <form id="searchFrm">
                 <select class="search-selectBox col-3" id="boardAdminId" name="boardAdminId">
                     <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
@@ -33,7 +33,9 @@
             </div>
         </div>
     </div>
-    <div class="board-content flex-fill">
+</th:block>
+<th:block layout:fragment="content">
+    <div class="z-board-content flex-fill">
         <div class="list" id="boardList"></div>
     </div>
 </th:block>

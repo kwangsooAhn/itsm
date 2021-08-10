@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.notice.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeListReturnDto
 import co.brainz.itsm.notice.entity.NoticeEntity
@@ -80,13 +81,10 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
         )
     }
 
-    override fun findTopNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        limit: Long
-    ): MutableList<NoticeListDto> {
+    override fun findTopNotice(): MutableList<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
+        val user = QAliceUserEntity.aliceUserEntity
+        val currentDateTime = LocalDateTime.now()
         return from(notice)
             .select(
                 Projections.constructor(
@@ -105,14 +103,13 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                     notice.createUser.userName
                 )
             )
+            .innerJoin(notice.createUser, user)
             .where(
-                super.like(notice.noticeTitle, searchValue)?.or(
-                    super.like(notice.createUser.userName, searchValue)
-                ),
-                notice.createDt.goe(fromDt), notice.createDt.lt(toDt), notice.topNoticeYn.eq(true)
+                notice.topNoticeStrtDt.loe(currentDateTime),
+                notice.topNoticeEndDt.goe(currentDateTime),
+                notice.topNoticeYn.eq(true)
             )
             .orderBy(notice.createDt.desc())
-            .limit(limit)
             .fetch()
     }
 

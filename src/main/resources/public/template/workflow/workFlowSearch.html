@@ -7,13 +7,13 @@
     <title th:text="#{document.label.businessFlow}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="document-admin-header">
-        <div class="header-title flex-row align-items-baseline">
+<th:block layout:fragment="head">
+    <div class="z-document-admin-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{document.label.businessFlow}"></h1>
             <h6 class="description ml-2" th:text="#{document.msg.adminSearchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''document.admin.update'')')}"/>
             <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
             <form id="searchDocumentsFrm">
@@ -38,7 +38,9 @@
             </div>
         </div>
     </div>
-    <div class="document-admin-content flex-fill">
+</th:block>
+<th:block layout:fragment="content">
+    <div class="z-document-admin-content flex-fill">
         <div class="list" id="documentList"></div>
     </div>
 </th:block>

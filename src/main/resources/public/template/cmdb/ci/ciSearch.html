@@ -7,13 +7,13 @@
     <title th:text="#{cmdb.ci.label.ciInquiry}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="cmdb-ci-header">
-        <div class="header-title flex-row align-items-baseline">
+<th:block layout:fragment="head">
+    <div class="z-cmdb-ci-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{cmdb.ci.label.ciInquiry}"></h1>
             <h6 class="description ml-2" th:text="#{cmdb.ci.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input type="hidden" sec:authorize="hasAuthority('cmdb.ci.create') || hasAuthority('cmdb.ci.update')"
                    th:name="isRole" th:value="true"/>
             <input type="hidden" sec:authorize="!hasAuthority('cmdb.ci.create') && !hasAuthority('cmdb.ci.update')"
@@ -28,14 +28,14 @@
             </form>
         </div>
     </div>
-    <div class="cmdb-ci-content flex-fill">
+</th:block>
+<th:block layout:fragment="content">
+    <div class="z-cmdb-ci-content flex-fill">
         <div class="list" id="ciList"></div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
-    <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/

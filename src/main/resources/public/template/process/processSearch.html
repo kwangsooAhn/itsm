@@ -8,13 +8,13 @@
     <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="process-header">
-        <div class="header-title flex-row align-items-baseline">
+<th:block layout:fragment="head">
+    <div class="z-process-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{process.label.process}"></h1>
             <h6 class="description ml-2" th:text="#{process.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>
             <form id="searchFrm">
                 <input type="text" id="search" name="search" class="z-input i-search col-5 mr-2"  maxlength="100"
@@ -29,7 +29,9 @@
             </div>
         </div>
     </div>
-    <div class="process-content flex-fill">
+</th:block>
+<th:block layout:fragment="content">
+    <div class="z-process-content flex-fill">
         <div class="list" id="processList"></div>
     </div>
 </th:block>

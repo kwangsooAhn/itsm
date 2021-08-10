@@ -8,13 +8,13 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="custom-code-header">
-        <div class="header-title flex-row align-items-baseline">
+<th:block layout:fragment="head">
+    <div class="z-custom-code-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{customCode.label.customCode}"></h1>
             <h6 class="description ml-2" th:text="#{customCode.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input type="hidden" sec:authorize="hasAuthority('custom.code.update')" th:name="isRole" th:value="true"/>
             <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole" th:value="false"/>
             <form id="searchFrm">
@@ -32,7 +32,9 @@
             </div>
         </div>
     </div>
-    <div class="custom-code-content flex-fill">
+</th:block>
+<th:block layout:fragment="content">
+    <div class="z-custom-code-content flex-fill">
         <div class="list" id="customCodeList"></div>
     </div>
 </th:block>

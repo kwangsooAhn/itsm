@@ -7,13 +7,13 @@
     <title th:text="#{auth.label.auth}"></title>
 </head>
 <body>
-<th:block layout:fragment="content">
-    <div class="auth-header">
-        <div class="header-title flex-row align-items-baseline">
+<th:block layout:fragment="head">
+    <div class="z-auth-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{auth.label.auth}"></h1>
             <h6 class="description ml-2" th:text="#{auth.msg.editDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search"  maxlength="100"
                    th:placeholder="#{auth.msg.searchPlaceholder}"/>
             <span id="totalCount" class="search-count"></span>
@@ -23,13 +23,15 @@
             </div>
         </div>
     </div>
-    <div class="auth-content flex-fill">
+</th:block>
+<th:block layout:fragment="content">
+    <div class="z-auth-content flex-fill">
         <div class="list" id="authList"></div>
     </div>
 </th:block>
 <th:block layout:fragment="aside">
-    <div class="aside">
-        <div class="auth-content-edit flex-column">
+    <div class="z-aside">
+        <div class="z-auth-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">
                     <label th:text="#{auth.label.authId}" class="required"></label>
@@ -53,7 +55,7 @@
                                 <label class="z-checkbox" th:for="${url?.url}" tabindex="0">
                                     <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
                                     <span></span>
-                                    <span class="label" th:text="|[${url?.method}] ${url?.url}|"></span>
+                                    <span class="z-label" th:text="|[${url?.method}] ${url?.url}|"></span>
                                 </label>
                             </li>
                         </ul>
@@ -69,7 +71,7 @@
                                            th:id="${menu?.menuId}"
                                            th:value="${menu?.menuId}">
                                     <span></span>
-                                    <span class="label" th:text="#{|menu.${menu?.menuId}|}"></span>
+                                    <span class="z-label" th:text="#{|menu.${menu?.menuId}|}"></span>
                                 </label>
                             </li>
                         </ul>
@@ -404,7 +406,7 @@
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
                     }
-                    OverlayScrollbars(document.querySelector('.auth-content-edit'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.z-auth-content-edit'), {className: 'scrollbar'});
                     OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), {
                         className: 'inner-scrollbar',
                         callbacks: {

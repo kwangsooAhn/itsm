@@ -10,13 +10,14 @@
 // 모바일 기기 회전시에 사용자가 확대하지 않아도 글씨 크기가 재조정되는 것을 예방.
 body {
   font-family: $font-family-m;
+  font-size: $font-size-s;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
 
 // headings
 h1, h2, h3, h4, h5, h6 {
-  font-family: inherit;
+  font-family: $font-family-m;
   font-weight: $headings-font-weight;
   line-height: $headings-line-height;
   color: $headings-font-color;
@@ -39,7 +40,7 @@ h5 {
   font-size: $h5-font-size;
 }
 h6 {
-  font-family: 'Malgun Gothic'; // h6 만 기본 값이 맑은 고딕.
+  font-family: $font-family-s;
   font-size: $h6-font-size;
 }
 // a
@@ -295,7 +296,7 @@ label {
     }
   }
 
-  &:read-only {
+  &:read-only:not(.tagify) {
     border-color: $gray400;
     border-style: none none none solid;
     @include borderRadius(0);
@@ -467,7 +468,7 @@ label {
   color: $element-font-color;
   outline: none;
 
-  .label {
+  .#{$common-prefix}label {
     display: inline-block;
     height: 1.125rem; // 18px
     margin-left: 3rem; // 48px
@@ -518,6 +519,24 @@ label {
   }
 }
 
+// select
+// 새로고침시 디자인전 기존 디자인이 표시됨
+select {
+  height: 2.25rem; // 36px
+  font-family: inherit;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
+  background-color: $element-bg-color;
+  @include border($element-border-width, solid, $element-border-color, all);
+  @include borderRadius(0.0625rem);
+  padding: 0 $element-indent;
+  vertical-align: middle;
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+}
 /**
  Designed select
    1) select 태그를 사용하면서 initDesignedSelectTag 함수를 호출하면 아래 디자인을 적용할 수 있음.
@@ -526,11 +545,13 @@ label {
      - z-select-box : select 태그를 대신해서 보여지는 부분
      - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
 */
+
 .#{$common-prefix}select {
   display: inline-block;
   @include relative();
   width: 100%;
   height: 2.25rem; // 36px
+  vertical-align: middle;
 
   select.readonly {
     visibility: hidden;
@@ -539,18 +560,18 @@ label {
   // select 태그를 대신해서 보여지는 부분
   .#{$common-prefix}select-box {
     display: flex;
+    align-items: center;
     @include absolute(0, 0, 0, 0);
     width: 100%;
-    padding: 0 $element-indent;
-    border: $element-border;
-    background-color: $element-bg-color;
-    color: $element-font-color;
-    @include borderRadius(0.125rem); // 2px
     font-family: inherit;
     font-size: $element-font-size;
     font-weight: $element-font-weight;
     line-height: $element-line-height;
-    align-items: center;
+    color: $element-font-color;
+    background-color: $element-bg-color;
+    padding: 0 $element-indent;
+    @include borderRadius(0.125rem); // 2px
+    @include border($element-border-width, solid, $element-border-color, all);
     overflow: hidden;
     cursor: pointer;
 
@@ -771,7 +792,7 @@ label {
 
     &:not(:disabled) {
       + span { cursor: pointer; }
-      ~ .label { cursor: pointer; }
+      ~ .#{$common-prefix}label { cursor: pointer; }
       &:checked {
         + span {
           // 체크 기호
@@ -807,7 +828,7 @@ label {
           border-color: $element-disabled-font-color;
         }
       }
-      ~ .label {
+      ~ .#{$common-prefix}label {
         color: $element-disabled-font-color;
       }
     }
@@ -883,7 +904,7 @@ label {
 
     &:not(:disabled) {
       + span { cursor: pointer; }
-      ~ .label { cursor: pointer; }
+      ~ .#{$common-prefix}label { cursor: pointer; }
 
       &:checked {
         + span {
@@ -914,7 +935,7 @@ label {
           background-color: $element-disabled-bg-color;
         }
       }
-      ~ .label {
+      ~ .#{$common-prefix}label {
         color: $element-disabled-font-color;
       }
       &:checked {

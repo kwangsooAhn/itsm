@@ -1200,7 +1200,7 @@
             let fileBtn = document.createElement('button');
             fileBtn.className = 'z-button-icon form';
             let fileIcon = document.createElement('span');
-            fileIcon.className = 'z-icon i-search';
+            fileIcon.className = 'z-icon i-folder';
             fileBtn.addEventListener('click', function() {
                 aliceJs.thumbnail({
                     title: i18n.msg('common.label.attachFile'),
@@ -1714,7 +1714,7 @@
         radioGroup.appendChild(radioSpan);
         // radio label
         const radioLabel = document.createElement('span');
-        radioLabel.className = 'label';
+        radioLabel.className = aliceJs.CLASS_PREFIX + 'label';
         radioLabel.textContent = property.fieldset;
         radioGroup.appendChild(radioLabel);
 
@@ -1811,7 +1811,7 @@
                 labelElem.appendChild(document.createElement('span'));
 
                 const spanElem = document.createElement('span');
-                spanElem.className = 'label';
+                spanElem.className = aliceJs.CLASS_PREFIX + 'label';
                 spanElem.textContent = labelText;
                 labelElem.appendChild(spanElem);
                 break;

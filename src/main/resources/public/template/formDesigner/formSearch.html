@@ -10,13 +10,13 @@
     <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
 </th:block>
 <body>
-<th:block layout:fragment="content">
-    <div class="form-header">
-        <div class="header-title flex-row align-items-baseline">
+<th:block layout:fragment="head">
+    <div class="z-form-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{form.label.form}"></h1>
             <h6 class="description ml-2" th:text="#{form.msg.searchDescription}"></h6>
         </div>
-        <div class="header-search flex-row">
+        <div class="z-main-header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
             <form id="searchFrm">
                 <input type="text" id="search" name="search" class="z-input i-search col-5 mr-2" maxlength="100"
@@ -31,7 +31,9 @@
             </div>
         </div>
     </div>
-    <div class="form-content flex-fill">
+</th:block>
+<th:block layout:fragment="content">
+    <div class="z-form-content flex-fill">
         <div class="list" id="formList"></div>
     </div>
 </th:block>

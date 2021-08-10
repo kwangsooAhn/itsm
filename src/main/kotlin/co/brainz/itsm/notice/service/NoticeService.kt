@@ -35,13 +35,8 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     }
 
     // 공지사항 상단 리스트
-    fun findTopNoticeSearch(
-        searchValue: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        limit: Long
-    ): MutableList<NoticeListDto> {
-        return noticeRepository.findTopNoticeSearch(searchValue, fromDt, toDt, limit)
+    fun findTopNotice(): MutableList<NoticeListDto> {
+        return noticeRepository.findTopNotice()
     }
 
     // 공지사항 조회 및 수정용 세부정보

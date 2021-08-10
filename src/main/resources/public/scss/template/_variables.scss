@@ -78,13 +78,22 @@ $blue:                                        #0098FF !default;
 $orange:                                      #FF7319 !default;
 $green:                                       #00C462 !default;
 
-// color
-$error-color:                                 $red500;
-$success-color:                               $green500;
-
+//////////////////////////////// common //////////////////////////////////
 // common prefix
 $common-prefix:                               'z-';
 
+$description-color:                           $gray500;
+$required-color:                              $red500;
+$error-color:                                 $red500;
+$success-color:                               $green500;
+
+// 선
+$horizontal-bar-width:                        0.0625rem; // 1px
+$vertical-bar-width:                          1.875rem; // 30px
+$vertical-bar-height:                         1.875rem; // 30px
+$vertical-bar-margin:                         0 1.875rem 0 0; // 0 30px 0 0
+
+//////////////////////////////// element //////////////////////////////////
 // element default
 $element-font-family:                         $font-family-s;
 $element-font-size:                           $font-size-xs;
@@ -130,14 +139,14 @@ $element-disabled-border:                     $element-disabled-border-width sol
 
 // element readonly 시 사용하는 디자인 변수
 $element-readonly-font-color:                 map-get($grays, 'dark');
-$element-readonly-bg-color:                   map-get($grays, 'light');
+$element-readonly-bg-color:                   $neutral200;
 $element-readonly-border-color:               $gray400;
 $element-readonly-border-width:               0.0625rem; // 1px
 $element-readonly-border:                     $element-readonly-border-width solid $element-readonly-border-color;
 
 // 체크박스, 라디오 버튼, 스위치 등 선택되었을 때 (ON) 디자인 변수
-$element-checked-color:                    $blue500;
-$element-checked-active-color:             $blue700;
+$element-checked-color:                      $blue500;
+$element-checked-active-color:               $blue700;
 
 //셀렉트 박스 선택되었을 때 옵션에 사용하는 디자인 변수
 $element-selected-font-color:                 $blue500;
@@ -156,19 +165,19 @@ $element-success-border-width:                0.0625rem; // 1px
 $element-success-border:                      $element-success-border-width solid $element-success-border-color !important;
 
 // headings
-$h1-font-size:                                $font-size-s * 2.25; // 36px
-$h2-font-size:                                $font-size-s * 1.75; // 28px
-$h3-font-size:                                $font-size-s * 1.5;  // 24px
-$h4-font-size:                                $font-size-s * 1.25; // 20px
-$h5-font-size:                                $font-size-s;
-$h6-font-size:                                $font-size-s * 0.875; // 14px
+$h1-font-size:                                $font-size-xxl; // 45px
+$h2-font-size:                                $font-size-xl; // 32px
+$h3-font-size:                                $font-size-l; // 24px
+$h4-font-size:                                $font-size-m; // 18px
+$h5-font-size:                                $font-size-s; // 16px
+$h6-font-size:                                $font-size-xs; // 14px
 
-$headings-font-color:                         map-get($blacks, 'light');
+$headings-font-color:                         $gray800;
 $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
 
 // label
-$label-font-color:                            map-get($blacks, 'light');
+$label-font-color:                            $gray800;
 $label-font-size:                             $font-size-xs;
 $label-font-weight:                           $font-weight-medium;
 
@@ -258,6 +267,11 @@ $button-group: (
 
 //////////////////////////////// layout ////////////////////////////////
 $layout-header-height:                       3.125rem; // 50px
+$layout-header-search-font-family:           $font-family-s;
+$layout-header-search-font-size:             $font-size-xs;
+$layout-header-search-color:                 $gray500;
+$layout-header-search-font-weight:           $font-weight-bold;
+
 $layout-properties-width:                    18.75rem; // 300px
 
 //////////////////////////////// scrollbar ////////////////////////////////
@@ -431,18 +445,6 @@ $alert-box-sizing:                           border-box;
 $alert-bg-color:                             $white;
 
 ///////////////////////////// color-picker ///////////////////////////
-$color-picker-color-size:                    1.75rem;    // 28px
-$color-picker-box-size:                      2.5rem;     // 40px
-$color-picker-margin:                        0.3125rem;  // 5px
-// color-picker palette
-$color-picker-palette-width:                 30rem;      // 480px
-$color-picker-palette-margin:                0.3125rem;  // 5px
-$color-picker-palette-padding:               1.25rem 0 0.625rem 1.25rem; // 20px 0 10px 20px;
-$color-picker-colorchip-size:                2.5rem;     // 40px
-$color-picker-colorchip-margin:              0.625rem;   // 10px
-$color-picker-colorchip-border-width:        0.375rem;   // 6px
-$color-picker-colorchip-border-color:        $white;
-
 // color picker
 :root {
   --data-color: '';
@@ -479,33 +481,45 @@ $custom-color-plus: (
   'focus': ('font': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
   'active': ('font': $blue700, 'background': $blue200, 'border': $blue400)
 );
-// control
-
 
 ////////////////////////////// thumbnail /////////////////////////////
-$thumbnail-asset-path:                       '../media/icons/thumbnail';
-$thumbnail-font-family:                      'Noto Sans KR';
+$thumbnail-font-family:                      $font-family-s;
 $thumbnail-font-size:                        $font-size-xs;
-$thumbnail-font-weight:                      $font-weight-regular;
-$thumbnail-font-color:                       $gray;
-
-$thumbnail-main-height:                      100%;
+$thumbnail-font-weight:                      $font-weight-medium;
+$thumbnail-font-color:                       $gray500;
+$thumbnail-icon-color:                       $gray500;
 $thumbnail-main-padding:                     0;
-$thumbnail-icon-color:                       map-get($grays, 'pressed');
+$thumbnail-file-name-font-color:             $gray800;
+$thumbnail-file-name-font-weight:            $font-weight-bold;
 // 썸네일
-$thumbnail-width:                            14.06rem; // 225px
+$thumbnail-width:                            15rem; // 240px
 $thumbnail-height:                           18.13rem; // 290px
 $thumbnail-border-width:                     0.0625rem; // 1px
-$thumbnail-border-color:                     map-get($grays, 'line');
+$thumbnail-border-color:                     $gray300;
 $thumbnail-bg-color:                         $white;
-
+// 썸네일 > hover
+$thumbnail-hover-border-color:               $blue500;
+$thumbnail-hover-bg-color:                   $white;
+// 썸네일 > selected
 $thumbnail-selected-border-width:            0.0625rem; // 1px
-$thumbnail-selected-border-color:            $blue;
-$thumbnail-selected-bg-color:                hexToRGBA($blue, 0.05);
+$thumbnail-selected-border-color:            $blue600;
+$thumbnail-selected-bg-color:                $white;
+$thumbnail-selected-box-shadow-color:        $blue600;
+
+// 썸네일 업로드
+$thumbnail-upload-bg-color:                  $neutral50;
+// 썸네일 업로드 > hover
+$thumbnail-upload-hover-bg-color:            $blue100;
 
 // 썸네일 미리보기
 $thumbnail-preview-modal-width:              760px; // 760px
 $thumbnail-preview-modal-height:             645px; // 645px
+
+// 썸네일 데이터 없을때
+$thumbnail-nodata-font-family:               $font-family-m;
+$thumbnail-nodata-font-size:                 $font-size-xl;
+$thumbnail-nodata-font-weight:               $font-weight-bold;
+$thumbnail-nodata-font-color:                $gray500;
 
 /////////////////////////////// tooltip ///////////////////////////////
 $tooltip-help-size:                          1rem; // 16px
@@ -533,11 +547,6 @@ $header-tooltip-margin:                      16px 0 0 0; // 16px
 /////////////////////////////// designed select ///////////////////////////////
 $select-bg-color:                            $blue50;
 
-//////////////////////////////////// common ///////////////////////////////////
-$vertical-bar-width:                         1.875rem; // 30px
-$vertical-bar-height:                        1.875rem; // 30px
-$vertical-bar-margin:                        0 1.875rem 0 0; // 0 30px 0 0#CFD5D9
-
 //////////////////////////////////// z-index ///////////////////////////////////
 $z-index-alert:                              999999;
 $z-index-between-alert-modal:                5000;
@@ -553,31 +562,30 @@ $z-index-auto:                               auto;
 $z-index-hidden:                             -1;
 
 //////////////////////////// tag //////////////////////////////
-// tagify readonly
-$tagify-read-font-color:                     #586872;
-$tagify-read-bg-color:                       #F7F8F9;
-// tag
-$tag-font-color:                             map-get($blues, 'pressed');
-$tag-bg-color:                               hexToRGBA($blue, 0.1); // $blue , 불투명도 10
-$tag-border-radius:                          0.4375rem; // 7px
-// tag 삭제 버튼
-$tag-btn-remove-color:                       map-get($blues, 'pressed');
-// tag 마우스 오버
-$tag-hover-font-color:                       map-get($blues, 'pressed');
-$tag-hover-bg-color:                         hexToRGBA($blue, 0.1); // $blue , 불투명도 10
-$tag-hover-border-color:                     #ADD6F3;
+// tag editable
+$tag-editable-bg-color:                      $gray100;
+$tag-editable-font-color:                    $gray700;
 
-$tag-hover-btn-remove-color:                 $white;
-$tag-hover-btn-remove-bg-color:              $blue;
+// tagify readonly
+$tagify-read-font-color:                     $gray500;
+$tagify-read-bg-color:                       $neutral400;
+// tag
+$tag-font-color:                             $gray700;
+$tag-bg-color:                               $gray100;
+$tag-border-radius:                          0.25rem; // 4px
+// tag 삭제 버튼
+$tag-btn-remove-color:                       $gray600;
+$tag-btn-remove-hover-color:                 $white;
+$tag-btn-remove-hover-bg-color:              $gray600;
 // 태그를 입력하세요 input box
-$tag-input-font-color:                       map-get($grays, 'dark');
+$tag-input-font-color:                       $gray400;
 
 // 빨간색 Tag 디자인은 중복된 태그 단어 입력 시 중복 입력은 불가능한
 // 느낌을 주기 위해 빨간색 Tag 디자인을 하였습니다. 중복된 Tag는 일정
 // 시간만 보여준 후 사라집니다.
-$tag-invalid-color:                          hexToRGBA($red, 0.7); // $red , 불투명도 70
-$tag-invalid-bg-color:                       hexToRGBA($red, 0.1); // $red , 불투명도 10
-$tag-invalid-border-color:                   #FFE2E6;
+$tag-invalid-color:                          $red500;
+$tag-invalid-bg-color:                       $red100;
+$tag-invalid-border-color:                   $red500;
 
 ////////////////////////////// input box /////////////////////////////
 $input-clear-right:                          0rem;
