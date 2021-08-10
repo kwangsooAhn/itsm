@@ -220,7 +220,7 @@ export const customCodeMixin = {
             if (code[0].innerHTML.indexOf(searchValue) != -1) {
                 customCodeList[i].style.display = '';
             } else {
-                customCodeList[i].style.display = "none"
+                customCodeList[i].style.display = 'none';
             }
         }
     },
