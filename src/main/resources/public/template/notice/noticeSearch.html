@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+    layout:decorate="~{layout/fragments/pagingListLayout}">
 <head>
     <title th:text="#{notice.label.notice}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
+<th:block layout:fragment="searchArea">
     <div class="z-notice-header">
         <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{notice.label.notice}"></h1>
@@ -24,6 +24,8 @@
                 <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
                 <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
                 <span id="spanTotalCount" class="search-count"></span>
+                <span class="search-count">/</span>
+                <span id="spanTotalCountWithoutCondition" class="search-count"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="z-button secondary" onclick="location.href='/notices/new'"
@@ -32,16 +34,15 @@
         </div>
     </div>
 </th:block>
-<th:block layout:fragment="content">
+<th:block layout:fragment="listArea">
     <div class="z-notice-content flex-fill">
-        <div class="list" id="noticeList"></div>
+        <div class="list-content" id="noticeList"></div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        let offsetCount = 0;
         let searchFromDt = i18n.getDate({'months': -1});
         let searchToDt = i18n.getDate();
 
@@ -55,9 +56,9 @@
             zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
             zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
             document.getElementById('searchValue').addEventListener('keyup', function () {
-                getNoticeList(false);
+                getList();
             });
-            getNoticeList(false);
+            getList();
         };
 
         function setDatePicker(element, picker) {
@@ -72,7 +73,7 @@
                         picker.open();
                     });
                 } else {
-                    getNoticeList(false);
+                    getList();
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
@@ -82,7 +83,7 @@
                         picker.open();
                     });
                 } else {
-                    getNoticeList(false);
+                    getList();
                 }
             }
         }
@@ -96,65 +97,29 @@
         }
 
         //get notice list
-        function getNoticeList(isScroll) {
+        function getList(pageNum = 1) {
             let urlParam = '';
             document.getElementById('toDt').value =
                 i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
-           if (isScroll) {
-                if (offsetCount === 0) {
-                   offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-
-            }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSubmit('get', '/notices?' + urlParam, isScroll);
+            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+            restSubmit('get', '/notices?' + urlParam);
         }
 
         //REST API
-        function restSubmit(method, url, isScroll) {
+        function restSubmit(method, url) {
             const opt = {
                 method: method,
                 url: url,
                 async: false,
                 showProgressbar: false,
                 callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const noticeTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        noticeTbody.appendChild(container)
-                    } else {
-                        document.getElementById('noticeList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('noticeList'));
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    // 스크롤이 맨 마지막에 있을 경우
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getNoticeList(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
+                    let listBody = document.querySelector('#noticeList');
+                    listBody.innerHTML = response.responseText;
+
+                    setDateTimeFormat(listBody);
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar'
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
