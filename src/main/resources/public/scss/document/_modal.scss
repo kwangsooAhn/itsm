@@ -111,11 +111,11 @@
     }
 
     &.custom-code-list {
-      width: 640px;
-      height: 865px;
+      width: $custom-code-modal-width;
+      height: $custom-code-modal-height;
 
       .modal-content {
-        height: calc(#{865px} - #{100px} - #{50px});
+        height: calc(#{$custom-code-modal-height} - #{$custom-code-modal-header-height} - #{$custom-code-modal-bottom-height});
         padding: 0.625rem 1.25rem 0.625rem 1.25rem; // 10px 20px 20px 20px
 
         .field-label {
@@ -129,7 +129,7 @@
       }
 
       .custom-code-main {
-        padding-top: 2.5rem; // 40px
+        padding-top: 1.25rem; // 20px
       }
     }
   }

@@ -2164,11 +2164,11 @@ body.modal-active {
   background-color: #FFFFFF;
 }
 .modal-wrapper .modal-dialog.custom-code-list {
-  width: 640px;
-  height: 865px;
+  width: 40rem;
+  height: 53.75rem;
 }
 .modal-wrapper .modal-dialog.custom-code-list .modal-content {
-  height: calc(865px - 100px - 50px);
+  height: calc(53.75rem - 3.125rem - 6.25rem);
   padding: 0.625rem 1.25rem 0.625rem 1.25rem;
 }
 .modal-wrapper .modal-dialog.custom-code-list .modal-content .field-label {
@@ -2179,7 +2179,7 @@ body.modal-active {
   padding-top: 1.875rem;
 }
 .modal-wrapper .modal-dialog.custom-code-list .custom-code-main {
-  padding-top: 2.5rem;
+  padding-top: 1.25rem;
 }
 
 /* form, group, row, component 디자인 - document ver. */
