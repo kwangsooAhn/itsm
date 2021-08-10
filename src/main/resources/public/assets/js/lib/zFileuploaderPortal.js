@@ -441,7 +441,7 @@ const zFileUploaderPortal = (function () {
                     const dropzoneMessage = _this.element.querySelector('.dz-message');
                     // 아이콘 추가
                     const dropzoneIcon = document.createElement('span');
-                    dropzoneIcon.className = aliceJs.CLASS_PREFIX + 'icon i-no-file';
+                    dropzoneIcon.className ='z-icon i-no-file';
                     if (_this.isFileExist) {
                         dropzoneIcon.style.display = 'none';
                     }

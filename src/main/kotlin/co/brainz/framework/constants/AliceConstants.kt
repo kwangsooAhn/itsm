@@ -6,7 +6,11 @@
 package co.brainz.framework.constants
 
 /**
- * 프레임워크에서 공통으로 사용할 상수 선언 클래스
+ * 제품 전체에서 공통으로 사용할 상수 선언 클래스
+ *
+ *  - 2021.08.03 Jung Hee Chan
+ *     - 세부 목적에 따라 내부에 object 추가해서 사용 권장.
+ *     - AliceConstants 도 수정할 일이 있으면 목적에 따라 세분화 필요.
  */
 object AliceConstants {
 
@@ -130,4 +134,21 @@ object AliceConstants {
      * 알림 개수.
      */
     const val NOTIFICATION_SIZE = 50L
+}
+
+/**
+ * 페이징 처리와 관련된 상수
+ */
+object PagingConstants {
+    /**
+     * 페이징 리스트 화면에서 페이지별 출력 건수.
+     */
+    const val COUNT_PER_PAGE = 15L
+
+    /**
+     * 페이징 리스트 화면에서 정렬 순서 출력용 메시지 코드.
+     */
+    enum class ListOrderTypeCode(val code: String) {
+        CREATE_DESC("common.label.createDtDesc")
+    }
 }

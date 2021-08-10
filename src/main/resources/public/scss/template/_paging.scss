@@ -1,0 +1,77 @@
+/* _paging.scss
+ *
+ * 파일 경로 : template/_paging.scss
+ * @description 페이징 목록 디자인
+ * @author Jung Hee Chan
+ */
+// TODO 리스트 페이지 디자인 적용 시 정리 필요.
+.z-itsm-container .#{$common-prefix}paging-area {
+  background-color: #FAFAFA;
+}
+
+.#{$common-prefix}paging-area {
+  padding: 0 3.75rem 1.875rem 3.75rem; // 0 60px 30px 60px
+  justify-content:center;
+  font-family: $font-family-s;
+  font-size: $font-size-xs;
+  line-height: 1.5rem;
+
+  a.#{$common-prefix}paging-arrow {
+    cursor: text;
+    &.active {
+      span.#{$common-prefix}icon {
+        background: $paging-arrow-icon-active-color;
+      }
+      cursor: pointer;
+    }
+
+    .#{$common-prefix}icon {
+      &.i-paging-start-arrow {
+        @include maskImage('#{$icon-folder-path}icon_paging_arrow_start.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
+      }
+      &.i-paging-prev-arrow {
+        @include maskImage('#{$icon-folder-path}icon_paging_arrow_prev.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
+      }
+      &.i-paging-next-arrow {
+        @include maskImage('#{$icon-folder-path}icon_paging_arrow_next.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
+      }
+      &.i-paging-end-arrow {
+        @include maskImage('#{$icon-folder-path}icon_paging_arrow_end.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
+      }
+    }
+  }
+
+  .#{$common-prefix}paging-numbers {
+    a {
+      display: inline-block;
+      min-width: 1.5rem; // 24px
+      line-height: 1.375rem; // 22px
+      font-weight: $font-weight-regular;
+      text-align: center;
+      color: $paging-num-font-color;
+      &:hover {
+        color: $paging-num-hover-font-color;
+        background-color: $paging-num-hover-bg-color;
+        @include borderRadius(50%); // 24px
+      }
+      &.selected-page {
+        font-weight: $font-weight-bold;
+        color: $paging-num-selected-font-color;
+        @include border($color: $paging-num-selected-border-color);
+        @include borderRadius(50%); // 24px
+      }
+      &:active {
+        font-weight: $font-weight-bold;
+        color: $paging-num-active-font-color;
+        background-color: $paging-num-active-bg-color;
+        @include borderRadius(50%); // 24px
+      }
+    }
+  }
+
+  #spanCurrentPageNum {
+    font-weight: $font-weight-bold;
+    color: $paging-current-num-font-color;
+    @include absolute($right: 3.75rem);
+  }
+}
