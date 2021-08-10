@@ -15,18 +15,23 @@
     <script th:src="@{/assets/js/lib/zAlert.js}"></script>
     <script th:src="@{/assets/js/lib/zUtil.js}"></script>
 </head>
+<!--/*
+* 2021-08-10
+* Woo Da Jung
+* 현재 사용되지 않는 메뉴로 판단되나 프로세스 디자이너에서 스크립트 타스크 디자인 변경시 사용될 수 있으므로 우선 그대로 둠
+*/-->
 <body>
     <div class="thumbnail-modal-wrapper">
         <div class="thumbnail-modal-dialog">
             <div class="thumbnail-modal-title" th:text="#{document.label.icon}"></div>
-            <div class="thumbnail-nodata align-center" th:if="${#arrays.isEmpty(imageList)}">
+            <div class="z-thumbnail-nodata align-center" th:if="${#arrays.isEmpty(imageList)}">
                 <label th:text="#{common.msg.noData}"></label>
             </div>
             <div class="thumbnail-modal-body">
-                <div class="thumbnail-main">
-                    <div class="thumbnail" th:unless="${#arrays.isEmpty(imageList)}" th:each="image : ${imageList}" th:data-name="${image.name}" onclick="selectImage(this)">
-                        <div class="thumbnail-img" th:style="'background-image: url(data:image/' + ${image.extension}  + ';base64,' + ${image.data} + ')'"></div>
-                        <div class="thumbnail-info">
+                <div class="z-thumbnail-main flex-row flex-wrap">
+                    <div class="z-thumbnail" th:unless="${#arrays.isEmpty(imageList)}" th:each="image : ${imageList}" th:data-name="${image.name}" onclick="selectImage(this)">
+                        <div class="z-thumbnail-image" th:style="'background-image: url(data:image/' + ${image.extension}  + ';base64,' + ${image.data} + ')'"></div>
+                        <div class="z-thumbnail-info">
                             <p><label th:text="${image.name}"></label></p>
                             <p><label th:text="${image.size}"></label></p>
                             <p><label th:text="${image.width} + ' X ' + ${image.height}"></label></p>
@@ -51,8 +56,9 @@
      *  이미지 선택 후 확인 버튼 클릭시 호출
      */
     function selectedImageSave() {
+        console.log('이거 안타지??')
         // image 미선택 시 알림창 출력
-        const selectedImage = document.querySelector('.thumbnail.selected');
+        const selectedImage = document.querySelector('.z-thumbnail.selected');
         if (!selectedImage) {
             aliceAlert.alertWarning(i18n.msg('form.msg.fileSelect'));
             return false;
@@ -70,7 +76,7 @@
      * 이미지 선택
      */
     function selectImage(thumbnail) {
-        const thumbnails = document.querySelectorAll('.thumbnail');
+        const thumbnails = document.querySelectorAll('.z-thumbnail');
         for (let i = 0, len = thumbnails.length; i < len; i++) {
             thumbnails.item(i).classList.remove('selected');
         }

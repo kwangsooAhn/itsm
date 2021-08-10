@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.notice.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.notice.dto.NoticeListDto
@@ -15,6 +16,7 @@ import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.types.Projections
+import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -80,8 +82,10 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
         )
     }
 
-    override fun findTopNoticeSearch(noticeSearchCondition: NoticeSearchCondition): MutableList<NoticeListDto> {
+    override fun findTopNotice(): MutableList<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
+        val user = QAliceUserEntity.aliceUserEntity
+        val currentDateTime = LocalDateTime.now()
         return from(notice)
             .select(
                 Projections.constructor(
@@ -100,12 +104,10 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                     notice.createUser.userName
                 )
             )
+            .innerJoin(notice.createUser, user)
             .where(
-                super.like(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
-                    super.like(notice.createUser.userName, noticeSearchCondition.searchValue)
-                ),
-                notice.createDt.goe(noticeSearchCondition.formattedFromDt),
-                notice.createDt.lt(noticeSearchCondition.formattedToDt),
+                notice.topNoticeStrtDt.loe(currentDateTime),
+                notice.topNoticeEndDt.goe(currentDateTime),
                 notice.topNoticeYn.eq(true)
             )
             .orderBy(notice.createDt.desc())

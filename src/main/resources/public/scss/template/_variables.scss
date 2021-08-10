@@ -270,6 +270,7 @@ $layout-header-height:                       3.125rem; // 50px
 $layout-header-search-font-family:           $font-family-s;
 $layout-header-search-font-size:             $font-size-xs;
 $layout-header-search-color:                 $gray500;
+$layout-header-search-font-weight:           $font-weight-bold;
 
 $layout-properties-width:                    18.75rem; // 300px
 
@@ -444,18 +445,6 @@ $alert-box-sizing:                           border-box;
 $alert-bg-color:                             $white;
 
 ///////////////////////////// color-picker ///////////////////////////
-$color-picker-color-size:                    1.75rem;    // 28px
-$color-picker-box-size:                      2.5rem;     // 40px
-$color-picker-margin:                        0.3125rem;  // 5px
-// color-picker palette
-$color-picker-palette-width:                 30rem;      // 480px
-$color-picker-palette-margin:                0.3125rem;  // 5px
-$color-picker-palette-padding:               1.25rem 0 0.625rem 1.25rem; // 20px 0 10px 20px;
-$color-picker-colorchip-size:                2.5rem;     // 40px
-$color-picker-colorchip-margin:              0.625rem;   // 10px
-$color-picker-colorchip-border-width:        0.375rem;   // 6px
-$color-picker-colorchip-border-color:        $white;
-
 // color picker
 :root {
   --data-color: '';
@@ -492,33 +481,45 @@ $custom-color-plus: (
   'focus': ('font': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
   'active': ('font': $blue700, 'background': $blue200, 'border': $blue400)
 );
-// control
-
 
 ////////////////////////////// thumbnail /////////////////////////////
-$thumbnail-asset-path:                       '../media/icons/thumbnail';
-$thumbnail-font-family:                      'Noto Sans KR';
+$thumbnail-font-family:                      $font-family-s;
 $thumbnail-font-size:                        $font-size-xs;
-$thumbnail-font-weight:                      $font-weight-regular;
-$thumbnail-font-color:                       $gray;
-
-$thumbnail-main-height:                      100%;
+$thumbnail-font-weight:                      $font-weight-medium;
+$thumbnail-font-color:                       $gray500;
+$thumbnail-icon-color:                       $gray500;
 $thumbnail-main-padding:                     0;
-$thumbnail-icon-color:                       map-get($grays, 'pressed');
+$thumbnail-file-name-font-color:             $gray800;
+$thumbnail-file-name-font-weight:            $font-weight-bold;
 // 썸네일
-$thumbnail-width:                            14.06rem; // 225px
+$thumbnail-width:                            15rem; // 240px
 $thumbnail-height:                           18.13rem; // 290px
 $thumbnail-border-width:                     0.0625rem; // 1px
-$thumbnail-border-color:                     map-get($grays, 'line');
+$thumbnail-border-color:                     $gray300;
 $thumbnail-bg-color:                         $white;
-
+// 썸네일 > hover
+$thumbnail-hover-border-color:               $blue500;
+$thumbnail-hover-bg-color:                   $white;
+// 썸네일 > selected
 $thumbnail-selected-border-width:            0.0625rem; // 1px
-$thumbnail-selected-border-color:            $blue;
-$thumbnail-selected-bg-color:                hexToRGBA($blue, 0.05);
+$thumbnail-selected-border-color:            $blue600;
+$thumbnail-selected-bg-color:                $white;
+$thumbnail-selected-box-shadow-color:        $blue600;
+
+// 썸네일 업로드
+$thumbnail-upload-bg-color:                  $neutral50;
+// 썸네일 업로드 > hover
+$thumbnail-upload-hover-bg-color:            $blue100;
 
 // 썸네일 미리보기
 $thumbnail-preview-modal-width:              760px; // 760px
 $thumbnail-preview-modal-height:             645px; // 645px
+
+// 썸네일 데이터 없을때
+$thumbnail-nodata-font-family:               $font-family-m;
+$thumbnail-nodata-font-size:                 $font-size-xl;
+$thumbnail-nodata-font-weight:               $font-weight-bold;
+$thumbnail-nodata-font-color:                $gray500;
 
 /////////////////////////////// tooltip ///////////////////////////////
 $tooltip-help-size:                          1rem; // 16px

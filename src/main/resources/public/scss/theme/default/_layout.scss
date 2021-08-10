@@ -110,7 +110,6 @@
   // 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
   // 업무흐름 관리 > 역할, 권한
   // 업무흐름 관리 > 코드
-  // 업무흐름 관리 > 이미지 관리
   // 업무흐름 관리 > 패턴
   // 업무흐름 관리 > 문서번호
   // CMDB > Attribute
@@ -130,7 +129,6 @@
   &auth-header,
   &role-header,
   &code-header,
-  &image-header,
   &numbering-pattern-header,
   &numbering-rule-header,
   &chart-header,
@@ -145,10 +143,12 @@
   // 문서함
   // 신청서
   // 대시보드
+  // 업무흐름 관리 > 이미지 관리
   &document-header,
   &token-header,
-  &dashboard-header {
-    padding: 0 3.75rem 0 3.75rem; // 35px 60px 0px 60px
+  &dashboard-header,
+  &image-header {
+    padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
     @include border($layout-main-header-border-width, solid, $layout-main-header-border-color, bottom);
   }
 
@@ -430,7 +430,6 @@
   // 업무흐름 관리 > 이미지 관리
   &image-content-edit {
     padding: 3.125rem 3.75rem; // 50px 60px
-    @include border($edit-content-border-width, solid, $edit-content-border-color, top); // 1px
     background-color: $edit-content-bg-color;
   }
   // 업무흐름 관리 > 커스텀 코드

@@ -43,8 +43,8 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     }
 
     // 공지사항 상단 리스트
-    fun findTopNoticeSearch(noticeSearchCondition: NoticeSearchCondition): MutableList<NoticeListDto> {
-        return noticeRepository.findTopNoticeSearch(noticeSearchCondition)
+    fun findTopNotice(): MutableList<NoticeListDto> {
+        return noticeRepository.findTopNotice()
     }
 
     // 공지사항 조회 및 수정용 세부정보
