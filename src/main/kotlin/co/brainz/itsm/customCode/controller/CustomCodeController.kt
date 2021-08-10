@@ -29,7 +29,7 @@ class CustomCodeController(
     private val customCodeListFragment: String = "custom-code/customCodeList :: list"
     private val customCodeEditPage: String = "custom-code/customCodeEdit"
     private val customCodeViewPage: String = "custom-code/customCodeView"
-    private val documentCustomCodePage: String = "custom-code/customCodePopup"
+    private val documentCustomCodePage: String = "custom-code/customCodeModal"
 
     /**
      * 사용자 정의 코드 리스트 호출 화면.

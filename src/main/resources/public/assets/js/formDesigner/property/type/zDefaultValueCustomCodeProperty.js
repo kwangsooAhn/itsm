@@ -149,7 +149,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     result.push(data);
                     return result;
                 }, []);
-                const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].name : customCodeValue;
+                const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
                 UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
             }
         });
