@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.report.repository
 
-import co.brainz.itsm.report.dto.ReportTemplateDto
 import co.brainz.itsm.report.dto.ReportTemplateListDto
 import co.brainz.itsm.report.dto.ReportTemplateSearchDto
 import co.brainz.itsm.report.entity.QReportTemplateEntity
@@ -45,18 +44,9 @@ class ReportTemplateRepositoryImpl : QuerydslRepositorySupport(ReportTemplateEnt
     /**
      * 템플릿 상세 조회
      */
-    override fun getReportTemplateDetail(templateId: String): ReportTemplateDto {
+    override fun getReportTemplateDetail(templateId: String): ReportTemplateEntity {
         val template = QReportTemplateEntity.reportTemplateEntity
         return from(template)
-            .select(
-                Projections.constructor(
-                    ReportTemplateDto::class.java,
-                    template.templateId,
-                    template.templateName,
-                    template.templateDesc,
-                    template.automatic
-                )
-            )
             .where(template.templateId.eq(templateId))
             .fetchOne()
     }

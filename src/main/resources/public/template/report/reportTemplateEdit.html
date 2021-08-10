@@ -79,10 +79,16 @@
         const STATUS_SUCCESS = '0';
         const STATUS_ERROR_TEMPLATE_NAME_DUPLICATION = '1';
         const chartList = /*[[${chartList}]]*/ null;
+        const data = /*[[${template}]]*/ null;
         window.onload = function () {
             aliceJs.initDesignedSelectTag();
 
-            console.log(chartList)
+            if (data !== null) {
+                data["charts"].forEach((item) => {
+                    addChart(item);
+                })
+            }
+
             OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
                 className: 'scrollbar',
@@ -96,13 +102,16 @@
             });
         };
 
-        function addChart() {
+        function addChart(data) {
             //사용자 정의 차트 목록으로 selectbox 생성
             let target = document.querySelector('#chartList');
-            console.log(chartList)
+            let property = {};
+            if (typeof data !== 'undefined' && data !== null) {
+                property = data;
+            }
 
             const options = chartList.data.map(function (option) {
-                return `<option value="${option.chartId}">${aliceJs.filterXSS(option.chartName)}</option>`;
+                return `<option value="${option.chartId}" ${property.chartId === option.chartId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.chartName)}</option>`;
             }).join('');
             let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
@@ -136,16 +145,14 @@
 
                     let charts = []
                     let chartElement = document.querySelector('#chartList')
-                    chartElement.querySelectorAll('select[name=chart]').forEach((item) => {
+                    chartElement.querySelectorAll('select[name=chart]').forEach((item, index) => {
                         let chart = {
-                            id: item.value
+                            id: item.value,
+                            order: index + 1
                         }
                         charts.push(chart);
                     });
                     data.charts = charts
-                    console.log(data)
-                    return false;
-
                     restSubmit(method, url, data);
                 }
             } else if (method === 'delete') {

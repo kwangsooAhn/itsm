@@ -11,23 +11,34 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.chart.dto.ChartDto
+import co.brainz.itsm.chart.respository.ChartRepository
+import co.brainz.itsm.report.dto.ReportTemplateDetailDto
 import co.brainz.itsm.report.dto.ReportTemplateDto
 import co.brainz.itsm.report.dto.ReportTemplateListReturnDto
+import co.brainz.itsm.report.dto.ReportTemplateMapDto
 import co.brainz.itsm.report.dto.ReportTemplateSearchDto
 import co.brainz.itsm.report.entity.ReportTemplateEntity
+import co.brainz.itsm.report.entity.ReportTemplateMapEntity
+import co.brainz.itsm.report.repository.ReportTemplateMapRepository
 import co.brainz.itsm.report.repository.ReportTemplateRepository
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDateTime
+import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
 class ReportTemplateService(
     private val aliceUserRepository: AliceUserRepository,
     private val currentSessionUser: CurrentSessionUser,
-    private val reportTemplateRepository: ReportTemplateRepository
+    private val reportTemplateRepository: ReportTemplateRepository,
+    private val reportTemplateMapRepository: ReportTemplateMapRepository,
+    private val chartRepository: ChartRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -47,21 +58,41 @@ class ReportTemplateService(
     /**
      * 템플릿 조회
      */
-    fun getReportTemplateDetail(templateId: String): ReportTemplateDto {
-        return reportTemplateRepository.getReportTemplateDetail(templateId)
+    fun getReportTemplateDetail(templateId: String): ReportTemplateDetailDto {
+        val templateEntity = reportTemplateRepository.getReportTemplateDetail(templateId)
+        val reportTemplateDto = ReportTemplateDetailDto(
+            templateId = templateEntity.templateId,
+            templateName = templateEntity.templateName,
+            templateDesc = templateEntity.templateDesc,
+            automatic = templateEntity.automatic
+        )
+        val chartList = mutableListOf<ChartDto>()
+        val templateMapList = templateEntity.charts?.sortedBy { data -> data.displayOrder }
+        templateMapList?.forEach { map ->
+            val chartEntity = map.chart
+            chartList.add(
+                ChartDto(
+                    chartId = chartEntity.chartId,
+                    chartName = chartEntity.chartName
+                )
+            )
+        }
+        reportTemplateDto.charts = chartList
+        return reportTemplateDto
     }
 
     /**
      * 템플릿 저장
      */
+    @Transactional
     fun saveReportTemplate(templateData: String): RestTemplateReturnDto {
-        val templateDto = makeReportTemplateDto(templateData)
+        val templateDto = this.makeReportTemplateDto(templateData)
         val existCount =
             reportTemplateRepository.findDuplicationTemplateName(templateDto.templateName, templateDto.templateId)
         val restTemplateReturnDto = RestTemplateReturnDto()
         when (existCount) {
             0L -> {
-                val templateEntity = ReportTemplateEntity(
+                var templateEntity = ReportTemplateEntity(
                     templateId = "",
                     templateName = templateDto.templateName,
                     templateDesc = templateDto.templateDesc,
@@ -69,7 +100,17 @@ class ReportTemplateService(
                     createDt = LocalDateTime.now(),
                     createUser = aliceUserRepository.findAliceUserEntityByUserKey(currentSessionUser.getUserKey())
                 )
-                reportTemplateRepository.save(templateEntity)
+                templateEntity = reportTemplateRepository.save(templateEntity)
+
+                // map
+                templateDto.charts?.forEach { chart ->
+                    val templateMapEntity = ReportTemplateMapEntity(
+                        chart = chartRepository.findById(chart.chartId).get(),
+                        template = templateEntity,
+                        displayOrder = chart.displayOrder
+                    )
+                    reportTemplateMapRepository.save(templateMapEntity)
+                }
             }
             else -> {
                 restTemplateReturnDto.code = AliceConstants.Status.STATUS_ERROR_DUPLICATION.code
@@ -82,8 +123,9 @@ class ReportTemplateService(
     /**
      * 템플릿 수정
      */
+    @Transactional
     fun updateReportTemplate(templateData: String): RestTemplateReturnDto {
-        val templateDto = makeReportTemplateDto(templateData)
+        val templateDto = this.makeReportTemplateDto(templateData)
         val templateEntity = reportTemplateRepository.findByTemplateId(templateDto.templateId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[Report Template Entity]"
@@ -100,6 +142,17 @@ class ReportTemplateService(
                 templateEntity.updateUser =
                     aliceUserRepository.findAliceUserEntityByUserKey(currentSessionUser.getUserKey())
                 reportTemplateRepository.save(templateEntity)
+
+                // map
+                reportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
+                templateDto.charts?.forEach { chart ->
+                    val templateMapEntity = ReportTemplateMapEntity(
+                        chart = chartRepository.findById(chart.chartId).get(),
+                        template = templateEntity,
+                        displayOrder = chart.displayOrder
+                    )
+                    reportTemplateMapRepository.save(templateMapEntity)
+                }
             }
             else -> {
                 restTemplateReturnDto.code = AliceConstants.Status.STATUS_ERROR_DUPLICATION.code
@@ -113,13 +166,30 @@ class ReportTemplateService(
      * Template 데이터 파싱
      */
     private fun makeReportTemplateDto(templateData: String): ReportTemplateDto {
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         val map = mapper.readValue(templateData, LinkedHashMap::class.java)
-        return ReportTemplateDto(
+        val reportTemplateDto = ReportTemplateDto(
             templateId = map["templateId"] as String,
             templateName = map["templateName"] as String,
             templateDesc = map["templateDesc"] as String,
             automatic = map["automatic"] as Boolean
         )
+
+        if (map["charts"] != null) {
+            val chartList: List<Map<String, Any>> = mapper.convertValue(map["charts"], object : TypeReference<List<Map<String, Any>>>() {})
+            val templateMapList = mutableListOf<ReportTemplateMapDto>()
+            chartList.forEach { chart ->
+                templateMapList.add(
+                    ReportTemplateMapDto(
+                        templateId = reportTemplateDto.templateId,
+                        chartId = chart["id"] as String,
+                        displayOrder = chart["order"] as Int
+                    )
+                )
+            }
+            reportTemplateDto.charts = templateMapList
+        }
+        return reportTemplateDto
     }
 
     /**

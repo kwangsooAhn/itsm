@@ -54,6 +54,7 @@ class ReportController(
 
     @GetMapping("/template/new")
     fun getReportTemplateNew(model: Model): String {
+        model.addAttribute("chartList", chartService.getCharts(ChartSearchDto(limit = -1, offset = -1)))
         return templateEditPage
     }
 
