@@ -117,7 +117,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     radioGroup.addUI(radioGroup.UISelect);
                     break;
                 case FORM.CUSTOM.CODE:
-                   radioGroup.UISelect = new UISelect()
+                    radioGroup.UISelect = new UISelect()
                         .addUIClass('mt-1')
                         .setUIId('code')
                         .setUIAttribute('data-value', item.value)
@@ -131,6 +131,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             }
             this.UIElement.UIGroup.addUI(radioGroup);
         });
+
         return this.UIElement;
     }
 
@@ -157,6 +158,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
     updateCustomCodeData(e) {
         this.makeCustomCodeData(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
+
         this.updateProperty.call(this, e);
     }
 
