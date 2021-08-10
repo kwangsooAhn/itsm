@@ -12,17 +12,16 @@
         </tr>
     </thead>
     <tbody class="list-body">
-        <tr class="no-data-found-list" th:if="${#arrays.isEmpty(noticeList)}">
-            <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
-        </tr>
-        <tr class="notice-pinned" th:each="topNotice, i: ${topNoticeList}"
-            th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
+        <tr class="notice-pinned" th:each="topNotice: ${topNoticeList}">
             <td width="75%" class="align-left underline">
                 <a th:text="${topNotice.noticeTitle}"
                    th:href="@{/portals/notices/{id}/view(id=${topNotice.noticeNo})}"></a>
             </td>
             <td width="10%" class="align-center" th:text="${topNotice?.createUserName}"></td>
             <td width="15%" class="align-center date-time" th:text="${topNotice.createDt}"></td>
+        </tr>
+        <tr class="no-data-found-list" th:if="${#arrays.isEmpty(noticeList)}">
+            <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
         <th:block th:fragment="list">
             <tr th:each="notice : ${noticeList}">

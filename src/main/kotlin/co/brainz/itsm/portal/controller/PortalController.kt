@@ -97,7 +97,7 @@ class PortalController(
         val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset, limit)
         model.addAttribute("noticeList", result.data)
         model.addAttribute("noticeCount", result.totalCount)
-        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt, limit))
+        model.addAttribute("topNoticeList", noticeService.findTopNotice())
         return if (noticeSearchDto.isScroll) portalNoticeListFragment else portalNoticeListPage
     }
 
