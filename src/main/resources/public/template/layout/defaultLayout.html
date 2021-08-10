@@ -7,13 +7,13 @@
 		<th:block layout:fragment="scriptLink"></th:block>
 	</head>
 	<body th:with="COMMON_PREFIX='z-'">
-		<div th:class="${COMMON_PREFIX} + 'wrapper'">
-			<div th:class="${COMMON_PREFIX} + 'itsm-container flex-row'">
+		<div class="z-wrapper">
+			<div class="z-itsm-container flex-row">
 				<!-- 네비게이션 -->
 				<th:block th:replace="layout/navigation"></th:block>
 				<!-- 메인 -->
-				<div th:class="${COMMON_PREFIX} + 'main flex-column'">
-					<div th:class="${COMMON_PREFIX} + 'main-header'">
+				<div class="z-main flex-column">
+					<div class="z-main-header">
 						<th:block th:replace="layout/topMenu">topMenu</th:block>
 						<th:block layout:fragment="head"></th:block>
 					</div>

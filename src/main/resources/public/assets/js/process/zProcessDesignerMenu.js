@@ -1530,7 +1530,7 @@
                 labelObject.className = 'properties-title';
                 labelObject.htmlFor = property.id;
                 if (property.type === 'checkbox') {
-                    labelObject.classList.add(aliceJs.CLASS_PREFIX + 'checkbox');
+                    labelObject.classList.add('z-checkbox');
                     labelObject.tabindex = 0;
                 }
                 labelObject.textContent = i18n.msg(i18nMsgPrefix + property.id);
@@ -1698,7 +1698,7 @@
         const legend = document.createElement('legend');
         // label
         const radioGroup = document.createElement('label');
-        radioGroup.className = aliceJs.CLASS_PREFIX + 'radio';
+        radioGroup.className = 'z-radio';
         radioGroup.tabindex = 0;
         radioGroup.htmlFor = 'fieldset_' + property.id;
         // radio
@@ -1714,7 +1714,7 @@
         radioGroup.appendChild(radioSpan);
         // radio label
         const radioLabel = document.createElement('span');
-        radioLabel.className = aliceJs.CLASS_PREFIX + 'label';
+        radioLabel.className = 'z-label';
         radioLabel.textContent = property.fieldset;
         radioGroup.appendChild(radioLabel);
 
@@ -1801,7 +1801,7 @@
                 const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
                 const labelText = labelElem.textContent;
                 labelElem.textContent = '';
-                labelElem.className = aliceJs.CLASS_PREFIX + 'checkbox';
+                labelElem.className = 'z-checkbox';
                 elementObject = document.createElement('input');
                 elementObject.type = 'checkbox';
                 if (elemData[property.id] && elemData[property.id] === 'Y') {
@@ -1811,7 +1811,7 @@
                 labelElem.appendChild(document.createElement('span'));
 
                 const spanElem = document.createElement('span');
-                spanElem.className = aliceJs.CLASS_PREFIX + 'label';
+                spanElem.className = 'z-label';
                 spanElem.textContent = labelText;
                 labelElem.appendChild(spanElem);
                 break;

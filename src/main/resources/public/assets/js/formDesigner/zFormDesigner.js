@@ -9,6 +9,7 @@
  */
 import { CLASS_PREFIX, FORM } from '../lib/zConstants.js';
 import { zDocument } from '../document/zDocument.js';
+import { zFormButton } from '../document/zFormButton.js';
 import { zValidation } from '../lib/zValidation.js';
 import ZHistory from './zHistory.js';
 import ZPanel from './zPanel.js';
@@ -38,6 +39,8 @@ class ZFormDesigner {
         this.initMenuBar();
         this.initShortcut();
         this.initComponentPalette();
+        // 미리보기 초기화
+        zDocument.initDocumentModal();
     }
     /**
      * 상단 메뉴바 초기화 및 이벤트 등록
@@ -813,7 +816,13 @@ class ZFormDesigner {
      * TODO: 미리보기
      */
     preview() {
-        zDocument.makeActionButton([{ 'name': 'common.btn.close', 'value': 'close', 'customYn': false }]);
+        const documentButtonArea =  document.getElementById('documentButtonArea');
+        documentButtonArea.innerHTML = '';
+        // 미리보기시 닫기 버튼만 표시
+        zFormButton.domElement = documentButtonArea;
+        zFormButton.zForm = zDocument;
+        zFormButton.makeActionButton([{ 'name': 'common.btn.close', 'value': 'close', 'customYn': false }]);
+
         zDocument.makeDocument(this.form.toJson()); // Form 생성
         zDocument.documentModal.show(); // 모달 표시
     }

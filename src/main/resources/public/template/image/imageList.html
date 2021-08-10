@@ -7,20 +7,20 @@
 </head>
 <body>
 <th:block layout:fragment="head">
-    <div th:class="${COMMON_PREFIX} + 'image-header'">
-        <div th:class="${COMMON_PREFIX} + 'main-header-title flex-row align-items-baseline'">
+    <div class="z-image-header">
+        <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{image.label.list}"></h1>
             <h6 class="description ml-2" th:text="#{image.msg.searchDescription}"></h6>
         </div>
-        <div th:class="${COMMON_PREFIX} + 'main-header-search flex-row'">
-            <input type="text" th:class="${COMMON_PREFIX} + 'input i-search col-5 mr-2'" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{image.label.name}"/>
+        <div class="z-main-header-search flex-row">
+            <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{image.label.name}"/>
             <span id="totalCount" class="search-count"></span>
         </div>
     </div>
 </th:block>
 <th:block layout:fragment="content">
-    <div th:class="${COMMON_PREFIX} + 'image-content-edit flex-fill'">
-        <div th:class="${COMMON_PREFIX} + 'thumbnail-main flex-row flex-wrap'" id="thumbnailMain"></div>
+    <div class="z-image-content-edit flex-fill">
+        <div class="z-thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
@@ -32,11 +32,11 @@
             // 미리보기 모달 생성
             previewModal = new modal({
                 title: i18n.msg('image.label.name'),
-                body: `<div class="${aliceJs.COMMON_PREFIX}thumbnail-preview-image"></div>`,
-                classes: aliceJs.COMMON_PREFIX + 'thumbnail-preview',
+                body: `<div class="z-thumbnail-preview-image"></div>`,
+                classes: 'z-thumbnail-preview',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: aliceJs.COMMON_PREFIX + 'button secondary',
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -45,7 +45,7 @@
                 close: { closable: false },
                 onHide: function(modal) {
                     // 기존 선택된  클래스를 제거
-                    const selectedThumbnails = document.querySelectorAll('.thumbnail.selected');
+                    const selectedThumbnails = document.querySelectorAll('.z-thumbnail.selected');
                     for (let i = 0, len = selectedThumbnails.length; i < len; i++) {
                         selectedThumbnails[i].classList.remove('selected');
                     }
@@ -60,7 +60,7 @@
                 });
             });
             // 스크롤바 표시
-            OverlayScrollbars(document.querySelector('.' + aliceJs.COMMON_PREFIX + 'main'), {
+            OverlayScrollbars(document.querySelector('.z-main'), {
                 className: 'scrollbar',
                 callbacks: {
                     onScroll: function (e) {
@@ -117,18 +117,18 @@
         function addThumbnail(image) {
             const thumbnailContainer = document.getElementById('thumbnailMain');
             const thumbnailTemplate = `
-                <div class="${aliceJs.COMMON_PREFIX}thumbnail" tabindex="-1">
-                    <div class="${aliceJs.COMMON_PREFIX}thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
-                    <div class="${aliceJs.COMMON_PREFIX}thumbnail-info">
-                        <p class="${aliceJs.COMMON_PREFIX}thumbnail-info-text">
-                            <label class="${aliceJs.COMMON_PREFIX}thumbnail-image-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
-                            <input type="text" class="${aliceJs.COMMON_PREFIX}input float-left" />
+                <div class="z-thumbnail" tabindex="-1">
+                    <div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
+                    <div class="z-thumbnail-info">
+                        <p class="z-thumbnail-info-text">
+                            <label class="z-thumbnail-image-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
+                            <input type="text" class="z-input float-left" />
                         </p>
-                        <p class="${aliceJs.COMMON_PREFIX}thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
+                        <p class="z-thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
                     </div>
-                    <div class="${aliceJs.COMMON_PREFIX}thumbnail-bottom">
+                    <div class="z-thumbnail-bottom">
                         <label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>
-                        <button type="button" class="${aliceJs.COMMON_PREFIX}button-icon float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="${aliceJs.COMMON_PREFIX}icon i-delete"></span></button>
+                        <button type="button" class="z-button-icon float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="z-icon i-delete"></span></button>
                     </div>
                 </div>
             `;
@@ -136,11 +136,11 @@
         }
 
         function addThumbnailUpload() {
-            const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.' + aliceJs.COMMON_PREFIX + 'thumbnail-upload').length;
+            const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.z-thumbnail-upload').length;
             if (thumbnailCnt === 0) {
                 let thumbnailUploadTemplate = `
-                    <div class="${aliceJs.COMMON_PREFIX}thumbnail-upload align-center" onclick="document.getElementById('imageUploadFile').click();" tabindex="-1">
-                        <span class="${aliceJs.COMMON_PREFIX}icon i-image"></span>
+                    <div class="z-thumbnail-upload align-center" onclick="document.getElementById('imageUploadFile').click();" tabindex="-1">
+                        <span class="z-icon i-image"></span>
                         <p class="mt-4">${i18n.msg('image.label.upload')}</p>
                         <input type="file" id="imageUploadFile" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);" style="display: none;"/>
                     </div>
@@ -180,13 +180,12 @@
 
             let name = labelElem.textContent.trim();
             let extension = name.split('.').pop();
-            console.log(e.target.value);
+
             let modifyName = '';
             if (e.target.value.trim() !== '') {
                 modifyName = e.target.value.trim() + '.' + extension;
             }
             if (name === modifyName) { return false; }
-            console.log(name, modifyName);
             aliceJs.fetchText('/rest/images', {
                 method: 'PUT',
                 headers: {
@@ -265,11 +264,11 @@
             // 이미지 파일명 제목 표시
             const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
             if (previewModalHeader !== null) {
-                previewModalHeader.textContent = thumbnail.parentNode.querySelector('.' + aliceJs.COMMON_PREFIX + 'thumbnail-image-name').textContent;
+                previewModalHeader.textContent = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
             }
 
             // 내부 이미지 경로 변경
-            const previewModalContent = previewModal.wrapper.querySelector('.' + aliceJs.COMMON_PREFIX + 'thumbnail-preview-image');
+            const previewModalContent = previewModal.wrapper.querySelector('.z-thumbnail-preview-image');
             if (previewModalContent !== null) {
                 previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
             }
