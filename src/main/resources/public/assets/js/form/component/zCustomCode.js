@@ -69,7 +69,7 @@ export const customCodeMixin = {
             .setUIClass(CLASS_PREFIX + 'button-search')
             .addUIClass(CLASS_PREFIX + 'button-icon')
             .addUIClass('form')
-            .onUIClick(this.openCustomCodePopup.bind(this))
+            .onUIClick(this.openCustomCodeModal.bind(this))
             .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButtonClear).addUI(element.UIButton));
@@ -140,6 +140,90 @@ export const customCodeMixin = {
 
         this.value = e.target.value;
     },
+
+    // TODO: #10252 커스텀 코드 모달로 변경시 일감 처리 예정
+    openCustomCodeModal(e) {
+        e.stopPropagation();
+        let customCodeData = {
+            componentId: this.id,
+            componentValue: this.elementDefaultValueCustomCode
+        };
+        const storageName = 'alice_custom-codes-search-' + this.id;
+        sessionStorage.setItem(storageName, JSON.stringify(customCodeData));
+        const selectModal = new modal({
+            title: i18n.msg('form.label.customCodeTarget'),
+            body: this.getSelectModalContent(),
+            classes: 'custom-code-list',
+            buttons: [{
+                content: i18n.msg('common.btn.add'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: () => {
+                    let isChekced = false;
+                    document.getElementsByName('customCode').forEach((chkElem) => {
+                        if (chkElem.checked) {
+                            isChekced = true;
+                            this.elementDefaultValueCustomCode = customCodeData.componentValue.split('|')[0] + '|code|' + chkElem.id + '|' + chkElem.value;
+                        }
+                    });
+                    isChekced ? selectModal.hide() : aliceAlert.alertWarning(i18n.msg('common.msg.dataSelect'));
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: () => {
+                this.getCustomCode();
+                document.getElementById('search').addEventListener('keyup', (e) => {
+                    e.preventDefault();
+                    this.searchCustomCode();
+                });
+            }
+        });
+        selectModal.show();
+    },
+    getCustomCode() { // 서버에서 데이터 가져오기
+        const defaultValues = this.elementDefaultValueCustomCode.split('|');
+        let url = '/custom-codes/' + defaultValues[0] + '/search';
+        aliceJs.fetchText(url, {
+            method: 'GET',
+            showProgressbar: true
+        }).then((htmlData) => {
+            document.getElementById('customCodeList').innerHTML = htmlData;
+            OverlayScrollbars(document.querySelector('.radio-list'), {className: 'scrollbar'});
+        })
+    },
+    // 서버에서 가져온 데이터에서 검색하기
+    getSelectModalContent() {
+        return `<div class="flex-column view-row">` +
+            `<div class="flex-row justify-content-start input-search">` +
+            `<input class="z-input i-search col-5 " type="text" id="search" placeholder="${i18n.msg("customCode.msg.enterSearchTerm")}">` +
+            `<span id="ciListTotalCount" class="search-count"></span>` +
+            `</div>` +
+            `</div>` +
+            `<div class="custom-code-main" id="customCodeList"></div>`;
+    },
+    // 서버에서 가져온 데이터내에서 검색
+    searchCustomCode() {
+        let searchValue = document.getElementById('search').value;
+        let customCodeList = document.getElementsByName('custom-code-list');
+
+        for (let i = 0; i < customCodeList.length; i++) {
+            let code = customCodeList[i].getElementsByClassName('label');
+            if (code[0].innerHTML.indexOf(searchValue) != -1) {
+                customCodeList[i].style.display = '';
+            } else {
+                customCodeList[i].style.display = "none"
+            }
+        }
+    },
     // 세부 속성 조회
     getProperty() {
         const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.DefaultValueCustomCode',
@@ -153,19 +237,6 @@ export const customCodeMixin = {
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
-    },
-    // TODO: #10252 커스텀 코드 모달로 변경시 일감 처리 예정
-    openCustomCodePopup(e) {
-        e.stopPropagation();
-        const defaultValues = this.elementDefaultValueCustomCode.split('|');
-        let customCodeData = {
-            componentId: this.id,
-            componentValue: this.elementDefaultValueCustomCode
-        };
-        const storageName = 'alice_custom-codes-search-' + this.id;
-        sessionStorage.setItem(storageName, JSON.stringify(customCodeData));
-        let url = '/custom-codes/' + defaultValues[0] + '/search';
-        window.open(url, storageName, 'width=640, height=866');
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
     toJson() {

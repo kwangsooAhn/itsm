@@ -10,7 +10,7 @@
  *
  * https://www.brainz.co.kr
  */
-import { FORM } from '../../../lib/zConstants.js';
+import { FORM, CLASS_PREFIX} from '../../../lib/zConstants.js';
 import { UIDiv, UILabel, UIRadioButton, UISpan, UISelect } from '../../../lib/zUI.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
@@ -52,6 +52,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
         // customCode|none|없음  customCode|session|세션값  customCode|code|코드값|코드명
         const defaultCustomCodeValues = this.value.split('|');
+
         // custom code
         const customCodeOption = FORM.CUSTOM_CODE.reduce((result, option) => {
             option.name = option.customCodeName;
@@ -100,7 +101,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
             switch (item.value) {
                 case FORM.CUSTOM.SESSION:
-                    const sessionSelectOption = this.selectOptions.reduce((result, option) => {
+                        const sessionSelectOption= JSON.parse(JSON.stringify(this.selectOptions)).reduce((result, option) => {
                         option.name = i18n.msg(option.name);
                         result.push(option);
                         return result;
@@ -116,21 +117,20 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     radioGroup.addUI(radioGroup.UISelect);
                     break;
                 case FORM.CUSTOM.CODE:
-                    radioGroup.UISelect = new UISelect()
+                    console.log(customCodeOption);
+                   radioGroup.UISelect = new UISelect()
                         .addUIClass('mt-1')
                         .setUIId('code')
                         .setUIAttribute('data-value', item.value)
-                        .onUIChange(this.updateProperty.bind(this));
+                     //   .onUIChange(this.updateProperty.bind(this));
                     radioGroup.addUI(radioGroup.UISelect);
                     this.UIElement.UIGroup.UIDiv = radioGroup;
-
                     const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
                     this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue);
                     break;
             }
             this.UIElement.UIGroup.addUI(radioGroup);
         });
-
         return this.UIElement;
     }
 
@@ -149,7 +149,13 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     result.push(data);
                     return result;
                 }, []);
-                const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
+                const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].name : customCodeValue;
+                console.log(UISelect);
+                console.log('option');
+                console.log(customCodeDataOption);
+                console.log('customDataOptionValue');
+                console.log(customDataOptionValue);
+
                 UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
             }
         });
@@ -169,23 +175,23 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         }
 
         const elem = e.target || e;
-        const parentElem = elem.type === 'radio' ? elem.parentNode.parentNode : elem.parentNode;
-        const checkedRadio = parentElem.querySelector('input[type=radio]:checked');
-        const selectElem = checkedRadio.parentNode.parentNode.querySelector('.select');
-        // radio 변경시
+        const parentElem = elem.parentNode.parentNode;
+        const curRadioElem = parentElem.querySelector('input[type=radio]');
+        if (!curRadioElem.checked) { return false; }
         const customCodeId = this.UIElement.UISelect.domElement.value;
-        const radioType = checkedRadio.getAttribute('data-value');
+        const radioType= curRadioElem.getAttribute('data-value');
+        const sessionSelectBox = document.getElementById('session');
+        const codeSelectBox= document.getElementById('code');
 
         switch (radioType) {
             case FORM.CUSTOM.NONE:
-                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|');
+                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType + '|');
                 break;
             case FORM.CUSTOM.SESSION:
-                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|' + selectElem.value);
+                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType + '|' + sessionSelectBox.value);
                 break;
             case FORM.CUSTOM.CODE:
-                const selectText = selectElem.options[selectElem.selectedIndex].text;
-                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType  + '|' + selectElem.value + '|' + selectText);
+                this.panel.update.call(this.panel, this.key, customCodeId + '|' + radioType + '|' + codeSelectBox.options[codeSelectBox.selectedIndex].value + '|' + codeSelectBox.options[codeSelectBox.selectedIndex].text);
                 break;
         }
     }

@@ -2163,6 +2163,24 @@ body.modal-active {
 .modal-wrapper .modal-dialog.tree .modal-content div li:last-child:before {
   background-color: #FFFFFF;
 }
+.modal-wrapper .modal-dialog.custom-code-list {
+  width: 640px;
+  height: 865px;
+}
+.modal-wrapper .modal-dialog.custom-code-list .modal-content {
+  height: calc(865px - 100px - 50px);
+  padding: 0.625rem 1.25rem 0.625rem 1.25rem;
+}
+.modal-wrapper .modal-dialog.custom-code-list .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-wrapper .modal-dialog.custom-code-list .input-search {
+  padding-top: 1.875rem;
+}
+.modal-wrapper .modal-dialog.custom-code-list .custom-code-main {
+  padding-top: 2.5rem;
+}
 
 /* form, group, row, component 디자인 - document ver. */
 .z-group-tooltip {
