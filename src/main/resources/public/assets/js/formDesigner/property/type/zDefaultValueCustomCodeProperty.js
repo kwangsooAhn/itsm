@@ -101,7 +101,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
             switch (item.value) {
                 case FORM.CUSTOM.SESSION:
-                        const sessionSelectOption= JSON.parse(JSON.stringify(this.selectOptions)).reduce((result, option) => {
+                    const sessionSelectOption = JSON.parse(JSON.stringify(this.selectOptions)).reduce((result, option) => {
                         option.name = i18n.msg(option.name);
                         result.push(option);
                         return result;
@@ -117,14 +117,14 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     radioGroup.addUI(radioGroup.UISelect);
                     break;
                 case FORM.CUSTOM.CODE:
-                    console.log(customCodeOption);
                    radioGroup.UISelect = new UISelect()
                         .addUIClass('mt-1')
                         .setUIId('code')
                         .setUIAttribute('data-value', item.value)
-                     //   .onUIChange(this.updateProperty.bind(this));
+                        .onUIChange(this.updateProperty.bind(this));
                     radioGroup.addUI(radioGroup.UISelect);
                     this.UIElement.UIGroup.UIDiv = radioGroup;
+
                     const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
                     this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue);
                     break;
@@ -150,12 +150,6 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     return result;
                 }, []);
                 const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].name : customCodeValue;
-                console.log(UISelect);
-                console.log('option');
-                console.log(customCodeDataOption);
-                console.log('customDataOptionValue');
-                console.log(customDataOptionValue);
-
                 UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
             }
         });
@@ -163,7 +157,6 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
     updateCustomCodeData(e) {
         this.makeCustomCodeData(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
-
         this.updateProperty.call(this, e);
     }
 
