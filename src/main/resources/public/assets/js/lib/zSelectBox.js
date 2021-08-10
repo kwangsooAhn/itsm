@@ -24,7 +24,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
     targetDOM.querySelectorAll('select').forEach(function(originSelectTag) {
         if (originSelectTag.style.display !== 'none') {
             // 이미 그려진 경우 초기화.
-            if (originSelectTag.parentElement.classList.contains(aliceJs.CLASS_PREFIX + 'select')) {
+            if (originSelectTag.parentElement.classList.contains('z-select')) {
                 let removeTarget = originSelectTag.parentElement;
                 removeTarget.parentElement.insertBefore(originSelectTag, originSelectTag.parentElement);
                 removeTarget.remove();
@@ -41,22 +41,22 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
             originSelectTag.classList.remove('select-hidden');
             let selectWrapper = document.createElement('div');
             selectWrapper.classList = originSelectTag.classList;
-            selectWrapper.classList.add(aliceJs.CLASS_PREFIX + 'select');
+            selectWrapper.classList.add('z-select');
             originSelectTag.parentElement.insertBefore(selectWrapper, originSelectTag);
             selectWrapper.append(originSelectTag);
 
             // z-select-box : 디자인된 SELECT 박스 창 만들기
             let designedSelectBox = document.createElement('div');
-            designedSelectBox.classList.add(aliceJs.CLASS_PREFIX + 'select-box');
+            designedSelectBox.classList.add('z-select-box');
             selectWrapper.insertBefore(designedSelectBox, originSelectTag.nextSibling);
 
             // z-select-box - 라벨
             let designedSelectBoxText = document.createElement('span');
-            designedSelectBoxText.className = aliceJs.CLASS_PREFIX + 'select-box-label';
+            designedSelectBoxText.className = 'z-select-box-label';
             designedSelectBox.appendChild(designedSelectBoxText);
             // z-select-box - 아이콘
             let designedSelectBoxIcon = document.createElement('span');
-            designedSelectBoxIcon.className = aliceJs.CLASS_PREFIX + 'icon i-arrow-right';
+            designedSelectBoxIcon.className = 'z-icon i-arrow-right';
             designedSelectBox.appendChild(designedSelectBoxIcon);
 
             // 인위적으로 추가되는 z-select-box 는 div 라서 focus 효과가 없다.
@@ -78,7 +78,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
             } else {
                 // z-select-option : 옵션 리스트용 박스 만들기
                 let ulElement = document.createElement('ul');
-                ulElement.classList.add(aliceJs.CLASS_PREFIX + 'select-options');
+                ulElement.classList.add('z-select-options');
                 selectWrapper.insertBefore(ulElement, designedSelectBox.nextSibling);
 
                 // option 복사
@@ -107,7 +107,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                         // 상위 DOM 객체에 이벤트 전달
                         clickedSelect.parentElement.click();
 
-                        document.querySelectorAll('div.' + aliceJs.CLASS_PREFIX + 'select-box.active').forEach(function (selectTag) {
+                        document.querySelectorAll('div.z-select-box.active').forEach(function (selectTag) {
                             if (selectTag !== clickedSelect) {
                                 selectTag.classList.remove('active');
                             }

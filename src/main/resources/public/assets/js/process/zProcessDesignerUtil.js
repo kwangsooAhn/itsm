@@ -407,7 +407,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: aliceJs.CLASS_PREFIX + 'button primary',
+                    classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
@@ -416,7 +416,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: aliceJs.CLASS_PREFIX + 'button secondary',
+                    classes: 'z-button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -852,15 +852,15 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = aliceJs.CLASS_PREFIX + 'button-icon secondary ' + aliceJs.CLASS_PREFIX + 'button-minimap';
+        minimapButton.className = 'z-button-icon secondary z-button-minimap';
         minimapButton.addEventListener('click', function (e) {
-            const elem = aliceJs.clickInsideElement(e, aliceJs.CLASS_PREFIX + 'button-minimap');
+            const elem = aliceJs.clickInsideElement(e, 'z-button-minimap');
             elem.classList.toggle('active');
             document.querySelector('div.minimap').classList.toggle('closed');
         }, false);
 
         const minimapIcon = document.createElement('span');
-        minimapIcon.className = aliceJs.CLASS_PREFIX + 'icon i-minimap';
+        minimapIcon.className = 'z-icon i-minimap';
         minimapButton.appendChild(minimapIcon);
         drawingBoard.appendChild(minimapButton);
 
@@ -907,11 +907,11 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = aliceJs.CLASS_PREFIX + 'button-icon secondary ' + aliceJs.CLASS_PREFIX + 'button-simulation-report';
+        simulationButton.className = 'z-button-icon secondary z-button-simulation-report';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
-        simulationIcon.className = aliceJs.CLASS_PREFIX + 'icon i-simulation-report';
+        simulationIcon.className = 'z-icon i-simulation-report';
         simulationButton.appendChild(simulationIcon);
         drawingBoard.appendChild(simulationButton);
 
