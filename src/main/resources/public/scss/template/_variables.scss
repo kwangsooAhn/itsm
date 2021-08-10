@@ -623,6 +623,12 @@ $validation-success-bg-color:                $green100;
 
 ////////////////////////////// paging /////////////////////////////
 $paging-current-num-font-color:              $gray500;
-$paging-page-num-font-color:                 $gray800;
-$paging-current-page-font-color:             $blue600;
-$paging-current-page-bg-color:               $blue100;
+$paging-num-font-color:                      $gray800;
+$paging-num-selected-font-color:             $blue600;
+$paging-num-selected-border-color:           $blue600;
+$paging-num-active-font-color:               $blue700;
+$paging-num-active-bg-color:                 $blue200;
+$paging-num-hover-font-color:                $gray800;
+$paging-num-hover-bg-color:                  $blue100;
+$paging-arrow-icon-inactive-color:           $gray400;
+$paging-arrow-icon-active-color:             $gray500;

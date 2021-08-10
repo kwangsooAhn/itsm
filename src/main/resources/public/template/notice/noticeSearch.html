@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="searchArea">
-    <div class="notice-header">
+    <div class="z-notice-header">
         <div class="z-main-header-title flex-row align-items-baseline">
             <h1 th:text="#{notice.label.notice}"></h1>
             <h6 class="description ml-2" th:text="#{notice.msg.searchDescription}"></h6>
@@ -36,7 +36,7 @@
 </th:block>
 <th:block layout:fragment="listArea">
     <div class="z-notice-content flex-fill">
-        <div class="list" id="noticeList"></div>
+        <div class="list-content" id="noticeList"></div>
     </div>
 </th:block>
 </body>

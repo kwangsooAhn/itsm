@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
 <div class="z-pagingArea flex-row">
-    <a href="" id="pagingStartArrow" class="z-pagingArrow flex-row"><img src="/assets/media/icons/icon_paging_arrow_start.svg"></a>
-    <a href="" id="pagingPrevArrow" class="z-pagingArrow flex-row"><img src="/assets/media/icons/icon_paging_arrow_prev.svg"></a>
+    <a href="" id="pagingStartArrow" class="z-pagingArrow flex-row"><span class="z-icon i-pagingStartArrow"></span></a>
+    <a href="" id="pagingPrevArrow" class="z-pagingArrow flex-row"><span class="z-icon i-pagingPrevArrow"></span></a>
     <div class="z-pagingNumbers"></div>
-    <a href="" id="pagingNextArrow" class="z-pagingArrow flex-row"><img src="/assets/media/icons/icon_paging_arrow_next.svg"></a>
-    <a href="" id="pagingEndArrow" class="z-pagingArrow flex-row"><img src="/assets/media/icons/icon_paging_arrow_end.svg"></a>
+    <a href="" id="pagingNextArrow" class="z-pagingArrow flex-row"><span class="z-icon i-pagingNextArrow"></span></a>
+    <a href="" id="pagingEndArrow" class="z-pagingArrow flex-row"><span class="z-icon i-pagingEndArrow"></span></a>
     <span id="spanCurrentPageNum"></span>
 </div>
 <script type="module">
-    import { ZPaging } from '../../assets/js/lib/zPaging.js';
+    import ZPaging from '../../assets/js/lib/zPaging.js';
     let zPaging = new ZPaging();
 </script>
 </html>

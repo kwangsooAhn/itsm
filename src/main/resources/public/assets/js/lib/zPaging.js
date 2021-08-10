@@ -13,7 +13,7 @@ const DEFAULT_OPTIONS = {
     pageNumSelector : 'div.z-pagingNumbers a', // 페이지 번호 목록 셀렉터
     selectedPage : 'selectedPage' // 선택된 페이지 번호용 클래스 이름
 }
-class ZPaging {
+export default class ZPaging {
     constructor(options) {
         this.options = Object.assign({}, DEFAULT_OPTIONS, options);
         // 리스트 목록에 옵져버 설정. 조회되어 리스트가 변하면 자동으로 페이징 처리
@@ -84,40 +84,35 @@ class ZPaging {
         }
 
         // 3) 화살표 처리
+        document.querySelectorAll('a.z-pagingArrow').forEach( arrow => {
+            arrow.classList.remove(this.options.activeArrowClass);
+            arrow.removeAttribute('href');
+        })
+
         // 3-1) Start 화살표 처리 (제일 앞에 있는 '페이지 목록' 이동)
-        let pagingStartArrow = document.getElementById('pagingStartArrow');
-        pagingStartArrow.classList.remove(this.options.activeArrowClass);
-        pagingStartArrow.removeAttribute('href');
         if (endPageNum > this.options.numOfPageNums) {
-            pagingStartArrow.classList.add(this.options.activeArrowClass);
-            pagingStartArrow.setAttribute('href', 'javascript:getList(1)');
+            this.makePagingArrow('pagingStartArrow', 1)
         }
 
         // 3-2) Prev 화살표 처리 (바로 앞에 있는 '페이지 목록' 이동)
-        let pagingPrevArrow = document.getElementById('pagingPrevArrow');
-        pagingPrevArrow.classList.remove(this.options.activeArrowClass);
-        pagingPrevArrow.removeAttribute('href');
         if (endPageNum > this.options.numOfPageNums) {
-            pagingPrevArrow.classList.add(this.options.activeArrowClass);
-            pagingPrevArrow.setAttribute('href', 'javascript:getList(' + (startPageNum - 1) + ')');
+            this.makePagingArrow('pagingPrevArrow', startPageNum - 1)
         }
 
         // 3-3) End 화살표 처리 (제일 마지막 '페이지 목록' 이동)
-        let pagingEndArrow = document.getElementById('pagingEndArrow');
-        pagingEndArrow.classList.remove(this.options.activeArrowClass);
-        pagingEndArrow.removeAttribute('href');
         if (totalPageNum > endPageNum) {
-            pagingEndArrow.classList.add(this.options.activeArrowClass);
-            pagingEndArrow.setAttribute('href', 'javascript:getList(' + (totalPageNum) + ')');
+            this.makePagingArrow('pagingEndArrow', totalPageNum);
         }
 
         // 3-4) Next 화살표 처리 (바로 다음 '페이지 목록' 이동)
-        let pagingNextArrow = document.getElementById('pagingNextArrow');
-        pagingNextArrow.classList.remove(this.options.activeArrowClass);
-        pagingNextArrow.removeAttribute('href');
         if (totalPageNum > endPageNum) {
-            pagingNextArrow.classList.add(this.options.activeArrowClass);
-            pagingNextArrow.setAttribute('href', 'javascript:getList(' + (endPageNum + 1) + ')');
+            this.makePagingArrow('pagingNextArrow',endPageNum + 1)
         }
+    }
+
+    makePagingArrow(elementId, pageNum) {
+        let pagingArrow = document.getElementById(elementId);
+        pagingArrow.classList.add(this.options.activeArrowClass);
+        pagingArrow.setAttribute('href', 'javascript:getList(' + (pageNum) + ')');
     }
 }

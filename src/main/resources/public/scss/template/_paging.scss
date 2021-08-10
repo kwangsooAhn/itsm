@@ -6,7 +6,7 @@
  */
 // TODO 리스트 페이지 디자인 적용 시 정리 필요.
 .z-itsm-container .#{$common-prefix}pagingArea {
-  background-color: #F7F8F9;
+  background-color: #FAFAFA;
 }
 
 .#{$common-prefix}pagingArea {
@@ -17,26 +17,53 @@
   line-height: 1.5rem;
 
   a.#{$common-prefix}pagingArrow {
-    visibility: hidden;
+    cursor: text;
     &.active {
-      visibility: visible;
+      span.#{$common-prefix}icon {
+        background: $paging-arrow-icon-active-color;
+      }
+      cursor: pointer;
+    }
+
+    .#{$common-prefix}icon {
+      &.i-pagingStartArrow {
+        @include maskImage('#{$icon-folder-path}icon_paging_arrow_start.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
+      }
+      &.i-pagingPrevArrow {
+        @include maskImage('#{$icon-folder-path}icon_paging_arrow_prev.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
+      }
+      &.i-pagingNextArrow {
+        @include maskImage('#{$icon-folder-path}icon_paging_arrow_next.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
+      }
+      &.i-pagingEndArrow {
+        @include maskImage('#{$icon-folder-path}icon_paging_arrow_end.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
+      }
     }
   }
 
   .#{$common-prefix}pagingNumbers {
-    a:link,
-    a:visited,
-    a:hover,
-    a:active {
+    a {
       display: inline-block;
-      padding: 0 0.625rem; // 10px
-      min-width: 1.5rem;
+      min-width: 1.5rem; // 24px
+      line-height: 1.375rem; // 22px
       font-weight: $font-weight-regular;
-      color: $paging-page-num-font-color;
+      text-align: center;
+      color: $paging-num-font-color;
+      &:hover {
+        color: $paging-num-hover-font-color;
+        background-color: $paging-num-hover-bg-color;
+        @include borderRadius(50%); // 24px
+      }
       &.selectedPage {
         font-weight: $font-weight-bold;
-        color: $paging-current-page-font-color;
-        background-color: $paging-current-page-bg-color;
+        color: $paging-num-selected-font-color;
+        @include border($color: $paging-num-selected-border-color);
+        @include borderRadius(50%); // 24px
+      }
+      &:active {
+        font-weight: $font-weight-bold;
+        color: $paging-num-active-font-color;
+        background-color: $paging-num-active-bg-color;
         @include borderRadius(50%); // 24px
       }
     }

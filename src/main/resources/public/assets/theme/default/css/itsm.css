@@ -7342,7 +7342,7 @@ body.modal-active {
  * @author Jung Hee Chan
  */
 .z-itsm-container .z-pagingArea {
-  background-color: #F7F8F9;
+  background-color: #FAFAFA;
 }
 
 .z-pagingArea {
@@ -7353,28 +7353,85 @@ body.modal-active {
   line-height: 1.5rem;
 }
 .z-pagingArea a.z-pagingArrow {
-  visibility: hidden;
+  cursor: text;
 }
 .z-pagingArea a.z-pagingArrow.active {
-  visibility: visible;
+  cursor: pointer;
 }
-.z-pagingArea .z-pagingNumbers a:link,
-.z-pagingArea .z-pagingNumbers a:visited,
-.z-pagingArea .z-pagingNumbers a:hover,
-.z-pagingArea .z-pagingNumbers a:active {
+.z-pagingArea a.z-pagingArrow.active span.z-icon {
+  background: #8B9094;
+}
+.z-pagingArea a.z-pagingArrow .z-icon.i-pagingStartArrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_paging_arrow_start.svg");
+  mask-image: url("../media/icons/icon_paging_arrow_start.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-pagingArea a.z-pagingArrow .z-icon.i-pagingPrevArrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_paging_arrow_prev.svg");
+  mask-image: url("../media/icons/icon_paging_arrow_prev.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-pagingArea a.z-pagingArrow .z-icon.i-pagingNextArrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_paging_arrow_next.svg");
+  mask-image: url("../media/icons/icon_paging_arrow_next.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-pagingArea a.z-pagingArrow .z-icon.i-pagingEndArrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_paging_arrow_end.svg");
+  mask-image: url("../media/icons/icon_paging_arrow_end.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-pagingArea .z-pagingNumbers a {
   display: inline-block;
-  padding: 0 0.625rem;
   min-width: 1.5rem;
+  line-height: 1.375rem;
   font-weight: 400;
+  text-align: center;
   color: #222529;
 }
-.z-pagingArea .z-pagingNumbers a:link.selectedPage,
-.z-pagingArea .z-pagingNumbers a:visited.selectedPage,
-.z-pagingArea .z-pagingNumbers a:hover.selectedPage,
-.z-pagingArea .z-pagingNumbers a:active.selectedPage {
+.z-pagingArea .z-pagingNumbers a:hover {
+  color: #222529;
+  background-color: #E3F5FC;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+.z-pagingArea .z-pagingNumbers a.selectedPage {
   font-weight: 700;
   color: #2578CE;
-  background-color: #E3F5FC;
+  border: 1px solid #2578CE;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+.z-pagingArea .z-pagingNumbers a:active {
+  font-weight: 700;
+  color: #1959AC;
+  background-color: #ADE6FD;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
