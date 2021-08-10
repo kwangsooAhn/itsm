@@ -5,18 +5,18 @@
  * @author Jung Hee Chan
  */
 // TODO 리스트 페이지 디자인 적용 시 정리 필요.
-.z-itsm-container .#{$common-prefix}pagingArea {
+.z-itsm-container .#{$common-prefix}paging-area {
   background-color: #FAFAFA;
 }
 
-.#{$common-prefix}pagingArea {
+.#{$common-prefix}paging-area {
   padding: 0 3.75rem 1.875rem 3.75rem; // 0 60px 30px 60px
   justify-content:center;
   font-family: $font-family-s;
   font-size: $font-size-xs;
   line-height: 1.5rem;
 
-  a.#{$common-prefix}pagingArrow {
+  a.#{$common-prefix}paging-arrow {
     cursor: text;
     &.active {
       span.#{$common-prefix}icon {
@@ -26,22 +26,22 @@
     }
 
     .#{$common-prefix}icon {
-      &.i-pagingStartArrow {
+      &.i-paging-start-arrow {
         @include maskImage('#{$icon-folder-path}icon_paging_arrow_start.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
       }
-      &.i-pagingPrevArrow {
+      &.i-paging-prev-arrow {
         @include maskImage('#{$icon-folder-path}icon_paging_arrow_prev.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
       }
-      &.i-pagingNextArrow {
+      &.i-paging-next-arrow {
         @include maskImage('#{$icon-folder-path}icon_paging_arrow_next.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
       }
-      &.i-pagingEndArrow {
+      &.i-paging-end-arrow {
         @include maskImage('#{$icon-folder-path}icon_paging_arrow_end.svg', 1.5rem, 1.5rem, no-repeat, center, null, $paging-arrow-icon-inactive-color); // 24px 24px
       }
     }
   }
 
-  .#{$common-prefix}pagingNumbers {
+  .#{$common-prefix}paging-numbers {
     a {
       display: inline-block;
       min-width: 1.5rem; // 24px
@@ -54,7 +54,7 @@
         background-color: $paging-num-hover-bg-color;
         @include borderRadius(50%); // 24px
       }
-      &.selectedPage {
+      &.selected-page {
         font-weight: $font-weight-bold;
         color: $paging-num-selected-font-color;
         @include border($color: $paging-num-selected-border-color);

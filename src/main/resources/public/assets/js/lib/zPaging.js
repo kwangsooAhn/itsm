@@ -10,8 +10,8 @@
 const DEFAULT_OPTIONS = {
     numOfPageNums : 5, // 출력되는 페이징 숫자의 개수
     activeArrowClass : 'active', // 유효한 화살표용 클래스 이름
-    pageNumSelector : 'div.z-pagingNumbers a', // 페이지 번호 목록 셀렉터
-    selectedPage : 'selectedPage' // 선택된 페이지 번호용 클래스 이름
+    pageNumSelector : 'div.z-paging-numbers a', // 페이지 번호 목록 셀렉터
+    selectedPage : 'selected-page' // 선택된 페이지 번호용 클래스 이름
 }
 export default class ZPaging {
     constructor(options) {
@@ -76,7 +76,7 @@ export default class ZPaging {
             let newAnchor = document.createElement('a');
             newAnchor.setAttribute('href', 'javascript:getList(' + i + ')')
             newAnchor.innerText = '' + i;
-            document.querySelector('div.z-pagingNumbers').appendChild(newAnchor)
+            document.querySelector('div.z-paging-numbers').appendChild(newAnchor)
             // 현재 페이지면 클래스 추가
             if (currentPageNum === i) {
                 newAnchor.classList.add(this.options.selectedPage);
@@ -84,7 +84,7 @@ export default class ZPaging {
         }
 
         // 3) 화살표 처리
-        document.querySelectorAll('a.z-pagingArrow').forEach( arrow => {
+        document.querySelectorAll('a.z-paging-arrow').forEach( arrow => {
             arrow.classList.remove(this.options.activeArrowClass);
             arrow.removeAttribute('href');
         })
