@@ -1200,7 +1200,7 @@
             let fileBtn = document.createElement('button');
             fileBtn.className = 'z-button-icon form';
             let fileIcon = document.createElement('span');
-            fileIcon.className = 'z-icon i-search';
+            fileIcon.className = 'z-icon i-folder';
             fileBtn.addEventListener('click', function() {
                 aliceJs.thumbnail({
                     title: i18n.msg('common.label.attachFile'),

@@ -2,33 +2,43 @@
  *
  * 파일 경로 : template/_thumbnail.scss
  * @description 썸네일 디자인
- * @author jy.lim
+ * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  */
-.thumbnail-main {
+
+// 레이아웃
+.#{$common-prefix}thumbnail-main {
   font-family: $thumbnail-font-family;
-  height: $thumbnail-main-height;
+  font-size: $thumbnail-font-size;
+  font-weight: $thumbnail-font-weight;
+  color: $thumbnail-font-color;
+  height: 100%;
   padding: $thumbnail-main-padding;
 
-  .thumbnail {
+   // 썸네일
+  .#{$common-prefix}thumbnail {
     display: inline-block;
     width: $thumbnail-width;
     height: $thumbnail-height;
     margin: 0.625rem; // 10px
     padding: 0;
     @include border($thumbnail-border-width, solid, $thumbnail-border-color, all);
-    @include boxShadow(0, 0, 0.3125rem, 0, map-get($grays, 'line')); // 흐림 5px, $line-gray
     background-color: $thumbnail-bg-color;
     cursor: pointer;
     overflow: hidden;
 
-    &.selected,
     &:hover {
+      @include border($thumbnail-border-width, solid, $thumbnail-hover-border-color, all);
+      background-color: $thumbnail-hover-bg-color;
+    }
+
+    &.selected {
       @include border($thumbnail-selected-border-width, solid, $thumbnail-selected-border-color, all);
       background-color: $thumbnail-selected-bg-color;
+      @include boxShadow(0, 0, 0.125rem, 0, $thumbnail-selected-box-shadow-color); // 2px
     }
     // 썸네일 이미지
-    .thumbnail-img, .thumbnail-file {
+    .#{$common-prefix}thumbnail-image, .#{$common-prefix}thumbnail-file {
       display: inline-block;
       width: 100%;
       height: 9.063rem; // 145px
@@ -37,100 +47,86 @@
       background-position: center center;
     }
     // 썸네일 정보
-    .thumbnail-info {
+    .#{$common-prefix}thumbnail-info {
       height: 6.563rem; // 105px
       padding: 0.75rem 0.9375rem; // 12px 15px
 
-      .thumbnail-info-text {
+      .#{$common-prefix}thumbnail-info-text {
         height: 1.5rem; // 24px
         line-height: 1.5rem; // 24px
 
-        label {
-          display: block;
-          font-size: $thumbnail-font-size;
-          font-weight: $thumbnail-font-weight;
-          color:  $thumbnail-font-color;
-        }
+        label { display: block; }
 
         &:first-child {
           label {
-            color:  map-get($grays, "dark");
+            color:  $thumbnail-file-name-font-color;
+            font-weight: $thumbnail-file-name-font-weight;
             cursor: pointer;
           }
           // 더블 클릭시 fileName 수정 가능
-          .fileName {
+          .#{$common-prefix}input {
             display: none;
-            width: 12.19rem; // 195px 
+            width: 12.19rem; // 195px
             height: 1.875rem; // 30px
-            color:  map-get($grays, "dark");
             float: left;
           }
         }
       }
     }
-     // 생성일, 삭제 버튼
-    .thumbnail-bottom {
+    // 생성일, 삭제 버튼
+    .#{$common-prefix}thumbnail-bottom {
       height: 2.5rem; // 40px
       line-height: 2.5rem;
       @include border($thumbnail-border-width, solid, $thumbnail-border-color, top);
       padding: 0 0.625rem 0 0.9375rem; // 0 10px 0 15px
 
-      label {
-        font-size: $thumbnail-font-size;
-        font-weight: $thumbnail-font-weight;
-        color: $thumbnail-font-color;
-      }
       // 삭제 버튼
-      button {
+      .#{$common-prefix}button-icon {
         padding: 0;
         height: 2.5rem; // 40px
 
-        .icon-delete {
-          @include maskImage('#{$icon-folder-path}icon_delete.svg', 0.9375rem, 1.25rem, no-repeat, center, null, $thumbnail-icon-color); // 18px 20px
-          cursor: pointer;
-        }
-        &:hover {
-          .icon-delete { background: $blue;}
+        .#{$common-prefix}icon {
+          &.i-delete { background: $thumbnail-icon-color; }
         }
       }
     }
   }
-  // 썸네일 파일 업로드 
-  .thumbnail-upload {
+  // 썸네일 파일 업로드
+  .#{$common-prefix}thumbnail-upload {
     display: inline-block;
     width: $thumbnail-width;
     height: $thumbnail-height;
     margin: 0.625rem; // 10px
-    padding: 5.625rem 0 0 0; // 90px
+    padding: 5.313rem 0 0 0; // 85px
     @include border($thumbnail-border-width, solid, $thumbnail-border-color, all);
     box-shadow: none;
-    background-color: map-get($grays, "light");
+    background-color: $thumbnail-upload-bg-color;
     cursor: pointer;
     overflow: hidden;
 
     &:hover {
-      @include border($thumbnail-selected-border-width, solid, $thumbnail-selected-border-color, all);
-      background-color: $thumbnail-selected-bg-color;
-    }
-
-    .fileInput { display: none; }
-
-    img { content: url("#{$thumbnail-asset-path}/icon_image.png"); }
-    
-    .thumbnail-upload-text {
-      font-size: $thumbnail-font-size;
-      font-weight: $thumbnail-font-weight;
-      color: $thumbnail-font-color;
-      margin-top: 1.25rem; // 20px
+      @include border($thumbnail-border-width, solid, $thumbnail-hover-border-color, all);
+      background-color: $thumbnail-upload-hover-bg-color;
     }
   }
-  // 데이터가 없을 경우 
-  .thumbnail-nodata {
+  // 아이콘
+  .#{$common-prefix}icon {
+    &.i-image {
+      width: 5.313rem; // 85px
+      height: 5.313rem;
+      -webkit-mask-size: 5.313rem;
+      mask-size: 5.313rem;
+      background: $thumbnail-icon-color;
+    }
+  }
+  // 데이터 없을 때
+  .#{$common-prefix}thumbnail-nodata {
     display: inline-block;
     width: 100%;
     height: 100%;
-    color: $thumbnail-font-color;
-    font-weight: $font-weight-bold;
-    font-size: 1.875rem; // 30px
+    font-family: $thumbnail-nodata-font-family;
+    font-size: $thumbnail-nodata-font-size;
+    font-weight: $thumbnail-nodata-font-weight;
+    color: $thumbnail-nodata-font-color;
   }
 }
