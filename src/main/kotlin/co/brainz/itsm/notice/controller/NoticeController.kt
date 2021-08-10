@@ -52,7 +52,7 @@ class NoticeController(private val noticeService: NoticeService) {
         val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset, limit)
         model.addAttribute("noticeList", result.data)
         model.addAttribute("noticeCount", result.totalCount)
-        model.addAttribute("topNoticeList", noticeService.findTopNotice(fromDt, toDt))
+        model.addAttribute("topNoticeList", noticeService.findTopNotice())
         return if (noticeSearchDto.isScroll) noticeListFragment else noticeListPage
     }
 

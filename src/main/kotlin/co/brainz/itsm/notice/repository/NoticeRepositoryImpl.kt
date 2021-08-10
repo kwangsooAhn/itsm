@@ -80,8 +80,9 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
         )
     }
 
-    override fun findTopNotice(fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeListDto> {
+    override fun findTopNotice(): MutableList<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
+        val currentDateTime = LocalDateTime.now()
         return from(notice)
             .select(
                 Projections.constructor(
@@ -101,7 +102,9 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 )
             )
             .where(
-                notice.createDt.goe(fromDt), notice.createDt.lt(toDt), notice.topNoticeYn.eq(true)
+                notice.topNoticeStrtDt.loe(currentDateTime),
+                notice.topNoticeEndDt.goe(currentDateTime),
+                notice.topNoticeYn.eq(true)
             )
             .orderBy(notice.createDt.desc())
             .fetch()

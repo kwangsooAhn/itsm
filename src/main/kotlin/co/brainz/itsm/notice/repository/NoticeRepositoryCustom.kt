@@ -25,7 +25,7 @@ interface NoticeRepositoryCustom : AliceRepositoryCustom {
         limit: Long
     ): NoticeListReturnDto
 
-    fun findTopNotice(fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeListDto>
+    fun findTopNotice(): MutableList<NoticeListDto>
 
     fun findNotice(noticeNo: String): NoticeEntity
 }
