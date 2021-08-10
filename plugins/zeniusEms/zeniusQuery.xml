@@ -77,8 +77,8 @@
               insert into cmdb_ci_data (ci_id, attribute_id, value) values (?, ?, ?)
        </node>
        <node id="insertCIHistory">
-              insert into cmdb_ci_history (history_id, ci_id, seq, ci_no, ci_name, ci_status, type_id, class_id, ci_icon, ci_desc, automatic)
-              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+              insert into cmdb_ci_history (history_id, ci_id, seq, ci_no, ci_name, ci_status, type_id, class_id, ci_icon, ci_desc, automatic, apply_dt)
+              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
        </node>
        <node id="insertCIDataHistory">
               insert into cmdb_ci_data_history (data_history_id, ci_id, seq, attribute_id, attribute_name, attribute_desc, attribute_type, attribute_text, attribute_value, value)
