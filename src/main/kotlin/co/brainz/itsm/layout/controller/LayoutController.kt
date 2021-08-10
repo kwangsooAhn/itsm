@@ -22,7 +22,7 @@ class LayoutController(
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    private val layoutPage: String = "layout/layout"
+    private val layoutPage: String = "layout/noticePopup"
     private val menuPage: String = "layout/menu"
     private val statusPage: String = "redirect:/certification/status"
 
