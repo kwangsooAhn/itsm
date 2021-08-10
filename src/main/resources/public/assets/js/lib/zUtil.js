@@ -538,7 +538,7 @@ aliceJs.thumbnail = function(options) {
      */
     const saveThumbnail = function(targetId) {
         // image 미선택 시 알림창 출력
-        let selectedFile = document.querySelector('.thumbnail.selected');
+        let selectedFile = document.querySelector('.' + aliceJs.COMMON_PREFIX +  'thumbnail.selected');
         if (!selectedFile) {
             aliceAlert.alertWarning(i18n.msg('image.msg.fileSelect'));
             return false;
@@ -560,7 +560,7 @@ aliceJs.thumbnail = function(options) {
      * 썸네일 선택.
      */
     const thumbnailSelect = function(e) {
-        const elem = aliceJs.clickInsideElement(e, 'thumbnail');
+        const elem = aliceJs.clickInsideElement(e, aliceJs.COMMON_PREFIX + 'thumbnail');
         if (elem) {
             const parentElem = elem.parentNode;
             const isSelected = elem.classList.contains('selected');
@@ -584,14 +584,14 @@ aliceJs.thumbnail = function(options) {
      */
     const createContent = function(files) {
         const container = document.createElement('div');
-        container.className = 'z-thumbnail-main flex-row flex-wrap';
+        container.className = aliceJs.COMMON_PREFIX + 'thumbnail-main flex-row flex-wrap';
 
         if (files.data.length > 0) {
             for (let i = 0, len = files.data.length; i < len; i++) {
                 let file = files.data[i];
 
                 const thumbnail = document.createElement('div');
-                thumbnail.className = 'thumbnail';
+                thumbnail.className = aliceJs.COMMON_PREFIX + 'thumbnail';
                 thumbnail.setAttribute('data-name', file.name);
 
                 if (typeof options.selectedPath !== 'undefined' &&  options.selectedPath.indexOf(file.name) > -1) {
@@ -600,8 +600,8 @@ aliceJs.thumbnail = function(options) {
                 // 이벤트 등록
                 thumbnail.addEventListener('click', thumbnailSelect, false);
                 if (options.thumbnailDoubleClickUse) {
-                    thumbnail.addEventListener('dblclick', function(e) {
-                        document.querySelector('.thumbnail-save').click();
+                    thumbnail.addEventListener('dblclick', function() {
+                        document.querySelector('.' + aliceJs.COMMON_PREFIX + 'thumbnail-save').click();
                     }, false);
                 }
 
@@ -609,34 +609,34 @@ aliceJs.thumbnail = function(options) {
 
                 const thumbnailImg = document.createElement('div');
                 if (options.type === 'image') {
-                    thumbnailImg.className = 'thumbnail-img';
+                    thumbnailImg.className = aliceJs.COMMON_PREFIX + 'thumbnail-image';
                 } else if (options.type === 'icon' || options.type === 'cmdb-icon') {
-                    thumbnailImg.className = 'thumbnail-icon';
+                    thumbnailImg.className = aliceJs.COMMON_PREFIX + 'thumbnail-icon';
                     thumbnailImg.style.backgroundSize = '100%';
                 } else if (options.type === 'file') {
-                    thumbnailImg.className = 'thumbnail-file';
+                    thumbnailImg.className = aliceJs.COMMON_PREFIX + 'thumbnail-file';
                 }
                 thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
                 thumbnail.appendChild(thumbnailImg);
 
                 if (options.isThumbnailInfo) {
                     const thumbnailInfo = document.createElement('div');
-                    thumbnailInfo.className = 'thumbnail-info';
+                    thumbnailInfo.className = aliceJs.COMMON_PREFIX + 'thumbnail-info';
                     thumbnail.appendChild(thumbnailInfo);
 
                     const thumbnailName = document.createElement('p');
-                    thumbnailName.className = 'thumbnail-info-text';
+                    thumbnailName.className = aliceJs.COMMON_PREFIX + 'thumbnail-info-text';
                     thumbnailName.innerHTML = `<label class="text-ellipsis">${file.name}</label>`;
                     thumbnailInfo.appendChild(thumbnailName);
 
                     const thumbnailSize = document.createElement('p');
-                    thumbnailSize.className = 'thumbnail-info-text';
+                    thumbnailSize.className = aliceJs.COMMON_PREFIX + 'thumbnail-info-text';
                     thumbnailSize.innerHTML = `<label class="text-ellipsis">${file.width} X ${file.height} ${file.size}</label>`;
                     thumbnailInfo.appendChild(thumbnailSize);
 
                     if (options.type !== 'file') {
                         const thumbnailBottom = document.createElement('div');
-                        thumbnailBottom.className = 'thumbnail-bottom';
+                        thumbnailBottom.className = aliceJs.COMMON_PREFIX + 'thumbnail-bottom';
                         thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
                         thumbnail.appendChild(thumbnailBottom);
                     }
@@ -645,7 +645,7 @@ aliceJs.thumbnail = function(options) {
         } else { 
             // 썸네일이 존재하지 않을 경우 안내 문구 표시
             const thumbnailNodataTemplate = `
-                <div class="z-thumbnail-nodata align-center">
+                <div class="${aliceJs.COMMON_PREFIX}thumbnail-nodata align-center">
                     <label>${i18n.msg('common.msg.noData')}</label>
                 </div>
             `;
@@ -664,10 +664,10 @@ aliceJs.thumbnail = function(options) {
             let modalOptions = {
                 title: options.title,
                 body: createContent(files),
-                classes: 'thumbnail-' + options.type,
+                classes: aliceJs.COMMON_PREFIX + 'thumbnail-' + options.type,
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: 'z-button primary thumbnail-save',
+                    classes: aliceJs.COMMON_PREFIX + 'button primary ' + aliceJs.COMMON_PREFIX + 'thumbnail-save',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveThumbnail(options.targetId)) {
@@ -676,7 +676,7 @@ aliceJs.thumbnail = function(options) {
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: aliceJs.COMMON_PREFIX + 'button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -684,6 +684,9 @@ aliceJs.thumbnail = function(options) {
                 }],
                 close: {
                     closable: false,
+                },
+                onCreate: function (modal) {
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                 }
             };
 

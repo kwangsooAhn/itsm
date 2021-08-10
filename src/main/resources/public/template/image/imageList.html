@@ -32,8 +32,8 @@
             // 미리보기 모달 생성
             previewModal = new modal({
                 title: i18n.msg('image.label.name'),
-                body: `<div class="thumbnail-preview-img"></div>`,
-                classes: 'thumbnail-preview',
+                body: `<div class="${aliceJs.COMMON_PREFIX}thumbnail-preview-image"></div>`,
+                classes: aliceJs.COMMON_PREFIX + 'thumbnail-preview',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
                     classes: aliceJs.COMMON_PREFIX + 'button secondary',
@@ -117,16 +117,16 @@
         function addThumbnail(image) {
             const thumbnailContainer = document.getElementById('thumbnailMain');
             const thumbnailTemplate = `
-                <div class="thumbnail" tabindex="-1">
-                    <div class="thumbnail-img" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
-                    <div class="thumbnail-info">
-                        <p class="thumbnail-info-text">
-                            <label class="thumbnail-img-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
-                            <input type="text" class="${aliceJs.COMMON_PREFIX}input file-name float-left" />
+                <div class="${aliceJs.COMMON_PREFIX}thumbnail" tabindex="-1">
+                    <div class="${aliceJs.COMMON_PREFIX}thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
+                    <div class="${aliceJs.COMMON_PREFIX}thumbnail-info">
+                        <p class="${aliceJs.COMMON_PREFIX}thumbnail-info-text">
+                            <label class="${aliceJs.COMMON_PREFIX}thumbnail-image-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
+                            <input type="text" class="${aliceJs.COMMON_PREFIX}input float-left" />
                         </p>
-                        <p class="thumbnail-info-text"><label class="file-size text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
+                        <p class="${aliceJs.COMMON_PREFIX}thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
                     </div>
-                    <div class="thumbnail-bottom">
+                    <div class="${aliceJs.COMMON_PREFIX}thumbnail-bottom">
                         <label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>
                         <button type="button" class="${aliceJs.COMMON_PREFIX}button-icon float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="${aliceJs.COMMON_PREFIX}icon i-delete"></span></button>
                     </div>
@@ -136,13 +136,13 @@
         }
 
         function addThumbnailUpload() {
-            const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.thumbnail-upload').length;
+            const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.' + aliceJs.COMMON_PREFIX + 'thumbnail-upload').length;
             if (thumbnailCnt === 0) {
                 let thumbnailUploadTemplate = `
-                    <div class="thumbnail-upload align-center" onclick="document.getElementById('imageUploadFile').click();" tabindex="-1">
+                    <div class="${aliceJs.COMMON_PREFIX}thumbnail-upload align-center" onclick="document.getElementById('imageUploadFile').click();" tabindex="-1">
                         <span class="${aliceJs.COMMON_PREFIX}icon i-image"></span>
                         <p class="mt-4">${i18n.msg('image.label.upload')}</p>
-                        <input type="file" class="upload-file-input" id="imageUploadFile" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);"/>
+                        <input type="file" id="imageUploadFile" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);" style="display: none;"/>
                     </div>
                 `;
                 document.getElementById('thumbnailMain').insertAdjacentHTML('beforeend', thumbnailUploadTemplate);
@@ -159,7 +159,7 @@
                 }).then((rtn) => {
                     if (rtn === 'true') {
                         document.getElementById('thumbnailMain').removeChild(imgObj.parentNode.parentNode);
-                        let deleteAfterCount = Number(document.getElementById("totalCount").value) - 1;
+                        let deleteAfterCount = Number(document.getElementById('totalCount').value) - 1;
                         document.getElementById('totalCount').value = deleteAfterCount;
                         aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
                     }
@@ -265,11 +265,11 @@
             // 이미지 파일명 제목 표시
             const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
             if (previewModalHeader !== null) {
-                previewModalHeader.textContent = thumbnail.parentNode.querySelector('.thumbnail-img-name').textContent;
+                previewModalHeader.textContent = thumbnail.parentNode.querySelector('.' + aliceJs.COMMON_PREFIX + 'thumbnail-image-name').textContent;
             }
 
             // 내부 이미지 경로 변경
-            const previewModalContent = previewModal.wrapper.querySelector('.thumbnail-preview-img');
+            const previewModalContent = previewModal.wrapper.querySelector('.' + aliceJs.COMMON_PREFIX + 'thumbnail-preview-image');
             if (previewModalContent !== null) {
                 previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
             }

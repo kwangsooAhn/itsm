@@ -3,7 +3,7 @@
 // 썸네일 모달
 .modal-dialog {
   // thumnbnail > modal(type: icon) 관련 템플릿
-  &.thumbnail-icon {
+  &.#{$common-prefix}thumbnail-icon {
     width: $thumbnail-icon-modal-width;
     height: $thumbnail-icon-modal-height;
     top: 7rem; // 112px
@@ -14,13 +14,13 @@
       .#{$common-prefix}thumbnail-main {
         padding: $thumbnail-icon-container-padding;
         height: auto;
-        .thumbnail {
+        .#{$common-prefix}thumbnail {
           width: $thumbnail-size;
           height: $thumbnail-size;
           margin: 0.4375rem; // 7px
           @include boxShadow(0, 0, 0, 0.0625rem, $thumbnail-border-color);
     
-          .thumbnail-icon {
+          .#{$common-prefix}thumbnail-icon {
             width: $thumbnail-icon-size;
             height: $thumbnail-icon-size;
             margin: 2rem auto; // 32px auto
@@ -30,16 +30,16 @@
     }
   }
   // CMDB > Type icon modal
-  &.thumbnail-cmdb-icon {
+  &.#{$common-prefix}thumbnail-cmdb-icon {
     top: $thumbnail-cmdb-icon-modal-top;
 
-    .thumbnail {
+    .#{$common-prefix}thumbnail {
       width: $thumbnail-cmdb-size;
       height: $thumbnail-cmdb-size;
       margin: $thumbnail-cmdb-margin;
       @include boxShadow(0, 0, 0, 0.0625rem, $thumbnail-border-color);
 
-      .thumbnail-icon {
+      .#{$common-prefix}thumbnail-icon {
         width: $thumbnail-cmdb-icon-size;
         height: $thumbnail-cmdb-icon-size;
         margin: $thumbnail-cmdb-margin;
@@ -48,7 +48,7 @@
     }
   }
   // 이미지 관리 > 이미지 미리보기 모달
-  &.thumbnail-preview {
+  &.#{$common-prefix}thumbnail-preview {
     width: $thumbnail-preview-modal-width;
     height: $thumbnail-preview-modal-height;
 
@@ -56,7 +56,7 @@
       height: calc(#{$thumbnail-preview-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
       padding: 30px; // 30px
 
-      .thumbnail-preview-img {
+      .#{$common-prefix}thumbnail-preview-image {
         width: 100%;
         height: 100%;
         background-size: auto;

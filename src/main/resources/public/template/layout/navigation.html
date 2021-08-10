@@ -21,28 +21,28 @@
 					<li th:class="${COMMON_PREFIX} + 'gnb-area'" th:each="topMenu : ${#authentication.details.menus}"
 							th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
 						<!--/* 그룹 메뉴 */-->
-						<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="z-gnb-link flex-row"
-						   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? z-active-parent">
-							<span th:class="'z-icon-gnb z-icon-gnb-' + ${topMenu.menuId}"></span>
-							<span class="z-menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
-							<span class="z-arrow-right"></span>
+						<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" th:class="${COMMON_PREFIX} + 'gnb-link flex-row'"
+						   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
+							<span th:class="${COMMON_PREFIX} + 'icon i-gnb-' + ${topMenu.menuId}"></span>
+							<span th:class="${COMMON_PREFIX} + 'menu-name'" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+							<span th:class="${COMMON_PREFIX} + 'icon i-arrow-right'"></span>
 						</a>
-						<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="z-snb-group">
-							<li th:id="${subMenu.menuId}" class="z-snb-area" th:each="subMenu : ${#authentication.details.menus}"
+						<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" th:class="${COMMON_PREFIX} + 'snb-group'">
+							<li th:id="${subMenu.menuId}" th:class="${COMMON_PREFIX} + 'snb-area'" th:each="subMenu : ${#authentication.details.menus}"
 								th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
-								<a th:href="${subMenu.url}"  th:class="'z-snb z-snb-link ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()"
-								   th:classappend="${subMenu.url} == ${session.active_url} ? z-active">
-									<span class="z-icon-gnb-sub z-dot"></span>
-									<span class="z-menu-name" th:text="#{|menu.${subMenu.menuId}|}"></span>
+								<a th:href="${subMenu.url}"  th:class="${COMMON_PREFIX} + 'snb-link ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()"
+								   th:classappend="${subMenu.url} == ${session.active_url} ? active">
+									<span th:class="${COMMON_PREFIX} + 'icon i-gnb_sub_dot'"></span>
+									<span th:class="${COMMON_PREFIX} + 'menu-name'" th:text="#{|menu.${subMenu.menuId}|}"></span>
 								</a>
 							</li>
 						</ul>
 						<!--/* 연결 메뉴 */-->
-						<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="z-gnb-link flex-row"
-						   th:classappend="${topMenu.url} == ${session.active_url} ? z-active">
-							<span th:class="'z-icon-gnb z-icon-gnb-' + ${topMenu.menuId}"></span>
-							<span class="z-menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
-							<span th:if="${topMenu.menuId == 'token'}" class="z-token-count align-center" id="token_count">-</span>
+						<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" th:class="${COMMON_PREFIX} + 'gnb-link flex-row'"
+						   th:classappend="${topMenu.url} == ${session.active_url} ? active">
+							<span th:class="${COMMON_PREFIX} + 'icon i-gnb-' + ${topMenu.menuId}"></span>
+							<span th:class="${COMMON_PREFIX} + 'menu-name'" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+							<span th:if="${topMenu.menuId == 'token'}" th:class="${COMMON_PREFIX} + 'token-count align-center'" id="tokenCount">-</span>
 						</a>
 					</li>
 				</ul>
@@ -67,28 +67,23 @@
 	});
 
 	function accordionMenu(element) {
-		if (document.getElementById(element.dataset.menugroup).style.display === 'block') {
-			element.querySelector('.z-arrow-down').className = 'z-arrow-right';
-		} else {
-			element.querySelector('.z-arrow-right').className = 'z-arrow-down';
-		}
 		aliceJs.slideToggle(document.getElementById(element.dataset.menugroup), 200);
 	}
 
 	window.addEventListener('DOMContentLoaded', function(){
-		if (document.querySelector('.z-active-parent') != null) {
+		if (document.querySelector('.active-parent') != null) {
 			const evt = document.createEvent('HTMLEvents');
 			evt.initEvent('click', false, true);
-			document.querySelector('.z-active-parent').dispatchEvent(evt);
+			document.querySelector('.active-parent').dispatchEvent(evt);
 		}
 
-		OverlayScrollbars(document.querySelector('.z-menu'), {
+		OverlayScrollbars(document.querySelector('.' + aliceJs.COMMON_PREFIX + 'menu'), {
 			className: 'inner-scrollbar-dark',
 			callbacks: {
 				onInitialized: function() {
 					const verticalScrollTrack = document.querySelector('.os-scrollbar-vertical').firstChild;
 					const verticalScrollHandle = verticalScrollTrack.firstChild;
-					verticalScrollTrack.classList.add('z-right');
+					verticalScrollTrack.classList.add(aliceJs.COMMON_PREFIX + 'right');
 				}
 			}
 		});
@@ -101,12 +96,12 @@
 				'Content-Type': 'text/plain'
 			}
 		}).then((tokenCount) => {
-			let tokenCountSpan = document.querySelector('span.z-token-count')
+			let tokenCountSpan = document.getElementById('tokenCount');
 			tokenCountSpan.innerText = tokenCount
-			if (Number(tokenCount) === 0 && tokenCountSpan.classList.contains('z-active')) {
-				 tokenCountSpan.classList.remove('z-active');
-			} else if (Number(tokenCount) > 0 && !tokenCountSpan.classList.contains('z-active')) {
-				tokenCountSpan.classList.add('z-active');
+			if (Number(tokenCount) === 0 && tokenCountSpan.classList.contains('active')) {
+				 tokenCountSpan.classList.remove('active');
+			} else if (Number(tokenCount) > 0 && !tokenCountSpan.classList.contains('active')) {
+				tokenCountSpan.classList.add('active');
 			}
 		});
 	}
@@ -136,7 +131,7 @@
 					body: createProductModalContent(data),
 					buttons: [{
 						content: i18n.msg('common.btn.close'),
-						classes: 'z-button secondary',
+						classes: aliceJs.COMMON_PREFIX + 'button secondary',
 						bindKey: false,
 						callback: function (modal) {
 							modal.hide();

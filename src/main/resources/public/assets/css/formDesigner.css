@@ -762,6 +762,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-folder {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_folder.svg");
+  mask-image: url("../media/icons/icon_folder.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 :root {
   --data-column: 12;
@@ -5386,7 +5396,7 @@ body.modal-active {
   height: 100%;
   padding: 0.625rem;
 }
-.z-thumbnail-main .thumbnail {
+.z-thumbnail-main .z-thumbnail {
   display: inline-block;
   width: 15rem;
   height: 18.13rem;
@@ -5397,18 +5407,18 @@ body.modal-active {
   cursor: pointer;
   overflow: hidden;
 }
-.z-thumbnail-main .thumbnail:hover {
+.z-thumbnail-main .z-thumbnail:hover {
   border: 0.0625rem solid #339AF0;
   background-color: #FFFFFF;
 }
-.z-thumbnail-main .thumbnail.selected {
+.z-thumbnail-main .z-thumbnail.selected {
   border: 0.0625rem solid #2578CE;
   background-color: #FFFFFF;
   -webkit-box-shadow: 0 0 0.125rem 0 #2578CE;
   -moz-box-shadow: 0 0 0.125rem 0 #2578CE;
   box-shadow: 0 0 0.125rem 0 #2578CE;
 }
-.z-thumbnail-main .thumbnail .thumbnail-img, .z-thumbnail-main .thumbnail .thumbnail-file {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image, .z-thumbnail-main .z-thumbnail .z-thumbnail-file {
   display: inline-block;
   width: 100%;
   height: 9.063rem;
@@ -5416,42 +5426,42 @@ body.modal-active {
   background-repeat: no-repeat;
   background-position: center center;
 }
-.z-thumbnail-main .thumbnail .thumbnail-info {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-info {
   height: 6.563rem;
   padding: 0.75rem 0.9375rem;
 }
-.z-thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-info .z-thumbnail-info-text {
   height: 1.5rem;
   line-height: 1.5rem;
 }
-.z-thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text label {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-info .z-thumbnail-info-text label {
   display: block;
 }
-.z-thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child label {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-info .z-thumbnail-info-text:first-child label {
   color: #222529;
   font-weight: 700;
   cursor: pointer;
 }
-.z-thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child .file-name {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-info .z-thumbnail-info-text:first-child .z-input {
   display: none;
   width: 12.19rem;
   height: 1.875rem;
   float: left;
 }
-.z-thumbnail-main .thumbnail .thumbnail-bottom {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-bottom {
   height: 2.5rem;
   line-height: 2.5rem;
   border-top: 0.0625rem solid #CFD5D9;
   padding: 0 0.625rem 0 0.9375rem;
 }
-.z-thumbnail-main .thumbnail .thumbnail-bottom .z-button-icon {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-bottom .z-button-icon {
   padding: 0;
   height: 2.5rem;
 }
-.z-thumbnail-main .thumbnail .thumbnail-bottom .z-button-icon .z-icon.i-delete {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-bottom .z-button-icon .z-icon.i-delete {
   background: #8B9094;
 }
-.z-thumbnail-main .thumbnail-upload {
+.z-thumbnail-main .z-thumbnail-upload {
   display: inline-block;
   width: 15rem;
   height: 18.13rem;
@@ -5463,21 +5473,18 @@ body.modal-active {
   cursor: pointer;
   overflow: hidden;
 }
-.z-thumbnail-main .thumbnail-upload:hover {
+.z-thumbnail-main .z-thumbnail-upload:hover {
   border: 0.0625rem solid #339AF0;
   background-color: #E3F5FC;
 }
-.z-thumbnail-main .thumbnail-upload .upload-file-input {
-  display: none;
-}
-.z-icon.i-image {
+.z-thumbnail-main .z-icon.i-image {
   width: 5.313rem;
   height: 5.313rem;
   -webkit-mask-size: 5.313rem;
   mask-size: 5.313rem;
   background: #8B9094;
 }
-.z-thumbnail-nodata {
+.z-thumbnail-main .z-thumbnail-nodata {
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -5487,12 +5494,15 @@ body.modal-active {
   color: #8B9094;
 }
 
-.modal-dialog.thumbnail-image {
+.modal-dialog.z-thumbnail-image {
   width: 1040px;
   height: 48.44rem;
 }
-.modal-dialog.thumbnail-image .modal-content {
+.modal-dialog.z-thumbnail-image .modal-content {
   height: calc(48.44rem - 3.375rem - 5rem);
+}
+.modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail {
+  width: 14.375rem;
 }
 
 /* _tooltip.scss 
