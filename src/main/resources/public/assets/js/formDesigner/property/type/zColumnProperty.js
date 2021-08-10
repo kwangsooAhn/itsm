@@ -83,7 +83,7 @@ export const propertyExtends = {
             maxTime: ''
         }
     },
-   dateTime: {
+    dateTime: {
         columnElement: {
             defaultValueRadio: 'none'
         },
@@ -130,13 +130,15 @@ export default class ZColumnProperty extends ZProperty {
         this.UITabPanel.tabGroup.addButton = new UIButton()
             .setUIClass(CLASS_PREFIX + 'button-icon')
             .addUIClass('extra')
-            .addUIClass((this.value.length > FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
+            .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
             .addUI(new UISpan().addUIClass(CLASS_PREFIX + 'icon').addUIClass('i-plus'))
             .onUIClick(this.addColumn.bind(this, { columnType: 'input' }, -1));
         this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
 
         return this.UIElement;
     }
+    // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
+    afterEvent() {}
     // 컬럼 추가
     addColumn(option, index) {
         if (index === -1 ) { index = this.value.length; }
@@ -287,6 +289,9 @@ export default class ZColumnProperty extends ZProperty {
             this.panels.splice(index, 1);
 
             this.value.splice(index, 1);
+            if (this.UITabPanel.tabGroup.addButton.hasUIClass('off')) {
+                this.UITabPanel.tabGroup.addButton.removeUIClass('off').addUIClass('on');
+            }
             // 이전 탭 선택
             const prevTab = this.tabs[index - 1];
             this.selectColumn(prevTab.getUIId());
