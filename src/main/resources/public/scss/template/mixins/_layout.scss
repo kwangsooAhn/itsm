@@ -78,7 +78,10 @@
     font-size: $layout-header-search-font-size;
     padding: 0.3125rem 0px 1.25rem 0px; // 5px 0px 20px 0px
     // 건수
-    .search-count { color: $layout-header-search-color; }
+    .search-count {
+      font-weight: $layout-header-search-font-weight;
+      color: $layout-header-search-color;
+    }
   }
 }
 // view

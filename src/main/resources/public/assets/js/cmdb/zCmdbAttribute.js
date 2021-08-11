@@ -294,7 +294,7 @@
             return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         // custom-code
-        const customCodeOptions = customCodeList.map(function(option) {
+        const customCodeOptions = customCodeList.data.map(function(option) {
             return `<option value='${option.customCodeId}' ${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.customCodeName)}</option>`;
         }).join('');
 
@@ -579,7 +579,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const radioGroup = document.createElement('label');
-                                radioGroup.className = aliceJs.CLASS_PREFIX + 'radio';
+                                radioGroup.className = 'z-radio';
                                 radioGroup.tabindex = 0;
                                 radioGroup.htmlFor = attributes.attributeId + '-' + opt;
 
@@ -612,7 +612,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const chkGroup = document.createElement('label');
-                                chkGroup.className = aliceJs.CLASS_PREFIX + 'checkbox';
+                                chkGroup.className = 'z-checkbox';
                                 chkGroup.tabindex = 0;
                                 chkGroup.htmlFor = attributes.attributeId + '-' + opt;
 
@@ -791,7 +791,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const radioGroup = document.createElement('label');
-                                radioGroup.className = aliceJs.CLASS_PREFIX + 'radio';
+                                radioGroup.className = 'z-radio';
                                 radioGroup.tabindex = 0;
                                 radioGroup.htmlFor = attributes.attributeId + '-' + opt;
 
@@ -828,7 +828,7 @@
                             for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                                 const attributeOption = attributeValue.option[opt];
                                 const chkGroup = document.createElement('label');
-                                chkGroup.className = aliceJs.CLASS_PREFIX + 'checkbox';
+                                chkGroup.className = 'z-checkbox';
                                 chkGroup.tabindex = 0;
                                 chkGroup.htmlFor = attributes.attributeId + '-' + opt;
 

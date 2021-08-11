@@ -752,6 +752,26 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-image {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_image.svg");
+  mask-image: url("../media/icons/icon_image.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-folder {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_folder.svg");
+  mask-image: url("../media/icons/icon_folder.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 /* _layout.scss
  *
@@ -5069,4 +5089,112 @@ body.modal-active {
 .modal-dialog.password-update-notice .modal-content .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
+}
+
+/* _paging.scss
+ *
+ * 파일 경로 : template/_paging.scss
+ * @description 페이징 목록 디자인
+ * @author Jung Hee Chan
+ */
+.z-itsm-container .z-paging-area {
+  background-color: #FAFAFA;
+}
+
+.z-paging-area {
+  padding: 0 3.75rem 1.875rem 3.75rem;
+  justify-content: center;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
+.z-paging-area a.z-paging-arrow {
+  cursor: text;
+}
+.z-paging-area a.z-paging-arrow.active {
+  cursor: pointer;
+}
+.z-paging-area a.z-paging-arrow.active span.z-icon {
+  background: #8B9094;
+}
+.z-paging-area a.z-paging-arrow .z-icon.i-paging-start-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_paging_arrow_start.svg");
+  mask-image: url("../media/icons/icon_paging_arrow_start.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-paging-area a.z-paging-arrow .z-icon.i-paging-prev-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_paging_arrow_prev.svg");
+  mask-image: url("../media/icons/icon_paging_arrow_prev.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-paging-area a.z-paging-arrow .z-icon.i-paging-next-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_paging_arrow_next.svg");
+  mask-image: url("../media/icons/icon_paging_arrow_next.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-paging-area a.z-paging-arrow .z-icon.i-paging-end-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_paging_arrow_end.svg");
+  mask-image: url("../media/icons/icon_paging_arrow_end.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-paging-area .z-paging-numbers a {
+  display: inline-block;
+  min-width: 1.5rem;
+  line-height: 1.375rem;
+  font-weight: 400;
+  text-align: center;
+  color: #222529;
+}
+.z-paging-area .z-paging-numbers a:hover {
+  color: #222529;
+  background-color: #E3F5FC;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+.z-paging-area .z-paging-numbers a.selected-page {
+  font-weight: 700;
+  color: #2578CE;
+  border: 1px solid #2578CE;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+.z-paging-area .z-paging-numbers a:active {
+  font-weight: 700;
+  color: #1959AC;
+  background-color: #ADE6FD;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+.z-paging-area #spanCurrentPageNum {
+  font-weight: 700;
+  color: #8B9094;
+  position: absolute;
+  right: 3.75rem;
 }

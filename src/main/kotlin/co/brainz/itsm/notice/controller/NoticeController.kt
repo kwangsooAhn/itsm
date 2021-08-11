@@ -6,11 +6,8 @@
 
 package co.brainz.itsm.notice.controller
 
-import co.brainz.itsm.constants.ItsmConstants
-import co.brainz.itsm.notice.dto.NoticeSearchDto
+import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.service.NoticeService
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -26,7 +23,6 @@ class NoticeController(private val noticeService: NoticeService) {
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeSearchPage: String = "notice/noticeSearch"
     private val noticeListPage: String = "notice/noticeList"
-    private val noticeListFragment: String = "notice/noticeList :: list"
     private val noticeEditPage: String = "notice/noticeEdit"
     private val noticeViewPage: String = "notice/noticeView"
     private val noticePopUpPage: String = "notice/noticePopUp"
@@ -43,17 +39,12 @@ class NoticeController(private val noticeService: NoticeService) {
      * 공지사항 검색 결과 리스트 화면 호출 처리
      */
     @GetMapping("")
-    fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
-        val searchValue = noticeSearchDto.searchValue
-        val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
-        val toDt = LocalDateTime.parse(noticeSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-        val offset = noticeSearchDto.offset
-        val limit = ItsmConstants.SEARCH_DATA_COUNT
-        val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset, limit)
+    fun getNoticeList(noticeSearchCondition: NoticeSearchCondition, model: Model): String {
+        val result = noticeService.findNoticeSearch(noticeSearchCondition)
+        model.addAttribute("topNoticeList", noticeService.findTopNotice())
         model.addAttribute("noticeList", result.data)
-        model.addAttribute("noticeCount", result.totalCount)
-        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt, limit))
-        return if (noticeSearchDto.isScroll) noticeListFragment else noticeListPage
+        model.addAttribute("paging", result.paging)
+        return noticeListPage
     }
 
     /**
