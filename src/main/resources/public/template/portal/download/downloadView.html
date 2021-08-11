@@ -55,7 +55,7 @@
         window.onload = function() {
             document.getElementById('spanCreateDt').textContent =
                 i18n.userDateTime(document.getElementById('spanCreateDt').textContent);
-            zFileUploaderPortal.init({extra: {formId: 'downloadForm', ownId: [[${download.downloadId}]], editor: false, isView: true}});
+            zFileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download.downloadId}]], editor: false, isView: true, defaultUrl: '/rest/portals', isHeaders : false}});
             OverlayScrollbars(document.querySelector('.main'), { className: 'scrollbar' });
         };
         /*]]>*/

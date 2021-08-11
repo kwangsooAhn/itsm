@@ -302,7 +302,7 @@ $column-init: 5rem; // 80px
 $file-uploader-font-size:                    $font-size-xs;
 $file-uploader-font-color:                   map-get($grays, 'dark');
 $file-uploader-font-weight:                  $font-weight-medium;
-$file-uploader-icon-color:                   map-get($grays, 'pressed');
+$file-uploader-icon-color:                   $gray500;
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-xs;
 $dropzone-font-color:                        $gray;

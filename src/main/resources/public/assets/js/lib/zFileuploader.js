@@ -36,7 +36,7 @@ const zFileUploader = (function () {
         return fileName.substring(dot+1, fileName.length).toLowerCase();
     };
 
-    const setFileIcon = function (fileName, isView) {
+    const setFileIcon = function (fileName) {
         return '/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg';
     };
 
@@ -83,7 +83,7 @@ const zFileUploader = (function () {
         if (extraParam.type === 'avatar') {
             extraParam.enableImageThumbnails = true;
         }
-
+        // edit 모드일때
         if (extraParam.editor === undefined) {
             extraParam.editor = true;
         }
@@ -103,14 +103,24 @@ const zFileUploader = (function () {
         if (extraParam.clickableMessage === undefined) {
             extraParam.clickableMessage = i18n.msg('file.msg.browser');
         }
-
+        // view 모드일때
         if (extraParam.isView === undefined) {
             extraParam.isView = false;
         }
-
+        // 폼 디자이너, 신청서인지 여부
         if (extraParam.isForm === undefined) {
             extraParam.isForm = false;
         }
+
+        if (extraParam.defaultUrl === undefined) {
+            extraParam.defaultUrl = '';
+        }
+
+        // 헤더 추가 여부
+        if (extraParam.isHeaders === undefined) {
+            extraParam.isHeaders = true;
+        }
+
         // dropzone 영역이 아래에 나오게 하고싶은 경우
         if (extraParam.isDropzoneUnder === undefined) {
             extraParam.isDropzoneUnder = false;
@@ -232,7 +242,8 @@ const zFileUploader = (function () {
         }
         const fileDownOpt = {
             method: 'get',
-            url: '/filedownload?seq=' + Number($this.parentElement.querySelector('input[name=loadedFileSeq]').value),
+            url: extraParam.defaultUrl + '/filedownload?seq=' +
+                Number($this.parentElement.querySelector('input[name=loadedFileSeq]').value),
             callbackFunc: function (xhr) {
                 const a = document.createElement('a');
                 const url = window.URL.createObjectURL(xhr.response);
@@ -264,7 +275,7 @@ const zFileUploader = (function () {
         if (extraParam.acceptedFiles === null) {
             const opt2 = {
                 method: 'GET',
-                url: '/rest/filenameextensions',
+                url: (extraParam.defaultUrl === '' ? '/rest' : extraParam.defaultUrl) + '/filenameextensions',
                 async: false,
                 callbackFunc: function (response) {
                     fileNameExtensionList = JSON.parse(response.responseText);
@@ -332,15 +343,15 @@ const zFileUploader = (function () {
             clickable: extraParam.clickable ? '.' + extraParam.clickable : extraParam.clickable, // 파일첨부 클릭 트리거 정의
             createImageThumbnails: false,
             dictDefaultMessage: extraParam.dictDefaultMessage,
-            headers: {
+            headers: extraParam.isHeaders ? {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-            },
+            } : null,
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
                 // 등록된 파일이 있으면 조회.
                 const opt = {
                     method: 'get',
-                    url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
+                    url: extraParam.defaultUrl + '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
                         +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
@@ -397,14 +408,14 @@ const zFileUploader = (function () {
                             const download = document.createElement('div');
                             download.className = 'dz-download';
                             const downloadIcon = document.createElement('span');
-                            downloadIcon.className = 'icon-download';
+                            downloadIcon.className = 'z-icon i-download';
                             download.appendChild(downloadIcon);
 
                             // 삭제
                             const remove = document.createElement('div');
                             remove.className = 'dz-remove';
                             const removeIcon = document.createElement('span');
-                            removeIcon.className = 'icon-delete';
+                            removeIcon.className = 'z-icon i-delete';
                             remove.appendChild(removeIcon);
 
                             const fileSeq = document.createElement('input');
@@ -492,7 +503,7 @@ const zFileUploader = (function () {
                         file.previewElement.querySelector('.dz-file-type').src = setFileIcon(file.name, extraParam.isView);
                         // 삭제 아이콘 추가
                         const removeIcon = document.createElement('span');
-                        removeIcon.className = 'icon-delete';
+                        removeIcon.className = 'z-icon i-delete';
                         file.previewElement.querySelector('.dz-remove').appendChild(removeIcon);
 
                         validation(this, file, 'fileUploader');
@@ -573,9 +584,9 @@ const zFileUploader = (function () {
             thumbnailWidth: extraParam.thumbnailWidth,
             thumbnailHeight: extraParam.thumbnailHeight,
             dictDefaultMessage: extraParam.dictDefaultMessage,
-            headers: {
+            headers: extraParam.isHeaders ? {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-            },
+            } : null,
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
                 const dropzoneMessage = _this.element.querySelector('.dz-message');

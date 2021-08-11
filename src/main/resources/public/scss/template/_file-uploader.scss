@@ -173,12 +173,11 @@
           border: none;
           text-align: center;
           cursor: pointer;
-          .icon-download {
-            display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_download.svg', 1.25rem, 3rem, no-repeat, center, 1.25rem, $file-uploader-icon-color); // 20px 48px, 아이콘 크기 20px
-            cursor: pointer;
-            &:hover {
-              background: map-get($grays, "dark");
+
+          .z-icon {
+            &.i-download {
+              height: 3rem; // 48px
+              background: $file-uploader-icon-color;
             }
           }
         }
@@ -192,12 +191,10 @@
           text-align: center;
           cursor: pointer;
 
-          .icon-delete {
-            display: inline-block;
-            @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 3rem, no-repeat, center, 1.125rem 1.25rem, $file-uploader-icon-color); // 18px 48px, 아이콘 크기 19px 20px
-            cursor: pointer;
-            &:hover {
-              background: map-get($grays, "dark");
+          .z-icon {
+            &.i-delete {
+              height: 3rem; // 48px
+              background: $file-uploader-icon-color;
             }
           }
         }
