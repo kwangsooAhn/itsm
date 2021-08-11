@@ -54,8 +54,8 @@ data class CIHistoryEntity(
     @Column(name = "ci_desc", length = 512)
     var ciDesc: String? = null,
 
-    @Column(name = "automatic")
-    var automatic: Boolean? = false,
+    @Column(name = "interlink")
+    var interlink: Boolean? = false,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instance_id")

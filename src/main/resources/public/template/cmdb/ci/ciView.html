@@ -87,7 +87,7 @@
                         <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.createUser}"></th>
                         <th style="width: 20%;" class="align-left" th:text="#{cmdb.ci.label.applyDate}"></th>
                         <th style="width: 10%;" th:text="#{cmdb.ci.label.status.type}"></th>
-                        <th style="width: 10%;" th:text="#{cmdb.ci.label.whetherToInterlock}"></th>
+                        <th style="width: 10%;" th:text="#{cmdb.ci.label.whetherToInterlink}"></th>
                     </tr>
                     </thead>
                     <tbody class="list-body">
@@ -102,8 +102,8 @@
                         <td th:unless="${#strings.isEmpty(ciHistory.createUser)}" style="width: 20%;" th:text="#{ciHistory.createUser}"></td>
                         <td style="width: 20%;" class="date-time" th:text="${ciHistory.applyDt}"></td>
                         <td style="width: 10%;" class="align-center" th:text="#{|cmdb.ci.label.status.${ciHistory.ciStatus}|}"></td>
-                        <td th:if="${ciHistory.automatic == true}" style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.interlock}"></td>
-                        <td th:unless="${ciHistory.automatic == true}" style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.nonInterlock}"></td>
+                        <td th:if="${ciHistory.interlink == true}" style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.interlink}"></td>
+                        <td th:unless="${ciHistory.interlink == true}" style="width: 10%;" class="align-center" th:text="#{cmdb.ci.label.nonInterlink}"></td>
                     </tr>
                     </tbody>
                 </table>

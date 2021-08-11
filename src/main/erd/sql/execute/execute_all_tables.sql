@@ -3237,7 +3237,7 @@ CREATE TABLE cmdb_ci
 	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	ci_desc character varying(512),
-	automatic boolean DEFAULT 'false',
+    interlink boolean DEFAULT 'false',
 	instance_id character varying(128),
 	create_user_key character varying(128),
 	create_dt timestamp,
@@ -3261,7 +3261,7 @@ COMMENT ON COLUMN cmdb_ci.ci_name IS 'CI이름';
 COMMENT ON COLUMN cmdb_ci.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_ci.ci_desc IS 'CI설명';
-COMMENT ON COLUMN cmdb_ci.automatic IS '자동등록여부';
+COMMENT ON COLUMN cmdb_ci.interlink IS '연동 여부';
 COMMENT ON COLUMN cmdb_ci.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_ci.create_dt IS '등록일시';
@@ -3310,7 +3310,7 @@ CREATE TABLE cmdb_ci_history
 	class_id character varying(128),
 	ci_icon character varying(200),
 	ci_desc character varying(512),
-	automatic boolean DEFAULT 'false',
+    interlink boolean DEFAULT 'false',
 	instance_id character varying(128),
     apply_dt timestamp,
 	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
@@ -3328,7 +3328,7 @@ COMMENT ON COLUMN cmdb_ci_history.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
-COMMENT ON COLUMN cmdb_ci_history.automatic IS '자동등록여부';
+COMMENT ON COLUMN cmdb_ci_history.interlink IS '연동 여부';
 COMMENT ON COLUMN cmdb_ci_history.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci_history.apply_dt IS '반영일시';
 

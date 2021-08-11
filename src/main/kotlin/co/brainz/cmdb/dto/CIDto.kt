@@ -19,7 +19,7 @@ data class CIDto(
     val classId: String? = null,
     var ciIcon: String? = null,
     var ciDesc: String? = null,
-    var automatic: Boolean? = false,
+    var interlink: Boolean? = false,
     var instanceId: String? = null,
     var ciDataList: MutableList<CIDataDto>? = null,
     var ciRelations: MutableList<CIRelationDto>? = null,

@@ -352,9 +352,9 @@ cmdb:
       sourceCiName: "기준 CI 이름"
       targetCiId: "대상 CI ID"
       targetCiName: "대상 CI 이름"
-      whetherToInterlock: "연동 여부"
-      interlock: "연동"
-      nonInterlock: "비연동"
+      whetherToInterlink: "연동 여부"
+      interlink: "연동"
+      nonInterlink: "비연동"
     msg:
       deleteEditableCI: "입력된 자산정보를 목록에서 삭제하시겠습니까?"
       deleteReadableCI: "자산정보를 목록에서 삭제하시겠습니까?"

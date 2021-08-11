@@ -6,7 +6,7 @@
     "ciIcon":"server.png",
     "ciDesc":"Test CI Data",
     "ciStatus":"use",
-    "automatic":"false",
+    "interlink":"false",
     "typeId":"b2dac0d38b39a4f8da7b98c56e831465",
     "typeName":"데이터베이스",
     "classId":"40288ab77757e7bf01775810a2010002",
