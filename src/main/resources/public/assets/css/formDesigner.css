@@ -6020,12 +6020,12 @@ body.modal-active {
 }
 .z-component .z-element .z-imagebox-placeholder {
   display: none;
-  height: 8.75rem;
+  height: 8.5rem;
   font-size: 1rem;
   font-weight: 400;
-  color: #ACB4BF;
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #F7F8F9;
+  color: #8B9094;
+  border: 0.0625rem solid #CFD5D9;
+  background-color: #FAFAFA;
   text-align: center;
   padding: 1.875rem 0 0.625rem;
 }
@@ -6034,16 +6034,16 @@ body.modal-active {
 }
 .z-component .z-element .z-imagebox-placeholder .z-icon.i-no-image {
   width: 100%;
-  height: 2.813rem;
-  -webkit-mask-image: url("../media/icons/icon_image.svg");
-  mask-image: url("../media/icons/icon_image.svg");
+  height: 3.75rem;
+  -webkit-mask-image: url("../media/icons/icon_image_uploader.svg ");
+  mask-image: url("../media/icons/icon_image_uploader.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: 2.813rem;
-  mask-size: 2.813rem;
-  background: #ACB4BF;
+  -webkit-mask-size: 3.75rem;
+  mask-size: 3.75rem;
+  background: #8B9094;
 }
 .z-component .z-element .z-imagebox {
   width: 100%;

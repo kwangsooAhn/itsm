@@ -119,8 +119,9 @@ $component-selected-bg-color:                      map-get($form-blues, "focus")
 ///////////////////////// image 컴포넌트 ////////////////////////////
 $component-imagebox-font-size:                     $font-size-s;
 $component-imagebox-font-weight:                   $font-weight-regular;
-$component-imagebox-font-color:                    $gray;
-$component-imagebox-bg-color:                      map-get($grays, "light");
+$component-imagebox-font-color:                    $gray500;
+$component-imagebox-border-color:                  $gray300;
+$component-imagebox-bg-color:                      $neutral50;
 $component-selected-imagebox-bg-color:             $white;
 
 //////////////////////// CI 컴포넌트 /////////////////////////////

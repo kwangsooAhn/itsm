@@ -211,11 +211,11 @@
     // image 컴포넌트
     .#{$common-prefix}imagebox-placeholder {
       display: none;
-      height: 8.75rem; // 140px
+      height: 8.5rem; // 136px
       font-size: $component-imagebox-font-size;
       font-weight: $component-imagebox-font-weight;
       color: $component-imagebox-font-color;
-      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+      @include border(0.0625rem, solid, $component-imagebox-border-color, all); // 1px
       background-color: $component-imagebox-bg-color;
       text-align: center;
       padding: 1.875rem 0 0.625rem; // 30px 0 10px 0
@@ -223,7 +223,7 @@
       .#{$common-prefix}icon {
         display: block;
         &.i-no-image {
-          @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, $component-imagebox-font-color); // 45px
+          @include maskImage('#{$icon-folder-path}icon_image_uploader.svg ', 100%, 3.75rem, no-repeat, center, 3.75rem, $component-imagebox-font-color); // 45px
         }
       }
     }
