@@ -1082,6 +1082,23 @@ aliceJs.fetchText = function(url, option) {
 };
 
 /**
+ * 비동기 통신 후 Promise 형태로 Blob 데이터를 반환하는 함수
+ * @param url url
+ * @param option 옵션
+ * @returns Promise 객체 반환값
+ */
+aliceJs.fetchBlob = function (url, option) {
+    return aliceJs.doFetch(url, option)
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            } else {
+                return false;
+            }
+        });
+};
+
+/**
  * 믹스인을 추가하는 함수
  *
  * @param target 믹스인을 추가할 대상 객체의 prototype
