@@ -294,7 +294,7 @@
             return `<option value='${option.value}' ${property.required === option.value ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         // custom-code
-        const customCodeOptions = customCodeList.map(function(option) {
+        const customCodeOptions = customCodeList.data.map(function(option) {
             return `<option value='${option.customCodeId}' ${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.customCodeName)}</option>`;
         }).join('');
 
