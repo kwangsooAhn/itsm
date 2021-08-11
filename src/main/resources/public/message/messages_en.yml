@@ -49,8 +49,6 @@ common:
     updateUser: "Update User"
     writeDate: "Write Date"
     writer: "Writer"
-    itsm: "ITSM"
-    ems: "EMS"
     emptyData: "-"
   msg:
     confirmDelete: "Are you sure you want to delete?"
@@ -354,7 +352,9 @@ cmdb:
       sourceCiName: "Source CI Name"
       targetCiId: "Target CI ID"
       targetCiName: "Target CI Name"
-      linkageObject: "Linkage Object"
+      whetherToInterlock: "Whether to Interlock"
+      interlock: "Interlock"
+      nonInterlock: "Non Interlock"
     msg:
       deleteEditableCI: "Do you want to delete the entered asset information from the list?"
       deleteReadableCI: "Do you want to delete asset information from the list?"
