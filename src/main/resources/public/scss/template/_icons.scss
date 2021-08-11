@@ -78,4 +78,9 @@
   &.i-folder {
     @include maskImage('#{$icon-folder-path}icon_folder.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
   }
+
+  // 다운로드
+  &.i-download {
+    @include maskImage('#{$icon-folder-path}icon_download.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
 }
