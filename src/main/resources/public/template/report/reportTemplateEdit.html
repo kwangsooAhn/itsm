@@ -64,6 +64,7 @@
                             onclick="actionTemplate('post')" th:text="#{common.btn.register}"></button>
                     <button class="z-button primary" th:if="${template?.templateId}" sec:authorize="hasAuthority('report.update')"
                             onclick="actionTemplate('put')" th:text="#{common.btn.modify}"></button>
+                    <button class="z-button secondary" onclick="preview()" th:text="#{report.btn.preview}"></button>
                     <button class="z-button secondary" th:if="${template?.templateId}" sec:authorize="hasAuthority('report.delete')"
                             onclick="actionTemplate('delete')" th:text="#{common.btn.delete}"></button>
                 </div>
@@ -81,8 +82,6 @@
         const chartList = /*[[${chartList}]]*/ null;
         const data = /*[[${template}]]*/ null;
         window.onload = function () {
-            aliceJs.initDesignedSelectTag();
-
             if (data !== null) {
                 data["charts"].forEach((item) => {
                     addChart(item);
@@ -103,7 +102,6 @@
         };
 
         function addChart(data) {
-            //사용자 정의 차트 목록으로 selectbox 생성
             let target = document.querySelector('#chartList');
             let property = {};
             if (typeof data !== 'undefined' && data !== null) {
@@ -116,7 +114,7 @@
             let rowId = ZWorkflowUtil.generateUUID();
             let rowElement =
                 `<div class="flex-row mt-2">` +
-                `<div class="flex-column col-9"><select name="chart" id="${rowId}_chart">${options}</select></div>` +
+                `<div class="flex-column col-11"><select name="chart" id="${rowId}_chart">${options}</select></div>` +
                 `<div class="flex-column col-1"><button id="${rowId}_delete" type="button" class="z-button-icon extra"><span class="z-icon i-delete"></span></button></div>` +
                 `</div>`;
             target.insertAdjacentHTML('beforeend', rowElement);
@@ -126,11 +124,32 @@
                 e.stopPropagation();
                 this.parentElement.parentElement.remove();
             });
+            aliceJs.initDesignedSelectTag();
+        }
+
+        function isValid() {
+            let isValid = true;
+            let chartElement = document.querySelector('#chartList');
+            let charts = [];
+            chartElement.querySelectorAll('select[name=chart]').forEach((item) => {
+                if (charts.includes(item.value)) {
+                    aliceAlert.alertWarning(i18n.msg('report.msg.duplicateChart'));
+                    isValid = false;
+                }
+                if (item.value !== '') {
+                    charts.push(item.value);
+                }
+            });
+            if (isValid && charts.length === 0) {
+                aliceAlert.alertWarning(i18n.msg('report.msg.emptyChart'));
+                isValid = false;
+            }
+            return isValid;
         }
 
         function actionTemplate(method) {
             if (method === 'post' || method === 'put') {
-                if (isValidRequiredAll()) {
+                if (isValidRequiredAll() && isValid()) {
                     let data = {
                         templateId: '',
                         templateName: document.querySelector('#templateName').value,
@@ -197,6 +216,10 @@
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        function preview() {
+            console.log('xxxxxxxxxx')
         }
         /*]]>*/
     </script>

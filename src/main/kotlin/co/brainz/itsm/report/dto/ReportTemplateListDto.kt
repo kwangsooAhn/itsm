@@ -5,14 +5,16 @@
 
 package co.brainz.itsm.report.dto
 
+import co.brainz.itsm.chart.dto.ChartDto
 import java.io.Serializable
 import java.time.LocalDateTime
 
 data class ReportTemplateListDto(
     val templateId: String,
     val templateName: String,
-    val templateDesc: String,
+    val templateDesc: String? = null,
     val automatic: Boolean,
-    val createDt: LocalDateTime,
-    val createUserName: String
+    val charts: List<ChartDto>? = null,
+    val createDt: LocalDateTime? = null,
+    val createUserName: String? = null
 ) : Serializable

@@ -12,9 +12,11 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.chart.dto.ChartDto
+import co.brainz.itsm.chart.mapper.ChartMapper
 import co.brainz.itsm.chart.respository.ChartRepository
 import co.brainz.itsm.report.dto.ReportTemplateDetailDto
 import co.brainz.itsm.report.dto.ReportTemplateDto
+import co.brainz.itsm.report.dto.ReportTemplateListDto
 import co.brainz.itsm.report.dto.ReportTemplateListReturnDto
 import co.brainz.itsm.report.dto.ReportTemplateMapDto
 import co.brainz.itsm.report.dto.ReportTemplateSearchDto
@@ -29,6 +31,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import javax.transaction.Transactional
+import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -43,15 +46,34 @@ class ReportTemplateService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+    private val chartMapper: ChartMapper = Mappers.getMapper(ChartMapper::class.java)
 
     /**
      * 템플릿 목록 조회
      */
     fun getReportTemplateList(reportTemplateSearchDto: ReportTemplateSearchDto): ReportTemplateListReturnDto {
         val templateList = reportTemplateRepository.getReportTemplateList(reportTemplateSearchDto)
+        val reportTemplateList = mutableListOf<ReportTemplateListDto>()
+        templateList.results.forEach { template ->
+            val chartList = mutableListOf<ChartDto>()
+            template.charts?.forEach { it ->
+                chartList.add(chartMapper.toChartDto(it.chart))
+            }
+            reportTemplateList.add(
+                ReportTemplateListDto(
+                    templateId = template.templateId,
+                    templateName = template.templateName,
+                    createDt = template.createDt,
+                    automatic = template.automatic,
+                    templateDesc = template.templateDesc,
+                    charts = chartList
+                )
+            )
+        }
+
         return ReportTemplateListReturnDto(
-            data = templateList.results,
-            totalCount = templateList.total
+            data = reportTemplateList,
+            totalCount = reportTemplateList.size.toLong()
         )
     }
 
@@ -195,6 +217,7 @@ class ReportTemplateService(
     /**
      * Template 삭제
      */
+    @Transactional
     fun deleteReportTemplate(templateId: String): RestTemplateReturnDto {
         val templateEntity = reportTemplateRepository.findByTemplateId(templateId)
         val restTemplateReturnDto = RestTemplateReturnDto()
@@ -204,6 +227,7 @@ class ReportTemplateService(
                 restTemplateReturnDto.code = AliceConstants.Status.STATUS_ERROR_NOT_EXIST.code
             }
             else -> {
+                reportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
                 reportTemplateRepository.delete(templateEntity)
             }
         }

@@ -29,7 +29,9 @@
                    th:href="@{/reports/template/{id}/edit(id=${template.templateId})}"></a>
             </td>
             <td style="width:25%;" class="align-left" th:text="${template.templateDesc}"></td>
-            <td style="width:25%;" class="align-left">null</td>
+            <td style="width:25%;" class="align-left">
+                <span class="label" th:each="chart : ${template?.charts}" th:text="#{${chart.chartName}}"></span>
+            </td>
             <td style="width:10%;" class="align-center" id="userName" th:text="${template?.createUserName}"></td>
             <td style="width:15%;" class="align-center date-time" name="createDt" th:text="${template.createDt}"></td>
         </tr>

@@ -5,12 +5,13 @@
 
 package co.brainz.itsm.report.dto
 
+import co.brainz.itsm.chart.dto.ChartDto
 import java.io.Serializable
 
-data class ReportTemplateDto(
+data class ReportTemplateDetailDto(
     val templateId: String,
     val templateName: String,
     val templateDesc: String? = null,
     val automatic: Boolean,
-    var charts: List<ReportTemplateMapDto>? = null
+    var charts: List<ChartDto>? = null
 ) : Serializable

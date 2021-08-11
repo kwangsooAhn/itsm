@@ -1082,6 +1082,8 @@ process:
 
 # Report
 report:
+  btn:
+    preview: "Preview"
   label:
     automatic: "Automatic generation"
     chart: "Chart"
@@ -1113,8 +1115,10 @@ role:
     role: "Role"
   msg:
     duplicateRoleId: "Duplicate role id! Please enter other role id."
+    duplicateChart: "Duplicate chart exists."
     duplicateRoleName: "Duplicate role name! Please enter other role name."
     editDescription: "Add, view and manage roles."
+    emptyChart: "Chart does not exist."
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."
     searchPlaceholder: "Role Name / Role Desc."

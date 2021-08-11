@@ -11,9 +11,9 @@ import java.time.LocalDateTime
 
 data class ChartDto(
     var chartId: String = "",
-    val chartType: String = "",
-    val chartName: String = "",
-    val chartDesc: String? = null,
+    var chartType: String = "",
+    var chartName: String = "",
+    var chartDesc: String? = null,
     var chartConfig: String? = null,
     var createDt: LocalDateTime? = null,
     var targetTags: ArrayList<String>? = null,

@@ -1081,6 +1081,8 @@ process:
 
 # Report
 report:
+  btn:
+    preview: "미리보기"
   label:
     automatic: "자동 생성"
     chart: "사용자 정의 차트"
@@ -1095,7 +1097,9 @@ report:
     templateName: "템플릿 명"
   msg:
     configDescription: "사용자 정의 차트를 이용한 보고서를 설정합니다."
+    duplicateChart: "중복된 차트가 존재합니다."
     editDescription: "보고서를 등록하거나 수정, 삭제합니다."
+    emptyChart: "차트가 존재하지 않습니다."
     searchDescription: "생성한 보고서를 조회합니다."
     templateNameUsed: "중복되는 템플릿명이 존재합니다."
 # Role
