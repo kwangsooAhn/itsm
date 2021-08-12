@@ -34,6 +34,7 @@ class CIHistoryRepositoryImpl : QuerydslRepositorySupport(CIHistoryEntity::class
                     history.instance?.instanceId,
                     history.instance?.documentNo,
                     history.instance?.instanceCreateUser?.userKey,
+                    history.interlink,
                     history.applyDt
                 )
             )
