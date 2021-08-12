@@ -9,11 +9,11 @@
 // *********************************************************************************************************************
 
 // 네비게이션
-.#{$common-prefix}navigation {
-  .#{$common-prefix}gnb {
+.z-navigation {
+  .z-gnb {
     width: $nav-width;
 
-    .#{$common-prefix}logo {
+    .z-logo {
       @include fixed();
       width: $logo-width;
       height: $logo-height;
@@ -22,7 +22,7 @@
       z-index: $z-index-gnb;
     }
 
-    .#{$common-prefix}menu {
+    .z-menu {
       @include fixed($top: $logo-height);
       width: $menu-width;
       height: $menu-height;
@@ -30,15 +30,15 @@
       z-index: $z-index-gnb;
       overflow: auto;
 
-      .#{$common-prefix}menu-area {
+      .z-menu-area {
 
-        .#{$common-prefix}gnb-area {
+        .z-gnb-area {
           line-height: 1.3;
           font-weight: $font-weight-medium;
 
           &:first-child { margin-top: 0.3125rem; }  // 5px
 
-          .#{$common-prefix}gnb-link {
+          .z-gnb-link {
             color: $menu-color;
             padding: 0.5rem 1.25rem 0.5rem 1.25rem; // 8px 20px 8px 20px
             vertical-align: middle;
@@ -48,11 +48,11 @@
               &:not(.active, .active-parent) {
                 color: $menu-hover-color;
                 background: $menu-bg-hover;
-                .#{$common-prefix}icon { background: $menu-hover-color; }
+                .z-icon { background: $menu-hover-color; }
               }
             }
 
-            .#{$common-prefix}menu-name {
+            .z-menu-name {
               display: inline-block;
               padding-left: 1.1875rem; //19px
               font-weight: $font-weight-medium;
@@ -60,7 +60,7 @@
             }
 
             // 문서함 카운트
-            .#{$common-prefix}token-count {
+            .z-token-count {
               @include absolute();
               margin: 0.3125rem 9rem; // 5px 144px
               padding: 0.125rem 0.625rem; // 2px 10px
@@ -79,14 +79,14 @@
             // 메뉴 선택시
             &.active {
               background-color: $menu-bg-selected-color;
-              .#{$common-prefix}menu-name { color: $menu-selected-color; }
-              .#{$common-prefix}icon {
+              .z-menu-name { color: $menu-selected-color; }
+              .z-icon {
                 background: $menu-active-color;
               }
             }
             &.active-parent {
-              .#{$common-prefix}menu-name { color: $menu-selected-color; }
-              .#{$common-prefix}icon {
+              .z-menu-name { color: $menu-selected-color; }
+              .z-icon {
                 background: $menu-active-color;
 
                 &.i-arrow-right {
@@ -97,7 +97,7 @@
             }
           }
 
-          .#{$common-prefix}snb {
+          .z-snb {
             &-group {
               display: none;
               background-color: $menu-bg-color;
@@ -110,13 +110,13 @@
 
               &:hover { background-color: $menu-bg-hover; }
 
-              .#{$common-prefix}snb-link {
+              .z-snb-link {
                 display: block;
                 padding: 0.5rem 1.25rem 0.5rem 1.25rem; // 8px 20px 8px 20px
                 color: $menu-snb-color;
                 cursor: pointer;
 
-                .#{$common-prefix}menu-name {
+                .z-menu-name {
                   display: inline-block;
                   padding-left: 0.625rem; // 10px
                 }
@@ -125,7 +125,7 @@
                   &:not(.active) {
                     color: $menu-hover-color;
 
-                    .#{$common-prefix}icon {
+                    .z-icon {
                       &.i-gnb_sub_dot {
                         background: $menu-snb-dot-hover;
                         visibility: visible;
@@ -136,8 +136,8 @@
 
                 &.active {
                   background-color: $menu-bg-selected-color;
-                  .#{$common-prefix}menu-name { color: $menu-selected-color; }
-                  .#{$common-prefix}icon {
+                  .z-menu-name { color: $menu-selected-color; }
+                  .z-icon {
                     &.i-gnb_sub_dot {
                       background: $menu-snb-dot-selected-color;
                       visibility: visible;
@@ -151,10 +151,10 @@
       }
 
       // 스크롤바 간격
-      .#{$common-prefix}right { right: 0.375rem; } // 6px
+      .z-right { right: 0.375rem; } // 6px
     }
      // 아이콘
-    .#{$common-prefix}icon {
+    .z-icon {
       background: $icon-gnb-color;
 
       &.i-gnb-board {

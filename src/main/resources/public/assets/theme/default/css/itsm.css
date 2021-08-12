@@ -2742,7 +2742,7 @@ table[id=documentDisplay] td {
   cursor: pointer;
 }
 .z-itsm-container .z-main .card-list .card:hover {
-  box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15), inset 0 0 0 0.0625rem #EBEBEB;
+  box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15), inset 0 0 0 0.0625rem #CFD5D9;
 }
 .z-itsm-container .z-main .card-list .card .document-column h3 {
   width: 28rem;
@@ -2752,7 +2752,7 @@ table[id=documentDisplay] td {
   background-color: rgba(247, 248, 249, 0.45);
   pointer-events: none;
 }
-.z-itsm-container .z-main .card-list .no-data-found .no-data-icon {
+.z-itsm-container .z-main .card-list .no-data-found .i-no-data {
   content: url("../media/icons/icon_no_data.svg");
 }
 .z-itsm-container .z-main .card-list .no-data-found .no-data-text {
@@ -2889,7 +2889,7 @@ table[id=documentDisplay] td {
   animation-direction: normal;
 }
 
-.profile-photo {
+.i-profile-photo {
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -3180,7 +3180,7 @@ table[id=documentDisplay] td {
 }
 
 .notice-pinned {
-  background-color: rgba(135, 206, 255, 0.15);
+  background-color: #E3F5FC;
 }
 
 .z-navigation .z-gnb {
@@ -3472,7 +3472,7 @@ table[id=documentDisplay] td {
   font-weight: 500;
   padding: 0 0 0 0.5rem;
 }
-.z-top .z-user-info .z-user-profile {
+.z-top .z-user-info .i-user-profile {
   display: inline-block;
   width: 1.875rem;
   height: 1.875rem;
@@ -3481,14 +3481,7 @@ table[id=documentDisplay] td {
   -moz-border-radius: 50%;
   vertical-align: middle;
 }
-.z-top .z-user-info .z-icon.i-arrow-right {
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-}
-.z-top .z-user-info .z-icon.i-arrow-right {
+.z-top .z-user-info .i-arrow-right {
   margin-left: auto;
   float: right;
   background-color: #8B9094;
@@ -6432,7 +6425,7 @@ body.modal-active {
   display: none;
   z-index: 25;
 }
-.z-notification-panel.z-on {
+.z-notification-panel.on {
   display: block;
 }
 .z-notification-header {
@@ -6702,7 +6695,7 @@ body.modal-active {
   width: 100%;
   margin: 0 0.3125rem;
 }
-.reply .profile-photo {
+.reply .i-profile-photo {
   flex: none;
   margin: auto 0.9376rem auto 0;
   border-radius: 50%;

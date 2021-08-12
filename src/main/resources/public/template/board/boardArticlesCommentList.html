@@ -7,7 +7,7 @@
     <div class="reply-row flex-column" th:unless="${#arrays.isEmpty(boardCommentList)}" th:each="boardComment: ${boardCommentList}">
         <div class="reply-info flex-row">
             <div class="profile"></div>
-            <img class="profile-photo mr-2" th:src="${boardComment.avatarPath}" width="32" height="32"/>
+            <img class="z-img i-profile-photo mr-2" th:src="${boardComment.avatarPath}" width="32" height="32"/>
             <h5 class="reply-user-name" th:text="${boardComment.createUser.userName}"></h5>
             <span class="vertical-bar"></span>
             <h5 class="reply-create-date" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
