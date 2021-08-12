@@ -21,7 +21,7 @@
 @mixin portalHeader() {
   padding: 0 0 0 13.75rem; // 220px
   background-color: $main-header-bg-color;
-  @include border(0.0625rem, solid, map-get($grays, "line"), bottom);
+  @include border(0.0625rem, solid, $main-header-border-color, bottom); // 1px
   // 제목
   .header-title {
     height: 10.625rem; // 170px
@@ -221,7 +221,7 @@
       background-color:$no-data-found-bg;
       pointer-events: none;
 
-      .no-data-icon { content: url("../media/icons/icon_no_data.svg"); }
+      .i-no-data { content: url("../media/icons/icon_no_data.svg"); }
       .no-data-text {
         font-size: 1.125rem;; // 18px
         font-weight: $font-weight-medium;

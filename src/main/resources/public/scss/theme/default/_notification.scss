@@ -8,9 +8,9 @@
 //   - toastify를 커스텀하여 생성되며, 우측 하단에서 설정 값에 따라 n초 간 노출되는 요소
 // *********************************************************************************************************************
 
-.#{$common-prefix}notification {
+.z-notification {
   // notification icon 영역
-  .#{$common-prefix}icon-notification {
+  .z-icon-notification {
     height: 1.5rem; // 24px
     &.active {
       .notification-round {  fill: $top-menu-notification-active-color; }
@@ -27,7 +27,7 @@
     background-color: $notification-panel-background;
     display: none;
     z-index: $z-index-event;
-    &.z-on { display: block; }
+    &.on { display: block; }
   }
 
   // notification 상단 영역 
@@ -45,20 +45,20 @@
       color: $notification-header-color;
 
       // header 내부 컨텐츠
-      &.#{$common-prefix}title {
+      &.z-title {
         font-size: $notification-header-title-font-size; // 16px
         font-family: $notification-header-title-font-family;
         font-weight: $notification-header-title-font-weight;
       }
-      &.#{$common-prefix}total {
+      &.z-total {
         margin: auto 0.3125rem; //5px
       }
-      &.#{$common-prefix}message {
+      &.z-message {
         margin-left: 0.625rem;  // 10px
       }
 
       // 우측 상단 X 버튼
-      &.#{$common-prefix}icon {
+      &.z-icon {
         &.i-close {
           width: 0.875rem; //14px
           height: 0.875rem;
@@ -73,7 +73,7 @@
   &-body {
     overflow-y: auto;
     height: 20.63rem;    // 330px
-    &.#{$common-prefix}nodata {
+    &.z-nodata {
       height: 6.875rem;  // 110px
       padding: 0.938rem; // 15px
     }
@@ -86,7 +86,7 @@
       background-color: hexToRGBA($notification-content-background, 0.1);
     }
     // 체크 박스 영역
-    .#{$common-prefix}notification-checked {
+    .z-notification-checked {
       display: flex;
       margin: 0;
       background-color: $white;
@@ -116,14 +116,14 @@
       }
     }
     // 제거 버튼 영역
-    .#{$common-prefix}icon {
+    .z-icon {
       &.i-delete {
         padding: 0;
         @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.5rem, 1.5rem, no-repeat, center, null, $notification-icon-color); // 24px 24px
       }
     }
     span {
-      &.#{$common-prefix}title {
+      &.z-title {
         max-width: 18.13rem; // 290px
         margin-left: 0.625rem; // 10px
         font-weight: $notification-content-title-font-weight;
@@ -131,7 +131,7 @@
         font-family: $notification-content-title-font-family;
         line-height: 1.2;
         color: $notification-content-title-color;
-        &.#{$common-prefix}confirm {
+        &.z-confirm {
           opacity: 0.75;
         }
         &:hover {
@@ -139,7 +139,7 @@
           text-decoration: underline;
         }
       }
-      &.#{$common-prefix}message {
+      &.z-message {
         display: block;
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
@@ -148,11 +148,11 @@
         font-size: $notification-content-message-font-size; // 16px
         font-family: $notification-content-message-font-family;
         color: $notification-content-message-color;
-        &.#{$common-prefix}confirm {
+        &.z-confirm {
             color: $notification-content-message-confirm-color;
         }
       }
-      &.#{$common-prefix}date {
+      &.z-date {
         margin-left: 1.75rem; // 28px
         font-font: $notification-content-date-font-family;
         font-weight: $notification-content-date-font-weight;
@@ -195,14 +195,14 @@
           padding-bottom: 0.625rem; // 10px
         }
         span {
-          &.#{$common-prefix}title {
+          &.z-title {
             max-width: 18.13rem; // 290px
             font-size: $toastify-content-title-font-size; // 16px
             font-weight: $toastify-content-title-font-weight;
             font-family: $toastify-content-title-font-family;
             color: $toastify-content-title-color;
           }
-          &.#{$common-prefix}message {
+          &.z-message {
             max-width: 22.5rem; // 360px
             font-size: $toastify-content-message-font-size; // 16px
             font-weight: $toastify-content-message-font-weight;
@@ -210,7 +210,7 @@
             font-font: $toastify-content-message-font-family;
             color: $toastify-content-message-color;
           }
-          &.#{$common-prefix}date {
+          &.z-date {
             font-size: $toastify-content-date-font-size; // 14px
             font-weight: $toastify-content-date-font-weight;
             font-family: $toastify-content-date-font-family;

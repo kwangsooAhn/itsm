@@ -116,7 +116,7 @@ $list-active-font-color:                      map-get($blues, 'dark');
 $list-active-bg-color:                        hexToRGBA(#e6e8eb, 0.6);
 
 // 공지사항 상단 공지 (배경색 별도 처리)
-$notice-pinned-color:                         hexToRGBA(map-get($blues, 'light'), 0.15);
+$notice-pinned-color:                         $blue100;
 
 // Document color icon
 $document-color-size:                         1rem; // 16px
@@ -124,10 +124,13 @@ $document-color-size:                         1rem; // 16px
 ////////////////////////////// 카드 //////////////////////////////
 $card-content-bg-color:                       $white;
 $card-border-width:                           0.0625rem; // 1px
-$card-border-color:                           map-get($grays, 'line');
+$card-border-color:                           $gray300;
 $card-border:                                 $card-border-width solid $card-border-color;
 $card-border-radius:                          0.0625rem; // 1px
 $card-hover-box-shadow:                       0 0 0.9375rem hexToRGBA(map-get($grays, 'pressed'), 0.15), inset 0 0 0 $card-border-width $card-border-color;
+
+// 카드 목록 마우스 오버시
+$card-list-hover-bg-color:                    $neutral200;
 
 // 카드 - 데이터 없을 때
 $no-data-found-bg:                            hexToRGBA(map-get($grays, 'light'), 0.45);

@@ -5,10 +5,10 @@
 .login {
   &-main {
     height: 100%;
-  }
 
-  &-logo {
-    @include relative($top: $login-logo-position-top, $left: $login-logo-position-left);
+    .i-logo-white {
+      @include relative($top: $login-logo-position-top, $left: $login-logo-position-left);
+    }
   }
 
   &-background {
@@ -17,7 +17,7 @@
     background-color: $login-bg-color;
     overflow: hidden;
 
-    .login-main-image {
+    .i-login-main {
       margin: 6.875rem 0 0 6.875rem; // 110px 0 0 110px
     }
   }
@@ -46,7 +46,7 @@
       flex-grow: 1;
       height: 0.063rem; // 1px
       margin-right: 1rem; // 16px
-      background: map-get($grays, "line");
+      background: $login-form-border-color;
     }
 
     &::after {
@@ -54,7 +54,7 @@
       flex-grow: 1;
       height: 0.063rem; // 1px
       margin-left: 1rem; // 16px
-      background: map-get($grays, "line");
+      background: $login-form-border-color;
     }
   }
 
@@ -73,7 +73,7 @@
     font-weight: $login-form-font-weight;
     color: $login-form-font-color;
 
-    @include verticalBar(1.25rem, 2.5rem, 0.0625rem solid map-get($grays, "line"), 0 1.875rem 0 0); // 30px,  40px
+    @include verticalBar(1.25rem, 2.5rem, 0.0625rem solid $login-form-border-color, 0 1.875rem 0 0); // 30px,  40px
 
     a { color: $login-form-font-color; }
 
