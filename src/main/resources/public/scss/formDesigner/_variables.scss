@@ -74,12 +74,12 @@ $layout-properties-panel-header-font-size:         $font-size-s;
 $layout-properties-panel-header-font-color:        map-get($form-blues, "dark");
 $layout-properties-panel-header-font-weight:       $font-weight-bold;
 $layout-properties-panel-header-bg-color:          $white;
-$layout-properties-panel-header-border-color:      map-get($form-grays, "line");
+$layout-properties-panel-header-border-color:      $gray300;
 
 // properties panel
 $layout-properties-panel-width:                    20rem; // 320px
 $layout-properties-panel-bg-color:                 $white;
-$layout-properties-panel-border:                   0.0625rem solid map-get($grays, "line"); // 1px
+$layout-properties-panel-border:                   0.0625rem solid $gray300; // 1px
 $layout-properties-panel-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.15);// -1px 15px 7px 0px $pressed-gray, 불투명도 15%;
 
 // main
@@ -95,26 +95,26 @@ $column-row:                                       12;  // 폼을 나누는 갯�
 
 //////////////////////////// form ////////////////////////////
 $form-min-height:                                  56.25rem; // 900px
+$form-border-color:                                $gray300;
 $form-bg-color:                                    $white;
 $form-box-shadow:                                  0 0 0.9375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
 
 //////////////////////////// group ///////////////////////////
-$group-accordion-bg-color:                         map-get($grays, "light");
-$group-accordion-border-color:                     map-get($form-grays, "line");
+$group-accordion-border-color:                     $gray300;
 $group-accordion-icon-color:                       $gray500; // 화살표 아이콘 색상
-$group-selected-border-color:                      map-get($blues, "light");
+$group-selected-border-color:                      $blue500;
 $group-selected-border-radius:                     0.125rem; // 2px
-$group-selected-bg-color:                          map-get($form-blues, "focus");
+$group-selected-bg-color:                          $blue50;
 
 //////////////////////////// row ///////////////////////////
-$row-selected-border-color:                        map-get($blues, "light");
+$row-selected-border-color:                        $blue500;
 $row-selected-border-radius:                       0.125rem; // 2px
-$row-selected-bg-color:                            map-get($form-blues, "focus");
+$row-selected-bg-color:                            $blue50;
 
 ////////////////////////// components /////////////////////////
-$component-gutter:                                 0.5rem; // 8px
-$component-selected-border-color:                  map-get($blues, "light");
-$component-selected-bg-color:                      map-get($form-blues, "focus");
+$component-gutter:                                 0.3125rem; // 5px
+$component-selected-border-color:                  $blue;
+$component-selected-bg-color:                      $blue50;
 
 ///////////////////////// image 컴포넌트 ////////////////////////////
 $component-imagebox-font-size:                     $font-size-s;
@@ -126,7 +126,7 @@ $component-selected-imagebox-bg-color:             $white;
 
 //////////////////////// CI 컴포넌트 /////////////////////////////
 $component-ciTable-bg-color:                       $white;
-$component-ciTable-border-color:                   map-get($grays, 'line');
+$component-ciTable-border-color:                   $gray300;
 $component-ciTable-header-font-weight:             $font-weight-bold;
 $component-ciTable-header-font-color:              map-get($grays, 'dark');
 $component-ciTable-header-bg-color:                map-get($grays, "light");
@@ -135,7 +135,7 @@ $component-ciTable-noData-bg-color:                $white;
 
 //////////////////////// DR Table 컴포넌트 /////////////////////////
 $component-drTable-bg-color:                       $white;
-$component-drTable-border-color:                   map-get($grays, 'line');
+$component-drTable-border-color:                   $gray300;
 $component-drTable-header-bg-color:                map-get($grays, "light");
 $component-drTable-noData-font-color:              $gray;
 $component-drTable-noData-bg-color:                $white;

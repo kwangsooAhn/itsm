@@ -924,7 +924,7 @@ input, button, select, optgroup, textarea {
 .portal-container .main-search {
   height: 6.25rem;
   background-color: #F7F8F9;
-  border-bottom: 0.0625rem solid #EBEBEB;
+  border-bottom: 0.0625rem solid #CFD5D9;
   padding: 1.875rem 0;
 }
 .portal-container .main-search.slide-up + .portal-search-result .list {

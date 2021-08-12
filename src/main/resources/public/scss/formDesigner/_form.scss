@@ -1,24 +1,24 @@
 /* form, group, row, component 디자인 */
 // 폼
-.#{$common-prefix}form {
+.z-form {
   display: inline-block;
   min-height: $form-min-height;
   background-color: $form-bg-color;
-  @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+  @include border(0.0625rem, solid, $form-border-color, all); // 1px
   box-shadow: $form-box-shadow;
   & *:focus { outline: none !important; }
 }
 // 그룹 툴팁
-.#{$common-prefix}group-tooltip {
+.z-group-tooltip {
   position: relative;
-  padding: 0.9375rem 0.9375rem 2.5rem 0.9375rem; // 15px 15px 40px 15px
-  @include border(0.0625rem, solid, #D7DBE0, all); // 1px
+  padding: 0.875rem 0.875rem 1.5625rem 0.875rem; // 14px 14px 25px 14px
+  @include border(0.0625rem, solid, $form-border-color, all); // 1px
   @include borderRadius($group-selected-border-radius); // 2px
   background-color: $white;
   &.selected {
     background-color: $group-selected-bg-color;
     border-color: $group-selected-border-color;
-    > .#{$common-prefix}tooltip-menu { visibility: visible; }
+    > .z-tooltip-menu { visibility: visible; }
   }
   &.focus {
     background-color: $group-selected-bg-color;
@@ -27,7 +27,7 @@
   &.off { display: none; }
 }
 // 그룹
-.#{$common-prefix}group {
+.z-group {
   // 체크 박스
   &-accordion-checkBox {
     position: absolute;
@@ -39,20 +39,19 @@
     display: table;
     width: 100%;
     min-height: 2.5rem; // 40px
-    padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
     margin: 0 0 0.9375rem 0; // 0 0 15px 0
     &.off { display: none; }
     // 라벨 문구
-    .#{$common-prefix}group-label-text {
+    .z-group-label-text {
       display: table-cell;
       vertical-align: middle;
       opacity: 1;
     }
     // 화살표 아이콘
-    .#{$common-prefix}icon {
+    .z-icon {
       &.i-arrow-right {
         display: table-cell;
-        @include rotate(180);
+        @include rotate(90);
         background: $group-accordion-icon-color;
         opacity: 0;
       }
@@ -61,36 +60,35 @@
   // 아코디언 사용중일 경우
   &.accordion {
     // 체크박스 선택 = 아코디언 펼침
-    .#{$common-prefix}group-accordion-checkBox:checked {
-      + .#{$common-prefix}group-label {
-        .#{$common-prefix}icon {
+    .z-group-accordion-checkBox:checked {
+      + .z-group-label {
+        .z-icon {
           &.i-arrow-right {
-            @include rotate(90);
+            @include rotate(270);
           }
         }
       }
-      ~ .#{$common-prefix}row-tooltip:not(.off) {
+      ~ .z-row-tooltip:not(.off) {
         display: block;
       }
     }
     // 라벨
-    .#{$common-prefix}group-label {
+    .z-group-label {
       @include border(0.125rem, solid, $group-accordion-border-color, bottom);
-      padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
       cursor: pointer;
 
       &.off {
         display: table;
-        .#{$common-prefix}group-label-text {
+        .z-group-label-text {
           opacity: 0;
         }
       }
 
-      .#{$common-prefix}group-label-text {
+      .z-group-label-text {
         padding-right: 0.625rem; // 10px
       }
 
-      .#{$common-prefix}icon {
+      .z-icon {
         &.i-arrow-right {
           opacity: 1;
         }
@@ -98,52 +96,48 @@
     }
 
     // row
-    .#{$common-prefix}row-tooltip {
+    .z-row-tooltip {
       display: none;
       @include transition(all 0.25s ease-out);
     }
   }
 }
 // row 툴팁
-.#{$common-prefix}row-tooltip {
+.z-row-tooltip {
   position: relative;
-  @include border(0.0625rem, solid, #D7DBE0, all); // 1px
+  @include border(0.0625rem, solid, $form-border-color, all); // 1px
   @include borderRadius($row-selected-border-radius);
   background-color: transparent;
   &.selected {
     border-color: $row-selected-border-color;
     background-color: $row-selected-bg-color;
-    > .#{$common-prefix}tooltip-menu { visibility: visible; }
+    > .z-tooltip-menu { visibility: visible; }
   }
   // displayType이 hidden일 경우
   &.off { display: none; }
 }
 
 // component 툴팁
-.#{$common-prefix}component-tooltip {
+.z-component-tooltip {
   position: relative;
   flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
-  padding: 0.375rem 0.5rem; // 6px 8px
+  padding: 0.3125rem; // 5px
   margin: $component-gutter;
-  @include border(0.0625rem, dashed, #D7DBE0, all); // 1px
-  @include borderRadius(0.0625rem); // 2px
+  @include border(0.0625rem, dashed, $form-border-color, all); // 1px
+  @include borderRadius(0.125rem); // 2px
   background-color: transparent;
-  // 1 row 1 component 일 경우 dashed border 제거
-  &:first-child:nth-last-child(1) {
-    @include border(0.0625rem, solid, #D7DBE0, all); // 1px
-  }
   // 컴포넌트 선택시
   &.selected {
     @include border(0.0625rem, solid, $component-selected-border-color, all); // 1px
     background-color: $component-selected-bg-color;
-    >.#{$common-prefix}tooltip-menu { visibility: visible; }
+    >.z-tooltip-menu { visibility: visible; }
 
     // component
-    .#{$common-prefix}component {
+    .z-component {
       // element
-      .#{$common-prefix}element {
+      .z-element {
         // image 컴포넌트
-        .#{$common-prefix}imagebox-placeholder {
+        .z-imagebox-placeholder {
           background-color: $component-selected-imagebox-bg-color;
         }
       }
@@ -157,13 +151,13 @@
   }
 }
 // component
-.#{$common-prefix}component {
+.z-component {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
   // label
-  .#{$common-prefix}component-label {
+  .z-component-label {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
     padding: 0.4375rem 0.938rem 0.4375rem 0; // 7px 15px 7px 0
 
@@ -172,30 +166,30 @@
   }
   // element
   // todo: UI Component refactoring 완료 시, 각 엘리먼트별 중복 클래스 제거 여부 검토
-  //       (예. .input, .#{$common-prefix}input > .#{$common-prefix}input )
-  .#{$common-prefix}element {
+  //       (예. .input, .z-input > .z-input )
+  .z-element {
     flex-basis: getFlexBasis(100%, 0px, $column-row, 0px);
-    padding: 0.4375rem 0; // 7px 0
+    margin: auto 0;
 
     // inputBox
-    .input, .#{$common-prefix}input {
+    .input, .z-input {
       width: 100%;
-      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
-      @include borderRadius(0.0625rem); // 2px
+      @include border(0.0625rem, solid, $form-border-color, all); // 1px
+      @include borderRadius(0.125rem); // 2px
     }
     // textArea
-    .textArea, .#{$common-prefix}textarea {
+    .textArea, .z-textarea {
       width: 100%;
       height: calc(2.5rem * var(--data-row));
     }
     // text editor
-    .#{$common-prefix}text-editor {
+    .z-text-editor {
       .ql-editor {
         height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
       }
     }
     // radio , checkbox
-    .#{$common-prefix}radio, .#{$common-prefix}checkbox {
+    .z-radio, .z-checkbox {
       &.vertical {
         display: block;
         margin-top: 0.625rem;
@@ -209,7 +203,7 @@
       }
     }
     // image 컴포넌트
-    .#{$common-prefix}imagebox-placeholder {
+    .z-imagebox-placeholder {
       display: none;
       height: 8.5rem; // 136px
       font-size: $component-imagebox-font-size;
@@ -220,26 +214,26 @@
       text-align: center;
       padding: 1.875rem 0 0.625rem; // 30px 0 10px 0
       // 아이콘
-      .#{$common-prefix}icon {
+      .z-icon {
         display: block;
         &.i-no-image {
           @include maskImage('#{$icon-folder-path}icon_image_uploader.svg ', 100%, 3.75rem, no-repeat, center, 3.75rem, $component-imagebox-font-color); // 45px
         }
       }
     }
-    .#{$common-prefix}imagebox {
+    .z-imagebox {
       width: 100%;
       height: 100%;
       &[src=''] {
         display: none;
-        + .#{$common-prefix}imagebox-placeholder {
+        + .z-imagebox-placeholder {
           display: block;
         }
       }
     }
 
     // CI 컴포넌트
-    .#{$common-prefix}ci-table {
+    .z-ci-table {
       width: 100%;
       background-color: $component-ciTable-bg-color;
       border: none;
@@ -255,7 +249,7 @@
         }
       }
       // 제목
-      .#{$common-prefix}ci-table-header {
+      .z-ci-table-header {
         background-color: $component-ciTable-header-bg-color;
         td {
           color: $component-ciTable-header-font-color;
@@ -278,7 +272,7 @@
     }
 
     // DR 테이블 컴포넌트
-    .#{$common-prefix}dr-table {
+    .z-dr-table {
       width: 100%;
       background-color: $component-drTable-bg-color;
       border: none;
@@ -291,9 +285,9 @@
         &.on { display: table-cell; }
       }
       // 제목
-      .#{$common-prefix}dr-table-header {
+      .z-dr-table-header {
         background-color: $component-drTable-header-bg-color;
-        .#{$common-prefix}dr-table-header-cell {
+        .z-dr-table-header-cell {
           padding: $element-indent;
         }
       }
@@ -304,7 +298,7 @@
         pointer-events: none;
       }
     }
-    .#{$common-prefix}dr-table-button-group {
+    .z-dr-table-button-group {
       display: inline-block;
       @include absolute($top: 0, $right: 0.8125rem); // 0 13px
       height: 2.5rem;
@@ -314,8 +308,8 @@
   }
 }
 // label
-.#{$common-prefix}component { // 필수값 숨김
-  .#{$common-prefix}component-label {
+.z-component { // 필수값 숨김
+  .z-component-label {
     .required {
       &.off { display: none; }
       &.on { display: inline; }
@@ -323,7 +317,7 @@
   }
 }
 // tooptip
-.#{$common-prefix}tooltip-menu {
+.z-tooltip-menu {
   visibility: hidden;
   position: absolute;
   background-color: $tooltip-menu-bg-color;
@@ -331,10 +325,10 @@
   box-shadow: 0 0 0 0.0625rem $tooltip-menu-border-color inset; // 1px
   bottom: 100%;
   right: -0.0625rem; // -1px
-  .#{$common-prefix}tooltip-menu-items {
+  .z-tooltip-menu-items {
     margin: 0 0.125rem; // 0 2px
     padding: 0.5625rem 0 0; // 9px 0 0 0
-    .#{$common-prefix}tooltip-menu-item {
+    .z-tooltip-menu-item {
       display: inline-block;
       margin: 0 0.25rem; // 0 4px
       padding: 0 0.5rem; // 0 8px

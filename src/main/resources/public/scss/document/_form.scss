@@ -10,8 +10,9 @@ $tooltip-type: (group, row, component);
 .#{$common-prefix}group {
   &.accordion {
     .#{$common-prefix}group-accordion-checkBox:checked {
-      ~ .#{$common-prefix}row-tooltip:not(.off):last-child {
-        @include border(0.0625rem, solid, map-get($grays, "line"), bottom); // 1px
+      ~ .#{$common-prefix}row-tooltip[draggable=false]
+        :not(.off):not(.selected):last-child {
+        @include border(0.0625rem, solid, $gray300, bottom); // 1px
       }
     }
   }
