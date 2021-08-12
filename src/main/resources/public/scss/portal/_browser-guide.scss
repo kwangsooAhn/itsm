@@ -32,6 +32,6 @@
   }
 
   &:hover {
-    @include boxShadow(0, 0, 0.9375rem, 0, hexToRGBA(map-get($grays, 'pressed'), 0.3), true);
+    @include boxShadow(0, 0, 0.9375rem, 0, $browser-box-hover-border-color, true);
   }
 }

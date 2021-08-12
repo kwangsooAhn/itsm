@@ -5,10 +5,11 @@
 .signup {
   &-main {
     height: 100%;
-  }
 
-  &-logo {
-    @include relative($top: $signup-logo-position-top, $left: $signup-logo-position-left);
+    .i-signup-logo {
+      @include relative($top: $signup-logo-position-top, $left: $signup-logo-position-left);
+    }
+
   }
 
   &-background {
@@ -17,7 +18,7 @@
     background-color: $signup-bg-color;
     overflow: hidden;
 
-    .signup-main-image {
+    .i-signup-main-image {
       margin-top: 0.8125rem; // 13px
     }
   }

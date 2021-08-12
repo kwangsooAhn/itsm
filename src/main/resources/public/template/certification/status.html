@@ -12,12 +12,12 @@
     <div class="email-certificate-main flex-row">
         <div class="email-certificate-background float-left">
             <th:block th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
-                <img th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
+                <img class="z-img i-email-certificate-check" th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
             </th:block>
             <th:block th:if="${validCode == 1 || validCode == 2}">
-                <img th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
+                <img class="z-img i-email-certificate-complete" th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
             </th:block>
-            <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
+            <img class="z-img i-logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
         </div>
         <div class="email-certificate-form float-right">
             <!-- 인증 없이 로그인 시도 -->
@@ -75,12 +75,12 @@
     <div class="portal-container flex-row">
         <div class="email-certificate-background float-left">
             <th:block th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
-                <img th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
+                <img class="z-img i-email-certificate-check" th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
             </th:block>
             <th:block th:if="${validCode == 1 || validCode == 2}">
-                <img th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
+                <img class="z-img i-email-certificate-complete" th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
             </th:block>
-            <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
+            <img class="z-img i-logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
         </div>
         <div class="email-certificate-form float-right">
             <!-- 인증 없이 로그인 시도 -->
@@ -138,7 +138,7 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.addEventListener('load', function () {
-            document.getElementById('btnSend').addEventListener("click", function () {
+            document.getElementById('btnSend').addEventListener('click', function () {
                 restSubmit('get', '/certification/certifiedmail');
             });
         });
@@ -148,7 +148,7 @@
             const opt = {
                 method: method,
                 url: url,
-                params: new FormData(document.getElementById("sendForm")),
+                params: new FormData(document.getElementById('sendForm')),
                 callbackFunc: function() {
                     aliceAlert.alertWarning(i18n.msg('authentication.msg.resentAuthentication') + '\n' + i18n.msg('authentication.msg.emailCheck'));
                 }

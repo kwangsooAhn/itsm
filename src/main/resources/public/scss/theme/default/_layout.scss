@@ -80,7 +80,7 @@
   @include animation(0s, 0.3s, slideUp, ease-out);
 }
 // 사용자 아이콘
-.profile-photo {
+.i-profile-photo {
   @include borderRadius(50%);
   background-color: $element-icon-color;
 }
