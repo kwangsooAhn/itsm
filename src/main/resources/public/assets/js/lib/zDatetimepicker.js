@@ -138,27 +138,28 @@
             pickerContent.appendChild(pickerContentTime);
             this.drawTime();
         }
+        if(this.type === 'DATEHOUR' || this.type === 'HOUR') {
+            // create button
+            let pickerButton = document.createElement('div');
+            pickerButton.className = 'z-button-list z-picker-modal-button';
+            this.el.appendChild(pickerButton);
 
-        // create button
-        let pickerButton = document.createElement('div');
-        pickerButton.className = 'z-button-list z-picker-modal-button';
-        this.el.appendChild(pickerButton);
+            // create button > confirm
+            let buttonConfirm = document.createElement('button');
+            buttonConfirm.type = 'button';
+            buttonConfirm.className = 'z-button secondary';
+            buttonConfirm.innerText = i18n.msg('common.btn.select');
+            buttonConfirm.addEventListener('click', this.changeTarget, false);
+            pickerButton.appendChild(buttonConfirm);
 
-        // create button > confirm
-        let buttonConfirm = document.createElement('button');
-        buttonConfirm.type = 'button';
-        buttonConfirm.className = 'z-button secondary';
-        buttonConfirm.innerText = i18n.msg('common.btn.select');
-        buttonConfirm.addEventListener('click', this.changeTarget, false);
-        pickerButton.appendChild(buttonConfirm);
-
-        // create button > cancel
-        let buttonCancel = document.createElement('button');
-        buttonCancel.type = 'button';
-        buttonCancel.className = 'z-button extra';
-        buttonCancel.innerText = i18n.msg('common.btn.cancel');
-        buttonCancel.addEventListener('click', this.close, false);
-        pickerButton.appendChild(buttonCancel);
+            // create button > cancel
+            let buttonCancel = document.createElement('button');
+            buttonCancel.type = 'button';
+            buttonCancel.className = 'z-button extra';
+            buttonCancel.innerText = i18n.msg('common.btn.cancel');
+            buttonCancel.addEventListener('click', this.close, false);
+            pickerButton.appendChild(buttonCancel);
+        }
     }
 
     Object.assign(Picker.prototype, {
@@ -286,7 +287,7 @@
                 if (_this.displayLuxon.valueOf() === firstDayOfDate.valueOf()) {
                     calendarCell.classList.add('selected');
                 }
-                calendarCell.addEventListener('click', function(e) {
+                calendarCell.addEventListener('click', function(e) { 
                     const elem = e.target;
                     const parentElem = elem.parentNode;
                     const isSelected = elem.classList.contains('selected');
@@ -303,6 +304,7 @@
                             _this.drawDate();
                         }
                     }
+                    _this.changeTarget();
                 }, false);
                 calendarPanel.appendChild(calendarCell);
                 firstDayOfDate = firstDayOfDate.plus({ days: 1 });
