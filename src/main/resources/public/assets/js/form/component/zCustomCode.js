@@ -10,7 +10,7 @@
  * https://www.brainz.co.kr
  */
 
-import { SESSION, FORM, CLASS_PREFIX } from '../../lib/zConstants.js';
+import { SESSION, FORM } from '../../lib/zConstants.js';
 import { zValidation } from '../../lib/zValidation.js';
 import { UIButton, UIDiv, UIInput, UISpan } from '../../lib/zUI.js';
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
@@ -50,29 +50,26 @@ export const customCodeMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass(CLASS_PREFIX + 'element').addUIClass('align-left')
+        const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputButton = new UIDiv()
-            .setUIClass(CLASS_PREFIX + 'input-button')
+            .setUIClass('z-custom-code')
             .addUIClass('flex-row')
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIInput = new UIInput(this.getDefaultValue())
+            .setUIClass('z-input z-input-button')
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', this.elementDefaultValueCustomCode)
             .onUIChange(this.updateValue.bind(this));
-        element.UIButtonClear = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-clear')
-            .setUIAttribute('tabIndex', '-1')
-            .onUIClick(aliceJs.clearText);
         element.UIButton = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-search')
-            .addUIClass(CLASS_PREFIX + 'button-icon')
-            .addUIClass('form')
+            .setUIClass('z-button')
+            .setUIClass('secondary')
+            .addUIClass('z-button-icon')
             .onUIClick(this.openCustomCodeModal.bind(this))
-            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-search'));
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-folder'));
 
-        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButtonClear).addUI(element.UIButton));
+        element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
         return element;
     },
