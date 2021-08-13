@@ -4,14 +4,14 @@
   display: inline-block;
   min-height: $form-min-height;
   background-color: $form-bg-color;
-  @include border(0.0625rem, solid, $gray300, all); // 1px
+  @include border(0.0625rem, solid, $form-border-color, all); // 1px
   & *:focus { outline: none !important; }
 }
 // 그룹 툴팁
 .z-group-tooltip {
   position: relative;
   padding: 0.9375rem; // 15px
-  @include border(0.0625rem, solid, #D7DBE0, all); // 1px
+  @include border(0.0625rem, solid, $group-accordion-border-color, all); // 1px
   @include borderRadius($group-selected-border-radius); // 2px
   background-color: $white;
   &.selected {
@@ -179,7 +179,7 @@
     // inputBox
     .input, .z-input {
       width: 100%;
-      @include border(0.0625rem, solid, $gray300, all); // 1px
+      @include border(0.0625rem, solid, $element-border-color, all); // 1px
       @include borderRadius(0.0625rem); // 2px
     }
     // textArea
@@ -214,7 +214,7 @@
       font-size: $component-imagebox-font-size;
       font-weight: $component-imagebox-font-weight;
       color: $component-imagebox-font-color;
-      @include border(0.0625rem, solid, $gray300, all); // 1px
+      @include border(0.0625rem, solid, $element-border-color, all); // 1px
       background-color: $component-imagebox-bg-color;
       text-align: center;
       padding: 1.875rem 0 0.625rem; // 30px 0 10px 0
