@@ -6123,7 +6123,7 @@ body.modal-active {
   height: 2.5rem;
 }
 .z-thumbnail-main .z-thumbnail .z-thumbnail-bottom .z-button-icon .z-icon.i-delete {
-  background: #8B9094;
+  background: #ABB0B5;
 }
 .z-thumbnail-main .z-thumbnail-upload {
   display: inline-block;
@@ -6136,6 +6136,10 @@ body.modal-active {
   background-color: #FAFAFA;
   cursor: pointer;
   overflow: hidden;
+}
+.z-thumbnail-main .z-thumbnail-upload .z-thumbnail-upload-text {
+  color: #339AF0;
+  font-weight: 700;
 }
 .z-thumbnail-main .z-thumbnail-upload:hover {
   border: 0.0625rem solid #339AF0;
@@ -6150,7 +6154,7 @@ body.modal-active {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #8B9094;
+  background: #ABB0B5;
 }
 .z-thumbnail-main .z-thumbnail-nodata {
   display: inline-block;
