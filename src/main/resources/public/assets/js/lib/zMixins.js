@@ -128,14 +128,14 @@ export const toolTipMenuMixin = {
         // copy
         tooltipMenu.UIUl.UILiCopy = new UILi().setUIClass(CLASS_PREFIX + 'tooltip-menu-item')
             .setUIAttribute('data-action', 'copy')
-            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-copy'))
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-copy'))
             .onUIClick(this.copyObject.bind(this));
         tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiCopy);
 
         // remove
         tooltipMenu.UIUl.UILiRemove = new UILi().setUIClass(CLASS_PREFIX + 'tooltip-menu-item')
             .setUIAttribute('data-action', 'remove')
-            .addUI(new UISpan().setUIClass('icon').addUIClass('icon-remove'))
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
             .onUIClick(this.removeObject.bind(this));
         tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiRemove);
 

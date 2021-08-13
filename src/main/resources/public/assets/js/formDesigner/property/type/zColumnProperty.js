@@ -187,10 +187,10 @@ export default class ZColumnProperty extends ZProperty {
         const columnCommonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'panel-common');
         // 순서 변경 < > 버튼 추가
         const arrowLeftButton = new UIButton()
-            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-arrow-left'))
+            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-arrow-right').addUIClass('z-prev'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, - 1));
         const arrowRightButton = new UIButton()
-            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-arrow-right'))
+            .addUI(new UISpan().setUIClass(CLASS_PREFIX + 'icon').addUIClass('i-arrow-right').addUIClass('z-next'))
             .onUIClick(this.swapColumn.bind(this, 'column' + index, + 1));
         // 패널 삭제 버튼 추가
         const deleteButton = new UIButton().addUIClass('panel-delete-button')

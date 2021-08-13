@@ -221,7 +221,7 @@
       background-color:$no-data-found-bg;
       pointer-events: none;
 
-      .i-no-data { content: url("../media/icons/icon_no_data.svg"); }
+      .i-no-data { content: url('#{$icon-folder-path}icon_no_card.svg'); }
       .no-data-text {
         font-size: 1.125rem;; // 18px
         font-weight: $font-weight-medium;

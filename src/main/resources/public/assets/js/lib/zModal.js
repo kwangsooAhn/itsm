@@ -42,12 +42,12 @@
                 modal.hide();
             }
         },
-        onShow: function(modal) {},
+        onShow: function() {},
         onHide: function(modal) {
             modal.destroy();
         },
-        onCreate: function(modal) {},
-        onDestroy: function(modal) {}
+        onCreate: function() {},
+        onDestroy: function() {}
     };
     
     /**

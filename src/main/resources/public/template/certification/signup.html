@@ -20,7 +20,7 @@
 <th:block layout:fragment="portalContent">
     <div class="signup-main flex-row">
         <div class="signup-background">
-            <img class="z-img i-signup-logo" th:src="@{/assets/media/icons/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
+            <img class="z-img i-signup-logo" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
             <div class="signup-login-face">
                 <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
                 <a class="z-button light-secondary signup-return" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
@@ -39,7 +39,7 @@
                                 <span class="required"></span>
                             </label>
                             <div class="help-tooltip">
-                                <span class="help-tooltip-icon"></span>
+                                <span class="z-icon i-tooltip"></span>
                                 <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.idRule}"></span>
                                 </div>
@@ -52,7 +52,7 @@
                                 <span class="required"></span>
                             </label>
                             <div class="help-tooltip">
-                                <span class="help-tooltip-icon"></span>
+                                <span class="z-icon i-tooltip"></span>
                                 <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.pwRule}"></span>
                                 </div>

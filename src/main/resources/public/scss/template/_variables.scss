@@ -129,6 +129,7 @@ $element-hover-bg-color:                      $blue100;
 $element-hover-border-color:                  $blue400;
 $element-hover-border-width:                  0.0625rem; // 1px
 $element-hover-border:                        $element-hover-border-width solid $element-hover-border-color;
+$element-hover-icon-color:                    $blue500;
 
 // element disabled 시 사용하는 디자인 변수
 $element-disabled-font-color:                 $gray400;
@@ -394,7 +395,6 @@ $text-editor-option-box-shadow-color:        $gray300;
 $text-editor-toolbar-selected-font-color:    $blue500;
 
 ///////////////////////////////// tree /////////////////////////////////
-$tree-folder-path:                           '/../media/icons/tree';
 $tree-font-size:                             $font-size-xs;
 $tree-font-color:                            map-get($blacks, 'light');
 $tree-font-weight:                           $font-weight-medium;
@@ -522,7 +522,6 @@ $thumbnail-nodata-font-weight:               $font-weight-bold;
 $thumbnail-nodata-font-color:                $gray500;
 
 /////////////////////////////// tooltip ///////////////////////////////
-$tooltip-help-size:                          1rem; // 16px
 $tooltip-help-margin:                        0.3125rem; // 5px
 $tooltip-font-size:                          1rem; // 16px
 $tooltip-contents-background:                $white;
@@ -617,6 +616,8 @@ $slider-thumb-disabled-border-color:         $gray300;
 $slider-thumb-disabled-bg-color:             $neutral200;
 
 ////////////////////////////// validation /////////////////////////////
+$validation-info-color:                      $blue500;
+$validation-info-bg-color:                   $blue100;
 $validation-error-color:                     $red500;
 $validation-error-bg-color:                  $red50;
 $validation-success-color:                   $green600;

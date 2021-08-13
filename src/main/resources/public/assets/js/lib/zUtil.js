@@ -1253,12 +1253,12 @@ aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
     }
 
     // set clear button
-    let clearButton = document.createElement('span');
-    clearButton.className = 'z-button-clear ml-auto';
-    clearButton.onclick = function() {
+    let clearSpan = document.createElement('span');
+    clearSpan.className = 'z-icon i-clear ml-auto';
+    clearSpan.onclick = function() {
         aliceJs.removeTarget(this);
     };
-    validateMsg.appendChild(clearButton);
+    validateMsg.appendChild(clearSpan);
 
     // for absolute option
     if (isAbsolute) {

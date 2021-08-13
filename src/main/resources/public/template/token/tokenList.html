@@ -6,7 +6,7 @@
 <div class="card-list flex-row justify-content-start align-itmes-start">
     <input th:type="hidden" id="totalCount" th:value="${tokenCount}"/>
     <div class="card flex-row justify-content-center no-data-found" th:if="${#arrays.isEmpty(tokenList)}">
-        <img class="z-img i-no-data" />
+        <img class="z-img i-no-card" />
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
     <th:block th:fragment="list">
