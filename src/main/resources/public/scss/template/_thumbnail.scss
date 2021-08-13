@@ -7,7 +7,7 @@
  */
 
 // 레이아웃
-.#{$common-prefix}thumbnail-main {
+.z-thumbnail-main {
   font-family: $thumbnail-font-family;
   font-size: $thumbnail-font-size;
   font-weight: $thumbnail-font-weight;
@@ -16,7 +16,7 @@
   padding: $thumbnail-main-padding;
 
    // 썸네일
-  .#{$common-prefix}thumbnail {
+  .z-thumbnail {
     display: inline-block;
     width: $thumbnail-width;
     height: $thumbnail-height;
@@ -38,7 +38,7 @@
       @include boxShadow(0, 0, 0.125rem, 0, $thumbnail-selected-box-shadow-color); // 2px
     }
     // 썸네일 이미지
-    .#{$common-prefix}thumbnail-image, .#{$common-prefix}thumbnail-file {
+    .z-thumbnail-image, .z-thumbnail-file {
       display: inline-block;
       width: 100%;
       height: 9.063rem; // 145px
@@ -47,11 +47,11 @@
       background-position: center center;
     }
     // 썸네일 정보
-    .#{$common-prefix}thumbnail-info {
+    .z-thumbnail-info {
       height: 6.563rem; // 105px
       padding: 0.75rem 0.9375rem; // 12px 15px
 
-      .#{$common-prefix}thumbnail-info-text {
+      .z-thumbnail-info-text {
         height: 1.5rem; // 24px
         line-height: 1.5rem; // 24px
 
@@ -64,7 +64,7 @@
             cursor: pointer;
           }
           // 더블 클릭시 fileName 수정 가능
-          .#{$common-prefix}input {
+          .z-input {
             display: none;
             width: 12.19rem; // 195px
             height: 1.875rem; // 30px
@@ -74,25 +74,25 @@
       }
     }
     // 생성일, 삭제 버튼
-    .#{$common-prefix}thumbnail-bottom {
+    .z-thumbnail-bottom {
       height: 2.5rem; // 40px
       line-height: 2.5rem;
       @include border($thumbnail-border-width, solid, $thumbnail-border-color, top);
       padding: 0 0.625rem 0 0.9375rem; // 0 10px 0 15px
 
       // 삭제 버튼
-      .#{$common-prefix}button-icon {
+      .z-button-icon {
         padding: 0;
         height: 2.5rem; // 40px
 
-        .#{$common-prefix}icon {
+        .z-icon {
           &.i-delete { background: $thumbnail-icon-color; }
         }
       }
     }
   }
   // 썸네일 파일 업로드
-  .#{$common-prefix}thumbnail-upload {
+  .z-thumbnail-upload {
     display: inline-block;
     width: $thumbnail-width;
     height: $thumbnail-height;
@@ -104,20 +104,25 @@
     cursor: pointer;
     overflow: hidden;
 
+    .z-thumbnail-upload-text {
+      color: $thumbnail-upload-font-color;
+      font-weight: $thumbnail-upload-font-weight;
+    }
+
     &:hover {
       @include border($thumbnail-border-width, solid, $thumbnail-hover-border-color, all);
       background-color: $thumbnail-upload-hover-bg-color;
     }
   }
   // 아이콘
-  .#{$common-prefix}icon {
+  .z-icon {
     &.i-image-upload {
       @include maskImage('#{$icon-folder-path}icon_image_upload.svg', 4.813rem, 4.813rem, no-repeat, center); // 77px 77px
       background: $thumbnail-icon-color;
     }
   }
   // 데이터 없을 때
-  .#{$common-prefix}thumbnail-nodata {
+  .z-thumbnail-nodata {
     display: inline-block;
     width: 100%;
     height: 100%;
