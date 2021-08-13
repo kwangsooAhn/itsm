@@ -12,7 +12,7 @@
  * @author wdj
  * @version 1.0
  */
-.#{$common-prefix}icon {
+.z-icon {
   display: inline-block;
   // 검색 아이콘
   &.i-search {
@@ -59,14 +59,19 @@
     @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
   }
 
+  // copy
+  &.i-copy {
+    @include maskImage('#{$icon-folder-path}icon_copy.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
   // 화살표(>) 아이콘
   &.i-arrow-right {
     @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
   }
 
-  // color palette
+  // colorPicker > color palette
   &.i-color-palette {
-    @include maskImage('#{$icon-folder-path}icon_color_palette.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+    @include maskImage('#{$icon-folder-path}colorPicker/icon_color_palette.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
   }
 
   // 이미지 아이콘
@@ -77,5 +82,20 @@
   // 폴더
   &.i-folder {
     @include maskImage('#{$icon-folder-path}icon_folder.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // fileUploader
+  // fileUploader > 다운로드
+  &.i-download {
+    @include maskImage('#{$icon-folder-path}fileUploader/icon_download.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+  // fileUploader > 업로드
+  &.i-upload {
+    @include maskImage('#{$icon-folder-path}fileUploader/icon_upload.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
+  }
+
+  // 툴팁
+  &.i-tooltip {
+    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
   }
 }

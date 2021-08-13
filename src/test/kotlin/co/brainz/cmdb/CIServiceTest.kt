@@ -65,7 +65,7 @@ class CIServiceTest {
             ciNo = "",
             ciName = this.ciName,
             classId = "",
-            automatic = false,
+            interlink = false,
             ciStatus = RestTemplateConstants.CIStatus.STATUS_USE.code,
             ciDesc = "",
             typeId = this.typeId,

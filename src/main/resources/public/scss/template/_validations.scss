@@ -6,31 +6,61 @@
  * @version 1.0
  */
 
-.#{$common-prefix}validation {
+.z-validation {
+  display: inherit;
+  height: 2rem;
+  margin: 0.25rem 0; // 4px 0px
+  padding: 0.375rem 0.375rem 0.375rem 2.5rem; // 6px 6px 6px 40px
+
+  &.default {
+    @include border($element-border-width, solid, $element-border-color, all);
+    color: $element-font-color;
+    background-color: $element-bg-color;
+    @include backgroundImage('#{$icon-folder-path}validation/icon_default.svg', null, no-repeat, 1rem, center, null);
+    @include boxShadow(0, 0, 0.125rem, 0, $element-shadow-color);
+  }
+  &.info {
+    @include border($element-border-width, solid, $validation-info-bg-color, all);
+    color: $validation-info-color;
+    background-color: $validation-info-bg-color;
+    @include backgroundImage('#{$icon-folder-path}validation/icon_info.svg', null, no-repeat, 1rem, center, null);
+
+    .z-icon {
+      &.i-clear {
+        background: $validation-info-color;
+      }
+    }
+  }
   &.error {
-    display: inherit;
-    height: 2rem;
-    margin: 0.25rem 0; // 4px 0px
-    padding: 0.375rem 0.375rem 0.375rem 2.5rem; // 6px 6px 6px 40px
     @include border($element-border-width, solid, $validation-error-bg-color, all);
     color: $validation-error-color;
     background-color: $validation-error-bg-color;
-    @include backgroundImage('#{$icon-folder-path}icon_error.svg', null, no-repeat, 1rem, center, null);
+    @include backgroundImage('#{$icon-folder-path}validation/icon_error.svg', null, no-repeat, 1rem, center, null);
+
+    .z-icon {
+      &.i-clear {
+        background: $validation-error-color;
+      }
+    }
   }
   &.success {
-    display: inherit;
-    height: 2rem;
-    margin: 0.25rem 0; // 4px 0px
-    padding: 0.375rem 0.375rem 0.375rem 2.5rem; // 6px 6px 6px 40px
     @include border($element-border-width, solid, $validation-success-bg-color, all);
     color: $validation-success-color;
     background-color: $validation-success-bg-color;
-    @include backgroundImage('#{$icon-folder-path}icon_success.svg', null, no-repeat, 1rem, center, null);
+    @include backgroundImage('#{$icon-folder-path}validation/icon_success.svg', null, no-repeat, 1rem, center, null);
 
+    .z-icon {
+      &.i-clear {
+        background: $validation-success-color;
+      }
+    }
   }
-  .z-button-clear {
-    padding-right: 0.9375rem; // 15px
-    @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $gray500); // 10px 10px
+
+  .z-icon {
+    &.i-clear {
+      padding-right: 0.9375rem; // 15px
+      background: $element-icon-color;
+    }
   }
 }
 

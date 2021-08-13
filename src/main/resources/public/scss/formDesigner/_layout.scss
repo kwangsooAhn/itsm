@@ -22,7 +22,7 @@
     color: $layout-header-font-color;
     background-color: $layout-header-bg-color;
     z-index: $z-index-gnb;
-    .z-logo {
+    .i-form-designer {
       width: 12.5rem; // 200px
       padding: 0 $layout-header-padding; // 0 12px
     }
@@ -152,23 +152,6 @@
 
           .z-icon {
             background: map-get($component-icon, 'default', 'icon');
-
-            &.i-inputBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_inputbox.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-textArea { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_textarea.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-textEditor { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_text_editor.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-dropdown { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dropdown.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-radio { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_radio.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-checkBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_checkbox.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-date { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_date.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-time { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_time.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-dateTime { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_datetime.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-fileUpload { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_fileupload.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-customCode { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_custom_code.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-dynamicRowTable { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dynamic_row_table.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-ci { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_ci.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-label { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_label.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-image { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_image.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-            &.i-divider { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_divider.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
           }
 
           .z-component-name {

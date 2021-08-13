@@ -16,7 +16,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="content">
-    <div class="flex-column z-edit hidden-scroll">
+    <div class="flex-column z-edit">
         <div class="z-scheduler-content-edit">
             <div class="flex-column z-edit-row">
                 <label for="taskName">
@@ -108,7 +108,7 @@
                     <span th:text="#{scheduler.label.executeCycleType}"></span>
                     <span class="required"></span>
                     <div class="help-tooltip">
-                        <span class="help-tooltip-icon"></span>
+                        <span class="z-icon i-tooltip"></span>
                         <div id="tooltipContent" class="tooltip-contents">
                             <span id="fixedDelayTooltip" th:utext="#{scheduler.tooltip.fixedDelay}"></span>
                             <span id="fixedRateTooltip" th:utext="#{scheduler.tooltip.fixedRate}"></span>

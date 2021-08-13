@@ -38,14 +38,15 @@
     @include border($datepicker-border-width, solid, $datepicker-border-color, bottom);
     padding: 0.75rem 0; // 12px 0
 
-    .z-icon-close {
-      @include absolute($top: 1rem, $right: 0.9375rem); // 16px 15px
-      display: inline-block;
-      cursor: pointer;
-      @include maskImage('#{$icon-folder-path}icon_clear.svg', 0.625rem, 0.625rem, no-repeat, center, null, $datepicker-icon-color); // 10px 10px
-      // mouse over
-      &:hover {
-        background: $datepicker-hover-color;
+    .z-icon {
+      &.i-clear {
+        @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px
+        background: $datepicker-icon-color;
+        cursor: pointer;
+        // mouse over
+        &:hover {
+          background: $datepicker-hover-color;
+        }
       }
     }
   }
@@ -87,13 +88,18 @@
 
         img { vertical-align: middle; }
 
-        .date-prev {
-          display: table-cell;
-          cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 0.625rem, 1.563rem, no-repeat, center, null, $datepicker-icon-color); // 6px 10px
+        .z-icon {
+          &.i-arrow-right {
+            display: table-cell;
+            cursor: pointer;
+            background: $datepicker-icon-color;
 
-          &:hover {
-            background: $datepicker-hover-color;
+            &:hover {
+              background: $datepicker-hover-color;
+            }
+          }
+          &.z-date-prev {
+            @include rotate(180);
           }
         }
 
@@ -106,16 +112,6 @@
           font-weight: $datepicker-calendar-month-font-weight;
           color: $datepicker-calendar-month-font-color;
           vertical-align: middle;
-        }
-
-        .date-next {
-          display: table-cell;
-          cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 0.625rem, 1.563rem, no-repeat, center, null, $datepicker-icon-color); // 6px 10px
-
-          &:hover {
-            background: $datepicker-hover-color;
-          }
         }
       }
       // calendar
@@ -183,26 +179,25 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    
-        .arrow-up {
-          display: inline-block;
-          margin: 0;
-          cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_up.svg', 0.625rem, 0.375rem, no-repeat, center, null, $datepicker-icon-color); // 10px, 6px
 
-          &:hover {
-            background: $datepicker-hover-color;
+        .z-icon {
+          &.i-arrow-right {
+            margin: 0;
+            cursor: pointer;
+            background: $datepicker-icon-color;
+            &:hover {
+              background: $datepicker-hover-color;
+            }
           }
-        }
 
-        .arrow-down {
-          display: inline-block;
-          margin: 0;
-          cursor: pointer;
-          @include maskImage('#{$icon-folder-path}icon_arrow_bottom.svg', 0.625rem, 0.375rem, no-repeat, center, null, $datepicker-icon-color); // 10px, 6px
+          &.z-hour-up,
+          &.z-minute-up {
+            @include rotate(-90);
+          }
 
-          &:hover {
-            background: $datepicker-hover-color;
+          &.z-hour-down,
+          &.z-minute-down {
+            @include rotate(90);
           }
         }
 

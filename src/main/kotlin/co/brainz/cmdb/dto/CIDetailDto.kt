@@ -18,7 +18,7 @@ data class CIDetailDto(
     var ciIconData: String? = null,
     var ciDesc: String? = null,
     var ciStatus: String? = null,
-    var automatic: Boolean? = false,
+    var interlink: Boolean? = false,
     var typeId: String? = null,
     var typeName: String? = null,
     var classId: String? = null,

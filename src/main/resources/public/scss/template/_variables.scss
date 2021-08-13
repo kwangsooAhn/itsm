@@ -129,6 +129,7 @@ $element-hover-bg-color:                      $blue100;
 $element-hover-border-color:                  $blue400;
 $element-hover-border-width:                  0.0625rem; // 1px
 $element-hover-border:                        $element-hover-border-width solid $element-hover-border-color;
+$element-hover-icon-color:                    $blue500;
 
 // element disabled 시 사용하는 디자인 변수
 $element-disabled-font-color:                 $gray400;
@@ -302,7 +303,7 @@ $column-init: 5rem; // 80px
 $file-uploader-font-size:                    $font-size-xs;
 $file-uploader-font-color:                   map-get($grays, 'dark');
 $file-uploader-font-weight:                  $font-weight-medium;
-$file-uploader-icon-color:                   map-get($grays, 'pressed');
+$file-uploader-icon-color:                   $gray500;
 // drag and drop 영역
 $dropzone-font-size:                         $font-size-xs;
 $dropzone-font-color:                        $gray;
@@ -395,7 +396,6 @@ $text-editor-option-box-shadow-color:        $gray300;
 $text-editor-toolbar-selected-font-color:    $blue500;
 
 ///////////////////////////////// tree /////////////////////////////////
-$tree-folder-path:                           '/../media/icons/tree';
 $tree-font-size:                             $font-size-xs;
 $tree-font-color:                            map-get($blacks, 'light');
 $tree-font-weight:                           $font-weight-medium;
@@ -488,7 +488,7 @@ $thumbnail-font-family:                      $font-family-s;
 $thumbnail-font-size:                        $font-size-xs;
 $thumbnail-font-weight:                      $font-weight-medium;
 $thumbnail-font-color:                       $gray500;
-$thumbnail-icon-color:                       $gray500;
+$thumbnail-icon-color:                       $gray400;
 $thumbnail-main-padding:                     0;
 $thumbnail-file-name-font-color:             $gray800;
 $thumbnail-file-name-font-weight:            $font-weight-bold;
@@ -509,6 +509,9 @@ $thumbnail-selected-box-shadow-color:        $blue600;
 
 // 썸네일 업로드
 $thumbnail-upload-bg-color:                  $neutral50;
+$thumbnail-upload-font-color:                $blue500;
+$thumbnail-upload-font-weight:               $font-weight-bold;
+
 // 썸네일 업로드 > hover
 $thumbnail-upload-hover-bg-color:            $blue100;
 
@@ -523,7 +526,6 @@ $thumbnail-nodata-font-weight:               $font-weight-bold;
 $thumbnail-nodata-font-color:                $gray500;
 
 /////////////////////////////// tooltip ///////////////////////////////
-$tooltip-help-size:                          1rem; // 16px
 $tooltip-help-margin:                        0.3125rem; // 5px
 $tooltip-font-size:                          1rem; // 16px
 $tooltip-contents-background:                $white;
@@ -618,6 +620,8 @@ $slider-thumb-disabled-border-color:         $gray300;
 $slider-thumb-disabled-bg-color:             $neutral200;
 
 ////////////////////////////// validation /////////////////////////////
+$validation-info-color:                      $blue500;
+$validation-info-bg-color:                   $blue100;
 $validation-error-color:                     $red500;
 $validation-error-bg-color:                  $red50;
 $validation-success-color:                   $green600;

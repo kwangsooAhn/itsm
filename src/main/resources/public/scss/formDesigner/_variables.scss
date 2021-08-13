@@ -164,11 +164,6 @@ $clipboard-tooltip-border-width:                   0.125rem; // 2px
 $clipboard-tooltip-border:                         $clipboard-tooltip-border-width solid $clipboard-tooltip-border-color;
 $clipboard-tooltip-border-radius:                  0.0625rem; // 1px
 
-// 도움말용
-$tooltip-help-size:                                1rem; // 16px
-$tooltip-help-margin:                              0.3125rem; // 5px
-$tooltip-help-hover-bg-color:                      $blue;
-
 // 유효성 검증용
 $tooltip-validate-contents-width:                  3.75rem; // 60px
 $tooltip-validate-contents-bg-color:               $white;

@@ -2,9 +2,9 @@
   <g transform="translate(-1789 70)">
     <rect width="24" height="24" transform="translate(1789 -70)" fill="none"/>
     <g transform="translate(1565 -1331)">
-      <path d="M236,1283a1.993,1.993,0,0,0,2-2h-4A1.993,1.993,0,0,0,236,1283Z" fill="#a0a4a6"/>
-      <path d="M243,1277h-1v-.02a6.493,6.493,0,0,1-3.63-11.49,5.7,5.7,0,0,0-1.37-.4V1264a1,1,0,0,0-2,0v1.09a5.99,5.99,0,0,0-5,5.91v6h-1a1,1,0,0,0,0,2h14a1,1,0,0,0,0-2Z" fill="#8b9094"/>
-      <circle class="notification-round" cx="4.5" cy="4.5" r="4.5" transform="translate(238 1266)" fill="#a0a4a6"/>
+      <path d="M236,1283a1.993,1.993,0,0,0,2-2h-4A1.993,1.993,0,0,0,236,1283Z" fill="#8B9094"/>
+      <path d="M243,1277h-1v-.02a6.493,6.493,0,0,1-3.63-11.49,5.7,5.7,0,0,0-1.37-.4V1264a1,1,0,0,0-2,0v1.09a5.99,5.99,0,0,0-5,5.91v6h-1a1,1,0,0,0,0,2h14a1,1,0,0,0,0-2Z" fill="#8B9094"/>
+      <circle class="notification-round" cx="4.5" cy="4.5" r="4.5" transform="translate(238 1266)" fill="#8B9094"/>
     </g>
   </g>
 </svg>

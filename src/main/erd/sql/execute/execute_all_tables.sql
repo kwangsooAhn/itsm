@@ -375,7 +375,7 @@ COMMENT ON COLUMN awf_custom_code.create_dt IS '등록일';
 COMMENT ON COLUMN awf_custom_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_custom_code.update_dt IS '수정일';
 
-insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '{}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '[]', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288ab777dd21b50177dd52781e0000', '데이터베이스', 'code', null, null, null, 'cmdb.db.kind', null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 /**
  * 사용자정의코드테이블
@@ -1584,7 +1584,7 @@ insert into awf_url values ('/rest/numberingRules/{id}', 'delete', '문서번호
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filenameextensions', 'get', '포탈 첨부파일 확장자 조회', 'FALSE');
-insert into awf_url values ('/rest/portals/files', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
+insert into awf_url values ('/rest/portals/filelist', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/top', 'get', '포탈 첫화면 Top 조회', 'FALSE');
 insert into awf_url values ('/rest/processes', 'post', '프로세스 디자이너 기본 정보 저장 / 다른이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}', 'put', '프로세스 수정', 'TRUE');
@@ -3237,7 +3237,7 @@ CREATE TABLE cmdb_ci
 	ci_status character varying(100) NOT NULL,
 	type_id character varying(128) NOT NULL,
 	ci_desc character varying(512),
-	automatic boolean DEFAULT 'false',
+    interlink boolean DEFAULT 'false',
 	instance_id character varying(128),
 	create_user_key character varying(128),
 	create_dt timestamp,
@@ -3261,7 +3261,7 @@ COMMENT ON COLUMN cmdb_ci.ci_name IS 'CI이름';
 COMMENT ON COLUMN cmdb_ci.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci.type_id IS '타입아이디';
 COMMENT ON COLUMN cmdb_ci.ci_desc IS 'CI설명';
-COMMENT ON COLUMN cmdb_ci.automatic IS '자동등록여부';
+COMMENT ON COLUMN cmdb_ci.interlink IS '연동 여부';
 COMMENT ON COLUMN cmdb_ci.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci.create_user_key IS '등록자';
 COMMENT ON COLUMN cmdb_ci.create_dt IS '등록일시';
@@ -3310,7 +3310,7 @@ CREATE TABLE cmdb_ci_history
 	class_id character varying(128),
 	ci_icon character varying(200),
 	ci_desc character varying(512),
-	automatic boolean DEFAULT 'false',
+    interlink boolean DEFAULT 'false',
 	instance_id character varying(128),
     apply_dt timestamp,
 	CONSTRAINT cmdb_ci_history_pk PRIMARY KEY (history_id),
@@ -3328,7 +3328,7 @@ COMMENT ON COLUMN cmdb_ci_history.class_id IS '클래스아이디';
 COMMENT ON COLUMN cmdb_ci_history.ci_status IS 'CI상태';
 COMMENT ON COLUMN cmdb_ci_history.ci_icon IS 'CI아이콘';
 COMMENT ON COLUMN cmdb_ci_history.ci_desc IS 'CI설명';
-COMMENT ON COLUMN cmdb_ci_history.automatic IS '자동등록여부';
+COMMENT ON COLUMN cmdb_ci_history.interlink IS '연동 여부';
 COMMENT ON COLUMN cmdb_ci_history.instance_id IS '인스턴스ID';
 COMMENT ON COLUMN cmdb_ci_history.apply_dt IS '반영일시';
 

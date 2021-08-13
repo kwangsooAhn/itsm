@@ -1,12 +1,83 @@
 @import "../template/elements";
 
-// datepicker
-.datepicker,
-.datetimepicker {
-  background: $white url("#{$icon-folder-path}icon_calendar.svg") no-repeat 98% 50%;
-}
-.timepicker {
-  background: $white url("#{$icon-folder-path}icon_clock.svg") no-repeat 98% 50%;
+// switch custom
+.switch {
+  @include relative();
+  height: 2.188rem; // 35px
+  font-family: inherit;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
+  outline: none;
+
+  .label {
+    display: inline-block;
+    height: 2.188rem; // 35px
+    line-height: 2.0;
+    padding: 0.125rem; // 2px
+    margin-left: 2.6255rem; // 42px
+    cursor: pointer;
+  }
+
+  input[type=checkbox] {
+    display: none;
+    // 스위치 버튼
+    + span {
+      @include absolute(0, 0, 0, 0);
+      width: 2.25rem; // 36px
+      height: 0.75rem; // 12px
+      background-color: map-get($grays, 'default');
+      @include borderRadius(2.5rem); // 40px
+      cursor: pointer;
+      @include transition(.4s);
+      // 동그라미
+      &::before {
+        content: '';
+        @include absolute($left: 0, $bottom: -0.1875rem); // 0 3px
+        width: 1.125rem; // 18px
+        height: 1.125rem; // 18px
+        background-color: $white;
+        @include borderRadius(50%);
+        @include boxShadow(0, 0, 0.125rem, 0, hexToRGBA(map-get($form-grays, "focus"), 0.8)); // 2px
+      }
+    }
+
+    &:checked {
+      + span {
+        background-color: $element-checked-color;
+
+        &::before {
+          @include translate(1.25rem, 0); // 20px
+        }
+      }
+    }
+    // TODO: 디자인 필요
+    //&:disabled {
+    //  + span {
+    //    background-color: $element-disabled-bg-color;
+    //  }
+    //}
+
+    &:hover {
+      + span {
+        &::before {
+          border-color: $element-hover-border-color;
+          @include boxShadow(0, 0, 0.3125rem, 0, hexToRGBA($blue, 0.8)); // 5px
+        }
+      }
+    }
+  }
+
+  &:focus {
+    input[type=checkbox] {
+      + span {
+        &:before {
+          border-color: $element-focus-border-color;
+        }
+      }
+    }
+  }
 }
 
 // input + button for custom code

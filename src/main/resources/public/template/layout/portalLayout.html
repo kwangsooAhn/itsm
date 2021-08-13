@@ -13,7 +13,7 @@
                 <th:block layout:fragment="portalHead">
                     <div class="header">
                     <a href="/portals/main">
-                        <img class="logo" th:src="@{/assets/media/icons/icon_logo_white.svg}" width="152" height="26" alt="Alice">
+                        <img class="z-img i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="152" height="26" alt="Alice">
                     </a>
                     <span class="name" th:text="#{portal.label.mainPhrase}"></span>
                     <a class="ml-auto z-button light-secondary" href="/layout" sec:authorize="isAuthenticated()" th:text="#{portal.label.main}"></a>

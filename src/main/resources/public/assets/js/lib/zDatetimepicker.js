@@ -106,7 +106,7 @@
 
         // create title > close icon
         const spanClose = document.createElement('span');
-        spanClose.className = 'z-icon-close';
+        spanClose.className = 'z-icon i-clear';
         spanClose.addEventListener('click', this.close, false);
         pickerTitle.appendChild(spanClose);
 
@@ -132,27 +132,28 @@
             pickerContent.appendChild(pickerContentTime);
             this.drawTime();
         }
+        if(this.type === 'DATEHOUR' || this.type === 'HOUR') {
+            // create button
+            let pickerButton = document.createElement('div');
+            pickerButton.className = 'z-button-list z-picker-modal-button';
+            this.el.appendChild(pickerButton);
 
-        // create button
-        let pickerButton = document.createElement('div');
-        pickerButton.className = 'z-button-list z-picker-modal-button';
-        this.el.appendChild(pickerButton);
+            // create button > confirm
+            let buttonConfirm = document.createElement('button');
+            buttonConfirm.type = 'button';
+            buttonConfirm.className = 'z-button secondary';
+            buttonConfirm.innerText = i18n.msg('common.btn.select');
+            buttonConfirm.addEventListener('click', this.changeTarget, false);
+            pickerButton.appendChild(buttonConfirm);
 
-        // create button > confirm
-        let buttonConfirm = document.createElement('button');
-        buttonConfirm.type = 'button';
-        buttonConfirm.className = 'z-button secondary';
-        buttonConfirm.innerText = i18n.msg('common.btn.select');
-        buttonConfirm.addEventListener('click', this.changeTarget, false);
-        pickerButton.appendChild(buttonConfirm);
-
-        // create button > cancel
-        let buttonCancel = document.createElement('button');
-        buttonCancel.type = 'button';
-        buttonCancel.className = 'z-button extra';
-        buttonCancel.innerText = i18n.msg('common.btn.cancel');
-        buttonCancel.addEventListener('click', this.close, false);
-        pickerButton.appendChild(buttonCancel);
+            // create button > cancel
+            let buttonCancel = document.createElement('button');
+            buttonCancel.type = 'button';
+            buttonCancel.className = 'z-button extra';
+            buttonCancel.innerText = i18n.msg('common.btn.cancel');
+            buttonCancel.addEventListener('click', this.close, false);
+            pickerButton.appendChild(buttonCancel);
+        }
     }
 
     Object.assign(Picker.prototype, {
@@ -226,7 +227,7 @@
 
             // prev month
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'date-prev';
+            prevArrow.className = 'z-icon i-arrow-right z-date-prev';
             prevArrow.addEventListener('click', _this.prevMonth, false);
             monthPanel.appendChild(prevArrow);
 
@@ -239,7 +240,7 @@
 
             // next month
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'date-next';
+            nextArrow.className = 'z-icon i-arrow-right z-date-next';
             nextArrow.addEventListener('click', _this.nextMonth, false);
             monthPanel.appendChild(nextArrow);
 
@@ -279,7 +280,7 @@
                 if (_this.displayLuxon.valueOf() === firstDayOfDate.valueOf()) {
                     calendarCell.classList.add('selected');
                 }
-                calendarCell.addEventListener('click', function(e) {
+                calendarCell.addEventListener('click', function(e) { 
                     const elem = e.target;
                     const parentElem = elem.parentNode;
                     const isSelected = elem.classList.contains('selected');
@@ -296,6 +297,7 @@
                             _this.drawDate();
                         }
                     }
+                    _this.changeTarget();
                 }, false);
                 calendarPanel.appendChild(calendarCell);
                 firstDayOfDate = firstDayOfDate.plus({ days: 1 });
@@ -318,7 +320,7 @@
             pickerTime.appendChild(hourGroup);
             // △ 버튼
             const hourArrowUp = document.createElement('span');
-            hourArrowUp.classList.add('arrow-up', 'hour-up');
+            hourArrowUp.className = 'z-icon i-arrow-right z-hour-up';
             hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, { hours: 1 }), false);
             hourGroup.appendChild(hourArrowUp);
             // 시간
@@ -332,7 +334,7 @@
             hourGroup.appendChild(digitHour);
             // ▽ 버튼
             const hourArrowDown = document.createElement('span');
-            hourArrowDown.classList.add('arrow-down', 'hour-down');
+            hourArrowDown.className = 'z-icon i-arrow-right z-hour-down';
             hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, { hours: -1 }), false);
             hourGroup.appendChild(hourArrowDown);
             // create hour end ---------------------------------------------------------------------
@@ -349,7 +351,7 @@
             pickerTime.appendChild(minuteGroup);
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
-            minuteArrowUp.classList.add('arrow-up', 'minute-up');
+            minuteArrowUp.className = 'z-icon i-arrow-right z-minute-up';
             minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this, { minutes: 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
             // 분
@@ -363,7 +365,7 @@
             minuteGroup.appendChild(digitMinute);
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
-            minuteArrowDown.classList.add('arrow-down', 'minute-down');
+            minuteArrowDown.className = 'z-icon i-arrow-right z-minute-down';
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this, { minutes: -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);
             // create minute end -------------------------------------------------------------------

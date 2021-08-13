@@ -140,8 +140,8 @@
             if (thumbnailCnt === 0) {
                 let thumbnailUploadTemplate = `
                     <div class="z-thumbnail-upload align-center" onclick="document.getElementById('imageUploadFile').click();" tabindex="-1">
-                        <span class="z-icon i-image"></span>
-                        <p class="mt-4">${i18n.msg('image.label.upload')}</p>
+                        <span class="z-icon i-image-upload"></span>
+                        <p class="z-thumbnail-upload-text underline mt-2">${i18n.msg('image.label.upload')}</p>
                         <input type="file" id="imageUploadFile" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);" style="display: none;"/>
                     </div>
                 `;

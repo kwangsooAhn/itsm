@@ -16,5 +16,6 @@ data class CIHistoryDto(
     val instanceId: String? = null,
     val documentNo: String? = null,
     val createUser: String? = null,
+    val interlink: Boolean,
     var applyDt: LocalDateTime? = LocalDateTime.now()
 ) : Serializable
