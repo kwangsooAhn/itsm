@@ -3052,10 +3052,6 @@ table[id=documentDisplay] td {
   display: inline-block;
 }
 
-.hidden-scroll {
-  overflow: hidden;
-}
-
 .z-notice-header, .z-faq-header, .z-download-header, .z-board-header, .z-user-header, .z-board-admin-header, .z-process-header, .z-form-header, .z-document-admin-header, .z-custom-code-header, .z-auth-header, .z-role-header, .z-code-header, .z-numbering-pattern-header, .z-numbering-rule-header, .z-chart-header, .z-cmdb-attribute-header, .z-cmdb-class-header, .z-cmdb-type-header, .z-cmdb-ci-header, .z-scheduler-header {
   padding: 0 3.75rem 0 3.75rem;
 }
