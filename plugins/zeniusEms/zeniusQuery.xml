@@ -34,7 +34,7 @@
                   group by ci.ci_id
               )
               select ci.ci_id, ci.ci_no, history.seq, ci.ci_name, ci.ci_status, ci_type.type_id
-                   , ci_type.class_id, ci_type.type_icon as ci_icon, ci.ci_desc, ci.automatic
+                   , ci_type.class_id, ci_type.type_icon as ci_icon, ci.ci_desc, ci.interlink
               from cmdb_ci ci, cmdb_type ci_type, history history
               where ci.type_id = ci_type.type_id
               and ci.ci_id = history.ci_id
@@ -59,7 +59,7 @@
               delete from cmdb_ci_data where ci_id in (?)
        </node>
        <node id="insertCI">
-              insert into cmdb_ci (ci_id, ci_no, ci_name, ci_desc, ci_status, type_id, automatic, mapping_id)
+              insert into cmdb_ci (ci_id, ci_no, ci_name, ci_desc, ci_status, type_id, interlink, mapping_id)
               values (?, ?, ?, ?, ?, ?, ?, ?)
        </node>
        <node id="updateCI">
@@ -69,7 +69,7 @@
                      ci_desc = ?,
                      ci_status = ?,
                      type_id = ?,
-                     automatic = ?
+                     interlink = ?
               where  ci_id = ?
               and mapping_id = ?
        </node>
@@ -77,8 +77,8 @@
               insert into cmdb_ci_data (ci_id, attribute_id, value) values (?, ?, ?)
        </node>
        <node id="insertCIHistory">
-              insert into cmdb_ci_history (history_id, ci_id, seq, ci_no, ci_name, ci_status, type_id, class_id, ci_icon, ci_desc, automatic)
-              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+              insert into cmdb_ci_history (history_id, ci_id, seq, ci_no, ci_name, ci_status, type_id, class_id, ci_icon, ci_desc, interlink, apply_dt)
+              values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
        </node>
        <node id="insertCIDataHistory">
               insert into cmdb_ci_data_history (data_history_id, ci_id, seq, attribute_id, attribute_name, attribute_desc, attribute_type, attribute_text, attribute_value, value)
