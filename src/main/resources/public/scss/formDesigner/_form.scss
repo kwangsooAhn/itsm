@@ -4,7 +4,7 @@
   display: inline-block;
   min-height: $form-min-height;
   background-color: $form-bg-color;
-  @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+  @include border(0.0625rem, solid, $gray300, all); // 1px
   & *:focus { outline: none !important; }
 }
 // 그룹 툴팁
@@ -179,7 +179,7 @@
     // inputBox
     .input, .z-input {
       width: 100%;
-      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+      @include border(0.0625rem, solid, $gray300, all); // 1px
       @include borderRadius(0.0625rem); // 2px
     }
     // textArea
@@ -214,7 +214,7 @@
       font-size: $component-imagebox-font-size;
       font-weight: $component-imagebox-font-weight;
       color: $component-imagebox-font-color;
-      @include border(0.0625rem, solid, map-get($grays, 'line'), all); // 1px
+      @include border(0.0625rem, solid, $gray300, all); // 1px
       background-color: $component-imagebox-bg-color;
       text-align: center;
       padding: 1.875rem 0 0.625rem; // 30px 0 10px 0
@@ -222,7 +222,7 @@
       .z-icon {
         display: block;
         &.i-no-image {
-          @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, $component-imagebox-font-color); // 45px
+          @include maskImage('#{$icon-folder-path}formDesigner/form/icon_image_component.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, $component-imagebox-font-color); // 45px
         }
       }
     }
@@ -245,7 +245,7 @@
       tr {
         td {
           display: none;
-          padding: $element-indent;
+          padding: 0.5rem; // 8px
           @include border(0.0625rem, solid, $component-ciTable-border-color, all);
           border-left: none;
           border-right: none;
@@ -255,6 +255,7 @@
       }
       // 제목
       .z-ci-table-header {
+        height: 2rem;
         background-color: $component-ciTable-header-bg-color;
         td {
           color: $component-ciTable-header-font-color;
