@@ -881,7 +881,7 @@
         simulationTitle.textContent = i18n.msg('process.btn.simulationCheckResult');
 
         const simulationClose = document.createElement('span');
-        simulationClose.className = 'icon-minus';
+        simulationClose.className = 'z-icon i-minus';
         simulationTitle.appendChild(simulationClose);
         simulationClose.addEventListener('click', simulationToggleEvent, false);
         simulationContainer.appendChild(simulationTitle);

@@ -95,6 +95,9 @@
     &-confirm {
       @include backgroundImage('#{$icon-folder-path}alert/icon_alert_confirm.svg', null, no-repeat, 0, $alert-margin-size, null); // 5px
     }
+    &-email {
+      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_email.svg', null, no-repeat, 0, $alert-margin-size, null); // 5px
+    }
   }
 }
 

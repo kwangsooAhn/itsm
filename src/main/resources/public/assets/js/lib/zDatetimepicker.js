@@ -106,7 +106,7 @@
 
         // create title > close icon
         const spanClose = document.createElement('span');
-        spanClose.className = 'z-icon-close';
+        spanClose.className = 'z-icon i-clear';
         spanClose.addEventListener('click', this.close, false);
         pickerTitle.appendChild(spanClose);
 
@@ -234,7 +234,7 @@
 
             // prev month
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'date-prev';
+            prevArrow.className = 'z-icon i-arrow-right z-date-prev';
             prevArrow.addEventListener('click', _this.prevMonth, false);
             monthPanel.appendChild(prevArrow);
 
@@ -247,7 +247,7 @@
 
             // next month
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'date-next';
+            nextArrow.className = 'z-icon i-arrow-right z-date-next';
             nextArrow.addEventListener('click', _this.nextMonth, false);
             monthPanel.appendChild(nextArrow);
 
@@ -327,7 +327,7 @@
             pickerTime.appendChild(hourGroup);
             // △ 버튼
             const hourArrowUp = document.createElement('span');
-            hourArrowUp.classList.add('arrow-up', 'hour-up');
+            hourArrowUp.className = 'z-icon i-arrow-right z-hour-up';
             hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, { hours: 1 }), false);
             hourGroup.appendChild(hourArrowUp);
             // 시간
@@ -341,7 +341,7 @@
             hourGroup.appendChild(digitHour);
             // ▽ 버튼
             const hourArrowDown = document.createElement('span');
-            hourArrowDown.classList.add('arrow-down', 'hour-down');
+            hourArrowDown.className = 'z-icon i-arrow-right z-hour-down';
             hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, { hours: -1 }), false);
             hourGroup.appendChild(hourArrowDown);
             // create hour end ---------------------------------------------------------------------
@@ -358,7 +358,7 @@
             pickerTime.appendChild(minuteGroup);
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
-            minuteArrowUp.classList.add('arrow-up', 'minute-up');
+            minuteArrowUp.className = 'z-icon i-arrow-right z-minute-up';
             minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this, { minutes: 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
             // 분
@@ -372,7 +372,7 @@
             minuteGroup.appendChild(digitMinute);
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
-            minuteArrowDown.classList.add('arrow-down', 'minute-down');
+            minuteArrowDown.className = 'z-icon i-arrow-right z-minute-down';
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this, { minutes: -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);
             // create minute end -------------------------------------------------------------------

@@ -37,7 +37,7 @@ const zFileUploader = (function () {
     };
 
     const setFileIcon = function (fileName) {
-        return '/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg';
+        return '/assets/media/icons/fileUploader/icon_document_' + getExtension(fileName) + '.svg';
     };
 
     /**
@@ -453,7 +453,7 @@ const zFileUploader = (function () {
                                 // 파일이 하나도 없다면 아이콘을 보여준다.
                                 let previewList = delFilePreview.parentNode.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                                 if (previewList.length === 0) {
-                                    delFilePreview.parentNode.querySelector('.i-no-file').style.display = 'block';
+                                    delFilePreview.parentNode.querySelector('.i-document-txt').style.display = 'block';
                                     _this.isFileExist = false;
                                 }
                             });
@@ -465,7 +465,7 @@ const zFileUploader = (function () {
                     const dropzoneMessage = _this.element.querySelector('.dz-message');
                     // 아이콘 추가
                     const dropzoneIcon = document.createElement('span');
-                    dropzoneIcon.className = 'z-icon i-no-file';
+                    dropzoneIcon.className = 'z-icon i-document-txt';
                     if (_this.isFileExist) {
                         dropzoneIcon.style.display = 'none';
                     }
@@ -481,7 +481,7 @@ const zFileUploader = (function () {
                         }
                         // 파일 추가시 아이콘 숨기기
                         if (!_this.isFileExist) {
-                            dropzoneMessage.querySelector('.i-no-file').style.display = 'none';
+                            dropzoneMessage.querySelector('.i-document-txt').style.display = 'none';
                             _this.isFileExist = true;
                         }
                         file.previewElement.querySelector('.dz-file-type').src = setFileIcon(file.name, extraParam.isView);
@@ -498,7 +498,7 @@ const zFileUploader = (function () {
                         let previewList = _this.element.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                         if (_this.files.length === 0 && previewList.length === 0) {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
-                            dropzoneMessage.querySelector('.i-no-file').style.display = 'block';
+                            dropzoneMessage.querySelector('.i-document-txt').style.display = 'block';
                             _this.isFileExist = false;
                         }
                     });
@@ -576,7 +576,7 @@ const zFileUploader = (function () {
                 const dropzoneMessage = _this.element.querySelector('.dz-message');
                 // 아이콘 추가
                 const dropzoneIcon = document.createElement('span');
-                dropzoneIcon.className = 'icon-no-img';
+                dropzoneIcon.className = 'z-icon i-avatar';
                 dropzoneMessage.insertBefore(dropzoneIcon, dropzoneMessage.firstChild);
                 // browse 버튼 추가
                 const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);

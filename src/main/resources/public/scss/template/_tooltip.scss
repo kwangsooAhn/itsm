@@ -20,10 +20,11 @@
   margin-left: $tooltip-help-margin;
   vertical-align: middle;
 
-  .help-tooltip-icon {
-    display: inline-block;
-    cursor: pointer;
-    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, map-get($grays, "pressed"));
+  .z-icon {
+    &.i-tooltip {
+      cursor: pointer;
+      background: $element-icon-color;
+    }
   }
 
   .tooltip-contents {
@@ -51,8 +52,11 @@
       visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
     }
-    .help-tooltip-icon {
-      background: $blue;
+
+    .z-icon {
+      &.i-tooltip {
+        background: $element-hover-icon-color;
+      }
     }
   }
 }

@@ -61,8 +61,9 @@ export const customCodeMixin = {
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', this.elementDefaultValueCustomCode)
             .onUIChange(this.updateValue.bind(this));
-        element.UIButtonClear = new UIButton()
-            .setUIClass(CLASS_PREFIX + 'button-clear')
+        element.UIButtonClear = new UISpan()
+            .setUIClass('z-icon')
+            .addUIClass('i-clear')
             .setUIAttribute('tabIndex', '-1')
             .onUIClick(aliceJs.clearText);
         element.UIButton = new UIButton()
@@ -198,13 +199,13 @@ export const customCodeMixin = {
         }).then((htmlData) => {
             document.getElementById('customCodeList').innerHTML = htmlData;
             OverlayScrollbars(document.querySelector('.radio-list'), {className: 'scrollbar'});
-        })
+        });
     },
     // 서버에서 가져온 데이터에서 검색하기
     getSelectModalContent() {
         return `<div class="flex-column view-row">` +
             `<div class="flex-row justify-content-start input-search">` +
-            `<input class="z-input i-search col-5 " type="text" id="search" placeholder="${i18n.msg("customCode.msg.enterSearchTerm")}">` +
+            `<input class="z-input i-search col-5 " type="text" id="search" placeholder="${i18n.msg('customCode.msg.enterSearchTerm')}">` +
             `<span id="ciListTotalCount" class="search-count"></span>` +
             `</div>` +
             `</div>` +

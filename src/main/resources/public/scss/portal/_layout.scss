@@ -199,16 +199,16 @@
             &::-webkit-details-marker { display: none; }
             .#{$common-prefix}icon {
               &.i-plus {
-                @include absolute($right: 0.9375rem); // 15px
+                @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
                 display: inline-block;
                 opacity: 1;
-                @include maskImage('#{$icon-folder-path}icon_plus.svg', 16px, 16px, no-repeat, center, 16px 16px, $faq-group-icon-color);
+                background: $faq-group-icon-color;
               }
               &.i-minus {
-                @include absolute($right: 0.9375rem); // 15px
+                @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
                 display: inline-block;
                 opacity: 0;
-                @include maskImage('#{$icon-folder-path}icon_minus.svg', 16px, 16px, no-repeat, center, 16px 16px, $faq-group-icon-color);
+                background: $faq-group-icon-color;
               }
             }
           }

@@ -3,23 +3,9 @@
 // header button
 .#{$common-prefix}header-button {
   &.#{$common-prefix}button-icon {
-    .#{$common-prefix}icon {
+    .z-icon {
       pointer-events: none;
-      &.i-save {
-        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_save.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-      &.i-save-as {
-        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_save_as.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
-      }
-      &.i-undo {
-        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_undo.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
-      }
-      &.i-redo {
-        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_redo.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
-      }
-      &.i-preview {
-        @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_preview.svg', 1.5rem, 1.5rem, no-repeat, center);// 24px 24px
-      }
+
       &.i-arrow-right {
         @include rotate(90);
       }
@@ -118,42 +104,7 @@
 
     .#{$common-prefix}text { pointer-events: none; }
 
-    .#{$common-prefix}icon {
-      pointer-events: none;
-      &.i-align-left {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_left.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-      &.i-align-center {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_center.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-      &.i-align-right {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_align_right.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-      &.i-position-left {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_left.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-      &.i-position-top {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_top.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-      &.i-position-hidden {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_label_position_hidden.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-      &.i-display-position-left {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_display_left.svg', 20px, 20px, no-repeat, center); // 20px 20px
-      }
-      &.i-display-position-right {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_display_right.svg', 20px, 20px, no-repeat, center); // 20px 20px
-      }
-      &.i-bold {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_bold.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-      &.i-italic {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_italic.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-      &.i-underline {
-        @include maskImage('#{$icon-folder-path}formDesigner/property/icon_underline.svg', 1.5rem, 1.5rem, no-repeat, center); // 24px 24px
-      }
-    }
+    .z-icon { pointer-events: none; }
   }
 }
 

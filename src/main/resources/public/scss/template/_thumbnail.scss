@@ -111,11 +111,8 @@
   }
   // 아이콘
   .#{$common-prefix}icon {
-    &.i-image {
-      width: 5.313rem; // 85px
-      height: 5.313rem;
-      -webkit-mask-size: 5.313rem;
-      mask-size: 5.313rem;
+    &.i-image-upload {
+      @include maskImage('#{$icon-folder-path}icon_image_upload.svg', 4.813rem, 4.813rem, no-repeat, center); // 77px 77px
       background: $thumbnail-icon-color;
     }
   }

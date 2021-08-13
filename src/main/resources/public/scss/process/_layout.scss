@@ -129,15 +129,15 @@
           border-bottom: $simulation-report-border;
           padding: 1.125rem; // 17px
 
-          .icon-minus {
-            position: absolute;
-            display: inline-block;
-            right: 1.125rem; // 17px
-            cursor: pointer;
-            @include maskImage('#{$icon-folder-path}icon_minus.svg', 1rem, 1.5rem, no-repeat, center, null, map-get($grays, "pressed")); // 16px 24px
-            // mouse over
-            &:hover {
-              background: $blue;
+          .z-icon {
+            &i-minus {
+              @include absolute($right: 1.125rem); // 17px
+              cursor: pointer;
+              background: $element-icon-color;
+              &:hover {
+                background: $element-hover-icon-color;
+              }
+
             }
           }
         }
