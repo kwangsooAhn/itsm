@@ -9,7 +9,6 @@
  */
 package co.brainz.itsm.notice.dto
 
-import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.PagingConstants
 import java.io.Serializable
 import java.time.LocalDateTime
