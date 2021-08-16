@@ -76,6 +76,9 @@ class WfFormService(
             when (form.status) {
                 WfFormConstants.FormStatus.EDIT.value,
                 WfFormConstants.FormStatus.PUBLISH.value -> form.editable = true
+                WfFormConstants.FormStatus.USE.value -> {
+                    form.editable = !wfFormRepository.findFormDocumentExist(form.id)
+                }
             }
             formList.add(form)
         }
