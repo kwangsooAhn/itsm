@@ -4433,15 +4433,13 @@ body.modal-active {
 }
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.375rem;
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   font-weight: 500;
   color: #3F4B56;
-  border-bottom: 0.0625rem solid #EBEBEB;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {
   height: calc(22.5rem - 3.375rem - 5rem);
-  border-bottom: 0.0625rem solid #EBEBEB;
   overflow: auto;
 }
 .modal-wrapper .modal-dialog .modal-bottom {

@@ -40,13 +40,11 @@ body.modal-active {
       font-size: $modal-header-font-size;
       font-weight: $modal-header-font-weight;
       color: $modal-header-font-color;
-      @include border($modal-border-width, solid, $modal-border-color, bottom);
       padding: 1.125rem 0 0 1.25rem; // 18px 0 0 20px
     }
     
     .modal-content {
       height: calc(#{$modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
-      @include border($modal-border-width, solid, $modal-border-color, bottom);
       overflow: auto;
     }
 
