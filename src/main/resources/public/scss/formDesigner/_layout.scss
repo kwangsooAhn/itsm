@@ -9,7 +9,7 @@
  *                - form-properties-panel : 세부속성
  */
 // 폼 양식
-.#{$common-prefix}form {
+.z-form {
   &-container {
     @include container;
   }
@@ -26,13 +26,13 @@
       width: 12.5rem; // 200px
       padding: 0 $layout-header-padding; // 0 12px
     }
-    .#{$common-prefix}form-name {
+    .z-form-name {
       font-size: $layout-header-font-size;
     }
-    .#{$common-prefix}form-button-list {
+    .z-form-button-list {
       width: 19.06rem; // 305px
 
-      .#{$common-prefix}header-dropdown {
+      .z-header-dropdown {
         @include relative();
       }
     }
@@ -72,7 +72,6 @@
     justify-content: space-between;
     width: $layout-properties-panel-width;
     background-color: $layout-properties-panel-bg-color;
-    box-shadow: $layout-properties-panel-box-shadow;
     overflow-x: hidden;
     overflow-y: auto;
     @include scrollbarHidden;
@@ -85,15 +84,15 @@
   }
 }
 // 아코디언
-.#{$common-prefix}component-accordion-box {
-  .#{$common-prefix}component-accordion {
+.z-component-accordion-box {
+  .z-component-accordion {
     width: 100%;
     input[type=radio] {
       @include absolute();
       opacity: 0;
       z-index: $z-index-hidden;
     }
-    .#{$common-prefix}accordion-label {
+    .z-accordion-label {
       height: $layout-component-palette-accordion-height;
       font-family: $layout-component-palette-accordion-font-family;
       font-size: $layout-component-palette-accordion-font-size;
@@ -103,7 +102,7 @@
       padding: 0 12px; // 0 12px
       cursor:pointer;
 
-      .#{$common-prefix}icon {
+      .z-icon {
         &.i-arrow-right {
           @include rotate(180);
           @include transformOrigin(50% 50%);
@@ -111,13 +110,13 @@
         }
       }
     }
-    .#{$common-prefix}accordion-content {
+    .z-accordion-content {
       height: 0;
       @include border(0.0625rem, solid, transparent, bottom); // 1px
       overflow: hidden;
       @include transition(all 0.25s ease-out);
 
-      .#{$common-prefix}component-icon-box {
+      .z-component-icon-box {
         @include relative();
         display: flex;
         flex-direction: row;
@@ -126,7 +125,7 @@
         padding: 0;
         margin: 0;
 
-        .#{$common-prefix}component-icon {
+        .z-component-icon {
           width: $component-icon-width; // 124px
           height: $component-icon-height;
           text-align: center;
@@ -151,11 +150,11 @@
             border-right-color: transparent;
           }
 
-          .#{$common-prefix}icon {
+          .z-icon {
             background: map-get($component-icon, 'default', 'icon');
           }
 
-          .#{$common-prefix}component-name {
+          .z-component-name {
             display: block;
             font-family: $component-icon-font-family;
             font-size: $component-icon-font-size;
@@ -169,10 +168,10 @@
             @if map-get($component-icon, 'hover', 'shadow') != null {
               box-shadow: map-get($component-icon, 'hover', 'shadow');
             }
-            .#{$common-prefix}icon {
+            .z-icon {
               background: map-get($component-icon, 'hover', 'icon');
             }
-            .#{$common-prefix}component-name {
+            .z-component-name {
               color: map-get($component-icon, 'hover', 'font');
             }
           }
@@ -184,10 +183,10 @@
             @if map-get($component-icon, 'focus', 'shadow') != null {
               box-shadow: map-get($component-icon, 'focus', 'shadow');
             }
-            .#{$common-prefix}icon {
+            .z-icon {
               background: map-get($component-icon, 'focus', 'icon');
             }
-            .#{$common-prefix}component-name {
+            .z-component-name {
               color: map-get($component-icon, 'focus', 'font');
             }
           }
@@ -200,10 +199,10 @@
             @if map-get($component-icon, 'active', 'shadow') != null {
               box-shadow: map-get($component-icon, 'active', 'shadow');
             }
-            .#{$common-prefix}icon {
+            .z-icon {
               background: map-get($component-icon, 'active', 'icon');
             }
-            .#{$common-prefix}component-name {
+            .z-component-name {
               font-weight: $font-weight-bold;
               color: map-get($component-icon, 'active', 'font');
             }
@@ -216,14 +215,14 @@
             @if map-get($component-icon, 'drag', 'shadow') != null {
               box-shadow: map-get($component-icon, 'drag', 'shadow');
             }
-            .#{$common-prefix}icon {
+            .z-icon {
               background: map-get($component-icon, 'drag', 'icon');
             }
-            .#{$common-prefix}component-name {
+            .z-component-name {
               font-weight: $font-weight-bold;
               color: map-get($component-icon, 'drag', 'font');
             }
-            .#{$common-prefix}component-tooltip {
+            .z-component-tooltip {
               display: none;
             }
           }
@@ -234,10 +233,10 @@
             @if map-get($component-icon, 'placeholder', 'shadow') != null {
               box-shadow: map-get($component-icon, 'placeholder', 'shadow');
             }
-            .#{$common-prefix}icon {
+            .z-icon {
               background: map-get($component-icon, 'placeholder', 'icon');
             }
-            .#{$common-prefix}component-name {
+            .z-component-name {
               font-weight: $component-icon-font-weight;
               color: map-get($component-icon, 'placeholder', 'font');
             }
@@ -246,14 +245,14 @@
       }
     }
     input[type=radio]:checked {
-      + .#{$common-prefix}accordion-label {
-        .#{$common-prefix}icon {
+      + .z-accordion-label {
+        .z-icon {
           &.i-arrow-right {
             @include rotate(90);
           }
         }
       }
-      ~ .#{$common-prefix}accordion-content {
+      ~ .z-accordion-content {
         height: calc(100vh - (#{$layout-component-palette-accordion-height} * 4) - #{$layout-header-height});
         border-bottom-color: $layout-component-palette-border-color;
         overflow-y: auto;
@@ -264,16 +263,16 @@
 }
 
 // drawing board
-.#{$common-prefix}drawing-board {
-  .#{$common-prefix}drag-ghost {
+.z-drawing-board {
+  .z-drag-ghost {
     opacity: 0.5;
   }
-  .#{$common-prefix}component-drag-in {
+  .z-component-drag-in {
     background-color: $component-icon-drag-bg-color;
     @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
   }
   // drag & drop (폼 내부에 나타나는 item)
-  .#{$common-prefix}component-icon-drag-in {
+  .z-component-icon-drag-in {
     display: inline-block;
     width: 100%;
     height: auto;
@@ -281,27 +280,27 @@
     @include border(0.0625rem, dashed, $component-icon-drag-border-color, all); // 1px
     opacity: 0.5;
 
-    .#{$common-prefix}icon { display: none; }
-    .#{$common-prefix}component-name { display: none; }
-    .#{$common-prefix}component-tooltip {
+    .z-icon { display: none; }
+    .z-component-name { display: none; }
+    .z-component-tooltip {
       border-color: transparent;
-      .#{$common-prefix}component {
+      .z-component {
         // 드래그시 사용자 디자인보다 우선 적용
-        .#{$common-prefix}component-label {
-          .#{$common-prefix}component-label-text {
+        .z-component-label {
+          .z-component-label-text {
             color: $component-icon-drag-font-color !important;
           }
         }
-        .#{$common-prefix}element {
-          .#{$common-prefix}input,
-          .#{$common-prefix}textarea,
-          .#{$common-prefix}select-box {
+        .z-element {
+          .z-input,
+          .z-textarea,
+          .z-select-box {
             color: $component-icon-drag-font-color !important;
             border-color: $component-icon-drag-border-color !important;
             &::placeholder {
               color: $component-icon-drag-font-color !important;
             }
-            .#{$common-prefix}icon {
+            .z-icon {
               background: $component-icon-drag-font-color !important;
             }
             // 날짜 시간 컴포넌트
@@ -317,8 +316,8 @@
               @include backgroundImage($icon-folder-path + 'formDesigner/palette/icon_date_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
             }
           }
-          .#{$common-prefix}radio,
-          .#{$common-prefix}checkbox {
+          .z-radio,
+          .z-checkbox {
             color: $component-icon-drag-font-color !important;
             input[type=radio] + span::before {
               border-color: $component-icon-drag-border-color !important;
@@ -345,39 +344,37 @@
             .dz-message {
               color: $component-icon-drag-font-color !important;
             }
-            .#{$common-prefix}icon {
+            .z-icon {
               background: $component-icon-drag-font-color !important;
             }
           }
           // 커스텀 코드 컴포넌트
-          .#{$common-prefix}input-button {
-            .z-icon {
-              &.i-clear {
-                opacity: 0;
-              }
+          .z-input-button {
+            .z-button-clear {
+              opacity: 0;
             }
-            .#{$common-prefix}button-icon {
+            .z-button-icon {
               color: $component-icon-drag-font-color !important;
               background-color: $white;
               border-color: $component-icon-drag-border-color !important;
-              .#{$common-prefix}icon {
+              .z-icon {
                 background: $component-icon-drag-font-color !important;
               }
             }
           }
           // DR 테이블 컴포넌트 , CI 컴포넌트
-          .#{$common-prefix}dr-table-button-group {
+          .z-dr-table-button-group {
             opacity: 0;
           }
-          .#{$common-prefix}button-list {
+          .z-button-list {
             opacity: 0;
           }
           table {
             tr td {
               border-color: $component-icon-drag-border-color !important;
             }
-            .#{$common-prefix}dr-table-header,
-            .#{$common-prefix}ci-table-header {
+            .z-dr-table-header,
+            .z-ci-table-header {
               background-color: $component-icon-drag-bg-color !important;
               td {
                 color: $component-icon-drag-font-color !important;
@@ -388,16 +385,16 @@
             }
           }
           // Divider
-          .#{$common-prefix}divider {
+          .z-divider {
             border-top-style: solid;
             border-top-color : $component-icon-drag-border-color !important;
           }
           // 이미지 컴포넌트
-          .#{$common-prefix}imagebox-placeholder {
+          .z-imagebox-placeholder {
             background-color: $white;
             border-color: $component-icon-drag-border-color !important;
             color: $component-icon-drag-font-color !important;
-            .#{$common-prefix}icon {
+            .z-icon {
               background: $component-icon-drag-font-color !important;
             }
           }
@@ -408,12 +405,12 @@
 
   // 문서 상태에 따라 편집을 막음
   &.edit {
-    .#{$common-prefix}group-label { pointer-events: none; }
+    .z-group-label { pointer-events: none; }
   }
 }
 
 // 저장 정보
-.#{$common-prefix}save-info {
+.z-save-info {
   min-height: 1.5625rem; // 25px
   line-height: 1.5;
   font-family: $layout-main-save-info-font-family;

@@ -284,7 +284,7 @@ $scrollbar-thick-sm:                         0.25rem; // 4px
 // scrollbar 색상
 $scrollbar-color:                            map-get($grays, 'default');
 // scrollbar 모서리 곡선
-$scrollbar-border-radius:                     0.5rem; // 8px
+$scrollbar-border-radius:                    0.5rem; // 8px
 // scrollbar 배경 색상
 $scrollbar-bg-color:                         hexToRGBA(map-get($grays, 'line'), 0.6);
 // scrollbar hover, click 이동시 색상
@@ -353,6 +353,7 @@ $datepicker-font-weight:                     $font-weight-regular;
 $datepicker-line-height:                     1.2;
 $datepicker-bg-color:                        $white;
 $datepicker-border-color:                    $gray300;
+$datepicker-border-radius:                   0.125rem;  //2px
 $datepicker-border-width:                    0.0625rem; // 1px
 $datepicker-focus-color:                     $blue600;
 $datepicker-hover-color:                     $blue400;
