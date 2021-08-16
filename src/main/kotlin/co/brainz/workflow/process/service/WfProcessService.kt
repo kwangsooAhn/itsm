@@ -6,8 +6,10 @@
 package co.brainz.workflow.process.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -21,7 +23,7 @@ import co.brainz.workflow.process.service.simulation.WfProcessSimulator
 import co.brainz.workflow.provider.dto.RestTemplateElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
-import co.brainz.workflow.provider.dto.RestTemplateProcessListReturnDto
+import co.brainz.workflow.provider.dto.ProcessListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -33,6 +35,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import java.util.UUID
+import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -53,30 +56,28 @@ class WfProcessService(
     /**
      * 프로세스 목록 조회
      */
-    fun getProcesses(parameters: LinkedHashMap<String, Any>): RestTemplateProcessListReturnDto {
-        var search = ""
-        var status = listOf<String>()
-        var offset: Long? = null
-        if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["status"] != null) status = parameters["status"].toString().split(",")
-        if (parameters["offset"] != null) {
-            offset = parameters["offset"].toString().toLong()
-        }
+    fun getProcesses(processSearchCondition: ProcessSearchCondition): ProcessListReturnDto {
         val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
-        val queryResult = wfProcessRepository.findProcessEntityList(search, status, offset)
-        for (process in queryResult.results) {
-            val enabled = when (process.processStatus) {
+        val queryResult = wfProcessRepository.findProcessEntityList(processSearchCondition)
+        for (process in queryResult.data) {
+            val enabled = when (process.status) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
             }
-            val processViewDto = processMapper.toProcessViewDto(process)
-            processViewDto.enabled = enabled
-            processViewDtoList.add(processViewDto)
+            process.enabled = enabled
+            processViewDtoList.add(process)
         }
-        return RestTemplateProcessListReturnDto(
+        val processReturnList = ProcessListReturnDto(
             data = processViewDtoList,
-            totalCount = queryResult.total
+            paging = queryResult.paging
         )
+        // 페이징 정보 추가
+        processReturnList.paging.totalCountWithoutCondition = wfProcessRepository.count()
+        processReturnList.paging.currentPageNum = processSearchCondition.pageNum
+        processReturnList.paging.totalPageNum =
+            ceil(processReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
+
+        return processReturnList
     }
 
     /**

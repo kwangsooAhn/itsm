@@ -15,8 +15,11 @@ import co.brainz.cmdb.dto.CIAttributeReturnDto
 import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
+import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -31,23 +34,14 @@ class CIAttributeService(
     /**
      * CI Attribute 목록 조회.
      */
-    fun getCIAttributes(parameters: LinkedHashMap<String, Any>): CIAttributeReturnDto {
-        var search: String? = null
-        var offset: Long? = null
-        var limit: Long? = null
-        if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["offset"] != null) offset = parameters["offset"].toString().toLong()
-        if (parameters["limit"] != null) limit = parameters["limit"].toString().toLong()
-        val searchDto = SearchDto(
-            search = search,
-            offset = offset,
-            limit = limit
-        )
-        val ciAttributes = ciAttributeRepository.findAttributeList(searchDto)
-        return CIAttributeReturnDto(
-            data = ciAttributes.results,
-            totalCount = ciAttributes.total
-        )
+    fun getCIAttributes(ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
+        val ciAttributesReturnList = ciAttributeRepository.findAttributeList(ciAttributeSearchCondition)
+        // 페이징 정보 추가
+        ciAttributesReturnList.paging.totalCountWithoutCondition = ciAttributeRepository.count()
+        ciAttributesReturnList.paging.currentPageNum = ciAttributeSearchCondition.pageNum
+        ciAttributesReturnList.paging.totalPageNum =
+            ceil(ciAttributesReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
+        return ciAttributesReturnList
     }
 
     /**

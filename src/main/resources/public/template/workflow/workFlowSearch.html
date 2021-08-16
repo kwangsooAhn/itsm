@@ -1,397 +1,355 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/itsm/pageType/pagingListLayout">
 <head>
     <title th:text="#{document.label.businessFlow}"></title>
+    <th:block layout:fragment="pageHead">
+        <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
+    </th:block>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-document-admin-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{document.label.businessFlow}"></h1>
-            <h6 class="description ml-2" th:text="#{document.msg.adminSearchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row">
-            <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''document.admin.update'')')}"/>
-            <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
-            <form id="searchDocumentsFrm">
-                <select id="searchGroupName" name="searchGroupName" class="col-3">
-                    <option value="" th:text="#{document.label.all}" selected></option>
-                    <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
-                </select>
-                <label for="searchDocuments"></label>
-                <input type="text" class="z-input i-search" maxlength="100" id="searchDocuments"
-                       name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}"/>
-                <label for="searchProcessName"></label>
-                <input type="text" class="z-input i-search" maxlength="100" id="searchProcessName"
-                       name="searchProcessName" th:placeholder="#{document.label.process}"/>
-                <label for="searchFormName"></label>
-                <input type="text" class="z-input i-search mr-2" maxlength="100" id="searchFormName"
-                       name="searchFormName" th:placeholder="#{document.label.form}"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" onclick="openDocumentEdit();"
-                        sec:authorize="hasAuthority('document.admin.create')" th:text="#{common.btn.add}"></button>
-            </div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{document.label.businessFlow}"></h1>
+    <h6 class="description ml-2" th:text="#{document.msg.adminSearchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''document.admin.update'')')}"/>
+    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
+    <form id="searchDocumentsFrm">
+        <select id="searchGroupName" name="searchGroupName" class="col-3">
+            <option value="" th:text="#{document.label.all}" selected></option>
+            <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
+        </select>
+        <label for="searchDocuments"></label>
+        <input type="text" class="z-input i-search" maxlength="100" id="searchDocuments"
+               name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}"/>
+        <label for="searchProcessName"></label>
+        <input type="text" class="z-input i-search" maxlength="100" id="searchProcessName"
+               name="searchProcessName" th:placeholder="#{document.label.process}"/>
+        <label for="searchFormName"></label>
+        <input type="text" class="z-input i-search mr-2" maxlength="100" id="searchFormName"
+               name="searchFormName" th:placeholder="#{document.label.form}"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" onclick="openDocumentEdit();"
+                sec:authorize="hasAuthority('document.admin.create')" th:text="#{common.btn.add}"></button>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-document-admin-content flex-fill">
-        <div class="list" id="documentList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <div class="list-content" id="documentList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
-    <script type="text/javascript">
-        /*<![CDATA[*/
-        // Document status.
-        const STATUS_TEMPORARY = 'document.status.temporary';
-        const STATUS_USE = 'document.status.use';
-        const STATUS_DESTROY = 'document.status.destroy';
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    // Document status.
+    const STATUS_TEMPORARY = 'document.status.temporary';
+    const STATUS_USE = 'document.status.use';
+    const STATUS_DESTROY = 'document.status.destroy';
 
-        let offsetCount = 0;
-        window.onload = function() {
-            document.getElementById('searchDocuments').focus();
-            document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
-                search.addEventListener('keyup', function() {
-                    documentSearches(false);
-                });
+    let offsetCount = 0;
+    window.onload = function() {
+        document.getElementById('searchDocuments').focus();
+        document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
+            search.addEventListener('keyup', function() {
+                documentSearches();
             });
-            document.getElementById('searchGroupName').addEventListener('change', documentSearches.bind(null, false), false);
-            documentSearches(false);
-        };
+        });
+        document.getElementById('searchGroupName').addEventListener('change', documentSearches.bind(null), false);
+        documentSearches();
+    };
 
-        function documentSearches(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
+    function documentSearches() {
+        restSearchSubmit('get', '/workflows?' + aliceJs.serialize(document.getElementById('searchDocumentsFrm')));
+    }
+
+    // 빈 값 체크
+    function emptyValidation() {
+        if (isEmpty('document-name', 'document.msg.enterDocumentName')) { return false };
+        if (isEmpty('documentColor', 'document.msg.enterBusinessFlowColor')) { return false };
+        return true;
+    }
+    // 신청서 저장 / 수정
+    function saveDocument(method, documentId) {
+        if (emptyValidation()) {
+            let documentType = document.getElementById('document-type');
+            let documentForm = document.getElementById('document-form');
+            let documentProcess = document.getElementById('document-process');
+            let documentStatus = document.getElementById('document-status');
+            let apiEnable = document.getElementById('api-enable');
+            let documentNumberingRule = document.getElementById('document-numbering-rule');
+            let documentGroup = document.getElementById('document-group');
+
+            let documentInfo = {
+                documentType: documentType.options[documentType.selectedIndex].value,
+                documentName: document.getElementById('document-name').value,
+                documentDesc: document.getElementById('document-desc').value,
+                formId: documentForm.options[documentForm.selectedIndex].value,
+                processId: documentProcess.options[documentProcess.selectedIndex].value,
+                documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
+                documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
+                apiEnable: apiEnable.options[apiEnable.selectedIndex].value,
+                documentColor: document.getElementById('documentColor').value,
+                documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
+            };
+            let documentIcon = document.getElementById('document-icon');
+            if (documentIcon !== null && documentInfo.documentType !== 'workflow') {
+                documentInfo.documentIcon = documentIcon.value;
             }
-            urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSearchSubmit('get', '/workflows?' + urlParam, isScroll);
-        }
 
-        // 빈 값 체크
-        function emptyValidation() {
-            if (isEmpty('document-name', 'document.msg.enterDocumentName')) { return false };
-            if (isEmpty('documentColor', 'document.msg.enterBusinessFlowColor')) { return false };
-            return true;
-        }
-        // 신청서 저장 / 수정
-        function saveDocument(method, documentId) {
-            if (emptyValidation()) {
-                let documentType = document.getElementById('document-type');
-                let documentForm = document.getElementById('document-form');
-                let documentProcess = document.getElementById('document-process');
-                let documentStatus = document.getElementById('document-status');
-                let apiEnable = document.getElementById('api-enable');
-                let documentNumberingRule = document.getElementById('document-numbering-rule');
-                let documentGroup = document.getElementById('document-group');
+            let url = '/rest/workflows';
+            if (method === 'put' && documentId !== undefined) {
+                documentInfo.documentId = documentId;
+                url += '/' + documentId;
+            }
 
-                let documentInfo = {
-                    documentType: documentType.options[documentType.selectedIndex].value,
-                    documentName: document.getElementById('document-name').value,
-                    documentDesc: document.getElementById('document-desc').value,
-                    formId: documentForm.options[documentForm.selectedIndex].value,
-                    processId: documentProcess.options[documentProcess.selectedIndex].value,
-                    documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
-                    documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
-                    apiEnable: apiEnable.options[apiEnable.selectedIndex].value,
-                    documentColor: document.getElementById('documentColor').value,
-                    documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
-                };
-                let documentIcon = document.getElementById('document-icon');
-                if (documentIcon !== null && documentInfo.documentType !== 'workflow') {
-                    documentInfo.documentIcon = documentIcon.value;
-                }
-
-                let url = '/rest/workflows';
-                if (method === 'put' && documentId !== undefined) {
-                    documentInfo.documentId = documentId;
-                    url += '/' + documentId;
-                }
-
-                if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
-                    aliceAlert.confirm(
-                        i18n.msg('document.msg.changeStatusEnabled'),
-                        () => restSubmit(method, url + '?isDeleteData=true', documentInfo, function(result) {
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
-                                location.reload();
-                            });
-                        }),
-                        null
-                    );
-                } else {
-                    restSubmit(method, url, documentInfo, function(result) {
+            if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
+                aliceAlert.confirm(
+                    i18n.msg('document.msg.changeStatusEnabled'),
+                    () => restSubmit(method, url + '?isDeleteData=true', documentInfo, function() {
                         aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
-                            if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
-                                openDocumentDisplay(result);
-                            }
                             location.reload();
                         });
-                    });
-                }
-            }
-        }
-
-        // 신청서 아이콘 선택 팝업
-        function openIcon() {
-            aliceJs.thumbnail({
-                title: i18n.msg('document.label.icon'),
-                targetId: 'document-icon',
-                type: 'icon',
-                isThumbnailInfo: false,
-                isFilePrefix: false,
-                thumbnailDoubleClickUse: true,
-                selectedPath: document.querySelector('#document-icon').value,
-            });
-        }
-
-        // 업무흐름 구분 변경
-        function setDocumentType(type) {
-            const groupElem = document.getElementById('document-group');
-            groupElem.disabled = (type === 'workflow');
-
-            const documentIconElem = document.getElementById('document-icon-content');
-            if (type === 'workflow') {
-                groupElem.selectedIndex = 0;
-                documentIconElem.classList.remove('on');
+                    }),
+                    null
+                );
             } else {
-                documentIconElem.classList.add('on');
-            }
-        }
-
-        // 업무흐름 등록 , 수정
-        function openDocumentEdit(documentId) {
-            const url = (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new';
-            aliceJs.fetchText(url, {
-                method: 'GET'
-            }).then((htmlData) => {
-                let modalOptions = {
-                    title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.register'),
-                    body: htmlData,
-                    classes: 'document-edit',
-                    buttons: [{
-                        content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
-                        classes: 'z-button primary',
-                        bindKey: false,
-                        callback: function(modal) {
-                            let method = (documentId !== undefined) ? 'put' : 'post';
-                            saveDocument(method, documentId);
+                restSubmit(method, url, documentInfo, function(result) {
+                    aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function() {
+                        if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
+                            openDocumentDisplay(result);
                         }
-                    },{
-                        content: i18n.msg('common.btn.cancel'),
-                        classes: 'z-button secondary',
-                        bindKey: false,
-                        callback: function(modal) {
-                            modal.hide();
-                        }
-                    }],
-                    close: {
-                        closable: false,
-                    },
-                    onCreate: function(modal) {
-                        // color picker 초기화
-                        new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
-                        // 신청서 상태 초기화
-                        const statusElem = document.getElementById('document-status');
-                        const prevStatus = document.getElementById('prev-document-status').value;
-                        switch (prevStatus) {
-                            case STATUS_TEMPORARY:
-                                statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
-                                break;
-                            case STATUS_USE:
-                                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                                break;
-                            case STATUS_DESTROY:
-                                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                                statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
-                                break;
-                            default: // 신규 등록
-                        }
-
-                        // 스크롤바 추가
-                        OverlayScrollbars(document.querySelector('.workflow-content'), {className: 'scrollbar'});
-                        OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
-                            className: 'inner-scrollbar',
-                            resize: 'vertical',
-                            sizeAutoCapable: true,
-                            textarea: {
-                                dynHeight: false,
-                                dynWidth: false,
-                                inheritedAttrs: "class"
-                            }
-                        });
-
-                        aliceJs.initDesignedSelectTag();
-                    }
-                }
-                // 수정일 경우 신청서 양식 편집 버튼 추가
-                if (documentId !== undefined) {
-                    modalOptions.buttons.splice(1, 0, {
-                        content: i18n.msg('document.label.display'),
-                        classes: 'z-button secondary',
-                        bindKey: false,
-                        callback: function(modal) {
-                            openDocumentDisplay(documentId);
-                            modal.hide();
-                        }
-                    });
-                }
-                // 모달 호출
-                const documentAdminModal = new modal(modalOptions);
-                documentAdminModal.show();
-            });
-        }
-
-        // 신청서 양식 편집 화면
-        function openDocumentDisplay(documentId) {
-            aliceJs.fetchText('/workflows/' + documentId + '/display', {
-                method: 'GET'
-            }).then((htmlData) => {
-                let modalOptions = {
-                    title: i18n.msg('document.label.display'),
-                    body: htmlData,
-                    classes: 'document-display',
-                    buttons: [{
-                        content: i18n.msg('common.btn.modify'),
-                        classes: 'z-button primary',
-                        bindKey: false,
-                        callback: function(modal) {
-                            saveDocumentDisplay(documentId);
-                        }
-                    },{
-                        content: i18n.msg('common.btn.cancel'),
-                        classes: 'z-button secondary',
-                        bindKey: false,
-                        callback: function(modal) {
-                            modal.hide();
-                        }
-                    }],
-                    close: {
-                        closable: false,
-                    },
-                    onCreate: function(modal) {
-                        aliceJs.initDesignedSelectTag();
-
-                        OverlayScrollbars(document.querySelector('.document-display-content'), {className: 'scrollbar'});
-                    }
-                }
-                const documentDisplayModal = new modal(modalOptions);
-                documentDisplayModal.show();
-            });
-        }
-
-        /* Display data save */
-        function saveDocumentDisplay(documentId) {
-            const arrDisplay = [];
-            Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
-                const objDisplay = {};
-                const strArr = item.id.split('_');
-                objDisplay.formGroupId = strArr[0];     // formGroupId
-                objDisplay.elementId = strArr[1];       // elementId
-                objDisplay.display = item.value;        // display
-                arrDisplay.push(objDisplay);
-            });
-
-            const saveData = {
-                documentId: documentId,
-                displays: arrDisplay
-            };
-
-            aliceJs.fetchText('/rest/workflows/' + documentId + '/display', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(saveData)
-            }).then((rtn) => {
-                aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
-                    location.reload();
-                });
-            });
-        }
-
-        function deleteDocument(documentId) {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/workflows/' +
-                documentId, {}, function(result) {
-                if (JSON.parse(result)) {
-                    aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
                         location.reload();
                     });
-                } else {
-                    aliceAlert.alertWarning('[[#{document.msg.launchedInstance}]]');
-                }
-            }, false);
+                });
+            }
         }
+    }
 
-        function restSubmit(method, url, data, result, isShowProgressbar) {
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function(response) {
-                    result(response.responseText);
-                },
-                showProgressbar: isShowProgressbar
-            };
-            aliceJs.sendXhr(opt);
+    // 신청서 아이콘 선택 팝업
+    function openIcon() {
+        aliceJs.thumbnail({
+            title: i18n.msg('document.label.icon'),
+            targetId: 'document-icon',
+            type: 'icon',
+            isThumbnailInfo: false,
+            isFilePrefix: false,
+            thumbnailDoubleClickUse: true,
+            selectedPath: document.querySelector('#document-icon').value,
+        });
+    }
+
+    // 업무흐름 구분 변경
+    function setDocumentType(type) {
+        const groupElem = document.getElementById('document-group');
+        groupElem.disabled = (type === 'workflow');
+
+        const documentIconElem = document.getElementById('document-icon-content');
+        if (type === 'workflow') {
+            groupElem.selectedIndex = 0;
+            documentIconElem.classList.remove('on');
+        } else {
+            documentIconElem.classList.add('on');
         }
+    }
 
-        //REST API
-        function restSearchSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                callbackFunc: function(response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const workflowTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        workflowTbody.appendChild(container)
-                    } else {
-                        document.getElementById('documentList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            documentSearches(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
+    // 업무흐름 등록 , 수정
+    function openDocumentEdit(documentId) {
+        const url = (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new';
+        aliceJs.fetchText(url, {
+            method: 'GET'
+        }).then((htmlData) => {
+            let modalOptions = {
+                title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.register'),
+                body: htmlData,
+                classes: 'document-edit',
+                buttons: [{
+                    content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        let method = (documentId !== undefined) ? 'put' : 'post';
+                        saveDocument(method, documentId);
                     }
+                },{
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
                 },
-                showProgressbar: false
-            };
-            aliceJs.sendXhr(opt);
-        }
-        /*]]>*/
-    </script>
-</th:block>
+                onCreate: function(modal) {
+                    // color picker 초기화
+                    new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
+                    // 신청서 상태 초기화
+                    const statusElem = document.getElementById('document-status');
+                    const prevStatus = document.getElementById('prev-document-status').value;
+                    switch (prevStatus) {
+                        case STATUS_TEMPORARY:
+                            statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
+                            break;
+                        case STATUS_USE:
+                            statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                            break;
+                        case STATUS_DESTROY:
+                            statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                            statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+                            break;
+                        default: // 신규 등록
+                    }
+
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.workflow-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
+                        className: 'inner-scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+
+                    aliceJs.initDesignedSelectTag();
+                }
+            }
+            // 수정일 경우 신청서 양식 편집 버튼 추가
+            if (documentId !== undefined) {
+                modalOptions.buttons.splice(1, 0, {
+                    content: i18n.msg('document.label.display'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        openDocumentDisplay(documentId);
+                        modal.hide();
+                    }
+                });
+            }
+            // 모달 호출
+            const documentAdminModal = new modal(modalOptions);
+            documentAdminModal.show();
+        });
+    }
+
+    // 신청서 양식 편집 화면
+    function openDocumentDisplay(documentId) {
+        aliceJs.fetchText('/workflows/' + documentId + '/display', {
+            method: 'GET'
+        }).then((htmlData) => {
+            let modalOptions = {
+                title: i18n.msg('document.label.display'),
+                body: htmlData,
+                classes: 'document-display',
+                buttons: [{
+                    content: i18n.msg('common.btn.modify'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        saveDocumentDisplay(documentId);
+                    }
+                },{
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function(modal) {
+                    aliceJs.initDesignedSelectTag();
+
+                    OverlayScrollbars(document.querySelector('.document-display-content'), {className: 'scrollbar'});
+                }
+            }
+            const documentDisplayModal = new modal(modalOptions);
+            documentDisplayModal.show();
+        });
+    }
+
+    /* Display data save */
+    function saveDocumentDisplay(documentId) {
+        const arrDisplay = [];
+        Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
+            const objDisplay = {};
+            const strArr = item.id.split('_');
+            objDisplay.formGroupId = strArr[0];     // formGroupId
+            objDisplay.elementId = strArr[1];       // elementId
+            objDisplay.display = item.value;        // display
+            arrDisplay.push(objDisplay);
+        });
+
+        const saveData = {
+            documentId: documentId,
+            displays: arrDisplay
+        };
+
+        aliceJs.fetchText('/rest/workflows/' + documentId + '/display', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData)
+        }).then((rtn) => {
+            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), () => {
+                location.reload();
+            });
+        });
+    }
+
+    function deleteDocument(documentId) {
+        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/workflows/' +
+            documentId, {}, function(result) {
+            if (JSON.parse(result)) {
+                aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
+                    location.reload();
+                });
+            } else {
+                aliceAlert.alertWarning('[[#{document.msg.launchedInstance}]]');
+            }
+        }, false);
+    }
+
+    function restSubmit(method, url, data, result, isShowProgressbar) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(response) {
+                result(response.responseText);
+            },
+            showProgressbar: isShowProgressbar
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    //REST API
+    function restSearchSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            callbackFunc: function(response) {
+                document.getElementById('documentList').innerHTML = response.responseText;
+                aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                OverlayScrollbars(document.querySelector('.list-body'), {
+                    className: 'scrollbar'
+                });
+            },
+            showProgressbar: false
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
 </html>

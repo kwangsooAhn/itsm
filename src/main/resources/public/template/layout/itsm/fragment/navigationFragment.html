@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="z-navigation">
+	<div class="z-gnb">
+		<div class="z-logo">
+			<img class="z-img i-navigation-logo" th:src="@{/assets/theme/{theme}/media/icons/(theme=${#authentication.details.theme})} + 'icon_navigation_logo.svg'" width="152" height="26" alt="Zenius ITSM">
+		</div>
+		<div class="z-menu">
+			<div class="z-menu-area">
+				<ul>
+					<li class="z-gnb-area" th:each="topMenu : ${#authentication.details.menus}"
+							th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
+						<!--/* 그룹 메뉴 */-->
+						<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="z-gnb-link flex-row"
+						   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
+							<span th:class="'z-icon i-gnb-' + ${topMenu.menuId}"></span>
+							<span class="z-menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+							<span class="z-icon i-arrow-right"></span>
+						</a>
+						<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="z-snb-group">
+							<li th:id="${subMenu.menuId}" class="z-snb-area" th:each="subMenu : ${#authentication.details.menus}"
+								th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
+								<a th:href="${subMenu.url}"  th:class="'z-snb-link ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()"
+								   th:classappend="${subMenu.url} == ${session.active_url} ? active">
+									<span class="z-icon i-gnb_sub_dot"></span>
+									<span class="z-menu-name" th:text="#{|menu.${subMenu.menuId}|}"></span>
+								</a>
+							</li>
+						</ul>
+						<!--/* 연결 메뉴 */-->
+						<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="z-gnb-link flex-row"
+						   th:classappend="${topMenu.url} == ${session.active_url} ? active">
+							<span th:class="'z-icon i-gnb-' + ${topMenu.menuId}"></span>
+							<span class="z-menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+							<span th:if="${topMenu.menuId == 'token'}" class="z-token-count align-center" id="tokenCount">-</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[ */
+	window.addEventListener('load', function() {
+		setInterval(function () {
+			getTodoTokenCount();
+		}, 60000); // 60초 주기
+		getTodoTokenCount(true);
+
+		// 제품 정보 모달창 출력
+		document.getElementById('config.product').children[0].removeAttribute("href");
+		document.getElementById('config.product').children[0].onclick = function () {
+			openProductInfoModal();
+		}
+	});
+
+	function accordionMenu(element) {
+		aliceJs.slideToggle(document.getElementById(element.dataset.menugroup), 200);
+	}
+
+	window.addEventListener('DOMContentLoaded', function(){
+		if (document.querySelector('.active-parent') != null) {
+			const evt = document.createEvent('HTMLEvents');
+			evt.initEvent('click', false, true);
+			document.querySelector('.active-parent').dispatchEvent(evt);
+		}
+
+		OverlayScrollbars(document.querySelector('.z-menu'), {
+			className: 'inner-scrollbar-dark',
+			callbacks: {
+				onInitialized: function() {
+					const verticalScrollTrack = document.querySelector('.os-scrollbar-vertical').firstChild;
+					const verticalScrollHandle = verticalScrollTrack.firstChild;
+					verticalScrollTrack.classList.add('z-right');
+				}
+			}
+		});
+	});
+
+	function getTodoTokenCount() {
+		aliceJs.fetchText('/rest/tokens/todoCount', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'text/plain'
+			}
+		}).then((tokenCount) => {
+			let tokenCountSpan = document.getElementById('tokenCount');
+			tokenCountSpan.innerText = tokenCount
+			if (Number(tokenCount) === 0 && tokenCountSpan.classList.contains('active')) {
+				 tokenCountSpan.classList.remove('active');
+			} else if (Number(tokenCount) > 0 && !tokenCountSpan.classList.contains('active')) {
+				tokenCountSpan.classList.add('active');
+			}
+		});
+	}
+
+	function createProductModalContent(data) {
+        return `<div class="flex-column">` +
+				`<label>${i18n.msg('product.label.versionSuffix') + data.version}</label>` +
+				`<label>${i18n.msg('product.label.company')}</label>` +
+				`<a href="${i18n.msg('product.label.url')}">${i18n.msg('product.label.url')}</a>` +
+				`<label>${i18n.msg('product.label.email')}</label>` +
+				`<label>${i18n.msg('product.label.mainPhone')}</label>` +
+				`<label>${i18n.msg('product.label.technicalSupport')}</label>` +
+				`<label>${i18n.msg('product.label.productInquiry')}</label>` +
+				`</div>`;
+	}
+
+	function openProductInfoModal() {
+		const opt = {
+			method: 'get',
+			url: '/rest/products/info',
+			contentType: 'application/json',
+			showProgressbar: false,
+			callbackFunc: function (response) {
+				const data = JSON.parse(response.responseText);
+				let modalOptions = {
+					title: '',
+					body: createProductModalContent(data),
+					buttons: [{
+						content: i18n.msg('common.btn.close'),
+						classes: 'z-button secondary',
+						bindKey: false,
+						callback: function (modal) {
+							modal.hide();
+						}
+					}],
+					close: {
+						closable: false,
+					},
+				}
+
+				const productInfoModal = new modal(modalOptions);
+				productInfoModal.show();
+			}
+		};
+		aliceJs.sendXhr(opt);
+	}
+/* ]]> */
+</script>
+</html>

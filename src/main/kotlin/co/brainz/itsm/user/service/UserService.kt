@@ -15,6 +15,7 @@ import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.timezone.AliceTimezoneEntity
@@ -27,6 +28,7 @@ import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
+import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserUpdatePasswordDto
@@ -38,6 +40,7 @@ import java.nio.file.Paths
 import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.util.Optional
+import kotlin.math.ceil
 import kotlin.random.Random
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
@@ -81,8 +84,8 @@ class UserService(
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(search: String, offset: Long): UserListReturnDto {
-        val queryResult = userRepository.findAliceUserEntityList(search, offset)
+    fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
+        val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val userList: MutableList<UserListDataDto> = mutableListOf()
 
         for (user in queryResult.data) {
@@ -90,8 +93,17 @@ class UserService(
             user.avatarPath = avatarPath
             userList.add(user)
         }
-        queryResult.data = userList
-        return queryResult
+
+        // 페이징 정보 추가
+        queryResult.paging.totalCountWithoutCondition = userRepository.count()
+        queryResult.paging.currentPageNum = userSearchCondition.pageNum
+        queryResult.paging.totalPageNum =
+            ceil(queryResult.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
+
+        return UserListReturnDto(
+            data = userList,
+            paging = queryResult.paging
+        )
     }
 
     /**

@@ -7,12 +7,14 @@
 package co.brainz.itsm.faq.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqListReturnDto
-import co.brainz.itsm.faq.dto.FaqSearchRequestDto
+import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
@@ -28,12 +30,12 @@ class FaqRepositoryImpl(
     /**
      * FAQ 목록을 조회한다.
      */
-    override fun findFaqs(searchRequestDto: FaqSearchRequestDto): FaqListReturnDto {
+    override fun findFaqs(faqSearchCondition: FaqSearchCondition): FaqListReturnDto {
         val faq = QFaqEntity.faqEntity
         val user = QAliceUserEntity.aliceUserEntity
-        if (searchRequestDto.search?.isBlank() == false) {
-            searchRequestDto.groupCodes =
-                messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, searchRequestDto.search!!)
+        if (faqSearchCondition.searchValue?.isNotBlank() == true) {
+            faqSearchCondition.groupCodes =
+                messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, faqSearchCondition.searchValue)
         }
 
         val query = from(faq)
@@ -50,16 +52,19 @@ class FaqRepositoryImpl(
             )
             .innerJoin(faq.createUser, user)
             .where(
-                super.like(faq.faqTitle, searchRequestDto.search)
-                    ?.or(super.inner(faq.faqGroup, searchRequestDto.groupCodes))
+                super.like(faq.faqTitle, faqSearchCondition.searchValue)
+                    ?.or(super.inner(faq.faqGroup, faqSearchCondition.groupCodes))
             ).orderBy(faq.faqGroup.asc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
-            .offset(searchRequestDto.offset)
+            .limit(faqSearchCondition.contentNumPerPage)
+            .offset((faqSearchCondition.pageNum - 1) * faqSearchCondition.contentNumPerPage)
             .fetchResults()
 
         return FaqListReturnDto(
             data = query.results,
-            totalCount = query.total
+            paging = AlicePagingData(
+                totalCount = query.total,
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
     }
 

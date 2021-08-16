@@ -16,7 +16,7 @@ import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
 import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
-import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
+import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
 import co.brainz.itsm.customCode.entity.CustomCodeColumnEntity
 import co.brainz.itsm.customCode.entity.CustomCodeColumnPk
@@ -61,8 +61,8 @@ class CustomCodeService(
      *
      * @return MutableList<CustomCodeDto>
      */
-    fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): CustomCodeListReturnDto {
-        return customCodeRepository.findByCustomCodeList(customCodeSearchDto)
+    fun getCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
+        return customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
     }
 
     /**

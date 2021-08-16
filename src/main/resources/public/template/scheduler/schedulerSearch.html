@@ -1,124 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{scheduler.label.scheduler}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-board-admin-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{scheduler.label.scheduler}"></h1>
-            <h6 class="description ml-2" th:text="#{scheduler.msg.searchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row">
-            <input type="hidden" sec:authorize="hasAuthority('scheduler.create') || hasAuthority('scheduler.update')"
-                   th:name="isRole" th:value="true"/>
-            <input type="hidden" sec:authorize="!hasAuthority('scheduler.create') && !hasAuthority('scheduler.update')"
-                   th:name="isRole" th:value="false"/>
-            <form id="searchFrm">
-                <input type="text" id="search" name="search" class="z-input i-search col-5 mr-2" maxlength="100"
-                       th:placeholder="#{scheduler.label.searchPlaceholder}"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" onclick="openSchedulerAdd()"
-                        sec:authorize="hasAuthority('scheduler.create')" th:text="#{common.btn.add}"></button>
-            </div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{scheduler.label.scheduler}"></h1>
+    <h6 class="description ml-2" th:text="#{scheduler.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" sec:authorize="hasAuthority('scheduler.create') || hasAuthority('scheduler.update')"
+           th:name="isRole" th:value="true"/>
+    <input type="hidden" sec:authorize="!hasAuthority('scheduler.create') && !hasAuthority('scheduler.update')"
+           th:name="isRole" th:value="false"/>
+    <form id="searchFrm">
+        <input type="text" id="searchValue" name="searchValue" class="z-input i-search col-5 mr-2" maxlength="100"
+               th:placeholder="#{scheduler.label.searchPlaceholder}"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" onclick="openSchedulerAdd()"
+                sec:authorize="hasAuthority('scheduler.create')" th:text="#{common.btn.add}"></button>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-board-admin-content flex-fill">
-        <div class="list" id="schedulerList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <div class="list" id="schedulerList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let offsetCount = 0;
-        window.onload = function() {
-            document.getElementById('search').focus();
-            document.getElementById('search').addEventListener('keyup', function() { getSchedulerList(false); });
-            getSchedulerList(false);
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function() { getSchedulerList(); });
+        getSchedulerList();
+    };
+
+    function getSchedulerList(pageNum = 1) {
+        restSubmit('get', '/schedulers?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+    }
+
+    function openSchedulerAdd() {
+        location.href = '/schedulers/new';
+    }
+
+    // REST API
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            callbackFunc: function(response) {
+                document.getElementById('schedulerList').innerHTML = response.responseText;
+                setDateTimeFormat(document.getElementById('schedulerList'));
+                OverlayScrollbars(document.querySelector('.list-body'), {
+                    className: 'scrollbar'
+                });
+            },
+            showProgressbar: false
         };
+        aliceJs.sendXhr(opt);
+    }
 
-        function getSchedulerList(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-            }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSubmit('get', '/schedulers?' + urlParam, isScroll);
-        }
-
-        function openSchedulerAdd() {
-            location.href = '/schedulers/new';
-        }
-
-        // REST API
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                callbackFunc: function(response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const schedulerTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        schedulerTbody.appendChild(container)
-                    } else {
-                        document.getElementById('schedulerList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('schedulerList'));
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getSchedulerList(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                },
-                showProgressbar: false
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(dt => {
-                dt.textContent = i18n.userDateTime(dt.textContent.trim());
-            });
-        }
-        /*]]>*/
-    </script>
-</th:block>
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+        });
+    }
+    /*]]>*/
+</script>
 </html>

@@ -7,8 +7,11 @@
 package co.brainz.itsm.board.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.board.dto.BoardListDto
 import co.brainz.itsm.board.dto.BoardListReturnDto
+import co.brainz.itsm.board.dto.BoardSearchCondition
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
@@ -24,10 +27,7 @@ import org.springframework.stereotype.Repository
 class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     BoardAdminRepositoryCustom {
 
-    override fun findByBoardAdminList(
-        search: String,
-        offset: Long
-    ): BoardListReturnDto {
+    override fun findByBoardAdminList(boardSearchCondition: BoardSearchCondition): BoardListReturnDto {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         val user = QAliceUserEntity.aliceUserEntity
         val board = QPortalBoardEntity("board")
@@ -49,16 +49,19 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             .innerJoin(boardAdmin.createUser, user)
             .where(
                 super.like(
-                    boardAdmin.boardAdminTitle, search
-                )?.or(super.like(boardAdmin.createUser.userName, search))
+                    boardAdmin.boardAdminTitle, boardSearchCondition.searchValue
+                )?.or(super.like(boardAdmin.createUser.userName, boardSearchCondition.searchValue))
             ).orderBy(boardAdmin.createDt.desc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
-            .offset(offset)
+            .limit(boardSearchCondition.contentNumPerPage)
+            .offset((boardSearchCondition.pageNum - 1) * boardSearchCondition.contentNumPerPage)
             .fetchResults()
 
         return BoardListReturnDto(
             data = query.results,
-            totalCount = query.total
+            paging = AlicePagingData(
+                totalCount = query.total,
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
     }
 

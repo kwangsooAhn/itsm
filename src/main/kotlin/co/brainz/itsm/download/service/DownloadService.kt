@@ -6,16 +6,16 @@
 
 package co.brainz.itsm.download.service
 
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.download.dto.DownloadDto
 import co.brainz.itsm.download.dto.DownloadListReturnDto
-import co.brainz.itsm.download.dto.DownloadSearchDto
+import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.transaction.Transactional
+import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -29,21 +29,17 @@ class DownloadService(
     private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)
 
     /**
-     * [downloadSearchDto]를 받아서 자료실 목록를 [List<DownloadListDto>] 반환한다.
+     * [downloadSearchCondition]를 받아서 자료실 목록를 [List<DownloadListDto>] 반환한다.
      *
      */
-    fun getDownloadList(downloadSearchDto: DownloadSearchDto): DownloadListReturnDto {
-        val fromDt = LocalDateTime.parse(downloadSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
-        val toDt = LocalDateTime.parse(downloadSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-        val offset = downloadSearchDto.offset
-
-        return downloadRepository.findDownloadEntityList(
-            downloadSearchDto.category,
-            downloadSearchDto.search,
-            fromDt,
-            toDt,
-            offset
-        )
+    fun getDownloadList(downloadSearchCondition: DownloadSearchCondition): DownloadListReturnDto {
+        val downloadListReturnDto = downloadRepository.findDownloadEntityList(downloadSearchCondition)
+        // 페이징 정보 추가
+        downloadListReturnDto.paging.totalCountWithoutCondition = downloadRepository.count()
+        downloadListReturnDto.paging.currentPageNum = downloadSearchCondition.pageNum
+        downloadListReturnDto.paging.totalPageNum =
+            ceil(downloadListReturnDto.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
+        return downloadListReturnDto
     }
 
     /**

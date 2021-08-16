@@ -7,7 +7,7 @@
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
+import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -24,7 +24,6 @@ class DocumentController(
 
     private val documentSearchPage: String = "document/documentSearch"
     private val documentListPage: String = "document/documentList"
-    private val documentListFragment: String = "document/documentList :: list"
     private val documentPrintPage: String = "document/documentPrint"
 
     /**
@@ -44,11 +43,11 @@ class DocumentController(
      * @return String
      */
     @GetMapping("")
-    fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
-        val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
+    fun getDocumentList(documentSearchCondition: DocumentSearchCondition, model: Model): String {
+        val result = documentService.getDocumentList(documentSearchCondition)
         model.addAttribute("documentList", result.data)
-        model.addAttribute("totalCount", result.totalCount)
-        return if (restTemplateDocumentSearchListDto.isScroll) documentListFragment else documentListPage
+        model.addAttribute("paging", result.paging)
+        return documentListPage
     }
 
     /**

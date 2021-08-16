@@ -23,14 +23,14 @@
   }
 }
 /////////////////////////////////////////////// 공통 /////////////////////////////////////////////////////
-.#{$common-prefix}itsm {
+.z-itsm {
   &-container {
     @include container;
     width: 100vw;
     height: 100vh;
     overflow: auto;
 
-    .#{$common-prefix}main {
+    .z-main {
       width: calc(100% - #{$nav-width});
       height: 100vh;
 
@@ -38,7 +38,7 @@
       &.os-host-overflow > .os-padding { margin-right: $scrollbar-thick; }
 
       // 상단 영역
-      .#{$common-prefix}main-header {
+      .z-main-header {
         @include sticky($top: 0);
         background-color: $layout-main-header-bg-color;
         z-index: $z-index-between-gnb-event;
@@ -46,8 +46,32 @@
         @include defaultMainHeader();
       }
 
+      &-page {
+        padding: 0 3.75rem; // 0 60px
+        background-color: $layout-content-bg-color;
+        height: 100%;
+        .z-page-title {
+          padding-bottom: 2rem;
+        }
+
+        .z-page-search {
+          .z-search-count {
+            font-weight: $layout-header-search-font-weight;
+            font-size: 0.875rem;
+            color: $layout-header-search-color;
+          }
+        }
+        .z-page-content {
+          padding-top: 0.9375rem; // 15px
+          padding-bottom: 0.9375rem; // 15px
+
+          // pagingList
+          @include pagingListTemplate();
+        }
+      }
+
       // 리스트
-      @include defaultListTemplate();
+      //@include defaultListTemplate();
 
       // 카드
       @include defaultCardTemplate();
@@ -59,7 +83,7 @@
       @include defaultViewTemplate();
     }
     // 역할, 권한, 코드 화면의 우측 영역
-    .#{$common-prefix}aside {
+    .z-aside {
       flex-shrink: 0; // 고정
       width: 38.125rem; // 610px
       background-color: $layout-aside-bg-color;
@@ -98,7 +122,7 @@
   display: inline-block;
 }
 
-.#{$common-prefix} {
+.z- {
   /////////////////////////////////////////////// 헤더 ////////////////////////////////////////////////////////
   // 공지사항, FAQ, 자료실, 게시판, 사용자 정의 차트
   // 시스템관리 > 사용자, 게시판
@@ -111,7 +135,6 @@
   // CMDB > Class
   // CMDB > Type
   // CMDB > Ci
-  &notice-header,
   &faq-header,
   &download-header,
   &board-header,
@@ -159,7 +182,6 @@
   // CMDB > Type
   // CMDB > Class
   // CMDB > Ci
-  &notice-content,
   &faq-content,
   &download-content,
   &board-content,

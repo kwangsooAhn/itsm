@@ -8,7 +8,8 @@ package co.brainz.itsm.chart.respository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.chart.dto.ChartListReturnDto
+import co.brainz.itsm.chart.dto.ChartSearchCondition
 
 interface ChartRepositoryCustom : AliceRepositoryCustom {
-    fun findChartList(searchGroupName: String, offset: Long?): ChartListReturnDto
+    fun findChartList(chartSearchCondition: ChartSearchCondition): ChartListReturnDto
 }

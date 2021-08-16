@@ -5,11 +5,14 @@
 
 package co.brainz.itsm.document.service
 
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
+import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
+import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -17,12 +20,13 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentListReturnDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
+import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.io.File
 import java.time.LocalDateTime
+import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -42,18 +46,18 @@ class DocumentService(
      *
      * @return List<RestTemplateDocumentListDto>
      */
-    fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
+    fun getDocumentList(documentSearchCondition: DocumentSearchCondition):
             RestTemplateDocumentListReturnDto {
         // 업무흐름을 관리하는 사용자라면 신청서 상태가 임시, 사용을 볼 수가 있다.
         val aliceUserDto = currentSessionUser.getUserDto()
         if (aliceUserDto!!.grantedAuthorises != null) {
             aliceUserDto.grantedAuthorises?.forEachIndexed { _, grantedAuthority ->
                 if (grantedAuthority.authority == "document.read.admin") {
-                    restTemplateDocumentSearchListDto.viewType = "admin"
+                    documentSearchCondition.viewType = "admin"
                 }
             }
         }
-        val documentList = wfDocumentService.documents(restTemplateDocumentSearchListDto)
+        val documentList = wfDocumentService.documents(documentSearchCondition)
 
         for (document in documentList.data) {
             if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
@@ -62,7 +66,6 @@ class DocumentService(
                     FileConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon
                 )
         }
-
         return documentList
     }
 
@@ -71,9 +74,9 @@ class DocumentService(
      *
      * @return List<DocumentDto>
      */
-    fun getDocumentAll(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
+    fun getDocumentAll(documentSearchCondition: DocumentSearchCondition):
             List<RestTemplateDocumentDto> {
-        return wfDocumentService.allDocuments(restTemplateDocumentSearchListDto)
+        return wfDocumentService.allDocuments(documentSearchCondition)
     }
 
     /**
@@ -145,12 +148,17 @@ class DocumentService(
      * @return List<RestTemplateFormDto>
      */
     fun getFormList(): List<RestTemplateFormDto> {
-        val formParams = LinkedHashMap<String, Any>()
         val formStatus = ArrayList<String>()
         formStatus.add(RestTemplateConstants.FormStatus.PUBLISH.value)
         formStatus.add(RestTemplateConstants.FormStatus.USE.value)
-        formParams["status"] = formStatus.joinToString(",")
-        return formService.findForms(formParams)
+        return formService.findForms(
+            FormSearchCondition(
+                searchValue = "",
+                status = formStatus.joinToString(","),
+                pageNum = 0L,
+                contentNumPerPage = 0L
+            )
+        ).data
     }
 
     /**
@@ -159,12 +167,17 @@ class DocumentService(
      * @return List<RestTemplateProcessViewDto>
      */
     fun getProcessList(): List<RestTemplateProcessViewDto> {
-        val processParams = LinkedHashMap<String, Any>()
         val processStatus = ArrayList<String>()
         processStatus.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
         processStatus.add(RestTemplateConstants.ProcessStatus.USE.value)
-        processParams["status"] = processStatus.joinToString(",")
-        return processAdminService.getProcesses(processParams).data
+        return processAdminService.getProcesses(
+            ProcessSearchCondition(
+                searchValue = "",
+                status = processStatus.joinToString(","),
+                pageNum = 0L,
+                contentNumPerPage = 0L
+            )
+        ).data
     }
 
     /**

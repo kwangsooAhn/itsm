@@ -8,7 +8,7 @@ package co.brainz.itsm.download.controller
 
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.download.constants.DownloadConstants
-import co.brainz.itsm.download.dto.DownloadSearchDto
+import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.service.DownloadService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -25,7 +25,6 @@ class DownloadController(
 
     private val downloadSearchPage: String = "download/downloadSearch"
     private val downloadListPage: String = "download/downloadList"
-    private val downloadListFragment: String = "download/downloadList :: list"
     private val downloadEditPage: String = "download/downloadEdit"
     private val downloadViewPage: String = "download/downloadView"
 
@@ -43,15 +42,15 @@ class DownloadController(
     }
 
     /**
-     * [downloadSearchDto], [model]를 받아서 자료실 리스트 화면 호출.
+     * [downloadSearchCondition], [model]를 받아서 자료실 리스트 화면 호출.
      *
      */
     @GetMapping("")
-    fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
-        val result = downloadService.getDownloadList(downloadSearchDto)
+    fun getDownloadList(downloadSearchCondition: DownloadSearchCondition, model: Model): String {
+        val result = downloadService.getDownloadList(downloadSearchCondition)
         model.addAttribute("downloadList", result.data)
-        model.addAttribute("downloadCount", result.totalCount)
-        return if (downloadSearchDto.isScroll) downloadListFragment else downloadListPage
+        model.addAttribute("paging", result.paging)
+        return downloadListPage
     }
 
     /**

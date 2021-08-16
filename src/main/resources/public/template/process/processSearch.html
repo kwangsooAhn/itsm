@@ -1,241 +1,389 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{process.label.process}"></title>
-    <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-process-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{process.label.process}"></h1>
-            <h6 class="description ml-2" th:text="#{process.msg.searchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row">
-            <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>
-            <form id="searchFrm">
-                <input type="text" id="search" name="search" class="z-input i-search col-5 mr-2"  maxlength="100"
-                       th:placeholder="#{process.label.searchPlaceholder}"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-            <div class="ml-auto">
-                <button type="button" class="z-button primary" onclick="openProcessRegister();"
-                        sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.add}"></button>
-                <button type="button" class="z-button secondary" onclick="openProcessImport();"
-                        sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
-            </div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{process.label.process}"></h1>
+    <h6 class="description ml-2" th:text="#{process.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>
+    <form id="searchFrm">
+        <input type="text" id="searchValue" name="searchValue" class="z-input i-search col-5 mr-2"  maxlength="100"
+               th:placeholder="#{process.label.searchPlaceholder}"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button primary" onclick="openProcessRegister();"
+                sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.add}"></button>
+        <button type="button" class="z-button secondary" onclick="openProcessImport();"
+                sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-process-content flex-fill">
-        <div class="list" id="processList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <div class="list-content" id="processList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript">
-        /*<![CDATA[*/
-        // process status
-        const STATUS_USE = 'process.status.use';
-        const STATUS_DESTROY = 'process.status.destroy';
-        const RESPONSE_SUCESS = '1';
-        const RESPONSE_FAIL = '0';
-        const RESPONSE_DUPLICATION = '-1';
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    // process status
+    const STATUS_USE = 'process.status.use';
+    const STATUS_DESTROY = 'process.status.destroy';
+    const RESPONSE_SUCESS = '1';
+    const RESPONSE_FAIL = '0';
+    const RESPONSE_DUPLICATION = '-1';
 
-        let offsetCount = 0;
-        window.onload = function() {
-            document.getElementById('search').focus();
-            getProcessList(document.getElementById('search').value, false);
+    let offsetCount = 0;
+    window.onload = function() {
+        document.getElementById('searchValue').focus();
+        getProcessList(document.getElementById('searchValue').value, false);
+    }
+
+    document.getElementById('searchValue').onkeyup = function() {
+        getProcessList(this.value, false);
+    };
+
+    // 프로세스 리스트 조회
+    function getProcessList(search, isScroll) {
+        restSearchSubmit('GET', '/processes?search=' + encodeURIComponent(search));
+    }
+
+    // 유효성 검증
+    function checkValidation() {
+        if (isEmpty('process_name', 'process.msg.enterProcessName')) {
+            return false;
         }
 
-        document.getElementById('search').onkeyup = function() {
-            getProcessList(this.value, false);
-        };
+        // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
+        if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
+            aliceAlert.alertWarning(i18n.msg('process.msg.selectImportFile'));
+            return false;
+        }
+        return true;
+    }
 
-        // 프로세스 리스트 조회
-        function getProcessList(search, isScroll) {
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
+     // 프로세스 등록/수정
+    function saveProcess(processId, isDestroy, isEnabled) {
+        // 빈 값 체크
+        if (checkValidation()) {
+            const processInfo = {
+                processName: document.getElementById('process_name').value,
+                processDesc: document.getElementById('process_description').value
+            };
+            if (processId === undefined) {
+                // 등록
+                restSubmit('POST', '/rest/processes', processInfo);
             } else {
-                offsetCount = 0;
-            }
-            restSearchSubmit('GET', '/processes?search=' + encodeURIComponent(search) + '&offset=' + offsetCount + '&isScroll=' + isScroll, isScroll);
-        }
-
-        // 유효성 검증
-        function checkValidation() {
-            if (isEmpty('process_name', 'process.msg.enterProcessName')) {
-                return false;
-            }
-
-            // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
-            if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
-                aliceAlert.alertWarning(i18n.msg('process.msg.selectImportFile'));
-                return false;
-            }
-            return true;
-        }
-
-         // 프로세스 등록/수정
-        function saveProcess(processId, isDestroy, isEnabled) {
-            // 빈 값 체크
-            if (checkValidation()) {
-                const processInfo = {
-                    processName: document.getElementById('process_name').value,
-                    processDesc: document.getElementById('process_description').value
-                };
-                if (processId === undefined) {
-                    // 등록
-                    restSubmit('POST', '/rest/processes', processInfo);
-                } else {
-                    // 수정
-                    processInfo.processId = processId;
-                    processInfo.processStatus = isDestroy ? STATUS_DESTROY : document.getElementById('process_status').value;
-                    isEnabled ? restSubmit('PUT', '/rest/processes/' + processId, processInfo)
-                        : aliceAlert.alertWarning(i18n.msg('process.msg.failedDestroy'));
-                }
+                // 수정
+                processInfo.processId = processId;
+                processInfo.processStatus = isDestroy ? STATUS_DESTROY : document.getElementById('process_status').value;
+                isEnabled ? restSubmit('PUT', '/rest/processes/' + processId, processInfo)
+                    : aliceAlert.alertWarning(i18n.msg('process.msg.failedDestroy'));
             }
         }
+    }
 
-        // 프로세스 삭제
-        function deleteProcess(processId) {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
-                aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
-                    window.close();
-                });
+    // 프로세스 삭제
+    function deleteProcess(processId) {
+        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/process/' + processId, function() {
+            aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
+                window.close();
             });
-        }
+        });
+    }
 
-        // 프로세스 등록 / 수정 모달 내부 Template
-        function createModalContent(data) {
-            return `<div class="flex-column">` +
-                       `<input type="hidden" id="process_status" value="${data !== undefined ? data.status : ''}" />` +
-                       `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
-                       `<input type="text" class="z-input" id="process_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
-                       `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
-                       `<textarea rows="3" class="z-textarea textarea-scroll-wrapper" id="process_description" maxlength="256" ${data !== undefined && data.isView ? 'readonly' : ''}>${data !== undefined ? data.description : ''}</textarea>` +
-                    `</div>`;
-        }
+    // 프로세스 등록 / 수정 모달 내부 Template
+    function createModalContent(data) {
+        return `<div class="flex-column">` +
+                   `<input type="hidden" id="process_status" value="${data !== undefined ? data.status : ''}" />` +
+                   `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
+                   `<input type="text" class="z-input" id="process_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
+                   `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
+                   `<textarea rows="3" class="z-textarea textarea-scroll-wrapper" id="process_description" maxlength="256" ${data !== undefined && data.isView ? 'readonly' : ''}>${data !== undefined ? data.description : ''}</textarea>` +
+                `</div>`;
+    }
 
-        // 프로세스 수정 / 보기 모달 오픈
-        function openProcessEdit(processId, isView) {
-            if (processId !== undefined) { // 수정
-                aliceJs.sendXhr({
-                    method: 'GET',
-                    url: '/rest/processes/' + processId + '/data',
-                    callbackFunc: function(xhr) {
-                        let responseObject = JSON.parse(xhr.responseText);
-                        responseObject.isView = isView;
-                        let options = {
-                            title: isView ? i18n.msg('process.label.detail') : i18n.msg('process.label.edit') ,
-                            body: createModalContent(responseObject),
-                            classes: 'process-edit',
-                            buttons: [],
-                            close: {
-                                closable: false,
-                            },
-                            onCreate: function(modal) {
-                                // 스크롤바 추가
-                                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                                OverlayScrollbars(document.getElementById('process_description'), {
-                                    className: 'inner-scrollbar',
-                                    resize: 'vertical',
-                                    sizeAutoCapable: true,
-                                    textarea: {
-                                        dynHeight: false,
-                                        dynWidth: false,
-                                        inheritedAttrs: "class"
-                                    }
-                                });
-                            }
-                        };
-
-                        // 버튼 설정
-                        if (responseObject.enabled && !isView) {
-                            // 내보내기 버튼
-                            options.buttons.push({
-                                content: i18n.msg('process.btn.export'),
-                                classes: 'z-button primary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    ZWorkflowUtil.export(responseObject.id, 'process');
-                                }
-                            });
-                            // 수정
-                            options.buttons.push({
-                                content: i18n.msg('common.btn.modify'),
-                                classes: 'z-button primary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    saveProcess(responseObject.id, false, true);
-                                }
-                            });
-                            // 삭제
-                            options.buttons.push({
-                                content: i18n.msg('common.btn.delete'),
-                                classes: 'z-button secondary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    deleteProcess(responseObject.id);
-                                }
-                            });
-                        } else if (responseObject.status === STATUS_USE) {
-                            // 내보내기 버튼
-                            options.buttons.push({
-                                content: i18n.msg('process.btn.export'),
-                                classes: 'z-button primary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    ZWorkflowUtil.export(responseObject.id, 'process');
-                                }
-                            });
-                            // 폐기
-                            options.buttons.push({
-                                content: i18n.msg('process.status.destroy'),
-                                classes: 'z-button secondary',
-                                bindKey: false,
-                                callback: function(modal) {
-                                    saveProcess(responseObject.id, true, responseObject.enabled);
+    // 프로세스 수정 / 보기 모달 오픈
+    function openProcessEdit(processId, isView) {
+        if (processId !== undefined) { // 수정
+            aliceJs.sendXhr({
+                method: 'GET',
+                url: '/rest/processes/' + processId + '/data',
+                callbackFunc: function(xhr) {
+                    let responseObject = JSON.parse(xhr.responseText);
+                    responseObject.isView = isView;
+                    let options = {
+                        title: isView ? i18n.msg('process.label.detail') : i18n.msg('process.label.edit') ,
+                        body: createModalContent(responseObject),
+                        classes: 'process-edit',
+                        buttons: [],
+                        close: {
+                            closable: false,
+                        },
+                        onCreate: function(modal) {
+                            // 스크롤바 추가
+                            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                            OverlayScrollbars(document.getElementById('process_description'), {
+                                className: 'inner-scrollbar',
+                                resize: 'vertical',
+                                sizeAutoCapable: true,
+                                textarea: {
+                                    dynHeight: false,
+                                    dynWidth: false,
+                                    inheritedAttrs: "class"
                                 }
                             });
                         }
-                        // 취소
+                    };
+
+                    // 버튼 설정
+                    if (responseObject.enabled && !isView) {
+                        // 내보내기 버튼
                         options.buttons.push({
-                            content: i18n.msg('common.btn.cancel'),
+                            content: i18n.msg('process.btn.export'),
+                            classes: 'z-button primary',
+                            bindKey: false,
+                            callback: function(modal) {
+                                ZWorkflowUtil.export(responseObject.id, 'process');
+                            }
+                        });
+                        // 수정
+                        options.buttons.push({
+                            content: i18n.msg('common.btn.modify'),
+                            classes: 'z-button primary',
+                            bindKey: false,
+                            callback: function(modal) {
+                                saveProcess(responseObject.id, false, true);
+                            }
+                        });
+                        // 삭제
+                        options.buttons.push({
+                            content: i18n.msg('common.btn.delete'),
                             classes: 'z-button secondary',
                             bindKey: false,
                             callback: function(modal) {
-                                modal.hide();
+                                deleteProcess(responseObject.id);
                             }
                         });
+                    } else if (responseObject.status === STATUS_USE) {
+                        // 내보내기 버튼
+                        options.buttons.push({
+                            content: i18n.msg('process.btn.export'),
+                            classes: 'z-button primary',
+                            bindKey: false,
+                            callback: function(modal) {
+                                ZWorkflowUtil.export(responseObject.id, 'process');
+                            }
+                        });
+                        // 폐기
+                        options.buttons.push({
+                            content: i18n.msg('process.status.destroy'),
+                            classes: 'z-button secondary',
+                            bindKey: false,
+                            callback: function(modal) {
+                                saveProcess(responseObject.id, true, responseObject.enabled);
+                            }
+                        });
+                    }
+                    // 취소
+                    options.buttons.push({
+                        content: i18n.msg('common.btn.cancel'),
+                        classes: 'z-button secondary',
+                        bindKey: false,
+                        callback: function(modal) {
+                            modal.hide();
+                        }
+                    });
 
-                        // 모달 호출
-                        const processModal = new modal(options);
-                        processModal.show();
-                    },
-                    contentType: 'application/json; charset=utf-8'
+                    // 모달 호출
+                    const processModal = new modal(options);
+                    processModal.show();
+                },
+                contentType: 'application/json; charset=utf-8'
+            });
+        }
+    }
+
+    // 프로세스 등록 모달 오픈
+    function openProcessRegister() {
+        const processModal = new modal({
+            title: i18n.msg('process.label.register'),
+            body: createModalContent(),
+            classes: 'process-edit',
+            buttons: [{
+                content: i18n.msg('common.btn.register'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: function(modal) {
+                    saveProcess();
+                }
+            },{
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function(modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function(modal) {
+                // 스크롤바 추가
+                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                OverlayScrollbars(document.getElementById('process_description'), {
+                    className: 'inner-scrollbar',
+                    resize: 'vertical',
+                    sizeAutoCapable: true,
+                    textarea: {
+                        dynHeight: false,
+                        dynWidth: false,
+                        inheritedAttrs: "class"
+                    }
                 });
             }
-        }
+        });
+        processModal.show();
+    }
 
-        // 프로세스 등록 모달 오픈
-        function openProcessRegister() {
-            const processModal = new modal({
-                title: i18n.msg('process.label.register'),
-                body: createModalContent(),
-                classes: 'process-edit',
-                buttons: [{
-                    content: i18n.msg('common.btn.register'),
+    // REST API
+    function restSubmit(method, url, data) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                let result = response.responseText;
+                if (method === 'POST') {
+                    const _width = 1800,
+                        _height = 920;
+                    // 중앙 배치
+                    const _left = Math.ceil((window.screen.width - _width) / 2);
+                    const _top = Math.ceil((window.screen.height - _height) / 4);
+
+                    let resultToJson = JSON.parse(result);
+                    let processId = resultToJson.processId;
+                    let resultCode = resultToJson.result;
+                    switch (resultCode.toString()) {
+                        case RESPONSE_DUPLICATION:
+                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            return;
+                        case RESPONSE_FAIL:
+                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                            return;
+                        default:
+                            sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
+                            let specs = 'left=' + _left + ',top=' + _top;
+                            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                            window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                    }
+                } else if (method === "PUT") {
+                    switch (result) {
+                        case RESPONSE_DUPLICATION:
+                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                            return;
+                        case RESPONSE_FAIL:
+                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                            return;
+                    }
+                }
+                location.reload();
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    // 프로세스 디자이너 편집화면 오픈
+    function openProcessDesignerEdit(processId) {
+        const _width = 1800,
+              _height = 920;
+        //중앙 배치
+        const _left = Math.ceil((window.screen.width - _width) / 2);
+        const _top = Math.ceil((window.screen.height - _height) / 4);
+
+        let specs = 'left=' + _left + ',top=' + _top;
+        specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+
+        sessionStorage.setItem('alice_processes-edit-' + processId, '');
+        window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
+    }
+
+    // 프로세스 디자이너 상세화면 오픈
+    function openProcessDesignerView(processId) {
+        const _width = 1800,
+              _height = 920;
+        //중앙 배치
+        const _left = Math.ceil((window.screen.width - _width) / 2);
+        const _top = Math.ceil((window.screen.height - _height) / 4);
+
+        let specs = 'left=' + _left + ',top=' + _top;
+        specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+        window.open('/process/' + processId + '/view', 'process_' + processId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
+    }
+
+    // 프로세스 IMPORT
+    function importProcess() {
+        if (checkValidation()) {
+            let fileList = zFileUploader.getFile();
+            const processInfo = {
+                processName: document.getElementById('process_name').value,
+                processDesc: document.getElementById('process_description').value
+            };
+
+            ZWorkflowUtil.import(fileList, processInfo, 'process', function (resultCode) {
+                switch (resultCode.toString()) {
+                    case RESPONSE_DUPLICATION:
+                        aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
+                        return false;
+                    case RESPONSE_FAIL:
+                        aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
+                        return false;
+                    default:
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            location.reload();
+                            return true;
+                        });
+                }
+            });
+        }
+        return false;
+    }
+
+    // 프로세스 IMPORT 모달 내부 Template
+    function createImportModalContent() {
+        return `<div class="import-main flex-column">` +
+                   `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
+                   `<input type="text" class="z-input" id="process_name" maxlength="50">` +
+                   `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
+                   `<textarea rows="3" class="z-textarea textarea-scroll-wrapper" id="process_description" maxlength="256"></textarea>` +
+                   `<div class="file-uploader-edit">` +
+                       `<label class="file-uploader-title field-label">${i18n.msg('process.label.importFile')}<span class="required"></span></label>` +
+                       `<div id="dropZoneFiles"></div>` +
+                       `<div id="dropZoneUploadedFiles"></div>` +
+                   `</div>` +
+                   `<h6 class="description">${i18n.msg('process.msg.noticeImportFile')}</h6>` +
+                `</div>`;
+    }
+
+    // 프로세스 IMPORT 화면 오픈
+    function openProcessImport() {
+        const importModal = new modal({
+            title: i18n.msg('process.label.import'),
+            body: createImportModalContent(),
+            classes: 'process-import',
+            buttons: [
+                {
+                    content: i18n.msg('process.btn.import'),
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function(modal) {
-                        saveProcess();
+                        importProcess();
                     }
                 },{
                     content: i18n.msg('common.btn.cancel'),
@@ -244,257 +392,93 @@
                     callback: function(modal) {
                         modal.hide();
                     }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function(modal) {
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.getElementById('process_description'), {
-                        className: 'inner-scrollbar',
-                        resize: 'vertical',
-                        sizeAutoCapable: true,
-                        textarea: {
-                            dynHeight: false,
-                            dynWidth: false,
-                            inheritedAttrs: "class"
-                        }
-                    });
                 }
-            });
-            processModal.show();
-        }
-
-        // REST API
-        function restSubmit(method, url, data) {
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function (response) {
-                    let result = response.responseText;
-                    if (method === 'POST') {
-                        const _width = 1800,
-                            _height = 920;
-                        // 중앙 배치
-                        const _left = Math.ceil((window.screen.width - _width) / 2);
-                        const _top = Math.ceil((window.screen.height - _height) / 4);
-
-                        let resultToJson = JSON.parse(result);
-                        let processId = resultToJson.processId;
-                        let resultCode = resultToJson.result;
-                        switch (resultCode.toString()) {
-                            case RESPONSE_DUPLICATION:
-                                aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
-                                return;
-                            case RESPONSE_FAIL:
-                                aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
-                                return;
-                            default:
-                                sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
-                                let specs = 'left=' + _left + ',top=' + _top;
-                                specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                                window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
-                        }
-                    } else if (method === "PUT") {
-                        switch (result) {
-                            case RESPONSE_DUPLICATION:
-                                aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
-                                return;
-                            case RESPONSE_FAIL:
-                                aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
-                                return;
-                        }
+            ],
+            close: {
+                closable: false,
+            },
+            onCreate: function(modal) {
+                // 파일 업로드 추가
+                zFileUploader.init({
+                    extra: {
+                        formId: 'importProcess',
+                        dropZoneMaxFiles: 1,
+                        acceptedFiles: '.xml',
+                        dropZoneUrl: '/fileupload?target=import',
+                        editor: true
                     }
-                    location.reload();
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        // 프로세스 디자이너 편집화면 오픈
-        function openProcessDesignerEdit(processId) {
-            const _width = 1800,
-                  _height = 920;
-            //중앙 배치
-            const _left = Math.ceil((window.screen.width - _width) / 2);
-            const _top = Math.ceil((window.screen.height - _height) / 4);
-
-            let specs = 'left=' + _left + ',top=' + _top;
-            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-
-            sessionStorage.setItem('alice_processes-edit-' + processId, '');
-            window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
-        }
-
-        // 프로세스 디자이너 상세화면 오픈
-        function openProcessDesignerView(processId) {
-            const _width = 1800,
-                  _height = 920;
-            //중앙 배치
-            const _left = Math.ceil((window.screen.width - _width) / 2);
-            const _top = Math.ceil((window.screen.height - _height) / 4);
-
-            let specs = 'left=' + _left + ',top=' + _top;
-            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/process/' + processId + '/view', 'process_' + processId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
-        }
-
-        // 프로세스 IMPORT
-        function importProcess() {
-            if (checkValidation()) {
-                let fileList = zFileUploader.getFile();
-                const processInfo = {
-                    processName: document.getElementById('process_name').value,
-                    processDesc: document.getElementById('process_description').value
-                };
-
-                ZWorkflowUtil.import(fileList, processInfo, 'process', function (resultCode) {
-                    switch (resultCode.toString()) {
-                        case RESPONSE_DUPLICATION:
-                            aliceAlert.alertWarning(i18n.msg('process.msg.duplicateProcessName'));
-                            return false;
-                        case RESPONSE_FAIL:
-                            aliceAlert.alertWarning(i18n.msg('common.msg.fail'));
-                            return false;
-                        default:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
-                                location.reload();
-                                return true;
-                            });
+                });
+                // 스크롤바 추가
+                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                OverlayScrollbars(document.getElementById('process_description'), {
+                    className: 'inner-scrollbar',
+                    resize: 'vertical',
+                    sizeAutoCapable: true,
+                    textarea: {
+                        dynHeight: false,
+                        dynWidth: false,
+                        inheritedAttrs: "class"
                     }
                 });
             }
-            return false;
-        }
+        });
+        importModal.show();
+    }
 
-        // 프로세스 IMPORT 모달 내부 Template
-        function createImportModalContent() {
-            return `<div class="import-main flex-column">` +
-                       `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
-                       `<input type="text" class="z-input" id="process_name" maxlength="50">` +
-                       `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
-                       `<textarea rows="3" class="z-textarea textarea-scroll-wrapper" id="process_description" maxlength="256"></textarea>` +
-                       `<div class="file-uploader-edit">` +
-                           `<label class="file-uploader-title field-label">${i18n.msg('process.label.importFile')}<span class="required"></span></label>` +
-                           `<div id="dropZoneFiles"></div>` +
-                           `<div id="dropZoneUploadedFiles"></div>` +
-                       `</div>` +
-                       `<h6 class="description">${i18n.msg('process.msg.noticeImportFile')}</h6>` +
-                    `</div>`;
-        }
-
-        // 프로세스 IMPORT 화면 오픈
-        function openProcessImport() {
-            const importModal = new modal({
-                title: i18n.msg('process.label.import'),
-                body: createImportModalContent(),
-                classes: 'process-import',
-                buttons: [
-                    {
-                        content: i18n.msg('process.btn.import'),
-                        classes: 'z-button primary',
-                        bindKey: false,
-                        callback: function(modal) {
-                            importProcess();
-                        }
-                    },{
-                        content: i18n.msg('common.btn.cancel'),
-                        classes: 'z-button secondary',
-                        bindKey: false,
-                        callback: function(modal) {
-                            modal.hide();
-                        }
+    // REST API
+    function restSearchSubmit(method, url, isScroll) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function(response) {
+                if (isScroll) {
+                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                        offsetCount = offsetCount + aliceJs.searchDataCount;
                     }
-                ],
-                close: {
-                    closable: false,
-                },
-                onCreate: function(modal) {
-                    // 파일 업로드 추가
-                    zFileUploader.init({
-                        extra: {
-                            formId: 'importProcess',
-                            dropZoneMaxFiles: 1,
-                            acceptedFiles: '.xml',
-                            dropZoneUrl: '/fileupload?target=import',
-                            editor: true
-                        }
-                    });
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.getElementById('process_description'), {
-                        className: 'inner-scrollbar',
-                        resize: 'vertical',
-                        sizeAutoCapable: true,
-                        textarea: {
-                            dynHeight: false,
-                            dynWidth: false,
-                            inheritedAttrs: "class"
-                        }
-                    });
-                }
-            });
-            importModal.show();
-        }
-
-        // REST API
-        function restSearchSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function(response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const processTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        processTbody.appendChild(container)
-                    } else {
-                        document.getElementById('processList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('processList'));
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getProcessList(document.getElementById('search').value, true);
-                                        }
+                    const processTbody = document.querySelector('.list-body .os-content');
+                    const tbody = document.createElement('tbody');
+                    tbody.innerHTML = response.responseText;
+                    setDateTimeFormat(tbody);
+                    const container = document.createDocumentFragment();
+                    for (let i = 0; i < tbody.rows.length; i++) {
+                        let node = tbody.rows[i].cloneNode(true);
+                        container.appendChild(node);
+                    }
+                    processTbody.appendChild(container)
+                } else {
+                    document.getElementById('processList').innerHTML = response.responseText;
+                    aliceJs.showTotalCount(document.getElementById('totalCount').value);
+                    setDateTimeFormat(document.getElementById('processList'));
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        getProcessList(document.getElementById('search').value, true);
                                     }
                                 }
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            };
-            aliceJs.sendXhr(opt);
-        }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
 
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(dt => {
-                dt.textContent = i18n.userDateTime(dt.textContent.trim());
-            });
-        }
-    </script>
-</th:block>
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+        });
+    }
+</script>
 </html>

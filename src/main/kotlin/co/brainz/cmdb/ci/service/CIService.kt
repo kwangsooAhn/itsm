@@ -32,11 +32,12 @@ import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIRelationDto
-import co.brainz.cmdb.dto.CIReturnDto
+import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CISearchDto
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.tag.constants.AliceTagConstants
@@ -44,11 +45,13 @@ import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
+import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -75,39 +78,14 @@ class CIService(
     /**
      * CI 목록 조회.
      */
-    fun getCIs(parameters: LinkedHashMap<String, Any>): CIReturnDto {
-        var tagList = emptyList<String>()
-        if (parameters["tags"] != null && parameters["tags"].toString() != "") {
-            tagList = parameters["tags"].toString()
-                .replace("#", "")
-                .split(",")
-        }
-        var search: String? = null
-        var offset: Long? = null
-        var limit: Long? = null
-        var flag: String? = null
-        if (parameters["search"] != null) search = parameters["search"].toString()
-        if (parameters["offset"] != null) offset = parameters["offset"].toString().toLong()
-        if (parameters["limit"] != null) limit = parameters["limit"].toString().toLong()
-        if (parameters["flag"] != null) flag = parameters["flag"].toString()
-        val ciSearchDto = CISearchDto(
-            search = search,
-            offset = offset,
-            limit = limit,
-            flag = flag,
-            tags = tagList
-        )
-        val cis = ciRepository.findCIList(ciSearchDto)
-        val ciList = mutableListOf<CIListDto>()
-        for (ci in cis.results) {
-            ciList.add(
-                this.makeCIListDto(ci)
-            )
-        }
-        return CIReturnDto(
-            data = ciList,
-            totalCount = cis.total
-        )
+    fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
+        val ciReturnList = ciRepository.findCIList(ciSearchCondition)
+        // 페이징 정보 추가
+        ciReturnList.paging.totalCountWithoutCondition = ciRepository.count()
+        ciReturnList.paging.currentPageNum = ciSearchCondition.pageNum
+        ciReturnList.paging.totalPageNum =
+            ceil(ciReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
+        return ciReturnList
     }
 
     /**

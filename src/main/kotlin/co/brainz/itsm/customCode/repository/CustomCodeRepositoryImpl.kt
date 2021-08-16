@@ -7,12 +7,14 @@
 package co.brainz.itsm.customCode.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
-import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
+import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -23,7 +25,7 @@ import org.springframework.stereotype.Repository
 class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     CustomCodeRepositoryCustom {
 
-    override fun findByCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): CustomCodeListReturnDto {
+    override fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
         val customCode = QCustomCodeEntity.customCodeEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(customCode)
@@ -40,28 +42,25 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             )
             .innerJoin(customCode.createUser, user)
             .where(
-                super.like(customCode.type, customCodeSearchDto.searchType)
+                super.like(customCode.type, customCodeSearchCondition.searchType)
             )
             .where(
-                super.like(customCode.customCodeName, customCodeSearchDto.search.toString())
+                super.like(customCode.customCodeName, customCodeSearchCondition.searchValue.toString())
             )
             .orderBy(customCode.customCodeName.asc())
-        if (customCodeSearchDto.viewType != "editor") {
-            query.limit(ItsmConstants.SEARCH_DATA_COUNT).offset(customCodeSearchDto.offset)
+        if (customCodeSearchCondition.viewType != "editor") {
+            query.limit(customCodeSearchCondition.contentNumPerPage)
+            query.offset((customCodeSearchCondition.pageNum - 1) * customCodeSearchCondition.contentNumPerPage)
         }
 
         val result = query.fetchResults()
-        val customCodeList = mutableListOf<CustomCodeListDto>()
-        for (data in result.results) {
-            data.totalCount = result.total
-            customCodeList.addAll(
-                listOf(data)
-            )
-        }
 
         return CustomCodeListReturnDto(
-            data = customCodeList,
-            totalCount = result.total
+            data = result.results,
+            paging = AlicePagingData(
+                totalCount = result.total,
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
         )
     }
 

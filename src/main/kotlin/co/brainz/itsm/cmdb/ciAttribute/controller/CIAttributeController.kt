@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.cmdb.ciAttribute.controller
 
+import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.itsm.constants.ItsmConstants
 import javax.servlet.http.HttpServletRequest
@@ -22,7 +23,6 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
 
     private val attributeSearchPage: String = "cmdb/attribute/attributeSearch"
     private val attributeListPage: String = "cmdb/attribute/attributeList"
-    private val attributeListFragment: String = "cmdb/attribute/attributeList :: list"
     private val attributeEditPage: String = "cmdb/attribute/attributeEdit"
     private val attributeViewPage: String = "cmdb/attribute/attributeView"
 
@@ -38,22 +38,11 @@ class CIAttributeController(private val ciAttributeService: CIAttributeService) 
      * CI Attribute 관리 화면 호출.
      */
     @GetMapping("")
-    fun getCIAttributes(
-        request: HttpServletRequest,
-        @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
-        model: Model
-    ): String {
-        val params = LinkedHashMap<String, Any>()
-        params["search"] = request.getParameter("search")
-        if (request.getParameter("offset") != null) {
-            params["offset"] = request.getParameter("offset").toString().toLong()
-        }
-        params["limit"] = ItsmConstants.SEARCH_DATA_COUNT
-
-        val result = ciAttributeService.getCIAttributes(params)
+    fun getCIAttributes(ciAttributeSearchCondition: CIAttributeSearchCondition, model: Model): String {
+        val result = ciAttributeService.getCIAttributes(ciAttributeSearchCondition)
         model.addAttribute("attributeList", result.data)
-        model.addAttribute("attributeListCount", result.totalCount)
-        return if (isScroll) attributeListFragment else attributeListPage
+        model.addAttribute("paging", result.paging)
+        return attributeListPage
     }
 
     /**

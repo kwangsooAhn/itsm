@@ -9,11 +9,11 @@ package co.brainz.itsm.customCode.repository
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
-import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
+import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 
 interface CustomCodeRepositoryCustom : AliceRepositoryCustom {
 
-    fun findByCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): CustomCodeListReturnDto
+    fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto
 
     fun findByCustomCode(customCodeId: String): CustomCodeCoreDto
 }

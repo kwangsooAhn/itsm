@@ -8,17 +8,12 @@ package co.brainz.itsm.board.repository.querydsl
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.board.dto.BoardArticleListReturnDto
+import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import java.time.LocalDateTime
 
 interface BoardRepositoryCustom : AliceRepositoryCustom {
-    fun findByBoardList(
-        boardAdminId: String,
-        search: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        offset: Long
-    ): BoardArticleListReturnDto
+    fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): BoardArticleListReturnDto
 
     fun findByBoardId(boardId: String): BoardArticleViewDto
 }

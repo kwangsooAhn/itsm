@@ -6,6 +6,7 @@
 package co.brainz.itsm.scheduler.service
 
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
@@ -20,9 +21,10 @@ import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.scheduler.dto.SchedulerDto
 import co.brainz.itsm.scheduler.dto.SchedulerListDto
 import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
-import co.brainz.itsm.scheduler.dto.SchedulerSearchDto
+import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
 import java.time.Instant
 import javax.transaction.Transactional
+import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.scheduling.TaskScheduler
@@ -44,36 +46,42 @@ class SchedulerService(
     /**
      * 스케줄 목록 조회.
      */
-    fun getSchedulers(schedulerSearchDto: SchedulerSearchDto): SchedulerListReturnDto {
+    fun getSchedulers(schedulerSearchCondition: SchedulerSearchCondition): SchedulerListReturnDto {
         val latelyHistory = aliceScheduleHistoryRepository.findScheduleLatelyHistory()
-        val schedulers = aliceScheduleTaskRepository.findByScheduleList(schedulerSearchDto)
+        val schedulers = aliceScheduleTaskRepository.findByScheduleList(schedulerSearchCondition)
         val schedulerList = mutableListOf<SchedulerListDto>()
-        if (schedulers != null) {
-            for (scheduler in schedulers.results) {
-                val schedulerDto = SchedulerListDto(
-                    taskId = scheduler.taskId,
-                    taskName = scheduler.taskName,
-                    taskType = scheduler.taskType,
-                    useYn = scheduler.useYn,
-                    executeClass = scheduler.executeClass,
-                    executeQuery = scheduler.executeQuery,
-                    executeCycleType = scheduler.executeCycleType,
-                    executeCyclePeriod = scheduler.executeCyclePeriod,
-                    cronExpression = scheduler.cronExpression
-                )
-                latelyHistory.forEach { history ->
-                    if (history.taskId == scheduler.taskId) {
-                        schedulerDto.executeTime = history.executeTime
-                        schedulerDto.result = history.result
-                    }
+        for (scheduler in schedulers.data) {
+            val schedulerDto = SchedulerListDto(
+                taskId = scheduler.taskId,
+                taskName = scheduler.taskName,
+                taskType = scheduler.taskType,
+                useYn = scheduler.useYn,
+                executeClass = scheduler.executeClass,
+                executeQuery = scheduler.executeQuery,
+                executeCycleType = scheduler.executeCycleType,
+                executeCyclePeriod = scheduler.executeCyclePeriod,
+                cronExpression = scheduler.cronExpression
+            )
+            latelyHistory.forEach { history ->
+                if (history.taskId == scheduler.taskId) {
+                    schedulerDto.executeTime = history.executeTime
+                    schedulerDto.result = history.result
                 }
-                schedulerList.add(schedulerDto)
             }
+            schedulerList.add(schedulerDto)
         }
-        return SchedulerListReturnDto(
+
+        val schedulerReturnList = SchedulerListReturnDto(
             data = schedulerList,
-            totalCount = schedulers?.total ?: 0
+            paging = schedulers.paging
         )
+        // 페이징 정보 추가
+        schedulerReturnList.paging.totalCountWithoutCondition = aliceScheduleTaskRepository.count()
+        schedulerReturnList.paging.currentPageNum = schedulerSearchCondition.pageNum
+        schedulerReturnList.paging.totalPageNum =
+            ceil(schedulerReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
+
+        return schedulerReturnList
     }
 
     /**

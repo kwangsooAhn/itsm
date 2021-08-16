@@ -9,12 +9,12 @@ package co.brainz.framework.scheduling.repository
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.itsm.scheduler.dto.SchedulerDto
-import co.brainz.itsm.scheduler.dto.SchedulerSearchDto
-import com.querydsl.core.QueryResults
+import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
+import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
 
 interface AliceScheduleTaskRepositoryCustom : AliceRepositoryCustom {
 
-    fun findByScheduleList(schedulerSearchDto: SchedulerSearchDto): QueryResults<AliceScheduleTaskEntity>?
+    fun findByScheduleList(schedulerSearchCondition: SchedulerSearchCondition): SchedulerListReturnDto
     fun findByScheduleListByUse(): MutableList<AliceScheduleTaskEntity>
     fun findBySchedule(taskId: String): SchedulerDto?
     fun findDuplicationTaskName(taskName: String, taskId: String?): Long

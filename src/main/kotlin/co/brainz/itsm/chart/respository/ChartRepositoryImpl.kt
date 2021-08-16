@@ -7,8 +7,11 @@
 package co.brainz.itsm.chart.respository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.chart.dto.ChartListDto
 import co.brainz.itsm.chart.dto.ChartListReturnDto
+import co.brainz.itsm.chart.dto.ChartSearchCondition
 import co.brainz.itsm.chart.entity.ChartEntity
 import co.brainz.itsm.chart.entity.QChartEntity
 import co.brainz.itsm.constants.ItsmConstants
@@ -18,7 +21,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), ChartRepositoryCustom {
-    override fun findChartList(searchGroupName: String, offset: Long?): ChartListReturnDto {
+    override fun findChartList(chartSearchCondition: ChartSearchCondition): ChartListReturnDto {
         val chart = QChartEntity.chartEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(chart)
@@ -35,17 +38,18 @@ class ChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java), 
             )
             .innerJoin(chart.createUser, user)
             .where(
-                super.like(chart.chartType, searchGroupName)
+                super.like(chart.chartType, chartSearchCondition.searchGroupName)
             ).orderBy(chart.chartName.asc())
-        if (offset != null) {
-            query.limit(ItsmConstants.SEARCH_DATA_COUNT)
-                .offset(offset)
-        }
+            .limit(chartSearchCondition.contentNumPerPage)
+            .offset((chartSearchCondition.pageNum - 1) * chartSearchCondition.contentNumPerPage)
+            .fetchResults()
 
-        val result = query.fetchResults()
         return ChartListReturnDto(
-            data = result.results,
-            totalCount = result.total
+            data = query.results,
+            paging = AlicePagingData(
+                totalCount = query.total,
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
     }
 }
