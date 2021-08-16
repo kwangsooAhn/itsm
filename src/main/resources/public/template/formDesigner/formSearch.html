@@ -103,7 +103,7 @@
 
         // 폼 삭제
         function deleteForm(formId) {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/form/' + formId, function(result) {
+            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/forms/' + formId, function(result) {
                 if (result === 'true') {
                     aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function() {
                         location.reload();
@@ -169,7 +169,7 @@
                         };
 
                         // 버튼 설정
-                        if (responseObject.editable && !isView) {
+                        if (!isView) {
                             // 수정
                             options.buttons.push({
                                 content: i18n.msg('common.btn.modify'),
