@@ -110,12 +110,6 @@
         spanClose.addEventListener('click', this.close, false);
         pickerTitle.appendChild(spanClose);
 
-        // create sub title > 시간 날짜 표시
-        let pickerSubTitle = document.createElement('div');
-        pickerSubTitle.className = 'z-picker-modal-sub-title';
-        this.el.appendChild(pickerSubTitle);
-        this.changeDisplay();
-
         // create content
         let pickerContent = document.createElement('div');
         pickerContent.className = 'z-picker-modal-content';
@@ -190,7 +184,6 @@
                     if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
                         this.drawTime();
                     }
-                    this.changeDisplay();
                 }
                 // remove event
                 document.removeEventListener('mousedown', this.clickWindow, false);
@@ -453,22 +446,10 @@
             this.selectLuxon = this.selectLuxon.plus({ months: 1 });
             this.drawDate();
         },
-        // Date picker에 표시되는 선택된 날짜 시간을 변경.
-        changeDisplay: function() {
-            const displayElem = this.el.querySelector('.z-picker-modal-sub-title');
-            displayElem.innerHTML = '';
-            if (this.type === 'DATE') {
-                displayElem.textContent = this.selectLuxon.toFormat(i18n.dateFormat);
-            } else {
-                displayElem.textContent = this.selectLuxon.toFormat(i18n.dateTimeFormat);
-            }
-        },
         // Date picker 에서 특정 날짜 선택시 표시되는 날짜 변경.
         changeDay: function(offset) {
             this.selectLuxon = this.selectLuxon.set(offset);
             this.displayLuxon = this.selectLuxon.plus({ days: 0});
-
-            this.changeDisplay();
         },
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function() {
@@ -495,7 +476,6 @@
                 this.selectLuxon = this.selectLuxon.plus({ hours: 12 });
             }
             this.meridiem = meridiem;
-            this.changeDisplay();
         },
         // Time picker 에서 위 아래 화살표 아이콘 클릭시 시간 변경.
         changeTime: function(offset) {
@@ -531,7 +511,6 @@
             const minuteInput = document.getElementById(this.id + '-time-minute');
             minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
 
-            this.changeDisplay();
         },
         // Time picker 에서 input box (Hour) 변경시 처리.
         setHour: function() {
@@ -551,7 +530,6 @@
                     hourInput.value = '0' + Number(inputValue);
                 }
                 this.selectLuxon = this.selectLuxon.set({ hour: hourInput.value });
-                this.changeDisplay();
             } else {
                 hourInput.value = this.selectLuxon.toFormat(this.hourFormat);
             }
@@ -572,7 +550,6 @@
                     minuteInput.value = '0' + Number(inputValue) ;
                 }
                 this.selectLuxon = this.selectLuxon.set({ minute: minuteInput.value });
-                this.changeDisplay();
             } else {
                 minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
             }

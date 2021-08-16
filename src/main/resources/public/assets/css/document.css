@@ -2331,8 +2331,8 @@ body.modal-active {
   border: 0.0625rem solid #FFFFFF;
 }
 
-.z-group.accordion .z-group-accordion-checkBox:checked ~ .z-row-tooltip:not(.off):last-child {
-  border-bottom: 0.0625rem solid #EBEBEB;
+.z-group.accordion .z-group-accordion-checkBox:checked ~ .wrow-tooltip:not(.off):last-child {
+  border-bottom: 0.0625rem solid #CFD5D9;
 }
 
 /* 태그 기능 디자인

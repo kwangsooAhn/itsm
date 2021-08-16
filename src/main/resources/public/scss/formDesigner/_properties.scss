@@ -6,7 +6,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0.625rem 0.75rem; // 10px 12px;
-  @include border(0.0625rem, solid, map-get($grays, "line"), bottom); // 1px
+  @include border(0.0625rem, solid, $gray300, bottom); // 1px
   &:first-child { @include border(0.0625rem, solid, $layout-properties-panel-header-border-color, top); }
 
   // 라벨
@@ -38,21 +38,21 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .#{$common-prefix}input {
+    .z-input {
       width: 4.375rem; // 70px
     }
   }
   // clipboard 엘리먼트
-  .#{$common-prefix}clipboard {
+  .z-clipboard {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .#{$common-prefix}input {
+    .z-input {
       width: 100%
     }
   }
   // input 엘리먼트
-  .#{$common-prefix}input:not(.tagify) {
+  .z-input:not(.tagify) {
     width: 100%;
     padding: 0 1rem; // 0 16px
     font-size: $property-font-size;
@@ -76,16 +76,16 @@
   }
   // input + button
   .input-button {
-    .#{$common-prefix}button {
+    .z-button {
       height: 2.5rem; // 40px
     }
   }
   // column 너비 조정
-  .#{$common-prefix}slider {
-    .#{$common-prefix}range {
+  .z-slider {
+    .z-range {
       width : 75%;
     }
-    .#{$common-prefix}input {
+    .z-input {
       width: 23%;
       text-align: center;
       margin-left: 2%;
@@ -105,7 +105,7 @@
     flex-direction: row;
 
     .btn-switch { width: 3.75rem; } // 60px
-    .#{$common-prefix}input {
+    .z-input {
       display: block;
       margin-left : 0.625rem; // 10px
       &.off { display: none; }
@@ -136,7 +136,7 @@
       margin: 0.3125rem 0; // 5px 0
 
       .radio-item {
-        .#{$common-prefix}input {
+        .z-input {
           width: 2.813rem; // 45px
           margin: 0 0.3125rem 0 0; // 5px
         }
@@ -155,9 +155,9 @@
     }
   }
   // tab
-  .#{$common-prefix}tab-panel {
-    .#{$common-prefix}tabs {
-      .#{$common-prefix}button-icon {
+  .z-tab-panel {
+    .z-tabs {
+      .z-button-icon {
         padding: 4px 9px; // 4px 9px
 
         &:not(:last-child) {
@@ -169,14 +169,14 @@
         }
       }
     }
-    .#{$common-prefix}panels {
-      .#{$common-prefix}panel {
+    .z-panels {
+      .z-panel {
         @include relative();
         margin-top: 0.625rem;
         padding: 0.625rem 0; // 10px 0
-        @include border(0.0625rem, solid, map-get($grays, "line"), all); // 1px
+        @include border(0.0625rem, solid, $gray300, all); // 1px
 
-        .#{$common-prefix}panel-common {
+        .z-panel-common {
           .panel-name {
             padding: 0 0.75rem; // 12px
           }
@@ -201,11 +201,11 @@
           }
         }
 
-        .#{$common-prefix}button-switch-group,
-        .#{$common-prefix}button-toggle-group {
+        .z-button-switch-group,
+        .z-button-toggle-group {
 
-          .#{$common-prefix}button-switch,
-          .#{$common-prefix}button-toggle {
+          .z-button-switch,
+          .z-button-toggle {
             padding: 0.25rem  0.5625rem; // 4px 9px
           }
         }
