@@ -76,35 +76,16 @@ class ZFormToken {
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
-            // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
-            // row 에 포함된 component displayType 이 모두 hidden 이면 group 도 숨긴다.
-            const checkDisplay = data.row.some( (row) => row.component.some((component) =>
-                component.displayType !== FORM.DISPLAY_TYPE.HIDDEN));
-            if (!checkDisplay) {
-                group.UIElement.addUIClass('off');
-            }
             data.row.forEach( (r, rIndex) => {
                 this.makeForm(r, group, rIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
-            // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
-            // component displayType 이 모두 hidden 이면 row 도 숨긴다.
-            const checkDisplay = data.component.some((component) =>
-                component.displayType !== FORM.DISPLAY_TYPE.HIDDEN);
-            if (!checkDisplay) {
-                row.UIElement.addUIClass('off');
-            }
             data.component.forEach( (c, cIndex) => {
                 this.makeForm(c, row, cIndex);
             });
         } else { // component
-            const component = this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);
-            // TODO: #10540 폼 리팩토링 - 신청서 양식 편집시 설계에 따라 바뀔 수 있음
-            // component displayType 이 hidden 이면 component 를 숨긴다.
-            if (data.displayType === FORM.DISPLAY_TYPE.HIDDEN) {
-                component.UIElement.addUIClass('off');
-            }
+            this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);
         }
     }
     /**

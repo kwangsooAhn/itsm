@@ -144,8 +144,8 @@ class WfFormService(
                     val componentDto = FormComponentDto(
                         id = componentEntity.componentId,
                         type = componentEntity.componentType,
-                        isTopic = componentEntity.isTopic,
                         mapId = componentEntity.mappingId,
+                        isTopic = componentEntity.isTopic,
                         tags = aliceTagService.getTagsByTargetId(
                             AliceTagConstants.TagType.COMPONENT.code,
                             componentEntity.componentId

@@ -17,7 +17,7 @@
                 <div class="document-row-content">
                     <div class="document-title flex-row align-items-center">
                         <h3 th:text="${token.documentName}" class="mr-2 text-ellipsis"></h3>
-                        <span th:text="${token.documentNo}" class="document-numbering text-ellipsis"></span>
+                        <span th:text="${token.documentNo}" class="z-document-numbering text-ellipsis"></span>
                     </div>
                     <div class="document-topic">
                         <label class="topic" th:each="topic: ${token.topics}" th:text="${topic}"></label>

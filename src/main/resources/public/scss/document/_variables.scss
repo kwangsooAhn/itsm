@@ -5,6 +5,11 @@ $layout-header-height:                       0; // 0px
 // main
 $layout-main-bg-color:                       $neutral50;
 
+// 문서 번호
+$document-numbering-font-family:             $font-family-s;
+$document-numbering-font-size:               $font-size-xs;
+$document-numbering-color:                   $gray800;
+
 // main > drawing-board
 $drawing-board-width:                        60rem; // 960px
 $drawing-board-bg-color:                     $white;
@@ -12,6 +17,7 @@ $drawing-board-border:                       0.0625rem solid map-get($grays, 'li
 $drawing-board-box-shadow:                   0 0 0.9375rem 0 hexToRGBA(map-get($grays, 'pressed'), 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
 $drawing-board-padding:                      6.25rem 4.688rem; // 100px 75px;
 
+$layout-properties-width:                    38.13rem; // 610px
 
 //////////////////////////// CI 모달 /////////////////////////
 $cmdb-ci-modal-width:                        62.5rem; // 1000px

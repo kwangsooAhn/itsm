@@ -12,14 +12,18 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <div class="document-container">
+    <div class="z-document-container">
         <form id="frm" name="frm">
-            <div class="document-main flex-column align-items-center" style="right: 38.13rem">
-                <div class="document-main-header flex-row justify-content-between align-items-center">
-                    <span class="document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></span>
-                    <div class="z-button-area" id="documentButtonArea"></div>
+            <div class="z-document-main flex-column align-items-center">
+                <div class="z-document-main-header flex-row justify-content-between align-items-center flex-wrap">
+                    <span class="z-document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></span>
+                    <div id="defaultButtonArea"></div>
+                    <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
                 </div>
                 <div class="z-drawing-board" id="documentPanel" data-display="token"></div>
+                <div class="z-document-main-footer flex-row justify-content-end align-items-center flex-wrap">
+                    <div class="z-action-button-bottom-area" id="actionButtonBottomArea"></div>
+                </div>
             </div>
         </form>
         <div class="token-properties"></div>
@@ -60,7 +64,7 @@
             }
 
             zFormToken.init(document.getElementById('documentPanel'), formDataJson);
-            zFormButton.init(document.getElementById('documentButtonArea'), formDataJson, zFormToken);
+            zFormButton.init(formDataJson, zFormToken);
         });
         OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
         /*]]>*/
@@ -83,11 +87,12 @@
                 showProgressbar: false,
                 callbackFunc: function (response) {
                     instanceId = document.getElementById('instanceId').getAttribute('data-id');
+                    console.log(instanceId);
                     if (document.querySelector('.token-properties').children) {
                         document.querySelector('.token-properties').remove();
                         let tokenInfo = document.createElement('div');
                         tokenInfo.className = 'token-properties';
-                        document.querySelector('.document-container').append(tokenInfo);
+                        document.querySelector('.z-document-container').append(tokenInfo);
                     }
 
                     document.querySelector('.token-properties').innerHTML = response.responseText;

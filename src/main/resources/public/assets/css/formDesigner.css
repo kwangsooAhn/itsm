@@ -1930,21 +1930,21 @@ label {
   background-position-y: 50%;
 }
 .z-input.i-date-picker {
-  background-image: url("../media/icons/icon_date_picker.svg");
+  background-image: url("../media/icons/dateTimePicker/icon_date_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-time-picker {
-  background-image: url("../media/icons/icon_time_picker.svg");
+  background-image: url("../media/icons/dateTimePicker/icon_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-datetime-picker {
-  background-image: url("../media/icons/icon_date_time_picker.svg");
+  background-image: url("../media/icons/dateTimePicker/icon_date_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -5659,7 +5659,7 @@ body.modal-active {
 .z-group-tooltip.focus {
   background-color: #F1F9FC;
 }
-.z-group-tooltip.off {
+.z-group-tooltip[data-displaytype="document.displayType.hidden"] {
   display: none;
 }
 
@@ -5715,7 +5715,7 @@ body.modal-active {
   opacity: 0;
 }
 .z-group.accordion .z-group-label .z-group-label-text {
-  padding-right: 0.625rem;
+  padding: 0 0.625rem 0.625rem 0;
 }
 .z-group.accordion .z-group-label .z-icon.i-arrow-right {
   opacity: 1;
@@ -5788,6 +5788,9 @@ body.modal-active {
 .z-component .z-component-label {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   padding: 0.4375rem 0.938rem 0.4375rem 0;
+}
+.z-component .z-component-label .z-component-label-text {
+  width: 100%;
 }
 .z-component .z-component-label.on {
   display: flex;

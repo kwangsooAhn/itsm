@@ -755,11 +755,11 @@
     function openDocumentModal(data, id) {
         const getDocumentModalContent = function() {
             const body = document.createElement('div');
-            body.className = 'document-main flex-column align-items-center'; // contents
+            body.className = 'z-document-main flex-column align-items-center'; // contents
 
             // 메인 상단 영역
             const mainHeader = document.createElement('div');
-            mainHeader.className = 'document-main-header flex-row justify-content-end align-items-center';
+            mainHeader.className = 'z-document-main-header flex-row justify-content-end align-items-center';
             body.appendChild(mainHeader);
 
             // 상단 button 추가

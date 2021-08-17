@@ -42,7 +42,6 @@
         }
         // 신청서 모듈 클래스
         window.zDocument = zDocument;
-        console.log(zDocument);
         zDocument.initDocumentModal();
 
         let offsetCount = 0;
@@ -147,11 +146,15 @@
         <div id="documentList"></div>
     </div>
     <template id="documentModalTemplate">
-        <div class="document-main flex-column align-items-center">
-            <div class="document-main-header flex-row justify-content-end align-items-center">
-                <div class="z-button-area" id="documentButtonArea"></div>
+        <div class="z-document-main flex-column align-items-center">
+            <div class="z-document-main-header flex-row justify-content-end align-items-center flex-wrap">
+                <div id="defaultButtonArea"></div>
+                <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
             </div>
             <div class="z-drawing-board" id="documentDrawingBoard"></div>
+            <div class="z-document-main-footer flex-row justify-content-end align-items-center flex-wrap">
+                <div class="z-action-button-bottom-area" id="actionButtonBottomArea"></div>
+            </div>
         </div>
     </template>
 </th:block>

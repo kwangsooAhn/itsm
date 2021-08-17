@@ -1,38 +1,58 @@
 @import '../template/_layout.scss';
 
 /* 신청서 / 처리할 문서 양식 layout
- * document-container
- *                - document-main : 문서양식 메인
- *                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
- *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > form/_component.scss )
+ * z-document-container
+ *                - z-document-main : 문서양식 메인
+ *                             - z-document-main-header : 문서 번호, 버튼 등이 그려지는 영역
+ *                             - z-drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > form/_component.scss )
  *                - token-properties : 문서이력, 관련문서, 의견, 태그
  */
 
 // 신청서, 문서함 공통
-.document-container {
+.z-document-container {
   @include container;
 
-  .document-main {
+  .z-document-main {
     @include fixedContainer;
     background-color: $layout-main-bg-color;
     @include scrollbarHidden;
 
     // 미리보기 화면
-    &.preview {
-      .input { pointer-events: none; }
-    }
+    //&.preview {
+    //  .input { pointer-events: none; }
+    //}
 
-    // 버튼 그려지는 영역
-    .document-main-header {
+    // 상단 영역
+    .z-document-main-header {
       width: $drawing-board-width;
       max-width: $drawing-board-width;
-      padding: 8.438rem 0 0.9375rem 0; // 135px 0 15px 0
+      padding: 4rem 0 0.75rem 0; // 64px 0 12px 0
 
-      .#{$common-prefix}button-area {
-        .#{$common-prefix}button-list:first-child { margin-right: 0.5rem; } // 8px
+      // 문서 번호
+      .z-document-numbering {
+        font-family: $document-numbering-font-family;
+        font-size: $document-numbering-font-size;
+        color: $document-numbering-color;
+      }
+
+      .z-action-button-top-area {
+        width: 100%;
+        margin: 0.75rem 0 0 0; // 12px 0 0 0
+
+        .z-button-list {
+          width: 100%;
+        }
       }
     }
+
+    // 하단 영역
+    .z-document-main-footer {
+      width: $drawing-board-width;
+      max-width: $drawing-board-width;
+      padding: 0.75rem 0 4rem 0; // 12px 0 64px 0
+    }
   }
+
 
   // TODO: 문서함에서 문서속성 탭쪽 디자인
   // 2021-06-26 Jung Hee Chan
@@ -88,7 +108,7 @@
             width: 100%;
 
             thead {
-              border-bottom: 0.0625rem solid map-get($grays, "default"); // 1px
+              border-bottom: 0.0625rem solid map-get($grays, 'default'); // 1px
               tr {
                 display: flex;
                 flex-direction: row;
@@ -102,11 +122,11 @@
             }
 
             th {
-              color: map-get($blacks, "light");
+              color: map-get($blacks, 'light');
             }
 
             td {
-              color: map-get($grays, "dark");
+              color: map-get($grays, 'dark');
             }
 
             tbody {
@@ -140,7 +160,7 @@
 
               &-row {
                 flex: 1;
-                border: 0.0625rem solid map-get($grays, "line"); // 1px
+                border: 0.0625rem solid map-get($grays, 'line'); // 1px
                 padding: 1.25rem 2.5rem; // 20px 40px
                 &-content {
                   a {
@@ -152,7 +172,7 @@
                       h5 {
                         &:first-child {
                           font-weight: $font-weight-medium;
-                          color: map-get($blacks, "light");
+                          color: map-get($blacks, 'light');
                         }
 
                         &:last-child {
@@ -168,14 +188,14 @@
                     padding: 0;
 
                     .icon-delete {
-                      background: map-get($grays, "pressed");
+                      background: map-get($grays, 'pressed');
                     }
                   }
                 }
 
                 &-topic {
                   height: 100%;
-                  color: map-get($grays, "dark");
+                  color: map-get($grays, 'dark');
 
                   h5 {
                     font-weight: $font-weight-regular;
@@ -184,7 +204,7 @@
 
                 &-info {
                   h5 {
-                    color: map-get($grays, "dark");
+                    color: map-get($grays, 'dark');
                     font-weight: $font-weight-regular
                   }
                 }
@@ -195,8 +215,8 @@
           // 추가
           .related-add {
             height: 11.5625rem; // 185px
-            border: 0.0625rem solid map-get($grays, "line"); // 1px
-            background-color: map-get($grays, "light");
+            border: 0.0625rem solid map-get($grays, 'line'); // 1px
+            background-color: map-get($grays, 'light');
             margin: 0.625rem 0.625rem 0 0; // 10px 10px 0 0
             display: flex;
           }
@@ -210,19 +230,19 @@
           .list-item {
             padding: 1.25rem 1.5625rem; // 20px 25px
             margin: 0.625rem 0.625rem 0 0; // 10px 10px 0 0
-            border: 0.0625rem solid map-get($grays, "line"); // 1px
+            border: 0.0625rem solid map-get($grays, 'line'); // 1px
             border-radius: 0.1875rem; // 3px
-            background-color: map-get($grays, "light");
+            background-color: map-get($grays, 'light');
 
             .comment {
               &-row {
-                color: map-get($grays, "dark");
+                color: map-get($grays, 'dark');
                 margin-top: 0.625rem; // 10px
                 @include wordWrap(break-word);
 
                 &-info {
                   .user-name {
-                    color: map-get($grays, "dark");
+                    color: map-get($grays, 'dark');
                   }
 
                   .user-date-time {
@@ -234,7 +254,7 @@
                     padding: 0;
 
                     .icon-delete {
-                      background: map-get($grays, "pressed");
+                      background: map-get($grays, 'pressed');
                     }
                   }
 

@@ -295,11 +295,6 @@
       "name":"common.btn.save",
       "value":"save",
       "customYn":false
-    },
-    {
-      "name":"common.btn.close",
-      "value":"close",
-      "customYn":false
     }
   ]
 }

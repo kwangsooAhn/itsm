@@ -13,47 +13,58 @@
  */
 import { UIButton, UIDiv } from '../lib/zUI.js';
 import { zValidation } from '../lib/zValidation.js';
-import { CLASS_PREFIX } from '../lib/zConstants.js';
 
 class ZFormButton {
-    constructor() {
-    }
+    constructor() {}
     /**
      * 클래스 초기화
      *
-     * @param domElement Form 그리고자 하는 대상 DOM Element
      * @param formDataJson FormType 에 따라 Form 정보 조회 대상이 다르며 FormId, DocumentId, TokenId 값들이 들어 있을 수 있다.
      * @param zForm 버튼의 대상이 되는 Form Class 를 나타낸다. 해당 폼의 값을 이용하기 위해서 필요하다.
      */
-    init(domElement, formDataJson, zForm) {
+    init(formDataJson, zForm) {
         this.isToken = !!(formDataJson.tokenId);
-        this.domElement = domElement;
+        this.defaultButtonElement = document.getElementById('defaultButtonArea');
+        this.actionButtonTopElement = document.getElementById('actionButtonTopArea'); // 상단 동적 버튼 영역
+        this.actionButtonBottomElement = document.getElementById('actionButtonBottomArea'); // 하단 동적 버튼 영역
         this.formDataJson = formDataJson;
         this.zForm = zForm;
-        this.makeActionButton(this.formDataJson.actions);
+        // 기본 버튼 추가
         this.makeDefaultButton();
+        // 사용자 정의 버튼 추가
+        this.makeActionButton(this.formDataJson.actions);
     }
     /**
      * 신청서 상단 프로세스맵, 인쇄 버튼 추가
      * 버튼은 '프로세스맵', '인쇄' 순으로 표기한다.
      */
     makeDefaultButton() {
+        if (!zValidation.isDefined(this.defaultButtonElement)) { return false; }
+        // 초기화
+        this.defaultButtonElement.innerHTML = '';
+        
         // 버튼 목록 생성
-        const UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-list');
+        const UIButtonGroup = new UIDiv().setUIClass('z-button-list');
 
-        // 문서함에서 출력되는 경우 프로세스 맵 버튼도 출력
+        // 닫기 버튼
+        const UICloseButton = new UIButton(i18n.msg('common.btn.close')).addUIClass('secondary')
+            .onUIClick(this.zForm.close.bind(this.zForm));
+        UIButtonGroup.addUI(UICloseButton);
+
+        // 문서함에서 출력되는 경우 프로세스 맵, 인쇄 버튼도 출력
         if (this.isToken) {
-            const UIProcessMapButton = new UIButton(i18n.msg('process.label.processMap')).addUIClass('form')
+            // 프로세스 맵 버튼
+            const UIProcessMapButton = new UIButton(i18n.msg('process.label.processMap')).addUIClass('secondary')
                 .onUIClick(this.zForm.openProcessStatusPopUp.bind(this.zForm));
             UIButtonGroup.addUI(UIProcessMapButton);
+
+            // 인쇄 버튼
+            const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('secondary')
+                .onUIClick(this.zForm.print.bind(this.zForm));
+            UIButtonGroup.addUI(UIPrintButton);
         }
 
-        // 인쇄 버튼
-        const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('form')
-            .onUIClick(this.zForm.print.bind(this.zForm));
-        UIButtonGroup.addUI(UIPrintButton);
-
-        this.domElement.appendChild(UIButtonGroup.domElement);
+        this.defaultButtonElement.appendChild(UIButtonGroup.domElement);
     }
     /**
      * 신청서 상단 동적 버튼 목록 추가 및 이벤트 생성
@@ -62,26 +73,31 @@ class ZFormButton {
      * @param actions JSON 데이터
      */
     makeActionButton(actions) {
-        if (!zValidation.isDefined(actions)) { return false; }
+        if (!zValidation.isDefined(actions) ||
+            !zValidation.isDefined(this.actionButtonTopElement) ||
+            !zValidation.isDefined(this.actionButtonBottomElement)) { return false; }
+        // 초기화
+        this.actionButtonTopElement.innerHTML = '';
+        this.actionButtonBottomElement.innerHTML = '';
+
         // 버튼 목록 생성
-        const UIButtonGroup = new UIDiv().setUIClass(CLASS_PREFIX + 'button-list');
-        // 동적버튼
+        const UIButtonTopGroup = new UIDiv().setUIClass('z-button-list').addUIClass('justify-content-end');
+        const UIButtonBottomGroup = new UIDiv().setUIClass('z-button-list').addUIClass('justify-content-end');
+        // 동적 버튼
         actions.forEach( (btn) => {
             if (zValidation.isEmpty(btn.name)) { return false; }
-            let UIActionButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name));
+            const UIActionTopButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
+                .addUIClass('primary')
+                .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
+            UIButtonTopGroup.addUI(UIActionTopButton);
 
-            switch(btn.value) {
-                case 'close':
-                    UIActionButton.addUIClass('secondary')
-                        .onUIClick(this.zForm.close.bind(this.zForm));
-                    break;
-                default :
-                    UIActionButton.addUIClass('primary')
-                        .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
-            }
-            UIButtonGroup.addUI(UIActionButton);
+            const UIActionBottomButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
+                .addUIClass('primary')
+                .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
+            UIButtonBottomGroup.addUI(UIActionBottomButton);
         });
-        this.domElement.appendChild(UIButtonGroup.domElement);
+        this.actionButtonTopElement.appendChild(UIButtonTopGroup.domElement);
+        this.actionButtonBottomElement.appendChild(UIButtonBottomGroup.domElement);
     }
 }
 
