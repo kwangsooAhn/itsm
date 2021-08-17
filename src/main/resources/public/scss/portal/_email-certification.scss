@@ -14,7 +14,7 @@
     background-color: $email-certificate-bg-color;
     overflow: hidden;
 
-    .logo {
+    .i-logo {
       @include relative($top: -59.1875rem); // -947px
       margin: 5rem 0 0 5rem; // 80px 80x
     }
@@ -26,11 +26,12 @@
     @include border(0.0625rem, solid, $email-certificate-border-color, left);
 
     h1 {
+      color: $email-certificate-font-color;
       line-height: 1.7;
     }
 
     h3 {
-      color: map-get($grays, 'dark');
+      color: $email-certificate-description-font-color;
       margin: 1.25rem 0 5rem 0; // 20px 0 80px 0
     }
   }

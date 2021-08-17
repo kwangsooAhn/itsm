@@ -77,7 +77,7 @@ class PortalRestController(
      * @param ownId 파일 목록을 가져오기 위한 값.
      * @param fileDataId 문자열로 파일 목록을 가져오기 위한 값. ex) 111,22,33
      */
-    @GetMapping("/files")
+    @GetMapping("/filelist")
     fun getFileList(@RequestParam ownId: String, @RequestParam fileDataId: String): List<AliceFileOwnMapDto> {
         return aliceFileService.getList(ownId, fileDataId)
     }

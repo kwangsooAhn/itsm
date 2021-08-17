@@ -63,7 +63,7 @@
                 aliceAlert.alertWarning(i18n.msg('common.msg.delete'));
                 return history.go(-1);
             }
-            zFileUploaderPortal.init({extra: {formId: 'frm', ownId: noticeNo, editor: false, isView: true}});
+            zFileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false, isView: true, defaultUrl: '/rest/portals', isHeaders : false}});
             OverlayScrollbars(document.querySelector('.main'), { className: 'scrollbar' });
         }
         /* ]]> */

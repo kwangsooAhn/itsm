@@ -65,7 +65,7 @@
                     <label th:text="#{cmdb.type.label.icon}" for="typeIcon"></label>
                     <div class="flex-row z-input-button">
                         <input class="z-input col-pct-12 inherit" id="typeIcon" name="typeIcon" type="text" readonly>
-                        <button class="z-button-clear" name="clearIcon" type="button" onclick="aliceJs.clearText(this);"  tabindex="-1"></button>
+                        <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
                         <button class="z-button-search z-button form" name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     <div class="flex-row z-input-button">
                         <input class="z-input col-pct-12 inherit" id="typeClass" name="typeClass" type="text" readonly>
                         <input id="typeClassId" name="typeClassId" type="hidden"/>
-                        <button class="z-button-clear" name="clearClass" type="button" onclick="aliceJs.clearText(this);" tabindex="-1" ></button>
+                        <span class="z-icon i-clear" name="clearClass" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
                         <button class="z-button-search z-button form" name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
                     </div>
                 </div>

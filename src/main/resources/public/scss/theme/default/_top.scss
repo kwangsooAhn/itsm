@@ -1,20 +1,20 @@
 // Top 메뉴
-.#{$common-prefix}top {
+.z-top {
     background-color: $top-menu-bg-color;
     height: 3.5rem; // 56px
-    .#{$common-prefix}divide {
+    .z-divide {
         padding: 0 0.75rem 0 1.25rem; // 0 12px 0 20px
         height: 1.25rem; // 20px
         color: $top-menu-divide-color;
     }
-    .#{$common-prefix}user-info {
+    .z-user-info {
         height: 2.875rem; // 46px
         margin: 0.313rem 0.5rem 0.313rem 0; // 5px 8px 5px 0
         padding: 0 0.5rem 0 0.5rem; // 0 8px 0 8px
         background-color: $top-menu-bg-color;
         @include border(0.0625rem, solid, $top-menu-bg-color, all); // 1px
         @include borderRadius(0.25rem); // 4px
-        .#{$common-prefix}user-name {
+        .z-user-name {
             display: inline-block;
             min-width: 2.75rem; // 44px
             max-width: 12.5rem; // 200px
@@ -24,25 +24,18 @@
             font-weight: $font-weight-medium;
             padding: 0 0 0 0.5rem; // 0 0 0 8px
         }
-        .#{$common-prefix}user-profile {
+        .i-user-profile {
             display: inline-block;
             width: 1.875rem; // 30px
             height: 1.875rem; // 30px
             @include borderRadius(50%);
             vertical-align: middle;
         }
-        .#{$common-prefix}icon {
-            &.i-arrow-right {
-                @include rotate(-90);
-            }
-        }
-        .#{$common-prefix}icon {
-            &.i-arrow-right {
-                margin-left: auto;
-                float: right;
-                background-color: $icon-gnb-color;
-                @include rotate(90);
-            }
+        .i-arrow-right {
+            margin-left: auto;
+            float: right;
+            background-color: $icon-gnb-color;
+            @include rotate(90);
         }
         &:hover {
             outline: 0;
@@ -64,7 +57,7 @@
         &.active {
             background-color: $top-menu-user-selected-bg-color;
             border-color: $top-menu-user-selected-border-color;
-            + .#{$common-prefix}dropdown-content {
+            + .z-dropdown-content {
                 visibility: visible;
             }
             .i-arrow-right {
@@ -72,7 +65,7 @@
             }
         }
     }
-    .#{$common-prefix}dropdown {
+    .z-dropdown {
         &-content {
             visibility: hidden;
             position: absolute;

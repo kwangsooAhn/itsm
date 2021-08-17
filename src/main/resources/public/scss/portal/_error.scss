@@ -15,7 +15,7 @@
     background-color: $error-bg-color;
     overflow: hidden;
 
-    .logo {
+    .i-logo {
       @include relative($top: -59.1875rem); // -947px
       margin: 5rem 0 0 5rem; // 80px 80px
     }
@@ -26,15 +26,18 @@
     padding: 16.875rem 5.625rem; // 270px 90px
     @include border(0.0625rem, solid, $error-border-color, left);
 
-    h1 { line-height: 1.7; }
+    h1 {
+      color: $error-font-color;
+      line-height: 1.7;
+    }
 
     .error-code-txt {
+      color: $error-code-font-color;
       margin: 1.25rem 0; // 20px
-      color: $blue;
     }
 
     .error-bottom-txt {
-      color: map-get($grays, "dark");
+      color: $error-description-font-color;
       margin: 5rem 0; // 80px
     }
   }

@@ -36,7 +36,7 @@ export default class ZSwitchProperty extends ZProperty {
         // 툴팁(도움말) 기능 추가
         if (this.help !== '') {
             this.UIElement.UISwitch.UITooltip = new UIDiv().setUIClass('help-tooltip');
-            this.UIElement.UISwitch.UITooltip.addUI(new UISpan().setUIClass('icon').addUIClass('help-tooltip-icon'));
+            this.UIElement.UISwitch.UITooltip.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-tooltip'));
             this.UIElement.UISwitch.UITooltip.UIContent = new UIDiv().setUIClass('tooltip-contents');
             this.UIElement.UISwitch.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(this.help)));
             this.UIElement.UISwitch.UITooltip.addUI(this.UIElement.UISwitch.UITooltip.UIContent);

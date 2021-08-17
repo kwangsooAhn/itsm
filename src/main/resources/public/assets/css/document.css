@@ -732,6 +732,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-copy {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_copy.svg");
+  mask-image: url("../media/icons/icon_copy.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-arrow-right {
   width: 1.5rem;
   height: 1.5rem;
@@ -745,8 +755,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-color-palette {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/icon_color_palette.svg");
-  mask-image: url("../media/icons/icon_color_palette.svg");
+  -webkit-mask-image: url("../media/icons/colorPicker/icon_color_palette.svg");
+  mask-image: url("../media/icons/colorPicker/icon_color_palette.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -767,6 +777,36 @@ input, button, select, optgroup, textarea {
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/icon_folder.svg");
   mask-image: url("../media/icons/icon_folder.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-download {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/fileUploader/icon_download.svg");
+  mask-image: url("../media/icons/fileUploader/icon_download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-upload {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/fileUploader/icon_upload.svg");
+  mask-image: url("../media/icons/fileUploader/icon_upload.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-tooltip {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_tooltip.svg");
+  mask-image: url("../media/icons/icon_tooltip.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1318,19 +1358,12 @@ label {
 .z-input-clear input {
   width: 100%;
 }
-.z-input-clear .z-button-clear {
+.z-input-clear .z-icon.i-clear {
   position: absolute;
   right: 0rem;
   padding: 1.125rem 0.875rem;
-  width: 0.625rem;
-  height: 0.625rem;
-  -webkit-mask-image: url("../media/icons/icon_clear.svg");
-  mask-image: url("../media/icons/icon_clear.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
   background: #8B9094;
+  cursor: pointer;
 }
 .z-input.i-search {
   background-image: url("../media/icons/icon_search.svg");
@@ -1394,19 +1427,12 @@ label {
 .z-input-button button:focus, .z-input-button button:hover, .z-input-button button:active {
   z-index: 25;
 }
-.z-input-button .z-button-clear {
+.z-input-button .z-icon.i-clear {
   position: absolute;
   right: calc(0rem + 5rem);
   padding: 1.125rem 0.875rem;
-  width: 0.625rem;
-  height: 0.625rem;
-  -webkit-mask-image: url("../media/icons/icon_clear.svg");
-  mask-image: url("../media/icons/icon_clear.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
   background: #8B9094;
+  cursor: pointer;
 }
 
 .z-textarea {
@@ -2238,8 +2264,8 @@ body.modal-active {
   border: 0.0625rem solid #FFFFFF;
 }
 
-.z-group.accordion .z-group-accordion-checkBox:checked ~ .z-row-tooltip:not(.off):last-child {
-  border-bottom: 0.0625rem solid #EBEBEB;
+.z-group.accordion .z-group-accordion-checkBox:checked ~ .wrow-tooltip:not(.off):last-child {
+  border-bottom: 0.0625rem solid #CFD5D9;
 }
 
 /* 태그 기능 디자인

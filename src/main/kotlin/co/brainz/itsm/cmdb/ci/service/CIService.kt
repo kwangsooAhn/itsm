@@ -79,7 +79,7 @@ class CIService(
             ciDetailDto.ciIconData = map["ciIconData"] as String
             ciDetailDto.ciDesc = map["ciDesc"] as String
             ciDetailDto.ciStatus = map["ciStatus"] as String
-            ciDetailDto.automatic = false
+            ciDetailDto.interlink = false
             ciDetailDto.typeId = map["typeId"] as String
             ciDetailDto.typeName = map["typeName"] as String
             ciDetailDto.classId = map["classId"] as String

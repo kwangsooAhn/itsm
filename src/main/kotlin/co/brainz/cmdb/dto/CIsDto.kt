@@ -20,7 +20,7 @@ data class CIsDto(
     var className: String? = null,
     var ciIcon: String? = null,
     var ciDesc: String? = null,
-    var automatic: Boolean? = false,
+    var interlink: Boolean? = false,
     val createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     val updateUserKey: String? = null,

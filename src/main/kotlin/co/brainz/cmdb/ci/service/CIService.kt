@@ -133,7 +133,7 @@ class CIService(
             ciDetailDto.ciIconData = ciEntity.ciTypeEntity.typeIcon?.let { ciTypeService.getCITypeImageData(it) }
             ciDetailDto.ciDesc = ciEntity.ciDesc
             ciDetailDto.ciStatus = ciEntity.ciStatus
-            ciDetailDto.automatic = ciEntity.automatic
+            ciDetailDto.interlink = ciEntity.interlink
             ciDetailDto.typeId = ciEntity.ciTypeEntity.typeId
             ciDetailDto.typeName = ciEntity.ciTypeEntity.typeName
             ciDetailDto.classId = ciEntity.ciTypeEntity.ciClass.classId
@@ -210,7 +210,7 @@ class CIService(
                     ciStatus = ciDto.ciStatus,
                     ciTypeEntity = ciTypeRepository.getOne(ciDto.typeId),
                     ciDesc = ciDto.ciDesc,
-                    automatic = ciDto.automatic,
+                    interlink = ciDto.interlink,
                     instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) },
                     createDt = LocalDateTime.now(),
                     createUser = ciDto.createUserKey?.let {
@@ -290,7 +290,7 @@ class CIService(
             ciDto.ciStatus.let { ciEntity.ciStatus = ciDto.ciStatus }
             ciDto.ciIcon?.let { ciEntity.ciTypeEntity.typeIcon = ciDto.ciIcon }
             ciDto.ciDesc?.let { ciEntity.ciDesc = ciDto.ciDesc }
-            ciDto.automatic?.let { ciEntity.automatic = ciDto.automatic }
+            ciDto.interlink?.let { ciEntity.interlink = ciDto.interlink }
             ciEntity.instance = ciDto.instanceId?.let { wfInstanceRepository.findByInstanceId(it) }
         }
         ciEntity = ciRepository.save(ciEntity)
@@ -402,7 +402,7 @@ class CIService(
             ciIcon = ciEntity.ciTypeEntity.typeIcon,
             ciStatus = ciEntity.ciStatus,
             classId = ciEntity.ciTypeEntity.ciClass.classId,
-            automatic = ciEntity.automatic,
+            interlink = ciEntity.interlink,
             instance = ciEntity.instance,
             applyDt = ciEntity.updateDt
         )
@@ -491,7 +491,7 @@ class CIService(
             ciIcon = ci.ciIcon,
             ciIconData = ci.ciIcon?.let { ciTypeService.getCITypeImageData(it) },
             ciDesc = ci.ciDesc,
-            automatic = ci.automatic,
+            interlink = ci.interlink,
             ciTags = tagList,
             createUserKey = ci.createUserKey,
             createDt = ci.createDt,

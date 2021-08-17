@@ -80,7 +80,7 @@
   @include animation(0s, 0.3s, slideUp, ease-out);
 }
 // 사용자 아이콘
-.profile-photo {
+.i-profile-photo {
   @include borderRadius(50%);
   background-color: $element-icon-color;
 }
@@ -96,11 +96,6 @@
   @include borderRadius(50%);
   margin-right: 0.625rem; // 10px
   display: inline-block;
-}
-
-// 스크롤 바 제거
-.hidden-scroll {
-  overflow: hidden;
 }
 
 .#{$common-prefix} {

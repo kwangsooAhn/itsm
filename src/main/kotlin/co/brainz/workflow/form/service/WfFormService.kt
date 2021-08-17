@@ -81,6 +81,9 @@ class WfFormService(
             when (restTemplateDto.status) {
                 WfFormConstants.FormStatus.EDIT.value,
                 WfFormConstants.FormStatus.PUBLISH.value -> restTemplateDto.editable = true
+                WfFormConstants.FormStatus.USE.value -> {
+                    restTemplateDto.editable = !wfFormRepository.findFormDocumentExist(restTemplateDto.id)
+                }
             }
             restTemplateDto.totalCount = queryResult.total
             formList.add(restTemplateDto)

@@ -27,7 +27,7 @@
             <th:block th:fragment="list">
                 <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
                     <td style="width:3.2%;" class="align-right p-0">
-                        <img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
+                        <img class="z-img i-profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
                     </td>
                     <td style="width:9.8%;" class="align-left underline">
                         <a th:text="${user.userName}"

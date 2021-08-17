@@ -31,7 +31,7 @@
                                 <span th:text="#{user.label.id}"></span>
                                 <span class="required"></span>
                                 <div class="help-tooltip">
-                                    <span class="help-tooltip-icon"></span>
+                                    <span class="z-icon i-tooltip"></span>
                                     <div class="tooltip-contents">
                                         <span th:utext="#{user.tooltip.idRule}"></span>
                                     </div>
@@ -45,7 +45,7 @@
                                 <span th:text="#{user.label.password}"></span>
                                 <span class="required"></span>
                                 <div class="help-tooltip">
-                                    <span class="help-tooltip-icon"></span>
+                                    <span class="z-icon i-tooltip"></span>
                                     <div class="tooltip-contents">
                                         <span th:utext="#{user.tooltip.pwRule}"></span>
                                     </div>
@@ -88,7 +88,7 @@
                             <div class="flex-row z-input-button">
                                 <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
                                 <input type="text" class="z-input col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
-                                <button class="z-button-clear" name="clearIcon" type="button" onclick="aliceJs.clearText(this);"  tabindex="-1"></button>
+                                <span class="z-icon i-clear" name="clearIcon" onclick="aliceJs.clearText(this);" tabindex="-1"></span>
                                 <button type="button" class="z-button-search z-button form" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
                             </div>
                         </div>
