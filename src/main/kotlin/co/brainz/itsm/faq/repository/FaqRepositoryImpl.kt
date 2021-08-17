@@ -7,17 +7,14 @@
 package co.brainz.itsm.faq.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
-import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AliceMessageSource
-import co.brainz.framework.util.AlicePagingData
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqListDto
-import co.brainz.itsm.faq.dto.FaqListReturnDto
 import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -30,7 +27,7 @@ class FaqRepositoryImpl(
     /**
      * FAQ 목록을 조회한다.
      */
-    override fun findFaqs(faqSearchCondition: FaqSearchCondition): FaqListReturnDto {
+    override fun findFaqs(faqSearchCondition: FaqSearchCondition): QueryResults<FaqListDto> {
         val faq = QFaqEntity.faqEntity
         val user = QAliceUserEntity.aliceUserEntity
         if (faqSearchCondition.searchValue?.isNotBlank() == true) {
@@ -38,7 +35,7 @@ class FaqRepositoryImpl(
                 messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, faqSearchCondition.searchValue)
         }
 
-        val query = from(faq)
+        return from(faq)
             .select(
                 Projections.constructor(
                     FaqListDto::class.java,
@@ -58,14 +55,6 @@ class FaqRepositoryImpl(
             .limit(faqSearchCondition.contentNumPerPage)
             .offset((faqSearchCondition.pageNum - 1) * faqSearchCondition.contentNumPerPage)
             .fetchResults()
-
-        return FaqListReturnDto(
-            data = query.results,
-            paging = AlicePagingData(
-                totalCount = query.total,
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-            )
-        )
     }
 
     override fun findFaqTopList(limit: Long): List<PortalTopDto> {

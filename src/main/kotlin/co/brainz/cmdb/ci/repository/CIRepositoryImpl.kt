@@ -11,23 +11,15 @@ import co.brainz.cmdb.ci.entity.QCIEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.constants.RestTemplateConstants
-import co.brainz.cmdb.dto.CIListDto
-import co.brainz.cmdb.dto.CIListReturnDto
-import co.brainz.cmdb.dto.CISearchDto
 import co.brainz.cmdb.dto.CIsDto
-import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.tag.constants.AliceTagConstants
-import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.entity.QAliceTagEntity
-import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
-import co.brainz.itsm.notice.dto.NoticeListReturnDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
-import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepositoryCustom {
@@ -70,7 +62,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     /**
      * CI 목록 조회.
      */
-    override fun findCIList(ciSearchCondition: CISearchCondition): CIListReturnDto {
+    override fun findCIList(ciSearchCondition: CISearchCondition): QueryResults<CIsDto> {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
@@ -81,8 +73,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         val query = from(ci)
             .select(
                 Projections.constructor(
-                    CIListDto::class.java,
-                    ci.ciId,
+                    CIsDto::class.java,
                     ci.ciId,
                     ci.ciNo,
                     ci.ciName,
@@ -91,15 +82,13 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
                     cmdbType.typeName,
                     cmdbClass.classId,
                     cmdbClass.className,
-                    null, // ciIcon
                     cmdbType.typeIcon,
                     ci.ciDesc,
                     ci.interlink,
                     ci.createUser.userKey,
                     ci.createDt,
                     ci.updateUser.userKey,
-                    ci.updateDt,
-                    null // tag
+                    ci.updateDt
                 )
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
@@ -142,14 +131,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         query.limit(ciSearchCondition.contentNumPerPage)
         query.offset((ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage)
 
-        val result = query.fetchResults()
-        return CIListReturnDto(
-            data = result.results,
-            paging = AlicePagingData(
-                totalCount = result.total,
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-            )
-        )
+        return query.fetchResults()
     }
 
     /**

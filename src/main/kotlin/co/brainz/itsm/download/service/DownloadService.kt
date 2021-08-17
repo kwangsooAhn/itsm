@@ -9,6 +9,7 @@ package co.brainz.itsm.download.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.download.dto.DownloadDto
 import co.brainz.itsm.download.dto.DownloadListReturnDto
 import co.brainz.itsm.download.dto.DownloadSearchCondition
@@ -33,13 +34,18 @@ class DownloadService(
      *
      */
     fun getDownloadList(downloadSearchCondition: DownloadSearchCondition): DownloadListReturnDto {
-        val downloadListReturnDto = downloadRepository.findDownloadEntityList(downloadSearchCondition)
-        // 페이징 정보 추가
-        downloadListReturnDto.paging.totalCountWithoutCondition = downloadRepository.count()
-        downloadListReturnDto.paging.currentPageNum = downloadSearchCondition.pageNum
-        downloadListReturnDto.paging.totalPageNum =
-            ceil(downloadListReturnDto.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-        return downloadListReturnDto
+        val queryResult = downloadRepository.findDownloadEntityList(downloadSearchCondition)
+        return DownloadListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = downloadRepository.count(),
+                currentPageNum = downloadSearchCondition.pageNum,
+                totalPageNum =
+                    ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**

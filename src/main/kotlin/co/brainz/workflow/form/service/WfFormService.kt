@@ -11,6 +11,7 @@ import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.entity.WfComponentPropertyEntity
@@ -72,28 +73,28 @@ class WfFormService(
     fun getFormList(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
         val queryResult = wfFormRepository.findFormEntityList(formSearchCondition)
         val formList = mutableListOf<RestTemplateFormDto>()
-        for (form in queryResult.data) {
-            when (form.status) {
+        for (form in queryResult.results) {
+            val restTemplateDto = wfFormMapper.toFormViewDto(form)
+            when (restTemplateDto.status) {
                 WfFormConstants.FormStatus.EDIT.value,
-                WfFormConstants.FormStatus.PUBLISH.value -> form.editable = true
+                WfFormConstants.FormStatus.PUBLISH.value -> restTemplateDto.editable = true
                 WfFormConstants.FormStatus.USE.value -> {
-                    form.editable = !wfFormRepository.findFormDocumentExist(form.id)
+                    restTemplateDto.editable = !wfFormRepository.findFormDocumentExist(restTemplateDto.id)
                 }
             }
-            formList.add(form)
+            formList.add(restTemplateDto)
         }
 
-        val formReturnList = RestTemplateFormListReturnDto(
+        return RestTemplateFormListReturnDto(
             data = formList,
-            paging = queryResult.paging
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = wfFormRepository.count(),
+                currentPageNum = formSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
-        // 페이징 정보 추가
-        formReturnList.paging.totalCountWithoutCondition = wfFormRepository.count()
-        formReturnList.paging.currentPageNum = formSearchCondition.pageNum
-        formReturnList.paging.totalPageNum =
-            ceil(formReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-
-        return formReturnList
     }
 
     /**

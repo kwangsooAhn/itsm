@@ -54,15 +54,17 @@
         document.getElementById('searchDocuments').focus();
         document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
             search.addEventListener('keyup', function() {
-                documentSearches();
+                getList();
             });
         });
-        document.getElementById('searchGroupName').addEventListener('change', documentSearches.bind(null), false);
-        documentSearches();
+        document.getElementById('searchGroupName').addEventListener('change', function() {
+            getList()
+        });
+        getList();
     };
 
-    function documentSearches() {
-        restSearchSubmit('get', '/workflows?' + aliceJs.serialize(document.getElementById('searchDocumentsFrm')));
+    function getList(pageNum = 1) {
+        restSearchSubmit('get', '/workflows?' + aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&pageNum=' + pageNum);
     }
 
     // 빈 값 체크

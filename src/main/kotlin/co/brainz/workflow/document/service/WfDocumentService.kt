@@ -11,6 +11,7 @@ import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
@@ -35,11 +36,12 @@ import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.repository.WfProcessRepository
+import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentListReturnDto
-import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.util.ArrayDeque
 import kotlin.math.ceil
@@ -74,13 +76,39 @@ class WfDocumentService(
      * @return List<RestTemplateDocumentDto>
      */
     fun documents(documentSearchCondition: DocumentSearchCondition): RestTemplateDocumentListReturnDto {
-        val documentReturnList = wfDocumentRepository.findByDocuments(documentSearchCondition)
-        // 페이징 정보 추가
-        documentReturnList.paging.totalCountWithoutCondition = wfDocumentRepository.count()
-        documentReturnList.paging.currentPageNum = documentSearchCondition.pageNum
-        documentReturnList.paging.totalPageNum =
-            ceil(documentReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-        return documentReturnList
+        val queryResult = wfDocumentRepository.findByDocuments(documentSearchCondition)
+        val documentReturnList = mutableListOf<RestTemplateDocumentListDto>()
+        for (data in queryResult.results) {
+            val documentData = RestTemplateDocumentListDto(
+                documentId = data.documentId,
+                documentType = data.documentType,
+                documentName = data.documentName,
+                documentDesc = data.documentDesc,
+                documentStatus = data.documentStatus,
+                processId = data.process.processId,
+                formId = data.form.formId,
+                documentNumberingRuleId = data.numberingRule.numberingId,
+                documentColor = data.documentColor,
+                documentGroup = data.documentGroup,
+                createUserKey = data.createUserKey,
+                createDt = data.createDt,
+                updateUserKey = data.updateUserKey,
+                updateDt = data.updateDt,
+                documentIcon = data.documentIcon
+            )
+            documentReturnList.add(documentData)
+        }
+
+        return RestTemplateDocumentListReturnDto(
+            data = documentReturnList,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = wfProcessRepository.count(),
+                currentPageNum = documentSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**
@@ -401,7 +429,8 @@ class WfDocumentService(
         for (elementEntity in userTasks) {
             for (display in displayList) {
                 if (display.formGroupId == formGroup.formGroupId &&
-                    display.elementId == elementEntity["elementId"].toString()) {
+                    display.elementId == elementEntity["elementId"].toString()
+                ) {
                     val displayMap = LinkedHashMap<String, Any>()
                     displayMap["elementId"] = display.elementId
                     displayMap["display"] = display.display

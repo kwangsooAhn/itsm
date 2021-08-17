@@ -52,10 +52,10 @@
         zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
         zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
 
-        document.getElementById('category').addEventListener('change', function() { getDownloadList(); });
-        document.getElementById('searchValue').addEventListener('keyup', function() { getDownloadList(); });
+        document.getElementById('category').addEventListener('change', function() { getList(); });
+        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
 
-        getDownloadList();
+        getList();
     };
 
     function setDatePicker(element, picker) {
@@ -70,7 +70,7 @@
                     picker.open();
                 });
             } else {
-                getDownloadList();
+                getList();
             }
         } else {
             const fromDtValue = document.getElementById('fromDt').value;
@@ -80,12 +80,12 @@
                     picker.open();
                 });
             } else {
-                getDownloadList();
+                getList();
             }
         }
     }
 
-    function getDownloadList(pageNum = 1) {
+    function getList(pageNum = 1) {
         document.getElementById('toDt').value =
             i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
         restSubmit('get', '/downloads?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);

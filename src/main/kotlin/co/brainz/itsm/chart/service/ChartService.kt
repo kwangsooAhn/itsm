@@ -7,6 +7,7 @@
 package co.brainz.itsm.chart.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.chart.constants.ChartConstants
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.dto.ChartListReturnDto
@@ -32,13 +33,17 @@ class ChartService(
      * 전체 사용자 정의 차트 조회
      */
     fun getCharts(chartSearchCondition: ChartSearchCondition): ChartListReturnDto {
-        val chartReturnList = chartRepository.findChartList(chartSearchCondition)
-        // 페이징 정보 추가
-        chartReturnList.paging.totalCountWithoutCondition = chartRepository.count()
-        chartReturnList.paging.currentPageNum = chartSearchCondition.pageNum
-        chartReturnList.paging.totalPageNum =
-            ceil(chartReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-        return chartReturnList
+        val queryResult = chartRepository.findChartList(chartSearchCondition)
+        return ChartListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = chartRepository.count(),
+                currentPageNum = chartSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**

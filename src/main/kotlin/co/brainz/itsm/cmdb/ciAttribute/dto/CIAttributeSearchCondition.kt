@@ -9,8 +9,6 @@ package co.brainz.itsm.cmdb.ciAttribute.dto
 
 import co.brainz.framework.constants.PagingConstants
 import java.io.Serializable
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 /**
  * @param searchValue : 사용자가 입력한 검색어

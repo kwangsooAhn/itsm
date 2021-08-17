@@ -2880,15 +2880,22 @@ table[id=documentDisplay] td {
   color: #8B9094;
 }
 .z-itsm-container .z-main-page .z-page-content {
+  display: flex;
+  flex: 1;
   padding-top: 0.9375rem;
   padding-bottom: 0.9375rem;
 }
 .z-itsm-container .z-main-page .z-page-content .list a, .z-itsm-container .z-main-page .z-page-content .list button {
   cursor: pointer;
 }
+.z-itsm-container .z-main-page .z-page-content .list-content {
+  display: flex;
+  flex: 1;
+}
 .z-itsm-container .z-main-page .z-page-content .list-table {
   position: relative;
-  display: inline-table;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   border: none;
 }
@@ -2905,9 +2912,8 @@ table[id=documentDisplay] td {
   padding-left: 1.25rem;
 }
 .z-itsm-container .z-main-page .z-page-content .list-body {
-  position: absolute;
   width: 100%;
-  height: 42.5rem;
+  height: 100%;
   border-top: 0.125rem solid #CFD5D9;
   border-bottom: 0.0625rem solid #CFD5D9;
 }
@@ -7449,5 +7455,3 @@ body.modal-active {
   position: absolute;
   right: 3.75rem;
 }
-
-/*# sourceMappingURL=itsm.css.map */

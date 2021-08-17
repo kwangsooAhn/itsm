@@ -8,6 +8,7 @@ package co.brainz.itsm.faq.service
 
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqListReturnDto
@@ -36,13 +37,17 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
      * FAQ 목록을 조회한다.
      */
     fun getFaqs(faqSearchCondition: FaqSearchCondition): FaqListReturnDto {
-        val faqReturnList = faqRepository.findFaqs(faqSearchCondition)
-        // 페이징 정보 추가
-        faqReturnList.paging.totalCountWithoutCondition = faqRepository.count()
-        faqReturnList.paging.currentPageNum = faqSearchCondition.pageNum
-        faqReturnList.paging.totalPageNum =
-            ceil(faqReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-        return faqReturnList
+        val queryResult = faqRepository.findFaqs(faqSearchCondition)
+        return FaqListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = faqRepository.count(),
+                currentPageNum = faqSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**

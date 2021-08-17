@@ -7,6 +7,7 @@
 package co.brainz.itsm.board.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.board.dto.BoardCategoryDetailDto
 import co.brainz.itsm.board.dto.BoardCategoryDto
 import co.brainz.itsm.board.dto.BoardDto
@@ -32,14 +33,17 @@ class BoardService(
      *
      */
     fun getBoardList(boardSearchCondition: BoardSearchCondition): BoardListReturnDto {
-        val boardReturnList = boardAdminRepository.findByBoardAdminList(boardSearchCondition)
-
-        // 페이징 정보 추가
-        boardReturnList.paging.totalCountWithoutCondition = boardAdminRepository.count()
-        boardReturnList.paging.currentPageNum = boardSearchCondition.pageNum
-        boardReturnList.paging.totalPageNum =
-            ceil(boardReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-        return boardReturnList
+        val queryResult = boardAdminRepository.findByBoardAdminList(boardSearchCondition)
+        return BoardListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = boardAdminRepository.count(),
+                currentPageNum = boardSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**

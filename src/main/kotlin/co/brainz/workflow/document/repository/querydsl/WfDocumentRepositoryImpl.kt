@@ -5,15 +5,13 @@
 
 package co.brainz.workflow.document.repository.querydsl
 
-import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentListReturnDto
+import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.provider.dto.DocumentSearchCondition
+import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -23,29 +21,9 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
-            RestTemplateDocumentListReturnDto {
+            QueryResults<WfDocumentEntity> {
         val document = QWfDocumentEntity.wfDocumentEntity
         val query = from(document)
-            .select(
-                Projections.constructor(
-                    RestTemplateDocumentListDto::class.java,
-                    document.documentId,
-                    document.documentType,
-                    document.documentName,
-                    document.documentDesc,
-                    document.documentStatus,
-                    document.process.processId,
-                    document.form.formId,
-                    document.numberingRule.numberingId,
-                    document.documentColor,
-                    document.documentGroup,
-                    document.createUserKey,
-                    document.createDt,
-                    document.updateUserKey,
-                    document.updateDt,
-                    document.documentIcon
-                )
-            )
             .join(document.process)
             .join(document.form)
             .join(document.numberingRule)
@@ -81,15 +59,7 @@ class WfDocumentRepositoryImpl :
         query.limit(documentSearchCondition.contentNumPerPage)
         query.offset((documentSearchCondition.pageNum - 1) * documentSearchCondition.contentNumPerPage)
 
-        val result = query.fetchResults()
-
-        return RestTemplateDocumentListReturnDto(
-            data = result.results,
-            paging = AlicePagingData(
-                totalCount = result.total,
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-            )
-        )
+        return query.fetchResults()
     }
 
     override fun findAllByDocuments(searchDto: DocumentSearchCondition):

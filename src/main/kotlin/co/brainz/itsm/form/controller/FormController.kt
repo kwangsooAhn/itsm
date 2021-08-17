@@ -19,7 +19,6 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/forms")
@@ -53,7 +52,7 @@ class FormController(private val formService: FormService) {
     @GetMapping("")
     fun getFormList(formSearchCondition: FormSearchCondition, model: Model): String {
         val result = formService.findForms(formSearchCondition)
-        model.addAttribute("formList", result)
+        model.addAttribute("formList", result.data)
         model.addAttribute("paging", result.paging)
         return formListPage
     }

@@ -59,16 +59,16 @@
 
     window.onload = function () {
         document.getElementById('searchTypeName').addEventListener('change', function () {
-            searchCharts();
+            getList();
         });
-        searchCharts();
+        getList();
     }
 
     /**
      * Chart 검색
      */
-    function searchCharts() {
-        restSearchSubmit('get', '/charts?' + aliceJs.serialize(document.getElementById('searchFrm')));
+    function getList(pageNum = 1) {
+        restSearchSubmit('get', '/charts?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
     }
 
     /**

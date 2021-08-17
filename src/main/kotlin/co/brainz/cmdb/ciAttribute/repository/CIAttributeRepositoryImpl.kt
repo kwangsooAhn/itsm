@@ -12,11 +12,9 @@ import co.brainz.cmdb.ciAttribute.entity.QCIAttributeEntity
 import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
 import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
-import co.brainz.cmdb.dto.CIAttributeReturnDto
 import co.brainz.cmdb.dto.CIAttributeValueDto
-import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
@@ -28,9 +26,9 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     /**
      * Attribute 목록 조회.
      */
-    override fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
+    override fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto> {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
-        val query = from(ciAttribute)
+        return from(ciAttribute)
             .select(
                 Projections.constructor(
                     CIAttributeListDto::class.java,
@@ -50,14 +48,6 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
             .limit(ciAttributeSearchCondition.contentNumPerPage)
             .offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
             .fetchResults()
-
-        return CIAttributeReturnDto(
-            data = query.results,
-            paging = AlicePagingData(
-                totalCount = query.total,
-                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
-            )
-        )
     }
 
     /**

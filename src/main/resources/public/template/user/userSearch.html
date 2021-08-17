@@ -29,16 +29,18 @@
     let offsetCount = 0;
     window.onload = function() {
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', getUserList.bind(null), false);
-        getUserList();
+        document.getElementById('searchValue').addEventListener('keyup', function () {
+            getList();
+        });
+        getList();
     }
 
     document.getElementById('searchValue').onkeyup = function() {
-        getUserList();
+        getList();
     };
 
-    function getUserList() {
-        restSearchSubmit('get', '/users?searchValue=' + document.getElementById('searchValue').value);
+    function getList(pageNum = 1) {
+        restSearchSubmit('get', '/users?searchValue=' + document.getElementById('searchValue').value + '&pageNum=' + pageNum);
     }
 
     function restSearchSubmit(method, url) {

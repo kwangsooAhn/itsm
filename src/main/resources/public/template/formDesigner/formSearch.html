@@ -6,7 +6,7 @@
 <head>
     <title th:text="#{form.label.form}"></title>
     <th:block layout:fragment="pageHead">
-        <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
+        <!--<script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>-->
     </th:block>
 </head>
 <body>
@@ -41,16 +41,16 @@
     let offsetCount = 0;
     window.onload = function() {
         document.getElementById('searchValue').focus();
-        getFormList(document.getElementById('searchValue').value);
+        getList();
     }
 
     document.getElementById('searchValue').onkeyup = function() {
-        getFormList(this.value);
+        getList();
     };
 
     // 폼 리스트 조회
-    function getFormList(search) {
-        restSearchSubmit('GET', '/forms?searchValue=' + search);
+    function getList(pageNum = 1) {
+        restSearchSubmit('GET', '/forms?searchValue=' + document.getElementById('searchValue').value + '&pageNum=' + pageNum);
     }
 
     // 유효성 검증
@@ -406,7 +406,6 @@
                     OverlayScrollbars(document.querySelector('.list-body'), {
                         className: 'scrollbar'
                     });
-                }
             }
         };
         aliceJs.sendXhr(opt);

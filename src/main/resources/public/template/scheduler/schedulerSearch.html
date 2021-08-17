@@ -27,18 +27,18 @@
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="list" id="schedulerList"></div>
+    <div class="list-content" id="schedulerList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function() {
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function() { getSchedulerList(); });
-        getSchedulerList();
+        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        getList();
     };
 
-    function getSchedulerList(pageNum = 1) {
+    function getList(pageNum = 1) {
         restSubmit('get', '/schedulers?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
     }
 

@@ -20,6 +20,7 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
@@ -78,6 +79,7 @@ class UserService(
 
     @Value("\${user.default.profile}")
     private val userDefaultProfile: String = ""
+
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90L
 
@@ -88,21 +90,21 @@ class UserService(
         val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val userList: MutableList<UserListDataDto> = mutableListOf()
 
-        for (user in queryResult.data) {
+        for (user in queryResult.results) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
             userList.add(user)
         }
 
-        // 페이징 정보 추가
-        queryResult.paging.totalCountWithoutCondition = userRepository.count()
-        queryResult.paging.currentPageNum = userSearchCondition.pageNum
-        queryResult.paging.totalPageNum =
-            ceil(queryResult.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-
         return UserListReturnDto(
             data = userList,
-            paging = queryResult.paging
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = userRepository.count(),
+                currentPageNum = userSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
     }
 

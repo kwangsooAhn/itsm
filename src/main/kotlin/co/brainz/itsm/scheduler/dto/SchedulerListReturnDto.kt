@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.scheduler.dto
 
-import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 

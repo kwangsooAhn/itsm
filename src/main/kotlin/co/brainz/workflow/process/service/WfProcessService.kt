@@ -9,6 +9,7 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
@@ -20,10 +21,10 @@ import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.mapper.WfProcessMapper
 import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.simulation.WfProcessSimulator
+import co.brainz.workflow.provider.dto.ProcessListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
-import co.brainz.workflow.provider.dto.ProcessListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -59,25 +60,26 @@ class WfProcessService(
     fun getProcesses(processSearchCondition: ProcessSearchCondition): ProcessListReturnDto {
         val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
         val queryResult = wfProcessRepository.findProcessEntityList(processSearchCondition)
-        for (process in queryResult.data) {
-            val enabled = when (process.status) {
+        for (process in queryResult.results) {
+            val enabled = when (process.processStatus) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
             }
-            process.enabled = enabled
-            processViewDtoList.add(process)
+            val processViewDto = processMapper.toProcessViewDto(process)
+            processViewDto.enabled = enabled
+            processViewDtoList.add(processViewDto)
         }
-        val processReturnList = ProcessListReturnDto(
-            data = processViewDtoList,
-            paging = queryResult.paging
-        )
-        // 페이징 정보 추가
-        processReturnList.paging.totalCountWithoutCondition = wfProcessRepository.count()
-        processReturnList.paging.currentPageNum = processSearchCondition.pageNum
-        processReturnList.paging.totalPageNum =
-            ceil(processReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
 
-        return processReturnList
+        return ProcessListReturnDto(
+            data = processViewDtoList,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = wfProcessRepository.count(),
+                currentPageNum = processSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**

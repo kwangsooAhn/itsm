@@ -7,15 +7,12 @@
 package co.brainz.itsm.customCode.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
-import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
-import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -25,7 +22,7 @@ import org.springframework.stereotype.Repository
 class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     CustomCodeRepositoryCustom {
 
-    override fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
+    override fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): QueryResults<CustomCodeListDto> {
         val customCode = QCustomCodeEntity.customCodeEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(customCode)
@@ -53,15 +50,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             query.offset((customCodeSearchCondition.pageNum - 1) * customCodeSearchCondition.contentNumPerPage)
         }
 
-        val result = query.fetchResults()
-
-        return CustomCodeListReturnDto(
-            data = result.results,
-            paging = AlicePagingData(
-                totalCount = result.total,
-                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
-            )
-        )
+        return query.fetchResults()
     }
 
     override fun findByCustomCode(customCodeId: String): CustomCodeCoreDto {

@@ -19,6 +19,6 @@ data class BoardArticleSearchCondition(
     val pageNum: Long = 1L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
-    val formattedFromDt: LocalDateTime = LocalDateTime.parse(fromDt, DateTimeFormatter.ISO_DATE_TIME)
-    val formattedToDt: LocalDateTime = LocalDateTime.parse(toDt, DateTimeFormatter.ISO_DATE_TIME)
+    val formattedFromDt: LocalDateTime? = fromDt?.let { LocalDateTime.parse(it, DateTimeFormatter.ISO_DATE_TIME) }
+    val formattedToDt: LocalDateTime? = toDt?.let { LocalDateTime.parse(it, DateTimeFormatter.ISO_DATE_TIME) }
 }

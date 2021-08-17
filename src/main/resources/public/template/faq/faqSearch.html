@@ -31,15 +31,15 @@
     let offsetCount = 0;
     window.onload = function () {
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function() { searchFaqs(); });
-        searchFaqs();
+        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        getList();
     }
 
     /**
      * FAQ 검색
      */
-    function searchFaqs() {
-        restSubmit('get', '/faqs?' + aliceJs.serialize(document.getElementById('searchFrm')));
+    function getList(pageNum = 1) {
+        restSubmit('get', '/faqs?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
     }
 
     // REST API

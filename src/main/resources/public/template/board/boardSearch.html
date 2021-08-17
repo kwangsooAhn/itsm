@@ -34,13 +34,13 @@
     /*<![CDATA[*/
     window.onload = function() {
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function() { getBoardAdminList(); });
-        getBoardAdminList();
+        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        getList();
     };
 
     // 게시판 관리 조회
-    function getBoardAdminList() {
-        restSubmit('get', '/boards?' + aliceJs.serialize(document.getElementById('searchFrm')));
+    function getList(pageNum = 1) {
+        restSubmit('get', '/boards?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
     }
 
     // 게시판 관리 등록

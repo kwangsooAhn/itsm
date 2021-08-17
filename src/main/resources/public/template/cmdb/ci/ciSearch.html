@@ -29,7 +29,7 @@
     </form>
 </div>
 <div layout:fragment="pageList">
-    <div class="list" id="ciList"></div>
+    <div class="list-content" id="ciList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -39,25 +39,25 @@
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').onkeyup = function() {
             loopOffSet = 0;
-            searchCis();
+            getList();
         };
         // 태그 조회가 아직 미완성이기 때문에 임시적으로 엔터로 변경한다.
         document.getElementById('tagSearch').onkeyup = function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 loopOffSet = 0;
-                searchCis();
+                getList();
             }
         };
-        searchCis(false);
+        getList();
     }
 
     function openCIDetailModal(ciId) {
         restSubmit('GET', '/cmdb/cis/'+ciId+'/view', false);
     }
 
-    function searchCis() {
-        restSubmit('get', '/cmdb/cis?' + aliceJs.serialize(document.getElementById('searchFrm')));
+    function getList(pageNum = 1) {
+        restSubmit('get', '/cmdb/cis?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
         let ciListTags = document.querySelectorAll('input[name=ciListTags]');
         let ciIdList= (document.querySelectorAll('input[name=ciId]'));
         for (let i = loopOffSet; i < ciListTags.length; i++) {
@@ -123,7 +123,6 @@
                     ciDetailModal.show();
                 } else {
                     document.getElementById('ciList').innerHTML = response.responseText;
-                    aliceJs.showTotalCount(document.getElementById('totalCount').value);
                     OverlayScrollbars(document.querySelector('.list-body'), {
                         className: 'scrollbar'
                     });

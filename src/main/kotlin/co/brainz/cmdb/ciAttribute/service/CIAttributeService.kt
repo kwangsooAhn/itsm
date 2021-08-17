@@ -13,11 +13,11 @@ import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeReturnDto
 import co.brainz.cmdb.dto.RestTemplateReturnDto
-import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import kotlin.math.ceil
 import org.slf4j.LoggerFactory
@@ -35,13 +35,17 @@ class CIAttributeService(
      * CI Attribute 목록 조회.
      */
     fun getCIAttributes(ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
-        val ciAttributesReturnList = ciAttributeRepository.findAttributeList(ciAttributeSearchCondition)
-        // 페이징 정보 추가
-        ciAttributesReturnList.paging.totalCountWithoutCondition = ciAttributeRepository.count()
-        ciAttributesReturnList.paging.currentPageNum = ciAttributeSearchCondition.pageNum
-        ciAttributesReturnList.paging.totalPageNum =
-            ceil(ciAttributesReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-        return ciAttributesReturnList
+        val queryResult = ciAttributeRepository.findAttributeList(ciAttributeSearchCondition)
+        return CIAttributeReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = ciAttributeRepository.count(),
+                currentPageNum = ciAttributeSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
+        )
     }
 
     /**

@@ -1,16 +1,12 @@
 package co.brainz.workflow.process.repository
 
-import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.process.entity.QWfProcessEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.provider.constants.RestTemplateConstants
-import co.brainz.workflow.provider.dto.ProcessListReturnDto
-import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
-import com.querydsl.core.types.Projections
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.dsl.CaseBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -19,25 +15,9 @@ import org.springframework.stereotype.Repository
 class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class.java),
     WfProcessRepositoryCustom {
 
-    override fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): ProcessListReturnDto {
+    override fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): QueryResults<WfProcessEntity> {
         val process = QWfProcessEntity.wfProcessEntity
         val query = from(process)
-            .select(
-                Projections.constructor(
-                    RestTemplateProcessViewDto::class.java,
-                    process.processId,
-                    process.processName,
-                    process.processDesc,
-                    process.processStatus,
-                    process.createDt,
-                    process.createUser.userKey,
-                    process.createUser.userName,
-                    process.updateDt,
-                    process.updateUser.userKey,
-                    process.updateUser.userName,
-                    null // enabled
-                )
-            )
             .innerJoin(process.createUser).fetchJoin()
             .leftJoin(process.updateUser).fetchJoin()
         if (processSearchCondition.searchValue?.isNotEmpty() == true) {
@@ -61,14 +41,7 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
         query.limit(processSearchCondition.contentNumPerPage)
         query.offset((processSearchCondition.pageNum - 1) * processSearchCondition.contentNumPerPage)
 
-        val queryResult = query.fetchResults()
-        return ProcessListReturnDto(
-            data = queryResult.results,
-            paging = AlicePagingData(
-                totalCount = queryResult.total,
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-            )
-        )
+        return query.fetchResults()
     }
 
     override fun findProcessDocumentExist(processId: String): Boolean {

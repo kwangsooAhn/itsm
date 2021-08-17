@@ -21,5 +21,5 @@ data class ProcessSearchCondition(
     val pageNum: Long = 1L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
-    val statusArray: List<String>? =  status?.split(",")
+    val statusArray: List<String>? = status?.split(",")
 }

@@ -4,13 +4,9 @@
  *
  */
 
-package co.brainz.itsm.board.repository.querydsl
+package co.brainz.itsm.board.repository
 
-import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.util.AlicePagingData
-import co.brainz.itsm.board.dto.BoardArticleDto
 import co.brainz.itsm.board.dto.BoardArticleListDto
-import co.brainz.itsm.board.dto.BoardArticleListReturnDto
 import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import co.brainz.itsm.board.entity.PortalBoardEntity
@@ -18,23 +14,22 @@ import co.brainz.itsm.board.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardReadEntity
-import co.brainz.itsm.constants.ItsmConstants
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
-import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
 class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.java), BoardRepositoryCustom {
-    override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): BoardArticleListReturnDto {
+    override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): QueryResults<BoardArticleListDto> {
         val board = QPortalBoardEntity.portalBoardEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
         val comment = QPortalBoardCommentEntity("comment")
-        val query = from(board)
+        return from(board)
             .select(
                 Projections.constructor(
                     BoardArticleListDto::class.java,
@@ -69,14 +64,6 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             .limit(boardArticleSearchCondition.contentNumPerPage)
             .offset((boardArticleSearchCondition.pageNum - 1) * boardArticleSearchCondition.contentNumPerPage)
             .fetchResults()
-
-        return BoardArticleListReturnDto(
-            data = query.results,
-            paging = AlicePagingData(
-                totalCount = query.total,
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-            )
-        )
     }
 
     override fun findByBoardId(boardId: String): BoardArticleViewDto {

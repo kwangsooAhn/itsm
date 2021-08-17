@@ -6,12 +6,12 @@
     <span class="z-search-count">/</span>
     <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
 </th:block>
-<th:blaock th:fragment="totalCountDataFragment">
+<th:block th:fragment="totalCountDataFragment">
     <input th:type="hidden" id="totalCount" name="totalCount" th:value="${paging.totalCount}">
     <input th:type="hidden" id="totalCountWithoutCondition" name="totalCountWithoutCondition" th:value="${paging.totalCountWithoutCondition}">
     <input th:type="hidden" id="currentPageNum" name="currentPageNum" th:value="${paging.currentPageNum}">
     <input th:type="hidden" id="totalPageNum" name="totalPageNum" th:value="${paging.totalPageNum}">
     <input th:type="hidden" id="orderType" name="orderType" th:value="${paging.orderType}">
-</th:blaock>
+</th:block>
 </body>
 </html>

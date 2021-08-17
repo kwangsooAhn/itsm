@@ -7,17 +7,14 @@
 package co.brainz.itsm.download.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
-import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.entity.QAliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileOwnMapEntity
-import co.brainz.framework.util.AlicePagingData
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.dto.DownloadListDto
-import co.brainz.itsm.download.dto.DownloadListReturnDto
 import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.entity.QDownloadEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -26,7 +23,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.java), DownloadRepositoryCustom {
 
-    override fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): DownloadListReturnDto {
+    override fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): QueryResults<DownloadListDto> {
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
@@ -52,7 +49,6 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         if (downloadSearchCondition.category?.isNotEmpty() == true) {
             query.where(download.downloadCategory.eq(downloadSearchCondition.category))
         }
-
         query.where(
             super.like(
                 download.downloadTitle, downloadSearchCondition.searchValue
@@ -63,14 +59,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             .limit(downloadSearchCondition.contentNumPerPage)
             .offset((downloadSearchCondition.pageNum - 1) * downloadSearchCondition.contentNumPerPage)
 
-        val result = query.fetchResults()
-        return DownloadListReturnDto(
-            data = result.results,
-            paging = AlicePagingData(
-                totalCount = result.total,
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-            )
-        )
+        return query.fetchResults()
     }
 
     override fun findDownloadTopList(limit: Long): List<PortalTopDto> {

@@ -31,9 +31,8 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIHistoryDto
 import co.brainz.cmdb.dto.CIListDto
-import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIListReturnDto
-import co.brainz.cmdb.dto.CISearchDto
+import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRepository
@@ -45,6 +44,7 @@ import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.entity.AliceTagEntity
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.tag.service.AliceTagService
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -79,13 +79,24 @@ class CIService(
      * CI 목록 조회.
      */
     fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
-        val ciReturnList = ciRepository.findCIList(ciSearchCondition)
-        // 페이징 정보 추가
-        ciReturnList.paging.totalCountWithoutCondition = ciRepository.count()
-        ciReturnList.paging.currentPageNum = ciSearchCondition.pageNum
-        ciReturnList.paging.totalPageNum =
-            ceil(ciReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-        return ciReturnList
+        val cis = ciRepository.findCIList(ciSearchCondition)
+        val ciList = mutableListOf<CIListDto>()
+        for (ci in cis.results) {
+            ciList.add(
+                this.makeCIListDto(ci)
+            )
+        }
+
+        return CIListReturnDto(
+            data = ciList,
+            paging = AlicePagingData(
+                totalCount = cis.total,
+                totalCountWithoutCondition = ciRepository.count(),
+                currentPageNum = ciSearchCondition.pageNum,
+                totalPageNum = ceil(cis.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**
@@ -140,7 +151,7 @@ class CIService(
          *   정책적인 결정이 필요하다.
          */
         val classList = mutableListOf<String>()
-        var targetClass: CIClassEntity? = null
+        var targetClass: CIClassEntity?
         var targetClassId: String = classId
 
         while (targetClassId != CIClassConstants.CI_CLASS_ROOT_ID) {

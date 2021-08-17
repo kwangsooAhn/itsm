@@ -52,9 +52,9 @@
         zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
         zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
 
-        document.getElementById('boardAdminId').addEventListener('change', function() { getBoardList(); });
-        document.getElementById('searchValue').addEventListener('keyup', function() { getBoardList(); });
-        getBoardList();
+        document.getElementById('boardAdminId').addEventListener('change', function() { getList(); });
+        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        getList();
     };
 
     function setDatePicker(element, picker) {
@@ -69,7 +69,7 @@
                     picker.open();
                 });
             } else {
-                getBoardList();
+                getList();
             }
         } else {
             const fromDtValue = document.getElementById('fromDt').value;
@@ -79,13 +79,13 @@
                     picker.open();
                 });
             } else {
-                getBoardList();
+                getList();
             }
         }
     }
 
     //게시판 조회
-    function getBoardList(pageNum = 1) {
+    function getList(pageNum = 1) {
         document.getElementById('toDt').value =
             i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
         restSubmit('get', '/boards/articles?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);

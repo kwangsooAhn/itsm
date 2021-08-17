@@ -6,6 +6,8 @@
 
 package co.brainz.itsm.customCode.service
 
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.component.service.ComponentService
@@ -35,6 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import javax.persistence.Column
+import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
@@ -62,7 +65,17 @@ class CustomCodeService(
      * @return MutableList<CustomCodeDto>
      */
     fun getCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
-        return customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
+        val queryResult = customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
+        return CustomCodeListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = customCodeRepository.count(),
+                currentPageNum = customCodeSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
+            )
+        )
     }
 
     /**

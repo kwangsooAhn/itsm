@@ -123,10 +123,15 @@
 @mixin pagingListTemplate() {
   .list {
     a, button { cursor: pointer; }
+    &-content {
+      display: flex;
+      flex: 1; // flex: 1 1 0;
+    }
     // 테이블
     &-table {
       position: relative;
-      display: inline-table;
+      display: flex;
+      flex-direction: column;
       width: 100%;
       border: none;
     }
@@ -146,9 +151,8 @@
     }
     // tbody
     &-body {
-      position: absolute;
       width: 100%;
-      height: 42.5rem; // 680px
+      height: 100%;
       border-top: 0.125rem solid $gray300; // 2px
       border-bottom: 0.0625rem solid $gray300; // 1px
       tr {

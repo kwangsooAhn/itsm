@@ -41,16 +41,17 @@
     let offsetCount = 0;
     window.onload = function() {
         document.getElementById('searchValue').focus();
-        getProcessList(document.getElementById('searchValue').value, false);
+        getList();
     }
 
     document.getElementById('searchValue').onkeyup = function() {
-        getProcessList(this.value, false);
+        getList();
     };
 
     // 프로세스 리스트 조회
-    function getProcessList(search, isScroll) {
-        restSearchSubmit('GET', '/processes?search=' + encodeURIComponent(search));
+    function getList(pageNum = 1) {
+        let search = document.getElementById('searchValue').value
+        restSearchSubmit('GET', '/processes?searchValue=' + encodeURIComponent(search) + '&pageNum=' + pageNum);
     }
 
     // 유효성 검증
@@ -426,47 +427,18 @@
     }
 
     // REST API
-    function restSearchSubmit(method, url, isScroll) {
+    function restSearchSubmit(method, url) {
         const opt = {
             method: method,
             url: url,
             async: false,
             showProgressbar: false,
             callbackFunc: function(response) {
-                if (isScroll) {
-                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                        offsetCount = offsetCount + aliceJs.searchDataCount;
-                    }
-                    const processTbody = document.querySelector('.list-body .os-content');
-                    const tbody = document.createElement('tbody');
-                    tbody.innerHTML = response.responseText;
-                    setDateTimeFormat(tbody);
-                    const container = document.createDocumentFragment();
-                    for (let i = 0; i < tbody.rows.length; i++) {
-                        let node = tbody.rows[i].cloneNode(true);
-                        container.appendChild(node);
-                    }
-                    processTbody.appendChild(container)
-                } else {
                     document.getElementById('processList').innerHTML = response.responseText;
-                    aliceJs.showTotalCount(document.getElementById('totalCount').value);
                     setDateTimeFormat(document.getElementById('processList'));
                     OverlayScrollbars(document.querySelector('.list-body'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        getProcessList(document.getElementById('search').value, true);
-                                    }
-                                }
-                            }
-                        }
+                        className: 'scrollbar'
                     });
-                }
             }
         };
         aliceJs.sendXhr(opt);
