@@ -139,25 +139,25 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     afterEvent() {}
 
     // 커스텀 코드 데이터 select box 생성
-    makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
-        aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
+    async makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
+        let customCodeDataOption = [];
+        let customCodeData = await aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
             method: 'GET'
-        }).then((customCodeData) => {
-            if (!zValidation.isEmpty(customCodeData)) {
-                const customCodeDataOption = customCodeData.reduce((result, data) => {
-                    data.name = data.value;
-                    data.value = data.key;
-                    result.push(data);
-                    return result;
-                }, []);
-                const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
-                UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
-            }
         });
+        for (let i = 0; i < customCodeData.length; i++) {
+            customCodeData[i].name = customCodeData[i].value;
+            customCodeData[i].value = customCodeData[i].key;
+            customCodeDataOption.push(customCodeData[i]);
+        }
+        const customDataOptionValue =  zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
+        UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
+
+        const codeSelectBox= this.UIElement.UIGroup.UIDiv.UISelect.domElement;
+        this.panel.update.call(this.panel, this.key, customCodeId + '|code|' + codeSelectBox.options[codeSelectBox.selectedIndex].value + '|' + codeSelectBox.options[codeSelectBox.selectedIndex].text);
     }
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
-    updateCustomCodeData(e) {
-        this.makeCustomCodeData(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
+    async updateCustomCodeData(e) {
+        await this.makeCustomCodeData(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
 
         this.updateProperty.call(this, e);
     }
