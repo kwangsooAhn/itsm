@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-</head>
+<head></head>
 <body>
-    <input th:type="hidden" id="totalCount" name="totalCount" th:value="${faqCount}"/>
-    <table class="list-table">
-        <thead class="list-head">
-            <tr class="flex-row align-items-center">
-                <th style="width:20%;" class="align-left" th:text="#{faq.label.category}"></th>
-                <th style="width:80%;" class="align-left" th:text="#{faq.label.title}"></th>
+<table class="z-list-table">
+    <thead class="z-list-head">
+        <tr class="flex-row align-items-center">
+            <th style="width:20%;" class="align-left" th:text="#{faq.label.category}"></th>
+            <th style="width:80%;" class="align-left" th:text="#{faq.label.title}"></th>
+        </tr>
+    </thead>
+    <tbody class="z-list-body">
+        <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(faqs)}">
+            <td style="width:100%" colspan="2" class="align-center" th:text="#{common.msg.noData}"></td>
+        </tr>
+            <tr class="flex-row align-items-center" th:each="faq : ${faqs}">
+                <td style="width:20%;" class="align-left" th:text="#{|common.code.${faq.faqGroup}|}"></td>
+                <td style="width:80%;" class="align-left underline">
+                    <a sec:authorize="hasAuthority('faq.update')" th:text="${faq.faqTitle}"
+                       th:href="@{/faqs/{faqId}/edit(faqId=${faq.faqId})}"></a>
+                    <a sec:authorize="!hasAuthority('faq.update')" th:text="${faq.faqTitle}"
+                       th:href="@{/faqs/{faqId}/view(faqId=${faq.faqId})}"></a>
+                </td>
             </tr>
-        </thead>
-        <tbody class="list-body">
-            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(faqs)}">
-                <td style="width:100%" colspan="2" class="align-center" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <th:block th:fragment="list">
-                <tr class="flex-row align-items-center" th:each="faq : ${faqs}">
-                    <td style="width:20%;" class="align-left" th:text="#{|common.code.${faq.faqGroup}|}"></td>
-                    <td style="width:80%;" class="align-left underline">
-                        <a sec:authorize="hasAuthority('faq.update')" th:text="${faq.faqTitle}"
-                           th:href="@{/faqs/{faqId}/edit(faqId=${faq.faqId})}"></a>
-                        <a sec:authorize="!hasAuthority('faq.update')" th:text="${faq.faqTitle}"
-                           th:href="@{/faqs/{faqId}/view(faqId=${faq.faqId})}"></a>
-                    </td>
-                </tr>
-            </th:block>
-        </tbody>
-    </table>
+    </tbody>
+</table>
+<th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>

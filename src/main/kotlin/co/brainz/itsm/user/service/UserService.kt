@@ -15,10 +15,12 @@ import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
@@ -27,6 +29,7 @@ import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
+import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserUpdatePasswordDto
@@ -38,6 +41,7 @@ import java.nio.file.Paths
 import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.util.Optional
+import kotlin.math.ceil
 import kotlin.random.Random
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
@@ -75,23 +79,33 @@ class UserService(
 
     @Value("\${user.default.profile}")
     private val userDefaultProfile: String = ""
+
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90L
 
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(search: String, offset: Long): UserListReturnDto {
-        val queryResult = userRepository.findAliceUserEntityList(search, offset)
+    fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
+        val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val userList: MutableList<UserListDataDto> = mutableListOf()
 
-        for (user in queryResult.data) {
+        for (user in queryResult.results) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
             userList.add(user)
         }
-        queryResult.data = userList
-        return queryResult
+
+        return UserListReturnDto(
+            data = userList,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = userRepository.count(),
+                currentPageNum = userSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**

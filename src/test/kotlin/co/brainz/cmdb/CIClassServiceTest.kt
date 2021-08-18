@@ -9,6 +9,7 @@ package co.brainz.cmdb
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.cmdb.ciClass.service.CIClassService
 import co.brainz.cmdb.dto.CIClassDto
+import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.junit.jupiter.api.Assertions
@@ -98,7 +99,9 @@ class CIClassServiceTest {
         val attributes = mutableListOf<String>()
         val params = LinkedHashMap<String, Any>()
         params["offset"] = 1
-        val attributeList = ciAttributeService.getCIAttributes(params)
+        val attributeList = ciAttributeService.getCIAttributes(CIAttributeSearchCondition(
+            searchValue = ""
+        ))
         attributeList.data.forEachIndexed { index, attribute ->
             if (index < 5) {
                 attributes.add(attribute.attributeId.toString())

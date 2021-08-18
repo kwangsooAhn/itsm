@@ -7,8 +7,10 @@
 package co.brainz.itsm.user.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.user.dto.UserListReturnDto
+import co.brainz.itsm.user.dto.UserListDataDto
+import co.brainz.itsm.user.dto.UserSearchCondition
+import com.querydsl.core.QueryResults
 
 interface UserRepositoryCustom : AliceRepositoryCustom {
-    fun findAliceUserEntityList(search: String, offset: Long): UserListReturnDto
+    fun findAliceUserEntityList(userSearchCondition: UserSearchCondition): QueryResults<UserListDataDto>
 }

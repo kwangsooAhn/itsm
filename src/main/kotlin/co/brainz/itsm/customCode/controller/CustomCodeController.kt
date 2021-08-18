@@ -8,7 +8,7 @@ package co.brainz.itsm.customCode.controller
 
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
-import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
+import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.service.CustomCodeService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -26,7 +26,6 @@ class CustomCodeController(
 
     private val customCodeSearchPage: String = "custom-code/customCodeSearch"
     private val customCodeListPage: String = "custom-code/customCodeList"
-    private val customCodeListFragment: String = "custom-code/customCodeList :: list"
     private val customCodeEditPage: String = "custom-code/customCodeEdit"
     private val customCodeViewPage: String = "custom-code/customCodeView"
     private val documentCustomCodePage: String = "custom-code/customCodeModal"
@@ -47,12 +46,12 @@ class CustomCodeController(
      *
      */
     @GetMapping("")
-    fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto, model: Model): String {
-        val result = customCodeService.getCustomCodeList(customCodeSearchDto)
+    fun getCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition, model: Model): String {
+        val result = customCodeService.getCustomCodeList(customCodeSearchCondition)
         model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE))
         model.addAttribute("customCodeList", result.data)
-        model.addAttribute("customCodeCount", result.totalCount)
-        return if (customCodeSearchDto.isScroll) customCodeListFragment else customCodeListPage
+        model.addAttribute("paging", result.paging)
+        return customCodeListPage
     }
 
     /**

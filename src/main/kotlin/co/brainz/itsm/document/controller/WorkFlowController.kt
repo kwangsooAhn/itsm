@@ -10,7 +10,7 @@ import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
+import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,7 +27,6 @@ class WorkFlowController(
 
     private val workFlowSearchPage: String = "workflow/workFlowSearch"
     private val workFlowListPage: String = "workflow/workFlowList"
-    private val workFlowListFragment: String = "workflow/workFlowList :: list"
     private val workFlowEditModalPage: String = "workflow/workFlowEditModal"
     private val documentDisplayModalPage: String = "workflow/documentDisplayModal"
 
@@ -45,17 +44,17 @@ class WorkFlowController(
     /**
      * 업무흐름 리스트 화면.
      *
-     * @param restTemplateDocumentSearchListDto
+     * @param documentSearchCondition
      * @param model
      * @return String
      */
     @GetMapping("")
-    fun getWorkFlowList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
+    fun getWorkFlowList(documentSearchCondition: DocumentSearchCondition, model: Model): String {
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
-        val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
+        val result = documentService.getDocumentList(documentSearchCondition)
         model.addAttribute("documentList", result.data)
-        model.addAttribute("documentCount", result.totalCount)
-        return if (restTemplateDocumentSearchListDto.isScroll) workFlowListFragment else workFlowListPage
+        model.addAttribute("paging", result.paging)
+        return workFlowListPage
     }
 
     /**
