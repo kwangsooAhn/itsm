@@ -11,6 +11,7 @@
  */
 package co.brainz.itsm.form.controller
 
+import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -18,7 +19,6 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/forms")
@@ -26,7 +26,6 @@ class FormController(private val formService: FormService) {
 
     private val formSearchPage: String = "formDesigner/formSearch"
     private val formListPage: String = "formDesigner/formList"
-    private val formListFragment: String = "formDesigner/formList :: list"
     private val formEditPreviewPage: String = "formDesigner/formEditPreview"
     private val formDesignerEditPage: String = "formDesigner/formDesigner"
 
@@ -51,18 +50,11 @@ class FormController(private val formService: FormService) {
      * @return String
      */
     @GetMapping("")
-    fun getFormList(
-        request: HttpServletRequest,
-        @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
-        model: Model
-    ): String {
-        val params = LinkedHashMap<String, Any>()
-        params["search"] = request.getParameter("search") ?: ""
-        params["offset"] = request.getParameter("offset") ?: "0"
-        val result = formService.findForms(params)
-        model.addAttribute("formList", result)
-        model.addAttribute("formListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return if (isScroll) formListFragment else formListPage
+    fun getFormList(formSearchCondition: FormSearchCondition, model: Model): String {
+        val result = formService.findForms(formSearchCondition)
+        model.addAttribute("formList", result.data)
+        model.addAttribute("paging", result.paging)
+        return formListPage
     }
 
     /**

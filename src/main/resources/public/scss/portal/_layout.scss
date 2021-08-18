@@ -34,6 +34,192 @@
   }
 }
 
+.z-portal-container {
+  @include container;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  .z-main {
+    width: 100vw;
+    height: 100vh;
+    .z-top {
+      display: flex;
+      max-width: 120rem;
+      height: $layout-header-height;
+      padding: 0 1.25rem; // 0 20px
+      font-size: $layout-header-font-size;
+      font-weight: $layout-header-font-weight;
+      align-items: center;
+      color: $layout-header-font-color;
+      background-color: $layout-header-bg-color;
+      .name {
+        padding: 0 0.9375rem; // 0 15px
+        font-size: 1.125rem; // 18px
+      }
+    }
+    .z-portal-page {
+      max-width: 120rem;
+
+      .z-content-header {
+        padding: 0 13.75rem 0 13.75rem; // 220px
+        background-color: $main-header-bg-color;
+        @include border(0.0625rem, solid, $main-header-border-color, bottom); // 1px
+
+        .z-page-title {
+          padding: 3.75rem 0;
+        }
+        .z-page-search {
+          padding-bottom: 1.785rem; // 30px
+        }
+      }
+
+      .z-list {
+        &-content {
+          padding: 3.375rem 13.75rem 0 13.75rem; // 54px 220px
+          height: $content-list-height;
+        }
+        // 테이블
+        &-table {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          border: none;
+        }
+        // thead
+        &-head {
+          tr {
+            height: 2.5rem; // 42px
+            th {
+              font-size: $font-size-s;
+              font-weight: $font-weight-medium;
+              color: $list-head-font-size;
+              padding: 0 0.9375rem; // 0 15px
+
+              &:first-child { padding-left: 1.25rem; } // 20px
+            }
+          }
+        }
+        // tbody
+        &-body {
+          width: 100%;
+          border-top: 0.125rem solid $gray300; // 2px
+          border-bottom: 0.0625rem solid $gray300; // 1px
+          tr {
+            height: 2.8125rem; // 45px
+            // 마우스 오버시 배경 색상
+            &:hover { background-color: $list-hover-bg-color; }
+            // 선택된 경우
+            &.active {
+              background-color: $list-active-bg-color;
+              td { color: $list-active-font-color; }
+            }
+            td {
+              font-size: $font-size-xs;
+              font-weight: $font-weight-regular;
+              color: $gray800;
+              padding: 0 0.9375rem; // 0 15px
+              line-height: initial; // 소문자 글자 짤림현상 방지
+
+              &:first-child { padding-left: 1.25rem; } // 20px
+
+              a { color: map-get($grays, "dark"); }
+            }
+          }
+          // 데이터 없을때
+          .no-data-found-list {
+            background-color: $no-data-found-list-bg;
+            pointer-events: none;
+          }
+        }
+      }
+      // FAQ
+      .z-faq {
+        &-content {
+          margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
+
+          .z-faq {
+            // level 1
+            &-group {
+              @include relative();
+              min-height: 3.438rem; // 55px
+              @include border($faq-group-border-width, solid, $faq-group-border-color, all);
+              @include borderRadius(0.0625rem); // 1px
+              margin-bottom: 10px; // 10px
+
+              &-title {
+                height: 3.438rem; // 55px
+                padding: 1.25rem 0.9375rem; // 20px 15px
+                @include border($faq-group-border-width, solid, transparent, bottom); // 1px
+                font-size: $faq-group-font-size;
+                font-weight: $faq-group-font-weight;
+                color: $faq-group-font-color;
+                // 그룹일 경우 summary의 화살표 숨김
+                &::-webkit-details-marker { display: none; }
+                .z-icon {
+                  &.i-plus {
+                    @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
+                    display: inline-block;
+                    opacity: 1;
+                    background: $faq-group-icon-color;
+                  }
+                  &.i-minus {
+                    @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
+                    display: inline-block;
+                    opacity: 0;
+                    background: $faq-group-icon-color;
+                  }
+                }
+              }
+              &[open] {
+                @include border($faq-group-opened-border-width, solid, $faq-group-opened-border-color, all); // 1px
+                .z-faq-group-title {
+                  color: $faq-group-opened-font-color;
+                  border-bottom-color: $faq-group-opened-border-color;
+                  .z-icon {
+                    &.i-plus {
+                      opacity: 0;
+                    }
+                    &.i-minus {
+                      background: $faq-group-opened-icon-color;
+                      opacity: 1;
+                    }
+                  }
+                }
+                .z-faq-row { background-color: $faq-row-opened-bg-color; }
+              }
+            }
+            // level 2
+            &-row {
+              padding: 20px 30px 0px 30px; // 20px 30px 0px 30px;
+              &:first-of-type { padding-top: 35px; } // 30px
+              &:last-of-type { padding-bottom: 35px; } // 30px
+
+              &-title {
+                font-size: $faq-row-font-size;
+                font-weight: $faq-row-font-weight;
+                color: $faq-row-font-color;
+              }
+
+              &[open] {
+                @include horizontalBar(0.0625rem, 0.9375rem 0, $faq-row-opened-border-color);
+              }
+            }
+            // level 3
+            &-row-content {
+              margin-top: 20px; // 20px
+              margin-left: 17px; // 17px
+              font-size: $faq-row-content-font-size;
+              font-weight: $faq-row-content-font-weight;
+              color: $faq-row-content-font-color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 .portal-container {
   @include container;
   width: 100vw;
@@ -170,93 +356,7 @@
       }
     }
   }
-  // FAQ
-  .faq {
-    &-header {
-      @include portalHeader;
-      .faq-search { padding-bottom: 1.875rem; } // 30px
-    }
-    &-content {
-      margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
-      
-      .faq {
-        // level 1
-        &-group {
-          @include relative();
-          min-height: 3.438rem; // 55px
-          @include border($faq-group-border-width, solid, $faq-group-border-color, all);
-          @include borderRadius(0.0625rem); // 1px
-          margin-bottom: 10px; // 10px
 
-          &-title {
-            height: 3.438rem; // 55px
-            padding: 1.25rem 0.9375rem; // 20px 15px
-            @include border($faq-group-border-width, solid, transparent, bottom); // 1px
-            font-size: $faq-group-font-size;
-            font-weight: $faq-group-font-weight;
-            color: $faq-group-font-color;
-            // 그룹일 경우 summary의 화살표 숨김
-            &::-webkit-details-marker { display: none; }
-            .#{$common-prefix}icon {
-              &.i-plus {
-                @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
-                display: inline-block;
-                opacity: 1;
-                background: $faq-group-icon-color;
-              }
-              &.i-minus {
-                @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
-                display: inline-block;
-                opacity: 0;
-                background: $faq-group-icon-color;
-              }
-            }
-          }
-          &[open] {
-            @include border($faq-group-opened-border-width, solid, $faq-group-opened-border-color, all); // 1px
-            .faq-group-title {
-              color: $faq-group-opened-font-color; 
-              border-bottom-color: $faq-group-opened-border-color;
-              .#{$common-prefix}icon {
-                &.i-plus {
-                  opacity: 0;
-                }
-                &.i-minus {
-                  background: $faq-group-opened-icon-color;
-                  opacity: 1;
-                }
-              }
-            }
-            .faq-row { background-color: $faq-row-opened-bg-color; }
-          }
-        }
-        // level 2
-        &-row {
-          padding: 20px 30px 0px 30px; // 20px 30px 0px 30px;
-          &:first-of-type { padding-top: 35px; } // 30px
-          &:last-of-type { padding-bottom: 35px; } // 30px
-
-          &-title {
-            font-size: $faq-row-font-size;
-            font-weight: $faq-row-font-weight;
-            color: $faq-row-font-color;
-          }
-
-          &[open] {
-            @include horizontalBar(0.0625rem, 0.9375rem 0, $faq-row-opened-border-color);
-          }
-        }
-        // level 3
-        &-row-content {
-          margin-top: 20px; // 20px
-          margin-left: 17px; // 17px
-          font-size: $faq-row-content-font-size;
-          font-weight: $faq-row-content-font-weight;
-          color: $faq-row-content-font-color;
-        }
-      }
-    }
-  }
   // 자료실
   .download {
     &-header {
@@ -268,20 +368,6 @@
       @include portalViewTemplate();
 
       .list { height: $layout-list-height; }
-    }
-  }
-  // 공지사항
-  .notice {
-    &-header {
-      @include portalHeader;
-      .notice-search { padding-bottom: 1.875rem; } // 30px
-    }
-    &-content {
-      margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
-      @include portalViewTemplate();
-
-      .list { height: $layout-list-height }
-      .notice-pinned { background-color: $notice-pinned-color; }
     }
   }
 }

@@ -7,8 +7,8 @@
 package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.service.CIService
-import co.brainz.itsm.constants.ItsmConstants
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/cmdb/cis")
@@ -28,7 +27,6 @@ class CIController(
 
     private val ciSearchPage: String = "cmdb/ci/ciSearch"
     private val ciListPage: String = "cmdb/ci/ciList"
-    private val ciListFragment: String = "cmdb/ci/ciList :: list"
     private val ciViewPage: String = "cmdb/ci/ciView"
     private val ciEditModal: String = "cmdb/ci/ciEditModal"
     private val ciViewModal: String = "cmdb/ci/ciViewModal"
@@ -46,21 +44,11 @@ class CIController(
      * CI 조회 목록 화면 호출
      */
     @GetMapping("")
-    fun getCIList(
-        request: HttpServletRequest,
-        @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
-        model: Model
-    ): String {
-        val params = LinkedHashMap<String, Any>()
-        params["search"] = request.getParameter("search")
-        params["tags"] = request.getParameter("tagSearch")
-        params["flag"] = request.getParameter("flag")
-        params["offset"] = request.getParameter("offset") ?: "0"
-        params["limit"] = ItsmConstants.SEARCH_DATA_COUNT
-        val result = ciService.getCIs(params)
+    fun getCIList(ciSearchCondition: CISearchCondition, model: Model): String {
+        val result = ciService.getCIs(ciSearchCondition)
         model.addAttribute("ciList", result.data)
-        model.addAttribute("ciListCount", result.totalCount)
-        return if (isScroll) ciListFragment else ciListPage
+        model.addAttribute("paging", result.paging)
+        return ciListPage
     }
 
     /**
@@ -124,14 +112,10 @@ class CIController(
      * CI 컴포넌트 - CI 조회 화면 호출.
      */
     @GetMapping("/component/list")
-    fun getCIComponentList(request: HttpServletRequest, model: Model): String {
-        val params = LinkedHashMap<String, Any>()
-        params["search"] = request.getParameter("search")
-        params["tags"] = request.getParameter("tagSearch")
-        params["flag"] = request.getParameter("flag")
-        val result = ciService.getCIs(params)
+    fun getCIComponentList(ciSearchCondition: CISearchCondition, model: Model): String {
+        val result = ciService.getCIs(ciSearchCondition)
         model.addAttribute("ciList", result.data)
-        model.addAttribute("ciListCount", result.totalCount)
+        model.addAttribute("paging", result.paging)
         return ciListModal
     }
 }

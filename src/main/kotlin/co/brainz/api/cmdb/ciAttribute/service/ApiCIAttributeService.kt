@@ -11,6 +11,7 @@ import co.brainz.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeReturnDto
+import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -32,7 +33,9 @@ class ApiCIAttributeService(
      * CI Attribute 목록 조회
      */
     fun getCIAttributes(params: LinkedHashMap<String, Any>): CIAttributeReturnDto {
-        return ciAttributeService.getCIAttributes(params)
+        return ciAttributeService.getCIAttributes(CIAttributeSearchCondition(
+            searchValue = params["search"].toString()
+        ))
     }
 
     /**

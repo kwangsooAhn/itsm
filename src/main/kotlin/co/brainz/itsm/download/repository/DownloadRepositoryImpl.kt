@@ -9,28 +9,21 @@ package co.brainz.itsm.download.repository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileOwnMapEntity
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.dto.DownloadListDto
-import co.brainz.itsm.download.dto.DownloadListReturnDto
+import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.entity.QDownloadEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
-import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
 class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.java), DownloadRepositoryCustom {
 
-    override fun findDownloadEntityList(
-        category: String,
-        search: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        offset: Long
-    ): DownloadListReturnDto {
+    override fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): QueryResults<DownloadListDto> {
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
@@ -53,30 +46,20 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
                 )
             )
             .innerJoin(download.createUser, user)
-        if (category.isNotEmpty()) {
-            query.where(download.downloadCategory.eq(category))
+        if (downloadSearchCondition.category?.isNotEmpty() == true) {
+            query.where(download.downloadCategory.eq(downloadSearchCondition.category))
         }
-
         query.where(
             super.like(
-                download.downloadTitle, search
-            )?.or(super.like(fileLoc.originName, search))
-                ?.or(super.like(download.createUser.userName, search)),
-            download.createDt.goe(fromDt), download.createDt.lt(toDt)
+                download.downloadTitle, downloadSearchCondition.searchValue
+            )?.or(super.like(fileLoc.originName, downloadSearchCondition.searchValue))
+                ?.or(super.like(download.createUser.userName, downloadSearchCondition.searchValue)),
+            download.createDt.goe(downloadSearchCondition.formattedFromDt), download.createDt.lt(downloadSearchCondition.formattedToDt)
         ).orderBy(download.downloadSeq.desc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
-            .offset(offset)
+            .limit(downloadSearchCondition.contentNumPerPage)
+            .offset((downloadSearchCondition.pageNum - 1) * downloadSearchCondition.contentNumPerPage)
 
-        val result = query.fetchResults()
-        val downloadList = mutableListOf<DownloadListDto>()
-        for (data in result.results) {
-            data.totalCount = result.total
-            downloadList.add(data)
-        }
-        return DownloadListReturnDto(
-            data = downloadList,
-            totalCount = result.total
-        )
+        return query.fetchResults()
     }
 
     override fun findDownloadTopList(limit: Long): List<PortalTopDto> {

@@ -6,9 +6,10 @@
 
 package co.brainz.itsm.chart.dto
 
+import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class ChartListReturnDto(
     val data: List<ChartListDto> = emptyList(),
-    val totalCount: Long = 0
+    val paging: AlicePagingData
 ) : Serializable

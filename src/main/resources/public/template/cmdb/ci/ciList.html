@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<input type="hidden" id="totalCount" th:value="${ciListCount}"/>
-<table class="list-table">
-    <thead class="list-head">
+<table class="z-list-table">
+    <thead class="z-list-head">
         <tr class="flex-row align-items-center">
             <th style="width: 4%;"></th>
             <th style="width: 21%;" class="align-left" th:text="#{cmdb.ci.label.ciNo}"></th>
@@ -16,28 +15,27 @@
             <th style="width: 25%;" class="align-left" th:text="#{cmdb.ci.label.tag}"></th>
         </tr>
     </thead>
-    <tbody class="list-body">
+    <tbody class="z-list-body">
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ciList)}">
             <td style="width: 100%;" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
-        <th:block th:fragment="list">
-            <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciList)}" th:each="ci: ${ciList}">
-                <td style="width: 4%;">
-                    <img th:src="${ci.ciIconData}"/>
-                </td>
-                <input type="hidden" name="ciId" th:value="${ci.ciId}">
-                <td style="width: 21%;" class="align-left underline pointer" th:text="${ci.ciNo}"
-                    th:onclick="openCIDetailModal([[${ci.ciId}]]);"></td>
-                <td style="width: 10%;" class="align-left" th:text="${ci.typeName}"></td>
-                <td style="width: 15%;" class="align-left" th:text="${ci.ciName}"></td>
-                <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}"></td>
-                <td style="width: 25%;" class="align-left">
-                    <input type="text" name="ciListTags" class="align-left text-ellipsis" th:value="${ci.ciTags}"
-                           readonly></input>
-                </td>
-            </tr>
-        </th:block>
+        <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(ciList)}" th:each="ci: ${ciList}">
+            <td style="width: 4%;">
+                <img th:src="${ci.ciIconData}"/>
+            </td>
+            <input type="hidden" name="ciId" th:value="${ci.ciId}">
+            <td style="width: 21%;" class="align-left underline pointer" th:text="${ci.ciNo}"
+                th:onclick="openCIDetailModal([[${ci.ciId}]]);"></td>
+            <td style="width: 10%;" class="align-left" th:text="${ci.typeName}"></td>
+            <td style="width: 15%;" class="align-left" th:text="${ci.ciName}"></td>
+            <td style="width: 25%;" class="align-left" th:text="${ci.ciDesc}"></td>
+            <td style="width: 25%;" class="align-left">
+                <input type="text" name="ciListTags" class="align-left text-ellipsis" th:value="${ci.ciTags}"
+                       readonly></input>
+            </td>
+        </tr>
     </tbody>
 </table>
+<th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 </body>
 </html>

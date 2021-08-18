@@ -5,6 +5,7 @@
 
 package co.brainz.workflow
 
+import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
@@ -63,9 +64,11 @@ class WfFormServiceTest {
     fun deleteForm() {
         val params = LinkedHashMap<String, Any>()
         params["search"] = this.formName
-        val formDtoList = wfFormService.getFormList(params)
+        val formDtoList = wfFormService.getFormList(FormSearchCondition(
+            searchValue = this.formName
+        ))
         assumingThat(
-            formDtoList.isNotEmpty()
-        ) { assumeTrue(wfFormService.deleteForm(formDtoList[0].id)) }
+            formDtoList.data.isNotEmpty()
+        ) { assumeTrue(wfFormService.deleteForm(formDtoList.data[0].id)) }
     }
 }

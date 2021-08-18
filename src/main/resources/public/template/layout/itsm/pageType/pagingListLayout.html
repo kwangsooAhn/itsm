@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/itsmLayout}">
+<body>
+<div layout:fragment="pageTitle"></div>
+<th:block layout:fragment="pageContent">
+    <div layout:fragment="pageSearching" class="z-page-search flex-row"></div>
+    <div layout:fragment="pageList" class="z-page-content"></div>
+    <div layout:replace="layout/itsm/fragment/pagingAreaFragment"></div>
+</th:block>
+</body>
+</html>

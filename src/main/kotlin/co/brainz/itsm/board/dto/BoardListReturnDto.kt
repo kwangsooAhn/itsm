@@ -6,9 +6,10 @@
 
 package co.brainz.itsm.board.dto
 
+import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class BoardListReturnDto(
     val data: List<BoardListDto> = emptyList(),
-    val totalCount: Long = 0
+    val paging: AlicePagingData
 ) : Serializable

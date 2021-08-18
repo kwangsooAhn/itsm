@@ -8,11 +8,11 @@ package co.brainz.itsm.board.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.itsm.board.dto.BoardListDto
-import co.brainz.itsm.board.dto.BoardListReturnDto
+import co.brainz.itsm.board.dto.BoardSearchCondition
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
-import co.brainz.itsm.constants.ItsmConstants
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -24,14 +24,11 @@ import org.springframework.stereotype.Repository
 class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     BoardAdminRepositoryCustom {
 
-    override fun findByBoardAdminList(
-        search: String,
-        offset: Long
-    ): BoardListReturnDto {
+    override fun findByBoardAdminList(boardSearchCondition: BoardSearchCondition): QueryResults<BoardListDto> {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         val user = QAliceUserEntity.aliceUserEntity
         val board = QPortalBoardEntity("board")
-        val query = from(boardAdmin)
+        return from(boardAdmin)
             .select(
                 Projections.constructor(
                     BoardListDto::class.java,
@@ -49,17 +46,12 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             .innerJoin(boardAdmin.createUser, user)
             .where(
                 super.like(
-                    boardAdmin.boardAdminTitle, search
-                )?.or(super.like(boardAdmin.createUser.userName, search))
+                    boardAdmin.boardAdminTitle, boardSearchCondition.searchValue
+                )?.or(super.like(boardAdmin.createUser.userName, boardSearchCondition.searchValue))
             ).orderBy(boardAdmin.createDt.desc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
-            .offset(offset)
+            .limit(boardSearchCondition.contentNumPerPage)
+            .offset((boardSearchCondition.pageNum - 1) * boardSearchCondition.contentNumPerPage)
             .fetchResults()
-
-        return BoardListReturnDto(
-            data = query.results,
-            totalCount = query.total
-        )
     }
 
     override fun findPortalBoardAdmin(): List<BoardListDto> {

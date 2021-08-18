@@ -7,7 +7,7 @@ package co.brainz.itsm.scheduler.controller
 
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.scheduler.dto.SchedulerSearchDto
+import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
 import co.brainz.itsm.scheduler.service.SchedulerService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -28,7 +28,6 @@ class SchedulerController(
     private val schedulerSearchPage: String = "scheduler/schedulerSearch"
     private val schedulerEditPage: String = "scheduler/schedulerEdit"
     private val schedulerListPage: String = "scheduler/schedulerList"
-    private val schedulerListFragment: String = "scheduler/schedulerList :: list"
     private val schedulerViewPage: String = "scheduler/schedulerView"
     private val schedulerHistoryListModal: String = "scheduler/schedulerHistoryListModal"
 
@@ -44,11 +43,11 @@ class SchedulerController(
      * 스케줄러 리스트 화면.
      */
     @GetMapping("")
-    fun getSchedulerList(schedulerSearchDto: SchedulerSearchDto, model: Model): String {
-        val result = schedulerService.getSchedulers(schedulerSearchDto)
+    fun getSchedulerList(schedulerSearchCondition: SchedulerSearchCondition, model: Model): String {
+        val result = schedulerService.getSchedulers(schedulerSearchCondition)
         model.addAttribute("schedulerList", result.data)
-        model.addAttribute("schedulerListCount", result.totalCount)
-        return if (schedulerSearchDto.isScroll) schedulerListFragment else schedulerListPage
+        model.addAttribute("paging", result.paging)
+        return schedulerListPage
     }
 
     /**

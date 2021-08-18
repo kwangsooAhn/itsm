@@ -8,14 +8,13 @@ package co.brainz.itsm.faq.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.util.AliceMessageSource
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqListDto
-import co.brainz.itsm.faq.dto.FaqListReturnDto
-import co.brainz.itsm.faq.dto.FaqSearchRequestDto
+import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -28,15 +27,15 @@ class FaqRepositoryImpl(
     /**
      * FAQ 목록을 조회한다.
      */
-    override fun findFaqs(searchRequestDto: FaqSearchRequestDto): FaqListReturnDto {
+    override fun findFaqs(faqSearchCondition: FaqSearchCondition): QueryResults<FaqListDto> {
         val faq = QFaqEntity.faqEntity
         val user = QAliceUserEntity.aliceUserEntity
-        if (searchRequestDto.search?.isBlank() == false) {
-            searchRequestDto.groupCodes =
-                messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, searchRequestDto.search!!)
+        if (faqSearchCondition.searchValue?.isNotBlank() == true) {
+            faqSearchCondition.groupCodes =
+                messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, faqSearchCondition.searchValue)
         }
 
-        val query = from(faq)
+        return from(faq)
             .select(
                 Projections.constructor(
                     FaqListDto::class.java,
@@ -50,17 +49,12 @@ class FaqRepositoryImpl(
             )
             .innerJoin(faq.createUser, user)
             .where(
-                super.like(faq.faqTitle, searchRequestDto.search)
-                    ?.or(super.inner(faq.faqGroup, searchRequestDto.groupCodes))
+                super.like(faq.faqTitle, faqSearchCondition.searchValue)
+                    ?.or(super.inner(faq.faqGroup, faqSearchCondition.groupCodes))
             ).orderBy(faq.faqGroup.asc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
-            .offset(searchRequestDto.offset)
+            .limit(faqSearchCondition.contentNumPerPage)
+            .offset((faqSearchCondition.pageNum - 1) * faqSearchCondition.contentNumPerPage)
             .fetchResults()
-
-        return FaqListReturnDto(
-            data = query.results,
-            totalCount = query.total
-        )
     }
 
     override fun findFaqTopList(limit: Long): List<PortalTopDto> {

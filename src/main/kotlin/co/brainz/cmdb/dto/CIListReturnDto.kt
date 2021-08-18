@@ -6,9 +6,10 @@
 
 package co.brainz.cmdb.dto
 
+import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
-data class CIReturnDto(
+data class CIListReturnDto(
     val data: List<CIListDto> = emptyList(),
-    val totalCount: Long = 0
+    val paging: AlicePagingData
 ) : Serializable

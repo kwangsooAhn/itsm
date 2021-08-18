@@ -1,357 +1,293 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{chart.label.chartList}"></title>
+    <th:block layout:fragment="pageHead">
+        <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
+        <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+        <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
+        <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
+        <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+        <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+        <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
+    </th:block>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-chart-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{chart.label.chartList}"></h1>
-            <h6 class="description ml-2" th:text="#{chart.msg.searchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row">
-            <input type="hidden" sec:authorize="hasAuthority('chart.create') || hasAuthority('chart.update')"
-                   th:name="isRole" th:value="true"/>
-            <input type="hidden" sec:authorize="!hasAuthority('chart.create') && !hasAuthority('chart.update')"
-                   th:name="isRole" th:value="false"/>
-            <form id="searchFrm">
-                <select id="searchTypeName" name="searchTypeName" class="col-3 mr-2">
-                    <option value="" th:text="#{chart.label.all}" selected></option>
-                    <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
-                </select>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" sec:authorize="hasAuthority('chart.create')"
-                        th:text="#{common.btn.add}" th:onclick="openChartEditModal()"></button>
-            </div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{chart.label.chartList}"></h1>
+    <h6 class="description ml-2" th:text="#{chart.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" sec:authorize="hasAuthority('chart.create') || hasAuthority('chart.update')"
+           th:name="isRole" th:value="true"/>
+    <input type="hidden" sec:authorize="!hasAuthority('chart.create') && !hasAuthority('chart.update')"
+           th:name="isRole" th:value="false"/>
+    <form id="searchFrm">
+        <select id="searchTypeName" name="searchTypeName" class="col-3 mr-2">
+            <option value="" th:text="#{chart.label.all}" selected></option>
+            <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
+        </select>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" sec:authorize="hasAuthority('chart.create')"
+                th:text="#{common.btn.add}" th:onclick="openChartEditModal()"></button>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-chart-content flex-fill">
-        <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''chart.delete'')')}"/>
-        <div class="list" id="chartList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''chart.delete'')')}"/>
+    <div class="z-list-content" id="chartList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
-    <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
-    <script type="text/javascript">
-        /*<![CDATA[*/
-        let offsetCount = 0;
-        const STATUS_SUCCESS = '0';
-        const CHART_YEAR = 'Y';
-        const CHART_MONTH = 'M';
-        const CHART_DAY = 'D';
-        const CHART_HOUR = 'H';
-        const PIE_CHART = 'chart.pie';
-        const STACKED_COLUMN_CHART = 'chart.stackedColumn';
-        const STACKED_BAR_CHART = 'chart.stackedBar';
-        const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
-        const BASIC_LINE_CHART = 'chart.basicLine';
-        const ACTIVITY_GAUGE_CHART = 'chart.activityGauge';
-        let chart = null;
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    const STATUS_SUCCESS = '0';
+    const CHART_YEAR = 'Y';
+    const CHART_MONTH = 'M';
+    const CHART_DAY = 'D';
+    const CHART_HOUR = 'H';
+    const PIE_CHART = 'chart.pie';
+    const STACKED_COLUMN_CHART = 'chart.stackedColumn';
+    const STACKED_BAR_CHART = 'chart.stackedBar';
+    const LINE_AND_COLUMN_CHART = 'chart.lineAndColumn';
+    const BASIC_LINE_CHART = 'chart.basicLine';
+    const ACTIVITY_GAUGE_CHART = 'chart.activityGauge';
+    let chart = null;
 
-        window.onload = function () {
-            document.getElementById('searchTypeName').addEventListener('change', function () {
-                searchCharts(false);
-            });
-            searchCharts(false);
-        }
+    window.onload = function () {
+        document.getElementById('searchTypeName').addEventListener('change', function () {
+            getList();
+        });
+        getList();
+    }
 
-        /**
-         * Chart 검색
-         */
-        function searchCharts(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-            }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSearchSubmit('get', '/charts?' + urlParam, isScroll);
-        }
+    /**
+     * Chart 검색
+     */
+    function getList(pageNum = 1) {
+        restSearchSubmit('get', '/charts?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+    }
 
-        /**
-         * REST SEARCH API
-         */
-        function restSearchSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const chartTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        chartTbody.appendChild(container)
-                    } else {
-                        document.getElementById('chartList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('chartList'));
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function (e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            searchCharts(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /**
-         * REST API
-         */
-        function restSubmit(method, url, data, result, isShowProgressbar) {
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function (response) {
-                    result(response.responseText);
-                },
-                showProgressbar: isShowProgressbar
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(dt => {
-                dt.textContent = i18n.userDateTime(dt.textContent.trim());
-            });
-        }
-
-        /**
-         * Chart edit 화면 호출 (Modal)
-         */
-        function openChartEditModal(chartId, chartType) {
-            const deletable = document.getElementById('deletable').value
-            let modalOptions = {
-                title: i18n.msg('chart.label.edit'),
-                body: createModalContent(),
-                classes: 'chart-edit-modal',
-                buttons: [
-                    {
-                        content: (chartId !== undefined) ? i18n.msg('common.btn.save') : i18n.msg('common.btn.register'),
-                        classes: 'z-button primary',
-                        bindKey: false,
-                        callback: function (modal) {
-                            let method = (chartId !== undefined) ? 'put' : 'post'
-                            saveChart(method, chartId)
-                        }
-                    }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function (modal) {
-                    OverlayScrollbars(document.querySelector('.chart-edit-content'), {className: 'scrollbar'});
-                    getChart(chartId, chartType, 'edit');
-                }
-            };
-
-            if (deletable === 'true' && chartId !== undefined) {
-                modalOptions.buttons.push({
-                    content: i18n.msg('common.btn.delete'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function (modal) {
-                        deleteChart(chartId);
-                    }
+    /**
+     * REST SEARCH API
+     */
+    function restSearchSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                document.getElementById('chartList').innerHTML = response.responseText;
+                setDateTimeFormat(document.getElementById('chartList'));
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
+                    className: 'scrollbar'
                 });
             }
+        };
+        aliceJs.sendXhr(opt);
+    }
 
+    /**
+     * REST API
+     */
+    function restSubmit(method, url, data, result, isShowProgressbar) {
+        const opt = {
+            method: method,
+            url: url,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function (response) {
+                result(response.responseText);
+            },
+            showProgressbar: isShowProgressbar
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+        });
+    }
+
+    /**
+     * Chart edit 화면 호출 (Modal)
+     */
+    function openChartEditModal(chartId, chartType) {
+        const deletable = document.getElementById('deletable').value
+        let modalOptions = {
+            title: i18n.msg('chart.label.edit'),
+            body: createModalContent(),
+            classes: 'chart-edit-modal',
+            buttons: [
+                {
+                    content: (chartId !== undefined) ? i18n.msg('common.btn.save') : i18n.msg('common.btn.register'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        let method = (chartId !== undefined) ? 'put' : 'post'
+                        saveChart(method, chartId)
+                    }
+                }],
+            close: {
+                closable: false,
+            },
+            onCreate: function (modal) {
+                OverlayScrollbars(document.querySelector('.chart-edit-content'), {className: 'scrollbar'});
+                getChart(chartId, chartType, 'edit');
+            }
+        };
+
+        if (deletable === 'true' && chartId !== undefined) {
             modalOptions.buttons.push({
-                content: i18n.msg('chart.btn.preview'),
+                content: i18n.msg('common.btn.delete'),
                 classes: 'z-button secondary',
                 bindKey: false,
                 callback: function (modal) {
-                    if (emptyValidation() && isValidation()) {
-                        let chartInfo = setChartInfo()
-                        restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
-                            let responseJson = JSON.parse(response);
-                            setChart(responseJson.chartType, responseJson.propertyJson);
-                            parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
-                        }, false);
-                    }
+                    deleteChart(chartId);
                 }
             });
+        }
 
-            modalOptions.buttons.push({
-                content: i18n.msg('common.btn.cancel'),
+        modalOptions.buttons.push({
+            content: i18n.msg('chart.btn.preview'),
+            classes: 'z-button secondary',
+            bindKey: false,
+            callback: function (modal) {
+                if (emptyValidation() && isValidation()) {
+                    let chartInfo = setChartInfo()
+                    restSubmit('post', '/rest/charts/' + chartId + '/preview', chartInfo, function (response) {
+                        let responseJson = JSON.parse(response);
+                        setChart(responseJson.chartType, responseJson.propertyJson);
+                        parsedPropertyJson(responseJson.chartConfig, responseJson.propertyJson);
+                    }, false);
+                }
+            }
+        });
+
+        modalOptions.buttons.push({
+            content: i18n.msg('common.btn.cancel'),
+            classes: 'z-button secondary',
+            bindKey: false,
+            callback: function (modal) {
+                modal.hide();
+            }
+        });
+
+        const chartEditModal = new modal(modalOptions);
+        chartEditModal.show();
+    }
+
+    /**
+     * Chart view 화면 호출 (Modal)
+     */
+    function openChartViewModal(chartId, chartType, chartName) {
+        let modalOptions = {
+            title: chartName,
+            body: createModalContent(),
+            classes: 'chart-view-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.close'),
                 classes: 'z-button secondary',
                 bindKey: false,
                 callback: function (modal) {
                     modal.hide();
                 }
-            });
-
-            const chartEditModal = new modal(modalOptions);
-            chartEditModal.show();
-        }
-
-        /**
-         * Chart view 화면 호출 (Modal)
-         */
-        function openChartViewModal(chartId, chartType, chartName) {
-            let modalOptions = {
-                title: chartName,
-                body: createModalContent(),
-                classes: 'chart-view-modal',
-                buttons: [{
-                    content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function (modal) {
-                        modal.hide();
-                    }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function () {
-                    getChart(chartId, chartType, 'view');
-                }
-            };
-
-            const chartViewModal = new modal(modalOptions);
-            chartViewModal.show();
-        }
-
-        function createModalContent() {
-            return `<div class="chart-edit-content">` +
-                `<div class="flex-column" id="getChart"></div>` +
-                `</div>`;
-        }
-
-        function getChart(chartId, chartType, target) {
-            let strUrl = '/charts';
-            if (typeof chartId === 'undefined') {
-                strUrl += '/new';
-            } else {
-                strUrl += '/' + chartId + '/' + target;
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function () {
+                getChart(chartId, chartType, 'view');
             }
+        };
 
-            const opt = {
-                method: 'get',
-                url: strUrl,
-                contentType: 'application/json',
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    document.getElementById('getChart').innerHTML = response.responseText;
-                    if (target === 'edit') {
-                        setDisplay(document.getElementById('typeSelectBox').value);
-                        let targetTags = document.getElementById('targetTags').value
-                        document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
-                        new Tagify(document.querySelector('input[id=targetTags]'), {
-                            pattern: /^.{0,100}$/,
-                            editTags: false,
-                            placeholder: i18n.msg('token.msg.tag')
-                        });
-                        aliceJs.initDesignedSelectTag(document.querySelector('.chart-edit-modal'));
-                    } else if (target === 'view') {
-                        setChart(chartType, document.getElementById('propertyJson').value);
-                    }
-                    if (chartId !== undefined) {
-                        parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
+        const chartViewModal = new modal(modalOptions);
+        chartViewModal.show();
+    }
+
+    function createModalContent() {
+        return `<div class="chart-edit-content">` +
+            `<div class="flex-column" id="getChart"></div>` +
+            `</div>`;
+    }
+
+    function getChart(chartId, chartType, target) {
+        let strUrl = '/charts';
+        if (typeof chartId === 'undefined') {
+            strUrl += '/new';
+        } else {
+            strUrl += '/' + chartId + '/' + target;
         }
 
-        function emptyValidation() {
-            if (isEmpty('chartName', 'chart.msg.enterChartName')) {
+        const opt = {
+            method: 'get',
+            url: strUrl,
+            contentType: 'application/json',
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                document.getElementById('getChart').innerHTML = response.responseText;
+                if (target === 'edit') {
+                    setDisplay(document.getElementById('typeSelectBox').value);
+                    let targetTags = document.getElementById('targetTags').value
+                    document.getElementById('targetTags').value = targetTags.substring(1, targetTags.length - 1);
+                    new Tagify(document.querySelector('input[id=targetTags]'), {
+                        pattern: /^.{0,100}$/,
+                        editTags: false,
+                        placeholder: i18n.msg('token.msg.tag')
+                    });
+                    aliceJs.initDesignedSelectTag(document.querySelector('.chart-edit-modal'));
+                } else if (target === 'view') {
+                    setChart(chartType, document.getElementById('propertyJson').value);
+                }
+                if (chartId !== undefined) {
+                    parsedPropertyJson(document.getElementById('chartConfig').value, document.getElementById('propertyJson').value);
+                }
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    function emptyValidation() {
+        if (isEmpty('chartName', 'chart.msg.enterChartName')) {
+            return false
+        }
+        if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
+            return false
+        }
+        if (isEmpty('durationDigit', 'chart.msg.enterDurationDigit')) {
+            return false
+        }
+        if (document.getElementById('typeSelectBox').value === BASIC_LINE_CHART) {
+            if (isEmpty('targetGroup', 'chart.msg.enterTargetGroup')) {
                 return false
             }
-            if (isEmpty('targetTags', 'chart.msg.enterTargetTags')) {
-                return false
-            }
-            if (isEmpty('durationDigit', 'chart.msg.enterDurationDigit')) {
-                return false
-            }
-            if (document.getElementById('typeSelectBox').value === BASIC_LINE_CHART) {
-                if (isEmpty('targetGroup', 'chart.msg.enterTargetGroup')) {
-                    return false
-                }
-            }
-            return true;
         }
+        return true;
+    }
 
-        /**
-         * chart 저장 / 수정
-         */
-        function saveChart(method, chartId) {
-            if (emptyValidation() && isValidation()) {
-                let chartInfo = setChartInfo(method, chartId);
-                let url = '/rest/charts';
-                if (chartInfo.chartId !== undefined) {
-                    url += '/' + chartId;
-                }
-                restSubmit(method, url, chartInfo, function (result) {
-                    switch (result) {
-                        case STATUS_SUCCESS:
-                            aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
-                                location.reload()
-                            });
-                            break;
-                        default:
-                            aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
-                            break;
-                    }
-                })
+    /**
+     * chart 저장 / 수정
+     */
+    function saveChart(method, chartId) {
+        if (emptyValidation() && isValidation()) {
+            let chartInfo = setChartInfo(method, chartId);
+            let url = '/rest/charts';
+            if (chartInfo.chartId !== undefined) {
+                url += '/' + chartId;
             }
-        }
-
-        /**
-         * chart 삭제
-         */
-        function deleteChart(chartId) {
-            aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
-                chartId, {}, function (result) {
+            restSubmit(method, url, chartInfo, function (result) {
                 switch (result) {
                     case STATUS_SUCCESS:
-                        aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function () {
-                            location.reload();
+                        aliceAlert.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            location.reload()
                         });
                         break;
                     default:
@@ -360,319 +296,384 @@
                 }
             })
         }
+    }
 
-        function setDisplay(value) {
-            // 연산자 박스 출력
-            let operationSelectBox = document.getElementById('operationSelectBox');
-            for (let i = 0; i < operationSelectBox.options.length; i++) {
-                if (value === ACTIVITY_GAUGE_CHART) {
-                    if (operationSelectBox.options[i].value === 'count') {
-                        operationSelectBox.options[i].style.display = 'none';
-                    } else {
-                        operationSelectBox.options[i].selected = true;
-                    }
-                } else {
-                    if (operationSelectBox.options.length !== 2) {
-                        let countOption = document.createElement('option');
-                        countOption.text = i18n.msg('chart.option.text.count');
-                        countOption.value = i18n.msg('chart.option.text.value');
-                        operationSelectBox.add(countOption);
-                    }
-                }
+    /**
+     * chart 삭제
+     */
+    function deleteChart(chartId) {
+        aliceAlert.confirm(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/charts/' +
+            chartId, {}, function (result) {
+            switch (result) {
+                case STATUS_SUCCESS:
+                    aliceAlert.alertSuccess('[[#{common.msg.delete}]]', function () {
+                        location.reload();
+                    });
+                    break;
+                default:
+                    aliceAlert.alertDanger(i18n.msg('common.msg.fail'));
+                    break;
             }
-            aliceJs.initDesignedSelectTag();
+        })
+    }
 
-            if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
-                document.getElementById('periodUnitLabel').style.display = 'block';
-                document.getElementById('periodUnitSelectBox').style.display = 'block';
-                if (value === BASIC_LINE_CHART) {
-                    document.getElementById('groupLabel').style.display = 'block';
-                    document.getElementById('targetGroup').style.display = 'block';
+    function setDisplay(value) {
+        // 연산자 박스 출력
+        let operationSelectBox = document.getElementById('operationSelectBox');
+        for (let i = 0; i < operationSelectBox.options.length; i++) {
+            if (value === ACTIVITY_GAUGE_CHART) {
+                if (operationSelectBox.options[i].value === 'count') {
+                    operationSelectBox.options[i].style.display = 'none';
                 } else {
-                    document.getElementById('groupLabel').style.display = 'none';
-                    document.getElementById('targetGroup').style.display = 'none';
+                    operationSelectBox.options[i].selected = true;
                 }
             } else {
-                document.getElementById('periodUnitLabel').style.display = 'none';
-                document.getElementById('periodUnitSelectBox').style.display = 'none';
+                if (operationSelectBox.options.length !== 2) {
+                    let countOption = document.createElement('option');
+                    countOption.text = i18n.msg('chart.option.text.count');
+                    countOption.value = i18n.msg('chart.option.text.value');
+                    operationSelectBox.add(countOption);
+                }
+            }
+        }
+        aliceJs.initDesignedSelectTag();
+
+        if (value === BASIC_LINE_CHART || value === STACKED_COLUMN_CHART) {
+            document.getElementById('periodUnitLabel').style.display = 'block';
+            document.getElementById('periodUnitSelectBox').style.display = 'block';
+            if (value === BASIC_LINE_CHART) {
+                document.getElementById('groupLabel').style.display = 'block';
+                document.getElementById('targetGroup').style.display = 'block';
+            } else {
                 document.getElementById('groupLabel').style.display = 'none';
                 document.getElementById('targetGroup').style.display = 'none';
             }
-            // 차트 새로 그리기
-            setChart(value, document.getElementById('propertyJson').value);
+        } else {
+            document.getElementById('periodUnitLabel').style.display = 'none';
+            document.getElementById('periodUnitSelectBox').style.display = 'none';
+            document.getElementById('groupLabel').style.display = 'none';
+            document.getElementById('targetGroup').style.display = 'none';
         }
+        // 차트 새로 그리기
+        setChart(value, document.getElementById('propertyJson').value);
+    }
 
-        /** 하이차트 초기화 */
-        function setChart(chartType, property) {
-            // highcharts 기본 옵션
-            let options = {
-                chart: {type: 'line'},
-                title: {text: ''},
-                subtitle: {text: ''},
-                credits: {enabled: false},
-                xAxis: {},
-                yAxis: {},
-                tooltip: {},
-                pane: {},
-                legend: {
-                    align: 'right',
-                    x: -30,
-                    verticalAlign: 'top',
-                    y: 25,
-                    floating: true,
-                    backgroundColor: 'white',
-                    borderColor: '#CCC',
-                    borderWidth: 1,
-                    shadow: false
-                },
-                plotOptions: {},
-                series: [{data: []}]
-            };
+    /** 하이차트 초기화 */
+    function setChart(chartType, property) {
+        // highcharts 기본 옵션
+        let options = {
+            chart: {type: 'line'},
+            title: {text: ''},
+            subtitle: {text: ''},
+            credits: {enabled: false},
+            xAxis: {},
+            yAxis: {},
+            tooltip: {},
+            pane: {},
+            legend: {
+                align: 'right',
+                x: -30,
+                verticalAlign: 'top',
+                y: 25,
+                floating: true,
+                backgroundColor: 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            plotOptions: {},
+            series: [{data: []}]
+        };
 
-            switch (chartType) {
-                case PIE_CHART:
-                    options.chart.type = 'pie';
-                    options.plotOptions.pie = {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {enabled: true}
-                    };
-                    options.series[0].type = 'pie';
-                    break;
-                case BASIC_LINE_CHART:
-                    options.xAxis.type = 'datetime';
-                    options.plotOptions = {
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            },
+        switch (chartType) {
+            case PIE_CHART:
+                options.chart.type = 'pie';
+                options.plotOptions.pie = {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {enabled: true}
+                };
+                options.series[0].type = 'pie';
+                break;
+            case BASIC_LINE_CHART:
+                options.xAxis.type = 'datetime';
+                options.plotOptions = {
+                    line: {
+                        dataLabels: {
+                            enabled: true
                         },
-                        series: {
-                            label: {
-                                connectorAllowed: true
-                            }
+                    },
+                    series: {
+                        label: {
+                            connectorAllowed: true
                         }
-                    };
-                    options.responsive = {
-                        rules: [{
-                            condition: {
-                                maxWidth: 500,
-                            },
-                            chartOptions: {
-                                legend: {
-                                    layout: 'horizontal',
-                                    align: 'center',
-                                    verticalAlign: 'bottom'
-                                }
-                            },
-                        }]
-                    };
-                    break;
-                case STACKED_COLUMN_CHART:
-                case STACKED_BAR_CHART:
-                case LINE_AND_COLUMN_CHART:
-                    if (chartType === STACKED_COLUMN_CHART || chartType === LINE_AND_COLUMN_CHART) {
-                        if (chartType == LINE_AND_COLUMN_CHART) {
-                            options.series.push({data: []});
-                        }
-                        options.chart.type = 'column';
-                    } else {
-                        options.chart.type = 'bar';
                     }
-                    options.xAxis.type = 'datetime';
-                    options.yAxis = {
-                        min: 0,
-                        stackLabels: {enabled: false}
-                    }
-                    options.plotOptions = {
-                        column: {
-                            stacking: 'normal',
-                            dataLabels: {
-                                enabled: true
-                            }
-                        }
-                    };
-                    break;
-                case ACTIVITY_GAUGE_CHART:
-                    options.chart = {
-                        type: 'solidgauge',
-                        marginTop: 50
-                    }
-                    options.tooltip = {
-                        borderWidth: 0,
-                        backgroundColor: 'none',
-                        shadow: false,
-                        style: {
-                            fontSize: '16px'
+                };
+                options.responsive = {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500,
                         },
-                        pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
-                        positioner: function (labelWidth) {
-                            return {
-                                x: (this.chart.chartWidth - labelWidth) / 2,
-                                y: (this.chart.plotHeight / 2) + 15
-                            };
-                        }
-                    }
-                    options.yAxis = {
-                        min: 0,
-                        max: 100,
-                        lineWidth: 0,
-                        tickPositions: []
-                    }
-                    options.plotOptions = {
-                        solidgauge: {
-                            borderWidth: '2px',
-                            dataLabels: {
-                                enabled: false
-                            },
-                            linecap: 'round',
-                            stickyTracking: false
-                        }
-                    }
-                    options.pane = {
-                        startAngle: 0,
-                        endAngle: 360,
-                        background: []
-                    }
-
-                    let docKeyList = [];
-                    let propertyJson = JSON.parse(property);
-                    for (let key in propertyJson[1].documentList) {
-                        docKeyList.push(key);
-                    }
-                    for (let i = 0; i < docKeyList.length - 1; i++) {
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        },
+                    }]
+                };
+                break;
+            case STACKED_COLUMN_CHART:
+            case STACKED_BAR_CHART:
+            case LINE_AND_COLUMN_CHART:
+                if (chartType === STACKED_COLUMN_CHART || chartType === LINE_AND_COLUMN_CHART) {
+                    if (chartType == LINE_AND_COLUMN_CHART) {
                         options.series.push({data: []});
                     }
-            }
-            chart = Highcharts.chart('container', options);
-        }
-
-        /** chartConfig 파싱 진행 **/
-        function parsedPropertyJson(chartConfig, property) {
-            let chartConfigJson = JSON.parse(chartConfig);
-            let propertyJson = JSON.parse(property);
-
-            /** Get propertyJson Data **/
-            let countArray = [];
-            let docKeyList = [];
-            for (let key in propertyJson[0].operation) {
-                // 문서에 대한 카운트 개수
-                countArray.push(propertyJson[0].operation[key].count);
-            }
-            for (let key in propertyJson[1].documentList) {
-                // 문서의 각 나눈 연도의 개수
-                docKeyList.push(key);
-            }
-            const getYear = Number(docKeyList[0].substring(0, 4));
-            const getMonth = Number(docKeyList[0].substring(4, 6));
-            const getDay = Number(docKeyList[0].substring(6, 8));
-            const getHour = Number(docKeyList[0].substring(8, 10));
-
-            // 라인차트, 컬럼차트용
-            let pointInterval = 1; // time
-            let pointIntervalUnit = undefined; //  highcharts 기본값
-            if (typeof chartConfigJson.periodUnit !== 'undefined') {
-                if (chartConfigJson.periodUnit === CHART_YEAR) {
-                    pointIntervalUnit = 'year';
-                } else if (chartConfigJson.periodUnit === CHART_MONTH) {
-                    pointIntervalUnit = 'month';
-                } else if (chartConfigJson.periodUnit === CHART_DAY) {
-                    pointIntervalUnit = 'day';
-                } else {  // time
-                    pointInterval = 3600 * 1000;
+                    options.chart.type = 'column';
+                } else {
+                    options.chart.type = 'bar';
                 }
+                options.xAxis.type = 'datetime';
+                options.yAxis = {
+                    min: 0,
+                    stackLabels: {enabled: false}
+                }
+                options.plotOptions = {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                };
+                break;
+            case ACTIVITY_GAUGE_CHART:
+                options.chart = {
+                    type: 'solidgauge',
+                    marginTop: 50
+                }
+                options.tooltip = {
+                    borderWidth: 0,
+                    backgroundColor: 'none',
+                    shadow: false,
+                    style: {
+                        fontSize: '16px'
+                    },
+                    pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
+                    positioner: function (labelWidth) {
+                        return {
+                            x: (this.chart.chartWidth - labelWidth) / 2,
+                            y: (this.chart.plotHeight / 2) + 15
+                        };
+                    }
+                }
+                options.yAxis = {
+                    min: 0,
+                    max: 100,
+                    lineWidth: 0,
+                    tickPositions: []
+                }
+                options.plotOptions = {
+                    solidgauge: {
+                        borderWidth: '2px',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        linecap: 'round',
+                        stickyTracking: false
+                    }
+                }
+                options.pane = {
+                    startAngle: 0,
+                    endAngle: 360,
+                    background: []
+                }
+
+                let docKeyList = [];
+                let propertyJson = JSON.parse(property);
+                for (let key in propertyJson[1].documentList) {
+                    docKeyList.push(key);
+                }
+                for (let i = 0; i < docKeyList.length - 1; i++) {
+                    options.series.push({data: []});
+                }
+        }
+        chart = Highcharts.chart('container', options);
+    }
+
+    /** chartConfig 파싱 진행 **/
+    function parsedPropertyJson(chartConfig, property) {
+        let chartConfigJson = JSON.parse(chartConfig);
+        let propertyJson = JSON.parse(property);
+
+        /** Get propertyJson Data **/
+        let countArray = [];
+        let docKeyList = [];
+        for (let key in propertyJson[0].operation) {
+            // 문서에 대한 카운트 개수
+            countArray.push(propertyJson[0].operation[key].count);
+        }
+        for (let key in propertyJson[1].documentList) {
+            // 문서의 각 나눈 연도의 개수
+            docKeyList.push(key);
+        }
+        const getYear = Number(docKeyList[0].substring(0, 4));
+        const getMonth = Number(docKeyList[0].substring(4, 6));
+        const getDay = Number(docKeyList[0].substring(6, 8));
+        const getHour = Number(docKeyList[0].substring(8, 10));
+
+        // 라인차트, 컬럼차트용
+        let pointInterval = 1; // time
+        let pointIntervalUnit = undefined; //  highcharts 기본값
+        if (typeof chartConfigJson.periodUnit !== 'undefined') {
+            if (chartConfigJson.periodUnit === CHART_YEAR) {
+                pointIntervalUnit = 'year';
+            } else if (chartConfigJson.periodUnit === CHART_MONTH) {
+                pointIntervalUnit = 'month';
+            } else if (chartConfigJson.periodUnit === CHART_DAY) {
+                pointIntervalUnit = 'day';
+            } else {  // time
+                pointInterval = 3600 * 1000;
             }
-            // 데이터상 현재 시리즈는 1개만 전달됨
-            const seriesName = i18n.msg('chart.label.doc');
+        }
+        // 데이터상 현재 시리즈는 1개만 전달됨
+        const seriesName = i18n.msg('chart.label.doc');
 
-            // 차트 업데이트
-            chart.setTitle({text: propertyJson[0].title});
+        // 차트 업데이트
+        chart.setTitle({text: propertyJson[0].title});
 
-            let seriesData = [];
-            const categoryData = Object.keys(propertyJson[1].documentList);
-            switch (chartConfigJson.type) {
-                case PIE_CHART:
-                    chart.series[0].update({
-                        tooltip: {
-                            pointFormatter: function () {
-                                if (chartConfigJson.operation === 'percent') {
-                                    return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
-                                } else {
-                                    return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
-                                }
-                            }
-                        },
-                        dataLabels: {
-                            formatter: function () {
-                                if (chartConfigJson.operation === 'percent') {
-                                    return '<b>' + this.key + ': <b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
-                                } else {
-                                    return '<b>' + this.key + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
-                                }
+        let seriesData = [];
+        const categoryData = Object.keys(propertyJson[1].documentList);
+        switch (chartConfigJson.type) {
+            case PIE_CHART:
+                chart.series[0].update({
+                    tooltip: {
+                        pointFormatter: function () {
+                            if (chartConfigJson.operation === 'percent') {
+                                return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
+                            } else {
+                                return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
                             }
                         }
-                    });
-                    for (let i = 0; i < categoryData.length; i++) {
-                        seriesData.push({
-                            name: docKeyList[i],
-                            y: countArray[i],
-                            sliced: (i === 0),
-                            selected: (i === 0)
-                        });
-                    }
-                    chart.series[0].setData(seriesData, true);
-                    break;
-                case BASIC_LINE_CHART:
-                    chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
-
-                    chart.series[0].update({
-                        pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
-                        pointInterval: pointInterval,
-                        pointIntervalUnit: pointIntervalUnit,
-                        tooltip: {
-                            pointFormatter: function () {
-                                if (chartConfigJson.operation === 'percent') {
-                                    const sum = countArray.reduce((a, b) => (a + b));
-                                    const percent = (this.y / sum) * 100;
-                                    return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                                } else {
-                                    return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
-                                }
-                            }
-                        },
-                        dataLabels: {
-                            formatter: function () {
-                                if (chartConfigJson.operation === 'percent') {
-                                    const sum = countArray.reduce((a, b) => (a + b));
-                                    const percent = (this.y / sum) * 100;
-                                    return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                                } else {
-                                    return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
-                                }
+                    },
+                    dataLabels: {
+                        formatter: function () {
+                            if (chartConfigJson.operation === 'percent') {
+                                return '<b>' + this.key + ': <b>' + Highcharts.numberFormat(this.percentage, 2) + '%</b>';
+                            } else {
+                                return '<b>' + this.key + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
                             }
                         }
-                    });
-
-                    for (let i = 0; i < categoryData.length; i++) {
-                        const getYear = categoryData[i].substring(0, 4);
-                        const getMonth = categoryData[i].substring(4, 6);
-                        const getDay = categoryData[i].substring(6, 8);
-                        const getHour = categoryData[i].substring(8, 10);
-                        seriesData.push({
-                            name: seriesName,
-                            x: Date.UTC(getYear, getMonth, getDay, getHour),
-                            y: countArray[i]
-                        });
                     }
-                    chart.series[0].update({name: seriesName, showInLegend: true}, false);
-                    chart.series[0].setData(seriesData, true);
-                    break;
-                case STACKED_COLUMN_CHART:
-                case STACKED_BAR_CHART:
-                case LINE_AND_COLUMN_CHART:
-                    chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
+                });
+                for (let i = 0; i < categoryData.length; i++) {
+                    seriesData.push({
+                        name: docKeyList[i],
+                        y: countArray[i],
+                        sliced: (i === 0),
+                        selected: (i === 0)
+                    });
+                }
+                chart.series[0].setData(seriesData, true);
+                break;
+            case BASIC_LINE_CHART:
+                chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
 
-                    chart.series[0].update({
+                chart.series[0].update({
+                    pointStart: Date.UTC(getYear, getMonth, getDay, getHour), // TODO: UTC 시간을 사용하는게 맞는지 재확인 필요.
+                    pointInterval: pointInterval,
+                    pointIntervalUnit: pointIntervalUnit,
+                    tooltip: {
+                        pointFormatter: function () {
+                            if (chartConfigJson.operation === 'percent') {
+                                const sum = countArray.reduce((a, b) => (a + b));
+                                const percent = (this.y / sum) * 100;
+                                return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                            } else {
+                                return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                            }
+                        }
+                    },
+                    dataLabels: {
+                        formatter: function () {
+                            if (chartConfigJson.operation === 'percent') {
+                                const sum = countArray.reduce((a, b) => (a + b));
+                                const percent = (this.y / sum) * 100;
+                                return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                            } else {
+                                return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                            }
+                        }
+                    }
+                });
+
+                for (let i = 0; i < categoryData.length; i++) {
+                    const getYear = categoryData[i].substring(0, 4);
+                    const getMonth = categoryData[i].substring(4, 6);
+                    const getDay = categoryData[i].substring(6, 8);
+                    const getHour = categoryData[i].substring(8, 10);
+                    seriesData.push({
+                        name: seriesName,
+                        x: Date.UTC(getYear, getMonth, getDay, getHour),
+                        y: countArray[i]
+                    });
+                }
+                chart.series[0].update({name: seriesName, showInLegend: true}, false);
+                chart.series[0].setData(seriesData, true);
+                break;
+            case STACKED_COLUMN_CHART:
+            case STACKED_BAR_CHART:
+            case LINE_AND_COLUMN_CHART:
+                chart.yAxis[0].setTitle({text: i18n.msg('chart.option.label.yAxisTitle')});
+
+                chart.series[0].update({
+                    pointStart: Date.UTC(getYear, getMonth, getDay, getHour),
+                    pointInterval: pointInterval,
+                    pointIntervalUnit: pointIntervalUnit,
+                    tooltip: {
+                        pointFormatter: function () {
+                            if (chartConfigJson.operation === 'percent') {
+                                const sum = countArray.reduce((a, b) => (a + b));
+                                const percent = (this.y / sum) * 100;
+                                return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                            } else {
+                                return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
+                            }
+                        }
+                    },
+                    dataLabels: {
+                        formatter: function () {
+                            if (chartConfigJson.operation === 'percent') {
+                                const sum = countArray.reduce((a, b) => (a + b));
+                                const percent = (this.y / sum) * 100;
+                                return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
+                            } else {
+                                return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                            }
+                        }
+                    }
+                });
+
+                for (let i = 0; i < categoryData.length; i++) {
+                    const getYear = categoryData[i].substring(0, 4);
+                    const getMonth = categoryData[i].substring(4, 6);
+                    const getDay = categoryData[i].substring(6, 8);
+                    const getHour = categoryData[i].substring(8, 10);
+                    seriesData.push({
+                        name: seriesName,
+                        x: Date.UTC(getYear, getMonth, getDay, getHour),
+                        y: countArray[i]
+                    });
+                }
+                chart.series[0].update({name: seriesName, showInLegend: true}, false);
+                chart.series[0].setData(seriesData, true);
+                if (chartConfigJson.type === LINE_AND_COLUMN_CHART) {
+                    chart.series[1].update({
+                        name: seriesName,
+                        showInLegend: false,
+                        type: 'spline',
                         pointStart: Date.UTC(getYear, getMonth, getDay, getHour),
                         pointInterval: pointInterval,
                         pointIntervalUnit: pointIntervalUnit,
@@ -698,147 +699,100 @@
                                 }
                             }
                         }
-                    });
-
-                    for (let i = 0; i < categoryData.length; i++) {
-                        const getYear = categoryData[i].substring(0, 4);
-                        const getMonth = categoryData[i].substring(4, 6);
-                        const getDay = categoryData[i].substring(6, 8);
-                        const getHour = categoryData[i].substring(8, 10);
-                        seriesData.push({
-                            name: seriesName,
-                            x: Date.UTC(getYear, getMonth, getDay, getHour),
-                            y: countArray[i]
-                        });
-                    }
-                    chart.series[0].update({name: seriesName, showInLegend: true}, false);
-                    chart.series[0].setData(seriesData, true);
-                    if (chartConfigJson.type === LINE_AND_COLUMN_CHART) {
-                        chart.series[1].update({
-                            name: seriesName,
-                            showInLegend: false,
-                            type: 'spline',
-                            pointStart: Date.UTC(getYear, getMonth, getDay, getHour),
-                            pointInterval: pointInterval,
-                            pointIntervalUnit: pointIntervalUnit,
-                            tooltip: {
-                                pointFormatter: function () {
-                                    if (chartConfigJson.operation === 'percent') {
-                                        const sum = countArray.reduce((a, b) => (a + b));
-                                        const percent = (this.y / sum) * 100;
-                                        return i18n.msg('chart.label.docRatio') + ': <b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                                    } else {
-                                        return i18n.msg('chart.label.docCases') + ': <b>' + i18n.msg('common.label.count', Highcharts.numberFormat(this.y, 0)) + '</b>';
-                                    }
-                                }
-                            },
-                            dataLabels: {
-                                formatter: function () {
-                                    if (chartConfigJson.operation === 'percent') {
-                                        const sum = countArray.reduce((a, b) => (a + b));
-                                        const percent = (this.y / sum) * 100;
-                                        return '<b>' + Highcharts.numberFormat(percent, 2) + '%</b>';
-                                    } else {
-                                        return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
-                                    }
-                                }
-                            }
-                        }, false);
-                        chart.series[1].setData(seriesData, true);
-                    }
-                    break;
-                case ACTIVITY_GAUGE_CHART:
-                    let innerRadius = 40;
-                    let radius = 50;
-                    const sum = countArray.reduce((a, b) => (a + b));
-                    for (let k = 0; k < categoryData.length; k++) {
-                        innerRadius = innerRadius + 10;
-                        radius = radius + 10;
-                        chart.series[k].update({
-                            name: categoryData[k],
-                            borderColor: Highcharts.getOptions().colors[k]
-                        }, false);
-                        chart.series[k].setData([{
-                            color: Highcharts.getOptions().colors[k],
-                            radius: radius,
-                            innerRadius: innerRadius,
-                            y: Number(Highcharts.numberFormat((countArray[k] / sum) * 100))
-                        }], true);
-                    }
-                    break;
-            }
-        }
-
-        // 화면 필수값 검증
-        function isValidation() {
-            let isValid = true;
-            let chartType = document.getElementById('typeSelectBox').value;
-            if (chartType === BASIC_LINE_CHART || chartType === STACKED_COLUMN_CHART) {
-                let periodUnit = document.getElementById('periodUnitSelectBox').value;
-                let durationUnit = document.getElementById('durationUnitSelectBox').value;
-                switch (durationUnit) {
-                    case CHART_MONTH:
-                        if (periodUnit === CHART_YEAR) {
-                            isValid = false;
-                            aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                            return false;
-                        }
-                        break;
-                    case CHART_DAY:
-                        if (periodUnit === CHART_YEAR || periodUnit === CHART_MONTH) {
-                            isValid = false;
-                            aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                            return false;
-                        }
-                        break;
-                    case CHART_HOUR:
-                        if (periodUnit === CHART_YEAR || periodUnit === CHART_MONTH || periodUnit === CHART_DAY) {
-                            isValid = false;
-                            aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
-                            return false;
-                        }
-                        break;
+                    }, false);
+                    chart.series[1].setData(seriesData, true);
                 }
+                break;
+            case ACTIVITY_GAUGE_CHART:
+                let innerRadius = 40;
+                let radius = 50;
+                const sum = countArray.reduce((a, b) => (a + b));
+                for (let k = 0; k < categoryData.length; k++) {
+                    innerRadius = innerRadius + 10;
+                    radius = radius + 10;
+                    chart.series[k].update({
+                        name: categoryData[k],
+                        borderColor: Highcharts.getOptions().colors[k]
+                    }, false);
+                    chart.series[k].setData([{
+                        color: Highcharts.getOptions().colors[k],
+                        radius: radius,
+                        innerRadius: innerRadius,
+                        y: Number(Highcharts.numberFormat((countArray[k] / sum) * 100))
+                    }], true);
+                }
+                break;
+        }
+    }
+
+    // 화면 필수값 검증
+    function isValidation() {
+        let isValid = true;
+        let chartType = document.getElementById('typeSelectBox').value;
+        if (chartType === BASIC_LINE_CHART || chartType === STACKED_COLUMN_CHART) {
+            let periodUnit = document.getElementById('periodUnitSelectBox').value;
+            let durationUnit = document.getElementById('durationUnitSelectBox').value;
+            switch (durationUnit) {
+                case CHART_MONTH:
+                    if (periodUnit === CHART_YEAR) {
+                        isValid = false;
+                        aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                        return false;
+                    }
+                    break;
+                case CHART_DAY:
+                    if (periodUnit === CHART_YEAR || periodUnit === CHART_MONTH) {
+                        isValid = false;
+                        aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                        return false;
+                    }
+                    break;
+                case CHART_HOUR:
+                    if (periodUnit === CHART_YEAR || periodUnit === CHART_MONTH || periodUnit === CHART_DAY) {
+                        isValid = false;
+                        aliceAlert.alertDanger(i18n.msg('chart.msg.periodUnitOutOfRange'));
+                        return false;
+                    }
+                    break;
             }
-            return isValid;
+        }
+        return isValid;
+    }
+
+    // 전송할 데이터 셋팅
+    function setChartInfo(method, chartId) {
+        let tagList = [];
+        JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
+            tagList.push(tag.value);
+        })
+
+        let chartInfo = {
+            chartType: document.getElementById('typeSelectBox').value,
+            chartName: document.getElementById('chartName').value,
+            chartDesc: document.getElementById('chartDesc').value,
+            targetTags: tagList,
+            operation: document.getElementById('operationSelectBox').value,
+            durationDigit: document.getElementById('durationDigit').value,
+            durationUnit: document.getElementById('durationUnitSelectBox').value
+        }
+        if (method === 'put' && chartId !== undefined) {
+            chartInfo.chartId = chartId;
         }
 
-        // 전송할 데이터 셋팅
-        function setChartInfo(method, chartId) {
-            let tagList = [];
-            JSON.parse(document.getElementById('targetTags').value).forEach(tag => {
-                tagList.push(tag.value);
-            })
-
-            let chartInfo = {
-                chartType: document.getElementById('typeSelectBox').value,
-                chartName: document.getElementById('chartName').value,
-                chartDesc: document.getElementById('chartDesc').value,
-                targetTags: tagList,
-                operation: document.getElementById('operationSelectBox').value,
-                durationDigit: document.getElementById('durationDigit').value,
-                durationUnit: document.getElementById('durationUnitSelectBox').value
-            }
-            if (method === 'put' && chartId !== undefined) {
-                chartInfo.chartId = chartId;
-            }
-
-            switch (chartInfo.chartType) {
-                case BASIC_LINE_CHART:
-                    chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
-                    chartInfo.group = document.getElementById('targetGroup').value;
-                    break;
-                case STACKED_COLUMN_CHART :
-                case STACKED_BAR_CHART:
-                case LINE_AND_COLUMN_CHART:
-                case ACTIVITY_GAUGE_CHART:
-                    chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
-                    break;
-            }
-            return chartInfo;
+        switch (chartInfo.chartType) {
+            case BASIC_LINE_CHART:
+                chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
+                chartInfo.group = document.getElementById('targetGroup').value;
+                break;
+            case STACKED_COLUMN_CHART :
+            case STACKED_BAR_CHART:
+            case LINE_AND_COLUMN_CHART:
+            case ACTIVITY_GAUGE_CHART:
+                chartInfo.periodUnit = document.getElementById('periodUnitSelectBox').value;
+                break;
         }
-
-        /*]]>*/
-    </script>
-</th:block>
+        return chartInfo;
+    }
+    /*]]>*/
+</script>
 </html>

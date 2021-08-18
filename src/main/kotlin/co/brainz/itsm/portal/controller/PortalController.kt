@@ -8,7 +8,7 @@ package co.brainz.itsm.portal.controller
 
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.download.constants.DownloadConstants
-import co.brainz.itsm.download.dto.DownloadSearchDto
+import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.service.DownloadService
 import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.service.NoticeService
@@ -44,7 +44,6 @@ class PortalController(
     private val portalFaqListPage: String = "portal/faq/portalFaqList"
     private val portalDownloadSearchPage: String = "portal/download/downloadSearch"
     private val portalDownloadListPage: String = "portal/download/downloadList"
-    private val portalDownloadListFragment: String = "portal/download/downloadList :: list"
     private val portalDownloadViewPage: String = "portal/download/downloadView"
 
     /**
@@ -130,14 +129,14 @@ class PortalController(
     }
 
     /**
-     * [downloadSearchDto], [model]를 받아서 포탈 자료실 리스트 화면 호출.
+     * [downloadSearchCondition], [model]를 받아서 포탈 자료실 리스트 화면 호출.
      */
     @GetMapping("/downloads")
-    fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
-        val result = downloadService.getDownloadList(downloadSearchDto)
+    fun getDownloadList(downloadSearchCondition: DownloadSearchCondition, model: Model): String {
+        val result = downloadService.getDownloadList(downloadSearchCondition)
         model.addAttribute("downloadList", result.data)
-        model.addAttribute("downloadCount", result.totalCount)
-        return if (downloadSearchDto.isScroll) portalDownloadListFragment else portalDownloadListPage
+        model.addAttribute("paging", result.paging)
+        return portalDownloadListPage
     }
 
     /**

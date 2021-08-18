@@ -5,9 +5,10 @@
 
 package co.brainz.itsm.user.dto
 
+import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class UserListReturnDto(
-    var data: List<UserListDataDto> = emptyList(),
-    val totalCount: Long = 0
+    val data: List<UserListDataDto> = emptyList(),
+    val paging: AlicePagingData
 ) : Serializable

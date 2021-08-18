@@ -16,7 +16,7 @@ import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.token.dto.TokenSearchConditionDto
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
+import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -64,17 +64,17 @@ class TokenController(
             AliceUserConstants.Status.SIGNUP.code,
             AliceUserConstants.Status.EDIT.code -> return statusPage
         }
-        val restTemplateDocumentSearchListDto = RestTemplateDocumentSearchListDto()
+        val documentSearchCondition = DocumentSearchCondition()
         val userRoles = roleService.getUserRoles(userKey)
         run loop@{
             userRoles.forEach { role ->
                 if (role.roleId == AliceUserConstants.ADMIN_ID) {
-                    restTemplateDocumentSearchListDto.viewType = DocumentConstants.DocumentViewType.ADMIN.value
+                    documentSearchCondition.viewType = DocumentConstants.DocumentViewType.ADMIN.value
                     return@loop
                 }
             }
         }
-        model.addAttribute("documentList", documentService.getDocumentAll(restTemplateDocumentSearchListDto))
+        model.addAttribute("documentList", documentService.getDocumentAll(documentSearchCondition))
         return tokenSearchPage
     }
 

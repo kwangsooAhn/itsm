@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <table>
-    <thead class="list-head">
+    <thead class="z-list-head">
     <tr>
         <th style="width: 15%;" class="align-center" th:text="#{scheduler.label.historyNo}"></th>
         <th style="width: 10%;" class="align-center" th:text="#{scheduler.label.immediatelyExecute}"></th>
@@ -11,7 +11,7 @@
         <th style="width: 40%;" class="align-center" th:text="#{scheduler.label.errorMessage}"></th>
     </tr>
     </thead>
-    <tbody class="list-body">
+    <tbody class="z-list-body">
     <tr class="no-data-found-list flex-row align-items-center" th:if="${#arrays.isEmpty(schedulerHistoryList)}">
         <td style="width: 100%;" colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>

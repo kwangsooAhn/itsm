@@ -19,6 +19,5 @@ data class SchedulerListDto(
     var executeCyclePeriod: Long? = null,
     var cronExpression: String? = null,
     var executeTime: LocalDateTime? = null,
-    var result: Boolean? = null,
-    var totalCount: Long = 0
+    var result: Boolean? = null
 ) : Serializable

@@ -1,123 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="layout/itsm/pageType/pagingListLayout">
 <head>
     <title th:text="#{customCode.label.customCode}"></title>
-    <meta charset="UTF-8">
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-custom-code-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{customCode.label.customCode}"></h1>
-            <h6 class="description ml-2" th:text="#{customCode.msg.searchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row">
-            <input type="hidden" sec:authorize="hasAuthority('custom.code.update')" th:name="isRole" th:value="true"/>
-            <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole" th:value="false"/>
-            <form id="searchFrm">
-                <select id="searchType" name="searchType" class="col-3">
-                    <option value="" th:text="#{customCode.label.all}" selected></option>
-                    <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
-                </select>
-                <input type="text" class="z-input i-search col-4 mr-2" id="search" name="search" maxlength="100"
-                       th:placeholder="#{customCode.label.searchPlaceholder}"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" onclick="location.href='/custom-codes/new'"
-                        sec:authorize="hasAuthority('custom.code.create')" th:text="#{common.btn.add}"></button>
-            </div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{customCode.label.customCode}"></h1>
+    <h6 class="description ml-2" th:text="#{customCode.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" sec:authorize="hasAuthority('custom.code.update')" th:name="isRole" th:value="true"/>
+    <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole" th:value="false"/>
+    <form id="searchFrm">
+        <select id="searchType" name="searchType" class="col-3">
+            <option value="" th:text="#{customCode.label.all}" selected></option>
+            <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
+        </select>
+        <input type="text" class="z-input i-search col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
+               th:placeholder="#{customCode.label.searchPlaceholder}"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" onclick="location.href='/custom-codes/new'"
+                sec:authorize="hasAuthority('custom.code.create')" th:text="#{common.btn.add}"></button>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-custom-code-content flex-fill">
-        <div class="list" id="customCodeList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="customCodeList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript">
-        let offsetCount = 0;
-        window.onload = function() {
-            document.getElementById('search').focus();
-            document.getElementById('search').addEventListener('keyup', function() { getCustomCodeList(false); });
-            document.getElementById('searchType').addEventListener('change', getCustomCodeList.bind(null, false), false);
-            getCustomCodeList(false);
+<script layout:fragment="pageScript" th:inline="javascript">
+    let offsetCount = 0;
+    window.onload = function() {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        document.getElementById('searchType').addEventListener('change', getList.bind(null), false);
+        getList();
+    };
+
+    function getList(pageNum = 1) {
+        restSubmit('get', '/custom-codes?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+    }
+
+    // REST API
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            callbackFunc: function(response) {
+                document.getElementById('customCodeList').innerHTML = response.responseText;
+                setDateTimeFormat(document.getElementById('customCodeList'));
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
+                    className: 'scrollbar'
+                });
+            },
+            showProgressbar: false
         };
+        aliceJs.sendXhr(opt);
+    }
 
-        function getCustomCodeList(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-            }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSubmit('get', '/custom-codes?' + urlParam, isScroll);
-        }
-
-        // REST API
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                callbackFunc: function(response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const customTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        customTbody.appendChild(container)
-                    } else {
-                        document.getElementById('customCodeList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('customCodeList'));
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    // 스크롤이 맨 마지막에 있을 경우
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getCustomCodeList(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                },
-                showProgressbar: false
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(dt => {
-                dt.textContent = i18n.userDateTime(dt.textContent.trim());
-            });
-        }
-    </script>
-</th:block>
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+        });
+    }
+</script>
 </html>
