@@ -123,11 +123,11 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                         .setUIId('code')
                         .setUIAttribute('data-value', item.value)
                         .onUIChange(this.updateProperty.bind(this));
-                    radioGroup.addUI(radioGroup.UISelect);
-                    this.UIElement.UIGroup.UIDiv = radioGroup;
-
                     const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
-                    this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue);
+                    this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue).then(function (response){
+                        radioGroup.addUI(radioGroup.UISelect);
+                    });
+                    this.UIElement.UIGroup.UIDiv = radioGroup;
                     break;
             }
             this.UIElement.UIGroup.addUI(radioGroup);
@@ -140,25 +140,22 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     afterEvent() {}
 
     // 커스텀 코드 데이터 select box 생성
-    makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
-        aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
+    async makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
+        let customCodeDataOption = [];
+        let customCodeData = await aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
             method: 'GET'
-        }).then((customCodeData) => {
-            if (!zValidation.isEmpty(customCodeData)) {
-                const customCodeDataOption = customCodeData.reduce((result, data) => {
-                    data.name = data.value;
-                    data.value = data.key;
-                    result.push(data);
-                    return result;
-                }, []);
-                const customDataOptionValue = zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
-                UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
-            }
         });
+        for (let i = 0; i < customCodeData.length; i++) {
+            customCodeData[i].name = customCodeData[i].value;
+            customCodeData[i].value = customCodeData[i].key;
+            customCodeDataOption.push(customCodeData[i]);
+        }
+        const customDataOptionValue =  zValidation.isEmpty(customCodeValue) ? customCodeData[0].key : customCodeValue;
+        UISelect.setUIOptions(customCodeDataOption).setUIValue(customDataOptionValue);
     }
     // 커스텀 코드 변경시 커스텀 코드 데이터 select box를 업데이트 한다.
-    updateCustomCodeData(e) {
-        this.makeCustomCodeData(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
+    async updateCustomCodeData(e) {
+        await this.makeCustomCodeData(this.UIElement.UIGroup.UIDiv.UISelect, e.target.value, '');
 
         this.updateProperty.call(this, e);
     }
@@ -172,8 +169,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
         const elem = e.target || e;
         const parentElem = elem.parentNode.parentNode;
-        const curRadioElem = parentElem.querySelector('input[type=radio]');
-        if (!curRadioElem.checked) { return false; }
+        const curRadioElem = parentElem.querySelector('input[type=radio]:checked');
         const customCodeId = this.UIElement.UISelect.domElement.value;
         const radioType= curRadioElem.getAttribute('data-value');
         const sessionSelectBox = document.getElementById('session');
