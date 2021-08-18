@@ -168,8 +168,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
 
         const elem = e.target || e;
         const parentElem = elem.parentNode.parentNode;
-        const curRadioElem = parentElem.querySelector('input[type=radio]');
-        if (!curRadioElem.checked) { return false; }
+        const curRadioElem = parentElem.querySelector('input[type=radio]:checked');
         const customCodeId = this.UIElement.UISelect.domElement.value;
         const radioType= curRadioElem.getAttribute('data-value');
         const sessionSelectBox = document.getElementById('session');
