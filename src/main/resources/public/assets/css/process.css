@@ -4444,7 +4444,7 @@ body.modal-active {
 }
 .modal-wrapper .modal-dialog .modal-bottom {
   height: 5rem;
-  padding: 1.25rem 1.25rem 1.25rem 0;
+  padding: 0 1.25rem 1.25rem 0;
 }
 
 .modal-dialog.save-as .modal-content {
