@@ -343,15 +343,15 @@ label {
   }
 
   &.i-date-picker {
-    @include backgroundImage($icon-folder-path + 'icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+    @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
   &.i-time-picker {
-    @include backgroundImage($icon-folder-path + 'icon_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+    @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
   &.i-datetime-picker {
-    @include backgroundImage($icon-folder-path + 'icon_date_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+    @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_date_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
   &.i-px {

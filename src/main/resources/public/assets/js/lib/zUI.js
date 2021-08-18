@@ -270,11 +270,10 @@ class UITextArea extends UIElement {
         return this;
     }
 }
-// TODO: 디자인용 selectbox로 변경
+
 class UISelect extends UIElement {
     constructor() {
         super(document.createElement('select'));
-        this.domElement.className = 'select';
     }
 
     setUIMultiple(boolean) {
