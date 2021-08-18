@@ -7,10 +7,12 @@
 package co.brainz.itsm.report.controller
 
 import co.brainz.cmdb.dto.RestTemplateReturnDto
-import co.brainz.itsm.report.dto.ReportTemplateDto
+import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.report.service.ReportTemplateService
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -44,4 +46,9 @@ class ReportRestController(
         return reportTemplateService.deleteReportTemplate(templateId)
     }
 
+    @GetMapping("/template/charts")
+    fun getReportTemplateChart(request: HttpServletRequest): List<ChartDto> {
+        val chartIds = request.getParameterValues("chartId")
+        return reportTemplateService.getReportTemplateChart(chartIds)
+    }
 }

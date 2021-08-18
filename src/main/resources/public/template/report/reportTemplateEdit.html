@@ -101,6 +101,7 @@
             });
         };
 
+        // Chart 추가
         function addChart(data) {
             let target = document.querySelector('#chartList');
             let property = {};
@@ -108,7 +109,7 @@
                 property = data;
             }
 
-            const options = chartList.data.map(function (option) {
+            const options = chartList['data'].map(function (option) {
                 return `<option value="${option.chartId}" ${property.chartId === option.chartId ? 'selected=\'true\'' : ''}>${aliceJs.filterXSS(option.chartName)}</option>`;
             }).join('');
             let rowId = ZWorkflowUtil.generateUUID();
@@ -127,6 +128,7 @@
             aliceJs.initDesignedSelectTag();
         }
 
+        // 유효성 검사(중복 차트 체크)
         function isValid() {
             let isValid = true;
             let chartElement = document.querySelector('#chartList');
@@ -147,6 +149,7 @@
             return isValid;
         }
 
+        // Action
         function actionTemplate(method) {
             if (method === 'post' || method === 'put') {
                 if (isValidRequiredAll() && isValid()) {
@@ -161,7 +164,6 @@
                         url += '/' + /*[[${template?.templateId}]]*/'';
                         data.templateId = /*[[${template?.templateId}]]*/'';
                     }
-
                     let charts = []
                     let chartElement = document.querySelector('#chartList')
                     chartElement.querySelectorAll('select[name=chart]').forEach((item, index) => {
@@ -179,6 +181,7 @@
             }
         }
 
+        // Ajax 통신
         function restSubmit(method, url, data) {
             const opt = {
                 method: method,
@@ -218,8 +221,25 @@
             aliceJs.sendXhr(opt);
         }
 
+        // 미리보기
+        // sessionStorage 에 화면 데이터 저장
         function preview() {
-            console.log('xxxxxxxxxx')
+            let chartElement = document.querySelector('#chartList');
+            let charts = [];
+            chartElement.querySelectorAll('select[name=chart]').forEach((item) => {
+                if (item.value !== '') {
+                    charts.push({chartId: item.value})
+                }
+            });
+
+            let reportData = {
+                reportId: '',
+                reportName: document.querySelector('#templateName').value,
+                reportDesc: document.querySelector('#templateDesc').value,
+                charts: charts
+            }
+            sessionStorage.setItem("alice_report", JSON.stringify(reportData))
+            window.open('/reports/template/preview', '_blank');
         }
         /*]]>*/
     </script>

@@ -13,6 +13,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ReportTemplateMapRepository : JpaRepository<ReportTemplateMapEntity, String> {
-
     fun deleteReportTemplateMapEntityByTemplate(templateEntity: ReportTemplateEntity)
 }

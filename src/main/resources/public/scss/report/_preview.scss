@@ -1,0 +1,82 @@
+/* _preview.scss
+ *
+ * 파일 경로 : report/_preview.scss
+ * @description 보고서 화면 디자인
+ * @author lizeelf
+ * @version 1.0
+ */
+.#{$common-prefix}report {
+    margin: 1cm auto;
+    .#{$common-prefix}report-main {
+        .#{$common-prefix}report-main-header {
+            line-height: 1.2;
+            margin: 0 0 10mm 0;
+            font-size: 2.25rem;
+            font-weight: bold;
+        }
+        .#{$common-prefix}report-area {
+            .#{$common-prefix}drawing-board {
+                width: 1000px; //임시
+                .#{$common-prefix}chart-content {
+                    margin: 0 0 20px 0;
+                    .#{$common-prefix}title {
+
+                    }
+                    .#{$common-prefix}chart {
+                        padding: 12px 0 0 0;
+                    }
+                }
+            }
+            .#{$common-prefix}form {
+                box-shadow: none;
+                // 인쇄시 모든 동작을 막음
+                input, textarea, button, select,
+                .dropzone, .ql-toolbar,
+                label.radio, label.checkbox {
+                    pointer-events: none;
+                }
+            }
+        }
+        .#{$common-prefix}report-main-footer {
+            display: flex;
+            line-height: 1.2;
+            margin: 4mm 0 10mm 0;
+            .#{$common-prefix}logo {
+                display: inline-block;
+                background-color: $black;
+                @include maskImage('#{$icon-folder-path}icon_logo.svg', 152px, 26px, no-repeat, center); // 24px 24px
+            }
+        }
+    }
+}
+
+@page {
+    size: A4;
+    margin: 0;
+}
+@media print {
+    html, body {
+        width: 210mm;
+        height: 297mm;
+    }
+    .#{$common-prefix}report {
+        padding: 0mm 20mm;
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+
+        .#{$common-prefix}report-main-header {
+            margin: 0 0 10mm 0;
+        }
+
+        .#{$common-prefix}form {
+            box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
+        }
+    }
+}
+

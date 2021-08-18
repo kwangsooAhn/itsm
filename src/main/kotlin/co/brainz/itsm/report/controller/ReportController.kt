@@ -12,6 +12,7 @@ import co.brainz.itsm.report.dto.ReportSearchDto
 import co.brainz.itsm.report.dto.ReportTemplateSearchDto
 import co.brainz.itsm.report.service.ReportService
 import co.brainz.itsm.report.service.ReportTemplateService
+import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -34,6 +35,7 @@ class ReportController(
     private val templateListPage: String = "report/reportTemplateList"
     private val templateListFragment: String = "report/reportTemplateList :: list"
     private val templateEditPage: String = "report/reportTemplateEdit"
+    private val templatePreviewPage: String = "report/reportTemplatePreview"
     private val reportSearchPage: String = "report/reportSearch"
     private val reportListPage: String = "report/reportList"
     private val reportListFragment: String = "report/reportList :: list"
@@ -70,6 +72,12 @@ class ReportController(
         return templateEditPage
     }
 
+    @GetMapping("/template/preview")
+    fun getReportTemplatePreview(model: Model): String {
+        model.addAttribute("time", LocalDateTime.now())
+        return templatePreviewPage
+    }
+
     @GetMapping("/report/search")
     fun getReportSearch(request: HttpServletRequest, model: Model): String {
         return reportSearchPage
@@ -84,7 +92,8 @@ class ReportController(
     }
 
     @GetMapping("/report/{reportId}/view")
-    fun getReportView(@PathVariable reportId: String): String {
+    fun getReportView(@PathVariable reportId: String, model: Model): String {
+        model.addAttribute("report", reportService.getReportDetail(reportId))
         return reportViewPage
     }
 }

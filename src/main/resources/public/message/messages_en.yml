@@ -1090,6 +1090,7 @@ report:
     config: "Report Config"
     description: "Description"
     download: "Download"
+    preview: "Preview"
     publishDate: "Publish Date"
     report: "Report"
     reportName: "Report Name"

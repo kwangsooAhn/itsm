@@ -12,7 +12,7 @@
 <th:block layout:fragment="content">
     <div class="z-report">
         <div class="z-report-main">
-            <div class="z-report-main-header align-center" th:text="${report.reportName}"></div>
+            <div class="z-report-main-header align-center" id="reportName"></div>
             <div class="z-report-area">
                 <div class="z-drawing-board" id="reportContents">
                 </div>
@@ -33,11 +33,6 @@
     <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
     <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        const report = /*[[${report}]]*/ null;
-        /*]]>*/
-    </script>
     <script type="module">
         /*<![CDATA[*/
         const CHART_YEAR = 'Y';
@@ -53,26 +48,49 @@
         let chart = null;
 
         window.onload = function() {
-            // footer
             const userName = '[[${#authentication.details.userName}]]';
             const userEmail = '[[${#authentication.details.email}]]';
-            const time = '[[${report.publishDt}]]';
+            const time = '[[${time}]]';
+
+            let reportData = sessionStorage.getItem('alice_report');
+            let data = JSON.parse(reportData)
+
+            // 보고서 제목
+            document.querySelector('#reportName').innerHTML = data.reportName;
+
+            // footer
             const reportInfo = document.getElementById('report-information');
             reportInfo.innerHTML = userName + ' [' + userEmail + ']<br>' + i18n.printFormat(time);
 
-            // chart 그리기
-            if (report['data'] !== undefined) {
-                report['data'].forEach((item) => {
-                    addChartContent(item);
+            // 차트 데이터 조회
+            if (data.charts !== undefined) {
+                let urlParam = '';
+                data.charts.forEach((item, index) => {
+                    if (index > 0) {
+                        urlParam += '&';
+                    }
+                    urlParam += 'chartId=' + item.chartId;
                 });
+                restSubmit('get', '/rest/reports/template/charts?' + urlParam)
             }
-
-            // print
-            setTimeout(function() {
-                window.print();
-            }, 500);
         };
 
+        function restSubmit(method, url) {
+            const opt = {
+                method: method,
+                url: url,
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    let result = JSON.parse(response.responseText);
+                    result.forEach((data) => {
+                        addChartContent(data);
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        // 차트 추가
         function addChartContent(data) {
             let chartTarget = document.querySelector('#reportContents');
             let element =

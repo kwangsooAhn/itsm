@@ -21,7 +21,7 @@
     <th:block th:fragment="list">
         <tr class="flex-row align-items-center" th:each="report : ${reportList}">
             <td style="width: 50%" class="align-left underline">
-                <a th:text="${report.reportName}" th:href="@{/reports/report/{id}/view(id=${report.reportId})}"></a>
+                <a th:text="${report.reportName}" th:href="@{/reports/report/{id}/view(id=${report.reportId})}" th:target="_blank"></a>
             </td>
             <td style="width:30%;" class="align-center date-time" name="createDt" th:text="${report.publishDt}"></td>
             <td style="width:20%;" class="align-center">DOWN</td>

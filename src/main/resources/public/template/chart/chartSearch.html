@@ -547,8 +547,12 @@
 
         /** chartConfig 파싱 진행 **/
         function parsedPropertyJson(chartConfig, property) {
+            console.log(chartConfig)
+            console.log(property)
             let chartConfigJson = JSON.parse(chartConfig);
             let propertyJson = JSON.parse(property);
+
+            console.log('xxxxxxxxxxxxx')
 
             /** Get propertyJson Data **/
             let countArray = [];

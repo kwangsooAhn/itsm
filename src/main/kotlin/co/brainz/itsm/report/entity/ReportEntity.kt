@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
@@ -38,4 +39,7 @@ data class ReportEntity(
 
     @Column(name = "publish_dt")
     val publishDt: LocalDateTime? = null
-) : Serializable
+) : Serializable {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "report")
+    val data: MutableList<ReportDataEntity>? = mutableListOf()
+}

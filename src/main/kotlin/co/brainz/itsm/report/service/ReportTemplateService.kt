@@ -14,6 +14,7 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.chart.dto.ChartDto
 import co.brainz.itsm.chart.mapper.ChartMapper
 import co.brainz.itsm.chart.respository.ChartRepository
+import co.brainz.itsm.chart.service.ChartService
 import co.brainz.itsm.report.dto.ReportTemplateDetailDto
 import co.brainz.itsm.report.dto.ReportTemplateDto
 import co.brainz.itsm.report.dto.ReportTemplateListDto
@@ -41,7 +42,8 @@ class ReportTemplateService(
     private val currentSessionUser: CurrentSessionUser,
     private val reportTemplateRepository: ReportTemplateRepository,
     private val reportTemplateMapRepository: ReportTemplateMapRepository,
-    private val chartRepository: ChartRepository
+    private val chartRepository: ChartRepository,
+    private val chartService: ChartService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -232,5 +234,13 @@ class ReportTemplateService(
             }
         }
         return restTemplateReturnDto
+    }
+
+    fun getReportTemplateChart(chartIds: Array<String>?): List<ChartDto> {
+        val chartDataList = mutableListOf<ChartDto>()
+        chartIds?.forEach { chartId ->
+            chartDataList.add(chartService.getChartDetail(chartId))
+        }
+        return chartDataList
     }
 }

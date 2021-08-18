@@ -8,6 +8,7 @@ package co.brainz.itsm.report.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -15,7 +16,6 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.OneToMany
 import javax.persistence.Table
-import java.time.LocalDateTime
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import org.hibernate.annotations.GenericGenerator
