@@ -2885,12 +2885,12 @@ table[id=documentDisplay] td {
   padding-top: 0.9375rem;
   padding-bottom: 0.9375rem;
 }
-.z-itsm-container .z-main-page .z-page-content .z-list a, .z-itsm-container .z-main-page .z-page-content .z-list button {
-  cursor: pointer;
-}
 .z-itsm-container .z-main-page .z-page-content .z-list-content {
   display: flex;
   flex: 1;
+}
+.z-itsm-container .z-main-page .z-page-content .z-list-content a, .z-itsm-container .z-main-page .z-page-content .z-list-content button {
+  cursor: pointer;
 }
 .z-itsm-container .z-main-page .z-page-content .z-list-table {
   position: relative;

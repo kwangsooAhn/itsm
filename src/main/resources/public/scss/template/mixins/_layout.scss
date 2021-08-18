@@ -119,10 +119,10 @@
 // pagingListTemplate
 @mixin pagingListTemplate() {
   .z-list {
-    a, button { cursor: pointer; }
     &-content {
       display: flex;
       flex: 1; // flex: 1 1 0;
+      a, button { cursor: pointer; }
     }
     // 테이블
     &-table {
