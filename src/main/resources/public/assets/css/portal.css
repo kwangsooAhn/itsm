@@ -5122,29 +5122,27 @@ body.modal-active {
 }
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.375rem;
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   font-weight: 500;
   color: #3F4B56;
-  border-bottom: 0.0625rem solid #EBEBEB;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog .modal-content {
-  height: calc(22.5rem - 3.375rem - 4.6rem);
-  border-bottom: 0.0625rem solid #EBEBEB;
+  height: calc(22.5rem - 3.375rem - 3.5rem);
   overflow: auto;
 }
 .modal-wrapper .modal-dialog .modal-bottom {
-  height: 4.6rem;
-  padding: 1.25rem 1.25rem 1.25rem 0;
+  height: 3.5rem;
+  padding: 0 1.25rem 1.25rem 0;
 }
 
 .modal-dialog.password-update-notice {
-  width: 50rem;
-  height: 42rem;
+  width: 46.875rem;
+  height: 34.5rem;
 }
 .modal-dialog.password-update-notice .modal-content {
-  height: calc(42rem - 3.375rem - 4.6rem);
-  padding: 0.625rem 1.25rem 0.625rem 1.25rem;
+  height: calc(34.5rem - 3.375rem - 3.5rem);
+  padding: 0.25rem 1.25rem 0.25rem 1.25rem;
 }
 .modal-dialog.password-update-notice .modal-content .field-label {
   display: inline-block;
