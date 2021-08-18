@@ -4,78 +4,82 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div class="token-info-tab">
-    <h4 class="align-center" data-target-contents="token-history" th:text="#{token.label.history}"></h4>
-    <h4 class="align-center" data-target-contents="token-related" th:text="#{token.label.relatedInstance}"></h4>
-    <h4 class="align-center" data-target-contents="token-comment" th:text="#{common.label.comment}"></h4>
-    <h4 class="align-center" data-target-contents="token-tag" th:text="#{common.label.tag}"></h4>
+<div class="z-token-tabs">
+    <h5 class="z-token-tab align-center pointer active" data-target-contents="tokenInformation" th:text="#{token.label.information}"></h5>
+    <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComment" th:text="#{common.label.comment}"></h5>
+    <h5 class="z-token-tab align-center pointer" data-target-contents="tokenTag" th:text="#{common.label.tag}"></h5>
 </div>
-<div class="token-info-contents">
-    <div class="token-history">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th width="35%" th:text="#{token.label.startDt}"></th>
-                <th width="25%" th:text="#{token.label.elementName}"></th>
-                <th width="20%" th:text="#{token.label.assignee}"></th>
-                <th width="20%" th:text="#{token.label.process}"></th>
-            </tr>
-            </thead>
-            <tbody id="history" class="list-wrap">
-            <tr th:each="tokenHistory : ${instanceHistory}">
-                <td width="35%" class="user-date-time" th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
-                <td width="25%" th:text="${tokenHistory.elementName}"></td>
-                <td width="20%" th:text="${tokenHistory.assigneeName}"></td>
-                <td width="20%" th:name="tokenAction" th:text="${tokenHistory.tokenAction}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="token-related">
-        <div class="list-item flex-row" th:each="rInstance: ${relatedInstance}">
-            <div class="document-color" th:style="|background-color: ${rInstance.documentColor}|"></div>
-            <div class="document-row flex-column">
-                <div class="document-row-content flex-row justify-content-between">
-                    <a th:onclick="openTokenEdit([[${rInstance.tokenId}]])">
-                        <div class="document-title flex-row align-items-center">
-                            <h5 th:text="${rInstance.documentName}"></h5>
-                            <h5 th:text="${rInstance.documentNo}"></h5>
-                        </div>
-                    </a>
-                    <button type="button"
-                            th:onclick="aliceDocument.deleteRelatedDoc({folderId: [[${rInstance.folderId}]], instanceId: [[${rInstance.instanceId}]]})">
-                        <span class="icon icon-delete"></span>
-                    </button>
-                </div>
-                <div class="document-row-topic">
-                    <h5 th:each="topic: ${rInstance.topics}" th:text="${topic}"></h5>
-                </div>
-                <div class="document-row-info flex-row align-items-center">
-                    <div class="document-user flex-row align-items-center">
-                        <img class="z-img i-profile-photo mr-2" th:src="@{${rInstance.avatarPath}}" width="32" height="32"/>
-                        <h5 th:text="${rInstance.instanceCreateUserName}"></h5>
+<div class="z-token-panels">
+    <div class="z-token-panel on" id="tokenInformation">
+        <div class="z-token-history">
+            <label class="z-token-history-sub-title" th:text="#{token.label.history}"></label>
+            <table class="z-token-history-table">
+                <thead>
+                <tr class="flex-row align-items-center">
+                    <th style="width: 35%;" class="align-left" th:text="#{token.label.startDt}"></th>
+                    <th style="width: 25%;" class="align-left" th:text="#{token.label.elementName}"></th>
+                    <th style="width: 20%;" class="align-left" th:text="#{token.label.assignee}"></th>
+                    <th style="width: 20%;" class="align-left" th:text="#{token.label.process}"></th>
+                </tr>
+                </thead>
+                <tbody id="history">
+                <tr class="flex-row align-items-center" th:each="tokenHistory : ${instanceHistory}">
+                    <td style="width: 35%;" class="align-left date-time" th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
+                    <td style="width: 25%;" class="align-left" th:text="${tokenHistory.elementName}"></td>
+                    <td style="width: 20%;" class="align-left" th:text="${tokenHistory.assigneeName}"></td>
+                    <td style="width: 20%;" class="align-left" th:if="${#strings.isEmpty(tokenHistory.tokenAction)}"></td>
+                    <td style="width: 20%;" class="align-left" th:unless="${#strings.isEmpty(tokenHistory.tokenAction)}" th:text="#{${tokenHistory.tokenAction}}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="z-token-related">
+            <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
+            <div class="z-token-related-item flex-row" th:each="rInstance: ${relatedInstance}">
+                <div class="z-document-color" th:style="|background-color: ${rInstance.documentColor}|"></div>
+                <div class="z-document-row flex-column">
+                    <div class="z-document-row-content flex-row justify-content-between">
+                        <a th:onclick="openTokenEdit([[${rInstance.tokenId}]])">
+                            <div class="z-document-title flex-row align-items-center">
+                                <h6 th:text="${rInstance.documentName}"></h6>
+                                <h6 th:text="${rInstance.documentNo}"></h6>
+                            </div>
+                        </a>
+                        <button type="button" class="z-button-icon"
+                                th:onclick="aliceDocument.deleteRelatedDoc({folderId: [[${rInstance.folderId}]], instanceId: [[${rInstance.instanceId}]]})">
+                            <span class="z-icon i-delete"></span>
+                        </button>
                     </div>
-                    <span class="vertical-bar"></span>
-                    <h5 class="dateFormatFromNow" th:text="${rInstance.instanceStartDt}"></h5>
-                    <span class="vertical-bar"></span>
-                    <h5 th:text="#{|common.code.token.status.${rInstance.instanceStatus}|}"></h5>
+                    <div class="z-document-row-topic">
+                        <h6 th:each="topic: ${rInstance.topics}" th:text="${topic}"></h6>
+                    </div>
+                    <div class="z-document-row-info flex-row align-items-center">
+                        <div class="flex-row align-items-center">
+                            <img class="z-img i-profile-photo mr-2" th:src="@{${rInstance.avatarPath}}" width="30" height="30"/>
+                            <h6 th:text="${rInstance.instanceCreateUserName}"></h6>
+                        </div>
+                        <span class="vertical-bar"></span>
+                        <h6 class="dateFormatFromNow" th:text="${rInstance.instanceStartDt}"></h6>
+                        <span class="vertical-bar"></span>
+                        <h6 th:text="#{|common.code.token.status.${rInstance.instanceStatus}|}"></h6>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="related-add justify-content-center align-items-center">
-            <button class="z-button-icon form" th:onclick="openRelatedToken([[${tokenId}]])">
-                <span class="z-icon i-plus"></span>
-            </button>
+            <div class="z-token-related-item flex-row justify-content-center align-items-center z-document-add">
+                <button class="z-button-icon" th:onclick="openRelatedTokenModal()">
+                    <span class="z-icon i-plus"></span>
+                </button>
+            </div>
         </div>
     </div>
-    <div id="commentList" class="token-comment">
+    <div class="z-token-panel z-token-comment" id="tokenComment">
         <div class="list-item flex-column" th:each="comment : ${commentList}">
             <div class="comment-row-info flex-row align-items-center">
                 <div class="comment-user flex-row align-items-center">
                     <img class="z-img i-profile-photo mr-2" th:src="@{${comment.avatarPath}}" width="32" height="32"/>
                     <h5 class="user-name" th:text="${comment.createUserName}"></h5>
                 </div>
-                <h5 class="user-date-time" th:text="${comment.createDt}"></h5>
+                <h5 class="date-time" th:text="${comment.createDt}"></h5>
                 <div th:if="${#authentication.details.userKey} == ${comment.createUserKey}">
                     <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|">
                         <span class="icon icon-delete"></span>
@@ -88,7 +92,7 @@
         </div>
         <div id="comment-container" class="comment comment-input flex-row align-items-start"></div>
     </div>
-    <div class="token-tag">
+    <div class="z-token-panel z-token-tag" id="tokenTag">
         <div class="tag-input">
             <input name="tags" id="tags" th:value="|${tagList}|"/>
         </div>

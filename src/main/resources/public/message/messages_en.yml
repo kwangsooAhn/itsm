@@ -1170,6 +1170,7 @@ token:
     elementName: "Task Name"
     endDt: "Finish Date"
     history: "History"
+    information: "Information"
     list: "My Document List"
     print: "Process Document Print"
     relatedInstance: "Related Documents"

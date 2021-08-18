@@ -7,14 +7,15 @@
 </head>
 <th:block layout:fragment="css">
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/theme/{theme}/css/itsm.css(theme=${#authentication.details.theme})}"
-          rel="stylesheet"/>
+    <link th:href="@{/assets/theme/{theme}/css/itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
 </th:block>
 <body>
 <th:block layout:fragment="content">
     <div class="z-document-container">
         <form id="frm" name="frm">
             <div class="z-document-main flex-column align-items-center">
+                <input type="hidden" id="tokenId" th:value="${tokenId}" />
+                <input type="hidden" id="instanceId" />
                 <div class="z-document-main-header flex-row justify-content-between align-items-center flex-wrap">
                     <span class="z-document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></span>
                     <div id="defaultButtonArea"></div>
@@ -26,12 +27,11 @@
                 </div>
             </div>
         </form>
-        <div class="token-properties"></div>
+        <div class="z-token-properties" id="documentProperties"></div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="script">
-    <script th:src="@{/assets/vendors/tagify/tagify.custom.js}"></script>
     <script type="module">
         /*<![CDATA[*/
         import { zFormToken } from "../../assets/js/document/zFormToken.js";
@@ -48,32 +48,92 @@
             mobileNumber: '[[${#authentication.details.mobileNumber}]]'
         };
         Object.assign(SESSION, userSession);
-        let tokenListModal, instanceId;
 
-        // 아래 URL 은 추후에 '/rest/tokens/' + '[[${tokenId}]]' + '/data' 로 수정해야 함.
-        //aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
-        aliceJs.fetchJson('/assets/js/document/token_test.json', {
+        // 문서 생성
+        aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
             method: 'GET'
         }).then((formDataJson) => {
-            if (formDataJson.instanceId) {
-                addIdComponent('instanceId', formDataJson.instanceId);
-            }
-
-            if (formDataJson) {
-                addIdComponent('tokenId', formDataJson.tokenId);
-            }
+            document.getElementById('instanceId').value = formDataJson?.instanceId;
 
             zFormToken.init(document.getElementById('documentPanel'), formDataJson);
             zFormButton.init(formDataJson, zFormToken);
         });
-        OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
         /*]]>*/
     </script>
     <script type="text/javascript">
         // 탭 정보들 조회하여 셋팅.
+        let tokenListModal, instanceId;
+
         window.onload = function() {
-            tabInit();
-            aliceJs.initDesignedSelectTag();
+            // 탭 생성
+            aliceJs.fetchText('/tokens/' + '[[${tokenId}]]' + '/edit-tab', {
+                method: 'GET'
+            }).then((htmlData) => {
+                document.getElementById('documentProperties').innerHTML = htmlData;
+
+                // 탭 이벤트
+                document.querySelectorAll('.z-token-tab').forEach((tab) => {
+                    tab.addEventListener('click', selectTokenTab, false);
+                });
+                sessionStorage.setItem('alice_token-tab-selected', 'tokenInformation'); // 처음 생성시 문서 정보 클릭
+
+                // 날짜 초기화
+                setDateTimeFormat();
+
+                // 스크롤바
+                OverlayScrollbars(document.querySelectorAll('.z-token-panels'), {className: 'scrollbar'});
+
+                // 디자인된 selectbox
+                aliceJs.initDesignedSelectTag();
+
+                // 태그 초기화
+                /*new zTag(document.querySelector('input[name=tags]'),{
+                    suggestion: true,
+                    realtime: true,
+                    tagType: 'instance',
+                    targetId: document.getElementById('instanceId').value
+                })*/
+            });
+        }
+
+        /**
+         * 탭 선택시 이벤트 핸들러
+         */
+        function selectTokenTab(e) {
+            // 탭 동작
+            Array.prototype.filter.call(e.target.parentNode.children, function (child) {
+                return child !== e.target;
+            }).forEach((siblingElement) => {
+                siblingElement.classList.remove('active');
+            });
+            e.target.classList.add('active');
+
+            // 컨텐츠 내용 동작
+            let selectedTab = document.getElementById(e.target.dataset.targetContents);
+            if (selectedTab != null) {
+                Array.prototype.filter.call(selectedTab.parentNode.children, function (child) {
+                    return child !== selectedTab;
+                }).forEach((siblingElement) => {
+                    siblingElement.classList.remove('on');
+                });
+                selectedTab.classList.add('on');
+            }
+
+            // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
+            sessionStorage.setItem('alice_token-tab-selected', e.target.dataset.targetContents);
+        }
+
+        /**
+         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+         */
+        function setDateTimeFormat() {
+            document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
+                element.textContent = dateFormatFromNow(element.textContent);
+            });
+
+            document.querySelectorAll('.date-time').forEach((element) => {
+                element.textContent = i18n.userDateTime(element.textContent);
+            });
         }
 
         /**
@@ -86,70 +146,7 @@
                 async: false,
                 showProgressbar: false,
                 callbackFunc: function (response) {
-                    instanceId = document.getElementById('instanceId').getAttribute('data-id');
-                    console.log(instanceId);
-                    if (document.querySelector('.token-properties').children) {
-                        document.querySelector('.token-properties').remove();
-                        let tokenInfo = document.createElement('div');
-                        tokenInfo.className = 'token-properties';
-                        document.querySelector('.z-document-container').append(tokenInfo);
-                    }
-
-                    document.querySelector('.token-properties').innerHTML = response.responseText;
-
-                    // 탭 정보에 이벤트를 등록
-                    document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {
-                        ele.addEventListener('click', (e) => {
-                            // 탭 동작
-                            Array.prototype.filter.call(e.target.parentNode.children, function (child) {
-                                return child !== e.target;
-                            }).forEach((siblingElement) => {
-                                siblingElement.classList.remove('active');
-                            });
-                            e.target.classList.add('active');
-                            // 컨텐츠 내용 동작
-                            let targetElement = document.querySelector('.' + e.target.dataset.targetContents);
-                            if (targetElement != null) {
-                                Array.prototype.filter.call(targetElement.parentNode.children, function (child) {
-                                    return child !== targetElement;
-                                }).forEach((siblingElement) => {
-                                    siblingElement.style.display = 'none';
-                                });
-                                targetElement.style.display = 'block';
-                            }
-                            // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
-                            sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
-
-                            if (e.target.dataset.targetContents === 'token-tag') {
-                                document.querySelector('span[contenteditable]').focus();
-                            }
-                        });
-                    });
-
-                    // userDate 변환
-                    document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
-                        element.textContent = dateFormatFromNow(element.textContent);
-                    });
-                    document.querySelectorAll('.user-date-time').forEach((element) => {
-                        element.textContent = i18n.userDateTime(element.textContent);
-                    });
-
                     addCommentBox(instanceId);
-
-                    new zTag(document.querySelector('input[name=tags]'),{
-                        suggestion: true,
-                        realtime: true,
-                        tagType: 'instance',
-                        targetId: instanceId
-                    })
-                    const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : 'token-history';
-                    document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
-                    OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
-                    const tokenActionEle = document.querySelectorAll('td[name=tokenAction]');
-                    for (let i = 0; i < tokenActionEle.length; i++) {
-                        tokenActionEle[i].textContent = i18n.msg(tokenActionEle[i].textContent);
-                    }
-                    OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
                 }
             });
         }
@@ -231,21 +228,8 @@
             aliceJs.sendXhr(opt);
         }
 
-        /**
-         * id Component 를 만든다. (document, token)
-         *
-         * @param v_kind 분류, data : id 값
-         * @param v_data id
-         */
-        function addIdComponent(v_kind, v_data) {
-            const comp = document.createElement('div');
-            comp.id = v_kind;
-            comp.setAttribute('data-id', v_data);
-            document.getElementById('documentPanel').appendChild(comp);
-        }
-
         // 관련문서 모달
-        function openRelatedToken() {
+       function openRelatedTokenModal() {
             tokenListModal = new modal({
                 title: i18n.msg('token.label.relatedInstance'),
                 body: createModalContent(),

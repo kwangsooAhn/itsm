@@ -831,7 +831,7 @@ input, button, select, optgroup, textarea {
  *                - z-document-main : 문서양식 메인
  *                             - z-document-main-header : 문서 번호, 버튼 등이 그려지는 영역
  *                             - z-drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > form/_component.scss )
- *                - token-properties : 문서이력, 관련문서, 의견, 태그
+ *                - z-token-properties : 문서이력, 관련문서, 의견, 태그
  */
 .z-document-container {
   max-width: 120rem;
@@ -876,149 +876,155 @@ input, button, select, optgroup, textarea {
   max-width: 60rem;
   padding: 0.75rem 0 4rem 0;
 }
-.z-document-container .token-properties {
+.z-document-container .z-token-properties {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   width: 38.13rem;
-  background-color: #ffffff;
-  border-left: 0.0625rem solid #EBEBEB;
+  background-color: #FFFFFF;
+  border-left: 0.0625rem solid #CFD5D9;
   padding: 0 4.0625rem;
   overflow-y: auto;
 }
-.z-document-container .token-properties .token-info-tab {
+.z-document-container .z-token-properties .z-token-tabs {
   display: flex;
-  margin-top: 7.8125rem;
+  margin-top: 2rem;
 }
-.z-document-container .token-properties .token-info-tab h4 {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #ACB4BF;
+.z-document-container .z-token-properties .z-token-tabs .z-token-tab {
+  color: #ABB0B5;
   flex: 1;
-  padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
-  cursor: pointer;
+  padding: 0.625rem 0;
+  border-bottom: 0.0625rem solid #CFD5D9;
 }
-.z-document-container .token-properties .token-info-tab .active {
-  color: #3F4B56;
-  border-bottom: 0.25rem solid #0098FF;
+.z-document-container .z-token-properties .z-token-tabs .z-token-tab.active {
+  color: #222529;
+  border-bottom: 0.188rem solid #339AF0;
 }
-.z-document-container .token-properties .token-info-contents {
+.z-document-container .z-token-properties .z-token-panels {
   height: 43.75rem;
   overflow-y: auto;
 }
-.z-document-container .token-properties .token-info-contents .token-tag {
+.z-document-container .z-token-properties .z-token-panels .z-token-panel {
+  display: none;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-panel.on {
+  display: block;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-tag {
   display: none;
   margin-top: 1.25rem;
 }
-.z-document-container .token-properties .token-info-contents .token-history {
+.z-document-container .z-token-properties .z-token-panels .z-token-history {
   height: 100%;
 }
-.z-document-container .token-properties .token-info-contents .token-history .table {
+.z-document-container .z-token-properties .z-token-panels .z-token-history-sub-title {
+  display: block;
+  color: #8B9094;
+  margin: 1.75rem 0 0.375rem 0;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table {
   width: 100%;
+  font-family: "맑은고딕", "Malgun Gothic", "Noto Sans KR", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
 }
-.z-document-container .token-properties .token-info-contents .token-history .table thead {
-  border-bottom: 0.0625rem solid #E1E3E6;
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table thead {
+  background-color: #F5F5F5;
+  border-top: 0.0625rem solid #CFD5D9;
 }
-.z-document-container .token-properties .token-info-contents .token-history .table thead tr {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 3.438rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table thead tr {
+  height: 2rem;
 }
-.z-document-container .token-properties .token-info-contents .token-history .table th, .z-document-container .token-properties .token-info-contents .token-history .table td {
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table th, .z-document-container .z-token-properties .z-token-panels .z-token-history-table td {
   display: table-cell;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   word-wrap: normal;
+  padding: 0 0.625rem;
 }
-.z-document-container .token-properties .token-info-contents .token-history .table th {
-  color: #3F4B56;
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table th {
+  font-size: 0.875rem;
+  color: #ABB0B5;
+  font-weight: 700;
 }
-.z-document-container .token-properties .token-info-contents .token-history .table td {
-  color: #586872;
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table td {
+  color: #222529;
 }
-.z-document-container .token-properties .token-info-contents .token-history .table tbody {
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table tbody {
   width: 100%;
-  height: 37.5rem;
+  border-top: calc(0.0625rem * 2) solid #CFD5D9;
   overflow-y: auto;
 }
-.z-document-container .token-properties .token-info-contents .token-history .table tbody tr {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.z-document-container .z-token-properties .z-token-panels .z-token-history-table tbody tr {
   width: 100%;
+  border-bottom: 0.0625rem solid #CFD5D9;
 }
-.z-document-container .token-properties .token-info-contents .token-related {
-  display: none;
-  padding-top: 0.625rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-related-sub-title {
+  display: block;
+  color: #8B9094;
+  margin: 2.5rem 0 0.375rem 0;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item {
-  height: 11.5625rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item {
+  height: 9.75rem;
   margin: 0.625rem 0.625rem 0 0;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-color {
-  width: 0.625rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-color {
+  width: 0.375rem;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row {
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row {
   flex: 1;
-  border: 0.0625rem solid #EBEBEB;
-  padding: 1.25rem 2.5rem;
+  border: 0.0625rem solid #CFD5D9;
+  padding: 1rem;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a {
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-content a {
   width: 100%;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title {
-  word-break: break-word;
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-content a .z-document-title {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-break: break-all;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
-  font-weight: 500;
-  color: #3F4B56;
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-content a .z-document-title h6:first-child {
+  font-weight: 700;
+  color: #222529;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
-  font-weight: 400;
-  color: #ACB4BF;
-  margin-left: 0.3125rem;
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-content a .z-document-title h6:last-child {
+  color: #8B9094;
+  margin-left: 0.5rem;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row-content button {
-  padding: 0;
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-content .z-icon.i-delete {
+  background: #8B9094;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row-content button .icon-delete {
-  background: #CCCED1;
-}
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row-topic {
+.z-document-container .z-token-properties .z-token-panels .z-token-related-item .z-document-row-topic {
   height: 100%;
-  color: #586872;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row-topic h5 {
-  font-weight: 400;
+.z-document-container .z-token-properties .z-token-panels .z-token-related .z-document-add {
+  border: 0.0625rem solid #CFD5D9;
+  background-color: #FAFAFA;
 }
-.z-document-container .token-properties .token-info-contents .token-related .list-item .document-row-info h5 {
-  color: #586872;
-  font-weight: 400;
+.z-document-container .z-token-properties .z-token-panels .z-token-related .z-document-add .z-button-icon {
+  width: 100%;
+  height: 100%;
 }
-.z-document-container .token-properties .token-info-contents .token-related .related-add {
-  height: 11.5625rem;
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #F7F8F9;
-  margin: 0.625rem 0.625rem 0 0;
-  display: flex;
+.z-document-container .z-token-properties .z-token-panels .z-token-related .z-document-add .z-button-icon .z-icon.i-plus {
+  background: #8B9094;
 }
-.z-document-container .token-properties .token-info-contents .token-comment {
-  display: none;
+.z-document-container .z-token-properties .z-token-panels .z-token-comment {
   padding-top: 0.625rem;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .list-item {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item {
   padding: 1.25rem 1.5625rem;
   margin: 0.625rem 0.625rem 0 0;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.1875rem;
   background-color: #F7F8F9;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .list-item .comment-row {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row {
   color: #586872;
   margin-top: 0.625rem;
   overflow-wrap: break-word;
@@ -1028,34 +1034,34 @@ input, button, select, optgroup, textarea {
   white-space: -moz-pre-wrap;
   word-break: break-all;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-name {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info .user-name {
   color: #586872;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-date-time {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info .date-time {
   color: #ACB4BF;
   margin-left: 0.625rem;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info button {
   padding: 0;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button .icon-delete {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info button .icon-delete {
   background: #CCCED1;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .list-item .comment-row-info div:last-child {
   margin-left: auto;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .comment-input {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .comment-input {
   margin-top: 0.625rem;
   padding: 0;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .comment-input textarea {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .comment-input textarea {
   flex: 1;
   min-height: 4.063rem;
   padding: 0.625rem 1.563rem;
   margin-right: 0.3125rem;
   border-radius: 0.1875rem;
 }
-.z-document-container .token-properties .token-info-contents .token-comment .comment-input .textarea-scroll-wrapper {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment .comment-input .textarea-scroll-wrapper {
   width: 24.6875rem;
   height: 4.0625rem;
   margin-right: 0.3125rem;
