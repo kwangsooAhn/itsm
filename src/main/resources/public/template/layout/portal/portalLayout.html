@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Zenius ITSM</title>
+    <th:block th:replace="layout/portal/portalHead :: portalHead"></th:block>
+    <th:block layout:fragment="pageHead"></th:block>
+</head>
+<body>
+<div class="z-wrapper">
+    <div class="z-portal-container">
+        <div class="z-main flex-column">
+            <!-- 상단 메뉴 -->
+            <div th:replace="layout/portal/fragment/topMenuFragment">topMenu</div>
+            <!-- 페이지별 컨텐츠 -->
+            <div class="z-portal-page">
+                <th:block layout:fragment="pageContent"></th:block>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="pageScript"></th:block>
+</body>
+</html>

@@ -39,7 +39,7 @@
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="list-content" id="documentList"></div>
+    <div class="z-list-content" id="documentList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -344,7 +344,7 @@
             callbackFunc: function(response) {
                 document.getElementById('documentList').innerHTML = response.responseText;
                 aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                OverlayScrollbars(document.querySelector('.list-body'), {
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
                     className: 'scrollbar'
                 });
             },

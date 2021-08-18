@@ -29,7 +29,7 @@
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="list-content" id="noticeList"></div>
+    <div class="z-list-content" id="noticeList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -106,7 +106,7 @@
                 listBody.innerHTML = response.responseText;
 
                 setDateTimeFormat(listBody);
-                OverlayScrollbars(document.querySelector('.list-body'), {
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
                     className: 'scrollbar'
                 });
             }
@@ -135,7 +135,7 @@
 
     // Tr 동적 데이터 만들기
     function getDataTemplate(data) {
-        let div = document.querySelector('.list-body .os-content');
+        let div = document.querySelector('.z-list-body .os-content');
         let tr = document.createElement('tr');
         tr.className = 'flex-row align-items-center';
 

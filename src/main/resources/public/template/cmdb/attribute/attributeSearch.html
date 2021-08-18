@@ -27,7 +27,7 @@
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="list-content" id="attributeList"></div>
+    <div class="z-list-content" id="attributeList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -54,7 +54,7 @@
             showProgressbar: false,
             callbackFunc: function (response) {
                 document.getElementById('attributeList').innerHTML = response.responseText;
-                OverlayScrollbars(document.querySelector('.list-body'), {
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
                     className: 'scrollbar'
                 });
             }

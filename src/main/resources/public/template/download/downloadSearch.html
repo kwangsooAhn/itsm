@@ -33,7 +33,7 @@
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="list-content" id="downloadList"></div>
+    <div class="z-list-content" id="downloadList"></div>
 </div>
 </body>
 
@@ -102,7 +102,7 @@
                 document.getElementById('downloadList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('downloadList'));
 
-                OverlayScrollbars(document.querySelector('.list-body'), {
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
                     className: 'scrollbar'
                 });
             }

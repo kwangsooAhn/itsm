@@ -27,7 +27,7 @@
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="list-content" id="schedulerList"></div>
+    <div class="z-list-content" id="schedulerList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -55,7 +55,7 @@
             callbackFunc: function(response) {
                 document.getElementById('schedulerList').innerHTML = response.responseText;
                 setDateTimeFormat(document.getElementById('schedulerList'));
-                OverlayScrollbars(document.querySelector('.list-body'), {
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
                     className: 'scrollbar'
                 });
             },

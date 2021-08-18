@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<table class="list-table">
-    <thead class="list-head">
+<table class="z-list-content">
+    <thead class="z-list-head">
         <tr class="flex-row align-items-center">
             <th style="width:30%;" class="align-left" th:text="#{common.label.title}"></th>
             <th style="width:5%;" class="align-center" th:text="#{notice.label.popUp}"></th>
@@ -13,7 +13,7 @@
             <th style="width:15%;" class="align-left" th:text="#{common.label.writeDate}"></th>
         </tr>
     </thead>
-    <tbody class="list-body">
+    <tbody class="z-list-body">
         <tr class="flex-row align-items-center notice-pinned " th:each="topNotice: ${topNoticeList}">
             <td style="width:30%;" class="align-left underline">
                 <a sec:authorize="!hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
