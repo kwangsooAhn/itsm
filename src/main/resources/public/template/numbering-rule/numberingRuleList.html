@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<table class="list-table">
-    <thead class="list-head">
+<table class="z-list-table">
+    <thead class="z-list-head">
     <tr class="flex-row align-items-center">
         <th style="width:30%;" class="align-left" th:text="#{rule.label.name}"></th>
         <th style="width:30%;" class="align-left" th:text="#{rule.label.desc}"></th>
@@ -13,7 +13,7 @@
         <th style="width:20%;" class="align-left" th:text="#{rule.label.date}"></th>
     </tr>
     </thead>
-    <tbody class="list-body">
+    <tbody class="z-list-body">
     <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ruleList)}">
         <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>

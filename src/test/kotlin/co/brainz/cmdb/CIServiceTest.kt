@@ -10,6 +10,7 @@ import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.util.AliceUtil
+import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import com.google.gson.JsonArray
 import javax.transaction.Transactional
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -24,6 +25,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+
 @Disabled
 @SpringBootTest
 @DisplayName("CI 호출 테스트")
@@ -47,12 +49,11 @@ class CIServiceTest {
     @DisplayName("CI 전체 갯수 조회")
     @Order(1)
     fun getAllCICountCheck() {
-        val params = LinkedHashMap<String, Any>()
-        val ciDtoList = ciService.getCIs(params)
+        val ciDtoList = ciService.getCIs(CISearchCondition())
         assumingThat(
             ciDtoList.data.isNotEmpty()
         ) {
-            assertTrue(ciDtoList.totalCount > 0)
+            assertTrue(ciDtoList.paging.totalCount > 0)
         }
     }
 
@@ -83,14 +84,13 @@ class CIServiceTest {
     @DisplayName("CI Name 검색어 조회")
     @Order(3)
     fun getCISearch() {
-        val searchValue = this.ciName
-        val params = LinkedHashMap<String, Any>()
-        params["search"] = searchValue
-        val ciDtoList = ciService.getCIs(params)
+        val ciDtoList = ciService.getCIs(CISearchCondition(
+            searchValue = this.ciName
+        ))
         assumingThat(
             ciDtoList.data.isNotEmpty()
         ) {
-            assertEquals(ciDtoList.data[0].ciName, searchValue)
+            assertEquals(ciDtoList.data[0].ciName, this.ciName)
         }
     }
 
@@ -99,9 +99,9 @@ class CIServiceTest {
     @Order(4)
     fun getCI() {
         var ciId = ""
-        val params = LinkedHashMap<String, Any>()
-        params["search"] = this.ciName
-        val ciDtoList = ciService.getCIs(params)
+        val ciDtoList = ciService.getCIs(CISearchCondition(
+            searchValue = this.ciName
+        ))
         if (!ciDtoList.data.isNullOrEmpty()) {
             ciId = ciDtoList.data[0].ciId.toString()
         }
@@ -121,9 +121,9 @@ class CIServiceTest {
     @DisplayName("CI 수정")
     @Order(5)
     fun updateCI() {
-        val params = LinkedHashMap<String, Any>()
-        params["search"] = this.ciName
-        val ciDtoList = ciService.getCIs(params)
+        val ciDtoList = ciService.getCIs(CISearchCondition(
+            searchValue = this.ciName
+        ))
         assumingThat(
             ciDtoList.data.isNotEmpty()
         ) {
@@ -148,9 +148,9 @@ class CIServiceTest {
     @DisplayName("CI 삭제")
     @Order(6)
     fun deleteCI() {
-        val params = LinkedHashMap<String, Any>()
-        params["search"] = this.ciName
-        val ciDtoList = ciService.getCIs(params)
+        val ciDtoList = ciService.getCIs(CISearchCondition(
+            searchValue = this.ciName
+        ))
         assumingThat(
             ciDtoList.data.isNotEmpty()
         ) {

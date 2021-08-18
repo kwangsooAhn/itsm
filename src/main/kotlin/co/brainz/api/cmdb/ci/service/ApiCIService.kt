@@ -11,7 +11,8 @@ import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIListDto
-import co.brainz.cmdb.dto.CIReturnDto
+import co.brainz.cmdb.dto.CIListReturnDto
+import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.service.UserService
 import java.time.LocalDateTime
@@ -28,8 +29,12 @@ class ApiCIService(
     /**
      * CI 목록 조회
      */
-    fun getCIs(params: LinkedHashMap<String, Any>): CIReturnDto {
-        return ciService.getCIs(params)
+    fun getCIs(params: LinkedHashMap<String, Any>): CIListReturnDto {
+        return ciService.getCIs(CISearchCondition(
+            searchValue = params["search"].toString(),
+            tagSearch = params["tags"].toString(),
+            flag = params["flag"].toString()
+        ))
     }
 
     /**

@@ -12,6 +12,7 @@ package co.brainz.itsm.form.service
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.FormComponentDto
@@ -19,6 +20,7 @@ import co.brainz.workflow.provider.dto.FormGroupDto
 import co.brainz.workflow.provider.dto.FormRowDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
+import co.brainz.workflow.provider.dto.RestTemplateFormListReturnDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -42,8 +44,8 @@ class FormService(
      * @param params 검색조건을 포함하는 Map
      * @return List<RestTemplateFormDto>
      */
-    fun findForms(params: LinkedHashMap<String, Any>): List<RestTemplateFormDto> {
-        return wfFormService.getFormList(params)
+    fun findForms(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
+        return wfFormService.getFormList(formSearchCondition)
     }
 
     /**

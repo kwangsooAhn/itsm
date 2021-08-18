@@ -397,7 +397,7 @@
                 callbackFunc: function (response) {
                     document.getElementById('ciClassAttributeList').innerHTML = response.responseText;
                     aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-                    OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.z-list-body'), {className: 'scrollbar'});
                     document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
                         checkbox.addEventListener('change', function (e) {
                             if (e.target.checked) {

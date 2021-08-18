@@ -1,127 +1,79 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{board.label.board}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-board-admin-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{board.label.board}"></h1>
-            <h6 class="description ml-2" th:text="#{board.msg.adminSearchDescription}"></h6>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{board.label.board}"></h1>
+    <h6 class="description ml-2" th:text="#{board.msg.adminSearchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="hidden" sec:authorize="hasAuthority('board.admin.update')" th:name="isRole"
+               th:value="true"/>
+        <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
+               th:value="false"/>
+        <form id="searchFrm">
+            <input type="text" id="searchValue" name="searchValue" class="z-input i-search col-5 mr-2" maxlength="100"
+                   th:placeholder="#{board.label.searchPlaceholder}"/>
+            <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+        </form>
+        <div class="ml-auto">
+            <button type="button" class="z-button secondary" onclick="openBoardAdminAdd()"
+                    sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.add}"></button>
         </div>
-        <div class="z-main-header-search flex-row">
-            <input type="hidden" sec:authorize="hasAuthority('board.admin.update')" th:name="isRole"
-                   th:value="true"/>
-            <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
-                   th:value="false"/>
-            <form id="searchFrm">
-                <input type="text" id="search" name="search" class="z-input i-search col-5 mr-2" maxlength="100"
-                       th:placeholder="#{board.label.searchPlaceholder}"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" onclick="openBoardAdminAdd()"
-                        sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.add}"></button>
-            </div>
-        </div>
-    </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-board-admin-content flex-fill">
-        <div class="list" id="boardAdminList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="boardAdminList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let offsetCount = 0;
-        window.onload = function() {
-            document.getElementById('search').focus();
-            document.getElementById('search').addEventListener('keyup', function() { getBoardAdminList(false); });
-            getBoardAdminList(false);
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        getList();
+    };
+
+    // 게시판 관리 조회
+    function getList(pageNum = 1) {
+        restSubmit('get', '/boards?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+    }
+
+    // 게시판 관리 등록
+    function openBoardAdminAdd() {
+        location.href = '/boards/new';
+    }
+
+    // REST API
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            callbackFunc: function(response) {
+                document.getElementById('boardAdminList').innerHTML = response.responseText;
+                setDateTimeFormat(document.getElementById('boardAdminList'));
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
+                    className: 'scrollbar'
+                });
+            },
+            showProgressbar: false
         };
+        aliceJs.sendXhr(opt);
+    }
 
-        // 게시판 관리 조회
-        function getBoardAdminList(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-            }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSubmit('get', '/boards?' + urlParam, isScroll);
-        }
-
-        // 게시판 관리 등록
-        function openBoardAdminAdd() {
-            location.href = '/boards/new';
-        }
-
-        // REST API
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                callbackFunc: function(response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const boardTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        boardTbody.appendChild(container)
-                    } else {
-                        document.getElementById('boardAdminList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('boardAdminList'));
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    //스크롤이 맨 마지막에 있을 경우
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getBoardAdminList(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                },
-                showProgressbar: false
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        /**
-         * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
-         */
-        function setDateTimeFormat(elem) {
-            elem.querySelectorAll('.date-time').forEach(dt => {
-                dt.textContent = i18n.userDateTime(dt.textContent.trim());
-            });
-        }
-        /*]]>*/
-    </script>
-</th:block>
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            dt.textContent = i18n.userDateTime(dt.textContent.trim());
+        });
+    }
+    /*]]>*/
+</script>
 </html>

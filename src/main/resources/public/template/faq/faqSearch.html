@@ -1,109 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
     <title th:text="#{faq.label.faq}"></title>
 </head>
 <body>
-<th:block layout:fragment="head">
-    <div class="z-faq-header">
-        <div class="z-main-header-title flex-row align-items-baseline">
-            <h1 th:text="#{faq.label.faq}"></h1>
-            <h6 class="description ml-2" th:text="#{faq.msg.searchDescription}"></h6>
-        </div>
-        <div class="z-main-header-search flex-row">
-            <form id="searchFrm">
-                <input class="z-input i-search col-5 mr-2" id="search" name="search" type="text" maxlength="100"
-                       th:placeholder="#{faq.label.searchPlaceholder}"/>
-                <span id="spanTotalCount" class="search-count"></span>
-            </form>
-            <div class="ml-auto">
-                <button type="button" class="z-button secondary" onclick="location.href='/faqs/new'"
-                        sec:authorize="hasAuthority('faq.create')" th:text="#{common.btn.add}"></button>
-            </div>
-        </div>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{faq.label.faq}"></h1>
+    <h6 class="description ml-2" th:text="#{faq.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="searchFrm">
+        <input class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" type="text" maxlength="100"
+                                           th:placeholder="#{faq.label.searchPlaceholder}"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" onclick="location.href='/faqs/new'"
+                sec:authorize="hasAuthority('faq.create')" th:text="#{common.btn.add}"></button>
     </div>
-</th:block>
-<th:block layout:fragment="content">
-    <div class="z-faq-content flex-fill">
-        <div class="list" id="faqList"></div>
-    </div>
-</th:block>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="faqList"></div>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <script type="text/javascript">
-        /*<![CDATA[*/
-        let offsetCount = 0;
-        window.onload = function () {
-            document.getElementById('search').focus();
-            document.getElementById('search').addEventListener('keyup', function() { searchFaqs(false); });
-            searchFaqs(false);
-        }
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    let offsetCount = 0;
+    window.onload = function () {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        getList();
+    }
 
-        /**
-         * FAQ 검색
-         */
-        function searchFaqs(isScroll) {
-            let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
+    /**
+     * FAQ 검색
+     */
+    function getList(pageNum = 1) {
+        restSubmit('get', '/faqs?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
+    }
+
+    // REST API
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            async: false,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                document.getElementById('faqList').innerHTML = response.responseText
+                OverlayScrollbars(document.querySelector('.z-list-body'), {
+                    className: 'scrollbar'
+                });
             }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
-            restSubmit('get', '/faqs?' + urlParam, isScroll);
-        }
-
-        // REST API
-        function restSubmit(method, url, isScroll) {
-            const opt = {
-                method: method,
-                url: url,
-                async: false,
-                showProgressbar: false,
-                callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const faqTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        faqTbody.appendChild(container)
-                    } else {
-                        document.getElementById('faqList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    // 스크롤이 맨 마지막에 있을 경우
-                                    if (isScrollbarBottom(scrollHeight, scrollTop,clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            searchFaqs(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-        /*]]>*/
-    </script>
-</th:block>
+        };
+        aliceJs.sendXhr(opt);
+    }
+    /*]]>*/
+</script>
 </html>

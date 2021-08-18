@@ -38,6 +38,7 @@ common:
     group: "그룹"
     modify: "수정"
     name: "이름"
+    nameAsc: "이름 순"
     searchWord: "검색어를 입력하세요."
     success: "성공"
     tag: "태그"

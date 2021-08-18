@@ -38,6 +38,7 @@ common:
     group: "Group"
     modify: "Modify"
     name: "Name"
+    nameAsc: "Order by name"
     searchWord: "Please enter your search term"
     success: "Success"
     tag: "Tag"

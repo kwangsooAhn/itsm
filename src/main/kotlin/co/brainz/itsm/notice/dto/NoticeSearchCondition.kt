@@ -22,9 +22,9 @@ import java.time.format.DateTimeFormatter
  * @param contentNumPerPage : 페이지당 출력되는 건수
  */
 data class NoticeSearchCondition(
-    val searchValue: String,
-    val fromDt: String,
-    val toDt: String,
+    val searchValue: String? = null,
+    val fromDt: String? = null,
+    val toDt: String? = null,
     val pageNum: Long = 1L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {

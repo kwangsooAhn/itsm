@@ -6,17 +6,20 @@
 
 package co.brainz.itsm.board.service
 
+import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.board.dto.BoardCategoryDetailDto
 import co.brainz.itsm.board.dto.BoardCategoryDto
 import co.brainz.itsm.board.dto.BoardDto
 import co.brainz.itsm.board.dto.BoardListDto
 import co.brainz.itsm.board.dto.BoardListReturnDto
-import co.brainz.itsm.board.dto.BoardSearchDto
+import co.brainz.itsm.board.dto.BoardSearchCondition
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.PortalBoardCategoryEntity
 import co.brainz.itsm.board.repository.BoardAdminRepository
 import co.brainz.itsm.board.repository.BoardCategoryRepository
 import javax.transaction.Transactional
+import kotlin.math.ceil
 import org.springframework.stereotype.Service
 
 @Service
@@ -26,13 +29,20 @@ class BoardService(
 ) {
 
     /**
-     * [boardSearchDto]로 받아서 게시판 관리 목록 조회를 [BoardListReturnDto]으로 반환.
+     * [boardSearchCondition]로 받아서 게시판 관리 목록 조회를 [BoardListReturnDto]으로 반환.
      *
      */
-    fun getBoardList(boardSearchDto: BoardSearchDto): BoardListReturnDto {
-        return boardAdminRepository.findByBoardAdminList(
-            boardSearchDto.search,
-            boardSearchDto.offset
+    fun getBoardList(boardSearchCondition: BoardSearchCondition): BoardListReturnDto {
+        val queryResult = boardAdminRepository.findByBoardAdminList(boardSearchCondition)
+        return BoardListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = boardAdminRepository.count(),
+                currentPageNum = boardSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
     }
 

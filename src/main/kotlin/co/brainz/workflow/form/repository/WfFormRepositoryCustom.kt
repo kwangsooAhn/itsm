@@ -1,11 +1,12 @@
 package co.brainz.workflow.form.repository
 
+import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.form.entity.WfFormEntity
 import com.querydsl.core.QueryResults
 
 interface WfFormRepositoryCustom {
 
-    fun findFormEntityList(search: String, status: List<String>, offset: Long?): QueryResults<WfFormEntity>
+    fun findFormEntityList(formSearchCondition: FormSearchCondition): QueryResults<WfFormEntity>
 
     fun findFormDocumentExist(formId: String): Boolean
 }

@@ -19,7 +19,7 @@ export default class ZPaging {
         // 리스트 목록에 옵져버 설정. 조회되어 리스트가 변하면 자동으로 페이징 처리
         const config = {childList: true, subtree: true};
         const observer = new MutationObserver(this.update.bind(this));
-        observer.observe(document.querySelector('.list-content'), config);
+        observer.observe(document.querySelector('.z-list-content'), config);
     }
 
     /**

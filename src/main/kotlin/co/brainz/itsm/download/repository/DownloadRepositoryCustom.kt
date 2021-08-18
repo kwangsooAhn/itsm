@@ -7,20 +7,15 @@
 package co.brainz.itsm.download.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.download.dto.DownloadListReturnDto
+import co.brainz.itsm.download.dto.DownloadListDto
+import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
-import java.time.LocalDateTime
+import com.querydsl.core.QueryResults
 
 interface DownloadRepositoryCustom : AliceRepositoryCustom {
 
-    fun findDownloadEntityList(
-        category: String,
-        search: String,
-        fromDt: LocalDateTime,
-        toDt: LocalDateTime,
-        offset: Long
-    ): DownloadListReturnDto
+    fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): QueryResults<DownloadListDto>
 
     fun findDownloadTopList(limit: Long): List<PortalTopDto>
 

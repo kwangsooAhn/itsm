@@ -7,14 +7,12 @@
 package co.brainz.itsm.notice.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
-import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.notice.dto.NoticeListDto
-import co.brainz.itsm.notice.dto.NoticeListReturnDto
 import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -41,9 +39,9 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
             .fetch()
     }
 
-    override fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): NoticeListReturnDto {
+    override fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): QueryResults<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
-        val query = from(notice)
+        return from(notice)
             .select(
                 Projections.constructor(
                     NoticeListDto::class.java,
@@ -72,14 +70,6 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
             .limit(noticeSearchCondition.contentNumPerPage)
             .offset((noticeSearchCondition.pageNum - 1) * noticeSearchCondition.contentNumPerPage)
             .fetchResults()
-
-        return NoticeListReturnDto(
-            data = query.results,
-            paging = AlicePagingData(
-                totalCount = query.total,
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-            )
-        )
     }
 
     override fun findTopNotice(): MutableList<NoticeListDto> {

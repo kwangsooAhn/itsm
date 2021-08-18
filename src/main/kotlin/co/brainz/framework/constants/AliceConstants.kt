@@ -149,6 +149,7 @@ object PagingConstants {
      * 페이징 리스트 화면에서 정렬 순서 출력용 메시지 코드.
      */
     enum class ListOrderTypeCode(val code: String) {
-        CREATE_DESC("common.label.createDtDesc")
+        CREATE_DESC("common.label.createDtDesc"),
+        NAME_ASC("common.label.nameAsc")
     }
 }

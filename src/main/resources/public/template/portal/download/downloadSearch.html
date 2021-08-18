@@ -1,60 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/portalLayout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/portal/pageType/pagingListLayout}">
 <head>
     <title th:text="#{download.label.download}"></title>
 </head>
 <body>
-<th:block layout:fragment="portalContent">
-    <div class="main">
-        <div class="download-header">
-            <div class="header-title flex-row align-items-baseline">
-                <h1 th:text="#{download.label.download}"></h1>
-                <h6 class="description ml-2" th:text="#{download.msg.portalDescription}"></h6>
-            </div>
-            <div class="download-search">
-                <form id="searchFrm">
-                    <select id="category" name="category" class="col-3">
-                        <option value="" th:text="#{download.category.all}"></option>
-                        <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
-                    </select>
-                    <input type="text" id="search" name="search" class="z-input i-search col-5" maxlength="100"
-                           th:placeholder="#{download.label.searchPlaceholder}"/>
-                    <input type="text" id="fromDt" name="fromDt" class="z-input i-date-picker search-date col-3"/>
-                    <span>~</span>
-                    <input type="text" id="searchToDt" name="searchToDt" class="z-input i-date-picker search-date col-3 mr-2"/>
-                    <input type="hidden" id="toDt" name="toDt" readonly="readonly" class="search-date"/>
-                    <span id="spanTotalCount" class="search-count"></span>
-                </form>
-            </div>
+<th:block layout:fragment="searchArea">
+    <div class="z-content-header">
+        <div class="z-page-title flex-row align-items-baseline">
+            <h1 th:text="#{download.label.download}"></h1>
+            <h6 class="description ml-2" th:text="#{download.msg.portalDescription}"></h6>
         </div>
-        <div class="download-content">
-            <div class="list" id="downloadList"></div>
+        <div class="z-page-search">
+            <form id="searchFrm">
+                <select id="category" name="category" class="col-3">
+                    <option value="" th:text="#{download.category.all}"></option>
+                    <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
+                </select>
+                <input type="text" id="searchValue" name="searchValue" class="z-input i-search col-5" maxlength="100"
+                       th:placeholder="#{download.label.searchPlaceholder}"/>
+                <input type="text" id="fromDt" name="fromDt" class="z-input i-date-picker search-date col-3"/>
+                <span>~</span>
+                <input type="text" id="searchToDt" name="searchToDt" class="z-input i-date-picker search-date col-3 mr-2"/>
+                <input type="hidden" id="toDt" name="toDt" readonly="readonly" class="search-date"/>
+                <th:block th:replace="layout/portal/fragment/totalCountFragment :: totalCountFragment"></th:block>
+            </form>
         </div>
     </div>
 </th:block>
+<th:block layout:fragment="listArea">
+    <div class="z-list-content" id="downloadList"></div>
+</th:block>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:inline="javascript">
+<script layout:fragment="pageScript" th:inline="javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
         let searchFromDt = i18n.getDate({'months': -1});
         let searchToDt = i18n.getDate();
 
         window.onload = function () {
-            document.getElementById('search').focus();
+            document.getElementById('searchValue').focus();
             const fromDtElement = document.getElementById('fromDt');
             const searchToDtElement = document.getElementById('searchToDt');
             fromDtElement.value = searchFromDt;
             searchToDtElement.value = searchToDt;
             zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
             zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
-            document.getElementById('category').addEventListener('change', function() { getDownloadList(false); });
-            document.getElementById('search').addEventListener('keyup', function() { getDownloadList(false); });
+            document.getElementById('category').addEventListener('change', function() { getList(); });
+            document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
 
-            getDownloadList(false);
+            getList();
         };
 
         function setDatePicker(element, picker) {
@@ -69,7 +65,7 @@
                         picker.open();
                     });
                 } else {
-                    getDownloadList(false);
+                    getList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
@@ -79,70 +75,32 @@
                         picker.open();
                     });
                 } else {
-                    getDownloadList(false);
+                    getList(false);
                 }
             }
         }
 
-        function getDownloadList(isScroll) {
+        function getList(pageNum = 1) {
             let urlParam = '';
             document.getElementById('toDt').value =
                 i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-            }
-            urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
-            restSubmit('get', '/portals/downloads?' + urlParam, isScroll);
+            restSubmit('get', '/portals/downloads?' + aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum);
         }
 
         // REST API
-        function restSubmit(method, url, isScroll) {
+        function restSubmit(method, url) {
             const opt = {
                 method: method,
                 url: url,
                 async: false,
                 showProgressbar: false,
                 callbackFunc: function (response) {
-                    if (isScroll) {
-                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                            offsetCount = offsetCount + aliceJs.searchDataCount;
-                        }
-                        const downloadTbody = document.querySelector('.list-body .os-content');
-                        const tbody = document.createElement('tbody');
-                        tbody.innerHTML = response.responseText;
-                        setDateTimeFormat(tbody);
-                        const container = document.createDocumentFragment();
-                        for (let i = 0; i < tbody.rows.length; i++) {
-                            let node = tbody.rows[i].cloneNode(true);
-                            container.appendChild(node);
-                        }
-                        downloadTbody.appendChild(container)
-                    } else {
-                        document.getElementById('downloadList').innerHTML = response.responseText;
-                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
-                        setDateTimeFormat(document.getElementById('downloadList'));
+                    document.getElementById('downloadList').innerHTML = response.responseText;
+                    setDateTimeFormat(document.getElementById('downloadList'));
 
-                        OverlayScrollbars(document.querySelector('.list-body'), {
-                            className: 'scrollbar',
-                            callbacks: {
-                                onScroll: function(e) {
-                                    const scrollHeight = e.target.scrollHeight;
-                                    const scrollTop = e.target.scrollTop;
-                                    const clientHeight = e.target.clientHeight;
-                                    // 스크롤이 맨 마지막에 있을 경우
-                                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            getDownloadList(true);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
+                    OverlayScrollbars(document.querySelector('.z-list-body'), {
+                        className: 'scrollbar'
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
@@ -157,6 +115,5 @@
             });
         }
         /*]]>*/
-    </script>
-</th:block>
+</script>
 </html>

@@ -7,9 +7,11 @@ package co.brainz.workflow.document.service
 
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDto
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
@@ -34,13 +36,15 @@ import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.repository.WfProcessRepository
+import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentListReturnDto
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.util.ArrayDeque
+import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -71,8 +75,40 @@ class WfDocumentService(
      *
      * @return List<RestTemplateDocumentDto>
      */
-    fun documents(searchListDto: RestTemplateDocumentSearchListDto): RestTemplateDocumentListReturnDto {
-        return wfDocumentRepository.findByDocuments(searchListDto)
+    fun documents(documentSearchCondition: DocumentSearchCondition): RestTemplateDocumentListReturnDto {
+        val queryResult = wfDocumentRepository.findByDocuments(documentSearchCondition)
+        val documentReturnList = mutableListOf<RestTemplateDocumentListDto>()
+        for (data in queryResult.results) {
+            val documentData = RestTemplateDocumentListDto(
+                documentId = data.documentId,
+                documentType = data.documentType,
+                documentName = data.documentName,
+                documentDesc = data.documentDesc,
+                documentStatus = data.documentStatus,
+                processId = data.process.processId,
+                formId = data.form.formId,
+                documentNumberingRuleId = data.numberingRule.numberingId,
+                documentColor = data.documentColor,
+                documentGroup = data.documentGroup,
+                createUserKey = data.createUserKey,
+                createDt = data.createDt,
+                updateUserKey = data.updateUserKey,
+                updateDt = data.updateDt,
+                documentIcon = data.documentIcon
+            )
+            documentReturnList.add(documentData)
+        }
+
+        return RestTemplateDocumentListReturnDto(
+            data = documentReturnList,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = wfProcessRepository.count(),
+                currentPageNum = documentSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     /**
@@ -80,7 +116,7 @@ class WfDocumentService(
      *
      * @return List<RestTemplateDocumentDto>
      */
-    fun allDocuments(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+    fun allDocuments(searchListDto: DocumentSearchCondition): List<RestTemplateDocumentDto> {
         return wfDocumentRepository.findAllByDocuments(searchListDto)
     }
 
@@ -393,7 +429,8 @@ class WfDocumentService(
         for (elementEntity in userTasks) {
             for (display in displayList) {
                 if (display.formGroupId == formGroup.formGroupId &&
-                    display.elementId == elementEntity["elementId"].toString()) {
+                    display.elementId == elementEntity["elementId"].toString()
+                ) {
                     val displayMap = LinkedHashMap<String, Any>()
                     displayMap["elementId"] = display.elementId
                     displayMap["display"] = display.display

@@ -13,7 +13,7 @@ import co.brainz.cmdb.ciClass.entity.QCIClassAttributeMapEntity
 import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeValueDto
-import co.brainz.cmdb.dto.SearchDto
+import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
@@ -26,9 +26,9 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     /**
      * Attribute 목록 조회.
      */
-    override fun findAttributeList(searchDto: SearchDto): QueryResults<CIAttributeListDto> {
+    override fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto> {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
-        val query = from(ciAttribute)
+        return from(ciAttribute)
             .select(
                 Projections.constructor(
                     CIAttributeListDto::class.java,
@@ -40,18 +40,14 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                 )
             )
             .where(
-                super.like(ciAttribute.attributeName, searchDto.search)
-                    ?.or(super.like(ciAttribute.attributeType, searchDto.search))
-                    ?.or(super.like(ciAttribute.attributeText, searchDto.search))
-                    ?.or(super.like(ciAttribute.attributeDesc, searchDto.search))
+                super.like(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
+                    ?.or(super.like(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
+                    ?.or(super.like(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
+                    ?.or(super.like(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
             ).orderBy(ciAttribute.attributeName.asc())
-        if (searchDto.limit != null) {
-            query.limit(searchDto.limit)
-        }
-        if (searchDto.offset != null) {
-            query.offset(searchDto.offset)
-        }
-        return query.fetchResults()
+            .limit(ciAttributeSearchCondition.contentNumPerPage)
+            .offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
+            .fetchResults()
     }
 
     /**

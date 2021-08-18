@@ -155,3 +155,23 @@ $password-update-modal-width:                50rem; //800px
 $password-update-modal-height:               42rem; //672px
 $modal-header-height:                        3.375rem; //54px
 $modal-bottom-height:                        4.6rem; //73.6px
+
+////////////////////////////// 리스트 //////////////////////////////
+// 리스트 - 마우스 오버시
+$list-hover-bg-color:                         map-get($grays, 'line');
+
+// 리스트 - 데이터 없을때
+$no-data-found-list-bg:                       map-get($grays, 'line');
+
+// 리스트 - 선택시
+$list-active-font-color:                      map-get($blues, 'dark');
+$list-active-bg-color:                        hexToRGBA(#e6e8eb, 0.6);
+
+// 공지사항 상단 공지 (배경색 별도 처리)
+$notice-pinned-color:                         $blue100;
+
+// Document color icon
+$document-color-size:                         1rem; // 16px
+
+// 리스트 항목명
+$list-head-font-size:                         $gray800;
