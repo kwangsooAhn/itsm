@@ -122,11 +122,11 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                         .setUIId('code')
                         .setUIAttribute('data-value', item.value)
                         .onUIChange(this.updateProperty.bind(this));
-                    radioGroup.addUI(radioGroup.UISelect);
-                    this.UIElement.UIGroup.UIDiv = radioGroup;
-
                     const customCodeValue = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';
-                    this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue);
+                    this.makeCustomCodeData(radioGroup.UISelect, defaultCustomCodeValues[0], customCodeValue).then(function (response){
+                        radioGroup.addUI(radioGroup.UISelect);
+                    });
+                    this.UIElement.UIGroup.UIDiv = radioGroup;
                     break;
             }
             this.UIElement.UIGroup.addUI(radioGroup);
