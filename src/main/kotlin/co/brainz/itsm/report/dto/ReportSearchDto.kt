@@ -9,9 +9,9 @@ import co.brainz.itsm.constants.ItsmConstants
 import java.io.Serializable
 
 data class ReportSearchDto(
-    var offset: Long = 0,
-    var search: String? = "",
-    var isScroll: Boolean = false,
-    var limit: Long = ItsmConstants.SEARCH_DATA_COUNT
+    val offset: Long? = 0,
+    val search: String? = "",
+    val isScroll: Boolean = false,
+    val limit: Long? = ItsmConstants.SEARCH_DATA_COUNT
 ) : Serializable
 

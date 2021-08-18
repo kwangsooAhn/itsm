@@ -19,8 +19,10 @@
             <input type="hidden" sec:authorize="!hasAuthority('report.create') && !hasAuthority('report.update')"
                    th:name="isRole" th:value="false"/>
             <form id="searchFrm">
-                <input type="text" id="search" name="search" class="z-input i-search col-5 mr-2" maxlength="100"
-                       th:placeholder="#{report.label.searchPlaceholder}"/>
+                <select id="search" name="search" class="col-3">
+                    <option value="" th:text="#{report.template.all}"></option>
+                    <option th:each="template: ${templateList}" th:value="${template.templateId}" th:text="#{${template.templateName}}"></option>
+                </select>
                 <span id="spanTotalCount" class="search-count"></span>
             </form>
         </div>
@@ -35,7 +37,7 @@
         /*<![CDATA[*/
         let offsetCount = 0;
         window.onload = function() {
-            document.getElementById('search').focus();
+            document.getElementById('search').addEventListener('change', function() { getReportList(false); });
             document.getElementById('search').addEventListener('keyup', function() { getReportList(false); });
             getReportList(false);
         };

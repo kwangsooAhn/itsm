@@ -116,6 +116,19 @@
         function openTemplateAdd() {
             location.href = '/reports/template/new';
         }
+
+        function makeReport(templateId) {
+            const opt = {
+                method: 'post',
+                url: '/rest/reports/template/' + templateId,
+                async: false,
+                callbackFunc: function (response) {
+                    console.log(response.responseText)
+                },
+                showProgressbar: false
+            };
+            aliceJs.sendXhr(opt);
+        }
         /*]]>*/
     </script>
 </th:block>

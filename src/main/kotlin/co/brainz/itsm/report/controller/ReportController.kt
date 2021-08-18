@@ -80,6 +80,10 @@ class ReportController(
 
     @GetMapping("/report/search")
     fun getReportSearch(request: HttpServletRequest, model: Model): String {
+        model.addAttribute(
+            "templateList",
+            reportTemplateService.getReportTemplateList(ReportTemplateSearchDto(limit = -1)).data
+        )
         return reportSearchPage
     }
 

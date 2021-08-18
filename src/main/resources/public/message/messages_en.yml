@@ -1102,6 +1102,9 @@ report:
     editDescription: "Register, modify, or delete reports."
     searchDescription: "Search report that you generated."
     templateNameUsed: "Duplicate template name exists."
+  template:
+    all: "All"
+
 # Role
 role:
   btn:

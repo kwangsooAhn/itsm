@@ -10,12 +10,17 @@ import co.brainz.itsm.chart.service.ChartManagerFactory
 import co.brainz.itsm.report.dto.ReportDto
 import co.brainz.itsm.report.dto.ReportListReturnDto
 import co.brainz.itsm.report.dto.ReportSearchDto
+import co.brainz.itsm.report.entity.ReportDataEntity
+import co.brainz.itsm.report.entity.ReportEntity
 import co.brainz.itsm.report.repository.ReportDataRepository
 import co.brainz.itsm.report.repository.ReportRepository
+import co.brainz.itsm.report.repository.ReportTemplateRepository
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDateTime
+import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -23,6 +28,8 @@ import org.springframework.stereotype.Service
 class ReportService(
     private val reportRepository: ReportRepository,
     private val reportDataRepository: ReportDataRepository,
+    private val reportTemplateService: ReportTemplateService,
+    private val reportTemplateRepository: ReportTemplateRepository,
     private val chartManagerFactory: ChartManagerFactory
 ) {
 
@@ -72,5 +79,46 @@ class ReportService(
         }
 
         return reportDto
+    }
+
+    @Transactional
+    fun saveReport(templateId: String): String {
+        // 스케줄러에 의해 실행되어 awf_report_data 에 저장하는 기능
+        val templateEntity = reportTemplateRepository.getOne(templateId)
+
+        // new report
+        var reportEntity = ReportEntity(
+            reportId = "",
+            reportName = templateEntity.templateName,
+            reportDesc = templateEntity.templateDesc,
+            publishDt = LocalDateTime.now(),
+            template = templateEntity
+        )
+        reportEntity = reportRepository.save(reportEntity)
+
+        // chart list
+        templateEntity.charts?.forEach { it ->
+            val chartEntity = it.chart
+
+            //values에 저장할 값 셋팅
+            val chartInfo = LinkedHashMap<String, Any>()
+            chartInfo["name"] = chartEntity.chartName
+            chartInfo["type"] = chartEntity.chartType
+            chartInfo["desc"] = chartEntity.chartDesc?: ""
+            chartInfo["config"] = mapper.readValue(chartEntity.chartConfig, Map::class.java)
+
+            val valuesMap = LinkedHashMap<String, Any>()
+            valuesMap["chart"] = chartInfo
+            val strValues = mapper.writeValueAsString(valuesMap)
+            val reportDataEntity = ReportDataEntity(
+                dataId = "",
+                report = reportEntity,
+                chartId = chartEntity.chartId,
+                values = strValues
+            )
+            reportDataRepository.save(reportDataEntity)
+        }
+
+        return reportEntity.reportId
     }
 }

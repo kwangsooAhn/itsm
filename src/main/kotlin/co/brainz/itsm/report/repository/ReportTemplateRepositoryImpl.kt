@@ -22,13 +22,18 @@ class ReportTemplateRepositoryImpl : QuerydslRepositorySupport(ReportTemplateEnt
      */
     override fun getReportTemplateList(reportTemplateSearchDto: ReportTemplateSearchDto): QueryResults<ReportTemplateEntity> {
         val template = QReportTemplateEntity.reportTemplateEntity
-        return from(template)
+        val query = from(template)
             .where(
                 super.like(template.templateName, reportTemplateSearchDto.search.toString())
             )
-            .limit(reportTemplateSearchDto.limit)
-            .offset(reportTemplateSearchDto.offset)
-            .fetchResults()
+            .orderBy(template.templateName.asc())
+        if (reportTemplateSearchDto.limit != null && reportTemplateSearchDto.limit > -1) {
+            query.limit(reportTemplateSearchDto.limit)
+        }
+        if (reportTemplateSearchDto.offset != null && reportTemplateSearchDto.offset > -1) {
+            query.offset(reportTemplateSearchDto.offset)
+        }
+        return query.fetchResults()
     }
 
     /**

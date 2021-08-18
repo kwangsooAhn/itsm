@@ -1103,6 +1103,9 @@ report:
     emptyChart: "차트가 존재하지 않습니다."
     searchDescription: "생성한 보고서를 조회합니다."
     templateNameUsed: "중복되는 템플릿명이 존재합니다."
+  template:
+    all: "전체"
+
 # Role
 role:
   btn:

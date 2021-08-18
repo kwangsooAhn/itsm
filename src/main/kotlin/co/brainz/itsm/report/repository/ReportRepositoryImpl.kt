@@ -20,7 +20,7 @@ class ReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::class.java)
 
     override fun getReportList(reportSearchDto: ReportSearchDto): QueryResults<ReportListDto> {
         val report = QReportEntity.reportEntity
-        return from(report)
+        val query = from(report)
             .select(
                 Projections.constructor(
                     ReportListDto::class.java,
@@ -31,9 +31,16 @@ class ReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::class.java)
                     report.publishDt
                 )
             )
-                //select option
-            .limit(reportSearchDto.limit)
-            .offset(reportSearchDto.offset)
-            .fetchResults()
+            .where(
+                super.like(report.template.templateId, reportSearchDto.search.toString())
+            )
+        query.orderBy(report.publishDt.desc())
+        if (reportSearchDto.limit != null && reportSearchDto.limit > - 1) {
+            query.limit(reportSearchDto.limit)
+        }
+        if (reportSearchDto.offset != null && reportSearchDto.offset > -1) {
+            query.offset(reportSearchDto.offset)
+        }
+        return query.fetchResults()
     }
 }
