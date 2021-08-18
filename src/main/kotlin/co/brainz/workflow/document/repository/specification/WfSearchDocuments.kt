@@ -5,7 +5,7 @@ import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
+import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Join
@@ -15,7 +15,7 @@ import javax.persistence.criteria.Root
 /**
  * 신청서 검색시 사용할 Specification 클래스
  */
-class WfSearchDocuments(private val searchDto: RestTemplateDocumentSearchListDto) :
+class WfSearchDocuments(private val searchDto: DocumentSearchCondition) :
     AliceSpecification<WfDocumentEntity> {
 
     override fun toPredicate(

@@ -15,11 +15,11 @@ data class NoticeListDto(
     var noticeTitle: String = "",
     var popYn: Boolean = true,
     var createDt: LocalDateTime? = null,
-    var popStrtDt: LocalDateTime? = null,
+    var popStartDt: LocalDateTime? = null,
     var popEndDt: LocalDateTime? = null,
     var popWidth: Int? = null,
     var popHeight: Int? = null,
-    var topNoticeStrtDt: LocalDateTime? = null,
+    var topNoticeStartDt: LocalDateTime? = null,
     var topNoticeEndDt: LocalDateTime? = null,
     var createUserName: String? = ""
 ) : Serializable

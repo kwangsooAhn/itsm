@@ -5,6 +5,7 @@
 
 package co.brainz.workflow
 
+import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.workflow.element.service.WfElementService
 import co.brainz.workflow.process.service.WfProcessService
 import org.junit.jupiter.api.Assumptions.assumeTrue
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+
 @Disabled
 @SpringBootTest
 @DisplayName("Element API 호출 테스트")
@@ -33,9 +35,11 @@ class WfElementServiceTest {
     @Order(1)
     fun getProcessStartElement() {
         var processId = ""
-        val params = LinkedHashMap<String, Any>()
-        params["offset"] = 1
-        val processList = wfProcessService.getProcesses(params)
+        val processList = wfProcessService.getProcesses(
+            ProcessSearchCondition(
+                pageNum = 1L
+            )
+        )
         if (processList.data.isNotEmpty()) {
             processId = processList.data[0].id
         }

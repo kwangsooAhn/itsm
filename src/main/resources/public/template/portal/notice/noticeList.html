@@ -7,7 +7,7 @@
             <th width="15%" th:text="#{common.label.writeDate}"></th>
         </tr>
     </thead>
-    <tbody class="list-body">
+    <tbody class="z-list-body">
         <tr class="notice-pinned" th:each="topNotice: ${topNoticeList}">
             <td width="75%" class="align-left underline">
                 <a th:text="${topNotice.noticeTitle}"
@@ -31,8 +31,4 @@
         </th:block>
     </tbody>
 </table>
-<input th:type="hidden" id="totalCount" name="totalCount" th:value="${paging.totalCount}">
-<input th:type="hidden" id="totalCountWithoutCondition" name="totalCountWithoutCondition" th:value="${paging.totalCountWithoutCondition}">
-<input th:type="hidden" id="currentPageNum" name="currentPageNum" th:value="${paging.currentPageNum}">
-<input th:type="hidden" id="totalPageNum" name="totalPageNum" th:value="${paging.totalPageNum}">
-<input th:type="hidden" id="orderType" name="orderType" th:value="${paging.orderType}">
+<th:block th:insert="layout/portal/fragment/totalCountFragment :: totalCountDataFragment"></th:block>

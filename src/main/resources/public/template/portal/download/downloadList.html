@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head></head>
 <body>
-<input type="hidden" id="totalCount" name="totalCount" th:value="${downloadCount}"/>
 <table>
     <thead>
         <tr>
@@ -14,7 +13,7 @@
             <th style="width:10%;" th:text="#{download.label.views}"></th>
         </tr>
     </thead>
-    <tbody class="list-body">
+    <tbody class="z-list-body">
         <tr class="no-data-found-list" th:if="${#arrays.isEmpty(downloadList)}">
             <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
@@ -34,5 +33,5 @@
         </th:block>
     </tbody>
 </table>
-</body>
+<th:block th:insert="layout/portal/fragment/totalCountFragment :: totalCountDataFragment"></th:block></body>
 </html>

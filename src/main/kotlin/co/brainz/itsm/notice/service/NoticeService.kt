@@ -9,6 +9,7 @@ package co.brainz.itsm.notice.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.notice.dto.NoticeDto
 import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeListReturnDto
@@ -32,14 +33,18 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     // 공지사항 검색 결과
     fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): NoticeListReturnDto {
-        // 공지사항 리스트
-        val noticeReturnList = noticeRepository.findNoticeSearch(noticeSearchCondition)
-        // 페이징 정보 추가
-        noticeReturnList.paging.totalCountWithoutCondition = noticeRepository.count()
-        noticeReturnList.paging.currentPageNum = noticeSearchCondition.pageNum
-        noticeReturnList.paging.totalPageNum =
-            ceil(noticeReturnList.paging.totalCount.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong()
-        return noticeReturnList
+        val queryResult = noticeRepository.findNoticeSearch(noticeSearchCondition)
+
+        return NoticeListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = noticeRepository.count(),
+                currentPageNum = noticeSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
+        )
     }
 
     // 공지사항 상단 리스트

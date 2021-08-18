@@ -4,6 +4,7 @@
  */
 package co.brainz.itsm.process.controller
 
+import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -77,14 +78,7 @@ class ProcessesRestController(
      * 프로세스 목록 조회.
      */
     @GetMapping("/all")
-    fun getProcessList(
-        @RequestParam(
-            value = "status",
-            defaultValue = ""
-        ) status: String
-    ): List<RestTemplateProcessViewDto> {
-        val params = LinkedHashMap<String, Any>()
-        params["status"] = status
-        return processAdminService.getProcesses(params).data
+    fun getProcessList(processSearchCondition: ProcessSearchCondition): List<RestTemplateProcessViewDto> {
+        return processAdminService.getProcesses(processSearchCondition).data
     }
 }

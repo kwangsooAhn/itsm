@@ -7,12 +7,14 @@
 package co.brainz.itsm.board.service
 
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.board.dto.BoardArticleCommentDto
 import co.brainz.itsm.board.dto.BoardArticleListReturnDto
 import co.brainz.itsm.board.dto.BoardArticleSaveDto
-import co.brainz.itsm.board.dto.BoardArticleSearchDto
+import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import co.brainz.itsm.board.dto.BoardCategoryDto
 import co.brainz.itsm.board.dto.BoardDto
@@ -24,9 +26,8 @@ import co.brainz.itsm.board.repository.BoardCategoryRepository
 import co.brainz.itsm.board.repository.BoardCommentRepository
 import co.brainz.itsm.board.repository.BoardReadRepository
 import co.brainz.itsm.board.repository.BoardRepository
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.transaction.Transactional
+import kotlin.math.ceil
 import org.springframework.stereotype.Service
 
 @Service
@@ -41,19 +42,19 @@ class BoardArticleService(
 ) {
 
     /**
-     * [boardArticleSearchDto]을 받아서 게시판 목록을 [List<BoardRestDto>]으로 반환 한다.
+     * [boardArticleSearchCondition]을 받아서 게시판 목록을 [List<BoardRestDto>]으로 반환 한다.
      */
-    fun getBoardArticleList(boardArticleSearchDto: BoardArticleSearchDto): BoardArticleListReturnDto {
-        val fromDt = LocalDateTime.parse(boardArticleSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
-        val toDt = LocalDateTime.parse(boardArticleSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-        val offset = boardArticleSearchDto.offset
-
-        return boardRepository.findByBoardList(
-            boardArticleSearchDto.boardAdminId,
-            boardArticleSearchDto.search,
-            fromDt,
-            toDt,
-            offset
+    fun getBoardArticleList(boardArticleSearchCondition: BoardArticleSearchCondition): BoardArticleListReturnDto {
+        val queryResult = boardRepository.findByBoardList(boardArticleSearchCondition)
+        return BoardArticleListReturnDto(
+            data = queryResult.results,
+            paging = AlicePagingData(
+                totalCount = queryResult.total,
+                totalCountWithoutCondition = boardRepository.count(),
+                currentPageNum = boardArticleSearchCondition.pageNum,
+                totalPageNum = ceil(queryResult.total.toDouble() / PagingConstants.COUNT_PER_PAGE.toDouble()).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+            )
         )
     }
 

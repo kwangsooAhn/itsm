@@ -7,6 +7,7 @@
 package co.brainz.itsm.cmdb.ciClass.controller
 
 import co.brainz.cmdb.dto.CIClassToAttributeDto
+import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
 import javax.servlet.http.HttpServletRequest
@@ -41,7 +42,11 @@ class CIClassController(
         val params = LinkedHashMap<String, Any>()
         params["search"] = request.getParameter("search")
         val classId = request.getParameter("classId")
-        val attributeList = ciAttributeService.getCIAttributes(params)
+        val attributeList = ciAttributeService.getCIAttributes(CIAttributeSearchCondition(
+            searchValue = params["search"].toString(),
+            pageNum = 0L,
+            contentNumPerPage = 0L
+        ))
         var addAttributeList: List<CIClassToAttributeDto>? = null
         var extendsAttributeList: List<CIClassToAttributeDto>? = null
 

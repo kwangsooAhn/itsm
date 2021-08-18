@@ -7,15 +7,14 @@
 package co.brainz.itsm.chart.controller
 
 import co.brainz.itsm.chart.constants.ChartConstants
+import co.brainz.itsm.chart.dto.ChartSearchCondition
 import co.brainz.itsm.chart.service.ChartService
 import co.brainz.itsm.code.service.CodeService
-import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/charts")
@@ -26,7 +25,6 @@ class ChartController(
 
     private val chartSearchPage: String = "chart/chartSearch"
     private val chartListPage: String = "chart/chartList"
-    private val chartListFragment: String = "chart/chartList :: list"
     private val chartEditPage: String = "chart/chartEdit"
     private val chartViewPage: String = "chart/chartView"
 
@@ -43,17 +41,11 @@ class ChartController(
      * 사용자 정의 차트 목록 화면 호출
      */
     @GetMapping("")
-    fun getCharts(
-        request: HttpServletRequest,
-        @RequestParam(value = "isScroll", required = false) isScroll: Boolean,
-        model: Model
-    ): String {
-        val searchTypeName = request.getParameter("searchTypeName")
-        val offset = request.getParameter("offset") ?: "0"
-        val result = chartService.getCharts(searchTypeName, offset)
+    fun getCharts(chartSearchCondition: ChartSearchCondition, model: Model): String {
+        val result = chartService.getCharts(chartSearchCondition)
         model.addAttribute("chartList", result.data)
-        model.addAttribute("chartListCount", result.totalCount)
-        return if (isScroll) chartListFragment else chartListPage
+        model.addAttribute("paging", result.paging)
+        return chartListPage
     }
 
     /**

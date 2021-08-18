@@ -6,7 +6,7 @@
 package co.brainz.workflow
 
 import co.brainz.workflow.document.service.WfDocumentService
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
+import co.brainz.workflow.provider.dto.DocumentSearchCondition
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
@@ -37,8 +37,8 @@ class WfDocumentServiceTest {
     @DisplayName("신청서 목록 조회시 전체 갯수 비교")
     @Order(1)
     fun getOffsetDocuments() {
-        val searchListDto = RestTemplateDocumentSearchListDto(
-            offset = 1
+        val searchListDto = DocumentSearchCondition(
+            pageNum = 1L
         )
         val documentList = wfDocumentService.documents(searchListDto)
         if (documentList.data.isNotEmpty()) {
@@ -52,8 +52,8 @@ class WfDocumentServiceTest {
     @DisplayName("신청서 목록 전체 조회")
     @Order(2)
     fun getDocuments() {
-        val searchListDto = RestTemplateDocumentSearchListDto(
-            offset = 1
+        val searchListDto = DocumentSearchCondition(
+            pageNum = 1L
         )
         val allDocumentList = wfDocumentService.allDocuments(searchListDto)
         if (allDocumentList.isNotEmpty()) {

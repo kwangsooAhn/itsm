@@ -8,7 +8,7 @@ package co.brainz.itsm.faq.controller
 
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.faq.constants.FaqConstants
-import co.brainz.itsm.faq.dto.FaqSearchRequestDto
+import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.service.FaqService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 /**
  * ### FAQ 관련 뷰 화면 호출 처리용 클래스.
  *
- * FaqController에서 처리하는 모든 호출은 View 혹은 View + Data를 반환한다.
- * 즉, View가 포함되는 호출에 대한 처리이며, 순수하게 JSON 데이터만 반환하는 경우는 FaqRestController에서 담당한다.
- *
  * @author Jung heechan
  * @see co.brainz.itsm.faq.controller.FaqRestController
  */
@@ -36,7 +33,6 @@ class FaqController(private val faqService: FaqService, private val codeService:
     private val faqSearchPage: String = "faq/faqSearch"
     private val faqEditPage: String = "faq/faqEdit"
     private val faqListPage: String = "faq/faqList"
-    private val faqListFragment: String = "faq/faqList :: list"
     private val faqViewPage: String = "faq/faqView"
 
     /**
@@ -61,11 +57,11 @@ class FaqController(private val faqService: FaqService, private val codeService:
      * FAQ 검색 결과 리스트 화면 호출 처리
      */
     @GetMapping("")
-    fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
-        val result = faqService.getFaqs(faqSearchRequestDto)
+    fun getFaqs(faqSearchCondition: FaqSearchCondition, model: Model): String {
+        val result = faqService.getFaqs(faqSearchCondition)
         model.addAttribute("faqs", result.data)
-        model.addAttribute("faqCount", result.totalCount)
-        return if (faqSearchRequestDto.isScroll) faqListFragment else faqListPage
+        model.addAttribute("paging", result.paging)
+        return faqListPage
     }
 
     /**
